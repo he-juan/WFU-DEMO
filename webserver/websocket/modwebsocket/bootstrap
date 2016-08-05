@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+# lighttpd
+git submodule update --init
+
+# gtest
+unzip -n contrib/gtest-1.7.0.zip -d contrib/
+
+# reconf
+autoreconf --force --install --verbose

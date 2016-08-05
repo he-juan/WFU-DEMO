@@ -1,0 +1,101 @@
+- How To Install
+
+1.Check your environment
+  - dependent tools[mandatory]
+    1.autotools
+      exmaple for ubuntu.
+      $ sudo apt-get install automake
+      $ sudo apt-get install libtool
+
+  - dependent libs[optional]
+    2.libpcre-dev ( http://www.pcre.org/ )
+      for Regular Expressions.
+      $ sudo apt-get install libpcre3 libpcre3-dev
+
+    3.openssl
+      for https and wss scheme
+      $ sudo apt-get install openssl libssl-dev
+
+2.Test mod_websocket
+  $ cd mod_websocket
+  $ ./bootstrap
+  $ ./configure --with-websocket[=all, rfc-6455, ietf-00] --with-test
+  $ make clean check
+
+  If bootstrap or configure failed, check your environment again.
+  If make check failed, plz send config.log and make check output to
+  me.
+
+3.Get the lighttpd-1.4.xx source from http://www.lighttpd.net/download/
+  or https://github.com/lighttpd/lighttpd1.4.git
+
+4.Install mod_websocket into lighty's dir.
+
+  NOTICE:
+  Lighttpd is applied some patches by installing this module.
+
+  $ cd mod_websocket
+  $ ./configure --with-lighttpd=/path/to/lighttpd_top_srcdir
+  $ make install
+
+5.Make lighty w/ mod_websocket
+
+  $ cd /path/to/lighttpd_top_srcdir
+  $ ./autogen.sh
+  $ ./configure --with-websocket[=all, rfc-6455, ietf-00] [--with-openssl] ...
+  $ make
+  $ sudo make install
+
+6.Add setting for mod_websocket into lighttpd.conf
+  see sample/etc/lighttpd/conf.d/websocket.conf.sample for details.
+
+7.Try easy
+  // must pass above 5 steps.
+  $ sh ./makesample.sh
+  $ cd sample
+  $ ./sbin/lighttpd -f ./etc/lighttpd.conf
+
+  // must enable to work ipython notebook with different url prefix on your environment
+  // see <URL: http://ipython.org/ipython-doc/dev/interactive/public_server.html#running-with-a-different-url-prefix>
+  $ ipython notebook --pylab inline --no-browser
+
+  // must enable to work socket.io and node.js on your environment
+  $ node ./bin/echo.js
+
+  // must enable to work Ruby
+  $ ruby ./bin/echo.rb
+
+  Done all above,
+  Echo server is active at <URL: http://127.0.0.1:8080/>
+  and ipython notebook is active at <URL: http://127.0.0.1:8080/ipython/>
+
+8.Try https and wss
+  I often asked about https and wss. So I made a sample to use https and wss.
+
+  // must pass above 5 steps and you must install OpenSSL libs.
+  $ sh ./makesample.sh --with-openssl
+  $ cd sample
+  $ ./sbin/lighttpd -f ./etc/lighttpd.conf
+
+  // must enable to work socket.io and node.js on your environment
+  $ node ./bin/echo.js
+
+  // must enable to work Ruby
+  $ ruby ./bin/echo.rb
+
+  Done all above,
+  index.html is active at <URL: http://127.0.0.1:8080/>,
+  WebSocket is active at <URI: ws://127.0.0.1:8080/tcp_proxy>
+  and Secure-WebSocket is active at <URI: wss://127.0.0.1:8082/tcp_proxy>: cross origin
+
+  index.html (via ssl) is active at <URL: https://127.0.0.1:8082/>,
+  WebSocket is active at <URI: ws://127.0.0.1:8080/tcp_proxy>: cross origin
+  and Secure-WebSocket is active at <URI: wss://127.0.0.1:8082/tcp_proxy>
+
+  Unfortunately, I don't know how to use wss scheme on Socket.io.
+  plz try yourself.
+
+  At the end, *Do not use* sample/etc/certs/lighttpd.pem on the Internet.
+  This pem file is a self-signed certificate for sample.
+  You must read <URL: http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL>
+  to use https validly.
