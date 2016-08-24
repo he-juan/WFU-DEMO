@@ -1,0 +1,482 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>    
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+<style>
+body{}
+.dragContainer{width:222px;height:40px;overflow:hidden;position:relative;margin: 0px;margin-top: 5px !important;}
+.voldragDiv{width:200px;height:22px;background: url("../img/settings_volume_none.png") no-repeat 0 8px;position:absolute;top:-8px;left: 10px;margin-top:22px !important;}
+.volimg{width:22px;height:22px;background:url("../img/settings_volume_button.png") no-repeat;position:absolute;left:0px;top: -8px;margin-top:22px !important;}
+.volchangeDiv{height:6px;background:#2C9BEA;position:absolute;top:0px;left: 10px;border-radius:2px;width:0px;*overflow:hidden;margin-top:22px !important;}
+.volspan{width:22px;height:6px;color:#777;font-size:14px;position: relative;top:-15px;display: inline-block;text-align: center;}
+.startspan,.endspan{width: auto;margin-top: 22px !important;}
+</style>
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_volume">Volume</span></div>
+    <div id="statusdiv"></div>
+    <form action="" method="get" id="Formvalidate">
+        <fieldset>
+            <div webtip="Ringtone Volume" style="margin-bottom: 0px;">
+                <div class="noreboot" style="margin-top:22px !important;"><span id="a_ringtonevol">Ringtone Volume</span> :</div>
+                <div class="startspan"></div>
+                <div class="dragContainer">
+                    <div id="dragRingtoneDiv" class="dragDiv" curvalue="4" max="7">
+                        <div class="voldragDiv"></div>
+                        <div class="volchangeDiv"></div>
+                        <div class="volimg"><span class="volspan" id="ringtonespan"></span></div>
+                    </div>
+                </div>
+                <div class="endspan"></div>
+            </div>
+            <div webtip="Media Volume" style="margin-top: 0px;">
+                <div class="noreboot" style="margin-top:22px !important;"><span id="a_meidavol">Media Volume</span> :</div>
+                <div class="startspan"></div>
+                <div class="dragContainer">
+                    <div id="dragMediaDiv" class="dragDiv" curvalue="10" max="15">
+                        <div class="voldragDiv"></div>
+                        <div class="volchangeDiv"></div>
+                        <div class="volimg"><span class="volspan" id="mediaspan"></span></div>
+                    </div>
+                </div>
+                <div class="endspan"></div>
+            </div>
+            <div webtip="Notification Volume" style="display:none;">
+                <div class="noreboot" style="margin-top:22px !important;"><span id="a_alertvol">Notification Volume</span> :</div>
+                <div class="startspan"></div>
+                <div class="dragContainer">
+                    <div id="dragNotifyDiv" class="dragDiv" curvalue="4" max="7">
+                        <div class="voldragDiv"></div>
+                        <div class="volchangeDiv"></div>
+                        <div class="volimg"><span class="volspan" id="notifyspan"></span></div>
+                    </div>
+                </div>
+                <div class="endspan"></div>
+            </div>
+            <div webtip="Speaker Volume" style="display:none;">
+                <div class="noreboot" style="margin-top:22px !important;"><span id="a_speakervol">Speaker Volume</span> :</div>
+                <div class="startspan"></div>
+                <div class="dragContainer">
+                    <div id="dragSpeakerDiv" class="dragDiv" curvalue="10" max="15">
+                        <div class="voldragDiv"></div>
+                        <div class="volchangeDiv"></div>
+                        <div class="volimg"><span class="volspan" id="speakerspan"></span></div>
+                    </div>
+                </div>
+                <div class="endspan"></div>
+            </div>
+            <!--ring tone-->
+            <div webtip="System Ringtone">
+                <div class="noreboot"><span id="a_systemring">System Ringtone</span> :</div>
+                <select id="systemring">
+                    <!--<option value="content://settings/system/ringtone">Default Ringtone</option>-->
+                    <option value="ringtone_silence">Silent</option>
+                </select>
+            </div>
+            <div webtip="Notification Tone">
+                <div class="noreboot"><span id="a_alerttone">Alert Tone</span> :</div>
+                <select id="alerttone">
+                    <!--<option value="content://settings/system/notification_sound">Default Notification Sound</option>-->
+                    <option value="ringtone_silence">Silent</option>
+                </select>
+            </div>
+            <div webtip="Audio Device">
+                <div class="noreboot"><span id="a_audiodevice">Audio Device</span> :</div>
+                <select id="audiodevice">
+                    <option value="0">Auto</option>
+                    <option value="1">Bluetooth</option>
+                    <option value="2">USB</option>
+                    <option value="3">HDMI</option>
+                </select>
+            </div>
+            <!--Call Progress Tones-->
+            <div webtip="">
+                <div class="noreboot" style="font-weight:bold;"><span id="a_callpt">Call Progress Tones</span></div>
+                <div class="noreboot" style="width:180px;font-weight:bold;"><span id="a_attri">Attribute</span></div>
+            </div>
+            <!--<div webtip="Dial Tone">
+                <div class="noreboot"><span id="a_dialtone">Dial Tone</span> :</div>
+                <input id="dialtone" name="dialtone" type="text" />
+            </div>-->
+            <div webtip="Ring Back Tone">
+                <div class="noreboot"><span id="a_ringbt">Ring Back Tone</span> :</div>
+                <input id="ringbt" name="ringbt" type="text" />
+            </div>
+            <div webtip="Busy Tone">
+                <div class="noreboot"><span id="a_busytone">Busy Tone</span> :</div>
+                <input id="busytone" name="busytone" type="text" />
+            </div>
+            <div webtip="Reorder Tone">
+                <div class="noreboot"><span id="a_reordertone">Reorder Tone</span> :</div>
+                <input id="reordertone" name="reordertone" type="text" />
+            </div>
+            <div webtip="Confirmation Tone">
+                <div class="noreboot"><span id="a_confmtone">Confirmation Tone</span> :</div>
+                <input id="confmtone" name="confmtone" type="text" />
+            </div>
+            <div webtip="Call-Waiting Tone">
+                <div class="noreboot"><span id="a_callwaittone">Call-Waiting Tone</span> :</div>
+                <input id="callwaittone" name="callwaittone" type="text" />
+            </div>
+            <div webtip="Call-Waiting Tone Gain">
+                <div class="noreboot"><span id="a_cwaittonetx">Call-Waiting Tone Gain</span> :</div>
+                <select id="cwaittonetx">
+                    <option value="0">Low</option>
+                    <option value="1">Medium</option>
+                    <option value="2">High</option>
+                </select>
+            </div>
+            <!--<div webtip="PSTN Disconnect Tone">
+                <div class="noreboot"><span id="a_pstndistone">PSTN Disconnect Tone</span> :</div>
+                <input id="pstndistone" name="pstndistone" type="text" />
+            </div>-->
+            <div webtip="System Ring Tone" style="display:none">
+                <div class="noreboot"><span id="a_sysringtone">System Ring Tone</span> :</div>
+                <input id="sysringtone" name="sysringtone" type="text" />
+            </div>
+            <div webtip="Message Waiting Tone" style="display:none">
+                <div class="noreboot"><span id="a_msgwaittone">Message Waiting tone</span> :</div>
+                <input id="msgwaittone" name="msgwaittone" type="text" />
+            </div>
+            <div>
+                <div class="noreboot" style="font-weight:bold;"><span id="a_defringcad">Ring Cadence</span></div>
+                <div class="noreboot" style="width:180px;font-weight:bold;"><span id="a_attri2">Attribute</span></div>
+            </div>
+            <div webtip="Default Ring Cadence">
+                <div class="noreboot"><span id="a_defringcad2">Default Ring Cadence</span> :</div>
+                <input id="defringcad2" name="defringcad2" type="text" />
+            </div>
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="button" class="cancelbtn">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+    }
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+    }
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+    //new ReqItem("dialtone", "4000", ""),
+    new ReqItem("ringbt", "4001", ""),
+    new ReqItem("busytone", "4002", ""),
+    new ReqItem("reordertone", "4003", ""),
+    new ReqItem("confmtone", "4004", ""),
+    new ReqItem("callwaittone", "4005", ""),
+    new ReqItem("cwaittonetx", "1555", ""),
+    //new ReqItem("pstndistone", "841", ""),
+    new ReqItem("audiodevice", "22050", ""),
+    new ReqItem("sysringtone", "345", ""),
+    new ReqItem("msgwaittone", "344", ""),
+    new ReqItem("defringcad2", "4040", "")
+);
+$(function() {
+    setInitState();
+    cb_get(req_items);
+    cb_get_db_tonelist("tonedblist");
+    cb_get_db_tonelist("notificationdblist");
+    pageEventActions();
+});
+
+function setInitState(){
+    translate_call();
+    $("#audiodevice").sSelect();  
+    $("#cwaittonetx").sSelect({ddMaxHeight: '250px'});  
+    $("#Formvalidate").validate({
+        rules: {
+            //dialtone: { maxlength: 108 },
+            ringbt: { maxlength: 108 },
+            busytone: { maxlength: 108 },
+            reordertone: { maxlength: 108 },
+            confmtone: { maxlength: 108 },
+            callwaittone: { maxlength: 108 },
+            //pstndistone: { maxlength: 108 },
+            defringcad2: { maxlength: 108 }
+        },
+        errorElement: "em",
+        success: function(label) { label.text(" ").addClass("success"); }
+    });
+}
+function get_item_suc_callback(){
+    
+}
+function cb_get_action_done(data, action){
+    if( data.substring(0, 1) == "{" )
+    {
+        if( action == "getaudioinfo&region=control" ){
+            var tObj = eval("(" + data + ")");
+            if( tObj.res == "success" ){
+                var ringMax = tObj.ringMax;
+                var mediaMax = tObj.mediaMax;
+                var notifyMax = tObj.notifyMax;
+                var speakerMax = tObj.speakerMax;
+                var curRing = tObj.curRing;
+                var curMedia = tObj.curMedia;
+                var curNotify = tObj.curNotify;
+                var curSpeaker = tObj.curSpeaker;
+                $("#dragRingtoneDiv").attr("max", ringMax).attr("curvalue", curRing);
+                $("#dragMediaDiv").attr("max", mediaMax).attr("curvalue", curMedia);
+                $("#dragNotifyDiv").attr("max", notifyMax).attr("curvalue", curNotify);
+                $("#dragSpeakerDiv").attr("max", speakerMax).attr("curvalue", curSpeaker);
+                var systone = tObj.sysRingtone;
+                if( systone == "" ){
+                    $("#systemring").val("ringtone_silence");
+                }else if( systone == "content://settings/system/ringtone" ){
+                    $("#systemring").val(systone);
+                }else{
+                    //$("#systemring").val("content://settings/system/ringtone/" + systone);
+                    $("#systemring").val(systone);
+                }
+                var notifytone = tObj.notifyRingtone;
+                if( notifytone == "" ){
+                    $("#alerttone").val("ringtone_silence");
+                }else if( notifytone == "content://settings/system/notification_sound" ){
+                    $("#alerttone").val(notifytone);
+                }else{
+                    //$("#alerttone").val("content://settings/system/ringtone/" + notifytone);
+                    $("#alerttone").val(notifytone);
+                }
+                $("#systemring,#alerttone").sSelect({ddMaxHeight:"250px"});
+            }
+            $(".volimg").draggable({ 
+                cursor: "move", 
+                axis:"x", 
+                containment: $(".dragContainer"),
+                create:function(event,ui){
+                    var maxval = $(this).parent(".dragDiv").attr("max");
+                    var curval = $(this).parent(".dragDiv").attr("curvalue");
+                    $(this).parent().parent().siblings(".startspan").text(0);
+                    $(this).parent().parent().siblings(".endspan").text(maxval);
+                    var width = curval*200/maxval;
+                    //console.log(width);
+                    $(this).css("left",width).prev(".volchangeDiv").css("width",width);
+                    $(this).children(".volspan").text(curval);
+                },
+                drag:function(event,ui){
+                    var maxval = $(this).parent(".dragDiv").attr("max");
+                    $(this).prev(".volchangeDiv").css("width",ui.position.left);
+                    //console.log(ui.position.left);
+                    var vol = (maxval/200)*ui.position.left;
+                    vol = fomatFloat(vol,0);
+                    $(this).children(".volspan").text(vol);
+                }
+            });
+        }
+    }else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){}   
+        else {
+            
+        }
+    }
+}
+function translate_call(){
+    $("#a_ringtonevol").text(a_16254);
+    $("#a_meidavol").text(a_16636);
+    $("#a_speakervol").text(a_16255);
+    $("#a_alertvol").text(a_19017);
+    $("#a_ringtone").text(a_16010);
+    $("#a_callpt").text(a_16303);
+    $("#a_attri, #a_attri2").text(a_16304);
+    //$("#a_dialtone").text(a_16305);
+    $("#a_ringbt").text(a_16306);
+    $("#a_busytone").text(a_16307);
+    $("#a_reordertone").text(a_16308);
+    $("#a_confmtone").text(a_16309);
+    $("#a_callwaittone").text(a_16310);
+    $("#a_cwaittonetx").text(a_16311);
+    $("#cwaittonetx option:eq(0)").text(a_16144);
+    $("#cwaittonetx option:eq(1)").text(a_16236);
+    $("#cwaittonetx option:eq(2)").text(a_16145);
+    //$("#a_pstndistone").text(a_16312);
+    $("#a_defringcad").text(a_16313);
+    $("#a_defringcad2").text(a_16313);
+    $("#a_sysringtone").text(a_4874);
+    $("#a_msgwaittone").text(a_16315);
+    $("#a_systemring").text(a_12082);
+    $("#a_alerttone").text(a_12083);
+    //$("#systemring option:eq(0)").text(a_1154);
+    //$("#alerttone option:eq(0)").text(a_16680);
+    $("#systemring option:eq(0), #alerttone option:eq(0)").text(a_18);
+    $("#a_audiodevice").text(a_19127);
+    $("#audiodevice option:eq(0)").text(a_1317);
+    $("#audiodevice option:eq(1)").text(a_304);
+    $("#a_save").text(a_17);
+    $("#a_cancel").text(a_3);
+}
+
+function fomatFloat(src,pos){     
+    return Math.round(src*Math.pow(10, pos))/Math.pow(10, pos);             
+
+} 
+
+function cb_get_tonelist(type){
+    var urihead = "action=" + type + "&region=account";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_tonelist_done(data, type);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_get_tonelist_done(data, type){
+    if( data.substring(0, 1) == "{" )
+    {
+        var json = eval("(" + data + ")");
+        var ringtone = json.Ringtone;
+        var ringname, indexdot;
+        for (var i = 0; ringtone[i] != undefined; i++) {
+            indexdot = ringtone[i].lastIndexOf(".");
+            ringname = ringtone[i].substring(0, indexdot);
+            //if( type == "tonelist" )
+                //ringname = ringname.replace(/_/g, " ");
+            //var $toneopt = $("<option value='content://settings/system/ringtone/" + ringtone[i] + "'>" + htmlEncode(ringname) + "</option>");
+            var $toneopt = $("<option value='content://settings/system/ringtone/" + ringname + "'>" + htmlEncode(ringname) + "</option>");
+            if( type == "notificationlist" )
+                $('#alerttone').append($toneopt);
+            else
+                $('#systemring').append($toneopt);
+            //$toneopt.clone(true).appendTo($('#alerttone'));
+        }
+    }
+    if( type == "notificationlist" )
+        cb_get_action("getaudioinfo&region=control");
+    //cb_get_tonelist1();
+    //cb_get_pvalue($('#accountindex',parent.document.body).val());
+}
+
+function cb_get_db_tonelist(type){
+    var urihead = "action=" + type + "&region=account";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url: '/manager',
+        data:urihead,
+        datatype:'text',
+        success:function(data) {
+            cb_get_db_tonelist_done(data, type);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThown);
+        }
+    });
+}
+
+function cb_get_db_tonelist_done(data, type) {
+    if( data.substring(0,1) == "{" )
+    {
+        var tObj = eval("(" + data + ")");
+        var data, title;
+        var items = tObj.Ringtone;
+
+        for (var i = 0; items[i] != undefined; i++)
+        {
+            //data = items[i].data;
+            data = items[i].id;
+            title = items[i].title;
+            var $toneopt = $("<option value='" + title + "'" + " mediaid='" + data + "'>" + htmlEncode(title) + "</option>");
+            if( type == "notificationdblist" )
+                $('#alerttone').append($toneopt);
+            else
+                $('#systemring').append($toneopt);
+        }
+    }
+    if( type == "notificationdblist" )
+        cb_get_action("getaudioinfo&region=control");
+}
+
+function cb_put_tonename(items) {
+    var uritail = "";
+    for (var i = 0, k = 0; i < items.length; i++, k++) {
+        var tempid = '#' + items[i].id;
+        var temp = $(tempid);
+        if (temp == null || temp == undefined || temp.length == 0)
+        {
+            var tempname = 'input[name=' + items[i].id + ']';
+            temp = $(tempname);
+        }
+        var val = temp.val();
+        uritail +=
+            build_put(k, items[i].pvalue, val);
+    }
+    var urihead = "action=put&" + uritail;
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            //cb_put_suc(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            view_message("Put Error", MSG_ALERT);
+        }
+    });
+}
+
+function pageEventActions(){
+    $("#a_save").click(function(){
+        if( !$("#Formvalidate").valid() ){
+            view_message(a_16442,MSG_FAIL);
+            return false;
+        }
+        cb_put(req_items, "");
+        var ringtoneuri = "";
+        if( $("#systemring").val() == "content://settings/system/ringtone" ){
+            ringtoneuri = "content://settings/system/ringtone";
+        }else if( $("#systemring").val() == "ringtone_silence" ){
+            ringtoneuri = "";
+        }else{
+            ringtoneuri = "content://media/internal/audio/media/" + $("#systemring option:selected").attr("mediaid");
+        }
+        var notifyuri = "";
+        if( $("#alerttone").val() == "content://settings/system/notification_sound" ){
+            notifyuri = "content://settings/system/notification_sound";
+        }else if( $("#alerttone").val() == "ringtone_silence" ){
+            notifyuri = "";
+        }else{
+            notifyuri = "content://media/internal/audio/media/" + $("#alerttone option:selected").attr("mediaid");
+        }
+            
+        cb_get_action("setvolume&region=control&ringVal="+$("#ringtonespan").text()+"&mediaVal="+$("#mediaspan").text()+"&notifyVal="+$("#notifyspan").text()+"&speakerVal="+$("#speakerspan").text()+"&ringTone="+encodeURIComponent(ringtoneuri)+"&notifyTone="+encodeURIComponent(notifyuri));
+    });
+}
+</script>
+
+</body>
+
+</html>

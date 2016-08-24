@@ -1,0 +1,214 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_net">Network Settings</span></div>
+    <div id="statusdiv"></div>
+	<form action="" method="get" id="Formvalidate">
+		<fieldset>
+            <div webtip="Outbound Proxy">
+                <div class="rebootitem"><span id="a_outbp">Outbound Proxy</span> :</div>
+                <input id="outbp" name="outbp" type="text" />
+            </div>
+            <div webtip="Secondary Outbound Proxy">
+                <div class="rebootitem"><span id="a_secoutbp">Secondary Outbound Proxy</span> :</div>
+                <input id="secoutbp" name="secoutbp" type="text" />
+            </div>
+            <div webtip="DNS Mode">
+                <div class="rebootitem"><span id="a_usedns">DNS Mode</span> :</div>
+                <select name="usednssrv" id="usednssrv">
+                    <option value="0">A Record</option>
+                    <option value="1" selected="selected">SRV</option>
+                    <option value="2">NAPTR/SRV</option>
+                </select>
+            </div>
+            <div webtip="NAT Traversal">
+                <div class="rebootitem"><span id="a_natstun">NAT Traversal</span> :</div>
+                <select name="natstun" id="natstun">
+                    <option value="0">NAT NO</option>
+                    <option value="1" selected="selected">STUN</option>
+                    <option value="2">Keep-alive</option>
+                    <option value="3">UPnP</option>
+                    <option value="4">Auto</option>
+                    <option value="5">VPN</option>
+                    <option value="6">TURN</option>
+                </select>
+            </div>
+            <div webtip="Proxy-Require">
+                <div class="rebootitem"><span id="a_proxy">Proxy-Require</span> :</div>
+                <input id="proxy" name="proxy" type="text" />
+            </div> 
+            <div webtip="Primary IP" style="display:none">
+                <div class="rebootitem"><span id="a_primaryip">Primary IP</span> :</div>
+                <input id="primaryip" name="primaryip" type="text" />
+            </div> 
+            <div webtip="Backup IP" style="display:none">
+                <div class="rebootitem"><span id="a_backupip">Backup IP</span> :</div>
+                <input id="backupip" name="backupip" type="text" />
+            </div> 
+            
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="button" class="cancelbtn">Cancel</button>
+        </div>
+	</form>
+
+
+</div>
+
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+    var req_items = new Array;
+    var accountindex = 0;
+    
+$(function(){
+    setInitState();
+    //cb_get_index(req_indexs);
+    cb_get_pvalue($('#accountindex',parent.document.body).val());
+    pageEventActions();
+});
+function get_item_suc_callback() {
+    
+}
+function setInitState(){
+    translate_network();
+    $('#usednssrv, #natstun').sSelect();
+    $("#Formvalidate").validate({
+		rules: {
+            proxy: { maxlength: 64 }
+        },
+		errorElement: "em",
+		success: function(label) { label.text(" ").addClass("success"); }
+    });
+}
+function translate_network(){
+    $("#a_net").text(a_16024);
+    $("#a_outbp").text(a_16057);
+    $("#a_secoutbp").text(a_16058);
+    $("#a_usedns").text(a_16059);
+    $("#a_natstun").text(a_16060);
+    $("#a_proxy").text(a_16061);
+    $("#a_primaryip").text(a_16062);
+    $("#a_backupip").text(a_16063);
+    $('#natstun option:eq(2)').text(a_16064);
+    $('#natstun option:eq(4)').text(a_1317);
+    $("#a_auto").text(a_1317);
+    $("#a_cancel").text(a_3);
+    $("#a_save").text(a_17);
+}
+function cb_get_pvalue(acctindex){
+	accountindex = acctindex;
+	switch(accountindex)
+	{
+	    case '1':
+			req_items.push(
+				new ReqItem("outbp", "48", ""),
+				new ReqItem("secoutbp", "2333", ""),
+				new ReqItem("usednssrv", "103", ""),
+				new ReqItem("natstun", "52", ""),
+				new ReqItem("proxy", "197", ""),
+				new ReqItem("primaryip", "2308", ""),
+				new ReqItem("backupip", "2309", "")
+			);
+			break;
+		case '2':
+			req_items.push(
+				new ReqItem("outbp", "403", ""),
+				new ReqItem("secoutbp", "2433", ""),
+				new ReqItem("usednssrv", "408", ""),
+				new ReqItem("natstun", "414", ""),
+				new ReqItem("proxy", "418", ""),
+				new ReqItem("primaryip", "2408", ""),
+				new ReqItem("backupip", "2409", "")
+			);
+			break;
+		case '3':
+			req_items.push(
+				new ReqItem("outbp", "503", ""),
+				new ReqItem("secoutbp", "2533", ""),
+				new ReqItem("usednssrv", "508", ""),
+				new ReqItem("natstun", "514", ""),
+				new ReqItem("proxy", "518", ""),
+				new ReqItem("primaryip", "2508", ""),
+				new ReqItem("backupip", "2509", "")
+			);
+			break;
+		case '4':
+			req_items.push(
+				new ReqItem("outbp", "603", ""),
+				new ReqItem("secoutbp", "2633", ""),
+				new ReqItem("usednssrv", "608", ""),
+				new ReqItem("natstun", "614", ""),
+				new ReqItem("proxy", "618", ""),
+				new ReqItem("primaryip", "2608", ""),
+				new ReqItem("backupip", "2609", "")
+			);
+			break;
+		case '5':
+			req_items.push(
+				new ReqItem("outbp", "1703", ""),
+				new ReqItem("secoutbp", "2733", ""),
+				new ReqItem("usednssrv", "1708", ""),
+				new ReqItem("natstun", "1714", ""),
+				new ReqItem("proxy", "1718", ""),
+				new ReqItem("primaryip", "2708", ""),
+				new ReqItem("backupip", "2709", "")
+			);
+			break;
+		case '6':
+			req_items.push(
+				new ReqItem("outbp", "1803", ""),
+				new ReqItem("secoutbp", "2833", ""),
+				new ReqItem("usednssrv", "1808", ""),
+				new ReqItem("natstun", "1814", ""),
+				new ReqItem("proxy", "1818", ""),
+				new ReqItem("primaryip", "2808", ""),
+				new ReqItem("backupip", "2809", "")
+			);
+			break;
+	}
+	
+    cb_get(req_items);
+    //cb_get_lock_acct(1);
+}
+
+function pageEventActions(){
+    $("#a_save").click(function(){
+        if( !$("#Formvalidate").valid() ){
+            view_message(a_16442,MSG_FAIL);
+            return false;
+        }
+        cb_put(req_items, "");
+    });
+}
+</script>
+
+</body>
+
+</html>

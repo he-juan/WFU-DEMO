@@ -1,0 +1,1475 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.reverse.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<style type="text/css">
+fieldset div{margin-left:10px;}
+.disabledMask{width:260px;height:30px;display:none;position: absolute;z-index: 100;left: 370px;background-color:#FFFFFF;opacity:0.2;*filter:alpha(opacity=20);margin-top: 0px !important;}
+.strpmode .newListSelected{z-index:101;}
+</style>
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_codec">Codec Settings</span></div>
+    <div id="statusdiv"></div>
+    <form action="" method="get" id="Formvalidate">
+        <fieldset>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_audiotitle">Audio</span></div>
+            </div>
+            <div webtip="DTMF" style="">
+                <div class="noreboot"><span>DTMF</span> :</div> 
+                <input type="checkbox" name="dtmf" id="inaudio"><span id="a_inaudio">In audio</span>
+                <input type="checkbox" name="dtmf" id="RFC2833"><span id="a_rfc2833">RFC2833</span>
+                <input type="checkbox" name="dtmf" id="sipinfo"><span id="a_sipinfo">SIP INFO</span>
+            </div>
+            <div webtip="DTMF " style="display:none;" class="h323mode">
+                <div class="noreboot"><span>DTMF</span> :</div>
+                <select id="h323dtmf" name="h323dtmf">
+                    <!--<option value="0" id="a_inband">In band</option>
+                    <option value="1" id="a_q931keypad">Q931 keypad</option>
+                    <option value="2" id="a_h245alpha">H245 alpha numeric</option>
+                    <option value="3" id="a_h245signal">H245 signal</option>-->
+                    <option value="0">In audio</option>
+                    <option value="1">RFC2833</option>
+                    <option value="2">H245 signal</option>
+                </select>
+                <!--<input type="checkbox" name="dtmf" id="inband"><span id="a_inband">In band</span>
+                <input type="checkbox" name="dtmf" id="q931keypad"><span id="a_q931keypad">Q931 keypad</span>
+                <input type="checkbox" name="dtmf" id="h245alpha"><span id="a_h245alpha">H245 alpha numeric</span>
+                <input type="checkbox" name="dtmf" id="h245signal"><span id="a_h245signal">H245 signal</span>-->
+            </div>
+            <div webtip="DTMF Payload Type">
+                <div class="noreboot"><span id="a_dtmfpayload">DTMF Payload Type</span> :</div>
+                <input id="dtmfpayload" name="dtmfpayload" type="text" value='101' />
+            </div>
+            <div webtip="Enable Video" style="display:none">
+                <div class="noreboot"><span id="a_enablevideo">Enable Video</span> :</div>
+                <select id="enablevideo" name="enablevideo">
+                    <option value="1" id="a_enablevideoyes">Yes</option>
+                    <option value="0" id="a_enablevideono">No</option>
+                    <option value="2" id="a_enablevideo2">Enable/Disable during dialing</option>
+                </select>
+            </div>
+            <div style="display:none">
+                <div class="noreboot"><span id="a_remotevideo">Remote Video Request</span> :</div>
+                <select id="remotevideo" name="remotevideo">
+                    <option value="0">Prompt</option>
+                    <option value="1">Accept</option>
+                    <option value="2">Deny</option>
+                </select>
+            </div>
+            <div style="width:700px;height:145px;" webtip="Preferred Vocoder" class="h323mode">
+                <div class="noreboot"><span id="a_prevocoder">Preferred Vocoder</span> :</div>
+                <div>
+                    <div style="width:110px;margin-left:0x;"><span id="a_notallowed">Not Allowed</span>
+                        <select multiple="multiple" style="width:92px;height:120px;" id="noallow1">
+                            <option value="0">PCMU</option>
+                            <option value="8">PCMA</option>
+                            <option value="9">G.722</option>
+                            <!--<option value="18">G729A/B</option>-->
+                            <option value="123">Opus</option>
+                            <option value="104">G.722.1</option> <!--see line 455-->
+                            <!--<option value="103">G.722.1C</option>-->
+                        </select>
+                    </div>
+                    <div style="width:20px;margin-right:15px;top:25px;position:relative;"><br/>
+                        <span id="left1" style="cursor:pointer"><img src="../img/left.gif"/></span><br/><br/>
+                        <span id="right1" style="cursor:pointer"><img src="../img/right.gif"/></span><br/><br/>
+                    </div>
+                    <div style="width:110px;"><span id="a_allowed">Allowed</span>
+                        <select multiple="multiple" style="width:92px;height:120px;" id="allow1"></select>
+                    </div>
+                    <div style="display:none" id="pvaluediv">
+                        <input type="text" id="P57">
+                        <input type="text" id="P58">
+                        <input type="text" id="P59">
+                        <input type="text" id="P60">
+                        <input type="text" id="P61">
+                        <input type="text" id="P62">
+                        <input type="text" id="P46">
+                        <input type="text" id="P98">
+                    </div>
+                    <div style="width:20px;margin-right:15px;top:25px;position:relative;"><br/>
+                        <span id="up1" style="cursor:pointer"><img src="../img/up.gif"/></span><br/><br/>
+                        <span id="down1" style="cursor:pointer"><img src="../img/down2.gif"/></span>
+                    </div>
+                </div>
+            </div>
+            <div webtip="Codec Negotiation Priority">
+                <div class="noreboot"><span id="a_codecpri">Codec Negotiation Priority</span> :</div>
+                <select id="codecpri" name="codecpri">
+                    <option value="0">Caller</option>
+                    <option value="1" selected="selected">Callee</option>
+                </select>
+            </div>
+            <div webtip="Silence Suppression">
+                <div class="noreboot"><span id="a_silsup">Silence Suppression</span> :</div>
+                <input name="silencesup" type="checkbox" id="silencesup"><span id="a_silsupyes">Yes</span>
+            </div> 
+            <div webtip="Voice Frames Per TX">
+                <div class="noreboot"><span id="a_vocfp">Voice Frames Per TX</span> :</div>
+                <input id="vocfp" name="vocfp" type="text" value='2' />
+            </div>
+            <div webtip="G.722.1 Rate" class="g7221set">
+                <div class="noreboot"><span id="a_g722rate">G.722.1 Rate</span> :</div>
+                <select id="g722rate">
+                    <option value="0">24kbps encoding rate</option>
+                    <option value="1">32kpbs encoding rate</option>
+                </select>
+            </div>
+            <div webtip="G.722.1 Payload Type" class="g7221set">
+                <div class="noreboot"><span id="a_g722payload">G.722.1 Payload Type</span> :</div>
+                <input id="g722payload" name="g722payload" type="text" value='104' />
+            </div>
+            <div webtip="G723 Rate" style="display:none">
+                <div class="noreboot"><span id="a_g723rate">G723 Rate</span> :</div>
+                <select id="g723rate">
+                    <option value="0">6.3kbps encoding rate</option>
+                    <option value="1">5.3kpbs encoding rate</option>
+                </select>
+            </div>
+            <div webtip="Opus Payload Type">
+                <div class="noreboot"><span id="a_opuspayload">Opus Payload Type</span> :</div>
+                <input id="opuspayload" name="opuspayload" type="text" value='123' />
+            </div>
+            <div webtip="Jitter Buffer Type" style="display:none;">
+                <div class="noreboot"><span id="a_jitterbt">Jitter Buffer Type</span> :</div>
+                <select id="jitterbt">
+                    <option value="0">Fixed</option>
+                    <option value="1">Adaptive</option>
+                </select>
+            </div>
+            <div webtip="Jitter Buffer Length" id="jitterbldiv">
+                <div class="noreboot"><span id="a_jitterbl">Jitter Buffer Length</span> :</div>
+                <select id="jitterb">
+                    <option value="0">Low</option>
+                    <option value="1">Medium</option>
+                    <option value="2">High</option>
+                </select>
+            </div>
+            <div style="width:680px;height:105px;display:none" webtip="Preferred Video Coder">
+                <div class="noreboot"><span id="a_prevcoder">Preferred Video Coder</span> :</div>
+                <div>
+                    <div style="width:110px;margin-left:0x;"><span id="a_notallowed2">Not Allowed</span>
+                        <select multiple="multiple" style="width:92px;height:80px;" id="noallow2">
+                            <option value="99">H264</option>
+                            <option value="34">H263</option>
+                            <option value="100">H263+</option>
+                        </select>
+                    </div>
+                    <div style="width:20px;margin-right:15px;"><br/>
+                        <span id="up2" style="cursor:pointer;margin:3px 0 4px 0;"><img src="../img/up.gif"/></span><br/>
+                        <span id="left2" style="cursor:pointer;margin-top:3px;"><img src="../img/left.gif"/></span><br/>
+                        <span id="right2" style="cursor:pointer;margin-top:3px;"><img src="../img/right.gif"/></span><br/>
+                        <span id="down2" style="cursor:pointer"><img src="../img/down2.gif"/></span>
+                    </div>
+                    <div style="width:110px;"><span id="a_allowed2">Allowed</span>
+                        <select multiple="multiple" style="width:92px;height:80px;" id="allow2"></select>
+                    </div>
+                    <div style="display:none">
+                        <input type="text" id="P295">
+                        <input type="text" id="P296">
+                        <input type="text" id="P297">
+                    </div>
+                </div>
+            </div>
+            <div webtip="iLBC Frame Size" style="display:none">
+                <div class="noreboot"><span id="a_ilibcfs">iLBC Frame Size</span> :</div>
+                <select id="ilibcfs" name="ilibcfs">
+                    <option value="0">20ms</option>
+                    <option value="1">30ms</option>
+                </select>
+            </div>
+            <div webtip="Use First Matching Vocoder in 200OK SDP">
+                <div class="noreboot"><span id="a_usefvcode">Use First Matching Vocoder in 200OK SDP</span> :</div>
+                <input name="usefvcode" type="checkbox" id="usefvcode"><span id="a_usefvcodeyes">Yes</span>
+            </div>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_codecvideo">Video</span></div>
+            </div>
+            <div webtip="Enable RFC5168 Support">
+                <div class="noreboot"><span id="a_enablerfc">Enable RFC5168 Support</span> :</div>
+                <input name="enablerfc" type="checkbox" id="enablerfc"><span id="a_enablerfcyes">Yes</span>
+            </div>
+            <div webtip="Enable Video FEC">
+                <div class="noreboot"><span id="a_enablefec">Enable Video FEC</span> :</div>
+                <input name="enablefec" type="checkbox" id="enablefec"><span id="a_enablefecyes">Yes</span>
+            </div>
+            <div webtip="Video FEC Mode" class="iptalkmode">
+                <div class="noreboot"><span id="a_fecmode">Video FEC Mode</span> :</div>
+                <input name="fecmode" value="0" checked="checked" type="radio" id="fecmode0"><span>0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="fecmode" value="1" type="radio" id="fecmode1"><span>1</span>
+            </div>
+            <div webtip="FEC Payload Type">
+                <div class="noreboot"><span id="a_fecpayload">FEC Payload Type</span> :</div>
+                <input id="fecpayload" name="fecpayload" type="text" value='120' />
+            </div>
+            <div webtip="FEC RED Payload Type" style="display:none;">
+                <div class="noreboot"><span id="a_fecredpayload">FEC RED Payload Type</span> :</div>
+                <input id="fecredpayload" name="fecredpayload" type="text" value='122' />
+            </div>
+            <div webtip="Enable FECC" class="bjmode">
+                <div class="noreboot"><span id="a_enablefecc">Enable FECC</span> :</div>
+                <input name="enablefecc" type="checkbox" id="enablefecc"><span id="a_enablefeccyes">Yes</span>
+            </div>
+            <div webtip="FECC H.224 Payload Type" class="bjmode">
+                <div class="noreboot"><span id="a_feccpayload">FECC Payload Type</span> :</div>
+                <input id="feccpayload" name="feccpayload" type="text" value='125' />
+            </div>
+            <div webtip="H.264 Payload Type" class="h323mode">
+                <div class="noreboot"><span id="a_h264payload">H.264 Payload Type</span> :</div>
+                <input id="h264payload" name="h264payload" type="text" value='99' />
+            </div>
+            <div webtip="H.263+ Payload Type" style="display:none">
+                <div class="noreboot"><span id="a_h263payload">H.263+ Payload Type</span> :</div>
+                <input id="h263payload" name="h263payload" type="text" value='103' />
+            </div>
+            <div webtip="L16-256 Payload Type" style="display:none">
+                <div class="noreboot"><span id="a_L16_256payload">L16-256 Payload Type</span> :</div>
+                <input id="L16-256payload" name="L16_256payload" type="text" value='103' />
+            </div>
+            <div webtip="H.263 Encoder Resolution" style="display:none">
+                <div class="noreboot"><span id="a_h263resolution">H.263 Encoder resolution</span> :</div>
+                <input name="h263resolution" value="0" checked="checked" type="radio" id="h263resolution0">
+                <span id="a_h263resolution0">CIF</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="h263resolution" value="1" type="radio" id="h263resolution1">
+                <span id="a_h263resolution1">QCIF</span>
+            </div>
+            <div style="display:none">
+                <div class="noreboot"><span id="a_slientrtp">Send Silent RTP Packets on Mute</span> :</div>
+                <input name="slientrtp" type="checkbox" id="slientrtp"><span id="a_slientrtpyes">Yes</span>
+            </div>
+            <div webtip="Packetization-mode">
+                <div class="noreboot"><span id="a_packetmodel">Packetization-mode</span> :</div>
+                <select id="packetmodel" name="packetmodel">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">Auto</option>
+                </select>
+            </div>
+            <div webtip="H.264 Image Size" class="h323mode">
+                <div class="noreboot"><span id="a_h264imgsize">H.264 image size</span> :</div>
+                <select id="imgsize" name="imgsize">
+                    <option value="10">1080P</option>
+                    <option value="9">720P</option>
+                    <option value="4">4CIF</option>
+                    <option value="7">4SIF</option>
+                    <option value="1">VGA</option>
+                </select>
+            </div>
+            <div webtip="H.264 Profile Type">
+                <div class="noreboot"><span id="a_h264protype">H.264 Profile Type</span> :</div>
+                <select id="protype" name="protype">
+                    <option value="0">Baseline</option>
+                    <option value="1">Main</option>
+                    <option value="2">High</option>
+                    <option value="3">BP/MP/HP</option>
+                </select>
+            </div>
+            <div webtip="Video Bit Rate" style="width:740px;" class="h323mode">
+                <div class="noreboot"><span id="a_vidbr">Video Bit Rate</span> :</div>
+                <!--<input id="vbrate" name="vbrate" type="text"/><span id="vbraterange"></span>-->
+                <select id="vbrate" name="vbrate">
+                    <option value="384">384Kbps</option>
+                    <option value="400">400Kbps</option>
+                    <option value="416">416Kbps</option>
+                    <option value="448">448Kbps</option>
+                    <option value="512">512Kbps</option>
+                    <option value="640">640Kbps</option>
+                    <option value="768">768Kbps</option>
+                    <option value="896">896Kbps</option>
+                    <option value="1024">1024Kbps</option>
+                    <option value="1280">1280Kbps</option>
+                    <option value="1536">1536Kbps</option>
+                    <option value="1792">1792Kbps</option>
+                    <option value="2048">2048Kbps</option>
+                    <option value="2560">2560Kbps</option>
+                    <option value="3072">3072Kbps</option>
+                    <option value="3584">3584Kbps</option>
+                    <option value="4096">4096Kbps</option>
+                </select>
+            </div>
+            <div webtip="SDP Bandwidth Attribute">
+                <div class="noreboot"><span id="a_sdpattr">SDP Bandwidth Attribute</span> :</div>
+                <select id="sdpattr">
+                    <option value="0">Standard</option>
+                    <option value="1">Media Level</option>
+                    <!--<option value="2">Session Level</option>-->
+                    <option value="3">None</option>  
+                </select>
+            </div>
+            <div webtip="Video Frame Rate" class="h323mode">
+                <div class="noreboot"><span id="a_vidfr">Video Frame Rate</span> :</div>
+                <select id="vidframerate">
+                    <option value="5">5 frames/second</option>
+                    <option value="15">15 frames/second</option>
+                    <option value="25">25 frames/second</option>
+                    <option value="30">30 frames/second</option>
+                    <option value="29">Variable</option>
+                </select>
+            </div>
+            <div webtip="Video Jitter Buffer Maximum">
+                <div class="noreboot"><span id="a_jittermax">Video Jitter Buffer Maximum (ms)</span> :</div>
+                <input id="jittermax" name="jittermax" type="text" value='' />
+            </div>
+            <div webtip="Enable Frame Skipping in Video Decoder" style="display:none;">
+                <div class="noreboot"><span id="a_enableframeskip">Enable Frame Skipping in Video Decoder</span> :</div>
+                <input id="enableframeskip" name="enableframeskip" type="checkbox" /><span id="enableframeskipyes">Yes</span>
+            </div>
+            <!---->
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_presentsetting">Presentation Settings</span></div>
+            </div>
+            <div webtip="Disable Presentation">
+                <div class="noreboot"><span id="a_disablepresent">Disable Presentation</span> :</div>
+                <input name="disablepresent" type="checkbox" id="disablepresent"><span id="a_disablepresentyes">Yes</span>
+            </div>
+            <div webtip="Presentation H.264 Image Size">
+                <div class="noreboot"><span id="a_presentimagesize">Presentation H.264 image size</span> :</div>
+                <div class="disabledMask"></div>
+                <select id="presentimagesize" name="presentimagesize">
+                    <option value="10">1080P</option>
+                    <option value="9">720P</option>
+                    <!--<option value="4">4CIF</option>
+                    <option value="1">VGA</option>
+                    <option value="5">CIF</option>
+                    <option value="0">QVGA</option>
+                    <option value="6">QCIF</option>-->
+                </select>
+            </div>
+            <div webtip="Presentation H.264 Profile">
+                <div class="noreboot"><span id="a_presentprofile">Presentation H.264 profile</span> :</div>
+                <div class="disabledMask"></div>
+                <select id="presentprofile" name="presentprofile">
+                    <option value="0">Baseline profile</option>
+                    <option value="1">Main profile</option>
+                    <option value="2">high profile</option>
+                    <option value="3">BP&MP&HP</option>
+                </select>
+            </div>
+            <div webtip="Presentation Video Bit Rate(Kbps)" style="width:740px;">
+                <div class="noreboot"><span id="a_presentvideobitrate">Presentation video bit rate</span> :</div>
+                <!--<input id="presentvideobitrate" name="presentvideobitrate" type="text" value="2048"/><span id="presentvideobitraterange">(1024~4096 Kbps)</span>-->
+                <div class="disabledMask"></div>
+                <select id="presentvideobitrate" name="presentvideobitrate">
+                    <option value="512">512Kbps</option>
+                    <option value="640">640Kbps</option>
+                    <option value="768">768Kbps</option>
+                    <option value="896">896Kbps</option>
+                    <option value="1024">1024Kbps</option>
+                    <option value="1280">1280Kbps</option>
+                    <option value="1536">1536Kbps</option>
+                    <option value="1792">1792Kbps</option>
+                    <option value="2048">2048Kbps</option>
+                    <option value="2560">2560Kbps</option>
+                    <option value="3072">3072Kbps</option>
+                    <option value="3584">3584Kbps</option>
+                    <option value="4096">4096Kbps</option>
+                </select>
+            </div>
+            <div webtip="Presentation Video Frame Rate" style="width:740px;">
+                <div class="noreboot"><span id="a_presentvideoframebate">Presentation Video Frame Rate</span> :</div>
+                <div class="disabledMask"></div>
+                <select id="presentvideoframebate" name="presentvideoframebate">
+                    <option value="5">5 fps</option>
+                    <option value="10">10 fps</option>
+                    <option value="15">15 fps</option>
+                    <option value="25">25 fps</option>
+                    <option value="30">30 fps</option>
+                </select>
+            </div>
+            <div webtip="Presentation SDP bandwidth setting" style="display:none;">
+                <div class="noreboot"><span id="a_presentsdpsetting">Presentation SDP bandwidth setting</span> :</div>
+                <select id="presentsdpsetting" name="presentsdpsetting">
+                    <option value="0">Standard</option>
+                    <option value="1">Media level</option>
+                    <!--<option value="2">Session level</option>-->
+                    <option value="3">None</option>
+                </select>
+            </div>
+            <div webtip="BFCP Transport Protocol" class="sipmodeonly">
+                <div class="noreboot"><span id="a_bfcptranspro">BFCP Transport Protocol</span> :</div>
+                <select id="bfcptranspro" name="bfcptranspro">
+                    <option value="0">Auto</option>
+                    <option value="1" selected="selected">UDP</option>
+                    <option value="2">TCP</option>
+                </select>
+            </div>
+            <div class="titlediv bjmode">
+                <div class="titleboot"><span id="a_titlesrtp">SRTP</span></div>
+            </div>
+            <div webtip="SRTP Mode" class="strpmode">
+                <div class="noreboot"><span id="a_srtp">SRTP Mode</span> :</div>
+                <select id="srtp">
+                    <option value="0">Disable</option>
+                    <option value="1">Enabled but not forced</option>
+                    <option value="2">Enabled and forced</option>
+                </select>
+            </div>
+            <div webtip="SRTP Key Length" class="bjmode">
+                <div class="noreboot"><span id="a_encryptdigit">SRTP Key Length</span> :</div>
+                <select id="encryptdigit">
+                    <option value="0">AES 128&256 bit</option>
+                    <option value="1">AES 128 bit</option>
+                    <option value="2">AES 256 bit</option>
+                </select>
+            </div>
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="button" class="cancelbtn">Cancel</button>
+        </div>
+    </form>
+    </div>
+
+</div>
+
+<input type='text' id='vfperrate' name='vfperrate' value='15' style="display:none;"/>
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+    var req_items = new Array;
+    var accountindex = 0;
+    var oldvbrate;
+	var mPromodel = "GVC3200";
+    var mPresentfps = 0;
+    var oldpresentbrate;
+$(function(){
+	//mPromodel = $("#promodel",window.parent.document).val();
+	var colore = $('#existcolore',window.parent.document).val();
+	if(colore == "54") {
+		//$('#noallow1 option:eq(4)').remove();   //also need to check line 465,avoid order mistake
+		$(".g7221set").hide();
+	}
+    setInitState();
+    //cb_get_index(req_indexs);
+    accountindex = $('#accountindex',parent.document.body).val();
+    if( accountindex == "4" ){
+        $("fieldset > div").hide();
+        $(".h323mode").show();
+        $('#h323dtmf').sSelect();
+        $('#noallow1 option:eq(3)').remove();
+    }
+    cb_get_pvalue(accountindex);
+    pageEventActions();
+});
+function get_item_suc_callback() {
+    initprevocoder();
+    initprevcoder();
+    oldvbrate = $("#vbrate").val();
+    oldpresentbrate = $("#presentvideobitrate").val();
+    mPresentfps = parseInt($("#presentvideoframebate").val());
+    $("#jitterbt").change(function(){
+        update_jitter_length();
+    });
+    /*$("#imgsize").change(function(){
+        update_video_bit_display();
+    });*/
+    $("#imgsize").change(function(){//vbrate
+        var imgsize = parseInt($(this).val());
+        var videobit = parseInt($("#vidframerate").val());
+        update_video_bit_options(imgsize, videobit);
+    });
+    $("#vidframerate").change(function(){//vbrate
+        var imgsize = parseInt($("#imgsize").val());
+        var videobit = parseInt($(this).val());
+        update_video_bit_options(imgsize, videobit);
+    });
+    $("#presentimagesize").change(function(){//vbrate
+        var value = parseInt($(this).val());
+        upadte_present_video_bit_options(value);
+    });
+    //init select option when refresh
+    var imgsize = parseInt($("#imgsize").val());
+    var videobit = parseInt($("#vidframerate").val());
+    var presentimgsize = parseInt($("#presentimagesize").val());
+    update_video_bit_options(imgsize, videobit);
+    upadte_present_video_bit_options(presentimgsize);
+    update_jitter_length();
+    /*var vbval = $("#vbrate").val();
+    update_video_bit_display();
+    $("#vbrate").getSetSSValue( vbval );*/
+    if($("#disablepresent").prop("checked") == true)
+    {
+        $("#presentimagesize,#presentprofile,#presentvideobitrate").attr("disabled","disabled");
+        $("#presentimagesize,#presentvideobitrate,#presentprofile").next(".newListSelected").addClass("newListDisabled");
+        $(".disabledMask").show();
+    }
+    if( accountindex == 2 ){
+        //$("#srtp").getSetSSValue("2");
+        $(".sipmodeonly, .strpmode, .iptalkmode").hide();
+        /*$(".strpmode").children("div").children("span").removeClass("netfontcolor").addClass("grayfont");
+        $(".strpmode").children(".newListSelected").attr("disabled", true);*/
+    }
+    else if( accountindex == 3 ){
+        $(".sipmodeonly, .strpmode, .iptalkmode, .bjmode").hide();
+    }
+}
+function setInitState(){
+    translate_codec();
+    $('#codecpri, #remotevideo, #ilibcfs, #imgsize, #protype, #sdpattr, #enablevideo, #srtp, #g722rate, #encryptdigit, #g723rate, #jitterbt, #jitterb, #vidframerate, #presentsdpsetting, #bfcptranspro, #presentprofile,  #presentimagesize, #presentvideoframebate, #packetmodel').sSelect();
+    $("#vbrate,#presentvideobitrate").sSelect({ddMaxHeight:"250px"});
+    //if( $('#hardwareversion',parent.document.body).val().substring(0, 2) == "V2" )
+    /*if( 1 )
+    {
+        var $opt = $("<option value='7'>4CIF PAL</option>");
+        $('#imgsize').append($opt);
+        $("#imgsize option:eq(6)").text("4CIF NTSC");
+        var $vbopt = $("<option value='1500'>1500 kbps</option>");
+        $('#vbrate').append($vbopt);
+    }else
+    {
+        $("#imgsize option:eq(6)").text("4CIF");
+    }*/
+    $("#Formvalidate").validate({
+		rules: {
+            dtmfpayload: { digits:true, range:[96,126] },
+			vocfp: { digits:true, range:[1,64] },
+            jittermax: { digits:true, range:[0,1000] },
+            g722payload: { required:true, digits:true, range:[96,126] },
+            opuspayload: { digits:true, range:[96,126] },
+            h263payload: { digits:true, range:[96,127] },
+            h264payload: { digits:true, range:[96,127] },
+            L16_256payload: { digits:true, range:[96,127] },
+            fecpayload: { digits:true, range:[96,127] },
+            fecredpayload: { digits:true, range:[96,127] },
+            feccpayload: { digits:true, range:[96,127] }
+        },		
+		errorElement: "em",
+        errorPlacement: function(error, element) { 
+            error.appendTo(element.parent()); 
+        },
+		success: function(label) { label.text(" ").addClass("success"); }
+    });
+}
+function translate_codec(){
+    $("#a_codec").text(a_16026);
+    $("#a_audiotitle").text(a_10017);
+    $("#a_enablevideo").text(a_16103);
+    $("#a_enablevideo2").text(a_16104);
+    $("#a_enablerfc").text(a_16105);
+    $("#a_enablefec").text(a_16658);
+    $("#a_fecmode").text(a_19111);
+    $("#a_fecpayload").text(a_16657);
+    $("#a_fecredpayload").text(a_19021);
+    $("#a_feccpayload").text(a_19022);
+    $("#a_enablefecc").text(a_19020);
+    $("#a_codecpri").text(a_19181);
+    $("#codecpri option:eq(0)").text(a_19182);
+    $("#codecpri option:eq(1)").text(a_19183);
+    $("#a_remotevideo").text(a_16106);
+    $("#remotevideo option:eq(0)").text(a_415);
+    $("#remotevideo option:eq(1)").text(a_10000);
+    $("#remotevideo option:eq(2)").text(a_16107);
+    $("#a_vidbr").text(a_10020);
+    $("#a_sdpattr").text(a_16108);
+    $("#a_codecvideo").text(a_10016);
+    $("#a_presentsetting").text(a_16640);
+    $("#sdpattr option:eq(0)").text(a_16109);
+    $("#sdpattr option:eq(1)").text(a_16110);
+    //$("#sdpattr option:eq(2)").text(a_16111);
+    $("#sdpattr option:eq(2)").text(a_20);
+    $("#a_inaudio, #h323dtmf option:eq(0)").text(a_16112);
+    $("#a_dtmfpayload").text(a_16113);
+    $("#a_prevocoder").text(a_16114);
+    $("#a_prevcoder").text(a_16115);
+    $("#a_notallowed, #a_notallowed2").text(a_16596);
+    $("#a_allowed, #a_allowed2").text(a_407);
+    $("#a_ilibcfs").text(a_16116);
+    $("#ilibcfs option:eq(0)").text("20 "+a_16117);
+    $("#ilibcfs option:eq(1)").text("30 "+a_16117);
+    $("#a_usefvcode").text(a_19170);
+    $("#a_packetmodel").text(a_19234);
+    $("#packetmodel option:eq(2)").text(a_1317);
+    $("#a_h264imgsize").text(a_16118);
+    $("#a_h264protype").text(a_16119);
+    $("#protype option:eq(0)").text(a_16120);
+    $("#protype option:eq(1)").text(a_16121);
+    $("#protype option:eq(2)").text(a_16122);
+    $("#protype option:eq(3)").text(a_16123);
+    $("#a_h264payload").text(a_16124);
+    $("#a_h263payload").text(a_16125);
+    $("#a_L16_256payload").text(a_16126);
+    $("#a_h263resolution").text(a_16127);
+    $("#a_srtp").text(a_16128);
+    $("#srtp option:eq(0)").text(a_39);
+    $("#srtp option:eq(1)").text(a_16129);
+    $("#srtp option:eq(2)").text(a_16130);
+    $("#a_encryptdigit").text(a_16131);
+    $("#a_silsup").text(a_16132);
+    $("#a_vocfp").text(a_16133);
+    $("#a_g722rate").text(a_16134);
+    $("#g722rate option:eq(0)").text("24kbps "+a_16135);
+    $("#g722rate option:eq(1)").text("32kbps "+a_16135);
+    $("#a_g722payload").text(a_18563);
+    $("#a_g723rate").text(a_16137);
+    $("#g723rate option:eq(0)").text("6.3kbps "+a_16135);
+    $("#g723rate option:eq(1)").text("5.3kbps "+a_16135);
+    $("#a_opuspayload").text(a_19125);
+    $("#a_jitterbt").text(a_16140);
+    $("#jitterbt option:eq(0)").text(a_16141);
+    $("#jitterbt option:eq(1)").text(a_16142);
+    $("#a_jitterbl").text(a_16143);
+    $("#jitterb option:eq(0)").text(a_16144);
+    $("#jitterb option:eq(1)").text(a_16236);
+    $("#jitterb option:eq(2)").text(a_16145);
+    $("#a_jittermax").text(a_16146);
+    $("#a_enablevideono").text(a_6);
+    $("#a_slientrtp").text(a_16147);
+    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes").text(a_5);
+    $("#a_vidfr").text(a_16274);
+    $("#vidframerate option:eq(0)").text("5 "+a_16277);
+    $("#vidframerate option:eq(1)").text("15 "+a_16277);
+    $("#vidframerate option:eq(2)").text("25 "+a_16277);
+    $("#vidframerate option:eq(3)").text("30 "+a_16277);
+    $("#vidframerate option:eq(4)").text(a_16278);
+    $("#presentvideoframebate option:eq(0)").text("5 "+a_16277);
+    $("#presentvideoframebate option:eq(1)").text("10 "+a_16277);
+    $("#presentvideoframebate option:eq(2)").text("15 "+a_16277);
+    $("#a_disablepresent").text(a_19014);
+    $("#a_presentimagesize").text(a_16214);
+    $("#a_presentprofile").text(a_16215);
+    $("#a_presentvideobitrate").text(a_16203);
+    $("#a_presentsdpsetting").text(a_16204);
+    $("#presentprofile option:eq(0)").text(a_16120);
+    $("#presentprofile option:eq(1)").text(a_16121);
+    $("#presentprofile option:eq(2)").text(a_16122);
+    $("#presentprofile option:eq(3)").text(a_16123);
+    $("#presentsdpsetting option:eq(0)").text(a_16109);
+    $("#presentsdpsetting option:eq(1)").text(a_16110);
+    //$("#presentsdpsetting option:eq(2)").text(a_16111);
+    $("#presentsdpsetting option:eq(2)").text(a_20);
+    $("#a_bfcptranspro").text(a_19134);
+    $("#bfcptranspro option:eq(0)").text(a_1317);
+    $("#a_enableframeskip").text(a_16276);
+    $("#enableframeskipyes").text(a_5);
+    $("#a_presentvideoframebate").text(a_16205);
+    $("#a_cancel").text(a_3);
+    $("#a_save").text(a_17);
+}
+function cb_get_pvalue(acctindex){
+	accountindex = acctindex;
+	req_items.push(new ReqItem("vfperrate", "904", ""));
+	switch(accountindex)
+	{
+		case '1':
+		    req_items.push(
+				new ReqItem("inaudio", "2301", ""),
+				new ReqItem("RFC2833", "2302", ""),
+				new ReqItem("sipinfo", "2303", ""),
+				new ReqItem("dtmfpayload", "79", ""),
+				new ReqItem("P57", "57", ""),
+				new ReqItem("P58", "58", ""),
+				new ReqItem("P59", "59", ""),
+				new ReqItem("P60", "60", ""),
+				new ReqItem("P61", "61", ""),
+				new ReqItem("P62", "62", ""),
+				new ReqItem("P46", "46", ""),
+				new ReqItem("P98", "98", ""),
+				new ReqItem("P295", "295", ""),
+				new ReqItem("P296", "296", ""),
+                new ReqItem("P297", "1307", ""),
+                new ReqItem("ilibcfs", "97", ""),
+                new ReqItem("packetmodel", "26005", ""),
+				new ReqItem("imgsize", "2307", ""),
+				new ReqItem("protype", "2362", ""),
+				new ReqItem("h264payload", "293", ""),
+				new ReqItem("h263payload", "350", ""),
+                new ReqItem("L16-256payload", "2300", ""),
+                new ReqItem("h263resolution", "1330", ""),
+				new ReqItem("srtp", "183", ""),
+				new ReqItem("encryptdigit", "2383", ""),
+				new ReqItem("codecpri", "29061", ""),
+				new ReqItem("silencesup", "50", ""),
+				new ReqItem("vocfp", "37", ""),
+				new ReqItem("g722rate", "2373", ""),
+				new ReqItem("g722payload", "2374", ""),
+				new ReqItem("opuspayload", "2385", ""),
+				new ReqItem("g723rate", "49", ""),
+				new ReqItem("jitterbt", "133", ""),
+				new ReqItem("jitterb", "132", ""),
+				new ReqItem("jittermax", "2381", ""),
+				new ReqItem("remotevideo", "2326", ""),
+				new ReqItem("enablerfc", "1331", ""),
+				new ReqItem("enablefec", "2393", ""),
+				new ReqItem("fecmode", "26022", ""),
+				new ReqItem("fecpayload", "2394", ""),
+				//new ReqItem("fecredpayload", "26007", ""),
+				new ReqItem("feccpayload", "26008", ""),
+				new ReqItem("enablefecc", "26004", ""),
+			    new ReqItem("vbrate", "2315", ""),
+				new ReqItem("sdpattr", "2360", ""),
+                new ReqItem("slientrtp", "2328", ""),
+                new ReqItem("vidframerate", "25004", ""),
+                new ReqItem("disablepresent", "26001", ""),
+                new ReqItem("presentimagesize", "2376", ""),
+                new ReqItem("presentprofile", "2377", ""),
+                new ReqItem("presentvideobitrate", "2378", ""),
+				new ReqItem("presentsdpsetting", "2379", ""),  
+                new ReqItem("bfcptranspro", "26041", ""),
+                new ReqItem("presentvideoframebate", "26042", ""),  
+                new ReqItem("usefvcode", "2348", ""),
+                new ReqItem("enableframeskip", "25010", ""), 
+				new ReqItem("enablevideo", "292", "")
+			);
+			break;
+		
+		case '2':
+			req_items.push(
+				new ReqItem("inaudio", "2401", ""),
+				new ReqItem("RFC2833", "2402", ""),
+				new ReqItem("sipinfo", "2403", ""),
+				new ReqItem("dtmfpayload", "496", ""),
+				new ReqItem("P57", "451", ""),
+				new ReqItem("P58", "452", ""),
+				new ReqItem("P59", "453", ""),
+				new ReqItem("P60", "454", ""),
+				new ReqItem("P61", "455", ""),
+				new ReqItem("P62", "456", ""),
+				new ReqItem("P46", "457", ""),
+				new ReqItem("P98", "458", ""),
+				new ReqItem("P295", "464", ""),
+				new ReqItem("P296", "465", ""),
+                new ReqItem("P297", "475", ""),
+                new ReqItem("ilibcfs", "495", ""),
+                new ReqItem("packetmodel", "26105", ""),
+				new ReqItem("imgsize", "2407", ""),
+				new ReqItem("protype", "2462", ""),
+				new ReqItem("h264payload", "462", ""),
+				new ReqItem("h263payload", "473", ""),
+                new ReqItem("L16-256payload", "2400", ""),
+                new ReqItem("h263resolution", "477", ""),
+				new ReqItem("srtp", "443", ""),
+				new ReqItem("encryptdigit", "2483", ""),
+				new ReqItem("codecpri", "29161", ""),
+				new ReqItem("silencesup", "485", ""),
+				new ReqItem("vocfp", "486", ""),
+				new ReqItem("g722rate", "2473", ""),
+				new ReqItem("g722payload", "2474", ""),
+				new ReqItem("opuspayload", "2485", ""),
+				new ReqItem("g723rate", "493", ""),
+				new ReqItem("jitterbt", "498", ""),
+				new ReqItem("jitterb", "497", ""),
+				new ReqItem("jittermax", "2481", ""),
+				new ReqItem("remotevideo", "2426", ""),
+				new ReqItem("enablerfc", "478", ""),
+				new ReqItem("enablefec", "2493", ""),
+				new ReqItem("fecmode", "26122", ""),
+				new ReqItem("fecpayload", "2494", ""),
+				//new ReqItem("fecredpayload", "26107", ""),
+				new ReqItem("feccpayload", "26108", ""),
+				new ReqItem("enablefecc", "26104", ""),
+			    new ReqItem("vbrate", "2415", ""),
+				new ReqItem("sdpattr", "2460", ""),
+				new ReqItem("slientrtp", "2428", ""),
+                new ReqItem("vidframerate", "25005", ""),
+                new ReqItem("disablepresent", "26101", ""),
+                new ReqItem("presentimagesize", "2476", ""),
+                new ReqItem("presentprofile", "2477", ""),
+                new ReqItem("presentvideobitrate", "2478", ""),
+                new ReqItem("presentsdpsetting", "2479", ""),
+                new ReqItem("presentvideoframebate", "26142", ""), 
+                //new ReqItem("usefvcode", "2448", ""), 
+                new ReqItem("enableframeskip", "25011", ""),
+				new ReqItem("enablevideo", "461", "")
+			);
+			break;
+
+		case '3':
+			req_items.push(
+				new ReqItem("inaudio", "2501", ""),
+				new ReqItem("RFC2833", "2502", ""),
+				new ReqItem("sipinfo", "2503", ""),
+				new ReqItem("dtmfpayload", "596", ""),
+				new ReqItem("P57", "551", ""),
+				new ReqItem("P58", "552", ""),
+				new ReqItem("P59", "553", ""),
+				new ReqItem("P60", "554", ""),
+				new ReqItem("P61", "555", ""),
+				new ReqItem("P62", "556", ""),
+				new ReqItem("P46", "557", ""),
+				new ReqItem("P98", "558", ""),
+				new ReqItem("P295", "564", ""),
+				new ReqItem("P296", "565", ""),
+                new ReqItem("P297", "575", ""),
+                new ReqItem("ilibcfs", "595", ""),
+                new ReqItem("packetmodel", "26205", ""),
+				new ReqItem("imgsize", "2507", ""),
+				new ReqItem("protype", "2562", ""),
+				new ReqItem("h264payload", "562", ""),
+				new ReqItem("h263payload", "573", ""),
+                new ReqItem("L16-256payload", "2500", ""),
+                new ReqItem("h263resolution", "577", ""),
+				new ReqItem("srtp", "543", ""),
+				new ReqItem("encryptdigit", "2583", ""),
+				new ReqItem("codecpri", "29261", ""),
+				new ReqItem("silencesup", "585", ""),
+				new ReqItem("vocfp", "586", ""),
+				new ReqItem("g722rate", "2573", ""),
+				new ReqItem("g722payload", "2574", ""),
+				new ReqItem("opuspayload", "2585", ""),
+				new ReqItem("g723rate", "593", ""),
+				new ReqItem("jitterbt", "598", ""),
+				new ReqItem("jitterb", "597", ""),
+				new ReqItem("jittermax", "2581", ""),
+				new ReqItem("remotevideo", "2526", ""),
+				new ReqItem("enablerfc", "578", ""),
+				new ReqItem("enablefec", "2593", ""),
+				new ReqItem("fecmode", "26222", ""),
+				new ReqItem("fecpayload", "2594", ""),
+				//new ReqItem("fecredpayload", "26207", ""),
+				new ReqItem("feccpayload", "26208", ""),
+				new ReqItem("enablefecc", "26204", ""),
+			    new ReqItem("vbrate", "2515", ""),
+				new ReqItem("sdpattr", "2560", ""),
+				new ReqItem("slientrtp", "2528", ""),
+                new ReqItem("vidframerate", "25006", ""),
+                new ReqItem("disablepresent", "26201", ""),
+                new ReqItem("presentimagesize", "2576", ""),
+                new ReqItem("presentprofile", "2577", ""),
+                new ReqItem("presentvideobitrate", "2578", ""),
+                new ReqItem("presentsdpsetting", "2579", ""),
+                new ReqItem("presentvideoframebate", "26242", ""),
+                new ReqItem("usefvcode", "2548", ""),  
+                new ReqItem("enableframeskip", "25012", ""),
+				new ReqItem("enablevideo", "561", "")
+			);
+			break;
+
+		case '4':
+			req_items.push(
+			    new ReqItem("h323dtmf", "25049", ""),
+			    new ReqItem("P57", "25037", ""),
+                new ReqItem("P58", "25038", ""),
+                new ReqItem("P59", "25039", ""),
+                new ReqItem("P60", "25040", ""),
+                new ReqItem("P61", "25041", ""),
+				new ReqItem("P62", "25042", ""),
+				new ReqItem("P46", "25043", ""),
+				new ReqItem("P98", "25044", ""),
+                new ReqItem("P295", "25045", ""),
+                new ReqItem("P296", "25046", ""),
+                new ReqItem("P297", "25047", ""),
+                new ReqItem("packetmodel", "26305", ""),
+                new ReqItem("imgsize", "25061", ""),
+                new ReqItem("vbrate", "25063", ""),
+                new ReqItem("h264payload", "25064", ""),
+                new ReqItem("vidframerate", "25062", "")
+                /*new ReqItem("inaudio", "2601", ""),
+                new ReqItem("RFC2833", "2602", ""),
+                new ReqItem("sipinfo", "2603", ""),
+                new ReqItem("dtmfpayload", "696", ""),
+                new ReqItem("P57", "651", ""),
+                new ReqItem("P58", "652", ""),
+                new ReqItem("P59", "653", ""),
+                new ReqItem("P60", "654", ""),
+                new ReqItem("P61", "655", ""),
+				new ReqItem("P62", "656", ""),
+				new ReqItem("P46", "657", ""),
+				new ReqItem("P98", "658", ""),
+                new ReqItem("P295", "664", ""),
+                new ReqItem("P296", "665", ""),
+                new ReqItem("P297", "675", "")
+                new ReqItem("ilibcfs", "695", ""),
+				new ReqItem("imgsize", "2607", ""),
+                new ReqItem("protype", "2662", ""),
+				new ReqItem("h264payload", "662", ""),
+                new ReqItem("h263payload", "673", ""),
+                new ReqItem("L16-256payload", "2600", ""),
+                new ReqItem("h263resolution", "677", ""),
+                new ReqItem("srtp", "643", ""),
+                new ReqItem("encryptdigit", "2683", ""),
+                new ReqItem("codecpri", "29361", ""),
+				new ReqItem("silencesup", "685", ""),
+                new ReqItem("vocfp", "686", ""),
+                new ReqItem("g722rate", "2673", ""),
+                new ReqItem("g722payload", "2674", ""),
+                new ReqItem("opuspayload", "2685", ""),
+				new ReqItem("g723rate", "693", ""),
+                new ReqItem("jitterbt", "698", ""),
+                new ReqItem("jitterb", "697", ""),
+                new ReqItem("jittermax", "2681", ""),
+                new ReqItem("remotevideo", "2626", ""),
+				new ReqItem("enablerfc", "678", ""),
+				new ReqItem("enablefec", "2693", ""),
+				new ReqItem("fecmode", "26322", ""),
+				new ReqItem("fecpayload", "2694", ""),
+				new ReqItem("fecredpayload", "26307", ""),
+				new ReqItem("feccpayload", "26308", ""),
+				new ReqItem("enablefecc", "26304", ""),
+			    new ReqItem("vbrate", "2615", ""),
+                new ReqItem("sdpattr", "2660", ""),
+				new ReqItem("slientrtp", "2628", ""),
+                new ReqItem("vidframerate", "25007", ""),
+                new ReqItem("disablepresent", "26301", ""),
+                new ReqItem("presentimagesize", "2676", ""),
+                new ReqItem("presentprofile", "2677", ""),
+                new ReqItem("presentvideobitrate", "2678", ""),
+                new ReqItem("presentsdpsetting", "2679", ""),
+                new ReqItem("presentvideoframebate", "26342", ""),
+                new ReqItem("usefvcode", "2648", ""),  
+                new ReqItem("enableframeskip", "25013", ""),
+				new ReqItem("enablevideo", "661", "")*/
+			);
+			break;
+			
+		case '5':
+			req_items.push(
+                new ReqItem("inaudio", "2701", ""),
+                new ReqItem("RFC2833", "2702", ""),
+                new ReqItem("sipinfo", "2703", ""),
+                new ReqItem("dtmfpayload", "1796", ""),
+                new ReqItem("P57", "1751", ""),
+                new ReqItem("P58", "1752", ""),
+                new ReqItem("P59", "1753", ""),
+                new ReqItem("P60", "1754", ""),
+                new ReqItem("P61", "1755", ""),
+				new ReqItem("P62", "1756", ""),
+				new ReqItem("P46", "1757", ""),
+				new ReqItem("P98", "1758", ""),
+                new ReqItem("P295", "1764", ""),
+                new ReqItem("P296", "1765", ""),
+                new ReqItem("P297", "1775", ""),
+                new ReqItem("ilibcfs", "1795", ""),
+                new ReqItem("packetmodel", "26405", ""),
+				new ReqItem("imgsize", "2707", ""),
+                new ReqItem("protype", "2762", ""),
+				new ReqItem("h264payload", "1762", ""),
+                new ReqItem("h263payload", "1773", ""),
+                new ReqItem("L16-256payload", "2700", ""),
+                new ReqItem("h263resolution", "1777", ""),
+                new ReqItem("srtp", "1743", ""),
+                new ReqItem("encryptdigit", "2783", ""),
+                new ReqItem("codecpri", "29461", ""),
+				new ReqItem("silencesup", "1785", ""),
+                new ReqItem("vocfp", "1786", ""),
+                new ReqItem("g722rate", "2773", ""),
+                new ReqItem("g722payload", "2774", ""),
+                new ReqItem("opuspayload", "2785", ""),
+				new ReqItem("g723rate", "1793", ""),
+                new ReqItem("jitterbt", "1798", ""),
+                new ReqItem("jitterb", "1797", ""),
+                new ReqItem("jittermax", "2781", ""),
+                new ReqItem("remotevideo", "2726", ""),
+				new ReqItem("enablerfc", "1778", ""),
+				new ReqItem("enablefec", "2793", ""),
+				new ReqItem("fecmode", "26422", ""),
+				new ReqItem("fecpayload", "2794", ""),
+				new ReqItem("fecredpayload", "26407", ""),
+				new ReqItem("feccpayload", "26408", ""),
+				new ReqItem("enablefecc", "26404", ""),
+			    new ReqItem("vbrate", "2715", ""),
+                new ReqItem("sdpattr", "2760", ""),
+				new ReqItem("slientrtp", "2728", ""),
+                new ReqItem("vidframerate", "25008", ""),
+                new ReqItem("disablepresent", "26401", ""),
+                new ReqItem("presentimagesize", "2776", ""),
+                new ReqItem("presentprofile", "2777", ""),
+                new ReqItem("presentvideobitrate", "2778", ""),
+                new ReqItem("presentsdpsetting", "2779", ""),
+                new ReqItem("presentvideoframebate", "26442", ""), 
+                new ReqItem("usefvcode", "2748", ""), 
+                new ReqItem("enableframeskip", "25014", ""),
+				new ReqItem("enablevideo", "1761", "")
+			);
+			break;
+
+		case '6':
+			req_items.push(
+                new ReqItem("inaudio", "2801", ""),
+                new ReqItem("RFC2833", "2802", ""),
+                new ReqItem("sipinfo", "2803", ""),
+                new ReqItem("dtmfpayload", "1896", ""),
+                new ReqItem("P57", "1851", ""),
+                new ReqItem("P58", "1852", ""),
+                new ReqItem("P59", "1853", ""),
+                new ReqItem("P60", "1854", ""),
+                new ReqItem("P61", "1855", ""),
+				new ReqItem("P62", "1856", ""),
+				new ReqItem("P46", "1857", ""),
+				new ReqItem("P98", "1858", ""),
+                new ReqItem("P295", "1864", ""),
+                new ReqItem("P296", "1865", ""),
+                new ReqItem("P297", "1875", ""),
+                new ReqItem("ilibcfs", "1895", ""),
+                new ReqItem("packetmodel", "26505", ""),
+				new ReqItem("imgsize", "2807", ""),
+                new ReqItem("protype", "2862", ""),
+				new ReqItem("h264payload", "1862", ""),
+                new ReqItem("h263payload", "1873", ""),
+                new ReqItem("L16-256payload", "2800", ""),
+                new ReqItem("h263resolution", "1877", ""),
+                new ReqItem("srtp", "1843", ""),
+                new ReqItem("encryptdigit", "2883", ""),
+                new ReqItem("codecpri", "29561", ""),
+				new ReqItem("silencesup", "1885", ""),
+                new ReqItem("vocfp", "1886", ""),
+                new ReqItem("g722rate", "2873", ""),
+                new ReqItem("g722payload", "2874", ""),
+                new ReqItem("opuspayload", "2885", ""),
+				new ReqItem("g723rate", "1893", ""),
+                new ReqItem("jitterbt", "1898", ""),
+                new ReqItem("jitterb", "1897", ""),
+                new ReqItem("jittermax", "2881", ""),
+                new ReqItem("remotevideo", "2826", ""),
+				new ReqItem("enablerfc", "1878", ""),
+				new ReqItem("enablefec", "2893", ""),
+				new ReqItem("fecmode", "26522", ""),
+				new ReqItem("fecpayload", "2894", ""),
+				new ReqItem("fecredpayload", "26507", ""),
+				new ReqItem("feccpayload", "26508", ""),
+				new ReqItem("enablefecc", "26504", ""),
+			    new ReqItem("vbrate", "2815", ""),
+                new ReqItem("sdpattr", "2860", ""),
+				new ReqItem("slientrtp", "2828", ""),
+                new ReqItem("vidframerate", "25009", ""),
+                new ReqItem("disablepresent", "26501", ""),
+                new ReqItem("presentimagesize", "2876", ""),
+                new ReqItem("presentprofile", "2877", ""),
+                new ReqItem("presentvideobitrate", "2878", ""),
+                new ReqItem("presentsdpsetting", "2879", ""),
+                new ReqItem("presentvideoframebate", "26542", ""), 
+                new ReqItem("usefvcode", "2848", ""), 
+                new ReqItem("enableframeskip", "25015", ""),
+				new ReqItem("enablevideo", "1861", "")
+			);
+			break;
+	}
+	
+    cb_get(req_items);
+    //cb_get_lock_acct(1);
+}
+
+function view_lock_acct_write(msgs, index)
+{
+	var lock = 'lock' + index;
+	var hide = 'hide' + index;
+	if(msgs.headers[lock] == 1 || msgs.headers[hide] == 1) 
+	{	
+		$('input, #a_save').attr('disabled',true);
+		$('form div').css('color','gray');
+		$('#noallow1 option, #allow1 option, #noallow2 option, #allow2 option').attr('disabled',true).css('color','gray');
+		$(".selectedTxt").click(function(){
+            $(".newList").hide();
+        });
+	}
+}
+
+function initprevocoder() {
+	var pitem = new Array('#P57', '#P58', '#P59', '#P60', '#P61', '#P62', '#P46', '#P98');
+    $("#allow1").empty();
+    for (var i = 0; i < pitem.length; i++) {
+        for (var j = 0; j < $('#noallow1 option').length; j++) {
+            if ($(pitem[i]).val() == $('#noallow1 option').eq(j).val()) {
+                $('#noallow1 option').eq(j).appendTo('#allow1');
+            }
+        }
+    }
+    if($('#allow1 option').length == 0){
+        $('#noallow1 option:lt(2)').appendTo('#allow1');
+    }
+}
+function initprevcoder() {
+    var pitem = new Array('#P295', '#P296','#P297');
+    $("#allow2").empty();
+    for (var i = 0; i < pitem.length; i++) {
+        for (var j = 0; j < $('#noallow2 option').length; j++) {
+            if ($(pitem[i]).val() == $('#noallow2 option').eq(j).val()) {
+                $('#noallow2 option').eq(j).appendTo('#allow2');
+            }
+        }
+    }
+    if($('#allow2 option').length == 0){
+        $('#noallow2 option:eq(0)').appendTo('#allow2');
+    }
+}
+
+function update_jitter_length()
+{
+	if( $("#jitterbt").val() == 1 )
+	{
+		$("#jitterbldiv").hide();
+	}else
+	{
+	    if( accountindex != "4" )
+		    $("#jitterbldiv").show();
+	}
+}
+
+function update_video_bit_display()
+{
+    //var isize = $("#imgsize").val();
+    var sizeindex = document.getElementById("imgsize").selectedIndex;
+    var vfp = $("#vfperrate").val();
+    /*$("#vbrate option").remove();
+    switch(sizeindex) {
+        case 0:
+            if( vfp == "30" ) {
+                $("#vbrate").append('<option value="1536">1536 kbps</option>');
+                $("#vbrate").append('<option value="2254" selected="selected">2254 kbps</option>');
+                $("#vbrate").append('<option value="3072">3072 kbps</option>');
+            }else{
+                $("#vbrate").append('<option value="1280">1280 kbps</option>');
+                $("#vbrate").append('<option value="1536" selected="selected">1536 kbps</option>');
+                $("#vbrate").append('<option value="2048">2048 kbps</option>'); 
+            }
+            break;
+        case 1:
+            if( vfp == "30" ) {
+                $("#vbrate").append('<option value="900">900 kbps</option>');
+                $("#vbrate").append('<option value="1350" selected="selected">1350 kbps</option>');
+                $("#vbrate").append('<option value="1800">1800 kbps</option>');
+            }else{
+                $("#vbrate").append('<option value="450">450 kbps</option>');
+                $("#vbrate").append('<option value="675" selected="selected">675 kbps</option>');
+                $("#vbrate").append('<option value="900">900 kbps</option>');
+            }
+            break;
+        case 2:
+            if( vfp == "30" ) {
+                $("#vbrate").append('<option value="680">680 kbps</option>');
+                $("#vbrate").append('<option value="1024" selected="selected">1024 kbps</option>');
+                $("#vbrate").append('<option value="1500">1500 kbps</option>');
+            }else{
+                $("#vbrate").append('<option value="340">340 kbps</option>');
+                $("#vbrate").append('<option value="512" selected="selected">512 kbps</option>');
+                $("#vbrate").append('<option value="750">750 kbps</option>');
+            }
+            break;
+        case 3:
+            if( vfp == "30" ) {
+                $("#vbrate").append('<option value="300">300 kbps</option>');
+                $("#vbrate").append('<option value="512" selected="selected">512 kbps</option>');
+                $("#vbrate").append('<option value="800">800 kbps</option>');
+            }else{
+                $("#vbrate").append('<option value="150">150 kbps</option>');
+                $("#vbrate").append('<option value="256" selected="selected">256 kbps</option>');
+                $("#vbrate").append('<option value="400">400 kbps</option>');
+            }
+            break;
+        case 4:
+            if( vfp == "30" ) {
+                $("#vbrate").append('<option value="240">240 kbps</option>');
+                $("#vbrate").append('<option value="320" selected="selected">320 kbps</option>');
+                $("#vbrate").append('<option value="400">400 kbps</option>');
+            }else{
+                $("#vbrate").append('<option value="120">120 kbps</option>');
+                $("#vbrate").append('<option value="160" selected="selected">160 kbps</option>');
+                $("#vbrate").append('<option value="200">200 kbps</option>');
+            }
+            break;
+        case 5:
+            if( vfp == "30" ) {
+                $("#vbrate").append('<option value="100">100 kbps</option>');
+                $("#vbrate").append('<option value="150" selected="selected">150 kbps</option>');
+                $("#vbrate").append('<option value="200">200 kbps</option>');
+            }else{
+                $("#vbrate").append('<option value="50">50 kbps</option>');
+                $("#vbrate").append('<option value="75" selected="selected">75 kbps</option>');
+                $("#vbrate").append('<option value="100">100 kbps</option>');
+            }
+            break;
+        default:
+            break;    
+    }
+    $("#vbrate").resetSS();       */         
+}
+
+function update_video_bit_options(imgsize,videofps)
+{
+    var value = imgsize;
+    var videobit = videofps;
+    var opstring = "";
+    var tmpvbrate = oldvbrate;
+    $("#vbrate").children().remove();
+    
+    if(value == 10)
+    {
+        //1080P
+        if(videobit == 5)
+        {
+            opstring += "<option value=\"512\">512Kbps</option>";
+            opstring += "<option value=\"768\">768Kbps</option>";
+        }
+        opstring += "<option value=\"1024\">1024Kbps</option>";
+        opstring += "<option value=\"1280\">1280Kbps</option>";
+        opstring += "<option value=\"1536\">1536Kbps</option>";
+        opstring += "<option value=\"1792\">1792Kbps</option>";
+        opstring += "<option value=\"2048\">2048Kbps</option>";
+        opstring += "<option value=\"2560\">2560Kbps</option>";
+        opstring += "<option value=\"3072\">3072Kbps</option>";
+        opstring += "<option value=\"3584\">3584Kbps</option>";
+        opstring += "<option value=\"4096\">4096Kbps</option>";
+
+        if(parseInt(tmpvbrate) < 512 || parseInt(tmpvbrate) > 4096 || parseInt(tmpvbrate) == 640 || parseInt(tmpvbrate) == 896)
+            tmpvbrate = "2048";
+    }
+    else if(value == 9)
+    {
+        //720P
+        opstring += "<option value=\"512\">512Kbps</option>";
+        opstring += "<option value=\"640\">640Kbps</option>";
+        opstring += "<option value=\"768\">768Kbps</option>";
+        opstring += "<option value=\"896\">896Kbps</option>";
+        opstring += "<option value=\"1024\">1024Kbps</option>";
+        opstring += "<option value=\"1280\">1280Kbps</option>";
+        opstring += "<option value=\"1536\">1536Kbps</option>";
+        opstring += "<option value=\"1792\">1792Kbps</option>";
+        opstring += "<option value=\"2048\">2048Kbps</option>";
+
+        if(parseInt(tmpvbrate) < 512 || parseInt(tmpvbrate) > 2048)
+            tmpvbrate = "1024";
+    }
+    else
+    {
+        //4CIF and VGA
+        opstring += "<option value=\"384\">384Kbps</option>";
+        opstring += "<option value=\"400\">400Kbps</option>";
+        opstring += "<option value=\"416\">416Kbps</option>";
+        opstring += "<option value=\"448\">448Kbps</option>";
+        opstring += "<option value=\"512\">512Kbps</option>";
+        opstring += "<option value=\"640\">640Kbps</option>";
+        opstring += "<option value=\"768\">768Kbps</option>";
+        opstring += "<option value=\"896\">896Kbps</option>";
+        opstring += "<option value=\"1024\">1024Kbps</option>";
+
+        if(parseInt(tmpvbrate) < 384 || parseInt(tmpvbrate) > 1024)
+            tmpvbrate = "512";
+    }
+    $("#vbrate").append(opstring);
+    $("#vbrate").val(tmpvbrate);
+    $("#vbrate").resetSS();
+}
+
+function upadte_present_video_bit_options(value)
+{
+    var opstring = "";
+    var fbopstring = "";
+    var tmppresent = oldpresentbrate;
+    $("#presentvideobitrate,#presentvideoframebate").children().remove();
+    if(value == 10)
+    {
+        //1080P
+        opstring += "<option value=\"512\">512Kbps</option>";
+        opstring += "<option value=\"768\">768Kbps</option>";
+        opstring += "<option value=\"1024\">1024Kbps</option>";
+        opstring += "<option value=\"1280\">1280Kbps</option>";
+        opstring += "<option value=\"1536\">1536Kbps</option>";
+        opstring += "<option value=\"1792\">1792Kbps</option>";
+        opstring += "<option value=\"2048\">2048Kbps</option>";
+        //presentation video frame bate
+        fbopstring += "<option value=\"5\">5 "+a_16277+"</option>";
+        fbopstring += "<option value=\"10\">10 "+a_16277+"</option>";
+        fbopstring += "<option value=\"15\" selected=\"selected\">15 "+a_16277+"</option>";
+        /*opstring += "<option value=\"2560\">2560Kbps</option>";
+        opstring += "<option value=\"3072\">3072Kbps</option>";
+        opstring += "<option value=\"3584\">3584Kbps</option>";
+        opstring += "<option value=\"4096\">4096Kbps</option>";*/
+        if(parseInt(tmppresent) == 640 || parseInt(tmppresent) == 896)
+            tmppresent = "2048";
+    }
+    else if(value == 9)
+    {
+        //720P
+        opstring += "<option value=\"512\">512Kbps</option>";
+        opstring += "<option value=\"640\">640Kbps</option>";
+        opstring += "<option value=\"768\">768Kbps</option>";
+        opstring += "<option value=\"896\">896Kbps</option>";
+        opstring += "<option value=\"1024\">1024Kbps</option>";
+        opstring += "<option value=\"1280\">1280Kbps</option>";
+        opstring += "<option value=\"1536\">1536Kbps</option>";
+        opstring += "<option value=\"1792\">1792Kbps</option>";
+        opstring += "<option value=\"2048\">2048Kbps</option>";
+        //presentation video frame bate
+        fbopstring += "<option value=\"5\">5 "+a_16277+"</option>";
+        fbopstring += "<option value=\"10\">10 "+a_16277+"</option>";
+        fbopstring += "<option value=\"15\" selected=\"selected\">15 "+a_16277+"</option>";
+        fbopstring += "<option value=\"25\">25 "+a_16277+"</option>";
+        fbopstring += "<option value=\"30\">30 "+a_16277+"</option>";
+    }
+    $("#presentvideobitrate").append(opstring);
+    $("#presentvideoframebate").append(fbopstring);
+    $("#presentvideobitrate").val(tmppresent);
+    if(mPresentfps != 0)
+        $("#presentvideoframebate").val(mPresentfps);
+    if(mPresentfps > 15 && value == 10)
+    {
+        $("#presentvideoframebate").val("15");
+    }
+    $("#presentvideobitrate,#presentvideoframebate").resetSS();
+}
+
+function pageEventActions(){
+    $("#a_save").click(function(){
+        if( !$("#Formvalidate").valid() ){
+            view_message(a_16442,MSG_FAIL);
+            return false;
+        }
+        var dtmfpayload = $("#dtmfpayload").val();
+        if( dtmfpayload == "" ){
+            $("#dtmfpayload").val("101");
+            dtmfpayload = "101";
+        }else if( dtmfpayload == "98" || dtmfpayload == "99" ){
+            $.prompt(a_19124);
+            return false;
+        }
+        var g722payload = $("#g722payload").val();
+        if( g722payload == "" ){
+            $("#g722payload").val("104");
+            g722payload = "104";
+        }else if( g722payload == "98" || g722payload == "99" ){
+            $.prompt(a_19124);
+            return false;
+        }
+        var opuspayload = $("#opuspayload").val();
+        if( opuspayload == "" ){
+            $("#opuspayload").val("123");
+            opuspayload = "123";
+        }else if( opuspayload == "98" || opuspayload == "99" ){
+            $.prompt(a_19124);
+            return false;
+        }
+        if( $("#h264payload").val() == "" )
+            $("#h264payload").val("99");
+        if( $("#fecpayload").val() == "" )
+            $("#fecpayload").val("120");
+        //if( $("#fecredpayload").val() == "" )
+        //    $("#fecredpayload").val("122");
+        if( $("#feccpayload").val() == "" )
+            $("#feccpayload").val("125");
+        var h264payload = $("#h264payload").val();
+        var fecpayload = $("#fecpayload").val();
+        //var fecredpayload = $("#fecredpayload").val();
+        var feccpayload = $("#feccpayload").val();
+        if( dtmfpayload == h264payload || dtmfpayload == g722payload || g722payload == h264payload || fecpayload == h264payload || fecpayload == dtmfpayload || fecpayload == g722payload || feccpayload == dtmfpayload || feccpayload == g722payload || feccpayload == h264payload || feccpayload == fecpayload || opuspayload == dtmfpayload || opuspayload == g722payload || opuspayload == h264payload || opuspayload == fecpayload || opuspayload == feccpayload )// || fecredpayload == dtmfpayload || fecredpayload == h264payload || fecredpayload == fecpayload || fecredpayload == g722payload || fecredpayload == feccpayload || opuspayload == fecredpayload
+        {
+            $.prompt(a_16148);
+            return false;
+        }
+        $('#P57').val( $('#allow1 option:eq(0)').val() != undefined ? $('#allow1 option:eq(0)').val() : "" );
+        $('#P58').val( $('#allow1 option:eq(1)').val() != undefined ? $('#allow1 option:eq(1)').val() : "" );
+        $('#P59').val( $('#allow1 option:eq(2)').val() != undefined ? $('#allow1 option:eq(2)').val() : "" );
+        $('#P60').val( $('#allow1 option:eq(3)').val() != undefined ? $('#allow1 option:eq(3)').val() : "" );
+        $('#P61').val( $('#allow1 option:eq(4)').val() != undefined ? $('#allow1 option:eq(4)').val() : "" );
+        $('#P62').val( $('#allow1 option:eq(5)').val() != undefined ? $('#allow1 option:eq(5)').val() : "" );
+        $('#P46').val( $('#allow1 option:eq(6)').val() != undefined ? $('#allow1 option:eq(6)').val() : "" );
+        $('#P98').val( $('#allow1 option:eq(7)').val() != undefined ? $('#allow1 option:eq(7)').val() : "" );
+         
+        $('#P295').val( $('#allow2 option:eq(0)').val() != undefined ? $('#allow2 option:eq(0)').val() : "" );
+        $('#P296').val( $('#allow2 option:eq(1)').val() != undefined ? $('#allow2 option:eq(1)').val() : "" );
+        $('#P297').val( $('#allow2 option:eq(2)').val() != undefined ? $('#allow2 option:eq(2)').val() : "" );
+
+        cb_put(req_items, "");
+        if( $("#vbrate").val() != oldvbrate )
+        {
+            //dbussend_vbupdated( 0 );
+            appendApplyFunction("dbussend_vbupdated(" + accountindex + ")");
+            oldvbrate = $("#vbrate").val();
+        }
+
+        var presentstate = 0;
+        var enablefecc = 0;
+        if($("#disablepresent").prop("checked") == true)
+            presentstate = 1;
+        if($("#enablefecc").prop("checked") == true)
+            enablefecc = 1;
+        appendApplyFunction("cb_set_disablepresent(" + presentstate + ","+ enablefecc +")");
+        mPresentfps = parseInt($("#presentvideoframebate").val());
+    });
+
+    $('#right1').click(function() {
+		$('#noallow1 option:selected').appendTo('#allow1');
+	});
+    $('#left1').click(function() {
+        if( $('#allow1 option:selected').length == $('#allow1 option').length )
+        {
+            var txt = '<div class="shortmsg">' + a_16440 + '</div>';
+		    $.prompt(txt,{ buttons:{ OK: true } }); 
+            return false;
+		}else
+		{
+		    $('#allow1 option:selected').appendTo('#noallow1');
+		}
+	});
+    $('#up1, #down1').click(function() {
+        var $opt = $("#allow1 option:selected");
+        if (!$opt.length) return;
+        var bGoUp = (this.id == "up1");
+        if (!bGoUp) $opt.reverse();
+        $opt.each(function(i) {
+            var $src = $(this);
+            var $dst = $src[bGoUp ? "prev" : "next"]();
+            if ($dst.length && $dst[0].selected) return;
+            $dst[bGoUp ? "before" : "after"]($src);
+        });
+	});
+    $('#right2').click(function() {
+		$('#noallow2 option:selected').appendTo('#allow2');
+	});
+    $('#left2').click(function() {
+		if( $('#allow2 option:selected').length == $('#allow2 option').length )
+        {
+            var txt = '<div class="shortmsg">' + a_16440 + '</div>';
+		    $.prompt(txt,{ buttons:{ OK: true } }); 
+            return false;
+		}else
+		{
+		    $('#allow2 option:selected').appendTo('#noallow2');
+		}
+	});
+    $('#up2, #down2').click(function() {
+        var $opt = $("#allow2 option:selected");
+        if (!$opt.length) return;
+        var bGoUp = (this.id == "up2");
+        if (!bGoUp) $opt.reverse();
+        $opt.each(function(i) {
+            var $src = $(this);
+            var $dst = $src[bGoUp ? "prev" : "next"]();
+            if ($dst.length && $dst[0].selected) return;
+            $dst[bGoUp ? "before" : "after"]($src);
+        });
+	});
+    $("#disablepresent").click(function(){
+        if($(this).prop("checked")==true)
+        {
+            $("#presentimagesize,#presentprofile,#presentvideobitrate,#presentvideoframebate").attr("disabled","disabled");
+            $("#presentimagesize,#presentvideobitrate,#presentprofile,#presentvideoframebate").next(".newListSelected").addClass("newListDisabled");
+            $(".disabledMask").show();
+        }
+        else
+        {
+            $("#presentimagesize,#presentprofile,#presentvideobitrate,#presentvideoframebate").removeAttr("disabled");
+            $("#presentimagesize,#presentvideobitrate,#presentprofile,#presentvideoframebate").next(".newListSelected").removeClass("newListDisabled");
+            $(".disabledMask").hide();
+        }
+    });
+}
+
+</script>
+
+</body>
+
+</html>

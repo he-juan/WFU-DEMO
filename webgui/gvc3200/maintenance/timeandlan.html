@@ -1,0 +1,998 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href="../css/jquery-ui.css" type="text/css" rel="stylesheet" />
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>    
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<script type="text/javascript" src='../js/jquery-ui.min.js'></script>
+<script type="text/javascript" src='../js/jquery-ui-timepicker-addon.js'></script>
+<script type="text/javascript" src='../js/ajaxupload.3.5.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<style>
+body{}
+.dotline { width:600px; margin-left:50px;}
+#timezone {width:200px;}
+.newListSelected{width:300px;}
+.newListSelected div{width:250px;}
+ul.newList{width:250px;}
+.maindiv{}
+/*.savediv{padding:0;margin:0 !important;position:relative;width:100%;height:40px;bottom:0px;min-height:40px;}
+.savebtn{clear:both;position:relative;margin:0;bottom:0;}*/
+#Formvalidate{overflow-y:auto;}
+
+/* css for timepicker */
+#ui-datepicker-div{right:10px;}
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+</style>
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_systemsetting">System Settings</span></div>
+    <div id="statusdiv"></div>
+    <form action="" method="get" id="Formvalidate">
+        <fieldset>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_datetime">Date&Time</span></div>
+            </div>
+            <div webtip="Assign NTP Server Address">
+                <div class="noreboot"><span id="a_ntpaddr">Assign NTP Server Address</span> 1:</div>
+                <input id="ntpaddr" name="ntpaddr" type="text" />
+            </div>
+            <div webtip="Assign NTP Server Address">
+                <div class="noreboot"><span id="a_ntpaddr2">Assign NTP Server Address</span> 2:</div>
+                <input id="ntpaddr2" name="ntpaddr2" type="text" />
+            </div>
+            <div webtip="Set Date">
+                <div class="noreboot"><span id="a_setdate">Set Date</span> :</div>
+                <input id="setdate" name="setdate" type="text" />
+            </div>
+            <div webtip="Set Time">
+                <div class="noreboot"><span id="a_settime">Set Time</span> :</div>
+                <input id="settime" name="settime" type="text" />
+            </div>
+            <div webtip="Time Zone">
+                <div class="noreboot"><span id="a_timezone">Time Zone</span> :</div>
+                <select id="timezone" name="timezone">
+                    <option value="GMT">GMT</option>
+                    <option value="Pacific/Midway">Midway Island</option>
+                    <option value="Pacific/Honolulu">Hawaii</option>
+                    <option value="America/Anchorage">Alaska</option>
+                    <option value="America/Los_Angeles">Pacific Time</option>
+                    <option value="America/Tijuana">Tijuana</option>
+                    <option value="America/Phoenix">Arizona</option>
+                    <option value="America/Chihuahua">Chihuahua</option>
+                    <option value="America/Denver">Mountain Time</option>
+                    <option value="America/Costa_Rica">Central America</option>
+                    <option value="America/Chicago">Central Time</option>
+                    <option value="America/Mexico_City">Mexico City</option>
+                    <option value="America/Regina">Saskatchewan</option>
+                    <option value="America/Bogota">Bogota</option>
+                    <option value="America/New_York">Eastern Time</option>
+                    <option value="America/Caracas">Venezuela</option>
+                    <option value="America/Barbados">Atlantic Time (Barbados)</option>
+                    <option value="America/Halifax">Atlantic Time (Canada)</option>
+                    <option value="America/Manaus">Manaus</option>
+                    <option value="America/Santiago">Santiago</option>
+                    <option value="America/St_Johns">Newfoundland</option>
+                    <option value="America/Recife">Recife</option>
+                    <option value="America/Sao_Paulo">Brasilia</option>
+                    <option value="America/Argentina/Buenos_Aires">Buenos Aires</option>
+                    <option value="America/Godthab">Greenland</option>
+                    <option value="America/Montevideo">Montevideo</option>
+                    <option value="Atlantic/South_Georgia">Mid-Atlantic</option>
+                    <option value="Atlantic/Azores">Azores</option>
+                    <option value="Atlantic/Cape_Verde">Cape Verde Islands</option>
+                    <option value="Africa/Casablanca">Casablanca</option>
+                    <option value="Europe/London">London</option>
+                    <option value="Europe/Amsterdam">Amsterdam, Berlin</option>
+                    <option value="Europe/Belgrade">Belgrade</option>
+                    <option value="Europe/Brussels">Brussels</option>
+                    <option value="Europe/Madrid">Madrid</option>
+                    <option value="Europe/Sarajevo">Sarajevo</option>
+                    <option value="Africa/Windhoek">Windhoek</option>
+                    <option value="Africa/Brazzaville">W. Africa Time</option>
+                    <option value="Asia/Amman">Amman, Jordan</option>
+                    <option value="Europe/Athens">Athens, Istanbul</option>
+                    <option value="Europe/Istanbul">Istanbul</option>
+                    <option value="Asia/Beirut">Beirut, Lebanon</option>
+                    <option value="Africa/Cairo">Cairo</option>
+                    <option value="Europe/Helsinki">Helsinki</option>
+                    <option value="Asia/Jerusalem">Jerusalem</option>
+                    <option value="Europe/Minsk">Minsk</option>
+                    <option value="Africa/Harare">Harare</option>
+                    <option value="Asia/Baghdad">Baghdad</option>
+                    <option value="Europe/Moscow">Moscow, St.Petersburg</option>
+                    <option value="Asia/Kuwait">Kuwait</option>
+                    <option value="Africa/Nairobi">Nairobi</option>
+                    <option value="Asia/Tehran">Tehran</option>
+                    <option value="Asia/Baku">Baku</option>
+                    <option value="Asia/Tbilisi">Tbilisi</option>
+                    <option value="Asia/Yerevan">Yerevan</option>
+                    <option value="Asia/Dubai">Dubai</option>
+                    <option value="Asia/Kabul">Kabul</option>
+                    <option value="Asia/Karachi">Islamabad, Karachi</option>
+                    <option value="Asia/Oral">Ural'sk</option>
+                    <option value="Asia/Yekaterinburg">Yekaterinburg</option>
+                    <option value="Asia/Calcutta">Kolkata, Chennai, New Delhi, Mumbai</option>
+                    <option value="Asia/Colombo">Sri Lanka</option>
+                    <option value="Asia/Katmandu">Kathmandu</option>
+                    <option value="Asia/Almaty">Astana</option>
+                    <option value="Asia/Rangoon">Yangon</option>
+                    <option value="Asia/Krasnoyarsk">Krasnoyarsk</option>
+                    <option value="Asia/Bangkok">Bangkok</option>
+                    <option value="Asia/Jakarta">Jakarta</option>
+                    <option value="Asia/Shanghai">Beijing</option>
+                    <option value="Asia/Hong_Kong">Hong Kong</option>
+                    <option value="Asia/Irkutsk">Irkutsk</option>
+                    <option value="Asia/Kuala_Lumpur">Kuala Lumpur</option>
+                    <option value="Australia/Perth">Perth</option>
+                    <option value="Asia/Taipei">Taipei</option>
+                    <option value="Asia/Seoul">Seoul</option>
+                    <option value="Asia/Tokyo">Tokyo, Osaka</option>
+                    <option value="Asia/Yakutsk">Yakutsk</option>
+                    <option value="Australia/Adelaide">Adelaide</option>
+                    <option value="Australia/Darwin">Darwin</option>
+                    <option value="Australia/Brisbane">Brisbane</option>
+                    <option value="Australia/Hobart">Hobart</option>    
+                    <option value="Australia/Sydney">Sydney, Canberra</option>
+                    <option value="Asia/Vladivostok">Vladivostok</option>
+                    <option value="Pacific/Guam">Guam</option>
+                    <option value="Asia/Magadan">Magadan</option>
+                    <option value="Pacific/Noumea">Noumea, New Caledonia</option>
+                    <option value="Pacific/Majuro">Majuro</option>
+                    <option value="Pacific/Auckland">Auckland</option>
+                    <option value="Pacific/Fiji">Fiji</option>
+                    <option value="Pacific/Tongatapu">Tonga</option>
+                </select>
+            </div>
+            <div webtip="Time Display Format">
+                <div class="noreboot"><span id="a_24timeformat">Use 24-hour format</span> :</div>
+                <input id="24timeformat" name="24timeformat" type="checkbox" /><span id="a_timeformatyes">Yes</span>
+            </div>
+            <div webtip="DHCP Option 42 Override NTP Server">
+                <div class="noreboot"><span id="a_dhcpntp">DHCP Option 42 Override NTP Server</span> :</div>
+                <input id="dhcpntp" name="dhcpntp" type="checkbox" /><span id="a_dhcpntpyes">Yes</span>
+            </div>
+            <div webtip="DHCP Option 2 to override Time Zone setting">
+                <div class="noreboot"><span id="a_dhcptimezone">DHCP Option 2 to override Time Zone setting</span> :</div>
+                <input id="dhcptimezone" name="dhcptimezone" type="checkbox" /><span id="a_dhcptimezoneyes">Yes</span>
+            </div>
+            <div webtip="Date Display Format">
+                <div class="noreboot"><span id="a_datefmt">Date Display Format</span> :</div>
+                <select id="datefmt" name="datefmt">
+                    <option value="3">Normal(M/D/YYYY)</option>
+                    <option value="0">YYYY/MM/DD</option>
+                    <option value="1">MM/DD/YYYY</option>
+                    <option value="2">DD/MM/YYYY</option>
+                </select>
+            </div>
+            <!--
+            <div class="titlediv" style="display:none;">
+                <div class="titleboot"><span id="a_presentation">Presentation</span></div>
+            </div>
+            <div webtip="Presentation H.264 image size" style="display:none;">
+                <div class="noreboot"><span id="a_imagesize">Presentation H.264 image size</span> :</div>
+                <select id="imagesize" name="imagesize">
+                    <option value="10">1080P</option>
+                    <option value="9">720P</option>
+                    <option value="4">4CIF</option>
+                    <option value="1">VGA</option>
+                    <option value="5">CIF</option>
+                    <option value="0">QVGA</option>
+                    <option value="6">QCIF</option>
+                </select>
+            </div>
+            <div webtip="Presentation H.264 profile" style="display:none;">
+                <div class="noreboot"><span id="a_profile">Presentation H.264 profile</span> :</div>
+                <select id="profile" name="profile">
+                    <option value="0">Baseline profile</option>
+                    <option value="1">Main profile</option>
+                    <option value="2">high profile</option>
+                    <option value="3">BP&MP&HP</option>
+                </select>
+            </div>
+            <div webtip="Presentation video bit rate" style="display:none;">
+                <div class="noreboot"><span id="a_videobitrate">Presentation video bit rate</span> :</div>
+                <select id="videobitrate" name="videobitrate">
+                    <option value="32">32 kbps</option>
+                    <option value="64">64 kbps</option>
+                    <option value="96">96 kbps</option>
+                    <option value="128">128 kbps</option>
+                    <option value="160">160 kbps</option>
+                    <option value="192">192 kbps</option>
+                    <option value="210">210 kbps</option>
+                    <option value="256">256 kbps</option>
+                    <option value="384">384 kbps</option>
+                    <option value="512">512 kbps</option>
+                    <option value="640">640 kbps</option>
+                    <option value="768">768 kbps</option>
+                    <option value="1024">1024 kbps</option>
+                    <option value="1280">1280 kbps</option>
+                    <option value="1536">1536 kbps</option>
+                    <option value="2048">2048 kbps</option>
+                </select>
+            </div>
+            <div webtip="Presentation SDP bandwidth setting" style="display:none;">
+                <div class="noreboot"><span id="a_sdpsetting">Presentation SDP bandwidth setting</span> :</div>
+                <select id="sdpsetting" name="sdpsetting">
+                    <option value="0">Standard</option>
+                    <option value="1">Media level</option>
+                    <option value="2">Session level</option>
+                    <option value="3">None</option>
+                </select>
+            </div>
+            <div webtip="Presentation Video Frame Rate" style="display:none;">
+                <div class="noreboot"><span id="a_vidfr">Presentation Video Frame Rate</span> :</div>
+                <select id="vfperrate">
+                    <option value="5">5 frames/second</option>
+                    <option value="10">10 frames/second</option>
+                    <option value="12">12 frames/second</option>
+                    <option value="20">20 frames/second</option>
+                    <option value="15">15 frames/second</option>
+                    <option value="25">25 frames/second</option>
+                    <option value="30">30 frames/second</option>
+                    <option value="29">Variable</option>
+                </select>
+            </div>-->
+            <!---->
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_language">Language</span></div>
+            </div>
+            <div webtip="Language">
+                <div class="noreboot"><span id="a_clanguage">Language</span> :</div>
+                <select id="clanguage" name="clanguage">
+                    <option value="ja_JP">日本語</option>
+                    <option value="zh_TW">中文 (台湾)</option>
+                    <option value="zh_CN">中文 (简体)</option>
+                    <option value="zh_HK">中文 (香港)</option>
+                    <option value="in_ID">Bahasa Indonesia</option>
+                    <option value="ms_MY">Bahasa Melayu</option>
+                    <option value="af_ZA">Afrikaans</option>
+                    <option value="ca_ES">Català</option>
+                    <option value="cs_CZ">Čeština</option>
+                    <option value="da_DK">Dansk</option>
+                    <option value="de_DE">Deutsch (Deutschland)</option>
+                    <option value="de_LI">Deutsch (Liechtenstein)</option>
+                    <option value="de_AT">Deutsch (Österreich)</option>
+                    <option value="de_CH">Deutsch (Schweiz)</option>
+                    <option value="en_AU">English (Australia)</option>
+                    <option value="en_CA">English (Canada)</option>
+                    <option value="en_NZ">English (New Zealand)</option>
+                    <option value="en_SG">English (Singapore)</option>
+                    <option value="en_GB">English (United Kingdom)</option>
+                    <option value="en_US">English (United States)</option>
+                    <option value="es_ES">Español (España)</option>
+                    <option value="es_US">Español (Estados Unidos)</option>
+                    <option value="tl_PH">Filipino</option>
+                    <option value="fr_BE">Français (Belgique)</option>
+                    <option value="fr_CA">Français (Canada)</option>
+                    <option value="fr_FR">Français (France)</option>
+                    <option value="fr_CH">Français (Suisse)</option>
+                    <option value="hr_HR">Hrvatski</option>
+                    <option value="zu_ZA">IsiZulu</option>
+                    <option value="it_IT">Italiano (Italia)</option>
+                    <option value="it_CH">Italiano (Svizzera)</option>
+                    <option value="sw_TZ">Kiswahili</option>
+                    <option value="lv_LV">Latviešu</option>
+                    <option value="lt_LT">Lietuvių</option>
+                    <option value="hu_HU">Magyar</option>
+                    <option value="nl_BE">Nederlands (België)</option>
+                    <option value="nl_NL">Nederlands (Nederland)</option>
+                    <option value="nb_NO">Norsk bokmål</option>
+                    <option value="pl_PL">Polski</option>
+                    <option value="pt_BR">Português (Brasil)</option>
+                    <option value="pt_PT">Português (Portugal)</option>
+                    <option value="ro_RO">Română</option>
+                    <option value="rm_CH">Romansh</option>
+                    <option value="sk_SK">Slovenčina</option>
+                    <option value="sl_SI">Slovenščina</option>
+                    <option value="fi_FI">Suomi</option>
+                    <option value="sv_SE">Svenska</option>
+                    <option value="vi_VN">Tiếng Việt</option>
+                    <option value="tr_TR">Türkçe</option>
+                    <option value="el_GR">Ελληνικά</option>
+                    <option value="bg_BG">Български</option>
+                    <option value="ru_RU">Русский</option>
+                    <option value="sr_RS">Српски</option>
+                    <option value="uk_UA">Українська</option>
+                    <option value="iw_IL">עברית</option>
+                    <option value="ar_EG">العربية</option>
+                    <option value="fa_IR">فارسی</option>
+                    <option value="am_ET">አማርኛ</option>
+                    <option value="hi_IN">हिन्दी</option>
+                    <option value="th_TH">ไทย</option>
+                    <option value="ko_KR">한국어</option>
+                    <option value="customized">Customized</option>
+                </select>
+                <button id="savefavnow" type="button" style="display:none;margin-left:5px;">Export</button>
+                <button id="deletenow" type="button" style="display:none;margin-left:5px;">Delete</button>
+            </div>
+            <div webtip="Custom Language" id="importlangdiv" style="display:none;">
+                <div class="noreboot"><span id="a_importlan">Select Language File</span> :</div>
+                <button id="a_browse" type="button">Browse</button>
+            </div>
+            <div webtip="Default Custom Language" id="cusdftlangdiv" style="width: 690px;">
+                <div class="noreboot"><span id="a_cusdftlang">Default Custom Language</span> :</div>
+                <select id="cusdftlanglist" name="cusdftlanglist">
+                    <option value="ja_JP">日本語</option>
+                    <option value="zh_TW">中文 (台湾)</option>
+                    <option value="zh_CN">中文 (简体)</option>
+                    <option value="zh_HK">中文 (香港)</option>
+                    <option value="in_ID">Bahasa Indonesia</option>
+                    <option value="ms_MY">Bahasa Melayu</option>
+                    <option value="af_ZA">Afrikaans</option>
+                    <option value="ca_ES">Català</option>
+                    <option value="cs_CZ">Čeština</option>
+                    <option value="da_DK">Dansk</option>
+                    <option value="de_DE">Deutsch (Deutschland)</option>
+                    <option value="de_LI">Deutsch (Liechtenstein)</option>
+                    <option value="de_AT">Deutsch (Österreich)</option>
+                    <option value="de_CH">Deutsch (Schweiz)</option>
+                    <option value="en_AU">English (Australia)</option>
+                    <option value="en_CA">English (Canada)</option>
+                    <option value="en_NZ">English (New Zealand)</option>
+                    <option value="en_SG">English (Singapore)</option>
+                    <option value="en_GB">English (United Kingdom)</option>
+                    <option value="en_US">English (United States)</option>
+                    <option value="es_ES">Español (España)</option>
+                    <option value="es_US">Español (Estados Unidos)</option>
+                    <option value="tl_PH">Filipino</option>
+                    <option value="fr_BE">Français (Belgique)</option>
+                    <option value="fr_CA">Français (Canada)</option>
+                    <option value="fr_FR">Français (France)</option>
+                    <option value="fr_CH">Français (Suisse)</option>
+                    <option value="hr_HR">Hrvatski</option>
+                    <option value="zu_ZA">IsiZulu</option>
+                    <option value="it_IT">Italiano (Italia)</option>
+                    <option value="it_CH">Italiano (Svizzera)</option>
+                    <option value="sw_TZ">Kiswahili</option>
+                    <option value="lv_LV">Latviešu</option>
+                    <option value="lt_LT">Lietuvių</option>
+                    <option value="hu_HU">Magyar</option>
+                    <option value="nl_BE">Nederlands (België)</option>
+                    <option value="nl_NL">Nederlands (Nederland)</option>
+                    <option value="nb_NO">Norsk bokmål</option>
+                    <option value="pl_PL">Polski</option>
+                    <option value="pt_BR">Português (Brasil)</option>
+                    <option value="pt_PT">Português (Portugal)</option>
+                    <option value="ro_RO">Română</option>
+                    <option value="rm_CH">Romansh</option>
+                    <option value="sk_SK">Slovenčina</option>
+                    <option value="sl_SI">Slovenščina</option>
+                    <option value="fi_FI">Suomi</option>
+                    <option value="sv_SE">Svenska</option>
+                    <option value="vi_VN">Tiếng Việt</option>
+                    <option value="tr_TR">Türkçe</option>
+                    <option value="el_GR">Ελληνικά</option>
+                    <option value="bg_BG">Български</option>
+                    <option value="ru_RU">Русский</option>
+                    <option value="sr_RS">Српски</option>
+                    <option value="uk_UA">Українська</option>
+                    <option value="iw_IL">עברית</option>
+                    <option value="ar_EG">العربية</option>
+                    <option value="fa_IR">فارسی</option>
+                    <option value="am_ET">አማርኛ</option>
+                    <option value="hi_IN">हिन्दी</option>
+                    <option value="th_TH">ไทย</option>
+                    <option value="ko_KR">한국어</option>
+                </select>
+            </div>
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="button" class="cancelbtn">Cancel</button>
+        </div>
+    </form>
+
+<input type="text" value="" id="enablecuslang" style="display:none;" />
+<input type="text" value="" id="cusdftlang" style="display:none;" />
+<input type="text" value="" id="cusdftcountry" style="display:none;" />
+</div>
+
+<script type="text/javascript">
+    var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+    }
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+    }
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+</script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+    new ReqItem("ntpaddr", "30", ""),
+    new ReqItem("ntpaddr2", "8333", ""),
+    new ReqItem("dhcpntp", "144", ""),
+    new ReqItem("dhcptimezone", "143", ""),
+    //new ReqItem("timezone", "64", ""),
+    new ReqItem("24timeformat", "122", ""),
+    new ReqItem("datefmt", "102", "")
+    /*new ReqItem("imagesize", "2376", ""),
+    new ReqItem("profile", "2377", ""),
+    new ReqItem("videobitrate", "2378", ""),
+    new ReqItem("sdpsetting", "2379", ""),
+    new ReqItem("vfperrate", "22009", "")*/
+); 
+
+req_items.push(
+    new ReqItem("enablecuslang", "customed_language", ""),
+    new ReqItem("cusdftlang", "default_customed_language", ""),
+    new ReqItem("cusdftcountry", "default_customed_country", "")
+); 
+var m_langimported = 0;
+
+var city_names = [ a_16489, a_16491,a_16492,a_16493,
+a_16494,a_16495,a_16496,a_16497,a_16498,
+a_16499, a_16500,a_16501,a_16502,a_16503,
+a_16504,a_16505,a_16506,a_16507,a_16508,
+a_16509,a_16510, a_16711, a_16511, a_16512,
+a_16513,a_16514,a_16515,a_16516,a_16517,
+a_16518, a_16519, a_16520,
+a_16521, a_16522, a_16712, a_16523, a_16524, a_16525,
+a_16526, a_16527, a_16713, a_16528, a_16529, a_16530,
+a_16531, a_16532, a_16533,a_16534,
+a_16535, a_16536, a_16537, a_16538, a_16539,
+a_16540, a_16541, a_16542, a_16543, a_16544,
+a_16545, a_16546, a_16547, a_16548, a_16549,
+a_16550, a_16551,a_16552,a_16553, a_16714, 
+a_16554, a_16555, a_16556,
+a_16557, a_16558, a_16559, a_16560, a_16561,
+a_16562, a_16563, a_16564, a_16565, a_16566,
+a_16567,a_16568,a_16569,a_16570, a_16715, a_16490, a_16571,
+a_16572,a_16573];
+
+var newgmts = new Array;
+var mDateformat = "mm/dd/yy";
+
+$(function(){
+    setInitState();
+    cb_get(req_items);
+    cb_get_timezone();
+    init_uploadlan();
+    $("input[type='file']").attr("title", "");
+    pageEventActions();
+});
+
+function setInitState(){
+    translate_call();
+    $("#datefmt").sSelect(); //, #imagesize, #profile, #videobitrate, #sdpsetting, #vfperrate
+}
+
+function get_item_suc_callback(){
+    cb_get_action('getdateinfo&region=maintenance');
+    if( $("#datefmt").val() == "0" ){
+        mDateformat = "yy/mm/dd";
+    }else if( $("#datefmt").val() == "1" ){
+        mDateformat = "mm/dd/yy";
+    }else if( $("#datefmt").val() == "2" ){
+        mDateformat = "dd/mm/yy";
+    }else{
+        if ( cookie_lang == 'zh' )
+            mDateformat = "yy/mm/dd";
+        else
+            mDateformat = "mm/dd/yy";
+    }
+    $('#setdate').datetimepicker({
+        showTimepicker:false,
+        dateFormat: mDateformat,
+        onClose:function(dateText, dp_inst) {
+            set_date_and_time();
+        }
+    });
+    
+    var maxhour = 23;
+    var useampm = true;
+    if( $("#24timeformat").prop("checked") ){
+        maxhour = 23;
+        useampm = false;
+    }
+    $('#settime').timepicker({
+        ampm: useampm,
+        hourMin:0,
+        hourMax:maxhour,
+        onClose:function(dateText, dp_inst) {
+            set_date_and_time();
+        }
+    }); 
+    
+    $("#cusdftlanglist").sSelect({ddMaxHeight:'200px'});
+    var cuslangval = $("#cusdftlang").val() + "_" + $("#cusdftcountry").val();
+    $("#cusdftlanglist").getSetSSValue(cuslangval);
+    if( $("#enablecuslang").val() == "1" ){
+        $("#cusdftlangdiv").show();
+        $("#clanguage").sSelect({ddMaxHeight:'200px'});
+        $("#clanguage").getSetSSValue("customized");
+        //$("#a_save").attr("disabled", "").css('color','');
+    }else{
+        $("#cusdftlangdiv").hide();
+        cb_get_action('getlanguages&region=advanset');   
+    }
+    req_items.pop();
+    req_items.pop();
+    req_items.pop();
+}
+
+function translate_call(){
+    $("#a_datetime").text(a_16201);
+    $("#a_setdate").text(a_16202);
+    $("#a_settime").text(a_9067);
+    //$("#a_seletc").text(a_seletc);
+    /*$("#a_imagesize").text(a_16214);
+    $("#a_presentation").text(a_10004);
+    $("#a_videobitrate").text(a_16203);
+    $("#a_sdpsetting").text(a_16204);
+    $("#a_vidfr").text(a_16205);
+    $("#a_profile").text(a_16215);
+    $("#profile option:eq(0)").text(a_16120);
+    $("#profile option:eq(1)").text(a_16121);
+    $("#profile option:eq(2)").text(a_16122);
+    $("#profile option:eq(3)").text(a_16123);
+    $("#sdpsetting option:eq(0)").text(a_16109);
+    $("#sdpsetting option:eq(1)").text(a_16110);
+    $("#sdpsetting option:eq(2)").text(a_16111);
+    $("#sdpsetting option:eq(3)").text(a_20);*/
+    $("#a_ntpaddr, #a_ntpaddr2").text(a_12065);
+    $("#a_dhcpntp").text(a_16206);
+    $("#a_dhcptimezone").text(a_16207);
+    $("#a_timeformatyes, #a_dhcpntpyes,#a_dhcptimezoneyes").text(a_5);
+    $("#a_timezone").text(a_6657);
+    $("#a_24timeformat").text(a_16208);
+    $("#a_dhcpntp").text(a_16206);
+    $("#a_dhcptimezone").text(a_16207);
+    $("#a_datefmt").text(a_16209);
+    $("#datefmt option:eq(0)").text(a_16210);
+    $("#datefmt option:eq(1)").text(a_16211);
+    $("#datefmt option:eq(2)").text(a_16212);
+    $("#datefmt option:eq(3)").text(a_16213);
+    $("#a_language, #a_clanguage").text(a_16216);
+    $("#clanguage option:last").text(a_15);
+    $("#a_importlan").text(a_19023);
+    $("#a_browse").text(a_16486);
+    $("#a_cusdftlang").text(a_19024);
+    $("#a_save").text(a_17);
+    $("#a_cancel").text(a_3);
+}
+
+function cb_get_timezone_suc(data)
+{
+    if( data.substring(0, 1) == "{" )
+    {
+        var tObj = eval("(" + data + ")");
+        var timezone = tObj.timezone;
+        var citygmts = tObj.citygmt;
+        var newcitygmts = new Array();
+        newcitygmts.push(citygmts[0]);
+        var newcity_names = new Array();
+        newcity_names.push(city_names[0]);
+        var gmtvalues = new Array();
+        gmtvalues.push($("#timezone option").eq(0).val());
+        
+        var preid, curid, newpos;
+        preid = parseInt(citygmts[0].substring(3).replace(":", ""));
+        newgmts.push(preid);
+        var insertnum = 0;
+        for(var k = 1; citygmts[k] != undefined; k++)
+        {
+            curid = parseInt(citygmts[k].substring(3).replace(":", ""));
+            newpos = findPos(curid);
+            if( newpos == -1 ){
+                newgmts.push(curid);
+                newcitygmts.push(citygmts[k]);
+                newcity_names.push(city_names[k]);
+                gmtvalues.push($("#timezone option").eq(k).val());
+            }else{
+                insertnum ++;
+                newgmts = insert(newgmts, newpos, curid);
+                newcitygmts = insert(newcitygmts, newpos, citygmts[k]);
+                newcity_names = insert(newcity_names, newpos, city_names[k]);
+                gmtvalues = insert(gmtvalues, newpos, $("#timezone option").eq(k).val());
+            }  
+        }
+        var tmpid;
+        $('#timezone').empty();
+        for (var i = 0; i < newcitygmts.length; i++)
+        {
+            var $toneopt = $("<option value='" + gmtvalues[i] + "'>" + htmlEncode(newcitygmts[i]) + "(" + htmlEncode(newcity_names[i]) + ")</option>");
+            $('#timezone').append($toneopt); 
+        }
+        $("#timezone").sSelect({ddMaxHeight:'200px'});
+        $("#timezone").getSetSSValue(timezone);
+        timezoneselected();
+    }else
+    {
+        window.parent.location.href='/login.html';
+    }
+    
+    /*var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    var timezone = msgs.headers["timezone"];*/
+    
+}
+
+function cb_get_timezone(){
+    var urihead = "action=gettimezone&region=advanset";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_timezone_suc(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+
+
+function cb_get_action_done(data, action) {
+    if( data.substring(0, 1) == "{" )
+    {
+        if( action.indexOf("getdateinfo") != -1 ){
+            var tObj = eval("(" + data + ")");
+            if( tObj.res == "success" ){
+                var datestr = tObj.Date;
+                var datelist = datestr.split("/");
+                if( mDateformat == "mm/dd/yy" ){
+                    datestr = datelist[1] + "/" + datelist[2] + "/" + datelist[0];
+                }else if( mDateformat == "dd/mm/yy" ){
+                    datestr = datelist[2] + "/" + datelist[1] + "/" + datelist[0];
+                }
+                $("#setdate").val(datestr);
+                
+                var timestr = tObj.Time;
+                var curtime = timestr.split(":");
+                var hour = parseInt(curtime[0]);
+                var newhour = "";
+                if( hour < 10 )
+                    newhour = "0" + curtime[0];
+                else
+                    newhour = curtime[0]
+                var newminute = "";
+                if( curtime[1] < 10 )
+                    newminute = "0" + curtime[1];
+                else
+                    newminute = curtime[1];
+   
+                if( $("#24timeformat").prop("checked") ){
+                    $("#settime").val(newhour+":"+newminute);
+                }else{
+                    if( hour > 11 ){
+                        var tmphour = hour;
+                        if( hour > 12 )
+                            tmphour = hour-12;
+                        if( tmphour < 10 )
+                            $("#settime").val( "0"+tmphour + ":" + newminute + " pm");
+                        else
+                            $("#settime").val( tmphour + ":" + newminute + " pm");
+                    }else{
+                        $("#settime").val( newhour+":"+newminute + " am");
+                    }
+                }
+            }
+        }
+    }else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){
+            $("#clanguage").sSelect({ddMaxHeight:'200px'});
+        }else {
+            if( action.indexOf("getlanguages") != -1 ){
+                var lan = msgs.headers["language"];
+                lan = lan.split("\n")[0];
+                $("#clanguage").sSelect({ddMaxHeight:'200px'});
+                $("#clanguage").getSetSSValue(lan);
+            }
+        }
+    }
+}
+
+function insert(dest, index, src){
+    var temp = dest.splice(index);
+    return dest.concat(src,temp);
+}
+
+function findPos(gmt){
+    var index = -1;
+    for( var i = 0; i < newgmts.length; i++ ){
+        if( gmt < newgmts[i] )
+        {
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
+
+function timezoneselected(){
+    if ($("#timezone").val() == 'customize') {
+        $('#optrule').attr('disabled',false);
+    } else {
+        $('#optrule').attr('disabled',true);
+    }
+    setTimeout("setTimeZoneDisplay()", 100);
+}
+
+function setTimeZoneDisplay()
+{
+    return;
+    if($("#overrideset").prop("checked"))
+    {
+        $(".timezonediv").hide();
+    }else
+    {
+        $(".timezonediv").show();
+    }
+    $(".timezonediv").show();
+}
+
+function init_uploadlan()
+{
+    var button = $('#a_browse'), interval;
+    var filename;
+    var uploadkeytimer = 0;
+    new Ajax_upload(button,{
+        name: 'file',
+		action : '../upload?type=importlan',
+        onSubmit : function(file, ext){
+            cb_ping();
+            window.parent.block_download_func(a_16430);
+            // change button text, when user selects file           
+            button.text(a_16431);
+            button.addClass('widebtn');
+            
+            // If you want to allow uploading only 1 file at time,
+            // you can disable upload button
+            this.disable();
+            
+            // Animating upload button
+            // Uploding -> Uploading. -> Uploading...
+            interval = window.setInterval(function(){
+                var text = button.text();
+                uploadkeytimer++;
+                if (text.length < (a_16431.length + 3)){
+                    button.text(text + '.');
+                } else {
+                    button.text(a_16431);
+                }
+                if (uploadkeytimer > 900)
+                {
+                     window.clearInterval(interval);
+                     uploadkeytimer = 0;
+                     $.prompt(a_16432);
+                     button.text(a_7404);
+                     button.removeClass('widebtn');
+                     window.parent.unblock_func();
+                }
+            }, 200);
+        },
+        onComplete: function(file, response){
+            //console.log(response);
+            m_langimported = 1;
+            button.text(a_7404);
+            button.removeClass('widebtn');
+            window.clearInterval(interval);
+            uploadkeytimer = 0;
+            cb_put_importlan();
+            $("input[type='file']").attr("title", "");
+            // enable upload button
+            this.enable();
+        }
+    });
+}
+function cb_put_importlan()
+{
+    var urihead = "action=importlang&region=maintenance";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            setTimeout("cb_get_import_response();", 3000);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_get_import_response_done(data)
+{
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    cb_if_is_fail(msgs);
+
+    var response = msgs.headers["importlanrsps"];
+    if( response == -1 )
+    {
+        setTimeout("cb_get_import_response()",3000);
+    }else
+	{
+	    window.parent.unblock_func();
+	    $("#a_browse").text(a_16486);
+	    if( response == 0 ){
+	        $.prompt(a_16474);
+	    }else
+	    {   
+	        //cb_get_action('getlanguages');
+	        $.prompt(a_4780); 
+	        //$("#a_save").attr("disabled", "").css('color','');
+	        $("#cusdftlangdiv").show(); 
+	    }
+	}
+}
+
+function cb_get_import_response()
+{
+    var urihead = "action=importlanrsps&region=maintenance";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_import_response_done(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_put_lan() {
+    var lan_ct = $("#clanguage").val();
+    if( $("#clanguage").val() == "customized" ){
+        lan_ct = $("#cusdftlanglist").val();
+    }
+    var lancts = lan_ct.split("_");
+	
+	var urihead = "action=putlanguage&region=advanset&lan=" + lancts[0] + "&country=" + lancts[1];
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            //$('#a_save').attr('disabled',false).css('background-color','');
+            //cb_put_suc(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_savetimeset(){
+    /*if ($('#timezone').val() != "customize"){
+        var urihead = "action=settimezone&region=advanset&timezone=" + $('#timezone').val();
+    }
+    else{
+        var urihead = "action=settimezone&region=advanset&timezone=" + $('#optrule').val();
+    }*/
+
+            
+    var urihead = "action=savetimeset&region=advanset&timezone=" + $('#timezone').val();
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            //cb_put_suc(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            view_message("Get Error", MSG_ALERT);
+        }
+    });
+}
+function set_date_and_time(){
+    var datestr = $("#setdate").val();
+    var datelist = datestr.split("/");
+    if( mDateformat == "mm/dd/yy" ){
+        datestr = datelist[2] + "/" + datelist[0] + "/" + datelist[1];
+    }else if( mDateformat == "dd/mm/yy" ){
+        datestr = datelist[2] + "/" + datelist[1] + "/" + datelist[0];
+    }
+    var timestr = $("#settime").val();
+    if( timestr.indexOf("am") != "-1" ){
+        timestr = timestr.split(" ")[0];
+    }else if( timestr.indexOf("pm") != "-1" ){
+        var curtime = timestr.split(" ")[0];
+        var timelist = curtime.split(":");
+        var hour = parseInt(timelist) + 12;
+        timestr = hour + ":" + timelist[1];
+    }
+    cb_get_action('setdateinfo&region=maintenance&datestr=' + encodeURIComponent(datestr) + "&timestr=" + encodeURIComponent(timestr));
+}
+function cb_put_suc(data, mode)
+{
+    var msgs = res_parse_rawtext(data);
+	cb_if_auth_fail(msgs);
+	if( cb_if_is_fail(msgs) ) 
+	    view_message(a_16419, MSG_FAIL);
+    else {
+        req_items.pop();
+        if( $("#clanguage").val() == "customized" && m_langimported == 1 )
+            req_items.pop();
+        cb_put_lan();
+        cb_savetimeset();
+        //set_date_and_time();
+        view_message(a_7479, MSG_OK);
+    }
+    //checkIsApplyNeed();
+}
+function pageEventActions(){
+    $("#timezone").change(function(){
+        timezoneselected();
+    });
+
+    $('#setdate,#settime').keydown(function(event){
+        return false;
+    });
+    $('#setdate,#settime').keyup(function(event){
+        return false;
+    });
+    
+    $("#clanguage").change(function(){
+        if( $(this).val() == "customized" )
+        {
+            $("#importlangdiv").show();
+            //$("#a_save").attr("disabled", "disabled").css('color','#BFBFBF');
+        }else{
+            $("#importlangdiv, #cusdftlangdiv").hide();
+            //$("#a_save").attr("disabled", "").css('color','');
+        }
+    });
+    
+    $("#a_save").click(function(){
+        //$('#a_save').attr('disabled',true).css('background-color','gray');
+        if( $("#clanguage").val() == "customized" ){
+            if( m_langimported == 1 ){
+                var cusdftlangval = $("#cusdftlanglist").val();
+                var cuslang = cusdftlangval.split("_");
+                $("#cusdftlang").val(cuslang[0]);
+                $("#cusdftcountry").val(cuslang[1]);
+                req_items.push(new ReqItem("cusdftlang", "default_customed_language", ""));
+                req_items.push(new ReqItem("cusdftcountry", "default_customed_country", ""));
+            }else{
+                $.prompt("Import lang first!");
+                return false;
+            }
+        }else{
+            $("#enablecuslang").val("0");
+            req_items.push(new ReqItem("enablecuslang", "customed_language", ""));
+        }
+        cb_put(req_items,"",2);
+        
+    });
+}
+</script>
+
+</body>
+
+</html>

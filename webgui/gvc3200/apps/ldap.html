@@ -1,0 +1,206 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_ldap">LDAP Book</span></div>
+    <div id="statusdiv"></div>
+    <form action="" method="get" id="Formvalidate">
+        <fieldset>
+            <div webtip="Connection Mode">
+                <div class="noreboot"><span id="a_connectmode">Connection Mode</span> :</div>
+                <select name="connectmode" id="connectmode">
+                    <option value="0">LDAP</option>
+                    <option value="1">LDAPS</option>
+                </select>
+            </div>
+            <div webtip="Server Address">
+                <div class="noreboot"><span id="a_serveraddr">Server Address</span> :</div>
+                <input id="serveraddr" name="serveraddr" type="text" /><em></em>
+            </div>
+            <div webtip="Port  ">
+                <div class="noreboot"><span id="a_port">Port</span> :</div>
+                <input id="port" name="port" type="text" /><em></em>
+            </div>
+            <div webtip="Base DN">
+                <div class="noreboot"><span id="a_basedn">Base DN</span> :</div>
+                <input id="basedn" name="basedn" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP User Name">
+                <div class="noreboot"><span id="a_username">User Name(Binding DN)</span> :</div>
+                <input id="username" name="username" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Password">
+                <div class="noreboot"><span id="a_password">Password</span> :</div>
+                <input id="password" name="password" type="password" autocomplete="off" /><em></em>
+            </div>
+            <div webtip="LDAP Name Attributes">
+                <div class="noreboot"><span id="a_nameattr">LDAP Name Attributes</span> :</div>
+                <input id="nameattr" name="nameattr" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Number Attributes">
+                <div class="noreboot"><span id="a_numattr">LDAP Number Attributes</span> :</div>
+                <input id="numattr" name="numattr" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Mail Attributes">
+                <div class="noreboot"><span id="a_mailattr">LDAP Mail Attributes</span> :</div>
+                <input id="mailattr" name="mailattr" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Name Filter">
+                <div class="noreboot"><span id="a_namefilter">LDAP Name Filter</span> :</div>
+                <input id="namefilter" name="namefilter" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Number Filter">
+                <div class="noreboot"><span id="a_numberfilter">LDAP Number Filter</span> :</div>
+                <input id="numberfilter" name="numberfilter" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Mail Filter">
+                <div class="noreboot"><span id="a_mailfilter">LDAP Mail Filter</span> :</div>
+                <input id="mailfilter" name="mailfilter" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Displaying Name Attributes">
+                <div class="noreboot"><span id="a_disnameattr">LDAP Displaying Name Attributes</span> :</div>
+                <input id="disnameattr" name="disnameattr" type="text" /><em></em>
+            </div>
+            <div webtip="Max Hits">
+                <div class="noreboot"><span id="a_maxhits">Max Hits</span> :</div>
+                <input id="maxhits" name="maxhits" type="text" /><em></em>
+            </div>
+            <div webtip="Search Timeout">
+                <div class="noreboot"><span id="a_searchtimeout">Search Timeout(ms)</span> :</div>
+                <input id="timeout" name="timeout" type="text" /><em></em>
+            </div>
+            <div webtip="LDAP Lookup For Dial">
+                <div class="noreboot"><span id="a_lookupdial">LDAP Lookup For Dial</span> :</div>
+                <input name="lookupdial" type="checkbox" id="lookupdial">
+                <span id="a_dialenable">Enable</span>
+            </div>
+            <div webtip="LDAP Lookup For Incoming Call">
+                <div class="noreboot"><span id="a_lookupcall">LDAP Lookup For Incoming Call</span> :</div>
+                <input name="lookupcall" type="checkbox" id="lookupcall">
+                <span id="a_callenable">Enable</span>
+            </div>
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="reset" class="cancelbtn">Cancel</button>
+        </div>
+	</form>
+
+
+</div>
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+	if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    document.write("<script src='../lang/" + cookie_lang + ".js'><\/script>");
+
+</script>
+<script type="text/javascript" src='../js/public.js'></script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+    new ReqItem("connectmode", "8037", ""),
+    new ReqItem("serveraddr", "8020", ""),
+    new ReqItem("port", "8021", ""),
+    new ReqItem("basedn", "8022", ""),
+    new ReqItem("username", "8023", ""),
+    new ReqItem("password", "8024", ""),
+    new ReqItem("nameattr", "8028", ""),
+    new ReqItem("numattr", "8029", ""),
+    new ReqItem("mailattr", "8038", ""),
+    new ReqItem("namefilter", "8026", ""),
+    new ReqItem("numberfilter", "8025", ""),
+    new ReqItem("mailfilter", "8039", ""),
+    new ReqItem("disnameattr", "8030", ""),
+    new ReqItem("maxhits", "8031", ""),
+    new ReqItem("timeout", "8032", ""),
+    new ReqItem("lookupdial", "8034", ""),
+    new ReqItem("lookupcall", "8035", "")
+);
+
+$(function(){
+	cb_get(req_items);
+	$("#connectmode").sSelect();
+    $("#Formvalidate").validate({
+		rules: {
+			port: { digits: true, range: [1,65535] },
+            maxhits: { digits: true, range: [1,4000] },
+            username: { maxlength: 128 },
+            timeout: { digits: true, range: [1,4000] }
+        },
+		errorElement: "em",
+		success: function(label) { label.text(" ").addClass("success"); }
+    });
+    
+    translate_ldap();
+    pageEventActions();
+});
+
+function get_item_suc_callback(msgs) 
+{
+    reCheck_value();
+}
+
+function reCheck_value()
+{
+    if( $("#port").val() == "" )
+    {
+        $("#port").val("389");
+    }
+    if( $("#maxhits").val() == "" )
+        $("#maxhits").val("50");
+    if( $("#timeout").val() == "" )
+        $("#timeout").val("4000");
+}
+function translate_ldap(){   
+    $("#a_connectmode").text(a_15022);
+    $("#a_serveraddr").text(a_6755);
+    $("#a_port").text(a_1173);
+    $("#a_basedn").text(a_6757);
+    $("#a_username").text(a_9206);
+    $("#a_password").text(a_6759);            
+    $("#a_nameattr").text(a_6764);
+    $("#a_numattr").text(a_6765);
+    $("#a_mailattr").text(a_6766);
+    $("#a_numberfilter").text(a_6775);
+    $("#a_namefilter").text(a_6774);
+    $("#a_mailfilter").text(a_6776);
+    $("#a_disnameattr").text(a_6767);
+    $("#a_maxhits").text(a_6760);
+    $("#a_searchtimeout").text(a_6763);
+    $("#a_lookupdial").text(a_6769);
+    $("#a_lookupcall").text(a_6770);
+    $("#a_dialenable, #a_callenable").text(a_38);
+    $("#a_save").text(a_17);
+    $("#a_cancel").text(a_3);
+}
+
+function pageEventActions(){
+    $("#a_save").click(function(){
+        if( !$("#Formvalidate").valid() ){
+            view_message(a_16442,MSG_FAIL);
+            return false;
+        }
+        cb_put(req_items, "", 0);
+    });
+}
+</script>
+
+</body>
+
+</html>

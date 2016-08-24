@@ -1,0 +1,361 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/blue_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<style>
+#mainbody form{overflow-x:hidden;overflow-y:auto;width:100%;}
+fieldset div div{ padding-left:10px; }
+.wholediv { width:760px; height:30px;margin-left:40px;margin-bottom:5px;margin-top:5px;}
+.wholediv div { text-align:center; text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
+.accdiv { width:120px; }
+.numdiv { width:120px; }
+.serverdiv { width:300px; }
+.statusdiv { width:102px; }
+.dotline { width:720px;line-height:1px;margin:0 0 0 25px; }
+.mobileoem{display:none;}
+</style>
+</head>
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_accsta">Account Status</span></div>
+    <div id="statusdiv"></div>
+	<form action="" method="get" class="Formvalidate">
+		<fieldset id="acctfield">
+			<div class="wholediv">
+				<div class="accdiv"><span id="a_account" style="font-weight:bold;">Account</span></div>
+				<div class="numdiv"><span id="a_number" style="font-weight:bold;">Number</span></div>
+				<div class="serverdiv"><span id="a_sipserver" style="font-weight:bold;">SIP Server</span></div>
+				<div class="statusdiv"><span id="a_status" style="font-weight:bold;">Status</span></div>
+			</div>
+			<div class="dotline"></div>
+			<div class="wholediv">
+				<div class="accdiv"><span id="a_account1">SIP</span></div>
+				<div class="numdiv"><span id="a_number1">&nbsp;</span></div>
+				<div class="serverdiv"><span id="a_server1">&nbsp;</span></div>
+				<div class="statusdiv"><span id="a_status1">&nbsp;</span></div>
+			</div>
+            
+            <div class="dotline mobileoem"></div>
+			<div class="wholediv mobileoem">
+				<div class="accdiv"><span id="a_account2">IPVideoTalk</span></div>
+				<div class="numdiv"><span id="a_number2">&nbsp;</span></div>
+				<div class="serverdiv"><span id="a_server2">&nbsp;</span></div>
+				<div class="statusdiv"><span id="a_status2">&nbsp;</span></div>
+			</div>
+            <div class="dotline mobileoem"></div>
+			<div class="wholediv mobileoem">
+				<div class="accdiv"><span id="a_account3">BlueJeans</span></div>
+				<div class="numdiv"><span id="a_number3">&nbsp;</span></div>
+				<div class="serverdiv"><span id="a_server3">&nbsp;</span></div>
+				<div class="statusdiv"><span id="a_status3">&nbsp;</span></div>
+			</div>
+            <div class="dotline"></div>
+			<div class="wholediv">
+				<div class="accdiv"><span id="a_account4">H.323</span></div>
+				<div class="numdiv"><span id="a_number4">&nbsp;</span></div>
+				<div class="serverdiv"><span id="a_server4">&nbsp;</span></div>
+				<div class="statusdiv"><span id="a_status4">&nbsp;</span></div>
+			</div>
+            <!--
+            <div class="dotline"></div>
+			<div class="wholediv">
+				<div class="accdiv"><span id="a_account5">Account</span> 5 :</div>
+				<div class="numdiv"><span id="a_number5">&nbsp;</span></div>
+				<div class="serverdiv"><span id="a_server5">&nbsp;</span></div>
+				<div class="statusdiv"><span id="a_status5">&nbsp;</span></div>
+			</div>
+            <div class="dotline"></div>
+			<div class="wholediv">
+				<div class="accdiv"><span id="a_account6">Account</span> 3 :</div>
+				<div class="numdiv"><span id="a_number6">&nbsp;</span></div>
+				<div class="serverdiv"><span id="a_server6">&nbsp;</span></div>
+				<div class="statusdiv"><span id="a_status6">&nbsp;</span></div>
+			</div>
+            -->
+        </fieldset>
+	</form>
+
+
+</div>
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var PERMANENCE = "permanence";
+
+$(window).load(function() {
+    var bodyheight = $("#iframediv",parent.document.body).outerHeight()-2;
+    $("#framebody").css("height",bodyheight);
+});
+
+$(function(){
+    var oemid = $('#existcolore', window.parent.document).val();
+    if( oemid == "54" ){
+        $(".mobileoem").hide();
+    }else{
+        $(".mobileoem").show();
+    }
+    translate_account();
+    cb_get_action('status');
+    var cookie_skin = $.cookie( "MyCssSkin");
+    if (cookie_skin) {
+        set_frame_skin( cookie_skin );
+    }
+});
+function set_frame_skin( skinName ){
+    $("#framecssfile").attr("href","../css/"+ skinName +"_frame.css");
+}
+
+function cb_get_action(action){
+	var urihead = "action=" + action + "&region=status";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_action_done(data, action);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_networkerror(xmlHttpRequest, errorThrown){
+    if(errorThrown)
+        view_message(errorThrown, 2);
+    else
+        view_message(a_16418, 2);
+}
+function clear_viewmessage(){
+    $(".statustip").remove();
+    $(".statustip").css('bgColor', "white");
+}
+function view_message(text, type, time){
+    var status_color;
+    if (type == 2) {
+        status_color="#DE8D8D" ;
+    } else {
+        status_color = "white";
+    }
+    $(".statustip").remove();
+    var $statustip = $("<span style='Color:" + status_color + "' class='statustip'>" + text + "</span>");
+    $statustip.appendTo($("#statusdiv"));
+    window.parent.location.href='/index.html#tips';
+    if (time == undefined || time == '' || time == 0) {
+        time = 10000;
+    }
+
+    if (time == PERMANENCE) {
+        return;
+    }
+    setTimeout(clear_viewmessage,5000);
+}
+function cb_get_action_done(data, action){
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs)){}   
+    else {
+        if(action == "status")
+            cb_get_status_done(msgs);
+    }
+}
+function cb_if_auth_fail(msgs){
+    if (msgs.headers['response'].toLowerCase() == "error"
+        && msgs.headers['message'].toLowerCase() == "authentication required") {
+        window.parent.location.href = '/login.html';
+    }
+}
+function cb_is_fail(msgs){
+    if (msgs.headers['response'].toLowerCase() == "error") {
+        return true;
+    }else {
+        return false;
+    }
+}
+function cb_get_status_done(msgs) {
+    
+    if (msgs.headers['account_0_no'].length > 0) {
+        if( msgs.headers['account_0_name'] != '' )
+            $("#a_account1").attr('title', msgs.headers['account_0_name']).text( msgs.headers['account_0_name'] ); 
+        $("#a_number1").text( msgs.headers['account_0_no'] );
+        var status = msgs.headers['account_3_status'];
+        if( status == "0" ){
+            status = msgs.headers['account_4_status'];
+            if( status == "0" ){
+                status = msgs.headers['account_0_status'];
+                if( status == "0" ){
+                    if( msgs.headers['account_0_server'].length > 0 )
+                        $("#a_server1").text( msgs.headers['account_0_server'] );
+                    else if( msgs.headers['account_3_server'].length > 0 )
+                        $("#a_server1").text( msgs.headers['account_3_server'] );
+                    else if( msgs.headers['account_4_server'].length > 0 )
+                        $("#a_server1").text( msgs.headers['account_4_server'] );
+                }else{
+                    $("#a_server1").text( msgs.headers['account_0_server'] );
+                }
+            }else{
+                $("#a_server1").text( msgs.headers['account_4_server'] );
+            }
+        }else{
+            $("#a_server1").text( msgs.headers['account_3_server'] );
+        }
+        $("#a_status1").append(view_status_code_to_text( status ));
+    }
+    
+    /*if (msgs.headers['account_1_server'].length > 0) {
+        $("#a_server2").text( msgs.headers['account_1_server'] );
+    }*/
+
+    if (msgs.headers['account_1_no'].length > 0) {
+        $("#a_account2").text( msgs.headers['account_1_name'] );
+        $("#a_number2").text( msgs.headers['account_1_no'] );
+        $("#a_status2").append(view_status_code_to_text( msgs.headers['account_1_status'] ));
+    }
+    
+    /*if (msgs.headers['account_2_server'].length > 0) {
+        $("#a_server3").text( msgs.headers['account_2_server'] );
+    }*/
+    if (msgs.headers['account_2_no'].length > 0) {
+        $("#a_number3").text( msgs.headers['account_2_no'] );
+        //$("#a_status3").append(view_status_code_to_text( msgs.headers['account_2_status'] ));
+    }
+    
+    //update for bug 60828 and 58425
+    if (msgs.headers['account_2_activate'] == '1')
+        $("#a_status3").append(view_status_code_to_text( msgs.headers['account_2_status'] ));
+    else
+        $("#a_status3").append( view_status_code_to_text("0") ); 
+        
+    if (msgs.headers['account_6_server'].length > 1) {
+        $("#a_server4").text( msgs.headers['account_6_server'] );
+    }
+    if (msgs.headers['account_6_no'].length > 0) {
+        $("#a_number4").text( msgs.headers['account_6_no'] );  
+    }else if (msgs.headers['account_6_name'].length > 0) {
+        $("#a_number4").text( msgs.headers['account_6_name'] );
+    }
+    $("#a_status4").append(view_status_code_to_text( msgs.headers['account_6_status'] ));
+    
+    /*if (msgs.headers['account_4_server'].length > 1) {
+        $("#a_server5").text( msgs.headers['account_4_server'] );
+    }
+    if (msgs.headers['account_4_no'].length > 1) {
+        $("#a_number5").text( msgs.headers['account_4_no'] );
+        $("#a_status5").append(view_status_code_to_text( msgs.headers['account_4_status'] ));
+    }
+    
+    if (msgs.headers['account_5_server'].length > 1) {
+        $("#a_server6").text( msgs.headers['account_5_server'] );
+    }
+    if (msgs.headers['account_5_no'].length > 1) {
+        $("#a_number6").text( msgs.headers['account_5_no'] );
+        $("#a_status6").append(view_status_code_to_text( msgs.headers['account_5_status'] ));
+    }*/
+}
+function view_status_code_to_text(code) {
+    var html;
+
+    switch (code){
+        case "0":
+            html = "<font color=\"gray\">" + a_1139 + "</font>";
+            return html;
+        case "1":
+        case "2":
+            html = "<font color=\"#068F29\">" + a_1138 + "</font>";
+            return html;
+        case "3":
+        case "5":
+            html = "<font color=\"yellow\">" + a_503 + "</font>";
+            return html;
+        case "4":
+            html = "<font color=\"purple\">" + a_521 + "</font>";
+            return html;
+        case "6":
+            html = "<font color=\"red\">" + a_510 + "</font>";
+            return html;
+        default:
+            html = "<font color=\"#068F29\">" + a_1139 + "</font>";
+            return html;
+    
+    }
+}
+function view_status_fxo_to_text(code) {
+    var html;
+
+    switch (code)
+    {
+        case "0":
+            html = "<font color=\"gray\">" + a_16401 + "</font>";
+            return html;
+        case "1":
+		case "2":
+            html = "<font color=\"#33FF00\">" + a_16402 + "</font>";
+            return html;
+		case "4":
+            html = "<font color=\"purple\">" + a_521 + "</font>";
+            return html;
+        case "3":
+        case "5":
+            html = "<font color=\"yellow\">" + a_503 + "</font>";
+            return html;
+
+        case "6":
+            html = "<font color=\"red\">" + a_510 + "</font>";
+            return html;
+        default:
+            html = "<font color=\"gray\">" + a_16401 + "</font>";
+            return html;
+	}
+}
+function translate_account(){
+    $("#a_accsta").text(a_4146);
+    $("#a_account, #a_account5, #a_account6").text(a_301);
+    $("#a_sipserver").text(a_19191); //16400
+    $("#a_number").text(a_10006);
+    $("#a_status").text(a_600);
+}
+function res_parse_rawtext(data)
+{
+    msgs = new Object();
+    msgs.headers = new Array();
+    msgs.names = new Array();
+
+    var allheaders = data.split('\r\n');
+    var y = 0;
+    for (var x = 0; x < allheaders.length; x++) {
+        if (allheaders[x].length) {
+            var fields = allheaders[x].split('=');
+            if (fields[0] != undefined
+                && fields[1] != undefined) {
+                msgs.headers[fields[0].toLowerCase()]
+                    = fields[1];
+                msgs.names[y++] = fields[0].toLowerCase();
+            }
+        }
+    }
+
+    return msgs;
+}
+</script>
+
+</body>
+
+</html>

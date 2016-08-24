@@ -1,0 +1,203 @@
+html{height:100%;}
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    width: 100%;
+    height:100%;
+    margin:0;
+    overflow-x:hidden;
+    overflow: auto;
+    background: #343f4a;/*url("img/login_background.png") repeat-x */
+}
+.bgimg{
+    height: 480px;
+    left: 50%;
+    margin-left: -198px;
+    margin-top: -520px;
+    position: absolute;
+    top: 50%;
+    width: 680px;
+    padding-top:50px;
+    z-index:99;
+    background: url("../img/login/login_camera.png") no-repeat scroll transparent;
+}
+button {
+    background: url("../img/login/relogin_button_unpressed.png") no-repeat scroll transparent;
+    border:none;
+    color: white;
+    width:122px;
+    height:44px;
+    line-height:44px;
+    cursor: pointer;
+    font-size: 20px;
+    margin:110px 0 0 0;
+    padding:0;
+    
+    text-decoration: none;
+}
+button:hover {
+  background-image:url("../img/login/relogin_button_hover.png");
+}
+button:active {
+    background-image:url("../img/login/relogin_button_hover.png");
+}
+
+.mainDiv , .mainrbtDiv{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 750px;
+    height: 450px;
+    margin-top:-225px;/* half elements height*/
+    margin-left:-375px;/* half elements width*/
+}
+.mainrbtDiv{
+    height:456px;
+    -moz-border-radius:0;
+}
+.errortip{
+    position: relative;
+    top:40px;
+    left: 50%;
+    height: 20px;
+    margin-left:-140px;
+    font-family:arial,helvetica,clean,sans-serif;
+    font-style: italic;
+    width:300px;
+}
+
+.loginDiv {
+    position: relative;
+    left: 50%;
+    top: 70px;
+    margin-left:-220px;
+    *margin-left:-200px;
+}
+
+
+.btnDiv {
+    position: relative;
+    background-image: url(../img/login-button.PNG);
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    background-position:-8px -66px;
+    left: 50%;
+    margin-left:-120px;
+    *margin-left:-50px;
+    top: -95px;
+    *top: -110px;
+    cursor: pointer;
+    border: 0px;
+    color: white;
+    /*top: 0px;*/
+    /*left: 270px;*/
+}
+.btnDivActive {
+    background-position:-8px -5px;
+}
+
+.expose {
+    background-image:url(../img/h150.png) !important;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(../img/h150.png);
+    padding:20px;
+    *padding:2px;
+    margin:0px 0px;
+    width:400px;
+    height: 100px;
+
+    -moz-border-radius:4px;
+    border:1px outset #ccc;
+}
+.expose input {
+    -moz-outline-radius-topleft:3px;
+    -moz-outline-radius-topright:3px;
+    -moz-outline-radius-bottomleft:3px;
+    -moz-outline-radius-bottomright:3px;
+
+    border:1px solid #2E2E2E;
+    outline-color:white;
+    outline-style:solid;
+    outline-width:1px;
+    background-color: #D0F5A9;
+}
+
+select {
+    -moz-outline-radius-topleft:3px;
+    -moz-outline-radius-topright:3px;
+    -moz-outline-radius-bottomleft:3px;
+    -moz-outline-radius-bottomright:3px;
+
+    border:1px solid #2E2E2E;
+    outline-color:white;
+    outline-style:solid;
+    outline-width:1px;
+    background-color: #D0F5A9;
+}
+
+.expose label {
+    font-family: Arial;
+    font-weight: bolder;
+    color: #2E2E2E;
+    width:120px;
+    overflow:hidden;
+}
+
+label, input {
+    display: block;
+    width: 150px;
+    float: left;
+    margin-bottom: 10px;
+}
+
+label {
+    text-align: right;
+    width: 75px;
+    padding-right: 20px;
+}
+
+br {
+    clear: left;
+}
+
+.inputActive {
+    -moz-outline-radius-topleft:3px;
+    -moz-outline-radius-topright:3px;
+    -moz-outline-radius-bottomleft:3px;
+    -moz-outline-radius-bottomright:3px;
+
+    border:1px solid #0174DF;
+    outline-color:#0174DF;
+    outline-style:solid;
+    outline-width:1px;
+    background-color: white;
+}
+
+.titleDiv, .childTitleDiv{
+    text-align:center;font-weight:normal;color:#c5cacb;
+}
+.childTitleDiv{
+    margin:50px 0 0 0;
+}
+.childTitleSpan{
+    font-size:30px;/*text-shadow:1px 1px #9C9C9C, -1px -1px #FFFFFF;*/
+}
+
+.rbttitleSpan {
+    font-size:48px ;
+    /*letter-spacing: 10px;margin-left:-30px;*/
+	position: relative;
+	
+	margin-top:-30px;
+}
+.rbtchildTitleSpan{
+    font-size:30px;
+    /*margin-left:50px;*/
+}
+
+.rebootDiv{ color: #576670;position: absolute;left:140px;top: 165px;z-index:100;font-size:20px;margin:50px 0 0 0;}
+
+.rebootDiv span{
+    font:normal 18px Georgia;
+    line-height:48px;
+}
+

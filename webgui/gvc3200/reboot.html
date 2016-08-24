@@ -1,0 +1,234 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='css/login.css' type='text/css' rel='stylesheet'>
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<style TYPE="text/css">
+/*.rebootDiv{ color: #2E2E2E;position: absolute;left:70px;top: 165px;}
+a:link , a:visited{text-decoration:none; color:#ff9001}
+a:hover {color: #fe5400;text-decoration:none}*/
+</style>
+<script type="text/javascript">
+$(function(){
+    cb_get_promodel();
+    cb_get_vendor();
+    
+    var shutdown_type = $.cookie( "ShutdownType");
+    var cookie_lang = $.cookie( "MyLanguage");
+    if (cookie_lang == "zh"){
+		change_lang_zh(shutdown_type);
+	}else{
+		change_lang_en(shutdown_type);
+	}
+
+    $('.mainrbtDiv').hide();
+    $('.loginDiv').hide();
+    $('.mainrbtDiv').slideDown(1000, showForm);
+    if($.browser.mozilla){
+        $('.btmLine').animate({top: 507},1000);
+    }
+    else{
+        $('.btmLine').animate({top: 510},1000);
+    }
+
+    $("#rebooting").val('a_rebooting');
+    $("#clicklogin").val('clicklogin');
+    $("#clicktip").val('clicktip');
+    if( shutdown_type == 3 ){
+        //device will reboot own
+    }else if( shutdown_type == 1 ){
+        setTimeout("reboot(1);", 1000);
+    }else if( shutdown_type == 2 ){
+        setTimeout("reboot(2);", 1000);
+    }else{
+        setTimeout("reboot(0);", 1000);
+    }
+});
+function cb_get_promodel() {
+    var urihead = "action=product";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_promodel_done(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_get_promodel_done(data){
+    var msgs = res_parse_rawtext(data);
+    if (msgs.headers['response'].toLowerCase() == "success")
+    {
+        var promodel = msgs.headers['product'];
+        if( promodel == "" || promodel == undefined)
+        {
+            document.title = "";
+            $(".rbttitleSpan").text("");
+        }
+        else
+        {
+            document.title = promodel + " Enterprise Phone";
+            $(".rbttitleSpan").text(promodel);
+        }
+    }else
+    {
+        document.title = "";
+        $(".rbttitleSpan").text("");
+    }
+}
+function cb_get_vendor() {
+    var urihead = "action=vendor";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_vendor_done(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_get_vendor_done(data){
+    var msgs = res_parse_rawtext(data);
+    if (msgs.headers['response'].toLowerCase() == "success")
+    {
+        var vendor = msgs.headers['vendor'];
+        if( vendor == "" || vendor == undefined)
+        {
+            $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2016");
+        }
+        else
+        {
+            $("#vendor").text("All Rights Reserved " + vendor + ", 2016");
+        }
+    }else
+    {
+        $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2016");
+    }
+}
+
+function showForm(){
+    $('.loginDiv').fadeIn(1000);
+}
+function reboot(type)
+{
+    $.cookie( "ShutdownType" , "0" , { path: '/', expires: 30 });
+	var urihead = "action=reboot&reboottype=" + type;
+	urihead += "&time=" + new Date().getTime();
+	$.ajax ({
+		type: 'get',
+		url:'/manager',
+		data:urihead,
+		dataType:'text',
+		success:function(data) {
+			cb_rebootres(data);
+		},
+		error:function(xmlHttpRequest, errorThrown) {
+		}
+	});
+}
+function cb_rebootres(data)
+{
+    var msgs = res_parse_rawtext(data);
+    if (msgs.headers['response'].toLowerCase() == "error" &&
+        msgs.headers['message'].toLowerCase() == "authentication required") {
+        self.location='login.html';
+    } else {
+    }
+}
+function res_parse_rawtext(data)
+{
+    msgs = new Object();
+    msgs.headers = new Array();
+    msgs.names = new Array();
+
+    var allheaders = data.split('\r\n');
+    var y = 0;
+    for (var x = 0; x < allheaders.length; x++) {
+        if (allheaders[x].length) {
+            var fields = allheaders[x].split('=');
+            if (fields[0] != undefined
+                && fields[1] != undefined) {
+                msgs.headers[fields[0].toLowerCase()]
+                    = fields[1];
+                msgs.names[y++] = fields[0].toLowerCase();
+            }
+        }
+    }
+
+    return msgs;
+}
+function change_lang_en(type){
+    if( type == 1 ){
+        $('#rebooting').text('The device is shutting down now...');
+        $('#clicktip').text('You may relogin by clicking on the link below after reboot.');
+    }else if( type == 2 ){
+        $('#rebooting').text('The device is sleeping now...');
+        $('#clicktip').text('You may relogin by clicking on the link below after wake up.');
+    }else{
+        $('#rebooting').text('The device is rebooting now...');
+        $('#clicktip').text('You may relogin by clicking on the link below in 2 minutes.');
+    }
+    $('#clicklogin').text('Relogin');
+}
+function change_lang_zh(type){
+    if( type == 1 ){
+        $('#rebooting').text('设备关机中......');
+        $('#clicktip').text('您可以在重新启动后点击下面的链接,重新登录页面');
+    }else if( type == 2 ){
+        $('#rebooting').text('设备睡眠中......');
+        $('#clicktip').text('您可以在唤醒设备后点击下面的链接,重新登录页面');
+    }else{
+        $('#rebooting').text('设备重启中......');
+        $('#clicktip').text('您可以在重启后2分钟左右点击下面的链接,重新登录页面');
+    }
+    $('.rbtchildTitleSpan').html('视&nbsp;&nbsp;频&nbsp;&nbsp;会&nbsp;&nbsp;议&nbsp;&nbsp;系&nbsp;&nbsp;统');
+    $('#clicklogin').text('登录');
+}
+
+</script>
+<title></title>
+</head>
+
+<body>
+<div id="top">
+</div>
+<div class="bgimg"></div>
+<div id="mid">
+    <div class="mainrbtDiv">
+        <div class="titleDiv" style="margin-top:20px;">
+            <span class="rbttitleSpan" style="font-size: 50px;"></span>
+        </div>
+        <div class="childTitleDiv">
+            <span class="rbtchildTitleSpan">Video Conferencing System</span>
+        </div>
+        <div class="errortip"></div>
+        <div class="rebootDiv" align="left">
+            <span id="rebooting">The device is rebooting now...</span> <br>
+            <span id="clicktip">You may relogin by clicking on the link below in 2 minutes.</span><br>
+            <div class="reloginDiv" style="text-align:center;"><button id="clicklogin" onclick="window.location.href='login.html';">Relogin</button></div>
+            <a href="login.html" style="border:none;"></a> <br>
+            <br> 
+            <p size="2" style="color:#798189;font-size:10px;bottom:-50px;position:relative;text-align: center;*bottom:0px;" id="vendor"></p>
+        </div>
+
+    </div>
+    <div class="topLine"></div>
+    <div class="btmLine"></div>
+</div>
+<div id="btm">
+</div>
+
+</body>
+</html>

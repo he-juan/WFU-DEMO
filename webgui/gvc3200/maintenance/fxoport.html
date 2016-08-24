@@ -1,0 +1,181 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<style>
+ul.newList {width:250px;}
+</style>
+<body id="framebody">
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_fxoport">FXO Port</span></div>
+    <div id="statusdiv"></div>
+	<form action="" method="get" id="Formvalidate">
+		<fieldset>
+            <div style="width:610px;">
+                <div><span id="a_acmodel">AC termination model</span> :</div>
+                <input name="acmodel" value="0" checked="checked" type="radio" id="country"><span id="a_country">Country-based</span>
+                <input name="acmodel" value="1" type="radio" id="impedance"><span id="a_impedance">Impedance-based</span>
+            </div>
+            <div>
+                <div><span id="a_countrybased">Country based</span> :</div>
+                <select id="country_based" name="Country based">
+                    <option value="en">USA</option>
+                    <option value="aust">AUSTRIA</option>
+                    <option value="aust-zea">AUSTRALIA/NEW ZEALAND</option>
+                    <option value="bel">BELGIUM</option>
+                    <option value="zh">CHINA</option>
+                    <option value="finland">FINLAND</option>
+                    <option value="fr">FRANCE</option>
+                    <option value="ge">GERMANY</option>
+                    <option value="gr">GREECE</option>
+                    <option value="it">ITALY</option>
+                    <option value="japan">JAPAN</option>
+                    <option value="nor">NORWAY</option>
+                    <option value="sp">SPAIN</option>
+                    <option value="sw">SWEDEN</option>
+                    <option value="uk">UK</option>
+                </select>
+            </div>
+            <div>
+                <div><span id="a_impedancebased">Impedance based</span> :</div>
+                <select id="impedance_based" name="impedance-based">
+                    <option value="600">600R -- 600 ohms</option>
+                    <option value="600-">600R -- 600 ohms + 2.16uF</option>
+                    <option value="900">900R -- 900 ohms</option>
+                    <option value="900-">900R -- 900 ohms + 2.16uF</option>
+                    <option value="com220">COMPLEX1 -- 220 ohms + (820 ohms || 115nF)</option>
+                    <option value="com270">COMPLEX2 -- 270 ohms + (750 ohms || 150nF)</option>
+                    <option value="com370">COMPLEX3 -- 370 ohms + (620 ohms || 310nF)</option>
+                    <option value="com600-">COMPLEX4 -- 600R, 270 ohms + (750 ohms || 150nF)</option>
+                    <option value="com320">COMPLEX5 -- 320 ohms + (1050 ohms || 230nF)</option>
+                    <option value="com350">COMPLEX6 -- 350 ohms + (1000 ohms || 210nF)</option>
+                    <option value="com200">COMPLEX7 -- 200 ohms + (680 ohms || 100nF)</option>
+                    <option value="com370-">COMPLEX8 -- 370 ohms + (820 ohms || 110nF)</option>
+                    <option value="com275">COMPLEX9 -- 275 ohms + (780 ohms || 115nF)</option>
+                    <option value="com120">COMPLEX10 -- 120 ohms + (820 ohms || 110nF)</option>
+                </select>
+            </div>
+            <div>
+                <div><span id="a_calleridscheme">Caller ID Scheme</span> :</div>
+                <select id="calleridscheme" name="calleridscheme">
+                    <option value="be/te">Bellcore/Telcordia</option>
+                    <option value="fsk">ETSI-FSK during ringing</option>
+                    <option value="fsktodtas">ETSI-FSK prior to ringing with DTAS</option>
+                    <option value="fsktolr">ETSI-FSK prior to ringing with LR</option>
+                    <option value="fsktorp">ETSI-FSK prior to ringing with RP</option>
+                    <option value="dtmf">ETSI-DTMF during ringing</option>
+                    <option value="dtmftodtas">ETSI-DTMF prior to ringing with DTAS</option>
+                    <option value="dtmftolr">ETSI-DTMF prior to ringing with LR</option>
+                    <option value="dtmftorp">ETSI-DTMF prior to ringing with RP</option>
+                    <option value="sin">SIN 227 - BT</option>
+                    <option value="ntt">NTT JAPAN</option>
+                </select>
+            </div>
+            <div>
+                <div><span id="a_enablecudis">Enable current disconnect</span> :</div>
+                <input type="checkbox" id="enablecudis" value ="yes"><span id="a_enablecudisyes">Yes</span>
+            </div>
+            <div>
+                <div><span id="a_cudisthreshold">Current disconnect threshold</span> :</div>
+                <input type="text" id="cudisthreshold" name="cudisthreshold" />
+            </div>
+            <div>
+                <div><span id="a_enablepstn">Enable PSTN disconnect tone detection</span> :</div>
+                <input type="checkbox" id="enablepstn" value ="yes"><span id="a_enablepstnyes">Yes</span>
+            </div>
+            <div>
+                <div><span id="a_pstndistone">PSTN disconnect tone</span> :</div>
+                <input type="text" id="pstndistone" name="pstndistone" />
+            </div>
+            
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="reset">Cancel</button>
+        </div>
+	</form>
+
+
+</div>
+
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    document.write("<script src='../lang/" + cookie_lang + ".js'><\/script>");
+
+</script>
+<script type="text/javascript" src='../js/public.js'></script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+    new ReqItem("acmodel", "899", ""),
+    new ReqItem("country_based", "864", ""),
+    new ReqItem("impedance_based", "849", ""),
+    new ReqItem("calleridscheme", "863", ""),
+    new ReqItem("enablecudis", "893", ""),
+    new ReqItem("cudisthreshold", "764", ""),
+    new ReqItem("enablepstn", "712", ""),
+    new ReqItem("pstndistone", "841", "")
+);
+$(function(){
+    setInitState();
+    cb_get(req_items);
+    pageEventActions();
+});
+function get_item_suc_callback(){
+    
+}
+function setInitState(){
+    translate_fxo();
+    $("#country_based, #impedance_based, #calleridscheme").sSelect({ddMaxHeight:'270px'});
+    $("#Formvalidate").validate({
+		rules: {
+			cudisthreshold: { digits:true, range:[50, 800] },
+            pstndistone: { maxlength: 128 }
+        },
+		errorElement: "em",
+		success: function(label) { label.text(" ").addClass("success"); }
+    });
+}
+function translate_fxo(){
+    $("#a_fxoport").text(maintenance_fxo);
+    $("#a_acmodel").text(a_acmodel);
+    $("#a_enablecudisyes, #a_enablepstnyes").text(a_yes);
+    $("#a_country").text(a_country);
+    $("#a_impedance").text(a_impedance);
+    $("#a_countrybased").text(a_countrybased);
+    $("#a_impedancebased").text(a_impedancebased);
+    $("#a_calleridscheme").text(a_calleridscheme);
+    $("#a_enablecudis").text(a_enablecudis);
+    $("#a_cudisthreshold").text(a_cudisthreshold);
+    $("#a_enablepstn").text(a_enablepstn);
+    $("#a_pstndistone").text(a_pstndistone);
+    $("#a_save").text(a_save);
+    $("#a_cancel").text(a_cancel);
+}
+function pageEventActions(){
+    $("#a_save").click(function(){
+        if( !$("#Formvalidate").valid() ){
+            view_message(tip_error,MSG_FAIL);
+            return false;
+        }
+        cb_put(req_items, "", 0);
+    });
+}
+
+</script>
+
+</body>
+
+</html>

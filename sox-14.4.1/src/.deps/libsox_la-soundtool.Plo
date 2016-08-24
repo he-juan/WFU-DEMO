@@ -1,0 +1,156 @@
+libsox_la-soundtool.lo: soundtool.c sox_i.h soxomp.h soxconfig.h sox.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs_elf.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/android/api-level.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/internal_types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/syslimits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/page.h \
+ /home/64/gvc3200/android/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/../lib/gcc/arm-linux-androideabi/4.7/include/stdarg.h \
+ /home/64/gvc3200/android/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/../lib/gcc/arm-linux-androideabi/4.7/include/stddef.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/errno.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/errno.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/errno.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/asm-generic/errno.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/asm-generic/errno-base.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/stdio.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/stdint.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/_types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/_types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/posix_types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/stddef.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/compiler.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/posix_types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/kernel.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/sysmacros.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/stdlib.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/string.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/malloc.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/alloca.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/strings.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/memory.h \
+ util.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/stat.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/time.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/time.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/stat.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/endian.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/endian.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/endian.h \
+ xmalloc.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/inttypes.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libm/include/math.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/byteswap.h \
+ effects.h
+
+sox_i.h:
+
+soxomp.h:
+
+soxconfig.h:
+
+sox.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs_elf.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/android/api-level.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/internal_types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/syslimits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/page.h:
+
+/home/64/gvc3200/android/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/../lib/gcc/arm-linux-androideabi/4.7/include/stdarg.h:
+
+/home/64/gvc3200/android/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/bin/../lib/gcc/arm-linux-androideabi/4.7/include/stddef.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/errno.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/errno.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/errno.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/asm-generic/errno.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/asm-generic/errno-base.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/stdio.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/stdint.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/_types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/_types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/posix_types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/stddef.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/compiler.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/posix_types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/kernel.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/sysmacros.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/stdlib.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/string.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/malloc.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/alloca.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/strings.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/memory.h:
+
+util.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/stat.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/time.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/time.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/stat.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/endian.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/endian.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/endian.h:
+
+xmalloc.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/inttypes.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libm/include/math.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/byteswap.h:
+
+effects.h:

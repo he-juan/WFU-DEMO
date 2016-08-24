@@ -1,0 +1,312 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<style type="text/css">
+#pingres {width:700px;height:250px;display:block;overflow:auto;padding-top:10px;padding-left:10px;margin-top:10px;margin-left:30px;}
+#pingres.content{border:1px solid #9B9B9B;}
+#stop{background-color:#D8333D;margin-left: 20px;}
+#stop.buttonover{background-color:#bb151f;}
+#start.disableclass{background-color:#C8C8C8;color:#FFF;}
+</style>
+
+<body id="framebody" class="maintenancebody" onunload="leavepage();">
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_ipping">IP Ping</span></div>
+    <div id="statusdiv"></div>
+	<form action="" method="get" id="Formvalidate">
+		<fieldset>
+            <div webtip="Syslog Server">
+                <div class="rebootitem"><span id="a_targethost">Target Host</span> :</div>
+                <input name="targethost" type="text" id="targethost" /><span class="hostspan"></span>
+            </div>
+            <div webtip="Syslog Level">
+                <div class="noreboot"><span></span></div>
+                <button id="start">Start</button>
+                <button id="stop">Stop</button>
+            </div>
+            <div name="pingres" id="pingres"></div>
+        </fieldset>
+	</form>
+
+
+</div>
+
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var misstart = 0;
+var pingtimeout;
+var cur_offset = 0;
+$(function(){
+    var height = parseInt($("#iframediv",parent.document.body).css('height'));
+    $("#pingres").css("height", height - 160);
+    setInitState();
+    pageEventActions();
+});
+function get_item_suc_callback(){
+    
+}
+function leavepage(){
+    if( !$("#stop").prop("disabled") ){
+        stop_ping();
+    }
+}
+function setInitState(){
+    translate_syslog();
+    $("#Formvalidate").validate({
+		rules: {
+		    targethost:{url:true}
+		},
+		errorElement: "em",
+		success: function(label) { label.text(" ").addClass("success"); }
+    });
+    var hosttext = $.trim($("#targethost").val());
+    if(hosttext == "")
+    {
+        $("#start").attr("disabled", "disabled").addClass("disableclass");
+        $("#stop").attr("disabled", "disabled").addClass("disableclass");
+    }
+}
+function translate_syslog(){
+    $("#start").text(a_9);
+    $("#stop").text(a_10);
+    $("#a_targethost").text(a_16629);
+    $("#a_syslog").text(a_4144);
+    $("#a_syslogser").text(a_4135);
+    $("#a_sysloglev").text(a_4136);
+}
+function cb_set_syslog(){
+	var urihead = "action=setsyslogd&region=maintenance";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+
+function start_ping(addr) {
+    var urihead = "action=startping&addr=" + addr;
+    urihead += "&time=" + new Date().getTime();
+
+    $.ajax ({
+        type: 'get',
+        url: '/manager',
+        data: urihead,
+        dataType: 'text',
+        success: function(data) {
+            start_ping_suc(data);       
+        },
+        error: function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+
+function start_ping_suc(data) {
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    
+    var res = msgs.headers['response'];
+
+    if (res == "Success") {
+        $("#start").attr("disabled", "disabled").addClass("disableclass");
+        $("#targethost").attr("disabled", "disabled");
+        $("#stop").removeAttr("disabled").removeClass("disableclass");
+        pingtimeout = setTimeout(function(){get_ping_msg(0);}, 2000);
+    } else {
+        var errmsg = msgs.headers['message'];
+        //$.prompt(errmsg);  
+    }
+}
+
+function get_ping_msg(offset) {
+    var urihead = "action=getpingmsg&offset=" + offset;
+    urihead += "&time=" + new Date().getTime();
+    
+    $.ajax ({
+        type: 'get',
+        url: '/manager',
+        data: urihead,
+        dataType: 'text',
+        success: function(data) {
+            get_ping_msg_suc(data);
+        },
+        error: function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);       
+        }
+    });
+}
+
+function get_ping_msg_suc(data) {
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    
+    var res = msgs.headers['response'];
+    if (res == "Success") {
+        var pingmsg = msgs.headers['pingmsg'];
+
+        if (pingmsg != "continue") {
+            //var offset = msgs.headers['offset'];
+            cur_offset = msgs.headers['offset'];
+
+            var $msgspan = "<span>" + pingmsg + "</span><br>";
+            $("#pingres").addClass("content");
+            $("#pingres").append($msgspan);
+        }
+
+        if (misstart == 1)
+            //pingtimeout = setTimeout("get_ping_msg(" + cur_offset+ ")", 1000);
+            pingtimeout = setTimeout(function(){get_ping_msg(cur_offset);}, 1000);
+    } else {
+        var errmsg = msgs.headers['message'];
+
+        if (errmsg == "unknown host")
+        {
+            var $msgspan = "<span>" + errmsg + " " + $("#testdes").val() + "</span>";
+            $("#pingres").addClass("content");
+            $("#pingres").append($msgspan);
+        }
+
+        misstart = 0;
+    }
+}
+
+function get_lost_ping_msg(offset) {
+    var urihead = "action=getpingmsg&offset=" + offset;
+    urihead += "&time=" + new Date().getTime();
+    
+    $.ajax ({
+        type: 'get',
+        url: '/manager',
+        data: urihead,
+        dataType: 'text',
+        success: function(data) {
+            get_lost_ping_msg_suc(data);
+        },
+        error: function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);       
+        }
+    });
+}
+
+function get_lost_ping_msg_suc(data) {
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    
+    var res = msgs.headers['response'];
+    if (res == "Success") {
+        var pingmsg = msgs.headers['pingmsg'];
+        
+        if (pingmsg != "continue") {
+            //var offset = msgs.headers['offset'];
+            cur_offset = msgs.headers['offset'];
+
+            var $msgspan = "<span>" + pingmsg + "</span><br>";
+            $("#pingres").addClass("content");
+            $("#pingres").append($msgspan);
+
+            pingtimeout = setTimeout(function(){get_lost_ping_msg(cur_offset);}, 1000);
+        }
+        else
+        {
+            $("#start").removeAttr("disabled").removeClass("disableclass");
+            $("#targethost").removeAttr("disabled");
+            clearTimeout(pingtimeout);
+        }
+    }
+}
+
+function stop_ping() {
+    var urihead = "action=stopping";
+    urihead += "&time=" + new Date().getTime();
+
+    $.ajax ({
+        type: 'get',
+        url: '/manager',
+        async:false,
+        data: urihead,
+        dataType: 'text',
+        success: function(data) {
+            stop_ping_suc(data);
+        },
+        error: function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+
+function stop_ping_suc(data) {
+    var msgs = res_parse_rawtext(data);
+    //if_auth_fail(msgs);
+    
+    var res = msgs.headers['response'];
+    if (res == "Success") {
+        $("#stop").attr("disabled", true).addClass("disableclass");
+        misstart = 0;
+        setTimeout(function(){get_lost_ping_msg(cur_offset);}, 1000);
+    }
+}
+function pageEventActions(){
+    $("#start").click(function() {
+        if( !$("#Formvalidate").valid() ){
+            $.prompt(a_19000);
+            return false;
+        }
+        misstart = 1;
+        cur_offset = 0;
+        $("#pingres").empty();
+        start_ping($("#targethost").val());
+        return false;
+    });
+    $("#stop").click(function(){
+        stop_ping();
+        return false;
+    });
+    $("#targethost").bind('input propertychange', function() {
+        var hosttext = $.trim($(this).val());
+        if(hosttext == "")
+        {
+            $("#start").attr("disabled", "disabled").addClass("disableclass");
+            $("#stop").attr("disabled", "disabled").addClass("disableclass");
+        }
+        else
+        {
+            $("#start").removeAttr("disabled").removeClass("disableclass");
+        }
+    });
+}
+
+</script>
+
+</body>
+
+</html>

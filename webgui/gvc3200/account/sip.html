@@ -1,0 +1,701 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_sip">Sip Settings</span></div>
+    <div id="statusdiv"></div>
+    <form action="" method="get" id="Formvalidate">
+        <fieldset>
+            <div webtip="SIP Registration">
+                <div class="rebootitem"><span id="a_sipreg">SIP Registration</span> :</div>
+                <input name="sipreg" type="checkbox" id="sipreg"><span id="a_sipregyes">Yes</span>
+            </div>
+            <div webtip="Unregister Before New Registration">
+                <div class="rebootitem"><span id="a_unregor">Unregister On Reboot</span> :</div>
+                <select name="unreg" id="unreg">
+                    <option value="0">No</option>
+                    <option value="1">All</option>
+                    <option value="2">Instance</option>
+                </select>
+            </div>
+            <div webtip="Register Expiration">
+                <div class="noreboot"><span id="a_regexp">Register Expiration (m)</span> :</div>
+                <input id="regexp" name="regexp" type="text" value="60" />
+            </div>
+            <div webtip="Wait Time Retry Registration">
+                <div class="noreboot"><span id="a_retrytime">Wait Time Retry Registration (s)</span> :</div>
+                <input id="retrytime" name="retrytime" type="text" value="20" />
+            </div>
+            <div webtip="Local SIP Port">
+                <div class="rebootitem"><span id="a_sipport">Local SIP Port</span> :</div>
+                <input id="sipport" name="sipport" type="text" value="5060" />
+            </div>
+            <div webtip="SUBSCRIBE for MWI">
+                <div class="rebootitem"><span id="a_s4mwi">SUBSCRIBE for MWI</span> :</div>
+                <input name="mwi" type="checkbox" id="mwi"><span id="a_s4mwiyes">Yes</span>
+            </div>
+            <div webtip="Enable Session Timer">
+                <div class="rebootitem"><span id="a_opensession">Enable Session Timer</span> :</div>
+                <input name="opensessioncheck" type="checkbox" id="opensessioncheck"><span id="a_opensessionyes">Yes</span>
+            </div>
+            <div webtip="Session Expiration" class="opensession">
+                <div class="noreboot"><span id="a_seexp">Session Expiration</span> :</div>
+                <input id="seexp" name="seexp" type="text" value="180" />
+            </div>
+            <div webtip="Min-SE" class="opensession">
+                <div class="noreboot"><span id="a_minse">Min-SE</span> :</div>
+                <input id="minse" name="minse" type="text" value="90" />
+            </div>
+            <div webtip="UAC Specify Refresher" class="opensession">
+                <div class="noreboot"><span id="a_uacsr">UAC Specify Refresher</span> :</div>
+                <select name="uacref" id="uacref">
+                    <option value="1">UAC</option>
+                    <option value="2">UAS</option>
+                    <option value="0" selected="selected">Omit</option>
+                </select>
+            </div>
+            <div webtip="UAS Specify Refresher" class="opensession">
+                <div class="noreboot"><span id="a_uassr">UAS Specify Refresher</span> :</div>
+                <select name="uasref" id="uasref">
+                    <option value="1" selected="selected">UAC</option>
+                    <option value="2">UAS</option>
+                </select>
+            </div>
+            <div webtip="Force INVITE" class="opensession iptalkmode">
+                <div class="noreboot"><span id="a_forceinv">Force INVITE</span> :</div>
+                <input name="forinvite" type="checkbox" id="forinvite"><span id="a_forceinvyes">Yes</span>
+            </div>
+            <div webtip="Caller Request Timer" class="opensession">
+                <div class="noreboot"><span id="a_callerreq">Caller Request Timer</span> :</div>
+                <input name="callert" type="checkbox" id="callert"><span id="a_creqyes">Yes</span>
+            </div>
+            <div webtip="Callee Request Timer" class="opensession">
+                <div class="noreboot"><span id="a_calleereq">Callee Request Timer</span> :</div>
+                <input name="calleet" type="checkbox" id="calleet"><span id="a_calleerreqyes">Yes</span>
+            </div>
+            <div webtip="Force Timer" class="opensession">
+                <div class="noreboot"><span id="a_fortimer">Force Timer</span> :</div>
+                <input name="forcet" type="checkbox" id="forcet"><span id="a_fortimeryes">Yes</span>
+            </div>
+            <div webtip="Enable 100rel">
+                <div class="rebootitem"><span id="a_en10rel">Enable 100rel</span> :</div>
+                <input name="100rel" type="checkbox" id="100rel"><span id="a_en10relyes">Yes</span>
+            </div>
+            <div webtip="Caller ID Display">
+                <div class="rebootitem"><span id="a_callerdisplay">Caller ID Display</span> :</div>
+                <select name="callerdisplay" id="callerdisplay">
+                    <option value="0" selected="selected">Auto</option>
+                    <option value="1">Disabled</option>
+                    <option value="2">From Header</option>
+                </select>
+            </div>
+            <div webtip="Use Privacy Header">
+                <div class="rebootitem"><span id="a_usepheader">Use Privacy Header</span> :</div>
+                <select name="usepheader" id="usepheader">
+                    <option value="0" selected="selected">Default</option>
+                    <option value="1">No</option>
+                    <option value="2">Yes</option>
+                </select>
+            </div>
+            <div webtip="Use P-Preferred-Identity Header">
+                <div class="rebootitem"><span id="a_useppiheader">Use P-Preferred-Identity Header</span> :</div>
+                <select name="useppiheader" id="useppiheader">
+                    <option value="0" selected="selected">Default</option>
+                    <option value="1">No</option>
+                    <option value="2">Yes</option>
+                </select>
+            </div>
+            <div webtip="SIP Transport" class="iptalkmode">
+                <div class="rebootitem"><span id="a_siptranport">SIP Transport</span> :</div>
+                <select name="siptranport" id="siptranport">
+                    <option value="0" selected="selected">UDP</option>
+                    <option value="1">TCP</option>
+                    <option value="2">TLS</option>
+                </select>
+            </div>
+            <div webtip="SIP URI Scheme When Using TLS">
+                <div class="noreboot"><span id="a_sipschema">SIP URI Scheme When Using TLS</span> :</div>
+                <input name="sipschema" value="0" type="radio" id="sip">sip
+                <input name="sipschema" value="1" checked="checked" type="radio" id="sips">sips
+            </div>
+            <div webtip="Use Actual Ephemeral Port in Contact with TCP/TLS">
+                <div class="noreboot"><span id="a_useepport">Use Actual Ephemeral Port in Contact with TCP/TLS</span> :</div>
+                <input name="useepport" type="checkbox" id="useepport"><span id="a_useepportyes">Yes</span>
+            </div>
+            <div webtip="Symmetric RTP">
+                <div class="noreboot"><span id="a_symrtp">Symmetric RTP</span> :</div>
+                <input name="symrtp" type="checkbox" id="symrtp"><span id="a_symrtpyes">Yes</span>
+            </div>
+            <div webtip="RTP IP Filter">
+                <div class="noreboot"><span id="a_rtpipfilter">RTP IP Filter</span> :</div>
+                <select name="rtpipfilter" id="rtpipfilter">
+                    <option value="0" selected="selected">Disabled</option>
+                    <option value="1">IP Only</option>
+                    <option value="2">IP and Port</option>
+                </select>
+            </div>
+            <div webtip="Support SIP Instance ID">
+                <div class="rebootitem"><span id="a_suptsipintid">Support SIP Instance ID</span> :</div>
+                <input name="suptsipintid" type="checkbox" id="suptsipintid"><span id="a_suptsipintidyes">Yes</span>
+            </div>
+            <div webtip="Validate Incoming SIP Messages">
+                <div class="rebootitem"><span id="a_validincommsg">Validate Incoming SIP Messages</span> :</div>
+                <input name="validincommsg" type="checkbox" id="validincommsg"><span id="a_validincommsgyes">Yes</span>
+            </div>
+            <div webtip="Check SIP User ID for Incoming INVITE">
+                <div class="noreboot"><span id="a_checkinvite">Check SIP User ID for Incoming INVITE</span> :</div>
+                <input name="checkinvite" type="checkbox" id="checkinvite"><span id="a_checkinviteyes">Yes</span>
+            </div>
+            <div webtip="Authenticate Incoming INVITE">
+                <div class="noreboot"><span id="a_authinvite">Authenticate Incoming INVITE</span> :</div>
+                <input name="authinvite" type="checkbox" id="authinvite"><span id="a_authinviteyes">Yes</span>
+            </div>
+            <div webtip="SIP Realm Used for Challenge INVITE ＆ NOTIFY">
+                <div class="noreboot"><span id="a_siprealm">SIP Realm Used for Challenge INVITE ＆ NOTIFY</span> :</div>
+                <input name="siprealm" type="text" id="siprealm" />
+            </div>
+            <div webtip="Only Accept SIP Requests from Known Servers">
+                <div class="noreboot"><span id="a_accpsip">Only Accept SIP Requests from Known Servers</span> :</div>
+                <input name="accpsip" type="checkbox" id="accpsip"><span id="a_accpsipyes">Yes</span>
+            </div>
+            <div webtip="SIP T1 Timeout">
+                <div class="rebootitem"><span id="a_sipt1to">SIP T1 Interval</span> :</div>
+                <select name="sipt1to" id="sipt1to">
+                    <option value="50" selected="selected">0.5 sec</option>
+                    <option value="100">1 sec</option>
+                    <option value="200">2 sec</option>
+                </select>
+            </div>
+            <div webtip="SIP T2 Interval">
+                <div class="rebootitem"><span id="a_sipt2int">SIP T2 Interval</span> :</div>
+                <select name="sipt2int" id="sipt2int">
+                    <option value="200" selected="selected">2 sec</option>
+                    <option value="400">4 sec</option>
+                    <option value="800">8 sec</option>
+                </select>
+            </div>
+            <div webtip="Remove OBP from route">
+                <div class="rebootitem"><span id="a_removeobp">Remove OBP from route</span> :</div>
+                <input name="removeobp" type="checkbox" id="removeobp"><span id="a_removeobpyes">Yes</span>
+            </div>
+            <div webtip="Check Domain Certificates">
+                <div class="rebootitem"><span id="a_checkdomain">Check Domain Certificates</span> :</div>
+                <input name="checkdomain" type="checkbox" id="checkdomain"><span id="a_checkdomainyes">Yes</span>
+            </div>
+            <div webtip="Validate Certification Chain">
+                <div class="rebootitem"><span id="a_validatecert">Validate Certification Chain</span> :</div>
+                <input name="validatecert" type="checkbox" id="validatecert"><span id="a_validatecertyes">Yes</span>
+            </div>
+            <!--<div webtip="Domain Certificate" style="width:730px;">
+                <div class="rebootitem"><span id="a_vericert">Domain Certificate</span> :</div>
+                <textarea name="vericert" id="vericert" style="width:240px; padding:5px; height:100px;resize:none;"></textarea>
+            </div>-->
+            <div class="dotline" style="display:none;"></div>
+            <div webtip="Enable SCA (Shared Call Appearance)" style="display:none;">
+                <div class="noreboot"><span id="a_enablesca">Enable SCA (Shared Call Appearance)</span> :</div>
+                <input name="enablesca" type="checkbox" id="enablesca"><span id="a_enablescayes">Yes</span>
+            </div>
+            <div webtip="Enable BargeIn" style="display:none;">
+                <div class="noreboot"><span id="a_enbargein">Enable BargeIn</span> :</div>
+                <input name="enbargein" type="checkbox" id="enbargein"><span id="a_enbargeinyes">Yes</span>
+            </div>
+            <div webtip="Auto-filling Pickup Feature Code" style="display:none;">
+                <div class="noreboot"><span id="a_audofillcode">Auto-filling Pickup Feature Code</span> :</div>
+                <input name="audofillcode" type="checkbox" id="audofillcode"><span id="a_audofillcodeyes">Yes</span>
+            </div>
+            <div webtip="Pickup Feature Code" style="display:none;">
+                <div class="noreboot"><span id="a_callcode">Pickup Feature Code</span> :</div>
+                <input id="callcode" name="callcode" type="text" value="" />
+            </div>
+            <div webtip="Line-seize Timeout" style="display:none;">
+                <div class="noreboot"><span id="a_lineseize">Line-seize Timeout</span> :</div>
+                <input id="lineseizetime" name="lineseizetime" type="text" />
+            </div>
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="button" class="cancelbtn">Cancel</button>
+        </div>
+    </form>
+
+</div>
+<input id="opensession" value="180" type="text" style="display:none;" />
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+    var req_items = new Array;
+    var accountindex = 0;
+    //var a_vericertvalue = "";
+    
+$(function(){
+    setInitState();
+    //cb_get_index(req_indexs);
+    cb_get_pvalue($('#accountindex',parent.document.body).val());
+    pageEventActions();
+});
+function cb_get_pvalue(acctindex){
+	accountindex = acctindex;
+	switch(accountindex)
+	{
+	    case '1':
+			req_items.push(
+				new ReqItem("sipreg", "31", ""),
+				new ReqItem("unreg", "81", ""),
+				new ReqItem("regexp", "32", ""),
+				new ReqItem("retrytime", "138", ""),
+				new ReqItem("sipport", "40", ""),
+				new ReqItem("mwi", "99", ""),
+				new ReqItem("opensession", "260", ""),
+				new ReqItem("seexp", "sessionexp_0", ""),
+				new ReqItem("minse", "261", ""),
+				new ReqItem("uacref", "266", ""),
+				new ReqItem("uasref", "267", ""),
+				new ReqItem("forinvite", "265", ""),
+				new ReqItem("checkinvite", "258", ""),
+				new ReqItem("authinvite", "2346", ""),
+				new ReqItem("siprealm", "26021", ""),
+				new ReqItem("accpsip", "2347", ""),
+				new ReqItem("enablesca", "1363", ""),
+				new ReqItem("enbargein", "2337", ""),
+				new ReqItem("audofillcode", "2335", ""),
+				new ReqItem("lineseizetime", "2313", ""),
+				new ReqItem("callcode", "2336", ""),
+				new ReqItem("100rel", "272", ""),
+				new ReqItem("callerdisplay", "2324", ""),
+				new ReqItem("usepheader", "2338", ""),
+				new ReqItem("useppiheader", "2339", ""),
+				new ReqItem("callert", "262", ""),
+				new ReqItem("calleet", "263", ""),
+				new ReqItem("forcet", "264", ""),
+				new ReqItem("siptranport", "130", ""),
+				new ReqItem("removeobp", "2305", ""),
+				new ReqItem("symrtp", "291", ""),
+				new ReqItem("rtpipfilter", "26026", ""),
+				new ReqItem("suptsipintid", "288", ""),
+				new ReqItem("validincommsg", "2306", ""),
+				new ReqItem("sipschema", "2329", ""),
+				new ReqItem("useepport", "2331", ""),
+				new ReqItem("checkdomain", "2311", ""),
+				new ReqItem("validatecert", "2367", ""),
+				//new ReqItem("vericert", "2386", ""),
+				new ReqItem("sipt1to", "209", ""),
+				new ReqItem("sipt2int", "250", "")
+			);
+			break;
+		case '2':
+			req_items.push(
+				new ReqItem("sipreg", "410", ""),
+				new ReqItem("unreg", "411", ""),
+				new ReqItem("regexp", "412", ""),
+				new ReqItem("retrytime", "471", ""),
+				new ReqItem("sipport", "413", ""),
+				new ReqItem("mwi", "415", ""),
+				new ReqItem("opensession", "434", ""),
+				new ReqItem("seexp", "sessionexp_1", ""),
+				new ReqItem("minse", "427", ""),
+				new ReqItem("uacref", "432", ""),
+				new ReqItem("uasref", "433", ""),
+				new ReqItem("forinvite", "431", ""),
+				new ReqItem("checkinvite", "449", ""),
+				new ReqItem("authinvite", "2446", ""),
+				new ReqItem("siprealm", "26121", ""),
+				new ReqItem("accpsip", "2447", ""),
+				new ReqItem("enablesca", "1365", ""),
+				new ReqItem("enbargein", "2437", ""),
+				new ReqItem("audofillcode", "2435", ""),
+				new ReqItem("lineseizetime", "2413", ""),
+				new ReqItem("callcode", "2436", ""),
+				new ReqItem("100rel", "435", ""),
+				new ReqItem("callerdisplay", "2424", ""),
+				new ReqItem("usepheader", "2438", ""),
+				new ReqItem("useppiheader", "2439", ""),
+				new ReqItem("callert", "428", ""),
+				new ReqItem("calleet", "429", ""),
+				new ReqItem("forcet", "430", ""),
+				new ReqItem("siptranport", "448", ""),
+				new ReqItem("symrtp", "460", ""),
+				new ReqItem("rtpipfilter", "26126", ""),
+				new ReqItem("suptsipintid", "489", ""),
+				new ReqItem("validincommsg", "2406", ""),
+				new ReqItem("sipschema", "2429", ""),
+				new ReqItem("useepport", "2431", ""),
+				new ReqItem("checkdomain", "2411", ""),
+				new ReqItem("validatecert", "2467", ""),
+				//new ReqItem("vericert", "2486", ""),
+				new ReqItem("sipt1to", "440", ""),
+				new ReqItem("sipt2int", "441", ""),
+				new ReqItem("removeobp", "2405", "")
+			);
+			break;
+		case '3':
+			req_items.push(
+				new ReqItem("sipreg", "510", ""),
+				new ReqItem("unreg", "511", ""),
+				new ReqItem("regexp", "512", ""),
+				new ReqItem("retrytime", "571", ""),
+				new ReqItem("sipport", "513", ""),
+				new ReqItem("mwi", "515", ""),
+				new ReqItem("opensession", "534", ""),
+				new ReqItem("seexp", "sessionexp_2", ""),
+				new ReqItem("minse", "527", ""),
+				new ReqItem("uacref", "532", ""),
+				new ReqItem("uasref", "533", ""),
+				new ReqItem("forinvite", "531", ""),
+				new ReqItem("checkinvite", "549", ""),
+				new ReqItem("authinvite", "2546", ""),
+				new ReqItem("siprealm", "26221", ""),
+				new ReqItem("accpsip", "2547", ""),
+				new ReqItem("enablesca", "1367", ""),
+				new ReqItem("enbargein", "2537", ""),
+				new ReqItem("audofillcode", "2535", ""),
+				new ReqItem("lineseizetime", "2513", ""),
+				new ReqItem("callcode", "2536", ""),
+				new ReqItem("100rel", "535", ""),
+				new ReqItem("callerdisplay", "2524", ""),
+				new ReqItem("usepheader", "2538", ""),
+				new ReqItem("useppiheader", "2539", ""),
+				new ReqItem("callert", "528", ""),
+				new ReqItem("calleet", "529", ""),
+				new ReqItem("forcet", "530", ""),
+				new ReqItem("siptranport", "548", ""),
+				new ReqItem("symrtp", "560", ""),
+				new ReqItem("rtpipfilter", "26226", ""),
+				new ReqItem("suptsipintid", "589", ""),
+				new ReqItem("validincommsg", "2506", ""),
+				new ReqItem("sipschema", "2529", ""),
+				new ReqItem("useepport", "2531", ""),
+				new ReqItem("checkdomain", "2511", ""),
+				new ReqItem("validatecert", "2567", ""),
+				//new ReqItem("vericert", "2586", ""),
+				new ReqItem("sipt1to", "540", ""),
+				new ReqItem("sipt2int", "541", ""),
+				new ReqItem("removeobp", "2505", "")
+			);
+			break;
+		case '4':
+			req_items.push(
+				new ReqItem("sipreg", "610", ""),
+				new ReqItem("unreg", "611", ""),
+				new ReqItem("regexp", "612", ""),
+				new ReqItem("retrytime", "671", ""),
+				new ReqItem("sipport", "613", ""),
+				new ReqItem("mwi", "615", ""),
+				new ReqItem("opensession", "634", ""),
+				new ReqItem("seexp", "sessionexp_3", ""),
+				new ReqItem("minse", "627", ""),
+				new ReqItem("uacref", "632", ""),
+				new ReqItem("uasref", "633", ""),
+				new ReqItem("forinvite", "631", ""),
+				new ReqItem("checkinvite", "649", ""),
+				new ReqItem("authinvite", "2646", ""),
+				new ReqItem("siprealm", "26321", ""),
+				new ReqItem("accpsip", "2647", ""),
+				new ReqItem("enablesca", "1369", ""),
+				new ReqItem("enbargein", "2637", ""),
+				new ReqItem("audofillcode", "2635", ""),
+				new ReqItem("lineseizetime", "2613", ""),
+				new ReqItem("callcode", "2636", ""),
+				new ReqItem("100rel", "635", ""),
+				new ReqItem("callerdisplay", "2624", ""),
+				new ReqItem("usepheader", "2638", ""),
+				new ReqItem("useppiheader", "2639", ""),
+				new ReqItem("callert", "628", ""),
+				new ReqItem("calleet", "629", ""),
+				new ReqItem("forcet", "630", ""),
+				new ReqItem("siptranport", "648", ""),
+				new ReqItem("symrtp", "660", ""),
+				new ReqItem("rtpipfilter", "26326", ""),
+				new ReqItem("suptsipintid", "689", ""),
+				new ReqItem("validincommsg", "2606", ""),
+				new ReqItem("sipschema", "2629", ""),
+				new ReqItem("useepport", "2631", ""),
+				new ReqItem("checkdomain", "2611", ""),
+				new ReqItem("validatecert", "2667", ""),
+				//new ReqItem("vericert", "2686", ""),
+				new ReqItem("sipt1to", "640", ""),
+				new ReqItem("sipt2int", "641", ""),
+				new ReqItem("removeobp", "2605", "")
+			);
+			break;
+		case '5':
+			req_items.push(
+				new ReqItem("sipreg", "1710", ""),
+				new ReqItem("unreg", "1711", ""),
+				new ReqItem("regexp", "1712", ""),
+				new ReqItem("retrytime", "1771", ""),
+				new ReqItem("sipport", "1713", ""),
+				new ReqItem("mwi", "1715", ""),
+				new ReqItem("opensession", "1734", ""),
+				new ReqItem("seexp", "sessionexp_4", ""),
+				new ReqItem("minse", "1727", ""),
+				new ReqItem("uacref", "1732", ""),
+				new ReqItem("uasref", "1733", ""),
+				new ReqItem("forinvite", "1731", ""),
+				new ReqItem("checkinvite", "1749", ""),
+				new ReqItem("authinvite", "2746", ""),
+				new ReqItem("siprealm", "26421", ""),
+				new ReqItem("accpsip", "2747", ""),
+				new ReqItem("enablesca", "1371", ""),
+				new ReqItem("enbargein", "2737", ""),
+				new ReqItem("audofillcode", "2735", ""),
+				new ReqItem("lineseizetime", "2713", ""),
+				new ReqItem("callcode", "2736", ""),
+				new ReqItem("100rel", "1735", ""),
+				new ReqItem("callerdisplay", "2724", ""),
+				new ReqItem("usepheader", "2738", ""),
+				new ReqItem("useppiheader", "2739", ""),
+				new ReqItem("callert", "1728", ""),
+				new ReqItem("calleet", "1729", ""),
+				new ReqItem("forcet", "1730", ""),
+				new ReqItem("siptranport", "1748", ""),
+				new ReqItem("symrtp", "1760", ""),
+				new ReqItem("rtpipfilter", "26426", ""),
+				new ReqItem("suptsipintid", "1789", ""),
+				new ReqItem("validincommsg", "2706", ""),
+				new ReqItem("sipschema", "2729", ""),
+				new ReqItem("useepport", "2731", ""),
+				new ReqItem("checkdomain", "2711", ""),
+				new ReqItem("validatecert", "2767", ""),
+				//new ReqItem("vericert", "2786", ""),
+				new ReqItem("sipt1to", "1740", ""),
+				new ReqItem("sipt2int", "1741", ""),
+				new ReqItem("removeobp", "2705", "")
+			);
+			break;
+		case '6':
+			req_items.push(
+				new ReqItem("sipreg", "1810", ""),
+				new ReqItem("unreg", "1811", ""),
+				new ReqItem("regexp", "1812", ""),
+				new ReqItem("retrytime", "1871", ""),
+				new ReqItem("sipport", "1813", ""),
+				new ReqItem("mwi", "1815", ""),
+				new ReqItem("opensession", "1834", ""),
+				new ReqItem("seexp", "sessionexp_5", ""),
+				new ReqItem("minse", "1827", ""),
+				new ReqItem("uacref", "1832", ""),
+				new ReqItem("uasref", "1833", ""),
+				new ReqItem("forinvite", "1831", ""),
+				new ReqItem("checkinvite", "1849", ""),
+				new ReqItem("authinvite", "2846", ""),
+				new ReqItem("siprealm", "26521", ""),
+				new ReqItem("accpsip", "2847", ""),
+				new ReqItem("enablesca", "1373", ""),
+				new ReqItem("enbargein", "2837", ""),
+				new ReqItem("audofillcode", "2835", ""),
+				new ReqItem("lineseizetime", "2813", ""),
+				new ReqItem("callcode", "2836", ""),
+				new ReqItem("100rel", "1835", ""),
+				new ReqItem("callerdisplay", "2824", ""),
+				new ReqItem("usepheader", "2838", ""),
+				new ReqItem("useppiheader", "2839", ""),
+				new ReqItem("callert", "1828", ""),
+				new ReqItem("calleet", "1829", ""),
+				new ReqItem("forcet", "1830", ""),
+				new ReqItem("siptranport", "1848", ""),
+				new ReqItem("symrtp", "1860", ""),
+				new ReqItem("rtpipfilter", "26526", ""),
+				new ReqItem("suptsipintid", "1889", ""),
+				new ReqItem("validincommsg", "2806", ""),
+				new ReqItem("sipschema", "2829", ""),
+				new ReqItem("useepport", "2831", ""),
+				new ReqItem("checkdomain", "2811", ""),
+				new ReqItem("validatecert", "2867", ""),
+				//new ReqItem("vericert", "2886", ""),
+				new ReqItem("sipt1to", "1840", ""),
+				new ReqItem("sipt2int", "1841", ""),
+				new ReqItem("removeobp", "2805", "")
+			);
+			break;
+	}
+	
+    cb_get(req_items);
+    //cb_get_lock_acct(1);
+}
+function translate_sip(){
+    $("#a_sip").text(a_16025);
+    $("#a_sipreg").text(a_16066);
+    $("#a_unregor").text(a_16067);
+    $("#unreg option:eq(0)").text(a_6);
+    $("#unreg option:eq(1)").text(a_10009);
+    //$("#unreg option:eq(2)").text(a_16068);
+    $("#a_regexp").text(a_16069);
+    $("#a_retrytime").text(a_16070);
+    $("#a_sipport").text(a_16071);
+    $("#a_s4mwi").text(a_16072);
+    $("#a_opensession").text(a_16675);
+    $("#a_seexp").text(a_16073);
+    $("#a_minse").text(a_16074);
+    $("#a_uacsr").text(a_16075);
+    $("#a_uassr").text(a_16076);
+    $("#a_forceinv").text(a_16077);
+    $("#a_checkinvite").text(a_16078);
+    $("#a_authinvite").text(a_16079);
+    $("#a_siprealm").text(a_16691);
+    $("#a_accpsip").text(a_16080);
+    $("#a_enablesca").text(a_16081);
+    $("#a_enbargein").text(a_16082);
+    $("#a_audofillcode").text(a_16083);
+    $("#a_lineseize").text(a_16574);
+    $("#a_callcode").text(a_16084);
+    $("#a_en10rel").text(a_16085);
+    $("#a_usepheader").text(a_16088);
+    $("#a_useppiheader").text(a_16089);
+    $("#usepheader option:eq(0), #useppiheader option:eq(0)").text(a_12);
+    $("#usepheader option:eq(1), #useppiheader option:eq(1)").text(a_6);
+    $("#usepheader option:eq(2), #useppiheader option:eq(2)").text(a_5);
+    $("#a_callerdisplay").text(a_16086);
+    $("#callerdisplay option:eq(0)").text(a_1317);
+    $("#callerdisplay option:eq(1)").text(a_39);
+    $("#callerdisplay option:eq(2)").text(a_16087);
+    $("#a_callerreq").text(a_16090);
+    $("#a_calleereq").text(a_16091);
+    $("#a_fortimer").text(a_16092);
+    $("#a_siptranport").text(a_16093);
+    $("#a_sipschema").text(a_16094);
+    $("#a_useepport").text(a_16095);
+    $("#a_symrtp").text(a_16096);
+    $("#a_rtpipfilter").text(a_19154);
+    $("#rtpipfilter option:eq(0)").text(a_39);
+    $("#rtpipfilter option:eq(1)").text(a_19155);
+    $("#rtpipfilter option:eq(2)").text(a_19156);
+    $("#a_suptsipintid").text(a_16097);
+    $("#a_validincommsg").text(a_16098);
+    $("#a_sipt1to").text(a_16099);
+    $("#a_sipt2int").text(a_16100);
+    $("#a_removeobp").text(a_16101);
+    $("#a_halfsec").text("0.5 "+a_115);
+    $("#sipt1to option:eq(0)").text("0.5 "+a_115);
+    $("#sipt1to option:eq(1)").text("1 "+a_115);
+    $("#sipt1to option:eq(2), #sipt2int option:eq(0)").text("2 "+a_116);
+    $("#sipt2int option:eq(1)").text("4 "+a_116);
+    $("#sipt2int option:eq(2)").text("8 "+a_116);
+    $("#a_checkdomain").text(a_16102);
+    $("#a_validatecert").text(a_19336);
+    //$("#a_vericert").text(a_18569);
+    $("#a_sipregyes, #a_s4mwiyes, #a_forceinvyes, #a_checkinviteyes, #a_authinviteyes, #a_accpsipyes, #a_enablescayes, #a_enbargeinyes, #a_audofillcodeyes, #a_en10relyes, #a_creqyes, #a_calleerreqyes, #a_fortimeryes, #a_sipchyes, #a_useranportyes, #a_suptsipintidyes, #a_symrtpyes, #a_validincommsgyes, #a_removeobpyes, #a_checkdomainyes, #a_useepportyes, #a_opensessionyes, #a_validatecertyes").text(a_5);
+    $("#a_cancel").text(a_3);
+    $("#a_save").text(a_17);
+}
+function setInitState(){
+    translate_sip();
+    $("#unreg, #uacref, #uasref, #siptranport, #callerdisplay, #sipt1to, #sipt2int, #rtpipfilter, #usepheader, #useppiheader").sSelect();
+    $("#Formvalidate").validate({
+		rules: {regexp: { digits:true, range:[1,64800] },
+                retrytime: { digits:true, range:[1,3600] },
+                sipport: { digits:true, range:[5,65535] },
+                seexp: { required:true, digits:true, range:[90, 64800] },
+                minse: { digits:true, range:[90, 64800] },
+                lineseizetime: { digits:true, range:[15,60] }
+        },		
+ 		errorElement: "em",
+		success: function(label) { label.text(" ").addClass("success"); }
+    });
+}
+function get_item_suc_callback() {
+    //a_vericertvalue = $("#vericert").val();
+    var opensession = parseInt($("#opensession").val());
+    if( opensession == 0 ){
+        $("#opensessioncheck").attr("checked", false);
+    }else{
+        $("#opensessioncheck").attr("checked", true);
+        $("#seexp").val(opensession);
+    }
+    check_session(opensession);
+    if( accountindex == 2 ){
+        $(".iptalkmode").hide();
+        /*$(".iptalkmode").children("div").children("span").removeClass("netfontcolor").addClass("grayfont");
+        $("#a_forceinvyes").removeClass("netfontcolor").addClass("grayfont");
+        $(".iptalkmode").children(".newListSelected").attr("disabled", true);
+        $(".iptalkmode").children("input").attr("disabled", true);*/
+    }
+}
+function check_session(checked){
+    if( checked == 0 ){
+        $(".opensession").children("div").children("span").removeClass("netfontcolor").addClass("grayfont");
+        $(".opensession").children("span").removeClass("netfontcolor").addClass("grayfont");
+        $(".opensession").children("input").attr("disabled", true);
+        $(".opensession").children(".newListSelected").attr("disabled", true);
+        /*$("#seexp, #minse").attr("disabled", true);
+        $("#a_seexp, #a_minse").removeClass("netfontcolor").addClass("grayfont");*/
+    }else{
+        $(".opensession").children("div").children("span").removeClass("grayfont").addClass("netfontcolor");
+        $(".opensession").children("span").removeClass("grayfont").addClass("netfontcolor");
+        $(".opensession").children("input").attr("disabled", false);
+        $(".opensession").children(".newListSelected").attr("disabled", false);
+        /*$("#seexp, #minse").attr("disabled", false);
+        $("#a_seexp, #a_minse").removeClass("grayfont").addClass("netfontcolor");*/
+    }
+}
+function cb_put_suc(data, mode)
+{
+    var msgs = res_parse_rawtext(data);
+	cb_if_auth_fail(msgs);
+	if( cb_if_is_fail(msgs) )
+	    view_message(a_16419, MSG_FAIL);
+    else {
+        /*if( $("#vericert").val() != "" && a_vericertvalue != $("#vericert").val() ){
+            a_vericertvalue = $("#vericert").val();
+            $.cookie("applycert", "1", {path: '/', expires: 10});
+        }*/
+        view_message(a_7479, MSG_OK);
+    }
+    checkIsApplyNeed();
+}
+function pageEventActions(){
+    $("#opensessioncheck").click(function(){
+        if( $("#opensessioncheck").attr("checked") ){
+            check_session(1);
+        }else{
+            check_session(0);
+        }
+    });
+    
+    $("#a_save").click(function(){
+        if( !$("#Formvalidate").valid() ){
+            view_message(a_16442,MSG_FAIL);
+            return false;
+        }
+		
+		if (parseInt($("#seexp").val()) < parseInt($("#minse").val())) {
+			alert(a_16443);
+			return false;
+		}
+        if( $("#opensessioncheck").attr("checked") ){
+            $("#opensession").val( $("#seexp").val() );
+        }else{
+            $("#opensession").val( "0" );
+        }
+        cb_put(req_items, "");
+    });
+}
+
+</script>
+
+</body>
+
+</html>

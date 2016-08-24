@@ -1,0 +1,12 @@
+prefix=/system/sox
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: SoX
+Description: Audio file format and effects library
+Version: 14.4.1
+URL: http://sox.sourceforge.net
+Libs: -L${libdir} -lsox
+Libs.private: -lc -ldl -lm -lnvram -ldbus -llog -licuuc -lpcre -lsqlite -lwebupdate -ltimezone_offset     /home/64/GXV3275/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//out/target/product/wing-k70/obj/STATIC_LIBRARIES/libxml2_intermediates/libxml2.a
+Cflags: -I${includedir}

@@ -1,0 +1,35 @@
+voicin.lo: voicin.c f2c.h lpc10.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs_elf.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/android/api-level.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/internal_types.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/limits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/syslimits.h \
+ /home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/page.h
+
+f2c.h:
+
+lpc10.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/cdefs_elf.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/android/api-level.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/common/linux/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/internal_types.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/arch-arm/include/machine/limits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/include/sys/syslimits.h:
+
+/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//bionic/libc/kernel/arch-arm/asm/page.h:

@@ -1,0 +1,980 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/ajaxupload.3.5.js'></script>
+<style>
+body {  }
+#statusdiv{margin-top:5px;height:15px;}
+.tabdiv{height:40px;background:transparent;border-bottom:1px solid #C3C3C3;text-align:center;margin-left:0;width:100%;}
+.tabdiv button{min-width:201px;height:32px;color:#222222;background:#E6E6E6;border:1px solid #C3C3C3;border-radius:0;border-bottom-width:0;border-top-left-radius:4px;border-top-right-radius:4px;margin-top:7px;*width:220px !important;}
+#firmbynet, #configbynet{margin-left:28px;}
+.tabdiv button.selected, .tabdiv button:hover{height:34px;color:#1D6EA8;background:#FDFCFC;}
+input[type='file']{top:0;left:0;}
+#a_reset{*padding-top:1px;}
+</style>
+<body id="framebody" class="maintenancebody">
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_upgrade">Upgrade and Provisioning</span></div>
+    <div id="statusdiv"></div>
+    <form action="" method="get" id="Formvalidate">
+        <fieldset>
+            <!--<div class="tabdiv">
+                <button type="button" id="firmbymanual" onclick="cb_upgrade_change(0);">Firmware Manual Upload</button>
+                <button type="button" id="firmbynet" onclick="cb_upgrade_change(1);">Firmware Network Upgrade</button>
+                <button type="button" id="configbynet" onclick="cb_upgrade_change(2);">Config Network Upgrade</button>
+            </div>-->
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_firmwaretitle">Firmware</span></div>
+            </div>
+            <div webtip="Complete Upgrade" class="manualupdiv">
+                <div class="rebootitem"><span id="a_upgradeall">Fully Upgrade</span> :</div>
+                <input name="upgradeall" type="checkbox" id="upgradeall"><span id="a_upgradeallyes">Yes</span>
+            </div>          
+            <div webtip="Upload Firmware File to Update" class="manualupdiv">
+                <div class="rebootitem"><span id="a_upfirmfile">Upload Firmware File</span> :</div>
+                <button id="a_upload" type="button" value="Upload">Upload</button><span class="rebootspan"></span>
+            </div>
+            <div webtip="Firmware Upgrade Mode" id="upviadiv" class="firmupgradedivs configupgradedivs">
+                <div class="rebootitem"><span id="a_upvia">Firmware Upgrade Mode</span> :</div>
+                <select id="updatevia" name="updatevia">
+                    <option value="0">TFTP</option>
+                    <option value="1" selected="selected">HTTP</option>
+                    <option value="2">HTTPS</option>
+                </select>
+            </div>
+            <div webtip="Firmware HTTP/HTTPS User Name" class="upgradehttpsdivs">
+                <div class="rebootitem"><span id="a_httpuser">Firmware HTTP/HTTPS User Name</span> :</div>
+                <input name="httpuser" type="text" id="httpuser" />
+            </div>
+            <div webtip="Firmware HTTP/HTTPS Password" class="upgradehttpsdivs">
+                <div class="rebootitem"><span id="a_httppass">Firmware HTTP/HTTPS Password</span> :</div>
+                <input name="httppass" type="password" id="httppass" autocomplete="off" />
+            </div>
+            <div webtip="Firmware Server Path" id="firmwarediv" class="firmupgradedivs">
+                <div class="noreboot"><span id="a_firserpath">Firmware Server Path</span> :</div>
+                <input id="firpath" name="firpath" type="text" />
+            </div>
+            <div webtip="Firmware File Prefix" class="firmupgradedivs">
+                <div class="rebootitem"><span id="a_firfipre">Firmware File Prefix</span> :</div>
+                <input id="firpre" name="firpre" type="text" />
+            </div>
+            <div webtip="Firmware File Postfix" class="firmupgradedivs">
+                <div class="rebootitem"><span id="a_firfipost">Firmware File Postfix</span> :</div>
+                <input id="firpost" name="firpost" type="text" />
+            </div>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_configtitle">Config</span></div>
+            </div>
+            <div webtip="Use Grandstream GAPS" class="upgradedivs">
+                <div class="noreboot"><span id="a_usegsgap">Use Grandstream GAPS</span> :</div>
+                <input id="usegsgap" name="usegsgap" type="checkbox" /><span id="a_usegsgapyes">Yes</span>
+            </div>
+            <div webtip="Config Upgrade Mode" id="upviadiv" class="upgradedivs gapsitem">
+                <div class="rebootitem"><span id="a_configupvia">Config Upgrade Mode</span> :</div>
+                <select id="updateconfigvia" name="updateconfigvia">
+                    <option value="0">TFTP</option>
+                    <option value="1" selected="selected">HTTP</option>
+                    <option value="2">HTTPS</option>
+                </select>
+            </div>  
+            <div webtip="Config HTTP/HTTPS User Name" class="upgradedivs">
+                <div class="rebootitem"><span id="a_confighttpuser">Config HTTP/HTTPS User Name</span> :</div>
+                <input name="confighttpuser" type="text" id="confighttpuser" />
+            </div>
+            <div webtip="Config HTTP/HTTPS Password" class="upgradedivs">
+                <div class="rebootitem"><span id="a_confighttppass">Config HTTP/HTTPS Password</span> :</div>
+                <input name="confighttppass" type="password" id="confighttppass" />
+            </div>
+            <div webtip="Config Server Path" id="configdiv" class="configupgradedivs gapsitem">
+                <div class="noreboot"><span id="a_configserpath">Config Server Path</span> :</div>
+                <input id="confpath" name="confpath" type="text" />
+            </div>
+            <div webtip="Config File Prefix" class="configupgradedivs">
+                <div class="rebootitem"><span id="a_conffipre">Config File Prefix</span> :</div>
+                <input id="confpre" name="confpre" type="text" />
+            </div>
+            <div webtip="Config File Postfix" class="configupgradedivs">
+                <div class="rebootitem"><span id="a_conffipost">Config File Postfix</span> :</div>
+                <input id="confpost" name="confpost" type="text" />
+            </div>
+            <div webtip="XML Config File Password" class="configupgradedivs">
+                <div class="rebootitem"><span id="a_xmlpass">XML Config File Password</span> :</div>
+                <input name="xmlpass" type="password" id="xmlpass" autocomplete="off" />
+            </div>
+            <div webtip="Authenticate Conf File" class="configupgradedivs">
+                <div class="noreboot"><span id="a_authconffile">Authenticate Conf File</span> :</div>
+                <input name="authconffile" type="checkbox" id="authconffile" /><span id="a_authyes"></span>
+            </div>
+            <div webtip="Download Device Configuration">
+                <div class="noreboot"><span id="a_saveconf">Download Device Configuration</span> :</div>
+                <button id="saveconf" type="button" value="Export" class="widebtn">Export</button>
+            </div>
+            <div webtip="Upload Device Configuration">
+                <div class="noreboot"><span id="a_importconf">Upload Device Configuration</span> :</div>
+                <button id="a_browse" type="button" value="Browse">Browse</button><span class="rebootspan"></span>
+            </div>
+            <div webtip="" style="display:none;">
+                <div class="noreboot"><span id="a_backupcfg">Backup Config</span> :</div>
+                <button id="backupcfg" type="button" value="Backup">Backup</button>
+            </div>
+            <div webtip="" style="display:none;">
+                <div class="noreboot"><span id="a_restorecfg">Restore Config</span> :</div>
+                <button id="restorecfg" type="button" value="Restore">Restore</button>
+            </div>
+            <div webtip="Always send HTTP Basic Authentication Information" class="firmupgradedivs configupgradedivs">
+                <div class="rebootitem"><span id="a_httpauth">Always send HTTP Basic Authentication Information</span> :</div>
+                <input name="httpauth" type="checkbox" id="httpauth" checked="checked"><span id="a_httpauthyes">Yes</span>
+            </div>
+            <div class="titlediv custset">
+                <div class="titleboot"><span id="a_custfile">Cust File</span></div>
+            </div>
+            <div webtip="GUI customization file URL" class="custset">
+                <div class="noreboot"><span id="a_custurl">GUI customization file URL</span> :</div>
+                <input id="custurl" name="custurl" type="text" />
+            </div>
+            <div webtip="GUI customization file download via" class="custset">
+                <div class="rebootitem"><span id="a_custvia">GUI customization file download via</span> :</div>
+                <select id="custvia" name="custvia">
+                    <option value="0">TFTP</option>
+                    <option value="1" selected="selected">HTTP</option>
+                    <option value="2">HTTPS</option>
+                </select>
+            </div>  
+            <div webtip="GUI customization file HTTP/HTTPS username" class="custset">
+                <div class="rebootitem"><span id="a_custusername">GUI customization file HTTP/HTTPS username</span> :</div>
+                <input name="custusername" type="text" id="custusername" />
+            </div>
+            <div webtip="GUI customization file HTTP/HTTPS password" class="custset">
+                <div class="rebootitem"><span id="a_custpassword">GUI customization file HTTP/HTTPS password</span> :</div>
+                <input name="custpassword" type="password" id="custpassword" />
+            </div>
+            <div webtip="Use Configurations of Config File Server" class="custset">
+                <div class="noreboot"><span id="a_copyfromconfig">Use Configurations of Config File Server</span> :</div>
+                <input name="copyfromconfig" type="checkbox" id="copyfromconfig" /><span id="a_copyfromconfigyes">Yes</span>
+            </div>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_autoupgrade">Automatic Upgrade</span></div>
+            </div>
+            <div webtip="Automatic Upgrade">
+                <div class="rebootitem"><span id="a_autoup">Automatic Upgrade</span> :</div>
+                <select id="autoup" name="autoup">
+                    <option value="0">NO</option>
+                    <option value="1">Check every day</option>
+                    <option value="2">Check every week</option>
+                    <option value="3">Check at a Period Time</option>
+                </select>
+                <span class="selectrebootspan" style="display:none;"></span>
+            </div>
+            <div webtip="Automatic Upgrade Check Interval" class="byperioddiv">
+                <div class="rebootitem"><span id="a_period">Automatic Upgrade Check Interval</span> :</div>
+                <input id="peroid" name="peroid" type="text" /><span class="rebootspan"></span>
+            </div>
+            <div webtip="Hour of the Day" class="bydaydiv">
+                <div class="rebootitem"><span id="a_hourofday">Hour of the Day(0-23)</span> :</div>
+                <input id="hourofday" name="hourofday" type="text" /><span class="rebootspan" style="display:none;"></span>
+            </div>
+            <div webtip="Day of the Week" class="byhourdiv">
+                <div class="rebootitem"><span id="a_dayofweek">Day of the Week(0-6)</span> :</div>
+                <input id="dayofweek" name="dayofweek" type="text" /><span class="rebootspan" style="display:none;"></span>
+            </div>
+            <div webtip="Firmware Upgrade and Provisioning" class="upgradedivs">
+                <div class="rebootitem"><span id="a_autouprule">Firmware Upgrade and Provisioning</span> :</div>
+                <select id="updaterule" name="Automatic Upgrade Rule">
+                    <option value="0">Always Check</option>
+                    <option value="1">When F/W pre/suffix changes</option>
+                    <option value="2">Skip the Firmware Check</option>
+                </select>
+                <span class="selectrebootspan"></span>
+            </div>
+            <div webtip="Auto Reboot to Upgrade Without Prompt">
+                <div class="rebootitem"><span id="a_autoreboot">Auto Reboot to Upgrade Without Prompt</span> :</div>
+                <input name="autoreboot" type="checkbox" id="autoreboot" checked="checked"><span id="a_autorebootyes">Yes</span>
+            </div>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_advettings">Advanced Settings</span></div>
+            </div>
+            <div webtip="Validate Server Certificate">
+                <div class="rebootitem"><span id="a_validatecert">Validate Server Certificate</span> :</div>
+                <input name="validatecert" type="checkbox" id="validatecert" checked="checked"><span id="a_validatecertyes">Yes</span>
+            </div>
+            <div webtip="Lock Keypad Update" style="display:none">
+                <div class="noreboot"><span id="a_keypayup">Lock Keypad Update</span> :</div>
+                <input name="keypadup" type="checkbox" id="keypadup" /><span id="a_keypayupyes">Yes</span>
+            </div>
+            <div webtip="" style="display:none;">
+                <div class="noreboot"><span id="a_confmenu">Configuration via Keypad Menu</span> :</div>
+                <select name="confmenu" id="confmenu">
+                    <option value="0" selected="selected">Unrestricted</option>
+                    <option value="1">Basic settings only</option>
+                    <!--<option value="2">Constraint Mode</option>-->
+                </select>										
+            </div>
+            <div webtip="mDNS Override Server">
+                <div class="rebootitem"><span id="a_mdns">mDNS Override Server</span> :</div>
+                <select id="mdns" name="mdns">
+                    <option value="0">Disable</option>
+                    <option value="1">Use Type A</option>
+                    <option value="2">Use Type SRV</option>
+                </select>
+                <span class="selectrebootspan"></span>
+            </div>
+            <div webtip="Allow DHCP Option 43 and Option 66 Override Server">
+                <div class="rebootitem"><span id="a_dhcp66">DHCP Option 66 Override Server</span> :</div>
+                <input name="dhcp66" type="checkbox" id="dhcp66" checked="checked"><span id="a_dhcp66yes">Yes</span>
+                <span class="rebootspan"></span>
+            </div>
+            <div webtip="3CX Auto Provision">
+                <div class="rebootitem"><span id="a_autopro">3CX Auto Provision</span> :</div>
+                <input name="autopro" type="checkbox" id="autopro" checked="checked"><span id="a_autoproyes">Yes</span>
+                <span class="rebootspan"></span>
+            </div> 
+            <div webtip="Disable SIP NOTIFY Authentication">
+                <div class="rebootitem"><span id="a_sipnotify">Disable SIP NOTIFY Authentication</span> :</div>
+                <input name="sipnotify" type="checkbox" id="sipnotify"><span id="a_sipnotifyyes">Yes</span>
+            </div>
+            <div webtip="Factory Reset" id="resetdiv">
+                <div class="noreboot"><span id="a_factreset">Factory Reset</span> :</div>
+                <input name="clearsd" type="checkbox" id="clearsd"><span id="a_clearsd">Clear Sdcard</span>
+                <button id="a_reset" type="button" value="Reset" style="margin-left:10px;margin-bottom:5px;*margin-bottom:-5px;">Reset</button>
+            </div>
+            
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="reset" class="cancelbtn">Cancel</button>
+        </div>
+    </form>
+
+</div>
+
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        $("#saveconf").removeClass("widebtn");
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var m_uploading = 0;
+var confmenumode = 0;
+var a_confpathval = "";
+var mUptype = 0;
+var GAPS_PATH = "fm.grandstream.com/gs";
+
+var req_items = new Array;
+req_items.push(
+    new ReqItem("updaterule", "238", ""),
+    new ReqItem("updatevia", "6767", ""),
+    new ReqItem("updateconfigvia", "212", ""),
+    new ReqItem("upgradeall", "upgradeall", ""),
+    new ReqItem("firpath", "192", ""),
+    new ReqItem("confpath", "237", ""),
+    new ReqItem("firpre", "232", ""),
+    new ReqItem("firpost", "233", ""),
+    new ReqItem("confpre", "234", ""),
+    new ReqItem("confpost", "235", ""),
+    new ReqItem("httpauth", "20713", ""),
+    new ReqItem("custurl", "6774", ""),
+    new ReqItem("custvia", "6775", ""),
+    new ReqItem("custusername", "6776", ""),
+    new ReqItem("custpassword", "6777", ""),
+    new ReqItem("copyfromconfig", "6778", ""),
+    new ReqItem("validatecert", "22030", ""),
+    new ReqItem("mdns", "1407", ""),
+    new ReqItem("dhcp66", "145", ""),
+    new ReqItem("autoreboot", "1549", ""),
+    new ReqItem("autopro", "1414", ""),
+    new ReqItem("autoup", "194", ""),
+    //new ReqItem("upinterval", "193", ""),
+    new ReqItem("confmenu", "1357", ""),
+    //new ReqItem("keypadup", "88", ""),
+    new ReqItem("authconffile", "240", ""),
+    new ReqItem("sipnotify", "4428", ""),
+    new ReqItem("hourofday", "285", ""),
+    new ReqItem("dayofweek", "286", ""),
+    new ReqItem("peroid", "193", ""),
+    new ReqItem("xmlpass", "1359", ""),
+    new ReqItem("httpuser", "6768", ""),
+    new ReqItem("httppass", "6769", ""),
+    new ReqItem("confighttpuser", "1360", ""),
+    new ReqItem("confighttppass", "1361", "")
+);
+
+$(function(){
+    confmenumode = $('#confmenumode',parent.document.body).val();
+    setInitState();
+    cb_get(req_items);
+    init_upload_status();
+    init_upload();
+    init_upload_cfg();
+    $("input[type='file']").attr("title", "");
+    pageEventActions(); 
+    update_conf_mode(confmenumode);
+});
+function update_conf_mode(confmenumode)
+{
+    return; //do not hide settings for admin,for bugzilla 20323
+    if( confmenumode == 1 || confmenumode == 2 ) {
+        $(".upgradedivs, #resetdiv").hide();
+    }else{
+        $(".upgradedivs, #resetdiv").show();
+    }
+}
+
+function setInitState(){
+    translate_upgrade();
+    $("#confmenu, #updatevia, #updateconfigvia, #custvia, #mdns, #autoup, #updaterule").sSelect();
+    $("#Formvalidate").validate({
+		rules: {
+            hourofday: { digits: true, range:[0,23] },
+            dayofweek: { digits: true, range:[0,6] },
+            peroid: { digits: true, range:[60,5256000] }
+        },
+		errorElement: "em",
+		success: function(label) { label.text(" "); }
+    });   
+}
+/*function cb_upgrade_type_change(){
+    if($('#firmbymanual').prop('checked') == true) { 
+        $(".firmupgradedivs, .configupgradedivs, .upgradehttpsdivs").hide();
+        $(".manualupdiv, input[type='file']").show();
+    }
+    else if($('#configbynet').prop('checked') == true) { 
+        $(".firmupgradedivs, .manualupdiv, input[type='file']").hide();
+        $(".configupgradedivs").show();
+        if( $("#updatevia").val() == 2 ){
+            $(".upgradehttpsdivs").show();
+        }
+    }
+    else{
+        $(".configupgradedivs, .manualupdiv, input[type='file']").hide();
+        $(".firmupgradedivs").show();
+        if( $("#updatevia").val() == 2 ){
+            $(".upgradehttpsdivs").show();
+        }
+    }
+}
+function cb_upgrade_change(type){
+    mUptype = type;
+    if(type == 0) { 
+        $(".firmupgradedivs, .configupgradedivs, .upgradehttpsdivs").hide();
+        $(".manualupdiv, input[type='file']").show();
+        $("input[type='file']").css("top","0").css("left","0");
+        $("#firmbymanual").addClass("selected").siblings().removeClass("selected");
+    }
+    else if(type == 2) { 
+        $(".firmupgradedivs, .manualupdiv, input[type='file']").hide();
+        $(".configupgradedivs").show();
+        if( $("#updatevia").val() != 0 ){
+            $(".upgradehttpsdivs").show();
+        }
+        $("#configbynet").addClass("selected").siblings().removeClass("selected");
+    }
+    else{
+        $(".configupgradedivs, .manualupdiv, input[type='file']").hide();
+        $(".firmupgradedivs").show();
+        if( $("#updatevia").val() != 0 ){
+            $(".upgradehttpsdivs").show();
+        }
+        $("#firmbynet").addClass("selected").siblings().removeClass("selected");
+    }
+}*/
+function init_upload_status()
+{
+	var urihead = "action=initupstatus&region=maintenance";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+        
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function init_upload(){
+    var button = $('#a_upload'), interval;
+    var uploadkeytimer = 0;
+    new Ajax_upload(button,{
+        name: 'file',
+		action : '../upload?type=upgradefile',
+        onSubmit : function(file, ext){
+            m_uploading = 1;
+            cb_ping();
+            cb_check_provision();
+            if( m_checkresult == "0" )
+            {
+                $.prompt(a_16451);
+                return false;
+            }
+            //if (ext && new RegExp('^(' + allowed.join('|') + ')$').test(ext)){
+            /*if (! (ext && /^(xml)$/.test(ext))){
+                    alert('Error: invalid file extension');
+                    return false;
+            }*/
+            // change button text, when user selects file           
+            button.text(a_16431);
+            button.addClass('widebtn');
+            
+            // If you want to allow uploading only 1 file at time,
+            // you can disable upload button
+            this.disable();
+            
+            // Animating upload button
+            // Uploding -> Uploading. -> Uploading...
+            interval = window.setInterval(function(){
+                var text = button.text();
+                uploadkeytimer++;
+                if (text.length < (a_16431.length + 3)){
+                    button.text(text + '.');
+                } else {
+                    button.text(a_16431);
+                }
+                if( uploadkeytimer == 1600 || uploadkeytimer == 3200 ){
+                    cb_ping();
+                }
+                if (uploadkeytimer > 3600)
+                {
+                     window.clearInterval(interval);
+                     uploadkeytimer = 0;
+                     $.prompt(a_16477);
+                     button.text(a_7404);
+                     button.removeClass('widebtn');
+                }
+            }, 500);
+        },
+        onComplete: function(file, response){
+            //console.log(response);
+            button.text(a_8104);
+            button.removeClass('widebtn');
+            window.clearInterval(interval);
+            $("input[type='file']").attr("title", "");
+            uploadkeytimer = 0;
+            if( $("#upgradeall").attr("checked") ){
+                if( response.indexOf("Response=Success") != -1 ){
+                    cb_upgrade_now();
+                }else if( response.indexOf("Message=Not enough space") != -1 ){
+                    button.text(a_7404);
+                    $.prompt(a_16477 + a_16462);
+                }else{
+                    button.text(a_7404);
+                    $.prompt(a_16477);
+                }
+            }else{
+                cb_upgrade_now();
+            }
+            // enable upload button
+            this.enable();
+        }
+    });
+}
+function cb_check_provision()
+{
+    var upgradeall = 0;
+    if( $("#upgradeall").attr("checked") ){
+        upgradeall = 1;
+    }
+    var urihead = "action=provisioninit&region=maintenance&upgradeall=" + upgradeall;
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        async:false,
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_check_provision_done(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_check_provision_done(data)
+{
+    m_checkresult = data;
+}
+function cb_upgrade_now(){
+    
+	var urihead = "action=upgradenow&region=maintenance";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            $('#a_upload').text(a_7404);
+            cb_upgrade_done(data);
+            m_uploading = 0;
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+            m_uploading = 0;
+        }
+    });
+}
+function reboot()
+{
+    self.parent.location='/reboot.html';
+}
+function cb_upgrade_done(data)
+{
+    var msgs = res_parse_rawtext(data);
+	cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs)){
+        if( $("#upgradeall").attr("checked") ){
+            var result = parseInt(msgs.headers["result"]);
+            if( result == 2 )
+                $.prompt(a_16454);
+            else
+                $.prompt(a_16455);
+        }
+    }else {
+        if( $("#upgradeall").attr("checked") ){
+            /*$.cookie( "ShutdownType" , "3" , { path: '/', expires: 30 });
+            window.parent.location='/reboot.html';*/
+            $.prompt(a_16669);
+            return;
+        }
+        var result = parseInt(msgs.headers["result"]);
+        switch(result)
+        {
+            case 0:
+                $.prompt(a_16452);
+                //setTimeout("reboot()", 2000);
+                break;
+            case 1:
+                $.prompt(a_16453);
+                break;
+            case 2:
+                $.prompt(a_16454);
+                break;
+            case 3:
+                $.prompt(a_16455);
+                break;
+            case 4:
+                $.prompt(a_16456);
+                break;
+            case 5:
+                $.prompt(a_16457);
+                break;
+            case 6:
+                $.prompt(a_16458);
+                break;
+            case 7:
+                $.prompt(a_16459);
+                break;
+            case 8:
+                $.prompt(a_16460);
+                break;
+            case 9:
+                $.prompt(a_16461);
+                break;
+            case 10:
+                $.prompt(a_16462);
+                break;
+            case 15:
+            default:
+                $.prompt(a_16463);
+                break;
+        }
+    }
+}
+function cb_lock_change() {
+    if ($('#keypadup').prop("checked") == false) {
+        $('#a_reset').attr('disabled', false).css('color','');
+    }
+    else{
+        $('#a_reset').attr('disabled', true).css('color','#BFBFBF');
+    }
+}
+function translate_upgrade(){
+    /*$("#firmbymanual").text(a_16666);
+    $("#firmbynet").text(a_16667);
+    $("#configbynet").text(a_16668);*/
+    $("#a_upgrade").text(a_1605);
+    $("#a_keypayup").text(a_16321);
+    $("#a_confmenu").text(a_16322);
+    $("#confmenu option:eq(0)").text(a_16323);
+    $("#confmenu option:eq(1)").text(a_16324);
+    $("#confmenu option:eq(2)").text(a_16325);
+    $("#a_keypayupyes, #a_dhcp66yes, #a_autorebootyes, #a_autoproyes, #a_authyes, #a_httpauthyes, #a_validatecertyes, #a_upgradeallyes, #a_sipnotifyyes, #a_usegsgapyes, #a_copyfromconfigyes").text(a_5);
+    $("#a_upvia").text(a_19175);
+    //$("#updatevia option:eq(3)").text(a_16326);
+    $("#a_xmlpass").text(a_16327);
+    $("#a_httpuser").text(a_19172);
+    $("#a_httppass").text(a_19173);
+    $("#a_firmwaretitle").text(a_19179);
+    $("#a_configtitle").text(a_19180);
+    $("#a_usegsgap").text(a_19213);
+    $("#a_configupvia").text(a_19176);
+    $("#a_confighttpuser").text(a_19177);
+    $("#a_confighttppass").text(a_19178);
+    $("#a_firserpath").text(a_4113);
+    $("#a_upgradeall").text(a_16648);
+    $("#a_upload").text(a_16197);
+    $("#a_upfirmfile").text(a_16328);
+    $("#a_autoreboot").text(a_16329);
+    $("#a_configserpath").text(a_4114);
+    $("#a_firfipre").text(a_16330);
+    $("#a_firfipost").text(a_16331);
+    $("#a_conffipre").text(a_16332);
+    $("#a_conffipost").text(a_16333);
+    $("#a_custfile").text(a_19203);
+    $("#a_custurl").text(a_19199);
+    $("#a_custvia").text(a_19200);
+    $("#a_custusername").text(a_19201);
+    $("#a_custpassword").text(a_19202);
+    $("#a_copyfromconfig").text(a_19224);
+    $("#a_mdns").text(a_16334);
+    $("#mdns option:eq(0)").text(a_39);
+    $("#mdns option:eq(1)").text(a_16335);
+    $("#mdns option:eq(2)").text(a_16336);
+    $("#a_dhcp66").text(a_16337);
+    $("#a_autopro").text(a_16339);
+    $("#a_autoupgrade, #a_autoup").text(a_16340);
+    $("#autoup option:eq(0)").text(a_6);
+    $("#autoup option:eq(1)").text(a_16341);
+    $("#autoup option:eq(2)").text(a_16342);
+    $("#autoup option:eq(3)").text(a_16343);
+    $("#a_period").text(a_16344);
+    $("#a_hourofday").text(a_16345);
+    $("#a_dayofweek").text(a_16346);
+    $("#a_autouprule").text(a_4107);
+    $("#updaterule option:eq(0)").text(a_4108);
+    $("#updaterule option:eq(1)").text(a_4109);
+    $("#updaterule option:eq(2)").text(a_4110);
+    $("#a_authconffile").text(a_16347);
+    $("#a_factreset").text(a_4105);
+    $("#a_reset").text(a_16348);
+    $("#a_backupcfg").text(a_16349);
+    $("#a_restorecfg").text(a_16350);
+    $("#backupcfg").text(a_306);
+    $("#restorecfg").text(a_9006);
+    $("#a_saveconf").text(a_16351);
+    $("#saveconf").text(a_28);
+    $("#a_importconf").text(a_19184);
+    $("#a_browse").text(a_16486);
+    $("#a_clearsd").text(a_4357);
+    $("#a_httpauth").text(a_16352);
+    $("#a_validatecert").text(a_19025);
+    $("#a_advettings").text(a_4101);
+    $("#a_sipnotify").text(a_19013);
+    //$("#factresetstyle option:eq(0)").text(a_fullreset);
+    //$("#factresetstyle option:eq(1)").text(a_fastbootreset);
+    //$("#factresetstyle option:eq(1)").text(a_voipreset);
+    //$("#factresetstyle option:eq(2)").text(a_userreset);
+    $("#a_save").text(a_17);
+    $("#a_cancel").text(a_3);
+}
+function get_item_suc_callback() {
+    /*var colore = $('#existcolore',parent.document.body).val();
+    if( colore == 1 )
+    {
+        $("#factresetstyle").val(3);
+        $("#factresetstyle").hide();
+    }else{
+        $("#factresetstyle").sSelect();
+    }*/
+    
+    cb_lock_change();
+    //cb_upgrade_type_change();
+    //cb_upgrade_change(1);
+    cb_auto_upgrade_change();
+    a_confpathval = $("#confpath").val();
+    if (a_confpathval == GAPS_PATH) {
+        $("#usegsgap").prop("checked", "checked");
+        $(".gapsitem").hide();
+    } else {
+        $("#usegsgap").removeAttr("checked");
+        $(".gapsitem").show();
+    }
+}
+
+function pingesuccess(data){
+    var msgs = res_parse_rawtext(data);
+    if (msgs.headers['response'].toLowerCase() == "error" &&
+        msgs.headers['message'].toLowerCase() == "authentication required") {
+        window.parent.location.href='/login.html';
+    } else {
+        if( !m_uploading )
+            cb_resetres();
+    }
+}
+function cb_resetres() {
+    var txt = '<div class="shortmsg">' + a_16472 + '</div>';
+    $.prompt(txt,{
+        buttons:{
+            Yes: true, No: false
+        },
+        callback: function(v,m,f){
+            if(v) {  cb_resetres_ok(); }
+            else {}
+        }
+    });
+}
+function cb_resetres_ok(){
+    var urihead = "action=factset&region=maintenance&resetstyle=";    // + $("#factresetstyle").val();
+    if( $("#clearsd").prop("checked") == true )
+        urihead += "1";
+    else
+        urihead += "0";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_resetdone(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_get_resetdone(data)
+{
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs)){
+    }else {
+        $.cookie( "ShutdownType" , "3" , { path: '/', expires: 30 });
+        self.parent.location='/reboot.html';
+    }
+}
+function save_settings()
+{
+    cb_put(req_items, "", 0);
+    if( $("#dhcp66").attr("checked") )
+        cb_set_property(3, 1);
+    else
+        cb_set_property(3, 0);
+    window.parent.update_menu_mode( $("#confmenu").val() );
+    update_conf_mode($("#confmenu").val());
+}
+
+function cb_get_action_done(data, action)
+{
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs)){
+        if( action == "importconf" )
+        {
+            $.prompt(a_16477);
+            $("#a_browse").text(a_16486).removeAttr("disabled").css('color','');
+            window.parent.unblock_func();
+        }
+    }   
+    else {
+        if(action == "backupcfg&region=maintenance")
+        {
+            view_message(a_7479, MSG_OK);
+        }else if( action == "restorecfg&region=maintenance" )
+        {
+            window.parent.unblock_func();
+            var txt = '<div class="shortmsg">' + a_16473 + '</div>';
+            $.prompt(txt,{
+                buttons:{
+                    Yes: true, No: false
+                },
+                callback: function(v,m,f){
+                    if(v) {  self.parent.location='/reboot.html'; }
+                    else {}
+                }
+            });
+        }else if( action == "saveconf&region=maintenance" )
+        {
+            parent.window.location.href = "/config?time=" + new Date().getTime();
+        }else if( action == "importconf&region=maintenance" )
+        {
+            $.prompt(a_16476);
+            $("#a_browse").text(a_16486).removeAttr("disabled").css('color','');
+            window.parent.unblock_func();
+        }
+    }
+}
+function cb_auto_upgrade_change(){
+    var value = $("#autoup").val();
+    if(value == "0")
+    {
+        $(".byperioddiv, .bydaydiv, .byhourdiv").hide();
+    }
+    else if(value == "1")
+    {
+        $(".byperioddiv, .byhourdiv").hide();
+        $(".bydaydiv").show();
+    }
+    else if(value == "2")
+    {
+        $(".byperioddiv, .bydaydiv").hide();
+        $(".byhourdiv").show();
+    }
+    else if(value == "3")
+    {
+        $(".byhourdiv, .bydaydiv").hide();
+        $(".byperioddiv").show();
+    }
+}
+
+function init_upload_cfg(){
+    var button = $("#a_browse"), interval;
+	var uploadkeytimer = 0;
+	new Ajax_upload(button, {
+		name: 'file',
+		action : '../upload?type=importcfg',
+		onSubmit : function(file, ext) {
+			m_uploading = 2;
+			cb_ping();
+			window.parent.block_upload_func();
+			button.text(a_4395);
+			button.addClass("widebtn");
+
+			//this.disable();
+			$("#a_browse").attr("disabled", "true").css('color','#BFBFBF');
+
+			interval = window.setInterval(function(){
+				var text = button.text();
+				uploadkeytimer ++;
+				if (text.length < (a_4395.length +3)) {
+					button.text(text + ".");
+				} else {
+					button.text(a_4395);
+				} 
+				if (uploadkeytimer > 900) {
+					window.clearInterval(interval);
+					uploadkeytimer = 0;
+					$.prompt(a_8452);
+					button.text(a_7404);
+					button.removeClass("widebtn");
+				}	
+			}, 200);	
+		},
+		onComplete: function(file, response) {
+			//var msgs = res_parse_rawtext(response);
+			//var size = msgs.headers['Size'];
+			window.clearInterval(interval);
+			uploadkeytimer = 0;
+			cb_get_action("importconf&region=maintenance");
+		}
+	});
+}
+
+function pageEventActions(){
+    /*$("input[name=uptype]").click(function(){
+        cb_upgrade_type_change();
+    });*/
+    
+    $("#backupcfg").click(function(){
+        cb_get_action("backupcfg&region=maintenance");
+    });
+    $("#restorecfg").click(function(){
+        window.parent.block_download_func(a_16471);
+        cb_get_action("restorecfg&region=maintenance");
+    });
+    
+    $("#saveconf").click(function(){
+        cb_get_action('saveconf&region=maintenance');
+    });
+    
+    $("#keypadup").change(function(){
+        cb_lock_change();
+    });
+    /*$("#updatevia").change(function(){
+        if( $("#updatevia").val() == 0 ){
+        	$(".upgradehttpsdivs").hide();
+        }else
+        	$(".upgradehttpsdivs").show();
+    });*/
+    
+    $("#a_reset").click(function(){
+        cb_ping();
+    });
+    
+    $("#usegsgap").click(function() {
+        if ($(this).prop("checked")) {
+            $("#confpath").val(GAPS_PATH);
+            $(".gapsitem").hide();
+        } else {
+            $("#confpath").val(a_confpathval);
+            $(".gapsitem").show();
+        }
+    });
+    
+    $("#a_save").click(function(){
+        if( !$("#Formvalidate").valid() ){
+            view_message(a_16442,MSG_FAIL);
+            return false;
+        }
+        var pre = $("#updatevia option:selected").text() + "://";
+        if( $("#firpath").val().substring(0, pre.length).toUpperCase() == pre )
+        {
+        	$("#firpath").val( $("#firpath").val().substring(pre.length) );
+        }
+
+        pre = $("#updateconfigvia option:selected").text() + "://";
+        if( $("#confpath").val().substring(0, pre.length).toUpperCase() == pre )
+        {
+        	$("#confpath").val( $("#confpath").val().substring(pre.length) );
+        }
+    
+        pre = $("#custvia option:selected").text() + "://";
+        if( $("#custurl").val().substring(0, pre.length).toUpperCase() == pre )
+        {
+        	$("#custurl").val( $("#custurl").val().substring(pre.length) );
+        }
+        
+        if( $("#firpre").val().indexOf("#") != -1 || $("#firpost").val().indexOf("#") != -1 || $("#confpre").val().indexOf("#") != -1 || $("#confpost").val().indexOf("#") != -1 ){
+            $.prompt(a_19004);
+            return false;
+        }
+        var newconfpathval = $("#confpath").val();
+        /*if( newconfpathval != a_confpathval ) {
+            var txt = '<div class="shortmsg">' + a_confreboot + '</div>';
+            $.prompt(txt,{
+                buttons:{
+                    Yes: true, No: false
+                },
+                callback: function(v,m,f){
+                    if(v) {  a_confpathval = newconfpathval; save_settings(); }
+                    else {}
+                }
+            });
+        }else{
+            save_settings();
+        }*/
+        save_settings();
+    });
+    
+    $("#autoup").change(function(){
+        cb_auto_upgrade_change();
+    });
+}
+
+</script>
+
+</body>
+
+</html>

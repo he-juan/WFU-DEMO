@@ -1,0 +1,430 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<style>
+.imgdiv, img{width:101px;height:58px;margin:0 !important;padding:0;*margin-top:0px !important;}
+fieldset button{min-width:0px;}
+#leftdiv{float:left;width:408px;margin-right:10px;margin-left:20px;margin-top:30px;}
+#presetdiv{width:100%;border:1px solid #BEC6CC;background:#F4F4F4;border-right: 0px solid transparent;border-bottom: 0px solid transparent;}
+#ptzctrldiv{/*background:url("../img/ptz_background.png") no-repeat;*/width:311px;height:489px;float:left;position: absolute;right: 10px;margin-top:30px;background-position: 0px 33px;}
+#direction{width:163px;height:163px;background:transparent;position:relative;left:50%;margin-left:-82px;top:20px;}
+.optionbtn{width:300px;margin-top: 85px !important;height:40px;border-radius:4px;border:1px solid #999999;background-color:#FAF9F9;margin-left:5px;}
+.optionbtn button{background:transparent;width:60px;height:40px;color:#666666;font-weight:bold;font-size:20px;min-width:0px;padding:0px;float:left;}
+.optionbtn button.buttonover{color:#219BF2;}
+fieldset div div.zoombtn{width:55px;height:40px;text-align: center;display:inline-block;margin-top:0px !important;}
+.zoombtn button{position: relative;top: 6px;left:13px;}
+#direction button{width:40px;height:40px;position:absolute;min-width:0px;}
+#direction #home{width:78px;height:78px;}
+#direction.normal{background:url("../img/control_all.png") -652px -28px  no-repeat;}
+#direction.uphover{background:url("../img/control_all.png") -0px -28px  no-repeat;}
+#direction.upactive{background:url("../img/control_all.png") -0px -191px  no-repeat;}
+#direction.downhover{background:url("../img/control_all.png") -326px -28px  no-repeat;}
+#direction.downactive{background:url("../img/control_all.png") -326px -191px  no-repeat;}
+#direction.righthover{background:url("../img/control_all.png") -163px -28px  no-repeat;}
+#direction.rightactive{background:url("../img/control_all.png") -163px -191px  no-repeat;}
+#direction.lefthover{background:url("../img/control_all.png") -489px -28px  no-repeat;}
+#direction.leftactive{background:url("../img/control_all.png") -489px -191px  no-repeat;}
+.titlediv{width:100%;font-size:20px;font-weight:bold;color:#222222;margin:0 0 40px 0;background:transparent;text-align: center;}
+#up{background:url("../img/control_all.png") -80px -354px  no-repeat;top:7px;left:62px;}
+#up.buttonover{background:url("../img/control_all.png") -120px -354px  no-repeat;}
+#down{background:url("../img/control_all.png") -160px -354px  no-repeat;top:114px;left:62px;}
+#down.buttonover{background:url("../img/control_all.png") -200px -354px  no-repeat;}
+#left{background:url("../img/control_all.png") -0px -354px  no-repeat;left:7px;top:62px;}
+#left.buttonover{background:url("../img/control_all.png") -40px -354px  no-repeat;}
+#right{background:url("../img/control_all.png") -240px -354px  no-repeat;left:117px;top:62px;}
+#right.buttonover{background:url("../img/control_all.png") -280px -354px  no-repeat;}
+#zoomwide{background:url("../img/control_all.png") 0px 0px  no-repeat;width:28px;height:28px;min-width:0px;}
+#zoomtele{background:url("../img/control_all.png") -56px 0px  no-repeat;width:28px;height:28px;min-width:0px;}
+#zoomwide.buttonover{background:url("../img/control_all.png") -28px 0px  no-repeat;}
+#zoomtele.buttonover{background:url("../img/control_all.png") -84px 0px  no-repeat;}
+#MFup{margin:0px;}
+
+.imgdiv{border:1px solid #BEC6CC;position: relative;border-left: 0px solid transparent;border-top: 0px solid transparent;}
+.imgdiv:hover{cursor:pointer;}
+.imagebg{position:absolute;z-index:0;top:0px;left:0px;width:100%;height:100%;border:none;display:none;}
+.imgdiv span{width:20px;height:20px;line-height:20px;font-size:14px;font-weight:bold;text-align:center;margin-left:8px;}
+.imgdiv span.hasIMG{width:20px;height:20px;line-height:20px;border-radius: 50px;border:0px;color:#FFFFFF;background:#219BF2;position:relative;left:5px;top:5px;margin-top:0;float:left;margin-left:0;z-index:2;opacity:0.8;font-weight:normal;}
+.imgdiv span.noIMG{width:30px;height:30px;line-height:30px;border-radius: 50px;border:1px solid #666666;color:#666666;background:transparent;position:relative;left:50%;top:50%;margin-top:-15px;float: left;margin-left:-15px;background-color:#FFFFFF;}
+.hasimg{background:url("../img/control_all.png") -29px -81px no-repeat;width:29px;height:19px;position:relative;top: 50%;right:12px;margin:-9px 0 0 0px;border:0;float: right;}
+.noimg{background:none;width:18px;height:18px;position:relative;top: 50%;right:18px;margin:-9px 0 0 0;border:0;float: right;}
+.imgdiv.hasset.hassetpresetselect{width:100px;height: 57px;background:#2C9BEA;cursor:pointer;border:1px solid #219BF2;*width:101px;*height:58px;}
+.imgdiv.noset.presetselect{width:100px;height: 57px;background:#219BF2;cursor:pointer;border:1px solid #219BF2;*width:101px;*height:58px;}
+.imgdiv span.hasIMG.hassetspanselect{}
+.imgdiv span.noIMG.spanselect{border:1px solid #219BF2;color:#219BF2;}
+.imgdiv span.noIMG.hover{border:1px solid #219BF2;color:#219BF2;}
+div.hasimg.hassetimgselect{background:url("../img/control_all.png") 0px -81px no-repeat;}
+
+.presetimg{width:134px;height:76px;border:1px solid #FFFFFF;box-shadow:0px 0px 10px 6px #D6D6D6;position:absolute;z-index:10;top: -10px;left: -17px;}
+.savediv{width:auto;padding:0;float:right;z-index:100;margin-right:70px;position: relative;top:-50px;}
+.savebtn{margin-right:0;}
+.savebtn,.cancelbtn{*width:82px !important;}
+#a_delete{margin:0 10px 0 10px;}
+.newListSelected{margin:0 0 0 125px;text-align:left;}
+.newListSelected div{width:252px;}
+.imgdiv.hover{border:1px solid #219BF2;width:100px;height: 57px;*width:101px;*height:58px;}
+#a_delete.disabledclass, #a_save.disabledclass{background-color: #C8C8C8;color: #FFFFFF;}
+fieldset div div.divingline{width:1px;height:40px;background:url("../img/ptz_divingline.png") no-repeat;display:inline-block;margin:0 !important;background-position: center;float:left;}
+#selectedmask{width:100%;height:100%;background-color:rgba(0,0,0,0.3);text-align:center;font-size:10px;color:#fff;font-weight: bold;position:absolute;top:0px;left:0px;z-index:1;display:none;margin:0px !important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000);}
+#selectedmask span{position: relative;top: 20px;width:auto;margin-left: 0px;font-size:12px;}
+</style>
+<body id="framebody" onunload="leavepage();">
+<div class="tooltip"></div>
+<div id="selectedmask">
+    <span>Selected</span>
+</div>
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_video">Video Settings</span></div>
+    <div id="statusdiv"></div>
+	<form action="" method="get" id="Formvalidate">
+		<fieldset style="height:490px;">
+		    <!--<div>
+		        <span>1. Select the preset position  2. Adjust PTZ  3. Save Preset</span>
+		    </div>-->
+            <div id="leftdiv">
+                <div class="titlediv" id="a_preset">Preset Settings</div>
+                <div id="presetdiv">
+                
+                </div>
+            </div>
+            <div id="ptzctrldiv">
+                <div class="titlediv" id="a_ptz">PTZ Control</div>
+                <div id="direction" class="normal">
+                    <button type="button" id="up" class="ptzctrl" arrowtype="up"></button>
+                    <button type="button" id="right" class="ptzctrl" arrowtype="right"></button>
+                    <button type="button" id="down" class="ptzctrl" arrowtype="down"></button>
+                    <button type="button" id="left" class="ptzctrl" arrowtype="left"></button>
+                    <button type="button" id="home" class="ptzctrl" arrowtype="home" style="display:none;"></button>
+                </div>
+                <div class="optionbtn">                    
+                    <button type="button" id="AF" class="ptzctrl" arrowtype="focusone">AF</button>
+                    <div class="divingline"></div>
+                    <button type="button" id="MFup" class="ptzfocusctrl" arrowtype="focusfar">MF+</button>
+                    <div class="divingline"></div>
+                    <button type="button" id="MFdown" class="ptzfocusctrl" arrowtype="focusnear">MF-</button>
+                    <div class="divingline"></div>
+                    <div class="zoombtn"><button type="button" id="zoomwide" class="ptzctrl" arrowtype="zoomtele"></button></div>
+                    <div class="divingline"></div>
+                    <div class="zoombtn"><button type="button" id="zoomtele" class="ptzctrl" arrowtype="zoomwide"></button></div>
+                </div>
+            </div>
+            
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            
+            <button id="a_delete" type="button" class="cancelbtn">Delete</button>
+            
+            <button id="a_cancel" type="reset" class="cancelbtn" style="display:none;">Cancel</button>
+        </div>
+	</form>
+
+</div>
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+    new ReqItem("enabledetecyes", "7044", "")
+);
+var MAXPRESETNUM = 24;
+var mFocusTimeout;
+var mUpdatePosTimer = 0;
+var mPressedDown = 0;
+
+$(function(){
+    setInitState();
+    pageEventActions();
+});
+function get_item_suc_callback(){
+    
+}
+function setInitState(){
+    translate_video();
+    var presetDivObj = document.getElementById('presetdiv');
+    for(var i = 0; i < MAXPRESETNUM; i++){
+        var imgdiv = document.createElement('DIV');
+        imgdiv.id = "presetdiv" + i;
+        imgdiv.className='imgdiv noset';
+        imgdiv.setAttribute("preset",i);
+        var idspan = document.createElement('SPAN');
+        idspan.id = "presetnum" + i;
+        idspan.className = "noIMG";
+        idspan.innerHTML = (i + 1);
+        imgdiv.appendChild(idspan);
+        var imgBG = document.createElement('IMG');
+        imgBG.className = "imagebg";
+        imgBG.id = "imagebg"+i;
+        imgBG.src = '/com.base.module.phone/' + i + '.jpg?' + new Date().getTime();
+        var img = document.createElement('IMG');
+        img.id = "presetimg" + i;
+        img.setAttribute("presetid",i);
+        img.className = "presetimg";
+        img.src = '/com.base.module.phone/' + i + '.jpg?' + new Date().getTime();
+        /*img.onerror = function(){
+            console.log("error" + img.id);
+            img.src = '';
+            img.onerror = null;
+        };*/
+        imgdiv.appendChild(img);
+        imgdiv.appendChild(imgBG);
+        presetDivObj.appendChild(imgdiv);
+    }
+    $(".presetimg").load(function(){
+        var presetid = $(this).attr("presetid");
+        $("#presetdiv" + presetid).attr("class", 'imgdiv hasset');
+        $("#presetnum" + presetid).attr("class", 'hasIMG');
+        $("#presetimgdiv" + presetid).attr("class", 'hasimg');
+        $("#presetdiv" + presetid).children(".imagebg").show();
+    });
+    $(".presetimg").hide();
+    $("#a_save,#a_delete").attr("disabled","disabled").addClass("disabledclass");
+}
+function cb_get_action_done(data, action){
+    if( data.substring(0, 1) == "{" ){
+        if( action.indexOf("type=gotopreset" ) != "-1" ){
+            clearTimeout(mUpdatePosTimer);
+            mUpdatePosTimer = setTimeout("cb_update_position();", 3000);
+        }
+        return;
+    }
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs)){
+        if( action.indexOf("setpreset&region=control&type=add") != -1 || action.indexOf("setpreset&region=control&type=delete") != -1 ){
+            $.prompt(a_63); 
+            window.parent.unblock_func();
+        }      
+    }   
+    else {
+        if( action.indexOf("setpreset&region=control&type=add") != -1 ){
+            var selpos = $(".imgdiv[choose=1]").attr("preset");
+            var datatime = new Date().getTime();
+            $("#presetdiv" + selpos).removeClass("noset").removeClass("presetselect").removeClass("hassetpresetselect").addClass("hasset");
+            $("#presetnum" + selpos).removeClass("noIMG").addClass("hasIMG");
+            $("#presetimg" + selpos).attr("src", "/com.base.module.phone/" + selpos + ".jpg?" + datatime);
+            $("#imagebg" + selpos).attr("src", "/com.base.module.phone/" + selpos + ".jpg?" + datatime).show();
+            $("#presetimgdiv" + selpos).removeClass("noimg").addClass("hasimg");
+            $("#presetdiv" + selpos).children().removeClass("spanselect").removeClass("imgselect").removeClass("hassetspanselect").removeClass("hassetimgselect");
+            $("#a_save,#a_delete").attr("disabled","disabled").addClass("disabledclass");
+            window.parent.unblock_func();  
+        }else if( action.indexOf("setpreset&region=control&type=delete") != -1 ){
+            var selpos = $(".imgdiv[choose=1]").attr("preset");
+            $("#presetdiv" + selpos).removeClass("hasset").removeClass("presetselect").removeClass("hassetpresetselect").addClass("noset");
+            $("#presetdiv" + selpos).children().removeClass("spanselect").removeClass("imgselect").removeClass("hassetspanselect").removeClass("hassetimgselect");
+            $("#presetnum" + selpos).removeClass("hasIMG").addClass("noIMG");
+            $("#presetimg" + selpos).attr("src", "");
+            $("#imagebg" + selpos).attr("src", "").hide();
+            $("#presetimgdiv" + selpos).removeClass("hasimg").addClass("noimg");
+            $("#a_save,#a_delete").attr("disabled","disabled").addClass("disabledclass");
+            $("#selectedmask").hide();
+            window.parent.unblock_func();
+        }else if( action.indexOf("ptzctrl&region=control") != -1 ){
+            clearTimeout(mUpdatePosTimer);
+            if( mPressedDown == 0 ){
+                mUpdatePosTimer = setTimeout("cb_update_position();", 3000);
+            }
+        }
+    }
+}
+
+function translate_video(){
+	//$("#a_video").text(advanced_video);
+    $("#a_preset").text(a_16595);
+    $("#a_ptz").text(a_16592);
+    $("#a_selectpreset").text(a_19001);
+    $("#a_deletepreset").text(a_19002);
+    $("#selectok, #deleteok").text(a_2);
+	$("#selectcancel, #deletecancel, #a_cancel").text(a_3);
+    $("#a_save").text(a_17);
+    $("#a_delete").text(a_21);
+    $("#selectedmask span").text(a_407);
+}
+function leavepage(){
+    if( mUpdatePosTimer != 0 ){
+        cb_update_position();
+    }
+}
+function cb_update_position(){
+    cb_get_action("setpreset&region=control&type=updateposition&position=-1"); 
+    mUpdatePosTimer = 0;  
+}
+function cb_focus(type){
+    clearTimeout(mUpdatePosTimer);
+    cb_get_action("ptzctrl&region=control&type=" + type + "&param=0");
+    if( type == "focusnear" ){
+        mFocusTimeout = setTimeout("cb_focus('focusnear');", 250);
+    }else{
+        mFocusTimeout = setTimeout("cb_focus('focusfar');", 250);
+    }
+}
+function pageEventActions(){
+    var hoverTimer;
+    $(".imgdiv").hover(function(){
+        var $this = $(this);
+        hoverTimer = setTimeout(function(){
+            $this.addClass("hover");
+            $this.children(".noIMG").addClass("hover");
+            if($this.attr("class").indexOf("hasset") != -1)
+            {
+                $this.children(".presetimg").fadeIn(500);
+            }
+        },100);
+    },function(){
+        clearTimeout(hoverTimer);
+        $(this).removeClass("hover");
+        $(this).children(".noIMG").removeClass("hover");
+        if($(this).attr("class").indexOf("hasset") != -1)
+        {
+            $(this).children(".presetimg").fadeOut(500);
+        }
+    });
+
+    $("#direction button").hover(function(){
+        var direction = $(this).attr("arrowtype");
+        if(direction == "up")
+        {
+            $("#direction").removeClass().addClass("uphover");
+        }
+        else if(direction == "left")
+        {
+            $("#direction").removeClass().addClass("lefthover");
+        }
+        else if(direction == "down")
+        {
+            $("#direction").removeClass().addClass("downhover");
+        }
+        else if(direction == "right")
+        {
+            $("#direction").removeClass().addClass("righthover");
+        }
+    },function(){
+        $("#direction").removeClass().addClass("normal");
+    });
+    
+    $(".imgdiv").click(function(e) {
+        var $this = $(this);
+        if( $this.hasClass("hasset") ){
+	        var selposition = $this.children("img").attr("presetid");
+	        clearTimeout(mUpdatePosTimer);
+            cb_get_action("sqliteconf&region=apps&type=gotopreset&id=" + selposition);   
+            $this.addClass("hassetpresetselect");
+            $this.children("span").addClass("hassetspanselect");
+            $this.children("div[imgdefault='imgdefault']").addClass("hassetimgselect");
+            $("#a_delete").removeAttr("disabled").removeClass("disabledclass");
+            $("#selectedmask").appendTo($this).show();
+        }
+        else
+        {
+            $this.addClass("presetselect");
+            $this.children("span").addClass("spanselect");
+            $this.children("div[imgdefault='imgdefault']").addClass("imgselect");
+            $("#a_delete").attr("disabled","disabled").addClass("disabledclass");
+            $("#selectedmask").hide();
+        }
+        $this.attr("choose","1");
+        $this.siblings(".imgdiv").attr("choose","0");
+        $this.siblings(".imgdiv").removeClass("presetselect").removeClass("hassetpresetselect");
+        $this.siblings(".imgdiv").children().removeClass("spanselect").removeClass("imgselect").removeClass("hassetspanselect").removeClass("hassetimgselect");
+        $("#a_save").removeAttr("disabled").removeClass("disabledclass");
+    });
+    
+	$("#a_save").click(function(e) {
+        window.parent.block_download_func(a_6660);
+	    var selposition = $(".imgdiv[choose=1]").attr("preset");
+        cb_get_action("setpreset&region=control&type=add&position=" + selposition);   
+    });
+    
+    $("#a_delete").click(function(e) {
+        window.parent.block_download_func(a_6660);
+	    var selposition = $(".imgdiv[choose=1]").attr("preset");
+        cb_get_action("setpreset&region=control&type=delete&position=" + selposition);   
+    });
+    
+	$(".ptzctrl").mousedown(function(){
+	    mPressedDown = 1;
+	    clearTimeout(mUpdatePosTimer);
+        var type = $(this).attr("arrowtype");
+        cb_get_action("ptzctrl&region=control&type=" + type + "&param=0");
+    }).mouseup(function(){
+        mPressedDown = 0;
+        clearTimeout(mUpdatePosTimer);
+        cb_get_action("ptzctrl&region=control&type=stop&param=0");
+    });
+
+    $(".ptzfocusctrl").mousedown(function(){
+        mPressedDown = 1;
+        clearTimeout(mUpdatePosTimer);
+        var type = $(this).attr("arrowtype");
+        cb_get_action("ptzctrl&region=control&type=" + type + "&param=0");
+        if( type == "focusfar" ){
+            mFocusTimeout = setTimeout("cb_focus('focusfar');", 250);
+        }else if( type == "focusnear" ){
+            mFocusTimeout = setTimeout("cb_focus('focusnear');", 250);
+        }
+    }).mouseup(function(){
+        mPressedDown = 0;
+        clearTimeout(mFocusTimeout);
+        clearTimeout(mUpdatePosTimer);
+        cb_get_action("ptzctrl&region=control&type=stop&param=0");
+    });
+
+    $(".ptzctrl").mouseout(function(){
+        if( mPressedDown == 1 ){
+            mPressedDown = 0;
+            $(this).removeClass("buttonclick");
+            clearTimeout(mUpdatePosTimer);
+            cb_get_action("ptzctrl&region=control&type=stop&param=0");
+        }
+    });
+
+    $(".ptzfocusctrl").mouseout(function(){
+        if( mPressedDown == 1 ){
+            mPressedDown = 0;
+            clearTimeout(mFocusTimeout);
+            clearTimeout(mUpdatePosTimer);
+            cb_get_action("ptzctrl&region=control&type=stop&param=0");
+        }
+    });
+    
+    /*$("#a_save").click(function(){
+        $("#selectpositiondiv").show();
+    });
+
+    $("#a_delete").click(function(){
+        $("#deletepositiondiv").show();
+    });
+
+    $("#a_cancel").click(function(){
+        $("#selectpositiondiv").hide();
+    });
+
+    $(".close").click(function(){
+        $(".additem").hide();
+    });*/
+}
+
+</script>
+
+</body>
+
+</html>

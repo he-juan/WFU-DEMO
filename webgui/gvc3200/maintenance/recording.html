@@ -1,0 +1,721 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<style>
+button{min-width:0;}
+.appsbtn{margin-left:22px;margin-top:26px;}
+.appsbtn button{float:left;margin-top:5px;}
+#selectall{float:left;margin-right: 15px;margin-top:12px;}
+#listdiv{display:block;padding-left:14px;overflow-x:hidden;overflow-y:auto;clear:both;}
+.itemdiv{width:740px;height:40px;position:relative;border-bottom:1px solid #E1E1E1;}
+.itemdiv div{display:block;float:left;}
+.selectItem{background:#E9EBED;}
+.itemcheck{width:14px;height:16px;margin-right:10px;padding-top:13px;margin-left:13px;}
+.itemcheck input{width:14px;margin:0;}
+.itemname{width:350px;line-height:40px;font-size:14px;color:#222222;font-weight: bold;overflow:hidden;text-overflow: ellipsis;white-space:nowrap;}
+.itemsize{width:120px;text-align:center;line-height:40px;font-size:14px;color:#999999;overflow:hidden;text-overflow: ellipsis;white-space:nowrap;}
+.itemdate{width:190px;text-align:right;line-height:40px;padding-right:15px;*width:205px;overflow:hidden;text-overflow: ellipsis;white-space:nowrap;}
+#opdiv{width:190px;height:22px;margin-top:9px;padding-right:15px;margin-left:13px;position:absolute;top:0;right:0;display:none;text-align:right;background:#E9EBED;*width:205px;}
+#opdiv button{width:26px;height:26px;vertical-align: middle;margin-right:15px;}
+#renameone{background:url("../img/recording.png") 0 0 no-repeat;}
+#renameone:hover{background:url("../img/recording.png") -26px 0 no-repeat;}
+#downloadone{background:url("../img/recording.png") -52px 0 no-repeat;}
+#downloadone:hover{background:url("../img/recording.png") -78px 0 no-repeat;}
+#deleteone{background:url("../img/recording.png") -104px 0 no-repeat;}
+#deleteone:hover{background:url("../img/recording.png") -130px 0 no-repeat;}
+.unlockstate{background:url("../img/recording.png") -156px 0 no-repeat;}
+.unlockstate:hover{background:url("../img/recording.png") -182px 0 no-repeat;}
+.lockstate{background:url("../img/recording.png") -208px 0 no-repeat;}
+.lockstate:hover{background:url("../img/recording.png") -234px 0 no-repeat;}
+#deletemulti{width:82px;margin-left:10px;}
+#downloadmulti.disabledClass, #deletemulti.disabledClass{background-color:#C8C8C8;color:#FFFFFF;}
+#downloadmulti{width:92px;}
+#search{width:440px;height:32px;margin:0px;font-size:14px;color:#999;border-color: #d9d9d9; border-radius: 4px;padding-left:9px;}
+.additem{width:500px;height:200px;position:absolute;top:50%;left:50%;margin:-100px 0 0 -250px;border:1px solid #666666;box-shadow:0px 0px 10px 6px #D6D6D6;background:#FFFFFF;}
+.additem span{color:#222;}
+.additembtn{width:100%;text-align: center;margin:20px 0 0 0;float:left;}
+
+#renamepopdiv{width:400px;height:150px;position:absolute;left:180px;top:100px;background:#F6F7F7;color:#FFF;font-size:16px;box-shadow:0px 0px 10px 2px #919191;}
+#renamediv .titlediv{width:auto;height:35px;line-height:35px;background:#1D6EA8;padding-left:15px;color:#FFF;font-weight:normal;}
+#renamediv button{width:82px;}
+#renameok{margin-right: 48px;}
+.lockdiv{height:100%;width:14px;margin-right:10px}
+.lockimg{width:14px;height:14px;background:url("../img/recording.png") 0px -26px no-repeat;position: relative;top: 12px;}
+</style>
+<body id="framebody" onunload="leavepage();">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+	<div class="appsbtn" style="height: 40px;">
+        <input type="checkbox" id="selectall" class="selectall" />
+        <button id="downloadmulti" type="button" style="display:none;">Download</button>
+        <button id="deletemulti" type="button">Delete</button>
+        <input type="text" id="search" value="" style="float:right;margin-right:40px;" />
+    </div>
+    <div id="listdiv">
+        <div id="opdiv">
+            <button id="renameone" type="button"></button>
+            <button id="downloadone" type="button"></button>
+            <button id="lockone" class="unlockstate" type="button"></button>
+            <button id="deleteone" type="button"></button>
+        </div>
+        <div id="loadmorediv" style="text-align:center;display:none;"><span id="loadmorelogs" style="cursor: pointer">Loading More</span></div>
+    </div>
+    <div id="renamediv" style="width:100%;height:100%;position:absolute;top:0;left:0;display:none;">
+        <div id="renamepopdiv">
+            <div class="titlediv"><span id="a_rename">Rename</span></div>
+            <div>
+                <div style="margin-top:12px;"><input id="renameinput" name="renameinput" type="text" style="width:250px;margin-left:70px;" /></div>
+                <div style="margin-top:20px;text-align:center;margin-right:10px;">
+                    <button id="renameok" type="button">OK</button>
+                    <button id="renamecancel" type="button" class="cancelbtn close">Cancel</button>
+                </div>   
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+);
+var mListdivObj;
+var mSelectid;
+var mOpid;
+//var mDefaultPath = "/mnt/sdcard/DCIM/Camera/";
+var mNameIndex = 0;
+var mOptionNum = 0;
+var mOptionNumSuc = 0;
+var mOptionNumDone = 0;
+var mDeleteIds = "";
+var mDeleteType = 0;
+var mDateObj = new Date();
+var mUse24Hour = 1;
+var mDownloaded = 0;
+var mItemData;
+var mStartParseIndex = 0;
+var mMaxItemIndex = 0;
+var mSingleParseNum = 100;
+var mExtensionName = ".mkv";//recording filename extension 
+var mSpChar = ["\\",":","*","?","<",">","|","\""];// \:*?"<>| special character
+var mSearchText = a_65;
+                
+$(function(){
+    translate_callfea();
+    //mNameIndex = mDefaultPath.length;
+    mListdivObj = document.getElementById('listdiv');;
+    cb_get_action("recording&region=maintenance&type=getrecordinglist");
+    var height = parseInt($("#iframediv",parent.document.body).css('height'));
+    $("#listdiv").css("height", height - 95);
+    $("#downloadmulti,#deletemulti").attr("disabled","disabled").addClass("disabledClass");
+    $("#selectall").attr("disabled","disabled");
+    $("#search").val(mSearchText);
+    pageEventActions();
+});
+function get_item_suc_callback(msgs) 
+{
+    
+}
+function leavepage(){
+    if( mDownloaded ){
+        cb_remove_recording();
+    }
+}
+function cb_remove_recording() {
+    var urihead = "action=removetmprecord&region=maintenance";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url: '/manager',
+        async:false,
+        data: urihead,
+        dataType: 'text',
+        success: function(data) {
+            
+        },
+        error: function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function cb_get_action_done(data, action){
+    if( data.substring(0, 1) == "{" )
+    {
+        var tObj = eval("(" + data + ")");
+        if( action.indexOf("type=getrecordinglist") != -1 ){
+            if( tObj.Response == "Success" ){
+                mUse24Hour = tObj.Use24Hour;
+                var items = tObj.Data;
+                mItemData = items;
+                mStartParseIndex = 0;
+                mMaxItemIndex = mItemData.length;
+                parse_recordinglist();
+            }
+        }else if( action.indexOf("type=renamerecord") != -1 ){
+            if( tObj.Response == "Success" ){
+                var newname = $("#renameinput").val() + mExtensionName;
+                var oldpath = $("#recording" + mOpid + "div").attr("path");
+                var newpath = oldpath.substring(0, oldpath.lastIndexOf("/")) + "/" + newname;
+                $("#recording" + mOpid + "div").attr("filename", newname).attr("path", newpath).children(".itemname").children("span").attr('title', newpath).text( newname );
+                //view_message(a_63, MSG_ALERT);
+                cb_get_action("recordingnotify&region=maintenance&type=rename&id=" + mOpid);
+            }else{
+                //view_message(a_58, MSG_ALERT);
+                $.prompt(a_63);
+            }
+        }else if( action.indexOf("type=deleterecord") != -1 ){
+            $("#opdiv").appendTo($("#listdiv")).hide();
+            if( tObj.Response == "Success" ){
+                mOptionNumSuc ++;
+                var delid = tObj.Id;
+                if( mDeleteIds != "" ){
+                    mDeleteIds += ",";
+                }
+                mDeleteIds += delid;
+                $("#recording" + delid + "div").remove();
+                if($("#listdiv .itemdiv").length <= 0)
+                {
+                    $("#selectall").attr("disabled","disabled");
+                }
+                //view_message(a_7479, MSG_OK);
+            }else{
+                //view_message(a_58, MSG_ALERT);
+            }
+            mOptionNumDone ++;
+            if( mOptionNum == mOptionNumDone ){
+                window.parent.unblock_func();
+                if( mOptionNumSuc == 0 ){
+                    $.prompt(a_58);
+                }else if( mOptionNum == mOptionNumSuc ){
+                    if( mDeleteType == 1 ){
+                        $("#selectall").removeAttr("checked");
+                        if($("#listdiv .itemdiv").length <= 0)
+                        {
+                            $("#selectall").attr("disabled","disabled");
+                        }
+                    }
+                    //var delsql = "delete from recording_list where _id in(" + opid + ")";
+                    //cb_get_action("recordingnotify&region=maintenance&type=delete&id=" + mDeleteIds);
+                    $.prompt(a_57);
+                    cb_get_action("recordingnotify&region=maintenance&type=delete&id=" + mDeleteIds);
+                    var isall = 1;
+                    var isselectall = 1;
+                    $(".itemcheck .inputcbx:visible").each(function(index, item) {
+                        if ($(item).prop("checked") == true && isall == 1) {
+                            isall = 0;
+                        }
+                        if ($(item).prop("checked") != true && isselectall == 1) {
+                            isselectall = 0;
+                        }
+                        if(isall == 0 && isselectall == 0)
+                            return false;
+                    });
+                    if (isall == 1)
+                        $("#downloadmulti,#deletemulti").attr("disabled","disabled").addClass("disabledClass");
+                    else
+                    {
+                        $("#downloadmulti,#deletemulti").removeAttr("disabled").removeClass("disabledClass");
+                    }
+                    if(isselectall == 1)
+                    {
+                        $("#selectall").attr("checked","checked");
+                    }
+                }else{
+                    $.prompt(a_16428);
+                    cb_get_action("recordingnotify&region=maintenance&type=delete&id=" + mDeleteIds);
+                }
+            }
+        }else if( action.indexOf("type=lockrecord") != -1 ){
+            $("#lockone").removeAttr("disabled");
+            if( tObj.Response == "Success" ){
+                var oldlock = $("#recording" + mOpid + "div").attr("lock");
+                if(oldlock == "0")
+                {
+                    $("#recording" + mOpid + "div").attr("lock", 1);
+                    $("#recording" + mOpid + "div").find(".lockimg").show();
+                    $("#lockone").removeClass().addClass("lockstate");
+                }
+                else
+                {
+                    $("#recording" + mOpid + "div").attr("lock", 0);
+                    $("#recording" + mOpid + "div").find(".lockimg").hide();
+                    $("#lockone").removeClass().addClass("unlockstate");
+                }
+                //view_message(a_63, MSG_ALERT);
+                cb_get_action("recordingnotify&region=maintenance&type=lockrecord&id=" + mOpid);
+            }else{
+                //view_message(a_58, MSG_ALERT);
+                $.prompt(a_63);
+            }
+            window.parent.unblock_func();
+        }
+    }else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){
+            if( action.indexOf("downloadrecordings") != -1 ){
+                window.parent.unblock_func();
+                $.prompt(a_63);
+            }
+        }   
+        else {
+            if( action.indexOf("downloadrecordings") != -1 ){
+                window.parent.unblock_func();
+                parent.window.location.href = "/Recording/Recording.tar.gz"; 
+            }
+        }
+    }     
+}
+function parse_recordinglist(){
+    var id, path, lock, time, size;
+    var endnum = mStartParseIndex + mSingleParseNum;
+    
+    if( mMaxItemIndex < endnum )
+        endnum = mMaxItemIndex;
+    for (var i = mStartParseIndex; i < endnum; i++)
+    {
+        id = mItemData[i].Id;
+        path = mItemData[i].Path;
+        lock = mItemData[i].Lock;
+        time = mItemData[i].Time;
+        size = mItemData[i].Size;
+        
+        if( path != "" ){
+            create_recording_div(id, path, lock, time, size);
+        }
+    }
+    add_item_event();
+    if( mMaxItemIndex <= endnum ){
+        $("#loadmorediv").remove();
+    }else{
+        mStartParseIndex = endnum;
+        $("#loadmorediv").appendTo($("#listdiv")).show(); 
+    }
+}   
+function create_recording_div(id, path, lock, datestr, sizestr){
+    if( datestr == "" )
+        datestr = "20141208";
+    if( sizestr == "" )
+        sizestr = "203 M";
+    var itemdiv = document.createElement('DIV');
+    itemdiv.className='itemdiv';
+    itemdiv.id = "recording" + id + "div";
+    itemdiv.setAttribute("itemid", id);
+    itemdiv.setAttribute("path", path);
+    mNameIndex = path.lastIndexOf("/") + 1;
+    var filename = path.substring(mNameIndex);
+    itemdiv.setAttribute("filename", filename);
+    itemdiv.setAttribute("pathonly", path.substring(0, mNameIndex-1));
+    itemdiv.setAttribute("lock", lock);
+    
+    var checkdiv = document.createElement('DIV');
+    checkdiv.className='itemcheck';
+    var checkbox = document.createElement('INPUT');
+    checkbox.type = 'checkbox';
+    checkbox.className = "inputcbx";
+    if( $("#selectall").attr("checked") )
+        checkbox.checked = true;
+    checkdiv.appendChild(checkbox);
+    itemdiv.appendChild(checkdiv);
+    
+    var lockdiv = document.createElement('DIV');
+    lockdiv.className='lockdiv';
+    var lockimg = document.createElement('DIV');
+    lockimg.className='lockimg';
+    if(lock == "0")
+    {
+        lockimg.style.display = "none";
+    }
+    lockdiv.appendChild(lockimg);
+    itemdiv.appendChild(lockdiv);
+
+    var namediv = document.createElement('DIV');
+    namediv.className='itemname';
+    var spantext = document.createElement('SPAN');
+    spantext.innerHTML = htmlEncode(filename);
+    spantext.setAttribute("title", path);
+    namediv.appendChild(spantext);
+    itemdiv.appendChild(namediv);
+    
+    var sizediv = document.createElement('DIV');
+    sizediv.className='itemsize';
+    var sizetext = document.createElement('SPAN');
+    sizetext.innerHTML = htmlEncode(sizestr);
+    sizetext.setAttribute("title", sizestr);
+    sizediv.appendChild(sizetext);
+    itemdiv.appendChild(sizediv);
+    
+    var datediv = document.createElement('DIV');
+    datediv.className='itemdate';
+    var datetext = document.createElement('SPAN');
+    if( parseInt(datestr) > 10000 ){
+        var longdatestr = convertTime(parseInt(datestr));
+        datetext.innerHTML = htmlEncode(longdatestr);
+        datetext.setAttribute("title", longdatestr);
+    }
+    else{
+        datetext.innerHTML = htmlEncode(datestr);
+        datetext.setAttribute("title", datestr);
+    }
+    
+    datediv.appendChild(datetext);
+    itemdiv.appendChild(datediv);
+    
+    mListdivObj.appendChild(itemdiv);
+    $("#selectall").removeAttr("disabled");
+}
+
+function add_item_event(){
+    $(".itemdiv").unbind();
+    $(".itemdiv").hover(function(){
+        var lockstate = $(this).attr("lock");
+        if(lockstate == "0")
+        {
+            $("#lockone").removeClass().addClass("unlockstate");
+        }
+        else
+        {
+            $("#lockone").removeClass().addClass("lockstate");
+        }
+        $(this).addClass("selectItem");
+        $("#opdiv").appendTo($(this)).show();
+    },function(){
+        if( mSelectid != $(this).attr("itemid") )
+            $(this).removeClass("selectItem");
+        $("#opdiv").hide();
+    }); 
+}
+function translate_callfea(){
+    $("#a_ringtone").text(a_16010);
+    $("#downloadmulti").text(a_28);
+    $("#deletemulti").text(a_21);
+    $("#a_rename").text(a_69);
+    $("#renameok").text(a_2);
+    $("#renamecancel").text(a_3);
+    $("#loadmorelogs").text(a_19003);
+}
+function cb_deleteone_ok(){
+    window.parent.block_download_func(a_59);
+    mOptionNumSuc = 0;
+    mOptionNumDone = 0;
+    mOptionNum = 1;
+    mDeleteType = 0;
+    var filename = $("#deleteone").parent().parent(".itemdiv").attr("path");
+    mDeleteIds = "";
+    //var delsql = "delete from recording_list where _id=" + mOpid;
+    cb_get_action("recording&region=maintenance&type=deleterecord&id=" + mOpid + "&filename=" + encodeURIComponent(filename)); // + "&sqlstr=" + delsql
+}
+function deleteOneRecording(){
+    var txt = '<div class="shortmsg">' + a_16679 + '</div>';
+    $.prompt(txt,{
+        buttons:{
+            Yes: true, No: false
+        },
+        callback: function(v,m,f){
+            if(v) {  cb_deleteone_ok(); }
+            else {}
+        }
+    });
+}
+function pageEventActions(){
+    $("#selectall").click(function(){
+        if ($(this).prop("checked") == true) {
+            $(".itemcheck .inputcbx:visible").attr("checked", "checked");//.button("refresh");
+            $("#downloadmulti,#deletemulti").removeAttr("disabled").removeClass("disabledClass");
+        } else {
+            $(".itemcheck .inputcbx:visible").removeAttr("checked");//.button("refresh");
+            $("#downloadmulti,#deletemulti").attr("disabled","disabled").addClass("disabledClass");
+        }
+    });
+
+    $("#loadmorelogs").click(function(){
+        parse_recordinglist();
+    });
+    
+    $("#search").focus(function(){
+        if( $(this).val() == mSearchText ){
+            $(this).val("");
+        }
+    }).blur(function(){
+        if( $(this).val() == "" ){
+            $(this).val(mSearchText);
+        }
+    });
+    
+    $("#search").bind('input propertychange', function() {
+        var searchkey = $("#search").val();
+        if( searchkey == mSearchText ) return false;
+        searchkey = searchkey.toLowerCase();
+        if( searchkey == "" ){
+            $(".itemdiv").show();
+        }else{
+            $(".itemdiv").each(function(){
+                if( ($(this).attr("filename").toLowerCase()).indexOf(searchkey) == -1 )
+                {
+                    $(this).hide();
+                }else{
+                    $(this).show();
+                }
+            });
+        }
+        var isall = 1;
+        if( $(".itemcheck .inputcbx:visible").length == 0 ){
+            isall = 0;
+            $("#selectall").attr("disabled","disabled");
+            $("#downloadmulti,#deletemulti").attr("disabled","disabled").addClass("disabledClass");
+        }else{
+            $("#selectall").removeAttr("disabled");
+            $(".itemcheck .inputcbx:visible").each(function(index, item) {
+                if ($(item).prop("checked") != true) {
+                    isall = 0;
+                    return false;   
+                }
+            });
+        }
+        if( isall == 0 )
+            $("#selectall").removeAttr("checked");
+        else
+            $("#selectall").attr("checked", "checked");
+        var haschecked = 0;
+        $(".itemcheck .inputcbx:visible").each(function(index, item) {
+            if ($(item).prop("checked")) {
+                haschecked = 1;
+                return false;   
+            }
+        });
+        if( haschecked == 1 )
+            $("#downloadmulti,#deletemulti").removeAttr("disabled").removeClass("disabledClass");
+        else
+            $("#downloadmulti,#deletemulti").attr("disabled","disabled").addClass("disabledClass");
+    });
+    $(".itemcheck .inputcbx").live("click", function() {
+        if ($(this).prop("checked") != true) {
+            var isall = 1;
+            $("#selectall").removeAttr("checked");//.button("refresh");
+            $(".itemcheck .inputcbx:visible").each(function(index, item) {
+                if ($(item).prop("checked") == true) {
+                    isall = 0;
+                    return false;   
+                }
+            });
+            if (isall == 1)
+                $("#downloadmulti,#deletemulti").attr("disabled","disabled").addClass("disabledClass");
+            else
+                $("#downloadmulti,#deletemulti").removeAttr("disabled").removeClass("disabledClass");
+        } else {
+            var isall = 1;
+            $(".itemcheck .inputcbx:visible").each(function(index, item) {
+                if ($(item).prop("checked") != true) {
+                    isall = 0;
+                    return false;   
+                }
+            });
+
+            if (isall == 1)
+                $("#selectall").attr("checked", "checked");//.button("refresh");
+            else
+                $("#selectall").removeAttr("checked");//.button("refresh");
+            $("#downloadmulti,#deletemulti").removeAttr("disabled").removeClass("disabledClass");
+        }
+    });
+
+    $("#renameone").click(function(){
+        var lock = $("#deleteone").parent().parent(".itemdiv").attr("lock");
+        if( lock == "1" ){
+            $.prompt(a_18567);
+            return false;
+        }
+        mOpid = $("#deleteone").parent().parent(".itemdiv").attr("itemid");
+        var oldname = $("#deleteone").parent().parent(".itemdiv").attr("filename");
+        oldname = oldname.substring(0,oldname.length-4);
+        $("#renameinput").val(oldname);
+        $("#renamediv").show();
+    });
+    
+    $("#renameinput").bind('input propertychange', function() {
+        var text = $.trim($(this).val());
+        if( text == "" ){
+            $("#renameok").attr("disabled","disabled");
+        }else{
+            $("#renameok").removeAttr("disabled");
+        }
+    });
+    
+    $("#renameok").click(function(){
+        var oldname = $("#recording" + mOpid + "div").attr("filename");
+        var newname = $.trim($("#renameinput").val());
+        var spcharlength = mSpChar.length;
+        var illegalflag = false;
+        if( newname == "" ){
+            $("#renamediv").hide();
+            return false;
+        }
+        var n = 0;
+        for(;n < spcharlength;n++)
+        {
+            if(newname.indexOf(mSpChar[n]) != -1)
+            {
+                illegalflag = true;
+                break;
+            }
+        }
+        if(illegalflag)
+        {
+            $.prompt(a_2096);
+            return false;
+        }
+        newname = newname + mExtensionName;
+        if( newname == oldname ){
+            $("#renamediv").hide();
+            return false;
+        }
+        var hassame = false;
+        $(".itemdiv").each(function(){
+            var curid = $(this).attr("itemid");
+            var curname = $(this).attr("filename");
+            if( curname == newname && curid != mOpid ){
+                hassame = true;
+                return false;
+            }
+        });
+        if( hassame ){
+            $.prompt(a_18568);
+            return false;
+        }
+        var oldname = $("#recording" + mOpid + "div").attr("filename");
+        var pathonly = $("#recording" + mOpid + "div").attr("pathonly");
+        //var directory = oldpath.substring(0, oldpath.lastIndexOf("/"));
+        //var newpath = directory + "/" + newname;
+        //var updatesql = "update recording_list set location=\"" + newpath + "\" where _id=" + mOpid;
+        cb_get_action("recording&region=maintenance&type=renamerecord&id=" + mOpid + "&name=" + encodeURIComponent(oldname) + "&newname=" + encodeURIComponent(newname) + "&pathonly=" + encodeURIComponent(pathonly));// + "&sqlstr=" + encodeURIComponent(updatesql) );
+        $("#renamediv").hide();
+    });
+    
+    $("#renamecancel").click(function(){
+        $("#renamediv").hide();
+    });
+    
+    $("#downloadone").click(function(){
+        var recordingname = $(this).parent().parent(".itemdiv").attr("filename");
+        var recordingpath = $(this).parent().parent(".itemdiv").attr("pathonly");
+        if( recordingpath.indexOf("sdcard") != -1 )
+            parent.window.location.href = "/sdcard/Recording/" + recordingname + "?time=" + new Date().getTime();
+        else if( recordingpath.indexOf("usbhost") != -1 ){
+            if( recordingpath.indexOf("usbhost0") != -1 )
+                parent.window.location.href = "/usbhost0/Recording/" + recordingname + "?time=" + new Date().getTime();
+            else if( recordingpath.indexOf("usbhost2") != -1 )
+                parent.window.location.href = "/usbhost2/Recording/" + recordingname + "?time=" + new Date().getTime();
+            else if( recordingpath.indexOf("usbhost3") != -1 )
+                parent.window.location.href = "/usbhost3/Recording/" + recordingname + "?time=" + new Date().getTime();
+            else
+                parent.window.location.href = "/usbhost1/Recording/" + recordingname + "?time=" + new Date().getTime();
+        }
+        else 
+            parent.window.location.href = "/Recording/" + recordingname + "?time=" + new Date().getTime(); 
+    });
+    $("#deleteone").click(function(){
+        var lock = $(this).parent().parent(".itemdiv").attr("lock");
+        if( lock == "1" ){
+            $.prompt(a_18567);
+            return false;
+        }
+        mOpid = $("#deleteone").parent().parent(".itemdiv").attr("itemid");
+        deleteOneRecording();
+    });
+    $("#deletemulti").click(function(){
+        var txt = '<div class="shortmsg">' + a_9334 + a_6162 + '</div>';
+        $.prompt(txt,{
+            buttons:{
+                Yes: true, No: false
+            },
+            callback: function(v,m,f){
+                if(v) {  
+                    window.parent.block_download_func(a_59);
+                    mOptionNum = 0;
+                    mOptionNumSuc = 0;
+                    mOptionNumDone = 0;
+                    mDeleteIds = "";
+                    mDeleteType = 1;
+                    $(".itemcheck .inputcbx:visible").each(function(index, item) {
+                        if ($(item).prop("checked") == true) {
+                            var lock = $(this).parent(".itemcheck").parent(".itemdiv").attr("lock");
+                            if( lock != "1" ){
+                                var opid = $(this).parent(".itemcheck").parent(".itemdiv").attr("itemid");
+                                var filename = $(this).parent(".itemcheck").parent(".itemdiv").attr("path");
+                                //var delsql = "delete from recording_list where _id=" + opid;
+                                mOptionNum ++;
+                                cb_get_action("recording&region=maintenance&type=deleterecord&id=" + opid + "&filename=" + encodeURIComponent(filename));// + "&sqlstr=" + encodeURIComponent(delsql));
+                            }
+                        }
+                    }); 
+                    if( mOptionNum == 0 ){
+                        window.parent.unblock_func();
+                    }   
+                }
+                else {}
+            }
+        });       
+    });
+
+    $("#lockone").click(function(){
+        window.parent.block_download_func(a_7355);
+        var classname = $(this).attr("class");
+        var islock = 0;
+        mOpid = $(this).parent().parent(".itemdiv").attr("itemid");
+        $(this).attr("disabled","disabled");
+        if(classname.indexOf("unlockstate") != -1)
+        {
+            islock = 1;
+        }
+        else
+        {
+            islock = 0;
+        }
+        cb_get_action("recording&region=maintenance&type=lockrecord&id=" + mOpid + "&lockstate=" + islock);
+    });
+    /*$("#downloadmulti").click(function(){
+        mDownloaded = 1;
+        var downloadNames = "";
+        var i = 0;
+        $(".itemcheck .inputcbx:visible").each(function(index, item) {
+            if ($(item).prop("checked") == true) {
+                var filename = $(this).parent(".itemcheck").parent(".itemdiv").attr("filename");
+                if( i != 0 )
+                    downloadNames +=" ";
+                downloadNames += filename;
+                i ++;
+            }
+        }); 
+        if( downloadNames != "" ){
+            window.parent.block_download_func(a_2099);
+            cb_get_action("downloadrecordings&region=maintenance&filenames=" + encodeURIComponent(downloadNames));
+        }
+    });*/
+}
+
+</script>
+
+</body>
+
+</html>

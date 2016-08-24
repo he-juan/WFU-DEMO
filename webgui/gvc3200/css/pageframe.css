@@ -1,0 +1,210 @@
+html{height:100%;}
+body {font:normal 13px/17px Arial; color:#222222;background-color: transparent;overflow-x:hidden;overflow-y:auto;height:100%;}
+.grayfont{ color:#a3a3a3; }
+fieldset{ width:100%; padding:0; border:0; margin: 0;}
+fieldset div { float:left; margin:8px 0 8px 25px;width:700px;font-size:14px;*margin-top:expression(this.previousSibling==null?"20px":"0");} 
+fieldset div div {
+    display:block;
+    float:left;
+    width:310px;text-align:left;
+    padding-right:0px;
+    padding-left:0px;
+    margin-top:6px !important;
+    margin-bottom:7px;
+    margin-left:0px;
+}
+#framebody{overflow-y: hidden;}
+.titleboot{text-align:right;margin:0 !important;width:326px;font-size:16px;}
+.titlediv{background:transparent;font-weight:bold;color:#222;height:34px;line-height:34px; width:100%;margin:0;}
+.noreboot, .rebootitem { text-align:right; margin-right:50px; width:310px; font-weight:normal;color:#222;}
+#mainbody form{overflow-x:hidden;overflow-y:auto;width:100%;height:100%;position:relative;}
+
+h3 {
+    background-color: #808080;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 5px;
+    margin-left:15px;
+}
+
+legend {padding-left:10px;}
+input, textarea{
+    -moz-outline-radius-topleft:3px;
+    -moz-outline-radius-topright:3px;
+    -moz-outline-radius-bottomleft:3px;
+    -moz-outline-radius-bottomright:3px;
+    margin-bottom:2px;
+	margin-top:3px;
+	padding-left:3px;
+    font-family:Arial;
+}
+textarea{width:248px;}
+input{*width:248px;*height:21px;*font-size:14px;*line-height:21px;*border: 1px solid #ADAEAF;}
+input[type="text"]{width:246px;height:21px;font-size:14px;line-height:21px;border: 1px solid #ADAEAF;}
+input[type="password"]{width:246px;height:21px;font-size:14px;line-height:21px;border: 1px solid #ADAEAF;}
+input.color{width:60px;height:23px;border: 1px solid #cecece;padding: 2px 0 2px 1px;text-align:center;}
+input[type="text"].inputActive, input[type="password"].inputActive {
+    outline:none;
+    border: 1px solid #2c9bea;
+}
+input[type="text"].inputHover, input[type="password"].inputActive{
+    outline:none;
+    border: 1px solid #2c9bea;
+}
+input[type="text"][disabled],input[type="text"]:disabled{background:#f2f2f2;border: 1px solid #cccccc;}
+#a_cancel{}
+button {
+    background: none repeat scroll 0 0 #5089ba;
+    border: medium none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    height: 30px;
+    text-decoration: none;
+    min-width:82px;
+    position:relative;
+    font-family:Arial;
+}
+fieldset button{min-width:82px;}
+.buttonover {
+    background-color: #2D77B7;
+}
+button:disabled {
+    background:#C8C8C8;color:#929191;cursor:text;
+}
+input.inputradio+span{position:relative;top: -3px;}
+input.inputradio+span+.rebootspan{position:relative;top: -3px;}
+.newListSelected { *height:26px; background:url(../img/settings_dropdown_control_unpressed.png) 0 0px no-repeat;}
+.newListDisabled {background:url(../img/settings_dropdown_control_disabled.png) 0 0px no-repeat;}
+.newListSelHover, .newListSelFocus {background:url(../img/settings_dropdown_control_pressed.png) 0 0 no-repeat; cursor:pointer;}
+.newListHover {background:#daf0f9 !important; color:#000!important; cursor:pointer;}
+/*.widebtn { width:140px; border:0px; vertical-align:middle; }
+the select style do not need for index.html language select style issue
+select { display:block;width:150px; height:18px;text-decoration:none;line-height:24px;color:#000;}*/
+div.navi { margin-left:250px; width:300px; height:20px;padding:5px 0;display:none; }
+div.navi span { font-size:18px; text-align:center; } 
+.dotline { height:1px; border-top:1px dashed #999999; }
+.legendspan { font-weight:bold; }
+.rebootspan { display: inline-block;background:transparent url(../img/restart_effect.png) no-repeat; width:20px;height:21px;line-height:21px; margin-left:5px;}
+.selectrebootspan{display: inline-block;background:transparent url(../img/restart_effect.png) no-repeat; width:20px;height:21px; margin-left:5px;position:relative;top:5px;left:0px;}
+/*---------------------------------------------------------------------------------------------------------------*/
+/*the select option style*/
+:focus {outline:none;}
+.js ul.newList {left:-9999px;}
+ul.newList * {margin:0; padding:0;}
+ul.newList {margin:0; padding:1px; list-style:none; color:#000; width:250px; background:#fff; position:absolute;  border:1px solid #ccc; top:22px; left:0; overflow:auto; z-index:9999;}
+.newListSelected {display:block;float:left;width:252px; color:#000; height:26px;line-height:26px;padding:0;margin-left: 0px;z-index:10;margin-bottom: 2px;margin-top: 2px !important;}
+.newListSelected span {width:180px; display:block;float:right;}
+/*do not change the .newListSelected div width to 180px,this will cause arrow area can't be selected to pop the list in IE*/
+.newListSelected div{ margin-top:0px !important; padding:0 0px 0 3px;width:250px;float:left;}
+ul.newList li a{background:transparent;text-decoration:none;color:#555555;display:block;padding:2px 0 2px 8px;}
+.selectedTxtDiv{width:252px !important;}
+.selectedTxt {display:block;width:220px !important; float:left;overflow:hidden; height:26px; padding:-3px 15px 0 0px;margin:0px -10px 0 0px;}
+.newListOptionTitle {font-weight:bold;}
+.newListOptionTitle ul {margin:3px 0 0;}
+.newListOptionTitle li {font-weight:normal; border-left:1px solid #ccc;}
+.widenewList {width:390px;}
+
+/*---------------------------------------------------------------------------------------------------------------*/
+/*the prompt css*/
+.jqifade { position: absolute; background-color: #aaaaaa;	top:380px; }
+div.jqi{ 
+	width: 600px; 
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; 
+	position: absolute; 
+	background-color: #ffffff;
+	font-size: 11px; 
+	text-align: left; 
+	border: solid 1px #eeeeee;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	padding: 12px;
+}
+div.jqi .jqicontainer { font-weight: bold; }
+div.jqi .jqiclose { position: absolute;top: 4px; right: -2px; width: 18px; cursor: default; color: #bbbbbb; font-weight: bold; }
+div.jqi .jqimessage { padding: 10px; line-height: 20px; color: black; width:580px; }
+div.jqi .jqibuttons{ text-align: right; padding: 5px 0 5px 0; border: solid 0px #eeeeee; width:600px; float:left; }
+div.jqi button{ padding: 3px 10px;margin: 0 10px; background-color: #2F6073; border: solid 1px #f4f4f4; color: #ffffff; font-weight: bold; font-size: 12px; }
+div.jqi button:hover { background-color: #728A8C; }
+.jqiwarning .jqi .jqibuttons { background-color: transparent; }
+div.jqi .jqimessage .field { padding: 5px 0px 5px 0px; float:left;width:300px;line-height:25px; }
+div.jqi .jqimessage .shortmsg { float:left;width:600px;font-size: 12px; }
+div.jqi .jqimessage .field label { clear: left; display: block; float: left; width: 150px; }
+div.jqi .jqimessage .field input { border: #777777 1px solid; width: 120px; }
+DIV.jqi .jqimessage .field input.error { border: #ff0000 1px solid; width: 120px; }
+/*---------------------------------------------------------------------------------------------------------------*/
+
+.account_add{ width:200px; left:300px; }
+.account_add div { width:100px; left:300px; }
+.account_add div { width:100px; left:400px; }
+
+.maindiv {border:0;height:100%;background:#FDFCFC;border:1px solid #cecece;overflow-y: hidden;overflow-x:hidden;position: relative;}
+.formDiv{overflow-y:auto;overflow-x:hidden;width:100%;height:100%;}
+#statusdiv { width:90%;text-align:center;margin-top:10px;height:20px;font-size:14px;}
+.formtip {padding-left:40px;}
+.errortip,.errorservertip { position:absolute; top:30px; font-size:12px; }
+input[type='radio'] { width:15px !important; *width:15px !important;height: 15px !important; border:none;padding: 0; }
+.inputradio { width:15px !important; *width:15px !important; height: 15px !important; border:0px; background-color: transparent; margin-top:8px;padding:0; }
+.savediv{ width:250px; padding-top:40px;margin-left:385px !important;*margin-left:320px;text-align:center;margin-bottom:20px; }
+.savebtn { margin-right:40px;border:none;background:#5089BA;*width:82px;}
+/*.savediv{padding:0;margin:0 !important;position:absolute;left:0;width:100%;height:60px;bottom:0px;background:#cecece;}
+.savebtn{clear:both;position:relative;margin:15px 0 0 0;bottom:0;right: 45px;float: right;background: none repeat scroll 0 0 #5ac0f0;height: 28px;width: 70px;border:none;}*/
+.savebtn.buttonover{background:#186DB7;}
+.cancelbtn{background:#777777;*width:82px;}
+.cancelbtn.buttonover{background:#595959;}
+
+/*---------------------------------------------------------------------------------------------------------------*/
+em { vertical-align: center; font:normal,font-size:7px;}
+em.error {color:red;  padding-left:0px; }
+em.success { padding-left: 0px; }
+
+/*---------------------------------------------------------------------------------------------------------------*/
+#flowpanes { position:relative; overflow:hidden; clear:both;width:760px;height:450px;padding-left:20px; }
+#flowpanes .items { width:20000em; position:absolute; clear:both; margin:0; padding:0;padding-left:10px; }
+.tipbtn{ display:block;float:right;text-align:center;width:300px;margin-top:-10px}
+.flowdiv{float:left;display:block;width:670px;cursor:pointer;color:#fff; margin:0px 20px 0 30px;}
+.menuback { background:black;}
+
+.wifiessiddiv{
+    border:1px solid gray; width:170px !important; height:150px; overflow:auto;
+}
+.wifiessiddiv li{
+    margin-left:-20px;cursor:pointer;list-style-type:none;
+}
+.wifiessiddiv li img{width:12px;height:14px;}
+.wifiessiddiv li.noimg{padding-left:12px;}
+
+/*********block_download_func*************/
+.downfont{position: relative;top: 50px;color: #222;}
+.blockMsg.blockPage{height:60px;box-shadow:0px 0px 10px 2px #919191;font-size: 14px;opacity: 1 !important;border-radius:0px !important;}
+.blockMsg.blockPage img{position: relative;float: left;top: 0px;left:50%;margin-left: -20px;}
+
+/*------------Caption-----------------*/
+#captionContainer{width:719px;height:405px;border-radius:0px;border:1px solid #444444;box-shadow:0px 0px 10px 2px #919191;background:#232728;position:absolute;display:none;z-index:1000;top:50%;left:50%;margin-left:-370px;margin-top:-180px;}
+#topCaption, #leftCaption, #bottomCaption{background:#ccc;text-align:center;}
+#topCaption{width:100%;min-height:20px;}
+#leftCaption{width:153px;margin:3px 0 3px 0;}
+#bottomCaption{width:100%;min-height:20px;}
+#fnblockContainer{height:auto;position:absolute;border:1px solid #c2c2c2;background:#ccc;display:none;}
+#fnblockContainer *{float:left;}
+#closecaption{position: absolute;right:-15px;top:-15px;border:0;background:url("../img/remote/close_unpressed.png") no-repeat;width:42px;height:42px;}
+#closecaption:hover{background:url("../img/remote/close_pressed.png") no-repeat;}
+#fnblockContainer button:hover{text-align:center;border-radius:0px;}
+#capBold{width:18px;height:20px;background:transparent;color:#424242;text-align:center;font-size:15px;}
+#capBold:hover{background:#989FAC;}
+#capleftalign, #capcenteralign, #caprightalign{width:22px;height:20px;}
+#capleftalign{background:url("../img/call/align_left.png") center center  no-repeat;}
+#capcenteralign{background:url("../img/call/align_middle.png") center center no-repeat;}
+#caprightalign{background:url("../img/call/align-right.png") center center no-repeat;}
+#capleftalign:hover{background:url("../img/call/align_left.png") #989FAC center center no-repeat;}
+#capcenteralign:hover{background:url("../img/call/align_middle.png") #989FAC center center no-repeat;}
+#caprightalign:hover{background:url("../img/call/align-right.png") #989FAC center center no-repeat;}
+#ftcolordiv, #bgcolordiv{width:28px;height:20px;color:#424242;background:url("../img/call/caption_triangle.png") 20px center no-repeat;}
+#ftcolordiv:hover, #bgcolordiv:hover{background:url("../img/call/caption_triangle.png") #989FAC 20px center no-repeat;cursor:pointer;}
+#ftcolordiv span{position:relative;left:-9.5px;float:none;font-size:15px;}
+#capfontcolor{width:13px;height:2px;padding:0px;position:relative;top:8px;left:3px;}
+#capbgcolor{width:12px;height:12px;border:1px solid #8E899C;padding:0;position:relative;left:3px;top:-3px;}
+#fnblockContainer > *{margin:2px;}
+#fnblockContainer button{border:0;border-radius: 0px;}
+#captionContainer input[type="text"]{width:100%;height:100%;text-align:center;background:transparent;border:0;}

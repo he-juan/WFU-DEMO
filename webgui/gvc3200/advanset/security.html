@@ -1,0 +1,623 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/jquery.md5.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<script type="text/javascript" src='../js/ajaxupload.3.5.js'></script>
+<style>
+.certdiv{display:block;width:720px;margin:0;padding:0;}
+.certdiv div{display:block;float:left;text-align:center;margin:0;padding:0;}
+.certnum{width:80px;}
+.certowner{width:120px;}
+.certissuer{width:200px;}
+.certdate{width:220px;}
+.certdelete{width:80px;margin-top:0 !important;}
+</style>
+<body id="framebody" class="maintenancebody">
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_webset">Web/Telnet Settings</span></div>
+    <div id="statusdiv"></div>
+	<form action="" method="get" id="Formvalidate">
+		<fieldset>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_websccesstitle">Web Access</span></div>
+            </div>
+            <div webtip="Disable SSH">
+                <div class="rebootitem"><span id="a_distelnet">Disable SSH</span> :</div>
+                <input name="distelnet" type="checkbox" id="distelnet"><span id="a_sshyes">Yes</span>
+            </div>
+            <div webtip="Access Methode">
+                <div class="rebootitem"><span id="a_httpena">Access Methode</span> :</div>
+                <select id="accessmethod" name="accessmethod">
+                    <option value="0">HTTP</option>
+                    <option value="1">HTTPS</option>
+                </select>
+                <span class="selectrebootspan"></span>
+            </div>
+            <div webtip="Port">
+                <div class="rebootitem"><span id="a_port">Port</span> :</div>
+                <input name="port" type="text" id="port" /><span class="rebootspan"></span>
+            </div>
+            <div webtip="Current Admin Password" class="g_adminpwd">
+                <div class="noreboot"><span id="a_curadminpwd">Current Admin Password</span> :</div>
+                <input name="curadminpwd" type="password" id="curadminpwd" autocomplete="off" />
+            </div>
+            <div webtip="Admin Password" class="g_adminpwd">
+                <div class="noreboot"><span id="a_adminpwd">Admin Password</span> :</div>
+                <input name="adminpasswd" type="password" id="adminpasswd" autocomplete="off" />
+            </div>
+            <div webtip="Confirm Admin Password" class="g_adminpwd">
+                <div class="noreboot"><span id="a_adminpwd2">Confirm Admin Password</span> :</div>
+                <input name="adminpasswd2" type="password" id="adminpasswd2" autocomplete="off" /><em></em>
+            </div>
+            <div webtip="Current User Password" class="g_userpwd">
+                <div class="noreboot"><span id="a_curuserpwd">Current User Password</span> :</div>
+                <input name="curuserpwd" type="password" id="curuserpwd" autocomplete="off" />
+            </div>
+            <div webtip="User Password">
+                <div class="noreboot"><span id="a_userpwd">User Password</span> :</div>
+                <input name="userpasswd" type="password" id="userpasswd" autocomplete="off" />
+            </div>
+            <div webtip="Confirm User Password">
+                <div class="noreboot"><span id="a_userpwd2">Confirm User Password</span> :</div>
+                <input name="userpasswd2" type="password" id="userpasswd2" autocomplete="off" />
+            </div>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_locktitle">Screen Lock</span></div>
+            </div>
+            <div webtip="Delete Screen Lock Password">
+                <div class="noreboot"><span id="a_dellockpwd">Delete Screen Lock</span> :</div>
+                <button type="button" id="a_deletelock">Delete</button>
+            </div>
+            <div webtip="Screen Lock Password">
+                <div class="noreboot"><span id="a_lockpwd">Screen Lock Password</span> :</div>
+                <input name="lockpasswd" type="password" id="lockpasswd" autocomplete="off" />
+            </div>
+            <div webtip="Confirm Screen Lock Password">
+                <div class="noreboot"><span id="a_lockpwd2">Confirm Screen Lock Password</span> :</div>
+                <input name="lockpasswd2" type="password" id="lockpasswd2" autocomplete="off" />
+            </div>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_siptitle">SIP</span></div>
+            </div>
+            <div webtip="SIP TLS Certificate" style="width:680px;">
+                <div class="rebootitem"><span id="a_sslcer">SIP TLS Certificate</span> :</div>
+                <textarea name="sslcer" id="sslcer" style="width:240px; padding:5px; height:100px;"></textarea>
+            </div>
+            <div webtip="SIP TLS Private Key" style="width:680px;">
+                <div class="rebootitem"><span id="a_sslpkey">SIP TLS Private Key</span> :</div>
+                <textarea name="sslpkey" id="sslpkey" style="width:240px; padding:5px; height:100px;"></textarea>
+            </div>
+            <div webtip="SIP TLS Private Key Password">
+                <div class="rebootitem"><span id="a_sslpkpwd">SIP TLS Private Key Password</span> :</div>
+                <input type="password" id="sslpkpwd" name="sslpkpwd" autocomplete="off"><span class="rebootspan">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </div>
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_vericert">Trusted CA Certificates</span></div>
+            </div>
+            <div style="border: 1px solid;width:720px;margin-left:20px;padding-bottom:10px;">
+                <div class="certdiv">
+                    <div class="certnum"><span id="a_certnum">Number</span></div><div class="certowner"><span id="a_certowner">Owner</span></div>
+                    <div class="certissuer"><span id="a_certissuer">Issuer</span></div><div class="certdate"><span id="a_certdate">Valid Date</span></div>
+                    <div class="certdelete"><span id="a_certdelete">Delete</span></div>
+                </div>
+                <div class="certdiv" id="certdiv1">
+                    <div class="certnum"><span>1</span></div><div class="certowner"><span id="a_certowner1"></span></div>
+                    <div class="certissuer"><span id="a_certissuer1"></span></div><div class="certdate"><span id="a_certdate1"></span></div>
+                    <div class="certdelete"><button numindex="1" type="button" class="delcertbtn" id="delcertbtn1">Delete</button></div>
+                </div>
+                <div class="certdiv" id="certdiv2">
+                    <div class="certnum"><span>2</span></div><div class="certowner"><span id="a_certowner2"></span></div>
+                    <div class="certissuer"><span id="a_certissuer2"></span></div><div class="certdate"><span id="a_certdate2"></span></div>
+                    <div class="certdelete"><button numindex="2" type="button" class="delcertbtn" id="delcertbtn2">Delete</button></div>
+                </div>
+                <div class="certdiv" id="certdiv3">
+                    <div class="certnum"><span>3</span></div><div class="certowner"><span id="a_certowner3"></span></div>
+                    <div class="certissuer"><span id="a_certissuer3"></span></div><div class="certdate"><span id="a_certdate3"></span></div>
+                    <div class="certdelete"><button numindex="3" type="button" class="delcertbtn" id="delcertbtn3">Delete</button></div>
+                </div>
+                <div class="certdiv" id="certdiv4">
+                    <div class="certnum"><span>4</span></div><div class="certowner"><span id="a_certowner4"></span></div>
+                    <div class="certissuer"><span id="a_certissuer4"></span></div><div class="certdate"><span id="a_certdate4"></span></div>
+                    <div class="certdelete"><button numindex="4" type="button" class="delcertbtn" id="delcertbtn4">Delete</button></div>
+                </div>
+                <div class="certdiv" id="certdiv5">
+                    <div class="certnum"><span>5</span></div><div class="certowner"><span id="a_certowner5"></span></div>
+                    <div class="certissuer"><span id="a_certissuer5"></span></div><div class="certdate"><span id="a_certdate5"></span></div>
+                    <div class="certdelete"><button numindex="5" type="button" class="delcertbtn" id="delcertbtn5">Delete</button></div>
+                </div>
+                <div class="certdiv" id="certdiv6">
+                    <div class="certnum"><span>6</span></div><div class="certowner"><span id="a_certowner6"></span></div>
+                    <div class="certissuer"><span id="a_certissuer6"></span></div><div class="certdate"><span id="a_certdate6"></span></div>
+                    <div class="certdelete"><button numindex="6" type="button" class="delcertbtn" id="delcertbtn6">Delete</button></div>
+                </div>
+            </div>
+            <div webtip="Import Trusted CA Certificates">
+                <div class="rebootitem"><span id="a_importcacert">Import Trusted CA Certificates</span> :</div>
+                <button id="a_browse" type="button">Browse</button>
+            </div>
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="reset" class="cancelbtn">Cancel</button>
+        </div>
+	</form>
+
+</div>
+
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var g_actype = $.cookie('type');
+if (typeof g_actype == "undefined" || !g_actype) {
+    g_actype = "user";
+}
+
+if (g_actype.toLowerCase() == 'user') {
+    $('.g_adminpwd').hide(); 
+}
+</script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+    new ReqItem("accessmethod", "900", ""),
+    new ReqItem("port", "901", ""),
+    //new ReqItem("adminpasswd", "2", ""),
+    //new ReqItem("userpasswd", "196", ""),
+	new ReqItem("distelnet", "276", ""),
+    new ReqItem("sslcer", "280", ""),
+    new ReqItem("sslpkey", "279", ""),
+    new ReqItem("sslpkpwd", "281", "")
+);
+var g_actype = "user";
+var mIsCheck = 0;
+var mDeleteIndex = 0;
+var mLeftMaxNum = 6;
+var mLeftPvalues = new Array;
+
+$(function(){
+    setInitState();
+    cb_get(req_items);
+    cb_get_action("getvericert&region=advanset");
+    init_upload_vericert();
+    pageEventActions();
+});
+function get_item_suc_callback(){
+    $("#adminpasswd2").val( $("#adminpasswd").val() );
+    $("#userpasswd2").val( $("#userpasswd").val() );
+    cb_accesschange();
+}
+function cb_accesschange(){
+    if ( $('#accessmethod').val() == '0' && ($('#port').val() == "" || $('#port').val() == "443") ) {
+        $('#port').val('80');
+    }
+    else if ( $('#accessmethod').val() == '1' && ($('#port').val() == "" || $('#port').val() == "80") ){
+        $('#port').val('443');
+    }
+}
+function setInitState(){
+    translate_webac();
+    grant();
+    $("#accessmethod").sSelect();
+    $("#Formvalidate").validate({
+		rules: {
+			port: { digits:true, range: [1,65535], required:true },
+            sslpkey: { maxlength: 2048 },
+            sslcer: { maxlength: 2048 },
+            sslpkpwd: { maxlength: 2048 },
+            lockpasswd: { digits:true, maxlength:6 },
+            lockpasswd2: { digits:true, maxlength:6, equalTo:"#lockpasswd" },
+            adminpasswd: { maxlength: 32 },
+            adminpasswd2: { maxlength: 32, equalTo:"#adminpasswd" },
+            userpasswd: { maxlength: 32 },
+            userpasswd2: { maxlength: 32, equalTo:"#userpasswd" }
+        },
+        messages: {
+        	adminpasswd2: {
+		    	equalTo: "<span class='fred'>"+a_16448+"</span>"
+		    },
+		    userpasswd2: {
+		    	equalTo: "<span class='fred'>"+a_16448+"</span>"
+		    } 
+        },
+		errorElement: "em",
+		success: function(label) { label.text(" ").addClass("success"); }
+    });
+}
+function translate_webac(){
+    $("#a_webset").text(a_16029);
+    $("#a_distelnet").text(a_16316);
+    $("#a_sshyes").text(a_5);
+    $("#a_httpena").text(a_1174);
+    $("#a_port").text(a_1173);
+    $("#a_curadminpwd").text(a_19007);
+    $("#a_adminpwd").text(a_16317);
+    $("#a_adminpwd2").text(a_16318);
+    $("#a_curuserpwd").text(a_19008);
+    $("#a_userpwd").text(a_16319);
+    $("#a_userpwd2").text(a_16320);
+    $("#a_sslcer").text(a_16285);
+    $("#a_sslpkey").text(a_16286);
+    $("#a_sslpkpwd").text(a_16287);
+    $("#a_deletelock").text(a_19067);
+    $("#a_locktitle").text(a_9687);
+    $("#a_lockpwd").text(a_9688);
+    $("#a_lockpwd2").text(a_9689);
+    $("#a_dellockpwd").text(a_9690);
+    $("#a_save").text(a_17);
+    $("#a_cancel").text(a_3);
+    $("#a_websccesstitle").text(a_16029);
+    $("#a_importcacert").text(a_19222);
+    $("#a_browse").text(a_16486);
+    $("#a_certnum").text(a_19218);
+    $("#a_certowner").text(a_19219);
+    $("#a_certissuer").text(a_19220);
+    $("#a_certdate").text(a_19221);
+    $("#a_vericert").text(a_19223);
+    $("#a_certdelete, .delcertbtn").text(a_21);
+}
+function grant() {
+    g_actype = $.cookie('type');
+    if (typeof g_actype == "undefined" || !g_actype) {
+        g_actype = "user";
+    }
+    
+    if (g_actype.toLowerCase() == 'admin') {
+        $('.g_adminpwd').show();
+        $('.g_userpwd').hide();
+    } else {
+        $('.g_adminpwd').hide();
+        $('.g_userpwd').show();
+    }
+}
+function cb_check_login_done(data, ischeck) {
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs)){
+        if (g_actype.toLowerCase() == 'admin')
+        {
+            $.prompt(a_19009);
+        }else if (g_actype.toLowerCase() == 'user')
+        {
+            $.prompt(a_19010);
+        }
+    }   
+    else {
+        if( ischeck ){
+            if (g_actype.toLowerCase() == 'admin')
+            {
+                req_items.push(new ReqItem("adminpasswd", "2", ""));
+                if( $("#userpasswd").val() != "" )
+	                req_items.push(new ReqItem("userpasswd", "196", ""));
+            }else if (g_actype.toLowerCase() == 'user')
+            {
+                req_items.push(new ReqItem("userpasswd", "196", ""));
+            }
+            cb_put(req_items, "", 0);
+        }else{
+            if( msgs.headers["needchange"] == 0 ){
+                $.cookie("needchange", "0", {path: '/', expires:10});
+                window.parent.hideChangePassword();
+            }else{
+                $.cookie("needchange", "1", {path: '/', expires:10});
+                window.parent.showChangePassword();
+            }
+        }    
+    }
+}
+function cb_check_login_realm_done(data, ischeck) {
+    var pass = "";
+    if( g_actype.toLowerCase() == "admin" ){
+        if( ischeck )
+            pass = $('#curadminpwd').val();
+        else
+            pass = $('#adminpasswd').val();
+    }else{
+        if( ischeck )
+            pass = $('#curuserpwd').val();
+        else
+            pass = $('#userpasswd').val();
+    }
+    var realm = data;
+    var A1 = g_actype+":"+realm+":"+pass;
+    var md5pass = $.md5(A1);
+    var urihead = "action=login&Username=" + g_actype + "&Secret=" + encodeURIComponent(md5pass);
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url: '/manager',
+        async: false,
+        data: urihead,
+        dataType: 'text',
+        success: function(data) {
+            cb_check_login_done(data, ischeck);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    }); 
+}
+function cb_put_suc(data, mode)
+{
+    var msgs = res_parse_rawtext(data);
+	cb_if_auth_fail(msgs);
+	if( cb_if_is_fail(msgs) )
+	    view_message(a_16419, MSG_FAIL);
+    else{
+        if( (g_actype == "admin" && $("#adminpasswd").val() != "") || (g_actype == "user" && $("#userpasswd").val() != "") ){
+            mIsCheck = 0;
+		    cb_get_action("loginrealm");
+        }
+        view_message(a_7479, MSG_OK);
+    }
+    //checkIsApplyNeed();
+}
+
+function init_upload_vericert(){
+    var button = $("#a_browse"), interval;
+	var uploadkeytimer = 0;
+	var fileext;
+	new Ajax_upload(button, {
+		name: 'file',
+		action : '../upload?type=vericert',
+		onSubmit : function(file, ext) {
+			cb_ping();
+			fileext = ext;
+			if (!(ext && (/^(pem)$/.test(ext) || /^(crt)$/.test(ext) || /^(cer)$/.test(ext) || /^(der)$/.test(ext)))) {
+				$.prompt(a_19217+"(.pem/.crt/.cer/.der).",MSG_FAIL);
+				return false;
+			}
+
+			window.parent.block_upload_func();
+			button.text(a_16431);
+			button.addClass("widebtn");
+
+			//this.disable();
+			$("#a_browse").attr("disabled", "true");
+
+			interval = window.setInterval(function(){
+				var text = button.text();
+				uploadkeytimer ++;
+				if (text.length < (a_16431.length +3)) {
+					button.text(text + ".");
+				} else {
+					button.text(a_16431);
+				} 
+				if (uploadkeytimer > 900) {
+					window.clearInterval(interval);
+					uploadkeytimer = 0;
+					$.prompt(a_16477);
+					button.text(a_16486);
+					button.removeClass("widebtn");
+				}	
+			}, 200);	
+		},
+		onComplete: function(file, response) {
+			//var msgs = res_parse_rawtext(response);
+			//var size = msgs.headers['Size'];
+			window.clearInterval(interval);
+			uploadkeytimer = 0;
+			var action = "checkvericert&region=advanset&maxnum=";
+			action += mLeftMaxNum;
+			for(var i = 0; i < mLeftMaxNum; i++){
+			    action += "&pvalue";
+			    action += i;
+			    action += "=";
+			    action += mLeftPvalues[i];
+			}
+			cb_get_action(action);
+		}
+	});
+}
+function convertCurrentTime(date){
+    var dateObj = new Date;
+    if( date != undefined && date != "" )
+        dateObj.setTime(date);
+    var timestr = dateObj.getFullYear()+"-";
+    var month = dateObj.getMonth()+1;
+    if( month < 10 )
+        timestr += "0";
+    timestr += month;
+    timestr += "-";
+    var date = dateObj.getDate();
+    if( date < 10 )
+        timestr += "0";
+    timestr += date;
+    timestr += " ";
+    var hours = dateObj.getHours();
+    if( hours < 10 )
+        timestr += "0"
+    timestr += hours;
+    timestr += ":";
+    var minutes = dateObj.getMinutes();
+    if( minutes < 10 )
+        timestr += "0";
+    timestr += minutes;
+    timestr += ":";
+    var seconds = dateObj.getSeconds();
+    if( seconds < 10 )
+        timestr += "0";
+    timestr += seconds;
+    return timestr;
+}
+function cb_get_action_done(data, action)
+{
+    if( action == "loginrealm" ){
+        cb_check_login_realm_done(data, mIsCheck);
+    }
+    else if( action.indexOf("clearlock") != -1 ){
+        var tObj = eval("(" + data + ")");
+        if( tObj.res == "success" ){
+            console.log('suc');
+            view_message(a_7479, MSG_OK);
+        }
+    }
+    else if( action.indexOf("getvericert&region=advanset") != -1 ){
+        $("#a_certowner1, #a_certowner2, #a_certowner3, #a_certowner4, #a_certowner5, #a_certowner6").text("");
+        $("#a_certissuer1, #a_certissuer2, #a_certissuer3, #a_certissuer4, #a_certissuer5, #a_certissuer6").text("");
+        $("#a_certdate1, #a_certdate2, #a_certdate3, #a_certdate4, #a_certdate5, #a_certdate6").text("");
+        var cert_items = "2386:2486:2586:2686:2786:2886:";
+        mLeftPvalues.splice(0, mLeftPvalues.length);
+        mLeftMaxNum = 6;
+        var tObj = eval("(" + data + ")");
+        var tmpid = 1;
+        if( tObj.Response == "Success" ){
+            var items = tObj.Data;
+            var certinfo, tmpdata, nid, sepindex, tmppvalue, tmpinfo;
+            for (var i = 0; items[i] != undefined; i++){
+                tmpdata = items[i];
+                tmppvalue = tmpdata.Pvalue;
+                certinfo = tmpdata.Info;
+                console.log('tmppvalue = ' + tmppvalue + ',certinfo = ' + certinfo);
+                $("#certdiv"+tmpid).attr("pvalue", tmppvalue);
+                $("#a_certdate"+tmpid).text( convertCurrentTime(tmpdata.Validtime*1000) );
+                cert_items = cert_items.replace(tmppvalue+":", "");
+                for( var j = 0; certinfo[j] != undefined; j++){
+                    tmpinfo = certinfo[j];
+                    sepindex = tmpinfo.lastIndexOf("(");
+                    nid = tmpinfo.substring(sepindex+1, tmpinfo.lastIndexOf(")"));
+                    //NID_countryName, "countryName", 14
+                    //NID_stateOrProvinceName, "stateOrProvinceName", 16,
+                    //NID_localityName, "localityName", 15,
+                    //NID_organizationName, "organiationName" 17,
+                    //NID_organizationalUnitName, "organizationalUnitName", 18,
+                    //NID_commonName, "commonName", 13,
+                    //NID_pkcs9_emailAddress, "emailAddress", 48
+                    if( nid == 17 ){
+                        $("#a_certissuer"+tmpid).text(tmpinfo.substring(0, sepindex));
+                    }else if( nid == 13 ){
+                        $("#a_certowner"+tmpid).text(tmpinfo.substring(0, sepindex));
+                    }
+                }
+                $("#delcertbtn"+tmpid).removeAttr("disabled");
+                tmpid ++;
+                mLeftMaxNum --;
+            }
+        }
+        var certitems = cert_items.split(":");
+        var pos = 0;
+        for(; tmpid <= 6; tmpid++, pos++ ){
+            $("#certdiv"+tmpid).attr("pvalue", certitems[pos]);
+            mLeftPvalues.push(certitems[pos]);
+            $("#delcertbtn"+tmpid).attr("disabled", "disabled");
+        }
+        if( mLeftMaxNum <= 0 ){
+            $("#a_browse").attr("disabled", "disabled");
+        }
+        //console.log("mLeftPvalues 222 = " + mLeftPvalues);
+    }else if( action.indexOf("checkvericert") != -1 ){
+        if( data == "1" ){
+            setTimeout('cb_get_action("getvericert&region=advanset");', 1000);
+        }else if( data == "2" ){
+            $.prompt(a_19215);
+        }else if( data == "3" ){
+            $.prompt(a_19216);
+        }else{
+            $.prompt(a_19214);
+        }
+        $("#a_browse").text(a_16486).removeAttr("disabled");
+        window.parent.unblock_func();
+    }else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){
+        }else {
+            if( action.indexOf("put") != -1 ){
+                $("#a_certowner"+mDeleteIndex).text("");
+                $("#a_certissuer"+mDeleteIndex).text("");
+                $("#a_certdate"+mDeleteIndex).text("");
+                $("#delcertbtn"+mDeleteIndex).attr("disabled", "disabled").removeClass("buttonover");
+                $("#a_browse").removeAttr("disabled");
+                mLeftMaxNum ++;
+                mLeftPvalues.push( $("#certdiv"+mDeleteIndex).attr("pvalue") );
+            }
+        }
+    }
+}
+function pageEventActions(){
+    $("#accessmethod").change(function(){
+        cb_accesschange();
+    });
+    
+    $(".delcertbtn").click(function(){
+        mDeleteIndex = $(this).attr("numindex");
+        var pvalue = $("#certdiv"+mDeleteIndex).attr("pvalue");
+        cb_get_action("put&var-0000="+pvalue+"&val-0000=");
+    });
+    
+    $("#a_deletelock").click(function(){
+        cb_get_action("clearlock&region=advanset");
+    });
+    
+    $("#a_save").click(function(){
+        if ( $('#accessmethod').val() == '0' &&  $('#port').val() == "443")  {
+        	view_message(a_16449,MSG_FAIL);
+            return false;
+		}
+		else if ( $('#accessmethod').val() == '1' && $('#port').val() == "80") {
+		    view_message(a_16450,MSG_FAIL);
+            return false;
+		}
+		if ( $('#curadminpwd').val() != '' )  {
+        	$("#adminpasswd").rules("add", { required: true, maxlength:32 });
+		}else{
+		    $("#adminpasswd").rules("remove");
+		}
+		if ( $('#curuserpwd').val() != '' )  {
+        	$("#userpasswd").rules("add", { required: true, maxlength:32 });
+		}else{
+		    $("#userpasswd").rules("remove");
+		}
+		if( !$("#Formvalidate").valid() ){
+            view_message(a_16442,MSG_FAIL);
+            return false;
+        }
+		var lockpwd = $('#lockpasswd').val();
+		if ( lockpwd != '' )  {
+        	if( lockpwd.length != 6 ){
+        	    $.prompt(a_9670);
+        	    return false;
+        	}
+        	cb_get_action("savelockpwd&region=advanset&newlock=" + lockpwd);
+		}
+        if( $("#adminpasswd").val() != "" ){
+		    mIsCheck = 1;
+		    cb_get_action("loginrealm");
+        }else if( $("#userpasswd").val() != "" ){
+            if(g_actype == "user"){
+                mIsCheck = 1;
+		        cb_get_action("loginrealm");
+		    }else {
+		        req_items.push(new ReqItem("userpasswd", "196", ""));
+		        cb_put(req_items, "", 0);
+		    }
+        }else   
+            cb_put(req_items, "", 0);
+    });
+}
+
+</script>
+
+</body>
+
+</html>

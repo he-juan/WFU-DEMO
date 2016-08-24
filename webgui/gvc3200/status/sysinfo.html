@@ -1,0 +1,266 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<style>
+fieldset{margin-top:25px;}
+fieldset div { width:690px;} 
+.noreboot { width:300px; }
+fieldset div div{ padding-left:0px; }
+#statusdiv{margin-top:5px;position:absolute;}
+</style>
+</head>
+<body id="framebody">
+<div class="tooltip"></div>
+
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_syssta">System Info</span></div>
+    <div id="statusdiv"></div>
+	<form action="" method="get" class="Formvalidate">
+		<fieldset>
+            <div webtip="Product Model">
+                <div class="noreboot"><span id="a_promodel">Product Model</span> :</div>
+                <div><span id="promodel"></span></div>
+            </div>
+            <div webtip="Hardware Revision">
+                <div class="noreboot"><span id="a_hardwarerev">Hardware Revision</span> :</div>
+                <div><span id="hardwarerev"></span></div>
+            </div>
+            <div webtip="Part Number">
+                <div class="noreboot"><span id="a_pn">PN Code</span> :</div>
+                <div><span id="pn"></span></div>
+            </div>
+            <div webtip="System Version">
+                <div class="noreboot"><span id="a_systemver">System Version</span> :</div>
+                <div><span id="systemver"></span></div>
+            </div>
+            <div id="showprog" style="display:none">
+                <div class="noreboot"><span id="a_progver">Program Version</span> :</div>
+                <div><span id="progver"></span></div>
+            </div>
+            <div webtip="Recovery Version">
+                <div class="noreboot"><span id="a_recover">Recovery Version</span> :</div>
+                <div><span id="recover"></span></div>
+            </div>
+            <div webtip="Boot Version">
+                <div class="noreboot"><span id="a_bootver">Boot Version</span> :</div>
+                <div><span id="bootver"></span></div>
+            </div>
+            <div webtip="Kernel Version">
+                <div class="noreboot"><span id="a_kernel">Kernel Version</span> :</div>
+                <div><span id="kernel"></span></div>
+            </div>
+            <div webtip="Codec System Version">
+                <div class="noreboot"><span id="a_codecsystemver">Codec System Version</span> :</div>
+                <div><span id="codecsystemver"></span></div>
+            </div>
+            <div webtip="Codec Boot Version">
+                <div class="noreboot"><span id="a_codecbootver">Codec Boot Version</span> :</div>
+                <div><span id="codecbootver"></span></div>
+            </div>
+            <div webtip="Codec Kernel Version">
+                <div class="noreboot"><span id="a_codeckernel">Codec Kernel Version</span> :</div>
+                <div><span id="codeckernel"></span></div>
+            </div>
+            <div webtip="ISP Version">
+                <div class="noreboot"><span id="a_ispversion">ISP Version</span> :</div>
+                <div><span id="ispversion"></span></div>
+            </div>
+            <div webtip="Android Version">
+                <div class="noreboot"><span id="a_android">Android Version</span> :</div>
+                <div><span id="android"></span></div>
+            </div>
+            <div id="cpeverdiv" style="display:none">
+                <div class="noreboot"><span id="a_cpever">CPE Version</span> :</div>
+                <div><span id="cpever"></span></div>
+            </div>
+            <div webtip="System Up Time">
+                <div class="noreboot"><span id="a_sysuptime">System Up Time</span> :</div>
+                <div><span id="uptime"></span></div>
+            </div>
+            <div style="display: none">
+                <div><span id="showallversion"></span> :</div>
+            </div>
+        </fieldset>
+	</form>
+
+</div>
+<input id="cperunning" value="" type="text" style="display:none" />
+<script type="text/javascript">
+	var cookie_lang = $.cookie( "MyLanguage");
+    var version = $.cookie("ver");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+	}
+    if(!version)
+        version = new Date().getTime();
+    document.write("<script src='../js/public.js?ver=" + version + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+var req_items = new Array;
+req_items.push(
+    new ReqItem("cperunning", "cpe_running", ""),
+    new ReqItem("progver", "68", ""),
+    new ReqItem("bootver", "69", ""),
+    new ReqItem("kernel", "70", ""),
+    new ReqItem("recover", "7033", ""),
+    new ReqItem("hardwarerev", "hw_rev", ""),
+    new ReqItem("cpever", "cpe_version", ""),
+    new ReqItem("codecsystemver", "25002", ""),
+    new ReqItem("codecbootver", "25000", ""),
+    new ReqItem("codeckernel", "25001", ""),
+    new ReqItem("ispversion", "25003", ""),
+    new ReqItem("android", "and_rev", ""),
+    new ReqItem("systemver", "45", "")
+);
+$(function(){
+    translate_sysinfo();
+    cb_get(req_items);
+    cb_get_action('uptime');
+    //cb_get_action('pn');
+    //cb_get_action('sn');   
+    cb_get_action('product');
+    //cb_get_action('androidver');
+    //cb_get_action('hardware'); 
+
+    //$("#hardwarerev").text( $('#hardwareversion',parent.document.body).val() );
+    var colore = $('#existcolore',parent.document.body).val();
+    if( colore == 1 )
+    {
+        $("#a_pn").text(a_16405);
+        cb_get_action('sn');
+    }else{
+        $("#a_pn").text(a_16406);
+        cb_get_action('pn');
+    }
+    
+});
+function cb_get_action(action){
+	var urihead = "action=" + action + "&region=status";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_action_done(data, action);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+function get_item_suc_callback(msgs){
+
+}
+function cb_get_action_done(data,action){
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs))
+    {
+    }
+    else
+    {
+        if(action == 'uptime')
+            view_status_uptime_write(msgs);
+        else if(action == 'pn')
+            $("#pn").text( msgs.headers['pn'] ); 
+        else if(action == 'sn')
+        {
+            var sn = msgs.headers['sn'].toUpperCase().split("-");
+            var snvalue = "";
+            for(var i = 0; i < sn.length; i ++ )
+            {
+                snvalue += sn[i];
+            }
+            $("#pn").text( snvalue ); 
+        }    
+        else if(action == 'product')
+            $("#promodel").text( msgs.headers['product'] );
+        else if(action == 'androidver')
+            $("#android").text( msgs.headers['androidver'] );
+        //else if(action == 'hardware')
+           // $("#hardwarerev").text( msgs.headers['hardware'] );  
+
+        if ($("#showallversion").text() == "1")
+        {
+        }
+        else
+        {
+            $(".allversion").hide();
+        }
+        if( $("#cperunning").val() == "0" || $("#cperunning").val() == "" )
+        {
+            $("#cpeverdiv").hide();
+        }else
+        {
+            $("#cpeverdiv").show();
+        }
+    }
+}
+function view_status_uptime_write(msgs){
+    var dayhtml = "";
+    if (parseInt(msgs.headers['day']) > 1) {
+        dayhtml += msgs.headers['day'] + " " + a_106 + ", ";
+    } else if (parseInt(msgs.headers['day']) > 0) {
+        dayhtml += msgs.headers['day'] + " " + a_105 + ", ";
+    }
+
+    if (parseInt(msgs.headers['hour']) > 1) {
+        dayhtml += msgs.headers['hour'] + " "+ a_108 + ", ";
+    } else if ((parseInt(msgs.headers['hour']) > 0) || (dayhtml.length > 1)) {
+        dayhtml += msgs.headers['hour'] + " " + a_107 + ", ";
+    }
+
+    if (parseInt(msgs.headers['min']) > 1) {
+        dayhtml += msgs.headers['min'] + " " + a_110 + ", ";
+    } else if ((parseInt(msgs.headers['min']) > 0) || (dayhtml.length > 1)) {
+        dayhtml += msgs.headers['min'] + " " + a_109 + ", ";
+    }
+
+    if (parseInt(msgs.headers['sec']) > 1) {
+        dayhtml += msgs.headers['sec'] + " " + a_114 + " ";
+    } else {
+        dayhtml += msgs.headers['sec'] + " " + a_113;
+    }
+    $("#uptime").text( dayhtml );
+}
+function translate_sysinfo(){
+    $("#a_syssta").text(a_4148);
+    $("#a_promodel").text(a_16404);
+    $("#a_hardwarerev").text(a_4134);
+    $("#a_pn").text(a_16406);
+    //$("#a_sn").text(a_sn);
+    $("#a_systemver").text(a_4130);
+    $("#a_corever").text(a_16407);
+    $("#a_bootver").text(a_16408);
+    $("#a_dspver").text(a_16409);
+    $("#a_basever").text(a_16410);
+    $("#a_progver").text(a_16411);
+    $("#a_guia").text(a_16412);
+    $("#a_guib").text(a_16413);
+    $("#a_recover").text(a_4131);
+    $("#a_supp").text(a_16414);
+    $("#a_android").text(a_16415);
+    $("#a_kernel").text(a_16416);
+    $("#a_cpever").text(a_4253);
+    $("#a_sysuptime").text(a_16417);
+    $("#a_codecsystemver").text(a_16661);
+    $("#a_codecbootver").text(a_16662);
+    $("#a_codeckernel").text(a_16663);
+    $("#a_ispversion").text(a_16664);
+}
+</script>
+
+</body>
+
+</html>
