@@ -3062,7 +3062,7 @@ function addconflist(data,todivID)
             $("#bottombtn #close").removeAttr("disabled").removeClass("btndisabled");
         }
         //get dnd info
-        var urihead = "action=isdndon&region=confctrl";
+        var urihead = "action=isdndon&region=confctrl&account=0";
         var callfn = "setdnd_callback(data,'searchDND');";
         cb_get_confaction(urihead,callfn,false);
     }
@@ -9089,11 +9089,11 @@ function pageEventActions()
         }
         if(setdnd == "0")
         {
-            urihead = "action=setdndonoroff&region=confctrl&setdnd=1&dndtype="+mode;
+            urihead = "action=setdndonoroff&region=confctrl&setdnd=1&account=0&dndtype="+mode;
         }
         else
         {
-            urihead = "action=setdndonoroff&region=confctrl&setdnd=0&dndtype="+mode;
+            urihead = "action=setdndonoroff&region=confctrl&setdnd=0&account=0&dndtype="+mode;
         }
         var callfn = "setdnd_callback(data);";
         cb_get_confaction(urihead,callfn);
@@ -9510,11 +9510,11 @@ function pageEventActions()
             setdnd = "0";
         if(mode == "2")
         {
-            urihead = "action=setdndonoroff&region=confctrl&setdnd=0&dndtype=1";    
+            urihead = "action=setdndonoroff&region=confctrl&setdnd=0&dndtype=1&account=0";    
             cb_get_confaction(urihead,"",true);
         }
 
-        urihead = "action=setdndonoroff&region=confctrl&setdnd="+setdnd+"&dndtype="+mode;
+        urihead = "action=setdndonoroff&region=confctrl&setdnd="+setdnd+"&dndtype="+mode+"&account=0";
         
         cb_get_confaction(urihead,callfn,true);
         $("#dndselect").hide();

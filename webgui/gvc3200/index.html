@@ -648,7 +648,8 @@ $(function(){
     $("#dndbtn").click(function(){
         var urihead = "";
         if( $(this).attr("dnd") == "1" ){
-            urihead = "action=setdndonoroff&region=confctrl&setdnd=1&dndtype=0";
+            //urihead = "action=setdndonoroff&region=confctrl&setdnd=1&dndtype=0&account=0";
+            urihead = "action=setdndonoroff&region=confctrl&setdnd=0&account=0";
             cb_setdnd_action(urihead);
         }else{
             if(confFrame.isIPVConf())
@@ -663,7 +664,8 @@ $(function(){
         }
 	});
     $("#dndok").click(function(){
-        urihead = "action=setdndonoroff&region=confctrl&setdnd=1&dndtype=1";
+        //urihead = "action=setdndonoroff&region=confctrl&setdnd=1&dndtype=1&account=0";
+        urihead = "action=setdndonoroff&region=confctrl&setdnd=1&account=0";
         cb_setdnd_action(urihead);
         $("#dndenabletip").hide();
     });

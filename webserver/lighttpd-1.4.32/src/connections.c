@@ -5048,17 +5048,128 @@ static int handle_endcall(server *srv, connection *con, buffer *b, const struct 
 /**************callservice add by Hejie Shao ***********************************/
 static int handle_setdndonoroff(server *srv, connection *con,buffer *b, const struct message *m)
 {
-    const char *type = NULL;
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 3000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
     char *temp = NULL;
+    char *info = NULL;
     char *dndtype = NULL;
+    char *dndvalue = NULL;
     char *cmd = NULL;
+    char *account = NULL;
+    int setdnd = 0, acct = 0;
     cmd = malloc(128);
     memset(cmd, 0, 128);
 
-    type = msg_get_header(m,"setdnd");
-    dndtype = msg_get_header(m,"dndtype");
+    dndvalue = msg_get_header(m,"setdnd");
+    //dndtype = msg_get_header(m,"dndtype");
+    account = msg_get_header(m, "account");
+    
+    if(dndvalue != NULL){
+        setdnd = atoi(dndvalue);
+    }
+    
+    if(account != NULL){
+        acct = atoi(account);
+    }
 
-    if(type == NULL)
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    fprintf(stderr, "handle_endCall\n");
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "enableDND" );
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &acct ) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &setdnd ) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        //dbus_message_iter_append_basic(&iter,DBUS_TYPE_INVALID);
+        dbus_message_append_args( message,  DBUS_TYPE_INVALID );
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1+ strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't set vga in\"}";
+            }
+
+            temp = build_JSON_formate( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+    /*if(type == NULL)
     {
         type = "";
     }
@@ -5095,7 +5206,9 @@ static int handle_setdndonoroff(server *srv, connection *con,buffer *b, const st
     {
         buffer_append_string( b, temp );
         free(temp);
-    }
+    }*/
+    
+    
     return 1;
 }
 static int handle_vgasend(server *srv, connection *con,buffer *b, const struct message *m)
@@ -8277,8 +8390,8 @@ static int handle_originatecall (server *srv, connection *con,
             if ( temp != NULL )
             {
                 account = atoi( temp );
-printf("account: %d\n", account);
-printf("destnum: %s\n", num);
+                printf("account: %d\n", account);
+                printf("destnum: %s\n", num);
             }
             temp = msg_get_header(m, "isvideo");
              printf("isVideo: temp %s\n", temp);
@@ -20697,7 +20810,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_setdndonoroff(srv, con, b, m);
                 }
                 else if (!strcasecmp(action, "isdndon")){
-                    handle_callservice_by_no_param(srv, con, b, m,"isDNDOn");
+                    handle_callservice_by_one_param(srv, con, b, m, "account", "isDNDOn", 0);
                 }
                 else if (!strcasecmp(action, "isconfdndon")){
                     handle_callservice_by_no_param(srv, con, b, m,"isConfDNDOn");
