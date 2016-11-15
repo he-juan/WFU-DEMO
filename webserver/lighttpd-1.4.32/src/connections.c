@@ -20455,8 +20455,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_getUSB2state(b);
                 } else if (!strcasecmp(action, "getsdcardstate")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getSDCardStatus");
-                }
-                else{
+                } else{
                     findcmd = 0;
                 }
 
@@ -20484,6 +20483,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_gettonename(b, m);
                 } else if (!strcasecmp(action, "deletetone")) {
                     handle_deltone(b, m);
+                } else if (!strcasecmp(action, "setdefaultacct")) {
+                    handle_callservice_by_one_param(srv, con, b, m, "account", "setDefaultAccount", 0);
                 } else{
                     findcmd = 0;
                 }

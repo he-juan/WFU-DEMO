@@ -624,20 +624,7 @@ function cb_get_action_done(data, action) {
                     $("#noconfdiv").show();
                 }
             }
-        } 
-        return;
-    }
-    var msgs = res_parse_rawtext(data);
-    cb_if_auth_fail(msgs);
-    if (cb_is_fail(msgs)){
-    }else {
-        if(action == "status&region=status")
-            cb_get_status_done(msgs);
-        else if(action == "get&var-0000=22046"){
-            if( msgs.headers["22046"] != undefined && msgs.headers["22046"] != "" )
-                mDftAcct = msgs.headers["22046"];
-            cb_get_action('status&region=status');
-        }else if( action.indexOf("put&var-0000=22046") != -1 ){
+        }else if(action.indexOf("setdefaultacct") != -1){
             mDftAcct = mNewDftAcct;
             var id = "acct" + (parseInt(mDftAcct)+1) + "state";
             $("#acctsepline").after( $("#" + id) );
@@ -645,6 +632,27 @@ function cb_get_action_done(data, action) {
             $("#setdftacct").hide();
             setTimeout("mNewDftAcct = '-1';", 1000);
         }
+        return;
+    }
+    var msgs = res_parse_rawtext(data);
+    cb_if_auth_fail(msgs);
+    if (cb_is_fail(msgs)){
+    }else {
+        if(action == "status&region=status"){
+            cb_get_status_done(msgs);
+        }
+        else if(action == "get&var-0000=22046"){
+            if( msgs.headers["22046"] != undefined && msgs.headers["22046"] != "" )
+                mDftAcct = msgs.headers["22046"];
+            cb_get_action('status&region=status');
+        }/*else if( action.indexOf("put&var-0000=22046") != -1 ){
+            mDftAcct = mNewDftAcct;
+            var id = "acct" + (parseInt(mDftAcct)+1) + "state";
+            $("#acctsepline").after( $("#" + id) );
+            $(".acctnum").show();
+            $("#setdftacct").hide();
+            setTimeout("mNewDftAcct = '-1';", 1000);
+        }*/
     }
 }
 function convert_time(interval)
@@ -1395,7 +1403,8 @@ function pageEventActions(){
         mNewDftAcct = $(this).parent(".accountstate").attr("acctindex");
         if( mDftAcct != mNewDftAcct ){
             $("#setdftacct").hide();
-            cb_get_action("put&var-0000=22046&val-0000="+mNewDftAcct);
+            cb_get_action("setdefaultacct&region=account&account=" + mNewDftAcct);
+            //cb_get_action("put&var-0000=22046&val-0000="+mNewDftAcct);
         }   
     });
     
