@@ -478,8 +478,10 @@ tip_item.push (
 		"Configures whether to display the video info in the video call: frame rate and the rate information. The default is \"No\"."),
 	new TipsDef("Enable Frame Skipping in Video Decoder",
 		"If set to default setting \"Yes\",  the device will skip the P frame in lost video packet to decode the I frame in the next video packet. This setting helps to reduce video distortion. The default setting is \"No\"."),
-		
-    /*Advanced Settings Video Survellance*/
+	new TipsDef("Video Display Mode",
+		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the phone displays video in its original proportion, if the video display proportion is different from the one of the phone, the phone will stretch or compress video to display it; If set to \"Equal proportional cutting\", the phone will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the phone will display video in its original proportion, if still exists spare space, the phone will add black edge on it. The default setting is \"Equal proportional cutting\"."),
+    
+	/*Advanced Settings Video Survellance*/
     new TipsDef("Enable Video Surveillance",
         "The default setting is \"No\". If this parameter is set to \"Yes\", the video phone can be turned into a video surveillance camera (You must reboot for the changes to take effect)."),
     new TipsDef("Surveillance RTSP port",

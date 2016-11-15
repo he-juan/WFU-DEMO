@@ -77,6 +77,14 @@
                 <div class="noreboot"><span id="a_viddecodefs">Enable Frame Skipping in Video Decoder</span> :</div>
                 <input name="viddecodefs" type="checkbox" id="viddecodefs"><span id="a_viddecodefsyes">Yes</span>
             </div>
+            <div webtip="Video Display Mode">
+                <div class="noreboot"><span id="a_avspipmode">Video Display Mode</span> :</div>
+                <select id='avspipmode'>
+                    <option value="0">Original Proportion</option>
+                    <option value="1" selected="selected">Equal Proportional Cutting</option>
+                    <option value="2">Proportional Add Black Edge</option>
+                </select>
+            </div>
             <div webtip="Allow Media Loopback" style="display:none">
                 <div class="noreboot"><span id="a_allowloop">Allow Media Loopback</span> :</div>
                 <input name="allowloop" type="checkbox" id="allowloop"><span id="a_allowloopyes">Yes</span>
@@ -158,7 +166,8 @@ req_items.push(
     new ReqItem("escapeuri", "1406", ""),
     new ReqItem("ofhdial", "71", ""),
     new ReqItem("ofhtimeout", "1485", ""),
-    new ReqItem("entrymute", "29607", "")
+    new ReqItem("entrymute", "29607", ""),
+    new ReqItem("avspipmode", "921", "")
     //new ReqItem("enablefncall", "preview", ""),
 );
 $(function(){
@@ -176,7 +185,7 @@ $(function(){
 });
 function setInitState(){
     translate_callfea();
-    $("#dfttrnfmode,#enablefncall, #entrymute").sSelect();  
+    $("#dfttrnfmode,#enablefncall, #entrymute, #avspipmode").sSelect();  
     $("#Formvalidate").validate({
 		rules: { 
 		        confpincode: { digits:true },
@@ -211,6 +220,7 @@ function translate_callfea(){
     $("#a_viddecodefs").text(a_16276);
     $("#a_disableconf").text(a_16297);
     $("#a_enablempk").text(a_16298);
+    $("#a_avspipmode").text(a_19365);
     $("#a_allowloop").text(a_16299);
     $("#a_escapeuri").text(a_16300);
     $("#a_ofhdial").text(a_16301);
@@ -225,6 +235,9 @@ function translate_callfea(){
     $("#entrymute option:eq(1)").text(a_19329);
     $("#entrymute option:eq(2)").text(a_19330);
     $("#entrymute option:eq(3)").text(a_19331);
+    $("#avspipmode option:eq(0)").text(a_19366);
+    $("#avspipmode option:eq(1)").text(a_19367);
+    $("#avspipmode option:eq(2)").text(a_19368);
 }
 function cb_put_suc(data, mode)
 {

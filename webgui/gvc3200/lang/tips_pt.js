@@ -477,6 +477,8 @@ tip_item.push (
 		"Configura se é exibida a informação do vídeo na videochamada: taxa de quadros e a informação da taxa. A definição padrão é \"Não\"."),
 	new TipsDef("Enable Frame Skipping in Video Decoder",
 		"Se está definida a configuração padrão \"Sim\",  o dispositivo irá ignorar o quadro P no pacote de vídeo perdido para então decodificar o quadro I no próximo pacote de vídeo. Esta configuração ajuda a reduzir a distorção de vídeo. A configuração padrão é \"Não\"."),
+	new TipsDef("Video Display Mode",
+		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the phone displays video in its original proportion, if the video display proportion is different from the one of the phone, the phone will stretch or compress video to display it; If set to \"Equal proportional cutting\", the phone will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the phone will display video in its original proportion, if still exists spare space, the phone will add black edge on it. The default setting is \"Equal proportional cutting\"."),
 		
     /*Configurações avançadas Vídeo Survellance*/
     new TipsDef("Enable Video Surveillance",

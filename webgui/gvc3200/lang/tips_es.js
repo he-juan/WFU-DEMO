@@ -477,7 +477,9 @@ tip_item.push (
 		"Configura si mostrar la información de vídeo en la vídeo llamada: tasa de cuadro y la tasa de información. Por defecto es \"No\"."),
 	new TipsDef("Enable Frame Skipping in Video Decoder",
 		"Si se ajusta a los valores por defecto \"Si\", el dispositivo saltará el cuadro P en las pérdidas de paquetes para decodificar el cuadro I en el próximo paquete de vídeo. Este ajuste ayuda a reducir la distorsión de vídeo. El ajuste por defecto es \"No\"."),
-		
+	new TipsDef("Video Display Mode",
+		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the phone displays video in its original proportion, if the video display proportion is different from the one of the phone, the phone will stretch or compress video to display it; If set to \"Equal proportional cutting\", the phone will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the phone will display video in its original proportion, if still exists spare space, the phone will add black edge on it. The default setting is \"Equal proportional cutting\"."),
+	
     /*Ajustes Avanzados de Vídeo Vigilancia*/
     new TipsDef("Enable Video Surveillance",
         "El ajuste por defecto es \"No\".  Si este parámetro es configurado a \"Si\",  el vídeo teléfono puede ser convertido en una cámara de vídeo vigilancia (Usted debe reiniciar para que los cambios tomen efecto)."),

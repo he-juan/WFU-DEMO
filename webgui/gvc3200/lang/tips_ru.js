@@ -474,6 +474,8 @@ tip_item.push (
 		"Устанавливает, будет ли при видеовызове отображаться дополнительная информация о сессии: частота кадров и т.п. По умолчанию \"Нет\"."),
 	new TipsDef("Enable Frame Skipping in Video Decoder",
 		"Если установлено \"Да\", устройство будет пропускать P фрейм потерянного видеопакета для декодирования I фрейма следующего пакета. Это настройка помогает уменьшить искажение видеосигнала. По умолчанию \"Нет\"."),
+	new TipsDef("Video Display Mode",
+		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the phone displays video in its original proportion, if the video display proportion is different from the one of the phone, the phone will stretch or compress video to display it; If set to \"Equal proportional cutting\", the phone will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the phone will display video in its original proportion, if still exists spare space, the phone will add black edge on it. The default setting is \"Equal proportional cutting\"."),
 		
     /*Расширенные настройки Видеонаблюдение*/
     new TipsDef("Enable Video Surveillance",
