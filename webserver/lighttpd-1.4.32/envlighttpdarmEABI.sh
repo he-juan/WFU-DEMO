@@ -21,7 +21,7 @@ export CFLAGS="-pie -fPIE\
     -I${ANDROID_ROOT}/external/bzip2 \
     -I${ANDROID_ROOT}/bionic/libm/include \
     -I${ANDROID_ROOT}/prebuilts/ndk/9/platforms/android-18/arch-x86/usr/include \
-    -I${ANDROID_ROOT}/vendor/grandstream/external/pcre"
+    -I${ANDROID_ROOT}/external/pcre"
 
 export LDFLAGS="-nostdlib -pie -fPIE -m32 --sysroot=${ANDROID_ROOT}/prebuilts/ndk/9/platforms/android-18/arch-x86\
     -Bdynamic -Wl,-dynamic-linker,/system/bin/linker \
@@ -32,5 +32,5 @@ export LDFLAGS="-nostdlib -pie -fPIE -m32 --sysroot=${ANDROID_ROOT}/prebuilts/nd
     -L${ANDROID_ROOT}/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9/lib/gcc/x86_64-linux-android/4.8 \
     -L${ANDROID_ROOT}/prebuilts/ndk/9/platforms/android-18/arch-x86/usr/lib "
 
-export LIBS="-lc -ldl -lm -lssl2 -lcrypto -lnvram -ldbus -llog -licuuc -lpcre -lsqlite -lwebupdate -lttycommon -ltimezone_offset \
+export LIBS="-lc -ldl -lm -lssl -lcrypto -lnvram -ldbus -llog -licuuc -lpcre -lsqlite -lwebupdate -lttycommon -ltimezone_offset \
     ${ANDROID_ROOT}/out/target/product/cht_gvc3210/obj/STATIC_LIBRARIES/libxml2_intermediates/libxml2.a"
