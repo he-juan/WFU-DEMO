@@ -168,6 +168,7 @@ mod_websocket_errno_t mod_websocket_handshake_check_request(handler_ctx *hctx) {
             version_hdr_value = hdr->value;
         }
         if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Origin")) ||
+            buffer_is_equal_string(hdr->key, CONST_STR_LEN("origin")) ||
             buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Origin"))) {
             handshake->origin = hdr->value;
         }
