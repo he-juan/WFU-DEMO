@@ -2283,6 +2283,7 @@ function checkDeleteDiv(selconfid){
 }
 function callOutPreConf(selconfid, ifdelete){
     var confnumbers = "", confaccts = "";
+    var pingcode = $("#schedule_" + selconfid).attr("pincode");
     $("#membersdiv .memberdiv[isdelete=0][confid=\""+selconfid+"\"]").each(function(){
         var contactsid = $(this).attr("contactsid");
         var number = $(this).attr("number");
@@ -2328,7 +2329,8 @@ function callOutPreConf(selconfid, ifdelete){
         cb_get_action_sync("notifyschedule&region=webservice&type=7&scheduleId="+selconfid);   
     else
         cb_get_action_sync("notifyschedule&region=webservice&type=6&scheduleId="+selconfid);   
-    cb_start_addmemberconf(confnumbers, confaccts, "", encodeURIComponent($("#itemsdiv .itemdiv.selectItem").attr("name")));
+    //cb_start_addmemberconf(confnumbers, confaccts, "", encodeURIComponent($("#itemsdiv .itemdiv.selectItem").attr("name")));
+    cb_start_addmemberconf(confnumbers, confaccts, "", selconfid, 1, 0, pingcode);
     if( ifdelete >= 1 ){
         checkDeleteDiv(selconfid);
     }

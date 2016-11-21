@@ -1744,11 +1744,14 @@ function pageEventActions(){
                 $.prompt(a_16665);
                 return false;
             }
-            var confname = "";
+            /*var confname = "";
             if( $(this).parent().parent(".itemdiv").attr("confid") != "" )
-                confname = encodeURIComponent($(this).parent().parent(".itemdiv").attr("name"));
+                confname = encodeURIComponent($(this).parent().parent(".itemdiv").attr("name"));*/
+            var confid = $(this).parent().parent(".itemdiv").attr("confid");
             //cb_get_action("addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(dialnum) + "&accounts=" + encodeURIComponent(todialacct) + "&confname=" + confname);
-            cb_start_addmemberconf(dialnum, todialacct, callmode, confname);
+            //cb_start_addmemberconf(dialnum, todialacct, callmode, confname);
+            cb_start_addmemberconf(dialnum, todialacct, callmode, confid);
+            
             /*var confid = $(this).parent().parent(".itemdiv").attr("confid");
             if( confid != "" )
                 cb_get_action("originatecallconf&region=webservice&confId=" + confid);

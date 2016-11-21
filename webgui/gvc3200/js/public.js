@@ -1228,7 +1228,7 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isipcall, isvideo){
     },100);
 }
 
-function cb_start_addmemberconf(numbers, accounts, callmode, confname, isvideo){
+function cb_start_addmemberconf(numbers, accounts, callmode, confid, isvideo, isquickstart, pingcode){
     var flag = true;
     var confstate = $("#disconfstate",window.parent.document).val();
     if(confstate == "0")
@@ -1308,6 +1308,12 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confname, isvideo){
         if(window.parent.mAutovideo == "0")
             isvideo = "0";
     }
+	
+	if(isquickstart == undefined)
+		isquickstart = 0;
+	
+	if(pingcode == undefined)
+		pingcode = "";
 
     var urihead;
     if(callmode == undefined || callmode == "")
@@ -1336,7 +1342,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confname, isvideo){
         accounts = dialacct;
     }
     
-    urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confname=" + confname + "&callmode=" + callmode + "&isvideo=" + isvideo;
+    urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo + "&isquickstart=" + isquickstart + "&pingcode=" + pingcode;
     cb_originate_call(urihead,numbers, accounts);
 }
 
