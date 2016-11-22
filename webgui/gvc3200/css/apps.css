@@ -25,7 +25,7 @@ input{*width:160px;}
 .itemmembers{width:90px;text-align:left;margin-left:18px;color:#222;}
 
 .desdiv{width:120px;text-align:left;display:block;float:left;margin:0;color:#222;font-weight: normal;}
-.desdiv span{line-height:42px;}
+.desdiv span{line-height:47px;}
 .contentdiv, .descriptiondiv, .editdiv{width:220px;text-align:right;display:block;float:left;color:#666;}
 .editdiv{display:none;}
 
