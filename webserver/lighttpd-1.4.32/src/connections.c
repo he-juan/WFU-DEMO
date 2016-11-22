@@ -106,7 +106,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define CONF_PTZ				"/data/data/com.android.settings/shared_prefs/camera_settings_params.xml"
 #define CONF_MPK				"/data/data/com.base.module.mpk/shared_prefs/com.base.module.mpk.setting_shareprenferences.xml"
 #define CONF_MPKEXT 		"/data/data/com.base.module.mpkext/shared_prefs/com.base.module.mpkext.setting_shareprenferences.xml"
-#define CONF_SCHEDULE 		"/data/data/com.base.module.conference/shared_prefs/schedule_settings.xml"
+#define CONF_SCHEDULE 		"/data/data/com.base.module.schedule/shared_prefs/schedule_settings.xml"
 #define SYS_CONFIG_FILE                 APP_CONF_PATH"/SystemSetting/systemsettingmenuconfig.xml"
 #define SYS_CONFIG_ACCT                         "0"
 #define SYS_CONFIG_UPGRADE                  "1"
@@ -1680,7 +1680,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
     if( !strcasecmp(type, "caption") )
         rc = sqlite3_open("/data/data/com.android.providers.settings/databases/settings.db", &db);
     else
-        rc = sqlite3_open("/data/data/com.base.module.conference/databases/conference.db", &db);
+        rc = sqlite3_open("/data/data/com.base.module.schedule/databases/conference.db", &db);
     if( rc ){
         printf("Can't open database: %s\n", sqlite3_errmsg(db));
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
@@ -15919,7 +15919,7 @@ static int handle_notify_schedule_change(buffer *b, const struct message *m)
         char *cmd = NULL;
         cmd = malloc(128);
         memset(cmd, 0, 128);
-        snprintf(cmd, 128, "am broadcast -a com.base.module.conference.UPDATE_SCHEDULE --ei \"action\" \"%s\" --es \"schedule_id\" %s", action, scheduleId);
+        snprintf(cmd, 128, "am broadcast -a com.base.module.schedule.UPDATE_SCHEDULE --ei \"action\" \"%s\" --es \"schedule_id\" %s", action, scheduleId);
         printf("cmd = %s\n", cmd);
         int result = mysystem(cmd);
         if( result )
