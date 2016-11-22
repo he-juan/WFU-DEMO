@@ -8608,11 +8608,9 @@ static int handle_addconfmemeber (server *srv, connection *con,
                 confname = "";
             }*/
             confid = msg_get_header(m, "confid");
-            if ( confid != NULL )
+            if ( confid == NULL || !strcmp(confid, ""))
             {
-                uri_decode((char*)confid);
-            }else{
-                confid = "";
+                confid = "-1";
             }
 
             if ( numbers != NULL )
