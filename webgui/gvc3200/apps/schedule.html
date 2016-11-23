@@ -3017,6 +3017,9 @@ function pageEventActions(){
         $(this).hide();
         $("#righttopdiv .righttopdiv, #editmemberbtn").show();
         $("#allcontactsdiv, #searchdiv, #changemembersavebtn, .cloudconf").hide();
+        if( !mHasGoogle ){
+            $("#googleacctdiv").hide();
+        }
         $("#savebtn,#cancelbtn").show();
         $("#membersdiv .memberdiv[isexist=1][isdelete=0]").show();
         change_repeat_type(0);
