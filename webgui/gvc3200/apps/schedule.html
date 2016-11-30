@@ -190,7 +190,7 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
                     <div class="desdiv" style="width:150px;"><span id="a_detailreminder">Reminder Time</span></div>
                     <div class="descriptiondiv" id="advancediv" style="width:180px;"><input id="remindercheck" type="checkbox" /><span id="a_inadvance">10 mins in advance</span></div>
                 </div>
-                <div class="righttopdiv">
+                <!--div class="righttopdiv">
                     <div class="desdiv" id="autoanswerdiv" style="width:250px;"><span id="a_detailautoanswer">Auto Answer for Conference Members</span></div>
                     <div class="contentdiv" style="width:75px;margin-left:14px;"><span id="detailautoanswer"></span></div>
                     <div class="editdiv" style="width:60px;margin-left:10px;"><input id="autoanswer" type="checkbox" /></div>
@@ -232,7 +232,7 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
                             <option value="23">Preset24</option>
                         </select>
                     </div>
-                </div>
+                </div-->
                 <div class="righttopdiv_hidden" style="display:none;">
                     <div class="desdiv" style="width:295px;"><span id="a_detaildnd">Conference  DND</span></div>
                     <div class="contentdiv" style="width:50px;margin-left:-5px;"><span id="detaildnd"></span></div>
@@ -564,6 +564,7 @@ $(function(){
     translate_page();
     /***************init state****************/
     $("#rightbtn button, #allcontactsdiv, #searchdiv").hide();
+    
     $("#delscheduleall").attr("disabled","disabled").addClass("deldisable");
     /*************************/
     window.parent.block_download_func(a_6660);
@@ -3713,11 +3714,11 @@ function pageEventActions(){
         //     $.prompt(a_16654);
         //     return false;
         // }
-        if(!durationreg.test(pincode))
+        /*if(!durationreg.test(pincode))
         {
             $.prompt(a_16709);
             return false;
-        }
+        }*/
         if( durations <= 0 ){
             $.prompt(a_16708);
             return false;

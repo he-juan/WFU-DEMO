@@ -830,7 +830,7 @@ tip_item.push (
     
     
     
-    
+    /*
     new TipsDef("Disable Missed Call OLED Indicator", "关闭未接来电OLED提示",
         "若选择“是”，当设备有未接来电时，OLED不会进行相关指示。默认为“否”。"),
     new TipsDef("Disable MWI OLED Indicator", "关闭语音邮箱OLED提示",
@@ -839,7 +839,15 @@ tip_item.push (
         "若选择“是”，当设备有新消息，OLED是否进行相关指示。默认为“否”。 "),
     new TipsDef("Disable Contact Full OLED Indicator", "关闭联系人满时OLED提示",
         "若选择“是”，当设备中存储的联系人/消息个数满时，OLED是否进行相关指示。默认为“否”。"),
-    
+    */
+	new TipsDef("Disable Missed Call OLED Indicator", "关闭未接来电指示灯",
+        "若选择“是”，当话机有未接来电时LED指示灯不会进行相关指示。默认为“否”。"),
+    new TipsDef("Disable MWI OLED Indicator", "关闭语音邮箱指示灯",
+        "当话机有未读留言时LED指示灯是否进行相关指示。默认为“否”。"),
+    new TipsDef("Disable New Message OLED Indicator", "关闭新消息指示灯",
+        "若选择“是”，当话机有新消息LED指示灯是否进行相关指示。默认为“否”。 "),
+    new TipsDef("Disable Contact Full OLED Indicator", "关闭联系人满时指示灯",
+        "若选择“是”，当话机中存储的联系人满时LED指示灯是否进行相关指示。默认为“否”。"),
 
     /*Device Manager Camera*/
     new TipsDef("Zoom Mode", "偏移方式",

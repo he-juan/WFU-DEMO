@@ -1119,6 +1119,9 @@ function get_item_suc_callback() {
         $(".iptalkmode, .bjmode").hide();
         $(".bjmodeshow").show();
     }
+    else if(accountindex == 1){
+        $("#tranonhang").parent().hide();
+    }
 }
 function cb_if_put_suc(data){
     var msgs = res_parse_rawtext(data);

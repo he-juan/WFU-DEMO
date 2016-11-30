@@ -835,16 +835,23 @@ tip_item.push (
     /*Device Manager HeadSet*/
     
     
-    
-    
-    new TipsDef("Disable Missed Call OLED Indicator",
+    /*new TipsDef("Disable Missed Call OLED Indicator",
         "If set to \"Yes\", the OLED will not indicate when there is missed call on the device. The default setting is \"No\"."),
     new TipsDef("Disable MWI OLED Indicator",
         "If set to \"Yes\",  the OLED will not indicate when there is an unread voice email.  The default setting is \"No\"."),
     new TipsDef("Disable New Message OLED Indicator",
         "If set to \"Yes\", the OLED will not indicate when there is new message on the device. The default setting is \"No\"."),
     new TipsDef("Disable Contact Full OLED Indicator",
-        "If set to \"Yes\", the OLED will not indicate when the contact storage or message storage is full. The defalut setting is \"No\"."),
+        "If set to \"Yes\", the OLED will not indicate when the contact storage or message storage is full. The defalut setting is \"No\"."),*/
+		
+	new TipsDef("Disable Missed Call OLED Indicator",
+	    "If set to \"Yes\", the LED indicator on the upper right corner of the phone will not light up when there is missed call on the phone. The default setting is \"No\"."),
+	new TipsDef("Disable MWI OLED Indicator",
+	    "If set to \"Yes\", the LED indicator on the upper right corner of the phone will not light up when there is new voicemail on the phone. The default setting is \"No\"."),
+	new TipsDef("Disable New Message OLED Indicator",
+	    "If set to \"Yes\", the LED indicator on the upper right corner of the phone will not light up when there is new message on the phone. The default setting is \"No\". "),
+	new TipsDef("Disable Contact Full OLED Indicator",
+	    "If set to \"Yes\", the LED indicator on the upper right corner of the phone will light up when the contact storage or message storage is full. The default setting is \"No\"."),
     
     
     /*Device Manager Camera*/
