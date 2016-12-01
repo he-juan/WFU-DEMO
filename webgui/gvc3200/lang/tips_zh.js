@@ -1190,7 +1190,7 @@ tip_item.push (
     new TipsDef("Factory Reset", "恢复出厂设置",
         "将设备配置恢复出厂设置。可以勾选是否同时清除内置SD卡数据。注意：重置前请进行数据备份以免数据丢失。"),
     new TipsDef("Disable Dial Plan", "禁用拨号规则", 
-        "用于设置拨号界面、电话本、来电通话记录、去电通话记录 & Click2Dial是否禁用拨号规则，勾选后，相应功能将不再使用下方的拨号规则。当高级设置中的“显示软键盘”选项勾选后，建议将拨号界面拨号规则禁用，即勾选“拨号界面”选项。"),
+        "用于设置拨号界面、电话本、来电通话记录、去电通话记录 & Click2Dial是否禁用拨号规则，勾选后，相应功能将不再使用下方的拨号规则。"),
     new TipsDef("Remote Video Request", "远程视频请求", 
         "配置视频请求的处理方式。用户可以选择：提示，接受，拒绝。默认为“提示”。"),
     new TipsDef("DHCP Option 120 Override SIP Server", "启用DHCP Option 120服务器设置",

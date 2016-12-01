@@ -1196,7 +1196,7 @@ tip_item.push (
     new TipsDef("Factory Reset",
         "Restore to factory default settings."),
     new TipsDef("Disable Dial Plan",
-        "Defines whether to disable dial plan when dialing from dial screen, Contacts, Call History and Click2Dial. If set to \"Yes\", dial plan will be disabled for the above cases. If \"Display Soft keyboard\" is set to \"Yes\", it is recommended to disable the dial plan for the dial page."),
+        "Defines whether to disable dial plan when dialing from dial screen, Contacts, Call History and Click2Dial. If set to \"Yes\", dial plan will be disabled for the above cases."),
 	new TipsDef("Remote Video Request",
         "Configures the preference of video request handling during an audio call. Users could select \"prompt\", \"accept\" or \"deny\" . The default setting is \"prompt\"."),
     new TipsDef("DHCP Option 120 Override SIP Server",

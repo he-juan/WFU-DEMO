@@ -3158,4 +3158,4 @@ var a_19369="拨号界面";
 var a_19370="电话本";
 var a_19371="来电通话记录";
 var a_19372="去电通话记录";
-var a_19373="MPK & Click2Dial";
+var a_19373="Click2Dial";

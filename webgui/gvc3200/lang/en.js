@@ -3157,4 +3157,4 @@ var a_19369="Dial Page";
 var a_19370="Contact";
 var a_19371="Incoming Call History";
 var a_19372="Outgoing Call History";
-var a_19373="MPK & Click2Dial";
+var a_19373="Click2Dial";
