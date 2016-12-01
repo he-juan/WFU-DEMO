@@ -14299,7 +14299,7 @@ if ${ac_cv_lib_ssl_SSL_new+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lssl  -lcrypto "$DL_LIB"  $LIBS"
+LIBS="-lssl2  -lcrypto2 "$DL_LIB"  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -14330,7 +14330,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ssl_SSL_new" >&5
 $as_echo "$ac_cv_lib_ssl_SSL_new" >&6; }
 if test "x$ac_cv_lib_ssl_SSL_new" = xyes; then :
-   SSL_LIB="-lssl -lcrypto"
+   SSL_LIB="-lssl2 -lcrypto2"
 
 $as_echo "#define HAVE_LIBSSL /**/" >>confdefs.h
 
