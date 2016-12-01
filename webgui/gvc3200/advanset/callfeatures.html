@@ -26,10 +26,10 @@
                 <div class="noreboot"><span id="a_autoconf">Auto Conference</span> :</div>
                 <input name="autoconf" type="checkbox" id="autoconf"><span id="a_autoconfyes">Yes</span>
             </div>
-            <div webtip="Disable Dial Plan">
+            <!--div webtip="Disable Dial Plan">
                 <div class="noreboot"><span id="a_disadiaplan">Disable DialPlan</span> :</div>
                 <input name="dialplan" type="checkbox" id="dialplan"><span id="a_dialplanyes">Yes</span>
-            </div>
+            </div-->
             <div webtip="Filter Characters">
                 <div class="noreboot"><span id="a_filterchars">Filter Characters</span> :</div>
                 <input id="filterchars" name="filterchars" type="text" />
@@ -151,7 +151,7 @@ req_items.push(
     new ReqItem("alring", "1439", ""),
     new ReqItem("autoconf", "1682", ""),
     new ReqItem("callwait", "91", ""),
-    new ReqItem("dialplan", "1687", ""),
+    /*new ReqItem("dialplan", "1687", ""),*/
     new ReqItem("filterchars", "22012", ""),
     new ReqItem("confpincode", "22052", ""),
     new ReqItem("callwaittone", "186", ""),
@@ -205,7 +205,7 @@ function translate_callfea(){
     $("#a_autoconf").text(a_16289);
     $("#a_callwait").text(a_16641);
     $("#a_autovideo").text(a_16151);
-    $("#a_autovideoyes, #a_alringyes, #a_autoconfyes, #a_callwaityes, #a_dialplanyes, #a_discallwaittoneyes, #a_diripcallyes, #a_escapeuriyes, #a_disdndringyes, #a_usequickipcallyes, #a_disabletrnfyes, #a_disableconfyes, #a_enablempkyes, #a_allowloopyes, #a_viddecodefsyes").text(a_5);
+    $("#a_autovideoyes, #a_alringyes, #a_autoconfyes, #a_callwaityes, #a_discallwaittoneyes, #a_diripcallyes, #a_escapeuriyes, #a_disdndringyes, #a_usequickipcallyes, #a_disabletrnfyes, #a_disableconfyes, #a_enablempkyes, #a_allowloopyes, #a_viddecodefsyes").text(a_5);
     $("#a_discallwaittone").text(a_16290);
     $("#a_disadiaplan").text(a_16291);
     $("#a_filterchars").text(a_19112);
@@ -286,13 +286,13 @@ function pageEventActions(){
             disipcall = "1";
         if($("#usequickipcall").prop("checked"))
             disquickipcall = "1";
-        if($("#dialplan").prop("checked"))
-            disadiaplan = "1";
+        /*if($("#dialplan").prop("checked"))
+            disadiaplan = "1";*/
         var applyfun = $.cookie("applyfunc");
         if (applyfun != undefined && applyfun != "")
-            applyfun += ";cb_set_disableconf(" + Disconf + "," + Autovideo + "," + distranfer + "," + disipcall + "," + tranfermode + "," + disquickipcall + "," + disadiaplan + ")";
+            applyfun += ";cb_set_disableconf(" + Disconf + "," + Autovideo + "," + distranfer + "," + disipcall + "," + tranfermode + "," + disquickipcall + ")";
         else
-            applyfun = "cb_set_disableconf(" + Disconf + "," + Autovideo + "," + distranfer + "," + disipcall + "," + tranfermode + "," + disquickipcall + "," + disadiaplan + ")";
+            applyfun = "cb_set_disableconf(" + Disconf + "," + Autovideo + "," + distranfer + "," + disipcall + "," + tranfermode + "," + disquickipcall + ")";
         $.cookie("applyfunc", applyfun, {path: '/', expires: 10});
     });
 }

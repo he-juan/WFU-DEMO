@@ -244,9 +244,9 @@ tip_item.push (
     
     /*Account1 2 3 Call Settings*/
     new TipsDef("Dial Plan Prefix",
-        "This parameter defines the prefix added to each dialed number."),
+        "Configures the prefix to be added to each dialed number. All numbers use this account will automatically add the prefix. e.g.: The prefix is 5, the phone number is 337, then the dial number is 5337. If set \"Disable DialPlan\" to \"Yes\", the dial plan prefix will be invalid."),
     new TipsDef("DialPlan",
-        "Sets up the rule for the expected number and pattern to be dialed out. For syntax and examples, please refer to the phone user manual for more details."),
+        "1. Valid Value:<br/>1,2,3,4,5,6,7,8,9,0,*,#,T；</br>2. Dial Plan Rules:</br>a) •xx - any 2 digit numbers from 0-9</br>b) •xx+ - at least 2 digit numbers from 0-9</br>c) • xx. - at least 1 digit number from 0-9</br>d) • xx? - 1 or 2 digit numbers from 0-9</br>e) • ^ - exclude</br>f) • T - dialing delay when matched</br>g) • [3-5] – any digit of 3, 4, or 5</br>h) [147] - any digit of 1, 4, or 7</br>i) <2=011> - replace digit 2 with 011 when dialing</br>j)   {x+} - allow dialing all digit numbers</br>3. Examples:</br>Example 1: {[369]11 | 1617xxxxxxx}</br>Allow 311, 611, and 911 or any 10 digit numbers with leading digits 1617;</br>Example 2: {^1900x+ | <=1617>xxxxxxx}</br>Block any number of leading digits 1900 or add prefix 1617 for any dialed 7 digit numbers;"),
     new TipsDef("Early Dial",
         "This parameter should be only used when the proxy/server supports 484 response messages. The default setting is \"No\"."),
     new TipsDef("Refer-To Use Target Contact",
@@ -381,7 +381,7 @@ tip_item.push (
 	new TipsDef("Disable DialPlan",
 		"If set to \"Yes\", then disable dial plans except contact. The default settings is \"No\"."),
     new TipsDef("Filter Characters",
-        "Set the characters for filter when dial out numbers. Users could set up multiple characters. For example, if set to \"[()-]\", when dial (0571)-8800-8888, the character \"()-\" will be automatically filtered and dial 057188008888 directly."),
+        "Set the characters for filter when dial out numbers. Users could set up multiple characters. For example, if set to \"[()-]\", when dial (0571)-8800-8888, the character \"()-\" will be automatically filtered and dial 057188008888 directly. Note: this function doesn’t work on the local call page of the device."),
     new TipsDef("Auto Mute on Entry",
         "Configures whether to mute the call on entry automatically. If set to \"Disable\", then do not use auto mute function; If set to \"Auto Mute on Outgoing Call\", then mute automatically when the other party answers the outgoing call; If set to \"Auto Mute on Incoming Call\", then mute automatically when answers the incoming call; If set to \"Mute on Incoming & Outgoing Call\", then mute automatically when the call gets through.Note: this function only take effect when the phone is from the idle status to call status. Users could click the Mute button on call interface to cancel the current mute status. The default setting is \"Disable\"."),
     
@@ -1196,8 +1196,8 @@ tip_item.push (
     new TipsDef("Factory Reset",
         "Restore to factory default settings."),
     new TipsDef("Disable Dial Plan",
-        "Defines whether to disable dial plan when dialing from dial screen, Contacts, Call History and Click2Dial. If set to \"Yes\", dial plan will be disabled for the above cases.  If \"Display Soft keyboard\" is seto to \"Yes\", it is recommended to disable the dial plan for the dial page."),
-    new TipsDef("Remote Video Request",
+        "Defines whether to disable dial plan when dialing from dial screen, Contacts, Call History and Click2Dial. If set to \"Yes\", dial plan will be disabled for the above cases. If \"Display Soft keyboard\" is set to \"Yes\", it is recommended to disable the dial plan for the dial page."),
+	new TipsDef("Remote Video Request",
         "Configures the preference of video request handling during an audio call. Users could select \"prompt\", \"accept\" or \"deny\" . The default setting is \"prompt\"."),
     new TipsDef("DHCP Option 120 Override SIP Server",
         "Enables DHCP Option 120 from local server to override the SIP Server on the device. "),

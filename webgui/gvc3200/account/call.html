@@ -13,6 +13,8 @@
 <style>
 body{}
 .dotline { width:600px; margin-left:50px;}
+.checkdiv{padding:0px;width:160px;display:inline;margin:0 !important;}
+.checkrowdiv{width:330px;padding-left:0px;margin:0px !important;}
 </style>
 <body id="framebody">
 <div class="tooltip"></div>
@@ -50,6 +52,25 @@ body{}
                 <div class="noreboot"><span id="a_dialplanpr">Dial Plan Prefix</span> :</div>
                 <input id="prefix" name="prefix" type="text" />
             </div>
+            
+            <div webtip="Disable Dial Plan" class="iptalkmode">
+                <div class="noreboot"><span id="a_disdialplan">Disable DialPlan</span> :</div>
+                <div id="dialplancheckdiv" style="width:330px;padding-left:0px;margin:0px !important;">
+                    <div class="checkrowdiv">
+                        <div class="checkdiv"><input name="disdialpage" type="checkbox" id="disdialpage"><span id="a_disdialpage">Dial Page</span></div>
+                        <div class="checkdiv"><input name="discontact" type="checkbox" id="discontact"><span id="a_discontact">Contact</span></div>
+                    </div>
+                    <div class="checkrowdiv">
+                        <div class="checkdiv"><input name="disincoming" type="checkbox" id="disincoming"><span id="a_disincoming">Incoming Call History</span></div>
+                        <div class="checkdiv"><input name="disoutgoing" type="checkbox" id="disoutgoing"><span id="a_disoutgoing">Outgoing Call History</span></div>
+                    </div>
+                    <div class="checkrowdiv">
+                        <div class="checkdiv"><input name="dismpkclick" type="checkbox" id="dismpkclick"><span id="a_dismpkclick">MPK & Click2Dial</span></div>
+                    </div>
+                </div>
+                <input name="disdialplan" type="text" id="disdialplan" style="display:none;">
+            </div>
+            
             <div webtip="DialPlan" class="iptalkmode">
                 <div class="noreboot"><span id="a_dialplan">DialPlan</span> :</div>
                 <input id="dialplan" name="dialplan" type="text" />
@@ -330,6 +351,7 @@ function cb_get_pvalue(acctindex){
 	    case '1':
 	        req_items.push(
 			    new ReqItem("prefix", "66", ""),
+                new ReqItem("disdialplan", "1687", ""),
 			    new ReqItem("dialplan", "290", ""),
 			    new ReqItem("autovideo", "2314", ""),
 				new ReqItem("startfull", "2332", ""),
@@ -640,6 +662,12 @@ function cb_get_pvalue(acctindex){
 function translate_call(){
     $("#a_call").text(a_16027);
     $("#a_dialplanpr").text(a_16149);
+    $("#a_disdialplan").text(a_16291);
+    $("#a_disdialpage").text(a_19369);
+    $("#a_discontact").text(a_19370);
+    $("#a_disincoming").text(a_19371);
+    $("#a_disoutgoing").text(a_19372);
+    $("#a_dismpkclick").text(a_19373);
     $("#a_dialplan").text(a_16150);
     $("#a_autovideo").text(a_16151);
     $("#a_startfull").text(a_16152);
@@ -1015,6 +1043,40 @@ function cb_put_suc(data, mode)
     checkIsApplyNeed();
 }
 
+function tobinary(n)
+{
+    var binstr = tobinChange(n);
+    while( binstr.length % 5 != 0 ) {
+        binstr = "0" + binstr;
+    }
+    return binstr;
+}
+
+function tobinChange(n)
+{
+    if(!isNaN(n) && n>0)
+    {
+        if(n%2==0)
+        {
+            return tobinChange(n/2)+"0";
+        }
+        else {
+            if(n>2)
+            {
+                return tobinChange(parseInt(n/2))+(n%2);
+            }
+            else
+            {
+            return tobinChange(0)+n;
+            }
+        }
+    }
+    else
+    {
+        return "";
+    }
+}
+
 function pageEventActions(){
     $("#cftype").change(function(){
         update_forward_type();
@@ -1053,6 +1115,26 @@ function pageEventActions(){
             $("#bcf").val( $.trim($("#bcf").val()) );
             $("#nacf").val( $.trim($("#nacf").val()) );
         }
+        
+        var disdialpage = "0", discontact = "0", disincoming = "0", disoutgoing = "0", dismpkclick = "0";
+        if( $("#disdialpage").attr("checked") ){
+            disdialpage = "1";
+        }
+        if( $("#discontact").attr("checked") ){
+            discontact = "1";
+        }
+        if( $("#disincoming").attr("checked") ){
+            disincoming = "1";
+        }
+        if( $("#disoutgoing").attr("checked") ){
+            disoutgoing = "1";
+        }
+        if( $("#dismpkclick").attr("checked") ){
+            dismpkclick = "1";
+        }
+        var disdialplan = dismpkclick + disoutgoing + disincoming + discontact + disdialpage;
+        $("#disdialplan").val( parseInt(disdialplan, 2) );
+        
         cb_put(req_items, "");
         if( accountindex == '1' )
             cb_put_tonename(req_tone_items, "");
@@ -1122,6 +1204,23 @@ function get_item_suc_callback() {
     else if(accountindex == 1){
         $("#tranonhang").parent().hide();
     }
+    
+    var disdialplan = tobinary(parseInt($("#disdialplan").val()));
+	if( disdialplan.substring(0, 1) == "1" ){
+	    $("#dismpkclick").attr("checked", true);
+	}
+	if( disdialplan.substring(1, 2) == "1" ){
+	    $("#disoutgoing").attr("checked", true);
+	}
+	if( disdialplan.substring(2, 3) == "1" ){
+	    $("#disincoming").attr("checked", true);
+	}
+	if( disdialplan.substring(3, 4) == "1" ){
+	    $("#discontact").attr("checked", true);
+	}
+	if( disdialplan.substring(4, 5) == "1" ){
+	    $("#disdialpage").attr("checked", true);
+	}
 }
 function cb_if_put_suc(data){
     var msgs = res_parse_rawtext(data);

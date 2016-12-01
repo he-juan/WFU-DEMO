@@ -60,7 +60,7 @@ $(function(){
 		else{
 			for (var i = 0; i < parent.tip_item.length; i++) {
 				if ( parent.tip_item[i].id == tmptitle ){
-					$("#tipcontent", parent.document.body).text(parent.tip_item[i].content);
+					$("#tipcontent", parent.document.body).html(parent.tip_item[i].content);
 					if( parent.tip_item[i].tranid != undefined && parent.tip_item[i].tranid != "" )	
 						$("#tiptitle", parent.document.body).text(parent.tip_item[i].tranid);
 					else{
