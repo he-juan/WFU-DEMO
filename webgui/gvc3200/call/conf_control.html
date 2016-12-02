@@ -1084,6 +1084,8 @@ var MAXPRESETNUM = 15;
 var mSaveingPreset = false;
 var mOEMID = '0';
 var mProduct = "GVC3200";
+var autoanswerFlag = false;
+var autoanswer= {};
 
 var req_items = new Array;
 req_items.push(
@@ -1201,7 +1203,7 @@ $(function(){
     }
     pageEventActions();
     cb_get_action('status&region=status');
-    //get_contact();
+    get_contact();
     //get_normal_calllog(2, 0);
     window.parent.get_initws();
     var urihead = "action=callstatusReport&region=confctrl&ctrlopen=0";
@@ -1601,7 +1603,15 @@ function handle_callmessage(data,obj_incominginfo)
             var i;
             var line = data.line;
             var msg = data.msg;
-
+            
+            if(autoanswerFlag && data.name == "" && data.num == ""){
+                if(autoanswer.name == "")
+                    data.name = autoanswer.num;
+                else
+                    data.name = autoanswer.name;
+                data.num = autoanswer.num;
+            }
+            
             mLineState[line] = 1;
             if($("#conf div[line=\""+line+"\"]").length <= 0){
                 addtoconf(data);
@@ -2576,6 +2586,11 @@ function update_line_resumestate(data)
     }
 }
 
+function handle_autoanswer(data){
+    autoanswerFlag = true;
+    autoanswer.name = data.name;
+    autoanswer.num = data.num;
+}
 
 function countTabs()
 {
@@ -2763,6 +2778,17 @@ function addconflist(data,todivID)
     var calltype = data.msg;//video or audio or message
     var sqlname = data.sqlname;//judge name is frome sql or null
     var $existline = $("#tabs div#line-"+line);
+    
+    if(mContactitems != undefined)
+    {
+        for(var i=0;mContactitems[i] != undefined;i++)
+        {
+            var number = mContactitems[i].Number;
+            number = number.replace(/\s/g,"");
+            if(number == num)
+                callname = mContactitems[i].Name;
+        }
+    }
     //console.log('exist length = ' + $existline.length + ',state = ' + state + ',realstate = ' + data.realstate + ',oldstate = ' + $existline.attr("state") + ',line = ' + line + ',sqlname = ' + sqlname);
     if($existline.length > 0)
     {

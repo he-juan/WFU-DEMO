@@ -219,6 +219,9 @@ function handlemessage(data){
         case "line_resume_state":
             confFrame.update_line_resumestate(data);
             break;
+        case "auto_answer":
+            confFrame.handle_autoanswer(data);
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;

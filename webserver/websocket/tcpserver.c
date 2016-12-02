@@ -59,6 +59,7 @@
 #define SIGNAL_SUSPENDSTATUS "change_suspend_status" 
 #define SIGNAL_RESUMESTATUS "change_resume_status"
 #define SIGNAL_SLEEP             "avs_standby"
+#define SIGNAL_AUTO_ANSWER  "auto_answer_alert"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -826,6 +827,30 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
                 sendDataToSocket(sendData);
                 free(sendData);
             }
+        }
+        else
+        {
+            printf( "suspend_status: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE, SIGNAL_AUTO_ANSWER))
+    {
+        if (dbus_message_get_args( message, &error,
+                                   DBUS_TYPE_INT32, &i,
+                                   DBUS_TYPE_INT32, &j,
+                                   DBUS_TYPE_INT32, &m,
+                                   DBUS_TYPE_STRING, &str,
+                                   DBUS_TYPE_STRING, &str2,
+                                   DBUS_TYPE_INVALID))
+        {
+            len = strlen(str) + strlen(str2) + 128;
+            sendData = malloc(len);
+            memset(sendData, 0, len);
+            snprintf(sendData,len,"{\"type\":\"auto_answer\",\"line\":\"%d\",\"acct\":\"%d\",\"isvideo\":\"%d\",\"num\":\"%s\",\"name\":\"%s\"},", i, j, m, str, str2);
+            sendDataToSocket(sendData);
+            free(sendData);
         }
         else
         {
