@@ -1293,9 +1293,11 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             buffer_append_string(b, res);
             num ++;
             //printf("%10d %10d %10d %16s %16s %32s %16s\n", data1, data3, data2, logdate, phonenum, targetname, targetname2);
+
             free(res);
             if( targetname != NULL ){
                 free(targetname);
+                targetname = NULL;
             }
         }
     }else if( !strcasecmp(type, "calllog") ) {
