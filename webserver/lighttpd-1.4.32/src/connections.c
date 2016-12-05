@@ -1229,6 +1229,7 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             if( targetname != NULL ){
                 //printf("%10d %s\n", data1, targetname);
                 free(targetname);
+                targetname = NULL;
             }
             num ++;
         }
