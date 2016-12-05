@@ -7888,6 +7888,13 @@ function getHDMIinfo(action, isall)
                             }
                         }
                     }
+                    else if(action.indexOf('gethdmi1state') != -1)
+                    {
+                        if(data.state == "1")
+                            flag = 0;
+                        else
+                            flag = 1;//HDMI 1 not connected
+                    }
                 }
                 else
                 {
@@ -7902,14 +7909,7 @@ function getHDMIinfo(action, isall)
                 if (cb_is_fail(msgs)){}
                 else
                 {
-                    if(action.indexOf('gethdmi1state') != -1)
-                    {
-                        if(msgs.headers["hdmi1state"] == "1")
-                            flag = 0;
-                        else
-                            flag = 1;//HDMI 1 not connected
-                    }
-                    else if(action == "get&var-0000=hdmi2&var-0001=hdmi3")
+                    if(action == "get&var-0000=hdmi2&var-0001=hdmi3")
                     {
                         var hdmi2 = msgs.headers["hdmi2"];
                         var hdmi3 = msgs.headers["hdmi3"];
