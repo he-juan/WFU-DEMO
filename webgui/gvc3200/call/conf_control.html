@@ -7895,6 +7895,12 @@ function getHDMIinfo(action, isall)
                         else
                             flag = 1;//HDMI 1 not connected
                     }
+                    else if(action.indexOf('gethdmiinstate') != -1)
+                    {
+                        var state = data.state;
+                        if(state != "1")
+                            flag = 3;
+                    }
                 }
                 else
                 {
@@ -7919,19 +7925,6 @@ function getHDMIinfo(action, isall)
                             flag = 5;
                         else if(hdmi3 != "1" && hdmi2 != "1")
                             flag = 6;
-                    }
-                    else
-                    {
-                        var hdmiin = msgs.headers["hdmiin"];
-                        var vgain = msgs.headers["vgain"];
-                        var hdmi2 = msgs.headers["hdmi2"];
-                        var hdmi3 = msgs.headers["hdmi3"];
-
-                        if(hdmi3 == "1" && hdmi2 != "1")
-                            flag = 2;// HDMI 1 in, HDMI 3 in, but HDMI 2 out
-                        else
-                            if(hdmiin != "1" && vgain != "1")
-                                flag = 3;// VGA In and HDMI In all not connected
                     }
                 }
             }
@@ -8442,14 +8435,9 @@ function change_presentation_type(){
             $.prompt(a_10081+" HDMI 1!");
             return false;
         }
-        action = "get&var-0000=vgaIn&var-0001=hdmiIn&var-0002=hdmi2&var-0003=hdmi3";
+        action = "gethdmiinstate&region=status";
         flag = getHDMIinfo(action);
-        if(flag == 2)
-        {
-            $.prompt(a_10081+" HDMI 2!");
-            return false;
-        }
-        else if(flag == 3)
+        if(flag == 3)
         {
             $.prompt(a_10085);
             return false;
@@ -9854,21 +9842,18 @@ function pageEventActions()
                 return false;
             }
         });*/
-        var urihead = "action=get&var-0000=vgaIn&var-0001=hdmiIn&time=" + new Date().getTime();
+        var urihead = "action=gethdmiinstate&region=status&time=" + new Date().getTime();
         $.ajax ({
             type: 'get',
             url:'/manager',
             data:urihead,
             dataType:'text',
             success:function(data) {
-                var msgs = res_parse_rawtext(data);
-                cb_if_auth_fail(msgs);
-                if (cb_is_fail(msgs)){}
-                else
-                {
-                    var hdmiin = msgs.headers["hdmiin"];
-                    var vgain = msgs.headers["vgain"];
-                    if( hdmiin == "1" || vgain == "1" ){
+                var tObj = eval("(" + data + ")");
+                
+                if(tObj.res == "success"){
+                    var state = tObj.state;
+                    if( state == "1"){
                         if( $("#presentmode option").length < 3 ){
                             $("#presentmode option:eq(1)").remove();
                             var optionstr = "<option value='2'>PC</option><option value='0'>"+a_32+"</option>";
@@ -9882,6 +9867,7 @@ function pageEventActions()
                         }
                     }
                 }
+                else{}
             },
             error:function(xmlHttpRequest, errorThrown) {
                 $("#presentmode").getSetSSValue("0");
