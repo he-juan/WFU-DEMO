@@ -448,13 +448,15 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
                                     DBUS_TYPE_STRING, &str,
                                     DBUS_TYPE_STRING, &str2,
                                     DBUS_TYPE_STRING, &str3,
+                                    DBUS_TYPE_STRING, &str4,
+                                    DBUS_TYPE_STRING, &str5,
                                     DBUS_TYPE_INVALID ) )
         {
             
-            len = strlen(str)+strlen(str2)+strlen(str3)+128;
+            len = strlen(str)+strlen(str2)+strlen(str4)+strlen(str5)+128;
             sendData = malloc(len);
             memset(sendData,0,len);
-            snprintf(sendData,len,"{\"type\":\"detail\",\"state\":\"%d\",\"str\":\"%s\",\"str2\":\"%s\",\"str3\":\"%s\"},",i,str,str2,str3);
+            snprintf(sendData,len,"{\"type\":\"detail\",\"line\":\"%d\",\"video_snd\":\"%s\",\"video_rcv\":\"%s\",\"audio_snd\":\"%s\",\"audio_rcv\":\"%s\"},",i,str,str2,str4,str5);
             sendDataToSocket(sendData);
             free(sendData);
         }

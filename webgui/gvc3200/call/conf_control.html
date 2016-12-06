@@ -1204,11 +1204,12 @@ $(function(){
     pageEventActions();
     cb_get_action('status&region=status');
     get_contact();
+    cb_get_action("get&var-0000=:gui_calldetail");
     //get_normal_calllog(2, 0);
     window.parent.get_initws();
-    var urihead = "action=callstatusReport&region=confctrl&ctrlopen=0";
+    /*var urihead = "action=callstatusReport&region=confctrl&ctrlopen=0";
     var callfn = "";
-    cb_get_confaction(urihead,callfn,true);
+    cb_get_confaction(urihead,callfn,true);*/
     create_preset_div();
 });
 
@@ -4140,6 +4141,17 @@ function cb_get_action_done(data, action) {
         }else {
             if(action == "status&region=status")
                 cb_get_status_done(msgs);
+            else if(action.indexOf(":gui_calldetail") != -1){
+                var guidetail = msgs.headers[':gui_calldetail'];
+                
+                if(guidetail == 0 || guidetail == ""){
+                    var urihead = "action=callstatusReport&region=confctrl&ctrlopen=0";
+                    var callfn = "";
+                    cb_get_confaction(urihead,callfn,true);
+                }
+                $("#web_calldetail").val("0");
+                cb_put(req_items,"",3);
+            }
         }
     }
 }
@@ -7698,26 +7710,43 @@ function showDetails(data)
     if( $("#detailsdiv").is(":hidden") ){
         return false;
     }
-    var line = data.state;
+    var detailtype;
+    if(data.video_snd == "" && data.video_rcv == "")
+        detailtype = "audio";
+    else
+        detailtype = "video";
+
+    var line = data.line;
     if( parseInt(line) > 7 )
         return false;
     var str_array = new Array();
-    var strinfo = data.str;
+    /*var strinfo = data.str;
     str_array.push(strinfo);
     str_array.push(data.str2);
-    str_array.push(data.str3);
+    str_array.push(data.str3);*/
+    
+    if(detailtype == "video"){
+        str_array.push(data.video_snd);
+        str_array.push(data.video_rcv);
+        str_array.push(data.audio_snd);
+        str_array.push(data.audio_rcv);
+    }else {
+        str_array.push(data.audio_snd);
+        str_array.push(data.audio_rcv);
+    }
+
 
     var detailDivline = $("#linedetails .onedetails").attr("line");
     if(detailDivline == line){
-        if( strinfo.indexOf("type=audio") != -1 ){
+        //if( detailtype == "audio" ){
             $("#detailsendnum").text(mSendWholeBit);
             $("#detailreceivenum").text(mRecvWholeBit);
             mSendWholeBit = 0;
             mRecvWholeBit = 0;
-        }
+        //}
     }
     
-    var pos1 = 0, pos2 = 0, curbite = 0;
+    var curbite = 0;
     var curstr = "";
     for(var i=0; i<str_array.length ;i++){
         curstr = str_array[i];
@@ -7732,96 +7761,119 @@ function showDetails(data)
             }
         }
     }
+    
+    
     if(detailDivline != line){  
         return false;
     }
 
-    var $linedetails = $("#linedetails .onedetails[line=\""+line+"\"]");
-    var $needupdateline;
-
+    //var $linedetails = $("#linedetails .onedetails[line=\""+line+"\"]");
+    //var $needupdateline;
     
-    for(var i=0; i<str_array.length ;i++)
-    {
-        if(str_array[i] != "")
-        {
-            var str = str_array[i].split(";");
-            var addtodiv = "";
-            var divid = "";
-            for(var n=0; n<str.length ; n++)
-            {
-                var strattr = str[n].split("=");
+    for(var i = 0; i < str_array.length; i++){
+        var tObj;
+        var $updatediv;
+        var curtype;
+        
+        if(detailtype == "video"){
+            switch (i) {
+                case 0:
+                    tObj = splitStrarray(str_array[i].split("snd;")[1], "video");
+                    $updatediv = $(".videodetail .sendinfo");
+                    curtype = "video";
+                    break;
+                case 1:
+                    tObj = splitStrarray(str_array[i].split("rcv;")[1], "video");
+                    $updatediv = $(".videodetail .receinfo");
+                    curtype = "video";
+                    break;
+                case 2:
+                    tObj = splitStrarray(str_array[i].split("snd;")[1], "audio");
+                    $updatediv = $(".audiodetail .sendinfo");
+                    curtype = "audio";
+                    break;
+                case 3:
+                    tObj = splitStrarray(str_array[i].split("rcv;")[1], "audio");
+                    $updatediv = $(".audiodetail .receinfo");
+                    curtype = "audio";
+                    break;
+            }
+        }else{
+            switch (i) {
+                case 0:
+                    tObj = splitStrarray(str_array[i].split("snd;")[1], "video");
+                    $updatediv = $(".audiodetail .sendinfo");
+                    curtype = "audio";
+                    break;
+                case 1:
+                    tObj = splitStrarray(str_array[i].split("rcv;")[1], "video");
+                    $updatediv = $(".audiodetail .receinfo");
+                    curtype = "audio";
+                    break;
+            }
+        }
+        
+        if(curtype == "video"){
+            $updatediv.children(".lostdiv").children(".spancontent").text(tObj.lost);
+            $updatediv.children(".bitratediv").children(".spancontent").text(tObj.bitrate);
+            $updatediv.children(".fpsdiv").children(".spancontent").text(tObj.fps + a_16277);
+            $updatediv.children(".codecdiv").children(".spancontent").text(tObj.codec);
+            $updatediv.children(".resolutiondiv").children(".spancontent").text(tObj.resolution);
+        }
+        else{
+            $updatediv.children(".lostdiv").children(".spancontent").text(tObj.lost);
+            $updatediv.children(".bitratediv").children(".spancontent").text(tObj.bitrate);
+            $updatediv.children(".codecdiv").children(".spancontent").text(tObj.codec);
+        }
+    }
+}
 
-                switch(strattr[0])
-                {
-                    case "type":
-                        if(strattr[1] == "video")
-                        {
-                            addtodiv = ".videodetail";
-                            divid = ".videodetail";
-                            $needupdateline = $linedetails.children(".videodetail");
-                        }
-                        else
-                            if(strattr[1] == "audio")
-                            {
-                                addtodiv = ".audiodetail";
-                                divid = ".audiodetail";
-                                $needupdateline = $linedetails.children(".audiodetail");
-                            }
-                            else
-                                if(strattr[1] == "content")
-                                {
-                                    addtodiv = ".presentcon";
-                                    divid = ".presentdetail";
-                                    $needupdateline = $linedetails.children(".presentdetail").show();
-                                    $(".presentdetail .receinfo div span,.presentdetail .sendinfo div span").hide();
-                                    var number = $("#conf .remoteline[line=\""+line+"\"]").attr("number");
-                                    if(number == mIPVConfNumber )
-                                        $("#detailscontent").css("height","830px");
-                                    else
-                                        $("#detailscontent").css("height","630px");
-                                }
-                        break;
-                    case "mode":
-                        if(strattr[1] == "snd")
-                        {
-                            if(addtodiv == ".presentcon")
-                            {
-                                $(".presentdetail .sendinfo div span").show();
-                            }
-                            addtodiv += " .sendinfo";
-                            $needupdateline = $needupdateline.children(".sendinfo");
-                        }
-                        else
-                        {
-                            if(addtodiv == ".presentcon")
-                            {
-                                $(".presentdetail .receinfo div span").show();
-                            }
-                            addtodiv += " .receinfo";
-                            $needupdateline = $needupdateline.children(".receinfo");
-                        }
-                        break;
-                    case "lost":
-                        $needupdateline.children(".lostdiv").children(".spancontent").text(strattr[1]);
-                        break;
-                    case "bitrate":
-                        $needupdateline.children(".bitratediv").children(".spancontent").text(strattr[1]);
-                        break;
-                    case "fps":
-                        $needupdateline.children(".fpsdiv").children(".spancontent").text(strattr[1]+a_16277);
-                        break;
-                    case "codec":
-                        $needupdateline.children(".codecdiv").children(".spancontent").text(strattr[1]);
-                        break;
-                    case "resolution":
-                        $needupdateline.children(".resolutiondiv").children(".spancontent").text(strattr[1]);
-                        break;
-                    default:
-                        break;
-                }
+function splitStrarray(str, type){
+    var tObj = {};
+    if(type == "video"){
+        //string  "lost=0.0%;bitrate=1677Kbps;fps=30;codec=H264/HP;resolution=1920x1080"
+        var curstr = str.split(";");
+        for(var i = 0; i < curstr.length; i++){
+            var resstr = curstr[i].split("=");
+            switch (resstr[0]) {
+                case "lost":
+                    tObj.lost = resstr[1];
+                    break;
+                case "bitrate":
+                    tObj.bitrate = resstr[1];
+                    break;
+                case "fps":
+                    tObj.fps = resstr[1];
+                    break;
+                case "codec":
+                    tObj.codec = resstr[1];
+                    break;
+                case "resolution":
+                    tObj.resolution = resstr[1];
+                    break;
             }
         }
     }
+    else{
+        //lost=N/A;bitrate=0Kbps;codec=PCMU"
+        var curstr = str.split(";");
+        for(var i = 0; i < curstr.length; i++){
+            var resstr = curstr[i].split("=");
+            switch (resstr[0]) {
+                case "lost":
+                    tObj.lost = resstr[1];
+                    break;
+                case "bitrate":
+                    tObj.bitrate = resstr[1];
+                    break;
+                case "codec":
+                    tObj.codec = resstr[1];
+                    break;
+            }
+        }
+    }
+    
+    return tObj;
 }
 
 function changeShowDetails_Status(data)
