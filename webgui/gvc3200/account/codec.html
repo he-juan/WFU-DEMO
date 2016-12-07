@@ -260,6 +260,7 @@ fieldset div{margin-left:10px;}
             <div webtip="H.264 Image Size" class="h323mode">
                 <div class="noreboot"><span id="a_h264imgsize">H.264 image size</span> :</div>
                 <select id="imgsize" name="imgsize">
+                    <option value="11">4K</option>
                     <option value="10">1080P</option>
                     <option value="9">720P</option>
                     <option value="4">4CIF</option>
@@ -297,6 +298,14 @@ fieldset div{margin-left:10px;}
                     <option value="3072">3072Kbps</option>
                     <option value="3584">3584Kbps</option>
                     <option value="4096">4096Kbps</option>
+                    <option value="4608">4608Kbps</option>
+                    <option value="5120">5120Kbps</option>
+                    <option value="5632">5632Kbps</option>
+                    <option value="6144">6144Kbps</option>
+                    <option value="6656">6656Kbps</option>
+                    <option value="7168">7168Kbps</option>
+                    <option value="7680">7680Kbps</option>
+                    <option value="8192">8192Kbps</option>
                 </select>
             </div>
             <div webtip="SDP Bandwidth Attribute">
@@ -1242,6 +1251,26 @@ function update_video_bit_options(imgsize,videofps)
 
         if(parseInt(tmpvbrate) < 512 || parseInt(tmpvbrate) > 2048)
             tmpvbrate = "1024";
+    }
+    else if(value == 11)
+    {
+        opstring += "<option value=\"1024\">1024Kbps</option>";
+        opstring += "<option value=\"1280\">1280Kbps</option>";
+        opstring += "<option value=\"1536\">1536Kbps</option>";
+        opstring += "<option value=\"1792\">1792Kbps</option>";
+        opstring += "<option value=\"2048\">2048Kbps</option>";
+        opstring += "<option value=\"2560\">2560Kbps</option>";
+        opstring += "<option value=\"3072\">3072Kbps</option>";
+        opstring += "<option value=\"3584\">3584Kbps</option>";
+        opstring += "<option value=\"4096\">4096Kbps</option>";
+        opstring += "<option value=\"4608\">4608Kbps</option>";
+        opstring += "<option value=\"5120\">5120Kbps</option>";
+        opstring += "<option value=\"5632\">5632Kbps</option>";
+        opstring += "<option value=\"6144\">6144Kbps</option>";
+        opstring += "<option value=\"6656\">6656Kbps</option>";
+        opstring += "<option value=\"7168\">7168Kbps</option>";
+        opstring += "<option value=\"7680\">7680Kbps</option>";
+        opstring += "<option value=\"8192\">8192Kbps</option>";
     }
     else
     {
