@@ -328,13 +328,15 @@ var mSipReg = 0;
 var mHasIPVNumber = 0;
 var mDisableIPVT = 0;
 var mEnableIPVT = 0;
-var mMaxNumber = 8;
+var mMaxNumber = 1;
 var mCalling = false;
 var mOEMID = '0';
 var mPromodel = "GVC3200";
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
+    mMaxNumber = $("#maxlinenum", window.parent.document).val();
+    $("#membermaxnum").text(mMaxNumber);
     if( mPromodel == "GVC3202" ){
         mMaxNumber = 2;
         $("#membermaxnum").text("2");

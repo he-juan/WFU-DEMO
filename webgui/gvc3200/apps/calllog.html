@@ -254,8 +254,8 @@ var mStartParseIndex = 0;
 var mMaxItemIndex = 0;
 var mSingleParseNum = 100;
 var mIPtest = /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/;
-var mMaxlineNum = 8;
-var mMaxMember = 8;
+var mMaxlineNum = 1;
+var mMaxMember = 1;
 var mAcctName = new Array("SIP", "IPVideoTalk", "H.323");
 //var mNumberTypes = new Array("Home", "Mobile", "Work", "Work Fax", "Home Fax", "Pager", "Other", "Callback", "Car", "Company Main", "ISDN", "Main", "Other Fax", "Radio", "Telex", "TTY TDD", "Work Mobile", "Work Pager", "Assistant", "MMS");
 var mNumberTypes = new Array(a_19087, a_19086, a_19088, a_19089, a_19090, a_19091, a_19092, a_19093, a_19094, a_19095, "ISDN", a_19096, a_19097, a_19098, a_19099, "TTY TDD", a_19100, a_19101, a_19102, a_19103);
@@ -267,6 +267,8 @@ var mPromodel = "GVC3200";
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
+    mMaxlineNum = $("#maxlinenum", window.parent.document).val();
+    mMaxMember = mMaxlineNum;
     if( mPromodel == "GVC3202" ){
         mMaxlineNum = 2;
         mMaxMember = 2;

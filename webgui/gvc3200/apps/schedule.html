@@ -521,8 +521,8 @@ var mOptionNumDone = 0;
 var mOptionNum = 0;
 var mOptionNumSuc = 0;
 var mItemsdivObj;
-var mMaxmumber = 8;
-var mMaxScheduleMember = 8;
+var mMaxmumber = 1;
+var mMaxScheduleMember = 1;
 var mIsreduce = false;
 var mAllDelscheduleId = "";
 var mDelscheduleId = "";
@@ -554,6 +554,8 @@ var mEmailreg = new RegExp("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*")
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
+    mMaxmumber = $("#maxlinenum", window.parent.document).val();
+    mMaxScheduleMember = mMaxmumber;
     if( mPromodel == "GVC3202" ){
         mMaxmumber = 2;
         mMaxScheduleMember = 2;

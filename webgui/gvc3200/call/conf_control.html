@@ -1027,7 +1027,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 <script type="text/javascript">
 var mTabnum = 0;
 var mConfmemeber_num = 0;
-var mConfmemeber_maxnum = 8;
+var mConfmemeber_maxnum = 1;
 var mAddmember_maxnum = mConfmemeber_maxnum;
 var mIsreduce = false;
 var mConfid = "conf";
@@ -1136,6 +1136,8 @@ $(window).load(function() {
 
 $(function(){
     mProduct = $("#promodel", window.parent.document).val();
+    mConfmemeber_maxnum = $("#maxlinenum", window.parent.document).val();
+    mAddmember_maxnum = mConfmemeber_maxnum;
     if( mProduct == "GVC3202" ){
         mConfmemeber_maxnum = 2;
         mAddmember_maxnum = 2;

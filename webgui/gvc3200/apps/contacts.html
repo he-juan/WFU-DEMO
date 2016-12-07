@@ -444,7 +444,7 @@ var mSearchKey = "";
 var mRunning = 0;
 var mSearchTimer = 0;
 var mMaxAccount = 3;
-var mMaxMember = 8;
+var mMaxMember = 1;
 var mPromodel = "GVC3200";
 var mOEMId = '0';
 
@@ -462,6 +462,7 @@ req_items.push(
  
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
+    mMaxMember = $("#maxlinenum", window.parent.document).val();
     if( mPromodel == "GVC3202" ){
         mMaxMember = 2;
     }

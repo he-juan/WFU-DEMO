@@ -518,7 +518,7 @@ body{background-color:#EFF0F1;}
 <input type='hidden' id='disconfstate' value='0' />
 <input type="hidden" id="autovideostate"/>
 <input type="hidden" id="busylinenum" value='0' />
-<input type="hidden" id="maxlinenum" value='8' />
+<input type="hidden" id="maxlinenum" value='1' />
 <input type="hidden" id="disableipvt" value='0' />
 <input type="text" id="incalldtmf" style="display:none;" /> 
 <input type="text" id="distranfer" style="display:none;" /> 
@@ -639,6 +639,7 @@ $(function(){
     cb_get_fxo_exist();
     cb_get_promodel();
     cb_get_vendor();
+    cb_get_maxline();
     cb_get_action("get&var-0000=1357&var-0001=68&var-0002=1561&var-0003=1311&var-0004=25023&var-0005=338&var-0006=2326&var-0007=277&var-0008=1341&var-0009=1685&var-0010=dnd&var-0011=184&var-0012=26001&var-0013=66&var-0014=1687&var-0015=270&var-0016=26004&var-0017=417");
     
     $("#languagepage").change(function(){
@@ -1084,26 +1085,26 @@ function cb_get_promodel_done(data){
             //document.title = "GVC3200 " + a_multihdphone;
             $(".gxvproduct").text("Grandstream GVC3200");
             $("#promodel").val("GVC3200");
-            $("#maxlinenum").val('8');
+            //$("#maxlinenum").val('8');
         }
         else
         {
             $(".gxvproduct").text("Grandstream " + promodel);
             $("#promodel").val(promodel);
             $("#logo-pad").text(promodel);
-			if( promodel == "GVC3202" )
+			/*if( promodel == "GVC3202" )
 			{
                 $("#maxlinenum").val('2');
             }else{
                 $("#maxlinenum").val('8');
-            }
+            }*/
         }
     }else
     {
         //document.title = "GVC3200 " + a_multihdphone;
         $(".gxvproduct").text("Grandstream GVC3200");
         $("#promodel").val("GVC3200");
-        $("#maxlinenum").val('8');
+        //$("#maxlinenum").val('8');
     }
     cb_get_colore_exist(); 
 }
@@ -1139,6 +1140,30 @@ function cb_get_vendor_done(data){
     }else
     {
         $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2016");
+    }
+}
+
+function cb_get_maxline(){
+    var urihead = "action=getmaxlinecount";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            cb_get_maxline_done(data);
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+}
+
+function cb_get_maxline_done(data){
+    var tObj = eval("(" + data + ")");
+    if(tObj.res == "success"){
+        $("#maxlinenum").val(tObj.count);
     }
 }
 

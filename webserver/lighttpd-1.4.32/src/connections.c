@@ -17811,6 +17811,7 @@ static int handle_wifiscan (buffer *b)
     return 0;
 }
 */
+
 static int handle_vpnenable(buffer *b)
 {
     char res[64] = "";
@@ -20460,7 +20461,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_originatecall(srv, con, b, m);
             }else if (!strcasecmp(action, "upgrade")){
                 handle_upgrade(b, m);
-            } else{
+            } else if (!strcasecmp(action, "getmaxlinecount")){
+                handle_callservice_by_no_param(srv, con, b, m, "getMaxLineCount");
+            }else{
                 findcmd = 0;
             }
 #endif
