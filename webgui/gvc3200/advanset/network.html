@@ -842,9 +842,11 @@ function cb_send_proxy_dbus(){
         data:urihead,
         dataType:'text',
         success:function(data) {
+            window.parent.unblock_func();
             //cb_put_suc();
         },
         error:function(xmlHttpRequest, errorThrown) {
+            window.parent.unblock_func();
             cb_networkerror(xmlHttpRequest, errorThrown);
         }
     });
@@ -1125,6 +1127,7 @@ function pageEventActions(){
         }
 
         cb_put(req_items, "", 0);
+        window.parent.block_download_func(a_4861);
     });
 }
 </script>
