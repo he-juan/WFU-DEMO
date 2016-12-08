@@ -13,7 +13,7 @@ fieldset div { width:690px;}
 .noreboot { width:300px; }
 fieldset div div{ padding-left:0px;margin-top:0 !important;margin-bottom:0 !important; }
 .normaldiv{width:80px;text-align:center;}
-.hdmidiv{width:180px;}
+.hdmidiv{width:130px;}
 #titlediv .normaldiv{border-right:1px solid #EAEAEA;}
 #imgdiv .normaldiv{border-right:1px solid #E1E1E1;height:68px;}
 #imgdiv .hdmidiv .normaldiv{border-right:none;width:43px;}
@@ -30,7 +30,7 @@ fieldset div div{ padding-left:0px;margin-top:0 !important;margin-bottom:0 !impo
     <div id="statusdiv"></div>
 	<form action="" method="get" class="Formvalidate">
 		<fieldset style="padding-left: 45px;"> 
-		    <div id="titlediv" style="margin-left:70px;width:526px;background:#EAEAEA;font-size:12px;color:#666;font-weight:bold;height:38px;line-height:38px;border:1px solid #E1E1E1;margin-bottom:0;">
+		    <div id="titlediv" style="margin-left:98px;width:474px;background:#EAEAEA;font-size:12px;color:#666;font-weight:bold;height:38px;line-height:38px;border:1px solid #E1E1E1;margin-bottom:0;">
 		        <!--div class="normaldiv" style="width:100px;"><span id="a_vgain">VGA In</span></div-->
 		        <div class="normaldiv" style="width:100px;"><span id="a_hdmiin">HDMI In</span></div>
 		        <div class="hdmidiv" style="text-align:center;"><span id="a_hdmiout">HDMI Out</span></div>
@@ -38,13 +38,13 @@ fieldset div div{ padding-left:0px;margin-top:0 !important;margin-bottom:0 !impo
 		        <div class="normaldiv"><span id="a_spkr">SPKR</span></div>
 		        <div class="normaldiv"><span id="a_usb">USB</span></div>
 		    </div>
-		    <div style="border:1px solid #E1E1E1;border-top:none;margin-top:0;height:68px;width:526px;margin-left:70px;" id="imgdiv">
+		    <div style="border:1px solid #E1E1E1;border-top:none;margin-top:0;height:68px;width:474px;margin-left:98px;" id="imgdiv">
 		        <!--div class="normaldiv"style="width:100px;"><div class="icondiv1" style="margin-left:32px;" id="vgain"></div></div-->
 		        <div class="normaldiv"style="width:100px;"><div class="icondiv1" style="margin-left:32px;" id="hdmiin"></div></div>
 		        <div class="hdmidiv" style="border-right:1px solid #E1E1E1;">
-		            <div class="normaldiv" id="hdmi3div" style="margin-left:25px;"><div class="icondiv3" id="hdmiout3"></div></div>
-		            <div class="normaldiv" id="hdmi2div"><div class="icondiv3" id="hdmiout2"></div></div>
-		            <div class="normaldiv"><div class="icondiv3" id="hdmiout1"></div></div>
+		            <div class="normaldiv" id="hdmi2div" style="margin-left:15px;"><div class="icondiv3" id="hdmiout2"></div></div>
+		            <div class="normaldiv" id="hdmi1div"><div class="icondiv3" id="hdmiout1"></div></div>
+		            <!--div class="normaldiv"><div class="icondiv3" id="hdmiout1"></div></div-->
 		        </div>
 		        <div class="normaldiv"><div class="icondiv2" id="sdcard"></div></div>
 		        <div class="normaldiv"><div class="icondiv1" id="speakerphone"></div></div>
@@ -109,10 +109,10 @@ fieldset div div{ padding-left:0px;margin-top:0 !important;margin-bottom:0 !impo
 <script type="text/javascript">
 var req_items = new Array;
 req_items.push(
-    new ReqItem("vgain", "vgaIn", ""),
+    /*new ReqItem("vgain", "vgaIn", ""),
     new ReqItem("hdmiout2", "hdmi2", ""),
     new ReqItem("hdmiout3", "hdmi3", ""),
-    new ReqItem("hdmiin", "hdmiIn", ""),
+    new ReqItem("hdmiin", "hdmiIn", ""),*/
     new ReqItem("recover", "7033", ""),
     new ReqItem("camerahardversion", "hw_rev", ""),
     new ReqItem("cpever", "cpe_version", ""),
@@ -128,8 +128,11 @@ $(function(){
         $("#hdmi2div").css("margin-left", "40px");
     }
     cb_get(req_items);
+    cb_get_action('gethdmiinstate');
     cb_get_action('gethdmi1state');
-    cb_get_action('getUSB2state');
+    cb_get_action('gethdmi2state');
+    //cb_get_action('getUSB2state');
+    cb_get_action('getusbstate');
     cb_get_action('getsdcardstate');
 });
 function cb_get_action(action){
@@ -150,25 +153,6 @@ function cb_get_action(action){
 }
 function get_item_suc_callback(msgs){
     $(".normaldiv").children("div").text("");
-    if(msgs.headers["hdmi2"] == "1")
-        $("#hdmiout2").css("background", "url(../img/peripheral_status.png) -43px -156px no-repeat");
-    else
-        $("#hdmiout2").css("background", "url(../img/peripheral_status.png) -43px -112px no-repeat");
-
-    if(msgs.headers["hdmi3"] == "1")
-        $("#hdmiout3").css("background", "url(../img/peripheral_status.png) 0 -156px no-repeat");
-    else
-        $("#hdmiout3").css("background", "url(../img/peripheral_status.png) 0 -112px no-repeat");
-
-    if(msgs.headers["vgain"] == "1")
-        $("#vgain").css("background", "url(../img/peripheral_status.png) 0 -36px no-repeat");
-    else
-        $("#vgain").css("background", "url(../img/peripheral_status.png) 0 0 no-repeat");
-
-    if(msgs.headers["hdmiin"] == "1")
-        $("#hdmiin").css("background", "url(../img/peripheral_status.png) -36px -36px no-repeat");
-    else
-        $("#hdmiin").css("background", "url(../img/peripheral_status.png) -36px 0 no-repeat");
 
     if(msgs.headers["usbaudio"] == "1")
         $("#speakerphone").css("background", "url(../img/peripheral_status.png) -72px -36px no-repeat");
@@ -222,28 +206,34 @@ function cb_get_action_done(data,action){
             $("#sdcard").css("background", "url(../img/peripheral_status.png) 0 -72px no-repeat");
         return;
     }
-    var msgs = res_parse_rawtext(data);
-    cb_if_auth_fail(msgs);
-    if (cb_is_fail(msgs))
-    {
-    }
-    else
-    {
-        if(action == 'gethdmi1state')
-        {
-            if(msgs.headers["hdmi1state"] == "1")
-                $("#hdmiout1").css("background", "url(../img/peripheral_status.png) -86px -156px no-repeat");
-            else
-                $("#hdmiout1").css("background", "url(../img/peripheral_status.png) -86px -112px no-repeat");
-        }
+    else if(action.indexOf("gethdmi1state") != -1){
+        data = eval( "(" + data + ")" );
+        if(data.state == 1)
+            $("#hdmiout1").css("background", "url(../img/peripheral_status.png) -86px -156px no-repeat");
         else
-            if(action == 'getUSB2state')
-            {
-                if(parseInt(msgs.headers["message"]) > 2)
-                    $("#usb").css("background", "url(../img/peripheral_status.png) -72px -36px no-repeat");
-                else
-                    $("#usb").css("background", "url(../img/peripheral_status.png) -72px 0 no-repeat");
-            }
+            $("#hdmiout1").css("background", "url(../img/peripheral_status.png) -86px -112px no-repeat");
+    }
+    else if(action.indexOf("gethdmi2state") != -1){
+        data = eval( "(" + data + ")" );
+        if(data.state == 1)
+            $("#hdmiout2").css("background", "url(../img/peripheral_status.png) -43px -156px no-repeat");
+        else
+            $("#hdmiout2").css("background", "url(../img/peripheral_status.png) -43px -112px no-repeat");
+    }
+    else if(action.indexOf("gethdmiinstate") != -1){
+        data = eval( "(" + data + ")" );
+        if(data.state == 1)
+            $("#hdmiin").css("background", "url(../img/peripheral_status.png) -36px -36px no-repeat");
+        else
+            $("#hdmiin").css("background", "url(../img/peripheral_status.png) -36px 0 no-repeat");
+    }
+    else if(action.indexOf("getusbstate") != -1){
+        data = eval( "(" + data + ")" );
+        var port = data.msg;
+        if(port.indexOf("0") != -1 || port.indexOf("1") != -1 || port.indexOf("2") != -1 || port.indexOf("3") != -1)
+            $("#usb").css("background", "url(../img/peripheral_status.png) -72px -36px no-repeat");
+        else
+            $("#usb").css("background", "url(../img/peripheral_status.png) -72px 0 no-repeat");
     }
 }
 function view_status_uptime_write(msgs){

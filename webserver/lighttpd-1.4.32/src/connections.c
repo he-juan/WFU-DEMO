@@ -20488,10 +20488,14 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 } else if (!strcasecmp(action, "gethdmi1state")) {
                     //handle_gethdmi1state(b);
                     handle_callservice_by_no_param(srv, con, b, m, "getHDMIOneState");
+                } else if (!strcasecmp(action, "gethdmi2state")) {
+                    handle_callservice_by_no_param(srv, con, b, m, "getHDMITwoState");
                 } else if (!strcasecmp(action, "gethdmiinstate")){
                     handle_callservice_by_no_param(srv, con, b, m, "getHDMIInState");
-                } else if (!strcasecmp(action, "getUSB2state")) {
+                } /*else if (!strcasecmp(action, "getUSB2state")) {
                     handle_getUSB2state(b);
+                } */ else if(!strcasecmp(action, "getusbstate")){
+                    handle_callservice_by_no_param(srv, con, b, m, "getUSBState");
                 } else if (!strcasecmp(action, "getsdcardstate")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getSDCardStatus");
                 } else{
