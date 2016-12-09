@@ -3158,3 +3158,5 @@ var a_19370="Contact";
 var a_19371="Incoming Call History";
 var a_19372="Outgoing Call History";
 var a_19373="Click2Dial";
+var a_19374="account is not activated, call failed.";
+var a_19375="account is not registered successfully, call failed.";

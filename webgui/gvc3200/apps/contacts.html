@@ -447,6 +447,7 @@ var mMaxAccount = 3;
 var mMaxMember = 1;
 var mPromodel = "GVC3200";
 var mOEMId = '0';
+var mAcctStatus = new Array();
 
 var req_items = new Array;
 req_items.push(
@@ -1346,6 +1347,13 @@ function cb_get_status_done(msgs) {
     for(var i = 0; i < mMaxAccount; i++){
         $("#detailacct0 option:eq(" + i + ")").text(mAcctName[i]);
         $("#addsipacct0 option:eq(" + i + ")").text(mAcctName[i]);
+    }
+    
+    for(var i = 0; i < 7; i++){
+        var acctstatus = {};
+        acctstatus.activate = msgs.headers['account_' + i + '_activate'];
+        acctstatus.status = msgs.headers['account_' + i + '_status'];
+        mAcctStatus.push(acctstatus);
     }
 }
 function get_item_suc_callback(){

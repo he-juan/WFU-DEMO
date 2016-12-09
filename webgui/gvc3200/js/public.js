@@ -1144,6 +1144,28 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isipcall, isvideo){
         $.prompt(a_18564);
         return false;
     }*/
+	
+	if(mAcctStatus != undefined){
+		var acctname = ['SIP', 'IPVT', 'BlueJeans', 'H.323'];
+		var unactive = 0;
+		for(var i = 0; i < mAcctStatus.length; i++){
+			if(mAcctStatus[i].activate == 0)
+				unactive ++;
+		}
+		if(unactive == mAcctStatus.length){
+			$.prompt(a_19374);
+			return false;
+		}
+		
+		if(mAcctStatus[dialacct].activate == 1 && mAcctStatus[dialacct].status == 0){
+			if(dialacct < acctname.length)
+				$.prompt(acctname[dialacct] + a_19375);
+			else
+				$.prompt(a_19375);
+			return false;
+		}
+	}
+	
     if( dialnum == "anonymous" ){
         $.prompt(a_10083);
         return false;
@@ -1248,6 +1270,28 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isvideo, is
         $.prompt(a_16683);
         return false;
     }
+
+	if(mAcctStatus != undefined){
+		var acctname = ['SIP', 'IPVT', 'BlueJeans', 'H.323'];
+		
+		var unactive = 0;
+		for(var i = 0; i < mAcctStatus.length; i++){
+			if(mAcctStatus[i].activate == 0)
+				unactive ++;
+		}
+		if(unactive == mAcctStatus.length){
+			$.prompt(a_19374);
+			return false;
+		}
+		
+		if(mAcctStatus[accounts].activate == 1 && mAcctStatus[accounts].status == 0){
+			if(accounts < acctname.length)
+				$.prompt(acctname[accounts] + a_19375);
+			else
+				$.prompt(a_19375);
+			return false;
+		}
+	}
 
     if( callmode == "ipcall" ){
         var numbersarray = numbers.split(":::");

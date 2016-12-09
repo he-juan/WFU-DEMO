@@ -332,6 +332,7 @@ var mMaxNumber = 1;
 var mCalling = false;
 var mOEMID = '0';
 var mPromodel = "GVC3200";
+var mAcctStatus = new Array();
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
@@ -1131,6 +1132,13 @@ function translate_page(){
 }
 function cb_get_status_done(msgs) {
     //if (msgs.headers['account_0_no'] != undefined && msgs.headers['account_0_no'].length > 1 && msgs.headers['account_0_activate'] == "1") {
+    for(var i = 0; i < 7; i++){
+        var acctstatus = {};
+        acctstatus.activate = msgs.headers['account_' + i + '_activate'];
+        acctstatus.status = msgs.headers['account_' + i + '_status'];
+        mAcctStatus.push(acctstatus);
+    }
+    
     if (msgs.headers['account_0_activate'] == "1") {
         if( msgs.headers['account_0_name'].length > 0 )
             $("#acct1name").text( msgs.headers['account_0_name'] );
@@ -1266,7 +1274,7 @@ function cb_get_status_done(msgs) {
     if( mDftAcct == "-1" )
         mDftAcct = selacct;
     
-    if( mDftAcct == -1 ){
+    if( selacct == -1 ){
         $("#a_noacctstate").text(a_62);
         $("#noacctstate").show();
     }else{

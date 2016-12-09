@@ -264,6 +264,7 @@ var mEmailTypes = new Array(a_19129, a_19130, a_19092, a_19086);
 var mMaxAccount = 3;
 var mOEMID = '0';
 var mPromodel = "GVC3200";
+var mAcctStatus = new Array();
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
@@ -1588,6 +1589,13 @@ function cb_get_status_done(msgs) {
     }*/
     for(var i = 0; i < mMaxAccount; i++){
         $("#addsipacct0 option:eq(" + i + ")").text(mAcctName[i]);
+    }
+    
+    for(var i = 0; i < 7; i++){
+        var acctstatus = {};
+        acctstatus.activate = msgs.headers['account_' + i + '_activate'];
+        acctstatus.status = msgs.headers['account_' + i + '_status'];
+        mAcctStatus.push(acctstatus);
     }
 }
 function pageEventActions(){

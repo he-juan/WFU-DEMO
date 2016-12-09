@@ -41,12 +41,13 @@
 #editname{width:209px;}
 .itemmembers{margin-left:10px;width:95px;color:#666;text-align:right;}
 #divcallbtn{float:right;margin-right:45px;}
+#itemsdiv .itemname{cursor: pointer;}
 </style>
 <body id="framebody" class="maintenancebody">
 <div id="mainbody" class="maindiv appmaindiv">
     <div id="leftdiv" class="appleft">
         <div webtip="" id="itemsdiv">
-            <div id="divcallbtn"><input type="button" id="itemcallbtn" /></div>
+            <!--div id="divcallbtn"><input type="button" id="itemcallbtn" /></div-->
         </div>
         <div class="appsbtn">
             <input type="checkbox" id="selectall" class="selectall" />
@@ -565,7 +566,7 @@ function clear_specified_groupid_attr(groupid){
 }
 function add_item_event(){
     $(".itemdiv").unbind(); //to avoid too many click callback by one click
-    $(".itemdiv").hover(function(){
+    /*$(".itemdiv").hover(function(){
         $(this).children(".itemmembers").hide();
         $(this).addClass("hoverItem");
         $("#divcallbtn").appendTo($(this)).show();
@@ -574,7 +575,7 @@ function add_item_event(){
             $(this).removeClass("hoverItem");
         $("#divcallbtn").hide();
         $(this).children(".itemmembers").show();
-    });
+    });*/
 
     $(".itemdiv").click(function(){
         if( mEditMode != 0 ) {

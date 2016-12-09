@@ -551,6 +551,7 @@ var mLastAction = "";
 var contact_items = new Array;
 var mPromodel = "GVC3200";
 var mEmailreg = new RegExp("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+var mAcctStatus = new Array();
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
@@ -1385,6 +1386,13 @@ function cb_get_status_done(msgs) {
     
     for(var i = 0; i < mMaxAccount; i++){
         $("#detailacct option:eq(" + i + ")").text(mAcctName[i]);
+    }
+    
+    for(var i = 0; i < 7; i++){
+        var acctstatus = {};
+        acctstatus.activate = msgs.headers['account_' + i + '_activate'];
+        acctstatus.status = msgs.headers['account_' + i + '_status'];
+        mAcctStatus.push(acctstatus);
     }
 }
 
@@ -2283,6 +2291,13 @@ function checkDeleteDiv(selconfid){
     if($("#itemsdiv #"+olddate).children(".datechild").children().length == 0)
         $("#itemsdiv #"+olddate).remove();
     
+    if($("#itemsdiv .itemdiv").length > 0){
+        $("#itemsdiv .itemdiv:first-child").click();
+    }else{
+        $("#persondiv").hide();
+        $("#rightbtn").hide();
+    }
+    
 }
 function callOutPreConf(selconfid, ifdelete){
     var confnumbers = "", confaccts = "";
@@ -2329,9 +2344,9 @@ function callOutPreConf(selconfid, ifdelete){
 
     //cb_get_action("addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(confnumbers) + "&accounts=" + encodeURIComponent(confaccts) + "&confname=" + encodeURIComponent($("#itemsdiv .itemdiv.selectItem").attr("name")));
     if( ifdelete == 1 )
-        cb_get_action_sync("notifyschedule&region=webservice&type=7&scheduleId="+selconfid);   
+        cb_get_action_sync("notifyschedule&region=webservice&type=7&scheduleId="+selconfid);
     else
-        cb_get_action_sync("notifyschedule&region=webservice&type=6&scheduleId="+selconfid);   
+        cb_get_action_sync("notifyschedule&region=webservice&type=6&scheduleId="+selconfid);
     //cb_start_addmemberconf(confnumbers, confaccts, "", encodeURIComponent($("#itemsdiv .itemdiv.selectItem").attr("name")));
     cb_start_addmemberconf(confnumbers, confaccts, "", selconfid, 1, 0, pingcode);
     if( ifdelete >= 1 ){
