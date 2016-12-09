@@ -1157,12 +1157,14 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isipcall, isvideo){
 			return false;
 		}
 		
-		if(mAcctStatus[dialacct].activate == 1 && mAcctStatus[dialacct].status == 0){
-			if(dialacct < acctname.length)
-				$.prompt(acctname[dialacct] + a_19375);
-			else
-				$.prompt(a_19375);
-			return false;
+		if(!checkIpv4Address(dialnum) && !checkDialIPv6(dialnum)){
+			if(mAcctStatus[dialacct].activate == 1 && mAcctStatus[dialacct].status == 0){
+				if(dialacct < acctname.length)
+					$.prompt(acctname[dialacct] + a_19375);
+				else
+					$.prompt(a_19375);
+				return false;
+			}
 		}
 	}
 	
@@ -1284,12 +1286,14 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isvideo, is
 			return false;
 		}
 		
-		if(mAcctStatus[accounts].activate == 1 && mAcctStatus[accounts].status == 0){
-			if(accounts < acctname.length)
-				$.prompt(acctname[accounts] + a_19375);
-			else
-				$.prompt(a_19375);
-			return false;
+		if(!checkIpv4Address(numbers) && !checkDialIPv6(numbers)){
+			if(mAcctStatus[accounts].activate == 1 && mAcctStatus[accounts].status == 0){
+				if(accounts < acctname.length)
+					$.prompt(acctname[accounts] + a_19375);
+				else
+					$.prompt(a_19375);
+				return false;
+			}
 		}
 	}
 
@@ -1430,6 +1434,15 @@ function convertTime(date){
     }
     
     return timestr;
+}
+
+function checkIpv4Address(ip){    
+    var strRegex = /^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)(:([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5]))?$/;
+    var result = ip.match(strRegex);
+    if(result != "" && result != undefined)
+        return true;
+    else
+        return false;
 }
 
 function checkDialIPv6(ip) {
