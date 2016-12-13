@@ -4787,46 +4787,68 @@ static int get_mac_address(char *ifname, char *mac)
 
 static int get_gateway(char *gateway)
 {
-    FILE *fp = fopen("/proc/net/route", "r");
-    char line[256] = "";
-    //size_t len = 0;
-    //ssize_t readd;
-    char dev[64];
-    unsigned int dest;
-    unsigned int gw;
-
-    if (fp == NULL)
-        return -1;
-
     if (gateway == NULL) {
-        fclose( fp );
         return -1;
     }
+        
     strcpy (gateway, "none");
-
-    //while ((readd = getline (&line, &len, fp)) != -1) {
-    while (fgets( &line, sizeof(line), fp ) ) {
-        if (sscanf (line, "%s %x %x", dev, &dest, &gw) > 0) {
-            if (dest == 0x0) {
-                gw = ntohl (gw);
-                sprintf (gateway, "%u.%u.%u.%u", (gw >> 24) & 0xff,
-                        (gw >> 16) & 0xff,
-                        (gw >> 8) & 0xff,
-                        gw & 0xff);
-                
-                memset(line, 0, sizeof(line));
-                fclose( fp );
-                return 0;
-            }
+    
+    char *nettype = nvram_my_get("8");
+    if(!strcmp(nettype, "1")){
+        char *gate1 = NULL, *gate2 = NULL, *gate3 = NULL, *gate4 = NULL;
+        gate1 = nvram_get("17");
+        gate2 = nvram_get("18");
+        gate3 = nvram_get("19");
+        gate4 = nvram_get("20");
+        int len = strlen(gate1) + strlen(gate2) + strlen(gate3) + strlen(gate4) + 16;
+        
+        if(gate1 != NULL && gate2 != NULL && gate3 != NULL && gate4 != NULL){
+            sprintf(gateway, "%s.%s.%s.%s", gate1, gate2, gate3, gate4);
         }
     }
+    else{
+        FILE *fp = fopen("/proc/net/route", "r");
+        char line[256] = "";
+        //size_t len = 0;
+        //ssize_t readd;
+        char dev[64];
+        unsigned int dest;
+        unsigned int gw;
 
-    /*if (line != NULL) {
-        free(line);
-        line = NULL;
-    }*/
- 
-    fclose( fp );
+        if (fp == NULL)
+            return -1;
+
+        if (gateway == NULL) {
+            fclose( fp );
+            return -1;
+        }
+        strcpy (gateway, "none");
+
+        //while ((readd = getline (&line, &len, fp)) != -1) {
+        while (fgets( &line, sizeof(line), fp ) ) {
+            if (sscanf (line, "%s %x %x", dev, &dest, &gw) > 0) {
+                if (dest == 0x0) {
+                    gw = ntohl (gw);
+                    sprintf (gateway, "%u.%u.%u.%u", (gw >> 24) & 0xff,
+                            (gw >> 16) & 0xff,
+                            (gw >> 8) & 0xff,
+                            gw & 0xff);
+                    
+                    memset(line, 0, sizeof(line));
+                    fclose( fp );
+                    return 0;
+                }
+            }
+        }
+
+        /*if (line != NULL) {
+            free(line);
+            line = NULL;
+        }*/
+     
+        fclose( fp );
+    }
+    
     return -1;
 }
 
@@ -4834,11 +4856,13 @@ static int get_dns_server(char *dns_server, int dns_type)
 {
     if (dns_type == 1)
     {
-        system("getprop dhcp.eth0.dns1 > /tmp/dns");
+        //system("getprop dhcp.eth0.dns1 > /tmp/dns");
+        system("getprop net.dns1 > /tmp/dns");
     }
     else
     {
-        system("getprop dhcp.eth0.dns2 > /tmp/dns");
+        //system("getprop dhcp.eth0.dns2 > /tmp/dns");
+        system("getprop net.dns2 > /tmp/dns");
     }
     FILE *fp = fopen("/tmp/dns", "r");
     char line[32] = "";
@@ -4857,6 +4881,10 @@ static int get_dns_server(char *dns_server, int dns_type)
                 line[strlen(line)-1] = '\0';
             }
         strcpy (dns_server, line);
+        
+        if(!strcmp(dns_server, "") || dns_server == NULL){
+            strcpy (dns_server, "0.0.0.0");
+        }
     }
     fclose(fp);
 
@@ -9634,14 +9662,16 @@ static int handle_network (server *srv, connection *con,
     if (temp != NULL)
         ipv4_type = atoi(temp);
 
-    if (ipv4_type == 1)
+    /*if (ipv4_type == 1)
     {
         snprintf(buf, sizeof(buf), "%s.%s.%s.%s", nvram_my_get("21"), nvram_my_get("22"), nvram_my_get("23"), nvram_my_get("24"));
     }
     else
     {
         get_dns_server(buf, 1);
-    }
+    }*/
+    
+    get_dns_server(buf, 1);
 
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
     {
@@ -9653,24 +9683,20 @@ static int handle_network (server *srv, connection *con,
         buffer_append_string (b, res);
     }
 
-    if (ipv4_type == 1)
+    /*if (ipv4_type == 1)
     {
         snprintf(buf, sizeof(buf), "%s.%s.%s.%s", nvram_my_get("25"), nvram_my_get("26"), nvram_my_get("27"), nvram_my_get("28"));
     }
     else
     {
         get_dns_server(buf, 2);
-    }
+    }*/
+    
+    get_dns_server(buf, 2);
 
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
     {
        snprintf(dns2,sizeof(dns2),"%s",buf);
-        /*if(strlen(dns) == 0){
-           snprintf(dns, sizeof(dns), "%s", buf );
-        }else{
-           strcat(dns," ");
-           strcat(dns,buf);
-        }*/
     }
     else
     {
