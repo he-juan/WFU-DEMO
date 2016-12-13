@@ -1135,6 +1135,10 @@ function pageEventActions(){
         var disdialplan = dismpkclick + disoutgoing + disincoming + discontact + disdialpage;
         $("#disdialplan").val( parseInt(disdialplan, 2) );
         
+        if($("#dialplan").val() == ""){
+            $("#dialplan").val("{ x+ | \\+x+ | *x+ | *xx*x+ | x+*x+*x+*x+ | x+*x+*x+*x+#x+ }");
+        }
+        
         cb_put(req_items, "");
         if( accountindex == '1' )
             cb_put_tonename(req_tone_items, "");
