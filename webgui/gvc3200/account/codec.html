@@ -194,6 +194,18 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_usefvcode">Use First Matching Vocoder in 200OK SDP</span> :</div>
                 <input name="usefvcode" type="checkbox" id="usefvcode"><span id="a_usefvcodeyes">Yes</span>
             </div>
+            <div webtip="Enable Audio RED with FEC">
+                <div class="noreboot"><span id="a_audioredfec">Enable Audio RED with FEC</span> :</div>
+                <input name="audioredfec" type="checkbox" id="audioredfec"><span id="a_audioredfecyes">Yes</span>
+            </div>            
+            <div webtip="Audio FEC Payload Type">
+                <div class="noreboot"><span id="a_audiofecpayload">Audio FEC Payload Type</span> :</div>
+                <input id="audiofecpayload" name="audiofecpayload" type="text" value='121' />
+            </div>
+            <div webtip="Audio RED Payload Type">
+                <div class="noreboot"><span id="a_audioredpayload">Audio RED Payload Type</span> :</div>
+                <input id="audioredpayload" name="audioredpayload" type="text" value='124' />
+            </div>
             <div class="titlediv">
                 <div class="titleboot"><span id="a_codecvideo">Video</span></div>
             </div>
@@ -564,6 +576,8 @@ function setInitState(){
             h264payload: { digits:true, range:[96,127] },
             L16_256payload: { digits:true, range:[96,127] },
             fecpayload: { digits:true, range:[96,127] },
+            audiofecpayload: {digits:true, range:[96,127]},
+            audioredpayload: {digits:true, range:[96,127]},
             fecredpayload: { digits:true, range:[96,127] },
             feccpayload: { digits:true, range:[96,127] }
         },		
@@ -611,6 +625,9 @@ function translate_codec(){
     $("#ilibcfs option:eq(0)").text("20 "+a_16117);
     $("#ilibcfs option:eq(1)").text("30 "+a_16117);
     $("#a_usefvcode").text(a_19170);
+    $("#a_audioredfec").text(a_19387);
+    $("#a_audiofecpayload").text(a_19388);
+    $("#a_audioredpayload").text(a_19389);
     $("#a_packetmodel").text(a_19234);
     $("#packetmodel option:eq(2)").text(a_1317);
     $("#a_h264imgsize").text(a_16118);
@@ -648,7 +665,7 @@ function translate_codec(){
     $("#a_jittermax").text(a_16146);
     $("#a_enablevideono").text(a_6);
     $("#a_slientrtp").text(a_16147);
-    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes").text(a_5);
+    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes").text(a_5);
     $("#a_vidfr").text(a_16274);
     $("#vidframerate option:eq(0)").text("5 "+a_16277);
     $("#vidframerate option:eq(1)").text("15 "+a_16277);
@@ -741,6 +758,9 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("bfcptranspro", "26041", ""),
                 new ReqItem("presentvideoframebate", "26042", ""),  
                 new ReqItem("usefvcode", "2348", ""),
+                new ReqItem("audioredfec", "enableAudioFec0", ""),
+                new ReqItem("audiofecpayload", "audioFecPayloadType0", ""),
+                new ReqItem("audioredpayload", "audioFecRedPayloadType0", ""),
                 new ReqItem("enableframeskip", "25010", ""), 
 				new ReqItem("enablevideo", "292", "")
 			);
@@ -862,7 +882,10 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("presentvideobitrate", "2578", ""),
                 new ReqItem("presentsdpsetting", "2579", ""),
                 new ReqItem("presentvideoframebate", "26242", ""),
-                new ReqItem("usefvcode", "2548", ""),  
+                new ReqItem("usefvcode", "2548", ""),
+                new ReqItem("audioredfec", "enableAudioFec2", ""),
+                new ReqItem("audiofecpayload", "audioFecPayloadType2", ""),
+                new ReqItem("audioredpayload", "audioFecRedPayloadType2", ""),
                 new ReqItem("enableframeskip", "25012", ""),
 				new ReqItem("enablevideo", "561", "")
 			);
@@ -1385,19 +1408,45 @@ function pageEventActions(){
             $("#h264payload").val("99");
         if( $("#fecpayload").val() == "" )
             $("#fecpayload").val("120");
+        if( $("#audiofecpayload").val() == "" )
+            $("#audiofecpayload").val("121");
+        if( $("#audioredpayload").val() == "" )
+            $("#audioredpayload").val("124");
         //if( $("#fecredpayload").val() == "" )
         //    $("#fecredpayload").val("122");
         if( $("#feccpayload").val() == "" )
             $("#feccpayload").val("125");
         var h264payload = $("#h264payload").val();
         var fecpayload = $("#fecpayload").val();
+        var audiofecpayload = $("#audiofecpayload").val();
+        var audioredpayload = $("#audioredpayload").val();
         //var fecredpayload = $("#fecredpayload").val();
         var feccpayload = $("#feccpayload").val();
-        if( dtmfpayload == h264payload || dtmfpayload == g722payload || g722payload == h264payload || fecpayload == h264payload || fecpayload == dtmfpayload || fecpayload == g722payload || feccpayload == dtmfpayload || feccpayload == g722payload || feccpayload == h264payload || feccpayload == fecpayload || opuspayload == dtmfpayload || opuspayload == g722payload || opuspayload == h264payload || opuspayload == fecpayload || opuspayload == feccpayload )// || fecredpayload == dtmfpayload || fecredpayload == h264payload || fecredpayload == fecpayload || fecredpayload == g722payload || fecredpayload == feccpayload || opuspayload == fecredpayload
+        
+        var cmppayload = new Array();
+        cmppayload.push(dtmfpayload);
+        cmppayload.push(h264payload);
+        cmppayload.push(g722payload);
+        cmppayload.push(fecpayload);
+        cmppayload.push(feccpayload);
+        cmppayload.push(opuspayload);
+        cmppayload.push(audiofecpayload);
+        cmppayload.push(audioredpayload);
+        
+        for(var i = 0, length = cmppayload.length; i < length; i++){
+            for(var j = i + 1, length = cmppayload.length; j < length; j++){
+                if(cmppayload[i] == cmppayload[j]){
+                    $.prompt(a_16148);
+                    return false;
+                }
+            }
+        }
+        
+        /*if( dtmfpayload == h264payload || dtmfpayload == g722payload || g722payload == h264payload || fecpayload == h264payload || fecpayload == dtmfpayload || fecpayload == g722payload || feccpayload == dtmfpayload || feccpayload == g722payload || feccpayload == h264payload || feccpayload == fecpayload || opuspayload == dtmfpayload || opuspayload == g722payload || opuspayload == h264payload || opuspayload == fecpayload || opuspayload == feccpayload )// || fecredpayload == dtmfpayload || fecredpayload == h264payload || fecredpayload == fecpayload || fecredpayload == g722payload || fecredpayload == feccpayload || opuspayload == fecredpayload
         {
             $.prompt(a_16148);
             return false;
-        }
+        }*/
         $('#P57').val( $('#allow1 option:eq(0)').val() != undefined ? $('#allow1 option:eq(0)').val() : "" );
         $('#P58').val( $('#allow1 option:eq(1)').val() != undefined ? $('#allow1 option:eq(1)').val() : "" );
         $('#P59').val( $('#allow1 option:eq(2)').val() != undefined ? $('#allow1 option:eq(2)').val() : "" );
