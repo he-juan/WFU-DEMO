@@ -254,7 +254,7 @@ ol.mp_list li.mp_error {}
                     <span id="membernum">0</span>/<span id="membermaxnum">8</span>
                 </div>
                 <div style="position:relative;top:-102px;left:10px;font-size:14px;color:#444;width:420px;color:#999;" id="numbertipdiv" onclick="$('#dialnum').focus();">
-                    <span id="numbertip">Multiply numbers can seperate with ",".</span>
+                    <span id="numbertip"></span>
                 </div>
             </div>
             <div class="dialdiv" id="bluejeansdiv" style="display:none;">
@@ -1127,8 +1127,8 @@ function translate_page(){
     $("#selectcall").text(a_504);
     if( mOEMID == "54" )
         $("#numbertip").text(a_4016);
-    else
-        $("#numbertip").text(a_16693);
+    /*else
+        $("#numbertip").text(a_16693);*/
 }
 function cb_get_status_done(msgs) {
     //if (msgs.headers['account_0_no'] != undefined && msgs.headers['account_0_no'].length > 1 && msgs.headers['account_0_activate'] == "1") {
@@ -1647,9 +1647,9 @@ function pageEventActions(){
             $("#numbertip").text(a_4016);
         }else if( selacct == 1 ){
             $("#numbertip").text(a_16693+" ("+a_10158+")");
-        }else{
+        }/*else{
             $("#numbertip").text(a_16693);
-        }
+        }*/
         on_search_key();
     });
     
