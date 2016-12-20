@@ -2961,9 +2961,11 @@ function addconflist(data,todivID)
     var del = document.createElement('BUTTON');
     del.setAttribute("title",a_1);
     del.className = "confdel";
-    var redial = document.createElement('BUTTON');
+    
+    /*var redial = document.createElement('BUTTON');
     redial.className = "redialcall";
-    redial.setAttribute("title",a_10008);
+    redial.setAttribute("title",a_10008);*/
+    
     var feccbtn = document.createElement('BUTTON');
     feccbtn.className = "startFECC btndisabled";
     feccbtn.setAttribute("feccstate","0");
@@ -3048,7 +3050,7 @@ function addconflist(data,todivID)
         $("#record").show();
         //$("#switchvideosource").show();
     }
-    btndiv.appendChild(redial);
+    //btndiv.appendChild(redial);
     btndiv.appendChild(del);
     itemdiv.appendChild(btndiv);
     
