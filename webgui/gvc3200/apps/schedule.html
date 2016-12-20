@@ -96,6 +96,7 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
 #membersdiv .memberdiv{padding-left:10px;}
 #membersdiv .membernumber{width:150px;text-align:left;}
 .groupmemberlist{display:none;}
+.groupcontactsdiv .membername, .groupcontactsdiv .membericon{cursor: pointer;}
 #persondiv .contactsdiv .appcallouticon,#persondiv .contactsdiv .appmissedicon ,#persondiv .contactsdiv .appincomingicon,#persondiv .contactsdiv .appcontacticon{margin-left:2px;}
 #persondiv{display:none;}
 /* datepicker */
@@ -901,7 +902,7 @@ function cb_get_action_done(data, action) {
                 get_groups();
             }
             else if( action.indexOf("type=preconf") != "-1" ){
-                var confid, confname, disname, number, acctid, email, emailflag;
+                var confid, confname, disname, number, acctid, email, emailflag, recordfrom;
                 var membersdiv = document.getElementById('membersdiv');
                 for (var i = 0; items[i] != undefined; i++)
                 {
@@ -912,6 +913,7 @@ function cb_get_action_done(data, action) {
                     confname = items[i].Confname;
                     acctid = items[i].Acctid;
                     email = items[i].Email;
+                    recordfrom = items[i].RecordFrom;
 
                     for(var n=0; mContactsItem[n] != undefined; n++)
                     {
@@ -947,6 +949,7 @@ function cb_get_action_done(data, action) {
                     memberdiv.setAttribute("isdelete", 0);
                     memberdiv.setAttribute("acctindex", acctid);
 	                memberdiv.setAttribute("email", email);
+                    memberdiv.setAttribute("recordfrom", recordfrom);
 	                if( email == "" )
 	                    memberdiv.setAttribute("emailnum", "0");
 	                else
@@ -1486,6 +1489,7 @@ function parse_calllog(items){
             itemdiv.setAttribute("isconf", "0");
             itemdiv.setAttribute("email", "");
             itemdiv.setAttribute("emailnum", "0");
+            itemdiv.setAttribute("type", type);
             
             var checkdiv = document.createElement('DIV');
             checkdiv.className='membercheck';
@@ -2908,6 +2912,7 @@ function pageEventActions(){
             var contactnum = $(this).attr("number");
             var acctindex = $(this).attr("acctindex");
             var classname = $(this).attr("class");
+            var recordfromid = $(this).attr("id");
 
             if($(this).children(".membercheck").children(".inputcbx").prop("checked") == true)
             {
@@ -2918,6 +2923,33 @@ function pageEventActions(){
                 var name = $(this).attr("name");
                 var acctid = $(this).attr("acctindex");
                 var membericon = "<div class='membericon'><div class='appcontacticon'></div></div>";
+                
+                var recordfrom;  //3--incoming calllog; 4--outgoing calllog; 5--contacts; 6--input search
+                if(recordfromid == undefined){
+                    if($(this).parent().attr("class") != undefined && $(this).parent().attr("class").indexOf("groupmemberlist") != -1)
+                        recordfrom = 5;
+                    else if($(this).attr("class").indexOf("creatsearchItem") != -1)
+                        recordfrom = 6;
+                    else if($(this).attr("class").indexOf("selectedItem") != -1){
+                        var curnumber = $(this).attr("number");
+                        recordfrom = $(".memberdiv[number=\"" + curnumber + "\"]").attr("recordfrom");
+                    }
+                        
+                }
+                else{
+                    if(recordfromid.indexOf("contact") != -1)
+                        recordfrom = 5;
+                    else if(recordfromid.indexOf("contactsgroup") != -1)
+                        recordfrom = 5;
+                    else if(recordfromid.indexOf("calllog") != -1){
+                        var type = $(this).attr("type");
+                        if(type == 1 || type == 3)  //1--incoming; 2--outgoing; 3--missing
+                            recordfrom = 3;
+                        else
+                            recordfrom = 4;        
+                    }
+                }
+                
                 if($(this).attr("class").indexOf("groupcontactsdiv") != -1)
                 {
                     /*var contactsid = $(this).attr("contactsid");
@@ -2948,10 +2980,10 @@ function pageEventActions(){
                 {
                     var emailattr = $(".contactsdiv[number=\"" + contactnum + "\"][acctindex=" + acctid + "]").eq(0).attr("email")
                     var emailnum = $(".contactsdiv[number=\"" + contactnum + "\"][acctindex=" + acctid + "]").eq(0).attr("emailnum");
-                    var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" email=\"" + emailattr + "\" emailnum=" + emailnum + " isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\">";
+                    var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" email=\"" + emailattr + "\" emailnum=" + emailnum + " isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";
                     if(classname.indexOf("creatsearchItem") != -1)
                     {
-                        memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" searchitem=1 isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\">";
+                        memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" searchitem=1 isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";
                         $(this).remove();
                     }
                     var membername, membernum, memberemail;
@@ -3865,7 +3897,7 @@ function pageEventActions(){
             action += "&autoanswer=1";
         else
             action += "&autoanswer=0";
-        var updatemembernum="",updatemembername="", updatememberacct="", updatememberemail="";
+        var updatemembernum="",updatemembername="", updatememberacct="", updatememberemail="", updaterecordfrom = "";
         $("#membersdiv .memberdiv[isexist=1][isdelete=1]").hide();
         var validemail = true;
         $("#membersdiv .memberdiv[isexist=1][isdelete=0]").each(function(){
@@ -3875,6 +3907,8 @@ function pageEventActions(){
             var tempnum = $(this).attr("number");
             var tempacct = $(this).attr("acctindex");
             var tempemail = "";
+            var temprecord = $(this).attr("recordfrom");
+            
             if( host != "1" ){
                 tempemail = $(this).children(".memberemail").children("input").val();
                 if( tempacct == "-1" && tempemail == "" ){
@@ -3898,6 +3932,7 @@ function pageEventActions(){
                 updatemembernum += tempnum+":::";
                 updatememberacct += tempacct+":::";
                 updatememberemail += tempemail+":::";
+                updaterecordfrom += temprecord+":::";
             }
             //$(this).removeAttr("notsave");
         });
@@ -3920,10 +3955,12 @@ function pageEventActions(){
             updatememberacct = updatememberacct.substring(0,updatememberacct.length-3);
             updatemembername = updatemembername.substring(0,updatemembername.length-3);
             updatememberemail = updatememberemail.substring(0,updatememberemail.length-3);
+            updaterecordfrom = updaterecordfrom.substring(0,updaterecordfrom.length-3);
             action += "&membernames="+encodeURIComponent(updatemembername);
             action += "&membernumbers="+encodeURIComponent(updatemembernum);
             action += "&memberaccts="+encodeURIComponent(updatememberacct);
             action += "&memberemails="+encodeURIComponent(updatememberemail);
+            action += "&recordsfrom="+encodeURIComponent(updaterecordfrom);
         }
         mOptionNum ++;
         cb_get_action( action );

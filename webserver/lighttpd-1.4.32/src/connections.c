@@ -1663,7 +1663,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
         snprintf(sqlstr, len, "select preset.pan, preset.tilt, preset.zoom, preset.focus from preset where id=%d;", atoi(temp));
     }
     else if( !strcasecmp(type, "preconf") ) {
-        snprintf(sqlstr, len, "select schedule.id as confid,schedule.display_name as confname,group_contacts.id as contactid, group_contacts.number as number, group_contacts.name as name, group_contacts.account_id as acctid, group_contacts.host_email as email from schedule left join group_contacts on schedule.id=group_contacts.group_id order by confid desc,confname;");
+        snprintf(sqlstr, len, "select schedule.id as confid,schedule.display_name as confname,group_contacts.id as contactid, group_contacts.number as number, group_contacts.name as name, group_contacts.account_id as acctid, group_contacts.host_email as email, group_contacts.data_source as data_source from schedule left join group_contacts on schedule.id=group_contacts.group_id order by confid desc,confname;");
     }
     else if( !strcasecmp(type, "updatestate") ){
         //if schedule is missed,set data2=1 in database
@@ -1742,6 +1742,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
 
     if( !strcasecmp(type, "preconf") ) {
         char *targetconfname, *targetemail, *email;
+        int recordfrom;
         while(sqlite3_step(stmt)==SQLITE_ROW ) {
             data1 = sqlite3_column_int(stmt, 0);    // conf id
             confname = (char*)sqlite3_column_text(stmt,1);   //conf name
@@ -1750,6 +1751,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             disname = (char*)sqlite3_column_text(stmt, 4);   //contact name
             acctid = sqlite3_column_int(stmt, 5);   //accout id
             email = (char*)sqlite3_column_text(stmt, 6);   //contact email
+            recordfrom = sqlite3_column_int(stmt, 7);  //data source
 
             if( confname == NULL || disname == NULL || disnumber == NULL ){
                 printf("disname or disnumber or conname is null\n");
@@ -1786,9 +1788,9 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             res = malloc( len );
             memset(res, 0, len);
             if( !num )
-                snprintf(res, len, "{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail);
+                snprintf(res, len, "{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\", \"RecordFrom\":\"%d\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail, recordfrom);
             else
-                snprintf(res, len, ",{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail);
+                snprintf(res, len, ",{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\", \"RecordFrom\":\"%d\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail, recordfrom);
             buffer_append_string(b, res);
             printf("%10d %10s %10s %10s\n", data1, targetconfname, targetname, disnumber);
             free(res);
@@ -15987,6 +15989,7 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
     int autoanswer = 0;
     char *temp = NULL;
     char *info = NULL;
+    char *recordfrom = NULL;
 
     type = DBUS_BUS_SYSTEM;
     dbus_error_init (&error);
@@ -16151,6 +16154,12 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
             uri_decode((char*)repeatRule);
         }
 
+        recordfrom = msg_get_header(m, "recordsfrom");
+        if(recordfrom == NULL)
+        {
+            recordfrom = "";
+        }
+        
         preset = msg_get_header(m, "preset");
         if ( preset == NULL )
         {
@@ -16251,6 +16260,12 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
         }
 
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &memberemail) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+        
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &recordfrom) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
