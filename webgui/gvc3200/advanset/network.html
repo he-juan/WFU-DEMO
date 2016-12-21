@@ -24,9 +24,16 @@ body{}
         <fieldset>
             <div webtip="Preferred Internet Protocol">
                 <div class="noreboot"><span id="a_protocoltype">Preferred Internet Protocol</span> :</div>
+                <select id='protocoltype'>
+                    <option value='0'>Both (Prefer IPv6)</option>
+                    <option value='1'>Both (Prefer IPv4)</option>
+                    <option value='2'>Ipv4 Only</option>
+                    <option value='3'>Ipv6 Only</option>
+                </select>
+                <!--
                 <input name="protocoltype" value="0" checked="checked" type="radio" id="prefpro_ipv4"><span>IPv4</span>
                 <input name="protocoltype" value="1" type="radio" id="prefpro_ipv6" style='margin-left:16px;'><span>IPv6</span>
-                <span class="rebootspan"></span>
+                -->
             </div>
             <div class="titlediv">
                 <div class="titleboot"><span id="a_basicsettitle">Basic Settings</span></div>
@@ -443,6 +450,10 @@ function translate_page(){
     $("#a_privatekey").text(a_4394);
     $("#a_frameca").text(a_19211);
     $("#a_protocoltype").text(a_19225);
+    $("#protocoltype option:eq(0)").text(a_19390);
+    $("#protocoltype option:eq(1)").text(a_19391);
+    $("#protocoltype option:eq(2)").text(a_19392);
+    $("#protocoltype option:eq(3)").text(a_19393);
     $("#a_ipv6addr").text(a_19226);
     $("#ipv6addr option:eq(0)").text(a_19230);
     $("#ipv6addr option:eq(1)").text(a_19231);
@@ -455,7 +466,7 @@ function translate_page(){
 
 function setInitState(){
     translate_page();
-    $("#networktype, #xmode, #ipv6addr, #dhcpvlan").sSelect(); 
+    $("#protocoltype, #networktype, #xmode, #ipv6addr, #dhcpvlan").sSelect(); 
     //$("#xmode").sSelect({ddMaxHeight: '120px'}); 
     $("#Formvalidate").validate({
 		rules: {
