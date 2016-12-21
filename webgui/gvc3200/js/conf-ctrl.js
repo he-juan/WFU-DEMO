@@ -8,6 +8,8 @@ var protocol = location.protocol;
 var mContactitems;
 var mcontact_array="",mitemsinfo_array="";
 var mConnectTime = 0;
+var lastLoginDate = $.cookie("logindate");
+
 var initwebsocket = function(){
     var wsuri = "";
     if(protocol.indexOf("https:") != -1)
@@ -33,6 +35,13 @@ var initwebsocket = function(){
     ws.onclose = function(e){
         //console.log(e);
         ws.send("close" + '\n');
+        
+        var newLoginDate = $.cookie("logindate");
+        if (newLoginDate != lastLoginDate) {
+            window.parent.location.href='/login.html';
+            throw "exit";
+        }
+        
         var urihead = "action=gettcpserverstate" + "";
         urihead += "&time=" + new Date().getTime();
         $.ajax ({

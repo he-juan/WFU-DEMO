@@ -577,6 +577,8 @@ function cb_login_done(data){
         }
         else
             window.location.href = "index.html#tips?time=" + new Date().getTime();
+
+        $.cookie("logindate", new Date().getTime(), {path: '/', expires: 10});
     }
     else
     {
