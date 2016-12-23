@@ -1135,7 +1135,7 @@ function cb_originate_call(action,dialnum, dialacct){
         }
     });    
 }
-function cb_start_single_call(dialnum, dialacct, ispaging, isipcall, isvideo){
+function cb_start_single_call(dialnum, dialacct, ispaging, isdialplan, isipcall, isvideo){
     if( dialnum == "" ){
         return false;
     }
@@ -1246,7 +1246,9 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isipcall, isvideo){
         if(window.parent.mAutovideo == "0")
             isvideo = "0";
     }
-    var isdialplan = 1;
+    
+	if(isdialplan == undefined || isdialplan === "")
+		isdialplan = 1;
     if( dialacct == '2' || dialacct == '8' )
         isdialplan = 0;
     
@@ -1256,7 +1258,7 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isipcall, isvideo){
     },100);
 }
 
-function cb_start_addmemberconf(numbers, accounts, callmode, confid, isvideo, isquickstart, pingcode){
+function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan, isvideo, isquickstart, pingcode){
     var flag = true;
     var confstate = $("#disconfstate",window.parent.document).val();
     if(confstate == "0")
@@ -1369,6 +1371,9 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isvideo, is
 	
 	if(pingcode == undefined)
 		pingcode = "";
+	
+	if(isdialplan == undefined || isdialplan === "")
+		isdialplan = 1;
 
     var urihead;
     if(callmode == undefined || callmode == "")
@@ -1397,7 +1402,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isvideo, is
         accounts = dialacct;
     }
     
-    urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo + "&isquickstart=" + isquickstart + "&pingcode=" + pingcode;
+    urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo + "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan;
     cb_originate_call(urihead,numbers, accounts);
 }
 

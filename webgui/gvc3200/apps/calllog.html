@@ -265,6 +265,7 @@ var mMaxAccount = 3;
 var mOEMID = '0';
 var mPromodel = "GVC3200";
 var mAcctStatus = new Array();
+var mDisdialplan = new Array();
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
@@ -306,6 +307,7 @@ $(function(){
         get_left_calllog(mLogType);
     }
     cb_get_action('status&region=status');
+    cb_get_action("get&var-0000=2382");
     
     var height = parseInt($("#iframediv",parent.document.body).css('height'));
     $("#itemsdiv").css("height", height - 60); //30+18
@@ -1346,6 +1348,35 @@ function cb_get_action_done(data, action) {
             if(action == "status&region=status"){
                 cb_get_status_done(msgs);
             }
+            else if(action = "get&var-0000=2382"){
+                var disdialplan = msgs.headers['2382'];
+                if(disdialplan == "" || disdialplan == undefined)
+                    disdialplan = 0;
+                else
+                    disdialplan = parseInt(disdialplan).toString(2);
+                
+                mDisdialplan[3] = 1;
+                mDisdialplan[4] = 1;
+
+                var length = disdialplan.length;
+                switch (length) {
+                    case 3:
+                        if(disdialplan.substring(0, 1) == 1)
+                            mDisdialplan[3] == 0;
+                        break;
+                    case 4:
+                        if(disdialplan.substring(1, 2) == 1)
+                            mDisdialplan[3] = 0;
+                        if(disdialplan.substring(0, 1) == 1)
+                            mDisdialplan[4] = 0;
+                        break;
+                    case 5:
+                        if(disdialplan.substring(2, 3) == 1)
+                            mDisdialplan[3] = 0;
+                        if(disdialplan.substring(1, 2) == 1)
+                            mDisdialplan[4] = 0;
+                }
+            }
         }
     }
 }
@@ -1659,10 +1690,21 @@ function pageEventActions(){
         var confstate = $("#disconfstate",window.parent.document).val();
         
         var dialacct = $(this).parent().parent(".rightitemdiv").attr("account");
-        if( dialacct == 2 )
-            cb_start_addmemberconf(dialnum, dialacct, "call","");
+        
+        var type = $(this).parent().parent().attr("type");
+        var isdialplan;
+        if(type == 2)
+            isdialplan == mDisdialplan[4];
         else
-            cb_start_single_call(dialnum, dialacct, 0);
+            isdialplan == mDisdialplan[3];
+            
+        if( dialacct == 2 ){
+            cb_start_addmemberconf(dialnum, dialacct, "call","", isdialplan);
+        }
+        else{
+            cb_start_single_call(dialnum, dialacct, 0, isdialplan);
+        }
+            
     });    
     
     $("#itemcallbtn").click(function(){
@@ -1684,8 +1726,18 @@ function pageEventActions(){
             if( $("#hasipvt", window.parent.document).val() == "1" && mPromodel == "GVC3202" && mMaxlineNum < 2 ){
                 mMaxlineNum ++;
             }
-            if( mMaxlineNum > 0 ) 
-                cb_start_single_call(dialnum, dialacct, 0);
+            if( mMaxlineNum > 0 ) {
+                var isdialplan, type;
+                var logid = $(this).parent().parent(".itemdiv").attr("logid");
+                if(logid != undefined)
+                    type = $(".memberitemdiv[logid=" + logid + "]").attr("type");
+                
+                if(type == 2)
+                    isdialplan = mDisdialplan[4];
+                else
+                    isdialplan = mDisdialplan[3];
+                cb_start_single_call(dialnum, dialacct, 0, isdialplan);
+            }
             else{
                 $.prompt(a_10097);
             }
@@ -1760,7 +1812,18 @@ function pageEventActions(){
             var confid = $(this).parent().parent(".itemdiv").attr("confid");
             //cb_get_action("addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(dialnum) + "&accounts=" + encodeURIComponent(todialacct) + "&confname=" + confname);
             //cb_start_addmemberconf(dialnum, todialacct, callmode, confname);
-            cb_start_addmemberconf(dialnum, todialacct, callmode, confid);
+            
+            var isdialplan = "";
+            $(".memberitemdiv[confid" + confid + "]").each(function(){
+                var calllogtype = $(this).attr("type");
+                if(calllogtype == 2)
+                    isdialplan += mDisdialplan[4] + ":::";
+                else
+                    isdialplan += mDisdialplan[3] + ":::";
+            });
+            
+            isdialplan = isdialplan.substring(0, isdialplan.length - 3);
+            cb_start_addmemberconf(dialnum, todialacct, callmode, confid, isdialplan);
             
             /*var confid = $(this).parent().parent(".itemdiv").attr("confid");
             if( confid != "" )

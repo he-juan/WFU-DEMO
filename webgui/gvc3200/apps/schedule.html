@@ -553,6 +553,7 @@ var contact_items = new Array;
 var mPromodel = "GVC3200";
 var mEmailreg = new RegExp("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 var mAcctStatus = new Array();
+var mDisdialplan = new Array();
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
@@ -574,6 +575,7 @@ $(function(){
     window.parent.block_download_func(a_6660);
     cb_get_action('status&region=status');
     cb_get_action('getgoogleaccts&region=apps');
+    cb_get_action('get&var-0000=2382');
     get_schedule();
     
     var height = parseInt($("#iframediv",parent.document.body).css('height'));
@@ -763,7 +765,12 @@ function cb_get_action_done(data, action) {
         else if( action.indexOf("addconfmemeber") != -1)
         {
             var tObj = eval("(" + data + ")");
-            if(tObj.res != "success")
+            var status = tObj.status;
+            if(status == "1"){
+                $.prompt(a_10104);
+                return false;
+            }
+            /*if(tObj.res != "success")
             {
                 if(tObj.msg == "line is busy")
                 {
@@ -775,7 +782,7 @@ function cb_get_action_done(data, action) {
                     $.prompt(a_63);
                     return false;
                 }
-            }
+            }*/
         }
         else if( action.indexOf("sqliteconf" ) != "-1" ){
             var tObj = eval("(" + data + ")");
@@ -1193,14 +1200,14 @@ function cb_get_action_done(data, action) {
                     if( pincode == a_15046 )
                         pincode = "";
                     starttime = change_time24hourformat(milliseconds);
-                    if(dialplan == -1)
+                    /*if(dialplan == -1)
                     {
                         //$("#membersdiv .memberdiv[confid=\""+tmpid+"\"][isexist=1][isdelete=1]").attr("isdelete","0").show();
                         //$("#membersdiv .memberdiv[confid=\""+tmpid+"\"][notsave=1]").remove();
                         //$(".itemdiv[scheduleid=" + tmpid + "]").click();
                         $.prompt(a_16682);
                         return false;
-                    }
+                    }*/
                     if( $("#remindercheck").prop("checked") )
                         reminder = 1;
                     if( $("#dndcheck").prop("checked") )
@@ -1212,7 +1219,7 @@ function cb_get_action_done(data, action) {
 
                     var old_time = $(".itemdiv[scheduleid=" + tmpid + "]").parent().parent().attr("id");
                     var old_name = $(".itemdiv[scheduleid=" + tmpid + "]").attr("name");
-                    if(dialplan == 0)
+                    /*if(dialplan == 0)
                     {
                         disnumber = disnumber.split(",");
                         var length = disnumber.length;
@@ -1223,7 +1230,7 @@ function cb_get_action_done(data, action) {
                                 $("#membersdiv .memberdiv[name=\""+old_name+"\"][number=\""+disnumber[i]+"\"]").remove();
                             }
                         }
-                    }
+                    }*/
                     $("#membersdiv .memberdiv[isexist=1][isdelete=1]").remove();
                     $("#membersdiv .memberdiv[name=\""+old_name+"\"]").removeAttr("notsave");
                     $("#membersdiv .memberdiv[name=\""+old_name+"\"]").attr("name",name);
@@ -1235,21 +1242,21 @@ function cb_get_action_done(data, action) {
                          $("#itemsdiv #"+old_time).remove();
 
                     $(".itemdiv[scheduleid=" + tmpid + "]").click();
-                    if(dialplan == 0)
+                    /*if(dialplan == 0)
                     {
                         $.prompt(a_16681);
-                    }
+                    }*/
                 }else if( action.indexOf("addschedule") != "-1" ){
                     staypage = 1;
                     optiontype = 0;
                     optionscheduleid = parseInt(tObj.msg);
                     var tmpid = parseInt(tObj.msg);
                     var dialplan = parseInt(tObj.dialplan);
-                    if(dialplan == -1)
+                    /*if(dialplan == -1)
                     {
                         $.prompt(a_16682);
                         return false;
-                    }
+                    }*/
                     var disnumber = tObj.disnumber;
                     var reminder = 0,dnd = 0,autoanswer = 0;
                     var starttime = $("#edittime").val();
@@ -1276,7 +1283,7 @@ function cb_get_action_done(data, action) {
                     repeat = $("#repeat").val();
                     preset = $("#confpreset").val();
                     
-                    if(dialplan == 0)
+                    /*if(dialplan == 0)
                     {
                         disnumber = disnumber.split(",");
                         var length = disnumber.length;
@@ -1287,7 +1294,7 @@ function cb_get_action_done(data, action) {
                                 $("#membersdiv .memberdiv[isexist=1][isdelete=0][notsave=1][number=\""+disnumber[i]+"\"]").remove();
                             }
                         }
-                    }
+                    }*/
                     $("#membersdiv .memberdiv[isexist=1][isdelete=0][notsave=1]").each(function(){
                         $(this).removeAttr("notsave").attr("confid",tmpid).attr("name",confname);
                     });
@@ -1295,10 +1302,10 @@ function cb_get_action_done(data, action) {
                     //$("#delscheduleall").attr("disabled", false).removeClass("deldisable");
                     //add_item_event();
                     $("#schedule_" + tmpid).click();
-                    if(dialplan == 0)
+                    /*if(dialplan == 0)
                     {
                         $.prompt(a_16681);
-                    }
+                    }*/
                 }
                 var action = "notifyschedule&region=webservice&type="+optiontype+"&scheduleId="+optionscheduleid;
                 cb_get_action(action);
@@ -1372,6 +1379,44 @@ function cb_get_action_done(data, action) {
         else if(action == "status&region=status"){
             cb_get_status_done(msgs);
         } 
+        else if(action == "get&var-0000=2382"){
+            var disdialplan = msgs.headers['2382'];
+            if(disdialplan == "" || disdialplan == undefined)
+                disdialplan = 0;
+            else
+                disdialplan = parseInt(disdialplan).toString(2);
+            
+            for(var i = 3; i < 7; i++)
+                mDisdialplan[i] = 0;
+                
+            var length = disdialplan.length;
+            switch (length) {
+                case 1:
+                    mDisdialplan[6] = disdialplan;
+                    break;
+                case 2:
+                    mDisdialplan[6] = disdialplan.substring(1, 2);
+                    mDisdialplan[5] = disdialplan.substring(0, 1);
+                    break;
+                case 3:
+                    mDisdialplan[6] = disdialplan.substring(2, 3);
+                    mDisdialplan[5] = disdialplan.substring(1, 2);
+                    mDisdialplan[3] = disdialplan.substring(0, 1);
+                    break;
+                case 4:
+                    mDisdialplan[6] = disdialplan.substring(3, 4);
+                    mDisdialplan[5] = disdialplan.substring(2, 3);
+                    mDisdialplan[3] = disdialplan.substring(1, 2);
+                    mDisdialplan[4] = disdialplan.substring(0, 1);
+                    break;
+                case 5:
+                    mDisdialplan[6] = disdialplan.substring(4, 5);
+                    mDisdialplan[5] = disdialplan.substring(3, 4);
+                    mDisdialplan[3] = disdialplan.substring(2, 3);
+                    mDisdialplan[4] = disdialplan.substring(1, 2);
+                    break;
+            }
+        }
         cb_if_auth_fail(msgs);
     }
 }
@@ -2352,7 +2397,24 @@ function callOutPreConf(selconfid, ifdelete){
     else
         cb_get_action_sync("notifyschedule&region=webservice&type=6&scheduleId="+selconfid);
     //cb_start_addmemberconf(confnumbers, confaccts, "", encodeURIComponent($("#itemsdiv .itemdiv.selectItem").attr("name")));
-    cb_start_addmemberconf(confnumbers, confaccts, "", selconfid, 1, 0, pingcode);
+    
+    var isdialplan = "";
+    $("#membersdiv .memberdiv").each(function(){
+        var recordfrom = $(this).attr("recordfrom");
+        if(recordfrom != undefined){
+            if(mDisdialplan[recordfrom] == 0)
+                isdialplan += "1:::";
+            else
+                isdialplan += "0:::";
+        }
+        else{
+            isdialplan += "1:::";
+        }
+    });
+    
+    isdialplan = isdialplan.substring(0, isdialplan.length - 3);
+    
+    cb_start_addmemberconf(confnumbers, confaccts, "", selconfid, isdialplan, 1, 0, pingcode);
     if( ifdelete >= 1 ){
         checkDeleteDiv(selconfid);
     }
@@ -3497,19 +3559,52 @@ function pageEventActions(){
                     $(this).parent().parent().remove();
                     return false;
                 }
+                else{
+                    if($(this).prop("checked")){
+                        if(mDisdialplan[6] == 0){
+                            var result;
+                            var urihead = "action=dialPlanCheck&region=confctrl&account=" + acct + "&number=" + searchkey; 
+                            urihead += "&time=" + new Date().getTime();
+                            $.ajax ({
+                                type: 'get',
+                                url:'/manager',
+                                data:urihead,
+                                dataType:'text',
+                                async:false,
+                                success:function(data) {
+                                    var tObj = eval("(" + data + ")");
+                                    if(tObj.res == "success"){
+                                        result = tObj.msg;
+                                    }
+                                },
+                                error:function(xmlHttpRequest, errorThrown) {
+                                    cb_networkerror(xmlHttpRequest, errorThrown);
+                                }
+                            });
+                            
+                            if(result == "false"){
+                                mCheckedmembernum--;
+                                $.prompt(a_10104);
+                                $("#search").val("");
+                                
+                                return false;
+                            }
+                        }
+                    }
+                }
                 $("#search").val("");
                 e.stopPropagation();
             });
         }
 
         var curacct = $("#detailacct").val();
-        if(curacct == 8 || reg.test(searchkey))
-        {
+        //if(curacct == 8 || reg.test(searchkey))
+        //{
             $searchitem.attr("name",searchkey).attr("number",searchkey);
             $searchitem.find(".membername").children("span").attr("title",searchkey).text(searchkey);
             $searchitem.find(".membernumber").children("span").attr("title",searchkey).text(searchkey);
             $searchitem.show();
-        }
+        //}
 
         $("#allcontactsdiv .contactsdiv").each(function(){
             var $this = $(this);
@@ -3719,6 +3814,71 @@ function pageEventActions(){
                 setTimeout(function(){$("#searchdiv p").hide(800);},2000);
             });
             return false;
+        }
+        else{
+            if($(this).prop("checked")){
+                var recordid = $(this).parent().parent().attr("id");
+                var recordfrom;
+                if(recordid != undefined){
+                    if(recordid.indexOf("contact") != -1)
+                        recordfrom = 5;
+                    else if(recordid.indexOf("calllog") != -1){
+                        var type = $(this).attr("type");
+                        if(type == 1 || type == 3)
+                            recordfrom = 3;
+                        else
+                            recordfrom = 4;
+                    }
+                }
+                else{
+                    var $parentclass = $(this).parent().parent();
+                    if($parentclass.parent().attr("class") != undefined && $parentclass.parent().attr("class").indexOf("groupmemberlist") != -1)
+                        recordfrom = 5;
+                    else if($parentclass.attr("class").indexOf("creatsearchItem") != -1)
+                        recordfrom = 6;
+                    else if($parentclass.attr("class").indexOf("selectedItem") != -1){
+                        var curnumber = $parentclass.attr("number");
+                        recordfrom = $(".memberdiv[number=\"" + curnumber + "\"]").attr("recordfrom");
+                        if(recordfrom != undefined)
+                            recordfrom = parseInt(recordfrom);
+                    }
+                }
+                
+                if(mDisdialplan[recordfrom] == 0){
+                    var result;
+                    var urihead = "action=dialPlanCheck&region=confctrl&account=" + acctindex + "&number=" + number; 
+                    urihead += "&time=" + new Date().getTime();
+                    $.ajax ({
+                        type: 'get',
+                        url:'/manager',
+                        data:urihead,
+                        dataType:'text',
+                        async:false,
+                        success:function(data) {
+                            var tObj = eval("(" + data + ")");
+                            if(tObj.res == "success"){
+                                result = tObj.msg;
+                            }
+                        },
+                        error:function(xmlHttpRequest, errorThrown) {
+                            cb_networkerror(xmlHttpRequest, errorThrown);
+                        }
+                    });
+                    
+                    if(result == "false"){
+                        if(!isNaN(groupnum))
+                        {
+                            mCheckedmembernum -= groupnum;
+                            $groupmemberlist.find(".inputcbx").removeAttr("checked");
+                        }
+                        else
+                            mCheckedmembernum--;
+                        
+                        $.prompt(a_10104);
+                        return false;
+                    }
+                }
+            }
         }
         
         e.stopPropagation();

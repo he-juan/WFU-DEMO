@@ -448,6 +448,7 @@ var mMaxMember = 1;
 var mPromodel = "GVC3200";
 var mOEMId = '0';
 var mAcctStatus = new Array();
+var mDisdialplan = 1;
 
 var req_items = new Array;
 req_items.push(
@@ -482,7 +483,7 @@ $(function(){
     cb_get_action('getcontactcount&region=webservice');
     window.parent.block_download_func(a_6660);
     get_contact();
-    cb_get_action('get&var-0000=1688');
+    cb_get_action('get&var-0000=1688&var-0001=2382');
     cb_get_action('status&region=status');
     var height = parseInt($("#iframediv",parent.document.body).css('height'));
     $("#itemsdiv").css("height", height - 120); //14+32+30+18+20
@@ -1314,8 +1315,35 @@ function cb_get_action_done(data, action) {
         else {
             if(action == "status&region=status"){
                 cb_get_status_done(msgs);
-            }else if(action == "get&var-0000=1688"){
+            }else if(action == "get&var-0000=1688&var-0001=2382"){
                 mMaxContactNum = parseInt(msgs.headers['1688']);
+                
+                var disdialplan = msgs.headers['2382'];
+                
+                if(disdialplan == "" || disdialplan == undefined)
+                    disdialplan = 0;
+                else
+                    disdialplan = parseInt(disdialplan).toString(2);
+                    
+                var length = disdialplan.length;
+                switch (length) {
+                    case 2:
+                        if(disdialplan.substring(0, 1) == 1)
+                            mDisdialplan = 0;
+                        break;
+                    case 3:
+                        if(disdialplan.substring(1, 2) == 1)
+                            mDisdialplan = 0;
+                        break;
+                    case 4:
+                        if(disdialplan.substring(2, 3) == 1)
+                            mDisdialplan = 0;
+                        break;
+                    case 5:
+                        if(disdialplan.substring(3, 4) == 1)
+                            mDisdialplan = 0;
+                        break;
+                }
             }
         }
     }
@@ -1815,7 +1843,7 @@ function pageEventActions(){
         if( dialnum == mSearchText )
             return false;
         if( dialnum == "" ) return false;
-        cb_start_single_call(dialnum, "0", 0);
+        cb_start_single_call(dialnum, "0", 0, mDisdialplan);
     });
     
     $("#itemcallbtn").click(function(){
@@ -1850,7 +1878,7 @@ function pageEventActions(){
                 mMaxlineNum ++;
             }
             if( mMaxlineNum > 0 ) 
-                cb_start_single_call(dialnum, dialacct, 0);
+                cb_start_single_call(dialnum, dialacct, 0, mDisdialplan);
             else{
                 $.prompt(a_10097);
             }
@@ -1868,7 +1896,7 @@ function pageEventActions(){
                 mMaxlineNum ++;
             }
             if( mMaxlineNum > 0 ) 
-                cb_start_single_call(dialnum, dialacct, 0);
+                cb_start_single_call(dialnum, dialacct, 0, mDisdialplan);
             else{
                 $.prompt(a_10097);
             }

@@ -9005,7 +9005,7 @@ function pageEventActions()
                 setTimeout(function(){$("#addmemberdiv p").text("");},2000);
                 return false;
             }
-            cb_start_single_call(number, mselacct, 0);
+            cb_start_single_call(number, mselacct, 0, "");
             addconfmember_callback();
 
             return false;
@@ -9096,7 +9096,7 @@ function pageEventActions()
         var urihead = "action=addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(mConfnumlist) + "&accounts=" + encodeURIComponent(mConfacctlist) + "&confname=" + confname;
 
         var callfn = "addconfmember_callback();";
-        cb_start_addmemberconf(mConfnumlist, mConfacctlist, mode,"",isvideo);
+        cb_start_addmemberconf(mConfnumlist, mConfacctlist, mode,"", "", isvideo);
         addconfmember_callback();
         //cb_get_confaction(urihead,callfn,true);
     });

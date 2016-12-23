@@ -8500,6 +8500,8 @@ static int handle_originatecall (server *srv, connection *con,
                 printf( "Out of Memory!\n" );
                 exit( 1 );
             } 
+            
+            printf("num---%s\n", num);
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &headerString ) )
             {
                 printf( "Out of Memory!\n" );
@@ -8585,7 +8587,7 @@ static int handle_addconfmemeber (server *srv, connection *con,
     int videostate = 1;
     char *confid = NULL;
     int quickstart = 0;
-    char *pingcode = NULL, *isquickstart = NULL;
+    char *pingcode = NULL, *isquickstart = NULL, *isdialplan = NULL;
 
     numbers = msg_get_header(m, "numbers");
     accts = msg_get_header(m, "accounts");
@@ -8593,6 +8595,7 @@ static int handle_addconfmemeber (server *srv, connection *con,
     videotmp = msg_get_header(m, "isvideo");
     isquickstart = msg_get_header(m, "isquickstart");
     pingcode = msg_get_header(m, "pingcode");
+    isdialplan = msg_get_header(m, "isdialplan");
 
     if ( numbers  == NULL || strlen(numbers) == 0 || accts  == NULL || strlen(accts) == 0)
     {
@@ -8684,6 +8687,9 @@ static int handle_addconfmemeber (server *srv, connection *con,
                 pingcode = "";
             }
 
+            if(isdialplan == NULL)
+                isdialplan = "";
+            
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &numbers ) )
             {
                 printf( "Out of Memory!\n" );
@@ -8715,6 +8721,11 @@ static int handle_addconfmemeber (server *srv, connection *con,
                 exit( 1 );
             }
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &pingcode ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &isdialplan ) )
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
