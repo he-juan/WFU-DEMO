@@ -1663,7 +1663,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
         snprintf(sqlstr, len, "select preset.pan, preset.tilt, preset.zoom, preset.focus from preset where id=%d;", atoi(temp));
     }
     else if( !strcasecmp(type, "preconf") ) {
-        snprintf(sqlstr, len, "select schedule.id as confid,schedule.display_name as confname,group_contacts.id as contactid, group_contacts.number as number, group_contacts.name as name, group_contacts.account_id as acctid, group_contacts.host_email as email, group_contacts.data_source as data_source from schedule left join group_contacts on schedule.id=group_contacts.group_id order by confid desc,confname;");
+        snprintf(sqlstr, len, "select schedule.id as confid,schedule.display_name as confname,group_contacts.id as contactid, group_contacts.number as number, group_contacts.name as name, group_contacts.account_id as acctid, group_contacts.host_email as email, group_contacts.data_source as data_source, group_contacts.state as state from schedule left join group_contacts on schedule.id=group_contacts.group_id order by confid desc,confname;");
     }
     else if( !strcasecmp(type, "updatestate") ){
         //if schedule is missed,set data2=1 in database
@@ -1742,7 +1742,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
 
     if( !strcasecmp(type, "preconf") ) {
         char *targetconfname, *targetemail, *email;
-        int recordfrom;
+        int recordfrom, googlestate;
         while(sqlite3_step(stmt)==SQLITE_ROW ) {
             data1 = sqlite3_column_int(stmt, 0);    // conf id
             confname = (char*)sqlite3_column_text(stmt,1);   //conf name
@@ -1752,6 +1752,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             acctid = sqlite3_column_int(stmt, 5);   //accout id
             email = (char*)sqlite3_column_text(stmt, 6);   //contact email
             recordfrom = sqlite3_column_int(stmt, 7);  //data source
+            googlestate = sqlite3_column_int(stmt, 8); //google schedule state
 
             if( confname == NULL || disname == NULL || disnumber == NULL ){
                 printf("disname or disnumber or conname is null\n");
@@ -1784,13 +1785,13 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             }else{
                 targetemail = "";
             }
-            len = strlen(targetconfname)+strlen(targetname)+strlen(disnumber)+strlen(targetemail)+128;
+            len = strlen(targetconfname)+strlen(targetname)+strlen(disnumber)+strlen(targetemail)+256;
             res = malloc( len );
             memset(res, 0, len);
             if( !num )
-                snprintf(res, len, "{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\", \"RecordFrom\":\"%d\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail, recordfrom);
+                snprintf(res, len, "{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\", \"RecordFrom\":\"%d\", \"GoogleStatus\":\"%d\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail, recordfrom, googlestate);
             else
-                snprintf(res, len, ",{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\", \"RecordFrom\":\"%d\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail, recordfrom);
+                snprintf(res, len, ",{\"Id\":\"%d\", \"Confname\":\"%s\", \"Number\":\"%s\", \"Name\":\"%s\", \"Acctid\":\"%d\", \"Email\":\"%s\", \"RecordFrom\":\"%d\", \"GoogleStatus\":\"%d\"}", data1, targetconfname, disnumber, targetname, acctid, targetemail, recordfrom, googlestate);
             buffer_append_string(b, res);
             printf("%10d %10s %10s %10s\n", data1, targetconfname, targetname, disnumber);
             free(res);
@@ -15974,6 +15975,66 @@ static int handle_notify_schedule_change(buffer *b, const struct message *m)
     return 1;
 }
 
+static int handle_googleschedule_status(buffer *b, const struct message *m)
+{
+    char *sqlstr = NULL;
+    char *scheid = NULL, *status = NULL;
+    
+    status = msg_get_header(m, "status");
+
+    if(status != NULL){
+        if( !strcasecmp(status, "") ){
+            buffer_append_string(b,"{\"Response\":\"Error\"}");
+            return -1;
+        }
+        
+        int updatelen = 128;
+        scheid = msg_get_header(m, "scheid");
+        if( scheid != NULL ){
+            sqlstr = malloc(updatelen);
+            memset(sqlstr, 0, updatelen);
+            snprintf(sqlstr, updatelen, "update group_contacts set state=%s where group_id=%s", status, scheid);
+        }
+        else{
+            buffer_append_string(b, "{\"Response\":\"Error\"}");
+            return -1;
+        }
+                
+        sqlite3 *db;
+        int rc;
+        char * errmsg = NULL;
+        int result = 1;
+
+        printf("sql str is --- %s\n", sqlstr);
+        rc = sqlite3_open("/data/data/com.base.module.schedule/databases/conference.db", &db);
+        if( rc ){
+            printf("Can't open database: %s\n", sqlite3_errmsg(db));
+            fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+            sqlite3_close(db);
+            return -1;
+        }
+        
+        rc = sqlite3_exec(db, sqlstr, 0, 0, &errmsg);
+        if( rc ){
+            printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+            fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+            buffer_append_string(b,"{\"Response\":\"Error\"}");
+            sqlite3_close(db);
+            return -1;
+        }
+        
+        char *returnstr = NULL;
+        returnstr = malloc(updatelen);
+        memset(returnstr, 0, updatelen);
+        snprintf(returnstr, updatelen, "{\"Response\":\"Success\", \"Scheid\":\"%s\",\"Operation\":\"%s\"}", scheid, status);
+        buffer_append_string(b, returnstr);
+    }
+    else{
+        buffer_append_string(b, "{\"Response\":\"Error\"}");
+        return -1;
+    }
+}
+
 static int handle_updateschedule(server *srv, connection *con, buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20782,6 +20843,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_updateschedule(srv, con, b, m);
                 } else if (!strcasecmp(action, "notifyschedule")) {
                     handle_notify_schedule_change(b, m);
+                } else if (!strcasecmp(action, "setgoogleschestatus")) {
+                    handle_googleschedule_status(b, m);
                 } else if (!strcasecmp(action, "delcaption")) {
                     handle_webservice_by_one_param(srv, con, b, m, "id", "delCaption", 0);
                 } else if (!strcasecmp(action, "addcaption")) {

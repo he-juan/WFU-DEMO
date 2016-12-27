@@ -263,6 +263,10 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
                         </select>
                     </div>
                 </div>
+                <div class="righttopdiv" id="responsediv" style="display:none;">
+                    <div class="desdiv"><span id="a_googlestatus">Repeat</span></div>
+                    <div class="contentdiv"><span id="googlestatus"></span></div>
+                </div>
                 <div class="righttopdiv cusrepeatdivs" id="cusrepeatdiv">
                     <div class="desdiv"><span id="a_cusrepeat">Custom Repeat</span></div>
                     <div class="editdiv">
@@ -711,6 +715,28 @@ function add_item_event(){
             $("#subjectdiv").css("margin-top", "10px");
         }
         $("#persondiv,#rightbtn").show();
+        
+        var googlestatus = 0;
+        $("#membersdiv .memberdiv[confid=" + mSelectId + "]").each(function(){
+            if($(this).attr("googlestatus") != 0){
+                googlestatus = $(this).attr("googlestatus");
+                return false;
+            }
+        });
+        
+        if(googlestatus != 0){
+            var statustext;
+            if(googlestatus == 1)
+                statustext = a_10000;
+            else
+                statustext = a_10038;
+            
+            $("#responsediv .contentdiv span").text(statustext);
+            $("#responsediv").show();
+        }
+        else{
+            $("#responsediv").hide();
+        }
     }); 
 
     $("#itemsdiv .itemdiv").hover(function(){
@@ -783,6 +809,28 @@ function cb_get_action_done(data, action) {
                     return false;
                 }
             }*/
+        }else if(action.indexOf("setgoogleschestatus") != -1){
+            window.parent.unblock_func();
+            var tObj = eval("(" + data + ")");
+            if(tObj.Response == "Success"){
+                var operation = tObj.Operation;
+                var scheid = tObj.Scheid;
+                
+                var response;
+                if(operation == 1)
+                    response = a_10000;
+                else
+                    response = a_10038;
+                    
+                $("#responsediv .contentdiv span").text(response);
+                $("#responsediv").show();
+                $("#membersdiv .memberdiv[confid=" + scheid + "]").attr("googlestatus", operation);
+                
+                $.prompt(a_64);
+            }
+            else{
+                $.prompt(a_63);
+            }
         }
         else if( action.indexOf("sqliteconf" ) != "-1" ){
             var tObj = eval("(" + data + ")");
@@ -909,7 +957,7 @@ function cb_get_action_done(data, action) {
                 get_groups();
             }
             else if( action.indexOf("type=preconf") != "-1" ){
-                var confid, confname, disname, number, acctid, email, emailflag, recordfrom;
+                var confid, confname, disname, number, acctid, email, emailflag, recordfrom, googlestatus;
                 var membersdiv = document.getElementById('membersdiv');
                 for (var i = 0; items[i] != undefined; i++)
                 {
@@ -921,6 +969,7 @@ function cb_get_action_done(data, action) {
                     acctid = items[i].Acctid;
                     email = items[i].Email;
                     recordfrom = items[i].RecordFrom;
+                    googlestatus = items[i].GoogleStatus;
 
                     for(var n=0; mContactsItem[n] != undefined; n++)
                     {
@@ -957,6 +1006,7 @@ function cb_get_action_done(data, action) {
                     memberdiv.setAttribute("acctindex", acctid);
 	                memberdiv.setAttribute("email", email);
                     memberdiv.setAttribute("recordfrom", recordfrom);
+                    memberdiv.setAttribute("googlestatus", googlestatus);
 	                if( email == "" )
 	                    memberdiv.setAttribute("emailnum", "0");
 	                else
@@ -1371,7 +1421,16 @@ function cb_get_action_done(data, action) {
                 }
                 window.parent.unblock_func();
             }else if(action.indexOf("&type=9") != -1 || action.indexOf("&type=10") != -1){
-            
+                var setstatus;
+                if(action.indexOf("&type=9") != -1)
+                    setstatus = 1;  //accept the google meeting
+                else
+                    setstatus = 2;  //reject the google meeting
+                
+                var scheid = action.split("scheduleId=")[1];
+                
+                var urihead = "setgoogleschestatus&region=webservice&scheid=" + scheid + "&status=" + setstatus;
+                cb_get_action(urihead);
             }else{
                 window.parent.unblock_func();
             }
@@ -2029,6 +2088,7 @@ function translate_page(){
     $("#confpreset option:eq(23)").text(a_10024+" 23");
     $("#confpreset option:eq(24)").text(a_10024+" 24");
     $("#a_repeat").text(a_15024);
+    $("#a_googlestatus").text(a_10060);
     $("#a_cusrepeat").text(a_15025);
     $("#repeat option:eq(0)").text(a_10143);
     $("#repeat option:eq(1), #cusrepeat option:eq(0)").text(a_10144);
@@ -3221,22 +3281,26 @@ function pageEventActions(){
             $("#inviteditemsdiv").hide();
             $("#invited").css("left", "185px");
             $("#addcontact, #itemsdiv, #selectall, #delscheduleall").show();
-            $("#invited").text(a_10052);
-            if( $("#itemsdiv .itemdiv").length > 0 )
+            $("#invited").text(a_10052);    
+            if( $("#itemsdiv .itemdiv").length > 0 ){
                 $("#itemsdiv .itemdiv").eq(0).click();
+                $("#responsediv").hide();
+            }
             else{
                 $(".memberdiv").hide();
                 $(".noscheudlediv").show();
-                $("#persondiv,#rightbtn,#itemsdiv").hide();
+                $("#persondiv,#rightbtn,#itemsdiv,#responsediv").hide();
             }          
         }
     });
     
     $("#acceptbtn").click(function(){
+        window.parent.block_download_func(a_6661);
         cb_get_action("notifyschedule&region=webservice&type=9&scheduleId="+mSelectId);
     });
     
     $("#rejectbtn").click(function(){
+        window.parent.block_download_func(a_6661);
         cb_get_action("notifyschedule&region=webservice&type=10&scheduleId="+mSelectId);
     });
     
