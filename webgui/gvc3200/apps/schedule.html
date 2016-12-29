@@ -724,7 +724,7 @@ function add_item_event(){
             }
         });
         
-        if(googlestatus != 0){
+        if(googlestatus != 0 && googlestatus != undefined){
             var statustext;
             if(googlestatus == 1)
                 statustext = a_10000;
@@ -3148,7 +3148,7 @@ function pageEventActions(){
                         $judgemember.removeAttr("searchitem");
                     }
                     $judgemember.attr("isdelete",0);
-                }              
+                }
             }
         });
         
@@ -3176,6 +3176,7 @@ function pageEventActions(){
 
         $(this).hide();
         $("#righttopdiv .righttopdiv, #editmemberbtn").show();
+        $("#responsediv").hide();
         if( !mHasGoogle ){
             $("#googleacctdiv").hide();
         }
@@ -3189,6 +3190,7 @@ function pageEventActions(){
         $(this).hide();
         $("#righttopdiv .righttopdiv, #editmemberbtn").show();
         $("#allcontactsdiv, #searchdiv, #changemembersavebtn, .cloudconf").hide();
+        $("#responsediv").hide();
         if( !mHasGoogle ){
             $("#googleacctdiv").hide();
         }
@@ -3245,6 +3247,7 @@ function pageEventActions(){
             $("#itemsdiv").show();
         }
         $("#persondiv,#rightbtn").show();
+        $("#responsediv").hide();
         if( mHasGoogle ){
             $("#membersdiv .membernumber").hide();
             $("#googleacctdiv, .memberemail").show();
