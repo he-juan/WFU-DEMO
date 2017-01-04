@@ -2206,6 +2206,22 @@ function pageEventActions(){
         else
             dialname = $(this).parent().parent(".itemdiv").attr("disname");
         var dialacct = $(this).parent().parent(".itemdiv").attr("account");
+        
+        var recordfrom = "";
+        if( $(this).parent().parent(".itemdiv").attr("isconf") == "1" ){
+            recordfrom = $(this).parent().parent(".itemdiv").attr("mtype");
+            var rcdarray = recordfrom.split(":::");
+            recordfrom = "";
+            for(var i = 0; i < rcdarray.length; i++){
+                if(rcdarray[i] == 1 || rcdarray[i] == 3)
+                    recordfrom += "3:::";
+                else
+                    recordfrom += "4:::";
+            }
+            recordfrom = recordfrom.substring(0, recordfrom.length - 3);
+        }
+        else
+            recordfrom = 3;
         if( dialnum == "" ){
             $.prompt(a_16665);
             return false;
@@ -2248,6 +2264,7 @@ function pageEventActions(){
             $.cookie("addschedulenumber", dialnum, {path: '/', expires:10});
             $.cookie("addschedulename", dialname, {path: '/', expires:10});
             $.cookie("addscheduleacct", dialacct, {path: '/', expires:10});
+            $.cookie("addrecordfrom", recordfrom, {path: '/', expires:10});
             $(".apps\\/schedule\\.html", window.parent.document).click();
         }
     });

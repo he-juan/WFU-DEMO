@@ -1173,10 +1173,11 @@ function cb_get_action_done(data, action) {
             var schedulenum = $.cookie("addschedulenumber");
             var schedulename = $.cookie("addschedulename");
             var scheduleacct = $.cookie("addscheduleacct");
+            var schedulercdfrom = $.cookie("addrecordfrom");
 
-            if(schedulename != undefined && schedulename != "" && schedulenum != undefined && schedulenum != "" && scheduleacct != undefined && scheduleacct != "")
+            if(schedulename != undefined && schedulename != "" && schedulenum != undefined && schedulenum != "" && scheduleacct != undefined && scheduleacct != "" && schedulercdfrom != undefined && schedulercdfrom != "")
             {
-                add_calllog_to_schedule(schedulenum,schedulename,scheduleacct);
+                add_calllog_to_schedule(schedulenum,schedulename,scheduleacct,schedulercdfrom);
             }
         }   
         else{
@@ -2008,11 +2009,12 @@ function create_schedule_div(id, groupid, disname, starttime, duration, reminder
 /*
 add to schedule, the data is from calllog
 */
-function add_calllog_to_schedule(numbers,names,accts)
+function add_calllog_to_schedule(numbers,names,accts,recordfrom)
 {
     var numberarray = numbers.split(":::");
     var namearray = names.split(":::");
     var acctarray = accts.split(":::");
+    var recordarray = recordfrom.split(":::");
     var n = 0;
     var memberstring = "",selectconfname = "";
     var confid = "temp";
@@ -2020,7 +2022,7 @@ function add_calllog_to_schedule(numbers,names,accts)
     for(;n < numberarray.length; n++)
     {
         var membericon = "<div class='membericon'><div class='appcontacticon'></div></div>";
-        var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+numberarray[n]+"\" isdelete=0 isexist=1 notsave=1 acctindex=\""+acctarray[n]+"\">";
+        var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+numberarray[n]+"\" isdelete=0 isexist=1 notsave=1 acctindex=\""+acctarray[n]+"\" recordfrom=" + recordarray[n] + ">";
         var membername = "<div class='membername'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div>";
         var membernum = "<div class='membernumber'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div>";
         var stringdiv = memberdiv + membericon + membername + membernum + "</div>";
@@ -2031,6 +2033,7 @@ function add_calllog_to_schedule(numbers,names,accts)
     $.cookie("addschedulenumber", "", {path: '/', expires:10});
     $.cookie("addschedulename", "", {path: '/', expires:10});
     $.cookie("addscheduleacct", "", {path: '/', expires:10});
+    $.cookie("addrecordfrom", "", {path: '/', expires:10});
 }
 
 function translate_page(){
