@@ -1107,6 +1107,8 @@ tip_item.push (
         "Pode ocorrer uma indefinição ou um ligeiro problema de jitter na entrada VGA. Os usuários podem configurar a fase de amostragem para ajustar a cor."),
     new TipsDef("Screen Percent",
         "Configure o tamanho da imagem de saída na tela da saída HDMI1. O intervalo é 90%-100%. A configuração padrão é 100%."),
+	new TipsDef("Enable Presentation Automatically When HDMI Plugged",
+		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
 
     /*Site setting*/
     new TipsDef("Enter Sleep Mode",

@@ -1109,8 +1109,10 @@ tip_item.push (
         "A blurring or slight jitter issue may occur in VGA input. Users can set the sampling phase to adjust the color."),
     new TipsDef("Screen Percent",
         "Configures the output image size on the screen of HDMI 1 output.The value range is 90%-100%. The default setting is 100%."),
-
-    /*Site setting*/
+	new TipsDef("Enable Presentation Automatically When HDMI Plugged",
+		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
+    
+	/*Site setting*/
     new TipsDef("Enter Sleep Mode",
         "Specifies the period before the device enters sleep mode if no operation is performed.<br>If set \"Never\", the device will never enter sleep mode automatically. The default value is \"After 30 Mins\"."),
     new TipsDef("Site Name",

@@ -1111,6 +1111,8 @@ tip_item.push (
         "VGA 输入的图像如果在显示器上输出时出现模糊不清或出现细小抖动，可以通过采样相位参数调节。"),
     new TipsDef("Screen Percent", "屏幕切边",
         "设置HDMI 1输出图像占屏幕的大小，取值范围：90%～100%.默认值为“100%”。"),
+	new TipsDef("Enable Presentation Automatically When HDMI Plugged", "当接入HDMI时自动开启演示",
+		"选择是则接入HDMI时自动显示演示。选择否则接入HDMI时会弹框提示用户选择确认或者取消，如果用户不点击确认或者取消，则超时30s就自动显示演示。默认为否。"),
 
     /*Site setting*/
     new TipsDef("Enter Sleep Mode", "休眠时间",

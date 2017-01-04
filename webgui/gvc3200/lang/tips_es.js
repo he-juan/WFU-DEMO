@@ -1107,8 +1107,10 @@ tip_item.push (
         "Una difuminación o  fluctuación ligera puede ocurrir en la entrada VGA. Los usuarios pueden establecer la fase de muestreo para ajustar el color."),
     new TipsDef("Screen Percent",
         "Configura el tamaño de la imagen de salida sobre la pantalla de la salida HDMI 1. El rango de valor es de 90%-100%. El ajuste por defecto es 100%."),
-
-    /*Configuración de Sitio*/
+	new TipsDef("Enable Presentation Automatically When HDMI Plugged",
+		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
+    
+	/*Configuración de Sitio*/
     new TipsDef("Enter Sleep Mode",
         "Especifica el periodo antes de que el dispositivo entre al modo de descanso si no operación ejecutada.<br> Si se fija \"Nunca\",  el dispositivo nunca entrará en modo de descanso automáticamente. El valor por defecto es \"Después de 30 Minutos\"."),
     new TipsDef("Site Name",

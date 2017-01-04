@@ -1098,6 +1098,8 @@ tip_item.push (
         "При использовании VGA может возникнуть нечёткость или небольшие задержки. Можно настроить фазу дискретизации для решения проблемы."),
     new TipsDef("Screen Percent",
         "Устанавливает размер выходного изображения на HDMI 1. Интервал значений от 90% до 100%. По умолчанию 100%."),
+	new TipsDef("Enable Presentation Automatically When HDMI Plugged",
+		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
 
     /*Настройки узла*/
     new TipsDef("Enter Sleep Mode",

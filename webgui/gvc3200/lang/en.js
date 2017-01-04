@@ -3197,3 +3197,5 @@ var a_4319="Default installation location";
 var a_19394="LED blue";
 var a_19395="HDMI input test";
 var a_19396="Temperature test";
+var a_19397="The remote control is being matched, please do not touch it!";
+var a_19398="Enable Presentation Automatically When HDMI Plugged";
