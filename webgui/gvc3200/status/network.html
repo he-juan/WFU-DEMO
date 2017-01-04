@@ -112,14 +112,19 @@ $(function(){
     //cb_get_action('vpnenable&region=status');  
 });
 function cb_get_action_done(data,action){
-    var msgs = res_parse_rawtext(data);
-    cb_if_auth_fail(msgs);
-    if (cb_is_fail(msgs)){
-    }else {
+    if( data.substring(0, 1) == "{" ){
+        data = eval("(" + data + ")");
         if(action == 'network&region=status')
-            view_status_network_write(msgs);
-        else if(action == 'vpnenable&region=status')
-            view_vpnenable(msgs);
+            view_status_network_write(data);
+    }
+    else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){
+        }else {
+            if(action == 'vpnenable&region=status')
+                view_vpnenable(msgs);
+        }
     }
 }
 function check_vpnip(msgs)
@@ -172,55 +177,54 @@ function view_vpnenable(msgs)
         $('#vpnipdiv').hide();
 }
 
-function view_status_network_write(msgs)
+function view_status_network_write(data)
 {
-    $("#mac").text( msgs.headers['mac'].toUpperCase() );
-    $("#ipaddress").text( msgs.headers['ip'] );
-
-    $("#mask").text( msgs.headers['mask'] );
-    $("#gateway").text( msgs.headers['gateway'] );
-    $("#dns").text( msgs.headers['dns'] );
-    $("#dns2").text( msgs.headers['dns2'] );
+    if(data.res == "success"){
+        var mac = data.mac;
+        var ipv4type = data.ipv4Type;
+        var ipv4addr = data.ipv4Addr;
+        var mask = data.mask;
+        var gateway = data.gateway;
+        var dns1 = data.dns1;
+        var dns2 = data.dns2;
+        var ipv6type = data.ipv6Type;
+        var ipv6addr = data.ipv6Addr;
+        var ipv6dns1 = data.ipv6Dns1;
+        var ipv6dns2 = data.ipv6Dns2;
+    }
     
-    /*var netstatus = $("#netstatus").val();
-    if( netstatus == "DHCP" || netstatus == "" )
-        $("#network").text( a_4124 );
-    else if( netstatus == "Static IP" )
-        $("#network").text( a_4125 );
-    else if( netstatus == "PPPOE" )
-        $("#network").text( a_16183 );
-    else
-        $("#network").text( netstatus );*/
-        
-    var netstatus = msgs.headers['type']
-    if( netstatus == "dhcp" || netstatus == "" )
-        $("#network").text( a_4124 );
-    else if( netstatus == "static" )
-        $("#network").text( a_4125 );
-    else if( netstatus == "pppoe" )
-        $("#network").text( a_16183 );
-    else
-        $("#network").text( netstatus );
+    $("#mac").text( mac.toUpperCase() );
+    $("#ipaddress").text( ipv4addr );
 
-    var ipv6addr = msgs.headers['ipv6'];
+    $("#mask").text(mask);
+    $("#gateway").text(gateway);
+    $("#dns").text(dns1);
+    $("#dns2").text(dns2);
+        
+    if( ipv4type == 0 || ipv4type == "" )
+        $("#network").text( a_4124 );
+    else if( ipv4type == 1 )
+        $("#network").text( a_4125 );
+    else if( netstatus == 2 )
+        $("#network").text( a_16183 );
+
     if (ipv6addr == "") {
         ipv6addr = "0:0:0:0:0:0:0:0";
     }
     $("#ipv6address").text(ipv6addr);
 
-    var ipv6type = msgs.headers['ipv6type'];
-    if (ipv6type == "dhcp" || ipv6type == "") {
+    if (ipv6type == 0) {
         $("#ipv6network").text(a_4124);
-    } else {
+    } else if(ipv6type == 1){
         $("#ipv6network").text(a_4125);
+    } else if(ipv6type == 2){
+        $("#ipv6network").text(a_16183);
     }
 
-    var ipv6dns1 = msgs.headers['ipv6dns1'];
     if (ipv6dns1 == "")
         ipv6dns1 = "0:0:0:0:0:0:0:0";
     $("#ipv6dns").text(ipv6dns1);
 
-    var ipv6dns2 = msgs.headers['ipv6dns2'];
     if (ipv6dns2 == "")
         ipv6dns2 = "0:0:0:0:0:0:0:0";
     $("#ipv6dns2").text(ipv6dns2);
