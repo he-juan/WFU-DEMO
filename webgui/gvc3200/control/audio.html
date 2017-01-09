@@ -97,6 +97,7 @@ body{}
                     <option value="1">Bluetooth</option>
                     <option value="2">USB</option>
                     <option value="3">HDMI</option>
+                    <option value="4">Speaker</option>
                 </select>
             </div>
             <!--Call Progress Tones-->
@@ -200,6 +201,7 @@ $(function() {
     cb_get(req_items);
     cb_get_db_tonelist("tonedblist");
     cb_get_db_tonelist("notificationdblist");
+    cb_get_action("get&var-0000=22050");
     pageEventActions();
 });
 
@@ -291,8 +293,19 @@ function cb_get_action_done(data, action){
         var msgs = res_parse_rawtext(data);
         cb_if_auth_fail(msgs);
         if (cb_is_fail(msgs)){}   
-        else {
+        else if(action == "get&var-0000=22050"){
+             var audiodevice = msgs.headers['22050'];
             
+            $("#audiodevice").change(function(){
+                var calltabs = window.parent.frames["confFrame"].countTabs();
+                if(calltabs > 0)
+                {
+                    view_message(a_16655, MSG_FAIL);
+                    $("#audiodevice option[value=" + audiodevice + "]").attr("selected", "selected");
+                    $("#audiodevice").resetSS();
+                    return false;
+                }
+            });
         }
     }
 }
@@ -449,6 +462,7 @@ function cb_put_tonename(items) {
 }
 
 function pageEventActions(){
+    
     $("#a_save").click(function(){
         if( !$("#Formvalidate").valid() ){
             view_message(a_16442,MSG_FAIL);
