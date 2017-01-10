@@ -77,7 +77,7 @@
                 <input id="maxhits" name="maxhits" type="text" /><em></em>
             </div>
             <div webtip="Search Timeout">
-                <div class="noreboot"><span id="a_searchtimeout">Search Timeout(ms)</span> :</div>
+                <div class="noreboot"><span id="a_searchtimeout">Search Timeout(s)</span> :</div>
                 <input id="timeout" name="timeout" type="text" /><em></em>
             </div>
             <div webtip="LDAP Lookup For Dial">
@@ -139,9 +139,9 @@ $(function(){
     $("#Formvalidate").validate({
 		rules: {
 			port: { digits: true, range: [1,65535] },
-            maxhits: { digits: true, range: [1,4000] },
+            maxhits: { digits: true, range: [0,4000] },
             username: { maxlength: 128 },
-            timeout: { digits: true, range: [1,4000] }
+            timeout: { digits: true, range: [1,180] }
         },
 		errorElement: "em",
 		success: function(label) { label.text(" ").addClass("success"); }
@@ -165,8 +165,9 @@ function reCheck_value()
     if( $("#maxhits").val() == "" )
         $("#maxhits").val("50");
     if( $("#timeout").val() == "" )
-        $("#timeout").val("4000");
+        $("#timeout").val("30");
 }
+
 function translate_ldap(){   
     $("#a_connectmode").text(a_15022);
     $("#a_serveraddr").text(a_6755);

@@ -1078,7 +1078,7 @@ tip_item.push (
     new TipsDef("LDAP Displaying Name Attributes",
         "Name attributes displayed in the main interface. Allows Up to 3 attributes. Example: %cn %sn %telephoneNumber."),
     new TipsDef("Search Timeout",
-        "The time to display the searching result after inputting search information."),
+        "Configures the search timeout value. If exceeds the value and the server does not response, then stop searching. The default setting is 30."),
     new TipsDef("LDAP Lookup For Incoming Call",
         "If set to \"Yes\", the device will do LDAP search when there is an incoming call. The default setting is \"Disable\"."),
     new TipsDef("LDAP Lookup For Dial",

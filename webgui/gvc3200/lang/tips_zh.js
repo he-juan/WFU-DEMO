@@ -1072,7 +1072,7 @@ tip_item.push (
     new TipsDef("LDAP Displaying Name Attributes", "LDAP显示名属性",
         "显示在设备上的名字属性。最多显示3个属性。例如：<br>%cn %sn %telephoneNumber"),
     new TipsDef("Search Timeout", "搜索超时",
-        "设置输入搜索信息后延迟多长时间显示搜索结果。默认设置为0。"),
+        "设置搜索超时时间，超过设置值后若服务器未响应则停止搜索。默认设置为30。"),
     new TipsDef("LDAP Lookup For Incoming Call", "来电时进行LDAP查找",
         "设置来电号码是否进行LDAP搜索显示名。默认设置为“否”。"),
     new TipsDef("LDAP Lookup For Dial", "拨号时进行LDAP查找",
