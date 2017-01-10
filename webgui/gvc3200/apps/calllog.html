@@ -1699,7 +1699,7 @@ function pageEventActions(){
             isdialplan == mDisdialplan[3];
             
         if( dialacct == 2 ){
-            cb_start_addmemberconf(dialnum, dialacct, "call","", isdialplan);
+            cb_start_addmemberconf(dialnum, dialacct, "call","", isdialplan, "");
         }
         else{
             cb_start_single_call(dialnum, dialacct, 0, isdialplan);
@@ -1810,9 +1810,9 @@ function pageEventActions(){
             if( $(this).parent().parent(".itemdiv").attr("confid") != "" )
                 confname = encodeURIComponent($(this).parent().parent(".itemdiv").attr("name"));*/
             var confid = $(this).parent().parent(".itemdiv").attr("confid");
+            var confname = $(this).parent().parent(".itemdiv").attr("name");
             //cb_get_action("addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(dialnum) + "&accounts=" + encodeURIComponent(todialacct) + "&confname=" + confname);
             //cb_start_addmemberconf(dialnum, todialacct, callmode, confname);
-            
             var isdialplan = "";
             $(".memberitemdiv[confid" + confid + "]").each(function(){
                 var calllogtype = $(this).attr("type");
@@ -1823,7 +1823,7 @@ function pageEventActions(){
             });
             
             isdialplan = isdialplan.substring(0, isdialplan.length - 3);
-            cb_start_addmemberconf(dialnum, todialacct, callmode, confid, isdialplan);
+            cb_start_addmemberconf(dialnum, todialacct, callmode, confid, isdialplan, confname);
             
             /*var confid = $(this).parent().parent(".itemdiv").attr("confid");
             if( confid != "" )
@@ -1877,7 +1877,7 @@ function pageEventActions(){
             return false;
         }
 
-        cb_start_addmemberconf(nums, accts, $("#selectlist").attr("callmode"),"");
+        cb_start_addmemberconf(nums, accts, $("#selectlist").attr("callmode"),"", "");
         $("#selectcalldiv").hide();
     });
 

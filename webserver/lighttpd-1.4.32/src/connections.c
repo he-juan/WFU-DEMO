@@ -8637,13 +8637,13 @@ static int handle_addconfmemeber (server *srv, connection *con,
             dbus_message_set_auto_start (message, TRUE);
             dbus_message_iter_init_append( message, &iter );
 
-            /*confname = msg_get_header(m, "confname");
+            confname = msg_get_header(m, "confname");
             if ( confname != NULL )
             {
                 uri_decode((char*)confname);
             }else{
                 confname = "";
-            }*/
+            }
             confid = msg_get_header(m, "confid");
             if ( confid == NULL || !strcmp(confid, ""))
             {
@@ -8702,6 +8702,11 @@ static int handle_addconfmemeber (server *srv, connection *con,
                 exit( 1 );
             }
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &confid ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &confname ) )
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
@@ -20593,7 +20598,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 } else if (!strcasecmp(action, "androidver")) {
                     handle_androidverion( b );
                 } else if (!strcasecmp(action, "network")) {
-                    handle_network(srv, con, b, m);
+                    handle_callservice_by_no_param(srv, con, b, m, "getCurrentNetworkInfo");
                 } else if (!strcasecmp(action, "pn")) {
                     handle_pn( srv, con, b, m );
                 } else if (!strcasecmp(action, "sn")) {
@@ -21104,6 +21109,18 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 else if (!strcasecmp(action, "getlayoutlineinfo")){
                     handle_getlayoutlineinfo(srv, con, b, m);
+                }
+                else if (!strcasecmp(action, "gethdmi1displaymode")){
+                    handle_callservice_by_no_param(srv, con, b, m,"getHdmiOneDisplayMode");
+                }
+                else if (!strcasecmp(action, "gethdmi2displaymode")){
+                    handle_callservice_by_no_param(srv, con, b, m,"getHdmiTwoDisplayMode");
+                }
+                else if (!strcasecmp(action, "gethdmi1displaycontent")){
+                    handle_callservice_by_no_param(srv, con, b, m,"getOutOneDisplayContent");
+                }
+                else if (!strcasecmp(action, "gethdmi2displaycontent")){
+                    handle_callservice_by_no_param(srv, con, b, m,"getOutTwoDisplayContent");
                 }
                 else{
                     findcmd = 0;

@@ -1838,7 +1838,7 @@ function pageEventActions(){
                     }
                 }
                 
-                cb_start_addmemberconf(dialnum, dialacct, mode,"", "", isvideo);
+                cb_start_addmemberconf(dialnum, dialacct, mode, "", "", "", isvideo);
             }
         }
     });
@@ -1880,7 +1880,7 @@ function pageEventActions(){
             var callmode = parseInt($("#dialtype").val());
             cb_start_single_call(nums, accts, callmode, "", callmode == 2 ? 1 : 0, isvideo); 
         }else{ 
-            cb_start_addmemberconf(nums, accts, $("#selectlist").attr("callmode"),"", "", isvideo);
+            cb_start_addmemberconf(nums, accts, $("#selectlist").attr("callmode"),"", "", "", isvideo);
         }
         $("#selectcalldiv").hide();
     });
@@ -1911,7 +1911,7 @@ function pageEventActions(){
             if( bjpassword != a_16705 && bjpassword != "" )
                 dialnum += "." + bjpassword;
             //cb_start_single_call(dialnum, selacct, 0, 0, isvideo);
-            cb_start_addmemberconf(dialnum, selacct, "call", "", "", isvideo);
+            cb_start_addmemberconf(dialnum, selacct, "call", "", "", "", isvideo);
             setTimeout(function(){mCalling = false;},1000);
             return;
         }
@@ -2001,7 +2001,7 @@ function pageEventActions(){
             if( values.length == 1 ){
                 cb_start_single_call(dialnum, dialacct, ispage, isdialplan, isipcall, isvideo); 
             }else{
-                cb_start_addmemberconf(dialnum, dialacct, mode,"", isdialplan, isvideo);
+                cb_start_addmemberconf(dialnum, dialacct, mode,"", isdialplan, "", isvideo);
             }
             $('#dialnum').manifest('remove');
         }

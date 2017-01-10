@@ -558,6 +558,7 @@ var mPromodel = "GVC3200";
 var mEmailreg = new RegExp("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 var mAcctStatus = new Array();
 var mDisdialplan = new Array();
+var mIfdelete = 0;
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
@@ -957,6 +958,9 @@ function cb_get_action_done(data, action) {
                 get_groups();
             }
             else if( action.indexOf("type=preconf") != "-1" ){
+                if($(".memberdiv") != undefined)
+                    $(".memberdiv").remove();
+                
                 var confid, confname, disname, number, acctid, email, emailflag, recordfrom, googlestatus;
                 var membersdiv = document.getElementById('membersdiv');
                 for (var i = 0; items[i] != undefined; i++)
@@ -2394,9 +2398,6 @@ function deleteRepeat(deleteall){
 }
 function checkDeleteDiv(selconfid){
     $("#schedulecallbtn").hide().appendTo($("#mainbody"));
-    /*var repeat = $("#schedule_"+selconfid).attr("repeat");
-    if( repeat != "0" ) 
-        return;*/
     var starttime = $("#schedule_"+selconfid).attr("starttime");
     var olddate = starttime.split(" ")[0];
     $("#schedule_"+selconfid).remove();
@@ -2404,16 +2405,18 @@ function checkDeleteDiv(selconfid){
         $("#itemsdiv #"+olddate).remove();
     
     if($("#itemsdiv .itemdiv").length > 0){
-        $("#itemsdiv .itemdiv:first-child").click();
+        $("#itemsdiv .itemdiv:first").click();
     }else{
         $("#persondiv").hide();
         $("#rightbtn").hide();
     }
-    
 }
+
 function callOutPreConf(selconfid, ifdelete){
     var confnumbers = "", confaccts = "";
     var pingcode = $("#schedule_" + selconfid).attr("pincode");
+    var confname = $("#schedule_" + selconfid).attr("name");
+    var repeat = $("#schedule_" + selconfid).attr("repeat");
     $("#membersdiv .memberdiv[isdelete=0][confid=\""+selconfid+"\"]").each(function(){
         var contactsid = $(this).attr("contactsid");
         var number = $(this).attr("number");
@@ -2462,7 +2465,7 @@ function callOutPreConf(selconfid, ifdelete){
     //cb_start_addmemberconf(confnumbers, confaccts, "", encodeURIComponent($("#itemsdiv .itemdiv.selectItem").attr("name")));
     
     var isdialplan = "";
-    $("#membersdiv .memberdiv").each(function(){
+    $("#membersdiv .memberdiv[isexist=1]").each(function(){
         var recordfrom = $(this).attr("recordfrom");
         if(recordfrom != undefined){
             if(mDisdialplan[recordfrom] == 0)
@@ -2477,9 +2480,20 @@ function callOutPreConf(selconfid, ifdelete){
     
     isdialplan = isdialplan.substring(0, isdialplan.length - 3);
     
-    cb_start_addmemberconf(confnumbers, confaccts, "", selconfid, isdialplan, 1, 0, pingcode);
-    if( ifdelete >= 1 ){
+    cb_start_addmemberconf(confnumbers, confaccts, "", selconfid, isdialplan, confname, 1, 0, pingcode);
+    
+    mIfdelete = ifdelete;
+    if( ifdelete >= 1 && repeat == "0"){
+        mIfdelete = 0;
         checkDeleteDiv(selconfid);
+    }
+}
+
+function handle_endcall(){
+    if(mIfdelete == 1){
+        $("#schedulecallbtn").hide().appendTo($("#mainbody"));
+        $("#itemsdiv .datediv").remove();
+        setTimeout("get_schedule()", 500);
     }
 }
 

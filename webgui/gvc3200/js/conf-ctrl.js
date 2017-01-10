@@ -134,6 +134,10 @@ function handlemessage(data){
     {
         case "call":
             $("#incomingcall")[0].contentWindow.handle_callmessage(data,obj_incominginfo);
+            
+            if($.cookie("Subpage") == "schedule" && data.state == 0){
+                myFrame.handle_endcall(data);
+            }
             break;
         case "init":
             confFrame.init_conference(data);
