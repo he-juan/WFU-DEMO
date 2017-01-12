@@ -174,12 +174,12 @@ function setInitState(){
         var imgBG = document.createElement('IMG');
         imgBG.className = "imagebg";
         imgBG.id = "imagebg"+i;
-        imgBG.src = '/com.base.module.phone/' + i + '.jpg?' + new Date().getTime();
+        imgBG.src = '/com.base.module.preset/' + i + '.jpg?' + new Date().getTime();
         var img = document.createElement('IMG');
         img.id = "presetimg" + i;
         img.setAttribute("presetid",i);
         img.className = "presetimg";
-        img.src = '/com.base.module.phone/' + i + '.jpg?' + new Date().getTime();
+        img.src = '/com.base.module.preset/' + i + '.jpg?' + new Date().getTime();
         /*img.onerror = function(){
             console.log("error" + img.id);
             img.src = '';
@@ -221,8 +221,8 @@ function cb_get_action_done(data, action){
             var datatime = new Date().getTime();
             $("#presetdiv" + selpos).removeClass("noset").removeClass("presetselect").removeClass("hassetpresetselect").addClass("hasset");
             $("#presetnum" + selpos).removeClass("noIMG").addClass("hasIMG");
-            $("#presetimg" + selpos).attr("src", "/com.base.module.phone/" + selpos + ".jpg?" + datatime);
-            $("#imagebg" + selpos).attr("src", "/com.base.module.phone/" + selpos + ".jpg?" + datatime).show();
+            $("#presetimg" + selpos).attr("src", "/com.base.module.preset/" + selpos + ".jpg?" + datatime);
+            $("#imagebg" + selpos).attr("src", "/com.base.module.preset/" + selpos + ".jpg?" + datatime).show();
             $("#presetimgdiv" + selpos).removeClass("noimg").addClass("hasimg");
             $("#presetdiv" + selpos).children().removeClass("spanselect").removeClass("imgselect").removeClass("hassetspanselect").removeClass("hassetimgselect");
             $("#a_save,#a_delete").attr("disabled","disabled").addClass("disabledclass");

@@ -1682,6 +1682,8 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
     printf("sqlite_handle_conf, sql str is %s\n", sqlstr);
     if( !strcasecmp(type, "caption") )
         rc = sqlite3_open("/data/data/com.android.providers.settings/databases/settings.db", &db);
+    else if(!strcasecmp(type, "gotopreset"))
+        rc = sqlite3_open("/data/data/com.base.module.preset/databases/preset.db", &db);
     else
         rc = sqlite3_open("/data/data/com.base.module.schedule/databases/conference.db", &db);
     if( rc ){
@@ -3156,7 +3158,10 @@ static int handle_setpreset(buffer *b, const struct message *m)
         char *cmd = NULL;
         cmd = malloc(128);
         memset(cmd, 0, 128);
-        snprintf(cmd, 128, "am broadcast -a com.base.module.phone.PRESET --es \"action\" \"%s\" --ei \"position\" %s", action, position);
+        if(!strcasecmp(action, "add"))
+            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_SET --ei position %s", position);
+        else if(!strcasecmp(action, "delete"))
+            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_DEL --ei position %s", position);
         printf("cmd = %s\n", cmd);
         int result = mysystem(cmd);
         if( result )
