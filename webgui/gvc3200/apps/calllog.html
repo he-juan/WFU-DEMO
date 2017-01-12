@@ -387,10 +387,14 @@ function create_conf_member_div(id, type, isvideo, disname, number, acctid, date
         var videoicondiv = document.createElement('DIV');
         videoicondiv.className='itemmembericon';
         var videoicon = document.createElement('DIV');
-        if( isvideo == "1" )
+        if( isvideo == "1" ){
             videoicon.className='videoicon';
-        else  
+            memberitemdiv.setAttribute("isvideo", 1);
+        }
+        else{
             videoicon.className='audioicon';
+            memberitemdiv.setAttribute("isvideo", 0);
+        }
         videoicondiv.appendChild(videoicon);
         membernamediv.appendChild(videoicondiv);
 
@@ -1700,6 +1704,8 @@ function pageEventActions(){
         
         var dialacct = $(this).parent().parent(".rightitemdiv").attr("account");
         
+        var isvideo = $(this).parent().parent().attr("isvideo");
+        
         var type = $(this).parent().parent().attr("type");
         var isdialplan;
         if(type == 2)
@@ -1711,7 +1717,7 @@ function pageEventActions(){
             cb_start_addmemberconf(dialnum, dialacct, "call","", isdialplan, "");
         }
         else{
-            cb_start_single_call(dialnum, dialacct, 0, isdialplan);
+            cb_start_single_call(dialnum, dialacct, 0, isdialplan, 0, isvideo);
         }
             
     });    
@@ -1745,7 +1751,10 @@ function pageEventActions(){
                     isdialplan = mDisdialplan[4];
                 else
                     isdialplan = mDisdialplan[3];
-                cb_start_single_call(dialnum, dialacct, 0, isdialplan);
+                    
+                $(this).parent().parent(".itemdiv").click();
+                var isvideo =  $(".memberitemdiv[logid=" + logid + "]:first").attr("isvideo");
+                cb_start_single_call(dialnum, dialacct, 0, isdialplan, 0, isvideo);
             }
             else{
                 $.prompt(a_10097);
@@ -1830,9 +1839,10 @@ function pageEventActions(){
                 else
                     isdialplan += mDisdialplan[3] + ":::";
             });
-            
             isdialplan = isdialplan.substring(0, isdialplan.length - 3);
-            cb_start_addmemberconf(dialnum, todialacct, callmode, confid, isdialplan, confname);
+            
+            var isvideo = $(this).parent().parent(".itemdiv").attr("misvideo");
+            cb_start_addmemberconf(dialnum, todialacct, callmode, confid, isdialplan, confname, isvideo);
             
             /*var confid = $(this).parent().parent(".itemdiv").attr("confid");
             if( confid != "" )
