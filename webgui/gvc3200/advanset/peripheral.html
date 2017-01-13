@@ -33,10 +33,10 @@ body{}
             <div webtip="HDMI 1 Out Resolution" style="margin-bottom: 0px;">
                 <div class="noreboot"><span id="a_HDMIoutresolution">HDMI 1 out resolution</span> :</div>
                 <select id="himioutresolution" name="himioutresolution">
-                    <option value="1034">1080P 60HZ</option>
+                    <!--option value="1034">1080P 60HZ</option>
                     <option value="1033">1080P 50HZ</option>
                     <option value="1029">720P 60HZ</option>
-                    <option value="1028">720P 50HZ</option>
+                    <option value="1028">720P 50HZ</option-->
                     <!--<option value="1027">576P 50HZ</option>
                     <option value="1026">480P 60HZ</option>-->
                 </select>
@@ -44,13 +44,13 @@ body{}
             <div webtip="HDMI 2 Out Resolution" style="margin-bottom: 0px;">
                 <div class="noreboot"><span id="a_HDMI2outresolution">HDMI 2 out resolution</span> :</div>
                 <select id="himi2outresolution" name="himi2outresolution">
-                    <option value="10">1080P 60HZ</option>
+                    <!--option value="10">1080P 60HZ</option>
                     <option value="9">1080P 50HZ</option>
                     <option value="6">720P 60HZ</option>
-                    <option value="5">720P 50HZ</option>
+                    <option value="5">720P 50HZ</option-->
                 </select>
             </div>
-            <div webtip="Screen Percent" style="margin-top:0px">
+            <!--div webtip="Screen Percent" style="margin-top:0px">
                 <div class="noreboot" style="margin-top:21px !important;"><span id="a_screenpercent">Screen Percent</span> :</div>
                 <div class="startspan">90%</div>
                 <div class="dragContainer" id="screenContainer">
@@ -61,7 +61,7 @@ body{}
                     </div>
                 </div>
                 <div class="endspan">100%</div>
-            </div>
+            </div-->
             <div webtip="Enable Presentation Automatically When HDMI Plugged">
                 <div class="noreboot"><span id="a_enablepreauto">Enable Presentation Automatically When HDMI Plugged</span> :</div>
                 <input name="enablepreauto" type="checkbox" id="enablepreauto"><span class="a_enablepreautoyes">Yes</span>
@@ -221,7 +221,7 @@ if (g_actype.toLowerCase() == 'user') {
 var bar_items = new Array;
 var req_items = new Array;
 req_items.push(
-    new ReqItem("himi2outresolution", "25105", ""),
+    //new ReqItem("himi2outresolution", "25105", ""),
 	new ReqItem("movespeed", "25029", ""),
 	new ReqItem("initposition", "25030", ""),
 	new ReqItem("dismissindtor", "1691", ""),
@@ -231,16 +231,17 @@ req_items.push(
     new ReqItem("enablepreauto", "25109", "")
 );
 var mVgasendTimer = 0;
-var mHDMIMode = 0;
+var mHDMIMode = -1;
+var mHDMI2Mode = -1;
 var mScreenAction;
 
 $(function(){
     translate_device();
     cb_get(req_items);
-    cb_get_action("getdisplayinfo&region=advanset");
-    cb_get_action("vgaread&region=webservice&type=0");
+    cb_get_action("gethdmiconnectstatus&region=advanset");
+    /*cb_get_action("vgaread&region=webservice&type=0");
     cb_get_action("vgaread&region=webservice&type=1");
-    cb_get_action("vgaread&region=webservice&type=2");
+    cb_get_action("vgaread&region=webservice&type=2");*/
     //cb_get_action("getptz&region=advanset");
     pageEventActions();
 });
@@ -301,6 +302,67 @@ function cb_get_action_done(data, action){
                         mVgasendTimer = setTimeout("cb_screen_bytimer();", 350);
                     }
                 });
+            }
+        }else if(action.indexOf("gethdmiconnectstatus") != -1){
+            var tObj = eval("(" + data + ")");
+            if(tObj.res == "success"){
+                var hdmi1 = tObj.hdmi1;
+                var hdmi2 = tObj.hdmi2;
+                
+                if(hdmi1 == "true"){
+                    cb_get_action("gethdmimodes&region=advanset&hdmi=hdmi1");
+                }
+                else{
+                    $("#himioutresolution option").remove();
+                    var newoption = "<option value='-1'>" + a_9717 + "</option>";
+                    $("#himioutresolution").append(newoption);
+                    $("#himioutresolution").resetSS();
+                }
+                
+                if(hdmi2 == "true"){
+                    cb_get_action("gethdmimodes&region=advanset&hdmi=hdmi2");
+                }
+                else{
+                    $("#himi2outresolution option").remove();
+                    var newoption = "<option value='-1'>" + a_9717 + "</option>";
+                    $("#himi2outresolution").append(newoption);
+                    $("#himi2outresolution").resetSS();
+                }
+            }
+        }else if(action.indexOf("gethdmimodes") != -1){
+            var tObj = eval("(" + data + ")");
+            if(tObj.res == "success"){
+                if(action.indexOf("hdmi1") != -1){
+                    var modes = tObj.modes.split(",");
+                    for(var i = 0; i < modes.length; i++){
+                        var newoption = "<option value=" + i + ">" + modes[i] + "</option>";
+                        $("#himioutresolution").append(newoption);
+                    }
+                    $("#himioutresolution").resetSS();
+                    cb_get_action("getcurhdmimode&region=advanset&hdmi=hdmi1");
+                }
+                else if(action.indexOf("hdmi2") != -1){
+                    var modes = tObj.modes.split(",");
+                    for(var i = 0; i < modes.length; i++){
+                        var newoption = "<option value=" + i + ">" + modes[i] + "</option>";
+                        $("#himi2outresolution").append(newoption);
+                    }
+                    $("#himi2outresolution").resetSS();
+                    cb_get_action("getcurhdmimode&region=advanset&hdmi=hdmi2");
+                }
+            }
+        }else if(action.indexOf("getcurhdmimode") != -1){
+            var tObj = eval("(" + data + ")");
+            if(tObj.res == "success"){
+                var mode = tObj.mode;
+                if(action.indexOf("hdmi1") != -1){
+                    mHDMIMode = mode;
+                    $("#himioutresolution").getSetSSValue(mode);
+                }
+                else if(action.indexOf("hdmi2") != -1){
+                    mHDMI2Mode = mode;
+                    $("#himi2outresolution").getSetSSValue(mode);
+                }
             }
         }else if( action.indexOf("setdisplayinfo") != -1 ){
             var tObj = eval("(" + data + ")");
@@ -535,12 +597,13 @@ function pageEventActions(){
     $("#a_save").click(function(){
         var speed = parseInt($("#dragmobilespeedDiv .volspan").text());
         $("#movespeed").val(speed);
-        if( mHDMIMode != $("#himioutresolution").val() ){
-            cb_get_action("setdisplayinfo&region=advanset&format=" + $("#himioutresolution").val());
-        }else{
-            cb_put(req_items, "", 0);
-            //cb_get_action("setptz&region=advanset&movespeed=" + $(".volspan").text() + "&initpos=" + $("#initposition").val());
+        if(mHDMIMode != -1 && mHDMIMode != $("#himioutresolution").val()){
+            cb_get_action("sethdmioutputmode&region=advanset&hdmi=hdmi1&mode=" + $("#himioutresolution").val());
         }
+        if(mHDMI2Mode != -1 && mHDMI2Mode != $("#himi2outresolution").val()){
+            cb_get_action("sethdmioutputmode&region=advanset&hdmi=hdmi2&mode=" + $("#himi2outresolution").val());
+        }
+        cb_put(req_items, "", 0);
     });
 }
 

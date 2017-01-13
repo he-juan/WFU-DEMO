@@ -7328,6 +7328,125 @@ static int handle_setSitesettingOffset(server *srv, connection *con, buffer *b, 
     return 0;
 }
 
+static int handle_sethdmioutputmode(server *srv, connection *con, buffer *b, const struct message *m)
+{
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 5000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *param = NULL;
+    char *temp = NULL;
+    char *info = NULL;
+    char *hdmi = NULL, *curmode = NULL;
+    int mode = 0;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setHDMIOutputMode" );
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        hdmi = msg_get_header(m, "hdmi");
+        if ( param == NULL )
+        {
+            hdmi = "hdmi1";
+        }
+
+        curmode = msg_get_header(m, "mode");
+        if ( curmode != NULL )
+        {
+            mode = atoi(curmode);
+        }
+        
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &hdmi ) )
+        {
+            printf( "Out of Memory when isBFCPSupport!\n");
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &mode ) )
+        {
+            printf( "Out of Memory when isBFCPSupport!\n");
+            exit( 1 );
+        }
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n", error.name, error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't get result\"}";
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
+}
+
 static int handle_dialPlanCheck(server *srv, connection *con, buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20737,6 +20856,14 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_setSitesettingOffset(srv, con,b, m);
                 } else if (!strcasecmp(action, "enableiptalkpro")) {
                     handle_enableiptalkpro(b);
+                } else if (!strcasecmp(action, "gethdmiconnectstatus")) {
+                    handle_callservice_by_no_param(srv, con, b, m, "getHdmiConnectStatus");
+                } else if (!strcasecmp(action, "gethdmimodes")) {
+                    handle_callservice_by_one_param(srv, con, b, m, "hdmi", "getHdmiModes", 1);
+                } else if (!strcasecmp(action, "getcurhdmimode")) {
+                    handle_callservice_by_one_param(srv, con, b, m, "hdmi", "getCurrentHdmiMode", 1);
+                } else if (!strcasecmp(action, "sethdmioutputmode")) {
+                    handle_sethdmioutputmode(srv, con,b, m);
                 } else{
                     findcmd = 0;
                 }
