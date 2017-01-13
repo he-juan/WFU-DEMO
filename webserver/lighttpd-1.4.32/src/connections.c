@@ -507,6 +507,42 @@ static void uri_decode(char *s)
     *o = '\0';
 }
 
+static void json_handle(char *s)
+{
+    if (s == "" || s == NULL)
+        return;
+    char *o = malloc(strlen(s) + 1);
+    memset(o, 0, strlen(s) + 1);
+    memcpy(o, s, strlen(s));
+
+    int count = 0;
+    for (; *o; s++, o++)
+    {
+        switch(*o)
+        {
+            case '"':
+                *s = '\\';
+                *(++s) = '"';
+                break;
+            case '\'':
+                *s = '\\';
+                *(++s) = '\'';
+                break;
+            case '\\':
+                *s = '\\';
+                *(++s) = '\\';
+                break;
+            default:
+                *s = *o;
+                break;
+        }
+        count++;
+    }
+    *s = '\0';
+    o -= count;
+    free(o);
+}
+
 static int handle_checkneedapplyp(buffer *b)
 {
     buffer_append_string(b, "Response=Success\r\n");
@@ -916,37 +952,45 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
-            snprintf(disname, len, "%s", targetname);
-            memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            //replace(disname, "\\", "\\\\", targetname);
+            //snprintf(disname, len, "%s", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            //memset(targetname, 0, len);
+            //replace(disname, "\"", "\\\"", targetname);
 
             len = strlen(phonenum) * 2;
             targetnumber = malloc(len);
             memset(targetnumber, 0, len);
-            replace(phonenum, "\"", "\\\"", targetnumber);
-            snprintf(phonenum, len, "%s", targetnumber);
-            memset(targetnumber, 0, len);
-            replace(phonenum, "\"", "\\\"", targetnumber);
+            //replace(phonenum, "\"", "\\\"", targetnumber);
+            snprintf(targetnumber, len, "%s", phonenum);
+            json_handle(targetnumber);
+            //memset(targetnumber, 0, len);
+            //replace(phonenum, "\"", "\\\"", targetnumber);
 
 
             if( pinyin != NULL ){
                 len = strlen(pinyin) * 2;
                 targetpinyin = malloc(len);
                 memset(targetpinyin, 0, len);
+                snprintf(targetpinyin, len, "%s", pinyin);
+                json_handle(targetpinyin);
+                /*memset(targetpinyin, 0, len);
                 replace(pinyin, "\\", "\\\\", targetpinyin);
                 snprintf(pinyin, len, "%s", targetpinyin);
                 memset(targetpinyin, 0, len);
-                replace(pinyin, "\"", "\\\"", targetpinyin);
+                replace(pinyin, "\"", "\\\"", targetpinyin);*/
             }
             if( pinyinfirst != NULL ){
                 len = strlen(pinyinfirst) * 2;
                 targetpinyinfirst = malloc(len);
                 memset(targetpinyinfirst, 0, len);
-                replace(pinyinfirst, "\\", "\\\\", targetpinyinfirst);
+                snprintf(targetpinyinfirst, len, "%s", pinyinfirst);
+                json_handle(targetpinyinfirst);
+                /*replace(pinyinfirst, "\\", "\\\\", targetpinyinfirst);
                 snprintf(pinyinfirst, len, "%s", targetpinyinfirst);
                 memset(targetpinyinfirst, 0, len);
-                replace(pinyinfirst, "\"", "\\\"", targetpinyinfirst);
+                replace(pinyinfirst, "\"", "\\\"", targetpinyinfirst);*/
             }
             len = strlen(targetname)+strlen(targetnumber)+256;
             if( pinyin != NULL ){
@@ -988,10 +1032,12 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             len = strlen(targetname)+128;
             res = malloc( len );
@@ -1062,10 +1108,12 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             len = strlen(targetname)+128;
             res = malloc( len );
@@ -1098,10 +1146,12 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             len = strlen(targetname)+strlen(logdate)+256;
             res = malloc( len );
@@ -1144,28 +1194,34 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                     len = strlen(phonenum) * 2;
                     targetname = malloc(len);
                     memset(targetname, 0, len);
-                    replace(phonenum, "\\", "\\\\", targetname);
+                    snprintf(targetname, len, "%s", phonenum);
+                    json_handle(targetname);
+                    /*replace(phonenum, "\\", "\\\\", targetname);
                     snprintf(phonenum, len, "%s", targetname);
                     memset(targetname, 0, len);
-                    replace(phonenum, "\"", "\\\"", targetname);
+                    replace(phonenum, "\"", "\\\"", targetname);*/
                 }else{
                     len = strlen(disname) * 2;
                     targetname = malloc(len);
                     memset(targetname, 0, len);
-                    replace(disname, "\\", "\\\\", targetname);
+                    snprintf(targetname, len, "%s", disname);
+                    json_handle(targetname);
+                    /*replace(disname, "\\", "\\\\", targetname);
                     snprintf(disname, len, "%s", targetname);
                     memset(targetname, 0, len);
-                    replace(disname, "\"", "\\\"", targetname);
+                    replace(disname, "\"", "\\\"", targetname);*/
                 }
             }else{
                 iscontact = 1;
                 len = strlen(disname2) * 2;
                 targetname = malloc(len);
                 memset(targetname, 0, len);
-                replace(disname2, "\\", "\\\\", targetname);
+                snprintf(targetname, len, "%s", disname2);
+                json_handle(targetname);
+                /*replace(disname2, "\\", "\\\\", targetname);
                 snprintf(disname2, len, "%s", targetname);
                 memset(targetname, 0, len);
-                replace(disname2, "\"", "\\\"", targetname);
+                replace(disname2, "\"", "\\\"", targetname);*/
             }
 
 
@@ -1198,20 +1254,24 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                     len = strlen(disname) * 2;
                     targetname = malloc(len);
                     memset(targetname, 0, len);
-                    replace(disname, "\\", "\\\\", targetname);
+                    snprintf(targetname, len, "%s", disname);
+                    json_handle(targetname);
+                    /*replace(disname, "\\", "\\\\", targetname);
                     snprintf(disname, len, "%s", targetname);
                     memset(targetname, 0, len);
-                    replace(disname, "\"", "\\\"", targetname);
+                    replace(disname, "\"", "\\\"", targetname);*/
                 }
             }else{
                 iscontact = 1;
                 len = strlen(disname2) * 2;
                 targetname = malloc(len);
                 memset(targetname, 0, len);
-                replace(disname2, "\\", "\\\\", targetname);
+                snprintf(targetname, len, "%s", disname2);
+                json_handle(targetname);
+                /*replace(disname2, "\\", "\\\\", targetname);
                 snprintf(disname2, len, "%s", targetname);
                 memset(targetname, 0, len);
-                replace(disname2, "\"", "\\\"", targetname);
+                replace(disname2, "\"", "\\\"", targetname);*/
             }
 
             len = 128;
@@ -1265,20 +1325,24 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                     len = strlen(disname) * 2;
                     targetname = malloc(len);
                     memset(targetname, 0, len);
-                    replace(disname, "\\", "\\\\", targetname);
+                    snprintf(targetname, len, "%s", disname);
+                    json_handle(targetname);
+                    /*replace(disname, "\\", "\\\\", targetname);
                     snprintf(disname, len, "%s", targetname);
                     memset(targetname, 0, len);
-                    replace(disname, "\"", "\\\"", targetname);
+                    replace(disname, "\"", "\\\"", targetname);*/
                 }
             }else{
                 iscontact = 1;
                 len = strlen(disname2) * 2;
                 targetname = malloc(len);
                 memset(targetname, 0, len);
-                replace(disname2, "\\", "\\\\", targetname);
+                snprintf(targetname, len, "%s", disname2);
+                json_handle(targetname);
+                /*replace(disname2, "\\", "\\\\", targetname);
                 snprintf(disname2, len, "%s", targetname);
                 memset(targetname, 0, len);
-                replace(disname2, "\"", "\\\"", targetname);
+                replace(disname2, "\"", "\\\"", targetname);*/
             }
 
             len = strlen(phonenum)+strlen(memberdate)+256;
@@ -1332,30 +1396,36 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             len = strlen(targetname)+strlen(phonenum)+strlen(logdate)+256;
             if( disname2 != NULL ){
                 len2 = strlen(disname2) * 2;
                 targetname2 = malloc(len2);
                 memset(targetname2, 0, len2);
-                replace(disname2, "\\", "\\\\", targetname2);
+                snprintf(targetname2, len2, "%s", disname2);
+                json_handle(targetname2);
+                /*replace(disname2, "\\", "\\\\", targetname2);
                 snprintf(disname2, len2, "%s", targetname2);
                 memset(targetname2, 0, len2);
-                replace(disname2, "\"", "\\\"", targetname2);
+                replace(disname2, "\"", "\\\"", targetname2);*/
                 len += strlen(targetname2);
             }
             if( confname != NULL ){
                 len2 = strlen(confname) * 2;
                 targetconfname = malloc(len2);
                 memset(targetconfname, 0, len2);
-                replace(confname, "\\", "\\\\", targetconfname);
+                snprintf(targetconfname, len, "%s", confname);
+                json_handle(targetconfname);
+                /*replace(confname, "\\", "\\\\", targetconfname);
                 snprintf(confname, len2, "%s", targetconfname);
                 memset(targetconfname, 0, len2);
-                replace(confname, "\"", "\\\"", targetconfname);
+                replace(confname, "\"", "\\\"", targetconfname);*/
                 len += strlen(targetconfname);
             }
             res = malloc( len );
@@ -1393,10 +1463,12 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             len = strlen(targetname)+strlen(logdate)+128;
             res = malloc( len );
@@ -1452,27 +1524,33 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             len = strlen(targetname)+strlen(phonenum)+strlen(logdate)+strlen(memberdate)+256;
             if( disname2 != NULL ){
                 len2 = strlen(disname2) * 2;
                 targetname2 = malloc(len2);
                 memset(targetname2, 0, len2);
-                replace(disname2, "\\", "\\\\", targetname2);
+                snprintf(targetname2, len2, "%s", disname2);
+                json_handle(targetname2);
+                /*replace(disname2, "\\", "\\\\", targetname2);
                 snprintf(disname2, len2, "%s", targetname2);
                 memset(targetname2, 0, len2);
-                replace(disname2, "\"", "\\\"", targetname2);
+                replace(disname2, "\"", "\\\"", targetname2);*/
                 len += strlen(targetname2);
             }else{
                 //printf("contact name is null, phonename = %s\n", phonename);
                 len2 = strlen(phonename) * 2;
                 targetname2 = malloc(len2);
                 memset(targetname2, 0, len2);
-                replace(phonename, "\"", "\\\"", targetname2);
+                snprintf(targetname2, len2, "%s", phonename);
+                json_handle(targetname2);
+                //replace(phonename, "\"", "\\\"", targetname2);
                 len += strlen(targetname2);
             }
             res = malloc( len );
@@ -1507,10 +1585,12 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             len = strlen(targetname)+strlen(phonenum)+64;
             res = malloc( len );
@@ -1763,27 +1843,33 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             len = strlen(confname) * 2;
             targetconfname = malloc(len);
             memset(targetconfname, 0, len);
-            replace(confname, "\\", "\\\\", targetconfname);
+            snprintf(targetconfname, len, "%s", confname);
+            json_handle(targetconfname);
+            /*replace(confname, "\\", "\\\\", targetconfname);
             snprintf(confname, len, "%s", targetconfname);
             memset(targetconfname, 0, len);
-            replace(confname, "\"", "\\\"", targetconfname);
+            replace(confname, "\"", "\\\"", targetconfname);*/
 
             len = strlen(disname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(disname, "\\", "\\\\", targetname);
+            snprintf(targetname, len, "%s", disname);
+            json_handle(targetname);
+            /*replace(disname, "\\", "\\\\", targetname);
             snprintf(disname, len, "%s", targetname);
             memset(targetname, 0, len);
-            replace(disname, "\"", "\\\"", targetname);
+            replace(disname, "\"", "\\\"", targetname);*/
 
             if( email != NULL ){
                 len = strlen(email) * 2;
                 targetemail = malloc(len);
                 memset(targetemail, 0, len);
-                replace(email, "\\", "\\\\", targetemail);
+                snprintf(targetemail, len, "%s", email);
+                json_handle(targetemail);
+                /*replace(email, "\\", "\\\\", targetemail);
                 snprintf(email, len, "%s", targetemail);
                 memset(targetemail, 0, len);
-                replace(email, "\"", "\\\"", targetemail);
+                replace(email, "\"", "\\\"", targetemail);*/
             }else{
                 targetemail = "";
             }
@@ -1856,14 +1942,18 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             len = strlen(displayname) * 2;
             targetconfname = malloc(len);
             memset(targetconfname, 0, len);
-            replace(displayname, "\"", "\\\"", targetconfname);
+            snprintf(targetconfname, len, "%s", displayname);
+            json_handle(targetconfname);
+            //replace(displayname, "\"", "\\\"", targetconfname);
 
             len = strlen(targetconfname)+strlen(schedulepsw)+strlen(schedulenum)+strlen(scheduleurl)+strlen(schedulepstn)+strlen(repeatrule)+strlen(inviteacct)+strlen(presetname)+512;
             if( remindertime != NULL ){
                 len2 = strlen(remindertime) * 2;
                 targetname = malloc(len2);
                 memset(targetname, 0, len2);
-                replace(remindertime, "\"", "\\\"", targetname);
+                snprintf(targetname, len2, "%s", remindertime);
+                json_handle(targetname);
+                //replace(remindertime, "\"", "\\\"", targetname);
                 len += strlen(targetname);
             }
             res = malloc( len );
@@ -1910,7 +2000,9 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             len = strlen(confname) * 2;
             targetname = malloc(len);
             memset(targetname, 0, len);
-            replace(confname, "\"", "\\\"", targetname);
+            snprintf(targetname, len, "%s", confname);
+            json_handle(confname);
+            //replace(confname, "\"", "\\\"", targetname);
 
             len = strlen(disnumber)+strlen(targetname)+128;
             res = malloc( len );
