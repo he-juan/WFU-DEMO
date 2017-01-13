@@ -1057,7 +1057,7 @@ tip_item.push (
     new TipsDef("LDAP Mail Attributes",
         "Устанавливает отображение атрибутов “mail” из ответов LDAP и позволяет настроить вывод нескольких атрибутов через пробел. Например:<br>mail<br>mail mailBox"),
     new TipsDef("LDAP Displaying Name Attributes",
-        "Установка атрибутов, отображаемых на основном экране (до 3 атрибутов). Например: %cn %sn %telephoneNumber."),
+        "Установка атрибутов, отображаемых на основном экране (до 3 атрибутов). Например: cn sn telephoneNumber."),
     new TipsDef("Search Timeout",
         "Время отображения результатов после ввода информации для поиска."),
     new TipsDef("LDAP Lookup For Incoming Call",

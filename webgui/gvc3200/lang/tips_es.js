@@ -1066,7 +1066,7 @@ tip_item.push (
     new TipsDef("LDAP Mail Attributes",
         "Especifica el atributo de “correo“ de cada registro los cuales son devueltos en el resultado de la búsqueda LDAP. Este campo permite a los usuarios configurar múltiples espacios separador de atributos Correo Electrónico. Ejemplo:<br>correo<br>correo buzón de correo"),
     new TipsDef("LDAP Displaying Name Attributes",
-        "Atributos de Nombre mostrado en la interfaz principal. Ejemplo: %cn %sn %NúmerodeTeléfono."),
+        "Atributos de Nombre mostrado en la interfaz principal. Ejemplo: cn sn NúmerodeTeléfono."),
     new TipsDef("Search Timeout",
         "El tiempo a mostrar en el resultado de la búsqueda después de ingresar la información de búsqueda."),
     new TipsDef("LDAP Lookup For Incoming Call",

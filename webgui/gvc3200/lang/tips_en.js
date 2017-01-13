@@ -1076,7 +1076,7 @@ tip_item.push (
     new TipsDef("LDAP Mail Attributes",
         "Specifies the “mail“ attributes of each record which are returned in the LDAP search result. This field allows users to configure multiple space separated E-Mail attributes.Example:<br>mail<br>mail mailBox"),
     new TipsDef("LDAP Displaying Name Attributes",
-        "Name attributes displayed in the main interface. Example: %cn %sn %telephoneNumber."),
+        "Name attributes displayed in the main interface. Example: cn sn telephoneNumber."),
     new TipsDef("Search Timeout",
         "Configures the search timeout value. If exceeds the value and the server does not response, then stop searching. The default setting is 30."),
     new TipsDef("LDAP Lookup For Incoming Call",

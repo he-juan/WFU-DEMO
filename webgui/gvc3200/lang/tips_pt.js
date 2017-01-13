@@ -1066,7 +1066,7 @@ tip_item.push (
     new TipsDef("LDAP Mail Attributes",
         "Especifica os atributos do \"mail\" para cada registro os quais são retornados no resultado da pesquisa LDAP. A configuração permite aos usuários definir múltiplos atributos de mail separados por espaço. Por exemplo:<br>mail<br>mail mailBox"),
     new TipsDef("LDAP Displaying Name Attributes",
-        "Atributos do Nome exibidos na interface principal. Por exemplo: %cn %sn %telephoneNumber."),
+        "Atributos do Nome exibidos na interface principal. Por exemplo: cn sn telephoneNumber."),
     new TipsDef("Search Timeout",
         "O tempo de exibição dos resultados da pesquisa depois de inserir a informação para a pesquisa."),
     new TipsDef("LDAP Lookup For Incoming Call",

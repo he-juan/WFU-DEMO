@@ -1070,7 +1070,7 @@ tip_item.push (
     new TipsDef("LDAP Mail Attributes", "LDAP邮件属性",
         "该设置指定LDAP搜索返回的每条记录的邮件属性. 该设置允许用户配置多个邮件属性，以空格在隔开。例如:<br>mail<br>mail mailBox"),
     new TipsDef("LDAP Displaying Name Attributes", "LDAP显示名属性",
-        "显示在设备上的名字属性。例如：<br>%cn %sn %telephoneNumber"),
+        "显示在设备上的名字属性。例如：<br>cn sn telephoneNumber"),
     new TipsDef("Search Timeout", "搜索超时",
         "设置搜索超时时间，超过设置值后若服务器未响应则停止搜索。默认设置为30。"),
     new TipsDef("LDAP Lookup For Incoming Call", "来电时进行LDAP查找",
