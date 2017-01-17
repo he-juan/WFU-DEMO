@@ -73,8 +73,8 @@ int init_lan_tr()
 		}
 		else if (i == 3)
 		{
-			sprintf(filename, "%s/pl.txt", filepath);
-            sprintf(wirtefile, "%s/pl.js", writhpath);		
+			sprintf(filename, "%s/ru.txt", filepath);
+            sprintf(wirtefile, "%s/ru.js", writhpath);		
 		}
 		else if (i == 4)
 		{
