@@ -12457,11 +12457,11 @@ static int handle_capture (buffer *b, const struct message *m)
 
         if(p_value != NULL && p_value[0] != '\0' && strstr(p_value, "ppp") == NULL)
         {
-            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i %s -w %s/%s.pcap -C %lld -W 1 -n &", p_value, PCAP_PATH, timestr, pcap_size);
+            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i %s -w %s/%s.pcap -n &", p_value, PCAP_PATH, timestr);
         }
         else
         {
-            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i eth0 -w %s/%s.pcap -C %lld -W 1 -n &", PCAP_PATH, timestr, pcap_size);
+            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i eth0 -w %s/%s.pcap -n &", PCAP_PATH, timestr);
         }
 
         //snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -w %s/%s.pcap &", PCAP_PATH, timestr);
