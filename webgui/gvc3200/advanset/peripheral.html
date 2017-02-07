@@ -599,9 +599,11 @@ function pageEventActions(){
         $("#movespeed").val(speed);
         if(mHDMIMode != -1 && mHDMIMode != $("#himioutresolution").val()){
             cb_get_action("sethdmioutputmode&region=advanset&hdmi=hdmi1&mode=" + $("#himioutresolution").val());
+            mHDMIMode = $("#himioutresolution").val();
         }
         if(mHDMI2Mode != -1 && mHDMI2Mode != $("#himi2outresolution").val()){
             cb_get_action("sethdmioutputmode&region=advanset&hdmi=hdmi2&mode=" + $("#himi2outresolution").val());
+            mHDMI2Mode = $("#himi2outresolution").val();
         }
         cb_put(req_items, "", 0);
     });

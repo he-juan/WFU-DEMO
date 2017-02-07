@@ -7452,13 +7452,13 @@ static int handle_sethdmioutputmode(server *srv, connection *con, buffer *b, con
     {
         dbus_message_set_auto_start (message, TRUE);
         dbus_message_iter_init_append( message, &iter );
-
+        
         hdmi = msg_get_header(m, "hdmi");
-        if ( param == NULL )
+        if ( hdmi == NULL )
         {
             hdmi = "hdmi1";
         }
-
+        
         curmode = msg_get_header(m, "mode");
         if ( curmode != NULL )
         {
@@ -7998,6 +7998,8 @@ static int handle_set_customlayout(server *srv, connection *con, buffer *b, cons
 
     return 0;
 }
+
+
 /*********************callservice end******************************************/
 /******************ip ping****************************/
 static int handle_start_ping (buffer *b, const struct message *m, int type)
@@ -21329,7 +21331,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_no_param(srv, con, b, m,"getCustomLayoutStatus");
                 }
                 else if (!strcasecmp(action, "setcustomlayoutstatus")){
-                    handle_set_customlayout(srv, con, b, m);
+                    //handle_set_customlayout(srv, con, b, m);
                 }
                 else if (!strcasecmp(action, "getlayoutlineinfo")){
                     handle_getlayoutlineinfo(srv, con, b, m);
@@ -21345,6 +21347,24 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 else if (!strcasecmp(action, "gethdmi2displaycontent")){
                     handle_callservice_by_no_param(srv, con, b, m,"getOutTwoDisplayContent");
+                }
+                else if(!strcasecmp(action, "issysrcmdmode")){
+                    handle_callservice_by_no_param(srv, con, b, m,"isRecommendedDisplayMode");
+                }
+                else if(!strcasecmp(action, "setsysrcmdmode")){
+                    handle_callservice_by_no_param(srv, con, b, m,"displayRecommendedMode");
+                }
+                else if(!strcasecmp(action, "setdefaultaverage")){
+                    handle_callservice_by_no_param(srv, con, b, m,"displayDefaultAverage");
+                }
+                else if(!strcasecmp(action, "setdefaultpop")){
+                    handle_callservice_by_no_param(srv, con, b, m,"displayDefaultChildMother");
+                }
+                else if(!strcasecmp(action, "setdefaultpip")){
+                    handle_callservice_by_no_param(srv, con, b, m,"displayDefaultPIP");
+                }
+                else if(!strcasecmp(action, "issysrcmdmode")){
+                    handle_set_customlayout(srv, con, b, m);
                 }
                 else{
                     findcmd = 0;
