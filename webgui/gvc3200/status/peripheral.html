@@ -230,7 +230,7 @@ function cb_get_action_done(data,action){
     else if(action.indexOf("getusbstate") != -1){
         data = eval( "(" + data + ")" );
         var port = data.msg;
-        if(port.indexOf("0") != -1 || port.indexOf("1") != -1 || port.indexOf("2") != -1 || port.indexOf("3") != -1)
+        if(port.indexOf("1") != -1)
             $("#usb").css("background", "url(../img/peripheral_status.png) -72px -36px no-repeat");
         else
             $("#usb").css("background", "url(../img/peripheral_status.png) -72px 0 no-repeat");
