@@ -60,6 +60,7 @@
 #define SIGNAL_RESUMESTATUS "change_resume_status"
 #define SIGNAL_SLEEP             "avs_standby"
 #define SIGNAL_AUTO_ANSWER  "auto_answer_alert"
+#define SIGNAL_HDMI_STATUS "hdmi_status"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -857,6 +858,27 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         else
         {
             printf( "suspend_status: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE, SIGNAL_HDMI_STATUS))
+    {
+        if (dbus_message_get_args( message, &error,
+                                   DBUS_TYPE_STRING, &str,
+                                   DBUS_TYPE_INT32, &i,
+                                   DBUS_TYPE_INVALID))
+        {
+            len = strlen(str) + 64;
+            sendData = malloc(len);
+            memset(sendData, 0, len);
+            snprintf(sendData,len,"{\"type\":\"hdmi_status\",\"hdmi\":\"%s\",\"status\":\"%d\"},", str, i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "hdmi_status: %s\n", error.message );
             dbus_error_free( &error );
         }
         return DBUS_HANDLER_RESULT_HANDLED;

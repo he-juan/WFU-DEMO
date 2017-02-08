@@ -7822,12 +7822,10 @@ static int handle_set_customlayout(server *srv, connection *con, buffer *b, cons
     int reply_timeout = 5000;
     DBusMessage *reply = NULL;
     DBusConnection *conn = NULL;
-    char *hdmi1 = NULL;
-    char *hdmi2 = NULL;
-    char *hdmi3 = NULL;
-    char *mode1 = NULL, *mode2 = NULL, *mode3 = NULL;
     char *temp = NULL;
     char *info = NULL;
+    char *hdmi1mode = NULL, *hdmi2mode = NULL, *hdmi1content = NULL, *hdmi2content = NULL;
+    int mode1, mode2;
 
     type = DBUS_BUS_SYSTEM;
     dbus_error_init (&error);
@@ -7840,98 +7838,69 @@ static int handle_set_customlayout(server *srv, connection *con, buffer *b, cons
         return -1;
     }
 
-    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setCustomLayoutStatus" );
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "displayCustomMode" );
 
     if (message != NULL)
     {
         dbus_message_set_auto_start (message, TRUE);
         dbus_message_iter_init_append( message, &iter );
 
-        hdmi1 = msg_get_header(m, "hdmi1");
-        if ( hdmi1 == NULL )
+        hdmi1mode = msg_get_header(m, "hdmi1mode");
+        if ( hdmi1mode == NULL )
         {
-            hdmi1 = "-1";
+            mode1 = 1;
         }else
         {
-            uri_decode(hdmi1);
+            mode1 = atoi(hdmi1mode);
         }
 
-        hdmi2 = msg_get_header(m, "hdmi2");
-        if ( hdmi2 == NULL )
+        hdmi2mode = msg_get_header(m, "hdmi2mode");
+        if ( hdmi2mode == NULL )
         {
-            hdmi2 = "-1";
+            mode2 = 1;
         }else
         {
-            uri_decode(hdmi2);
+            mode2 = atoi(hdmi2mode);
         }
 
-        hdmi3 = msg_get_header(m, "hdmi3");
-        if ( hdmi3 == NULL )
+        hdmi1content = msg_get_header(m, "hdmi1content");
+        if ( hdmi1content == NULL )
         {
-            hdmi3 = "-1";
+            return -1;
         }else
         {
-            uri_decode(hdmi3);
+            uri_decode(hdmi1content);
         }
 
-        mode1 = msg_get_header(m, "mode1");
-        if ( mode1 == NULL )
+        hdmi2content = msg_get_header(m, "hdmi2content");
+        if ( hdmi2content == NULL )
         {
-            mode1 = "1";
+            return -1;
         }else
         {
-            uri_decode(mode1);
+            uri_decode(hdmi2content);
         }
 
-        mode2 = msg_get_header(m, "mode2");
-        if ( mode2 == NULL )
-        {
-            mode2 = "1";
-        }else
-        {
-            uri_decode(mode2);
-        }
 
-        mode3 = msg_get_header(m, "mode3");
-        if ( mode3 == NULL )
-        {
-            mode3 = "1";
-        }else
-        {
-            uri_decode(mode3);
-        }
-
-        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &hdmi1 ) )
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &mode1 ) )
         {
             printf( "Out of Memory when setCustomLayoutStatus!\n");
             exit( 1 );
         }
 
-        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &hdmi2 ) )
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &hdmi1content ) )
         {
             printf( "Out of Memory when setCustomLayoutStatus!\n");
             exit( 1 );
         }
 
-        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &hdmi3 ) )
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &mode2 ) )
         {
             printf( "Out of Memory when setCustomLayoutStatus!\n");
             exit( 1 );
         }
 
-        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &mode1 ) )
-        {
-            printf( "Out of Memory when setCustomLayoutStatus!\n");
-            exit( 1 );
-        }
-
-        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &mode2 ) )
-        {
-            printf( "Out of Memory when setCustomLayoutStatus!\n");
-            exit( 1 );
-        }
-
-        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &mode3 ) )
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &hdmi2content ) )
         {
             printf( "Out of Memory when setCustomLayoutStatus!\n");
             exit( 1 );
@@ -21363,7 +21332,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if(!strcasecmp(action, "setdefaultpip")){
                     handle_callservice_by_no_param(srv, con, b, m,"displayDefaultPIP");
                 }
-                else if(!strcasecmp(action, "issysrcmdmode")){
+                else if(!strcasecmp(action, "setcustommode")){
                     handle_set_customlayout(srv, con, b, m);
                 }
                 else{

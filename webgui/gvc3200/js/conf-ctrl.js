@@ -235,6 +235,9 @@ function handlemessage(data){
         case "auto_answer":
             confFrame.handle_autoanswer(data);
             break;
+        case "hdmi_status":
+            confFrame.handle_hdmistatus(data);
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;

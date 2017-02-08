@@ -283,7 +283,7 @@ div{margin:0;padding:0;}
 #selectlist,#transferselectlist,#goonrecording{color:#222;text-align: center;margin: 0px;}
 #selectlist .newListSelected,#dndselect .newListSelected,#presentselect .newListSelected,#transferselectlist .newListSelected{float:none;margin: 20px 0 10px 120px;text-align:left;}
 .selectbtn{text-align:center;height:40px;position:relative;*z-index:-1;margin: 40px 0 10px 0;}
-#layoutdiv .selectbtn{margin-top:15px;}
+#layoutdiv .selectbtn{bottom:5%; position: absolute; left:37.8%;}
 .selectbtn button{margin:8px 0 0 15px;width:100px;}
 .closecontain{width:36px;height:36px;position:absolute;right:0px;text-align:center;background:transparent;}
 .closecalldiv,#closeFECC,#detailsback,#closedtmf{width:26px;height:26px;min-width:0px;border:0;background:url("../img/call/conf_control.png") -52px -323px transparent no-repeat;border-radius:0px;position: relative;top: 5px;}
@@ -409,8 +409,8 @@ div{margin:0;padding:0;}
 
 .divingline{width:1px;height:40px;background:url("../img/ptz_divingline.png") no-repeat;display:inline-block;margin:0;background-position: center;float:left;}
 /*layout*/
-#layoutdiv{background-color:#FFFFFF;width:100%;height:100%;position: absolute;top: 0;display: none;z-index:1000;border-radius:4px;overflow-y:auto;}
-.layoutcontainer{height:490px;width:850px;margin:auto;border-radius:4px;padding:0px;margin-top:10px;font-size: 16px;}
+#layoutdiv{background-color:#FFFFFF;width:100%;height:100%;position: absolute;top: 0;display: none;z-index:1000;border-radius:4px;overflow: hidden;}
+.layoutcontainer{width:100%;height:80%;}
 .onewaylayout{height:550px;width:800px;margin-top:50px;background:transparent;}
 .layoutlist{width:716px;height: 420px;border:0px;list-style-type: none;padding:0px;margin:auto;font-size:16px;background-color:#000000;border-radius:4px;}
 .layoutlist.oneline{height:100%;background:transparent;}
@@ -434,22 +434,26 @@ div{margin:0;padding:0;}
 .fstbfcplayout{margin-top:27px;}
 .secbfcplayout{margin-top:5px;}
 .draghover{border:2px solid #75A7CB;background-color:#000000;}
-.layoutmode{width: 870px;margin: auto;margin-top: -20px;position: relative;}
+.layoutmode{margin: auto;margin-top: 50px;margin-left: 40px;position: relative;}
 .modelist{list-style-type: none;padding:0px;margin:0px;width:auto;height:36px;border:1px solid #D8D6D6;border-radius:4px;display: inline-block;}
 .withpresent{display:none;}
 #laymodetips{position: relative;top: -12px;margin: 0px;margin-left:10px;font-size: 16px;display: inline-block;}
-.modelist li{float: left;text-align:center;vertical-align:middle;width:45px;height:100%;background-color:#E7E7E7;}
+.modelist li{float: left;text-align:center;vertical-align:middle;width:45px;height:100%;background-color:#E7E7E7; cursor: pointer;}
 .modelist li.divisionline{width:1px;background-color: #D8D6D6;}
 .modelist li.buttonover, .modelist li.active, .presentlayout.buttonover{background-color:#219BF2;color:#FFFFFF;}
 li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px;border: 1px solid #656464;}
-.overlap{width:26px;height:26px;background:url("../img/call/conf_control.png") -78px -323px no-repeat;margin-top:5px;margin-left:9px;}
+.sysrcmd{background:url("../img/call/conf_control.png") -260px -323px no-repeat;}
+.sysrcmd.buttonover, .sysrcmd.active{background:url("../img/call/conf_control.png") -286px -323px no-repeat;}
+.overlap{background:url("../img/call/conf_control.png") -78px -323px no-repeat;}
 .overlap.buttonover, .overlap.active{background:url("../img/call/conf_control.png") -104px -323px no-repeat;}
 #layoutLinelist #layoutLineMode .overlap.buttonover {background-color: #C7C7C7;}
 #layoutLinelist #layoutLineMode .overlap.active {background:url("../img/call/conf_control.png") -470px -323px no-repeat;}
-.pip{width:26px;height:26px;background:url("../img/call/conf_control.png") -130px -323px no-repeat;margin-top:5px;margin-left:9px;}
-.pip.buttonover, .pip.active{background:url("../img/call/conf_control.png") -156px -323px no-repeat;}
-#layoutLinelist #layoutLineMode .pip.buttonover {background-color: #C7C7C7;}
-#layoutLinelist #layoutLineMode .pip.active {background:url("../img/call/conf_control.png") -440px -323px no-repeat;}
+.childmother{background:url("../img/call/conf_control.png") -130px -323px no-repeat;}
+.childmother.buttonover, .childmother.active{background:url("../img/call/conf_control.png") -156px -323px no-repeat;}
+#layoutLinelist #layoutLineMode .childmother.buttonover {background-color: #C7C7C7;}
+#layoutLinelist #layoutLineMode .childmother.active {background:url("../img/call/conf_control.png") -440px -323px no-repeat;}
+.pop{background:url("../img/call/conf_control.png") -526px -323px no-repeat;}
+.pop.buttonover, .pop.active{background:url("../img/call/conf_control.png") -553px -323px no-repeat;}
 #hdmiout1,#hdmiout2,#hdmiout3{width:350px;height:240px;background-color:#000000;border-radius:4px;float:left;}
 #hdmiout1{margin-left:256px;margin-bottom:10px;}
 #hdmiout2{margin-right:10px;}
@@ -479,7 +483,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .layoutHDMIlist.active{color:#219BF2;font-weight: bold;}
 .hdmilistimg{background:url("../img/call/conf_control.png") -424px -323px no-repeat;height:26px;width:10px;position: relative;right: -1px;float: right;}
 .customlayoutlist .showname{margin-top: 45px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
-.custommode{width:26px;height:26px;background:url("../img/call/conf_control.png") -312px -323px no-repeat;margin-top:5px;margin-left:9px;}
+.custommode{background:url("../img/call/conf_control.png") -312px -323px no-repeat;}
 .custommode.buttonover, .custommode.active{background:url("../img/call/conf_control.png") -338px -323px no-repeat;}
 .presentlayout{width:26px;height:26px;background:url("../img/call/conf_control.png") -364px -323px no-repeat;margin-top:5px;margin-left:9px;}
 .presentlayout.buttonover, .presentlayout.active{background:url("../img/call/conf_control.png") -390px -323px no-repeat;}
@@ -514,6 +518,45 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 #layoutImgTip #layoutnoImg {display :inline-block; width: 26px; height: 26px;background: url("../img/call/conf_control.png") -522px -297px no-repeat;}
 #layoutImgTip {display:none;width: 30px;float: left;padding-top: 80px;}
 #layoutmaxispan, #layoutsmallspan, #layoutnospan {display:inline-block;width:40px;margin-left:35px;height:26px;line-height:26px;font-size: 10px;font-color:#7a8088;}
+.layoutleft{float:left; width:30%;height: 100%;}
+.layoutnumberlist{margin:57px 0 0 40px; width: 250px; float: left;}
+.layoutnumber{height: 30px; width: 210px; border: 1px solid #dddddd; border-radius: 3px; background: #dddddd; line-height: 30px; font-size: 16px; padding: 0 15px 0 15px; margin-bottom: 10px;}
+.layoutlocalicon{background: url("../img/call/conf_control.png") -546px -297px no-repeat; display: inline-block; width: 26px; height: 26px; float: left; margin:1px 0 0 3px;}
+.layoutpresenticon{background: url("../img/call/conf_control.png") -572px -297px no-repeat; display: inline-block; width: 26px; height: 26px; float: left; margin:1px 0 0 5px;}
+.screendiv{display :inline-block; width: 26px; height: 26px; float:right; margin-top: 1px; cursor: pointer;}
+.fullscreen{background: url("../img/call/conf_control.png") -400px -297px no-repeat;}
+.fullscreen.active{background: url('../img/call/conf_control.png') -316px -297px no-repeat;}
+.normalscreen{background: url("../img/call/conf_control.png") -426px -297px no-repeat;}
+.normalscreen.active{background: url('../img/call/conf_control.png') -342px -297px no-repeat;}
+.hidescreen{background: url("../img/call/conf_control.png") -452px -297px no-repeat;}
+.hidescreen.active{background: url('../img/call/conf_control.png') -368px -297px no-repeat;}
+.linename{max-width: 99px; min-width: 45px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; float: left;}
+.hdmidiv{float:left;font-size: 20px; margin-left: 165px; cursor: pointer; max-height: 50px;}
+.hdmi_arrow{background: url("../img/call/hdmi_arrow.png") no-repeat; width: 17px; height: 11px; margin-left: 28px; margin-top: 30px;}
+.modediv{width: 26px; height: 26px; margin: 5px 0 0 9px;}
+.layoutbkgdiv{background: #6b6b6b; border-radius: 4px; box-shadow: 0 0 3px 3px #cccccc;}
+.layoutlinediv{border-radius: 5px; background: #cccccc; float: left;}
+.layoutlinename{width: 100%; color: black; font-weight: bold; font-size: 16px; text-align: center; margin-top: 29%;}
+.layoutlinenumber{width: 100%; color: black; font-size: 15px; text-align: center;}
+.largelinediv{border-radius: 5px; background: #cccccc; float: left;}
+.smalllinediv{border-radius: 5px; background: #cccccc; float: right;}
+#sysrcmdmode{display: none; position: absolute; z-index: 100; border: 1px solid #ccc; border-top: none; margin-top: -1px; padding: 0; width: 45px; border-radius: 5px;}
+#sysrcmdmode li{background: #e7e7e7; list-style-type:none; width: 45px; height: 36px; border-top: 1px dashed #ccc; cursor: pointer;}
+#sysrcmdmode li div{width: 55%; height: 100%; margin: 5px 0 0 9px;}
+.sysmodeoverlap{background:url("../img/call/conf_control.png") -78px -323px no-repeat;}
+.sysmodepip{background:url("../img/call/conf_control.png") -130px -323px no-repeat;}
+.sysmodepop{background:url("../img/call/conf_control.png") -526px -323px no-repeat;}
+.cusmodecls{width: 100%; height: 40px; background: black; opacity: 0.5; float: left; border-radius: 5px; overflow: hidden;}
+.cusmodecls ul{width: 150px; height: 30px; margin-left: 39.5%; margin-top: 8px; padding: 0;}
+.cusmodecls li{width: 26px; float: left; list-style-type: none; height: 26px; cursor: pointer; margin-left: 15px;}
+.cusoverlap{background: url("../img/call/conf_control.png") -78px -323px no-repeat;}
+.cusoverlap.active{background: url("../img/call/conf_control.png") -470px -323px no-repeat;}
+.cuschildmother{background: url("../img/call/conf_control.png") -130px -323px no-repeat;}
+.cuschildmother.active{background: url("../img/call/conf_control.png") -440px -323px no-repeat;}
+.cuspop{background: url("../img/call/conf_control.png") -526px -323px no-repeat;}
+.cuspop.active{background: url("../img/call/conf_control.png") -498px -323px no-repeat;}
+#layouttitle{width: 100%; height: 36px; font-size: 16px; font-weight: bold; line-height: 36px; color: white; background: #1d6ea8; border-radius: 1px;}
+#layouttitletext{width: 90%; float: left; padding-left: 20px;}
 </style> 
 </head>
 <body>
@@ -982,28 +1025,30 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
         </div>
     </div>
     <div id="layoutdiv">
-        <div class="closecontain"><button class="closecalldiv"></button></div>
-        <div class="poptitlediv"><div class="layouttips"><p>Try to drop the windows</p></div></div>
+        <div id="layouttitle"><div id="layouttitletext">Layout</div><div class="closecontain"><button class="closecalldiv"></button></div></div>
+        <!--div class="poptitlediv"><div class="layouttips"><p>Try to drop the windows</p></div></div-->
         <div class="layoutmode">
-            <!--<ul class="modelist nopresent">
-                <li mode="overlap"><div class="overlap"></div></li>
-                <li class="divisionline"></li>
-                <li mode="picture"><div class="pip"></div></li>
-                <li class="divisionline"></li>
-                <li mode="custom" class="custom"><p class="presentlayout">C</p></li>
-            </ul>-->
             <ul class="modelist">
-                <li mode="overlap"><div class="overlap"></div></li>
+                <li mode="sysrcmd"><div class="sysrcmd modediv"></div></li>
+                <li class="divisionline"></li>    
+                <li mode="overlap"><div class="overlap modediv"></div></li>
                 <li class="divisionline"></li>
-                <li mode="picture"><div class="pip"></div></li>
+                <li mode="childmother"><div class="childmother modediv"></div></li>
+                <li class="divisionline lastline"></li>
+                <li mode="pop"><div class="pop modediv"></div></li>
+                <!--li class="divisionline"></li>
+                <li mode="content" class="withpresent"><div class="presentlayout"></div></li-->
                 <li class="divisionline"></li>
-                <li mode="content" class="withpresent"><div class="presentlayout"></div></li>
-                <li class="divisionline"></li>
-                <li mode="custom" class="custom"><div class="custommode"></div></li>
+                <li mode="custom" class="custom"><div class="custommode modediv"></div></li>
             </ul>
-            <p id="laymodetips"></p>
+        <!--p id="laymodetips"></p-->
         </div>
         <div class="layoutcontainer">
+            <!--div class="layoutnumberlist">
+            </div>
+            <div id="hdmi1div" class="hdmidiv"><div>HDMI 1</div><div class="hdmi_arrow"></div></div>
+            <div id="hdmi2div" class="hdmidiv"><div>HDMI 2</div><div class="hdmi_arrow"></div></div>
+            <div class="layouttype"></div-->
         </div>
         <div class="selectbtn">
             <button id="layoutSave" class="savebtn">Save</button>
@@ -1086,6 +1131,11 @@ var mOEMID = '0';
 var mProduct = "GVC3200";
 var autoanswerFlag = false;
 var autoanswer= {};
+var mCurhdmi = 1;
+var mHdmi2state = 0;
+var mHdmiModeContent = new Array();
+var mIsSysrcmd = 0; /*judge layout mode is system recommand mode or not*/
+var mIsSysrcmdBefore = 0;
 
 var req_items = new Array;
 req_items.push(
@@ -5536,1724 +5586,666 @@ function getlayout_callback(data)
     cb_get_confaction(urihead,callbackfn);
 }
 
-function showLayout_onlyhdmi1(data,channlistdata)
-{
-    var init_mode = data.mode;
-    var piparg = data.arg1;
-    //var maxarg = data.arg3;
-    var hdmi1_array = channlistdata.hdmi1.split(",");
-    var maxarg = hdmi1_array[0];
-    var videonum = 0;
-    var namearray = [];
-    var numberarray = [];
-    var linearray = [];
-    var ispresent = false;
-    var $present = $("#present");
-    if(maxarg == "12" || maxarg == "15")
-    {
-        //if is presentation, pip default is local
-        maxarg = "13";
-    }
-    //add local
-    namearray.push(a_10032);
-    numberarray.push("");
-    linearray.push(13);
-    $("#conf .remoteline").each(function(){
-        var isvideo = $(this).attr("isvideo");
-        var name = $(this).attr("name");
-        var number = $(this).attr("number");
-        var line = parseInt($(this).attr("line"));
-        if(isvideo == "1" && $(this).attr("state") == "4")
-        {
-            if( $(this).attr("account") == 1 && $(this).attr("number").substring(0,2) == mIPVPrefix ){
-                //this is ipv conference line, do not need to layout
-            }else{
-                videonum++;
-                namearray.push(name);
-                numberarray.push(number);
-                linearray.push(line);
-            }  
-        }
-    });
-
-    if( ($present.attr("ison") == "1") || ($present.attr("bfcp") == "2") )
-        ispresent = true;
-
-    //console.log("videonum = " + videonum + ",ispresent = " + ispresent + ",init_mode = " + init_mode);
-    if(videonum == 0 && ispresent)
-    {
-        var appendstr = "<ul class='layoutlist oneline'>";   
-        //pip-2
-        appendstr += "<li class='onelayoutlist' mode='pip-2'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='mainlayout firstlayout'>";
-        appendstr +=     "<p>"+a_10004+"</p>";
-        appendstr +=     "</div>";
-        appendstr +=     "<div class='minorlayout'>";
-        appendstr +=     "<p>"+a_10032+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        //content
-        appendstr += "<li class='onelayoutlist' mode='content'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='maxlayout'>";
-        appendstr +=     "<p>"+a_10004+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        //camera
-        appendstr += "<li class='onelayoutlist' mode='camera'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='maxlayout'>";
-        appendstr +=     "<p>"+a_10032+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        
-
-        appendstr += "</ul>";
-
-        $(".layoutcontainer").empty().addClass("onewaylayout morehdmicontain").append(appendstr);
-        $("#layoutdiv .poptitlediv,#layoutdiv .layoutmode").hide();
-
-        $(".onelayoutlist").click(function(){
-            var mode = $(this).attr("mode");
-            var pipstate = "",position;
-            var urihead;
-            if(mode.indexOf("pip") != -1)
-            {
-                mode = mode.split("-");
-                pipstate = mode[1];
-                mode = mode[0];
-                if(pipstate == "4")
-                    position = 196612;
-                else
-                    position = 4;
-            }
-            if(pipstate == "")
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode);
-            else
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode)+"&pipstate="+pipstate+"&position="+position;
-
-            //cb_get_confaction(urihead,"");
-            $(".onelayoutitem").removeClass("active");
-            $(this).children(".onelayoutitem").addClass("active");
-            $(this).children(".onelayoutradio").attr("checked","checked");
-        });
-        $(".onelayoutradio").click(function(){
-            var mode = $(this).parent().attr("mode");
-            var pipstate = "",position;
-            var urihead;
-            if(mode.indexOf("pip") != -1)
-            {
-                mode = mode.split("-");
-                pipstate = mode[1];
-                mode = mode[0];
-                if(pipstate == "4")
-                    position = 196612;
-                else
-                    position = 4;
-            }
-            if(pipstate == "")
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode);
-            else
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode)+"&pipstate="+pipstate+"&position="+position;
-
-            //cb_get_confaction(urihead,"");
-            $(".onelayoutitem").removeClass("active");
-            $(this).prev().addClass("active");
-        });
-        if(init_mode == "pip")
-        {
-            $(".onelayoutlist[mode=pip-"+piparg+"]").find(".onelayoutradio").click();
-        }
-        else
-        {
-            $(".onelayoutlist[mode=\""+init_mode+"\"]").find(".onelayoutradio").click();
-        }
-    }
-    else if(videonum == 1)
-    {
-        var appendstr = "<ul class='layoutlist oneline'>";
-        //overlap
-        appendstr += "<li class='onelayoutlist' mode='overlap'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='overlaplayout firstlayout'>";
-        appendstr +=     "<p>"+namearray[0]+"</p>";
-        appendstr +=     "</div>";
-        appendstr +=     "<div class='overlaplayout'>";
-        appendstr +=     "<p>"+namearray[1]+"</p>";
-        appendstr +=     "<p class='shownumber'>"+"("+numberarray[1]+")"+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        
-        if(ispresent)
-        {
-            //pip-2
-            appendstr += "<li class='onelayoutlist' mode='pip-2'>";
-            appendstr += "<div class='onelayoutitem'>";
-            appendstr +=     "<div class='mainlayout firstlayout'>";
-            appendstr +=     "<p>"+a_10004+"</p>";
-            appendstr +=     "</div>";
-            appendstr +=     "<div class='minorlayout'>";
-            appendstr +=     "<p>"+namearray[0]+"</p>";
-            appendstr +=     "</div>";
-            appendstr += "</div>";
-            appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-            appendstr += "</li>";
-            //pip-3
-            appendstr += "<li class='onelayoutlist' mode='pip-3'>";
-            appendstr += "<div class='onelayoutitem'>";
-            appendstr +=     "<div class='mainlayout firstlayout'>";
-            appendstr +=     "<p>"+a_10004+"</p>";
-            appendstr +=     "</div>";
-            appendstr +=     "<div class='minorlayout'>";
-            appendstr +=     "<p>"+namearray[1]+"</p>";
-            appendstr +=     "<p class='shownumber'>"+"("+numberarray[1]+")"+"</p>";
-            appendstr +=     "</div>";
-            appendstr += "</div>";
-            appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-            appendstr += "</li>";
-        }
-        //pip-0
-        appendstr += "<li class='onelayoutlist' mode='pip-0'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='mainlayout firstlayout'>";
-        appendstr +=     "<p>"+namearray[1]+"</p>";
-        appendstr +=     "<p class='shownumber'>"+"("+numberarray[1]+")"+"</p>";
-        appendstr +=     "</div>";
-        appendstr +=     "<div class='minorlayout'>";
-        appendstr +=     "<p>"+namearray[0]+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        //pip-1
-        appendstr += "<li class='onelayoutlist' mode='pip-1'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='mainlayout firstlayout'>";
-        appendstr +=     "<p>"+namearray[0]+"</p>";
-        appendstr +=     "</div>";
-        appendstr +=     "<div class='minorlayout'>";
-        appendstr +=     "<p>"+namearray[1]+"</p>";
-        appendstr +=     "<p class='shownumber'>"+"("+numberarray[1]+")"+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        if(ispresent)
-        {
-            //content
-            appendstr += "<li class='onelayoutlist' mode='content'>";
-            appendstr += "<div class='onelayoutitem'>";
-            appendstr +=     "<div class='maxlayout'>";
-            appendstr +=     "<p>"+a_10004+"</p>";
-            appendstr +=     "</div>";
-            appendstr += "</div>";
-            appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-            appendstr += "</li>";
-        }
-        //peer
-        appendstr += "<li class='onelayoutlist' mode='peer'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='maxlayout'>";
-        appendstr +=     "<p>"+namearray[1]+"</p>";
-        appendstr +=     "<p class='shownumber'>"+"("+numberarray[1]+")"+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        //camera
-        appendstr += "<li class='onelayoutlist' mode='camera'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='maxlayout'>";
-        appendstr +=     "<p>"+namearray[0]+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        if(ispresent)
-        {
-            //pip-4
-            appendstr += "<li class='onelayoutlist' mode='pip-4'>";
-            appendstr += "<div class='onelayoutitem'>";
-            appendstr +=     "<div class='mainlayout'>";
-            appendstr +=     "<p>"+a_10004+"</p>";
-            appendstr +=     "</div>";
-            appendstr +=     "<div class='minorlayout fstbfcplayout'>";
-            appendstr +=     "<p>"+namearray[0]+"</p>";
-            appendstr +=     "</div>";
-            appendstr +=     "<div class='minorlayout secbfcplayout'>";
-            appendstr +=     "<p>"+namearray[1]+"</p>";
-            appendstr +=     "<p class='shownumber'>"+"("+numberarray[1]+")"+"</p>";
-            appendstr +=     "</div>";
-            appendstr += "</div>";
-            appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-            appendstr += "</li>";
-        }
-
-        appendstr += "</ul>";
-
-        $(".layoutcontainer").empty().addClass("onewaylayout morehdmicontain").append(appendstr);
-        $("#layoutdiv .poptitlediv,#layoutdiv .layoutmode").hide();
-
-        $(".onelayoutlist").click(function(){
-            var mode = $(this).attr("mode");
-            var pipstate = "",position;
-            var urihead;
-            if(mode.indexOf("pip") != -1)
-            {
-                mode = mode.split("-");
-                pipstate = mode[1];
-                mode = mode[0];
-                if(pipstate == "4")
-                    position = 196612;
-                else
-                    position = 4;
-            }
-            if(pipstate == "")
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode);
-            else
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode)+"&pipstate="+pipstate+"&position="+position;
-
-            //cb_get_confaction(urihead,"");
-            $(".onelayoutitem").removeClass("active");
-            $(this).children(".onelayoutitem").addClass("active");
-            $(this).children(".onelayoutradio").attr("checked","checked");
-        });
-        $(".onelayoutradio").click(function(){
-            var mode = $(this).parent().attr("mode");
-            var pipstate = "",position;
-            var urihead;
-            if(mode.indexOf("pip") != -1)
-            {
-                mode = mode.split("-");
-                pipstate = mode[1];
-                mode = mode[0];
-                if(pipstate == "4")
-                    position = 196612;
-                else
-                    position = 4;
-            }
-            if(pipstate == "")
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode);
-            else
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode)+"&pipstate="+pipstate+"&position="+position;
-
-            //cb_get_confaction(urihead,"");
-            $(".onelayoutitem").removeClass("active");
-            $(this).prev().addClass("active");
-        });
-
-        if(init_mode == "pip")
-        {
-            $(".onelayoutlist[mode=pip-"+piparg+"]").find(".onelayoutradio").click();
-        }
-        else
-        {
-            $(".onelayoutlist[mode=\""+init_mode+"\"]").find(".onelayoutradio").click();
-        }
-    }
-    else
-    {
-        var appendstr = "<ul class='layoutlist'>";
-        var n = 0;
-        var initlocal = true;
-        $(".modelist .withpresent").hide();
-        $(".modelist .withpresent").next("li").hide();
-        //init mode picture
-        if(maxarg == "13" || init_mode == "overlap" || init_mode == "content")
-        {
-            //show local
-            appendstr += "<li class='mainpip' pipstate='13'>";
-            appendstr +=     "<p>"+htmlEncode(namearray[0])+"</p>";
-            appendstr += "</li>";
-            initlocal = false;
-        }
-        else
-        {
-            var name = $("#conf .remoteline[line=\""+maxarg+"\"]").attr("name");
-            var number = $("#conf .remoteline[line=\""+maxarg+"\"]").attr("number");
-            appendstr += "<li class='mainpip' pipstate='"+maxarg+"'>";
-            appendstr +=     "<p>"+htmlEncode(name)+"</p>";
-            appendstr +=     "<p class='shownumber'>"+"("+htmlEncode(number)+")"+"</p>";
-            appendstr += "</li>";
-        }
-        if(ispresent)
-        {
-            $(".modelist .withpresent").show();
-            $(".modelist .withpresent").next("li").show();
-            //$("#laymodetips").css("left","150px");
-            appendstr += "<li class='maxlayout' pipstate='content'>";
-            appendstr +=     "<p>"+a_10004+"</p>";
-            appendstr += "</li>";
-        }
-        for(;n<linearray.length;n++)
-        {
-            //if mode is overlap, the mainpip is local,so do not create minorpip with local
-            if(!initlocal)
-            {
-                initlocal = true;
-                continue;
-            }
-
-            if(linearray[n] == maxarg)
-                continue;
-
-            appendstr += "<li class='minorpip' pipstate='"+linearray[n]+"'>";
-            appendstr +=     "<p>"+htmlEncode(namearray[n])+"</p>";
-            if(numberarray[n] != "")
-                appendstr +=     "<p class='shownumber'>"+"("+htmlEncode(numberarray[n])+")"+"</p>";
-            appendstr += "</li>";
-        }
-
-        n = 0;
-        for(;n<linearray.length;n++)
-        {
-            //init overlap
-            appendstr += "<li class='morelineoverlap' pipstate='"+linearray[n]+"'>";
-            appendstr +=     "<p>"+htmlEncode(namearray[n])+"</p>";
-            if(numberarray[n] != "")
-                appendstr +=     "<p class='shownumber'>"+"("+htmlEncode(numberarray[n])+")"+"</p>";
-            appendstr += "</li>";
-        }
-
-        appendstr += "</ul>";
-        $(".layoutcontainer").empty().removeClass("onewaylayout morehdmicontain").append(appendstr);
-        $(".modelist").show();
-        //$(showlist).show();
-        $("#layoutdiv .layoutmode").show();
-        
-        if(init_mode == "content")
-        {
-            $(".modelist li[mode='content']").click();
-        }
-        else if(init_mode == "picture")
-        {
-            $(".modelist li[mode='picture']").click();
-        }
-        else
-        {
-            $(".modelist li[mode='overlap']").click();
-        }
-    }
-
-    $(".modelist li").hover(function(){
-        $(this).addClass("buttonover");
-        $(this).children().addClass("buttonover");
-    },function(){
-        $(this).removeClass("buttonover");
-        $(this).children().removeClass("buttonover");
-    });
-    $("#layoutdiv").show();
-    ctrl_show_maskdiv(true);
-}
-
-function showLayout_allhdmiout(data,channlistdata)
-{
-    var init_mode = data.mode;
-    var appendstr = "";
-    var linearray = [],linelength = 1;
-    linearray[0] = -255;//local
-    $(".modelist .withpresent").hide();
-    $(".modelist .withpresent").next("li").hide();
-    //$("#laymodetips").css("left","100px");
-    $("#conf .remoteline").each(function(){
-        if($(this).attr("state") == "4" && $(this).attr("isvideo") == "1")
-        {
-            if( $(this).attr("account") == 1 && $(this).attr("number").substring(0,2) == mIPVPrefix ){
-                //this is ipv conference line, do not need to layout
-            }else{
-                var line = parseInt($(this).attr("line"));
-                linearray.push(line);
-                linelength++;
-            }
-        }
-    });
-    linearray.sort(function(a,b){return a-b;});
-    var hdmi2num = Math.ceil((linelength-1)/2);
-    if(hdmi2num == 0)
-        hdmi2num = 1;
-    var ispresent = false;
-    //init mode picture
-    //show local
-    if( ($("#present").attr("ison") == "1") || ($("#present").attr("bfcp") == "2") )
-    {
-        //open presentation
-        appendstr += "<div id='hdmiout1'>";
-        appendstr += "<div class='mainhdmipip'>";
-        appendstr +=     "<p>"+a_10004+"</p>";
-        appendstr += "</div>";
-        appendstr += "</div>";
-        ispresent = true;
-        hdmi2num = Math.ceil(linelength/2);
-    }
-    else
-    {
-        appendstr += "<div id='hdmiout1'>";
-        appendstr += "<div class='mainhdmipip'>";
-        appendstr +=     "<p>"+a_10032+"</p>";
-        appendstr += "</div>";
-        appendstr += "</div>";
-    }
-    appendstr += "<div id='hdmiout2' class='threescreen'>";
-    appendstr += "<div class='droptips'>";
-    appendstr +=     "<p>"+a_16704+"</p>";
-    appendstr += "</div>";
-    appendstr += "</div>";
-    appendstr += "<div id='hdmiout3'>";
-    appendstr += "<div class='droptips'>";
-    appendstr +=     "<p>"+a_16704+"</p>";
-    appendstr += "</div>";
-    appendstr += "</div>";
-    $(".layoutcontainer").empty().removeClass("onewaylayout morehdmicontain").addClass("morehdmicontain").append(appendstr);
-    for(var n=0;n<linelength;n++)
-    {
-        var line = Math.abs(linearray[n]);
-        var name = $("#conf .remoteline[line=\""+line+"\"]").attr("name");
-        var strtmp = "";
-        var nownum = n;
-        if(!ispresent)
-            nownum = n-1;
-        if(line == 255 && ispresent == true)
-        {
-            name = a_10032;
-        }
-        else if(line == 255)
-        {
-            continue;
-        }
-        strtmp += "<div class='minhdmipip overlaphdmi' pipstate='"+line+"'>";
-        strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-        strtmp += "</div>";
-        if(nownum < hdmi2num)
-        {
-            $("#hdmiout2").append(strtmp);
-        }
-        else
-        {
-            $("#hdmiout3").append(strtmp);
-        }
-        if(linelength == 2 && ispresent == false)
-            $("#hdmiout3").append(strtmp);
-        else if(linelength == 1 && ispresent == true)
-            $("#hdmiout3").append(strtmp);
-    }
-    if(init_mode == "picture")
-    {
-        var hdmiout = data.arg2;
-        var line = parseInt(data.arg3);
-        var name = $("#conf .remoteline[line=\""+line+"\"]").attr("name");
-        var strtmp = "";
-        if(linelength == 1 && ispresent == true)
-        {
-            line = 255;
-            hdmiout = 2;
-        }
-        if(line == 255 && ispresent == true)
-        {
-            name = a_10032;
-        }
-        strtmp += "<div class='picturehdmi mainhdmipip' pipstate='"+line+"'>";
-        strtmp +=     "<div class='fullscreenbtn'></div>";
-        strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-        strtmp += "</div>";
-        if(hdmiout == 2)
-        {
-            $("#hdmiout2").append(strtmp);
-        }
-        else if(hdmiout == 3)
-        {
-            $("#hdmiout3").append(strtmp);
-        }
-        if(linelength == 2 && ispresent == false)
-            $("#hdmiout3").append(strtmp);
-        else if(linelength == 1 && ispresent == true)
-            $("#hdmiout3").append(strtmp);
-        for(var n=0;n<linelength;n++)
-        {
-            var tmpline = Math.abs(linearray[n]);
-            if(line == tmpline)
-                continue;
-            var name = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("name");
-            var strtmp = "";
-            if(tmpline == 255 && ispresent == true)
-            {
-                name = a_10032;
-            }
-            else if(tmpline == 255 && ispresent == false)
-            {
-                continue;
-            }
-            strtmp += "<div class='picturehdmi minhdmipip' pipstate='"+tmpline+"'>";
-            strtmp +=     "<div class='fullscreenbtn'></div>";
-            strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-            strtmp += "</div>";
-            if(hdmiout == 2)
-            {
-                $("#hdmiout3").append(strtmp);
-            }
-            else if(hdmiout == 3)
-            {
-                $("#hdmiout2").append(strtmp);
-            }
-        }
-    }   
-    else
-    {
-        var line = linearray[1];
-        var name = $("#conf .remoteline[line=\""+line+"\"]").attr("name");
-        var strtmp = "";
-        if(ispresent == true)
-        {
-            line = 255;
-            strtmp += "<div class='picturehdmi mainhdmipip' pipstate='"+line+"'>";
-            strtmp +=     "<div class='fullscreenbtn'></div>";
-            strtmp +=     "<p>"+a_10032+"</p>";
-            strtmp += "</div>";
-        }
-        else
-        {
-            strtmp += "<div class='picturehdmi mainhdmipip' pipstate='"+line+"'>";
-            strtmp +=     "<div class='fullscreenbtn'></div>";
-            strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-            strtmp += "</div>";
-        }
-        $("#hdmiout2").append(strtmp);
-        if(linelength == 2 && ispresent == false)
-            $("#hdmiout3").append(strtmp);
-        else if(linelength == 1 && ispresent == true)
-            $("#hdmiout3").append(strtmp);
-        for(var n=0;n<linelength;n++)
-        {
-            var tmpline = Math.abs(linearray[n]);
-            if(line == tmpline)
-                continue;
-            var name = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("name");
-            var strtmp = "";
-            if(tmpline == 255 && ispresent == true)
-            {
-                name = a_10032;
-            }
-            else if(tmpline == 255 && ispresent == false)
-            {
-                continue;
-            }
-            strtmp += "<div class='picturehdmi minhdmipip' pipstate='"+tmpline+"'>";
-            strtmp +=     "<div class='fullscreenbtn'></div>";
-            strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-            strtmp += "</div>";
-            $("#hdmiout3").append(strtmp);
-        }
-    } 
-
-    $(".modelist").show();
-    $(".fullscreenbtn").hide();
-    //$(showlist).show();
-    $("#layoutdiv .layoutmode").show();
-    
-    if(init_mode == "picture")
-    {
-        $(".modelist li[mode='picture']").click();
-    }
-    else
-    {
-        $(".modelist li[mode='overlap']").click();
-    }
-
-    $(".modelist li").hover(function(){
-        $(this).addClass("buttonover");
-        $(this).children().addClass("buttonover");
-    },function(){
-        $(this).removeClass("buttonover");
-        $(this).children().removeClass("buttonover");
-    });
-    addfullscreenEvent();
-    $("#layoutdiv").show();
-    ctrl_show_maskdiv(true);
-}
-
-function showLayout_withouthdmi3(data,channlistdata)
-{
-    var init_mode = data.mode;
-    var appendstr = "";
-    var linearray = [],linelength = 1;
-    //var showlist = ".nopresent";
-    var ispresent = false;
-    $(".modelist .withpresent").hide();
-    $(".modelist .withpresent").next("li").hide();
-    //$("#laymodetips").css("left","100px");
-    linearray[0] = -255;//local
-    $("#conf .remoteline").each(function(){
-        if($(this).attr("state") == "4" && $(this).attr("isvideo") == "1")
-        {
-            if( $(this).attr("account") == 1 && $(this).attr("number").substring(0,2) == mIPVPrefix ){
-                //this is ipv conference line, do not need to layout
-            }else{
-                var line = parseInt($(this).attr("line"));
-                linearray.push(line);
-                linelength++;
-            }
-        }
-    });
-    linearray.sort(function(a,b){return a-b;});
-    var hdmi2num = Math.ceil(linelength/2);
-    if( ($("#present").attr("ison") == "1") || ($("#present").attr("bfcp") == "2") )
-        ispresent = true;
-    //init mode picture
-    //console.log("showLayout_withouthdmi3, init_mode = " + init_mode + ",ispresent = " + ispresent + ",channlistdata = " + channlistdata);
-    if(!ispresent)
-    {
-        //show local
-        appendstr += "<div id='hdmiout1' class='twoscreen'>";
-        appendstr += "<div class='droptips'>";
-        appendstr +=     "<p>"+a_16704+"</p>";
-        appendstr += "</div>";
-        appendstr += "</div>";
-    }
-    else
-    {
-        //show present
-        appendstr += "<div id='hdmiout1' class='twoscreen'>";
-        appendstr += "<div class='droptips'>";
-        appendstr +=     "<p>"+a_16704+"</p>";
-        appendstr += "</div>";
-        appendstr += "<div class='mainhdmipip'>";
-        appendstr +=     "<p>"+a_10004+"</p>";
-        appendstr += "</div>";
-        appendstr += "</div>";
-    }
-    appendstr += "<div id='hdmiout2' class='twoscreen'>";
-    appendstr += "<div class='droptips'>";
-    appendstr +=     "<p>"+a_16704+"</p>";
-    appendstr += "</div>";
-    appendstr += "</div>";
-
-    $(".layoutcontainer").empty().removeClass("onewaylayout morehdmicontain").addClass("morehdmicontain").append(appendstr);
-    if(ispresent)
-    {
-        //if open presentation
-        $(".layoutcontainer").removeClass("morehdmicontain");
-        showLayout_withouthdmi3_inpresent(data,channlistdata);
+function displayLayout(data){
+    var hdmi1state = data.state;
+    if(hdmi1state != 1){
+        $.prompt(a_10081 + a_19380);
         return false;
     }
-    var hdmi2line = channlistdata.hdmi2;
-    /*if( hdmi1line == 13 ){
-        hdmi1line = ",255,";
-    }else{
-        //do not need to change 13 to 255 here, or else both will append to #hdmiout1
-        hdmi1line = "," + hdmi1line + ",";
-    }*/
-    if( hdmi2line == 13 ){
-        hdmi2line = ",255,";
-    }else{
-        //do not need to change 13 to 255 here, or else both will append to #hdmiout2
-        hdmi2line = "," + hdmi2line + ",";
-    }
-    for(var n=0;n<linelength;n++)
-    {
-        var line = linearray[n];
-        var name = $("#conf .remoteline[line=\""+line+"\"]").attr("name");
-        var strtmp = "";
-        if(line == -255)
-        {
-            name = a_10032;
-            line = 255;
-        }
-        strtmp += "<div class='minhdmipip overlaphdmi' pipstate='"+line+"'>";
-        strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-        strtmp += "</div>";
-        if( linelength == 1 ){
-            $("#hdmiout1").append(strtmp);
-        }else{
-            if(hdmi2line.indexOf(","+line+",") != -1 )
-            {
-                $("#hdmiout2").append(strtmp);
-            }
-            else
-            {
-                $("#hdmiout1").append(strtmp);
-            }
-        }
-        
-    }
-    if(init_mode == "picture")
-    {
-        var hdmiout = data.arg2;
-        var line = parseInt(data.arg3);
-        var name = $("#conf .remoteline[line=\""+line+"\"]").attr("name");
-        var strtmp = "";
-        if(line == 255)
-            name = a_10032;//local
-        strtmp += "<div class='picturehdmi mainhdmipip' pipstate='"+line+"'>";
-        strtmp +=     "<div class='fullscreenbtn'></div>";
-        strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-        strtmp += "</div>";
-        if(hdmiout == 2)
-        {
-            $("#hdmiout2").append(strtmp);
-        }
-        else
-        {
-            $("#hdmiout1").append(strtmp);
-        }
-        for(var n=0;n<linelength;n++)
-        {
-            var tmpline = Math.abs(linearray[n]);
-            if(line == tmpline)
-                continue;
-            var name = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("name");
-            var strtmp = "";
-            if(tmpline == 255)
-                name = a_10032;//local
-            strtmp += "<div class='picturehdmi minhdmipip' pipstate='"+tmpline+"'>";
-            strtmp +=     "<div class='fullscreenbtn'></div>";
-            strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-            strtmp += "</div>";
-            if(hdmiout == 2)
-            {
-                $("#hdmiout1").append(strtmp);
-            }
-            else
-            {
-                $("#hdmiout2").append(strtmp);
-            }
-        }
-    }   
-    else
-    {
-        //default PIP
-        var line = 255;
-        var name = $("#conf .remoteline[line=\""+line+"\"]").attr("name");
-        var strtmp = "";
-        if(line == 255)
-            name = a_10032;//local
-        strtmp += "<div class='picturehdmi mainhdmipip' pipstate='"+line+"'>";
-        strtmp +=     "<div class='fullscreenbtn'></div>";
-        strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-        strtmp += "</div>";
-        $("#hdmiout1").append(strtmp);
-        for(var n=0;n<linelength;n++)
-        {
-            var tmpline = Math.abs(linearray[n]);
-            if(line == tmpline)
-                continue;
-            var name = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("name");
-            var strtmp = "";
-            if(tmpline == 255)
-                name = a_10032;//local
-            strtmp += "<div class='picturehdmi minhdmipip' pipstate='"+tmpline+"'>";
-            strtmp +=     "<div class='fullscreenbtn'></div>";
-            strtmp +=     "<p>"+htmlEncode(name)+"</p>";
-            strtmp += "</div>";
-            $("#hdmiout2").append(strtmp);
-        }
-    } 
-    if(linelength >= 3)
-        //showLayout_custom(data,linearray,2);
-
-    $(".modelist").show();
-    $(".fullscreenbtn").hide();
-    //$(showlist).show();
-    $("#layoutdiv .layoutmode").show();
     
-    if(init_mode == "picture")
-    {
-        $(".modelist li[mode='picture']").click();
+    mIsSysrcmd = parseInt(cb_get_layoutinfo("action=issysrcmdmode&region=confctrl"));
+    var hdmi2state = cb_get_layoutinfo("action=gethdmi2state&region=status");
+    mHdmi2state = hdmi2state;
+    
+    var hdmi1mode, hdmi1content;
+    hdmi1mode = cb_get_layoutinfo("action=gethdmi1displaymode&region=confctrl");
+    hdmi1content = cb_get_layoutinfo("action=gethdmi1displaycontent&region=confctrl");
+    
+    if(hdmi2state == 1){
+        var hdmi2mode = cb_get_layoutinfo("action=gethdmi2displaymode&region=confctrl");
+        var hdmi2content = cb_get_layoutinfo("action=gethdmi2displaycontent&region=confctrl");
     }
-    else
-    {
-        $(".modelist li[mode='overlap']").click();
+    
+    var linecount = $(".remoteline[isvideo=1]").length;
+    if(linecount > 1){
+        $(".modelist li[mode=pop]").hide();
+        $(".lastline").hide();
     }
+    else{
+        $(".modelist li[mode=pop]").attr("title", a_19386);
+    }
+    $(".modelist li[mode=sysrcmd]").attr("title", a_19383);
+    $(".modelist li[mode=overlap]").attr("title", a_19384);
+    $(".modelist li[mode=childmother]").attr("title", a_19385);
+    $(".modelist li[mode=custom]").attr("title", a_10151);
+    
+    layout_choosemode(hdmi1mode);
+    
+    $(".layoutcontainer").children().remove();
 
-    $(".modelist li").hover(function(){
-        $(this).addClass("buttonover");
-        $(this).children().addClass("buttonover");
-    },function(){
-        $(this).removeClass("buttonover");
-        $(this).children().removeClass("buttonover");
-    });
-    addfullscreenEvent();
+    if(hdmi1mode >= 4 && hdmi2state == 0)
+        display_default1screenlayout(hdmi1mode, hdmi1content);
+    else if(hdmi1mode >= 4 && hdmi2state == 1)
+        display_default2screenlayout(hdmi1mode, hdmi1content, hdmi2mode, hdmi2content);
+    else if(hdmi1mode < 4){
+        $(".modelist li[mode=custom]").attr("childmode", hdmi1mode);
+        display_customscreenlayout(hdmi1mode, hdmi1content, 1, hdmi2state);
+    }
+    
     $("#layoutdiv").show();
-    ctrl_show_maskdiv(true);
 }
 
-function showLayout_withouthdmi3_inpresent(data,channlistdata)
-{
-    var init_mode = data.mode;
-    var piparg = data.arg1;
-    var hdmi2_array = channlistdata.hdmi2.split(",");
-    var maxarg = data.arg3;
-    var videonum = 0;
-    var namearray = [];
-    var numberarray = [];
-    var linearray = [];
-    var ispresent = false;
-    var $present = $("#present");
-
-    if(channlistdata.mode == "2")
-    {
-        //PIP
-        maxarg = hdmi2_array[0];
-    }
-    //add local
-    namearray.push(a_10032);
-    numberarray.push("");
-    linearray.push(255);
-    $("#conf .remoteline").each(function(){
-        var isvideo = $(this).attr("isvideo");
-        var name = $(this).attr("name");
-        var number = $(this).attr("number");
-        var line = parseInt($(this).attr("line"));
-        if(isvideo == "1" && $(this).attr("state") == "4")
-        {
-            if( $(this).attr("account") == 1 && $(this).attr("number").substring(0,2) == mIPVPrefix ){
-                //this is ipv conference line, do not need to layout
-            }else{
-                videonum++;
-                namearray.push(name);
-                numberarray.push(number);
-                linearray.push(line);
+function cb_get_layoutinfo(urihead){
+    var returninfo;
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        async:false,
+        dataType:'text',
+        success:function(data) {
+            data = eval("(" + data + ")");
+            if(data.res == "success"){
+                if(urihead.indexOf("gethdmi2state") != -1)
+                    returninfo = data.state;
+                else if(urihead.indexOf("displaymode") != -1)
+                    returninfo = data.mode;
+                else if(urihead.indexOf("displaycontent") != -1)
+                    returninfo = data.lines;
+                else if(urihead.indexOf("issysrcmdmode") != -1)
+                    returninfo = data.state;
             }
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
         }
-    });
-
-    //console.log("videonum = " + videonum + ",ispresent = " + ispresent + ",init_mode = " + init_mode);
-    if(videonum == 0 && ispresent)
-    {
-        var appendstr = "<ul class='layoutlist'>";   
-        //pip-2
-        appendstr += "<li class='onelayoutlist' mode='pip-2'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='mainlayout firstlayout'>";
-        appendstr +=     "<p>"+a_10004+"</p>";
-        appendstr +=     "</div>";
-        appendstr +=     "<div class='minorlayout'>";
-        appendstr +=     "<p>"+a_10032+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        //content
-        appendstr += "<li class='onelayoutlist' mode='content'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='maxlayout'>";
-        appendstr +=     "<p>"+a_10004+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        //camera
-        appendstr += "<li class='onelayoutlist' mode='camera'>";
-        appendstr += "<div class='onelayoutitem'>";
-        appendstr +=     "<div class='maxlayout'>";
-        appendstr +=     "<p>"+a_10032+"</p>";
-        appendstr +=     "</div>";
-        appendstr += "</div>";
-        appendstr += "<input type='radio' class='onelayoutradio' name='chooselayout' />";
-        appendstr += "</li>";
-        
-
-        appendstr += "</ul>";
-
-        $("#hdmiout2").append(appendstr);
-
-        $(".onelayoutlist").click(function(){
-            var mode = $(this).attr("mode");
-            var pipstate = "",position;
-            var urihead;
-            if(mode.indexOf("pip") != -1)
-            {
-                mode = mode.split("-");
-                pipstate = mode[1];
-                mode = mode[0];
-                if(pipstate == "4")
-                    position = 196612;
-                else
-                    position = 4;
-            }
-            if(pipstate == "")
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode);
-            else
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode)+"&pipstate="+pipstate+"&position="+position;
-
-            //cb_get_confaction(urihead,"");
-            $(".onelayoutitem").removeClass("active");
-            $(this).children(".onelayoutitem").addClass("active");
-            $(this).children(".onelayoutradio").attr("checked","checked");
-        });
-        $(".onelayoutradio").click(function(){
-            var mode = $(this).parent().attr("mode");
-            var pipstate = "",position;
-            var urihead;
-            if(mode.indexOf("pip") != -1)
-            {
-                mode = mode.split("-");
-                pipstate = mode[1];
-                mode = mode[0];
-                if(pipstate == "4")
-                    position = 196612;
-                else
-                    position = 4;
-            }
-            if(pipstate == "")
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode);
-            else
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode)+"&pipstate="+pipstate+"&position="+position;
-
-            //cb_get_confaction(urihead,"");
-            $(".onelayoutitem").removeClass("active");
-            $(this).prev().addClass("active");
-        });
-        if(init_mode == "pip")
-        {
-            $(".onelayoutlist[mode=pip-"+piparg+"]").find(".onelayoutradio").click();
-        }
-        else
-        {
-            $(".onelayoutlist[mode=\""+init_mode+"\"]").find(".onelayoutradio").click();
-        }
-    }
-    else
-    {
-        var appendstr = "<ul class='layoutlist autosize'>";
-        var n = 0;
-        var initlocal = true;
-        //var showlist = ".nopresent";
-        $(".modelist .withpresent").hide();
-        $(".modelist .withpresent").next("li").hide();
-        //$("#laymodetips").css("left","100px");
-        //init mode picture
-        //console.log("maxarg = " + maxarg + ",init_mode = " + init_mode);
-        if(maxarg == "13" || init_mode == "overlap" || init_mode == "content")
-        {
-            //show local
-            appendstr += "<li class='mainpip' pipstate='13'>";
-            appendstr +=     "<p>"+htmlEncode(namearray[0])+"</p>";
-            appendstr += "</li>";
-            initlocal = false;
-        }
-        else
-        {
-            if( $("#conf .remoteline[line=\""+maxarg+"\"]").length <= 0 ){
-                var newline = $("#conf .remoteline").eq(0).attr("line");
-                var newacct = $("#conf .remoteline").eq(0).attr("account");
-                if( newacct == "1" ){
-                    var number = $("#conf .remoteline").eq(0).attr("number");
-                    if( number.substring(0, 2) == mIPVPrefix ){
-                        newline = $("#conf .remoteline").eq(1).attr("line");
-                    }
-                }
-                maxarg = newline;
-            }
-            var name = $("#conf .remoteline[line=\""+maxarg+"\"]").attr("name");
-            var number = $("#conf .remoteline[line=\""+maxarg+"\"]").attr("number");
-            appendstr += "<li class='mainpip' pipstate='"+maxarg+"'>";
-            appendstr +=     "<p>"+htmlEncode(name)+"</p>";
-            appendstr += "</li>";
-        }
-        if(ispresent)
-        {
-            //showlist = ".withpresent";
-            $(".modelist .withpresent").show();
-            $(".modelist .withpresent").next("li").show();
-            //$("#laymodetips").css("left","150px");
-            appendstr += "<li class='maxlayout' pipstate='content'>";
-            appendstr +=     "<p>"+a_10004+"</p>";
-            appendstr += "</li>";
-        }
-        for(;n<linearray.length;n++)
-        {
-            //if mode is overlap, the mainpip is local,so do not create minorpip with local
-            if(!initlocal)
-            {
-                initlocal = true;
-                continue;
-            }
-
-            if(linearray[n] == parseInt(maxarg))
-                continue;
-
-            appendstr += "<li class='minorpip' pipstate='"+linearray[n]+"'>";
-            appendstr +=     "<p>"+htmlEncode(namearray[n])+"</p>";
-            appendstr += "</li>";
-        }
-
-        n = 0;
-        for(;n<linearray.length;n++)
-        {
-            //init overlap
-            appendstr += "<li class='morelineoverlap' pipstate='"+linearray[n]+"'>";
-            appendstr +=     "<p>"+htmlEncode(namearray[n])+"</p>";
-            appendstr += "</li>";
-        }
-
-        appendstr += "</ul>";
-        $("#hdmiout2").append(appendstr);
-        $(".modelist").show();
-        //$(showlist).show();
-        $("#layoutdiv .layoutmode").show();
-        
-        if(init_mode == "content")
-        {
-            $(".modelist li[mode='content']").click();
-        }
-        else if(init_mode == "picture")
-        {
-            $(".modelist li[mode='picture']").click();
-        }
-        else
-        {
-            $(".modelist li[mode='overlap']").click();
-        }
-    }
-
-    $(".modelist li").hover(function(){
-        $(this).addClass("buttonover");
-        $(this).children().addClass("buttonover");
-    },function(){
-        $(this).removeClass("buttonover");
-        $(this).children().removeClass("buttonover");
-    });
-    $("#layoutdiv").show();
-    ctrl_show_maskdiv(true);
-}
-var hdmitemp = new Array;//globle variable to save line who is chosen.
-var custommode = new Array;//globle variable to save line mode.
- function showLayout_custom (data,currentmode) {   
-    var hdmi = new Array; 
-    var hdmi1 = hdmi[1] =  data.hdmi1;   
-    var hdmi2 = hdmi[2] = data.hdmi2;
-    var hdmi3 = hdmi[3] = data.hdmi3;
-    hdmitemp[1] = hdmi[1].split(",");
-    hdmitemp[2] = hdmi[2].split(",");
-    hdmitemp[3] = hdmi[3].split(",");
-    for ( var i =1;i < 4; i++ )
-    {
-        custommode[i] = data["custommode" + i]
-    }
-    var presentstate = false;
-    var hdmioutmode = $("#layout").attr("hdmioutmode");
-    var appendstr = "";
-    if( ($("#present").attr("ison") == "1") || ($("#present").attr("bfcp") == "2") )
-    {
-        presentstate = true;
-    }
-    if(presentstate && hdmioutmode == "1")
-    {
-        $(".modelist .custom").hide();
-        $(".modelist .custom").prev("li").hide();
-        return false;
-    }
-    else
-    {
-        $(".modelist .custom").show();
-    }
-    $("#layoutHDMIinfo,#layoutLinelist").remove();
-    appendstr += "<div id='layoutHDMIinfo'>";
-    appendstr +=     "<div class='layoutHDMIlist hdmi1list' hdmimode='hdmi1list' list='1' custommode = " + custommode[1]+ ">";
-    appendstr +=         "<span class=''>HDMI 1</span>";
-    appendstr +=         "<div class='hdmilistimg'></div>";
-    appendstr +=     "</div>";
-    appendstr +=     "<div class='layoutHDMIlist hdmi2list' hdmimode='hdmi2list' list='2' custommode = " + custommode[2]+ ">";
-    appendstr +=         "<span class=''>HDMI 2</span>";
-    appendstr +=         "<div class='hdmilistimg'></div>";
-    appendstr +=     "</div>";
-    appendstr +=     "<div class='layoutHDMIlist hdmi3list' hdmimode='hdmi3list' list='3' custommode = " + custommode[3]+ ">";
-    appendstr +=         "<span class=''>HDMI 3</span>";
-    appendstr +=         "<div class='hdmilistimg'></div>";
-    appendstr +=     "</div>";
-    appendstr += "</div>";
-    appendstr += "<div id='layoutLinelist'>";
-    appendstr +=    "<div id='layoutLineMode'>";
-    appendstr +=        "<div class='overlapcustom'>";
-    appendstr +=            "<div class='overlap'></div>";
-    appendstr +=        "</div>";
-    appendstr +=        "<div class='pipcustom'>";
-    appendstr +=            "<div class='pip'></div>";
-    appendstr +=        "</div>";
-    appendstr +=    "</div>";                        
-    appendstr += "</div>";
-    appendstr += "<div id='layoutImgTip'>";
-    appendstr +=    "<div id='layoutmaxiImg'>";
-    appendstr +=        "<span id='layoutmaxispan'>";  
-    appendstr +=        "</span>";     
-    appendstr +=    "</div>";   
-    appendstr +=    "<div id='layoutsmallImg'>";  
-    appendstr +=        "<span id='layoutsmallspan'>";  
-    appendstr +=        "</span>";
-    appendstr +=    "</div>";  
-    appendstr +=    "<div id='layoutnoImg'>";
-    appendstr +=        "<span id='layoutnospan'>";  
-    appendstr +=        "</span>";     
-    appendstr +=    "</div>";                       
-    appendstr += "</div>";
-
-    $(".layoutcontainer").append(appendstr);
-    $("#layoutHDMIinfo,#layoutLinelist").hide();
-    $("#layoutmaxispan").text(a_19337);
-    $("#layoutsmallspan").text(a_19338);
-    $("#layoutnospan").text(a_19339);
-
-    $("#layoutLinelist .overlapcustom").hover(function(){
-        $(this).addClass("buttonover");
-        $(this).children().addClass("buttonover");
-    },function(){
-        $(this).removeClass("buttonover");
-        $(this).children().removeClass("buttonover");
-    });
-
-    $("#layoutLinelist .pipcustom").hover(function(){
-        $(this).addClass("buttonover");
-        $(this).children().addClass("buttonover");    
-    },function(){
-        $(this).removeClass("buttonover");
-        $(this).children().removeClass("buttonover");
     });
     
-    if(hdmioutmode == "1")
-    {
-        //only puglin hdmi1
-        if (presentstate)
-        {
-            $("#layoutHDMIinfo .hdmi1list").hide();
-        }
-        else
-        {
-            $("#layoutHDMIinfo .hdmi1list").show();
-        }
-        $(" #layoutHDMIinfo .hdmi2list, #layoutHDMIinfo .hdmi3list").hide();
-        // $("#layoutHDMIinfo .overlapcustom, #layoutHDMIinfo .pipcustom").show();
-        $("#layoutHDMIinfo").attr("hdminum","1");
-    }
-    else if(hdmioutmode == "2")
-    {
-        //puglin hdmi1 and hdmi2
-        if(presentstate)
-        {
-            $("#layoutHDMIinfo .hdmi1list, #layoutHDMIinfo .hdmi3list").hide();
-            // $("#layoutHDMIinfo .overlapcustom, #layoutHDMIinfo .pipcustom").show();
-        }
-        else
-        {
-            $("#layoutHDMIinfo .hdmi1list, #layoutHDMIinfo .hdmi2list").show();
-            $("#layoutHDMIinfo .overlapcustom, #layoutHDMIinfo .pipcustom, #layoutHDMIinfo .hdmi3list").hide();
-        }
-        $("#layoutHDMIinfo").attr("hdminum","2");
-    }
-    else if(hdmioutmode == "3")
-    {
-        //puglin hdmi1 and hdmi2 and hdmi3
-        if(presentstate)
-        {
-            $("#layoutHDMIinfo .hdmi2list, #layoutHDMIinfo .hdmi3list").show();
-            $("#layoutHDMIinfo .overlapcustom, #layoutHDMIinfo .pipcustom, #layoutHDMIinfo .hdmi1list").hide();
-        }
-        else
-        {
-            $("#layoutHDMIinfo .hdmi1list, #layoutHDMIinfo .hdmi2list, #layoutHDMIinfo .hdmi3list").show();
-            $("#layoutHDMIinfo .overlapcustom, #layoutHDMIinfo .pipcustom").hide();
-        }
-        $("#layoutHDMIinfo").attr("hdminum","3");
-    }
+    return returninfo;
+}
 
-    var customlist = "<ul class='customlayoutlist'>";
-    //create overlap line div
-    //hdmi1
-    var linearray = [];
-    linearray.push(13);//local
-    $("#conf .remoteline").each(function(){
-        var isvideo = $(this).attr("isvideo");
-        var acct = $(this).attr("account");
-        var number = $(this).attr("number");
-        var line = parseInt($(this).attr("line"));
-        if(isvideo == "1" && $(this).attr("state") == "4")
-        {
-            if(acct == "1" && number.substring(0,2) == mIPVPrefix)
-                return true;
-            linearray.push(line);
-        }
+function layout_choosemode(mode){
+    $(".modelist li").removeClass("active");
+    $(".modelist li div").removeClass("active");
+    switch (mode) {
+        case "1":
+        case "2":
+        case "3":
+            $(".modelist li[mode=custom]").addClass("active");
+            $(".modelist li[mode=custom] div").addClass("active");
+            break;
+        case "4":
+            if(mIsSysrcmd){
+                $(".modelist li[mode=sysrcmd]").addClass("active");
+                $(".modelist li[mode=sysrcmd] div").addClass("active");
+            }
+            else{
+                $(".modelist li[mode=overlap]").addClass("active");
+                $(".modelist li[mode=overlap] div").addClass("active");
+            }
+            break;
+        case "5":
+            $(".modelist li[mode=childmother]").addClass("active");
+            $(".modelist li[mode=childmother] div").addClass("active");
+            break;
+        case "6":
+            $(".modelist li[mode=pop]").addClass("active");
+            $(".modelist li[mode=pop] div").addClass("active");
+            break;
+    }
+}
 
-    });
-    //linearray = hdmi1.split(",");
-    if(hdmioutmode == "1" && linearray.length <= 1)
-    {
-        $(".modelist .custom").hide();
-        if( presentstate )
-            $(".modelist .custom").prev("li").hide();
-        else
-            $(".modelist .withpresent").prev("li").hide();
-        return false;
-    }
-    if(hdmioutmode == "1" && linearray.length <= 2)
-    {
-        return false;
-    }
-    else if(hdmioutmode == "2" && presentstate)
-    {}
-    else
-    {
-        for(var n=0;n<linearray.length;n++)
-        {
-            var tmpline = linearray[n];
-            if(tmpline == "12")
-            {
-                continue;
-            }
-            var name = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("name");
-            var number = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("number");
-            if(tmpline == "13")
-            {
-                name = a_10032;//local
-                number = a_10032;
-            }
-            customlist += "<li class='customoverlap inhdmi1' list='1' line="+tmpline+" custommode =" + custommode[1] + ">";
-            customlist +=     "<div class='hdmi1custommode'>";
-            customlist +=         "<div class='hdmi1maxisizemode'></div>";
-            customlist +=         "<div class='hdmi1smallsizemode'></div>";
-            customlist +=         "<div class='hdmi1nosizemode'></div>";
-            customlist +=     "</div>";
-            customlist +=     "<p class='showname'>"+name+"</p>";
-            customlist +=     "<p class='shownumber'>("+number+")</p>";
-            customlist += "</li>";
-        }
-    }
-    if(hdmioutmode == "2" || hdmioutmode == "3")
-    {
-        //linearray = hdmi2.split(",");
-        for(var n=0;n<linearray.length;n++)
-        {
-            var tmpline = linearray[n];
-            if(tmpline == "12")
-            {
-                continue;
-            }
-            else
-            {
-                if($(".customlayoutlist li.customoverlap[line=\""+tmpline+"\"]").length > 0)
-                {
-                    $(".customlayoutlist li.customoverlap[line=\""+tmpline+"\"]").addClass("inhdmi2");
-                    continue;
+/*only available for one remote line*/
+function layout_adjuststyle(type, mode){
+    var presenton = parseInt($("#present").attr("ison"));
+    switch (type) {
+        case 1: //one screen with default mode
+            $(".layoutbkgdiv").css({"width":"78%", "height":"76%", "margin":"5% 0 0 11.5%"});
+            if(mode == 4){
+                if(!presenton){
+                    $(".layoutlinediv").css({"margin":"17% 0 0 1.7%", "width":"47.5%", "height":"50%"});
+                    $(".layoutlinediv .layoutlinename").css("margin-top", "31%");
                 }
-            }
-            var name = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("name");
-            var number = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("number");
-            if(tmpline == "13")
-            {
-                name = a_10032;//local
-                number = a_10032;
-            }
-            customlist += "<li class='customoverlap inhdmi2' list='2' line="+tmpline+" custommode = " + custommode[2] + ">";
-            customlist +=     "<div class='hdmi2custommode'>";
-            customlist +=         "<div class='hdmi2maxisizemode'></div>";
-            customlist +=         "<div class='hdmi2smallsizemode'></div>";
-            customlist +=         "<div class='hdmi2nosizemode'></div>";
-            customlist +=     "</div>";
-            customlist +=     "<p class='showname'>"+name+"</p>";
-            customlist +=     "<p class='shownumber'>("+number+")</p>";
-            customlist += "</li>";
-        }
-    }
-    if(hdmioutmode == "3")
-    {
-        //linearray = hdmi3.split(",");
-        for(var n=0;n<linearray.length;n++)
-        {
-            var tmpline = linearray[n];
-            if(tmpline == "12")
-            {
-                continue;
-            }
-            else
-            {
-                if($(".customlayoutlist li.customoverlap[line=\""+tmpline+"\"]").length > 0)
-                {
-                    $(".customlayoutlist li.customoverlap[line=\""+tmpline+"\"]").addClass("inhdmi3");
-                    continue;
-                }
-            }
-            var name = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("name");
-            var number = $("#conf .remoteline[line=\""+tmpline+"\"]").attr("number");
-            if(tmpline == "13")
-            {
-                name = a_10032;//local
-                number = a_10032;
-            }
-            customlist += "<li class='customoverlap inhdmi3' list='3' line="+tmpline+" custommode = " + custommode[3] + ">";
-            customlist +=     "<div class='hdmi3custommode'>";
-            customlist +=         "<div class='hdmi3maxisizemode'></div>";
-            customlist +=         "<div class='hdmi3smallsizemode'></div>";
-            customlist +=         "<div class='hdmi3nosizemode'></div>";
-            customlist +=     "</div>";
-            customlist +=     "<p class='showname'>"+name+"</p>";
-            customlist +=     "<p class='shownumber'>("+number+")</p>";
-            customlist += "</li>";
-        }
-    }
-
-    $("#layoutLinelist").append(customlist);
-    $(".hdmi1nosizemode,.hdmi2nosizemode, .hdmi3nosizemode").addClass("active");
-
-    //add click
-    $(".layoutHDMIlist").click(function(){
-        var mode = $(this).attr("hdmimode");
-        var hdminum = $("#layoutHDMIinfo").attr("hdminum");
-       
-        $(".customlayoutlist li").hide();
-        $(".customlayoutlist li input").hide();
-        $("#layoutHDMIinfo .hdmilistimg").hide();
-        $(this).addClass("active").find(".hdmilistimg").show();
-        $(this).siblings().removeClass("active");
-
-         var custommode = $(this).attr("custommode");
-        if (custommode == 1) {
-            $("#layoutLineMode .overlapcustom").click();            
-        }
-        else if (custommode == 2) {
-            $("#layoutLineMode .pipcustom").click();
-        }
-
-        if(mode == "overlapcustom")
-        {
-            $(".customoverlap").show();
-            if(hdminum == "1")
-            {
-                $(".customlayoutlist .inhdmi1 .cbxcustomhdmi1").show();
-            }
-            else if(hdminum == "2")
-            {
-                $(".customlayoutlist .inhdmi2 .cbxcustomhdmi2").show();
-            }
-        }else if(mode == "pipcustom")
-        {
-            $(".custommainpip,.cunstomminorpip").show();
-            if(hdminum == "1")
-            {
-                $(".customlayoutlist .inhdmi1 .cbxcustomhdmi1").show();
-            }
-            else if(hdminum == "2")
-            {
-                $(".customlayoutlist .inhdmi2 .cbxcustomhdmi2").show();
-            }
-        }else if(mode == "hdmi1list")
-        {
-            $(".customlayoutlist .inhdmi1").show();
-            if( hdminum == "3" && !presentstate )
-            {
-                $("#layoutLineMode").hide();
-                $(".customlayoutlist").css("marginTop","48px");
-                $(".customlayoutlist .inhdmi1 .hdmi1maxisizemode").removeClass("hidemaxisizemode");
-                $(".customlayoutlist .inhdmi1 .hdmi1smallsizemode").hide();
-                $(".customlayoutlist .inhdmi1 .hdmi1nosizemode").hide();
-                $(".customlayoutlist .inhdmi1[line="+ hdmitemp[1][0]+"]").find(".hdmi1maxisizemode").addClass("active")
-            }
-        }else if(mode == "hdmi2list")
-        {
-            $("#layoutLineMode").show();
-            $(".customlayoutlist").css("marginTop","0");
-            $(".customlayoutlist .inhdmi2").show();
-            $(".customlayoutlist .inhdmi2 .cbxcustomhdmi2").show();
-        }else if(mode == "hdmi3list")
-        {
-            $("#layoutLineMode").show();
-            $(".customlayoutlist").css("marginTop","0");
-            $(".customlayoutlist .inhdmi3").show();
-            $(".customlayoutlist .inhdmi3 .cbxcustomhdmi3").show();
-        }
-    });
-
-    $("#layoutLineMode .overlapcustom").click(function(){
-        // if ($(this).hasClass("active")) return false;
-        $(this).addClass("active");
-        $(this).children().addClass("active");            
-        $("#layoutLineMode .pipcustom").removeClass("active");
-        $("#layoutLineMode .pipcustom").children().removeClass("active");
-
-        $("#layoutHDMIinfo .layoutHDMIlist").each(function(){
-            if($(this).hasClass("active")) {  
-                $(this).attr("custommode","1");    
-
-                var hdmimode = $(this).attr("list");   
-                custommode[hdmimode]  = 1;            
-                $(".customlayoutlist .inhdmi"+hdmimode).each(function(){
-                    $(this).attr("custommode","1");
-                })
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"maxisizemode").addClass("hidemaxisizemode");
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"maxisizemode").removeClass("active");
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"smallsizemode").removeClass("active");
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"nosizemode").addClass("active");
-
-                var templinearray = hdmitemp[hdmimode].toString().split(",");
-                for (var t = 0; t < templinearray.length; t++) 
-                {
-                    $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[t]+"\"]").find(".hdmi"+hdmimode+"smallsizemode").addClass("active");
-                    $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[t]+"\"]").find(".hdmi"+hdmimode+"nosizemode").removeClass("active");
-                }
-                return false;
-           }
-       })
-    })
-
-    $("#layoutLineMode .pipcustom").click(function(){
-        if ($(this).hasClass("active")) return false;
-        $(this).addClass("active");
-        $(this).children().addClass("active");
-        $("#layoutLineMode .overlapcustom").removeClass("active");
-        $("#layoutLineMode .overlapcustom").children().removeClass("active");       
-
-        $("#layoutHDMIinfo .layoutHDMIlist").each(function(){
-            if($(this).hasClass("active")) {
-                $(this).attr("custommode","2");
-                
-                var hdmimode = $(this).attr("list");
-                custommode[hdmimode]  = 2;
-                $(".customlayoutlist .inhdmi"+hdmimode).each(function(){
-                    $(this).attr("custommode","2");
-                })
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"maxisizemode").removeClass("hidemaxisizemode");
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"maxisizemode").removeClass("active");
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"smallsizemode").removeClass("active");
-                $(".customlayoutlist .inhdmi"+hdmimode).find(".hdmi"+hdmimode+"nosizemode").addClass("active");
-
-                var templinearray = hdmitemp[hdmimode].toString().split(",");
-                for (var h=0;h<templinearray.length;h++) {
-                    if (h == 0) {
-                        $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[0]+"\"]").find(".hdmi"+hdmimode+"maxisizemode").addClass("active");
-                         $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[0]+"\"]").find(".hdmi"+hdmimode+"smallsizemode").removeClass("active");
-                         $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[0]+"\"]").find(".hdmi"+hdmimode+"nosizemode").removeClass("active");
-                    }
-                    else
-                    {
-                        $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[h]+"\"]").find(".hdmi"+hdmimode+"smallsizemode").addClass("active");
-                        $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[h]+"\"]").find(".hdmi"+hdmimode+"maxisizemode").removeClass("active");
-                        $(".customlayoutlist .inhdmi"+hdmimode+"[line=\""+templinearray[h]+"\"]").find(".hdmi"+hdmimode+"nosizemode").removeClass("active");
-                    }  
-                }
-                return false;
-           }
-       })
-    })
-
-    $(".customlayoutlist li").click(function(event){
-        e = event || window.event;
-        target = e.target || e.srcElement;
-        var line = $(target).parent().parent("li").attr("line");
-        var hdmitempmode = $(target).parent().parent("li").attr("list");
-        var custommode = $(target).parent().parent("li").attr("custommode");
-        var templine;
-        if ( $.inArray("-1", hdmitemp[hdmitempmode]) != -1 ) 
-        {
-            hdmitemp[hdmitempmode].splice($.inArray("-1", hdmitemp[hdmitempmode]),1);
-        } 
-
-        if ( $(target).prop("class").indexOf("nosizemode") != -1 ) // click nosize
-        {
-            if (hdmitemp[hdmitempmode].length == 1 &&hdmitemp[hdmitempmode][0] == line) {
-                $("#operatetip span").text(a_16436);
-                $("#operatetip").fadeIn();
-                setTimeout(function(){$("#operatetip").fadeOut();},2000);
-                return false;                
-            }
-            if ( custommode == 2 )
-            {
-                if ( $.inArray(line, hdmitemp[hdmitempmode]) != -1 ) 
-                {
-                    if ( hdmitemp[hdmitempmode][0] == line )
-                    {                        
-                        if ( line == linearray[linearray.length - 1 ] )
-                        {
-                            templine = 13;
-                        }
-                        else if ( line == 13 )
-                        {
-                            templine = 0;
-                        }
-                        else
-                        {
-                            templine = Number(line) + 1;
-                        }
-                        $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+templine+"\"]").find(".hdmi"+hdmitempmode+"maxisizemode").addClass("active");
-                        $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+templine+"\"]").find(".hdmi"+hdmitempmode+"smallsizemode").removeClass("active");
-                        $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+templine+"\"]").find(".hdmi"+hdmitempmode+"nosizemode").removeClass("active");
-                        if ( $.inArray(templine.toString(), hdmitemp[hdmitempmode]) != -1 ) 
-                        {
-                            hdmitemp[hdmitempmode].splice($.inArray(templine.toString(), hdmitemp[hdmitempmode]),1);
-                        }
-                        hdmitemp[hdmitempmode].splice(0,0,templine.toString());
+                else{
+                    if(mIsSysrcmd)
+                        $(".layoutlinediv").css({"margin":"10px", "width":"97.5%", "height":"96%"});
+                    else{
+                        $(".layoutlinediv").css({"margin":"10px 0 0 1.7%", "width":"47.5%", "height":"47%"});
+                        $("#layoutline-12").css({"margin-left":"25%"});
                     }
                 }
             }
-            if ( $.inArray(line, hdmitemp[hdmitempmode]) != -1 ) 
-            {
-                hdmitemp[hdmitempmode].splice($.inArray(line, hdmitemp[hdmitempmode]),1);
-            }
-        }
-        else if ( $(target).prop("class").indexOf("maxisizemode") != -1 ) // click maxisize
-        {
-            if ( $(target).prop("class").indexOf("hdmi1") != -1 )
-            {
-                if ( hdminum == "3" && !presentstate )
-                {
-                    hdmitemp[1] = [];
-                    hdmitemp[1].push(line);
-                    $(".customlayoutlist .inhdmi1").find(".hdmi1maxisizemode").removeClass("active");
-                    $(".customlayoutlist .inhdmi1[line=\""+hdmitemp[1][0]+"\"]").find(".hdmi1maxisizemode").addClass("active");                   
-                    return false;
+            else if(mode == 5){
+                if(!presenton){
+                    $(".largelinediv").css({"width":"65%", "height":"65%", "margin":"12% 0 0 13px"});
+                    $(".smalllinediv").css({"width":"30%", "height":"30%", "margin":"23% 13px 0 0"});
+                }
+                else{
+                    $(".largelinediv").css({"width":"65%", "height":"62.5%", "margin":"12.5% 0 0 13px"});
+                    $(".smalllinediv").css({"width":"30%", "height":"30%", "margin":"12.5% 13px 0 0"});
+                    $("#layoutline-13").css({"margin-top":"13px"});
                 }
             }
+            else if(mode == 6){
+                if(!presenton){
+                    $(".layoutlinename").css("margin-top", "30%");
+                    //$(".smalllinediv .layoutlinename").css("margin-top", "30%");
+                    $(".largelinediv").css({"width":"97.5%", "height":"96%", "margin":"10px 0 0 10px"});
+                    $(".smalllinediv").css({"margin-top":"10%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                }
+                else{
+                    $(".largelinediv").css({"margin":"10px", "width":"97.5%", "height":"96%"});
+                    $(".largelinediv .layoutlinename").css("margin-top", "31%");
+                    $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                    $("#layoutline-13").css({"float":"left"});
+                }
+            }
+            break;
+        case 2: //one screen with custom mode
+            $("#layoutcustom").css({"width":"65%", "height":"100%", "float":"left", "margin-left":"15px"});
+            $(".hdmititle").css({"height":"8.4%", "width":"100%"});
+            $(".layoutbkgdiv").css({"height":"75%", "width":"100%"});
+            if(mode == 1){
+                if(!presenton){
+                        $(".layoutlinediv").css({"margin":"21% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                        $(".cusmodecls").css({"margin-top":"18.7%"});
+                        $(".layoutnumber").children(".normalscreen").addClass("active");
+                }
+                else{
+                    if(mIsSysrcmdBefore == 0){
+                        $(".layoutlinediv").css({"margin":"13px 0 0 2%", "width":"47%", "height":"38%"});
+                        $("#layoutline-12").css({"margin-left":"26.5%", "margin-top":"33px"});
+                        $(".cusmodecls").css({"margin-top":"31px"});
+                        $(".layoutnumber").children(".normalscreen").addClass("active");
+                    }
+                    else{
+                        $(".layoutlinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+                        $(".layoutlinediv .layoutlinename").css({"margin-top":"35%"});
+                        $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
+                        $(".layoutnumber:eq(1)").children(".hidescreen").addClass("active");
+                        $(".layoutnumber:eq(2)").children(".hidescreen").addClass("active");
+                    }
+                }
+                $(".cusoverlap").addClass("active");
+            }
+            else if(mode == 2){
+                if(!presenton){
+                    $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
+                    $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
+                    $(".cusmodecls").css({"margin-top":"13.7%"});
+                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
+                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
+                }
+                else{
+                    $(".largelinediv").css({"width":"64%", "height":"52.5%", "margin":"17% 0 0 13px"});
+                    $(".layoutlinediv .layoutlinename").css({"margin-top":"31%"});
+                    $(".smalllinediv").css({"width":"30%", "height":"25%", "margin":"17% 13px 0 0"});
+                    $("#layoutline-13").css({"margin-top":"13px"});
+                    $(".cusmodecls").css({"margin-top":"13%"});
+                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
+                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
+                    $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
+                }
+                $(".cuschildmother").addClass("active");
+            }
+            else if(mode == 3){
+                if(!presenton){
+                    $(".layoutlinename").css("margin-top", "33%");
+                    $(".smalllinediv .layoutlinename").css("margin-top", "30%");
+                    $(".largelinediv").css({"width":"96.8%", "height":"87.5%", "margin":"10px"});
+                    $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
+                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
+                }
+                else{
+                    $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+                    $(".largelinediv .layoutlinename").css("margin-top", "31%");
+                    $(".smalllinediv").css({"margin-top":"14.5%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                    $("#layoutline-13").css({"float":"left"});
+                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
+                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
+                    $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
+                }
+                $(".cuspop").addClass("active");
+            }
+            break;
+        case 3: //two screen with default mode;
+            $(".layouthdmi").css({"width":"50%", "float":"left", "height":"80%"});
+            $(".layouthdmitext").css({"width":"90%", "height":"20%", "text-align":"center", "font-size":"22px", "line-height":"120px", "margin-left":"8%"});
+            $(".layoutbkgdiv").css({"width":"90%", "height":"65%", "margin-left":"8%"});
+            $("#layoutbkg2, #layouthdmitext2").css({"margin-left":"4%"});
             
-            if ( custommode == 2 )
-            {
-                if ( $.inArray(line, hdmitemp[hdmitempmode]) != -1 ) 
-                {
-                    hdmitemp[hdmitempmode].splice($.inArray(line, hdmitemp[hdmitempmode]),1);
+            if(mode == 4){
+                if(!presenton){
+                    if(!mIsSysrcmd){
+                        $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                        $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
+                        $("#layoutbkg2 .layoutlinediv").css({"margin":"25% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                        $("#layoutbkg2 .layoutlinename").css({"margin-top":"26%"});
+                    }
+                    else{
+                        $(".layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                        $(".layoutlinename").css({"margin-top":"35%"});
+                    }
                 }
-                $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+hdmitemp[hdmitempmode][0]+"\"]").find(".hdmi"+hdmitempmode+"maxisizemode").removeClass("active");
-                $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+hdmitemp[hdmitempmode][0]+"\"]").find(".hdmi"+hdmitempmode+"smallsizemode").addClass("active");               
-            }
-            hdmitemp[hdmitempmode].splice(0,0,line);
-        }
-        else if ( $(target).prop("class").indexOf("smallsizemode") != -1 ) // click smallsize
-        {
-           if ( $.inArray(line, hdmitemp[hdmitempmode]) == -1 ) 
-            {
-                hdmitemp[hdmitempmode].splice(-1,0,line);
-            }
-            else if ( custommode == 2 )
-            { 
-                if ( hdmitemp[hdmitempmode][0] == line )
-                {
-                    if ( line == linearray[ linearray.length - 1 ] )
-                    {
-                        templine = 13;
-                    }
-                    else if ( line == 13 )
-                    {
-                        templine = 0;
-                    }
-                    else
-                    {
-                        templine = Number(line) + 1;
-                    }
-                    $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+templine+"\"]").find(".hdmi"+hdmitempmode+"maxisizemode").addClass("active");
-                    $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+templine+"\"]").find(".hdmi"+hdmitempmode+"smallsizemode").removeClass("active");
-                    $(".customlayoutlist .inhdmi"+hdmitempmode+"[line=\""+templine+"\"]").find(".hdmi"+hdmitempmode+"nosizemode").removeClass("active");
-                    if ( $.inArray(templine.toString(), hdmitemp[hdmitempmode]) != -1 ) 
-                    {
-                        hdmitemp[hdmitempmode].splice($.inArray(templine.toString(), hdmitemp[hdmitempmode]),1);
-                    }                               
-                    hdmitemp[hdmitempmode].splice(0,0,templine.toString());
-                }                                
-            }
-            if ( custommode == 1 )
-            {
-                 hdmitemp[hdmitempmode].sort();
-                if ( $.inArray("13", hdmitemp[hdmitempmode]) != -1 ) 
-                {
-                    hdmitemp[hdmitempmode].splice($.inArray("13", hdmitemp[hdmitempmode]),1);
-                    hdmitemp[hdmitempmode].splice(0,0,"13");
+                else{
+                    $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                    $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
+                    $("#layoutbkg2 .layoutlinediv").css({"margin":"25% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                    $("#layoutbkg2 .layoutlinename").css({"margin-top":"26%"});
                 }
-            }                                  
-        }
-        $(target).addClass("active").siblings().removeClass("active");        
-    })
+            }
+            else if(mode == 5){
+                $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
+                $("#layoutbkg2 .largelinediv").css({"width":"64%", "height":"55%", "margin":"19% 0 0 9px"});
+                $("#layoutbkg2 .smalllinediv").css({"width":"30%", "height":"28%", "margin":"30% 9px 0 0"});
+                $("#layoutbkg2 .layoutlinename").css({"margin-top":"26%"});
+            }
+            else if(mode == 6){
+                $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
+                $("#layoutbkg2 .largelinediv").css({"width":"95.5%", "height":"94.2%", "margin":"10px"});
+                $("#layoutbkg2 .smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                $("#layoutbkg2 .largelinediv .layoutlinename").css({"margin-top":"35%"});
+                $("#layoutbkg2 .smalllinediv .layoutlinename").css({"margin-top":"26%"});
+            }
+            break;
+        case 4: //two screen with custom mode
+            $("#layoutcustom").css({"width":"65%", "height":"100%", "float":"left", "margin-left":"15px"});
+            $(".hdmititle").css({"height":"8.4%", "width":"100%"});
+            $(".layoutbkgdiv").css({"height":"75%", "width":"100%"});
+            if(mCurhdmi == 1){
+                $(".layoutlinediv").css({"margin":"10px", "width":"96.9%", "height":"87.5%"});
+                $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
+                if(mode == 1){
+                    $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
+                }
+                else{
+                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
+                }
+                $(".layoutnumber:eq(1)").children(".hidescreen").addClass("active");
+                if($(".layoutnumber:eq(2)") != undefined)
+                    $(".layoutnumber:eq(2)").children(".hidescreen").addClass("active");
+            }
+            else{
+                if(mode == 1){
+                    if(!presenton){
+                        if(mIsSysrcmdBefore == 0){
+                            $(".layoutlinediv").css({"margin":"23% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                            $(".cusmodecls").css({"margin-top":"16.7%"});
+                            $(".layoutnumber").children(".normalscreen").addClass("active");
+                        }
+                        else{
+                            $(".layoutlinediv").css({"margin":"10px", "width":"96.9%", "height":"87.5%"});
+                            $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
+                            $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
+                            $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
+                        }
+                    }
+                    else{
+                        $(".layoutlinediv").css({"margin":"23% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                        $(".cusmodecls").css({"margin-top":"16.7%"});
+                        $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
+                        $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
+                        $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
+                    }
+                    $("cusoverlap").addClass("active");
+                }
+                else if(mode == 2){
+                    $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
+                    $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
+                    $(".cusmodecls").css({"margin-top":"13.7%"});
+                    if(!presenton){
+                        $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
+                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
+                    }
+                    else{
+                        $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
+                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
+                        $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
+                    }
+                    $(".cuschildmother").addClass("active");
+                }
+                else if(mode == 3){
+                    $(".layoutlinename").css("margin-top", "33%");
+                    $(".smalllinediv .layoutlinename").css("margin-top", "30%");
+                    $(".largelinediv").css({"width":"96.9%", "height":"87.5%", "margin":"10px"});
+                    $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                    if(!presenton){
+                        $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
+                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
+                    }
+                    else{
+                        $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
+                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
+                        $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
+                    }
+                    $(".cuspop").addClass("active");
+                }
+                break;
+            }
+    }
+}
+
+function layout_customscreenadjuststyle(mode, content){
+    content = content.split(":::");
     
-    var hdminum = $("#layoutHDMIinfo").attr("hdminum");
-    if(currentmode == "3" || currentmode == "4")
-    {
-        $(".modelist li[mode='custom']").click();
+    $(".layoutbkgdiv").children().each(function(){
+        if(!$(this).hasClass("cusmodecls"))
+            $(this).remove();
+    });
+    
+    if(content.length == 1){
+        var layouthtml = display_layoutlinediv(content, 1);
+        $(".cusmodecls").before(layouthtml);
+        $(".layoutlinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+        $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
+        $(".cusmodecls").css({"margin-top":"0"});
     }
-    for (var j =1; j < 4; j++)
-    {
-        if(custommode[j] == "1")
-        {
-            //overlap in custom layout
-            chooselinearray = hdmi[j].split(",");
-            for(var n=0; n<chooselinearray.length; n++)
-            {
-                if(hdmi3 != "-1" && !presentstate && hdmioutmode == "3")
-                {
-                    $(".customlayoutlist .inhdmi"+j+"[line=\""+chooselinearray[n]+"\"]").find(".radiocustom").attr("checked","checked");
+    else{
+        var layouthtml = "";
+        switch (mode) {
+            case "1":
+                for(var i = 0; i < content.length; i++){
+                    layouthtml += display_layoutlinediv(content[i], mode);
                 }
-                else if (hdmi[j] != -1)
-                {
-                    $(".customlayoutlist .inhdmi"+j+"[line=\""+chooselinearray[n]+"\"]").find(".hdmi"+j+"samllsizemode").addClass("active");
-                    $(".customlayoutlist .inhdmi"+j+"[line=\""+chooselinearray[n]+"\"]").find(".hdmi"+j+"nosizemode").removeClass("active");
+                $(".cusmodecls").before(layouthtml);
+                if(content.length == 2){
+                    $(".layoutlinediv").css({"margin":"21% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                    $(".cusmodecls").css({"margin-top":"18.7%"});
                 }
-            }
-            if(hdminum == "1")
-            {
-                $(".layoutHDMIlist.hdmi1list").click();
-            }
-            if( hdminum =="2" && presentstate)
-            {
-                $(".layoutHDMIlist.hdmi2list").click();
-            }
-            else if(hdminum =="3" && presentstate)
-            {
-                $(".layoutHDMIlist.hdmi2list").click();
-            }
-            else
-            {
-                $(".layoutHDMIlist.hdmi1list").click();
-            }
-        }
-        else if(custommode[j] == "2")
-        {
-            //bug 54896
-            //$(".modelist li[mode='custom']").click(); 
-            //pip in custom layout
-            chooselinearray = hdmi[j].split(",");
-            for(var n=0; n<chooselinearray.length; n++)
-            {
-                if(hdmi3 != "-1" && !presentstate && hdmioutmode == "3")
-                {
-                    $(".customlayoutlist .inhdmi1[line=\""+chooselinearray[n]+"\"]").find(".radiocustom").attr("checked","checked");
+                else if(content.length == 3){
+                    $(".layoutlinediv").css({"margin":"13px 0 0 2%", "width":"47%", "height":"38%"});
+                    $(".layoutlinediv:eq(0)").css({"margin-left":"26.5%", "margin-top":"33px"});
+                    $(".cusmodecls").css({"margin-top":"31px"});
                 }
-                else if (hdmi[j] != -1)
-                {
-                    if ( n == 0 ) {
-                        $(".customlayoutlist .inhdmi"+j+"[line=\""+chooselinearray[0]+"\"]").find(".hdmi"+j+"maxisizemode").addClass("active");
-                        $(".customlayoutlist .inhdmi"+j+"[line=\""+chooselinearray[0]+"\"]").find(".hdmi"+j+"nosizemode").removeClass("active");
+                break;
+            case "2":
+                for(var i = 0; i < content.length; i++){
+                    layouthtml += display_layoutlinediv(content[i], mode, i);
+                }
+                $(".cusmodecls").before(layouthtml);
+                if(content.length == 2){
+                    $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
+                    $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
+                    $(".cusmodecls").css({"margin-top":"13.7%"});
+                }
+                else if(content.length == 3){
+                    $(".largelinediv").css({"width":"64%", "height":"52.5%", "margin":"17% 0 0 13px"});
+                    $(".layoutlinediv .layoutlinename").css({"margin-top":"31%"});
+                    $(".smalllinediv").css({"width":"30%", "height":"25%", "margin":"17% 13px 0 0"});
+                    $(".smalllinediv:eq(1)").css({"margin-top":"13px"});
+                    $(".cusmodecls").css({"margin-top":"13%"});
+                }
+                break;
+            case "3":            
+                    layouthtml = display_layoutlinediv(content, mode);
+                    $(".cusmodecls").before(layouthtml);
+                    if(content.length == 2){
+                        $(".layoutlinename").css("margin-top", "33%");
+                        $(".smalllinediv .layoutlinename").css("margin-top", "30%");
+                        $(".largelinediv").css({"width":"97%", "height":"87.5%", "margin":"10px"});
+                        if($(".largelinediv").attr("id").indexOf("12") == -1)
+                            $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                        else
+                            $(".smalllinediv").css({"margin-top":"14%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
                     }
-                    else 
-                    {
-                        $(".customlayoutlist .inhdmi"+j+"[line=\""+chooselinearray[n]+"\"]").find(".hdmi"+j+"smallsizemode").addClass("active");
-                        $(".customlayoutlist .inhdmi"+j+"[line=\""+chooselinearray[n]+"\"]").find(".hdmi"+j+"nosizemode").removeClass("active");
-                    }                
-                }
-            }
-            if(hdminum == "1" || (hdminum =="2" && presentstate))
-            {
-                $(".layoutHDMIlist.pipcustom").click();
-            }
-            else
-            {
-                $(".layoutHDMIlist.hdmi1list").click();
-            }
+                    else if(content.length == 3){
+                        $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+                        $(".largelinediv .layoutlinename").css("margin-top", "31%");
+                        if($(".largelinediv").attr("id").indexOf("12") == -1)
+                            $(".smalllinediv").css({"margin-top":"11.7%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                        else
+                            $(".smalllinediv").css({"margin-top":"14.5%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                        $(".smalllinediv:eq(1)").css({"float":"left"});
+                    }
+                break;
         }
+    }
+}
+
+function layout_returncontent(mode, hdmi){
+    var presenton = parseInt($("#present").attr("ison"));
+    var hdmi2state = parseInt(mHdmi2state);
+    
+    var content1, content2;
+    if(!mHdmi2state && !presenton)
+        content1 = "0,13";
+    else if(!hdmi2state && presenton){
+        if(mIsSysrcmd || (mode == "1" && mIsSysrcmdBefore))
+            content1 = "12";
         else
-        {
-            if(hdminum == "1" || (hdminum =="2" && presentstate))
-            {
-                $(".layoutHDMIlist.overlapcustom").click();
-            }
-            else if(hdminum =="3" && presentstate)
-            {
-                $(".layoutHDMIlist.hdmi2list").click();
-            }
-            else
-            {
-                $(".layoutHDMIlist.hdmi1list").click();
+            content1 = "12,0,13";
+    }
+    else if(hdmi2state && !presenton){
+        if(mIsSysrcmd || (mode == "1" && mIsSysrcmdBefore)){
+            content1 = "0";
+            content2 = "13";
+        }
+        else{
+            content1 = "0";
+            content2 = "13,0";
+        }
+    }
+    else if(hdmi2state && presenton){
+        content1 = "12";
+        content2 = "0,13";
+    }
+    
+    if(hdmi == 1)
+        return content1;
+    else
+        return content2;
+}
+
+function handle_hdmistatus(data){
+    var hdmi = data.hdmi;
+    var status = data.status;
+    if(hdmi.indexOf("2") != -1)
+        mHdmi2state = status;
+    if($("#layoutdiv").css("display") == "block")
+        $("#layoutdiv").hide();
+}
+
+function display_default1screenlayout(mode, content){
+    var layouthtml = "<div class='layoutbkgdiv'>";
+    content = content.split(",");
+    if(mode == 6){
+        layouthtml += display_layoutlinediv(content, mode);
+    }
+    else{
+        for(var i = 0; i < content.length; i++){
+            layouthtml += display_layoutlinediv(content[i], mode, i);
+        }
+    }
+
+    layouthtml += "</div>";
+    $(".layoutcontainer").append(layouthtml);
+    var type = 1;
+    layout_adjuststyle(type, mode);
+}
+
+function display_default2screenlayout(hdmi1mode, hdmi1content, hdmi2mode, hdmi2content){
+    var layouthtml = "<div class='layouthdmi'><div class='layouthdmitext'>HDMI 1</div><div id='layoutbkg1' class='layoutbkgdiv'></div></div>" + 
+                     "<div class='layouthdmi'><div id='layouthdmitext2' class='layouthdmitext'>HDMI 2</div><div id='layoutbkg2' class='layoutbkgdiv'></div></div>";
+                     
+    $(".layoutcontainer").append(layouthtml);
+    
+    hdmi1content = hdmi1content.split(",");
+    hdmi2content = hdmi2content.split(",");
+    
+    for(var i = 0; i < hdmi1content.length; i++){
+        $("#layoutbkg1").append(display_layoutlinediv(hdmi1content[i], 4));
+    }
+    
+    if(hdmi2mode == 6){
+        $("#layoutbkg2").append(display_layoutlinediv(hdmi2content, hdmi2mode, i));
+    }
+    else{
+        for(var i = 0; i < hdmi2content.length; i++){
+            $("#layoutbkg2").append(display_layoutlinediv(hdmi2content[i], hdmi2mode, i));
+        }
+    }
+    
+    var type = 3;
+    layout_adjuststyle(type, hdmi1mode);
+}
+
+function display_customscreenlayout(mode, content, hdmi, hdmi2state){
+    $(".layoutcontainer").children().remove();
+    var layoutnumberlisthtml = "<div class='layoutnumberlist'>"    
+        
+    if($("#present").attr("ison") == "1"){
+        layoutnumberlisthtml += "<div id='presentline' class='layoutnumber' line='12' name=" + a_10004 + "><span class='linename'>" + a_10004 + "</span><span class='layoutpresenticon' title=" + a_10004 + "></span><span class='hidescreen screendiv' title=" + a_19339 + "></span><span class='normalscreen screendiv' title=" + a_12168 + "></span><span class='fullscreen screendiv' title=" + a_12167 + "></span></div>"
+    }
+    
+    var linecount = 0;
+    $(".remoteline[isvideo=1]").each(function(){
+        var name = $(this).attr("name");
+        var number = $(this).attr("number");
+        var line = $(this).attr("line");
+        layoutnumberlisthtml += "<div id='remoteline-" + line + "' class='layoutnumber' line="+ line +" name=" + name + " number=" + number + "><span class='linename' title=" + name + ">" + name + "</span><span class='hidescreen screendiv' title=" + a_19339 + "></span><span class='normalscreen screendiv' title=" + a_12168 + "></span><span class='fullscreen screendiv' title=" + a_12167 + "></span></div>"
+        linecount++;
+    });
+    
+    var account = $(".remoteline").attr("account");
+    layoutnumberlisthtml += "<div id='localline' class='layoutnumber' line='13' name=" + a_10032 + " number=" + mAccountNames[parseInt(account)] + "><span class='linename' title=" + mAccountNames[parseInt(account)] + ">" + mAccountNames[parseInt(account)] + "</span><span class='layoutlocalicon' title=" + a_10032 + "></span><span class='hidescreen screendiv' title=" + a_19339 + "></span><span class='normalscreen screendiv' title=" + a_12168 + "></span><span class='fullscreen screendiv' title=" + a_12167 + "></span></div>"
+    
+    layoutnumberlisthtml += "</div>";
+    
+    $(".layoutcontainer").append(layoutnumberlisthtml);
+    if(mode == 1)
+        $(".fullscreen").hide();
+    else
+        $(".fullscreen").show();
+
+    var layouthtml = "<div id='layoutcustom'>" +
+                     "<div class='hdmititle'>" +
+                     "<div id='hdmi1div' class='hdmidiv'><div>HDMI 1</div><div class='hdmi_arrow'></div></div>" +
+                     "<div id='hdmi2div' class='hdmidiv'><div>HDMI 2</div><div class='hdmi_arrow'></div></div></div>" +
+                     "<div class='layoutbkgdiv'>";
+                
+    var mcontent = content.split(",");
+    if(hdmi2state == 0){
+        if(mode == 3){
+            layouthtml += display_layoutlinediv(mcontent, mode);
+        }
+        else{
+            for(var i = 0; i < mcontent.length; i++){
+                layouthtml += display_layoutlinediv(mcontent[i], mode, i);
             }
         }
     }
+    else{
+        if(mCurhdmi == 1){
+            layouthtml += display_layoutlinediv(mcontent, 4);
+        }
+        else{
+            if(mode == 3){
+                layouthtml += display_layoutlinediv(mcontent, mode);
+            }
+            else{
+                for(var i = 0; i < mcontent.length; i++){
+                    layouthtml += display_layoutlinediv(mcontent[i], mode, i);
+                }
+            }
+        }
+    }
+                     
+    layouthtml += "<div class='cusmodecls'>" +
+                  "<ul><li class='cusmode cusoverlap' mode='1'></li>" +
+                  "<li class='cusmode cuschildmother' mode='2'></li>" +
+                  "<li class='cusmode cuspop' mode='3'></li></ul>" +
+                  "</div></div></div>";
+                  
+    $(".layoutcontainer").append(layouthtml);
+
+    if(hdmi2state == 0){
+        var type = 2;
+        $("#hdmi2div").hide();
+    }
+    else{
+        var type = 4;
+        
+        var cuscontent = "";
+        for(var i = 0; i < mcontent.length; i++)
+            cuscontent += mcontent[i] + ":::";
+        cuscontent = cuscontent.substring(0, cuscontent.length - 3);
+        
+        if(hdmi == 1){
+            mHdmiModeContent[0] = mode;
+            mHdmiModeContent[1] = cuscontent;
+            //$("#hdmi1div").attr("mode", mode).attr("content", cuscontent);
+            $("#hdmi1div .hdmi_arrow").show();
+            $("#hdmi2div .hdmi_arrow").hide();
+        }
+        else{
+            mHdmiModeContent[2] = mode;
+            mHdmiModeContent[3] = cuscontent;
+            //$("#hdmi2div").attr("mode", mode).attr("content", cuscontent);
+            $("#hdmi2div .hdmi_arrow").show();
+            $("#hdmi1div .hdmi_arrow").hide();
+        }
+    }
+    layout_adjuststyle(type, mode);
+}
+
+function display_layoutlinediv(line, mode, order){
+    var name, number;
+    var account = $(".remoteline").attr("account");
+    
+    if(line == 13){
+        name = a_10032;
+        number = "(" + mAccountNames[parseInt(account)] + ")";
+    }else if(line == 12){
+        name = a_10004;
+        number = "";
+    }
+    else{
+        name = $("#line-" + line).attr("name");
+        number = "(" + $("#line-" + line).attr("number") + ")";
+    }
+    
+    var linedivhtml = "";
+    if(mode == 1 || mode == 4)
+        linedivhtml = "<div id='layoutline-" + line + "' class='layoutlinediv'><div class='layoutlinename'>" + name + "</div><div class='layoutlinenumber'>" + number + "</div></div>";
+    else if(mode == 2 || mode == 5){
+        if(order == 0){
+            linedivhtml = "<div id='layoutline-" + line + "' class='largelinediv'><div class='layoutlinename'>" + name + "</div><div class='layoutlinenumber'>" + number + "</div></div>";
+        }
+        else{
+            linedivhtml = "<div id='layoutline-" + line + "' class='smalllinediv'><div class='layoutlinename'>" + name + "</div><div class='layoutlinenumber'>" + number + "</div></div>";
+        }
+    }
+    else if(mode == 3 || mode  == 6){
+        var name = new Array();
+        var number = new Array();
+        
+        for(var i = 0; i < line.length; i++){
+            if(line[i] == "12"){
+                name.push(a_10004);
+                number.push("");
+            }
+            else if(line[i] == "13"){
+                name.push(a_10032);
+                number.push("(" + mAccountNames[parseInt(account)] + ")");
+            }
+            else{
+                name.push($("#line-" + line[i]).attr("name"));
+                number.push("(" + $("#line-" + line[i]).attr("number") + ")");
+            }
+        }
+        
+        if (line.length < 3 || $("#present").attr("ison") == "0") {
+            linedivhtml = "<div id='layoutline-" + line[0] + "' class='largelinediv'><div><div class='layoutlinename'>" + name[0] + "</div><div class='layoutlinenumber'>" + number[0] + "</div></div><div id='layoutline-" + line[1] + "' class='smalllinediv'><div class='layoutlinename'>" + name[1] + "</div><div class='layoutlinenumber'>" + number[1] + "</div></div></div>";
+        }
+        else{
+            linedivhtml = "<div id='layoutline-" + line[0] + "' class='largelinediv'><div><div class='layoutlinename'>" + name[0] + "</div><div class='layoutlinenumber'>" + number[0] + "</div></div><div id='layoutline-" + line[1] + "' class='smalllinediv'><div class='layoutlinename'>" + name[1] + "</div><div class='layoutlinenumber'>" + number[1] + "</div></div><div id='layoutline-" + line[2] + "' class='smalllinediv'><div class='layoutlinename'>" + name[2] + "</div><div class='layoutlinenumber'>" + number[2] + "</div></div></div>";
+        }
+    }
+    return linedivhtml;
 }
 
 function addfullscreenEvent()
@@ -8224,6 +7216,7 @@ function translate_page()
     $("#a_presettitle").text(a_10024);
     $("#gotopreset").text(a_19174);
     $("#savepreset").text(a_17);
+    $("#layouttitletext").text(a_16703);
 }
 
 function addDragEvent()
@@ -8913,7 +7906,6 @@ function pageEventActions()
         $("#closedtmf").click();
     });
 
-
     $("#addsave").click(function(){
         var mode;
         var addconfmember = new Object();
@@ -9108,7 +8100,7 @@ function pageEventActions()
     });
 
     $(".closecalldiv").click(function(){
-        $(this).parent().parent().hide();
+        $(this).parent().parent().parent().hide();
         if( !$("#addmemberdiv").is(":visible") && !$("#ctrlFECCDiv").is(":visible") && !$("#dtmfDiv").is(":visible") && !$("#layoutdiv").is(":visible") && !$("#selectvideodiv").is(":visible") && !$("#detailsdiv").is(":visible"))
             ctrl_show_maskdiv(false);
     });
@@ -10001,6 +8993,7 @@ function pageEventActions()
         
     });
 
+    /*layout*/
     $("#layout").click(function(){
         if(!judge_ispause())
         {
@@ -10022,228 +9015,333 @@ function pageEventActions()
             $.prompt(a_10109);
             return false;
         }
-        var urihead = "action=getlayout&region=confctrl";
-        var callbackfn = "getlayout_callback(data)";
+        var urihead = "action=gethdmi1state&region=status";
+        var callbackfn = "displayLayout(data)";
         cb_get_confaction(urihead,callbackfn);
+    });
+    
+    $(".hdmidiv").live("click" ,function(){
+        var id = $(this).attr("id");
+        var mode = $(".modelist li[mode=custom]").attr("childmode");
+        
+        if(id.indexOf("2") != -1)
+            mCurhdmi = 2;
+        else
+            mCurhdmi = 1;
+
+        display_customscreenlayout(mode, layout_returncontent(mode, mCurhdmi), mCurhdmi, mHdmi2state);
+        $(".cusmode[mode=" + mode + "]").addClass("active");
+    });
+
+    $(".modelist li[mode=sysrcmd], #sysrcmdmode").mouseover(function(){
+        $("#sysrcmdmode").show();
+    }).mouseleave(function(){
+        $("#sysrcmdmode").hide();
     });
 
     $(".modelist li").click(function(){
+        var hdmi2state = parseInt(cb_get_layoutinfo("action=gethdmi2state&region=status"));
+        mHdmi2state = hdmi2state;
+        var presenton = parseInt($("#present").attr("ison"));
+        
+        var beforemode;
+        $(".modelist li").each(function(){
+            if($(this).hasClass("active")){
+                beforemode = $(this).attr("mode");
+                return;
+            }
+        });
+        
         var mode = $(this).attr("mode");
-        var urihead;
-        $(".modelist li").children().removeClass("active");
-        $(this).addClass("active").siblings().removeClass("active");
-        $(this).children().addClass("active");
-        if(mode == "picture")
-        {
-            $(".layoutlist .morelineoverlap,.layoutlist .maxlayout,.overlaphdmi, #layoutHDMIinfo,#layoutLinelist, #layoutImgTip").hide();
-            $(".layoutlist .mainpip,.layoutlist .minorpip, .picturehdmi, .twoscreen, .layoutlist").show();
-            $("#layoutdiv .poptitlediv").find("p").text(a_16699);
-            $("#layoutdiv .poptitlediv").show();
-            $("#hdmiout1, #hdmiout2, #hdmiout3").show();
-            $("#laymodetips").text(a_10037);
-            addDragEvent();
-            urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent("picture");
+        if(mode == "sysrcmd")
+            mIsSysrcmd = 1;
+        else
+            mIsSysrcmd = 0;
+
+        switch (mode) {
+            case "sysrcmd":
+            case "overlap":
+                mode = "4";
+                break;
+            case "childmother":
+                mode = "5";
+                break;
+            case "pop":
+                mode = "6";
+                break;
+            case "custom":
+                mCurhdmi = 1;
+                if(beforemode == "sysrcmd" || beforemode == "overlap")
+                    mode = "1";
+                else if(beforemode == "childmother")
+                    mode = "2";
+                else if(beforemode == "pop")
+                    mode = "3";
+                else if(beforemode == "custom")
+                    return false;
+                
+                $(".modelist li[mode=custom]").attr("childmode", mode);
+                
+                if(beforemode == "sysrcmd")
+                    mIsSysrcmdBefore = 1;
+                else
+                    mIsSysrcmdBefore = 0;
+                break;
         }
-        else if(mode == "content")
-        {
-            $(".layoutlist li, #layoutHDMIinfo,#layoutLinelist, #layoutImgTip").hide();
-            $(".layoutlist .maxlayout, .layoutlist").show();
-            $("#layoutdiv .poptitlediv").find("p").text("");
-            $("#layoutdiv .poptitlediv").show();
-            $("#laymodetips").text(a_10004);
-            urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent("content");
+        layout_choosemode(mode);
+        
+        $(".layoutcontainer").children().remove();
+        
+        if(mode < 4){
+            display_customscreenlayout(mode, layout_returncontent(mode, 1), 1, hdmi2state);
+            $(".cusmode[mode=" + mode + "]").addClass("active");
         }
-        else if(mode == "overlap")
-        {
-            $(".layoutlist .morelineoverlap,.overlaphdmi, .twoscreen, .layoutlist").show();
-            $(".layoutlist .mainpip,.layoutlist .minorpip,.layoutlist .maxlayout,.picturehdmi, #layoutHDMIinfo,#layoutLinelist, #layoutImgTip").hide();
-            $("#hdmiout1, #hdmiout2, #hdmiout3").show();
-            $("#layoutdiv .poptitlediv").find("p").text("");
-            $("#layoutdiv .poptitlediv").show();
-            $("#laymodetips").text(a_16218);
-            urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent("overlap");
+        else{
+            if(hdmi2state == 0){
+                display_default1screenlayout(mode, layout_returncontent(mode, 1));
+            }
+            else{
+                display_default2screenlayout(mode, layout_returncontent(mode, 1), mode, layout_returncontent(mode, 2));
+            }
         }
-        else if(mode == "custom")
-        {
-            $(".layoutlist .mainpip,.layoutlist .minorpip,.layoutlist .maxlayout,.picturehdmi,.layoutlist .morelineoverlap,.overlaphdmi, .twoscreen,.layoutlist").hide();
-            $("#hdmiout1, #hdmiout2, #hdmiout3").hide();
-            $("#layoutHDMIinfo,#layoutLinelist, #layoutImgTip").show();
-            $("#layoutdiv .poptitlediv").find("p").text("");
-            $("#layoutdiv .poptitlediv").show();
-            $("#laymodetips").text(a_10151);
+    });
+    
+    $(".screendiv").live("click", function(){
+        var mode = $(".modelist li[mode=custom]").attr("childmode");
+        var presenton = parseInt($("#present").attr("ison"));
+        var line = $(this).parent().attr("line");
+        if($(this).hasClass("active"))
+            return false;
+        
+        if(!presenton)
+            $(".screendiv").removeClass("active");
+        $(this).addClass("active"); 
+        if($(this).hasClass("fullscreen")){
+            switch (mode) {
+                case "2":
+                case "3":
+                    if(!presenton){
+                        if(line == "13"){
+                            $("#remoteline-0").children(".normalscreen").addClass("active");
+                        }
+                        else{
+                            $("#localline").children(".normalscreen").addClass("active");
+                        }
+                    }
+                    else{
+                        $(this).parent().children(".normalscreen").removeClass("active");
+                        $(this).parent().children(".hidescreen").removeClass("active");
+                        $(".layoutnumber").each(function(){
+                            var curline = $(this).attr("line");
+                            if(curline != line){
+                                if($(this).children(".fullscreen").hasClass("active")){
+                                    $(this).children(".fullscreen").removeClass("active");
+                                    $(this).children(".normalscreen").addClass("active");
+                                }
+                            }
+                        });
+                    }
+                    break;
+            }
+        }else if($(this).hasClass("normalscreen")){
+            switch (mode) {
+                case "1":
+                    if(!presenton){
+                        $(".layoutnumber").children(".normalscreen").addClass("active");
+                    }
+                    else{
+                        $(this).parent().children(".hidescreen").removeClass("active");
+                    }
+                    break;
+                case "2":
+                case "3":
+                    if(!presenton){
+                        if(line == "13"){
+                            $("#remoteline-0").children(".fullscreen").addClass("active");
+                        }
+                        else{
+                            $("#localline").children(".fullscreen").addClass("active");
+                        }
+                    }
+                    else{
+                        if($(this).parent().children(".fullscreen").hasClass("active")){
+                            $(this).parent().children(".fullscreen").removeClass("active");
+                            if(line == "12"){
+                                $("#remoteline-0").children(".screendiv").removeClass("active");
+                                $("#remoteline-0").children(".fullscreen").addClass("active");
+                            }
+                            else if(line == "13"){
+                                $("#presentline").children(".screendiv").removeClass("active");
+                                $("#presentline").children(".fullscreen").addClass("active");
+                            }
+                            else{
+                                $("#localline").children(".screendiv").removeClass("active");
+                                $("#localline").children(".fullscreen").addClass("active");
+                            }
+                        }
+                        else if($(this).parent().children(".hidescreen").hasClass("active")){
+                            $(this).parent().children(".hidescreen").removeClass("active");
+                        }
+                    }
+                    break;
+            }
+        }else{
+            switch (mode) {
+                case "1":    
+                    if(!presenton){
+                        if(line == "13"){
+                            $("#remoteline-0").children(".normalscreen").addClass("active");
+                        }
+                        else{
+                            $("#localline").children(".normalscreen").addClass("active");
+                        }
+                    }
+                    else{
+                        var hidelinecount = 0;
+                        $(".layoutnumber").each(function(){
+                            if($(this).children(".hidescreen").hasClass("active"))
+                                hidelinecount ++;
+                        });
+                        if(hidelinecount <= 2){
+                            $(this).parent().children(".normalscreen").removeClass("active");
+                        }
+                        else{
+                            $(this).parent().children(".normalscreen").removeClass("active");
+                            if(line == "12"){
+                                $("#remoteline-0").children(".normalscreen").addClass("active");
+                                $("#remoteline-0").children(".hidescreen").removeClass("active");
+                            }
+                            else if(line == "13"){
+                                $("#presentline").children(".normalscreen").addClass("active");
+                                $("#presentline").children(".hidescreen").removeClass("active");
+                            }
+                            else{
+                                $("#localline").children(".normalscreen").addClass("active");
+                                $("#localline").children(".hidescreen").removeClass("active");
+                            }
+                        }
+                    }
+                    break;
+                case "2":
+                case "3":
+                    if(!presenton){
+                        if(line == "13"){
+                            $("#remoteline-0").children(".fullscreen").addClass("active");
+                        }
+                        else{
+                            $("#localline").children(".fullscreen").addClass("active");
+                        }
+                    }
+                    else{
+                        if($(this).parent().children(".fullscreen").hasClass("active")){
+                            $(this).parent().children(".fullscreen").removeClass("active");
+                            if(line == "12"){
+                                $("#remoteline-0").children(".screendiv").removeClass("active");
+                                $("#remoteline-0").children(".fullscreen").addClass("active");
+                            }
+                            else if(line == "13"){
+                                $("#presentline").children(".screendiv").removeClass("active");
+                                $("#presentline").children(".fullscreen").addClass("active");
+                            }
+                            else{
+                                $("#localline").children(".screendiv").removeClass("active");
+                                $("#localline").children(".fullscreen").addClass("active");
+                            }
+                        }
+                        else if($(this).parent().children(".normalscreen").hasClass("active")){
+                            $(this).parent().children(".normalscreen").removeClass("active");
+                        }
+                    }
+                    break;
+            }    
         }
-        //cb_get_confaction(urihead,"");
+        
+        var content = "";
+        if(mode == "1"){
+            $(".layoutnumber").each(function(){
+                if($(this).children(".normalscreen").hasClass("active")){
+                    var line = $(this).attr("line");
+                    content += line + ":::";
+                }
+            });
+            
+        }
+        else{
+            $(".fullscreen").each(function(){
+                if($(this).hasClass("active")){
+                    var line = $(this).parent().attr("line");
+                    content += line + ":::";
+                    return false;
+                }
+            });
+            $(".normalscreen").each(function(){
+                if($(this).hasClass("active")){
+                    var line = $(this).parent().attr("line");
+                    content += line + ":::";
+                }
+            });
+        }
+        
+        content = content.substring(0, content.length - 3);
+        if(mCurhdmi == 1){
+            mHdmiModeContent[0] = mode;
+            mHdmiModeContent[1] = content;
+        }
+        else{
+            mHdmiModeContent[2] = mode;
+            mHdmiModeContent[3] = content;
+        }
+        //$("#hdmi"+ mCurhdmi + "div").attr("mode", mode).attr("content", content);
+        layout_customscreenadjuststyle(mode, content);
+    });
+    
+    $(".cusmode").live("click", function(){
+        var mode = $(this).attr("mode");
+        var childmode = $(".modelist li[mode=custom]").attr("childmode");
+
+        display_customscreenlayout(mode, layout_returncontent(mode, mCurhdmi), mCurhdmi, mHdmi2state);
+        
+        $(".cusmode").removeClass("active");
+        if(mode == childmode)
+            return false;
+        else{
+            $(".modelist li[mode=custom]").attr("childmode", mode);
+            if(mode == "1"){
+                $(".cusoverlap").addClass("active");
+            }
+            else if(mode == "2"){
+                $(".cuschildmother").addClass("active");
+            }
+            else{
+                $(".cuspop").addClass("active");
+            }    
+        }
     });
 
     $("#layoutSave").click(function(){
         var mode = $(".modelist li.active").attr("mode");
-        var guimode = 0;
-        var urihead = "";
-        var uriHDMI = "";
-        if($(".layoutcontainer").hasClass("onewaylayout"))
-        {
-            var mode = $(".layoutlist .onelayoutitem.active").parent().attr("mode");
-            var pipstate = "",position;
-            if(mode.indexOf("pip") != -1)
-            {
-                mode = mode.split("-");
-                pipstate = mode[1];
-                mode = mode[0];
-                if(pipstate == "4"){
-                    position = 196612;
-                    guimode = 10;
-                }else{
-                    position = 4;
-                    if(pipstate == "0")
-                        guimode = 4;
-                    else if(pipstate == "1")
-                        guimode = 5;
-                    else if(pipstate == "2")
-                        guimode = 8;
-                    else if(pipstate == "3")
-                        guimode = 9;
-                        
-                }
-            }else if( mode == "overlap" )
-                guimode = 1;
-            else if( mode == "peer" )
-                guimode = 6;
-            else if( mode == "camera" )
-                guimode = 3;
-            else if( mode == "content" )
-                guimode = 7;
-
-            /*if(pipstate == "")
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode);
-            else
-                urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(mode)+"&pipstate="+pipstate+"&position="+position;*/
+        
+        if(mode == "sysrcmd")
+            cb_get_action("setsysrcmdmode&region=confctrl");        
+        else if(mode == "overlap")
+            cb_get_action("setdefaultaverage&region=confctrl");
+        else if(mode == "childmother")
+            cb_get_action("setdefaultpop&region=confctrl");
+        else if(mode == "pop")
+            cb_get_action("setdefaultpip&region=confctrl");
+        else{
+            /*var childmode = $(".modelist li[mode=custom]").attr("childmode");
+            var hdmi1mode = $("#hdmi1div").attr("mode");
+            var hdmi1content = $("#hdmi1div").attr("content");
+            if(mHdmi2state == 1){
+                var hdmi2mode = $("#hdmi2div").attr("mode");
+                var hdmi2content = $("#hdmi2div").attr("content");
+            }else{
+                var hdmi2mode = "";
+                var hdmi2content = "";
+            }*/
             
-        }
-        else
-        {
-            if(mode == "picture")
-            {
-                guimode = 2;
-                var layoutmode = "max_show_chn";
-                /*urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent("picture");
-                cb_get_confaction(urihead,"");*/
-                if($(".layoutcontainer").hasClass("morehdmicontain"))
-                {
-                    var max_show_line = $(".layoutcontainer").find(".picturehdmi.mainhdmipip").attr("pipstate");
-                    var drophdmi_id = $(".layoutcontainer").find(".picturehdmi.mainhdmipip").parent().attr("id");
-                    if(max_show_line == "13")
-                        max_show_line = "255";
-                    urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(layoutmode)+"&pipstate="+max_show_line;
-                    
-                    if(drophdmi_id == "hdmiout2")
-                    {
-                        uriHDMI = "action=setlayoutmode&region=confctrl&mode=max_hdmi_out&pipstate=2";
-                    }
-                    else if(drophdmi_id == "hdmiout3")
-                    {
-                        uriHDMI = "action=setlayoutmode&region=confctrl&mode=max_hdmi_out&pipstate=3";
-                    }else if(drophdmi_id == "hdmiout1")
-                    {
-                        uriHDMI = "action=setlayoutmode&region=confctrl&mode=max_hdmi_out&pipstate=1";
-                    }
-                }
-                else
-                {
-                    var max_show_line = $(".layoutcontainer").find(".mainpip").attr("pipstate");
-                    if(max_show_line == "13")
-                        max_show_line = "255";
-                    urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent(layoutmode)+"&pipstate="+max_show_line;
-                }
-            }
-            else if(mode == "content")
-            {
-                //urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent("content");
-                guimode = 7;
-            }
-            else if(mode == "overlap")
-            {
-                //urihead = "action=setlayoutmode&region=confctrl&mode="+encodeURIComponent("overlap");
-                guimode = 1;
-            }
-            else if(mode == "custom")
-            {
-                guimode = 11;
-                var hdmi1list = "";
-                var hdmi2list = "";
-                var hdmi3list = "";
-                var mode = "";//pip or overlap
-                var flag = false;
-                var choosemode = "";//pip/overlap/hdmi1/hdmi2/hdmi3
-                var ispresent = false;
-                
-                if( $("#present").attr("ison") == "1" ){
-                    ispresent = true;
-                }
-                
-                $(".layoutHDMIlist").each(function(){
-                    var classes = $(this).attr("class");
-                    if(classes.indexOf("active") != -1)
-                    {
-                        if(classes.indexOf("overlapcustom") != -1)
-                        {
-                            mode = 1;
-                            choosemode = "overlap";
-                        }
-                        else if(classes.indexOf("pipcustom") != -1)
-                        {
-                            mode = 2;
-                            choosemode = "pip";
-                        }
-                        else
-                        {
-                            mode = 1;
-                            choosemode = "other";
-                        }
-
-                        return false;
-                    }
-                });
-                for ( var m = 0; m < hdmitemp[1].length; m++ )
-                {
-                    if ( hdmi1list != "" )
-                        hdmi1list += ","
-                    hdmi1list += hdmitemp[1][m]
-                }
-
-                for ( var n = 0; n < hdmitemp[2].length; n++ )
-                {
-                    if ( hdmi2list != "" )
-                        hdmi2list += ","
-                    hdmi2list += hdmitemp[2][n]
-                }
-
-                for ( var z = 0; z < hdmitemp[3].length; z++ )
-                {
-                    if ( hdmi3list != "" )
-                        hdmi3list += ","
-                    hdmi3list += hdmitemp[3][z]
-                }
-                var mode1 = custommode[1];
-                var mode2 = custommode[2];
-                var mode3 = custommode[3];
-                urihead = "action=setcustomlayoutstatus&region=confctrl&hdmi1="+encodeURIComponent(hdmi1list);
-                urihead += "&hdmi2="+encodeURIComponent(hdmi2list);
-                urihead += "&hdmi3="+encodeURIComponent(hdmi3list);
-                urihead += "&mode1="+mode1;
-                urihead += "&mode2="+mode2;
-                urihead += "&mode3="+mode3;
-            }
-        }
-
-        if( guimode != 0 ){
-            var action = "action=setHDMIOutputMode&region=confctrl&mode=" + guimode;
-            cb_get_confaction(action,"");
-        }
-        if(urihead != "")
-            cb_get_confaction(urihead,"");
-        if(uriHDMI != "")
-        {
-            cb_get_confaction(uriHDMI,"");
+            cb_get_action("setcustommode&region=confctrl&hdmi1mode=" + mHdmiModeContent[0] + "&hdmi1content=" + mHdmiModeContent[1] + "&hdmi2mode=" + mHdmiModeContent[2] + "&hdmi2content=" + mHdmiModeContent[3]);
         }
 
         $("#layoutdiv").hide();
