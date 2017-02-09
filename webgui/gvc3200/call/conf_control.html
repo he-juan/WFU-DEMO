@@ -4970,7 +4970,7 @@ function setBFCP_callback(data)
             }
         }
         else if(num == 0)
-        {   
+        {
             if($present.attr("bfcp") != "2")
             {
                 mBFCPObj = {};
@@ -4987,29 +4987,12 @@ function setBFCP_callback(data)
                 }
             }
         }
-        /*if(mDisableconf == "0")
-        {
-            $(".presentdetail").hide();
-            $("#detailscontent").css("height","375px");
-            var showvideosource = false;
-            if($("#pause").attr("ishold") == "1")  
-            {
-                $("#conf div.remoteline").each(function(){
-                    var isvideo = $(this).attr("isvideo");
-                    if(isvideo == "1")
-                    {
-                        if(!misBFCPSupport){
-                            showvideosource = true;
-                        }
-                        return false;
-                    }
-                });
-            }
-            if( showvideosource )
-                $("#switchvideosource").show();
-            else
-                $("#switchvideosource").hide();
-        }*/            
+    }
+    
+    if(flag != "0" && flag != "1")
+    {
+        if($("#layoutdiv").css("display") == "block")
+            $("#layoutdiv").hide();
     }
 }
 
@@ -5601,9 +5584,22 @@ function displayLayout(data){
     hdmi1mode = cb_get_layoutinfo("action=gethdmi1displaymode&region=confctrl");
     hdmi1content = cb_get_layoutinfo("action=gethdmi1displaycontent&region=confctrl");
     
+    if(parseInt(hdmi1mode) >= 4)
+        mHdmiModeContent[0] = (parseInt(hdmi1mode) - 3).toString();
+    else
+        mHdmiModeContent[0] = hdmi1mode;
+    re = new RegExp(",", "g");
+    mHdmiModeContent[1] = hdmi1content.replace(re, ":::");
+    
     if(hdmi2state == 1){
         var hdmi2mode = cb_get_layoutinfo("action=gethdmi2displaymode&region=confctrl");
         var hdmi2content = cb_get_layoutinfo("action=gethdmi2displaycontent&region=confctrl");
+        
+        if(parseInt(hdmi2mode) >= 4)
+            mHdmiModeContent[2] = (parseInt(hdmi1mode) - 3).toString();
+        else
+            mHdmiModeContent[2] = hdmi2mode;
+        mHdmiModeContent[3] = hdmi2content.replace(re, ":::");
     }
     
     var linecount = $(".remoteline[isvideo=1]").length;
@@ -5629,7 +5625,7 @@ function displayLayout(data){
         display_default2screenlayout(hdmi1mode, hdmi1content, hdmi2mode, hdmi2content);
     else if(hdmi1mode < 4){
         $(".modelist li[mode=custom]").attr("childmode", hdmi1mode);
-        display_customscreenlayout(hdmi1mode, hdmi1content, 1, hdmi2state);
+        display_customscreenlayout(hdmi1mode, mHdmiModeContent[1], 1, hdmi2state);
     }
     
     $("#layoutdiv").show();
@@ -5697,7 +5693,7 @@ function layout_choosemode(mode){
 }
 
 /*only available for one remote line*/
-function layout_adjuststyle(type, mode){
+function layout_adjuststyle(type, mode, content){
     var presenton = parseInt($("#present").attr("ison"));
     switch (type) {
         case 1: //one screen with default mode
@@ -5742,73 +5738,126 @@ function layout_adjuststyle(type, mode){
                 }
             }
             break;
-        case 2: //one screen with custom mode
+        case 2: //one/two screen with custom mode
             $("#layoutcustom").css({"width":"65%", "height":"100%", "float":"left", "margin-left":"15px"});
             $(".hdmititle").css({"height":"8.4%", "width":"100%"});
             $(".layoutbkgdiv").css({"height":"75%", "width":"100%"});
-            if(mode == 1){
-                if(!presenton){
-                        $(".layoutlinediv").css({"margin":"21% 0 0 1.7%", "width":"47.5%", "height":"40%"});
-                        $(".cusmodecls").css({"margin-top":"18.7%"});
-                        $(".layoutnumber").children(".normalscreen").addClass("active");
-                }
-                else{
-                    if(mIsSysrcmdBefore == 0){
-                        $(".layoutlinediv").css({"margin":"13px 0 0 2%", "width":"47%", "height":"38%"});
-                        $("#layoutline-12").css({"margin-left":"26.5%", "margin-top":"33px"});
-                        $(".cusmodecls").css({"margin-top":"31px"});
-                        $(".layoutnumber").children(".normalscreen").addClass("active");
+            if(content.length == 1){
+                $(".layoutlinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+                $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
+                $(".cusmodecls").css({"margin-top":"0"});
+                
+                $(".layoutnumber").each(function(){
+                    if($(this).attr("line") == content){
+                        if(mode == "1")
+                            $(this).children(".normalscreen").addClass("active");
+                        else
+                            $(this).children(".fullscreen").addClass("active");
                     }
                     else{
-                        $(".layoutlinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
-                        $(".layoutlinediv .layoutlinename").css({"margin-top":"35%"});
-                        $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
-                        $(".layoutnumber:eq(1)").children(".hidescreen").addClass("active");
-                        $(".layoutnumber:eq(2)").children(".hidescreen").addClass("active");
+                        $(this).children(".hidescreen").addClass("active");
                     }
+                });
+            }
+            else{
+                var layouthtml = "";
+                switch (mode) {
+                    case "1":
+                        if(content.length == 2){
+                            $(".layoutlinediv").css({"margin":"21% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                            $(".cusmodecls").css({"margin-top":"18.7%"});
+                            $(".layoutnumber").each(function(){
+                                var line = $(this).attr("line");
+                                if(line == content[0] || line == content[1])
+                                    $(this).children(".normalscreen").addClass("active");
+                                else
+                                    $(this).children(".hidescreen").addClass("active");
+                            });
+                        }
+                        else if(content.length == 3){
+                            $(".layoutlinediv").css({"margin":"13px 0 0 2%", "width":"47%", "height":"38%"});
+                            $(".layoutlinediv:eq(0)").css({"margin-left":"26.5%", "margin-top":"33px"});
+                            $(".cusmodecls").css({"margin-top":"31px"});
+                            $(".normalscreen").addClass("active");
+                        }
+                        break;
+                    case "2":
+                        if(content.length == 2){
+                            $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
+                            $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
+                            $(".cusmodecls").css({"margin-top":"13.7%"});
+                            $(".layoutnumber").each(function(){
+                                var line = $(this).attr("line");
+                                if(line == content[0])
+                                    $(this).children(".fullscreen").addClass("active");
+                                else if(line == content[1])
+                                    $(this).children(".normalscreen").addClass("active");
+                                else
+                                    $(this).children(".hidescreen").addClass("active");
+                            });
+                        }
+                        else if(content.length == 3){
+                            $(".largelinediv").css({"width":"64%", "height":"52.5%", "margin":"17% 0 0 13px"});
+                            $(".layoutlinediv .layoutlinename").css({"margin-top":"31%"});
+                            $(".smalllinediv").css({"width":"30%", "height":"25%", "margin":"17% 13px 0 0"});
+                            $(".smalllinediv:eq(1)").css({"margin-top":"13px"});
+                            $(".cusmodecls").css({"margin-top":"13%"});
+                            $(".layoutnumber").each(function(){
+                                var line = $(this).attr("line");
+                                if(line == content[1] || line == content[2])
+                                    $(this).children(".normalscreen").addClass("active");
+                                else
+                                    $(this).children(".fullscreen").addClass("active");
+                            });
+                        }
+                        break;
+                    case "3":            
+                        if(content.length == 2){
+                            $(".layoutlinename").css("margin-top", "33%");
+                            $(".smalllinediv .layoutlinename").css("margin-top", "30%");
+                            $(".largelinediv").css({"width":"97%", "height":"87.5%", "margin":"10px"});
+                            if($(".largelinediv").attr("id").indexOf("12") == -1)
+                                $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                            else
+                                $(".smalllinediv").css({"margin-top":"14%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                            
+                            $(".layoutnumber").each(function(){
+                                var line = $(this).attr("line");
+                                if(line == content[0])
+                                    $(this).children(".fullscreen").addClass("active");
+                                else if(line == content[1])
+                                    $(this).children(".normalscreen").addClass("active");
+                                else
+                                    $(this).children(".hidescreen").addClass("active");
+                            });
+                        }
+                        else if(content.length == 3){
+                            $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+                            $(".largelinediv .layoutlinename").css("margin-top", "31%");
+                            if($(".largelinediv").attr("id").indexOf("12") == -1)
+                                $(".smalllinediv").css({"margin-top":"11.7%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                            else
+                                $(".smalllinediv").css({"margin-top":"14.5%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                            $(".smalllinediv:eq(1)").css({"float":"left"});
+                            $(".layoutnumber").each(function(){
+                                var line = $(this).attr("line");
+                                if(line == content[1] || line == content[2])
+                                    $(this).children(".normalscreen").addClass("active");
+                                else
+                                    $(this).children(".fullscreen").addClass("active");
+                            });
+                        }
+                    break;
                 }
+            }
+            $(".cusmode").removeClass("active");
+            if(mode == "1")
                 $(".cusoverlap").addClass("active");
-            }
-            else if(mode == 2){
-                if(!presenton){
-                    $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
-                    $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
-                    $(".cusmodecls").css({"margin-top":"13.7%"});
-                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
-                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
-                }
-                else{
-                    $(".largelinediv").css({"width":"64%", "height":"52.5%", "margin":"17% 0 0 13px"});
-                    $(".layoutlinediv .layoutlinename").css({"margin-top":"31%"});
-                    $(".smalllinediv").css({"width":"30%", "height":"25%", "margin":"17% 13px 0 0"});
-                    $("#layoutline-13").css({"margin-top":"13px"});
-                    $(".cusmodecls").css({"margin-top":"13%"});
-                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
-                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
-                    $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
-                }
+            else if(mode == "2")
                 $(".cuschildmother").addClass("active");
-            }
-            else if(mode == 3){
-                if(!presenton){
-                    $(".layoutlinename").css("margin-top", "33%");
-                    $(".smalllinediv .layoutlinename").css("margin-top", "30%");
-                    $(".largelinediv").css({"width":"96.8%", "height":"87.5%", "margin":"10px"});
-                    $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
-                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
-                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
-                }
-                else{
-                    $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
-                    $(".largelinediv .layoutlinename").css("margin-top", "31%");
-                    $(".smalllinediv").css({"margin-top":"14.5%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
-                    $("#layoutline-13").css({"float":"left"});
-                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
-                    $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
-                    $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
-                }
+            else
                 $(".cuspop").addClass("active");
-            }
+            
             break;
         case 3: //two screen with default mode;
             $(".layouthdmi").css({"width":"50%", "float":"left", "height":"80%"});
@@ -5852,80 +5901,6 @@ function layout_adjuststyle(type, mode){
                 $("#layoutbkg2 .smalllinediv .layoutlinename").css({"margin-top":"26%"});
             }
             break;
-        case 4: //two screen with custom mode
-            $("#layoutcustom").css({"width":"65%", "height":"100%", "float":"left", "margin-left":"15px"});
-            $(".hdmititle").css({"height":"8.4%", "width":"100%"});
-            $(".layoutbkgdiv").css({"height":"75%", "width":"100%"});
-            if(mCurhdmi == 1){
-                $(".layoutlinediv").css({"margin":"10px", "width":"96.9%", "height":"87.5%"});
-                $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
-                if(mode == 1){
-                    $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
-                }
-                else{
-                    $(".layoutnumber:eq(0)").children(".fullscreen").addClass("active");
-                }
-                $(".layoutnumber:eq(1)").children(".hidescreen").addClass("active");
-                if($(".layoutnumber:eq(2)") != undefined)
-                    $(".layoutnumber:eq(2)").children(".hidescreen").addClass("active");
-            }
-            else{
-                if(mode == 1){
-                    if(!presenton){
-                        if(mIsSysrcmdBefore == 0){
-                            $(".layoutlinediv").css({"margin":"23% 0 0 1.7%", "width":"47.5%", "height":"40%"});
-                            $(".cusmodecls").css({"margin-top":"16.7%"});
-                            $(".layoutnumber").children(".normalscreen").addClass("active");
-                        }
-                        else{
-                            $(".layoutlinediv").css({"margin":"10px", "width":"96.9%", "height":"87.5%"});
-                            $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
-                            $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
-                            $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
-                        }
-                    }
-                    else{
-                        $(".layoutlinediv").css({"margin":"23% 0 0 1.7%", "width":"47.5%", "height":"40%"});
-                        $(".cusmodecls").css({"margin-top":"16.7%"});
-                        $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
-                        $(".layoutnumber:eq(1)").children(".normalscreen").addClass("active");
-                        $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
-                    }
-                    $("cusoverlap").addClass("active");
-                }
-                else if(mode == 2){
-                    $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
-                    $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
-                    $(".cusmodecls").css({"margin-top":"13.7%"});
-                    if(!presenton){
-                        $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
-                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
-                    }
-                    else{
-                        $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
-                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
-                        $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
-                    }
-                    $(".cuschildmother").addClass("active");
-                }
-                else if(mode == 3){
-                    $(".layoutlinename").css("margin-top", "33%");
-                    $(".smalllinediv .layoutlinename").css("margin-top", "30%");
-                    $(".largelinediv").css({"width":"96.9%", "height":"87.5%", "margin":"10px"});
-                    $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
-                    if(!presenton){
-                        $(".layoutnumber:eq(0)").children(".normalscreen").addClass("active");
-                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
-                    }
-                    else{
-                        $(".layoutnumber:eq(0)").children(".hidescreen").addClass("active");
-                        $(".layoutnumber:eq(1)").children(".fullscreen").addClass("active");
-                        $(".layoutnumber:eq(2)").children(".normalscreen").addClass("active");
-                    }
-                    $(".cuspop").addClass("active");
-                }
-                break;
-            }
     }
 }
 
@@ -6127,8 +6102,28 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
                      "<div id='hdmi2div' class='hdmidiv'><div>HDMI 2</div><div class='hdmi_arrow'></div></div></div>" +
                      "<div class='layoutbkgdiv'>";
                 
-    var mcontent = content.split(",");
-    if(hdmi2state == 0){
+    var mcontent = content.split(":::");
+    if(mcontent.length == 1){
+        layouthtml += display_layoutlinediv(mcontent, 1);
+    }
+    else{
+        switch (mode) {
+            case "1":
+                for(var i = 0; i < mcontent.length; i++){
+                    layouthtml += display_layoutlinediv(mcontent[i], mode);
+                }
+                break;
+            case "2":
+                for(var i = 0; i < mcontent.length; i++){
+                    layouthtml += display_layoutlinediv(mcontent[i], mode, i);
+                }
+                break;
+            case "3":
+                layouthtml += display_layoutlinediv(mcontent, mode);
+                break;
+        }
+    }
+    /*if(hdmi2state == 0){
         if(mode == 3){
             layouthtml += display_layoutlinediv(mcontent, mode);
         }
@@ -6152,7 +6147,7 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
                 }
             }
         }
-    }
+    }*/
                      
     layouthtml += "<div class='cusmodecls'>" +
                   "<ul><li class='cusmode cusoverlap' mode='1'></li>" +
@@ -6162,13 +6157,11 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
                   
     $(".layoutcontainer").append(layouthtml);
 
+    var type = 2;
     if(hdmi2state == 0){
-        var type = 2;
         $("#hdmi2div").hide();
     }
     else{
-        var type = 4;
-        
         var cuscontent = "";
         for(var i = 0; i < mcontent.length; i++)
             cuscontent += mcontent[i] + ":::";
@@ -6189,7 +6182,7 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
             $("#hdmi1div .hdmi_arrow").hide();
         }
     }
-    layout_adjuststyle(type, mode);
+    layout_adjuststyle(type, mode, mcontent);
 }
 
 function display_layoutlinediv(line, mode, order){
@@ -9020,18 +9013,31 @@ function pageEventActions()
         cb_get_confaction(urihead,callbackfn);
     });
     
-    $(".hdmidiv").live("click" ,function(){
+    $(".hdmidiv").live("click", function(){
         var id = $(this).attr("id");
-        var mode = $(".modelist li[mode=custom]").attr("childmode");
+        //var mode = $(".modelist li[mode=custom]").attr("childmode");
         
-        if(id.indexOf("2") != -1)
+        var mode, content;
+        if(id.indexOf("2") != -1){
             mCurhdmi = 2;
-        else
+        }
+        else{
             mCurhdmi = 1;
-
-        display_customscreenlayout(mode, layout_returncontent(mode, mCurhdmi), mCurhdmi, mHdmi2state);
+        }
+        
+        if(mHdmi2state == 1 && mCurhdmi == 2){
+            mode = mHdmiModeContent[2];
+            content = mHdmiModeContent[3];
+        }
+        else {
+            mode = mHdmiModeContent[0]
+            content = mHdmiModeContent[1];
+        }
+        
+        display_customscreenlayout(mode, content, mCurhdmi, mHdmi2state);
         $(".cusmode[mode=" + mode + "]").addClass("active");
     });
+
 
     $(".modelist li[mode=sysrcmd], #sysrcmdmode").mouseover(function(){
         $("#sysrcmdmode").show();
@@ -9040,8 +9046,6 @@ function pageEventActions()
     });
 
     $(".modelist li").click(function(){
-        var hdmi2state = parseInt(cb_get_layoutinfo("action=gethdmi2state&region=status"));
-        mHdmi2state = hdmi2state;
         var presenton = parseInt($("#present").attr("ison"));
         
         var beforemode;
@@ -9093,11 +9097,11 @@ function pageEventActions()
         $(".layoutcontainer").children().remove();
         
         if(mode < 4){
-            display_customscreenlayout(mode, layout_returncontent(mode, 1), 1, hdmi2state);
+            display_customscreenlayout(mode, mHdmiModeContent[1], 1, mHdmi2state);
             $(".cusmode[mode=" + mode + "]").addClass("active");
         }
         else{
-            if(hdmi2state == 0){
+            if(mHdmi2state == 0){
                 display_default1screenlayout(mode, layout_returncontent(mode, 1));
             }
             else{
@@ -9298,13 +9302,19 @@ function pageEventActions()
     $(".cusmode").live("click", function(){
         var mode = $(this).attr("mode");
         var childmode = $(".modelist li[mode=custom]").attr("childmode");
+        if(mCurhdmi == 1){
+            var content = mHdmiModeContent[1];
+        }
+        else{
+            var content = mHdmiModeContent[3];
+        }
 
-        display_customscreenlayout(mode, layout_returncontent(mode, mCurhdmi), mCurhdmi, mHdmi2state);
+        display_customscreenlayout(mode, content, mCurhdmi, mHdmi2state);
         
-        $(".cusmode").removeClass("active");
         if(mode == childmode)
             return false;
         else{
+            $(".cusmode").removeClass("active");
             $(".modelist li[mode=custom]").attr("childmode", mode);
             if(mode == "1"){
                 $(".cusoverlap").addClass("active");
