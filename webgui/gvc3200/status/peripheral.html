@@ -163,44 +163,8 @@ function cb_get_action_done(data,action){
     if( action == "getsdcardstate" ){
         var tObj = eval("(" + data + ")");
         var status = parseInt(tObj.msg);
-        var statustext = a_12041;
-        var connected = 0;
-        switch(status){
-            case 1:
-                statustext = a_12045;
-                break;
-            case 2:
-                statustext = a_12046;
-                break;
-            case 3:
-                statustext = a_12040;
-                connected = 1;
-                break;
-            case 4:
-                statustext = a_12040 + " " + a_2082;
-                connected = 1;
-                break;
-            case 5:
-                statustext = a_12047;
-                connected = 1;
-                break;
-            case 6:
-                statustext = a_12042;
-                break;
-            case 7:
-                statustext = a_12048;
-                connected = 1;
-                break;
-            case 8:
-                statustext = a_12049;
-                break;
-            case 0:
-            default:
-                statustext = a_12041;
-                break;
-        }
-        //$("#sdcard").text(statustext);
-        if( connected == 1 )
+        
+        if( status == 1 )
             $("#sdcard").css("background", "url(../img/peripheral_status.png) 0 -92px no-repeat");
         else
             $("#sdcard").css("background", "url(../img/peripheral_status.png) 0 -72px no-repeat");
