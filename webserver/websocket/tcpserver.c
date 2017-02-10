@@ -41,7 +41,7 @@
 #define SIGNAL_UPDATEDND "dnd_state"
 #define SIGNAL_AVSAPI "avsapi"
 #define SIGNAL_SWITCHVIDEOSOURCE "isSwitchVideoSouceOn"         //switch_videosource
-#define SIGNAL_RECORDING "phone_state"
+#define SIGNAL_RECORDING "avs_callrecord"
 #define SIGNAL_VIDEORESTATE "video_invite_res"
 #define SIGNAL_VIDEOACKSTATE "video_invite_ack"
 #define SIGNAL_ATTENDTRNF "auto_attended_trnf"
@@ -509,30 +509,16 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_STRING, &str,
-                                    DBUS_TYPE_INT32, &j,
+                                    DBUS_TYPE_BOOLEAN, &state,
                                     DBUS_TYPE_INVALID ) )
         {
-            if(strcmp(str,"record") == 0)
-            {
-                len = strlen(str) + 128;
-                sendData = malloc(len);
-                memset(sendData,0,len);
-                snprintf(sendData,len,"{\"type\":\"record\",\"state\":\"%d\"},",j);
-                //printf("has a call: %d\n",open_cache);
-                sendDataToSocket(sendData);
-                free(sendData);
-            }
-            else if(strcmp(str,"hold") == 0)
-            {
-                //hold
-                len = 128;
-                sendData = malloc(len);
-                memset(sendData,0,len);
-                snprintf(sendData,len,"{\"type\":\"conf_pause\",\"flag\":\"%d\"},",j);
-                //printf("has a call: %d\n",open_cache);
-                sendDataToSocket(sendData);
-                free(sendData);
-            }
+            len = strlen(str) + 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"record\",\"state\":\"%d\"},",state);
+            //printf("has a call: %d\n",open_cache);
+            sendDataToSocket(sendData);
+            free(sendData);
         }
         else
         {

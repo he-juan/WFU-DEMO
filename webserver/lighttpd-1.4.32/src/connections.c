@@ -2349,7 +2349,7 @@ static int sqlite_handle_recording(buffer *b, const struct message *m, const cha
     int result = 1;
 
     printf("sqlite_handle_recording, sql str is %s\n", sqlstr);
-    rc = sqlite3_open("/data/data/com.base.module.recording/databases/recording_database", &db);
+    rc = sqlite3_open("/data/data/com.base.module.recording/databases/recording.db", &db);
     if( rc ){
         printf("Can't open database: %s\n", sqlite3_errmsg(db));
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
