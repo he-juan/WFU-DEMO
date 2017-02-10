@@ -1752,7 +1752,7 @@ function handle_callmessage(data,obj_incominginfo)
                 change_callconnectstate(data);
             }
             if(data.oldstate != 5)
-                handle_holdstate(data);
+                setconfpause_callback(data);
             var incomglength = $("#incomingcalldiv #incominglist div",window.parent.document).length;
             if(objnumber == 0 || incomglength <= 0)
             {    
@@ -1791,7 +1791,7 @@ function handle_callmessage(data,obj_incominginfo)
                 data.oldstate = 5;
                 handle_callmessage(data,obj_incominginfo);
                 data.state = 5;
-                handle_holdstate(data);
+                setconfpause_callback(data);
                 var incomglength = $("#incomingcalldiv #incominglist div",window.parent.document).length;
                 if(incomglength <= 0)
                 {    
@@ -1799,7 +1799,7 @@ function handle_callmessage(data,obj_incominginfo)
                 }
             }
             else
-                handle_holdstate(data);
+                setconfpause_callback(data);
             break;
         case 6:
             //transfer
@@ -4721,8 +4721,9 @@ function set_ipvinfo(data){
 function setconfpause_callback(data)
 {
     clearTimeout(mTipTimeout);
+    var state = data.state;
     var flag = data.flag;
-    if(flag == "false" || flag == "0")
+    if(state == 4 || flag == "false")
     {
         $("#pause").attr("ishold",1).attr("name",a_648).removeClass("active");
         if($("#pause").is(":hover"))
@@ -4737,7 +4738,7 @@ function setconfpause_callback(data)
         }
         mContinueRecording = 0;
     }
-    else if(flag == "true" || flag == "1")
+    else if(state == 5 || flag == "true")
     {
         $("#pause").attr("ishold",0).attr("name",a_660).addClass("active");
         if($("#pause").is(":hover"))
@@ -5986,7 +5987,7 @@ function layout_returncontent(mode, hdmi){
     var hdmi2state = parseInt(mHdmi2state);
     
     var content1, content2;
-    if(!mHdmi2state && !presenton)
+    if(!hdmi2state && !presenton)
         content1 = "0,13";
     else if(!hdmi2state && presenton){
         if(mIsSysrcmd || (mode == "1" && mIsSysrcmdBefore))
