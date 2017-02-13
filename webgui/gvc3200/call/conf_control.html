@@ -6815,6 +6815,33 @@ function showDetails(data)
             $updatediv.children(".bitratediv").children(".spancontent").text(tObj.bitrate);
             $updatediv.children(".codecdiv").children(".spancontent").text(tObj.codec);
         }
+
+        if(data.present_content != ""){
+            $(".presentdetail").show();
+            $("#detailscontent").css("height","570px");
+            var presentdetail = data.present_content.split(";");
+            var $sndorrev;
+            if(presentdetail[1].indexOf("snd") != -1){
+                $(".presentdetail .sendinfo").show();
+                $(".presentdetail .receinfo").hide();
+                $sndorrev = $(".presentdetail .sendinfo");
+            }
+            else{
+                $(".presentdetail .receinfo").show();
+                $(".presentdetail .sendinfo").hide();
+                $(".presentdetail .receinfo").css({"float":"right", "margin-right":"19px"});
+                $sndorrev = $(".presentdetail .receinfo");
+            }
+            
+            $sndorrev.children(".lostdiv").children(".spancontent").text(presentdetail[2].split("=")[1]);
+            $sndorrev.children(".bitratediv").children(".spancontent").text(presentdetail[3].split("=")[1]);
+            $sndorrev.children(".fpsdiv").children(".spancontent").text(presentdetail[4].split("=")[1]);
+            $sndorrev.children(".codecdiv").children(".spancontent").text(presentdetail[5].split("=")[1]);
+            $sndorrev.children(".resolutiondiv").children(".spancontent").text(presentdetail[6].split("=")[1]);
+        }
+        else{
+            $("#detailscontent").css("height","375px");
+        }
     }
 }
 
@@ -8094,7 +8121,7 @@ function pageEventActions()
     });
 
     $(".closecalldiv").click(function(){
-        $(this).parent().parent().parent().hide();
+        $(this).parent().parent().hide();
         if( !$("#addmemberdiv").is(":visible") && !$("#ctrlFECCDiv").is(":visible") && !$("#dtmfDiv").is(":visible") && !$("#layoutdiv").is(":visible") && !$("#selectvideodiv").is(":visible") && !$("#detailsdiv").is(":visible"))
             ctrl_show_maskdiv(false);
     });
