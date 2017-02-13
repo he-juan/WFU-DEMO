@@ -2807,7 +2807,7 @@ function addconflist_local()
             return false;
         }
         var isclose = parseInt($(this).attr("isclose"));
-        var urihead = "action=ctrlCameraBlockState&region=confctrl&isblock="+isclose;
+        var urihead = "action=ctrlCameraBlockState&region=confctrl";
         var callfn = "closecamera_callback("+isclose+");";
         cb_get_confaction(urihead,callfn,true);  
     });

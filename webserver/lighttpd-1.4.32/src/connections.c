@@ -21184,7 +21184,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_one_param(srv, con, b, m, "ispause", "ctrlConfPauseState", 0);
                 }
                 else if (!strcasecmp(action, "ctrlCameraBlockState")){
-                    handle_callservice_by_one_param(srv, con, b, m, "isblock", "ctrlCameraBlockState", 0);
+                    handle_callservice_by_no_param(srv, con, b, m, "ctrlCameraBlockState");
                 }
                 else if (!strcasecmp(action, "isConfOnHold")){
                     handle_callservice_by_no_param(srv, con, b, m, "isConfOnHold");
