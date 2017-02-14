@@ -3389,7 +3389,7 @@ function change_callconnectstate(data)
                 if( $("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) ){
                     $("#present").show();
                 }else{
-                    $("#present").hide();
+                    //$("#present").hide();
                 }
                 /*action = "isBFCPSupport&region=confctrl&lines="+encodeURIComponent(lines);
                 flag = getHDMIinfo(action, 1);
@@ -4870,11 +4870,11 @@ function setBFCP_callback(data)
     clearTimeout(mTipTimeout);
     if(mDisableconf == "1")
         return false;
-    if($("#disablepresent",window.parent.document).val() == "1" && !hasIPVNumber())
+    /*if($("#disablepresent",window.parent.document).val() == "1" && !hasIPVNumber())
     {
         $("#present").hide();
         return false;
-    }
+    }*/
     var flag = data.msg;
     var line = data.line;
     var $present = $("#present");

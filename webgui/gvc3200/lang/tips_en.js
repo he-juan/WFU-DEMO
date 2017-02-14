@@ -507,7 +507,7 @@ tip_item.push (
     new TipsDef("Presentation Video Bit Rate(Kbps)",
         "Configures the bit rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. Video Bit Rate can be set to integer value from 512kbps to 2048kbps."),
     new TipsDef("Disable Presentation",
-        "If set to \"Yes\", the device will disable sending and receiving presentation during conference. The default setting is \"No\"."),
+        "If set to \"Yes\", the device will not be able to send and receive the presentation stream in the meeting. The default setting is \"No\"."),
 
 	/*Advanced Settings Network Resource*/
     new TipsDef("Enalbe Screen Saver Download",
