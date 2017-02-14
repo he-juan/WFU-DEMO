@@ -238,6 +238,9 @@ function handlemessage(data){
         case "hdmi_status":
             confFrame.handle_hdmistatus(data);
             break;
+        case "unhold_continue_record":
+            confFrame.handle_unhold_record(data);
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;

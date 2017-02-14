@@ -5133,6 +5133,12 @@ function setrecord_callback(data)
     }
 }
 
+function handle_unhold_record(data){
+    $("#continuerecording").hide();
+    if( !$("#addmemberdiv").is(":visible") && !$("#dtmfDiv").is(":visible") && !$("#detailsdiv").is(":visible") && !$("#layoutdiv").is(":visible") && !$("#ctrlFECCDiv").is(":visible") && !$("#selectvideodiv").is(":visible"))
+        ctrl_show_maskdiv(false);
+}
+
 function video_Inviteres_callback(data,res)
 {
     /*
@@ -8980,17 +8986,19 @@ function pageEventActions()
     });
     $("#recordingOK").click(function(){
         $("#record").click();
-        $("#continuerecording").hide();
+        var urihead = "action=continueRecord&region=confctrl&flag=1";
+        cb_get_confaction(urihead,"");
+        /*$("#continuerecording").hide();
         if( !$("#addmemberdiv").is(":visible") && !$("#dtmfDiv").is(":visible") && !$("#detailsdiv").is(":visible") && !$("#layoutdiv").is(":visible") && !$("#ctrlFECCDiv").is(":visible") && !$("#selectvideodiv").is(":visible"))
-            ctrl_show_maskdiv(false);
+            ctrl_show_maskdiv(false);*/
     });
 
     $("#recordingcancel").click(function(){
-        var urihead = "action=continueRecordCancel&region=confctrl";
+        var urihead = "action=continueRecord&region=confctrl&flag=0";
         cb_get_confaction(urihead,"");
-        $("#continuerecording").hide();
+        /*$("#continuerecording").hide();
         if( !$("#addmemberdiv").is(":visible") && !$("#dtmfDiv").is(":visible") && !$("#detailsdiv").is(":visible") && !$("#layoutdiv").is(":visible") && !$("#ctrlFECCDiv").is(":visible") && !$("#selectvideodiv").is(":visible"))
-            ctrl_show_maskdiv(false);
+            ctrl_show_maskdiv(false);*/
     });
 
     $("#direction button, #feccoptbtn button").mousedown(function(){

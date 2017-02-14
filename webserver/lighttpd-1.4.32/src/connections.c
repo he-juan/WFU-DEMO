@@ -6725,7 +6725,7 @@ static int handle_attendtransferline(server *srv, connection *con, buffer *b, co
     return 0;
 }
 
-static int handle_sendcontinuerecordCancel(server *srv, connection *con, buffer *b, const struct message *m)
+static int handle_sendcontinuerecord(server *srv, connection *con, buffer *b, const struct message *m)
 {
 #ifdef BUILD_ON_ARM
     DBusMessage* message = NULL;
@@ -6736,8 +6736,14 @@ static int handle_sendcontinuerecordCancel(server *srv, connection *con, buffer 
     DBusMessage *reply = NULL;
     DBusConnection *conn = NULL;
     char *temp = NULL;
-    char *recordtype = "record";
-    int state = 2;
+    //char *recordtype = "record";
+    char *flag = NULL;
+    int status = 0;
+    
+    flag = msg_get_header(m, "flag");
+    if(flag != NULL){
+        status = atoi(flag);
+    }
 
     type = DBUS_BUS_SYSTEM;
     dbus_error_init (&error);
@@ -6749,15 +6755,14 @@ static int handle_sendcontinuerecordCancel(server *srv, connection *con, buffer 
         return -1;
     }
 
-    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, "phone_state");
+    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, "unhold_continue_record");
     if ( message == NULL )
     {
         printf( "message is NULL\n");
         return -1;
     }
 
-    dbus_message_append_args( message, DBUS_TYPE_STRING, &recordtype,
-                                    DBUS_TYPE_INT32, &state, 
+    dbus_message_append_args( message, DBUS_TYPE_INT32, &status, 
                                     DBUS_TYPE_INVALID );
 
     dbus_connection_send( bus, message, NULL );
@@ -21293,8 +21298,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 else if (!strcasecmp(action, "muteAllLinesOrNot")){
                     handle_callservice_by_one_param(srv, con, b, m,"flag","muteAllLinesOrNot",0);
-                }else if (!strcasecmp(action, "continueRecordCancel")){
-                    handle_sendcontinuerecordCancel(srv, con, b, m);
+                }else if (!strcasecmp(action, "continueRecord")){
+                    handle_sendcontinuerecord(srv, con, b, m);
                 }
                 else if (!strcasecmp(action, "getcustomslayout")){
                     handle_callservice_by_no_param(srv, con, b, m,"getCustomLayoutStatus");
