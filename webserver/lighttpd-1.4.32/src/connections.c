@@ -64,6 +64,7 @@
 #include "md5.h"
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
+#include "web_ui_update.h"
 
 #define HASHLEN 16
 #define HASHHEXLEN 32
@@ -138,8 +139,6 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define FW_PATH              "/tmp/upgradefile"
 #define FIFO_PATH              "/tmp/gparse.fifo"
 #define CACHE_PATH       "/cache/"
-#define FULL_UPGRADE_PATH       "/cache/fwupgradeall"
-#define TMP_FULL_UPGRADE_PATH       "/tmp/fwupgradeall"
 #define USB_DEVICE_PATH         "/sys/class/usb_device/"
 
 #define DOWN_PHONEBOOK              "phonebook"
@@ -10566,16 +10565,6 @@ static int handle_provisioninit(buffer *b, const struct message *m)
         buffer_append_string (b, "0");
         return 0;
     }
-    if( !access(FULL_UPGRADE_PATH, 0) )
-    {
-        printf("handle_provisioninit,upgrade all file EXIST,delete first\n");
-        system("echo \" \" > /cache/fwupgradeall");
-        unlink(FULL_UPGRADE_PATH);
-    }
-    if( !access(TMP_FULL_UPGRADE_PATH, 0) )
-    {
-        unlink(TMP_FULL_UPGRADE_PATH);
-    }
     char *temp = NULL;
     temp = msg_get_header( m, "upgradeall" );
     if( temp != NULL ){
@@ -10588,19 +10577,16 @@ static int handle_provisioninit(buffer *b, const struct message *m)
         m_upgradeall = 0;
     }
     int result = 0;
-    if( m_upgradeall == 0 ){
-        provision_ret = provision_init(&provision_local_fd, &provision_destaddr);
-        if(provision_ret)
-        {
-            check_provision_pid();
-            buffer_append_string (b, "0");
-            return 0;
-        }
 
-        m_uploading = 1;
-        result = inform_gparse_update(provision_local_fd, &provision_destaddr);
-        printf("inform_gparse_update result is %d\n", result);
+    provision_ret = prov_upgrade_init(&provision_local_fd, &provision_destaddr);
+    if (provision_ret) {
+        check_provision_pid();
+        buffer_append_string (b, "0");
+        return 0;
     }
+    m_uploading = 1;
+    result = prov_inform_to_upgrade(provision_local_fd, &provision_destaddr, m_upgradeall);
+    printf("inform_gparse_update result is %d\n", result);
     if( result )
         buffer_append_string (b, "0");
     else
@@ -10610,51 +10596,20 @@ static int handle_provisioninit(buffer *b, const struct message *m)
 
 static int handle_upgradenow (buffer *b)
 {
-    //unsigned int size;
-
-    /* write fireware to /tmp/gparse.fifo */
-    //size = file_manager_file_copy(FW_PATH, FIFO_PATH);
-    //size = write2fifo(FIFO_PATH, FW_PATH);
-    //printf("%u write to fifo\n", size >> 20);
-    printf("m_upgradeall is %d\n", m_upgradeall);
-    if( m_upgradeall == 1 ){
-        int result = system("mv /tmp/fwupgradeall /cache/fwupgradeall");
-        printf("rename result = %d\n", result);
-        if( result != 0 ){
-            buffer_append_string (b, "Response=Error\r\nresult=1\r\n");
-            unlink(TMP_FULL_UPGRADE_PATH);
-        }else{
-            result = upgrade_all_fw(); //system("/system/bin/upgradeall &");
-            if( result == 0 )
-                buffer_append_string (b, "Response=Success\r\n");
-            else{
-                if( result == 2 )
-                    buffer_append_string (b, "Response=Error\r\nresult=2\r\n");
-                else
-                    buffer_append_string (b, "Response=Error\r\nresult=1\r\n");
-                if( !access(FULL_UPGRADE_PATH, 0) )
-                {
-                    printf("upgrade all file EXIST\n");
-                    //system("echo \" \" > /cache/fwupgradeall");
-                    unlink(FULL_UPGRADE_PATH);
-                }
-            }
-        }
-    }else{
-        inform_gparse_end(provision_local_fd, &provision_destaddr);
-        if( access(FIFO_PATH, 0) ) {
-            buffer_append_string (b, "Response=Success\r\nresult=2\r\n");
-            check_provision_pid();
-            m_uploading = 0;
-            return -1;
-        }
-        provision_ret = wait_for_gparse_result(provision_local_fd, &provision_destaddr);
-        char res[32] = "";
-        snprintf(res, sizeof(res), "Response=Success\r\nresult=%d\r\n", provision_ret);
-        buffer_append_string (b, res);
+    prov_inform_to_end(provision_local_fd, &provision_destaddr);
+    if( access(FIFO_PATH, 0) ) {
+        buffer_append_string (b, "Response=Success\r\nresult=2\r\n");
         check_provision_pid();
+        m_uploading = 0;
+        return -1;
     }
+    provision_ret = prov_wait_for_result(provision_local_fd, &provision_destaddr);
+    char res[32] = "";
+    snprintf(res, sizeof(res), "Response=Success\r\nresult=%d\r\n", provision_ret);
+    buffer_append_string (b, res);
+    check_provision_pid();
     m_uploading = 0;
+
     return 0;
 }
 
@@ -14459,10 +14414,7 @@ char *generate_file_name(buffer *b, const struct message *m)
         }
         else if (!strcasecmp(type, "upgradefile"))
         {
-            if( m_upgradeall ){
-                file_name = strdup(TMP_FULL_UPGRADE_PATH);
-            }else
-                file_name = strdup(FIFO_PATH);
+            file_name = strdup(FIFO_PATH);
         }
         else if (!strcasecmp(type, "vericert"))
         {
@@ -22266,11 +22218,6 @@ int init_cache_pvalue()
     snprintf(cmd, 128, "rm %s/Recording.tar.gz &", RECORING_PATH);
     system(cmd);
     free(cmd);
-    if( !access(FULL_UPGRADE_PATH, 0) )
-    {
-        printf("upgrade all file ---EXIST\n");
-        unlink(FULL_UPGRADE_PATH);
-    }
     //run tcpserver and flashsocket
     system("killall -9 tcpserver");
     system("killall -9 flashsocket");
