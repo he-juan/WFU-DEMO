@@ -536,8 +536,9 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .modediv{width: 26px; height: 26px; margin: 5px 0 0 9px;}
 .layoutbkgdiv{background: #6b6b6b; border-radius: 4px; box-shadow: 0 0 3px 3px #cccccc; position: relative;}
 .layoutlinediv{border-radius: 5px; background: #cccccc; float: left;}
-.layoutlinename{width: 100%; color: black; font-weight: bold; font-size: 16px; text-align: center; margin-top: 29%;}
-.layoutlinenumber{width: 100%; color: black; font-size: 15px; text-align: center;}
+.layoutlinename{font-weight: bold; font-size: 16px; margin-top: 29%;}
+.layoutlinenumber{font-size: 15px;}
+.layoutlinename, .layoutlinenumber{width: 80%; color: black; text-align: center; padding: 0 10%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 .largelinediv{border-radius: 5px; background: #cccccc; float: left;}
 .smalllinediv{border-radius: 5px; background: #cccccc; float: right;}
 #sysrcmdmode{display: none; position: absolute; z-index: 100; border: 1px solid #ccc; border-top: none; margin-top: -1px; padding: 0; width: 45px; border-radius: 5px;}
@@ -6191,13 +6192,13 @@ function display_layoutlinediv(line, mode, order){
     
     var linedivhtml = "";
     if(mode == 1 || mode == 4)
-        linedivhtml = "<div id='layoutline-" + line + "' class='layoutlinediv'><div class='layoutlinename'>" + name + "</div><div class='layoutlinenumber'>" + number + "</div></div>";
+        linedivhtml = "<div id='layoutline-" + line + "' class='layoutlinediv'><div class='layoutlinename' title="+name+">" + name + "</div><div class='layoutlinenumber' title="+number+">" + number + "</div></div>";
     else if(mode == 2 || mode == 5){
         if(order == 0){
-            linedivhtml = "<div id='layoutline-" + line + "' class='largelinediv'><div class='layoutlinename'>" + name + "</div><div class='layoutlinenumber'>" + number + "</div></div>";
+            linedivhtml = "<div id='layoutline-" + line + "' class='largelinediv'><div class='layoutlinename' title="+name+">" + name + "</div><div class='layoutlinenumber' title="+number+">" + number + "</div></div>";
         }
         else{
-            linedivhtml = "<div id='layoutline-" + line + "' class='smalllinediv'><div class='layoutlinename'>" + name + "</div><div class='layoutlinenumber'>" + number + "</div></div>";
+            linedivhtml = "<div id='layoutline-" + line + "' class='smalllinediv'><div class='layoutlinename' title="+name+">" + name + "</div><div class='layoutlinenumber' title="+number+">" + number + "</div></div>";
         }
     }
     else if(mode == 3 || mode  == 6){
@@ -6220,10 +6221,10 @@ function display_layoutlinediv(line, mode, order){
         }
         
         if (line.length < 3 || $("#present").attr("ison") == "0") {
-            linedivhtml = "<div id='layoutline-" + line[0] + "' class='largelinediv'><div><div class='layoutlinename'>" + name[0] + "</div><div class='layoutlinenumber'>" + number[0] + "</div></div><div id='layoutline-" + line[1] + "' class='smalllinediv'><div class='layoutlinename'>" + name[1] + "</div><div class='layoutlinenumber'>" + number[1] + "</div></div></div>";
+            linedivhtml = "<div id='layoutline-" + line[0] + "' class='largelinediv'><div><div class='layoutlinename' title="+name[0]+">" + name[0] + "</div><div class='layoutlinenumber' title="+number[0]+">" + number[0] + "</div></div><div id='layoutline-" + line[1] + "' class='smalllinediv'><div class='layoutlinename' title="+name[1]+">" + name[1] + "</div><div class='layoutlinenumber' title="+number[1]+">" + number[1] + "</div></div></div>";
         }
         else{
-            linedivhtml = "<div id='layoutline-" + line[0] + "' class='largelinediv'><div><div class='layoutlinename'>" + name[0] + "</div><div class='layoutlinenumber'>" + number[0] + "</div></div><div id='layoutline-" + line[1] + "' class='smalllinediv'><div class='layoutlinename'>" + name[1] + "</div><div class='layoutlinenumber'>" + number[1] + "</div></div><div id='layoutline-" + line[2] + "' class='smalllinediv'><div class='layoutlinename'>" + name[2] + "</div><div class='layoutlinenumber'>" + number[2] + "</div></div></div>";
+            linedivhtml = "<div id='layoutline-" + line[0] + "' class='largelinediv'><div><div class='layoutlinename' title="+name[0]+">" + name[0] + "</div><div class='layoutlinenumber' title="+number[0]+">" + number[0] + "</div></div><div id='layoutline-" + line[1] + "' class='smalllinediv'><div class='layoutlinename' title="+name[1]+">" + name[1] + "</div><div class='layoutlinenumber' title="+number[1]+">" + number[1] + "</div></div><div id='layoutline-" + line[2] + "' class='smalllinediv'><div class='layoutlinename' title="+name[2]+">" + name[2] + "</div><div class='layoutlinenumber' title="+number[2]+">" + number[2] + "</div></div></div>";
         }
     }
     return linedivhtml;
