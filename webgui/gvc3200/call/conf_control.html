@@ -283,7 +283,7 @@ div{margin:0;padding:0;}
 #selectlist,#transferselectlist,#goonrecording{color:#222;text-align: center;margin: 0px;}
 #selectlist .newListSelected,#dndselect .newListSelected,#presentselect .newListSelected,#transferselectlist .newListSelected{float:none;margin: 20px 0 10px 120px;text-align:left;}
 .selectbtn{text-align:center;height:40px;position:relative;*z-index:-1;margin: 40px 0 10px 0;}
-#layoutdiv .selectbtn{bottom:5%; position: absolute; left:37.8%;}
+#layoutdiv .selectbtn{margin-bottom:5%;}
 .selectbtn button{margin:8px 0 0 15px;width:100px;}
 .closecontain{width:36px;height:36px;position:absolute;right:0px;text-align:center;background:transparent;}
 .closecalldiv,#closeFECC,#detailsback,#closedtmf{width:26px;height:26px;min-width:0px;border:0;background:url("../img/call/conf_control.png") -52px -323px transparent no-repeat;border-radius:0px;position: relative;top: 5px;}
@@ -409,8 +409,8 @@ div{margin:0;padding:0;}
 
 .divingline{width:1px;height:40px;background:url("../img/ptz_divingline.png") no-repeat;display:inline-block;margin:0;background-position: center;float:left;}
 /*layout*/
-#layoutdiv{background-color:#FFFFFF;width:100%;height:100%;position: absolute;top: 0;display: none;z-index:1000;border-radius:4px;overflow: hidden;}
-.layoutcontainer{width:100%;height:80%;}
+#layoutdiv{background-color:#FFFFFF;width:990px;height:100%; position: absolute;top: 0;display: none;z-index:1000;border-radius:4px;overflow-y: auto;}
+.layoutcontainer{width:100%;}
 .onewaylayout{height:550px;width:800px;margin-top:50px;background:transparent;}
 .layoutlist{width:716px;height: 420px;border:0px;list-style-type: none;padding:0px;margin:auto;font-size:16px;background-color:#000000;border-radius:4px;}
 .layoutlist.oneline{height:100%;background:transparent;}
@@ -438,8 +438,8 @@ div{margin:0;padding:0;}
 .modelist{list-style-type: none;padding:0px;margin:0px;width:auto;height:36px;border:1px solid #D8D6D6;border-radius:4px;display: inline-block;}
 .withpresent{display:none;}
 #laymodetips{position: relative;top: -12px;margin: 0px;margin-left:10px;font-size: 16px;display: inline-block;}
-.modelist li{float: left;text-align:center;vertical-align:middle;width:45px;height:100%;background-color:#E7E7E7; cursor: pointer;}
-.modelist li.divisionline{width:1px;background-color: #D8D6D6;}
+.modelist li{float: left;text-align:center;vertical-align:middle;width:45px;height:100%;background-color:#E7E7E7; cursor: pointer; border-right: 1px solid #cccccc;}
+/*.modelist li.divisionline{width:1px;background-color: #D8D6D6;}*/
 .modelist li.buttonover, .modelist li.active, .presentlayout.buttonover{background-color:#219BF2;color:#FFFFFF;}
 li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px;border: 1px solid #656464;}
 .sysrcmd{background:url("../img/call/conf_control.png") -260px -323px no-repeat;}
@@ -532,9 +532,9 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .hidescreen.active{background: url('../img/call/conf_control.png') -368px -297px no-repeat;}
 .linename{max-width: 99px; min-width: 45px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; float: left;}
 .hdmidiv{float:left;font-size: 20px; margin-left: 165px; cursor: pointer; max-height: 50px;}
-.hdmi_arrow{background: url("../img/call/hdmi_arrow.png") no-repeat; width: 17px; height: 11px; margin-left: 28px; margin-top: 30px;}
+.hdmi_arrow{background: url("../img/call/hdmi_arrow.png") no-repeat; width: 17px; height: 11px; margin-left: 28px; position: absolute; bottom: -3px; z-index: 1;}
 .modediv{width: 26px; height: 26px; margin: 5px 0 0 9px;}
-.layoutbkgdiv{background: #6b6b6b; border-radius: 4px; box-shadow: 0 0 3px 3px #cccccc;}
+.layoutbkgdiv{background: #6b6b6b; border-radius: 4px; box-shadow: 0 0 3px 3px #cccccc; position: relative;}
 .layoutlinediv{border-radius: 5px; background: #cccccc; float: left;}
 .layoutlinename{width: 100%; color: black; font-weight: bold; font-size: 16px; text-align: center; margin-top: 29%;}
 .layoutlinenumber{width: 100%; color: black; font-size: 15px; text-align: center;}
@@ -546,7 +546,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .sysmodeoverlap{background:url("../img/call/conf_control.png") -78px -323px no-repeat;}
 .sysmodepip{background:url("../img/call/conf_control.png") -130px -323px no-repeat;}
 .sysmodepop{background:url("../img/call/conf_control.png") -526px -323px no-repeat;}
-.cusmodecls{width: 100%; height: 40px; background: black; opacity: 0.5; float: left; border-radius: 5px; overflow: hidden;}
+.cusmodecls{width: 100%; height: 40px; background: black; opacity: 0.5; float: left; border-radius: 5px; overflow: hidden; position: absolute; bottom:0px;}
 .cusmodecls ul{width: 150px; height: 30px; margin-left: 39.5%; margin-top: 8px; padding: 0;}
 .cusmodecls li{width: 26px; float: left; list-style-type: none; height: 26px; cursor: pointer; margin-left: 15px;}
 .cusoverlap{background: url("../img/call/conf_control.png") -78px -323px no-repeat;}
@@ -1030,16 +1030,12 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
         <div class="layoutmode">
             <ul class="modelist">
                 <li mode="sysrcmd"><div class="sysrcmd modediv"></div></li>
-                <li class="divisionline"></li>    
                 <li mode="overlap"><div class="overlap modediv"></div></li>
-                <li class="divisionline"></li>
                 <li mode="childmother"><div class="childmother modediv"></div></li>
-                <li class="divisionline lastline"></li>
                 <li mode="pop"><div class="pop modediv"></div></li>
                 <!--li class="divisionline"></li>
                 <li mode="content" class="withpresent"><div class="presentlayout"></div></li-->
-                <li class="divisionline"></li>
-                <li mode="custom" class="custom"><div class="custommode modediv"></div></li>
+                <li mode="custom" class="custom" style="border:none;"><div class="custommode modediv"></div></li>
             </ul>
         <!--p id="laymodetips"></p-->
         </div>
@@ -5704,7 +5700,8 @@ function layout_adjuststyle(type, mode, content){
     var presenton = parseInt($("#present").attr("ison"));
     switch (type) {
         case 1: //one screen with default mode
-            $(".layoutbkgdiv").css({"width":"78%", "height":"76%", "margin":"5% 0 0 11.5%"});
+            $(".layoutcontainer").css({"height":"63%", "min-height":"500px"});
+            $(".layoutbkgdiv").css({"min-height":"488.8px", "width":"78%", "height":"75%", "margin":"5% 0 0 11.5%"});
             if(mode == 4){
                 if(!presenton){
                     $(".layoutlinediv").css({"margin":"17% 0 0 1.7%", "width":"47.5%", "height":"50%"});
@@ -5712,10 +5709,13 @@ function layout_adjuststyle(type, mode, content){
                 }
                 else{
                     if(mIsSysrcmd)
-                        $(".layoutlinediv").css({"margin":"10px", "width":"97.5%", "height":"96%"});
+                        $(".layoutlinediv").css({"margin":"11px", "width":"97.2%", "height":"95.5%"});
                     else{
-                        $(".layoutlinediv").css({"margin":"10px 0 0 1.7%", "width":"47.5%", "height":"47%"});
-                        $("#layoutline-12").css({"margin-left":"25%"});
+                        $(".layoutlinediv").css({"margin":"13px 0 0 1.7%", "width":"47.5%", "height":"46%"});
+                        
+                        var bkgwidth = $(".layoutbkgdiv").width();
+                        var layoutwidth = $("#layoutline-12").width();
+                        $("#layoutline-12").css({"margin-left":(bkgwidth - layoutwidth)/2 + "px"});
                     }
                 }
             }
@@ -5734,25 +5734,25 @@ function layout_adjuststyle(type, mode, content){
                 if(!presenton){
                     $(".layoutlinename").css("margin-top", "30%");
                     //$(".smalllinediv .layoutlinename").css("margin-top", "30%");
-                    $(".largelinediv").css({"width":"97.5%", "height":"96%", "margin":"10px 0 0 10px"});
-                    $(".smalllinediv").css({"margin-top":"10%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
+                    $(".largelinediv").css({"width":"97%", "height":"95%", "margin":"12px", "position":"relative"});
+                    $(".smalllinediv").css({"bottom":"0", "right":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%", "position":"absolute"});
                 }
                 else{
-                    $(".largelinediv").css({"margin":"10px", "width":"97.5%", "height":"96%"});
+                    $(".largelinediv").css({"margin":"11px", "width":"97.2%", "height":"95.5%", "position":"relative"});
                     $(".largelinediv .layoutlinename").css("margin-top", "31%");
-                    $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
-                    $("#layoutline-13").css({"float":"left"});
+                    $(".smalllinediv").css({"bottom":"0", "right":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%", "position":"absolute"});
+                    $("#layoutline-13").css({"left":"0"});
                 }
             }
             break;
         case 2: //one/two screen with custom mode
             $("#layoutcustom").css({"width":"65%", "height":"100%", "float":"left", "margin-left":"15px"});
-            $(".hdmititle").css({"height":"8.4%", "width":"100%"});
-            $(".layoutbkgdiv").css({"height":"75%", "width":"100%"});
+            $(".hdmititle").css({"height":"8.4%", "width":"100%", "position":"relative"});
+            $(".layoutcontainer").css({"height":"67%", "min-height":"550px"});
+            $(".layoutbkgdiv").css({"min-height":"488.8px", "height":"75%", "width":"100%"});
             if(content.length == 1){
                 $(".layoutlinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
                 $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
-                $(".cusmodecls").css({"margin-top":"0"});
                 
                 $(".layoutnumber").each(function(){
                     if($(this).attr("line") == content){
@@ -5772,7 +5772,6 @@ function layout_adjuststyle(type, mode, content){
                     case "1":
                         if(content.length == 2){
                             $(".layoutlinediv").css({"margin":"21% 0 0 1.7%", "width":"47.5%", "height":"40%"});
-                            $(".cusmodecls").css({"margin-top":"18.7%"});
                             $(".layoutnumber").each(function(){
                                 var line = $(this).attr("line");
                                 if(line == content[0] || line == content[1])
@@ -5784,7 +5783,6 @@ function layout_adjuststyle(type, mode, content){
                         else if(content.length == 3){
                             $(".layoutlinediv").css({"margin":"13px 0 0 2%", "width":"47%", "height":"38%"});
                             $(".layoutlinediv:eq(0)").css({"margin-left":"26.5%", "margin-top":"33px"});
-                            $(".cusmodecls").css({"margin-top":"31px"});
                             $(".normalscreen").addClass("active");
                         }
                         break;
@@ -5792,7 +5790,6 @@ function layout_adjuststyle(type, mode, content){
                         if(content.length == 2){
                             $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
                             $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
-                            $(".cusmodecls").css({"margin-top":"13.7%"});
                             $(".layoutnumber").each(function(){
                                 var line = $(this).attr("line");
                                 if(line == content[0])
@@ -5808,7 +5805,6 @@ function layout_adjuststyle(type, mode, content){
                             $(".layoutlinediv .layoutlinename").css({"margin-top":"31%"});
                             $(".smalllinediv").css({"width":"30%", "height":"25%", "margin":"17% 13px 0 0"});
                             $(".smalllinediv:eq(1)").css({"margin-top":"13px"});
-                            $(".cusmodecls").css({"margin-top":"13%"});
                             $(".layoutnumber").each(function(){
                                 var line = $(this).attr("line");
                                 if(line == content[1] || line == content[2])
@@ -5822,12 +5818,9 @@ function layout_adjuststyle(type, mode, content){
                         if(content.length == 2){
                             $(".layoutlinename").css("margin-top", "33%");
                             $(".smalllinediv .layoutlinename").css("margin-top", "30%");
-                            $(".largelinediv").css({"width":"97%", "height":"87.5%", "margin":"10px"});
-                            if($(".largelinediv").attr("id").indexOf("12") == -1)
-                                $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
-                            else
-                                $(".smalllinediv").css({"margin-top":"14%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
-                            
+                            $(".largelinediv").css({"width":"97%", "height":"87.5%", "margin":"10px", "position":"relative"});
+                            $(".smalllinediv").css({"bottom":"0", "right":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%", "position":"absolute"}); 
+
                             $(".layoutnumber").each(function(){
                                 var line = $(this).attr("line");
                                 if(line == content[0])
@@ -5839,13 +5832,11 @@ function layout_adjuststyle(type, mode, content){
                             });
                         }
                         else if(content.length == 3){
-                            $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+                            $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%", "position":"relative"});
                             $(".largelinediv .layoutlinename").css("margin-top", "31%");
-                            if($(".largelinediv").attr("id").indexOf("12") == -1)
-                                $(".smalllinediv").css({"margin-top":"11.7%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
-                            else
-                                $(".smalllinediv").css({"margin-top":"14.5%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
-                            $(".smalllinediv:eq(1)").css({"float":"left"});
+                            $(".smalllinediv").css({"bottom":"0", "right":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%", "position":"absolute"});
+                            $(".smalllinediv:eq(1)").css({"left":"0"});
+                            
                             $(".layoutnumber").each(function(){
                                 var line = $(this).attr("line");
                                 if(line == content[1] || line == content[2])
@@ -5869,7 +5860,8 @@ function layout_adjuststyle(type, mode, content){
         case 3: //two screen with default mode;
             $(".layouthdmi").css({"width":"50%", "float":"left", "height":"80%"});
             $(".layouthdmitext").css({"width":"90%", "height":"20%", "text-align":"center", "font-size":"22px", "line-height":"120px", "margin-left":"8%"});
-            $(".layoutbkgdiv").css({"width":"90%", "height":"65%", "margin-left":"8%"});
+            $(".layoutcontainer").css({"height":"63%", "min-height":"500px"});
+            $(".layoutbkgdiv").css({"width":"90%", "min-height":"338.9px", "height":"65%", "margin-left":"8%"});
             $("#layoutbkg2, #layouthdmitext2").css({"margin-left":"4%"});
             
             if(mode == 4){
@@ -5902,8 +5894,8 @@ function layout_adjuststyle(type, mode, content){
             else if(mode == 6){
                 $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
                 $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
-                $("#layoutbkg2 .largelinediv").css({"width":"95.5%", "height":"94.2%", "margin":"10px"});
-                $("#layoutbkg2 .smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                $("#layoutbkg2 .largelinediv").css({"width":"95.5%", "height":"94.2%", "margin":"10px", "position":"relative"});
+                $("#layoutbkg2 .smalllinediv").css({"position":"absolute", "right":"0", "bottom":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
                 $("#layoutbkg2 .largelinediv .layoutlinename").css({"margin-top":"35%"});
                 $("#layoutbkg2 .smalllinediv .layoutlinename").css({"margin-top":"26%"});
             }
@@ -5924,7 +5916,6 @@ function layout_customscreenadjuststyle(mode, content){
         $(".cusmodecls").before(layouthtml);
         $(".layoutlinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
         $(".layoutlinediv .layoutlinename").css({"margin-top":"33%"});
-        $(".cusmodecls").css({"margin-top":"0"});
     }
     else{
         var layouthtml = "";
@@ -5936,12 +5927,10 @@ function layout_customscreenadjuststyle(mode, content){
                 $(".cusmodecls").before(layouthtml);
                 if(content.length == 2){
                     $(".layoutlinediv").css({"margin":"21% 0 0 1.7%", "width":"47.5%", "height":"40%"});
-                    $(".cusmodecls").css({"margin-top":"18.7%"});
                 }
                 else if(content.length == 3){
                     $(".layoutlinediv").css({"margin":"13px 0 0 2%", "width":"47%", "height":"38%"});
                     $(".layoutlinediv:eq(0)").css({"margin-left":"26.5%", "margin-top":"33px"});
-                    $(".cusmodecls").css({"margin-top":"31px"});
                 }
                 break;
             case "2":
@@ -5952,14 +5941,12 @@ function layout_customscreenadjuststyle(mode, content){
                 if(content.length == 2){
                     $(".largelinediv").css({"width":"65%", "height":"53%", "margin":"16% 0 0 11px"});
                     $(".smalllinediv").css({"width":"30%", "height":"27%", "margin":"27% 11px 0 0"});
-                    $(".cusmodecls").css({"margin-top":"13.7%"});
                 }
                 else if(content.length == 3){
                     $(".largelinediv").css({"width":"64%", "height":"52.5%", "margin":"17% 0 0 13px"});
                     $(".layoutlinediv .layoutlinename").css({"margin-top":"31%"});
                     $(".smalllinediv").css({"width":"30%", "height":"25%", "margin":"17% 13px 0 0"});
                     $(".smalllinediv:eq(1)").css({"margin-top":"13px"});
-                    $(".cusmodecls").css({"margin-top":"13%"});
                 }
                 break;
             case "3":            
@@ -5968,20 +5955,14 @@ function layout_customscreenadjuststyle(mode, content){
                     if(content.length == 2){
                         $(".layoutlinename").css("margin-top", "33%");
                         $(".smalllinediv .layoutlinename").css("margin-top", "30%");
-                        $(".largelinediv").css({"width":"97%", "height":"87.5%", "margin":"10px"});
-                        if($(".largelinediv").attr("id").indexOf("12") == -1)
-                            $(".smalllinediv").css({"margin-top":"11%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
-                        else
-                            $(".smalllinediv").css({"margin-top":"14%", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                        $(".largelinediv").css({"width":"97%", "height":"87.5%", "margin":"10px", "position":"relative"});
+                        $(".smalllinediv").css({"bottom":"0", "right":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%", "position":"absolute"});
                     }
                     else if(content.length == 3){
-                        $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%"});
+                        $(".largelinediv").css({"margin":"10px", "width":"97%", "height":"87.5%", "position":"relative"});
                         $(".largelinediv .layoutlinename").css("margin-top", "31%");
-                        if($(".largelinediv").attr("id").indexOf("12") == -1)
-                            $(".smalllinediv").css({"margin-top":"11.7%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
-                        else
-                            $(".smalllinediv").css({"margin-top":"14.5%", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%"});
-                        $(".smalllinediv:eq(1)").css({"float":"left"});
+                        $(".smalllinediv").css({"bottom":"0", "right":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"30%", "position":"absolute"});
+                        $(".smalllinediv:eq(1)").css({"left":"0"});
                     }
                 break;
         }
@@ -8127,7 +8108,10 @@ function pageEventActions()
     });
 
     $(".closecalldiv").click(function(){
-        $(this).parent().parent().hide();
+        if($(this).parent().parent().attr("id") == "layouttitle")
+            $(this).parent().parent().parent().hide();
+        else
+            $(this).parent().parent().hide();
         if( !$("#addmemberdiv").is(":visible") && !$("#ctrlFECCDiv").is(":visible") && !$("#dtmfDiv").is(":visible") && !$("#layoutdiv").is(":visible") && !$("#selectvideodiv").is(":visible") && !$("#detailsdiv").is(":visible"))
             ctrl_show_maskdiv(false);
     });
@@ -9376,16 +9360,10 @@ function pageEventActions()
         else if(mode == "pop")
             cb_get_action("setdefaultpip&region=confctrl");
         else{
-            /*var childmode = $(".modelist li[mode=custom]").attr("childmode");
-            var hdmi1mode = $("#hdmi1div").attr("mode");
-            var hdmi1content = $("#hdmi1div").attr("content");
-            if(mHdmi2state == 1){
-                var hdmi2mode = $("#hdmi2div").attr("mode");
-                var hdmi2content = $("#hdmi2div").attr("content");
-            }else{
-                var hdmi2mode = "";
-                var hdmi2content = "";
-            }*/
+            if(mHdmiModeContent[2] == undefined){
+                mHdmiModeContent[2] = mHdmiModeContent[0];
+                mHdmiModeContent[3] = "-1";
+            }
             
             cb_get_action("setcustommode&region=confctrl&hdmi1mode=" + mHdmiModeContent[0] + "&hdmi1content=" + mHdmiModeContent[1] + "&hdmi2mode=" + mHdmiModeContent[2] + "&hdmi2content=" + mHdmiModeContent[3]);
         }
