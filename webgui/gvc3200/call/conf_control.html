@@ -2328,7 +2328,7 @@ function acceptorcallout(data,type)
         addconflist(data,mOnewayid);
     }
     else
-    {//console.log("aaa");
+    {
         //conference has been created
         addconflist(data,mOnewayid);
     }
@@ -2341,7 +2341,7 @@ function acceptorcallout(data,type)
 }
 /*
 function acceptorcallout(data,type)
-{//console.log(data);
+{
     /**
     type
     0:accept incoming call
@@ -5713,10 +5713,7 @@ function layout_adjuststyle(type, mode, content){
                         $(".layoutlinediv").css({"margin":"11px", "width":"97.2%", "height":"95.5%"});
                     else{
                         $(".layoutlinediv").css({"margin":"13px 0 0 1.7%", "width":"47.5%", "height":"46%"});
-                        
-                        var bkgwidth = $(".layoutbkgdiv").width();
-                        var layoutwidth = $("#layoutline-12").width();
-                        $("#layoutline-12").css({"margin-left":(bkgwidth - layoutwidth)/2 + "px"});
+                        $("#layoutline-12").css({"margin-left":"26%"});
                     }
                 }
             }
@@ -6171,6 +6168,7 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
             $("#hdmi1div .hdmi_arrow").hide();
         }
     }
+
     layout_adjuststyle(type, mode, mcontent);
 }
 
@@ -9054,7 +9052,7 @@ function pageEventActions()
             mode = mHdmiModeContent[0]
             content = mHdmiModeContent[1];
         }
-        
+
         display_customscreenlayout(mode, content, mCurhdmi, mHdmi2state);
         $(".cusmode[mode=" + mode + "]").addClass("active");
     });
@@ -9132,7 +9130,14 @@ function pageEventActions()
     });
     
     $(".screendiv").live("click", function(){
-        var mode = $(".modelist li[mode=custom]").attr("childmode");
+        //var mode = $(".modelist li[mode=custom]").attr("childmode");
+        var mode;
+        $(".cusmode").each(function(){
+            if($(this).hasClass("active")){
+                mode = $(this).attr("mode");
+                return false;
+            }
+        });
         var presenton = parseInt($("#present").attr("ison"));
         var line = $(this).parent().attr("line");
         if($(this).hasClass("active"))
@@ -9710,7 +9715,6 @@ function setfnBlock_Event(){
                 var aColor = that.replace(/(?:\(|\)|rgba|RGBA)*/g,"").split(",");
                 bgcolor = "rgb("+aColor[0]+","+aColor[1]+","+aColor[2]+")";
                 opacity = aColor[3];
-                //console.log("#"+bgcolor.colorHex());
             }
             mjsbgColor.fromString("#"+bgcolor.colorHex(),"",opacity);
         }
