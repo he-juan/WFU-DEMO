@@ -2105,7 +2105,7 @@ int sqlite_handle_display(buffer *b, const struct message *m, const char *type ,
     }
 
     printf("sqlite_handle_display, sql str is %s\n", sqlstr);
-    rc = sqlite3_open("/data/data/com.android.providers.settings/databases/settings.db", &db);
+    rc = sqlite3_open("/data/data/com.android.providers.settings/databases/gs_settings.db", &db);
     if( rc ){
         printf("Can't open database: %s\n", sqlite3_errmsg(db));
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
