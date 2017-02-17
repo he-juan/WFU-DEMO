@@ -15,6 +15,7 @@ export CFLAGS="-pie -fPIE\
     -I${ANDROID_ROOT}/external/libxml2/include \
     -I${ANDROID_ROOT}/external/dbus \
     -I${ANDROID_ROOT}/vendor/grandstream/external/dbus \
+	-I${ANDROID_ROOT}/vendor/grandstream/tools/updatetools/prov_dwnld/include \
     -I${ANDROID_ROOT}/external/sqlite/dist \
     -I${ANDROID_ROOT}/external/zlib \
     -I${ANDROID_ROOT}/external/icu/icu4c/source/common \
