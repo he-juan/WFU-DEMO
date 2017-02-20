@@ -11585,7 +11585,7 @@ static int handle_putlanguage (buffer *b, const struct message *m)
 
     lan = msg_get_header(m, "lan");
     country = msg_get_header(m, "country");
-    snprintf(cmd, sizeof(cmd), "am broadcast -a com.android.settings.LanguageUpdate -e \"language\" \"%s\" -e \"country\" \"%s\"", lan, country);
+    snprintf(cmd, sizeof(cmd), "am broadcast -a com.android.settings.LanguageUpdate -e \"language\" \"%s\" -e \"country\" \"%s\" -e \"from\" \"web\"", lan, country);
     mysystem(cmd);
     printf("cmd is %s\n", cmd);
     buffer_append_string (b, "Response=Success\r\n");
