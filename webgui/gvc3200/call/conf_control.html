@@ -3171,6 +3171,10 @@ function addconflist(data,todivID)
         urihead = "action=isrecording&region=confctrl";
         callfn = "setrecord_callback(data);";
         cb_get_confaction(urihead,callfn,false);
+        
+        urihead = "action=ismuteon&region=confctrl";
+        callfn = "localmute_callback(data)";
+        cb_get_confaction(urihead,callfn,false);
     }
 
     // if($("#incominglist div",window.parent.document).length > 0)
@@ -4846,19 +4850,26 @@ function localmute_callback(data)
     if(data.flag)
        flag = data.flag;
 
-    flag = flag.split("=");
-    if(flag[0] == "MuteMic")
+    var mute = 0;
+    if(flag == "true")
+        mute = 1;
+    else if(flag.indexOf("=") != -1){
+        flag = flag.split("=");
+        if(flag[0] == "MuteMic"){
+            if(flag[1] == "1")
+                mute = 1;
+        }
+    };
+
+    if(mute == 1)
     {
-        if(flag[1] == "1")
-        {
-            //mute
-            $("#localmute").attr("ismute",0).attr("title",a_659).addClass("unmute active");
-        }
-        else
-        {
-            //not mute
-            $("#localmute").attr("ismute",1).attr("title",a_649).removeClass("unmute active");
-        }
+        //mute
+        $("#localmute").attr("ismute",0).attr("title",a_659).addClass("unmute active");
+    }
+    else
+    {
+        //not mute
+        $("#localmute").attr("ismute",1).attr("title",a_649).removeClass("unmute active");
     }
 }
 

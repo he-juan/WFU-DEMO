@@ -21182,6 +21182,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if (!strcasecmp(action, "isrecording")){
                     handle_callservice_by_no_param(srv, con, b, m,"isRecording");
                 }
+                else if (!strcasecmp(action, "ismuteon")){
+                    handle_callservice_by_no_param(srv, con, b, m,"getIsLocalMuted");
+                }
                 else if(!strcasecmp(action, "attendtransfer"))
                 {
                     handle_attendtransfer(srv, con, b, m);
