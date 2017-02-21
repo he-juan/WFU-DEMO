@@ -197,6 +197,9 @@ function pageEventActions(){
             view_message(a_16442,MSG_FAIL);
             return false;
         }
+        
+        if($("#port").val() == "")
+            $("#port").val("389");
         cb_put(req_items, "", 0);
     });
 }
