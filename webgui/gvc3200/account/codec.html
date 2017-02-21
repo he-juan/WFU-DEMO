@@ -76,7 +76,8 @@ fieldset div{margin-left:10px;}
                             <option value="0">PCMU</option>
                             <option value="8">PCMA</option>
                             <option value="9">G.722</option>
-                            <!--<option value="18">G729A/B</option>-->
+                            <option value="18">G729A/B</option>
+                            <option value="98">iLBC</option>
                             <option value="123">Opus</option>
                             <option value="104">G.722.1</option> <!--see line 455-->
                             <option value="103">G.722.1C</option>
@@ -485,15 +486,26 @@ $(function(){
 		//$('#noallow1 option:eq(4)').remove();   //also need to check line 465,avoid order mistake
 		$(".g7221set").hide();
 	}
-    setInitState();
-    //cb_get_index(req_indexs);
+    
     accountindex = $('#accountindex',parent.document.body).val();
     if( accountindex == "4" ){
         $("fieldset > div").hide();
         $(".h323mode").show();
         $('#h323dtmf').sSelect();
-        $('#noallow1 option:eq(3)').remove();
+        $('#noallow1 option[value=123]').remove();
     }
+    
+    if( accountindex != "1" ){
+        $('#noallow1 option[value=18]').remove();
+        $('#noallow1 option[value=98]').remove();
+    }
+    else{
+        $("#ilibcfs").parent().show();
+    }
+    
+    setInitState();
+    //cb_get_index(req_indexs);
+
     cb_get_pvalue(accountindex);
     pageEventActions();
 });
