@@ -9332,7 +9332,6 @@ function pageEventActions()
             mHdmiModeContent[2] = mode;
             mHdmiModeContent[3] = content;
         }
-        //$("#hdmi"+ mCurhdmi + "div").attr("mode", mode).attr("content", content);
         layout_customscreenadjuststyle(mode, content);
     });
     
@@ -9361,7 +9360,12 @@ function pageEventActions()
             }
             else{
                 $(".cuspop").addClass("active");
-            }    
+            }
+            
+            if(mCurhdmi == 1)
+                mHdmiModeContent[0] = mode;
+            else
+                mHdmiModeContent[2] = mode;
         }
     });
 
