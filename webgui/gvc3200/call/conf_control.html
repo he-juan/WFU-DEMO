@@ -944,7 +944,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
         <div id="presentlist" style="margin-top: 20px;">
             <select id="presentmode">
                 <option value="1">Auto</option>
-                <option value="2">PC</option>
+                <option value="3">PC</option>
                 <option value="0">Close</option>
             </select>
         </div>
@@ -5084,10 +5084,6 @@ function setsubstream_callback(data)
     if(state == "true" || state == "1")
     {
         $("#switchvideosource").addClass("active").attr("ison","1").attr("name",a_10107);
-        /*if($("#switchvideosource").is(":hover"))
-        {
-            $("#tips span.tipcontent").text(a_10107);
-        }*/
         if( $("#present").attr("ison") == "0" ){
             $("#present").attr("ison",1).addClass("active").attr("bytype","videosource").attr("name",a_10003+" "+a_10004)
             if($("#present").is(":hover"))
@@ -5100,23 +5096,13 @@ function setsubstream_callback(data)
     else if(state == "false" || state == "0")
     {
         $("#switchvideosource").removeClass("active").attr("ison","0").attr("name",a_10108);
-        /*if($("#switchvideosource").is(":hover"))
+        $("#present").attr("ison",0).removeClass("active").removeAttr("bytype").attr("name",a_10002+" "+a_10004)
+        if($("#present").is(":hover"))
         {
-            $("#tips span.tipcontent").text(a_10108);
-        }*/
-        if( $("#present").attr("bytype") == "videosource" ){
-            $("#present").attr("ison",0).removeClass("active").removeAttr("bytype").attr("name",a_10002+" "+a_10004)
-            if($("#present").is(":hover"))
-            {
-                $("#tips span.tipcontent").text(a_10002+" "+a_10004);
-                buttontip_position($("#present"));
-            }
+            $("#tips span.tipcontent").text(a_10002+" "+a_10004);
+            buttontip_position($("#present"));
         }
     }
-    /*if($("#switchvideosource").is(":hover"))
-    {
-        buttontip_position($("#switchvideosource"));
-    }*/
 }
 
 function setrecord_callback(data)
@@ -8951,6 +8937,8 @@ function pageEventActions()
             success:function(data) {
                 var data = eval("("+data+")");
                 var mode = data.mode;
+                if(mode == "2")
+                    mode == "1";
                 $("#presentmode").getSetSSValue(mode);
             },
             error:function(xmlHttpRequest, errorThrown) {
