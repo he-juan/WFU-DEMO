@@ -132,13 +132,17 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_g722payload">G.722.1 Payload Type</span> :</div>
                 <input id="g722payload" name="g722payload" type="text" value='104' />
             </div>
-            <div webtip="G.722.1C Rate" class="g7221set" style="display:none;">
+            <div webtip="G.722.1C Rate" class="g7221set">
                 <div class="noreboot"><span id="a_g7221crate">G.722.1C rate</span> :</div>
                 <select id="g7221crate">
                     <option value="0">24kbps encoding rate</option>
                     <option value="1">32kpbs encoding rate</option>
                     <option value="2">48kpbs encoding rate</option>
                 </select>
+            </div>
+            <div webtip="G.722.1C Payload Type" class="g7221set">
+                <div class="noreboot"><span id="a_g7221cpayload">G.722.1C Payload Type</span> :</div>
+                <input id="g7221cpayload" name="g7221cpayload" type="text" value='103' />
             </div>
             <div webtip="G723 Rate" style="display:none">
                 <div class="noreboot"><span id="a_g723rate">G723 Rate</span> :</div>
@@ -511,10 +515,6 @@ $(function(){
         $("#ilibcfs").parent().show();
     }
     
-    if(accountindex == "1" || accountindex == "3"){
-        $("#g7221crate").parent().show();
-    }
-    
     setInitState();
     //cb_get_index(req_indexs);
 
@@ -599,6 +599,7 @@ function setInitState(){
 			vocfp: { digits:true, range:[1,64] },
             jittermax: { digits:true, range:[0,1000] },
             g722payload: { required:true, digits:true, range:[96,126] },
+            g7221cpayload: { digits:true, range:[96,127] },
             opuspayload: { digits:true, range:[96,126] },
             h263payload: { digits:true, range:[96,127] },
             h264payload: { digits:true, range:[96,127] },
@@ -679,9 +680,11 @@ function translate_codec(){
     $("#g722rate option:eq(0)").text("24kbps "+a_16135);
     $("#g722rate option:eq(1)").text("32kbps "+a_16135);
     $("#a_g722payload").text(a_18563);
+    $("#a_g7221crate").text(a_19005);
     $("#g7221crate option:eq(0)").text("24kbps "+a_16135);
     $("#g7221crate option:eq(1)").text("32kbps "+a_16135);
     $("#g7221crate option:eq(2)").text("48kbps "+a_16135);
+    $("#a_g7221cpayload").text(a_19109);
     $("#a_g723rate").text(a_16137);
     $("#g723rate option:eq(0)").text("6.3kbps "+a_16135);
     $("#g723rate option:eq(1)").text("5.3kbps "+a_16135);
@@ -765,6 +768,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("g722rate", "2373", ""),
 				new ReqItem("g722payload", "2374", ""),
                 new ReqItem("g7221crate", "26017", ""),
+                new ReqItem("g7221cpayload", "26016", ""),
 				new ReqItem("opuspayload", "2385", ""),
 				new ReqItem("g723rate", "49", ""),
 				new ReqItem("jitterbt", "133", ""),
@@ -831,6 +835,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("g722rate", "2473", ""),
 				new ReqItem("g722payload", "2474", ""),
                 new ReqItem("g7221crate", "26117", ""),
+                new ReqItem("g7221cpayload", "26116", ""),
 				new ReqItem("opuspayload", "2485", ""),
 				new ReqItem("g723rate", "493", ""),
 				new ReqItem("jitterbt", "498", ""),
@@ -893,6 +898,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("g722rate", "2573", ""),
 				new ReqItem("g722payload", "2574", ""),
                 new ReqItem("g7221crate", "26217", ""),
+                new ReqItem("g7221cpayload", "26216", ""),
 				new ReqItem("opuspayload", "2585", ""),
 				new ReqItem("g723rate", "593", ""),
 				new ReqItem("jitterbt", "598", ""),
@@ -974,6 +980,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("g722rate", "2673", ""),
                 new ReqItem("g722payload", "2674", ""),
                 new ReqItem("g7221crate", "26317", ""),
+                new ReqItem("g7221cpayload", "26316", ""),
                 new ReqItem("opuspayload", "2685", ""),
 				new ReqItem("g723rate", "693", ""),
                 new ReqItem("jitterbt", "698", ""),
@@ -1036,6 +1043,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("g722rate", "2773", ""),
                 new ReqItem("g722payload", "2774", ""),
                 new ReqItem("g7221crate", "26417", ""),
+                new ReqItem("g7221cpayload", "26416", ""),
                 new ReqItem("opuspayload", "2785", ""),
 				new ReqItem("g723rate", "1793", ""),
                 new ReqItem("jitterbt", "1798", ""),
@@ -1098,6 +1106,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("g722rate", "2873", ""),
                 new ReqItem("g722payload", "2874", ""),
                 new ReqItem("g7221crate", "26517", ""),
+                new ReqItem("g7221cpayload", "26516", ""),
                 new ReqItem("opuspayload", "2885", ""),
 				new ReqItem("g723rate", "1893", ""),
                 new ReqItem("jitterbt", "1898", ""),
@@ -1453,17 +1462,21 @@ function pageEventActions(){
         //    $("#fecredpayload").val("122");
         if( $("#feccpayload").val() == "" )
             $("#feccpayload").val("125");
+        if( $("#g7221cpayload").val() == "" )
+            $("#g7221cpayload").val("103");
         var h264payload = $("#h264payload").val();
         var fecpayload = $("#fecpayload").val();
         var audiofecpayload = $("#audiofecpayload").val();
         var audioredpayload = $("#audioredpayload").val();
         //var fecredpayload = $("#fecredpayload").val();
         var feccpayload = $("#feccpayload").val();
+        var g7221cpayload = $("#g7221cpayload").val();
         
         var cmppayload = new Array();
         cmppayload.push(dtmfpayload);
         cmppayload.push(h264payload);
         cmppayload.push(g722payload);
+        cmppayload.push(g7221cpayload);
         cmppayload.push(fecpayload);
         cmppayload.push(feccpayload);
         cmppayload.push(opuspayload);
