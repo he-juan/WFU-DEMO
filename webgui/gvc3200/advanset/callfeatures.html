@@ -106,6 +106,10 @@
                     <option value='3'>Auto Mute on Incoming & Outgoing Call</option>
                 </select>
             </div>
+            <div webtip="Noise Block">
+                <div class="noreboot"><span id="a_noiseblock">Noise Block</span> :</div>
+                <input name="noiseblock" type="checkbox" id="noiseblock"><span id="a_noiseblockyes">Yes</span>
+            </div>
             <div webtip="Enable Function for Incoming Call" style="display:none;">
                 <div class="noreboot"><span id="a_enablefncall">Enable Function for Incoming Call</span> :</div>
                 <select id="enablefncall">
@@ -167,7 +171,8 @@ req_items.push(
     new ReqItem("ofhdial", "71", ""),
     new ReqItem("ofhtimeout", "1485", ""),
     new ReqItem("entrymute", "29607", ""),
-    new ReqItem("avspipmode", "921", "")
+    new ReqItem("avspipmode", "921", ""),
+    new ReqItem("noiseblock", ":noise_block", "")
     //new ReqItem("enablefncall", "preview", ""),
 );
 $(function(){
@@ -205,7 +210,7 @@ function translate_callfea(){
     $("#a_autoconf").text(a_16289);
     $("#a_callwait").text(a_16641);
     $("#a_autovideo").text(a_16151);
-    $("#a_autovideoyes, #a_alringyes, #a_autoconfyes, #a_callwaityes, #a_discallwaittoneyes, #a_diripcallyes, #a_escapeuriyes, #a_disdndringyes, #a_usequickipcallyes, #a_disabletrnfyes, #a_disableconfyes, #a_enablempkyes, #a_allowloopyes, #a_viddecodefsyes").text(a_5);
+    $("#a_autovideoyes, #a_alringyes, #a_autoconfyes, #a_callwaityes, #a_discallwaittoneyes, #a_diripcallyes, #a_escapeuriyes, #a_noiseblockyes, #a_disdndringyes, #a_usequickipcallyes, #a_disabletrnfyes, #a_disableconfyes, #a_enablempkyes, #a_allowloopyes, #a_viddecodefsyes").text(a_5);
     $("#a_discallwaittone").text(a_16290);
     $("#a_disadiaplan").text(a_16291);
     $("#a_filterchars").text(a_19112);

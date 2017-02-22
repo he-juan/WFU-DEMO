@@ -393,7 +393,8 @@ tip_item.push (
 		"SI se establece en \"Si\", a continuación deshabilite el plan de marcado a excepción de contactos. El ajuste por defecto es \"No\"."),
     new TipsDef("Filter Characters",
         "Establezca los caracteres de filtro cuando marque los números. Los usuarios pueden configurar múltiples caracteres. Por ejemplo, si se configura \"[()-]\", cuando se marque (0571)-8800-8888, el caracter \"()-\" será automáticamente filtrado y marcará directamente 057188008888."),
-    
+	new TipsDef("Noise Block",
+		"If set to \"Yes\", the voice of knocking table and turning over papers will be eliminated in call clearance (no one is speaking), the default setting is \"No\"."),
     
     /*Ajustes Avanzados de zona de tono*/
     new TipsDef("Custom ring tone 1",

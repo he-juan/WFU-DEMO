@@ -384,7 +384,8 @@ tip_item.push (
 		"Если установлено \"Да\", то планы набора вызова не действуют, за исключением номером, занесённых в контакты. По умолчанию \"Нет\"."),
     new TipsDef("Filter Characters",
         "Устанавливает символы для фильтрации при наборе номера. Например, если прописано \"[()-]\", то при наборе (0571)-8800-8888 символы \"()-\" будут исключены, и осуществится набор 057188008888."),
-    
+	new TipsDef("Noise Block",
+		"If set to \"Yes\", the voice of knocking table and turning over papers will be eliminated in call clearance (no one is speaking), the default setting is \"No\"."),
     
     /*Расширенные Настройки Тональные Зоны*/
     new TipsDef("Custom ring tone 1",

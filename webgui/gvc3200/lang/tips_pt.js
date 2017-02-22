@@ -393,7 +393,8 @@ tip_item.push (
 		"Se está configurado \"Sim\", então estará desativado o plano de discagem exceto contato. A configuração padrão é \"Não\"."),
     new TipsDef("Filter Characters",
         "Configure os caracteres que irão ser filtrados ao momento da discagem dos números. Os usuários poderão configurar múltiplos caracteres. Por exemplo, se esta configurado \"[()-]\", ao momento de discar (0571)-8800-8888, os caracteres \"()-\" serão filtrados automaticamente e se discará 057188008888 diretamente."),
-    
+	new TipsDef("Noise Block",
+		"If set to \"Yes\", the voice of knocking table and turning over papers will be eliminated in call clearance (no one is speaking), the default setting is \"No\"."),
     
     /*Configurações Avançadas Tone Zone*/
     new TipsDef("Custom ring tone 1",
