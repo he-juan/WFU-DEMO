@@ -7,18 +7,31 @@
 
 void string_format(char **str)
 {
+    int last_flag = 0;
 	int len = strlen(*str);
 	char *tmpstr = malloc(len + 12);
 	memset(tmpstr, 0, len + 12);
+
+    if ((*str)[0] == '"') {
+        strcat(tmpstr, "\\\"");
+    }
+
+    if ((*str)[strlen(*str)-1] == '"') {
+        last_flag = 1;
+    }
 
 	char *strp = strtok(*str, "\"");
 	while(strp != NULL)
 	{
 		strcat(tmpstr, strp);
 		strp = strtok(NULL, "\"");
-		if (strp != NULL)
+		if (strp != NULL) 
 			strcat(tmpstr, "\\\"");
 	}
+
+    if (last_flag == 1) {
+        strcat(tmpstr, "\\\"");
+    }
 
 	char *newstr = malloc(len + 12);
 	memset(newstr, 0, len + 12);
