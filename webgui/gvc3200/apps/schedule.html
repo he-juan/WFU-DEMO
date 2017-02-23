@@ -2218,7 +2218,11 @@ function countdownTime(starttime,scheduleid)
     var startdate = starttime[0].split("-");
     var starthour = starttime[1].split(":");
     var startT = new Date(startdate[0],startdate[1]-1,startdate[2],starthour[0],starthour[1],starthour[2]);
-    var currentT = new Date();
+    //var currentT = new Date();
+    var currenttime = mCurrentTime.split(" ");
+    var currentdate = currenttime[0].split("-");
+    var currenthour = currenttime[1].split(":");
+    var currentT = new Date(currentdate[0],currentdate[1]-1,currentdate[2],currenthour[0],currenthour[1],currenthour[2]);
     var endtime = "";
     var caldate = startT.getTime() - currentT.getTime();
 
