@@ -1002,7 +1002,7 @@ function cb_get_action_done(data, action) {
                     }
                     var memberdiv = document.createElement('DIV');
 	                memberdiv.className='memberdiv';
-	                memberdiv.setAttribute("name", confname);
+	                //memberdiv.setAttribute("name", confname);
 	                memberdiv.setAttribute("confid", confid);
                     memberdiv.setAttribute("number", number);
                     memberdiv.setAttribute("isexist", 0);
@@ -1273,7 +1273,7 @@ function cb_get_action_done(data, action) {
                     preset = $("#confpreset").val();
 
                     var old_time = $(".itemdiv[scheduleid=" + tmpid + "]").parent().parent().attr("id");
-                    var old_name = $(".itemdiv[scheduleid=" + tmpid + "]").attr("name");
+                    //var old_name = $(".itemdiv[scheduleid=" + tmpid + "]").attr("name");
                     /*if(dialplan == 0)
                     {
                         disnumber = disnumber.split(",");
@@ -1287,8 +1287,9 @@ function cb_get_action_done(data, action) {
                         }
                     }*/
                     $("#membersdiv .memberdiv[isexist=1][isdelete=1]").remove();
-                    $("#membersdiv .memberdiv[name=\""+old_name+"\"]").removeAttr("notsave");
-                    $("#membersdiv .memberdiv[name=\""+old_name+"\"]").attr("name",name);
+                    //$("#membersdiv .memberdiv[name=\""+old_name+"\"]").removeAttr("notsave");
+                    //$("#membersdiv .memberdiv[name=\""+old_name+"\"]").attr("name",name);
+                    $("#membersdiv .memberdiv[isdelete=0]").removeAttr("notsave");
                     $("#schedulecallbtn").hide().appendTo($("#mainbody"));
                     $(".itemdiv[scheduleid=" + tmpid + "]").remove();
                     create_schedule_div(tmpid, "", name, starttime, duration, reminder, "" ,host, "", dnd, milliseconds,autoanswer,"","","",pincode,"",repeat, mRepeatRule, "", preset);
@@ -1768,7 +1769,7 @@ function create_member_div(id, disname, number, acctindex, data, type){
         memberdiv.setAttribute("isgroup", "0");
     }
     
-    memberdiv.setAttribute("name", disname);
+    //memberdiv.setAttribute("name", disname);
     memberdiv.setAttribute("number", number);
     memberdiv.setAttribute("acctIndex", acctindex);
     memberdiv.setAttribute("contactid","");
@@ -2026,7 +2027,8 @@ function add_calllog_to_schedule(numbers,names,accts,recordfrom)
     for(;n < numberarray.length; n++)
     {
         var membericon = "<div class='membericon'><div class='appcontacticon'></div></div>";
-        var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+numberarray[n]+"\" isdelete=0 isexist=1 notsave=1 acctindex=\""+acctarray[n]+"\" recordfrom=" + recordarray[n] + ">";
+        //var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+numberarray[n]+"\" isdelete=0 isexist=1 notsave=1 acctindex=\""+acctarray[n]+"\" recordfrom=" + recordarray[n] + ">";
+        var memberdiv = "<div class='memberdiv' confid=\""+confid+"\" number=\""+numberarray[n]+"\" isdelete=0 isexist=1 notsave=1 acctindex=\""+acctarray[n]+"\" recordfrom=" + recordarray[n] + ">";
         var membername = "<div class='membername'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div>";
         var membernum = "<div class='membernumber'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div>";
         var stringdiv = memberdiv + membericon + membername + membernum + "</div>";
@@ -3119,10 +3121,12 @@ function pageEventActions(){
                 {
                     var emailattr = $(".contactsdiv[number=\"" + contactnum + "\"][acctindex=" + acctid + "]").eq(0).attr("email")
                     var emailnum = $(".contactsdiv[number=\"" + contactnum + "\"][acctindex=" + acctid + "]").eq(0).attr("emailnum");
-                    var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" email=\"" + emailattr + "\" emailnum=" + emailnum + " isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";
+                    //var memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" email=\"" + emailattr + "\" emailnum=" + emailnum + " isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";
+                    var memberdiv = "<div class='memberdiv' confid=\""+confid+"\" number=\""+contactnum+"\" email=\"" + emailattr + "\" emailnum=" + emailnum + " isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";    
                     if(classname.indexOf("creatsearchItem") != -1)
                     {
-                        memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" searchitem=1 isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";
+                        //memberdiv = "<div class='memberdiv' name=\""+selectconfname+"\" confid=\""+confid+"\" number=\""+contactnum+"\" searchitem=1 isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";
+                        memberdiv = "<div class='memberdiv' confid=\""+confid+"\" number=\""+contactnum+"\" searchitem=1 isdelete=0 isexist=1 notsave=1 acctindex=\""+acctid+"\" recordfrom=" + recordfrom + ">";        
                         $(this).remove();
                     }
                     var membername, membernum, memberemail;
