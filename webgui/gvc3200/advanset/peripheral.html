@@ -335,6 +335,11 @@ function cb_get_action_done(data, action){
                 if(action.indexOf("hdmi1") != -1){
                     var modes = tObj.modes.split(",");
                     for(var i = 0; i < modes.length; i++){
+                        if(modes[i].indexOf("-P") != -1){
+                            modes[i] = modes[i].substring(0, modes[i].length - 2);
+                            modes[i] += "(" + a_12100 + ")";
+                        }
+
                         var newoption = "<option value=" + i + ">" + modes[i] + "</option>";
                         $("#himioutresolution").append(newoption);
                     }
@@ -344,6 +349,11 @@ function cb_get_action_done(data, action){
                 else if(action.indexOf("hdmi2") != -1){
                     var modes = tObj.modes.split(",");
                     for(var i = 0; i < modes.length; i++){
+                        if(modes[i].indexOf("-P") != -1){
+                            modes[i] = modes[i].substring(0, modes[i].length - 2);
+                            modes[i] += "(" + a_12100 + ")";
+                        }
+                        
                         var newoption = "<option value=" + i + ">" + modes[i] + "</option>";
                         $("#himi2outresolution").append(newoption);
                     }
