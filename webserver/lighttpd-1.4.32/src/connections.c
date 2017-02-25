@@ -20758,6 +20758,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_getUSB2state(b);
                 } */ else if(!strcasecmp(action, "getusbstate")){
                     handle_callservice_by_no_param(srv, con, b, m, "getUSBState");
+                } else if(!strcasecmp(action, "getusbstoragestate")){
+                    handle_callservice_by_no_param(srv, con, b, m, "getUSBStorageState");
                 } else if (!strcasecmp(action, "getsdcardstate")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getSDCardStatus");
                 } else{

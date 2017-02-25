@@ -57,12 +57,12 @@ function cb_get_action_done(data, action){
         var tObj = eval("(" + data + ")");
         if( action.indexOf("getsdcardstate") != -1 ){
             var status = parseInt(tObj.msg);
-            if( status == 3 || status == 4 || status == 5 || status == 7 ){
+            if( status == 1 ){
                 var option = "<option value='/mnt/extsd'>" + a_9104 + "</option>";
                 $("#recordpath").append(option);
             }
-            cb_get_action('getusbstate&region=maintenance');
-        }else if( action.indexOf("getusbstate") != -1 ){
+            cb_get_action('getusbstoragestate&region=status');
+        }else if( action.indexOf("getusbstoragestate") != -1 ){
             if( tObj.msg != "" ){
                 var usbs = tObj.msg.split(",");
                 for(var i = 0; i < usbs.length; i++){
@@ -73,7 +73,7 @@ function cb_get_action_done(data, action){
             if( $("#recordpath option").length > 0 )
                 cb_get_action("getrecordingpath&region=maintenance");
             else{
-                var option = "<option value='-1'>--" + a_19316 + "--</option>";
+                var option = "<option value='-1'>" + a_19316 + "</option>";
                 $("#recordpath").append(option);
                 $("#recordpath").sSelect();
                 $("#a_save").attr("disabled", "disabled").addClass("disableclass");
