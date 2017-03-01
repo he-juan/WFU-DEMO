@@ -4,6 +4,6 @@
 
 sudo make clean
 source env.sh
-./configure --host=arm-linux -disable-gomp --enable-shared --prefix=/system/sox/
+./configure --host=arm-linux -disable-gomp --enable-shared --enable-dl-lame --enable-dl-mad --prefix=/system/sox/
 make -s
 sudo make install

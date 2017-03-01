@@ -14,9 +14,9 @@ LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/webserver/pem/gxe50xx.
 
 LOCAL_POST_PROCESS_COMMAND := $(shell mkdir -p $(TARGET_OUT)/lib)
 LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/bin/sox $(TARGET_OUT)/bin/.)
-LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/sox/lib/libsox.so.2 $(TARGET_OUT)/lib/.)
-LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/libmad/lib/libmad.so.0 $(TARGET_OUT)/lib/.)
-LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/lame/lib/libmp3lame.so.0 $(TARGET_OUT)/lib/.)
+LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/sox/lib/libsox.so* $(TARGET_OUT)/lib/.)
+LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/libmad/lib/libmad.so $(TARGET_OUT)/lib/.)
+LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/lame/lib/libmp3lame.so $(TARGET_OUT)/lib/.)
 
 include $(BUILD_MULTI_PREBUILT)
 

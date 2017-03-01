@@ -17,7 +17,7 @@ old_library='libsox.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//out/target/product/wing-k70/obj/lib -L/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//out/target/product/wing-k70/system/lib/ -L/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.7/lib/gcc/arm-linux-androideabi/4.7 -L/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1/../sox/lib/lame/lib -L/home/64/gvc3200/android/vendor/grandstream/service/sox-14.4.1../sox/lib/libmad/lib/ -lc -lm -lmp3lame -lmad'
+dependency_libs=' -L/home/cchma/git/gvc3210/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9/lib/gcc/x86_64-linux-android/4.8 -L/home/cchma/git/gvc3210/android/vendor/grandstream/service/sox-14.4.1/../../../../../android//prebuilts/ndk/9/platforms/android-18/arch-x86/usr/lib -L/home/cchma/git/gvc3210/android/vendor/grandstream/service/sox-14.4.1/../sox/lib/lame/lib/ -L/home/cchma/git/gvc3210/android/vendor/grandstream/service/sox-14.4.1/../sox/lib/libmad/lib/ -lc -lm -lmp3lame -lmad'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
