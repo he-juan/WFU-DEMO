@@ -242,8 +242,8 @@ input[type='file']{top:0;left:0;}
             </div>
             <div webtip="Factory Reset" id="resetdiv">
                 <div class="noreboot"><span id="a_factreset">Factory Reset</span> :</div>
-                <input name="clearsd" type="checkbox" id="clearsd"><span id="a_clearsd">Clear Sdcard</span>
-                <button id="a_reset" type="button" value="Reset" style="margin-left:10px;margin-bottom:5px;*margin-bottom:-5px;">Reset</button>
+                <!--input name="clearsd" type="checkbox" id="clearsd"><span id="a_clearsd">Clear Sdcard</span-->
+                <button id="a_reset" type="button" value="Reset" style="margin-bottom:5px;*margin-bottom:-5px;">Reset</button>
             </div>
             
         </fieldset>
@@ -736,11 +736,11 @@ function cb_resetres() {
     });
 }
 function cb_resetres_ok(){
-    var urihead = "action=factset&region=maintenance&resetstyle=";    // + $("#factresetstyle").val();
-    if( $("#clearsd").prop("checked") == true )
+    var urihead = "action=factset&region=maintenance&resetstyle=0";    // + $("#factresetstyle").val();
+    /*if( $("#clearsd").prop("checked") == true )
         urihead += "1";
     else
-        urihead += "0";
+        urihead += "0";*/
     urihead += "&time=" + new Date().getTime();
     $.ajax ({
         type: 'get',
