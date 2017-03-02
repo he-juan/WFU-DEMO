@@ -620,19 +620,19 @@ function pageEventActions(){
         var recordingname = $(this).parent().parent(".itemdiv").attr("filename");
         var recordingpath = $(this).parent().parent(".itemdiv").attr("pathonly");
         if( recordingpath.indexOf("sdcard") != -1 )
-            parent.window.location.href = "/sdcard/Recording/" + recordingname + "?time=" + new Date().getTime();
+            parent.window.location.href = "/sdcard/Recording/" + encodeURIComponent(recordingname) + "?time=" + new Date().getTime();
         else if( recordingpath.indexOf("usbhost") != -1 ){
             if( recordingpath.indexOf("usbhost0") != -1 )
-                parent.window.location.href = "/usbhost0/Recording/" + recordingname + "?time=" + new Date().getTime();
+                parent.window.location.href = "/usbhost0/Recording/" + encodeURIComponent(recordingname) + "?time=" + new Date().getTime();
             else if( recordingpath.indexOf("usbhost2") != -1 )
-                parent.window.location.href = "/usbhost2/Recording/" + recordingname + "?time=" + new Date().getTime();
+                parent.window.location.href = "/usbhost2/Recording/" + encodeURIComponent(recordingname) + "?time=" + new Date().getTime();
             else if( recordingpath.indexOf("usbhost3") != -1 )
-                parent.window.location.href = "/usbhost3/Recording/" + recordingname + "?time=" + new Date().getTime();
+                parent.window.location.href = "/usbhost3/Recording/" + encodeURIComponent(recordingname) + "?time=" + new Date().getTime();
             else
-                parent.window.location.href = "/usbhost1/Recording/" + recordingname + "?time=" + new Date().getTime();
+                parent.window.location.href = "/usbhost1/Recording/" + encodeURIComponent(recordingname) + "?time=" + new Date().getTime();
         }
         else 
-            parent.window.location.href = "/Recording/" + recordingname + "?time=" + new Date().getTime(); 
+            parent.window.location.href = "/Recording/" + encodeURIComponent(recordingname) + "?time=" + new Date().getTime(); 
     });
     $("#deleteone").click(function(){
         var lock = $(this).parent().parent(".itemdiv").attr("lock");
