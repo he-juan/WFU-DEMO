@@ -5600,22 +5600,30 @@ function displayLayout(data){
     hdmi1mode = cb_get_layoutinfo("action=gethdmi1displaymode&region=confctrl");
     hdmi1content = cb_get_layoutinfo("action=gethdmi1displaycontent&region=confctrl");
     
+    if(hdmi1content.indexOf("15") != -1)
+        mHdmiModeContent[4] = 1;   //to identify if current presentation contains signal 15
     if(parseInt(hdmi1mode) >= 4)
         mHdmiModeContent[0] = (parseInt(hdmi1mode) - 3).toString();
     else
         mHdmiModeContent[0] = hdmi1mode;
-    re = new RegExp(",", "g");
-    mHdmiModeContent[1] = hdmi1content.replace(re, ":::");
+
+    var re1 = new RegExp(",", "g");
+    var re2 = new RegExp("15", "g");
+    mHdmiModeContent[1] = hdmi1content.replace(re1, ":::").replace(re2, "12");
+    console.log("mHdmiModeContent[1]: " + mHdmiModeContent[1]);
     
     if(hdmi2state == 1){
         var hdmi2mode = cb_get_layoutinfo("action=gethdmi2displaymode&region=confctrl");
         var hdmi2content = cb_get_layoutinfo("action=gethdmi2displaycontent&region=confctrl");
+        if(hdmi2content.indexOf("15") != -1)
+            mHdmiModeContent[4] = 1;
         
         if(parseInt(hdmi2mode) >= 4)
             mHdmiModeContent[2] = (parseInt(hdmi1mode) - 3).toString();
         else
             mHdmiModeContent[2] = hdmi2mode;
-        mHdmiModeContent[3] = hdmi2content.replace(re, ":::");
+        mHdmiModeContent[3] = hdmi2content.replace(re, ":::").replace(re2, "12");
+        console.log("mHdmiModeContent[3]: " + mHdmiModeContent[3]);
     }
     
     var linecount = $(".remoteline[isvideo=1]").length;
@@ -5636,9 +5644,9 @@ function displayLayout(data){
     $(".layoutcontainer").children().remove();
 
     if(hdmi1mode >= 4 && hdmi2state == 0)
-        display_default1screenlayout(hdmi1mode, hdmi1content);
+        display_default1screenlayout(hdmi1mode, mHdmiModeContent[1]);
     else if(hdmi1mode >= 4 && hdmi2state == 1)
-        display_default2screenlayout(hdmi1mode, hdmi1content, hdmi2mode, hdmi2content);
+        display_default2screenlayout(hdmi1mode, mHdmiModeContent[1], hdmi2mode, mHdmiModeContent[3]);
     else if(hdmi1mode < 4){
         $(".modelist li[mode=custom]").attr("childmode", hdmi1mode);
         display_customscreenlayout(hdmi1mode, mHdmiModeContent[1], 1, hdmi2state);
@@ -5985,12 +5993,12 @@ function layout_returncontent(mode, hdmi){
     
     var content1, content2;
     if(!hdmi2state && !presenton)
-        content1 = "0,13";
+        content1 = "0:::13";
     else if(!hdmi2state && presenton){
         if(mIsSysrcmd || (mode == "1" && mIsSysrcmdBefore))
             content1 = "12";
         else
-            content1 = "12,0,13";
+            content1 = "12:::0:::13";
     }
     else if(hdmi2state && !presenton){
         if(mIsSysrcmd || (mode == "1" && mIsSysrcmdBefore)){
@@ -5999,12 +6007,12 @@ function layout_returncontent(mode, hdmi){
         }
         else{
             content1 = "0";
-            content2 = "13,0";
+            content2 = "13:::0";
         }
     }
     else if(hdmi2state && presenton){
         content1 = "12";
-        content2 = "0,13";
+        content2 = "0:::13";
     }
     
     if(hdmi == 1)
@@ -6024,7 +6032,7 @@ function handle_hdmistatus(data){
 
 function display_default1screenlayout(mode, content){
     var layouthtml = "<div class='layoutbkgdiv'>";
-    content = content.split(",");
+    content = content.split(":::");
     if(mode == 6){
         layouthtml += display_layoutlinediv(content, mode);
     }
@@ -6046,8 +6054,8 @@ function display_default2screenlayout(hdmi1mode, hdmi1content, hdmi2mode, hdmi2c
                      
     $(".layoutcontainer").append(layouthtml);
     
-    hdmi1content = hdmi1content.split(",");
-    hdmi2content = hdmi2content.split(",");
+    hdmi1content = hdmi1content.split(":::");
+    hdmi2content = hdmi2content.split(":::");
     
     for(var i = 0; i < hdmi1content.length; i++){
         $("#layoutbkg1").append(display_layoutlinediv(hdmi1content[i], 4));
@@ -9360,8 +9368,16 @@ function pageEventActions()
     });
 
     $("#layoutSave").click(function(){
-        var mode = $(".modelist li.active").attr("mode");
+        if(mHdmiModeContent[4] == 1){
+            var re = new RegExp("12", "g");
+            mHdmiModeContent[1] = mHdmiModeContent[1].replace(re, "15");
+            
+            if(mHdmiModeContent[2] != undefined){
+                mHdmiModeContent[3] = mHdmiModeContent[3].replace(re, "15");
+            }
+        }
         
+        var mode = $(".modelist li.active").attr("mode");
         if(mode == "sysrcmd")
             cb_get_action("setsysrcmdmode&region=confctrl");        
         else if(mode == "overlap")
