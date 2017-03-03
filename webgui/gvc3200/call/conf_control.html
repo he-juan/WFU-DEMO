@@ -3163,6 +3163,10 @@ function addconflist(data,todivID)
         urihead = "action=isBFCPOn&region=confctrl";
         callfn = "setBFCP_callback(data);";
         cb_get_confaction(urihead,callfn,false);
+        
+        urihead = "action=getBFCPMode&region=confctrl";
+        callfn = "";
+        cb_get_confaction(urihead,callfn,false);
 
         urihead = "action=issubstreamon&region=confctrl";
         callfn = "setsubstream_callback(data);";
@@ -4340,6 +4344,17 @@ function cb_get_confaction(urihead,callbackfn,isoperate)
                 {
                     data = eval("([" + data + "])");
                     eval(callbackfn);
+                }
+                else if(urihead.indexOf("getBFCPMode") != -1){
+                    var data = eval("("+data+")");
+                    var mode = data.mode;
+                    $("#present").attr("bfcp", mode);
+                    if(mode == "2"){
+                        $("#present").hide();
+                    }
+                    else {
+                        $("#presentmode").getSetSSValue(mode);
+                    }
                 }
                 else
                 {
@@ -8927,24 +8942,11 @@ function pageEventActions()
             error:function(xmlHttpRequest, errorThrown) {
                 $("#presentmode").getSetSSValue("0");
             }
-        });                
-        urihead = "action=getBFCPMode&region=confctrl&time=" + new Date().getTime();
-        $.ajax ({
-            type: 'get',
-            url:'/manager',
-            data:urihead,
-            dataType:'text',
-            success:function(data) {
-                var data = eval("("+data+")");
-                var mode = data.mode;
-                if(mode == "2")
-                    mode == "1";
-                $("#presentmode").getSetSSValue(mode);
-            },
-            error:function(xmlHttpRequest, errorThrown) {
-                $("#presentmode").getSetSSValue("0");
-            }
-        });   
+        });
+        
+        urihead = "action=getBFCPMode&region=confctrl";
+        cb_get_confaction(urihead, "", false);
+
         /*var mode = "1";
         var ison = $("#present").attr("ison");
         if( ison == "1" ){
