@@ -559,6 +559,8 @@ var mEmailreg = new RegExp("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*")
 var mAcctStatus = new Array();
 var mDisdialplan = new Array();
 var mIfdelete = 0;
+var mExistipvt = false;
+var mIpvtcheckednum = 0;
 
 $(function(){
     mPromodel = $("#promodel", window.parent.document).val();
@@ -2818,6 +2820,60 @@ function change_repeat_yearly_month(){
     }
     $('#cusyearlydateday').resetSS(); 
 }
+
+function check_record_dialplan($this, acctindex, number){
+    var recordid = $this.parent().parent().attr("id");
+    var recordfrom;
+    if(recordid != undefined){
+        if(recordid.indexOf("contact") != -1)
+            recordfrom = 5;
+        else if(recordid.indexOf("calllog") != -1){
+            var type = $this.attr("type");
+            if(type == 1 || type == 3)
+                recordfrom = 3;
+            else
+                recordfrom = 4;
+        }
+    }
+    else{
+        var $parentclass = $this.parent().parent();
+        if($parentclass.parent().attr("class") != undefined && $parentclass.parent().attr("class").indexOf("groupmemberlist") != -1)
+            recordfrom = 5;
+        else if($parentclass.attr("class").indexOf("creatsearchItem") != -1)
+            recordfrom = 6;
+        else if($parentclass.attr("class").indexOf("selectedItem") != -1){
+            var curnumber = $parentclass.attr("number");
+            recordfrom = $(".memberdiv[number=\"" + curnumber + "\"]").attr("recordfrom");
+            if(recordfrom != undefined)
+                recordfrom = parseInt(recordfrom);
+        }
+    }
+    
+    var result;    
+    if(mDisdialplan[recordfrom] == 0){
+        var urihead = "action=dialPlanCheck&region=confctrl&account=" + acctindex + "&number=" + number; 
+        urihead += "&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            dataType:'text',
+            async:false,
+            success:function(data) {
+                var tObj = eval("(" + data + ")");
+                if(tObj.res == "success"){
+                    result = tObj.msg;
+                }
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                cb_networkerror(xmlHttpRequest, errorThrown);
+            }
+        });
+    }
+
+    return result;
+}
+
 function pageEventActions(){
 
     $('#edittime').click(function(){
@@ -2950,6 +3006,7 @@ function pageEventActions(){
         mCheckedmembernum = 0;
         mSelectedmemeber_num = 0;
         mMaxScheduleMember = mMaxmumber;
+        mExistipvt = false;
         mIsreduce = false;
         if(mEditMode == 1)
             confid = "temp";
@@ -3014,24 +3071,24 @@ function pageEventActions(){
             checkedDiv.appendChild(numdiv);
 
             $(".dividing").before(checkedDiv);
-            mSelectedmemeber_num++;
-            if(itemacct == "1")
-            {
-                //if member is ipvideotalk, max number should reduce 1
-                if(!mIsreduce && mPromodel != "GVC3202")
-                {
-                    mIsreduce = true;
-                    mMaxScheduleMember = mMaxScheduleMember - 1;
+            
+            if(itemacct == "1"){
+                if(!mExistipvt){
+                    mExistipvt = true;
+                    mSelectedmemeber_num++;
                 }
+                mIpvtcheckednum ++;
             }
-            // $("#allcontactsdiv .contactsdiv").each(function(){
-            //     var contactnum = $(this).attr("number");
-            //     if(itemnum == contactnum)
-            //     {
-            //         $(this).children(".membercheck").children(".inputcbx").attr("checked",true);
-            //     }
-            // });
+            else{
+                mSelectedmemeber_num++;
+            }
         });
+        
+        if(mEditMode == 1)
+            mCheckedmembernum = 0;
+        else
+            mCheckedmembernum = mSelectedmemeber_num;
+        
         $(this).hide();
         $(this).parent().parent().siblings(".righttopdiv").hide();
         $("#searchdiv,#changemembersavebtn,#changemembercancelbtn").show();
@@ -3047,6 +3104,7 @@ function pageEventActions(){
     });
 
     $("#changemembersavebtn").click(function(){
+        mExistipvt = false;
         var selectconfname = $("#itemsdiv .itemdiv.selectItem").attr("name");
         var confid = $("#itemsdiv .itemdiv.selectItem").attr("preconfid");
         if(confid == undefined)
@@ -3065,7 +3123,8 @@ function pageEventActions(){
                 if(selectconfname == undefined)
                     selectconfname = $("#selectconfname").val();
                 
-                var name = $(this).attr("name");
+                //var name = $(this).attr("name");
+                var name = $(this).children(".membername").children().text();
                 var acctid = $(this).attr("acctindex");
                 var membericon = "<div class='membericon'><div class='appcontacticon'></div></div>";
                 
@@ -3151,7 +3210,7 @@ function pageEventActions(){
                     }
                     
                     var stringdiv = memberdiv + membericon + membername + membernum + memberemail + "</div>";
-                    tempnum++; 
+                    /*tempnum++; 
                     if(acctid == "1")
                     {
                         //if member is ipvideotalk, max number should reduce 1
@@ -3160,6 +3219,16 @@ function pageEventActions(){
                             mIsreduce = true;
                             mMaxScheduleMember = mMaxScheduleMember - 1;
                         }
+                    }*/
+                    
+                    if(acctid == "1"){
+                        if(!mExistipvt){
+                            mExistipvt = true;
+                            tempnum ++;
+                        }
+                    }
+                    else{
+                        tempnum ++;
                     }
                 }  
 
@@ -3631,7 +3700,7 @@ function pageEventActions(){
                 $(".dividingCreate").before($parent);
                 $parent.attr("acctindex",acct).removeClass("searchnewItem");
                 $(this).removeClass("sreachitemcbx").unbind("click");
-                mCheckedmembernum++;
+                /*mCheckedmembernum++;
                 if(acct == 1)
                 {
                     //if member is ipvideotalk, max number should reduce 1
@@ -3640,8 +3709,20 @@ function pageEventActions(){
                         mMaxScheduleMember = mMaxScheduleMember - 1;
                         mIsreduce = true;
                     }
+                }*/
+                
+                if(acct == 1){          
+                    mIpvtcheckednum ++;
+                    if(!mExistipvt){
+                        mExistipvt = true;
+                        mCheckedmembernum ++;
+                    }
                 }
-                if((mCheckedmembernum+mSelectedmemeber_num) > mMaxScheduleMember)
+                else{
+                    mCheckedmembernum ++;
+                }
+                
+                if(mCheckedmembernum > mMaxScheduleMember)
                 {
                     mCheckedmembernum--;
                     $(".detailcontent").scrollTop(0);
@@ -3649,6 +3730,7 @@ function pageEventActions(){
                         setTimeout(function(){$("#searchdiv p").hide(800);},2000);
                     });
                     $(this).parent().parent().remove();
+                    $("#search").val("");
                     return false;
                 }
                 else{
@@ -3702,7 +3784,8 @@ function pageEventActions(){
             var $this = $(this);
             if($this.attr("notsearch") != "1")
             {
-                if( $this.attr("number").indexOf(searchkey) == -1 && $this.attr("name").indexOf(searchkey) == -1 || $this.attr("contactnosearch") == "1")
+                var name = $(this).children(".membername").children().text();
+                if( $this.attr("number").indexOf(searchkey) == -1 && name.indexOf(searchkey) == -1 || $this.attr("contactnosearch") == "1")
                 {
                     $this.hide();
                 }else{
@@ -3777,9 +3860,8 @@ function pageEventActions(){
     });
 
     $(".contactsdiv .inputcbx").live("click",function(e){
-        var groupnum = parseInt($(this).parent().parent().attr("contactsnum"));
         var number = $(this).parent().parent().attr("number");
-        var parentclass = $(this).parent().parent().attr("class");
+        var acctindex = parseInt($(this).parent().parent().attr("acctindex"));
 
         if( number == "anonymous" ){
             //$.prompt(a_10083);
@@ -3789,7 +3871,7 @@ function pageEventActions(){
             });
             return false;
         }
-        var acctindex = parseInt($(this).parent().parent().attr("acctindex"));
+
         if( acctindex == 2 ){
             $(".detailcontent").scrollTop(0);
             $("#searchdiv p").text(a_16698).show(800,function(){
@@ -3797,15 +3879,7 @@ function pageEventActions(){
             });
             return false;
         }
-        else if(acctindex == 1)
-        {
-            //if member is ipvideotalk, max number should reduce 1
-            if(!mIsreduce && mPromodel != "GVC3202")
-            {
-                mMaxScheduleMember = mMaxScheduleMember - 1;
-                mIsreduce = true;
-            }
-        }
+
         if( number.length >=3 && number.indexOf("*") == 0 && mStarCode.indexOf( number.substring(0,3) ) != -1 ){
             $(".detailcontent").scrollTop(0);
             $("#searchdiv p").text(a_10100).show(800,function(){
@@ -3813,166 +3887,163 @@ function pageEventActions(){
             });
             return false;
         }
-        if(parentclass.indexOf("groupcontactsdiv") != -1)
-        {
-            var $this = $(e.target);
-            var $groupcontactsdiv = $this.parent().parent();
-            var groupid = $groupcontactsdiv.attr("groupid");
-            var $groupmemberlist = $(".groupmemberlist[groupid=\""+groupid+"\"]");
-            var groupmember_anonymous = false;
-            if($groupmemberlist.length > 0)
-            {
-                if($this.prop("checked") == true)
-                {
-                    $groupmemberlist.find(".inputcbx").each(function(){
-                        var number = parseInt($(this).parent().parent().attr("number"));
-                        var grp_acctid = parseInt($(this).parent().parent().attr("acctindex"));
-                        if( number == "anonymous" ){
-                            groupmember_anonymous = true;
-                            return false;
-                        }
-                        $(this).attr("checked","checked");
-                        if(grp_acctid == 1)
-                        {
-                            //if member is ipvideotalk, max number should reduce 1
-                            if(!mIsreduce && mPromodel != "GVC3202")
-                            {
-                                mMaxScheduleMember = mMaxScheduleMember - 1;
-                                mIsreduce = true;
-                            }
-                        }
-                    });
-                    if(groupmember_anonymous)
-                    {
-                        $groupmemberlist.find(".inputcbx").removeAttr("checked");
-                        $.prompt(a_10083);
-                        return false;
-                    }
-                }
-                else
-                {
-                    $groupmemberlist.find(".inputcbx").removeAttr("checked");
-                }
-            }
-        }
-        if($(this).prop("checked"))
-        {
-            if(!isNaN(groupnum))
-                mCheckedmembernum += groupnum;
-            else
-                mCheckedmembernum++;
-        }
-        else
-        {
-            if(!isNaN(groupnum))
-                mCheckedmembernum -= groupnum;
-            else
-                mCheckedmembernum--;
-            if(mIsreduce)
-            {
-                /*
-                if all ipv member is not checked, initialize mMaxScheduleMember and mIsreduce
-                */
-                var isall_unckeched = true;
-                $(".contactsdiv").each(function(){
-                    var acctipv = $(this).attr("acctindex");
-                    if(acctipv == "1")
-                    {
-                        if($(this).find(".inputcbx").prop("checked"))
-                        {
-                            isall_unckeched = false;
-                            return false;
-                        }
-                    }
-                });
-                if(isall_unckeched)
-                {
-                    mMaxScheduleMember = mMaxmumber;
-                    mIsreduce = false;
-                }
-            }
-        }
-        if((mCheckedmembernum+mSelectedmemeber_num) > mMaxScheduleMember)
-        {
-            if(!isNaN(groupnum))
-            {
-                mCheckedmembernum -= groupnum;
-                $groupmemberlist.find(".inputcbx").removeAttr("checked");
-            }
-            else
-                mCheckedmembernum--;
-            $(".detailcontent").scrollTop(0);
-            $("#searchdiv p").text(a_10097).show(800,function(){
-                setTimeout(function(){$("#searchdiv p").hide(800);},2000);
-            });
-            return false;
-        }
-        else{
-            if($(this).prop("checked")){
-                var recordid = $(this).parent().parent().attr("id");
-                var recordfrom;
-                if(recordid != undefined){
-                    if(recordid.indexOf("contact") != -1)
-                        recordfrom = 5;
-                    else if(recordid.indexOf("calllog") != -1){
-                        var type = $(this).attr("type");
-                        if(type == 1 || type == 3)
-                            recordfrom = 3;
-                        else
-                            recordfrom = 4;
-                    }
-                }
-                else{
-                    var $parentclass = $(this).parent().parent();
-                    if($parentclass.parent().attr("class") != undefined && $parentclass.parent().attr("class").indexOf("groupmemberlist") != -1)
-                        recordfrom = 5;
-                    else if($parentclass.attr("class").indexOf("creatsearchItem") != -1)
-                        recordfrom = 6;
-                    else if($parentclass.attr("class").indexOf("selectedItem") != -1){
-                        var curnumber = $parentclass.attr("number");
-                        recordfrom = $(".memberdiv[number=\"" + curnumber + "\"]").attr("recordfrom");
-                        if(recordfrom != undefined)
-                            recordfrom = parseInt(recordfrom);
-                    }
-                }
-                
-                if(mDisdialplan[recordfrom] == 0){
-                    var result;
-                    var urihead = "action=dialPlanCheck&region=confctrl&account=" + acctindex + "&number=" + number; 
-                    urihead += "&time=" + new Date().getTime();
-                    $.ajax ({
-                        type: 'get',
-                        url:'/manager',
-                        data:urihead,
-                        dataType:'text',
-                        async:false,
-                        success:function(data) {
-                            var tObj = eval("(" + data + ")");
-                            if(tObj.res == "success"){
-                                result = tObj.msg;
-                            }
-                        },
-                        error:function(xmlHttpRequest, errorThrown) {
-                            cb_networkerror(xmlHttpRequest, errorThrown);
-                        }
-                    });
-                    
-                    if(result == "false"){
-                        if(!isNaN(groupnum))
-                        {
-                            mCheckedmembernum -= groupnum;
-                            $groupmemberlist.find(".inputcbx").removeAttr("checked");
-                        }
-                        else
-                            mCheckedmembernum--;
-                        
-                        $.prompt(a_10104);
-                        return false;
-                    }
-                }
-            }
-        }
         
+        var ischecked = false;
+        if($(this).prop("checked"))
+           ischecked = true;
+        
+        if($(this).parent().parent().attr("class").indexOf("groupcontactsdiv") != -1){
+            // check the input box of group
+           var isexistanonymous = false;
+           var groupid = $(this).parent().parent().attr("groupid");
+           $(".groupmemberlist[groupid=" + groupid + "]").children(".contactsdiv").each(function(){
+               if($(this).attr("number") == "anonymous"){
+                   isexistanonymous = true;
+                   return false;
+               }
+           });
+           
+           if(isexistanonymous){
+               $groupmemberlist.find(".inputcbx").removeAttr("checked");
+               $(".detailcontent").scrollTop(0);
+               $("#searchdiv p").text(a_10083).show(800,function(){
+                   setTimeout(function(){$("#searchdiv p").hide(800);},2500);
+               });
+               return false;
+           }
+           
+           var groupnum = parseInt($(this).parent().parent().attr("contactsnum"));
+           var ipvtmem = $(".groupmemberlist[groupid=" + groupid + "]").children(".contactsdiv[acctindex=1]").length;
+           var notipvtmem = groupnum - ipvtmem;
+
+           if(ischecked){
+               mCheckedmembernum += notipvtmem;
+               mIpvtcheckednum += ipvtmem;
+               if(!mExistipvt && ipvtmem > 0){
+                   mExistipvt = true;
+                   mCheckedmembernum ++;
+               }
+               
+               var checkdialplan;
+               $(".groupmemberlist[groupid=" + groupid + "]").children().children().children(".inputcbx").each(function(){
+                   var acctindex = $(this).parent().parent().attr("acctindex");
+                   var number = $(this).parent().parent().attr("number");
+                   checkdialplan = check_record_dialplan($(this), acctindex, number);
+                   if(checkdialplan == "false"){
+                       return false;
+                   }
+               });
+               
+               if(mCheckedmembernum > mMaxScheduleMember || checkdialplan == "false"){
+                   var promptinfo;
+                   if(mCheckedmembernum > mMaxScheduleMember)
+                       promptinfo = a_10097;
+                   else if(checkdialplan == "false")
+                       promptinfo = a_10104;
+                
+                   mCheckedmembernum -= notipvtmem;
+                   mIpvtcheckednum -= ipvtmem;
+                   if(mIpvtcheckednum == 0 && mExistipvt){
+                       mExistipvt = false;
+                       mCheckedmembernum --;
+                   }
+                   $(".groupmemberlist[groupid=" + groupid + "]").find(".inputcbx").removeAttr("checked");
+                   $(".detailcontent").scrollTop(0);
+                   $("#searchdiv p").text(promptinfo).show(800,function(){
+                       setTimeout(function(){$("#searchdiv p").hide(800);},2000);
+                   });
+                   return false;
+               }
+               else{
+                   $(".groupmemberlist[groupid=" + groupid + "]").find(".inputcbx").attr("checked", "checked");
+               }
+           }
+           else{
+               mCheckedmembernum -= notipvtmem;
+               mIpvtcheckednum -= ipvtmem;
+               if(mIpvtcheckednum == 0 && mExistipvt){
+                   mExistipvt = false;
+                   mCheckedmembernum --;
+               }
+               $(".groupmemberlist[groupid=" + groupid + "]").find(".inputcbx").removeAttr("checked");
+           }
+       }
+       else{
+           // check normal contacts or call history
+           if(ischecked){
+               var curid = $(this).parent().parent().attr("id");
+               var isexistsamenum = false;
+               $(".inputcbx").each(function(){
+                   if($(this).prop("checked")){
+                       var id = $(this).parent().parent().attr("id");
+                       var num = $(this).parent().parent().attr("number");
+                       if(number == num && curid != id){
+                           isexistsamenum = true;
+                           return false;
+                       }
+                   }
+               });
+               
+               if(isexistsamenum){
+                   $(".detailcontent").scrollTop(0);
+                   $("#searchdiv p").text(a_10214+"!").show(800,function(){
+                       setTimeout(function(){$("#searchdiv p").hide(800);},2000);
+                   });
+                   return false;
+               }
+                   
+               if(acctindex == 1){
+                   mIpvtcheckednum ++;
+                   if(!mExistipvt){
+                       mExistipvt = true;
+                       mCheckedmembernum ++;
+                   }
+               }
+               else{
+                   mCheckedmembernum ++;
+               }
+               
+               var checkdialplan = check_record_dialplan($(this), acctindex, number);
+               
+               if(mCheckedmembernum > mMaxScheduleMember || checkdialplan == "false"){
+                   var promptinfo;
+                   if(mCheckedmembernum > mMaxScheduleMember)
+                       promptinfo = a_10097;
+                   else if(checkdialplan == "false")
+                       promptinfo = a_10104;
+                   
+                   if(acctindex == 1){
+                       mIpvtcheckednum --;
+                       if(mIpvtcheckednum == 0 && mExistipvt){
+                           mExistipvt = false;
+                           mCheckedmembernum --;
+                       }
+                   }
+                   else{
+                       mCheckedmembernum --;
+                   }
+                   $(".groupmemberlist[groupid=" + groupid + "]").find(".inputcbx").removeAttr("checked");
+                   $(".detailcontent").scrollTop(0);
+                   $("#searchdiv p").text(promptinfo).show(800,function(){
+                       setTimeout(function(){$("#searchdiv p").hide(800);},2000);
+                   });
+                   return false;
+               }
+           }
+           else{
+               if(acctindex == 1 && mExistipvt){
+                   mIpvtcheckednum --;
+                   if(mIpvtcheckednum == 0){
+                       mExistipvt = false;
+                       mCheckedmembernum --;
+                   }
+               }
+               else{
+                   mCheckedmembernum --;
+               }
+            }
+        }
+
         e.stopPropagation();
     });
 
