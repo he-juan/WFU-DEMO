@@ -232,7 +232,7 @@ tip_item.push (
     new TipsDef("G.722.1 Payload Type", "G.722.1有效荷载类型",
         "输入一个符合的值(96-126)在RTP负载G.722.1编码时。默认为104。"),
 	new TipsDef("G.722.1C Payload Type", "G.722.1C有效荷载类型",
-	    "输入G.722.1C有效荷载值，范围为：96-127,默认为103。"),
+	    "输入G.722.1C有效荷载值，范围为：96-126,默认为103。"),
     new TipsDef("G723 Rate", "G723 速率",
         "G.723语音编码的编码率，支持6.3kb/s或5.3kb/s；请与服务提供商确认选择。"),
     new TipsDef("Jitter Buffer Type", "抖动缓冲类型",

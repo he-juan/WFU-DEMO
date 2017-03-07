@@ -508,6 +508,14 @@ $(function(){
         $('#noallow1 option[value=103]').remove();
     }
     
+    if(accountindex == "3"){
+        $("#g7221crate").parent().hide();
+        $("#g7221cpayload").parent().hide();
+        $("#opuspayload").parent().hide();
+        $('#noallow1 option[value=123]').remove();
+        $('#noallow1 option[value=103]').remove();
+    }
+    
     if( accountindex != "1" ){
         $('#noallow1 option[value=18]').remove();
         $('#noallow1 option[value=98]').remove();
@@ -600,7 +608,7 @@ function setInitState(){
 			vocfp: { digits:true, range:[1,64] },
             jittermax: { digits:true, range:[0,1000] },
             g722payload: { required:true, digits:true, range:[96,126] },
-            g7221cpayload: { digits:true, range:[96,127] },
+            g7221cpayload: { digits:true, range:[96,126] },
             opuspayload: { digits:true, range:[96,126] },
             h263payload: { digits:true, range:[96,127] },
             h264payload: { digits:true, range:[96,127] },
@@ -1451,6 +1459,15 @@ function pageEventActions(){
             $.prompt(a_19124);
             return false;
         }
+        var g7221cpayload = $("#g7221cpayload").val();
+        if( g7221cpayload == "" ){
+            $("#g7221cpayload").val("103");
+            g7221cpayload = "103";
+        }else if( g7221cpayload == "98" || g7221cpayload == "99" ){
+            $.prompt(a_19124);
+            return false;
+        }
+
         if( $("#h264payload").val() == "" )
             $("#h264payload").val("99");
         if( $("#fecpayload").val() == "" )
@@ -1463,15 +1480,14 @@ function pageEventActions(){
         //    $("#fecredpayload").val("122");
         if( $("#feccpayload").val() == "" )
             $("#feccpayload").val("125");
-        if( $("#g7221cpayload").val() == "" )
-            $("#g7221cpayload").val("103");
+        
         var h264payload = $("#h264payload").val();
         var fecpayload = $("#fecpayload").val();
         var audiofecpayload = $("#audiofecpayload").val();
         var audioredpayload = $("#audioredpayload").val();
         //var fecredpayload = $("#fecredpayload").val();
         var feccpayload = $("#feccpayload").val();
-        var g7221cpayload = $("#g7221cpayload").val();
+        //var g7221cpayload = $("#g7221cpayload").val();
         
         var cmppayload = new Array();
         cmppayload.push(dtmfpayload);

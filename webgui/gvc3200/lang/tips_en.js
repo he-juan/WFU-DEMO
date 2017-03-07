@@ -232,7 +232,7 @@ tip_item.push (
     new TipsDef("G.722.1 Payload Type",
         "Enter G.722.1 codec payload type. The valid range is from 96 to 126. The default value is 104."),
 	new TipsDef("G.722.1C Payload Type",
-	    "Enter G.722.1C codec payload type. The valid range is from 96 to 127. The default value is 103."),
+	    "Enter G.722.1C codec payload type. The valid range is from 96 to 126. The default value is 103."),
     new TipsDef("G723 Rate",
         "This parameter defines the G.723 audio codec encoding rate (6.3kbps or 5.3kbps). Users should check this setting with ITSP or Server/Proxy."),
     new TipsDef("Jitter Buffer Type",

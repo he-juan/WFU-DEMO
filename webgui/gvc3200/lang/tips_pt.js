@@ -233,7 +233,7 @@ tip_item.push (
     new TipsDef("G.722.1 Payload Type",
         "Coloque o tipo de carga do codec G.722.1. O intervalo válido é desde 96 até 126. O valor padrão é 104."),
 	new TipsDef("G.722.1C Payload Type",
-	    "Enter G.722.1C codec payload type. The valid range is from 96 to 127. The default value is 103."),
+	    "Enter G.722.1C codec payload type. The valid range is from 96 to 126. The default value is 103."),
 	new TipsDef("G723 Rate",
         "Este parâmetro define a taxa de codificação do codec de áudio G.723 (6.3kbps ou 5.3kbps). Os usuários devem verificar esta configuração com o ITSP ou no Proxy/Servidor."),
     new TipsDef("Jitter Buffer Type",

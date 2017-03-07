@@ -224,7 +224,7 @@ tip_item.push (
     new TipsDef("G.722.1 Payload Type",
         "Установка типа данных полезной нагрузки для кодека G.722.1. Интервал от 96 до 126. По умолчанию 104."),
 	new TipsDef("G.722.1C Payload Type",
-		"Enter G.722.1C codec payload type. The valid range is from 96 to 127. The default value is 103."),
+		"Enter G.722.1C codec payload type. The valid range is from 96 to 126. The default value is 103."),
 	new TipsDef("G723 Rate",
         "Этот параметр устанавливает частоту кодирования (6.3кбит/c или 5.3кбит/с) для кодека G.723. Необходимо свериться с настройками VoIP провайдера или SIP сервера/прокси сервера."),
     new TipsDef("Jitter Buffer Type",
