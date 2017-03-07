@@ -5610,7 +5610,6 @@ function displayLayout(data){
     var re1 = new RegExp(",", "g");
     var re2 = new RegExp("15", "g");
     mHdmiModeContent[1] = hdmi1content.replace(re1, ":::").replace(re2, "12");
-    console.log("mHdmiModeContent[1]: " + mHdmiModeContent[1]);
     
     if(hdmi2state == 1){
         var hdmi2mode = cb_get_layoutinfo("action=gethdmi2displaymode&region=confctrl");
@@ -5622,8 +5621,7 @@ function displayLayout(data){
             mHdmiModeContent[2] = (parseInt(hdmi1mode) - 3).toString();
         else
             mHdmiModeContent[2] = hdmi2mode;
-        mHdmiModeContent[3] = hdmi2content.replace(re, ":::").replace(re2, "12");
-        console.log("mHdmiModeContent[3]: " + mHdmiModeContent[3]);
+        mHdmiModeContent[3] = hdmi2content.replace(re1, ":::").replace(re2, "12");
     }
     
     var linecount = $(".remoteline[isvideo=1]").length;
