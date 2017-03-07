@@ -1481,3 +1481,38 @@ function htmlDecode(str) {
     div.innerHTML = str;
     return div.innerHTML;
 }
+
+/*show out prompt, especially for multiply choises*/
+function alertPrompt($appenddiv, alertinfo, btnarray){
+    if($("#alertprompt") != undefined)
+        $("#alertprompt").remove();
+	
+	var alert_delete = "<div id='alertprompt'>"+
+					   "<div id='backgrdboard'></div>"+
+					   "<div id='alertboard'>"+
+					   "<div id='alertinfo'>" + alertinfo + "</div>"+
+					   "<div id='cancelicon'>X</div>"+
+					   "<div id='btngroup'></div></div></div>";
+
+	$appenddiv.append(alert_delete);
+					   
+	for(var i = 0; i < btnarray.length; i++){
+		var btnhtml = "<button class='promptbtn'>" + btnarray[i] + "</button>";
+		$("#btngroup").append(btnhtml);
+	}
+	$("#btngroup").append("<button id='cancelbtn'>" + a_3 + "</button>");
+
+    $("#backgrdboard").css({"width":"100%", "height":"840px", "position":"fixed", "background":"#aaa", "z-index":"999", "opacity":"0.6", "top":"0px", "display":"none"});
+    $("#alertboard").css({"left":"50%", "margin-left":"-313px", "position":"absolute", "top":"15%", "width":"600px", "z-index":"1000", "background":"#fff", "border":"1px solid #eee", "font-size":"12px", "padding":"12px", "text-align":"left", "font-weight":"bold", "opacity":"1"});
+    $("#alertinfo").css({"float":"left", "width":"550px", "color":"black", "line-height":"20px", "margin":"10px"});
+    $("#cancelicon").css({"color":"#bbb", "cursor":"pointer", "position":"absolute", "right":"0px", "top":"3px", "width":"15px"});
+    $("#btngroup").css({"float":"left", "width":"600px", "text-align":"right"});
+    $("#btngroup button").css({"background":"#2f6073", "border":"1px solid #f4f4f4", "color":"#fff", "margin":"0 10px", "padding":"3px 10px", "font-size":"12px", "font-weight":"bold"});
+	$("#backgrdboard").fadeIn(500);
+	$('#alertboard').fadeIn(1000);
+	
+	$("#cancelicon, #cancelbtn").unbind().live("click", function(){
+		$("#backgrdboard").fadeOut(500);
+	    $("#alertboard").fadeOut(500);
+	});
+}

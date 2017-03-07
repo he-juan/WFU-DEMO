@@ -42,6 +42,12 @@ $(function(){
         setTimeout("reboot(1);", 1000);
     }else if( shutdown_type == 2 ){
         setTimeout("reboot(2);", 1000);
+    }else if( shutdown_type == 4 ){
+        setTimeout("reboot(4);", 1000);
+    }else if( shutdown_type == 5 ){
+        setTimeout("reboot(5);", 1000);
+    }else if( shutdown_type == 6 ){
+        setTimeout("reboot(6);", 1000);
     }else{
         setTimeout("reboot(0);", 1000);
     }
@@ -170,10 +176,10 @@ function res_parse_rawtext(data)
     return msgs;
 }
 function change_lang_en(type){
-    if( type == 1 ){
+    if( type == 1 || type == 5 ){
         $('#rebooting').text('The device is shutting down now...');
         $('#clicktip').text('You may relogin by clicking on the link below after reboot.');
-    }else if( type == 2 ){
+    }else if( type == 2 || type == 6 ){
         $('#rebooting').text('The device is sleeping now...');
         $('#clicktip').text('You may relogin by clicking on the link below after wake up.');
     }else{
@@ -183,10 +189,10 @@ function change_lang_en(type){
     $('#clicklogin').text('Relogin');
 }
 function change_lang_zh(type){
-    if( type == 1 ){
+    if( type == 1 || type == 5 ){
         $('#rebooting').text('设备关机中......');
         $('#clicktip').text('您可以在重新启动后点击下面的链接,重新登录页面');
-    }else if( type == 2 ){
+    }else if( type == 2 || type == 6 ){
         $('#rebooting').text('设备睡眠中......');
         $('#clicktip').text('您可以在唤醒设备后点击下面的链接,重新登录页面');
     }else{

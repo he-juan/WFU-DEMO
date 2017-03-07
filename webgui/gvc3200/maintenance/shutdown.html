@@ -85,21 +85,53 @@ function cb_shutdown(type){
 		}
 	});
 }
+
+function reboot(type)
+{
+	var urihead = "action=reboot&reboottype=" + type;
+	urihead += "&time=" + new Date().getTime();
+	$.ajax ({
+		type: 'get',
+		url:'/manager',
+		data:urihead,
+		dataType:'text',
+		success:function(data) {
+		},
+		error:function(xmlHttpRequest, errorThrown) {
+		}
+	});
+}
+
 function pageEventActions(){
     $("#shutdowndiv").click(function(){
-        var txt = '<div class="shortmsg">' + a_19171 + '</div>';
-		$.prompt(txt,{
-			buttons:{
-				OK:true,
-				Cancel:false
-			},
-			callback: function(v,m,f){
-				if(v){
-					cb_shutdown(1);			
-				}
-				else{}			
-			}
-		});
+        var iscalling;
+        if($("#meettingdiv", window.parent.document).children("img").attr("src").indexOf("gif") != -1){
+            iscalling = true;
+        }else{
+            iscalling = false;
+        }
+        
+        if(iscalling){
+            var $appenddiv = $("#framebody");
+            var btnarray = new Array(a_20006, a_20007);
+            alertPrompt($appenddiv, a_20003+":", btnarray);
+            $("#alertboard").attr("operation", "shutdown");
+        }
+        else{
+            var txt = '<div class="shortmsg">' + a_19171 + '</div>';
+    		$.prompt(txt,{
+    			buttons:{
+    				OK:true,
+    				Cancel:false
+    			},
+    			callback: function(v,m,f){
+    				if(v){
+    					cb_shutdown(1);			
+    				}
+    				else{}			
+    			}
+    		});
+        }
     });
     
     $(".btndiv div").hover(function(){
@@ -111,35 +143,97 @@ function pageEventActions(){
     });
     
     $("#rebootdiv").click(function(){
-	    var txt = '<div class="shortmsg">' + a_16469 + '</div>';
-		$.prompt(txt,{
-			buttons:{
-				OK:true,
-				Cancel:false
-			},
-			callback: function(v,m,f){
-				if(v){
-					cb_shutdown(0);		
-				}
-				else{}			
-			}
-		});
+        var iscalling;
+        if($("#meettingdiv", window.parent.document).children("img").attr("src").indexOf("gif") != -1){
+            iscalling = true;
+        }else{
+            iscalling = false;
+        }
+        
+        if(iscalling){
+            var $appenddiv = $("#framebody");
+            var btnarray = new Array(a_20008, a_20004);
+            alertPrompt($appenddiv, a_20003+":", btnarray);
+            $("#alertboard").attr("operation", "reboot");
+        }
+        else{
+            var txt = '<div class="shortmsg">' + a_16469 + '</div>';
+    		$.prompt(txt,{
+    			buttons:{
+    				OK:true,
+    				Cancel:false
+    			},
+    			callback: function(v,m,f){
+    				if(v){
+    					cb_shutdown(0);
+    				}
+    				else{}			
+    			}
+    		});
+        }
 	});
 	
 	$("#sleepdiv").click(function(){
-        var txt = '<div class="shortmsg">' + a_16470 + '</div>';
-		$.prompt(txt,{
-			buttons:{
-				OK:true,
-				Cancel:false
-			},
-			callback: function(v,m,f){
-				if(v){
-					cb_shutdown(2);		
-				}
-				else{}			
-			}
-		});
+        var iscalling;
+        if($("#meettingdiv", window.parent.document).children("img").attr("src").indexOf("gif") != -1){
+            iscalling = true;
+        }else{
+            iscalling = false;
+        }
+        
+        if(iscalling){
+            var $appenddiv = $("#framebody");
+            var btnarray = new Array(a_20009, a_20005);
+            alertPrompt($appenddiv, a_20003+":", btnarray);
+            $("#alertboard").attr("operation", "sleep");
+        }
+        else{
+            var txt = '<div class="shortmsg">' + a_16470 + '</div>';
+    		$.prompt(txt,{
+    			buttons:{
+    				OK:true,
+    				Cancel:false
+    			},
+    			callback: function(v,m,f){
+    				if(v){
+    					cb_shutdown(2);		
+    				}
+    				else{}			
+    			}
+    		});
+        }
+    });
+    
+    $("#btngroup button:eq(0)").live("click", function(){
+        var operation = $("#alertboard").attr("operation");
+        switch (operation) {
+            case "reboot":    //reboot now
+                cb_shutdown(4);
+                break;
+            case "shutdown":
+                cb_shutdown(5);
+                break;
+            case "sleep":
+                cb_shutdown(6);
+                break;
+        }
+    });
+    
+    $("#btngroup button:eq(1)").live("click", function(){
+        var operation = $("#alertboard").attr("operation");
+        switch (operation) {
+            case "reboot":    //reboot when idle
+                reboot(0);
+                break;
+            case "shutdown":
+                reboot(1);
+                break;
+            case "sleep":
+                reboot(2);
+                break;
+        }
+        
+        $("#cancelbtn").click();
     });
 }
 </script>

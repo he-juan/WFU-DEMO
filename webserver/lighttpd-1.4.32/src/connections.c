@@ -9261,6 +9261,12 @@ static int start_daemon(int type)
             system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep");
         else if( type == 3 )
             system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type wakeup");
+        else if( type == 4 )
+            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot_rw");
+        else if( type == 5 )
+            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type shutdown_rw");
+        else if( type == 6 )
+            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep_rw");
         else
             system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot");
     }
