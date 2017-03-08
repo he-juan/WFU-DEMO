@@ -5602,6 +5602,8 @@ function displayLayout(data){
     
     if(hdmi1content.indexOf("15") != -1)
         mHdmiModeContent[4] = 1;   //to identify if current presentation contains signal 15
+    else
+        mHdmiModeContent[4] = 0;
     if(parseInt(hdmi1mode) >= 4)
         mHdmiModeContent[0] = (parseInt(hdmi1mode) - 3).toString();
     else
@@ -5616,6 +5618,10 @@ function displayLayout(data){
         var hdmi2content = cb_get_layoutinfo("action=gethdmi2displaycontent&region=confctrl");
         if(hdmi2content.indexOf("15") != -1)
             mHdmiModeContent[4] = 1;
+        else{
+            if(hdmi1content.indexOf("15") == -1)
+                mHdmiModeContent[4] = 0;
+        }
         
         if(parseInt(hdmi2mode) >= 4)
             mHdmiModeContent[2] = (parseInt(hdmi1mode) - 3).toString();
