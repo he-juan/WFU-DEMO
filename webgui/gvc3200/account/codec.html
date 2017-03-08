@@ -1467,15 +1467,22 @@ function pageEventActions(){
             $.prompt(a_19124);
             return false;
         }
-
+        
+        var audioredpayload = $("#audioredpayload").val();
+        if( audioredpayload == "" ){
+            $("#audioredpayload").val("124");
+            audioredpayload = "124";
+        }else if( audioredpayload == "98" || audioredpayload == "99" ){
+            $.prompt(a_19124);
+            return false;
+        }
+        
         if( $("#h264payload").val() == "" )
             $("#h264payload").val("99");
         if( $("#fecpayload").val() == "" )
             $("#fecpayload").val("120");
         if( $("#audiofecpayload").val() == "" )
             $("#audiofecpayload").val("121");
-        if( $("#audioredpayload").val() == "" )
-            $("#audioredpayload").val("124");
         //if( $("#fecredpayload").val() == "" )
         //    $("#fecredpayload").val("122");
         if( $("#feccpayload").val() == "" )
@@ -1484,7 +1491,6 @@ function pageEventActions(){
         var h264payload = $("#h264payload").val();
         var fecpayload = $("#fecpayload").val();
         var audiofecpayload = $("#audiofecpayload").val();
-        var audioredpayload = $("#audioredpayload").val();
         //var fecredpayload = $("#fecredpayload").val();
         var feccpayload = $("#feccpayload").val();
         //var g7221cpayload = $("#g7221cpayload").val();
