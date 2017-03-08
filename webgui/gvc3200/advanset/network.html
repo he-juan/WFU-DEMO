@@ -924,6 +924,25 @@ function cb_put_network2()
         }
     });
 }
+
+function do_ping() {
+    var urihead = "action=ping";
+    urihead += "&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        timeout: 5000,
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        success:function(data) {
+            window.parent.unblock_func();
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            do_ping();
+        }
+    });
+}
+
 function cb_put_suc(data, mode)
 {
     var msgs = res_parse_rawtext(data);
@@ -934,11 +953,14 @@ function cb_put_suc(data, mode)
         /*cb_set_property(0, $("#dhcpop12").val());
         cb_set_property(1, $("#dhcpop60").val());
         cb_set_property(2, $("#dhcpop125").val());*/
-        cb_put_network2();
-        cb_send_proxy_dbus();
+        //cb_put_network2();
+        //cb_send_proxy_dbus();
+        setTimeout(function() {
+           do_ping(); 
+        }, 3000);
         view_message(a_16447, MSG_OK);
     }
-    checkIsApplyNeed();
+    //checkIsApplyNeed();
     /*if (mode == "cfupdated") {
          dbussend_cfupdated();
     }*/
