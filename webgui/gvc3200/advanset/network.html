@@ -359,8 +359,8 @@ req_items.push(
     new ReqItem("layer3qossip", "1558", ""),
     new ReqItem("layer3qosaudio", "1559", ""),
     new ReqItem("layer3qosvideo", "1560", ""),
-    new ReqItem("layer2qos", "vlan_id", ""),
-    new ReqItem("layer2qospv", "vlan_qos", ""),
+    new ReqItem("layer2qos", "51", ""),
+    new ReqItem("layer2qospv", "87", ""),
     new ReqItem("proxyhttp", "1552", ""),
     new ReqItem("applyall", "22045", ""),
     new ReqItem("proxyhttps", "1553", ""),
@@ -533,6 +533,7 @@ function get_item_suc_callback(){
     }else{
         $("#proxyhttpurl").val(proxystr);
     }
+    cb_lldp_qos_check();
     cb_proxy_mode_change();
     set_ipv6_item_dis($("#ipv6addr").val());
 
@@ -582,6 +583,36 @@ function cb_mode_change(flag){
             break;
     }
 }
+
+function cb_lldp_qos_check(){
+    var vlanid, vlanqos;
+    var urihead = "action=get&var-0000=vlan_id&var-0001=vlan_qos&time=" + new Date().getTime(); 
+    $.ajax({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+        async: false,
+        success:function(data) {
+            var msgs = res_parse_rawtext(data);
+        	cb_if_auth_fail(msgs);
+        	if( cb_if_is_fail(msgs) ){}
+            else {
+                vlanid = msgs.headers['vlan_id'];
+                vlanqos = msgs.headers['vlan_qos'];
+            }
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+    
+    if((vlanid != "" && vlanid != "0") && (vlanqos != "" && vlanqos != "0")){
+        $("#layer2qos").val(vlanid);
+        $("#layer2qospv").val(vlanqos);
+    }
+}
+
 function init_uploadca(){
     var button = $('#a_uploadca'), interval;
     var uploadkeytimer = 0;
