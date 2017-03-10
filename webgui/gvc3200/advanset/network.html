@@ -606,11 +606,12 @@ function cb_lldp_qos_check(){
             cb_networkerror(xmlHttpRequest, errorThrown);
         }
     });
-    
-    if((vlanid != "" && vlanid != "0") && (vlanqos != "" && vlanqos != "0")){
+
+    if(vlanid != "" && vlanid != "0")
         $("#layer2qos").val(vlanid);
+    
+    if(vlanqos != "" && vlanqos != "0")
         $("#layer2qospv").val(vlanqos);
-    }
 }
 
 function init_uploadca(){
@@ -1188,6 +1189,22 @@ function pageEventActions(){
         }
         if($("#applyall").prop("checked") == true) {
             $("#proxyftp").val(tmpproxy);
+        }
+        
+        if($("#enablelldp").prop("checked") && $("#openlldp").val() == "1"){
+            var done = 0;
+            for(var i = 0; i < req_items.length; i++){
+                if(req_items[i].id == "layer2qos"){
+                    req_items[i].pvalue = "vlan_id";
+                    done ++;
+                }
+                if(req_items[i].id == "layer2qospv"){
+                    req_items[i].pvalue = "vlan_qos";
+                    done ++;
+                }
+                if(done == 2)
+                    break;
+            }
         }
 
         cb_put(req_items, "", 0);
