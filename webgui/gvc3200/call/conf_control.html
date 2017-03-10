@@ -5723,12 +5723,22 @@ function layout_choosemode(mode){
 /*only available for one remote line*/
 function layout_adjuststyle(type, mode, content){
     var presenton = parseInt($("#present").attr("ison"));
+    var isvideo = false;
+    $("#conf .remoteline").each(function(){
+        var videocall = $(this).attr("isvideo");
+        if(videocall == "1")
+        {
+            isvideo = true;
+            return false;
+        }
+    });
+    
     switch (type) {
         case 1: //one screen with default mode
             $(".layoutcontainer").css({"height":"63%", "min-height":"500px"});
             $(".layoutbkgdiv").css({"min-height":"488.8px", "width":"78%", "height":"75%", "margin":"5% 0 0 11.5%"});
             if(mode == 4){
-                if(!presenton){
+                if(!presenton || (presenton && !isvideo && !mIsSysrcmd)){
                     $(".layoutlinediv").css({"margin":"17% 0 0 1.7%", "width":"47.5%", "height":"50%"});
                     $(".layoutlinediv .layoutlinename").css("margin-top", "31%");
                 }
@@ -5742,7 +5752,7 @@ function layout_adjuststyle(type, mode, content){
                 }
             }
             else if(mode == 5){
-                if(!presenton){
+                if(!presenton || (presenton && !isvideo)){
                     $(".largelinediv").css({"width":"65%", "height":"65%", "margin":"12% 0 0 13px"});
                     $(".smalllinediv").css({"width":"30%", "height":"30%", "margin":"23% 13px 0 0"});
                 }
@@ -5753,7 +5763,7 @@ function layout_adjuststyle(type, mode, content){
                 }
             }
             else if(mode == 6){
-                if(!presenton){
+                if(!presenton || (presenton && !isvideo)){
                     $(".layoutlinename").css("margin-top", "30%");
                     //$(".smalllinediv .layoutlinename").css("margin-top", "30%");
                     $(".largelinediv").css({"width":"97%", "height":"95%", "margin":"12px", "position":"relative"});
@@ -5886,40 +5896,49 @@ function layout_adjuststyle(type, mode, content){
             $(".layoutbkgdiv").css({"width":"90%", "min-height":"338.9px", "height":"65%", "margin-left":"8%"});
             $("#layoutbkg2, #layouthdmitext2").css({"margin-left":"4%"});
             
-            if(mode == 4){
-                if(!presenton){
-                    if(!mIsSysrcmd){
+            if(presenton && !isvideo){
+                $(".layoutbkgdiv").children().css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                $(".layoutlinename").css({"margin-top":"35%"});
+                
+                if(mode == 6)
+                    $("#layoutbkg2").children().children(".smalllinediv").remove();
+            }
+            else{
+                if(mode == 4){
+                    if(!presenton){
+                        if(!mIsSysrcmd){
+                            $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                            $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
+                            $("#layoutbkg2 .layoutlinediv").css({"margin":"25% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                            $("#layoutbkg2 .layoutlinename").css({"margin-top":"26%"});
+                        }
+                        else{
+                            $(".layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                            $(".layoutlinename").css({"margin-top":"35%"});
+                        }
+                    }
+                    else{
                         $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
                         $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
                         $("#layoutbkg2 .layoutlinediv").css({"margin":"25% 0 0 1.7%", "width":"47.5%", "height":"40%"});
                         $("#layoutbkg2 .layoutlinename").css({"margin-top":"26%"});
                     }
-                    else{
-                        $(".layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
-                        $(".layoutlinename").css({"margin-top":"35%"});
-                    }
                 }
-                else{
+                else if(mode == 5){
                     $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
                     $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
-                    $("#layoutbkg2 .layoutlinediv").css({"margin":"25% 0 0 1.7%", "width":"47.5%", "height":"40%"});
+                    $("#layoutbkg2 .largelinediv").css({"width":"64%", "height":"55%", "margin":"19% 0 0 9px"});
+                    $("#layoutbkg2 .smalllinediv").css({"width":"30%", "height":"28%", "margin":"30% 9px 0 0"});
                     $("#layoutbkg2 .layoutlinename").css({"margin-top":"26%"});
                 }
-            }
-            else if(mode == 5){
-                $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
-                $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
-                $("#layoutbkg2 .largelinediv").css({"width":"64%", "height":"55%", "margin":"19% 0 0 9px"});
-                $("#layoutbkg2 .smalllinediv").css({"width":"30%", "height":"28%", "margin":"30% 9px 0 0"});
-                $("#layoutbkg2 .layoutlinename").css({"margin-top":"26%"});
-            }
-            else if(mode == 6){
-                $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
-                $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
-                $("#layoutbkg2 .largelinediv").css({"width":"95.5%", "height":"94.2%", "margin":"10px", "position":"relative"});
-                $("#layoutbkg2 .smalllinediv").css({"position":"absolute", "right":"0", "bottom":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
-                $("#layoutbkg2 .largelinediv .layoutlinename").css({"margin-top":"35%"});
-                $("#layoutbkg2 .smalllinediv .layoutlinename").css({"margin-top":"26%"});
+                else if(mode == 6){
+                    $("#layoutbkg1 .layoutlinediv").css({"margin":"10px", "width":"95.5%", "height":"94.2%"});
+                    $("#layoutbkg1 .layoutlinename").css({"margin-top":"35%"});
+                    $("#layoutbkg2 .largelinediv").css({"width":"95.5%", "height":"94.2%", "margin":"10px", "position":"relative"});
+                    $("#layoutbkg2 .smalllinediv").css({"position":"absolute", "right":"0", "bottom":"0", "border":"2px solid #6b6b6b", "width":"30%", "height":"28%"});
+                    $("#layoutbkg2 .largelinediv .layoutlinename").css({"margin-top":"35%"});
+                    $("#layoutbkg2 .smalllinediv .layoutlinename").css({"margin-top":"26%"});
+                }
             }
             break;
     }
@@ -5995,14 +6014,30 @@ function layout_returncontent(mode, hdmi){
     var presenton = parseInt($("#present").attr("ison"));
     var hdmi2state = parseInt(mHdmi2state);
     
+    var flag = false;
+    $("#conf .remoteline").each(function(){
+        var isvideo = $(this).attr("isvideo");
+        if(isvideo == "1")
+        {
+            flag = true;
+            return false;
+        }
+    });
+    
     var content1, content2;
     if(!hdmi2state && !presenton)
         content1 = "0:::13";
     else if(!hdmi2state && presenton){
         if(mIsSysrcmd || (mode == "1" && mIsSysrcmdBefore))
             content1 = "12";
-        else
-            content1 = "12:::0:::13";
+        else{
+            if(!flag){
+                content1 = "12:::13";
+            }
+            else{
+                content1 = "12:::0:::13";
+            }
+        }
     }
     else if(hdmi2state && !presenton){
         if(mIsSysrcmd || (mode == "1" && mIsSysrcmdBefore)){
@@ -6015,8 +6050,14 @@ function layout_returncontent(mode, hdmi){
         }
     }
     else if(hdmi2state && presenton){
-        content1 = "12";
-        content2 = "0:::13";
+        if(!flag){
+            content1 = "12";
+            content2 = "13";
+        }
+        else{
+            content1 = "12";
+            content2 = "0:::13";
+        }
     }
     
     if(hdmi == 1)
@@ -7564,6 +7605,8 @@ function change_presentation_type(){
     }*/
     var callfn = "";
     cb_get_confaction(urihead,callfn,true);
+    
+    $("#present").attr("bfcp", ison);
     delayshowtip(a_7355);
 }
 function cb_send_endcall_action(line){
@@ -9033,7 +9076,8 @@ function pageEventActions()
                 return false;
             }
         });
-        if( ($("#present").attr("ison") == "1" && $("#present").attr("bytype") != "videosource" ) || ($("#present").attr("bfcp") == "2") )
+        
+        if( ($("#present").attr("ison") == "1" && $("#present").attr("bytype") != "videosource" ) || ($("#present").attr("bfcp") == "2") || (!flag && $("#present").attr("bfcp") != "0"))  //audio call & pc presentation mode is on
             flag = true;
         if(!flag)
         {
@@ -9155,21 +9199,34 @@ function pageEventActions()
         var line = $(this).parent().attr("line");
         if($(this).hasClass("active"))
             return false;
+            
+        var isvideo = false;
+        $("#conf .remoteline").each(function(){
+            var videocall = $(this).attr("isvideo");
+            if(videocall == "1")
+            {
+                isvideo = true;
+                return false;
+            }
+        });
         
-        if(!presenton)
+        var linelength = $(".layoutnumber").length;
+        
+//        if(!presenton)
+        if(linelength == 2)
             $(".screendiv").removeClass("active");
         $(this).addClass("active"); 
         if($(this).hasClass("fullscreen")){
             switch (mode) {
                 case "2":
                 case "3":
-                    if(!presenton){
-                        if(line == "13"){
-                            $("#remoteline-0").children(".normalscreen").addClass("active");
-                        }
-                        else{
-                            $("#localline").children(".normalscreen").addClass("active");
-                        }
+                    if(linelength == 2){
+                        $(".layoutnumber").each(function(){
+                            var curline = $(this).attr("line");
+                            if(curline != line){
+                                $(this).children(".normalscreen").addClass("active");
+                            }
+                        });
                     }
                     else{
                         $(this).parent().children(".normalscreen").removeClass("active");
@@ -9189,7 +9246,7 @@ function pageEventActions()
         }else if($(this).hasClass("normalscreen")){
             switch (mode) {
                 case "1":
-                    if(!presenton){
+                    if(!presenton || presenton && !isvideo){
                         $(".layoutnumber").children(".normalscreen").addClass("active");
                     }
                     else{
@@ -9198,13 +9255,13 @@ function pageEventActions()
                     break;
                 case "2":
                 case "3":
-                    if(!presenton){
-                        if(line == "13"){
-                            $("#remoteline-0").children(".fullscreen").addClass("active");
-                        }
-                        else{
-                            $("#localline").children(".fullscreen").addClass("active");
-                        }
+                    if(linelength == 2){
+                        $(".layoutnumber").each(function(){
+                            var curline = $(this).attr("line");
+                            if(curline != line){
+                                $(this).children(".fullscreen").addClass("active");
+                            }
+                        });
                     }
                     else{
                         if($(this).parent().children(".fullscreen").hasClass("active")){
@@ -9230,14 +9287,14 @@ function pageEventActions()
             }
         }else{
             switch (mode) {
-                case "1":    
-                    if(!presenton){
-                        if(line == "13"){
-                            $("#remoteline-0").children(".normalscreen").addClass("active");
-                        }
-                        else{
-                            $("#localline").children(".normalscreen").addClass("active");
-                        }
+                case "1": 
+                    if(linelength == 2){
+                        $(".layoutnumber").each(function(){
+                            var curline = $(this).attr("line");
+                            if(curline != line){
+                                $(this).children(".normalscreen").addClass("active");
+                            }
+                        });
                     }
                     else{
                         var hidelinecount = 0;
@@ -9267,13 +9324,13 @@ function pageEventActions()
                     break;
                 case "2":
                 case "3":
-                    if(!presenton){
-                        if(line == "13"){
-                            $("#remoteline-0").children(".fullscreen").addClass("active");
-                        }
-                        else{
-                            $("#localline").children(".fullscreen").addClass("active");
-                        }
+                    if(linelength == 2){
+                        $(".layoutnumber").each(function(){
+                            var curline = $(this).attr("line");
+                            if(curline != line){
+                                $(this).children(".fullscreen").addClass("active");
+                            }
+                        });
                     }
                     else{
                         if($(this).parent().children(".fullscreen").hasClass("active")){
