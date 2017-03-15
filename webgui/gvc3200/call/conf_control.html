@@ -4349,12 +4349,7 @@ function cb_get_confaction(urihead,callbackfn,isoperate)
                     var data = eval("("+data+")");
                     var mode = data.mode;
                     $("#present").attr("bfcp", mode);
-                    if(mode == "2"){
-                        $("#present").hide();
-                    }
-                    else {
-                        $("#presentmode").getSetSSValue(mode);
-                    }
+                    $("#presentmode").getSetSSValue(mode);
                 }
                 else
                 {
