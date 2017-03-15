@@ -243,7 +243,9 @@ tip_item.push (
         "Если установлено \"Да\", для видеовызова будет включена поддержка RFC5168. По умолчанию \"Да\"."),
     new TipsDef("Video Jitter Buffer Maximum",
         "Устанавливается размер буфера, исходя из состояния сети. Диапазон значений от 0 до 1000. По умолчанию 50."),
-    
+	new TipsDef("Enable video Gradual decoder refresh",
+		"GDR (Gradual decoder refresh) by P frame including the I block set of methods to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability.The default setting is \"No\"."),
+	
     /*Аккаунт1 2 3 Параметры вызова*/
     new TipsDef("Dial Plan Prefix",
         "Этот параметр устанавливает префикс, который будет добавляться к набираемому номеру."),

@@ -356,6 +356,10 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_jittermax">Video Jitter Buffer Maximum (ms)</span> :</div>
                 <input id="jittermax" name="jittermax" type="text" value='' />
             </div>
+            <div webtip="Enable video Gradual decoder refresh">
+                <div class="noreboot"><span id="a_decoderefresh">Enable video Gradual decoder refresh</span> :</div>
+                <input name="decoderefresh" type="checkbox" id="decoderefresh"><span id="a_decoderefreshyes">Yes</span>
+            </div>
             <div webtip="Enable Frame Skipping in Video Decoder" style="display:none;">
                 <div class="noreboot"><span id="a_enableframeskip">Enable Frame Skipping in Video Decoder</span> :</div>
                 <input id="enableframeskip" name="enableframeskip" type="checkbox" /><span id="enableframeskipyes">Yes</span>
@@ -519,6 +523,7 @@ $(function(){
     if( accountindex != "1" ){
         $('#noallow1 option[value=18]').remove();
         $('#noallow1 option[value=98]').remove();
+        $("#decoderefresh").parent().hide();
     }
     else{
         $("#ilibcfs").parent().show();
@@ -706,9 +711,10 @@ function translate_codec(){
     $("#jitterb option:eq(1)").text(a_16236);
     $("#jitterb option:eq(2)").text(a_16145);
     $("#a_jittermax").text(a_16146);
+    $("#a_decoderefresh").text(a_19235);
     $("#a_enablevideono").text(a_6);
     $("#a_slientrtp").text(a_16147);
-    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes").text(a_5);
+    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes").text(a_5);
     $("#a_vidfr").text(a_16274);
     $("#vidframerate option:eq(0)").text("5 "+a_16277);
     $("#vidframerate option:eq(1)").text("15 "+a_16277);
@@ -783,6 +789,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("jitterbt", "133", ""),
 				new ReqItem("jitterb", "132", ""),
 				new ReqItem("jittermax", "2381", ""),
+                new ReqItem("decoderefresh", "25111", ""),
 				new ReqItem("remotevideo", "2326", ""),
 				new ReqItem("enablerfc", "1331", ""),
 				new ReqItem("enablefec", "2393", ""),

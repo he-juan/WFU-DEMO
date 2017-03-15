@@ -251,6 +251,8 @@ tip_item.push (
         "If set to \"Yes\", RFC5168 support will be enabled for video call. The default setting is \"Yes\"."),
     new TipsDef("Video Jitter Buffer Maximum",
         "Configures the buffer size according to the network environment. The valid range is from 0 to 1000. The default settings is 50."),
+	new TipsDef("Enable video Gradual decoder refresh",
+		"GDR (Gradual decoder refresh) by P frame including the I block set of methods to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability.The default setting is \"No\"."),
     
     /*Account1 2 3 Call Settings*/
     new TipsDef("Dial Plan Prefix",
