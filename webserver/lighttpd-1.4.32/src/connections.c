@@ -2524,17 +2524,23 @@ static int handle_recording(buffer *b, const struct message *m)
                 memset(targetfilename, 0, len);
                 replace(filename, "../", "", targetfilename);
 
-                len = strlen(targetfilename) + 128;
+                len = strlen(targetfilename) * 2;
                 cmd = malloc(len);
                 memset(cmd, 0, len);
-                //snprintf(cmd, len, "rm \"%s/%s\"", RECORING_PATH, targetfilename);
-                snprintf(cmd, len, "rm \"%s\"", targetfilename);
-                printf("cmd = %s\n", cmd);
-                int result = mysystem(cmd);
+                replace(targetfilename, "$", "\\$", cmd);
+                
+                char *targetcmd = NULL;
+                len = strlen(cmd) + 128;
+                targetcmd = malloc(len);
+                memset(targetcmd, 0, len);
+                snprintf(targetcmd, len, "rm \"%s\"", cmd);
+                printf("targetcmd = %s\n", targetcmd);
+                int result = mysystem(targetcmd);
                 if( result == 0 ){
                     delok = 1;
                 }
                 free(cmd);
+                free(targetcmd);
             }
             if( !delok ){
                 buffer_append_string(b,"{\"Response\":\"Error\"}");
@@ -2547,11 +2553,22 @@ static int handle_recording(buffer *b, const struct message *m)
             const char *path = msg_get_header(m, "name");
             const char *newname = msg_get_header(m, "newname");
             const char *pathonly = msg_get_header(m, "pathonly");
+            
             if( path != NULL && newname != NULL && pathonly != NULL){
                 char *cmd = NULL;
                 uri_decode((char*)path);
                 uri_decode((char*)newname);
                 uri_decode((char*)pathonly);
+                char *targetnewname = NULL, *targetpath = NULL;
+                int namelength = strlen(newname) * 2;
+                targetnewname = malloc(namelength);
+                memset(targetnewname, 0, namelength);
+                replace(newname, "$", "\\$", targetnewname);
+                
+                namelength = strlen(path) * 2;
+                targetpath = malloc(namelength);
+                memset(targetpath, 0, namelength);
+                replace(path, "$", "\\$", targetpath);
                 if( !strcasecmp(path, "") || !strcasecmp(newname, "") ){
                     buffer_append_string(b,"{\"Response\":\"Error\"}");
                     return -1;
@@ -2559,19 +2576,20 @@ static int handle_recording(buffer *b, const struct message *m)
                 int len = strlen(path) + strlen(newname) + 64;
                 cmd = malloc(len);
                 memset(cmd, 0, len);
-                snprintf(cmd, len, "mv \"%s/%s\" \"%s/%s\"", pathonly, path, pathonly, newname);
+                snprintf(cmd, len, "mv \"%s/%s\" \"%s/%s\"", pathonly, targetpath, pathonly, targetnewname);
                 char *targetcmd = NULL;
                 len = strlen(cmd)*2;
                 targetcmd = malloc(len);
                 memset(targetcmd, 0, len);
                 replace(cmd, "../", "", targetcmd);
 
-                printf("targetcmd = %s\n", targetcmd);
+                printf("cmd = %s\n", targetcmd);
                 int result = mysystem(targetcmd);
                 if( result == 0 ){
                     updateok = 1;
                 }
                 free(cmd);
+                
                 int updatelen;
                 updatelen = strlen(newname)+128;
                 sqlstr = malloc(updatelen);
