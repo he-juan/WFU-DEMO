@@ -5721,6 +5721,9 @@ function layout_choosemode(mode){
 /*only available for one remote line*/
 function layout_adjuststyle(type, mode, content){
     var presenton = parseInt($("#present").attr("ison"));
+    if(!presenton && mHdmiModeContent[4] == 1)
+        presenton = 1;
+    
     var isvideo = false;
     $("#conf .remoteline").each(function(){
         var videocall = $(this).attr("isvideo");
@@ -6010,6 +6013,8 @@ function layout_customscreenadjuststyle(mode, content){
 
 function layout_returncontent(mode, hdmi){
     var presenton = parseInt($("#present").attr("ison"));
+    if(!presenton && mHdmiModeContent[4] == 1)
+        presenton = 1;
     var hdmi2state = parseInt(mHdmi2state);
     
     var flag = false;
@@ -6121,7 +6126,7 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
     $(".layoutcontainer").children().remove();
     var layoutnumberlisthtml = "<div class='layoutnumberlist'>"    
         
-    if($("#present").attr("ison") == "1"){
+    if($("#present").attr("ison") == "1" || mHdmiModeContent[4] == 1){
         layoutnumberlisthtml += "<div id='presentline' class='layoutnumber' line='12' name=" + a_10004 + "><span class='linename'>" + a_10004 + "</span><span class='layoutpresenticon' title=" + a_10004 + "></span><span class='hidescreen screendiv' title=" + a_19339 + "></span><span class='normalscreen screendiv' title=" + a_12168 + "></span><span class='fullscreen screendiv' title=" + a_12167 + "></span></div>"
     }
     
@@ -6281,7 +6286,7 @@ function display_layoutlinediv(line, mode, order){
             }
         }
         
-        if (line.length < 3 || $("#present").attr("ison") == "0") {
+        if (line.length < 3 || ($("#present").attr("ison") == "0" && mHdmiModeContent[4] != 1)) {
             linedivhtml = "<div id='layoutline-" + line[0] + "' class='largelinediv'><div><div class='layoutlinename' title="+name[0]+">" + name[0] + "</div><div class='layoutlinenumber' title="+number[0]+">" + number[0] + "</div></div><div id='layoutline-" + line[1] + "' class='smalllinediv'><div class='layoutlinename' title="+name[1]+">" + name[1] + "</div><div class='layoutlinenumber' title="+number[1]+">" + number[1] + "</div></div></div>";
         }
         else{
@@ -9120,8 +9125,6 @@ function pageEventActions()
     });
 
     $(".modelist li").click(function(){
-        var presenton = parseInt($("#present").attr("ison"));
-        
         var beforemode;
         $(".modelist li").each(function(){
             if($(this).hasClass("active")){
@@ -9194,6 +9197,9 @@ function pageEventActions()
             }
         });
         var presenton = parseInt($("#present").attr("ison"));
+        if(!presenton && mHdmiModeContent[4] == 1)
+            presenton = 1;
+            
         var line = $(this).parent().attr("line");
         if($(this).hasClass("active"))
             return false;
