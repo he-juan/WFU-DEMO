@@ -21242,7 +21242,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_one_param(srv, con, b, m, "isvideo", "quickStartIPVConf", 0);
                 }
                 else if (!strcasecmp(action, "getIPVConfInfo")){
-                    handle_callservice_by_no_param(srv, con, b, m, "getIPVConfInfo");
+                    handle_callservice_by_one_param(srv, con, b, m, "line", "getIPVConfInfo", 0);
                 }
                 else if (!strcasecmp(action, "isFECCEnable")){
                     handle_callservice_by_one_param(srv, con, b, m,"line","isFECCEnable",0);

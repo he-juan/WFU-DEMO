@@ -1851,6 +1851,9 @@ This function is used for handleing infomation about lines when refreshing web U
 function init_conference(data)
 {
     var state = parseInt(data.state);
+    if( data.acct == '1' && data.name != '' ){
+        data.num = data.name;
+    }
 
     switch(state)
     {
@@ -2167,14 +2170,18 @@ function getConfType()
 function isIPVConf()
 {
     var flag = false;
+    var line;
     $(".remoteline").each(function(){
         var acct = $(this).attr("account");
         if(acct == "1")
         {
-            flag = true;
+            line = $(this).attr("line");
+            //flag = true;
             return false;
         }
-    });   
+    });
+    if(line != undefined)
+        flag = line;
     return flag;
 }
 
@@ -2873,7 +2880,10 @@ function addconflist(data,todivID)
                 $existline.attr("number",num);
                 $existline.attr("name",callname);
                 $existline.find(".confname").children("span").attr("title",callname).text(callname);
-                $existline.find(".confnum").children("span").text(num);
+                if(account == 1)
+                    $existline.find(".confnum").children("span").text(callname);
+                else
+                    $existline.find(".confnum").children("span").text(num);
             }
             return false;
         }
@@ -6725,8 +6735,8 @@ function add_linelist_event()
         var isvideo = $("#conf div[line=\""+line+"\"]").attr("isvideo");
         $("#linedetails .onedetails").show();
         $("#linedetails .onedetails .presentdetail").hide();
-        var number = $("#conf .remoteline[line=\""+line+"\"]").attr("number");
-        if(number == mIPVConfNumber ){
+        var account = $("#conf .remoteline[line=\""+line+"\"]").attr("account");
+        if(account == 1){
             $("#ipvconfdetails").show();
             $("#detailscontent").css("height","630px");
             
@@ -6872,7 +6882,6 @@ function showDetails(data)
 
         if(data.present_content != ""){
             $(".presentdetail").show();
-            $("#detailscontent").css("height","570px");
             var presentdetail = data.present_content.split(";");
             var $sndorrev;
             if(presentdetail[1].indexOf("snd") != -1){
@@ -6893,9 +6902,21 @@ function showDetails(data)
             $sndorrev.children(".codecdiv").children(".spancontent").text(presentdetail[5].split("=")[1]);
             $sndorrev.children(".resolutiondiv").children(".spancontent").text(presentdetail[6].split("=")[1]);
         }
-        else{
-            $("#detailscontent").css("height","375px");
+        
+        var detailsheight;
+        if(!$("#ipvconfdetails").is(":visible")){
+            if(data.present_content == "")
+                detailsheight = 375;
+            else
+                detailsheight = 570;
+        }else{
+            if(data.present_content == "")
+                detailsheight = 630;
+            else
+                detailsheight = 835;
         }
+        
+        $("#detailscontent").css("height", detailsheight + "px");
     }
 }
 
@@ -8246,7 +8267,7 @@ function pageEventActions()
         $("#detailsdiv").show();
         var isIPV = isIPVConf();
         if(isIPV){
-            cb_get_confaction("action=getIPVConfInfo&region=confctrl","set_ipvinfo(data);", false);
+            cb_get_confaction("action=getIPVConfInfo&region=confctrl&line="+isIPV,"set_ipvinfo(data);", false);
         }
         ctrl_show_maskdiv(true);
         if($(this).attr("isshow") == "0")
