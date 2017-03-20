@@ -1233,7 +1233,11 @@ function cb_get_status_done(msgs) {
         $("#acct3num").text( msgs.headers['account_2_no'] );
         //$("#acct3reg").css("background", view_status_img_to_text( 2, "1" ));
         $("#acct3reg").addClass( view_status_img_to_text( 2, msgs.headers['account_2_status'] ) );
-        $("#acct3state").show();
+        if(mOEMID == 54)
+            $("#acct3state").hide();
+        else
+            $("#acct3state").show();
+            
         if( selacct == -1 )
             selacct = 2;
     }else{
