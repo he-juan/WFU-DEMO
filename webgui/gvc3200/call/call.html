@@ -319,6 +319,7 @@ var mUse24Hour = 1;
 var mSearchTimer = 0;
 var mOpenItemId = "";
 var mInputNum = 0;
+var mInputIpvtNum = 0;
 var mNeedRemove = 0;    //to tell if just for search or add manual when input
 var mClickAdd = 0;
 var mMaxlineNum = 0;
@@ -1516,8 +1517,8 @@ function pageEventActions(){
                 mNumber = data+":::"+selacct;
                 if( mHasIPVNumber == 0 && selacct == 1 && mPromodel != "GVC3202" ){
                     mHasIPVNumber = 1;
-                    mMaxlineNum --;
-                    $("#membermaxnum").text(mMaxlineNum);
+                    //mMaxlineNum --;
+                    //$("#membermaxnum").text(mMaxlineNum);
                 }
                 if( selacct == 0 && mSipReg == 0 )
                     $item.addClass("mf_item_0_unreg");
@@ -1529,8 +1530,8 @@ function pageEventActions(){
                 var account = mNumber.split(":::")[1];
                 if( mHasIPVNumber == 0 && account == 1 && mPromodel != "GVC3202" ){
                     mHasIPVNumber = 1;
-                    mMaxlineNum --;
-                    $("#membermaxnum").text(mMaxlineNum);
+                    //mMaxlineNum --;
+                    //$("#membermaxnum").text(mMaxlineNum);
                 }
                 if( account == 0 && mSipReg == 0 )
                     $item.addClass("mf_item_0_unreg");
@@ -1570,9 +1571,24 @@ function pageEventActions(){
         },
         onChange: function (type, data, $item) {
             if( type == "add" ){
-                mInputNum ++;
+                if(selacct == 1){
+                    if(mInputIpvtNum == 0)
+                        mInputNum++;
+                    mInputIpvtNum ++;
+                }
+                else{
+                    mInputNum ++;
+                }
             }else if( type == "remove" ){
-                mInputNum --;
+                var acct = $item.attr("acctid");
+                if(acct == 1){
+                    mInputIpvtNum --;
+                    if(mInputIpvtNum == 0)
+                        mInputNum--;
+                }
+                else{
+                    mInputNum --;
+                }
             }
             $("#membernum").text(mInputNum);
             $(".mf_item").removeClass("mfred_item");
@@ -1582,10 +1598,18 @@ function pageEventActions(){
             }else{
                 $("#membernum").css("color", "#444");
             }
-            if( mInputNum >= mMaxlineNum ){
-                $("#dialnum").hide();
-            }else{
-                $("#dialnum").show();
+            
+            if(selacct == 1){
+                if(mInputNum > mMaxlineNum)
+                    $("#dialnum").hide();
+                else
+                    $("#dialnum").show();
+            }
+            else{
+                if(mInputNum >= mMaxlineNum)
+                    $("#dialnum").hide();
+                else
+                    $("#dialnum").show();
             }
             if( type == "add" && mClickAdd == 0 ){
                 //$("#dialnum").val("");
@@ -1605,8 +1629,8 @@ function pageEventActions(){
                         }
                         if( hasIPV == 0 && mPromodel != "GVC3202" ){
                             mHasIPVNumber = 0;
-                            mMaxlineNum ++;
-                            $("#membermaxnum").text(mMaxlineNum);
+                            //mMaxlineNum ++;
+                            //$("#membermaxnum").text(mMaxlineNum);
                         }
                     }
                 }
@@ -1672,13 +1696,27 @@ function pageEventActions(){
             $("#sipcalldiv").show();
             //$("#dialnum").val( $("#bjnumber").val() );
         }
+        
+        if(selacct != 1){
+            if($("#membernum").text() == $("#membermaxnum").text())
+                $("#dialnum").hide();
+            else
+                $("#dialnum").show();
+        }
+        else{
+            if(mHasIPVNumber)
+                $("#dialnum").show();
+        }
+        if( selacct == 1 ){
+            $("#numbertip").text(a_16693+" ("+a_10158+")");
+        }else{
+            $("#numbertip").text("");
+        }
+        
         if( mOEMID == "54" ){
             $("#numbertip").text(a_4016);
-        }else if( selacct == 1 ){
-            $("#numbertip").text(a_16693+" ("+a_10158+")");
-        }/*else{
-            $("#numbertip").text(a_16693);
-        }*/
+        }
+        
         on_search_key();
     });
     
