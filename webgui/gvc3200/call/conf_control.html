@@ -6159,7 +6159,9 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
         $(".fullscreen").hide();
     else
         $(".fullscreen").show();
-
+    
+    checkifhidenormalsrc(mode, hdmi, hdmi2state);
+    
     var layouthtml = "<div id='layoutcustom'>" +
                      "<div class='hdmititle'>" +
                      "<div id='hdmi1div' class='hdmidiv'><div>HDMI 1</div><div class='hdmi_arrow'></div></div>" +
@@ -6304,6 +6306,42 @@ function display_layoutlinediv(line, mode, order){
         }
     }
     return linedivhtml;
+}
+
+function switch_screenactive(line, nextline){
+    $(".layoutnumber[line=" + line + "]").children(".screendiv").each(function(){
+        if($(this).hasClass("active") && $(this).is(":visible"))
+            $(this).removeClass("active");
+        else if(!$(this).hasClass("active") && $(this).is(":visible")){
+            $(this).addClass("active");
+        }
+    });
+    
+    $(".layoutnumber[line=" + nextline + "]").children(".screendiv").each(function(){
+        if($(this).hasClass("active") && $(this).is(":visible"))
+            $(this).removeClass("active");
+        else if(!$(this).hasClass("active") && $(this).is(":visible")){
+            $(this).addClass("active");
+        }
+    });
+}
+
+/*if device performance allowed this function can be removed*/
+function checkifhidenormalsrc(mode, hdmi, hdmi2state){
+    if(hdmi2state == 1){
+        if(hdmi == 1){
+            var allowscreenum = 4 - mHdmiModeContent[3].split(":::").length;
+        }else{
+            var allowscreenum = 4 - mHdmiModeContent[1].split(":::").length;
+        }
+            
+        if(allowscreenum == 1 && mode != 1){
+            $(".layoutnumber").children(".normalscreen").hide();
+        }
+        else if(allowscreenum > 1 && mode != 1){
+            $(".layoutnumber").children(".normalscreen").show();
+        }
+    }
 }
 
 function addfullscreenEvent()
@@ -9133,7 +9171,6 @@ function pageEventActions()
             mode = mHdmiModeContent[0]
             content = mHdmiModeContent[1];
         }
-
         display_customscreenlayout(mode, content, mCurhdmi, mHdmi2state);
         $(".cusmode[mode=" + mode + "]").addClass("active");
     });
@@ -9237,148 +9274,325 @@ function pageEventActions()
         
         var linelength = $(".layoutnumber").length;
         
-//        if(!presenton)
-        if(linelength == 2)
-            $(".screendiv").removeClass("active");
-        $(this).addClass("active"); 
-        if($(this).hasClass("fullscreen")){
-            switch (mode) {
-                case "2":
-                case "3":
-                    if(linelength == 2){
-                        $(".layoutnumber").each(function(){
-                            var curline = $(this).attr("line");
-                            if(curline != line){
-                                $(this).children(".normalscreen").addClass("active");
-                            }
-                        });
-                    }
-                    else{
-                        $(this).parent().children(".normalscreen").removeClass("active");
-                        $(this).parent().children(".hidescreen").removeClass("active");
-                        $(".layoutnumber").each(function(){
-                            var curline = $(this).attr("line");
-                            if(curline != line){
-                                if($(this).children(".fullscreen").hasClass("active")){
-                                    $(this).children(".fullscreen").removeClass("active");
-                                    $(this).children(".normalscreen").addClass("active");
-                                }
-                            }
-                        });
-                    }
-                    break;
+        if(linelength > 2 && mHdmi2state == 1){
+            /*new requirement --- hdmi1 & hdmi2 can't display more than 4 screens at same time*/
+            if(mCurhdmi == 1){
+                var allowscreenum = 4 - mHdmiModeContent[3].split(":::").length;
+            }else{
+                var allowscreenum = 4 - mHdmiModeContent[1].split(":::").length;
             }
-        }else if($(this).hasClass("normalscreen")){
+            
+            var linearray = new Array("12", "0", "13");
+            var line = $(this).parent().attr("line");
+            var nextorder = ($.inArray(line, linearray) + 1) % 3;
+            var nextline = linearray[nextorder];
+            var next2line = linearray[(nextorder + 1) % 3];
+            //var line = $(this).parent().attr("line");
             switch (mode) {
                 case "1":
-                    if(!presenton || presenton && !isvideo){
-                        $(".layoutnumber").children(".normalscreen").addClass("active");
-                    }
-                    else{
-                        $(this).parent().children(".hidescreen").removeClass("active");
+                    if(allowscreenum == 1){
+                        if($(this).hasClass("normalscreen")){
+                            var chooseline;
+                            $(".normalscreen").each(function(){
+                                if($(this).hasClass("active")){
+                                    chooseline = $(this).parent().attr("line");
+                                    return false;
+                                }
+                            });
+                            switch_screenactive(line ,chooseline);
+                        }else{
+                            switch_screenactive(line ,nextline);
+                        }
+                    }else if(allowscreenum == 2){
+                        if($(this).hasClass("normalscreen"))
+                            var chosenscr = "normalscreen";
+                        else
+                            var chosenscr = "hidescreen";
+                            
+                        var countscr = 0;
+                        $("." + chosenscr).each(function(){
+                            if($(this).hasClass("active"))
+                                countscr ++;
+                        });
+                        
+                        if(countscr == 1){
+                            $(this).parent().children(".screendiv").removeClass("active");
+                            $(this).addClass("active")
+                        }else{
+                            switch_screenactive(line ,nextline);
+                        }
+                    }else{
+                        if($(this).hasClass("normalscreen")){
+                            $(this).parent().children(".screendiv").removeClass("active");
+                            $(this).addClass("active")
+                        }else{
+                            var countscr = 0;
+                            $(".hidescreen").each(function(){
+                                if($(this).hasClass("active"))
+                                    countscr ++;
+                            });
+                            
+                            if(countscr < 2){
+                                $(this).parent().children(".screendiv").removeClass("active");
+                                $(this).addClass("active")
+                            }else{
+                                switch_screenactive(line ,nextline);
+                            }
+                        }
                     }
                     break;
                 case "2":
                 case "3":
-                    if(linelength == 2){
-                        $(".layoutnumber").each(function(){
-                            var curline = $(this).attr("line");
-                            if(curline != line){
-                                $(this).children(".fullscreen").addClass("active");
-                            }
-                        });
-                    }
-                    else{
-                        if($(this).parent().children(".fullscreen").hasClass("active")){
-                            $(this).parent().children(".fullscreen").removeClass("active");
-                            if(line == "12"){
-                                $("#remoteline-0").children(".screendiv").removeClass("active");
-                                $("#remoteline-0").children(".fullscreen").addClass("active");
-                            }
-                            else if(line == "13"){
-                                $("#presentline").children(".screendiv").removeClass("active");
-                                $("#presentline").children(".fullscreen").addClass("active");
-                            }
-                            else{
-                                $("#localline").children(".screendiv").removeClass("active");
-                                $("#localline").children(".fullscreen").addClass("active");
+                    if(allowscreenum == 1){
+                        if($(this).hasClass("fullscreen")){
+                            var chooseline;
+                            $(".fullscreen").each(function(){
+                                if($(this).hasClass("active")){
+                                    chooseline = $(this).parent().attr("line");
+                                    return false;
+                                }
+                            });
+                            switch_screenactive(line ,chooseline);
+                        }else{
+                            switch_screenactive(line ,nextline);
+                        }
+                    }else if(allowscreenum == 2){
+                        if($(this).hasClass("fullscreen")){
+                            $(".fullscreen").each(function(){
+                                if($(this).hasClass("active")){
+                                    $(this).removeClass("active");
+                                    $(this).parent().children(".normalscreen").addClass("active");
+                                    return false;
+                                }
+                            });
+                            
+                            $(this).parent().children(".screendiv").removeClass("active");
+                            $(this).addClass("active");
+                            var countnorsct = 0;
+                            $(".normalscreen").each(function(){
+                                if($(this).hasClass("active"))
+                                    countnorsct ++;
+                            });
+                            
+                            if(countnorsct > 1){
+                                $(".layoutnumber[line=" + nextline + "]").children(".screendiv").removeClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".hidescreen").addClass("active");
                             }
                         }
-                        else if($(this).parent().children(".hidescreen").hasClass("active")){
-                            $(this).parent().children(".hidescreen").removeClass("active");
+                        else if($(this).hasClass("normalscreen")){
+                            if($(".layoutnumber[line=" + line + "]").children(".hidescreen").hasClass("active")){
+                                $(".normalscreen").each(function(){
+                                    if($(this).hasClass("active")){
+                                        $(this).removeClass("active");
+                                        $(this).parent().children(".hidescreen").addClass("active");
+                                        return false;
+                                    }
+                                });
+                                $(this).addClass("active");
+                                $(this).parent().children(".hidescreen").removeClass("active");
+                            }
+                            else{
+                                $(this).parent().children(".fullscreen").removeClass("active");
+                                $(this).addClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".screendiv").removeClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".fullscreen").addClass("active");
+                                $(".layoutnumber[line=" + next2line + "]").children(".screendiv").removeClass("active");
+                                $(".layoutnumber[line=" + next2line + "]").children(".hidescreen").addClass("active");
+                            }
+                        }else{
+                            if($(".layoutnumber[line=" + line + "]").children(".normalscreen").hasClass("active")){
+                                $(this).parent().children(".normalscreen").removeClass("active");
+                                $(this).addClass("active");
+                            }
+                            else{
+                                $(this).parent().children(".fullscreen").removeClass("active");
+                                $(this).addClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".screendiv").removeClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".fullscreen").addClass("active");
+                            }
+                        }
+                    }else{
+                        if($(this).hasClass("fullscreen")){
+                            $(".fullscreen").each(function(){
+                                if($(this).hasClass("active")){
+                                    $(this).parent().children(".normalscreen").addClass("active");
+                                    $(this).removeClass("active");
+                                    return false;
+                                }
+                            });
+                            $(this).parent().children(".screendiv").removeClass("active");
+                            $(this).addClass("active");
+                        }
+                        else if($(this).hasClass("normalscreen")){
+                            if($(".layoutnumber[line=" + line + "]").children(".hidescreen").hasClass("active")){
+                                $(this).addClass("active");
+                                $(this).parent().children(".hidescreen").removeClass("active");
+                            }
+                            else{
+                                $(this).parent().children(".fullscreen").removeClass("active");
+                                $(this).addClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".screendiv").removeClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".fullscreen").addClass("active");
+                            }
+                        }
+                        else{
+                            if($(".layoutnumber[line=" + line + "]").children(".normalscreen").hasClass("active")){
+                                $(this).parent().children(".normalscreen").removeClass("active");
+                                $(this).addClass("active");
+                            }else{
+                                $(this).parent().children(".fullscreen").removeClass("active");
+                                $(this).addClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".screendiv").removeClass("active");
+                                $(".layoutnumber[line=" + nextline + "]").children(".fullscreen").addClass("active");
+                            }
                         }
                     }
                     break;
             }
+            
         }else{
-            switch (mode) {
-                case "1": 
-                    if(linelength == 2){
-                        $(".layoutnumber").each(function(){
-                            var curline = $(this).attr("line");
-                            if(curline != line){
-                                $(this).children(".normalscreen").addClass("active");
-                            }
-                        });
-                    }
-                    else{
-                        var hidelinecount = 0;
-                        $(".layoutnumber").each(function(){
-                            if($(this).children(".hidescreen").hasClass("active"))
-                                hidelinecount ++;
-                        });
-                        if(hidelinecount <= 2){
-                            $(this).parent().children(".normalscreen").removeClass("active");
+            if(linelength == 2)
+                $(".screendiv").removeClass("active");
+            $(this).addClass("active"); 
+            if($(this).hasClass("fullscreen")){
+                switch (mode) {
+                    case "2":
+                    case "3":
+                        if(linelength == 2){
+                            $(".layoutnumber").each(function(){
+                                var curline = $(this).attr("line");
+                                if(curline != line){
+                                    $(this).children(".normalscreen").addClass("active");
+                                }
+                            });
                         }
                         else{
                             $(this).parent().children(".normalscreen").removeClass("active");
-                            if(line == "12"){
-                                $("#remoteline-0").children(".normalscreen").addClass("active");
-                                $("#remoteline-0").children(".hidescreen").removeClass("active");
+                            $(this).parent().children(".hidescreen").removeClass("active");
+                            $(".layoutnumber").each(function(){
+                                var curline = $(this).attr("line");
+                                if(curline != line){
+                                    if($(this).children(".fullscreen").hasClass("active")){
+                                        $(this).children(".fullscreen").removeClass("active");
+                                        $(this).children(".normalscreen").addClass("active");
+                                    }
+                                }
+                            });
+                        }
+                        break;
+                }
+            }else if($(this).hasClass("normalscreen")){
+                switch (mode) {
+                    case "1":
+                        if(!presenton || presenton && !isvideo){
+                            $(".layoutnumber").children(".normalscreen").addClass("active");
+                        }
+                        else{
+                            $(this).parent().children(".hidescreen").removeClass("active");
+                        }
+                        break;
+                    case "2":
+                    case "3":
+                        if(linelength == 2){
+                            $(".layoutnumber").each(function(){
+                                var curline = $(this).attr("line");
+                                if(curline != line){
+                                    $(this).children(".fullscreen").addClass("active");
+                                }
+                            });
+                        }
+                        else{
+                            if($(this).parent().children(".fullscreen").hasClass("active")){
+                                $(this).parent().children(".fullscreen").removeClass("active");
+                                if(line == "12"){
+                                    $("#remoteline-0").children(".screendiv").removeClass("active");
+                                    $("#remoteline-0").children(".fullscreen").addClass("active");
+                                }
+                                else if(line == "13"){
+                                    $("#presentline").children(".screendiv").removeClass("active");
+                                    $("#presentline").children(".fullscreen").addClass("active");
+                                }
+                                else{
+                                    $("#localline").children(".screendiv").removeClass("active");
+                                    $("#localline").children(".fullscreen").addClass("active");
+                                }
                             }
-                            else if(line == "13"){
-                                $("#presentline").children(".normalscreen").addClass("active");
-                                $("#presentline").children(".hidescreen").removeClass("active");
+                            else if($(this).parent().children(".hidescreen").hasClass("active")){
+                                $(this).parent().children(".hidescreen").removeClass("active");
+                            }
+                        }
+                        break;
+                }
+            }else{
+                switch (mode) {
+                    case "1": 
+                        if(linelength == 2){
+                            $(".layoutnumber").each(function(){
+                                var curline = $(this).attr("line");
+                                if(curline != line){
+                                    $(this).children(".normalscreen").addClass("active");
+                                }
+                            });
+                        }
+                        else{
+                            var hidelinecount = 0;
+                            $(".layoutnumber").each(function(){
+                                if($(this).children(".hidescreen").hasClass("active"))
+                                    hidelinecount ++;
+                            });
+                            if(hidelinecount <= 2){
+                                $(this).parent().children(".normalscreen").removeClass("active");
                             }
                             else{
-                                $("#localline").children(".normalscreen").addClass("active");
-                                $("#localline").children(".hidescreen").removeClass("active");
+                                $(this).parent().children(".normalscreen").removeClass("active");
+                                if(line == "12"){
+                                    $("#remoteline-0").children(".normalscreen").addClass("active");
+                                    $("#remoteline-0").children(".hidescreen").removeClass("active");
+                                }
+                                else if(line == "13"){
+                                    $("#presentline").children(".normalscreen").addClass("active");
+                                    $("#presentline").children(".hidescreen").removeClass("active");
+                                }
+                                else{
+                                    $("#localline").children(".normalscreen").addClass("active");
+                                    $("#localline").children(".hidescreen").removeClass("active");
+                                }
                             }
                         }
-                    }
-                    break;
-                case "2":
-                case "3":
-                    if(linelength == 2){
-                        $(".layoutnumber").each(function(){
-                            var curline = $(this).attr("line");
-                            if(curline != line){
-                                $(this).children(".fullscreen").addClass("active");
+                        break;
+                    case "2":
+                    case "3":
+                        if(linelength == 2){
+                            $(".layoutnumber").each(function(){
+                                var curline = $(this).attr("line");
+                                if(curline != line){
+                                    $(this).children(".fullscreen").addClass("active");
+                                }
+                            });
+                        }
+                        else{
+                            if($(this).parent().children(".fullscreen").hasClass("active")){
+                                $(this).parent().children(".fullscreen").removeClass("active");
+                                if(line == "12"){
+                                    $("#remoteline-0").children(".screendiv").removeClass("active");
+                                    $("#remoteline-0").children(".fullscreen").addClass("active");
+                                }
+                                else if(line == "13"){
+                                    $("#presentline").children(".screendiv").removeClass("active");
+                                    $("#presentline").children(".fullscreen").addClass("active");
+                                }
+                                else{
+                                    $("#localline").children(".screendiv").removeClass("active");
+                                    $("#localline").children(".fullscreen").addClass("active");
+                                }
                             }
-                        });
-                    }
-                    else{
-                        if($(this).parent().children(".fullscreen").hasClass("active")){
-                            $(this).parent().children(".fullscreen").removeClass("active");
-                            if(line == "12"){
-                                $("#remoteline-0").children(".screendiv").removeClass("active");
-                                $("#remoteline-0").children(".fullscreen").addClass("active");
-                            }
-                            else if(line == "13"){
-                                $("#presentline").children(".screendiv").removeClass("active");
-                                $("#presentline").children(".fullscreen").addClass("active");
-                            }
-                            else{
-                                $("#localline").children(".screendiv").removeClass("active");
-                                $("#localline").children(".fullscreen").addClass("active");
+                            else if($(this).parent().children(".normalscreen").hasClass("active")){
+                                $(this).parent().children(".normalscreen").removeClass("active");
                             }
                         }
-                        else if($(this).parent().children(".normalscreen").hasClass("active")){
-                            $(this).parent().children(".normalscreen").removeClass("active");
-                        }
-                    }
-                    break;
-            }    
+                        break;
+                }    
+            }
         }
         
         var content = "";
