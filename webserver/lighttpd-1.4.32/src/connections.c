@@ -5401,7 +5401,7 @@ static int handle_vgasend(server *srv, connection *con,buffer *b, const struct m
     if( itype == -1 || ivalue == -1 )
         buffer_append_string(b, "Response=Error\r\n");
     else{
-        ttycmd_vga_send(itype, ivalue);
+        //ttycmd_vga_send(itype, ivalue);
     }
 
     type = DBUS_BUS_SYSTEM;
