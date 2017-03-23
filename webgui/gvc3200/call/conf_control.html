@@ -5660,6 +5660,7 @@ function displayLayout(data){
     else if(hdmi1mode >= 4 && hdmi2state == 1)
         display_default2screenlayout(hdmi1mode, mHdmiModeContent[1], hdmi2mode, mHdmiModeContent[3]);
     else if(hdmi1mode < 4){
+        mCurhdmi = 1;
         $(".modelist li[mode=custom]").attr("childmode", hdmi1mode);
         display_customscreenlayout(hdmi1mode, mHdmiModeContent[1], 1, hdmi2state);
     }
