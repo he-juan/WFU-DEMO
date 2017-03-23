@@ -5608,7 +5608,7 @@ function displayLayout(data){
     hdmi1mode = cb_get_layoutinfo("action=gethdmi1displaymode&region=confctrl");
     hdmi1content = cb_get_layoutinfo("action=gethdmi1displaycontent&region=confctrl");
     
-    if(hdmi1content.indexOf("15") != -1)
+    if(hdmi1content.indexOf("15") != -1 || $("#present").attr("bfcp") == "2")
         mHdmiModeContent[4] = 1;   //to identify if current presentation contains signal 15
     else
         mHdmiModeContent[4] = 0;
@@ -5627,7 +5627,7 @@ function displayLayout(data){
         if(hdmi2content.indexOf("15") != -1)
             mHdmiModeContent[4] = 1;
         else{
-            if(hdmi1content.indexOf("15") == -1)
+            if(hdmi1content.indexOf("15") == -1 && $("#present").attr("bfcp") != "2")
                 mHdmiModeContent[4] = 0;
         }
         
