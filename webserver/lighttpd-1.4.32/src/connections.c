@@ -1728,10 +1728,10 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
     sqlstr = malloc(len);
     memset(sqlstr, 0, len);
     if( !strcasecmp(type, "schedulecall") ) {
-        snprintf(sqlstr, len, "select schedule.id,schedule.start_time_milliseconds,schedule.display_name,schedule.data1 as schedule_lost from schedule where schedule_lost!=\"1\" order by start_time;");
+        snprintf(sqlstr, len, "select schedule.id,schedule.start_time_milliseconds,schedule.display_name,schedule.schedule_lost as schedule_lost from schedule where schedule_lost!=\"1\" order by start_time;");
     }
     else if( !strcasecmp(type, "schedule") ) {
-        snprintf(sqlstr, len, "select schedule.id as id,schedule.start_time as start_time, schedule.start_time_milliseconds as start_time_milliseconds, schedule.duration as duration, schedule.need_reminder as need_reminder, schedule.reminder_time as reminder_time, schedule.host as host, schedule.display_name as dispname, schedule.conf_dnd as confdnd, schedule.recycle as recycle, schedule.color as confcolor, schedule.data1 as data1, schedule.conf_auto_answer as conf_auto_answer, schedule.data2 as data2, schedule.data3 as data3, schedule.data4 as data4, schedule.data6 as data6, schedule.data7 as data7, schedule.rule as rule, schedule.data8 as data8, schedule.meeting_preset as meeting_preset, schedule.preset_position_name as preset_position_name from schedule order by start_time_milliseconds;");
+        snprintf(sqlstr, len, "select schedule.id as id,schedule.start_time as start_time, schedule.start_time_milliseconds as start_time_milliseconds, schedule.duration as duration, schedule.need_reminder as need_reminder, schedule.reminder_time as reminder_time, schedule.host as host, schedule.display_name as dispname, schedule.conf_dnd as confdnd, schedule.recycle as recycle, schedule.color as confcolor, schedule.schedule_lost as data1, schedule.conf_auto_answer as conf_auto_answer, schedule.schedule_inconf as data2, schedule.dnd_key as data3, schedule.proconf_number as data4, schedule.proconf_url as data6, schedule.proconf_pstn as data7, schedule.rule as rule, schedule.invited as data8, schedule.meeting_preset as meeting_preset, schedule.preset_position_name as preset_position_name from schedule order by start_time_milliseconds;");
     }
     else if( !strcasecmp(type, "gotopreset") ) {
         temp = msg_get_header(m, "id");
@@ -1745,13 +1745,13 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
         snprintf(sqlstr, len, "select schedule.id as confid,schedule.display_name as confname,group_contacts.id as contactid, group_contacts.number as number, group_contacts.name as name, group_contacts.account_id as acctid, group_contacts.host_email as email, group_contacts.data_source as data_source, group_contacts.state as state from schedule left join group_contacts on schedule.id=group_contacts.group_id order by confid desc,confname;");
     }
     else if( !strcasecmp(type, "updatestate") ){
-        //if schedule is missed,set data2=1 in database
+        //if schedule is missed,set schedule_inconf=1 in database
         temp = msg_get_header(m, "id");
         if( temp == NULL){
             buffer_append_string(b,"{\"Response\":\"Error\"}");
             return -1;
         }
-        snprintf(sqlstr, len, "update schedule set data2=1 where id=%d;",atoi(temp));
+        snprintf(sqlstr, len, "update schedule set schedule_inconf=1 where id=%d;",atoi(temp));
     }
     if( sqlstr == NULL || strlen(sqlstr) == 0 ){
         buffer_append_string(b,"{\"Response\":\"Error\"}");
