@@ -9140,7 +9140,7 @@ function pageEventActions()
             }
         });
         
-        if( ($("#present").attr("ison") == "1" && $("#present").attr("bytype") != "videosource" ) || ($("#present").attr("bfcp") == "2") || (!flag && $("#present").attr("bfcp") != "0"))  //audio call & pc presentation mode is on
+        if( ($("#present").attr("ison") == "1" && $("#present").attr("bytype") != "videosource" ) || ($("#present").attr("bfcp") == "2") || (!flag && $("#present").attr("bfcp") != "0" && $("#present").attr("bfcp") != undefined))  //audio call & pc presentation mode is on
             flag = true;
         if(!flag)
         {
