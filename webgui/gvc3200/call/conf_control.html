@@ -3318,7 +3318,7 @@ function change_callconnectstate(data)
                 $(".onedetails[line=\""+line+"\"] .videodetail .spancontent").text("");
             }
             if(calltypeDescp != undefined)
-            {                
+            {
                 // if(mselacct != -1)
                 //     account = "("+ mselacct +")";
                 if( account == 8 )
@@ -3330,6 +3330,8 @@ function change_callconnectstate(data)
                 $("#tabs div#line-"+line+" .confbtn button").show();
                 $("#tabs div#line-"+line+" .confbtn button.redialcall").hide();
                 $("#tabs div#line-"+line+" .confbtn button[name='videstate']").removeClass().addClass(videoctrlid).attr("title",videotitle);
+                if($("#layoutdiv").is(":visible"))
+                    $("#layoutdiv").hide();
                 var ipvConf = $("#tabs div#line-"+line).attr("number").substring(0,2);
                 if(account == 1 && ipvConf == mIPVPrefix)
                     $("#tabs div#line-"+line+" .confbtn button[name='videstate']").attr("disabled","disabled").addClass("btndisabled");
@@ -3406,70 +3408,6 @@ function change_callconnectstate(data)
                 }else{
                     //$("#present").hide();
                 }
-                /*action = "isBFCPSupport&region=confctrl&lines="+encodeURIComponent(lines);
-                flag = getHDMIinfo(action, 1);
-                presflag = getHDMIinfo(action);
-                //get status about hdmi in and vga in
-                action = "get&var-0000=vgaIn&var-0001=hdmiIn&var-0002=hdmi2&var-0003=hdmi3";
-                var returnflag = getHDMIinfo(action);
-                if(flag == "false")
-                {
-                    var videoline_notbfcp = false;
-                    var showvideosource = false;
-                    $("#conf div.remoteline").each(function(){
-                        var bfcpstate = $(this).attr("bfcpstate");
-                        if($(this).attr("isvideo") == "1" && bfcpstate == "0")
-                        {
-                            videoline_notbfcp = true;
-                            return false;
-                        }
-                    });
-                    if($("#present").attr("ison") != "1")
-                    {
-                        //$("#present").hide();
-                        
-                        if(videoline_notbfcp)
-                        {
-                            if(presflag == "false" && ($("#present").attr("bfcp") == "2" || returnflag != 3)){
-                                showvideosource = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if(videoline_notbfcp){
-                            showvideosource = true;
-                        }
-                    }
-                    if( showvideosource )
-                        $("#switchvideosource").show();
-                    else
-                        $("#switchvideosource").hide();
-                }
-                else
-                {
-                    $("#switchvideosource").hide();
-                }
-                
-                if( presflag == "false" ){
-                    $("#present").hide();
-                }
-                else
-                {
-                    $("#present").hide();
-                    if($("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) )
-                    {
-                        $("#present").show();
-                    }
-                }*/
-                /*if(ishasvideo)
-                {
-                    $("#suspendall").show();
-                }
-                else
-                {
-                    $("#suspendall").hide();
-                }*/
                 $("#blockall").attr("name",a_10132).attr("isblockall","0").removeClass("active");
                 $("#suspendall").attr("name",a_10134).attr("issuspendall","0").removeClass("active");
                 $("#muteall").attr("ismuteall","0").attr("name",a_10130).removeClass("active");
