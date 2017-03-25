@@ -223,6 +223,12 @@ function setInitState(){
         errorElement: "em",
         success: function(label) { label.text(" ").addClass("success"); }
     });
+    
+    var colore = $('#existcolore',parent.document.body).val();
+    if(colore == 54){
+        $("#callwaittone").parent().hide();
+        $("#cwaittonetx").parent().hide();
+    }
 }
 function get_item_suc_callback(){
     

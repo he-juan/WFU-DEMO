@@ -337,6 +337,12 @@ $(function(){
         $("#a_autoans").text(a_1102);
         //$("#autoanswer option:eq(2)").text(a_1136);
     }
+    
+    var colore = $('#existcolore',parent.document.body).val();
+    if(colore == 54){
+        $("#confuri").parent().hide();
+    }
+    
     setInitState();
     cb_get_pvalue(accountindex);
     cb_get_tonelist();

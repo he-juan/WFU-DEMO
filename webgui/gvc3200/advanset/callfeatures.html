@@ -187,6 +187,11 @@ $(function(){
     }else{
         $("#disableipcall").show();
     }
+    
+    if( colore == 54 ){
+        $("#disableipcall").hide();
+        $("#usequickipcall").parent().hide();
+    }
 });
 function setInitState(){
     translate_callfea();
