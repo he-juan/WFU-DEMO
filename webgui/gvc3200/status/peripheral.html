@@ -123,10 +123,10 @@ $(function(){
     translate_sysinfo();
     var promodel = $("#promodel", window.parent.document).val();
     var oemid = $('#existcolore', window.parent.document).val();
-    if( promodel == "GVC3202" || oemid == "54" ){
+    /*if( promodel == "GVC3202" || oemid == "54" ){
         $("#hdmi3div").hide();
         $("#hdmi2div").css("margin-left", "40px");
-    }
+    }*/
     cb_get(req_items);
     cb_get_action('gethdmiinstate');
     cb_get_action('gethdmi1state');
