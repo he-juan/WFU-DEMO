@@ -266,6 +266,10 @@ function cb_get_action_done(data, action){
             var coloreexist = msgs.headers['coloreexist'];
             if( coloreexist == 54 || coloreexist == 3 && !$.cookie( "MyLanguage") )
                 $.cookie( "MyLanguage" ,  "zh" , { path: '/', expires: 10 });
+            
+            if( coloreexist == 54 ){
+                $(".bgimg").css("background", "url('img/login/login_camera_cmcc.png') no-repeat scroll transparent");
+            }
             init_lan(true);
         }
         else if( action == "productinfo" )
