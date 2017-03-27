@@ -1146,7 +1146,7 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isdialplan, isipcall,
     }*/
 	
 	var isrmtctrlupgrade = false;
-	var urihead = "action=get&var-0000=:bluetooth_ota&time=" + new Date().getTime();
+	var urihead = "action=get&var-0000=:remote_update&time=" + new Date().getTime();
     $.ajax ({
         type: 'get',
         url:'/manager',
@@ -1158,7 +1158,7 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isdialplan, isipcall,
 		    cb_if_auth_fail(msgs);
 		    if (cb_is_fail(msgs)){}   
 		    else {
-				if(msgs.headers[':bluetooth_ota'] == "1")
+				if(msgs.headers[':remote_update'] == "1")
 					isrmtctrlupgrade = true;
 			}
         },
@@ -1307,7 +1307,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
     }
 	
 	var isrmtctrlupgrade = false;
-	var urihead = "action=get&var-0000=:bluetooth_ota&time=" + new Date().getTime();
+	var urihead = "action=get&var-0000=:remote_update&time=" + new Date().getTime();
     $.ajax ({
         type: 'get',
         url:'/manager',
@@ -1319,7 +1319,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
 		    cb_if_auth_fail(msgs);
 		    if (cb_is_fail(msgs)){}   
 		    else {
-				if(msgs.headers[':bluetooth_ota'] == "1")
+				if(msgs.headers[':remote_update'] == "1")
 					isrmtctrlupgrade = true;
 			}
         },
