@@ -1145,6 +1145,33 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isdialplan, isipcall,
         return false;
     }*/
 	
+	var isrmtctrlupgrade = false;
+	var urihead = "action=get&var-0000=:bluetooth_ota&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+		async:false,
+        success:function(data) {
+			var msgs = res_parse_rawtext(data);
+		    cb_if_auth_fail(msgs);
+		    if (cb_is_fail(msgs)){}   
+		    else {
+				if(msgs.headers[':bluetooth_ota'] == "1")
+					isrmtctrlupgrade = true;
+			}
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+	
+	if(isrmtctrlupgrade){
+		$.prompt(a_19236);
+		return false;
+	}
+	
 	if(mAcctStatus != undefined){
 		var acctname = ['SIP', 'IPVT', 'BlueJeans', "", "", "", 'H.323'];
 		var tempacct = dialacct;
@@ -1278,6 +1305,33 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
         $.prompt(a_16683);
         return false;
     }
+	
+	var isrmtctrlupgrade = false;
+	var urihead = "action=get&var-0000=:bluetooth_ota&time=" + new Date().getTime();
+    $.ajax ({
+        type: 'get',
+        url:'/manager',
+        data:urihead,
+        dataType:'text',
+		async:false,
+        success:function(data) {
+			var msgs = res_parse_rawtext(data);
+		    cb_if_auth_fail(msgs);
+		    if (cb_is_fail(msgs)){}   
+		    else {
+				if(msgs.headers[':bluetooth_ota'] == "1")
+					isrmtctrlupgrade = true;
+			}
+        },
+        error:function(xmlHttpRequest, errorThrown) {
+            cb_networkerror(xmlHttpRequest, errorThrown);
+        }
+    });
+	
+	if(isrmtctrlupgrade){
+		$.prompt(a_19236);
+		return false;
+	}
 
 	if(mAcctStatus != undefined){
 		var acctname = ['SIP', 'IPVT', 'BlueJeans', "", "", "", 'H.323'];
