@@ -503,6 +503,7 @@ function get_item_suc_callback(){
     
     var maxhour = 23;
     var useampm = true;
+    var cuslangval = "";
     if( $("#24timeformat").prop("checked") ){
         maxhour = 23;
         useampm = false;
@@ -516,13 +517,17 @@ function get_item_suc_callback(){
         }
     }); 
     
-    $("#cusdftlanglist").sSelect({ddMaxHeight:'200px'});
-    var cuslangval = $("#cusdftlang").val() + "_" + $("#cusdftcountry").val();
+    $("#cusdftlanglist").sSelect({ddMaxHeight:'200px'});   
+    if( $("#cusdftlang").val() == "" || $("#cusdftcountry").val() == "" )
+        cuslangval = "en_US";
+    else
+        cuslangval = $("#cusdftlang").val() + "_" + $("#cusdftcountry").val();
     $("#cusdftlanglist").getSetSSValue(cuslangval);
     if( $("#enablecuslang").val() == "1" ){
         $("#cusdftlangdiv").show();
         $("#clanguage").sSelect({ddMaxHeight:'200px'});
         $("#clanguage").getSetSSValue("customized");
+        m_langimported = 1;
         //$("#a_save").attr("disabled", "").css('color','');
     }else{
         $("#cusdftlangdiv").hide();
@@ -961,7 +966,7 @@ function pageEventActions(){
     $("#clanguage").change(function(){
         if( $(this).val() == "customized" )
         {
-            $("#importlangdiv").show();
+            $("#importlangdiv, #cusdftlangdiv").show();
             //$("#a_save").attr("disabled", "disabled").css('color','#BFBFBF');
         }else{
             $("#importlangdiv, #cusdftlangdiv").hide();
@@ -980,7 +985,7 @@ function pageEventActions(){
                 req_items.push(new ReqItem("cusdftlang", "default_customed_language", ""));
                 req_items.push(new ReqItem("cusdftcountry", "default_customed_country", ""));
             }else{
-                $.prompt("Import lang first!");
+                $.prompt(a_19237);
                 return false;
             }
         }else{
