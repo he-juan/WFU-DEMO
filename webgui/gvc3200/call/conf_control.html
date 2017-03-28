@@ -5063,6 +5063,9 @@ function setsubstream_callback(data)
         }
     }
     
+    if($("#layoutdiv").is(":visible"))
+        $("#layoutdiv").hide();
+    
     urihead = "action=getBFCPMode&region=confctrl";
     cb_get_confaction(urihead, "", false);
 }
