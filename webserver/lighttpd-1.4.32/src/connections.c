@@ -3105,7 +3105,7 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
     temp = malloc( 128 );
     memset(temp, 0, 128);
 
-    snprintf(temp, 128, "select id, preset_name from preset;");
+    snprintf(temp, 128, "select id, preset_name from preset where id < 24;");
     rc= sqlite3_prepare_v2(db, temp, strlen(temp), &stmt,0);
     if( rc ){
         printf("Can't open statement: %s\n", sqlite3_errmsg(db));

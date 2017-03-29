@@ -85,31 +85,7 @@ body{}
                 <div class="noreboot"><span id="a_initposition">The initial position</span> :</div>
                 <select id="initposition" name="initposition">
                     <option value="0">Default</option>
-                    <option value="100">Latest Position</option>
-                    <option value="1">Preset1</option>
-                    <option value="2">Preset2</option>
-                    <option value="3">Preset3</option>
-                    <option value="4">Preset4</option>
-                    <option value="5">Preset5</option>
-                    <option value="6">Preset6</option>
-                    <option value="7">Preset7</option>
-                    <option value="8">Preset8</option>
-                    <option value="9">Preset9</option>
-                    <option value="10">Preset10</option>
-                    <option value="11">Preset11</option>
-                    <option value="12">Preset12</option>
-                    <option value="13">Preset13</option>
-                    <option value="14">Preset14</option>
-                    <option value="15">Preset15</option>
-                    <option value="16">Preset16</option>
-                    <option value="17">Preset17</option>
-                    <option value="18">Preset18</option>
-                    <option value="19">Preset19</option>
-                    <option value="20">Preset20</option>
-                    <option value="21">Preset21</option>
-                    <option value="22">Preset22</option>
-                    <option value="23">Preset23</option>
-                    <option value="24">Preset24</option>
+                    <option value="100">Position when power off</option>
                 </select>
             </div>
             <div class="titlediv" style="display:none;">
@@ -239,6 +215,7 @@ $(function(){
     translate_device();
     cb_get(req_items);
     cb_get_action("gethdmiconnectstatus&region=advanset");
+    cb_get_action("getpresetinfo&region=control");
     /*cb_get_action("vgaread&region=webservice&type=0");
     cb_get_action("vgaread&region=webservice&type=1");
     cb_get_action("vgaread&region=webservice&type=2");*/
@@ -383,7 +360,7 @@ function cb_get_action_done(data, action){
             }else{
                 view_message(a_16005+a_12017, MSG_ALERT);
             }
-        }else if(action.indexOf("vgaread") != -1)
+        }/*else if(action.indexOf("vgaread") != -1)
         {
             var tObj = eval("(" + data + ")");
             var item = tObj.Data;
@@ -477,6 +454,24 @@ function cb_get_action_done(data, action){
                     });
                 }
             }
+        }*/
+        else if( action == "getpresetinfo&region=control" ){
+            var tObj = eval("(" + data + ")");
+            if( tObj.Response == "success" ){                
+                var presetItem = tObj.Data;
+                for(var i = 0; i < presetItem.length; i++){
+                    var presetNum = parseInt(presetItem[i]["position"]) + 1;
+                    var presetName = presetItem[i]["name"];
+                    var optionItem = document.createElement("OPTION");
+                    optionItem.setAttribute("value", presetNum);
+                    if (presetName == "")
+                        optionItem.innerHTML = a_10024 + presetNum;
+                    else
+                        optionItem.innerHTML = a_10024 + presetNum + "(" + presetName + ")";
+                    $("#initposition").append(optionItem);
+                }
+                $("#initposition").resetSS({ddMaxHeight:'200px'});
+            }
         }
     }else{
         var msgs = res_parse_rawtext(data);
@@ -501,30 +496,6 @@ function translate_device(){
     $("#a_speedfast").text("16("+a_16241+")");
     $("#initposition option:eq(0)").text(a_17026);
     $("#initposition option:eq(1)").text(a_17027);
-    $("#initposition option:eq(2)").text(a_10024+" 1");
-    $("#initposition option:eq(3)").text(a_10024+" 2");
-    $("#initposition option:eq(4)").text(a_10024+" 3");
-    $("#initposition option:eq(5)").text(a_10024+" 4");
-    $("#initposition option:eq(6)").text(a_10024+" 5");
-    $("#initposition option:eq(7)").text(a_10024+" 6");
-    $("#initposition option:eq(8)").text(a_10024+" 7");
-    $("#initposition option:eq(9)").text(a_10024+" 8");
-    $("#initposition option:eq(10)").text(a_10024+" 9");
-    $("#initposition option:eq(11)").text(a_10024+" 10");
-    $("#initposition option:eq(12)").text(a_10024+" 11");
-    $("#initposition option:eq(13)").text(a_10024+" 12");
-    $("#initposition option:eq(14)").text(a_10024+" 13");
-    $("#initposition option:eq(15)").text(a_10024+" 14");
-    $("#initposition option:eq(16)").text(a_10024+" 15");
-    $("#initposition option:eq(17)").text(a_10024+" 16");
-    $("#initposition option:eq(18)").text(a_10024+" 17");
-    $("#initposition option:eq(19)").text(a_10024+" 18");
-    $("#initposition option:eq(20)").text(a_10024+" 19");
-    $("#initposition option:eq(21)").text(a_10024+" 20");
-    $("#initposition option:eq(22)").text(a_10024+" 21");
-    $("#initposition option:eq(23)").text(a_10024+" 22");
-    $("#initposition option:eq(24)").text(a_10024+" 23");
-    $("#initposition option:eq(25)").text(a_10024+" 24");
     $("#a_save").text(a_17);
     $("#a_cancel").text(a_3);
     $("#a_HDMIoutresolution").text(a_19341);

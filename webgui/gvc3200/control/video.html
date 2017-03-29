@@ -185,7 +185,7 @@ function cb_get_action_done(data, action){
         }
         else if( action == "getpresetinfo&region=control" ){
             var tObj = eval("(" + data + ")");
-            if( tObj.Response == "success" ){                
+            if( tObj.Response == "success" ){
                 var presetItem = tObj.Data;
                 for(var i = 0; i < presetItem.length; i++){
                     var presetNum = presetItem[i]["position"];
@@ -196,23 +196,21 @@ function cb_get_action_done(data, action){
                             presetName = String( presetName).substring(0,7) + ".";
                         $("#presetnum" + presetNum).html( (parseInt(presetNum)+1) + ". " + presetName );
                     }
-                    if(presetNum < 25){
-                        imgBG.className = "imagebg";
-                        imgBG.id = "imagebg"+presetNum;
-                        imgBG.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();
-                        var img = document.createElement('IMG');
-                        img.id = "presetimg" + presetNum;
-                        img.setAttribute("presetid",presetNum);
-                        img.className = "presetimg";
-                        img.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();                   
-                        $("#presetdiv" + presetNum).append(img);
-                        $("#presetdiv" + presetNum).append(imgBG);
-                        $("#presetdiv" + presetNum).attr("class", 'imgdiv hasset');
-                        $("#presetnum" + presetNum).attr("class", 'hasIMG');
-                        $("#presetimgdiv" + presetNum).attr("class", 'hasimg');
-                        $(".presetimg").css("display","none");
-                        $(".imagebg").css("display","block");
-                    }
+                    imgBG.className = "imagebg";
+                    imgBG.id = "imagebg"+presetNum;
+                    imgBG.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();
+                    var img = document.createElement('IMG');
+                    img.id = "presetimg" + presetNum;
+                    img.setAttribute("presetid",presetNum);
+                    img.className = "presetimg";
+                    img.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();                   
+                    $("#presetdiv" + presetNum).append(img);
+                    $("#presetdiv" + presetNum).append(imgBG);
+                    $("#presetdiv" + presetNum).attr("class", 'imgdiv hasset');
+                    $("#presetnum" + presetNum).attr("class", 'hasIMG');
+                    $("#presetimgdiv" + presetNum).attr("class", 'hasimg');
+                    $(".presetimg").css("display","none");
+                    $(".imagebg").css("display","block");
                 }
             }
         }
