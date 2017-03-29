@@ -3084,6 +3084,65 @@ static int handle_ptzctrl(buffer *b, const struct message *m)
     }
 }
 
+static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const struct message *m){
+    sqlite3 *db;
+    int rc;
+    char * errmsg = NULL;
+    char *temp = NULL;
+    int len;
+    int num = 0;
+    int positionid;
+    char *presetname = NULL;
+    sqlite3_stmt *stmt;
+
+    rc = sqlite3_open("/data/data/com.base.module.preset/databases/preset.db", &db);
+    if( rc ){
+        printf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        buffer_append_string(b, "0");
+        return 0;
+    }
+    temp = malloc( 128 );
+    memset(temp, 0, 128);
+
+    snprintf(temp, 128, "select id, preset_name from preset;");
+    rc= sqlite3_prepare_v2(db, temp, strlen(temp), &stmt,0);
+    if( rc ){
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        buffer_append_string(b,"{\"Response\":\"Failed\"}");
+        return -1;
+    }
+    
+    buffer_append_string(b, "{\"Response\": \"success\",\"Data\":[");
+    while(sqlite3_step(stmt)==SQLITE_ROW ) {
+        positionid = sqlite3_column_int(stmt, 0);
+        presetname = (char *)sqlite3_column_text(stmt, 1);
+        if(presetname == NULL)
+            presetname = "";
+        else
+            json_handle(presetname);
+        
+        len = strlen(presetname) + 128;
+        temp = malloc(len);
+        memset(temp,0,len);
+        if(!num)
+            snprintf(temp, len, "{\"position\":\"%d\",\"name\":\"%s\"}", positionid, presetname);
+        else
+            snprintf(temp, len, ",{\"position\":\"%d\",\"name\":\"%s\"}", positionid, presetname);
+        
+        buffer_append_string(b, temp);
+        free(temp);
+        num++;
+    }
+
+    buffer_append_string(b, "]}");
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return 0;
+}
+
 static int handle_setvolume(server *srv, connection *con, buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20835,7 +20894,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 if (!strcasecmp(action, "getaudioinfo")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getAudioInfo");
                 } else if (!strcasecmp(action, "getpresetinfo")) {
-                    handle_callservice_by_no_param(srv, con, b, m, "getPresetInfo");
+                    handle_getpresetinfo(srv, con, b, m);
                 } else if (!strcasecmp(action, "setvolume")) {
                     handle_setvolume(srv, con, b, m);
                 } else if (!strcasecmp(action, "ptzctrl")) {

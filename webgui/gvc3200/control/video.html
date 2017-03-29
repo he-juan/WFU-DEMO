@@ -50,7 +50,7 @@ fieldset div div.zoombtn{width:55px;height:40px;text-align: center;display:inlin
 .imgdiv:hover{cursor:pointer;}
 .imagebg{position:absolute;z-index:0;top:0px;left:0px;width:100%;height:100%;border:none;display:none;}
 .imgdiv span{width:20px;height:20px;line-height:20px;font-size:14px;font-weight:bold;text-align:center;margin-left:8px;}
-.imgdiv span.hasIMG{width:20px;height:20px;line-height:20px;border-radius: 50px;border:0px;color:#FFFFFF;background:#219BF2;position:relative;left:5px;top:5px;margin-top:0;float:left;margin-left:0;z-index:2;opacity:0.8;font-weight:normal;}
+.imgdiv span.hasIMG{min-width:20px;width:auto;height:20px;line-height:20px;border:0px;color:#FFFFFF;background:#219BF2;position:relative;margin-top:0;float:left;margin-left:0;z-index:2;opacity:0.8;font-weight:normal;}
 .imgdiv span.noIMG{width:30px;height:30px;line-height:30px;border-radius: 50px;border:1px solid #666666;color:#666666;background:transparent;position:relative;left:50%;top:50%;margin-top:-15px;float: left;margin-left:-15px;background-color:#FFFFFF;}
 .hasimg{background:url("../img/control_all.png") -29px -81px no-repeat;width:29px;height:19px;position:relative;top: 50%;right:12px;margin:-9px 0 0 0px;border:0;float: right;}
 .noimg{background:none;width:18px;height:18px;position:relative;top: 50%;right:18px;margin:-9px 0 0 0;border:0;float: right;}
@@ -153,7 +153,8 @@ var mPressedDown = 0;
 
 $(function(){
     setInitState();
-    pageEventActions();
+    pageEventActions();   
+    cb_get_action("getpresetinfo&region=control");
 });
 function get_item_suc_callback(){
     
@@ -171,31 +172,8 @@ function setInitState(){
         idspan.className = "noIMG";
         idspan.innerHTML = (i + 1);
         imgdiv.appendChild(idspan);
-        var imgBG = document.createElement('IMG');
-        imgBG.className = "imagebg";
-        imgBG.id = "imagebg"+i;
-        imgBG.src = '/com.base.module.preset/' + i + '.jpg?' + new Date().getTime();
-        var img = document.createElement('IMG');
-        img.id = "presetimg" + i;
-        img.setAttribute("presetid",i);
-        img.className = "presetimg";
-        img.src = '/com.base.module.preset/' + i + '.jpg?' + new Date().getTime();
-        /*img.onerror = function(){
-            console.log("error" + img.id);
-            img.src = '';
-            img.onerror = null;
-        };*/
-        imgdiv.appendChild(img);
-        imgdiv.appendChild(imgBG);
         presetDivObj.appendChild(imgdiv);
     }
-    $(".presetimg").load(function(){
-        var presetid = $(this).attr("presetid");
-        $("#presetdiv" + presetid).attr("class", 'imgdiv hasset');
-        $("#presetnum" + presetid).attr("class", 'hasIMG');
-        $("#presetimgdiv" + presetid).attr("class", 'hasimg');
-        $("#presetdiv" + presetid).children(".imagebg").show();
-    });
     $(".presetimg").hide();
     $("#a_save,#a_delete").attr("disabled","disabled").addClass("disabledclass");
 }
@@ -204,6 +182,39 @@ function cb_get_action_done(data, action){
         if( action.indexOf("type=gotopreset" ) != "-1" ){
             clearTimeout(mUpdatePosTimer);
             mUpdatePosTimer = setTimeout("cb_update_position();", 3000);
+        }
+        else if( action == "getpresetinfo&region=control" ){
+            var tObj = eval("(" + data + ")");
+            if( tObj.Response == "success" ){                
+                var presetItem = tObj.Data;
+                for(var i = 0; i < presetItem.length; i++){
+                    var presetNum = presetItem[i]["position"];
+                    var presetName = presetItem[i]["name"];
+                    var imgBG = document.createElement('IMG');
+                    if(presetName != "" && presetName != undefined){
+                         if(presetName.length > 7)
+                            presetName = String( presetName).substring(0,7) + ".";
+                        $("#presetnum" + presetNum).html( (parseInt(presetNum)+1) + ". " + presetName );
+                    }
+                    if(presetNum < 25){
+                        imgBG.className = "imagebg";
+                        imgBG.id = "imagebg"+presetNum;
+                        imgBG.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();
+                        var img = document.createElement('IMG');
+                        img.id = "presetimg" + presetNum;
+                        img.setAttribute("presetid",presetNum);
+                        img.className = "presetimg";
+                        img.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();                   
+                        $("#presetdiv" + presetNum).append(img);
+                        $("#presetdiv" + presetNum).append(imgBG);
+                        $("#presetdiv" + presetNum).attr("class", 'imgdiv hasset');
+                        $("#presetnum" + presetNum).attr("class", 'hasIMG');
+                        $("#presetimgdiv" + presetNum).attr("class", 'hasimg');
+                        $(".presetimg").css("display","none");
+                        $(".imagebg").css("display","block");
+                    }
+                }
+            }
         }
         return;
     }
@@ -218,12 +229,23 @@ function cb_get_action_done(data, action){
     else {
         if( action.indexOf("setpreset&region=control&type=add") != -1 ){
             var selpos = $(".imgdiv[choose=1]").attr("preset");
-            var datatime = new Date().getTime();
             $("#presetdiv" + selpos).removeClass("noset").removeClass("presetselect").removeClass("hassetpresetselect").addClass("hasset");
+            if ( $("#presetimg" + selpos).length == 0){
+                var imgBG = document.createElement('IMG');
+                imgBG.className = "imagebg";
+                imgBG.id = "imagebg"+selpos;
+                imgBG.src = '/com.base.module.preset/' + selpos + '.jpg?' + new Date().getTime();
+                var img = document.createElement('IMG');
+                img.id = "presetimg" + selpos;
+                img.setAttribute("presetid",selpos);
+                img.className = "presetimg";
+                img.src = '/com.base.module.preset/' + selpos + '.jpg?' + new Date().getTime();
+                $("#presetdiv" + selpos).append(img);
+                $("#presetdiv" + selpos).append(imgBG);
+            }            
             $("#presetnum" + selpos).removeClass("noIMG").addClass("hasIMG");
-            $("#presetimg" + selpos).attr("src", "/com.base.module.preset/" + selpos + ".jpg?" + datatime);
-            $("#imagebg" + selpos).attr("src", "/com.base.module.preset/" + selpos + ".jpg?" + datatime).show();
-            $("#presetimgdiv" + selpos).removeClass("noimg").addClass("hasimg");
+            $(".presetimg").css("display","none");
+            $(".imagebg").css("display","block");
             $("#presetdiv" + selpos).children().removeClass("spanselect").removeClass("imgselect").removeClass("hassetspanselect").removeClass("hassetimgselect");
             $("#a_save,#a_delete").attr("disabled","disabled").addClass("disabledclass");
             window.parent.unblock_func();  
@@ -232,11 +254,12 @@ function cb_get_action_done(data, action){
             $("#presetdiv" + selpos).removeClass("hasset").removeClass("presetselect").removeClass("hassetpresetselect").addClass("noset");
             $("#presetdiv" + selpos).children().removeClass("spanselect").removeClass("imgselect").removeClass("hassetspanselect").removeClass("hassetimgselect");
             $("#presetnum" + selpos).removeClass("hasIMG").addClass("noIMG");
-            $("#presetimg" + selpos).attr("src", "");
-            $("#imagebg" + selpos).attr("src", "").hide();
+            $("#presetimg" + selpos).remove();
+            $("#imagebg" + selpos).remove();
             $("#presetimgdiv" + selpos).removeClass("hasimg").addClass("noimg");
             $("#a_save,#a_delete").attr("disabled","disabled").addClass("disabledclass");
             $("#selectedmask").hide();
+            $("#presetnum" + selpos).text(parseInt(selpos) + 1);
             window.parent.unblock_func();
         }else if( action.indexOf("ptzctrl&region=control") != -1 ){
             clearTimeout(mUpdatePosTimer);
