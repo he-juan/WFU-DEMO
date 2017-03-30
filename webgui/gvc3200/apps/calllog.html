@@ -433,16 +433,18 @@ function create_conf_member_div(id, type, isvideo, disname, number, acctid, date
         numbertopdiv.appendChild(membertimetext);
         membernumberdiv.appendChild(numbertopdiv);
         
-        var numberbotdiv = document.createElement('DIV');
-        numberbotdiv.className='itemnumbertop';
-        var membernumbertext = document.createElement('SPAN');
-        if(type == 3)
-            membernumbertext.innerHTML = a_16401;
-        else
-            membernumbertext.innerHTML = htmlEncode(convertDuration2(duration));
-        numberbotdiv.appendChild(membernumbertext);
-        membernumberdiv.appendChild(numberbotdiv);
-        
+        if(acctid != 1 || duration != 0){
+            var numberbotdiv = document.createElement('DIV');
+            numberbotdiv.className='itemnumbertop';
+            var membernumbertext = document.createElement('SPAN');
+            if(type == 3)
+                membernumbertext.innerHTML = a_16401;
+            else
+                membernumbertext.innerHTML = htmlEncode(convertDuration2(duration));
+            numberbotdiv.appendChild(membernumbertext);
+            membernumberdiv.appendChild(numberbotdiv);
+        }
+
         memberitemdiv.appendChild(membernumberdiv);
         mLogItemsdivObj.appendChild(memberitemdiv);
         
@@ -805,6 +807,11 @@ function add_item_event(){
         $(this).addClass("selectItem"); //.siblings(".itemdiv").removeClass("selectItem");
 
         if( $(this).attr("isconf") == "1" ){
+            $(".memberitemdiv[confid=\""+ confid +"\"]").each(function(){
+                if($(this).children(".itemnumber").children(".itemnumbertop").length < 2){
+                    $(this).children(".itemnumber").children(".itemnumbertop").css("margin-top", "10px");
+                }
+            });
             $(".memberitemdiv[confid=" + confid + "]").show();
         }else{
             $(".logitemdiv[number=\"" + disnumber + "\"][account=" + acctid + "]").show();
