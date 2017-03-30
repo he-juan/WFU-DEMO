@@ -130,6 +130,7 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
 .shortselect .selectedTxtDiv, .shortselect .selectedTxt{width:110px !important;}
 .shortselect .newListSelected div, .shortselect ul.newList{width:110px;}
 .cusrepeatdivs{display:none;}
+.nowrap{white-space: nowrap;}
 </style>
 <body id="framebody" class="maintenancebody">
 <div id="mainbody" class="maindiv appmaindiv">
@@ -195,45 +196,16 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
                     <div class="desdiv" id="autoanswerdiv" style="width:250px;"><span id="a_detailautoanswer">Auto Answer for Conference Members</span></div>
                     <div class="contentdiv" style="width:75px;margin-left:14px;"><span id="detailautoanswer"></span></div>
                     <div class="editdiv" style="width:60px;margin-left:10px;"><input id="autoanswer" type="checkbox" /></div>
-                </div>
-                <div class="righttopdiv pincodediv">
-                    <div class="desdiv"><span id="a_confpincode">Conference PIN Code</span></div>
-                    <div class="contentdiv"><span id="showpincode"></span></div>
-                    <div class="editdiv"><input id="confpincode" name="confpincode" type="text" maxlength="10" /></div>
-                </div>
+                </div-->
                 <div class="righttopdiv" id="presetdiv">
                     <div class="desdiv"><span id="a_confpreset">Conference Preset</span></div>
                     <div class="contentdiv"><span id="showpreset"></span></div>
                     <div class="editdiv">
                         <select id="confpreset" name="confpreset">
                             <option value="-1">None</option>
-                            <option value="0">Preset1</option>
-                            <option value="1">Preset2</option>
-                            <option value="2">Preset3</option>
-                            <option value="3">Preset4</option>
-                            <option value="4">Preset5</option>
-                            <option value="5">Preset6</option>
-                            <option value="6">Preset7</option>
-                            <option value="7">Preset8</option>
-                            <option value="8">Preset9</option>
-                            <option value="9">Preset10</option>
-                            <option value="10">Preset11</option>
-                            <option value="11">Preset12</option>
-                            <option value="12">Preset13</option>
-                            <option value="13">Preset14</option>
-                            <option value="14">Preset15</option>
-                            <option value="15">Preset16</option>
-                            <option value="16">Preset17</option>
-                            <option value="17">Preset18</option>
-                            <option value="18">Preset19</option>
-                            <option value="19">Preset20</option>
-                            <option value="20">Preset21</option>
-                            <option value="21">Preset22</option>
-                            <option value="22">Preset23</option>
-                            <option value="23">Preset24</option>
                         </select>
                     </div>
-                </div-->
+                </div>
                 <div class="righttopdiv_hidden" style="display:none;">
                     <div class="desdiv" style="width:295px;"><span id="a_detaildnd">Conference  DND</span></div>
                     <div class="contentdiv" style="width:50px;margin-left:-5px;"><span id="detaildnd"></span></div>
@@ -278,6 +250,11 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
                             <option value="4">Yearly</option>
                         </select>
                     </div>
+                </div>
+                <div class="righttopdiv pincodediv" style="display:none;">
+                    <div class="desdiv"><span id="a_confpincode">Conference PIN Code</span></div>
+                    <div class="contentdiv"><span id="showpincode"></span></div>
+                    <div class="editdiv"><input id="confpincode" name="confpincode" type="text" maxlength="10" /></div>
                 </div>
                 <div class="righttopdiv cusrepeatdivs">
                     <div class="desdiv"><span id="a_cusinterval">Every Fixed Days</span></div>
@@ -583,6 +560,7 @@ $(function(){
     cb_get_action('status&region=status');
     cb_get_action('getgoogleaccts&region=apps');
     cb_get_action('get&var-0000=2382');
+    cb_get_action("getpresetinfo&region=control");
     get_schedule();
     
     var height = parseInt($("#iframediv",parent.document.body).css('height'));
@@ -680,14 +658,14 @@ function add_item_event(){
         var host = $(this).attr("host");
         if(host == mProStr){
             $(".cloudconf").show();
-            $(".pincodediv").hide();
+            //$(".pincodediv").hide();
             $("#editbtn").hide();
             if( confpstn == "0" ){
                 $("#pstndivs").hide();
             }
         } else {
             $("#editbtn").show();
-            $(".pincodediv").show();
+            //$(".pincodediv").show();
             if( host == "1" && mHasGoogle ){
                 $("#membersdiv .membernumber").hide();
             }else{
@@ -700,11 +678,23 @@ function add_item_event(){
             $("#membersdiv  .membernumber").hide();
         } */
         //$("#membersdiv .membernumber").show();
+        var isipvtconf = false;
         var membernum = 0;
         $(".memberdiv[confid=\"" + mSelectId + "\"]").each(function(){
             membernum++;
+            if($(this).attr("acctindex") == 1)
+                isipvtconf = true;
         });
         $("#showmembernum").text(" ("+membernum+")").show();
+        
+        if(isipvtconf){
+            $(".pincodediv").show();
+        }
+        else{
+            $("#confpincode").text("");
+            $(".pincodediv").hide();
+        }
+        
         $(".noscheudlediv, .cusrepeatdivs").hide();
         if( isinvite != "" ){
             $("#editbtn").hide();
@@ -833,6 +823,19 @@ function cb_get_action_done(data, action) {
             }
             else{
                 $.prompt(a_63);
+            }
+        }
+        else if(action.indexOf("getpresetinfo") != -1){
+            var tObj = eval("(" + data + ")");
+            var items = tObj.Data;
+            for(var i = 0; i < items.length; i++){
+                var position = parseInt(items[i].position);
+                var presetname = items[i].name;
+                if(presetname == "" || presetname == undefined)
+                    var presetoption = "<option value=" + position + ">" + a_10024 + (position + 1) + "</option>";
+                else
+                    var presetoption = "<option value=" + position + ">" + a_10024 + (position + 1) + "(" + presetname + ")"+"</option>";
+                $("#confpreset").append(presetoption);
             }
         }
         else if( action.indexOf("sqliteconf" ) != "-1" ){
@@ -2074,30 +2077,6 @@ function translate_page(){
     $("#a_confpincode").text(a_19133);
     $("#a_confpreset").text(a_15069);
     $("#confpreset option:eq(0)").text(a_15071);
-    $("#confpreset option:eq(1)").text(a_10024+" 1");
-    $("#confpreset option:eq(2)").text(a_10024+" 2");
-    $("#confpreset option:eq(3)").text(a_10024+" 3");
-    $("#confpreset option:eq(4)").text(a_10024+" 4");
-    $("#confpreset option:eq(5)").text(a_10024+" 5");
-    $("#confpreset option:eq(6)").text(a_10024+" 6");
-    $("#confpreset option:eq(7)").text(a_10024+" 7");
-    $("#confpreset option:eq(8)").text(a_10024+" 8");
-    $("#confpreset option:eq(9)").text(a_10024+" 9");
-    $("#confpreset option:eq(10)").text(a_10024+" 10");
-    $("#confpreset option:eq(11)").text(a_10024+" 11");
-    $("#confpreset option:eq(12)").text(a_10024+" 12");
-    $("#confpreset option:eq(13)").text(a_10024+" 13");
-    $("#confpreset option:eq(14)").text(a_10024+" 14");
-    $("#confpreset option:eq(15)").text(a_10024+" 15");
-    $("#confpreset option:eq(16)").text(a_10024+" 16");
-    $("#confpreset option:eq(17)").text(a_10024+" 17");
-    $("#confpreset option:eq(18)").text(a_10024+" 18");
-    $("#confpreset option:eq(19)").text(a_10024+" 19");
-    $("#confpreset option:eq(20)").text(a_10024+" 20");
-    $("#confpreset option:eq(21)").text(a_10024+" 21");
-    $("#confpreset option:eq(22)").text(a_10024+" 22");
-    $("#confpreset option:eq(23)").text(a_10024+" 23");
-    $("#confpreset option:eq(24)").text(a_10024+" 24");
     $("#a_repeat").text(a_15024);
     $("#a_googlestatus").text(a_10060);
     $("#a_cusrepeat").text(a_15025);
@@ -2938,6 +2917,7 @@ function pageEventActions(){
         var confname = $("#itemsdiv .itemdiv.selectItem").attr("name");
         var duration = $("#itemsdiv .itemdiv.selectItem").attr("duration");
         var repeat = $("#itemsdiv .itemdiv.selectItem").attr("repeat");
+        var preset = $("#itemsdiv .itemdiv.selectItem").attr("preset");
         mRepeatRule = $("#itemsdiv .itemdiv.selectItem").attr("repeatrule");
         var schtime = $("#detailtime").text();
         var endtime = convertEndTime(schtime,duration);
@@ -2980,7 +2960,7 @@ function pageEventActions(){
             $("#repeat").sSelect();
         }
         if( $("#presetdiv").children(".editdiv").children(".newListSelected").length == 0 ){
-            $("#confpreset").sSelect({ddMaxHeight:'250px'});
+            $("#confpreset").sSelect({ddMaxHeight:'250px', containerClass:'nowrap'});
         }
         if( repeat == "7" ){
             mCustomRepeatRule = mRepeatRule;
@@ -2988,6 +2968,7 @@ function pageEventActions(){
             mCustomRepeatRule = "";
         }
         $("#repeat").getSetSSValue( repeat );
+        $("#confpreset").getSetSSValue( preset );
         //change_repeat_type();
     });
 
@@ -3274,6 +3255,14 @@ function pageEventActions(){
         if( !mHasGoogle ){
             $("#googleacctdiv").hide();
         }
+            
+        if(mExistipvt){
+            $(".pincodediv").show();
+        }
+        else{
+            $("#confpincode").text("");
+            $(".pincodediv").hide();
+        }
         $("#allcontactsdiv, #searchdiv, #changemembercancelbtn, .cloudconf").hide();
         $("#savebtn,#cancelbtn").show();
         $("#membersdiv .memberdiv[isexist=1][isdelete=0]").show();
@@ -3288,6 +3277,15 @@ function pageEventActions(){
         if( !mHasGoogle ){
             $("#googleacctdiv").hide();
         }
+        
+        if(mExistipvt){
+            $(".pincodediv").show();
+        }
+        else{
+            $("#confpincode").text("");
+            $(".pincodediv").hide();
+        }
+        
         $("#savebtn,#cancelbtn").show();
         $("#membersdiv .memberdiv[isexist=1][isdelete=0]").show();
         change_repeat_type(0);
@@ -3342,6 +3340,7 @@ function pageEventActions(){
         }
         $("#persondiv,#rightbtn").show();
         $("#responsediv").hide();
+        $(".pincodediv").hide();
         if( mHasGoogle ){
             $("#membersdiv .membernumber").hide();
             $("#googleacctdiv, .memberemail").show();
@@ -3359,7 +3358,8 @@ function pageEventActions(){
             $("#repeat").sSelect();
         }
         if( $("#presetdiv").children(".editdiv").children(".newListSelected").length == 0 ){
-            $("#confpreset").sSelect({ddMaxHeight:'250px'});
+            $("#confpreset").sSelect({ddMaxHeight:'250px', containerClass:'nowrap'});
+            
         }
         mCustomRepeatRule = "";
         $("#repeat").getSetSSValue("0");
@@ -4086,11 +4086,11 @@ function pageEventActions(){
         //     $.prompt(a_16654);
         //     return false;
         // }
-        /*if(!durationreg.test(pincode))
+        if(!durationreg.test(pincode))
         {
             $.prompt(a_16709);
             return false;
-        }*/
+        }
         if( durations <= 0 ){
             $.prompt(a_16708);
             return false;

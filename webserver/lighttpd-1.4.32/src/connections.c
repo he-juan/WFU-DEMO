@@ -16463,6 +16463,9 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
         {
             recordfrom = "";
         }
+        else{
+            uri_decode((char*)recordfrom);
+        }
         
         preset = msg_get_header(m, "preset");
         if ( preset == NULL )
