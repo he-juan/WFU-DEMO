@@ -3092,6 +3092,8 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
     int len;
     int num = 0;
     int positionid;
+    int pan, titl, zoom, focus;
+    char *cmrparam = NULL;
     char *presetname = NULL;
     sqlite3_stmt *stmt;
 
@@ -3105,7 +3107,7 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
     temp = malloc( 128 );
     memset(temp, 0, 128);
 
-    snprintf(temp, 128, "select id, preset_name from preset where id < 24;");
+    snprintf(temp, 128, "select * from preset;");
     rc= sqlite3_prepare_v2(db, temp, strlen(temp), &stmt,0);
     if( rc ){
         printf("Can't open statement: %s\n", sqlite3_errmsg(db));
@@ -3118,7 +3120,16 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
     buffer_append_string(b, "{\"Response\": \"success\",\"Data\":[");
     while(sqlite3_step(stmt)==SQLITE_ROW ) {
         positionid = sqlite3_column_int(stmt, 0);
-        presetname = (char *)sqlite3_column_text(stmt, 1);
+        pan = sqlite3_column_int(stmt, 1);
+        titl = sqlite3_column_int(stmt, 2);
+        zoom = sqlite3_column_int(stmt, 3);
+        focus = sqlite3_column_int(stmt, 4);
+        presetname = (char *)sqlite3_column_text(stmt, 6);
+        
+        cmrparam = malloc(32);
+        memset(cmrparam, 0, 32);
+        snprintf(cmrparam, 32, "%d,%d,%d,%d", pan, titl, zoom, focus);
+        
         if(presetname == NULL)
             presetname = "";
         else
@@ -3128,9 +3139,9 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
         temp = malloc(len);
         memset(temp,0,len);
         if(!num)
-            snprintf(temp, len, "{\"position\":\"%d\",\"name\":\"%s\"}", positionid, presetname);
+            snprintf(temp, len, "{\"position\":\"%d\",\"name\":\"%s\",\"cmrparam\":\"%s\"}", positionid, presetname, cmrparam);
         else
-            snprintf(temp, len, ",{\"position\":\"%d\",\"name\":\"%s\"}", positionid, presetname);
+            snprintf(temp, len, ",{\"position\":\"%d\",\"name\":\"%s\",\"cmrparam\":\"%s\"}", positionid, presetname, cmrparam);
         
         buffer_append_string(b, temp);
         free(temp);

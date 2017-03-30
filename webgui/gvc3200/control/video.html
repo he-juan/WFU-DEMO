@@ -50,7 +50,7 @@ fieldset div div.zoombtn{width:55px;height:40px;text-align: center;display:inlin
 .imgdiv:hover{cursor:pointer;}
 .imagebg{position:absolute;z-index:0;top:0px;left:0px;width:100%;height:100%;border:none;display:none;}
 .imgdiv span{width:20px;height:20px;line-height:20px;font-size:14px;font-weight:bold;text-align:center;margin-left:8px;}
-.imgdiv span.hasIMG{min-width:20px;width:auto;height:20px;line-height:20px;border:0px;color:#FFFFFF;background:#219BF2;position:relative;margin-top:0;float:left;margin-left:0;z-index:2;opacity:0.8;font-weight:normal;}
+.imgdiv span.hasIMG{min-width:20px;max-width:75px;width:auto;height:20px;line-height:20px;border:0px;color:#FFFFFF;background:#219BF2;position:relative;margin-top:0;float:left;margin-left:0;z-index:2;opacity:0.8;font-weight:normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .imgdiv span.noIMG{width:30px;height:30px;line-height:30px;border-radius: 50px;border:1px solid #666666;color:#666666;background:transparent;position:relative;left:50%;top:50%;margin-top:-15px;float: left;margin-left:-15px;background-color:#FFFFFF;}
 .hasimg{background:url("../img/control_all.png") -29px -81px no-repeat;width:29px;height:19px;position:relative;top: 50%;right:12px;margin:-9px 0 0 0px;border:0;float: right;}
 .noimg{background:none;width:18px;height:18px;position:relative;top: 50%;right:18px;margin:-9px 0 0 0;border:0;float: right;}
@@ -189,28 +189,28 @@ function cb_get_action_done(data, action){
                 var presetItem = tObj.Data;
                 for(var i = 0; i < presetItem.length; i++){
                     var presetNum = presetItem[i]["position"];
-                    var presetName = presetItem[i]["name"];
-                    var imgBG = document.createElement('IMG');
-                    if(presetName != "" && presetName != undefined){
-                         if(presetName.length > 7)
-                            presetName = String( presetName).substring(0,7) + ".";
-                        $("#presetnum" + presetNum).html( (parseInt(presetNum)+1) + ". " + presetName );
+                    if(presetNum < 24){
+                        var presetName = presetItem[i]["name"];
+                        var imgBG = document.createElement('IMG');
+                        if(presetName != "" && presetName != undefined){
+                            $("#presetnum" + presetNum).html( (parseInt(presetNum)+1) + ". " + presetName );
+                        }
+                        imgBG.className = "imagebg";
+                        imgBG.id = "imagebg"+presetNum;
+                        imgBG.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();
+                        var img = document.createElement('IMG');
+                        img.id = "presetimg" + presetNum;
+                        img.setAttribute("presetid",presetNum);
+                        img.className = "presetimg";
+                        img.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();                   
+                        $("#presetdiv" + presetNum).append(img);
+                        $("#presetdiv" + presetNum).append(imgBG);
+                        $("#presetdiv" + presetNum).attr("class", 'imgdiv hasset');
+                        $("#presetnum" + presetNum).attr("class", 'hasIMG');
+                        $("#presetimgdiv" + presetNum).attr("class", 'hasimg');
+                        $(".presetimg").css("display","none");
+                        $(".imagebg").css("display","block");
                     }
-                    imgBG.className = "imagebg";
-                    imgBG.id = "imagebg"+presetNum;
-                    imgBG.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();
-                    var img = document.createElement('IMG');
-                    img.id = "presetimg" + presetNum;
-                    img.setAttribute("presetid",presetNum);
-                    img.className = "presetimg";
-                    img.src = '/com.base.module.preset/' + presetNum + '.jpg?' + new Date().getTime();                   
-                    $("#presetdiv" + presetNum).append(img);
-                    $("#presetdiv" + presetNum).append(imgBG);
-                    $("#presetdiv" + presetNum).attr("class", 'imgdiv hasset');
-                    $("#presetnum" + presetNum).attr("class", 'hasIMG');
-                    $("#presetimgdiv" + presetNum).attr("class", 'hasimg');
-                    $(".presetimg").css("display","none");
-                    $(".imagebg").css("display","block");
                 }
             }
         }

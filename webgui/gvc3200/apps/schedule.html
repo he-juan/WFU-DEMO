@@ -830,12 +830,14 @@ function cb_get_action_done(data, action) {
             var items = tObj.Data;
             for(var i = 0; i < items.length; i++){
                 var position = parseInt(items[i].position);
-                var presetname = items[i].name;
-                if(presetname == "" || presetname == undefined)
-                    var presetoption = "<option value=" + position + ">" + a_10024 + (position + 1) + "</option>";
-                else
-                    var presetoption = "<option value=" + position + ">" + a_10024 + (position + 1) + "(" + presetname + ")"+"</option>";
-                $("#confpreset").append(presetoption);
+                if(position < 24){
+                    var presetname = items[i].name;
+                    if(presetname == "" || presetname == undefined)
+                        var presetoption = "<option value=" + position + ">" + a_10024 + (position + 1) + "</option>";
+                    else
+                        var presetoption = "<option value=" + position + ">" + a_10024 + (position + 1) + "(" + presetname + ")"+"</option>";
+                    $("#confpreset").append(presetoption);
+                }
             }
         }
         else if( action.indexOf("sqliteconf" ) != "-1" ){
