@@ -1172,7 +1172,7 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isdialplan, isipcall,
 		return false;
 	}
 	
-	if(mAcctStatus != undefined){
+	if(typeof(mAcctStatus) != "undefined"){
 		var acctname = ['SIP', 'IPVT', 'BlueJeans', "", "", "", 'H.323'];
 		var tempacct = dialacct;
 		if(dialacct == 8)
@@ -1299,6 +1299,9 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
         var maxlinenum = parseInt($("#maxlinenum",window.parent.document).val());
         if(busylinenum >= maxlinenum)
             flag = false;
+		
+		if($(".remoteline").attr("account") == 1 && maxlinenum == 1)
+			flag = true;
     }
     if(!flag)
     {
@@ -1333,7 +1336,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
 		return false;
 	}
 
-	if(mAcctStatus != undefined){
+	if(typeof(mAcctStatus) != "undefined"){
 		var acctname = ['SIP', 'IPVT', 'BlueJeans', "", "", "", 'H.323'];
 		var tempacct = accounts;
 		if(accounts == 8)
@@ -1436,7 +1439,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
     if(callmode == undefined || callmode == "")
         callmode = "call";
         
-    var disableIPVT = parseInt($("#disableipvt",window.parent.document).val());
+    /*var disableIPVT = parseInt($("#disableipvt",window.parent.document).val());
     if( disableIPVT ){
         var dialnum = "", dialacct = "";
         var numbersarray = numbers.split(":::");
@@ -1457,7 +1460,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
         }
         numbers = dialnum;
         accounts = dialacct;
-    }
+    }*/
     
     urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo + "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan + "&confname=" + confname;
     cb_originate_call(urihead,numbers, accounts);

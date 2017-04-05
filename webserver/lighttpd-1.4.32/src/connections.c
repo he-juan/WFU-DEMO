@@ -21317,6 +21317,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if (!strcasecmp(action, "getIPVConfInfo")){
                     handle_callservice_by_one_param(srv, con, b, m, "line", "getIPVConfInfo", 0);
                 }
+                else if (!strcasecmp(action, "getIPVRole")){
+                    handle_callservice_by_one_param(srv, con, b, m, "line", "getIPVRole", 0);
+                }
                 else if (!strcasecmp(action, "isFECCEnable")){
                     handle_callservice_by_one_param(srv, con, b, m,"line","isFECCEnable",0);
                 }

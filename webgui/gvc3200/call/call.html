@@ -417,12 +417,6 @@ function updateMaxlineNumber(line, hasIPV){
             mMaxlineNum ++;
         }
         mHasIPVNumber = 1;
-    }else if(mHasIPVNumber == 1){
-        if( mPromodel == "GVC3202" ){
-            mMaxlineNum = mMaxNumber - parseInt(line);
-        }else{
-            mMaxlineNum = mMaxNumber - 1 - parseInt(line);
-        }
     }else{
         mMaxlineNum = mMaxNumber - parseInt(line);
     }
@@ -437,6 +431,7 @@ function updateMaxlineNumber(line, hasIPV){
     }else if( mEnableIPVT == 1 ){
         mDisableIPVT = 0;
         $("#acct2state").show();
+        $(".accountstate:visible").eq(0).click();
     }
     $("#membermaxnum").text(mMaxlineNum);
 }
@@ -1213,12 +1208,14 @@ function cb_get_status_done(msgs) {
         }
         if( mDisableIPVT ){
             $("#acct2state").hide();
-        }else{
+        }else
+        {
             $("#acct2state").show();
             if( selacct == -1 )
                 selacct = 1;
-            }
-        
+        }
+        if(mOEMID == 54)
+            $("#acct2state").hide();
     }else{
         mEnableIPVT = 0;
         $("#acct2state").hide();

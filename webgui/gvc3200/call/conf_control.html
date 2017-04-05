@@ -1133,6 +1133,7 @@ var mHdmi2state = 0;
 var mHdmiModeContent = new Array();
 var mIsSysrcmd = 0; /*judge layout mode is system recommand mode or not*/
 var mIsSysrcmdBefore = 0;
+var mConfrole;  //0-normal 1-guest 2-host
 
 var req_items = new Array;
 req_items.push(
@@ -1758,7 +1759,9 @@ function handle_callmessage(data,obj_incominginfo)
             }
             if(mConfmemeber_num >=mConfmemeber_maxnum)
             {
-                $("#addmember,#addnewcall").attr("disabled","disabled");
+                if(!hasIPVNumber())
+                    $("#addmember").attr("disabled", "disabled");
+                $("#addnewcall").attr("disabled","disabled");
             }
             /*if(mDisableconf == "0")
             {
@@ -1961,7 +1964,9 @@ function init_conference(data)
             }
             if(mConfmemeber_num >=mConfmemeber_maxnum)
             {
-                $("#addmember,#addnewcall").attr("disabled","disabled");
+                if(!hasIPVNumber())
+                    $("#addmember").attr("disabled", "disabled");
+                $("#addnewcall").attr("disabled","disabled");
             }
             if(data.oldstate != 5)
                 handle_holdstate(data);
@@ -2131,11 +2136,8 @@ function hasIPVNumber()
         var acct = $(this).attr("account");
         if(acct == "1")
         {
-            var number = $(this).attr("number");
-            if( number.substring(0,2) == mIPVPrefix ){
-                flag = true;
-                return false;
-            }
+            flag = true;
+            return false;
         }
     });   
     return flag;
@@ -3134,7 +3136,8 @@ function addconflist(data,todivID)
     
     if(mConfmemeber_num >=mConfmemeber_maxnum)
     {
-        $("#addmember").attr("disabled","disabled");
+        if(!hasIPVNumber())
+            $("#addmember").attr("disabled","disabled");
         $("#addnewcall").attr("disabled","disabled");
     }
 
@@ -3228,29 +3231,27 @@ function addconflist(data,todivID)
     //judge line is conference or not when use IPV
     if(account == 1)
     {
-        var ipvConf = num.substring(0,2);
-        if(ipvConf == mIPVPrefix)
-        {
-            if( data.realstate != undefined && data.realstate == "8" ){
-                if( mProduct == "GVC3202" ){
-                    mConfmemeber_maxnum = 2;
-                    mAddmember_maxnum = 2;
-                    $("#hasipvt", window.parent.document).val("0");
-                    $("#maxlinenum",window.parent.document).val('2');
-                }
-            }else{
-                mIsIPVConf = true;
-                if( mProduct == "GVC3202" ){
-                    mConfmemeber_maxnum = 3;
-                    mAddmember_maxnum = 3;
-                    $("#hasipvt", window.parent.document).val("1");
-                    $("#maxlinenum",window.parent.document).val('3');
-                }
+        if( data.realstate != undefined && data.realstate == "8" ){
+            if( mProduct == "GVC3202" ){
+                mConfmemeber_maxnum = 2;
+                mAddmember_maxnum = 2;
+                $("#hasipvt", window.parent.document).val("0");
+                $("#maxlinenum",window.parent.document).val('2');
             }
-            $("#tabs div#line-"+line).find(".confnum").children("span").hide();
-            $("#tabs div#line-"+line).find(".confsuspend").attr("disabled","disabled").addClass("btndisabled");
-            $("#tabs div#line-"+line).find(".confdel").attr("disabled","disabled").addClass("btndisabled");
+        }else{
+            mIsIPVConf = true;
+            if( mProduct == "GVC3202" ){
+                mConfmemeber_maxnum = 3;
+                mAddmember_maxnum = 3;
+                $("#hasipvt", window.parent.document).val("1");
+                $("#maxlinenum",window.parent.document).val('3');
+            }
         }
+        //$("#tabs div#line-"+line).find(".confnum").children("span").hide();
+        //$("#tabs div#line-"+line).find(".confsuspend").attr("disabled","disabled").addClass("btndisabled");
+        //$("#tabs div#line-"+line).find(".confdel").attr("disabled","disabled").addClass("btndisabled");
+        
+        cb_get_action("getipvrole&region=confctrl&line=" + line);
     }
     setBusylinenum();
 }
@@ -3566,26 +3567,7 @@ function get_normal_calllog(flag, logtype)
     //get callhistory, logtype: 0-all, 1-incoming , 2-outgoing, 3-missed
     //flag: 3-latest single log(not in conf, one-way), 2-latest single log(include in conf members), 0-single log by logtype
     var action = "sqlitecontacts&region=apps&type=calllog&flag=" + flag + "&logtype=" + logtype; 
-    cb_get_action(action);
-}
-
-function cb_get_action(action){
-    var urihead = "action=" + action;
-    urihead += "&time=" + new Date().getTime();
-    $.ajax ({
-        type: 'get',
-        url:'/manager',
-        data:urihead,
-        dataType:'text',
-        async:false,
-        success:function(data) {
-            cb_get_action_done(data, action);
-        },
-        error:function(xmlHttpRequest, errorThrown) {
-            cb_networkerror(xmlHttpRequest, errorThrown);
-        }
-    });
-    window.parent.unblock_func();
+    cb_get_action_sync(action);
 }
 
 function create_member_div(id, disname, number, acctindex, dataid){
@@ -4131,6 +4113,7 @@ function cb_get_action_done(data, action) {
                 }
                 //setaddmember_stat();
             }
+            window.parent.unblock_func();
         }else if(action.indexOf("getcontactsbyorder") != -1 ){
             var tObj = eval("(" + data + ")");
             var items = tObj.Data;
@@ -4139,6 +4122,13 @@ function cb_get_action_done(data, action) {
                 parse_contacts(items); 
                 get_contact_info();
             }   
+        }else if(action.indexOf("getipvrole") != -1){
+            if(data.res == "success"){
+                var tObj = eval("(" + data + ")");
+                if(data.res == "success"){
+                    mConfrole = data.role;
+                }
+            }
         }
     }else
     {
@@ -7060,7 +7050,7 @@ function getHDMIinfo(action, isall)
     });
     return flag;
 }
-/*
+
 function convertTime(date){
     mDateObj.setTime(date);
     var timestr = mDateObj.getFullYear()+"-";
@@ -7084,8 +7074,8 @@ function convertTime(date){
         timestr += "0";
     timestr += minutes;
     return timestr;
-}*/
-/*
+}
+
 function convertDuration(duration){
     if( duration == 0 )
         return "00:00";
@@ -7124,9 +7114,8 @@ function convertDuration(duration){
         timestr += "00";
     }   
     return timestr;
-    
 }
-*/
+
 function countClickedTimes(){  
     if(mClicktimes == 0){  
         mPreClickTime = new Date().getTime();  
@@ -7445,87 +7434,117 @@ function addDragEvent()
 
 function addmember_inputclick(obj)
 {
+    var existIpvt = false;
     $this = obj;
     if( $this.parent().parent().attr("number") == "anonymous")
     {
         $.prompt(a_10083);
         return false;
     }
-    var curacct;
+    
+    var $chosenitemdiv = $this.parent().parent();
+    var existlinenum = $(".remoteline").length;
+    var allowaddmaxnum = mConfmemeber_maxnum - existlinenum;
+    if($chosenitemdiv.attr("class").indexOf("searchnewItem") != -1){
+        var curacct = $("#acctselect option:selected").val();
+    }else{
+        var curacct = $chosenitemdiv.attr("account");
+    }
+    
+    $(".remoteline").each(function(){
+        if($(this).attr("account") == 1){
+            existIpvt = true;
+            return false;
+        }
+    });
+    
+    /*if(existIpvt == false){
+        $(".itemcheck .inputcbx").each(function(){
+            if($(this).prop("checked") == true){
+                var chosentype = $(this).parent().parent().children('.itemtype').children('span').text();
+                if(chosentype == "IPVideoTalk"){
+                    existIpvt = true;
+                    return false;
+                }        
+            }
+        });
+    }*/
+    
     if($this.prop("checked"))
     {
-        curacct = $this.parent().parent().attr("acctindex");
         if( curacct == undefined ){
             curacct = $this.parent().parent().attr("account");
         }
-        curacct = parseInt(curacct);
+        var acctorder = parseInt(curacct);
         if( curacct == 8 )
-            curacct = 3;
-        if( mAccountActive[curacct] == "0" ){
+            var acctorder = 3;
+        if( mAccountActive[acctorder] == "0" ){
             //$this.prop("checked", false);
             $("#addmemberdiv p").text(a_18564);
             setTimeout(function(){$("#addmemberdiv p").text("");},1000);
             return false;
         }
-        if( curacct == 1 && getConfType() == 2 ){
+        /*if( curacct == 1 && getConfType() == 2 ){
             //$this.prop("checked", false);
             $("#addmemberdiv p").text(a_15051);
             setTimeout(function(){$("#addmemberdiv p").text("");},4000);
             return false;
-        }
-        mCheckedmembernum++;
-        //if member is ipvideotalk, max number should reduce 1
+        }*/
+        
+        /*no limit for ipvt account to add conference members*/
+        if(curacct != 1)
+            mCheckedmembernum++;
+        else if(curacct == 1 && !existIpvt)
+            mCheckedmembernum++;
+            
+        $chosenitemdiv.attr("account", curacct);
+        /*if member is ipvideotalk, max number should reduce 1
         if(!mIsreduce && curacct == 1)
         {
             mAddmember_maxnum = mAddmember_maxnum - 1;
             mIsreduce = true;
-        }
+        }*/
     }else
     {
-        mCheckedmembernum--;  
-    }
-    if(!mIsIPVConf)
-    {
-        mAddmember_maxnum = mConfmemeber_maxnum;
-        mIsreduce = false;
-        $(".itemdiv.confdiv .inputcbx").each(function(){
-            //if member is ipvideotalk, max number should reduce 1
-            if($(this).prop("checked"))
-            {
-                if(!mIsreduce)
-                {
-                    curacct = $(this).parent().parent().attr("acctindex");
-                    if( curacct == undefined ){
-                        curacct = $(this).parent().parent().attr("account");
-                    }
-                    if(curacct == "1" && mProduct != "GVC3202"){
-                        mAddmember_maxnum = mAddmember_maxnum - 1;
-                        mIsreduce = true;
-                        return false;
-                    }
-                }
-            }
+        var oldacct;
+        $("#acctselect option").each(function(){
+            if($(this).text() == curchosen)
+                oldacct = $(this).val();
         });
+        
+        /*in case that change the account before uncheck the item*/
+        if(oldacct != undefined){
+            if(oldacct != 1)
+                mCheckedmembernum--;
+            else if(oldacct == 1 && !existIpvt)
+                mCheckedmembernum--;
+        }
+        else{
+            if(curacct != 1)
+                mCheckedmembernum--;
+            else if(curacct == 1 && !existIpvt)
+                mCheckedmembernum--;
+        }
     }
-    
-    $("#search").removeAttr("disabled");
-    $("#search").val(a_4016);
-    $("#bjpassword").val(a_6759);
-    $("#addmemberdiv .itemdiv").show();
-    if((mCheckedmembernum+mConfmemeber_num) >= mAddmember_maxnum)
-    {
-        $("#search").attr("disabled","disabled");
-    }
-    if((mCheckedmembernum+mConfmemeber_num) > mAddmember_maxnum)
+
+    if(mCheckedmembernum > allowaddmaxnum)
     {
         mCheckedmembernum--;
         $("#addmemberdiv p").text(a_10097);
         setTimeout(function(){$("#addmemberdiv p").text("");},1000);
         return false;
     }
-    if($this.prop("checked"))
+    
+    $("#search").removeAttr("disabled");
+    //$("#search").val(a_4016);
+    $("#search").val("");
+    $("#bjpassword").val(a_6759);
+    $("#addmemberdiv .itemdiv").show();
+    
+    if($this.prop("checked")){
         $("#contactsdiv").prepend($this.parent().parent());
-
+    }
+    
     return true;
 }
 
@@ -7710,7 +7729,7 @@ function pageEventActions()
         }
         var conftype = getConfType();
         var count = 0;
-        if( conftype == 2 ){
+        /*if( conftype == 2 ){
             $("#acctselect").empty();
             for(var i = 0; i < 4; i++){
                 if( mAccountActive[i] == "1" && i != 1 ){
@@ -7738,7 +7757,20 @@ function pageEventActions()
                 }
             }
             $("#acctselect").resetSS();
+        }*/
+        $("#acctselect").empty();
+        for(var i = 0; i < 4; i++){
+            if( mAccountActive[i] == "1" ){
+                count ++;
+                var $toneop;
+                if( i == 3 )
+                    $toneopt = $("<option value='8'>" + htmlEncode(mAccountNames[i]) + "</option>");
+                else
+                    $toneopt = $("<option value='" + i + "'>" + htmlEncode(mAccountNames[i]) + "</option>");
+                $('#acctselect').append($toneopt);
+            }
         }
+        $("#acctselect").resetSS();
         $("#acctselect").next(".newListSelected").children(".newList").css("height", count * 26);
         var urihead = "action=get&var-0000=22046";
         urihead += "&time=" + new Date().getTime();
@@ -7753,8 +7785,8 @@ function pageEventActions()
                 var dftacct = msgs.headers["22046"];
                 if(dftacct == "" || dftacct == undefined)
                     dftacct = "0";
-                if( conftype == 2 && dftacct == "1" )
-                    dftacct = "2";
+                //if( conftype == 2 && dftacct == "1" )
+                //    dftacct = "2";
                 $("#acctselect").getSetSSValue(dftacct);
             },
             error:function(xmlHttpRequest, errorThrown) {
@@ -7763,7 +7795,8 @@ function pageEventActions()
         });
         addnewcall_calllog(mCalllogItems);
         setaddmember_stat();
-        $("#search").removeAttr("disabled").val(a_4016);
+        $("#search").removeAttr("disabled");
+        $("#search").attr("placeholder", a_4016);
         $("#bjpassword").removeAttr("disabled").val(a_6759);
         $("#addmemberdiv").find(".titlediv").text(a_517);
         ctrl_show_maskdiv(true);
@@ -7994,8 +8027,8 @@ function pageEventActions()
         var callmode = $("#callmodeselect").val();
         var dialacct = $("#acctselect").val();
         var isvideo = $("#callvideoselect").val();
-        if( dialnum == a_4016 || dialnum == "")
-            dialnum = "";
+        /*if( dialnum == a_4016 || dialnum == "")
+            dialnum = "";*/
         if(dialacct == "2")
         {
             var bjpassword = $("#bjpassword").val();
@@ -8129,8 +8162,11 @@ function pageEventActions()
             var temp = [];
             temp[0] = dialnum;
             temp[1] = dialacct;
-            if( dialacct == 1 && hasIPVT == 0 )
+            if( dialacct == 1 && hasIPVT == 0 ){
+                tempnum++;
                 hasIPVT = 1;
+            }else if( dialacct != 1 )
+                tempnum++;
             delete addconfmember[dialnum];
             addconfmember[dialnum] = temp;
         }
@@ -8141,16 +8177,15 @@ function pageEventActions()
             setTimeout(function(){$("#addmemberdiv p").text("");},1000);
             return false;
         }
-        if( hasIPVT == 1 && !mIsIPVConf && mProduct != "GVC3202" )
+        /*if( hasIPVT == 1 && !mIsIPVConf && mProduct != "GVC3202" )
             tempnum ++;
         if((tempnum+mConfmemeber_num) > mConfmemeber_maxnum)
         {
-            //$("#addmemberdiv p").text("You can add "+(mConfmemeber_maxnum-mConfmemeber_num)+" members at most.");
             $("#addmemberdiv p").text(a_10097);
             setTimeout(function(){$("#addmemberdiv p").text("");},1000);
             //$("#addmember").attr("disabled","disabled");
             return false;
-        }
+        }*/
 
         var confname = "";
         for(var i in addconfmember)
@@ -8773,45 +8808,36 @@ function pageEventActions()
                 });
                 if($(this).prop("checked"))
                 {
-                    mCheckedmembernum++;
+                    if(acct != "1")
+                        mCheckedmembernum++;
+                    else if(acct == "1" && !mIsreduce){
+                        mCheckedmembernum++;
+                        mIsreduce = true;
+                    }
+                        
                     $("#contactsdiv").prepend($parent);
-                    //if member is ipvideotalk, max number should reduce 1
-                    if(!mIsreduce && acct == "1" && (mProduct != "GVC3202" || (mProduct == "GVC3202" && !mIsIPVConf)) )
+                    
+                    /*if(!mIsreduce && acct == "1" && (mProduct != "GVC3202" || (mProduct == "GVC3202" && !mIsIPVConf)) )
                     {
                         mAddmember_maxnum = mAddmember_maxnum - 1;
                         mIsreduce = true;
-                    }
-                }else
-                {
-                    mCheckedmembernum--;
-                    if(!mIsIPVConf)
-                    {
-                        mAddmember_maxnum = mConfmemeber_maxnum;
-                        mIsreduce = false;
-                        $(".itemdiv.confdiv .inputcbx[checked='checked']").each(function(){
-                            //if member is ipvideotalk, max number should reduce 1
-                            if(!mIsreduce && $(this).parent().parent().attr("acctindex") == "1" && mProduct != "GVC3202")
-                            {
-                                mAddmember_maxnum = mAddmember_maxnum - 1;
-                                mIsreduce = true;
-                                return false;
-                            }
-                        });
-                    }
-                }
-                if((mCheckedmembernum+mConfmemeber_num) >= mAddmember_maxnum)
+                    }*/
+                }else{}
+                
+                /*if((mCheckedmembernum+mConfmemeber_num) >= mAddmember_maxnum)
                 {
                     $("#search").attr("disabled","disabled");
-                }
+                }*/
                 if((mCheckedmembernum+mConfmemeber_num) > mAddmember_maxnum)
                 {
                     mCheckedmembernum--;
                     $("#addmemberdiv p").text(a_10097);
                     setTimeout(function(){$("#addmemberdiv p").text("");},1000);
                     $(this).parent().parent().remove();
+                    $("#search").val("");
                     return false;
                 }
-                $("#search").val(a_4016);
+                $("#search").val("");
                 $("#bjpassword").val(a_6759);
                 e.stopPropagation();
             });
@@ -9679,7 +9705,7 @@ function pageEventActions()
         }
     });
 
-    $("#search").focus(function(){
+    /*$("#search").focus(function(){
         if( $(this).val() == a_4016 ){
             $(this).val("").css("color", "#222");
         }
@@ -9687,7 +9713,7 @@ function pageEventActions()
         if( $(this).val() == "" ){
             $(this).val(a_4016).css("color", "#999");
         }
-    });
+    });*/
 
     $(".confblock").live("click",function(){
         if(!countClickedTimes())
