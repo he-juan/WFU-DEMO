@@ -226,6 +226,8 @@ function cb_get_action_done(data, action){
     }   
     else {
         if( action.indexOf("setpreset&region=control&type=add") != -1 ){
+            if(action.indexOf("100") != -1)
+                return false;
             var selpos = $(".imgdiv[choose=1]").attr("preset");
             $("#presetdiv" + selpos).removeClass("noset").removeClass("presetselect").removeClass("hassetpresetselect").addClass("hasset");
             if ( $("#presetimg" + selpos).length == 0){
@@ -286,7 +288,7 @@ function leavepage(){
     }
 }
 function cb_update_position(){
-    cb_get_action("setpreset&region=control&type=updateposition&position=-1"); 
+    cb_get_action("setpreset&region=control&type=add&position=100"); 
     mUpdatePosTimer = 0;  
 }
 function cb_focus(type){
