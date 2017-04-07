@@ -1134,6 +1134,7 @@ var mHdmiModeContent = new Array();
 var mIsSysrcmd = 0; /*judge layout mode is system recommand mode or not*/
 var mIsSysrcmdBefore = 0;
 var mConfrole;  //0-normal 1-guest 2-host
+var promptTxt = "";
 
 var req_items = new Array;
 req_items.push(
@@ -3251,7 +3252,7 @@ function addconflist(data,todivID)
         //$("#tabs div#line-"+line).find(".confsuspend").attr("disabled","disabled").addClass("btndisabled");
         //$("#tabs div#line-"+line).find(".confdel").attr("disabled","disabled").addClass("btndisabled");
         
-        cb_get_action("getipvrole&region=confctrl&line=" + line);
+        cb_get_action("getipvrole&region=confctrl&line=" + line + "&type=init");
     }
     setBusylinenum();
 }
@@ -4123,10 +4124,24 @@ function cb_get_action_done(data, action) {
                 get_contact_info();
             }   
         }else if(action.indexOf("getipvrole") != -1){
-            if(data.res == "success"){
-                var tObj = eval("(" + data + ")");
-                if(data.res == "success"){
-                    mConfrole = data.role;
+            var tObj = eval("(" + data + ")");
+            if(tObj.res == "success"){
+                mConfrole = tObj.role;  //0-normal 1-guest 2-host
+                if(action.indexOf("init") != -1){
+                    //setTimeout(init_handup(), 100);
+                }
+                else if(action.indexOf("closeprompt") != -1){
+                    if(mConfrole == "2")
+                        promptTxt = a_10224;
+                    else if(mConfrole == "1")
+                    {
+                        if($(".remoteline[account=0]").length > 0)
+                            promptTxt = a_19354;
+                        else
+                            promptTxt = a_19357;
+                    }else
+                        promptTxt = a_10103;
+                    cb_end_conf(mConfrole);
                 }
             }
         }
@@ -7634,10 +7649,60 @@ function change_presentation_type(){
     delayshowtip(a_7355);
 }
 function cb_send_endcall_action(line){
-    var urihead = "action=endcall&region=webservice&line="+line;
+    if(mConfrole == "2"){
+        if($("#line-" + line).attr("account") == "1"){
+            var urihead = "action=endcall&region=webservice&line=" + line + "&flag=1";
+        }
+        else{
+            var urihead = "action=endcall&region=webservice&line=" + line + "&flag=0";
+        }
+    }else{
+        var urihead = "action=endcall&region=webservice&line=" + line + "&flag=0";
+    }
+    
     var callfn = "";
     cb_get_confaction(urihead,callfn,true);
 }
+
+function cb_end_conf(role){
+    if(role == "2"){
+        var btnarray = new Array(a_10067, a_10225);
+        alertPrompt($("#wholepage"), promptTxt, btnarray);
+    }else{
+        var txt = '<div>' + promptTxt + '</div>'
+        $.prompt(txt,{
+            buttons:{
+                Yes: true, No: false
+            },
+            callback: function(v,m,f){
+                if (v)
+                {
+                    mIPVConfNumber = "";
+                    $("#tabs ul li").each(function(){
+                        if($(this).attr("aria-selected") == "true")
+                        {
+                            var line = $(this).attr("line");
+                            var callfn = "close_callback('"+line+"');";
+                            if(line == mConfid)
+                            {
+                                callfn = "close_callback('"+mConfid+"');";
+                                var urihead = "action=endconf&region=confctrl&flag=0";
+                                cb_get_confaction(urihead,callfn,true);
+                            }
+                            else
+                            {
+                                var urihead = "action=endallcall&region=confctrl";
+                                cb_get_confaction(urihead,callfn,true);
+                            }
+                            return false;
+                        }
+                    });
+                }
+            }
+        });     
+    }
+}
+
 function pageEventActions()
 {
     var hoverTimer;  
@@ -7841,46 +7906,35 @@ function pageEventActions()
     });
 
     $("#close").click(function(){
-        var txt = '<div>' + a_19340 + '</div>';
-        $.prompt(txt,{
-            buttons:{
-                Yes: true, No: false
-            },
-            callback: function(v,m,f){
-                if (v)
-                {
-                    mIPVConfNumber = "";
-                    $("#tabs ul li").each(function(){
-                        if($(this).attr("aria-selected") == "true")
-                        {
-                            var line = $(this).attr("line");
-                            var callfn = "close_callback('"+line+"');";
-                            if(line == mConfid)
-                            {
-                                callfn = "close_callback('"+mConfid+"');";
-                                var urihead = "action=endconf&region=confctrl";
-                                cb_get_confaction(urihead,callfn,true);
-                            }
-                            else
-                            {
-                                var urihead = "action=endallcall&region=confctrl";
-                                cb_get_confaction(urihead,callfn,true);
-                            }
-                            return false;
-                        }
-                    });
-                }
+        var line;
+        $(".remoteline").each(function(){
+            if($(this).attr("account") == "1"){
+                line = $(this).attr("line");
+                return false;
             }
-        });       
+        });
+        if(line != undefined){
+            cb_get_action("getipvrole&region=confctrl&line=" + line + "&type=closeprompt");
+            return false;
+        }
+        else{
+            promptTxt = a_10103;  //only exists sip call
+            cb_end_conf();
+        }      
     });
-
-  // $(".mute").click(function(e){
-  //   var line = $(this).parent().parent().attr("line");
-  //   var ismute = $(this).attr("ismute");
-  //   var urihead = "action=ctrllinemute&region=confctrl&line="+line+"&setmute="+ismute;
-  //   var callfn = "mutecallback("+e.target+");";
-  //   cb_get_confaction(urihead,callfn);
-  // });
+    
+    $("#btngroup button:eq(0)").live("click", function(){
+        callfn = "close_callback('"+mConfid+"');";
+        var urihead = "action=endconf&region=confctrl&flag=0";
+        cb_get_confaction(urihead, callfn, true);
+        $("#cancelbtn").click();
+    });
+    
+    $("#btngroup button:eq(1)").live("click", function(){
+        var urihead = "action=endconf&region=confctrl&flag=1";
+        cb_get_confaction(urihead, "", true);
+        $("#cancelbtn").click();
+    });
 
     $("#record").click(function(){
         if(!judge_ispause() || !countClickedTimes())

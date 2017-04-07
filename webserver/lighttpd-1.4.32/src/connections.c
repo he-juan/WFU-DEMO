@@ -5165,12 +5165,22 @@ static int handle_endcall(server *srv, connection *con, buffer *b, const struct 
     int lineIndex = -1;
     char res[128] = "";
     char *info = NULL;
+    char *flag = NULL;
+    int iflag;
     
     temp = msg_get_header(m, "line");
     if ( temp  == NULL ) {
         lineIndex = -1;
     } else {
         lineIndex = atoi(temp);
+    }
+    
+    flag = msg_get_header(m, "flag");
+    if( flag == NULL ){
+        iflag = 0;
+    }
+    else{
+        iflag = atoi(flag);
     }
 
     type = DBUS_BUS_SYSTEM;
@@ -5192,6 +5202,12 @@ static int handle_endcall(server *srv, connection *con, buffer *b, const struct 
         dbus_message_iter_init_append( message, &iter );
 
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &lineIndex ) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+        
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &iflag ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
@@ -21213,7 +21229,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_no_param(srv, con, b, m, "isConfOnHold");
                 }
                 else if (!strcasecmp(action, "endconf")){
-                    handle_callservice_by_no_param(srv, con, b, m, "endConf");
+                    handle_callservice_by_one_param(srv, con, b, m, "flag", "endConf", 0);
                 }
                 else if (!strcasecmp(action, "endallcall")){
                     handle_callservice_by_no_param(srv, con, b, m, "endAllCall");
