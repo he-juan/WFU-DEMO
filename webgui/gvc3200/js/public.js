@@ -1338,9 +1338,12 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
 
 	if(typeof(mAcctStatus) != "undefined"){
 		var acctname = ['SIP', 'IPVT', 'BlueJeans', "", "", "", 'H.323'];
-		var tempacct = accounts;
-		if(accounts == 8)
-			tempacct = 6;
+		var tempacct = accounts.split(":::");
+		
+		for(var i = 0, length = tempacct.length; i < length; i++){
+			if(tempacct[i] == 8)
+				tempacct[i] = 6;
+		}
 		
 		var unactive = 0;
 		for(var i = 0; i < mAcctStatus.length; i++){
@@ -1352,15 +1355,19 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
 			return false;
 		}
 		
-		if(!checkIpv4Address(numbers) && !checkDialIPv6(numbers)){
-			if(mAcctStatus[tempacct].activate == 1 && mAcctStatus[tempacct].status == 0){
-				if(tempacct < acctname.length)
-					$.prompt(acctname[tempacct] + a_19375);
-				else
-					$.prompt(a_19375);
-				return false;
+		var tempnumbers = numbers.split(":::");
+		for(var i = 0, length = tempnumbers.length; i < length; i++){
+			if(!checkIpv4Address(tempnumbers[i]) && !checkDialIPv6(tempnumbers[i])){
+				if(mAcctStatus[tempacct[i]].activate == 1 && mAcctStatus[tempacct[i]].status == 0){
+					if(tempacct[i] < acctname.length)
+						$.prompt(acctname[tempacct] + a_19375);
+					else
+						$.prompt(a_19375);
+					return false;
+				}
 			}
 		}
+		
 	}
 
     if( callmode == "ipcall" ){
