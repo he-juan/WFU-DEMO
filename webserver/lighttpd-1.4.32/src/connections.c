@@ -20999,6 +20999,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_one_param(srv, con, b, m, "hdmi", "getCurrentHdmiMode", 1);
                 } else if (!strcasecmp(action, "sethdmioutputmode")) {
                     handle_sethdmioutputmode(srv, con,b, m);
+                } else if (!strcasecmp(action, "gettimeoutopt")) {
+                    handle_callservice_by_no_param(srv, con, b, m, "getPowerTimerPolicy");
+                } else if (!strcasecmp(action, "settimeoutopt")) {
+                    handle_callservice_by_one_param(srv, con, b, m, "type", "setPowerTimerPolicy", 0);
                 } else{
                     findcmd = 0;
                 }

@@ -1117,8 +1117,10 @@ tip_item.push (
 		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
     
 	/*Configuración de Sitio*/
+	new TipsDef("Timeout Operation",
+		"Set the timeout  options, optional for into sleep mode and shut down, the default value is \"Enter sleep mode\"."),
     new TipsDef("Enter Sleep Mode",
-        "Especifica el periodo antes de que el dispositivo entre al modo de descanso si no operación ejecutada.<br> Si se fija \"Nunca\",  el dispositivo nunca entrará en modo de descanso automáticamente. El valor por defecto es \"Después de 30 Minutos\"."),
+        "According  timeout  option to set the timeout , if the time is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
     new TipsDef("Site Name",
         "Especifica el nombre de sitio a ser impuesto sobre el vídeo del vídeo local. Cuando se una a una conferencia multi punto, este nombre de sitio es mostrado en el vídeo de los otros participantes.<br>El valor por defecto es nulo.<br>No use algún caracter especial en este nombre de sitio, tales como dos puntos (:), coma (,), guion (-), o subrayar (_)."),
     new TipsDef("Display Position",

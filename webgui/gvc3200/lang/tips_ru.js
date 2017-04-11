@@ -1109,8 +1109,10 @@ tip_item.push (
 		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
 
     /*Настройки узла*/
+	new TipsDef("Timeout Operation",
+		"Set the timeout  options, optional for into sleep mode and shut down, the default value is \"Enter sleep mode\"."),
     new TipsDef("Enter Sleep Mode",
-        "Устанавливает период, через который устройство перейдёт в спящий режим.<br>Если установлено \"Никогда\", устройство не будет автоматически засыпать . По умолчанию \"Через 30 минут\"."),
+        "According  timeout  option to set the timeout , if the time is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
     new TipsDef("Site Name",
         "Устанавливает имя, которое будет отображаться в локальном видеопотоке. При подключении к многоточечной конференции это имя будет отображено в видеопотоках других участников.<br>По умолчанию не задано.<br>Не используйте специальные символы, такие как двоеточие (:), запятая (,), дефис (-) или подчёркивание (_)."),
     new TipsDef("Display Position",

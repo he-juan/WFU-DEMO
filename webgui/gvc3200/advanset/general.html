@@ -26,6 +26,13 @@
             <div class="titlediv">
                 <div class="titleboot"><span id="a_powertitle">Power Managerment</span></div>
             </div>
+            <div webtip="Timeout Operation">
+                <div class="noreboot"><span id="a_timeoutopt">Timeout Operation</span> :</div>
+                <select id="timeoutopt" name="timeoutopt">
+                    <option value="0">Sleep</option>
+                    <option value="2">Shutdown</option>
+                </select>
+            </div>
             <div webtip="Enter Sleep Mode">
                 <div class="noreboot"><span id="a_sleepmode">Enter sleep mode</span> :</div>
                 <select id="sleepmode" name="sleepmode">
@@ -246,6 +253,7 @@ $(function(){
     setInitState();
     cb_get(req_items);
     cb_get_action("getsleepmode&region=advanset");
+    cb_get_action("gettimeoutopt&region=advanset");
     cb_get_action("checksecurity&region=advanset");
     pageEventActions();
 });
@@ -326,6 +334,13 @@ function cb_get_action_done(data,action){
             mSleepmode = tObj.sleepmode;
             $("#sleepmode").val(mSleepmode);
             $("#sleepmode").sSelect();
+        }else if( action.indexOf("gettimeoutopt" ) != "-1" ){
+            var tObj = eval("(" + data + ")");
+            if(tObj.res == "success")
+            {
+                $("#timeoutopt").val(tObj.policy);
+                $("#timeoutopt").sSelect();
+            }
         }else if( action.indexOf("affect=read" ) != "-1" ){
             var tObj = eval("(" + data + ")");
             if(tObj.Response == "Success")
@@ -448,7 +463,10 @@ function setparaments(items){
 }
 
 function translate_generalset(){
-    $("#a_sleepmode").text(a_16618);
+    $("#a_timeoutopt").text(a_19321);
+    $("#timeoutopt option:eq(0)").text(a_19323);
+    $("#timeoutopt option:eq(1)").text(a_19325);
+    $("#a_sleepmode").text(a_19322);
     $("#sleepmode option:eq(0)").text(a_42);
     $("#sleepmode option:eq(1)").text(a_12112);
     $("#sleepmode option:eq(2)").text(a_12068);
@@ -542,6 +560,9 @@ function pageEventActions(){
             mSleepmode = $("#sleepmode").val();
             cb_get_action("setsleepmode&region=advanset&sleepmode=" + mSleepmode);
         }
+        
+        var timeoutopt = $("#timeoutopt").val();
+        cb_get_action("settimeoutopt&region=advanset&type=" + timeoutopt);
         
         cb_put(req_items);
 
