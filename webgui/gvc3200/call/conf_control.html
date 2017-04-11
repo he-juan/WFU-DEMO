@@ -4662,13 +4662,27 @@ function set_ipvinfo(data){
         $("#ipvconfpass").text(IPVPassword);
         $("#ipvconfurl").text(IPVURL);
         $("#ipvconfpstn").text(a_9400+" " + IPVPSTN + " " + a_15058);
-        if( IPVPSTN == "0" ){
+		if( IPVPSTN == "0" || IPVPSTN == "" ){
             $("#pstndivs").hide();
         } 
-        $("#ipvconfhostcode").text(IPVHostcode);
+        else{
+            $("#pstndivs").show();
+        }
+        
+		if(IPVHostcode == ""){
+            $("#ipvconfhostcode").parent().hide();
+        }
+        else{
+			$("#ipvconfhostcode").text(IPVHostcode);
+            $("#ipvconfhostcode").parent().show();
+        }	
+		
         $("#ipvconfregion").text(IPVRegion);
-        if( IPVRegion == "" ){
+		if( IPVRegion == "" ){
             $("#regiondivs").hide();
+        }
+        else{
+            $("#regiondivs").show();
         }
         if( IPVPrefix != "" )
             mIPVPrefix = IPVPrefix;
