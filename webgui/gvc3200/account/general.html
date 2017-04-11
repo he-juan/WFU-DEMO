@@ -177,9 +177,11 @@
     var mSIPChecked = 0;
     var mDftacctSelect = '';
     var mNewDftAcct = 0;
+    var mOEMID = '0';
     
 $(function(){
     accountindex = $('#accountindex',parent.document.body).val();
+    mOEMID = $('#existcolore', window.parent.document).val();
     setInitState();
     //cb_get_index(req_indexs);
     cb_get_action('get&var-0000=22046&var-0001=271&var-0002=401&var-0003=501&var-0004=25059');
@@ -557,14 +559,18 @@ function cb_get_action_done(data, action){
                 option = $("<option value='0'>SIP</option>");
                 $("#newdftacct").append(option);
             }
-            if( msgs.headers['401'] == '1' && accountindex != '2' ){
-                option = $("<option value='1'>IPVideoTalk</option>");
-                $("#newdftacct").append(option);
+            
+            if(mOEMID != "54"){
+                if( msgs.headers['401'] == '1' && accountindex != '2' ){
+                    option = $("<option value='1'>IPVideoTalk</option>");
+                    $("#newdftacct").append(option);
+                }
+                if( msgs.headers['501'] == '1' && accountindex != '3' ){
+                    option = $("<option value='2'>BlueJeans</option>");
+                    $("#newdftacct").append(option);
+                }
             }
-            if( msgs.headers['501'] == '1' && accountindex != '3' ){
-                option = $("<option value='2'>BlueJeans</option>");
-                $("#newdftacct").append(option);
-            }
+            
             if( msgs.headers['25059'] == '1' && accountindex != '4' ){
                 option = $("<option value='8'>H.323</option>");
                 $("#newdftacct").append(option);
