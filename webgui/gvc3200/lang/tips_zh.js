@@ -659,7 +659,7 @@ tip_item.push (
     new TipsDef("Access Methode", "访问方式",
         "选择通过http/https进行页面访问。"),
     new TipsDef("Port", "端口",
-        "设置使用http进行页面访问的端口。http默认使用80端口；https默认使用443端口。"),
+        "设置使用http进行页面访问的端口。http默认使用8081端口；https默认使用443端口。"),
     new TipsDef("Https Enable", "",
         "选择是否能够通过https进行页面访问。"),
     new TipsDef("Https Port", "",

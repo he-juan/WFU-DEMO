@@ -663,7 +663,7 @@ tip_item.push (
     new TipsDef("Access Methode",
         "Permite aos usuários selecionar HTTP ou HTTPS para o acesso web."),
     new TipsDef("Port",
-        "Por padrão, a porta utilizada para HTTP é a porta 80 e HTTPS utiliza a porta 443. Este campo é para customizar a porta web."),
+        "Por padrão, a porta utilizada para HTTP é a porta 8081 e HTTPS utiliza a porta 443. Este campo é para customizar a porta web."),
     new TipsDef("Https Enable",
         "Habilitar protocolo HTTP ou HTTPS seguro para o acesso web."),
     new TipsDef("Https Port",

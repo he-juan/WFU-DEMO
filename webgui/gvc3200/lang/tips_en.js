@@ -666,7 +666,7 @@ tip_item.push (
     new TipsDef("Access Methode",
         "Allows users to select HTTP or HTTPS for Web Access."),
     new TipsDef("Port",
-        "By default, HTTP uses port 80 and HTTPS uses port 443. This field is for customizing the web port."),
+        "By default, HTTP uses port 8081 and HTTPS uses port 443. This field is for customizing the web port."),
     new TipsDef("Https Enable",
         "Enable HTTP or secure HTTPS protocol for Web Access."),
     new TipsDef("Https Port",
