@@ -585,8 +585,8 @@ function cb_mode_change(flag){
 }
 
 function cb_lldp_qos_check(){
-    var vlanid, vlanqos;
-    var urihead = "action=get&var-0000=vlan_id&var-0001=vlan_qos&time=" + new Date().getTime(); 
+    var vlanid, vlanqos, layer3qossip, layer3qosaudio, layer3qosvideo;
+    var urihead = "action=get&var-0000=vlan_id&var-0001=vlan_qos&var-0002=:dscp2&var-0003=:dscp1&var-0004=:dscp7&time=" + new Date().getTime(); 
     $.ajax({
         type: 'get',
         url:'/manager',
@@ -600,6 +600,9 @@ function cb_lldp_qos_check(){
             else {
                 vlanid = msgs.headers['vlan_id'];
                 vlanqos = msgs.headers['vlan_qos'];
+                layer3qossip = msgs.headers[':dscp2'];
+                layer3qosaudio = msgs.headers[':dscp1'];
+                layer3qosvideo = msgs.headers[':dscp7'];
             }
         },
         error:function(xmlHttpRequest, errorThrown) {
@@ -612,6 +615,15 @@ function cb_lldp_qos_check(){
     
     if(vlanqos != "" && vlanqos != "0")
         $("#layer2qospv").val(vlanqos);
+        
+    if(layer3qossip != "")
+        $("#layer3qossip").val(layer3qossip);
+        
+    if(layer3qosaudio != "")
+        $("#layer3qosaudio").val(layer3qosaudio);
+    
+    if(layer3qosvideo != "")
+        $("#layer3qosvideo").val(layer3qosvideo);
 }
 
 function init_uploadca(){
@@ -1198,11 +1210,24 @@ function pageEventActions(){
                     req_items[i].pvalue = "vlan_id";
                     done ++;
                 }
-                if(req_items[i].id == "layer2qospv"){
+                else if(req_items[i].id == "layer2qospv"){
                     req_items[i].pvalue = "vlan_qos";
                     done ++;
                 }
-                if(done == 2)
+                else if(req_items[i].id == "layer3qossip"){
+                    req_items[i].pvalue = ":dscp2";
+                    done++;
+                }
+                else if(req_items[i].id == "layer3qosaudio"){
+                    req_items[i].pvalue = ":dscp1";
+                    done++;
+                }
+                else if(req_items[i].id == "layer3qosvideo"){
+                    req_items[i].pvalue = ":dscp7";
+                    done++;
+                }
+                
+                if(done == 5)
                     break;
             }
         }
