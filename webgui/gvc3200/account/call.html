@@ -1029,6 +1029,8 @@ function change_forword_type(type)
         $(".uccfdiv").hide();
         $(".timecfdiv").hide();
         $(".workcfdiv").show();
+        if($('#existcolore',parent.document.body).val() == "54")
+            $("#enablebusyto").parent().hide();
     }
 }      
 function update_forward_type()
