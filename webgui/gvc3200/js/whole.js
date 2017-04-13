@@ -667,6 +667,7 @@ function block_download_func(text){
         fadeOut: 700,
         css: { 
             width: '400px',
+            height: '75px',
             border: 'none', 
             padding: '15px', 
             '-webkit-border-radius': '10px', 
