@@ -187,7 +187,7 @@ tip_item.push (
 	
     
 	new TipsDef("Only Accept SIP Requests from Known Servers",
-		"Se está selecionado \"Sim\", o ID de usuário SIP será verificado no URI de solicitação do INVITE entrante. Se não corresponder ao ID de usuário SIP do dispositivo, a chamada será rejeitada.  A opção padrão é \"Não\"."),
+		"Se está selecionado \"Sim\", o ID de usuário SIP será verificado no URI de solicitação do INVITE entrante. Se não corresponder ao ID de usuário SIP do dispositivo, a chamada será rejeitada.  A opção padrão é \"Padrão\"."),
     		
     /*Conta 1 2 3 Codec e sinalização*/
     new TipsDef("DTMF",

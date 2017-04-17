@@ -186,7 +186,7 @@ tip_item.push (
 	
     
 	new TipsDef("Only Accept SIP Requests from Known Servers",
-		"If set to \"Yes\", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn't match the device's SIP User ID, the call will be rejected. The default is \"No\"."),
+		"If set to \"Yes\", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn't match the device's SIP User ID, the call will be rejected. The default is \"Yes\"."),
     		
     /*Account1 2 3 Codec and Signal*/
     new TipsDef("DTMF",

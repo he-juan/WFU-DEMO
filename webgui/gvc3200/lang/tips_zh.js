@@ -186,7 +186,7 @@ tip_item.push (
 	
     
     new TipsDef("Only Accept SIP Requests from Known Servers", "仅接受已知服务器的SIP请求",
-		"启用后，仅已知的服务器发来的SIP请求才会被接受，即设备未使用过的SIP服务器发送来的请求信息将会被拒绝。默认为不勾选。"),
+		"启用后，仅已知的服务器发来的SIP请求才会被接受，即设备未使用过的SIP服务器发送来的请求信息将会被拒绝。默认为勾选。"),
         
     /*Account1 2 3 Codec and Signal*/
     new TipsDef("DTMF", "",
