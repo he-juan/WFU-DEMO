@@ -194,9 +194,12 @@ var mIsCheck = 0;
 var mDeleteIndex = 0;
 var mLeftMaxNum = 6;
 var mLeftPvalues = new Array;
+var mOEMID = '0';
 
 $(function(){
     setInitState();
+    mOEMID = $('#existcolore', window.parent.document).val();
+    
     cb_get(req_items);
     cb_get_action("getvericert&region=advanset");
     init_upload_vericert();
@@ -208,11 +211,21 @@ function get_item_suc_callback(){
     cb_accesschange();
 }
 function cb_accesschange(){
-    if ( $('#accessmethod').val() == '0' && ($('#port').val() == "" || $('#port').val() == "443") ) {
-        $('#port').val('80');
+    if(mOEMID != "54"){
+        if ( $('#accessmethod').val() == '0' && ($('#port').val() == "" || $('#port').val() == "443") ) {
+            $('#port').val('80');
+        }
+        else if ( $('#accessmethod').val() == '1' && ($('#port').val() == "" || $('#port').val() == "80") ){
+            $('#port').val('443');
+        }
     }
-    else if ( $('#accessmethod').val() == '1' && ($('#port').val() == "" || $('#port').val() == "80") ){
-        $('#port').val('443');
+    else{
+        if ( $('#accessmethod').val() == '0' && ($('#port').val() == "" || $('#port').val() == "443") ) {
+            $('#port').val('8081');
+        }
+        else if ( $('#accessmethod').val() == '1' && ($('#port').val() == "" || $('#port').val() == "8081") ){
+            $('#port').val('443');
+        }
     }
 }
 function setInitState(){
@@ -574,10 +587,21 @@ function pageEventActions(){
         	view_message(a_16449,MSG_FAIL);
             return false;
 		}
-		else if ( $('#accessmethod').val() == '1' && $('#port').val() == "80") {
-		    view_message(a_16450,MSG_FAIL);
-            return false;
-		}
+		else{
+            if(mOEMID != "54"){
+                if ( $('#accessmethod').val() == '1' && $('#port').val() == "80") {
+        		    view_message(a_16450,MSG_FAIL);
+                    return false;
+        		}
+            }
+            else{
+                if ( $('#accessmethod').val() == '1' && $('#port').val() == "8081") {
+        		    view_message(a_19239,MSG_FAIL);
+                    return false;
+        		}
+            }
+        }
+        
 		if ( $('#curadminpwd').val() != '' )  {
         	$("#adminpasswd").rules("add", { required: true, maxlength:32 });
 		}else{

@@ -3132,6 +3132,7 @@ var a_19235="Enable video Gradual decoder refresh";
 var a_19236="Remote control version is upgrading now, calls are forbidden!";
 var a_19237="Import language first!";
 var a_19238="Saving now, please re-login with new IP if your device IP address has changed.";
+var a_19239="Port can't be 8081 when access method is HTTPS!";
 var a_19300="Enter the code above to link the device with your account";
 var a_19301="You can now manage your IPVideoTalk account and schedule meetings online";
 var a_19302="Grandstream’s IPVideoTalk is a robust video and web conferencing platform available to you as a user of a Grandstream GVC series video conferencing system.  This paid subscription-based service allows you to turn a video conference hosted on Grandstream’s GVC3200 or GVC3202 into a comprehensive, online video conference that can be joined from any other GVC3200/3202, any Web-RTC capable browser and any VoIP phone. Sign up now to receive a free trial!";
