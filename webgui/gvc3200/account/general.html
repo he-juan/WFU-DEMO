@@ -693,10 +693,10 @@ function pageEventActions(){
     });
     
     $("#a_save").click(function(){
-        if( $("#name").val().indexOf('"') != -1 ){
+        /*if( $("#name").val().indexOf('"') != -1 ){
             view_message(a_19196,MSG_FAIL);
             return false;
-        }
+        }*/
         
         $("#sipserver").val( $("#sipserver").val().replace(/(^\s*)|(\s*$)/g, "") );
         if( accountindex == "4" ){
