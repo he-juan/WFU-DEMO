@@ -846,6 +846,10 @@ function init_upload_cfg(){
 		name: 'file',
 		action : '../upload?type=importcfg',
 		onSubmit : function(file, ext) {
+            if(ext[0] != "txt"){
+                $.prompt(a_16434);
+                return false;
+            }
 			m_uploading = 2;
 			cb_ping();
 			window.parent.block_upload_func();
