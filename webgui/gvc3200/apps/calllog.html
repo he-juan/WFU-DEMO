@@ -785,8 +785,14 @@ function add_item_event(){
                     reloadevent = 1;
                 }
                 
-                var curtype = $(this).attr("mtype");
-                $(".memberitemdiv[number=\""+disnumber+"\"][account=" + acctid + "][type=" + curtype + "]").show();
+                if(mOEMID != "54"){
+                    var curtype = $(this).attr("mtype");
+                    $(".memberitemdiv[number=\""+disnumber+"\"][account=" + acctid + "][type=" + curtype + "]").show();
+                }
+                else{
+                    $(".memberitemdiv[number=\""+disnumber+"\"][account=" + acctid + "]").show();
+                }
+                    
                 //$("#memberlog_" + $(this).attr("logid")).show();
                 
                 //$(".memberitemdiv[number=\""+disnumber+"\"]").attr("loaded", "1");
