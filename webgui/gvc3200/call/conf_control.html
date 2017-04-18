@@ -1194,8 +1194,12 @@ $(function(){
     mOEMID = $('#existcolore', window.parent.document).val();
     if( mOEMID == '54' ){
         $("#addmember").hide();
+        $(".confbasebtn").css("width", "490px");
+        $(".confctrlbtn").css("margin-left", "-245px");
     }else{
         $("#addmember").show();
+        $(".confbasebtn").css("width", "590px");
+        $(".confctrlbtn").css("margin-left", "-300px");
     }
     translate_page();
     mDisableconf = $("#disconfstate", window.parent.document).val();
@@ -3005,47 +3009,48 @@ function addconflist(data,todivID)
     //add options btn
     var btndiv = document.createElement('DIV');
     btndiv.className='confbtn';
-    var mute = document.createElement('BUTTON');
-    mute.className = "mute";
-    mute.setAttribute("ismute",1);
-    mute.setAttribute("title",a_649);
-    var videoctrl = document.createElement('BUTTON');
-    videoctrl.className = videoctrlid;
-    videoctrl.setAttribute("name","videstate");
-    videoctrl.setAttribute("title",videotitle);
-    if( account == 1 && num.substring(0, 2) == mIPVPrefix ){
-        videoctrl.setAttribute("disabled","disabled");
-        videoctrlid += " btndisabled";
+    if(mOEMID != "54"){
+        var mute = document.createElement('BUTTON');
+        mute.className = "mute";
+        mute.setAttribute("ismute",1);
+        mute.setAttribute("title",a_649);
+        var videoctrl = document.createElement('BUTTON');
         videoctrl.className = videoctrlid;
+        videoctrl.setAttribute("name","videstate");
+        videoctrl.setAttribute("title",videotitle);
+        if( account == 1){
+            videoctrl.setAttribute("disabled","disabled");
+            videoctrlid += " btndisabled";
+            videoctrl.className = videoctrlid;
+        }
+        var feccbtn = document.createElement('BUTTON');
+        feccbtn.className = "startFECC btndisabled";
+        feccbtn.setAttribute("feccstate","0");
+        feccbtn.setAttribute("issupport","0");
+        feccbtn.setAttribute("disabled","disabled");
+        feccbtn.setAttribute("title",a_19020);
+        var block = document.createElement('BUTTON');
+        block.className = "confblock";
+        block.setAttribute("title",a_16701);
+        block.setAttribute("isblock",0);
+        var suspend = document.createElement('BUTTON');
+        suspend.className = "confsuspend";
+        suspend.setAttribute("issuspend",0);
+        suspend.setAttribute("title",a_16700);
+        if( account == 8 || account == 3 ){
+            //h323 account can't resume or suspend
+            suspend.className = "confsuspend btndisabled";
+            suspend.setAttribute("disabled","disabled");
+        }
     }
+    
     var del = document.createElement('BUTTON');
     del.setAttribute("title",a_1);
     del.className = "confdel";
-    
     /*var redial = document.createElement('BUTTON');
     redial.className = "redialcall";
     redial.setAttribute("title",a_10008);*/
     
-    var feccbtn = document.createElement('BUTTON');
-    feccbtn.className = "startFECC btndisabled";
-    feccbtn.setAttribute("feccstate","0");
-    feccbtn.setAttribute("issupport","0");
-    feccbtn.setAttribute("disabled","disabled");
-    feccbtn.setAttribute("title",a_19020);
-    var block = document.createElement('BUTTON');
-    block.className = "confblock";
-    block.setAttribute("title",a_16701);
-    block.setAttribute("isblock",0);
-    var suspend = document.createElement('BUTTON');
-    suspend.className = "confsuspend";
-    suspend.setAttribute("issuspend",0);
-    suspend.setAttribute("title",a_16700);
-    if( account == 8 || account == 3 ){
-        //h323 account can't resume or suspend
-        suspend.className = "confsuspend btndisabled";
-        suspend.setAttribute("disabled","disabled");
-    }
-
     if(mDisableconf == "1")
     {
         //GVC does not support to disable conference, can remove this code.
@@ -3079,36 +3084,38 @@ function addconflist(data,todivID)
     }
     else
     {
-        btndiv.appendChild(mute);
-        btndiv.appendChild(block);
-        btndiv.appendChild(videoctrl);
-        btndiv.appendChild(suspend);
-        btndiv.appendChild(feccbtn);
-        if(state == "4")
-        {
-            $(mute).show();
-            $(videoctrl).show();
-            $(feccbtn).show();
-            $(block).show();
-            $(suspend).show();
-            if(isvideoline == 0)
+        if(mOEMID != "54"){
+            btndiv.appendChild(mute);
+            btndiv.appendChild(block);
+            btndiv.appendChild(videoctrl);
+            btndiv.appendChild(suspend);
+            btndiv.appendChild(feccbtn);
+            if(state == "4")
             {
-                $(suspend).attr("disabled","disabled").addClass("btndisabled");
+                $(mute).show();
+                $(videoctrl).show();
+                $(feccbtn).show();
+                $(block).show();
+                $(suspend).show();
+                if(isvideoline == 0)
+                {
+                    $(suspend).attr("disabled","disabled").addClass("btndisabled");
+                }
             }
+            else if(state == "3")
+            {
+                $(mute).hide();
+                $(videoctrl).hide();
+                $(feccbtn).hide();
+                $(block).hide();
+                $(suspend).hide();
+            }
+            $("#closecamera").show();
+            if($("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) )
+                $("#present").show();
+            $("#record").show();
+            //$("#switchvideosource").show();
         }
-        else if(state == "3")
-        {
-            $(mute).hide();
-            $(videoctrl).hide();
-            $(feccbtn).hide();
-            $(block).hide();
-            $(suspend).hide();
-        }
-        $("#closecamera").show();
-        if($("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) )
-            $("#present").show();
-        $("#record").show();
-        //$("#switchvideosource").show();
     }
     //btndiv.appendChild(redial);
     btndiv.appendChild(del);
