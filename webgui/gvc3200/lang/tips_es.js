@@ -513,6 +513,8 @@ tip_item.push (
         "Configura la tasa de bit del vídeo. La tasa de bit de vídeo puede ser ajustada basado en el entorno de red. Incrementando la tasa de bit de vídeo puede mejorar la calidad de vídeo si el ancho de banda lo permite. Si el ancho de banda no lo permite, la calidad de vídeo disminuirá debido a la pérdida de paquetes. La tasa de bit de vídeo puede ser configurada a un valor entero desde 512kbps a 2048kbps."),
     new TipsDef("Disable Presentation",
         "Si se establece en \"Si\",  el dispositivo deshabilitará el envío y recepción de presentación durante la conferencia. El ajuste por defecto es \"No\"."),
+	new TipsDef("INITIAL INVITE",
+		"Initial INVITE SDP contains presentation media."),
 
 	/*Ajustes Avanzados de Recursos de Red*/
     new TipsDef("Enalbe Screen Saver Download",

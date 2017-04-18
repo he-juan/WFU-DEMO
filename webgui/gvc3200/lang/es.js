@@ -3133,6 +3133,7 @@ var a_19236="";
 var a_19237="";
 var a_19238="";
 var a_19239="";
+var a_19240="";
 var a_19300="Ingrese el código de arriba para enlazar el dispositivo con su cuenta";
 var a_19301="Usted puede ahora administrar su cuenta IPVideoTalk y agendar conferencias en línea";
 var a_19302="Grandstream IPVideoTalk es una plataforma robusta de vídeo y conferencia web disponible para usted como un usuario de un  sistema de videoconferencia de la serie GVC de Grandstream. Este servicio pago basado en suscripción le permite activar una conferencia de vídeo alojado en el Grandstream GVC3200 o GVC3202 en una videoconferencia completa, en línea, que pueden unirse desde cualquier otro GVC3200/3202, navegador capaz de Web-RTC y cualquier teléfono VoIP. ¡Regístrese ahora para recibir una prueba gratuita!";

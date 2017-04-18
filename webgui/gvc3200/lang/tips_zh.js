@@ -505,6 +505,8 @@ tip_item.push (
         "配置视频电话的演示流比特率，可以根据网络环境调整的演示流比特率。如果带宽允许的情况下建议增加比特率大小；如果带宽不够，演示质量将降低。设置值为“512kbps~2048kbps”之间的整数值。"),
     new TipsDef("Disable Presentation", "禁止演示",
         "如果设置为“是”，在会议中设备将无法发送演示流和接收演示流。默认设置为“否”。"),
+	new TipsDef("INITIAL INVITE", "初始INVITE携带媒体信息",
+		"初始INVITE SDP携带辅流媒体信息."),
 
     /*Advanced Settings Network Resource*/
     new TipsDef("Enalbe Screen Saver Download", "",

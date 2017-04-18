@@ -372,6 +372,10 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_disablepresent">Disable Presentation</span> :</div>
                 <input name="disablepresent" type="checkbox" id="disablepresent"><span id="a_disablepresentyes">Yes</span>
             </div>
+            <div webtip="INITIAL INVITE">
+                <div class="noreboot"><span id="a_initialinvite">Initial INVITE with media info</span> :</div>
+                <input name="initialinvite" type="checkbox" id="initialinvite"><span id="a_initialinviteyes">Yes</span>
+            </div>
             <div webtip="Presentation H.264 Image Size">
                 <div class="noreboot"><span id="a_presentimagesize">Presentation H.264 image size</span> :</div>
                 <div class="disabledMask"></div>
@@ -573,7 +577,7 @@ function get_item_suc_callback() {
     $("#vbrate").getSetSSValue( vbval );*/
     if($("#disablepresent").prop("checked") == true)
     {
-        $("#presentimagesize,#presentprofile,#presentvideobitrate").attr("disabled","disabled");
+        $("#presentimagesize,#presentprofile,#presentvideobitrate,#initialinvite").attr("disabled","disabled");
         $("#presentimagesize,#presentvideobitrate,#presentprofile").next(".newListSelected").addClass("newListDisabled");
         $(".disabledMask").show();
     }
@@ -714,7 +718,7 @@ function translate_codec(){
     $("#a_decoderefresh").text(a_19235);
     $("#a_enablevideono").text(a_6);
     $("#a_slientrtp").text(a_16147);
-    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes").text(a_5);
+    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes, #a_initialinviteyes").text(a_5);
     $("#a_vidfr").text(a_16274);
     $("#vidframerate option:eq(0)").text("5 "+a_16277);
     $("#vidframerate option:eq(1)").text("15 "+a_16277);
@@ -725,6 +729,7 @@ function translate_codec(){
     $("#presentvideoframebate option:eq(1)").text("10 "+a_16277);
     $("#presentvideoframebate option:eq(2)").text("15 "+a_16277);
     $("#a_disablepresent").text(a_19014);
+    $("#a_initialinvite").text(a_19240);
     $("#a_presentimagesize").text(a_16214);
     $("#a_presentprofile").text(a_16215);
     $("#a_presentvideobitrate").text(a_16203);
@@ -803,6 +808,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("slientrtp", "2328", ""),
                 new ReqItem("vidframerate", "25004", ""),
                 new ReqItem("disablepresent", "26001", ""),
+                new ReqItem("initialinvite", "sendPreMode_0", ""),
                 new ReqItem("presentimagesize", "2376", ""),
                 new ReqItem("presentprofile", "2377", ""),
                 new ReqItem("presentvideobitrate", "2378", ""),
@@ -870,6 +876,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("slientrtp", "2428", ""),
                 new ReqItem("vidframerate", "25005", ""),
                 new ReqItem("disablepresent", "26101", ""),
+                new ReqItem("initialinvite", "sendPreMode_1", ""),
                 new ReqItem("presentimagesize", "2476", ""),
                 new ReqItem("presentprofile", "2477", ""),
                 new ReqItem("presentvideobitrate", "2478", ""),
@@ -933,6 +940,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("slientrtp", "2528", ""),
                 new ReqItem("vidframerate", "25006", ""),
                 new ReqItem("disablepresent", "26201", ""),
+                new ReqItem("initialinvite", "sendPreMode_2", ""),
                 new ReqItem("presentimagesize", "2576", ""),
                 new ReqItem("presentprofile", "2577", ""),
                 new ReqItem("presentvideobitrate", "2578", ""),
@@ -965,7 +973,8 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("imgsize", "25061", ""),
                 new ReqItem("vbrate", "25063", ""),
                 new ReqItem("h264payload", "25064", ""),
-                new ReqItem("vidframerate", "25062", "")
+                new ReqItem("vidframerate", "25062", ""),
+                new ReqItem("initialinvite", "sendPreMode_3", "")
                 /*new ReqItem("inaudio", "2601", ""),
                 new ReqItem("RFC2833", "2602", ""),
                 new ReqItem("sipinfo", "2603", ""),
@@ -1078,6 +1087,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("slientrtp", "2728", ""),
                 new ReqItem("vidframerate", "25008", ""),
                 new ReqItem("disablepresent", "26401", ""),
+                new ReqItem("initialinvite", "sendPreMode_4", ""),
                 new ReqItem("presentimagesize", "2776", ""),
                 new ReqItem("presentprofile", "2777", ""),
                 new ReqItem("presentvideobitrate", "2778", ""),
@@ -1141,6 +1151,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("slientrtp", "2828", ""),
                 new ReqItem("vidframerate", "25009", ""),
                 new ReqItem("disablepresent", "26501", ""),
+                new ReqItem("initialinvite", "sendPreMode_5", ""),
                 new ReqItem("presentimagesize", "2876", ""),
                 new ReqItem("presentprofile", "2877", ""),
                 new ReqItem("presentvideobitrate", "2878", ""),
@@ -1613,13 +1624,13 @@ function pageEventActions(){
     $("#disablepresent").click(function(){
         if($(this).prop("checked")==true)
         {
-            $("#presentimagesize,#presentprofile,#presentvideobitrate,#presentvideoframebate").attr("disabled","disabled");
+            $("#presentimagesize,#presentprofile,#presentvideobitrate,#presentvideoframebate,#initialinvite").attr("disabled","disabled");
             $("#presentimagesize,#presentvideobitrate,#presentprofile,#presentvideoframebate").next(".newListSelected").addClass("newListDisabled");
             $(".disabledMask").show();
         }
         else
         {
-            $("#presentimagesize,#presentprofile,#presentvideobitrate,#presentvideoframebate").removeAttr("disabled");
+            $("#presentimagesize,#presentprofile,#presentvideobitrate,#presentvideoframebate,#initialinvite").removeAttr("disabled");
             $("#presentimagesize,#presentvideobitrate,#presentprofile,#presentvideoframebate").next(".newListSelected").removeClass("newListDisabled");
             $(".disabledMask").hide();
         }
