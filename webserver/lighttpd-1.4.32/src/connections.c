@@ -8077,6 +8077,142 @@ static int handle_set_customlayout(server *srv, connection *con, buffer *b, cons
 }
 
 
+static int handle_remotekeypress(server *srv, connection *con, buffer *b, const struct message *m){
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 5000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *temp = NULL;
+    char *info = NULL;
+    char *action = NULL, *code = NULL, *rpttimes = NULL;
+    int keyaction, keycode, repeattimes;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "remoteKeyPress" );
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        action = msg_get_header(m, "keyaction");
+        if ( action != NULL )
+        {
+            keyaction = atoi(action);
+        }
+        else{
+            keyaction = 1;
+        }
+
+        code = msg_get_header(m, "keycode");
+        if ( code != NULL )
+        {
+            keycode = atoi(code);
+        }
+
+        rpttimes = msg_get_header(m, "repeattimes");
+        if ( rpttimes != NULL )
+        {
+            repeattimes = atoi(rpttimes);
+        }else
+        {
+            repeattimes = 0;
+        }
+
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &keyaction ) )
+        {
+            printf( "Out of Memory when setCustomLayoutStatus!\n");
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &keycode ) )
+        {
+            printf( "Out of Memory when setCustomLayoutStatus!\n");
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &repeattimes ) )
+        {
+            printf( "Out of Memory when setCustomLayoutStatus!\n");
+            exit( 1 );
+        }
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n", error.name, error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't get result\"}";
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
+}
+
 /*********************callservice end******************************************/
 /******************ip ping****************************/
 static int handle_start_ping (buffer *b, const struct message *m, int type)
@@ -21423,7 +21559,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             }    
             else if (!strcasecmp(region, "remotekey")){
                 if (!strcasecmp(action, "remotekeypress")) {
-                    handle_callservice_by_two_param(srv, con, b, m, "keyaction", "keycode", "remoteKeyPress");
+                    //handle_callservice_by_two_param(srv, con, b, m, "keyaction", "keycode", "remoteKeyPress");
+                    handle_remotekeypress(srv, con, b, m);
                 }
                 else{
                     findcmd = 0;

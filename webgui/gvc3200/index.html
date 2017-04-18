@@ -589,6 +589,7 @@ var statusTimer0, statusTimer1;
 var linestatus0 = 0, linestatus1 = 0;
 var mDisableconf = false;
 var mAutovideo = false;
+var mInterval;
 
 $(function(){
     if (window.PIE) {
@@ -704,13 +705,15 @@ $(function(){
     $("#remotectrlpage button").mousedown(function(){
         var keycode = $(this).attr("keycode");
         if( keycode != undefined && keycode != "" ){
-            cb_send_key(0, keycode);
+            var counttimes = 0;
+            cb_send_key(0, keycode, 0);
+            mInterval = setInterval(function(){cb_send_key(0, keycode, ++counttimes);}, 200);
         }
-		
 	}).mouseup(function(){
+        clearInterval(mInterval);
         var keycode = $(this).attr("keycode");
         if( keycode != undefined && keycode != "" ){
-            cb_send_key(1, keycode);
+            cb_send_key(1, keycode, 0);
         }
     });
 
@@ -959,8 +962,8 @@ function cb_send_key_done(data){
     } 
 }
 
-function cb_send_key(action, keycode){
-	var urihead = "action=remotekeypress&region=remotekey&keyaction=" + action + "&keycode=" + keycode;
+function cb_send_key(action, keycode, repeattimes){
+	var urihead = "action=remotekeypress&region=remotekey&keyaction=" + action + "&keycode=" + keycode + "&repeattimes=" + repeattimes;
     urihead += "&time=" + new Date().getTime();
     $.ajax ({
         type: 'get',
