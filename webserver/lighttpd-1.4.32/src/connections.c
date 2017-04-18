@@ -17769,7 +17769,8 @@ static int audio_conversion_new (char *infile, char *outfile, int step)
     memset(cmd, 0, sizeof(cmd));
 
     if (step == 0)
-        sprintf(cmd, "/system/bin/sox %s -r 8000 -c 1 %s bass -3", infile, outfile);
+        //sprintf(cmd, "/system/bin/sox %s -r 8000 -c 1 %s bass -3", infile, outfile);
+        sprintf(cmd, "/system/bin/sox %s -r 8000 -c 1 %s", infile, outfile);
     else
         sprintf(cmd, "/system/bin/sox %s %s", infile, outfile);
     mysystem(cmd);
@@ -17811,71 +17812,17 @@ static int handle_converaudio (buffer *b, const struct message *m)
     memset(infile, 0, sizeof(infile));
     sprintf(infile, "%s/audiofile.%s", filepath, file_ext);
 
-    /*if (!strcmp(file_ext, "mp3"))
-    {
-        infile_wav = malloc(strlen(file_ext) + 64);
-        memset(infile_wav, 0, sizeof(infile_wav));
-        sprintf(infile_wav, "%s/audiofile.wav", filepath);
-
-        res = audio_conversion (infile, infile_wav);
-        if(res == -1)
-        {
-            memset(cmd, 0, sizeof(cmd));
-            sprintf(cmd, "rm %s/\*", filepath);
-            mysystem(cmd);
-            free(cmd);
-            free(infile);
-            free(infile_wav);
-            buffer_append_string(b,
-                "Response=Error\r\n");
-            printf("read audiofile failed\n");
-            return -1;
-        }
-    }*/
-
     /*
-    infile_temp = malloc(strlen(file_ext) + 64);
-    memset(infile_temp, 0, sizeof(infile_temp));
-    sprintf(infile_temp, "%s/audiofile_temp.wav", filepath);
-
-    if (infile_wav != NULL)
-        res = audio_conversion_rate (infile_wav, infile_temp);
-    else
-        res = audio_conversion_rate (infile, infile_temp);
-
-    if(res == -1)
-    {
-        memset(cmd, 0, sizeof(cmd));
-        sprintf(cmd, "rm %s/\", filepath);
-        mysystem(cmd);
-        free(cmd);
-        free(infile);
-        free(infile_temp);
-        if(infile_wav != NULL)
-            free(infile_wav);
-        buffer_append_string(b,
-            "Response=Error\r\n");
-        printf("read audiofile failed2\n");
-        return -1;
-    } */
-
     outfile_al = malloc(strlen(filepath) + 32);
     memset(outfile_al, 0, sizeof(outfile_al));
-    sprintf(outfile_al, "%s/audiofile.al", filepath);
-    /* call sox functions. conver the audiofile to alaw format */
-    //res_al = audio_conversion(infile_temp, outfile);
+    sprintf(outfile_al, "%s/audiofile.al", filepath);    
+    // call sox functions. conver the audiofile to alaw format
     audio_conversion_new (infile, outfile_al, 0);
 
     fp = fopen (outfile_al, "rb");
     if(fp != NULL)
     {
         fclose(fp);
-        /* cmd string : mv .../audiofile.al .../alaw */
-        /*memset(cmd, 0, sizeof(cmd));
-        sprintf(cmd, "mv %s/audiofile.al %s/alaw", filepath, filepath);
-        mysystem(cmd);
-        res_al = 0;*/
-
         outfile_ul = malloc(strlen(filepath) + 32);
         memset(outfile_ul, 0, sizeof(outfile_ul));
         sprintf(outfile_ul, "%s/audiofile.ul", filepath);
@@ -17895,29 +17842,28 @@ static int handle_converaudio (buffer *b, const struct message *m)
         printf("read audiofile failed\n");
         return -1;
     }
+    */
+
+    char *outfile = (char*)malloc(strlen(filepath) + 32);
+    memset(outfile, 0, strlen(filepath) + 32);
+    snprintf(outfile, strlen(filepath) + 32, "%s/audiofile.wavpcm", filepath);
+    audio_conversion_new(infile, outfile, 0);
+
+    fp = fopen (outfile, "rb");
+    if (fp == NULL) {
+        memset(cmd, 0, sizeof(cmd));
+        sprintf(cmd, "rm %s/*", filepath);
+        mysystem(cmd);
+        free(cmd);
+        free(infile);
+        free(outfile);
+        buffer_append_string(b,
+            "Response=Error\r\n");
+        printf("read audiofile failed\n");
+        return -1;
+    }
 
     /*
-    memset(infile, 0, sizeof(infile));
-    sprintf(infile, "%s/audiofile.%s", filepath, file_ext);*/
-
-
-    //memset(outfile, 0, sizeof(outfile));
-    //sprintf(outfile, "%s/audiofile.ul", filepath);
-    /* call sox functions. conver the audiofile to ulaw format */
-    //res_ul = audio_conversion(infile_temp, outfile);
-    //audio_conversion_new (infile, outfile);
-
-    /*fp = fopen (outfile, "rb");
-    if(fp != NULL)
-    {
-        fclose(fp);
-        memset(cmd, 0, sizeof(cmd));
-        sprintf(cmd, "mv %s/audiofile.ul %s/ulaw", filepath, filepath);
-        mysystem(cmd);
-        res_ul = 0;
-    } else
-        res_ul = -1;*/
-
     memset(cmd, 0, sizeof(cmd));
     sprintf(cmd, "mv %s/audiofile.al %s/alaw", filepath, filepath);
     mysystem(cmd);
@@ -17925,25 +17871,16 @@ static int handle_converaudio (buffer *b, const struct message *m)
     memset(cmd, 0, sizeof(cmd));
     sprintf(cmd, "mv %s/audiofile.ul %s/ulaw", filepath, filepath);
     mysystem(cmd);
+    */
+
+    memset(cmd, 0, sizeof(cmd));
+    sprintf(cmd, "mv %s/audiofile.wavpcm %s/pcm", filepath, filepath);
+    mysystem(cmd);
 
     /* delete the audiofile */
     memset(cmd, 0, sizeof(cmd));
     sprintf(cmd, "rm %s", infile);
     mysystem(cmd);
-
-    /*
-    memset(cmd, 0, sizeof(cmd));
-    sprintf(cmd, "rm %s", infile_temp);
-    mysystem(cmd);*/
-
-    /*
-    if(infile_wav != NULL)
-    {
-        memset(cmd, 0, sizeof(cmd));
-        sprintf(cmd, "rm %s", infile_wav);
-        mysystem(cmd);
-        free(infile_wav);
-    }*/
 
     free(cmd);
 
@@ -17952,9 +17889,9 @@ static int handle_converaudio (buffer *b, const struct message *m)
 
     free(filepath);
     free(infile);
-    //free(infile_temp);
-    free(outfile_al);
-    free(outfile_ul);
+    //free(outfile_al);
+    //free(outfile_ul);
+    free(outfile);
     return 0;
 }
 
