@@ -562,8 +562,9 @@ function cb_get_action_done(data, action) {
             else if( action.indexOf("type=calllog&flag=0") != "-1"){
                 mUse24Hour = tObj.Use24Hour;
                 parse_all_log(items);
-                mInit = 1;
-                add_item_event();
+                //mInit = 1;
+                //add_item_event();
+                get_contact();
             }
             else if( action.indexOf("type=confmember") != "-1" )
             {
