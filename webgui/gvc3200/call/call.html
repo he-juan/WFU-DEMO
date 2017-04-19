@@ -422,7 +422,7 @@ function updateMaxlineNumber(line, hasIPV){
     }
     if( mMaxlineNum < 0 )
         mMaxlineNum = 0;
-    if( hasIPV == 2 ){
+    /*if( hasIPV == 2 ){
         mDisableIPVT = 1;
         $("#acct2state").hide();
         if( $("#acct2state").hasClass("activeuse") ){
@@ -432,12 +432,13 @@ function updateMaxlineNumber(line, hasIPV){
         mDisableIPVT = 0;
         $("#acct2state").show();
         $(".accountstate:visible").eq(0).click();
-    }
+    }*/
+    $(".accountstate[class='accountstate activeuse']").click();
     $("#membermaxnum").text(mMaxlineNum);
 }
 function add_item_event(){
     if( $(".itemdiv").length > 0 ) 
-        selectid = $(".itemdiv").eq(0).attr("id");;  
+        selectid = $(".itemdiv").eq(0).attr("id");
 
     $(".itemdiv").unbind(); //to avoid too many click callback by one click
     $(".itemdiv").hover(function(){
