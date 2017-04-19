@@ -4834,27 +4834,17 @@ function localmute_callback(data)
     if(data.flag)
        flag = data.flag;
 
-    var mute = 0;
     if(flag == "true")
-        mute = 1;
+        $("#localmute").attr("ismute",0).attr("title",a_659).addClass("unmute active");
     else if(flag.indexOf("=") != -1){
         flag = flag.split("=");
         if(flag[0] == "MuteMic"){
             if(flag[1] == "1")
-                mute = 1;
+                $("#localmute").attr("ismute",0).attr("title",a_659).addClass("unmute active");
+            else
+                $("#localmute").attr("ismute",1).attr("title",a_649).removeClass("unmute active");
         }
     };
-
-    if(mute == 1)
-    {
-        //mute
-        $("#localmute").attr("ismute",0).attr("title",a_659).addClass("unmute active");
-    }
-    else
-    {
-        //not mute
-        $("#localmute").attr("ismute",1).attr("title",a_649).removeClass("unmute active");
-    }
 }
 
 function setBFCP_callback(data)
