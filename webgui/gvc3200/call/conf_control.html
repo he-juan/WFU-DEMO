@@ -1135,6 +1135,7 @@ var mIsSysrcmd = 0; /*judge layout mode is system recommand mode or not*/
 var mIsSysrcmdBefore = 0;
 var mConfrole;  //0-normal 1-guest 2-host
 var promptTxt = "";
+var mInterval;
 
 var req_items = new Array;
 req_items.push(
@@ -3023,12 +3024,6 @@ function addconflist(data,todivID)
             videoctrlid += " btndisabled";
             videoctrl.className = videoctrlid;
         }
-        var feccbtn = document.createElement('BUTTON');
-        feccbtn.className = "startFECC btndisabled";
-        feccbtn.setAttribute("feccstate","0");
-        feccbtn.setAttribute("issupport","0");
-        feccbtn.setAttribute("disabled","disabled");
-        feccbtn.setAttribute("title",a_19020);
         var block = document.createElement('BUTTON');
         block.className = "confblock";
         block.setAttribute("title",a_16701);
@@ -3044,6 +3039,12 @@ function addconflist(data,todivID)
         }
     }
     
+    var feccbtn = document.createElement('BUTTON');
+    feccbtn.className = "startFECC btndisabled";
+    feccbtn.setAttribute("feccstate","0");
+    feccbtn.setAttribute("issupport","0");
+    feccbtn.setAttribute("disabled","disabled");
+    feccbtn.setAttribute("title",a_19020);
     var del = document.createElement('BUTTON');
     del.setAttribute("title",a_1);
     del.className = "confdel";
@@ -3110,12 +3111,22 @@ function addconflist(data,todivID)
                 $(block).hide();
                 $(suspend).hide();
             }
-            $("#closecamera").show();
-            if($("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) )
-                $("#present").show();
-            $("#record").show();
-            //$("#switchvideosource").show();
+        }else{
+            btndiv.appendChild(feccbtn);
+            if(state == "4")
+            {
+                $(feccbtn).show();
+            }
+            else if(state == "3")
+            {
+                $(feccbtn).hide();
+            }
         }
+        
+        $("#closecamera").show();
+        if($("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) )
+            $("#present").show();
+        $("#record").show();
     }
     //btndiv.appendChild(redial);
     btndiv.appendChild(del);
@@ -7180,8 +7191,8 @@ function cb_send_key_done(data){
 /*
 Be used for fecc
 */
-function cb_send_key(action, keycode){
-    var urihead = "action=remotekeypress&region=remotekey&keyaction=" + action + "&keycode=" + keycode;
+function cb_send_key(action, keycode, repeattimes){
+    var urihead = "action=remotekeypress&region=remotekey&keyaction=" + action + "&keycode=" + keycode + "&repeattimes=" + repeattimes;
     urihead += "&time=" + new Date().getTime();
     $.ajax ({
         type: 'get',
@@ -9139,22 +9150,25 @@ function pageEventActions()
     $("#direction button, #feccoptbtn button").mousedown(function(){
         var keycode = $(this).attr("keycode");
         if( keycode != undefined && keycode != "" ){
-            cb_send_key(0, keycode);
+            var counttimes = 0;
+            cb_send_key(0, keycode, 0);
+            mInterval = setInterval(function(){cb_send_key(0, keycode, ++counttimes);}, 200);
         }
         
     }).mouseup(function(){
+        clearInterval(mInterval);
         var keycode = $(this).attr("keycode");
         if( keycode != undefined && keycode != "" ){
-            cb_send_key(1, keycode);
+            cb_send_key(1, keycode, 0);
         }
     });
 
     $("#direction button, #feccoptbtn button").mouseout(function(){
+        clearInterval(mInterval);
         var keycode = $(this).attr("keycode");
         if( keycode != undefined && keycode != "" ){
-            cb_send_key(1, keycode);
+            cb_send_key(1, keycode, 0);
         }
-        
     });
 
     /*layout*/
