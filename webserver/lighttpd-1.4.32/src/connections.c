@@ -10837,6 +10837,7 @@ static int handle_provisioninit(buffer *b, const struct message *m)
         buffer_append_string (b, "0");
     else
         buffer_append_string (b, "1");
+    
     return 1;
 }
 
@@ -20249,6 +20250,23 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
             free(file_name);
             printf("open failed \n");
             return -1;
+        }
+
+        if (strcasecmp(file_name, FIFO_PATH) == 0) {
+            struct statfs fs;
+            int result = statfs(CACHE_PATH, &fs);
+            if (result < 0) {
+                printf("statfs error no:%d\n", result);
+                printf("%s: %s\n", CACHE_PATH, strerror(errno));
+                return -1;
+            }
+            long long freespace = (((long long)fs.f_bsize*(long long)fs.f_bfree));
+            printf("free space: %lld, file size:%d\n", freespace, con->request.content_length);
+            if (freespace < con->request.content_length) {
+                printf("free space too small-------------\n");
+                buffer_append_string(b, "Response=Error\r\nMessage=Not enough space\r\n");
+                return -1;
+            }
         }
 
         boundary_ptr = strstr(con->request.http_content_type, "boundary=");
