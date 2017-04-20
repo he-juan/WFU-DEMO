@@ -552,12 +552,6 @@ function cb_upgrade_done(data)
                 $.prompt(a_16455);
         }
     }else {
-        if( $("#upgradeall").attr("checked") ){
-            /*$.cookie( "ShutdownType" , "3" , { path: '/', expires: 30 });
-            window.parent.location='/reboot.html';*/
-            $.prompt(a_16669);
-            return;
-        }
         var result = parseInt(msgs.headers["result"]);
         switch(result)
         {
