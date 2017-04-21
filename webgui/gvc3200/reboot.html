@@ -73,6 +73,7 @@ function cb_get_promodel_done(data){
     if (msgs.headers['response'].toLowerCase() == "success")
     {
         var promodel = msgs.headers['product'];
+        
         if( promodel == "" || promodel == undefined)
         {
             document.title = "";
@@ -82,6 +83,8 @@ function cb_get_promodel_done(data){
         {
             document.title = promodel + " Enterprise Phone";
             $(".rbttitleSpan").text(promodel);
+            if(promodel.indexOf("云视讯") != -1)
+                $(".bgimg").css("background", "url('img/login/login_camera_cmcc.png') no-repeat scroll transparent");
         }
     }else
     {
