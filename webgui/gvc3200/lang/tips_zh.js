@@ -64,10 +64,10 @@ tip_item.push (
         "显示设备的内核程序版本号。"),
     
     /*Account1 2 3 General Settings*/
-    new TipsDef("Account Active", "激活账号",
-        "此项指出账号是否被激活。H.323账号默认不激活，其他账号默认激活。"),
-    new TipsDef("Account Name", "账号名称",
-        "与账号对应的账号名称，显示在设备上。"),
+    new TipsDef("Account Active", "激活帐号",
+        "此项指出帐号是否被激活。H.323帐号默认不激活，其他帐号默认激活。"),
+    new TipsDef("Account Name", "帐号名称",
+        "与帐号对应的帐号名称，显示在设备上。"),
     new TipsDef("SIP Server", "SIP服务器",
         "SIP服务器的IP地址或URL，由VoIP服务提供商提供。"),
     new TipsDef("Secondary SIP Server", "备用SIP服务器",
@@ -75,7 +75,7 @@ tip_item.push (
     new TipsDef("Tertiary SIP Server", "第三SIP服务器",
         "设置第三SIP服务器的IP地址或URL。当备用SIP服务器失效时，话机将使用该第三SIP服务器。"),
     new TipsDef("SIP User ID", "SIP用户ID",
-        "用户账号信息，由VoIP服务提供商提供，通常与电话号码形式相似或者就是实际的电话号码。"),
+        "用户帐号信息，由VoIP服务提供商提供，通常与电话号码形式相似或者就是实际的电话号码。"),
     new TipsDef("SIP Authentication ID", "SIP验证ID",
         "SIP服务器电话用户用于验证的验证ID。可以与用户ID相同或不同。"),
     new TipsDef("SIP Authentication Password", "SIP验证密码",
@@ -91,7 +91,7 @@ tip_item.push (
 	new TipsDef("Tel URI", "电话URI",
 		"若设备有指定的PSTN电话号码，该项应设置为“User=Phone”。此时设备在指示E.164号码时发送的SIP请求头文件中将附上“User=Phone”这一字段。若设置为“启用”，在发送SIP请求时“Tel:”将会替换“SIP:”。默认设置该项禁用。"),
     new TipsDef("Enable IPVideoTalk", "开启IPVideoTalk服务",
-        "勾选后，设备将会被分配一个IPVideoTalk 账号，并开启IPVideoTalk 服务。不勾选时，即不开启IPVideoTalk 服务。默认为“是”。"),
+        "勾选后，设备将会被分配一个IPVideoTalk 帐号，并开启IPVideoTalk 服务。不勾选时，即不开启IPVideoTalk 服务。默认为“是”。"),
     new TipsDef("H.323 Local Port", "H.323本地端口",
         "该项设置设备监听的本地H.323端口，默认值为1720。"),
     
@@ -113,13 +113,13 @@ tip_item.push (
     new TipsDef("SIP Registration", "SIP注册",
         "此项设置设备是否给代理或服务器发送SIP注册报文。默认设置为“是”。"),
     new TipsDef("Unregister Before New Registration", "重新注册前注销",
-        "此项如果设置为“否”, 则不注销SIP用户注册信息, 如果设置为“全部”，在SIP注销报文Contact头域时将使用“*”来注销此账号的所有注册信息，如果设置为“Instance”，则仅注销当前设备IP的注册信息。默认为“Instance”。"),
+        "此项如果设置为“否”, 则不注销SIP用户注册信息, 如果设置为“全部”，在SIP注销报文Contact头域时将使用“*”来注销此帐号的所有注册信息，如果设置为“Instance”，则仅注销当前设备IP的注册信息。默认为“Instance”。"),
     new TipsDef("Register Expiration", "注册期限 (分钟)",
         "此参数允许用户设定设备更新注册的频率（分钟）。默认时间间隔为60分钟（1小时）。最大时间间隔为64800分钟（大约45天）。最小值为1分钟。"),
     new TipsDef("Wait Time Retry Registration", "重试注册间隔时间",
         "注册失败重试间隔时间，默认20秒。"),
     new TipsDef("Local SIP Port", "本地SIP端口",
-        "该项设置设备监听和传输的本地SIP端口。账号1到账号6的默认值分别为5060、5062、5064、5066、5068、5070。"),
+        "该项设置设备监听和传输的本地SIP端口。帐号1到帐号6的默认值分别为5060、5062、5064、5066、5068、5070。"),
     new TipsDef("SUBSCRIBE for MWI", "支持MWI",
         "当该项设为“是”时，设备将会周期性发送语音留言的订阅消息（SUBSCRIBE）给服务器，服务器将会返回NOTIFY信息给设备。设备支持同步或异步的MWI。默认设置为“否”。"),
     new TipsDef("Session Expiration", "会话超时时间",
@@ -296,7 +296,7 @@ tip_item.push (
     new TipsDef("Anonymous Call Rejection", "拒绝匿名呼叫",
         "默认为\"否\"。如果设置为\"是\"，匿名来电将被拒绝。"),
     new TipsDef("Account Ring Tone", "帐号默认铃声",
-        "在下拉框当中选择账号默认铃声。"),
+        "在下拉框当中选择帐号默认铃声。"),
     new TipsDef("Match Incoming Caller ID", "匹配来电号码",
 		"设置来电号码振铃的规则，左边共有3个空格可以设置区别振铃规则。<br>例如：139x+ 即以139开头的来电对应响铃为右边的铃声。"),
     new TipsDef("Distinctive Ring Tone", "自定义铃音",
@@ -536,9 +536,9 @@ tip_item.push (
     new TipsDef("Preferred Internet Protocol", "网络协议",
         "选择IPv4或IPv6。"),
     new TipsDef("Address Type", "地址类型",
-        "本设备有三种网络模式:<br>• DHCP模式: 设备通过在所连接局域网的一个DHCP服务器获取IP。所有有关静态IP/PPPoE的域值都不可用（尽管有关域值已保存在闪存中）。<br>• PPPoE模式:配置PPPoE账号/密码，通过拨号从PPPoE服务器获取IP。<br>• 静态IP:需要手动配置IP地址、子网掩码、默认路由器IP地址、DNS服务器1、DNS服务器2。"),
-    new TipsDef("PPPoE Account ID", "PPPoE账号",
-        "输入PPPoE账号。"),
+        "本设备有三种网络模式:<br>• DHCP模式: 设备通过在所连接局域网的一个DHCP服务器获取IP。所有有关静态IP/PPPoE的域值都不可用（尽管有关域值已保存在闪存中）。<br>• PPPoE模式:配置PPPoE帐号/密码，通过拨号从PPPoE服务器获取IP。<br>• 静态IP:需要手动配置IP地址、子网掩码、默认路由器IP地址、DNS服务器1、DNS服务器2。"),
+    new TipsDef("PPPoE Account ID", "PPPoE帐号",
+        "输入PPPoE帐号。"),
     new TipsDef("PPPoE Password", "PPPoE密码",
         "输入PPPoE密码。"),
 
@@ -807,7 +807,7 @@ tip_item.push (
 
 	/*Device Manager LCD*/
     new TipsDef("Display Clock instead of Date", "",
-        "默认为否,如果启用这项，时间会替换日期、用户名和账号显示在LCD上。"),
+        "默认为否,如果启用这项，时间会替换日期、用户名和帐号显示在LCD上。"),
     new TipsDef("Disable SIP User Display", "",
         "默认为否。如果选择是的话，SIP用户ID不会在LCD上显示。"),
     new TipsDef("Disable IP Address Display", "",
@@ -884,7 +884,7 @@ tip_item.push (
 	
 	 /*maintenance Open VPN*/
     new TipsDef("OpenVPN Enable", "开启OpenVPN",
-        "此项设置是否激活OpenVPN功能,需要服务器支持。默认是关闭的。 注意: 用户如果需要使用OpenVPN功能,需要设置OpenVPN相关的所有配置,包括服务器地址, 端口, OpenVPN证书, 客户证书，客户密码。 另外，通过账号设置--->网络设置，选择NAT类型为VPN。"),
+        "此项设置是否激活OpenVPN功能,需要服务器支持。默认是关闭的。 注意: 用户如果需要使用OpenVPN功能,需要设置OpenVPN相关的所有配置,包括服务器地址, 端口, OpenVPN证书, 客户证书，客户密码。 另外，通过帐号设置--->网络设置，选择NAT类型为VPN。"),
     new TipsDef("OpenVPN Server Address", "OpenVPN服务器地址",
 		"设置OpenVPN服务器的URL/IP地址。"),
     new TipsDef("OpenVPN Server Port", "OpenVPN服务器端口",
@@ -968,13 +968,13 @@ tip_item.push (
 	
 	/*application settings IM*/	
 	new TipsDef("Google Talk", "",
-		"此项设置添加/删除Google Talk账号。"),
+		"此项设置添加/删除Google Talk帐号。"),
 	new TipsDef("MSN", "",
-		"此项设置添加/删除MSN账号。"),
+		"此项设置添加/删除MSN帐号。"),
 	new TipsDef("QQ", "",
-		"此项设置添加/删除QQ账号。"),
+		"此项设置添加/删除QQ帐号。"),
 	new TipsDef("Yahoo", "",
-		"此项设置添加/删除YahOO账号。"),
+		"此项设置添加/删除YahOO帐号。"),
 	
 	/*application settings Twitter*/	
 	new TipsDef("Auto Refresh Time", "自动刷新时间",
@@ -985,14 +985,14 @@ tip_item.push (
 		"此项设置显示名称，可以选择用户名或别名。默认选择从用户名显示。"),
 	new TipsDef("Page Limit", "页面限制",
 		"此项配置单个页面显示的信息条数，可以选择每页20/40/60/80条。"),
-	new TipsDef("Twitter Account", "Twitter账号",
-		"此项设置可删除Twitter账号。用户可以在设备上添加帐号。"),
+	new TipsDef("Twitter Account", "Twitter帐号",
+		"此项设置可删除Twitter帐号。用户可以在设备上添加帐号。"),
 	new TipsDef("Twitter Servers", "Twitter服务器",
 		"此项设置使用的交互信息的服务器。默认为http://twitter.com 。用户可以点击：“添加”按键，自己添加服务器地址。"),
 
 	/*application settings Facebook*/	
-	new TipsDef("Facebook Account", "Facebook账号",
-		"此项设置添加Facebook账号。点击“添加”会跳转到Facebook主页进行授权，根据提示授权成功后关闭Facebook主页，返回设备配置页面，完成添加账号。账号添加成功后可以在下拉框中看到添加的账号。"),
+	new TipsDef("Facebook Account", "Facebook帐号",
+		"此项设置添加Facebook帐号。点击“添加”会跳转到Facebook主页进行授权，根据提示授权成功后关闭Facebook主页，返回设备配置页面，完成添加帐号。帐号添加成功后可以在下拉框中看到添加的帐号。"),
 
 	/*application settings Browser Settings*/	
 	new TipsDef("Start Browser On Boot", "开机运行浏览器",
@@ -1008,16 +1008,16 @@ tip_item.push (
 		"点击“保存”，将保存收藏夹XML格式文件到电脑。"),
 
     /*Advanced Settings Photo Album*/	
-	new TipsDef("Photobucket Account", "Photobucket账号",
-		"此项设置添加/删除Photobucke账号。"),
-	new TipsDef("Flickr Account", "Flickr账号",
-		"此项设置添加/删除Flickr账号。点击“添加”会跳转到Flickr主页进行授权，根据提示授权成功后关闭Flickr主页，返回设备配置页面，完成添加账号。账号添加成功后可以在下拉框中看到添加的账号。"),
-	new TipsDef("Phanfare Account", "Phanfare账号",
-		"此项设置添加/删除Phanfare账号。"),
+	new TipsDef("Photobucket Account", "Photobucket帐号",
+		"此项设置添加/删除Photobucke帐号。"),
+	new TipsDef("Flickr Account", "Flickr帐号",
+		"此项设置添加/删除Flickr帐号。点击“添加”会跳转到Flickr主页进行授权，根据提示授权成功后关闭Flickr主页，返回设备配置页面，完成添加帐号。帐号添加成功后可以在下拉框中看到添加的帐号。"),
+	new TipsDef("Phanfare Account", "Phanfare帐号",
+		"此项设置添加/删除Phanfare帐号。"),
 
     /*Advanced Settings Last FM*/	
 	new TipsDef("User Name", "用户名",
-		"此项设置Last FM用户名，即用户登录在线音乐的用户名。如果没有账号先请到lastfm网站注册。"),
+		"此项设置Last FM用户名，即用户登录在线音乐的用户名。如果没有帐号先请到lastfm网站注册。"),
 	new TipsDef("Password", "密码",
 		"此项设置Last FM对应上面用户名的用户密码。"),
 
@@ -1295,7 +1295,7 @@ tip_item.push (
     new TipsDef("Call Center Status", "呼叫中心状态", 
         "启用时，设备向服务器发送SUBSCRIBE消息以获取呼叫中心状态。"),
     new TipsDef("Key Mode", "按键模式",
-        "可供选择的按键模式有：<br>快速拨号：快速拨打扩展板上配置的用户ID<br>Asterisk忙灯检测：监视扩展板上配置的用户ID状态<br>呼叫转移：转移当前通话到扩展板上配置的用户ID<br>对讲：寻呼/对讲扩展板上配置的用户ID<br>使用激活帐号快速拨打：同快速拨号相似，不同的是使用当前已激活的账号进行呼叫。例如，摘机时若账号2激活，则将会使用账号2拨打扩展板上设置的用户ID。<br>拨打DTMF：通话过程中拨打扩展板上设置的用户ID的DTMF数字。<br>停靠：配置停靠或接听来电时的呼叫停靠特征码。"),
+        "可供选择的按键模式有：<br>快速拨号：快速拨打扩展板上配置的用户ID<br>Asterisk忙灯检测：监视扩展板上配置的用户ID状态<br>呼叫转移：转移当前通话到扩展板上配置的用户ID<br>对讲：寻呼/对讲扩展板上配置的用户ID<br>使用激活帐号快速拨打：同快速拨号相似，不同的是使用当前已激活的帐号进行呼叫。例如，摘机时若帐号2激活，则将会使用帐号2拨打扩展板上设置的用户ID。<br>拨打DTMF：通话过程中拨打扩展板上设置的用户ID的DTMF数字。<br>停靠：配置停靠或接听来电时的呼叫停靠特征码。"),
     new TipsDef("Account", "帐号",
         "设置MPK按键所使用的SIP帐号。"),
     new TipsDef("Name ", "显示名",
@@ -1305,7 +1305,7 @@ tip_item.push (
     new TipsDef("Auto Conference", "自动会议",
         "若选择“是”，在存在1路或1路以上的通话线路下，当用户按下“会议室”按钮时，设备将会建立与当前通话线路个数相同的多方电话会议。默认为“否”。"),
     new TipsDef("Offhook Auto Dial", "摘机自动拨号",
-        "配置一个号码，摘机或按免提时自动拨打这个号码。设备默认使用账号1拨打。"),
+        "配置一个号码，摘机或按免提时自动拨打这个号码。设备默认使用帐号1拨打。"),
     new TipsDef("Offhook Timeout", "摘机超时",
         "当配置了超时时间在摘机后若超时将退出拨号界面。默认设置为“30秒”。有效值范围10至60秒。"),
     new TipsDef("Enable Function for Incoming Call", "开启来电功能项",
