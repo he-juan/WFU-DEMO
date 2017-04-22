@@ -17771,7 +17771,7 @@ static int audio_conversion_new (char *infile, char *outfile, int step)
 
     if (step == 0)
         //sprintf(cmd, "/system/bin/sox %s -r 8000 -c 1 %s bass -3", infile, outfile);
-        sprintf(cmd, "/system/bin/sox %s -r 8000 -c 1 %s", infile, outfile);
+        sprintf(cmd, "/system/bin/sox %s -r 16000 -c 1 %s", infile, outfile);
     else
         sprintf(cmd, "/system/bin/sox %s %s", infile, outfile);
     mysystem(cmd);
