@@ -1185,7 +1185,7 @@ tip_item.push (
         "Versión ISP."),
 
     new TipsDef("Enable Video FEC",
-        "Si se establece en \"Si\", FEC será habilitado para las vídeo llamadas. El ajuste por defecto es \"Si\"."),
+        "Si se establece en \"Si\", FEC será habilitado para las vídeo llamadas. El ajuste por defecto es \"No\"."),
     new TipsDef("FEC Payload Type",
         "Configura el tipo de carga útil de FEC. El rango válido es desde 96 a 127. El valor por defecto es 120."),
     new TipsDef("FEC RED Payload Type",

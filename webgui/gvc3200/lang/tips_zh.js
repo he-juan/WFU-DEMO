@@ -1190,7 +1190,7 @@ tip_item.push (
         "显示设备的ISP版本号。"),
 
     new TipsDef("Enable Video FEC", "开启视频前向纠错",
-        "若勾选该项，视频电话将开启前向纠错。默认为勾选。"),
+        "若勾选该项，视频电话将开启前向纠错。默认为不勾选。"),
     new TipsDef("FEC Payload Type", "FEC有效荷载类型",
         "此项设置FEC负载类型。输入FEC有效荷载值范围为：96-127。默认为120。"),
     new TipsDef("FEC RED Payload Type", "FEC冗余编码",

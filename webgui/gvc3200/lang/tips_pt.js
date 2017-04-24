@@ -1186,7 +1186,7 @@ tip_item.push (
         "Versão ISP."),
 
     new TipsDef("Enable Video FEC",
-        "Se está configurado \"Sim\", FEC será habilitado para as videochamadas. A configuração padrão é \"Sim\"."),
+        "Se está configurado \"Sim\", FEC será habilitado para as videochamadas. A configuração padrão é \"Não\"."),
     new TipsDef("FEC Payload Type",
         "Configure o tipo de carga do FEC. O intervalo válido é desde 96 até 127. O valor padrão é 120."),
     new TipsDef("FEC RED Payload Type",

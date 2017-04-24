@@ -1196,7 +1196,7 @@ tip_item.push (
         "ISP Version."),
 
     new TipsDef("Enable Video FEC",
-        "If set to \"Yes\", FEC will be enabled for video call. The default setting is \"Yes\"."),
+        "If set to \"Yes\", FEC will be enabled for video call. The default setting is \"No\"."),
     new TipsDef("FEC Payload Type",
         "Configures FEC payload type. The valid range is from 96 to 127. The default value is 120."),
     new TipsDef("FEC RED Payload Type",
