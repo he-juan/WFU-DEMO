@@ -1,8 +1,8 @@
 $(function(){
     var wholewidth = window.screen.width;
     var pageheight = window.parent.document.body.clientHeight;
-    $("#remotectrl").css('top',(pageheight-558)/2).css('left',(wholewidth-222)/2);
-    $("#closeremote").css('top',(pageheight-558)/2).css('left',(wholewidth+262)/2);
+    //$("#remotectrl").css('top',(pageheight-558)/2).css('left',(wholewidth-222)/2);
+    //$("#closeremote").css('top',(pageheight-558)/2).css('left',(wholewidth+262)/2);
     var height = pageheight-108;
 	var foottop = height + 160;
 	$("#mainContentpage").css('height',height);

@@ -131,6 +131,7 @@ body{background-color:#EFF0F1;}
 #cf_message{width:auto;color:#ffffff;position: absolute;left:50%;z-index:900;bottom:80px;margin-left:-100px;font-size:16px;height:32px;display: none;}
 #cfmsg_content{padding:0 15px;height:30px;line-height:30px;border-radius:4px;background:#555555;display:block;}
 .mobilemenu{display:none;}
+#remotectrl{background: url("img/remote/remote_control_bg.png"); width: 150px; height: 697px; min-height: 697px; min-width: 150px; float: left;}
 </style>
 <script type="text/javascript">
     var cookie_skin = $.cookie( "MyCssSkin");
@@ -143,104 +144,80 @@ body{background-color:#EFF0F1;}
 
 <body class="mainbody">
 <div id="topbg" style="position:absolute;top:0;left:0;width:100%;"></div>
-<div id="remotectrlpage" class="borderradius">
-    <button id="closeremote" style="position: absolute; top: 0px;left:60%;"></button>
-    <div id="remotectrl" class="borderradius" style="width:222px;height:558px;position:absolute;top:50%;left:45%;background:#232323;border-radius:26px;border:1px solid #1D1D1D;">
-        <div class="borderradius" style="width:192px;height:178px;background:#181818;border-radius:14px;border:1px solid #000000;position:absolute;top:15px;left:15px;">
-            <div id="topvolume" style="background:transparent;position:absolute;top:15px;left:15px;width:10px;height:115px;">
-                <button id="volumeupbtn" keycode="24"></button>
-                <button id="volumedownbtn" keycode="25"></button>
-                <button id="volumebtn" keycode="91" style="display:none;"></button>
-            </div>
-            <div id="toptoucharea" style="background:transparent;position:absolute;top:15px;left:25px;width:130px;height:140px;">
-            
-            </div>
-            <div id="topzoom" style="background:transparent;position:absolute;top:15px;right:15px;width:19px;height:115px;">
-                <button id="zoominbtn" keycode="168"></button>
-                <button id="zoomoutbtn" keycode="169"></button>
-                <button id="zoombtn" keycode="" style="display:none;"></button>
-            </div>
-            <div id="topbuttonarea">
-                <button id="returnkey" keycode="4"></button>
-                <button id="homekey" keycode="3"></button>
-                <button id="menukey" keycode="82"></button>
-            </div>
-        </div>
-        <div id="centerarrowarea" style="width:194px;height:140px;background:transparent;position:absolute;top:199px;left:14px;">
-            <button id="mutebtn" class="circlebtn" keycode="91" style="position:absolute;top:1px;left:4px;"></button>
-            <button id="ptzbtn" class="circlebtn" keycode="276" style="position:absolute;top:1px;left:155px;"></button>
-            <div id="centerarrow" class="borderradius" style="width:114px;height:114px;background:#181818;border-radius:57px;border:1px solid #000000;position:absolute;top:9px;left:40px;">
-                <button id="topbtn" class="arrowbtn" keycode="19" style="position:absolute;top:0px;left:41px;"></button>
-                <button id="leftbtn" class="arrowbtn" keycode="21" style="position:absolute;top:43px;left:1px;"></button>
-                <button id="centerbtn" keycode="23" style="position:absolute;top:34px;left:34px;width:47px;height:47px;border-radius:0;"></button>
-                <button id="rightbtn" class="arrowbtn" keycode="22" style="position:absolute;top:43px;right:3px;"></button>
-                <button id="bottombtn" class="arrowbtn" keycode="20" style="position:absolute;bottom:5px;left:41px;"></button>
-            </div>
-            <button id="layoutbtn" class="circlebtn" keycode="277" style="position:absolute;top:99px;left:4px;"></button>
-            <button id="presentationbtn" class="circlebtn" keycode="278" style="position:absolute;top:99px;left:155px;"></button>
-        </div>
-        <div id="bottomdigitarea" class="borderradius">
-            <div class="digitrow">
-                <div class="KeypadDigit borderradius" style="border-top-left-radius:12px;">
-                    <button keycode="281" class="noleftbd notopbd"><div class="DigitButtonLeft" id="reddigit"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="282" class="notopbd"><div class="DigitButtonLeft" id="yellowdigit"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit borderradius" style="border-top-right-radius:12px;">
-                    <button keycode="283" class="notopbd"><div class="DigitButtonLeft" id="bluedigit"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="8" class="noleftbd"><div class="DigitButtonLeft">1</div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="9"><div class="DigitButtonLeft">2</div><div class="DigitButtonRight">ABC</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="10"><div class="DigitButtonLeft">3</div><div class="DigitButtonRight">DEF</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="11" class="noleftbd"><div class="DigitButtonLeft">4</div><div class="DigitButtonRight">GHI</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="12"><div class="DigitButtonLeft">5</div><div class="DigitButtonRight">JKL</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="13"><div class="DigitButtonLeft">6</div><div class="DigitButtonRight">MNO</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="14" class="noleftbd"><div class="DigitButtonLeft">7</div><div class="DigitButtonRight">PQRS</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="15"><div class="DigitButtonLeft">8</div><div class="DigitButtonRight">TUV</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="16"><div class="DigitButtonLeft">9</div><div class="DigitButtonRight">WXYZ</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="17" class="noleftbd"><div class="DigitButtonLeft" id="digitrecord"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="7"><div class="DigitButtonLeft">0</div><div class="DigitButtonRight">OPER</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="18"><div class="DigitButtonLeft"  id="digitinfo"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit borderradius" style="border-bottom-left-radius:12px;">
-                    <button keycode="5" class="noleftbd"><div class="DigitButtonLeft" id="digitcall"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit">
-                    <button keycode="67"><div class="DigitButtonLeft" id="digitback"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-                <div class="KeypadDigit borderradius" style="border-bottom-right-radius:12px;">
-                    <button keycode="6"><div class="DigitButtonLeft" id="digitendcall"></div><div class="DigitButtonRight">&nbsp;</div></button>
-                </div>
-            </div>
-        </div>
-        <div id="bottomhomebtn" class="borderradius circlebtn" style="position:absolute;bottom:13px;left:94px;">
+<div id="remotectrlpage" style="min-height:700px;">
+    <div id="remotectrl" class="borderradius">
+        <div id="tophomebtn">
             <button id="powerbtn" keycode="26"></button>
         </div>
-    </div>    
+        <div id="touchpad"></div>
+        <div id="topbuttonarea" class="btnarea">
+            <button id="returnkey" class="optbtnleft" keycode="4"><div></div></button>
+            <button id="homekey" class="optbtnmid" keycode="3"><div></div></button>
+            <button id="menukey" class="optbtnright" keycode="82"><div></div></button>
+        </div>
+        <div class="btnarea">
+            <button id="customkey" keycode="285"><div></div></button>
+        </div>
+        <div id="funcbtn" class="btnarea">
+            <button id="reddigit" class="optbtnleft" keycode="281"><div></div></button>
+            <button id="yellowdigit" class="optbtnmid" keycode="282"><div></div></button>
+            <button id="bluedigit" class="optbtnright" keycode="283"><div></div></button>
+        </div>
+        <div class="radiusbtn">
+            <button id="volumedownbtn" keycode="25"><div></div></button>
+            <button id="volumeupbtn" keycode="24"><div></div></button>
+        </div>
+        <div class="centerarrow">
+            <div style="width:100%; height:20px; text-align:center;"><button id="topbtn" class="arrowbtn" keycode="19"><div></div></button></div>
+            <div style="width:100%; height:52px;">
+                <div style="width:20px; height:52px; position:absolute; left:0;"><button id="leftbtn" class="arrowbtn" keycode="21"><div></div></button></div>
+                <button id="centerbtn" class="center" keycode="23"></button>
+                <div style="width:20px; height:52px; position:absolute; right:0;"><button id="rightbtn" class="arrowbtn" keycode="22"><div></div></button></div>
+            </div>
+            <div style="width:100%; height:20px; text-align:center;"><button id="bottombtn" class="arrowbtn" keycode="20"><div></div></button></div>
+        </div>
+        <div class="radiusbtn" style="margin-top:-23px; height:37px;">
+            <button id="zoomoutbtn" keycode="169"><div></div></button>
+            <button id="zoominbtn" keycode="168"><div></div></button>
+        </div>
+        <div id="mediabtn" class="downbtnarea">
+            <button id="layoutbtn" class="optbtnleft" keycode="277"><div></div></button>
+            <button id="ptzbtn" class="optbtnmid" keycode="276"><div></div></button>
+            <button id="presentationbtn" class="optbtnright" keycode="278"><div></div></button>
+        </div>
+        <div class="downbtnarea">
+            <button id="digitcall" class="optbtnleft" keycode="5"><div></div></button>
+            <button id="digitback" class="optbtnmid" keycode="67"><div></div></button>
+            <button id="digitendcall" class="optbtnright" keycode="6"><div></div></button>
+        </div>
+        <div class="downbtnarea">
+            <button id="digit1" class="optbtnleft" keycode="8"><div></div></button>
+            <button id="digit2" class="optbtnmid" keycode="9"><div></div></button>
+            <button id="digit3" class="optbtnright" keycode="10"><div></div></button>
+        </div>
+        <div class="downbtnarea">
+            <button id="digit4" class="optbtnleft" keycode=11><div></div></button>
+            <button id="digit5" class="optbtnmid" keycode="12"><div></div></button>
+            <button id="digit6" class="optbtnright" keycode="13"><div></div></button>
+        </div>
+        <div class="downbtnarea">
+            <button id="digit7" class="optbtnleft" keycode="14"><div></div></button>
+            <button id="digit8" class="optbtnmid" keycode="15"><div></div></button>
+            <button id="digit9" class="optbtnright" keycode="16"><div></div></button>
+        </div>
+        <div class="downbtnarea">
+            <button id="digitasterisk" class="optbtnleft" keycode="17"><div></div></button>
+            <button id="digit0" class="optbtnmid" keycode="7"><div></div></button>
+            <button id="digithash" class="optbtnright" keycode="18"><div></div></button>
+        </div>
+        <div id="bottommutebtn">
+            <button id="mutebtn" class="center" keycode="91"></button>
+        </div>
+        <div id="bottomlogo">
+            <div class="center"></div>
+        </div>
+    </div>
+    <button id="closeremote" style="min-width:42px;left:0px;top:0px;"></button>
 </div>
 
 <div id="pageslide-body-wrap" style="position:relative;z-index:0;">
@@ -675,11 +652,20 @@ $(function(){
         $("#dndenabletip").hide();
     });
 	$("#remotebtn").click(function(){
-        if( $("#applydiv").is(":visible") ){
+        if( $("#changepwddiv").is(":visible") ){
             $("#remotectrlpage").css('height',document.body.clientHeight+40);
         }else{
             $("#remotectrlpage").css('height',"100%");
         }
+        var gbheight = $("#remotectrlpage").height();
+        var gbwidth = $("#remotectrlpage").width();
+        var rmtheight = $("#remotectrl").height();
+        var rmtwidth = $("#remotectrl").width();
+        
+        $("#remotectrl, #closeremote").css("margin-top", (gbheight - rmtheight)/2 + "px");
+        $("#remotectrl").css("margin-left", (gbwidth - rmtwidth)/2 + "px");
+        $("#closeremote").css("margin-left", 15 + "px");
+        
         $("#remotectrlpage").show();
 		/*$("#remotectrlpage").pageSlide({ width: "250px",height:"1200px", direction: "left", modal: true,
             complete:function(){
@@ -687,9 +673,64 @@ $(function(){
             } 
         });*/
 	});
+    
+    $("#volumedownbtn").mouseover(function(){
+        $("#volumedownbtn div").css("background", "url(img/remote/remote_control.png) -212px -5px");
+    }).mouseout(function(){
+        $("#volumedownbtn div").css("background", "url(img/remote/remote_control.png) -190px -5px");
+    });
+    
+    $("#volumeupbtn").mouseover(function(){
+        $("#volumeupbtn div").css("background", "url(img/remote/remote_control.png) -256px -5px");
+    }).mouseout(function(){
+        $("#volumeupbtn div").css("background", "url(img/remote/remote_control.png) -234px -5px");
+    });
+    
+    $("#topbtn").mouseover(function(){
+        $("#topbtn div").css("background", "url(img/remote/remote_control.png) -191px -26px");
+    }).mouseout(function(){
+        $("#topbtn div").css("background", "url(img/remote/remote_control.png) -169px -26px");
+    });
+    
+    $("#leftbtn").mouseover(function(){
+        $("#leftbtn div").css("background", "url(img/remote/remote_control.png) -278px -27px");
+    }).mouseout(function(){
+        $("#leftbtn div").css("background", "url(img/remote/remote_control.png) -256px -27px");
+    });
+    
+    $("#rightbtn").mouseover(function(){
+        $("#rightbtn div").css("background", "url(img/remote/remote_control.png) -320px -27px");
+    }).mouseout(function(){
+        $("#rightbtn div").css("background", "url(img/remote/remote_control.png) -298px -27px");
+    });
+    
+    $("#bottombtn").mouseover(function(){
+        $("#bottombtn div").css("background", "url(img/remote/remote_control.png) -235px -26px");
+    }).mouseout(function(){
+        $("#bottombtn div").css("background", "url(img/remote/remote_control.png) -213px -26px");
+    });
+    
+    $("#zoomoutbtn").mouseover(function(){
+        $("#zoomoutbtn div").css("background", "url(img/remote/remote_control.png) -300px -4px");
+    }).mouseout(function(){
+        $("#zoomoutbtn div").css("background", "url(img/remote/remote_control.png) -278px -4px");
+    });
+    
+    $("#zoominbtn").mouseover(function(){
+        $("#zoominbtn div").css("background", "url(img/remote/remote_control.png) -344px -4px");
+    }).mouseout(function(){
+        $("#zoominbtn div").css("background", "url(img/remote/remote_control.png) -322px -4px");
+    });
+    
 	$("#closeremote").click(function(){
         $("#remotectrlpage").hide();
 	});
+    
+    /*prevent right key menu function*/
+    $("#remotectrl button").bind("contextmenu", function(e){
+        return false;
+    });
+    
 	$("#zoomdrag").draggable({ 
         cursor: "move", 
         axis:"y", 
