@@ -952,6 +952,10 @@ tip_item.push (
 		"Selecciona el modo de descarga del archivo para el servidor de descarga. Los usuarios puede escoger desde TFTP/HTTP/OFF."),
 	new TipsDef("Download Server",
 		"Complete la URL o dirección IP del servidor para descargar el archivo de contactos XML desde Internet."),
+	new TipsDef("HTTP/HTTPS User Name",
+		"Fill in HTTP/HTTPS user name of the download server."),
+	new TipsDef("HTTP/HTTPS Password",
+		"Fill in HTTP/HTTPS password of the download server."),
 	new TipsDef("Download Interval",
 		"Establece el intervalo (en minutos) para enviar la solicitud de descarga al servidor. El ajuste por defecto \"Ninguno\" significa que el dispositivo no solicitará auto descarga. Puede ser establecido de acuerdo a las necesidades del usuario."),
 	new TipsDef("Download Now",
@@ -1087,7 +1091,13 @@ tip_item.push (
         "Configura el filtro usado para la búsqueda de números. Ejemplos:<br>(|(Númerodeteléfono=%)(Móvil=%) retorna todos los registros los cuales tienen el campo  “Númerodeteléfono“ o “Móvil“ contenidos con el valor de filtro ingresado;<br>(&(NúmerodeTeléfono=%) (cn=*)) retorna todos los registros con el campo “NúmerodeTeléfono“ que contiene el valor de filtro ingresado y el conjunto de campo “cn“."),
     new TipsDef("LDAP Mail Filter",
         "Configura el filtro usado para la búsqueda de Correo Electrónico. Ejemplos:<br>(|(correo=%)(buzóndecorreo=%)) retorna todos los registros que tengan el campo “correo“ o “buzóndecorreo“ que contienen el valor de filtro ingresado;<br>(!(correo=%)) retorna todos los registros los cuales no tienen el campo “correo“ que contiene el valor de filtro ingresado;<br>(&(correo=%) (cn=*)) retorna todos los registros con el campo “correo“ que contiene el valor de filtro ingresado y el conjunto de campo “cn“."),
-        
+    
+	/*Device Control*/
+	new TipsDef("Preset Settings",
+		"Camera presets are camera positions configured and saved ahead of time. A camera preset stores the pan, tilt, and zoom settings of the camera. You can easily control the camera by switching among camera presets. The presets can be configured before the conference or during the conference. Up to 24 presets are supported."),
+	new TipsDef("PTZ Control",
+		"Performs pan, tilt, zoom, (PTZ) control over a local camera."),
+				
     /*Ajustes Avanzados de administrador de tono*/	
 	new TipsDef("Ringtone File Manager",
 		"El administrador permite a los usuarios gestionar sus archivos de tono.  Muestra todos los tonos actualmente disponible. Los usuarios pueden cargar sus propios archivos de tono mp3 al seleccionar el botón de \"Cargar\". Los usuarios puede incluso eliminar aquellos archivo no deseados al seleccionar el botón \"Eliminar\"."),
@@ -1104,7 +1114,7 @@ tip_item.push (
     new TipsDef("HDMI Out Resolution",
         "Configura la resolución de imagen de salida del HDMI. Valores de resolución mayor significa una definición de imagen más alta. Por favor seleccione la misma resolución como la visualización de salida del dispositivo. El dispositivo automáticamente leerá la resolución soportada por la visualización de salida del dispositivo y la compara con la resolución soportada por sí mismo. Solo la resolución soportada por ambos será usada. El dispositivo obtendrá automáticamente la resolución óptima cuando arranque por primera vez."),
     new TipsDef("Move Speed",
-        "Especifica la velocidad de movimiento y  de zoom para la cámara. \"1\" es el más bajo y \"16\" es el más rápido. El ajuste por defecto es \"8\"."),
+        "Especifica la velocidad de movimiento y  de zoom para la cámara. \"1\" es el más bajo y \"16\" es el más rápido. El ajuste por defecto es \"5\"."),
     new TipsDef("Initial Position",
         "Especifica la posición inicial de la cámara cuando el dispositivo es encendido.<br>Predeterminado: La cámara se mueve a su posición por defecto después de iniciar.<br>Preestablecido 1: La cámara se mueve al preestablecido 1 después de iniciar. El preestablecido 1 debe ser configurado antes de reiniciar.<br>Última Posición: Después de iniciar, la cámara se mueve a la última posición antes de reiniciar. El ajuste por defecto es Predeterminado."),
     new TipsDef("VGA In ",

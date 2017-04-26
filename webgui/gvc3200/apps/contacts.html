@@ -63,7 +63,7 @@ input[type="text"].numinput{margin-top:2px;}
 .dialdiv{margin-left:12px;*margin-left:10px;}
 
 .dialogbg{width:650px;height:150px;position:absolute;left:105px;top:100px;*top:40px;background:#FFFFFF;color:#FFF;font-size:16px;box-shadow:0px 0px 10px 2px #919191;}
-.dialogbg .titlediv{width:auto;height:35px;line-height:35px;background:transparent;padding-left:15px;color:#1D6EA8;font-weight:normal;text-align:center;margin-top:10px;font-size:16px;}
+.dialogbg .titlediv{width:100%;height:35px;line-height:35px;background:transparent;color:#1D6EA8;font-weight:normal;text-align:center;margin-top:10px;font-size:16px;}
 .dialogbg button{width:82px;*line-height:30px;}
 .dialogokbtn{margin-right: 30px;}
 #addnewnumspan, #addnewemailspan{margin-right:5px;}
@@ -201,17 +201,17 @@ input[type="text"].numinput{margin-top:2px;}
     </div>
     
     <div id="downloaddiv" class="dialogdivs">
-        <div id="downloaddivbg" class="dialogbg" style="height:520px;top:50%;margin-top:-260px;">
+        <fieldset id="downloaddivbg" class="dialogbg" style="height:520px;top:50%;margin-top:-260px;">
             <div class="titlediv"><span id="a_download">Download</span></div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="Clear The Old List">
                 <div class="desdiv"><span id="a_clearoldlist">Clear The Old List</span></div>
                 <div class="contentdiv"><input type="checkbox" id="clearold" /><span id="a_clearoldyes">Yes</span></div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="Replace Duplicate Items">
                 <div class="desdiv"><span id="a_downdup">Replace Duplicate Items</span></div>
                 <div class="contentdiv"><input type="checkbox" id="downdup" /><span id="a_downdupyes">Yes</span></div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="Download Mode">
                 <div class="desdiv"><span id="a_downmode">Download mode</span></div>
                 <div class="contentdiv">
                     <select id="downmode" name="downmode">
@@ -222,7 +222,7 @@ input[type="text"].numinput{margin-top:2px;}
                     </select>
                 </div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="File Encoding">
                 <div class="desdiv"><span id="a_downfileencode">File encoding</span></div>
                 <div class="contentdiv">
                     <select id="downencodetype" name="downencodetype">
@@ -242,7 +242,7 @@ input[type="text"].numinput{margin-top:2px;}
                     </select>
                 </div>
             </div> 
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="Download Interval">
                 <div class="desdiv"><span id="a_downinterval">Download Interval</span></div>
                 <div class="contentdiv">
                     <select id="phbkdowninterval" name="phbkdowninterval">
@@ -255,15 +255,15 @@ input[type="text"].numinput{margin-top:2px;}
                     </select>
                 </div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="Download Server">
                 <div class="desdiv"><span id="a_downserver">Download server</span></div>
                 <div class="contentdiv"><input type="text" id="downserver" name="downserver" /></div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="HTTP/HTTPS User Name">
                 <div class="desdiv"><span id="a_httpsusername">HTTP/HTTPS User Name</span></div>
                 <div class="contentdiv"><input name="httpsusername" type="text" id="httpsusername" /></div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="HTTP/HTTPS Password">
                 <div class="desdiv"><span id="a_httpspass">HTTP/HTTPS Password</span></div>
                 <div class="contentdiv"><input name="httpspass" type="password" id="httpspass" /></div>
             </div>
@@ -274,21 +274,21 @@ input[type="text"].numinput{margin-top:2px;}
             <div class="detaildiv" style="margin-top:20px;text-align:center;margin-right:10px;padding-left:24px;line-height:0;">
                 <button id="downloaddialogok" class="dialogokbtn">Save</button>
                 <button id="downloaddialogcancel" class="cancelbtn">Cancel</button>
-            </div>  
-        </div>  
+            </div>
+        </fieldset>  
     </div>
     <div id="importdiv" class="dialogdivs">
-        <div id="importdivbg" class="dialogbg" style="height:353px;">
+        <fieldset id="importdivbg" class="dialogbg" style="height:353px;">
             <div class="titlediv"><span id="a_import">Import</span></div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="Clear The Old List">
                 <div class="desdiv"><span id="a_portclearoldlist">Clear The Old List</span></div>
                 <div class="contentdiv"><input type="checkbox" id="portclearold" /><span id="a_portclearoldyes">Yes</span></div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="Replace Duplicate Items">
                 <div class="desdiv"><span id="a_portdowndup">Replace Duplicate Items</span></div>
                 <div class="contentdiv"><input type="checkbox" id="portdowndup" /><span id="a_portdowndupyes">Yes</span></div>
             </div> 
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="File Encoding">
                 <div class="desdiv"><span id="a_fileencode">File encoding</span></div>
                 <div class="contentdiv">
                     <select id="encodetype" name="encodetype">
@@ -308,7 +308,7 @@ input[type="text"].numinput{margin-top:2px;}
                     </select>
                 </div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="File Type">
                 <div class="desdiv"><span id="a_imfiletype">File type</span></div>
                 <div class="contentdiv">
                     <select id="porttype" name="porttype">
@@ -332,12 +332,12 @@ input[type="text"].numinput{margin-top:2px;}
                 <button id="importdialogok" class="dialogokbtn">Save</button>
                 <button id="importdialogcancel" class="cancelbtn">Cancel</button>
             </div>  
-        </div>
+        </fieldset>
     </div>
     <div id="exportdiv" class="dialogdivs">
-        <div id="exportdivbg" class="dialogbg" style="height:260px;">
+        <fieldset id="exportdivbg" class="dialogbg" style="height:260px;">
             <div class="titlediv"><span id="a_export">Export</span></div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="File Encoding">
                 <div class="desdiv"><span id="a_exfileencode">File encoding</span></div>
                 <div class="contentdiv">
                     <select id="exencodetype" name="exencodetype">
@@ -357,7 +357,7 @@ input[type="text"].numinput{margin-top:2px;}
                     </select>
                 </div>
             </div>
-            <div class="detaildiv">
+            <div class="detaildiv" webtip="File Type">
                 <div class="desdiv"><span id="a_exfiletype">File type</span></div>
                 <div class="contentdiv">
                     <select id="exporttype" name="exporttype">
@@ -381,7 +381,7 @@ input[type="text"].numinput{margin-top:2px;}
                 <button id="exportdialogok" class="dialogokbtn">Save</button>
                 <button id="exportdialogcancel" class="cancelbtn">Cancel</button>
             </div> 
-        </div>
+        </fieldset>
     </div>
     
     <div id="newgroupdiv" class="dialogdivs">

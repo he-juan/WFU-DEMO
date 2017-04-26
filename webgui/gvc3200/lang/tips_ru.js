@@ -944,6 +944,10 @@ tip_item.push (
 		"Выберите протокол загрузки с сервера - TFTP/HTTP/ОТКЛЮЧЕНО."),
 	new TipsDef("Download Server",
 		"Введите URL или IP адрес сервера для загрузки XML файла из сети."),
+	new TipsDef("HTTP/HTTPS User Name",
+		"Fill in HTTP/HTTPS user name of the download server."),
+	new TipsDef("HTTP/HTTPS Password",
+		"Fill in HTTP/HTTPS password of the download server."),
 	new TipsDef("Download Interval",
 		"Установите интервал (в минутах) для отправки запроса на загрузку файла книги. Значение по умолчанию \"Нет\" означает, что автообновление файла выключено."),
 	new TipsDef("Download Now",
@@ -1079,7 +1083,13 @@ tip_item.push (
         "Устанавливает фильтр для поиска номера. Например: <br>(|(telephoneNumber=%)(Mobile=%) возвратит все записи “telephoneNumber“ или “Mobile“, содержащие введённые значения;<br>(&(telephoneNumber=%) (cn=*)) возвратит все записи “telephoneNumber“, содержащие введённые значения и имеющие заполненный “cn“."),
     new TipsDef("LDAP Mail Filter",
         "Устанавливает фильтр для поиска E-Mail. Например:<br>(|(mail=%)(mailBox=%)) возвратит все записи “mail“ или “mailBox“, содержащие введённые значения;<br>(!(mail=%)) возвратит все записи, в которых “mail“ не содержит введённого значения;<br>(&(mail=%) (cn=*)) возвратит все записи “mail“, содержащие введённые значения и имеющие заполненный “cn“."),
-        
+    
+	/*Device Control*/
+	new TipsDef("Preset Settings",
+		"Camera presets are camera positions configured and saved ahead of time. A camera preset stores the pan, tilt, and zoom settings of the camera. You can easily control the camera by switching among camera presets. The presets can be configured before the conference or during the conference. Up to 24 presets are supported."),
+	new TipsDef("PTZ Control",
+		"Performs pan, tilt, zoom, (PTZ) control over a local camera."),
+				
     /*Дополнительные настройки Менеджер рингтонов*/	
 	new TipsDef("Ringtone File Manager",
 		"Менеджер позволяет управлять файлами рингтонов. Здесь отображаются все доступные рингтоны. Пользователи могут загрузить mp3 файлы, назав кнопку \"Загрузка\". Также можно удалить ненужные файлы кнопкой \"Удалить\"."),
@@ -1096,7 +1106,7 @@ tip_item.push (
     new TipsDef("HDMI Out Resolution",
         "Устанавливает разрешение HDMI. Чем выше разрешение, тем выше качество изображения. Важно выбрать разрешение, которое поддерживает подключенное устройство. GVC3200 автоматически распознаёт поддерживаемые разрешения подключенного устройства и сравнивает с теми, которые поддерживает сама. Использовано будет разрешение, которое поддерживают обе стороны. При первой загрузке GVC3200 автоматически выберет наилучший вариант."),
     new TipsDef("Move Speed",
-        "Устанавливает скорость движения и приближения для камеры. \"1\" соответствует самой низкой скорости, и \"16\" самой высокой. По умолчанию \"8\"."),
+        "Устанавливает скорость движения и приближения для камеры. \"1\" соответствует самой низкой скорости, и \"16\" самой высокой. По умолчанию \"5\"."),
     new TipsDef("Initial Position",
         "Устанавливает начальное положение камеры при включении устройства.<br>По умолчанию: Камера устанавливается в положение по умолчанию.<br>Позиция 1: Камера устанавливается в предварительно заданную позицию 1.<br>Последняя позиция: После загрузки камера устанавливается в последнюю позицию, в которой находилась до перезагрузки. По умолчанию установлено По умолчанию."),
     new TipsDef("VGA In ",

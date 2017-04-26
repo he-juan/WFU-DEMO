@@ -953,6 +953,10 @@ tip_item.push (
 		"Selecione o modo de download de arquivo para o servidor de download. Os usuários podem escolher TFTP/HTTP/OFF."),
 	new TipsDef("Download Server",
 		"Coloque o endereço IP ou URL do servidor para baixar o arquivo XML da agenda de contatos da internet."),
+	new TipsDef("HTTP/HTTPS User Name",
+		"Fill in HTTP/HTTPS user name of the download server."),
+	new TipsDef("HTTP/HTTPS Password",
+		"Fill in HTTP/HTTPS password of the download server."),
 	new TipsDef("Download Interval",
 		"Configure o intervalo (em minutos) para o envio das solicitações de download ao servidor. A configuração padrão \"Nenhum\" quer dizer que o dispositivo não irá solicitar o download automático. Isto pode ser configurado conforme às necessidades do usuário."),
 	new TipsDef("Download Now",
@@ -1088,7 +1092,13 @@ tip_item.push (
         "Configure o filtro utilizado para as consultas por número. Exemplo: <br>(|(telephoneNumber=%)(Mobile=%) retorna todos os registros que contêm os campos “telephoneNumber“ ou “Mobile“  no valor do filtro introduzido;<br>(&(telephoneNumber=%) (cn=*)) retorna todos os registros que contêm os campos “telephoneNumber“ no valor do filtro introduzido e o campo “cn“ definido."),
     new TipsDef("LDAP Mail Filter",
         "Configure o filtro utilizado para as consultas por E-mail. Exemplo:<br>(|(mail=%)(mailBox=%)) retorna todos os registros que contêm o campo “mail“ ou “mailBox“ no valor do filtro introduzido;<br>(!(mail=%)) retorna todos os registros que não contêm o campo “mail“ no valor do filtro introduzido;<br>(&(mail=%) (cn=*)) retorna todos os registros que contêm o campo “mail“ no valor do filtro introduzido e o campo “cn“ definido."),
-        
+    
+	/*Device Control*/
+	new TipsDef("Preset Settings",
+		"Camera presets are camera positions configured and saved ahead of time. A camera preset stores the pan, tilt, and zoom settings of the camera. You can easily control the camera by switching among camera presets. The presets can be configured before the conference or during the conference. Up to 24 presets are supported."),
+	new TipsDef("PTZ Control",
+		"Performs pan, tilt, zoom, (PTZ) control over a local camera."),
+	
     /*Configurações avançadas Gerenciador de ringtone*/	
 	new TipsDef("Ringtone File Manager",
 		"O gerenciador permite aos usuários gerenciar de maneira centralizada os seus arquivos de ringtones. Isto amostra todos os tons de toque disponíveis. Os usuários podem carregar os seus próprios arquivos de ringtones em formato .mp3 clicando no botão \"Upload\". Os usuários podem também apagar os arquivos de ringtone indesejados clicando no botão \"Apagar\"."),
@@ -1105,7 +1115,7 @@ tip_item.push (
     new TipsDef("HDMI Out Resolution",
         "Configura a resolução de saída de imagem para o HDMI. Um valor de resolução superior quer dizer que a definição da imagem será maior. Por favor selecione a mesma resolução que o dispositivo de exibição de saída. O dispositivo lerá de maneira automática a resolução suportada pelo dispositivo de saída e a comparará com a resolução suportada por ele. Se utilizará unicamente a resolução suportada por ambos os dispositivos. O dispositivo obterá de maneira automática a resolução ótima quando ele for inicializado pela primeira vez."),
     new TipsDef("Move Speed",
-        "Especifica a velocidade de movimento e zoom para a câmera. \"1\" é o mais lento e \"16\" é mais rápido. A configuração padrão é \"8\"."),
+        "Especifica a velocidade de movimento e zoom para a câmera. \"1\" é o mais lento e \"16\" é mais rápido. A configuração padrão é \"5\"."),
     new TipsDef("Initial Position",
         "Especifica a posição inicial da câmera quando o dispositivo é ligado à alimentação.<br>Padrão: A câmera se move para a posição padrão depois de inicializar..<br>Preset 1: A câmera se move ao preset 1 depois de inicializar. O Preset deve estar definido antes de reiniciar.<br>Ultima Posição: Depois de reiniciar, a câmera se move para a ultima posição que estava antes de reiniciar. A configuração padrão é Padrão."),
     new TipsDef("VGA In ",

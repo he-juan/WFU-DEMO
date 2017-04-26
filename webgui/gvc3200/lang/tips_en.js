@@ -963,6 +963,10 @@ tip_item.push (
 		"Selects the file download mode for the download server. Users can choose from TFTP/HTTP/OFF."),
 	new TipsDef("Download Server",
 		"Fill in the server URL or IP address to download the XML contact file from the Internet."),
+	new TipsDef("HTTP/HTTPS User Name",
+		"Fill in HTTP/HTTPS user name of the download server."),
+	new TipsDef("HTTP/HTTPS Password",
+		"Fill in HTTP/HTTPS password of the download server."),
 	new TipsDef("Download Interval",
 		"Set the interval (in minutes) for sending download request to the server. The deafult setting \"None\" means the device will not request auto download. It could be set according to user's need."),
 	new TipsDef("Download Now",
@@ -1098,7 +1102,13 @@ tip_item.push (
         "Configures the filter used for number lookups. Examples:<br>(|(telephoneNumber=%)(Mobile=%) returns all records which has the “telephoneNumber“ or “Mobile“ field containing with the entered filter value;<br>(&(telephoneNumber=%) (cn=*)) returns all the records with the “telephoneNumber“ field containing with the entered filter value and “cn“ field set."),
     new TipsDef("LDAP Mail Filter",
         "Configures the filter used for E-Mail lookups.Examples:<br>(|(mail=%)(mailBox=%)) returns all records which has the “mail“ or “mailBox“ field containing with the entered filter value;<br>(!(mail=%)) returns all the records which do not have the “mail“ field containing with the entered filter value;<br>(&(mail=%) (cn=*)) returns all the records with the “mail“ field containing with the entered filter value and “cn“ field set."),
-        
+    
+	/*Device Control*/
+	new TipsDef("Preset Settings",
+		"Camera presets are camera positions configured and saved ahead of time. A camera preset stores the pan, tilt, and zoom settings of the camera. You can easily control the camera by switching among camera presets. The presets can be configured before the conference or during the conference. Up to 24 presets are supported."),
+	new TipsDef("PTZ Control",
+		"Performs pan, tilt, zoom, (PTZ) control over a local camera."),
+	
     /*Advanced Settings Ringtone Manager*/	
 	new TipsDef("Ringtone File Manager",
 		"The manager allows users to centrally manage their ringtone files. It shows all the currently available ringtones. Users can upload their own mp3 ringtone files by selecting the \"Upload\" button. Users can also delete unwanted ringtone files by selecting the \"Delete\" button."),
@@ -1115,7 +1125,7 @@ tip_item.push (
     new TipsDef("HDMI Out Resolution",
         "Configures the output image resolution of HDMI. Greater resolution value means higher image definition. Please select the same resolution as the output display device. The device will automatically read the resolution supported by the output display device and compare it with the resolution supported by itself. Only the resolution supported by both will be used. The device will automatically obtain the optimal resolution when it boots up for the first time."),
     new TipsDef("Move Speed",
-        "Specifies the moving speed and zoom speed for the camera. \"1\" is slowest and \"16\" is fastest. The default setting is \"8\"."),
+        "Specifies the moving speed and zoom speed for the camera. \"1\" is slowest and \"16\" is fastest. The default setting is \"5\"."),
     new TipsDef("Initial Position",
         "Specifies the initial position of the camera when the device is powered up.<br>Default: The camera moves to it's default position after bootup.<br>Preset 1: The camera moves to the preset 1 after bootup. Preset 1 must be set up before reboot.<br>Latest Position: After bootup, the camera moves to the latest position before reboot. The default setting is Default."),
     new TipsDef("VGA In ",

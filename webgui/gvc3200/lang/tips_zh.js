@@ -799,7 +799,7 @@ tip_item.push (
 
 	/*Maintenance Language*/
     new TipsDef("Language", "语言选择",
-		"选择设备LCD显示的语言。"),
+		"选择设备显示的语言。"),
     new TipsDef("Custom Language", "自定义语言",
 		"从电脑本地直接浏览上传到设备，点击“浏览”，选择txt文件。"),
     new TipsDef("Default Custom Language", "自定义默认语言",
@@ -957,6 +957,10 @@ tip_item.push (
 		"选择互联网下载模式。"),
 	new TipsDef("Download Server", "下载服务器",
 		"设置从互联网下载的服务器地址。"),
+	new TipsDef("HTTP/HTTPS User Name", "HTTP/HTTPS用户名",
+		"设置下载服务器的HTTP/HTTPS用户名。"),
+	new TipsDef("HTTP/HTTPS Password", "HTTP/HTTPS密码",
+		"设置下载服务器的HTTP/HTTPS密码。"),
 	new TipsDef("Download Interval", "下载周期",
 		"从自动服务器下载的周期（分）。默认为0，即不会自动请求下载。用户可以根据需要设置。"),
 	new TipsDef("Download Now", "开始下载",
@@ -1093,6 +1097,12 @@ tip_item.push (
     new TipsDef("LDAP Mail Filter", "LDAP邮件筛选规则",
         "配置邮件查询时的过滤器。例如:<br>(|(mail=%)(mailBox=%)) 返回所有“mail”或“mailBox”域中有包含了指定过滤值的联系人;<br>(!(mail=%)) 返回所有“mail”域中没有包含指定过滤值的联系人;<br>(&(mail=%) (cn=*)) 返回所有“mail”域中有包含了指定过滤值并且设置了“cn“域的联系人."),
          
+	/*Device Control*/
+	new TipsDef("Preset Settings", "预置位设置",
+		"预置位是已存储的摄像机位置。预置摄像机位置并存储该预置位后，可以通过切换不同预置位，方便地调整摄像机位置。最多支持24个预置位。"),
+	new TipsDef("PTZ Control", "PTZ控制",
+		"本地摄像机进行PTZ（Pan/Tilt/Zoom）控制，即俯仰、左右转动、图像缩放，从而得到需要的视频画面。"),
+		
 	/*Advanced Settings Ringtone Manager*/	
 	new TipsDef("Ringtone File Manager", "铃声文件管理",
 		"用户可以添加/删除铃声，可用的铃声显示在列表中。用户还可以点击“上传”，上传MP3文件到设备。"),
@@ -1109,7 +1119,7 @@ tip_item.push (
     new TipsDef("HDMI Out Resolution", "HDMI 输出分辨率",
         "设置HDMI 输出图像的分辨率，分辨率数值越大图像清晰度越高，选择的分辨率要与显示器的分辨率一致。设备会自动读取电视机支持的分辨率并与本设备支持的分辨率继续比对，双方都支持的分辨率会显示在页面上供设置。图像格式数值越大图像清晰度越高，首次启动设备会自动获取最优分辨率。"),
     new TipsDef("Move Speed", "移动速度",
-        "设置镜头转动和缩放速度。共16档，1档最慢，16档最快。默认为8档。"),
+        "设置镜头转动和缩放速度。共16档，1档最慢，16档最快。默认为5档。"),
     new TipsDef("Initial Position", "初始位置",
         "设置终端启动时内置摄像机的初始位置。“默认”表示终端启动时，摄像机位置自动恢复到初始化位置。“预置位置1”表示终端启动时，摄像机位置恢复到预置位1，但是预置位1必须已经设置过。“最新的位置”表示终端启动时，摄像机位置恢复到终端关机时的位置，默认设置为“默认”。"),
     new TipsDef("VGA In ", "VGA输入",
