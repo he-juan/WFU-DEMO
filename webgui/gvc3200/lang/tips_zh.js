@@ -254,7 +254,7 @@ tip_item.push (
     new TipsDef("Video Jitter Buffer Maximum", "视频抖动缓冲区最大值",
         "根据当前网络环境设置视频抖动缓冲区大小。有效范围：0-1000。默认值为50。"),
 	new TipsDef("Enable video Gradual decoder refresh", "开启视频渐进刷新",
-		"视频渐近刷新GDR(Gradual decoder refresh)是通过P帧内包括I块组的方法来实现渐近刷新，启动该项后会带来更优的网络适应性。默认设置为“否”。"),
+		"视频渐近刷新GDR(Gradual decoder refresh)是通过P帧内包括I块组的方法来实现渐近刷新，启动该项后会带来更优的网络适应性。默认设置为“是”。"),
 	
     /*Account1 2 3 Call Settings*/
     new TipsDef("Dial Plan Prefix", "拨号前缀",

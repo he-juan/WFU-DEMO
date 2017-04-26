@@ -253,7 +253,7 @@ tip_item.push (
     new TipsDef("Video Jitter Buffer Maximum",
         "Configura el tamaño de almacenamiento de acuerdo al entorno de red.  El rango válido es desde 0 a 1000. El ajuste por defecto es 50."),
 	new TipsDef("Enable video Gradual decoder refresh",
-		"GDR (Gradual decoder refresh) by P frame including the I block set of methods to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability.The default setting is \"No\"."),
+		"GDR (Gradual decoder refresh) by P frame including the I block set of methods to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability.The default setting is \"Yes\"."),
     /*Cuenta 1, 2, 3 Ajustes de Llamada*/
     new TipsDef("Dial Plan Prefix",
         "Este parámetro define el predijo agregado a cada número marcado."),
