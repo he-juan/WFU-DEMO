@@ -1479,80 +1479,6 @@ function handle_callmessage(data,obj_incominginfo)
                     mBusylinenum = 0;
                     setBusylinenum();
                 }
-                /*else
-                {
-                    //search is all line not support presentation
-                    setTimeout(function(){
-                        var lines = "";
-                        $("#conf div.remoteline").each(function(){
-                            if(lines == "")
-                            {
-                                lines += $(this).attr("line");
-                            }
-                            else
-                            {
-                                lines += ":::";
-                                lines += $(this).attr("line");
-                            }
-                        });
-                        if( lines != "" ){
-                            action = "isBFCPSupport&region=confctrl&lines="+encodeURIComponent(lines);
-                            flag = getHDMIinfo(action, 1);
-                            var presflag = getHDMIinfo(action);
-                            //get status about hdmi in and vga in
-                            action = "get&var-0000=vgaIn&var-0001=hdmiIn&var-0002=hdmi2&var-0003=hdmi3";
-                            var returnflag = getHDMIinfo(action);
-                            if(flag == "false")
-                            {
-                                var videoline_notbfcp = false;
-                                showvideosource = false;
-                                $("#conf div.remoteline").each(function(){
-                                    var bfcpstate = $(this).attr("bfcpstate");
-                                    if($(this).attr("isvideo") == "1" && bfcpstate == "0")
-                                    {
-                                        videoline_notbfcp = true;
-                                        return false;
-                                    }
-                                });
-                                if($("#present").attr("ison") != "1")
-                                {
-                                    //$("#present").hide();
-                                    if(videoline_notbfcp)
-                                    {
-                                        if(presflag == "false" && ($("#present").attr("bfcp") == "2" || returnflag != 3)){
-                                            showvideosource = true;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if(videoline_notbfcp){
-                                        showvideosource = true;
-                                    }
-                                }
-                            }else
-                            {
-                                showvideosource = false;
-                            }
-                            
-                            if( presflag == "false" ){
-                                $("#present").hide();
-                            }
-                            else
-                            {
-                                $("#present").hide();
-                                if($("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) )
-                                {
-                                    $("#present").show();
-                                }
-                            }
-                        }
-                    },500);
-                }*/
-                /*if( showvideosource )
-                    $("#switchvideosource").show();
-                else
-                    $("#switchvideosource").hide();*/
             }
             else
             {
@@ -1571,6 +1497,9 @@ function handle_callmessage(data,obj_incominginfo)
             change_numlist();   
             if($("#incominglist div",window.parent.document).length <= 0 && mTabnum != 0)
                 $("#bottombtn button").removeAttr("disabled").removeClass("btndisabled"); 
+            
+            if($("#ctrlFECCDiv").attr("line") == line)
+                $("#closeFECC").click();
             if(mAttendtransferMode != 0)
             {
                 var waitingline = $("#callingtips").attr("line");
