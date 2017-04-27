@@ -582,8 +582,8 @@ tip_item.push (
     
     new TipsDef("STUN/TURN Server", "STUN/TURN服务器",
         "STUN/TURN服务器的IP地址和URL。STUN类型可以在状态-->网络状态页面查看；STUN仅适用于非对称NAT。"),
-    new TipsDef("User Agent", "用户代理",
-        "该值可设置电话簿的用户代理。"),
+    new TipsDef("HTTP/HTTPS User Agent", "HTTP/HTTPS用户代理",
+        "该值可设置HTTP/HTTPS请求的用户代理。"),
     new TipsDef("SIP User Agent", "SIP用户代理",
         "该值可设置SIP的用户代理。若值包含$version，则会用真正的系统版本号替换$version。"),
     new TipsDef("802.1x Mode", "802.1x模式",

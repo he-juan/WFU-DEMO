@@ -579,8 +579,8 @@ tip_item.push (
     
     new TipsDef("STUN/TURN Server",
         "IP адрес или доменное имя STUN/TURN сервера. Результаты задействования STUN отобразятся на странице СТАТУС веб-интерфейса устройства. Со STUN будут работать только несимметричные NAT маршрутизаторы."),
-    new TipsDef("User Agent",
-        "Устанавливает user-agent для записной книги."),
+	new TipsDef("HTTP/HTTPS User Agent",
+	    "This sets the user-agent for HTTP/HTTPS request."),
     new TipsDef("SIP User Agent",
         "Устанавливает user-agent для SIP. Если значение содержит слово \"$version\", оно заменит настоящую версию системы."),
     new TipsDef("802.1x Mode",

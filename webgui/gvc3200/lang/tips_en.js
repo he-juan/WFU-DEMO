@@ -591,8 +591,8 @@ tip_item.push (
     
     new TipsDef("STUN/TURN Server",
         "The IP address or the Domain name of the STUN/TURN server. STUN resolution results are displayed in the STATUS page of the device Web GUI. Only non-symmetric NAT routers work with STUN."),
-    new TipsDef("User Agent",
-        "This sets the user-agent for phonebook."),
+    new TipsDef("HTTP/HTTPS User Agent",
+        "This sets the user-agent for HTTP/HTTPS request."),
     new TipsDef("SIP User Agent",
         "This sets the user-agent for SIP. If the value includes word \"$version\", will replace it with the real system version."),
     new TipsDef("802.1x Mode",
