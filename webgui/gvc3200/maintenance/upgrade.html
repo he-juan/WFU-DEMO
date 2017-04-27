@@ -801,7 +801,7 @@ function cb_get_action_done(data, action)
             });
         }else if( action == "saveconf&region=maintenance" )
         {
-            parent.window.location.href = "/config?time=" + new Date().getTime();
+            parent.window.location.href = "/config.txt?time=" + new Date().getTime();
         }else if( action == "importconf&region=maintenance" )
         {
             $.prompt(a_16476);

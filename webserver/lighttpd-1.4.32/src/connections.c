@@ -11892,7 +11892,7 @@ static int handle_saveconf(buffer *b)
     }
 
     FILE *file_fd = NULL;
-    file_fd = fopen("/tmp/config", "w+");
+    file_fd = fopen("/tmp/config.txt", "w+");
     if( file_fd == NULL )
     {
         buffer_append_string (b, "Response=Error\r\n");
