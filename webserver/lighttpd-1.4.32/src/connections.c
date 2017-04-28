@@ -20872,6 +20872,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_fxoexist(b);
             } else if (!strcasecmp(action, "reboot")) {
                 handle_reboot(srv, con, b, m);
+            } else if (!strcasecmp(action, "isupgrade")) {
+                handle_callservice_by_no_param(srv, con, b, m, "isUpgradingDevice");
             } else if (!strcasecmp(action, "setprop")) {
                 handle_set_property(b, m);
             //} else if (!strcasecmp(action, "sqlitesettings")) {

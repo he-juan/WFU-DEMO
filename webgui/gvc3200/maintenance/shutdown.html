@@ -102,8 +102,34 @@ function reboot(type)
 	});
 }
 
+function isUpgrade(){
+    var isupgradenow = 0;
+    var urihead = "action=isupgrade";
+	urihead += "&time=" + new Date().getTime();
+	$.ajax ({
+		type: 'get',
+		url:'/manager',
+		data:urihead,
+		dataType:'text',
+        async:false,
+		success:function(data) {
+            var tObj = eval("(" + data + ")");
+            isupgradenow = tObj.msg;
+		},
+		error:function(xmlHttpRequest, errorThrown) {
+		}
+	});
+
+    return isupgradenow;
+}
+
 function pageEventActions(){
     $("#shutdowndiv").click(function(){
+        if(isUpgrade() == "1"){
+            $.prompt(a_19242);
+            return false;
+        }
+        
         var iscalling;
         if($("#meettingdiv", window.parent.document).children("img").attr("src").indexOf("gif") != -1){
             iscalling = true;
@@ -143,6 +169,11 @@ function pageEventActions(){
     });
     
     $("#rebootdiv").click(function(){
+        if(isUpgrade() == "1"){
+            $.prompt(a_19242);
+            return false;
+        }
+        
         var iscalling;
         if($("#meettingdiv", window.parent.document).children("img").attr("src").indexOf("gif") != -1){
             iscalling = true;
@@ -174,6 +205,11 @@ function pageEventActions(){
 	});
 	
 	$("#sleepdiv").click(function(){
+        if(isUpgrade() == "1"){
+            $.prompt(a_19242);
+            return false;
+        }
+        
         var iscalling;
         if($("#meettingdiv", window.parent.document).children("img").attr("src").indexOf("gif") != -1){
             iscalling = true;
