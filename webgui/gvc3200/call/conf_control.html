@@ -4933,12 +4933,24 @@ function FECC_callback(line,flag)
         }
         else
             ctrlname= $("#line-"+line).attr("name");
+            
+        var acct = $(".remoteline[line=" + line + "]").attr("account");
         var showp = "<p class='showctrlname'>"+htmlEncode(ctrlname)+"</p>";
         $("#ctrlFECCDiv").attr("line",line);
         ctrl_show_maskdiv(true);
         $("#ctrlFECCDiv .fecctips").find(".showctrlname").remove();
         $("#ctrlFECCDiv .fecctips").append(showp);
         $("#presetbtndiv").hide();
+        if(acct == "8"){
+            $("#feccleft").hide();
+            $("#ctrlFECCDiv").css({"width":"350px", "top":"0", "left":"0", "right":"0", "bottom":"0", "margin":"auto"});
+            $("#ctrldiv").parent().css("left", "5px");
+        }
+        else{
+            $("#feccleft").show();
+            $("#ctrlFECCDiv").css("width", "690px");
+            $("#ctrldiv").parent().css("left", "45px");
+        }
         $("#ctrlFECCDiv").show();
     }
     else
