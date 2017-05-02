@@ -229,6 +229,12 @@ function handlemessage(data){
         case "line_suspend_state":
             confFrame.update_line_suspendstate(data);
             break;
+        case "open_camera_status":
+            confFrame.update_line_videoedstate(data);
+            break;
+        case "close_camera_status":
+            confFrame.update_line_videoedstate(data);
+            break;
         case "line_resume_state":
             confFrame.update_line_resumestate(data);
             break;
@@ -248,6 +254,14 @@ function handlemessage(data){
         case "switch_presentation_source":
         case "select_presentation_source":
             confFrame.$("#presentcancel").click();
+        case "IPVT_camera_invite":
+            confFrame.handle_ipvtcmrinvite(data);
+            break;
+        case "IPVT_reject_camera_request":
+            confFrame.handle_ipvtrejectcmr(data);
+            break;
+        case "IPVT_operate_camera":
+            confFrame.handle_ipvtoperatecmr(data);
             break;
         case "goto_sleep":
             change_to_sleep_mode();

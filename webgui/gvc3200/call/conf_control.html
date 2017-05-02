@@ -132,11 +132,11 @@ div{margin:0;padding:0;}
 .ui-widget{font-family: Arial;}
 /**conf list**/
 .confdiv{width: 950px;height: 50px;line-height: 50px;background: transparent;color: #222;font-size:16px;border-bottom:1px solid #E1E1E1;}
-.confdiv div{display: block;float: left;margin-left:25px;}
+.confdiv div{display: block;float: left;margin-left:15px;}
 .confdiv div.conficon{width:14px;height:100%;margin:0 0 0 10px;}
 .conficon img{margin:12px 0 0 0;}
 .confname, .confnum, .conftype{width:150px;height:100%;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
-.confname, .conftype{width:170px;}
+.conftype{width:170px;}
 .confbtn{width:auto;height:100%;}
 .confdiv div.confbtn{float:right;margin-right:30px;margin-left:0px;}
 .confbtn button{float:left;width:26px;height:26px;border:0;outline:0;padding:0;margin:15px 0 0 25px;min-width:0px;}
@@ -150,6 +150,7 @@ div{margin:0;padding:0;}
 .confdel{background:url("../img/call/conf_control.png") -104px -245px no-repeat;}
 .confblock{background:url("../img/call/conf_control.png") -234px -245px no-repeat;}
 .confsuspend{background:url("../img/call/conf_control.png") -52px -245px no-repeat;}
+.isvideoed{background:url("../img/call/conf_control.png") -364px -245px no-repeat;}
 .startFECC{background:url("../img/call/conf_control.png") -78px -245px no-repeat;}
 .redialcall{background:url("../img/call/conf_control.png") -128px -245px no-repeat;display:none;}
 .buttonover{cursor:pointer;}
@@ -186,7 +187,10 @@ div{margin:0;padding:0;}
 .startFECC.active, .startFECC.buttonover{background:url("../img/call/conf_control.png") -78px -297px no-repeat;}
 .confsuspend.active, .confsuspend.active.buttonover{background:url("../img/call/conf_control.png") -260px -297px no-repeat;}
 .confblock.active, .confblock.active.buttonover{background:url("../img/call/conf_control.png") -26px -297px no-repeat;}
-
+.isvideoed.btndisabled{background:url("../img/call/conf_control.png") -390px -245px no-repeat;}
+.isvideoed.buttonover{background:url("../img/call/conf_control.png") -416px -245px no-repeat;}
+.unisvideoed{background:url("../img/call/conf_control.png") -364px -271px no-repeat;}
+.unisvideoed.buttonover{background:url("../img/call/conf_control.png") -416px -271px no-repeat;}
 .startFECC.btndisabled{background:url("../img/call/conf_control.png") -78px -271px no-repeat;}
 .confsuspend.btndisabled{background:url("../img/call/conf_control.png") -52px -271px no-repeat;}
 .confblock.btndisabled{background:url("../img/call/conf_control.png") -234px -271px no-repeat;}
@@ -2611,6 +2615,57 @@ function handle_autoanswer(data){
     autoanswer.num = data.num;
 }
 
+//show prompt to response if accept or reject camera invitation
+function handle_ipvtcmrinvite(data){
+    if(data.line == undefined)
+         data.line = $(".remoteline[account=1]").attr("line");
+    
+    if(data.name == undefined)
+        data.name = "";
+    var hostinvitetext = htmlEncode(data.name);
+    var prompthtml = "<div id='promptdiv'><div class='promptinfo'><span class='prompthost'>" + hostinvitetext + "</span><span>&nbsp" + a_19384 + "</span></div><div id='acceptcmrivt'><button class='promptbtn' style='background:#4abe6b;'>" + a_10000 + "</button></div><div id='rejectcmrivt'><button class='promptbtn' style='background:#d8333d;'>" + a_19138 + "</button></div></div>";
+    var backgroundhtml = "<div class='transparentdiv' style='background:#000;opacity:0.5;width:100%;height:700px;z-index:1000;margin-top:-73%;'></div>"
+    
+    if($("#promptdiv") != undefined)
+        $("#promptdiv").remove();
+    //$("#tabs").append(backgroundhtml);
+    ctrl_show_maskdiv(true);
+    $("#selectvideodiv").after(prompthtml);
+    
+    var textwidth = 0;
+    $(".promptinfo span").each(function(){
+        textwidth += $(this).width();
+    });
+    
+    var finalmarginleft = ($(".promptinfo").width() - textwidth) / 2;
+    $(".prompthost").css("margin-left", finalmarginleft + "px");
+    
+    if($.cookie("MyLanguage") == "zh")
+        $(".prompthost").css("max-width", "53%");
+    else
+        $(".prompthost").css("max-width", "40%");
+    $("#promptdiv").attr("line", data.line);
+}
+
+function handle_ipvtrejectcmr(data){
+    if(data.status != 1){
+        if($("#promptdiv") != undefined){
+            $("#promptdiv").remove();
+            ctrl_show_maskdiv(false);
+        }
+    }
+}
+
+function handle_ipvtoperatecmr(data){
+    if(data.isvideoed == 1)
+    {
+        if($("#promptdiv") != undefined){
+            $("#promptdiv").remove();
+            ctrl_show_maskdiv(false);
+        }
+    }
+}
+
 function countTabs()
 {
     return mTabnum;
@@ -2732,6 +2787,11 @@ function addconflist_local()
     suspend.setAttribute("issuspend",0);
     suspend.setAttribute("disabled","disabled");
     suspend.setAttribute("title",a_16700);
+    var isvideoed = document.createElement('BUTTON');
+    isvideoed.className = "isvideoed btndisabled";
+    isvideoed.setAttribute("isvideoed",0);
+    isvideoed.setAttribute("disabled","disabled");
+    isvideoed.setAttribute("title", a_19241);
     var feccbtn = document.createElement('BUTTON');
     feccbtn.className = "startFECC btndisabled";
     feccbtn.setAttribute("feccstate","0");
@@ -2746,6 +2806,7 @@ function addconflist_local()
     btndiv.appendChild(block);
     btndiv.appendChild(videoctrl);
     btndiv.appendChild(suspend);
+    btndiv.appendChild(isvideoed);
     btndiv.appendChild(feccbtn);
     btndiv.appendChild(del);
     itemdiv.appendChild(btndiv);
@@ -2797,6 +2858,7 @@ function addconflist(data,todivID)
     var calltype = data.msg;//video or audio or message
     var sqlname = data.sqlname;//judge name is frome sql or null
     var $existline = $("#tabs div#line-"+line);
+    var dataisvideo = data.isvideoed;
     
     if(mContactitems != undefined)
     {
@@ -2973,10 +3035,12 @@ function addconflist(data,todivID)
         videoctrl.className = videoctrlid;
         videoctrl.setAttribute("name","videstate");
         videoctrl.setAttribute("title",videotitle);
-        if( account == 1){
+        /*if( account == 1){
             videoctrl.setAttribute("disabled","disabled");
             videoctrlid += " btndisabled";
             videoctrl.className = videoctrlid;
+        }*/
+        
         }
         var block = document.createElement('BUTTON');
         block.className = "confblock";
@@ -2986,10 +3050,26 @@ function addconflist(data,todivID)
         suspend.className = "confsuspend";
         suspend.setAttribute("issuspend",0);
         suspend.setAttribute("title",a_16700);
+        var isvideoed = document.createElement('BUTTON');
+        if(dataisvideo == 1){
+            isvideoed.className = "isvideoed unisvideoed";
+            isvideoed.setAttribute("title",a_10077);
+        }
+        else{
+            isvideoed.className = "isvideoed";
+            isvideoed.setAttribute("title",a_19241);
+        }
+        
+        isvideoed.setAttribute("isvideoed",dataisvideo);
         if( account == 8 || account == 3 ){
             //h323 account can't resume or suspend
             suspend.className = "confsuspend btndisabled";
             suspend.setAttribute("disabled","disabled");
+        }
+
+        if( account != 1 ){
+            isvideoed.className = "isvideoed btndisabled";
+            isvideoed.setAttribute("disabled","disabled");
         }
     }
     
@@ -3005,7 +3085,7 @@ function addconflist(data,todivID)
     /*var redial = document.createElement('BUTTON');
     redial.className = "redialcall";
     redial.setAttribute("title",a_10008);*/
-    
+
     if(mDisableconf == "1")
     {
         //GVC does not support to disable conference, can remove this code.
@@ -3044,6 +3124,7 @@ function addconflist(data,todivID)
             btndiv.appendChild(block);
             btndiv.appendChild(videoctrl);
             btndiv.appendChild(suspend);
+            btndiv.appendChild(isvideoed);
             btndiv.appendChild(feccbtn);
             if(state == "4")
             {
@@ -3052,9 +3133,11 @@ function addconflist(data,todivID)
                 $(feccbtn).show();
                 $(block).show();
                 $(suspend).show();
+                $(isvideoed).show();
                 if(isvideoline == 0)
                 {
                     $(suspend).attr("disabled","disabled").addClass("btndisabled");
+                    $(isvideoed).attr("disabled","disabled").addClass("btndisabled");
                 }
             }
             else if(state == "3")
@@ -3064,6 +3147,7 @@ function addconflist(data,todivID)
                 $(feccbtn).hide();
                 $(block).hide();
                 $(suspend).hide();
+                $(isvideoed).hide();
             }
         }else{
             btndiv.appendChild(feccbtn);
@@ -3226,9 +3310,22 @@ function addconflist(data,todivID)
         
         cb_get_action("getipvrole&region=confctrl&line=" + line + "&type=init");
     }
+    
+    if(mOEMID == "54")
+        $(".isvideoed").hide();
     setBusylinenum();
 }
 
+function update_line_videoedstate(data){
+    var line = data.line;
+    var type = data.type;
+    if(data.flag == 1){
+        if(type.indexOf("open") != -1)
+            $("#line-"+line).find(".isvideoed").removeClass("unisvideoed").attr("isvideoed","0").attr("title", a_19241);
+        else
+            $("#line-"+line).find(".isvideoed").addClass("unisvideoed").attr("isvideoed","1").attr("title", a_10077);
+    }                    
+}
 
 function change_numlist()
 {
@@ -3322,15 +3419,17 @@ function change_callconnectstate(data)
                         $("#tabs div#line-"+line+" .confbtn .confsuspend").attr("issuspend","0");
                     }
                     $("#tabs div#line-"+line+" .confbtn .confsuspend").attr("disabled","disabled").addClass("btndisabled");
+                    $("#tabs div#line-"+line+" .confbtn .isvideoed").attr("disabled","disabled").addClass("btndisabled").removeClass("unisvideoed").attr("isvideoed","0");
                     $linefecc.attr("disabled","disabled").addClass("btndisabled");
                     $("#suspendall").attr("name",a_10134).attr("issuspendall","0").removeClass("active");
                 }
                 else
                 {
                     //judge line is conference or not when use IPV
-                    if(account == 1 && ipvConf == mIPVPrefix)
+                    if(account == 1)
                     {
-                        $("#tabs div#line-"+line+" .confbtn .confsuspend").attr("disabled","disabled").addClass("btndisabled");
+                        $("#tabs div#line-"+line+" .confbtn .confsuspend").removeAttr("disabled").removeClass("btndisabled");
+                        $("#tabs div#line-"+line+" .confbtn .isvideoed").removeAttr("disabled").removeClass("btndisabled");
                     }
                     else
                         $("#tabs div#line-"+line+" .confbtn .confsuspend").removeAttr("disabled").removeClass("btndisabled");
@@ -5123,6 +5222,7 @@ function video_Inviteres_callback(data,res)
         else
         {
             $("#line-"+line).find(".confsuspend").attr("issuspend","0").attr("title",a_16700).removeClass("active");
+            $("#line-"+line).find(".isvideoed").attr("isvideoed","0").attr("title",a_19241).removeClass("active");
             $("#suspendall").attr("name",a_10134).attr("issuspendall","0").removeClass("active");
         }
     }
@@ -7717,6 +7817,20 @@ function pageEventActions()
         $("#tips").slideUp(150);
         $(this).removeClass('buttonover');
     });
+    
+    $("#acceptcmrivt").unbind().live("click",function(){
+        var line = $("#promptdiv").attr("line");
+        var urihead = "action=conflinevideoedstate&region=confctrl&isvideoed="+0+"&line="+line;
+        cb_get_confaction(urihead,"");
+        $("#promptdiv").remove();
+        ctrl_show_maskdiv(false);
+    });
+    
+    $("#rejectcmrivt").unbind().live("click",function(){
+        cb_get_action("rejectipvtcmr&region=confctrl");
+        $("#promptdiv").remove();
+        ctrl_show_maskdiv(false);
+    });
 
     $("#confcontrol").hover(function(){
         var marginleft = parseInt($("#record").css("marginLeft"));
@@ -9859,6 +9973,19 @@ function pageEventActions()
         cb_get_confaction(urihead,"");
     });
 
+    $(".isvideoed").live("click",function(){
+        if(!countClickedTimes())
+            return false;
+         if(!judge_ispause())
+            return false;
+        var flag = 1;
+        if($(this).attr("isvideoed") == "1")
+            flag = 0;
+        var line = $(this).parent().parent().attr("line");
+        var urihead = "action=conflinevideoedstate&region=confctrl&isvideoed="+flag+"&line="+line;
+        cb_get_confaction(urihead,"");
+    })
+    
     $("#blockall").click(function(){
         if(!countClickedTimes())
         {
