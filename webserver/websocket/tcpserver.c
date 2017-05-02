@@ -36,6 +36,8 @@
 #define SIGNAL_VIDEOINVITE "video_invite"
 #define SIGNAL_CONFPAUSE "conf_pause"
 #define SIGNAL_CAMERABLOCK "camera_block"
+#define SIGNAL_CAMERASTATUS_OPEN "open_camera_status"
+#define SIGNAL_CAMERASTATUS_CLOSE "close_camera_status"
 #define SIGNAL_MICBLOCK "mic_block"
 #define SIGNAL_PRESENTATION "presentation_status"
 #define SIGNAL_UPDATEDND "dnd_state"
@@ -62,6 +64,9 @@
 #define SIGNAL_AUTO_ANSWER  "auto_answer_alert"
 #define SIGNAL_HDMI_STATUS "hdmi_status"
 #define SIGNAL_UNHOLD_RECORD "unhold_continue_record"
+#define SIGNAL_IPVT_CMR_INVITE "IPVT_camera_invite"
+#define SIGNAL_IPVT_REJECT_CMR "IPVT_reject_camera_request"
+#define SIGNAL_IPVT_OPERATE_CMR "IPVT_operate_camera"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -302,6 +307,50 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
             sendData = malloc(len);
             memset(sendData,0,len);
             snprintf(sendData,len,"{\"type\":\"camera_block\",\"flag\":\"%d\"},",i);
+            //printf("has a call: %d\n",open_cache);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "receive camera_block error: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_CAMERASTATUS_OPEN ) ) // open camera status
+    {
+        if ( dbus_message_get_args( message, &error,
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_BOOLEAN, &j,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"open_camera_status\",\"line\":\"%d\",\"flag\":\"%d\"},",i,j);
+            //printf("has a call: %d\n",open_cache);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "receive camera_block error: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_CAMERASTATUS_CLOSE ) ) // close camera status
+    {
+        if ( dbus_message_get_args( message, &error,
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_BOOLEAN, &j,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"close_camera_status\",\"line\":\"%d\",\"flag\":\"%d\"},",i,j);
             //printf("has a call: %d\n",open_cache);
             sendDataToSocket(sendData);
             free(sendData);
@@ -886,6 +935,71 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         else
         {
             printf( "unhold_continue_record: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_CMR_INVITE ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_STRING, &str,
+                                    DBUS_TYPE_STRING, &str2,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_camera_invite\",\"line\":\"%d\",\"name\":\"%s\",\"number\":\"%s\"},",i,str,str2);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_camera_invite: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_REJECT_CMR ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_STRING, &str,
+                                    DBUS_TYPE_INT32, &j,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_reject_camera_request\",\"line\":\"%d\",\"number\":\"%s\",\"status\":\"%d\"},", i, str, j);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_reject_camera_request: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_OPERATE_CMR ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_BOOLEAN, &state,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_operate_camera\",\"line\":\"%d\",\"isvideoed\":\"%d\"},",i, state);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_operate_camera: %s\n", error.message );
             dbus_error_free( &error );
         }
         return DBUS_HANDLER_RESULT_HANDLED;

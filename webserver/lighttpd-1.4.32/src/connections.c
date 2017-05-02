@@ -21310,6 +21310,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if (!strcasecmp(action, "confholdstate")){
                     handle_callservice_by_one_param(srv, con, b, m, "sethold", "ctrlConfHoldState", 0);
                 }
+                else if (!strcasecmp(action, "conflinevideoedstate")){
+                    handle_callservice_by_two_param(srv, con, b, m, "isvideoed", "line", "ctrlLineVideoedState");
+                }
                 else if (!strcasecmp(action, "getpincode")){
                     handle_callservice_by_no_param(srv, con, b, m, "getPinCode");
                 }
