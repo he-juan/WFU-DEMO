@@ -67,6 +67,9 @@
 #define SIGNAL_IPVT_CMR_INVITE "IPVT_camera_invite"
 #define SIGNAL_IPVT_REJECT_CMR "IPVT_reject_camera_request"
 #define SIGNAL_IPVT_OPERATE_CMR "IPVT_operate_camera"
+#define SIGNAL_IPVT_CHANGE_HOST "IPVT_change_host"
+#define SIGNAL_IPVT_HAND_OPERATE "IPVT_hand_operate"
+#define SIGNAL_IPVT_HAND_OPRT_WEB "IPVT_hand_operate_for_web"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -1004,7 +1007,68 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else 
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_CHANGE_HOST ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_change_host\",\"state\":\"%d\"},", i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_change_host: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_HAND_OPERATE ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_BOOLEAN, &state,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_hand_operate\",\"line\":\"%d\",\"state\":\"%d\"},", i, state);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_hand_operate: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_HAND_OPRT_WEB ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_hand_operate_for_web\",\"state\":\"%d\"},", i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_hand_operate_for_web: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else
     {
         //printf("Ignore the signal\n");
     }

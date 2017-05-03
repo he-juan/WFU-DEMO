@@ -21513,6 +21513,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if(!strcasecmp(action, "setcustommode")){
                     handle_set_customlayout(srv, con, b, m);
                 }
+                else if(!strcasecmp(action, "upordownhand")){
+                    handle_callservice_by_no_param(srv, con, b, m,"upOrDownHand");
+                }
+                else if(!strcasecmp(action, "isipvthandup")){
+                    handle_callservice_by_no_param(srv, con, b, m,"isIPVTHandUp");
+                }
                 else{
                     findcmd = 0;
                 }
