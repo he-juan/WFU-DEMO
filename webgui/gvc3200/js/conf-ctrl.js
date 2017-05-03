@@ -263,6 +263,13 @@ function handlemessage(data){
         case "IPVT_operate_camera":
             confFrame.handle_ipvtoperatecmr(data);
             break;
+        case "IPVT_change_host":
+            confFrame.handle_ipvtchangehost(data);
+            break;
+        case "IPVT_hand_operate":
+        case "IPVT_hand_operate_for_web":
+            confFrame.handle_handoperate(data);
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;

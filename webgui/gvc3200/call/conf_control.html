@@ -53,6 +53,7 @@ div{margin:0;padding:0;}
 #confdnd{background:url("../img/call/conf_control.png") -336px 0px no-repeat;}
 #pincode{background:url("../img/call/conf_control.png") -336px 0px no-repeat;}
 #details{background:url("../img/call/conf_control.png") -240px 0px no-repeat;}
+#handsup{background:url("../img/call/conf_control.png") -386px 0px no-repeat; display: none;}
 #close{background:url("../img/call/conf_control.png") -288px 0px no-repeat;}
 #DTMF{background:url("../img/call/conf_control.png") -192px -0px no-repeat;}
 #caption{background:url("../img/call/conf_control.png") -416px 0px no-repeat;}
@@ -94,6 +95,7 @@ div{margin:0;padding:0;}
 #pincode.buttonover{background:url("../img/call/conf_control.png") -432px -98px no-repeat;}
 #pincode.active{background:url("../img/call/conf_control.png") -480px -98px no-repeat;}
 #details.buttonover, #details.active{background:url("../img/call/conf_control.png") -240px -98px no-repeat;}
+#handsup.buttonover, #handsup.active{background:url("../img/call/conf_control.png") -578px -98px no-repeat;}
 #close.buttonover{background:url("../img/call/conf_control.png") -288px -98px no-repeat;}
 #DTMF.buttonover, #DTMF.active{background:url("../img/call/conf_control.png") -192px -98px no-repeat;}
 #caption.buttonover, #caption.active{background:url("../img/call/conf_control.png") -448px 0 no-repeat;}
@@ -850,6 +852,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
             <!--button id="pincode" name="Pin Code" class="confbtmbtn"></button-->
             <button id="DTMF" name="DTMF" class="confbtmbtn"></button>
             <button id="details" name="Details" isshow="0" class="confbtmbtn"></button>
+            <button id="handsup" name="Handsup" class="confbtmbtn"></button>
             <button id="close" name="Close" class="confbtmbtn"></button>
         </div>
         <div class="confctrlbtn">
@@ -1809,6 +1812,8 @@ function handle_callmessage(data,obj_incominginfo)
         default:
             break;
     }
+    
+    showhandsup();
 }
 
 /*
@@ -2666,6 +2671,51 @@ function handle_ipvtoperatecmr(data){
     }
 }
 
+function handle_ipvtchangehost(data){
+    var state = data.state;  //0-change to host  1-change to guest
+    if(state == "0")
+        mConfrole = "2";
+    else if(state == "1")
+        mConfrole = "1";
+    
+    showhandsup();
+}
+
+function handle_handoperate(data){
+    var state = data.state;
+    
+    if(state == "1")
+        $("#handsup").attr("name", a_10221).addClass("active");
+    else
+        $("#handsup").attr("name", a_10220).removeClass("active");
+}
+
+function showhandsup(){
+    if($(".remoteline[account=1]").length > 0 && mConfrole == "1"){
+        var callstate = $(".remoteline[account=1]").attr("state");
+        if(callstate == 4 || callstate == 5){
+            $("#handsup").css("display", "inline-block");
+            //if($("#handsup").hasClass("handsup") && $("#pause").attr("ishold") != 0 && mOldstate != 5)
+            //    $("#handsup").removeClass("handsup");
+            
+            if(!$("#handsup").hasClass("active"))
+                $("#handsup").attr("name", a_10220);
+            $(".confbasebtn").css("width", "660px");
+            $(".confctrlbtn").css("margin-left", "-330px");
+        }
+        else{
+            $("#handsup").css("display", "none");
+            $(".confbasebtn").css("width", "590px");
+            $(".confctrlbtn").css("margin-left", "-300px");
+        }
+    }
+    else{
+        $("#handsup").css("display", "none");
+        $(".confbasebtn").css("width", "590px");
+        $(".confctrlbtn").css("margin-left", "-300px");
+    }
+}
+
 function countTabs()
 {
     return mTabnum;
@@ -3040,8 +3090,6 @@ function addconflist(data,todivID)
             videoctrlid += " btndisabled";
             videoctrl.className = videoctrlid;
         }*/
-        
-        }
         var block = document.createElement('BUTTON');
         block.className = "confblock";
         block.setAttribute("title",a_16701);
@@ -4199,7 +4247,9 @@ function cb_get_action_done(data, action) {
             if(tObj.res == "success"){
                 mConfrole = tObj.role;  //0-normal 1-guest 2-host
                 if(action.indexOf("init") != -1){
-                    //setTimeout(init_handup(), 100);
+                    //setTimeout(showhandsup(), 100);
+                    cb_get_action("isipvthandup&region=confctrl");
+                    showhandsup();
                 }
                 else if(action.indexOf("closeprompt") != -1){
                     if(mConfrole == "2")
@@ -4215,6 +4265,12 @@ function cb_get_action_done(data, action) {
                     cb_end_conf(mConfrole);
                 }
             }
+        }
+        else if(action.indexOf("isipvthandup") != -1){
+            var tObj = eval("(" + data + ")");
+            var state = tObj.isHandUp;
+            if(state == "true")
+                $("#handsup").attr("name", a_10221).addClass("active");
         }
     }else
     {
@@ -8025,6 +8081,22 @@ function pageEventActions()
         $("#addmemberdiv").show();
         $("#addmemberdiv .itemdiv").show();
         $(".itemdiv.confdiv .inputcbx").unbind();
+    });
+    
+    $("#handsup").click(function(){
+        if(!countClickedTimes())
+        {
+            return false;
+        }
+        cb_get_action("upordownhand&region=confctrl");
+        if(!$("#handsup").hasClass("active")){
+            $("#handsup").attr("name", a_10221).addClass("active");
+            $("#tips span.tipcontent").text(a_10221);
+        }
+        else{
+            $("#handsup").attr("name", a_10220).removeClass("active");
+            $("#tips span.tipcontent").text(a_10220);
+        }    
     });
 
     $("#close").click(function(){
