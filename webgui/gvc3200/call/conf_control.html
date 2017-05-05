@@ -368,7 +368,7 @@ div{margin:0;padding:0;}
 #callingtips span.callingcontent{padding:0 15px;height:30px;line-height:30px;border-radius:4px;background:#555555;display:block;max-width: 315px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 
 /*FECC*/
-#ctrlFECCDiv{background-color:#FFFFFF;width:690px;height:450px;position: absolute;top: 50%;left:50%;margin-top:-220px;margin-left: -345px;display: none;z-index:1000;border-radius:4px;}
+#ctrlFECCDiv{background-color:#FFFFFF; position: absolute;top: 0; left:0; right:0; bottom:0; text-align: center; margin: auto; display: none;z-index:1000;border-radius:4px;}
 .fecctips, .fecctip{width:200px;text-align:center;margin:auto;}
 .fecctips p, .fecctip p{margin:0px;height:30px;line-height:30px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 #direction{width:163px;height:163px;background:transparent;position:relative;top: 70px;left:50%;margin-left:-80px;}
@@ -1266,49 +1266,62 @@ $(function(){
     /*var urihead = "action=callstatusReport&region=confctrl&ctrlopen=0";
     var callfn = "";
     cb_get_confaction(urihead,callfn,true);*/
-    create_preset_div();
+    //create_preset_div();
 });
 
-function create_preset_div(){
-    var presetDivObj = document.getElementById('presetdiv');
-    for(var i = 0; i < MAXPRESETNUM; i++){
-        var imgdiv = document.createElement('DIV');
-        imgdiv.id = "presetdiv" + i;
-        imgdiv.className='imgdiv';
-        imgdiv.setAttribute("preset",i);
-        var idspan = document.createElement('SPAN');
-        idspan.id = "presetnum" + i;
-        idspan.className = "noIMG";
-        idspan.innerHTML = (i + 1);
-        imgdiv.appendChild(idspan);
-        presetDivObj.appendChild(imgdiv);
+function create_preset_div(line){
+    $("#presetdiv").children(".imgdiv").remove();
+    if(line != -1){
+        var presetDivObj = document.getElementById('presetdiv');
+        for(var i = 0; i < MAXPRESETNUM; i++){
+            var imgdiv = document.createElement('DIV');
+            imgdiv.id = "presetdiv" + i;
+            imgdiv.className='imgdiv';
+            imgdiv.setAttribute("preset",i);
+            var idspan = document.createElement('SPAN');
+            idspan.id = "presetnum" + i;
+            idspan.className = "noIMG";
+            idspan.innerHTML = (i + 1);
+            imgdiv.appendChild(idspan);
+            presetDivObj.appendChild(imgdiv);
+        }
+        
+        $("#ctrlFECCDiv").css({"width":"690px", "height":"450px"});
+        $("#feccleft").css("width", "307px");
+        $(".imgdiv").hover(function(){
+            var selpos = $(this).attr("preset");
+            var top = parseInt(selpos / 3) * 59 + 29;
+            var left = selpos % 3 * 103 - 14;
+            $("#presetbtndiv").css("top", top).css("left", left).attr("presetid", selpos).fadeIn(500);
+        });
     }
-    $(".imgdiv").hover(function(){
-        var selpos = $(this).attr("preset");
-        var top = parseInt(selpos / 3) * 59 + 29;
-        var left = selpos % 3 * 103 - 14;
-        $("#presetbtndiv").css("top", top).css("left", left).attr("presetid", selpos).fadeIn(500);
-    });
+    else{
+        var presetDivObj = document.getElementById('presetdiv');
+        for(var i = 0; i < 24; i++){
+            var imgdiv = document.createElement('DIV');
+            imgdiv.id = "presetdiv" + i;
+            imgdiv.className='imgdiv';
+            imgdiv.setAttribute("preset",i);
+            var idspan = document.createElement('SPAN');
+            idspan.id = "presetnum" + i;
+            idspan.className = "noIMG";
+            idspan.innerHTML = (i + 1);
+            imgdiv.appendChild(idspan);
+            presetDivObj.appendChild(imgdiv);
+        }
+        $("#ctrlFECCDiv").css({"width":"780px", "height":"500px"});
+        $("#feccleft").css("width", "409px");
+        $(".imgdiv").hover(function(){
+            var selpos = $(this).attr("preset");
+            var top = parseInt(selpos / 4) * 59 + 29;
+            var left = selpos % 4 * 103 - 14;
+            $("#presetbtndiv").css("top", top).css("left", left).attr("presetid", selpos).fadeIn(500);
+        });
+    }
     
     $("#presetdiv").hover(function(){
     },function(){
         $("#presetbtndiv").fadeOut(500);
-    });
-    $("#gotopreset").click(function(e) {
-        var presetid = $("#presetbtndiv").attr("presetid");
-        var urihead = "action=FECCpreset&region=confctrl&type=goto&line=" + $("#ctrlFECCDiv").attr("line") + "&presetid=" + presetid;
-        cb_get_confaction(urihead, "", true);
-    });
-    $("#savepreset").click(function(e) {
-        if( mSaveingPreset ){
-            $("#fecctip").text(a_552).fadeIn(500);
-            return false;
-        }
-        mSaveingPreset = true;
-        var presetid = $("#presetbtndiv").attr("presetid");
-        var urihead = "action=FECCpreset&region=confctrl&type=save&line=" + $("#ctrlFECCDiv").attr("line") + "&presetid=" + presetid;
-        cb_get_confaction(urihead, "", true);
-        setTimeout(function(){$("#fecctip").fadeOut();mSaveingPreset = false;},2000);
     });
 }
 /*
@@ -4947,8 +4960,8 @@ function FECC_callback(line,flag)
             $("#ctrldiv").parent().css("left", "5px");
         }
         else{
+            create_preset_div(line);
             $("#feccleft").show();
-            $("#ctrlFECCDiv").css("width", "690px");
             $("#ctrldiv").parent().css("left", "45px");
         }
         $("#ctrlFECCDiv").show();
@@ -7739,6 +7752,22 @@ function pageEventActions()
         $("#direction").removeClass().addClass("normal");
     });
     /************************/
+    $("#gotopreset").click(function(e) {
+        var presetid = $("#presetbtndiv").attr("presetid");
+        var urihead = "action=FECCpreset&region=confctrl&type=goto&line=" + $("#ctrlFECCDiv").attr("line") + "&presetid=" + presetid;
+        cb_get_confaction(urihead, "", true);
+    });
+    $("#savepreset").click(function(e) {
+        if( mSaveingPreset ){
+            $("#fecctip").text(a_552).fadeIn(500);
+            return false;
+        }
+        mSaveingPreset = true;
+        var presetid = $("#presetbtndiv").attr("presetid");
+        var urihead = "action=FECCpreset&region=confctrl&type=save&line=" + $("#ctrlFECCDiv").attr("line") + "&presetid=" + presetid;
+        cb_get_confaction(urihead, "", true);
+        setTimeout(function(){$("#fecctip").fadeOut();mSaveingPreset = false;},2000);
+    });
 
     $("#addmember").click(function(){ 
         if(!judge_ispause() || !countClickedTimes())
