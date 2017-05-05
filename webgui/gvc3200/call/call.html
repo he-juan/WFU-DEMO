@@ -1559,6 +1559,13 @@ function pageEventActions(){
                 mNumber = data.number;
                 mNeedRemove = 0;
             }
+			
+			if(mNumber.length > 128){
+				$.prompt(a_19243);
+				$item.remove();
+				return false;
+			}
+			
             var exist = 0;
             var values = $('#dialnum').manifest('values');
             for(var i = 0; i < values.length; i++){
