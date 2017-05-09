@@ -18261,6 +18261,74 @@ static int handle_wifiscan (buffer *b)
 }
 */
 
+static int handle_certificateverify(server *srv, connection *con, buffer *b, const struct message *m){
+    int n;
+    long *result;
+    const char *resType = NULL;
+    const char * jsonCallback = NULL;
+    char *temp = NULL;
+
+    system("/system/xbin/auth_pem > /tmp/certificate");
+    FILE *fp = fopen("/tmp/certificate", "r");
+    char line[64] = "";
+
+    if (fp == NULL){
+        return -1;
+    }
+        
+    fgets( &line, sizeof(line), fp );
+    fclose(fp);
+    snprintf(line, strlen(line), "%s", line);
+    
+    resType = msg_get_header(m, "format");
+    if(strstr(line, "auth Success")){
+        if((resType != NULL) && !strcasecmp(resType, "json"))
+        {
+            jsonCallback = msg_get_header( m, "jsoncallback" );
+            if(jsonCallback != NULL)
+            {
+                temp = malloc((strlen(jsonCallback) + strlen(line) + 32) * sizeof(char));
+
+                if(temp != NULL)
+                {
+                    sprintf(temp, "{\"res\": \"success\", \"msg\": \"%s\"}", line);
+                    temp = build_JSON_res( srv, con, m, temp );
+                    buffer_append_string(b, temp);
+                    free(temp);
+                }
+            }
+        }
+        else
+        {
+            buffer_append_string (b, "Response=Sucess\r\n");
+        }
+    }
+    else{
+        if((resType != NULL) && !strcasecmp(resType, "json"))
+        {
+            jsonCallback = msg_get_header( m, "jsoncallback" );
+            if(jsonCallback != NULL)
+            {
+                temp = malloc((strlen(jsonCallback) + strlen(line) + 32) * sizeof(char));
+
+                if(temp != NULL)
+                {
+                    sprintf(temp, "{\"res\": \"error\", \"msg\": \"%s\"}", line);
+                    temp = build_JSON_res( srv, con, m, temp );
+                    buffer_append_string(b, temp);
+                    free(temp);
+                }
+            }
+        }
+        else
+        {
+            buffer_append_string (b, "Response=Error\r\n");
+        }
+    }
+    
+    return 1;
+}
+
 static int handle_vpnenable(buffer *b)
 {
     char res[64] = "";
@@ -20931,6 +20999,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_upgrade(b, m);
             } else if (!strcasecmp(action, "getmaxlinecount")){
                 handle_callservice_by_no_param(srv, con, b, m, "getMaxLineCount");
+            } else if(!strcasecmp(action, "certificate")){
+                handle_certificateverify(srv, con, b, m);
             }else{
                 findcmd = 0;
             }
