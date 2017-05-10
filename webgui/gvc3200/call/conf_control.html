@@ -5245,14 +5245,25 @@ function handle_feccstate(data)
         }
         else
             ctrlname= $("#line-"+line).attr("name");
+            
+        var acct = $(".remoteline[line=" + line + "]").attr("account");
         var showp = "<p class='showctrlname'>"+htmlEncode(ctrlname)+"</p>";
         $("#ctrlFECCDiv").attr("line",line);
-        $("#layoutdiv,#dtmfDiv").hide();
-        $("#DTMF").removeClass("active");
         ctrl_show_maskdiv(true);
         $("#ctrlFECCDiv .fecctips").find(".showctrlname").remove();
         $("#ctrlFECCDiv .fecctips").append(showp);
-        $("#presetbtndiv").hide();
+        $("#DTMF").removeClass("active");
+        $("#presetbtndiv, #layoutdiv, #dtmfDiv").hide();
+        if(acct == "8"){
+            $("#feccleft").hide();
+            $("#ctrlFECCDiv").css({"width":"350px", "top":"0", "left":"0", "right":"0", "bottom":"0", "margin":"auto"});
+            $("#ctrldiv").parent().css("left", "5px");
+        }
+        else{
+            create_preset_div(line);
+            $("#feccleft").show();
+            $("#ctrldiv").parent().css("left", "45px");
+        }
         $("#ctrlFECCDiv").show();
     }
 }
