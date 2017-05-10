@@ -1240,7 +1240,7 @@ tip_item.push (
     new TipsDef("Notification Tone", "通知铃声",
         "设置设备的通知铃声"),
     new TipsDef("Audio Device", "音频设备",
-        "该项是选择通话/媒体声音的输入输出设备，分为自动、蓝牙、USB、HDMI。选择“USB”，声音从USB设备输入和输出。选择“蓝牙”，声音从蓝牙设备输入和输出。选择“HDMI”，声音从GVC内置Mic输入，从HDMI 设备输出。选择“自动”，会自动检测是否有连接USB、蓝牙、HDMI ，当同时有连接其中两个或三个，声音输入和输出优先级为蓝牙>USB>HDMI。默认为自动。"),
+        "该项是选择通话/媒体声音的输入输出设备，分为自动、蓝牙、USB、HDMI、内置扬声器。选择“USB”，声音从USB设备输入和输出。选择“蓝牙”，声音从蓝牙设备输入和输出。选择“HDMI”，声音从GVC内置Mic输入，从HDMI设备输出。选择“内置扬声器”，声音从GVC内置Mic输入，从内置扬声器输出。选择“自动”，会自动检测是否有连接USB、蓝牙、HDMI或内置扬声器 ，当同时连接其中两个或以上时，声音输入和输出优先级为蓝牙>USB>HDMI>内置扬声器。默认为自动。"),
     new TipsDef("Presentation Video Frame Rate", "演示视频帧率",
         "配置启用演示时的视频帧率。默认为“15帧/秒”。"),
     new TipsDef("BFCP Transport Protocol", "BFCP传输协议",

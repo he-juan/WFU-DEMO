@@ -1246,7 +1246,7 @@ tip_item.push (
     new TipsDef("Notification Tone",
         "Configures notification ringtone."),
     new TipsDef("Audio Device",
-        "This option defines input and output devices for voice in call or media voice, including Auto, Bluetooth, USB and HDMI. If select \"USB\", the voice input and output come from the USB device; If select \"Bluetooth\", the voice input and output come from the Bluetooth; If select \"HDMI\", the voice input comes from the built-in Mic in GVC while the output comes from HDMI; If select \"Auto\", the device will automatically detect whether being connected to the USB, Bluetooth or HDMI, if connected to two or three of the above, the priority order of voice input and output is Bluetooth, USB, HDMI. The default settings is \"Auto\"."),
+        "This option defines input and output devices for voice in call or media voice, including Auto, Bluetooth, USB, HDMI and Built-in Speaker. If select \"USB\", the voice input and output come from the USB device; If select \"Bluetooth\", the voice input and output come from the Bluetooth; If select \"HDMI\", the voice input comes from the built-in Mic in GVC while the output comes from HDMI; If select \"Built-in Speaker\", the voice input comes from the built-in Mic in GVC while the output comes from built-in speaker; If select \"Auto\", the device will automatically detect whether being connected to the USB, Bluetooth or HDMI, if connected to two or three of the above, the priority order of voice input and output is Bluetooth, USB, HDMI. The default settings is \"Auto\"."),
     new TipsDef("Presentation Video Frame Rate",
         "Configure the video frame rate for presentation, the default setting is 15fps."),
     new TipsDef("BFCP Transport Protocol",
