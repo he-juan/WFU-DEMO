@@ -36,7 +36,9 @@ $(function(){
     $("#rebooting").val('a_rebooting');
     $("#clicklogin").val('clicklogin');
     $("#clicktip").val('clicktip');
-    if( shutdown_type == 3 ){
+    if( shutdown_type == -1 ){
+        self.location='login.html';
+    }else if( shutdown_type == 3 ){
         //device will reboot own
     }else if( shutdown_type == 1 ){
         setTimeout("reboot(1);", 1000);
@@ -132,7 +134,7 @@ function showForm(){
 }
 function reboot(type)
 {
-    $.cookie( "ShutdownType" , "0" , { path: '/', expires: 30 });
+    $.cookie( "ShutdownType" , "-1" , { path: '/', expires: 30 });
 	var urihead = "action=reboot&reboottype=" + type;
 	urihead += "&time=" + new Date().getTime();
 	$.ajax ({
