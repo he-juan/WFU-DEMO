@@ -18270,7 +18270,7 @@ static int handle_certificateverify(server *srv, connection *con, buffer *b, con
 
     system("/system/xbin/auth_pem > /tmp/certificate");
     FILE *fp = fopen("/tmp/certificate", "r");
-    char line[64] = "";
+    char line[256] = "";
 
     if (fp == NULL){
         return -1;
