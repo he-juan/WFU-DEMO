@@ -3,7 +3,6 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
-<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.validate.min.js'></script>
@@ -17,7 +16,7 @@ body{}
 .volimg{width:22px;height:22px;background:url("../img/settings_volume_button.png") no-repeat;position:absolute;left:0px;top: -8px;margin-top:22px !important;}
 .volchangeDiv{height:6px;background:#2C9BEA;position:absolute;top:0px;left: 10px;border-radius:2px;width:0px;*overflow:hidden;margin-top:22px !important;}
 .volspan{width:22px;height:6px;color:#777;font-size:14px;position: relative;top:-15px;display: inline-block;text-align: center;}
-.startspan,.endspan{width: auto;margin-top: 22px !important;width:59px;}
+.startspan,.endspan{width: auto;margin-top: 22px !important;width:35px;}
 #screenContainer{overflow: visible;width:222px;}
 #screenPercentDiv{width:100%;}
 </style>
@@ -230,9 +229,9 @@ $(function(){
 });
 
 function get_item_suc_callback(msgs) {
-    $("#himioutresolution, #himi2outresolution").sSelect();
+    $("#himioutresolution, #himi2outresolution").resetSS();
     mInitposition = $("#initposition").val();
-    $("#initposition").sSelect({ddMaxHeight:'200px'});
+    $("#initposition").resetSS({ddMaxHeight:'200px'});
     var curspeed = $("#movespeed").val();
     $("#dragmobilespeedDiv .volspan").text(parseInt(curspeed));
         
