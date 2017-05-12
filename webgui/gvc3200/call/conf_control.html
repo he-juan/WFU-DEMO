@@ -1510,9 +1510,8 @@ function handle_callmessage(data,obj_incominginfo)
             change_numlist();   
             if($("#incominglist div",window.parent.document).length <= 0 && mTabnum != 0)
                 $("#bottombtn button").removeAttr("disabled").removeClass("btndisabled"); 
-            
-            if($("#ctrlFECCDiv").attr("line") == line)
-                $("#closeFECC").click();
+
+            $("#closeFECC").click();
             if(mAttendtransferMode != 0)
             {
                 var waitingline = $("#callingtips").attr("line");
