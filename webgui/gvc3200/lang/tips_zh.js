@@ -336,7 +336,7 @@ tip_item.push (
     new TipsDef("Local RTP Port", "本地RTP端口",
         "此项填写设备RTP-RTCP监听和传输的本地端口对，它是0通道的基本RTP端口。配置后，语音通道0将会使用Port_Value作为RTP端口值，使用Port_Value+1作为RTCP端口值。语音通道1将会使用Port_Value+10作为RTP的端口值，使用Port_Value+11作为RTCP的值。视频通道0将会使用Port_Value+2作为RTP端口值，使用Port_Value+3作为RTCP端口值。视频通道1将会使用Port_Value+12作为RTP的端口值，使用Port_Value+13作为语音RTCP的值。默认值为5004。"),
     new TipsDef("Use Random Port", "使用随机端口",
-        "此项若设置为“是”，设备将强制随机生成本地SIP和RTP端口值。当有多部设备处于同一NAT时使用该设置是很有必要的。默认设置为“否”。（注意：当使用IP呼叫时，该项需设置为“否”）"),
+        "此项若设置为“是”，设备将强制随机生成本地SIP和RTP端口值。当有多部设备处于同一NAT时使用该设置是很有必要的。默认设置为“是”。（注意：当使用IP呼叫时，该项需设置为“否”）"),
     new TipsDef("Keep-alive Interval", "心跳间隔",
         "此项设置设备向SIP服务器发送空UDP包的频率，从而保持NAT上的端口为打开状态。默认设置为20秒。"),
     new TipsDef("Use NAT IP", "使用NAT IP",
