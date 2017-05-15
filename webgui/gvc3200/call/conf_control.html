@@ -1195,6 +1195,7 @@ $(function(){
     mOEMID = $('#existcolore', window.parent.document).val();
     if( mOEMID == '54' ){
         $("#addmember").hide();
+        $("#pause").hide();
         $(".confbasebtn").css("width", "490px");
         $(".confctrlbtn").css("margin-left", "-245px");
     }else{
@@ -2225,7 +2226,8 @@ function video_Invite(data)
 function addtoconf(data)
 {
     $(".noticetip,.disablediv").hide();
-    $("#pause").show();
+    if(mOEMID != "54")
+        $("#pause").show();
 
     if($("#conf").length <= 0)
     {
