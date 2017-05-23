@@ -252,7 +252,7 @@ tip_item.push (
     new TipsDef("Video Jitter Buffer Maximum",
         "Configures the buffer size according to the network environment. The valid range is from 0 to 1000. The default settings is 50."),
 	new TipsDef("Enable video Gradual decoder refresh",
-		"GDR (Gradual decoder refresh) by P frame including the I block set of methods to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability.The default setting is \"No\"."),
+		"GDR (Gradual decoder refresh) by P frame including the method of applying I block group to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability. The default setting is \"No\"."),
     
     /*Account1 2 3 Call Settings*/
     new TipsDef("Dial Plan Prefix",
@@ -304,9 +304,9 @@ tip_item.push (
     new TipsDef("Account Ring Tone",
         "Allows users to configure the ringtone for the account. Users can choose different ringtones from the dropdown list."),
     new TipsDef("Match Incoming Caller ID",
-		"This field specifies the incoming caller ID to have the distinctive ringtone (specified on the right). Users can choose from different ringtones from the dropdown menu. They can also upload mp3 files in Ringtone manager under \"Applications\" for their own ringtone. "),
+		"This field specifies the incoming caller ID to have the distinctive ringtone (specified on the right). Users can choose from different ringtones from the dropdown menu. They can also upload mp3 files in Ringtone manager under \"Applications\" for their own ringtone."),
     new TipsDef("Distinctive Ring Tone",
-        "This field specifies the distinctive ringtone for the matching incoming caller ID on the left. Users can choose from different ringtones from the dropdown menu. They can also upload mp3 files in Ringtone manager under \"Applications\" for their own ringtone. "),
+        "This field specifies the distinctive ringtone for the matching incoming caller ID on the left. Users can choose from different ringtones from the dropdown menu. They can also upload mp3 files in Ringtone manager under \"Applications\" for their own ringtone."),
 	new TipsDef("Special Feature",
         "Different soft switch vendors have special requirements. Therefore users may need select special features to meet these requirements. Users can choose from Standard, CBCOM, RNK, China Mobile, ZTE IMS, Mobotix, ZTE NGN, or Huawei IMS depending on the server type. The default setting is \"Standard\"."),
 	new TipsDef("Feature Key Synchronization",
@@ -393,7 +393,7 @@ tip_item.push (
 	new TipsDef("Disable DialPlan",
 		"If set to \"Yes\", then disable dial plans except contact. The default settings is \"No\"."),
     new TipsDef("Filter Characters",
-        "Set the characters for filter when dial out numbers. Users could set up multiple characters. For example, if set to \"[()-]\", when dial (0571)-8800-8888, the character \"()-\" will be automatically filtered and dial 057188008888 directly. Note: this function doesn’t work on the local call page of the device."),
+        "Set the characters to filter when dialing out numbers. Users could set up multiple characters. For example, if set to \"[()-]\", when dialing (0571)-8800-8888, the character \"()-\" will be automatically filtered and the device will dial 057188008888 directly instead. Note: this function doesn’t work on the local call page of the device."),
     new TipsDef("Auto Mute on Entry",
         "Configures whether to mute the call on entry automatically. If set to \"Disable\", then do not use auto mute function; If set to \"Auto Mute on Outgoing Call\", then mute automatically when the other party answers the outgoing call; If set to \"Auto Mute on Incoming Call\", then mute automatically when answers the incoming call; If set to \"Mute on Incoming & Outgoing Call\", then mute automatically when the call gets through.Note: this function only take effect when the phone is from the idle status to call status. Users could click the Mute button on call interface to cancel the current mute status. The default setting is \"Disable\"."),
 	new TipsDef("Noise Block",
@@ -492,7 +492,7 @@ tip_item.push (
 	new TipsDef("Enable Frame Skipping in Video Decoder",
 		"If set to default setting \"Yes\",  the device will skip the P frame in lost video packet to decode the I frame in the next video packet. This setting helps to reduce video distortion. The default setting is \"No\"."),
 	new TipsDef("Video Display Mode",
-		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the phone displays video in its original proportion, if the video display proportion is different from the one of the phone, the phone will stretch or compress video to display it; If set to \"Equal proportional cutting\", the phone will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the phone will display video in its original proportion, if still exists spare space, the phone will add black edge on it. The default setting is \"Equal proportional cutting\"."),
+		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the device displays video in its original proportion that received from remote party, if the remote video display proportion is different from the device, the device will stretch or compress video to display it; If set to \"Equal proportional cutting\", the device will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the device will display video in its original proportion, if still exists spare space, the device will add black edge on it. The default setting is \"Equal proportional cutting\"."),
     
 	/*Advanced Settings Video Survellance*/
     new TipsDef("Enable Video Surveillance",
@@ -554,7 +554,7 @@ tip_item.push (
     new TipsDef("PPPoE Service Name",
         "Enter the PPPoE Service Name."),
     new TipsDef("DHCP VLAN Override",
-        "Selects the DHCP Option VLAN mode. When set to \"DHCP Option 132 and DHCP option 133\", the phone will get DHCP option 132 and 133 as VLAN ID and VLAN  priority. When set to \"Encapsulated in DHCP Option 43\", the phone will get values from Option 43 which encapsulate VLAN ID and VLAN  priority. Note: Please make sure the \"Allow DHCP Option 43 and Option 66 to Override Server\" setting under maintenance->upgrade is checked. The default setting is \"Disable\"."),
+        "Selects the DHCP Option VLAN mode. When setting to \"DHCP Option 132 and DHCP option 133\", the device will get DHCP option 132 and 133 as VLAN ID and VLAN priority. When setting to \"Encapsulated in DHCP Option 43\", the device will get values from Option 43 which has VLAN ID and VLAN priority encapsulated. Note: Please make sure the \"Allow DHCP Option 43 and Option 66 to Override Server\" setting under maintenance->upgrade is checked. The default setting is \"Disable\"."),
     new TipsDef("Host name",
         "Specifies the name of the client. This field is optional but may be required by some Internet Service Providers."),
     new TipsDef("Domain name",
@@ -576,7 +576,7 @@ tip_item.push (
     new TipsDef("Enable PPPoE",
         "Select \"Yes\" to enable PPPoE."),
     new TipsDef("Preferred DNS server",
-        ""),
+        "Enter the Preferred DNS server."),
     new TipsDef("Alternate DNS Server",
         "This fields sets the alternate DNS server for the user."),
     new TipsDef("Second Alternate DNS Server",
@@ -805,7 +805,7 @@ tip_item.push (
 
     /*Maintenance Language*/
     new TipsDef("Language",
-		"Select the language from the drop-down menu. "),
+		"Select the language from the drop-down menu."),
     new TipsDef("Custom Language",
 		"Press \"Browse\" to bring up a file selection menu to select the local .txt file to upload to the device."),
     new TipsDef("Default Custom Language",
@@ -819,7 +819,7 @@ tip_item.push (
     new TipsDef("Disable IP Address Display",
         "Default is No. If enabled, the IP address of the device will not show on the LCD."),
     new TipsDef("Screen Saver Start Interval",
-        "Default value is 60 seconds, 0 means turn off this feature. <br>After 60 seconds the Screen Saver will start. The Screen saver file stored in flash is limited to 20 images or 320kb. Change screen saver in the same way as customized ring tone. "),
+        "Default value is 60 seconds, 0 means turn off this feature. <br>After 60 seconds the Screen Saver will start. The Screen saver file stored in flash is limited to 20 images or 320kb. Change screen saver in the same way as customized ring tone."),
     new TipsDef("Screen Saver Refresh Interval",
         "Default is 10. <br>This parameter controls the picture changing speed showed on the LCD."),
     new TipsDef("Auto Power Off Interval",
@@ -845,7 +845,7 @@ tip_item.push (
     new TipsDef("LCD Auto Power Off Time",
         "This defines the lapsed idle time needed for the LCD to power off automatically in order to save power. The default setting is 10 minutes."),
     new TipsDef("HDMI Control",
-        "Defines whether to enable HDMI. If enabled, users need to set whether HDMI would synchronize with LCD. If set to \"Close HDMI Output\",HDMI device will not display output; If set to \"HDMI Display Synchronization with LCD\",HDMI device will display what on the device LCD; If set to \"Show Opposite Screen\",HDMI device displays remote video screen in a video call while other screens display synchronization with LCD. The default settings is \"HDMI Display Synchronization with LCD\". "),
+        "Defines whether to enable HDMI. If enabled, users need to set whether HDMI would synchronize with LCD. If set to \"Close HDMI Output\", HDMI device will not display output; If set to \"HDMI Display Synchronization with LCD\", HDMI device will display what on the device LCD; If set to \"Show Opposite Screen\", HDMI device displays remote video screen in a video call while other screens display synchronization with LCD. The default settings is \"HDMI Display Synchronization with LCD\"."),
 
     /*Device Manager HeadSet*/
     
@@ -1137,13 +1137,13 @@ tip_item.push (
     new TipsDef("Screen Percent",
         "Configures the output image size on the screen of HDMI 1 output.The value range is 90%-100%. The default setting is 100%."),
 	new TipsDef("Enable Presentation Automatically When HDMI Plugged",
-		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
+		"If set to \"Yes\", then the device will display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then the device will display presentation automatically after 30s timeout. The default setting is \"No\"."),
     
 	/*Site setting*/
 	new TipsDef("Timeout Operation",
-		"Set the timeout  options, optional for into sleep mode and shut down, the default value is \"Enter sleep mode\"."),
+		"Set the timeout mode to \"Enter sleep mode\" and \"shut down\", the default value is \"Enter sleep mode\"."),
     new TipsDef("Enter Sleep Mode",
-        "According  timeout  option to set the timeout , if the time is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
+        "Specifies the timeout duration according to Timeout Operation , if the timeout is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
     new TipsDef("Site Name",
         "Specifies the site name to be imposed on the video of local video. When joining a multipoint conference, this site name is displayed in other participants' video.<br>The default value is null.<br>Do not use any special characters in this site name, such as a colon (:), comma (,), hyphen (-), or underline (_)."),
     new TipsDef("Display Position",
@@ -1229,7 +1229,7 @@ tip_item.push (
 	new TipsDef("Remote Video Request",
         "Configures the preference of video request handling during an audio call. Users could select \"prompt\", \"accept\" or \"deny\" . The default setting is \"prompt\"."),
     new TipsDef("DHCP Option 120 Override SIP Server",
-        "Enables DHCP Option 120 from local server to override the SIP Server on the device. "),
+        "Enables DHCP Option 120 from local server to override the SIP Server on the device."),
     new TipsDef("Enable Session Timer",
         "This parameter is to enable/disable session timer function. If set to \"Yes\", the phone will configure the related parameters when sending session timer according to \"Session Expiration\". If set to \"No\", session timer is disabled. The default setting is \"Yes\"."),
     new TipsDef("Developer Mode",

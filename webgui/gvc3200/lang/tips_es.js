@@ -18,7 +18,7 @@ tip_item.push (
         "URL o dirección IP, y puerto del servidor SIP."),*/
         
     new TipsDef("DHCP VLAN Override",
-        "Selects the DHCP Option VLAN mode. When set to \"DHCP Option 132 and DHCP option 133\", the phone will get DHCP option 132 and 133 as VLAN ID and VLAN  priority. When set to \"Encapsulated in DHCP Option 43\", the phone will get values from Option 43 which encapsulate VLAN ID and VLAN  priority. Note: Please make sure the \"Allow DHCP Option 43 and Option 66 to Override Server\" setting under maintenance->upgrade is checked. The default setting is \"Disable\"."),
+        "Selecciona el modo VLAN con Opción DHCP. Cuando se establece en \"Opción DHCP 132 y opción DHCP 133\", el equipo recibirá la opción DHCP 132 y 133 con la información del ID de la VLAN y la prioridad de la VLAN. Cuando se configura a \"DHCP Encapsulado en Opción 43\", el equipo recibirá valores de la Opción 43 que encapsula el ID de VLAN y la prioridad de VLAN encapsulada. Nota: Asegúrese de que la opción \"Permitir que la Opción DHCP 43 y Opción 66 sobre escriba la información del server\" en la configuración: mantenimiento-> actualización esté marcada. El valor predeterminado es \"Deshabilitado\"."),
     
     /*Estado de Red*/
     new TipsDef("IP Address ",
@@ -122,7 +122,7 @@ tip_item.push (
     new TipsDef("Wait Time Retry Registration",
         "La cantidad de tiempo en cual el dispositivo intentará el proceso de registro en el caso de que falle. El valor predeterminado son 20 segundos."),
     new TipsDef("Local SIP Port",
-        "Define el puerto local SIP usado para escuchar y transmitir. El valor predeterminado es 5060 para la Cuenta 1, 5062 para la Cuenta 2, 5064 para la Cuenta 3, 5066 para la Cuenta 4, 5068 para la Cuenta 5 y 5070 para la Cuenta 6."),
+        "Define el Puerto local SIP usado para escuchar y transmitir. El valor por defecto es 5060 para Cuenta 1, 5062 para Cuenta 2, 5064 para Cuenta 3, 5066 para Cuenta 4, 5068 para Cuenta 5, 5070 para Cuenta 6."),
     new TipsDef("SUBSCRIBE for MWI",
         "Cuando se ajusta a  \"Si\", se enviará periódicamente un SUBSCRIBE para la indicación de mensaje en espera. El dispositivo soporta MWI sincronizada y no sincronizada. El ajuste por defecto es \"No\"."),
     new TipsDef("Session Expiration",
@@ -187,7 +187,7 @@ tip_item.push (
 	
     
 	new TipsDef("Only Accept SIP Requests from Known Servers",
-		"Si se establece en \"Si\", la ID de usuario SIP será revisada en la solicitud URI del INVITE entrante. Si no coincide la ID de usuario SIP del dispositivo, la llamada será rechazada. Por defecto es \"Yes\"."),
+		"Si se establece en \"Si\", la ID de usuario SIP será revisada en la solicitud URI del INVITE entrante. Si no coincide la ID de usuario SIP del dispositivo, la llamada será rechazada. Por defecto es \"Si\"."),
     		
     /*Cuenta 1 2 3 Códec y Señal*/
     new TipsDef("DTMF",
@@ -199,17 +199,17 @@ tip_item.push (
     new TipsDef("Use First Matching Vocoder in 200OK SDP",
         "Cuando se configura en \"Si\", el dispositivo usará el primer vocoder que coincida en el 200Ok enviado en el SDP como códec."),
 	new TipsDef("Enable Audio RED with FEC",
-		"If set to \"Yes\", FEC will be enabled for audio call. The default setting is \"No\"."),
+		"Si establece \"Si\", FEC estará habilitado para llamada. La configuración por defecto es \"No\"."),
 	new TipsDef("Audio FEC Payload Type",
-		"Configures audio FEC payload type. The valid range is from 96 to 127. The default value is 121."),
+		"Configure el audio FEC tipo payload. El rango válido es desde 96 hasta 127. El valor por defecto el 121."),
 	new TipsDef("Audio RED Payload Type",
-		"Configures audio RED payload type. The valid range is from 96 to 127. The default value is 124."),
+		"Configure el audio RED tipo payload. El rango válido es desde 96 hasta 127. El valor por defecto el 124."),
     new TipsDef("Opus Payload Type",
         "Ingrese un valor deseado (96-126) para el tipo de carga útil del códec Opus. El valor por defecto es de 123."),
     new TipsDef("Preferred Video Coder",
         "Este parámetro le permite seleccionar su códec de vídeo preferido desde la lista \"disponible\".  El dispositivo soporta H.264, H.263 o H.263+. El códec H.264 es recomendado."),
 	new TipsDef("iLBC Frame Size",
-		"Selects iLBC packet frame size."),
+		"Selecciona el tamaño del paquete iLBC."),
 	new TipsDef("H.264 Payload Type",
         "Ingrese el tipo de carga útil del códec H.264. El rango válido es de 96 a 127. El valor por defecto es de 99."),
     new TipsDef("H.263+ Payload Type",
@@ -233,7 +233,7 @@ tip_item.push (
     new TipsDef("G.722.1 Payload Type",
         "Ingrese el tipo de carga útil para el códec G.722.1. El rango válido es desde 96 a 126.  El valor por defecto es de 104."),
 	new TipsDef("G.722.1C Payload Type",
-	    "Enter G.722.1C codec payload type. The valid range is from 96 to 126. The default value is 103."),
+	    "Introduzca el G.722.1C tipo payload. El rango válido es desde 96 hasta 126. El valor por defecto es 103"),
 	new TipsDef("G723 Rate",
         "Este parámetro define la tasa de codificación del códec de audio G.723 (6.3kbps o 5.3kbps).  Los usuarios deberían revisar este ajuste con su ITSP o Servidor/Proxy."),
     new TipsDef("Jitter Buffer Type",
@@ -253,12 +253,12 @@ tip_item.push (
     new TipsDef("Video Jitter Buffer Maximum",
         "Configura el tamaño de almacenamiento de acuerdo al entorno de red.  El rango válido es desde 0 a 1000. El ajuste por defecto es 50."),
 	new TipsDef("Enable video Gradual decoder refresh",
-		"GDR (Gradual decoder refresh) by P frame including the I block set of methods to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability.The default setting is \"No\"."),
+		"GDR (Gradual decoder refresh) por P frame incluyendo el I block conjunto de métodos para alcanzar la actualización asintótica. Si se establece \"Yes\", GDR brindará mejor adaptabilidad a la red. La condición por defecto es \"No\"."),
     /*Cuenta 1, 2, 3 Ajustes de Llamada*/
     new TipsDef("Dial Plan Prefix",
-        "Este parámetro define el predijo agregado a cada número marcado."),
+        "Configura el prefijo a ser agregado en cada número marcado. Todos los números usados en esta cuenta automáticamente agregarán el prefijo. Ejemplo: el prefijo es 5, el número de teléfono es 377, entonces el número que marca es 5337. Si establece \"Deshabilitar Dial Plan\" a \"Si\", el prefijo de dial plan será invalido"),
     new TipsDef("DialPlan",
-        "Establece la regla para el número esperado y el patrón que se debe marcar a cabo.  Para conocer la sintaxis y ejemplos, por favor consulte al manual de usuario del teléfono para más detalles."),
+        "Valor Válido:<br/>1,2,3,4,5,6,7,8,9,0,*,#,T;<br/>2. Reglas de Dial Plan:<br/>a) •xx – cualquier número de 2 dígitos desde 0-9<br/>b) •xx+ - al menos 2 dígitos desde 0-9<br/>c) • x x. – al menos 1 dígito desde 0-9<br/>d) • xx? - 1 ó 2 dígitos desde 0-9<br/>e) • ^ - excluir<br/>f) • T – retardo de marcación cuando coinciden<br/>g) • [3-5] – cualquier dígito de 3, 4, ó 5<br/>h) [147] – cualquier dígito de 1, 4, ó 7<br/>i) <2=011> - reemplazar dígito 2 con 011 cuando marque<br/>j) {x+} – permitir marcar a todos los números de dígitos<br/>3. Ejemplos:<br/>Ekemplo 1: {[369]11 | 1617xxxxxxx}<br/>permite 311, 611, y 911 ó cualquier número de 10 dígitos con dígitos principales 1617;<br/>Ejemplo 2: {^1900x+ | <=1617>xxxxxxx}<br/>Bloquea cualquier número con dígitos principales 1900 ó adiciona el prefijo 1617 para cualquier número marcado de 7 dígitos;"),
     new TipsDef("Early Dial",
         "Este parámetro debería ser usado solo cuando el proxy/servidor soporte mensajes de respuesta 484. El ajuste por defecto es \"No\"."),
     new TipsDef("Refer-To Use Target Contact",
@@ -304,9 +304,9 @@ tip_item.push (
     new TipsDef("Account Ring Tone",
         "Permite a los usuarios configurar el tono de llamada para la cuenta. Los usuarios pueden escoger diferentes tonos de llamadas de la lista despegable."),
     new TipsDef("Match Incoming Caller ID",
-		"Este campo especifica el identificador de llamada para tener un distintivo tono de llamada (especificado a la derecha). Los usuarios puedes escoger diferentes tonos de llamadas desde el menú despegable. Pueden además cargar archivos mp3 en el gestor de tono bajo \"Aplicaciones\" para tener su propio tono de llamada. "),
+		"Este campo especifica el identificador de llamada para tener un distintivo tono de llamada (especificado a la derecha). Los usuarios puedes escoger diferentes tonos de llamadas desde el menú despegable. Pueden además cargar archivos mp3 en el gestor de tono bajo \"Aplicaciones\" para tener su propio tono de llamada."),
     new TipsDef("Distinctive Ring Tone",
-        "Este especifica el tono de timbre distintivo para el identificador de llamada coincidente a la izquierda. Los usuarios pueden escoger diferentes tonos de llamada en el menú despegable. Pueden además cargar archivos mp3 en el gestor de tono bajo \"Aplicaciones\" para su propio tono de timbre. "),
+        "Este especifica el tono de timbre distintivo para el identificador de llamada coincidente a la izquierda. Los usuarios pueden escoger diferentes tonos de llamada en el menú despegable. Pueden además cargar archivos mp3 en el gestor de tono bajo \"Aplicaciones\" para su propio tono de timbre."),
 	new TipsDef("Special Feature",
         "Diferentes vendedores de soft switch tienen requerimientos especiales. Por lo tanto, los usuarios pueden necesitar seleccionar funciones especiales para cumplir estos requerimientos. Los usuarios puedes escoger desde Standard, CBCOM, RNK, China Mobile, ZTE IMS, Mobotix, ZTE NGN, o Huawei IMS dependiendo del tipo de servidor. EL ajuste por defecto es \"Standard\"."),
 	new TipsDef("Feature Key Synchronization",
@@ -393,9 +393,9 @@ tip_item.push (
 	new TipsDef("Disable DialPlan",
 		"SI se establece en \"Si\", a continuación deshabilite el plan de marcado a excepción de contactos. El ajuste por defecto es \"No\"."),
     new TipsDef("Filter Characters",
-        "Establezca los caracteres de filtro cuando marque los números. Los usuarios pueden configurar múltiples caracteres. Por ejemplo, si se configura \"[()-]\", cuando se marque (0571)-8800-8888, el caracter \"()-\" será automáticamente filtrado y marcará directamente 057188008888."),
+        "Establece el filtro de caracteres cuando se marcan números de salida. Los usuarios podrán ingresar múltiple caracteres. Por ejemplo, si se establece to "[()-]", cuando marque (0571)-8800-8888, el caracter "()-" será automáticamente filtrado y el equipo marcará 057188008888 directamente. Nota: esta función no trabaja en la página local de llamada del dispositivo."),
 	new TipsDef("Noise Block",
-		"If set to \"Yes\", the voice of knocking table and turning over papers will be eliminated in call clearance (no one is speaking), the default setting is \"No\"."),
+		"Si se establece \"Si\", La voz de golpear la mesa y voltear los papeles se eliminará en el despacho de llamadas (nadie está hablando), la configuración por defecto es \"No\"."),
     
     /*Ajustes Avanzados de zona de tono*/
     new TipsDef("Custom ring tone 1",
@@ -490,7 +490,7 @@ tip_item.push (
 	new TipsDef("Enable Frame Skipping in Video Decoder",
 		"Si se ajusta a los valores por defecto \"Si\", el dispositivo saltará el cuadro P en las pérdidas de paquetes para decodificar el cuadro I en el próximo paquete de vídeo. Este ajuste ayuda a reducir la distorsión de vídeo. El ajuste por defecto es \"No\"."),
 	new TipsDef("Video Display Mode",
-		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the phone displays video in its original proportion, if the video display proportion is different from the one of the phone, the phone will stretch or compress video to display it; If set to \"Equal proportional cutting\", the phone will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the phone will display video in its original proportion, if still exists spare space, the phone will add black edge on it. The default setting is \"Equal proportional cutting\"."),
+		"Si se establece el video display a modo \"Proporción Original\", \"Corte Proporcional Igual\" ó \"Agregar Borde negro proporcional\". Si se establece \"Proporción Original\", el equipo hará video display en su proporción original recibida del otro participante, si la proporción del video display remoto es diferente al equipo, el equipo estirará o comprimirá el video display; si se establece a \"Corte Proporcional Igual\", el equipo cortará el video encontrado en su propia proporción de display; si se establece a \"Agregar Borde negro proporcional\", el equipo hará video display en su proporción original, si todavía existe espacio disponible, el equipo adicionará un borde negro. La configuración por defecto es \"Corte Proporcional Igual\"."),
 	
     /*Ajustes Avanzados de Vídeo Vigilancia*/
     new TipsDef("Enable Video Surveillance",
@@ -514,7 +514,7 @@ tip_item.push (
     new TipsDef("Disable Presentation",
         "Si se establece en \"Si\",  el dispositivo deshabilitará el envío y recepción de presentación durante la conferencia. El ajuste por defecto es \"No\"."),
 	new TipsDef("INITIAL INVITE",
-		"Initial INVITE SDP contains presentation media."),
+		"SDP del INVITE inicial contiene formación del media"),
 
 	/*Ajustes Avanzados de Recursos de Red*/
     new TipsDef("Enalbe Screen Saver Download",
@@ -572,7 +572,7 @@ tip_item.push (
     new TipsDef("Enable PPPoE",
         "Seleccione \"Si\" para habilitar PPPoE."),
     new TipsDef("Preferred DNS server",
-        ""),
+        "Ingrese el servidor DNS preferido."),
     new TipsDef("Alternate DNS Server",
         "Este campo establece un servidor DNS alternativo para el usuario."),
     new TipsDef("Second Alternate DNS Server",
@@ -588,7 +588,7 @@ tip_item.push (
     new TipsDef("STUN/TURN Server",
         "La dirección IP o el nombre de Dominio del servidor STUN/TURN. Los resultados de la resolución STUN son mostrados en la página de ESTADO del Web Gui del dispositivo. Solo los routers NAT no simétricos trabajan con STUN."),
 	new TipsDef("HTTP/HTTPS User Agent",
-	    "This sets the user-agent for HTTP/HTTPS request."),
+	    "Esto configura el user-agent para solicitud de HTTP/HTTPS."),
     new TipsDef("SIP User Agent",
         "Esto establece el agente usuario para SIP. Si el valor incluye la palabra \"$versión\",  lo reemplazará con la versión real de sistema."),
     new TipsDef("802.1x Mode",
@@ -801,7 +801,7 @@ tip_item.push (
 
     /*Mantenimiento Idioma*/
     new TipsDef("Language",
-		"Seleccione el idioma del menú desplegable. "),
+		"Seleccione el idioma del menú desplegable."),
     new TipsDef("Custom Language",
 		"Presione \"Navegar\" para traer un menú de selección de archivo y seleccionar el archivo .txt local a cargar en el dispositivo."),
     new TipsDef("Default Custom Language",
@@ -815,7 +815,7 @@ tip_item.push (
     new TipsDef("Disable IP Address Display",
         "Por defecto es No. Si es habilitado, la dirección IP del dispositivo no se mostrará en el LCD."),
     new TipsDef("Screen Saver Start Interval",
-        "El valor por defecto es 60 segundos, 0 significa apagar esta función. <br> Luego de 60 segundos empezará el protector de pantalla. El archivo de protector de pantalla almacenado en el flash está limitado a 20 imágenes o 320kb. Cambie el protector de pantalla de la misma manera como el tono de timbrado personalizado. "),
+        "El valor por defecto es 60 segundos, 0 significa apagar esta función. <br> Luego de 60 segundos empezará el protector de pantalla. El archivo de protector de pantalla almacenado en el flash está limitado a 20 imágenes o 320kb. Cambie el protector de pantalla de la misma manera como el tono de timbrado personalizado."),
     new TipsDef("Screen Saver Refresh Interval",
         "Por defecto es 10. <br> Este parámetro controla la velocidad de cambio de la imagen mostrada en el LCD."),
     new TipsDef("Auto Power Off Interval",
@@ -841,7 +841,7 @@ tip_item.push (
     new TipsDef("LCD Auto Power Off Time",
         "Este define el tiempo inactivo transcurrido necesario para apagar automáticamente el LCD de manera de ahorrar energía. El ajuste por defecto es de 10 minutos."),
     new TipsDef("HDMI Control",
-        "Define si habilitar el HDMI. Si es habilitado, los usuarios necesitan establecer si el HDMI sincronizaría con el LCD. Si se establece en \"Cerrar salida HDMI\", el dispositivo HDMI no mostrará la salida de pantalla; si se establece en \"Sincronización de pantalla HDMI con LCD\", el dispositivo HDMI mostrará lo que está en la pantalla LCD del dispositivo; si se establece en \"Mostrar Pantalla Opuesta\", el dispositivo HDMI muestra la pantalla de vídeo remoto en la vídeo llamada mientras las otras pantallas muestran la sincronización con el LCD. El ajuste por defecto es \"Sincronización de pantalla HDMI con LCD\". "),
+        "Define si habilitar el HDMI. Si es habilitado, los usuarios necesitan establecer si el HDMI sincronizaría con el LCD. Si se establece en \"Cerrar salida HDMI\", el dispositivo HDMI no mostrará la salida de pantalla; si se establece en \"Sincronización de pantalla HDMI con LCD\", el dispositivo HDMI mostrará lo que está en la pantalla LCD del dispositivo; si se establece en \"Mostrar Pantalla Opuesta\", el dispositivo HDMI muestra la pantalla de vídeo remoto en la vídeo llamada mientras las otras pantallas muestran la sincronización con el LCD. El ajuste por defecto es \"Sincronización de pantalla HDMI con LCD\"."),
 
     /*Administrador de dispositivo Auricular*/
     
@@ -953,9 +953,9 @@ tip_item.push (
 	new TipsDef("Download Server",
 		"Complete la URL o dirección IP del servidor para descargar el archivo de contactos XML desde Internet."),
 	new TipsDef("HTTP/HTTPS User Name",
-		"Fill in HTTP/HTTPS user name of the download server."),
+		"Rellene el usuario HTTP/HTTPS del server de descarga"),
 	new TipsDef("HTTP/HTTPS Password",
-		"Fill in HTTP/HTTPS password of the download server."),
+		"Rellene la clave HTTP/HTTPS del server de descarga"),
 	new TipsDef("Download Interval",
 		"Establece el intervalo (en minutos) para enviar la solicitud de descarga al servidor. El ajuste por defecto \"Ninguno\" significa que el dispositivo no solicitará auto descarga. Puede ser establecido de acuerdo a las necesidades del usuario."),
 	new TipsDef("Download Now",
@@ -1052,7 +1052,7 @@ tip_item.push (
     new TipsDef("MPK ID",
         "Seleccione el DI para el MPK."),
     new TipsDef("Display Format",
-        "Configura el formato de despliegue para el MPK. Los usuarios pueden seleccionar  \"Nombre\", \"ID  de Usuario\" o \"Nombre(ID de Usuario)\". "),
+        "Configura el formato de despliegue para el MPK. Los usuarios pueden seleccionar  \"Nombre\", \"ID  de Usuario\" o \"Nombre(ID de Usuario)\"."),
     new TipsDef("Show DisplayName from Server",
         "Si es seleccionado, el nombre mostrado en el servidor sustituirá el nombre de usuario configurado. Por defecto es \"No\"."),
         
@@ -1094,9 +1094,9 @@ tip_item.push (
     
 	/*Device Control*/
 	new TipsDef("Preset Settings",
-		"Camera presets are camera positions configured and saved ahead of time. A camera preset stores the pan, tilt, and zoom settings of the camera. You can easily control the camera by switching among camera presets. The presets can be configured before the conference or during the conference. Up to 24 presets are supported."),
+		"Presets de cámaras son posiciones de cámaras configuradas y salvadas previamente. Un preset de cámara guarda configuraciones de pan, tilt y zoom de la cámara, usted puede fácilmente controlar la cámara intercambiando entre presets. Los presets pueden ser configurados antes de la conferencia o durante la conferencia. Más de 24 presets son soportados."),
 	new TipsDef("PTZ Control",
-		"Performs pan, tilt, zoom, (PTZ) control over a local camera."),
+		"Realiza pan, tilt, zoom, control (PTZ) sobre una cámara local"),
 				
     /*Ajustes Avanzados de administrador de tono*/	
 	new TipsDef("Ringtone File Manager",
@@ -1116,7 +1116,7 @@ tip_item.push (
     new TipsDef("Move Speed",
         "Especifica la velocidad de movimiento y  de zoom para la cámara. \"1\" es el más bajo y \"16\" es el más rápido. El ajuste por defecto es \"5\"."),
     new TipsDef("Initial Position",
-        "Especifica la posición inicial de la cámara cuando el dispositivo es encendido.<br>Predeterminado: La cámara se mueve a su posición por defecto después de iniciar.<br>Preestablecido 1: La cámara se mueve al preestablecido 1 después de iniciar. El preestablecido 1 debe ser configurado antes de reiniciar.<br>Última Posición: Después de iniciar, la cámara se mueve a la última posición antes de reiniciar. El ajuste por defecto es Predeterminado."),
+        "Especifica la posición incial de la cámara cuanto el equipo enciende .<br/>Default: La cámara se mueve a su posición por defecto después de arrancar.<br/>Preset 1: La cámara se mueve a el preset 1 después de arrancar. Preset 1 debe ser configurado antes de reiniciar.<br/>Última Posición: Después de arrancar, la cámara se mueve a la última posición antes de reiniciar. La configuración por defecto es Default."),
     new TipsDef("VGA In ",
         "Esta opción es usada para ajustar los parámetros de desplazamiento horizontal o vertical en el desplazamiento de la imagen de entrada VGA."),
     new TipsDef("Image Shift",
@@ -1126,13 +1126,13 @@ tip_item.push (
     new TipsDef("Screen Percent",
         "Configura el tamaño de la imagen de salida sobre la pantalla de la salida HDMI 1. El rango de valor es de 90%-100%. El ajuste por defecto es 100%."),
 	new TipsDef("Enable Presentation Automatically When HDMI Plugged",
-		"If set to \"Yes\", then display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then display presentation automatically when the timeout is 30s. The default setting is \"No\"."),
+		"Si se establece \"Si\", entonces el equipo mostrará la presentación cuando el HDMI está conectado; Si se establece \"No\", un mensaje se mostrará a los usuarios para seleccionar \"Ok\" ó \"Cancelar\". Si los usuarios no hacen click en \"Ok\" ni en \"Cancelar\", entonces el equipo mostrará la presentación automáticamente después de un tiempo de 30 seg. La configuración por defecto es \"No\"."),
     
 	/*Configuración de Sitio*/
 	new TipsDef("Timeout Operation",
-		"Set the timeout  options, optional for into sleep mode and shut down, the default value is \"Enter sleep mode\"."),
+		"Establezca el tiempo límite para entrar al modo \"Entrar modo hibernación\" y \"Apagado\", el valor por defecto es \"Entrar modo hibernación\"."),
     new TipsDef("Enter Sleep Mode",
-        "According  timeout  option to set the timeout , if the time is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
+        "According timeout option to set the timeout, if the time is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
     new TipsDef("Site Name",
         "Especifica el nombre de sitio a ser impuesto sobre el vídeo del vídeo local. Cuando se una a una conferencia multi punto, este nombre de sitio es mostrado en el vídeo de los otros participantes.<br>El valor por defecto es nulo.<br>No use algún caracter especial en este nombre de sitio, tales como dos puntos (:), coma (,), guion (-), o subrayar (_)."),
     new TipsDef("Display Position",
@@ -1214,7 +1214,7 @@ tip_item.push (
     new TipsDef("Factory Reset",
         "Reestablecer a los ajustes de fábrica."),
     new TipsDef("Disable Dial Plan",
-        "Define si deshabilitar el plan de marcado cuando se marque desde la pantalla de marcado, Contactos, Historial de llamadas y Click2Dial. Si se establece en \"Si\",  el plan de marcado será deshabilitado para los casos anteriores. Si \"Visualizar el teclado de software\" está configurado en \"Si\", es recomendado deshabilitar el plan de marcado para la página de marcado."),
+        "Define si deshabilitar dial plan cuando marque desde la pantalla de marcado, Contactos, Historial de llamada y Click2Dial. Si se establece \"Si\", dial plan será deshabilitado para casos anteriores."),
     new TipsDef("Remote Video Request",
         "Configura la preferencia de la administración de solicitud de vídeo durante una llamada de audio. Los usuarios pueden seleccionar \"pronto\", \"aceptar\" o \"denegar\" . El ajuste por defecto es \"pronto\"."),
     new TipsDef("DHCP Option 120 Override SIP Server",
