@@ -4819,6 +4819,7 @@ function setBFCP_callback(data)
         if((data.bfcp != undefined && data.bfcp == "2") || flag == "2")
         {
             $present.hide();
+            $("#presentselect").hide();
             var recline = data.recline;
             if(line != undefined && line != "")
                 $present.attr("bfcpline",line).attr("bfcp","2");
