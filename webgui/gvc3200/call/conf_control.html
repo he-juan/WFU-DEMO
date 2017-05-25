@@ -572,6 +572,12 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .cuspop.active{background: url("../img/call/conf_control.png") -498px -323px no-repeat;}
 #layouttitle{width: 100%; height: 36px; font-size: 16px; font-weight: bold; line-height: 36px; color: white; background: #1d6ea8; border-radius: 1px;}
 #layouttitletext{width: 90%; float: left; padding-left: 20px;}
+#promptdiv{position: absolute;background: #fff;width: 450px;height: 200px;z-index: 1005; top:0; left:0; right:0; bottom:0; margin:auto; border-radius: 8px; border: 1px solid #cccccc;}
+.promptinfo{width: 100%; height: 50%; line-height: 100px; color: #1d6ea8; font-size: 18px; text-align:center;}
+.promptinfo span{float:left;}
+.prompthost{display: inline-block;max-width: 40%;overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 5%;}
+.promptbutton{float: left; margin-left: 85px; margin-top: 30px; width:100px;}
+.promptbutton:hover{background: #d1d1d1;}
 </style> 
 </head>
 <body>
@@ -2628,7 +2634,7 @@ function handle_ipvtcmrinvite(data){
     if(data.name == undefined)
         data.name = "";
     var hostinvitetext = htmlEncode(data.name);
-    var prompthtml = "<div id='promptdiv'><div class='promptinfo'><span class='prompthost'>" + hostinvitetext + "</span><span>&nbsp" + a_19384 + "</span></div><div id='acceptcmrivt'><button class='promptbtn' style='background:#4abe6b;'>" + a_10000 + "</button></div><div id='rejectcmrivt'><button class='promptbtn' style='background:#d8333d;'>" + a_19138 + "</button></div></div>";
+    var prompthtml = "<div id='promptdiv'><div class='promptinfo'><span class='prompthost' title=\'" + hostinvitetext + "\'>" + hostinvitetext + "</span><span>&nbsp" + a_10218 + "</span></div><div id='acceptcmrivt'><button class='promptbutton' style='background:#4abe6b;'>" + a_10000 + "</button></div><div id='rejectcmrivt'><button class='promptbutton' style='background:#d8333d;'>" + a_19138 + "</button></div></div>";
     var backgroundhtml = "<div class='transparentdiv' style='background:#000;opacity:0.5;width:100%;height:700px;z-index:1000;margin-top:-73%;'></div>"
     
     if($("#promptdiv") != undefined)
@@ -2645,10 +2651,6 @@ function handle_ipvtcmrinvite(data){
     var finalmarginleft = ($(".promptinfo").width() - textwidth) / 2;
     $(".prompthost").css("margin-left", finalmarginleft + "px");
     
-    if($.cookie("MyLanguage") == "zh")
-        $(".prompthost").css("max-width", "53%");
-    else
-        $(".prompthost").css("max-width", "40%");
     $("#promptdiv").attr("line", data.line);
 }
 
@@ -3352,11 +3354,9 @@ function addconflist(data,todivID)
                 $("#maxlinenum",window.parent.document).val('3');
             }
         }
-        //$("#tabs div#line-"+line).find(".confnum").children("span").hide();
-        //$("#tabs div#line-"+line).find(".confsuspend").attr("disabled","disabled").addClass("btndisabled");
-        //$("#tabs div#line-"+line).find(".confdel").attr("disabled","disabled").addClass("btndisabled");
         
         cb_get_action("getipvrole&region=confctrl&line=" + line + "&type=init");
+        cb_get_action("resumecamera&region=confctrl");
     }
     
     if(mOEMID == "54")
@@ -3372,7 +3372,7 @@ function update_line_videoedstate(data){
             $("#line-"+line).find(".isvideoed").removeClass("unisvideoed").attr("isvideoed","0").attr("title", a_19241);
         else
             $("#line-"+line).find(".isvideoed").addClass("unisvideoed").attr("isvideoed","1").attr("title", a_10077);
-    }                    
+    }
 }
 
 function change_numlist()
@@ -4271,6 +4271,19 @@ function cb_get_action_done(data, action) {
             var state = tObj.isHandUp;
             if(state == "true")
                 $("#handsup").attr("name", a_10221).addClass("active");
+        }
+        else if(action.indexOf("resumecamera") != -1){
+            var tObj = eval("(" + data + ")");
+            if(tObj.state == "1")
+                cb_get_action("getcmrnameandnumber&region=confctrl");
+        }
+        else if(action.indexOf("getcmrnameandnumber") != -1){
+            var tObj = eval("(" + data + ")");
+            if(tObj.res == "success"){
+                tObj.name = tObj.cameraName;
+                tObj.number = tObj.cameraNumber;
+                handle_ipvtcmrinvite(tObj);
+            }
         }
     }else
     {
@@ -7876,14 +7889,14 @@ function pageEventActions()
     
     $("#acceptcmrivt").unbind().live("click",function(){
         var line = $("#promptdiv").attr("line");
-        var urihead = "action=conflinevideoedstate&region=confctrl&isvideoed="+0+"&line="+line;
-        cb_get_confaction(urihead,"");
+        cb_get_action("acceptorejectipvtcmr&region=confctrl&line=" + line + "&accept=1");
         $("#promptdiv").remove();
         ctrl_show_maskdiv(false);
     });
     
     $("#rejectcmrivt").unbind().live("click",function(){
-        cb_get_action("rejectipvtcmr&region=confctrl");
+        var line = $("#promptdiv").attr("line");
+        cb_get_action("acceptorejectipvtcmr&region=confctrl&line=" + line + "&accept=0");
         $("#promptdiv").remove();
         ctrl_show_maskdiv(false);
     });
