@@ -21589,6 +21589,15 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if(!strcasecmp(action, "isipvthandup")){
                     handle_callservice_by_no_param(srv, con, b, m,"isIPVTHandUp");
                 }
+                else if(!strcasecmp(action, "acceptorejectipvtcmr")){
+                    handle_callservice_by_two_param(srv, con, b, m, "line", "accept", "acceptOrRejectCameraInvite");
+                }
+                else if(!strcasecmp(action, "resumecamera")){
+                    handle_callservice_by_no_param(srv, con, b, m, "isNeedResumeCamera");
+                }
+                else if(!strcasecmp(action, "getcmrnameandnumber")){
+                    handle_callservice_by_no_param(srv, con, b, m, "getIPVTCameraNameAndNumber");
+                }
                 else{
                     findcmd = 0;
                 }

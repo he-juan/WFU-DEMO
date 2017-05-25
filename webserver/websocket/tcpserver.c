@@ -950,7 +950,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
                                     DBUS_TYPE_STRING, &str2,
                                     DBUS_TYPE_INVALID ) )
         {
-            len = 128;
+            len = strlen(str) + strlen(str2) + 128;
             sendData = malloc(len);
             memset(sendData,0,len);
             snprintf(sendData,len,"{\"type\":\"IPVT_camera_invite\",\"line\":\"%d\",\"name\":\"%s\",\"number\":\"%s\"},",i,str,str2);
