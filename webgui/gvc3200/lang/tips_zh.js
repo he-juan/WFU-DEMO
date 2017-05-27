@@ -304,7 +304,7 @@ tip_item.push (
 	new TipsDef("Special Feature", "特殊模式",
         "不同的软交换供应商有不同的需求，用户可以选择不同的模式以满足供应商的需求。默认设置模式为“标准”。"),
     new TipsDef("Feature Key Synchronization", "功能键同步",
-       	"用于Broadsoft呼叫功能同步。启用时，DND和转接等功能可以与Broadsoft服务器同步。默认为“禁用”。"),
+       	"用于Broadsoft呼叫功能同步。启用时，勿扰模式和转接等功能可以与Broadsoft服务器同步。默认为“禁用”。"),
     new TipsDef("Enable Call Features", "激活呼叫功能",
         "默认为“否”，本地支持呼叫转接、呼叫等待和呼叫转移等呼叫功能。<br>例如：*72+号码，即通过呼叫功能设置无条件转移号码。<br>当本地呼叫功能与服务器相冲突时，可以将本地呼叫功能关闭。<br>更多信息可参考用户手册激活呼叫功能章节。"),
     new TipsDef("Enable FECC", "开启FECC",
