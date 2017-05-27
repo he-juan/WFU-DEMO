@@ -5637,6 +5637,13 @@ function cb_get_layoutinfo(urihead){
 function layout_choosemode(mode){
     $(".modelist li").removeClass("active");
     $(".modelist li div").removeClass("active");
+    
+    if(mIsSysrcmd){
+        $(".modelist li[mode=sysrcmd]").addClass("active");
+        $(".modelist li[mode=sysrcmd] div").addClass("active");
+        return;
+    }
+    
     switch (mode) {
         case "1":
         case "2":
@@ -5645,14 +5652,8 @@ function layout_choosemode(mode){
             $(".modelist li[mode=custom] div").addClass("active");
             break;
         case "4":
-            if(mIsSysrcmd){
-                $(".modelist li[mode=sysrcmd]").addClass("active");
-                $(".modelist li[mode=sysrcmd] div").addClass("active");
-            }
-            else{
-                $(".modelist li[mode=overlap]").addClass("active");
-                $(".modelist li[mode=overlap] div").addClass("active");
-            }
+            $(".modelist li[mode=overlap]").addClass("active");
+            $(".modelist li[mode=overlap] div").addClass("active");
             break;
         case "5":
             $(".modelist li[mode=childmother]").addClass("active");
@@ -9231,6 +9232,11 @@ function pageEventActions()
 
         switch (mode) {
             case "sysrcmd":
+                if(mOEMID == "54")
+                    mode = "6";
+                else
+                    mode = "4";
+                break;
             case "overlap":
                 mode = "4";
                 break;
@@ -9242,7 +9248,13 @@ function pageEventActions()
                 break;
             case "custom":
                 mCurhdmi = 1;
-                if(beforemode == "sysrcmd" || beforemode == "overlap")
+                if(beforemode == "sysrcmd"){
+                    if(mOEMID == "54")
+                        mode = "3";
+                    else
+                        mode = "1";
+                }
+                else if(beforemode == "overlap")
                     mode = "1";
                 else if(beforemode == "childmother")
                     mode = "2";
