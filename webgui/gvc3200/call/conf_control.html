@@ -5682,11 +5682,15 @@ function layout_adjuststyle(type, mode, content){
         }
     });
     
+    var oemflag = 0;
+    if(mOEMID == 54 && mIsSysrcmd && mode == 6 && presenton)
+        oemflag = 1;
+    
     switch (type) {
         case 1: //one screen with default mode
             $(".layoutcontainer").css({"height":"63%", "min-height":"500px"});
             $(".layoutbkgdiv").css({"min-height":"488.8px", "width":"78%", "height":"75%", "margin":"5% 0 0 11.5%"});
-            if(mode == 4){
+            if(mode == 4 || oemflag == 1){
                 if(!presenton || (presenton && !isvideo && !mIsSysrcmd)){
                     $(".layoutlinediv").css({"margin":"17% 0 0 1.7%", "width":"47.5%", "height":"50%"});
                     $(".layoutlinediv .layoutlinename").css("margin-top", "31%");
@@ -6127,32 +6131,7 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
                 break;
         }
     }
-    /*if(hdmi2state == 0){
-        if(mode == 3){
-            layouthtml += display_layoutlinediv(mcontent, mode);
-        }
-        else{
-            for(var i = 0; i < mcontent.length; i++){
-                layouthtml += display_layoutlinediv(mcontent[i], mode, i);
-            }
-        }
-    }
-    else{
-        if(mCurhdmi == 1){
-            layouthtml += display_layoutlinediv(mcontent, 4);
-        }
-        else{
-            if(mode == 3){
-                layouthtml += display_layoutlinediv(mcontent, mode);
-            }
-            else{
-                for(var i = 0; i < mcontent.length; i++){
-                    layouthtml += display_layoutlinediv(mcontent[i], mode, i);
-                }
-            }
-        }
-    }*/
-                     
+             
     layouthtml += "<div class='cusmodecls'>" +
                   "<ul><li class='cusmode cusoverlap' mode='1'></li>" +
                   "<li class='cusmode cuschildmother' mode='2'></li>" +
@@ -6206,8 +6185,12 @@ function display_layoutlinediv(line, mode, order){
         number = "(" + $("#line-" + line).attr("number") + ")";
     }
     
+    var oemflag = 0;
+    if(mOEMID == "54" && mIsSysrcmd && mode == 6 && $("#present").attr("ison") == "1")
+        oemflag = 1;
+    
     var linedivhtml = "";
-    if(mode == 1 || mode == 4)
+    if(mode == 1 || mode == 4 || oemflag == 1)
         linedivhtml = "<div id='layoutline-" + line + "' class='layoutlinediv'><div class='layoutlinename' title="+name+">" + name + "</div><div class='layoutlinenumber' title="+number+">" + number + "</div></div>";
     else if(mode == 2 || mode == 5){
         if(order == 0){
