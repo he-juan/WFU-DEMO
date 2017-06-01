@@ -368,7 +368,7 @@ div{margin:0;padding:0;}
 #callingtips span.callingcontent{padding:0 15px;height:30px;line-height:30px;border-radius:4px;background:#555555;display:block;max-width: 315px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 
 /*FECC*/
-#ctrlFECCDiv{background-color:#FFFFFF; position: absolute;top: 0; left:0; right:0; bottom:0; text-align: center; margin: auto; display: none;z-index:1000;border-radius:4px;}
+#ctrlFECCDiv{background-color:#FFFFFF; position: absolute; max-height: 500px; top: 0; left:0; right:0; bottom:0; text-align: center; margin: auto; display: none;z-index:1000;border-radius:4px;}
 .fecctips, .fecctip{width:200px;text-align:center;margin:auto;}
 .fecctips p, .fecctip p{margin:0px;height:30px;line-height:30px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 #direction{width:163px;height:163px;background:transparent;position:relative;top: 70px;left:50%;margin-left:-80px;}
@@ -4958,7 +4958,7 @@ function FECC_callback(line,flag)
         $("#presetbtndiv").hide();
         if(acct == "8"){
             $("#feccleft").hide();
-            $("#ctrlFECCDiv").css({"width":"350px", "top":"0", "left":"0", "right":"0", "bottom":"0", "margin":"auto"});
+            $("#ctrlFECCDiv").css({"width":"350px", "height":"480px", "top":"0", "left":"0", "right":"0", "bottom":"0", "margin":"auto"});
             $("#ctrldiv").parent().css("left", "5px");
         }
         else{
@@ -5258,7 +5258,7 @@ function handle_feccstate(data)
         $("#presetbtndiv, #layoutdiv, #dtmfDiv").hide();
         if(acct == "8"){
             $("#feccleft").hide();
-            $("#ctrlFECCDiv").css({"width":"350px", "top":"0", "left":"0", "right":"0", "bottom":"0", "margin":"auto"});
+            $("#ctrlFECCDiv").css({"width":"350px", "height":"480px", "top":"0", "left":"0", "right":"0", "bottom":"0", "margin":"auto"});
             $("#ctrldiv").parent().css("left", "5px");
         }
         else{
