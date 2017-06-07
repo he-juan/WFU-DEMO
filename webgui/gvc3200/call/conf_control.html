@@ -5683,7 +5683,7 @@ function layout_adjuststyle(type, mode, content){
     });
     
     var oemflag = 0;
-    if(mOEMID == 54 && mIsSysrcmd && mode == 6 && presenton)
+    if(mOEMID == "54" && mIsSysrcmd && mode == 6 && mHdmiModeContent[1].indexOf("12") != -1)
         oemflag = 1;
     
     switch (type) {
@@ -6186,7 +6186,7 @@ function display_layoutlinediv(line, mode, order){
     }
     
     var oemflag = 0;
-    if(mOEMID == "54" && mIsSysrcmd && mode == 6 && $("#present").attr("ison") == "1")
+    if(mOEMID == "54" && mIsSysrcmd && mode == 6 && mHdmiModeContent[1].indexOf("12") != -1)
         oemflag = 1;
     
     var linedivhtml = "";
