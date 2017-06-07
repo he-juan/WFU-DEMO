@@ -247,11 +247,19 @@ body{}
             <div webtip="No Answer To" class="workcfdiv bjmode">
                 <div class="noreboot"><span id="a_noanswerto">No Answer To</span> :</div>
                 <input id="nacf" name="nacf" type="text" />
-            </div>  
+            </div>
             <div webtip="No Answer Timeout" class="workcfdiv bjmode">
                 <div class="noreboot"><span id="a_forwardwt">Delayed Call Forward Wait Time (s)</span> :</div>
                 <input id="forwardwt" name="forwardwt" type="text" value="20" />
-            </div>    
+            </div>
+            <div webtip="Enable DND Forword" class="workcfdiv">
+                <div class="noreboot"><span id="a_enabledndfwd">Enable DND Forword</span> :</div>
+                <input name="enabledndfwd" type="checkbox" id="enabledndfwd"><span id="a_enabledndfwdyes">Yes</span>
+            </div>
+            <div webtip="DND To" class="workcfdiv">
+                <div class="noreboot"><span id="a_dndto">DND To</span> :</div>
+                <input id="dndto" name="dndto" type="text" />
+            </div>
             <div class="titlediv bjmode iptalkmode">
                 <div class="titleboot" webtip=""><span id="a_ringtone">Ring tones</span></div>
             </div>
@@ -384,6 +392,8 @@ function cb_get_pvalue(acctindex){
 			    new ReqItem("enablebusyto", "busyForwardEnable_0", ""),
 			    new ReqItem("enablenoanswerto", "delayedForwardEnable_0", ""),
 			    new ReqItem("forwardwt", "139", ""),
+                new ReqItem("enabledndfwd", "dndForwardEnable_0", ""),
+                new ReqItem("dndto", "dndForward_0", ""),
 			    new ReqItem("dialkey", "72", ""),
 			    new ReqItem("confuri", "2318", ""),
 			    new ReqItem("dndfeaon", "2344", ""),
@@ -424,6 +434,8 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("feakey", "2425", ""),
 				new ReqItem("enablefea", "420", ""),*/
 			    new ReqItem("forwardwt", "470", ""),
+                new ReqItem("enabledndfwd", "dndForwardEnable_1", ""),
+                new ReqItem("dndto", "dndForward_1", ""),
 				new ReqItem("uccf", "allTo_1", ""),
 				new ReqItem("cftype", "display_1", ""),
 				new ReqItem("timecffrom", "starttime_1", ""),
@@ -473,6 +485,8 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("feakey", "2525", ""),
 				new ReqItem("enablefea", "520", ""),
 			    new ReqItem("forwardwt", "570", ""),
+                new ReqItem("enabledndfwd", "dndForwardEnable_2", ""),
+                new ReqItem("dndto", "dndForward_2", ""),
 				new ReqItem("uccf", "allTo_2", ""),
 				new ReqItem("cftype", "display_2", ""),
 				new ReqItem("timecffrom", "starttime_2", ""),
@@ -531,6 +545,8 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("feakey", "2625", ""),
 				new ReqItem("enablefea", "620", ""),
 			    new ReqItem("forwardwt", "670", ""),
+                new ReqItem("enabledndfwd", "dndForwardEnable_3", ""),
+                new ReqItem("dndto", "dndForward_3", ""),
 				new ReqItem("uccf", "allTo_3", ""),
 				new ReqItem("cftype", "display_3", ""),
 				new ReqItem("timecffrom", "starttime_3", ""),
@@ -580,6 +596,8 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("feakey", "2725", ""),
 				new ReqItem("enablefea", "1720", ""),
 			    new ReqItem("forwardwt", "1770", ""),
+                new ReqItem("enabledndfwd", "dndForwardEnable_4", ""),
+                new ReqItem("dndto", "dndForward_4", ""),
 				new ReqItem("uccf", "allTo_4", ""),
 				new ReqItem("cftype", "display_4", ""),
 				new ReqItem("timecffrom", "starttime_4", ""),
@@ -629,6 +647,8 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("feakey", "2825", ""),
 				new ReqItem("enablefea", "1820", ""),
 			    new ReqItem("forwardwt", "1870", ""),
+                new ReqItem("enabledndfwd", "dndForwardEnable_5", ""),
+                new ReqItem("dndto", "dndForward_5", ""),
 				new ReqItem("uccf", "allTo_5", ""),
 				new ReqItem("cftype", "display_5", ""),
 				new ReqItem("timecffrom", "starttime_5", ""),
@@ -714,6 +734,8 @@ function translate_call(){
     $("#a_enablebusyto").text(a_19114);
     $("#a_enablenoanswerto").text(a_19115);
     $("#a_forwardwt").text(a_1111);
+    $("#a_enabledndfwd").text(a_19244);
+    $("#a_dndto").text(a_19245);
     $("#a_ringto").text(a_16169);
     $("#a_tranonhang").text(a_16170);
     $("#a_usepound").text(a_16171);
@@ -728,7 +750,7 @@ function translate_call(){
     $("#a_matchincad").text(a_16178);
     $("#a_cusrtone").text(a_16179);
     $("#autoanswer option:eq(0)").text(a_6);
-    $("#autoanswer option:eq(1), #a_earlydyes, #a_refertoyes, #a_autoansyes, #a_sendanoyyes, #a_anonycallrejyes, #a_encallfeayes, #a_usepoundyes, #a_trfohuyes, #a_tranonhangyes, #a_bcallcenteryes, #a_autovideoyes, #a_startfullyes, #a_hoteleventyes, #a_centerstatusyes, #a_enablebusytoyes, #a_enablenoanswertoyes").text(a_5);
+    $("#autoanswer option:eq(1), #a_earlydyes, #a_refertoyes, #a_autoansyes, #a_sendanoyyes, #a_anonycallrejyes, #a_encallfeayes, #a_usepoundyes, #a_trfohuyes, #a_tranonhangyes, #a_bcallcenteryes, #a_autovideoyes, #a_startfullyes, #a_hoteleventyes, #a_centerstatusyes, #a_enablebusytoyes, #a_enablenoanswertoyes, #a_enabledndfwdyes").text(a_5);
     $("#a_uploadaudio").text(a_16180);
 	$("#a_browse").text(a_16486);
 	$("#a_enablemoh").text(a_16181);
