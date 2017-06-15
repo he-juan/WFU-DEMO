@@ -397,7 +397,7 @@ tip_item.push (
 	new TipsDef("Disable DialPlan",
 		"SI se establece en \"Si\", a continuación deshabilite el plan de marcado a excepción de contactos. El ajuste por defecto es \"No\"."),
     new TipsDef("Filter Characters",
-        "Establece el filtro de caracteres cuando se marcan números de salida. Los usuarios podrán ingresar múltiple caracteres. Por ejemplo, si se establece to "[()-]", cuando marque (0571)-8800-8888, el caracter "()-" será automáticamente filtrado y el equipo marcará 057188008888 directamente. Nota: esta función no trabaja en la página local de llamada del dispositivo."),
+        "Establece el filtro de caracteres cuando se marcan números de salida. Los usuarios podrán ingresar múltiple caracteres. Por ejemplo, si se establece to \"[()-]\", cuando marque (0571)-8800-8888, el caracter \"()-\" será automáticamente filtrado y el equipo marcará 057188008888 directamente. Nota: esta función no trabaja en la página local de llamada del dispositivo."),
 	new TipsDef("Noise Shield",
 		"Si se establece \"Si\", La voz de golpear la mesa y voltear los papeles se eliminará en el despacho de llamadas (nadie está hablando), la configuración por defecto es \"Si\"."),
     

@@ -9215,7 +9215,7 @@ function pageEventActions()
 
         switch (mode) {
             case "sysrcmd":
-                if(mOEMID == "54")
+                if(mOEMID == "54" && mHdmi2state == 0)
                     mode = "6";
                 else
                     mode = "4";
@@ -9232,7 +9232,7 @@ function pageEventActions()
             case "custom":
                 mCurhdmi = 1;
                 if(beforemode == "sysrcmd"){
-                    if(mOEMID == "54")
+                    if(mOEMID == "54" && mHdmi2state == 0)
                         mode = "3";
                     else
                         mode = "1";
