@@ -626,8 +626,8 @@ function cb_put(items, mode, flag){
 			});
 			
         } else {
-            alert(items[i].id + ' is ' + temp.attr('type'));
-            alert("Unknown Type, Please refer to developer.");
+            console.log(items[i].id + ' is ' + temp.attr('type'));
+            console.log("Unknown Type, Please refer to developer.");
         }
         uritail +=
             build_put(k, items[i].pvalue, val);
