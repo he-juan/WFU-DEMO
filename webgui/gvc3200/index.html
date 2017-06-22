@@ -585,12 +585,18 @@ $(function(){
     $("#languagepage").sSelect({ddMaxHeight: '134px'});
     $('#languagepage').getSetSSValue(cookie_lang);
     
+    cb_get_fxo_exist();
+    cb_get_promodel();
+    cb_get_vendor();
+    cb_get_maxline();
+    
     var tmpindex = $.cookie('AccountIndex');
     if( tmpindex != undefined )
         $("#accountindex").val(tmpindex);
     tmpindex = $.cookie('MpkExtIndex');
     if( tmpindex != undefined )
         $("#mpkextindex").val(tmpindex);
+        
     var g_actype = $.cookie('type');
     if (typeof g_actype == "undefined" || !g_actype) {
         g_actype = "user";
@@ -613,10 +619,6 @@ $(function(){
         $("#incomingcall").attr('src',"call/conf_control.html?ver=" + version +"&calltype=0").hide();
     }
     //cb_get_colore_exist();
-    cb_get_fxo_exist();
-    cb_get_promodel();
-    cb_get_vendor();
-    cb_get_maxline();
     cb_get_action("get&var-0000=1357&var-0001=68&var-0002=1561&var-0003=1311&var-0004=25023&var-0005=338&var-0006=2326&var-0007=277&var-0008=1341&var-0009=1685&var-0010=dnd&var-0011=184&var-0012=26001&var-0013=66&var-0014=1687&var-0015=270&var-0016=26004&var-0017=417");
     
     $("#languagepage").change(function(){
@@ -1071,6 +1073,7 @@ function cb_get_colore_exist() {
         url:'/manager',
         data:urihead,
         dataType:'text',
+        async:false,
         success:function(data) {
             cb_get_colore_exist_done(data);
         },
@@ -1109,6 +1112,7 @@ function cb_get_promodel() {
         url:'/manager',
         data:urihead,
         dataType:'text',
+        async:false,
         success:function(data) {
             cb_get_promodel_done(data);
         },
