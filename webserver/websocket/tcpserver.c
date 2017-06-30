@@ -70,6 +70,7 @@
 #define SIGNAL_IPVT_CHANGE_HOST "IPVT_change_host"
 #define SIGNAL_IPVT_HAND_OPERATE "IPVT_hand_operate"
 #define SIGNAL_IPVT_HAND_OPRT_WEB "IPVT_hand_operate_for_web"
+#define SIGNAL_UI_SYNC "ui_sync"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -1064,6 +1065,27 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         else
         {
             printf( "IPVT_hand_operate_for_web: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_UI_SYNC ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_STRING, &str,
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"ui_sync\",\"state\":\"%d\"},", i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "ui_sync: %s\n", error.message );
             dbus_error_free( &error );
         }
         return DBUS_HANDLER_RESULT_HANDLED;

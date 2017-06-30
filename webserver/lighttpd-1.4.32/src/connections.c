@@ -2785,7 +2785,7 @@ static int handle_loginrealm( buffer *b )
     buffer_append_string( b, mRealm );
 }
 
-static int handle_insleepmode(buffer *b)
+static int handle_devicestatus(buffer *b)
 {
     const char *val = NULL;
 
@@ -2796,11 +2796,17 @@ static int handle_insleepmode(buffer *b)
 #endif
 
     if( !strcasecmp(val, "false") ){
-        buffer_append_string(b, "Response=Success\r\nInsleep=1\r\n");
+        buffer_append_string(b, "Response=Success\r\nstatus=1\r\n");
+        return 0;
     }else{
-        buffer_append_string(b, "Response=Success\r\nInsleep=0\r\n");
+        char *install = nvram_my_get(":firmware_install");
+        if(!strcasecmp(install, "1")){
+            buffer_append_string(b, "Response=Success\r\nstatus=2\r\n");
+            return 0;
+        }
     }
 
+    buffer_append_string(b, "Response=Success\r\nstatus=0\r\n");
     return 0;
 }
 
@@ -20879,8 +20885,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         handle_checklockout( b );
     } else if (!strcasecmp(action, "loginrealm")) {
         handle_loginrealm( b );
-    } else if (!strcasecmp(action, "insleepmode")) {
-        handle_insleepmode(b);
+    } else if (!strcasecmp(action, "devicestatus")) {
+        handle_devicestatus(b);
         //handle_callservice_by_no_param(srv, con, b, m, "getIfInSleepMode");
     } else if (!strcasecmp(action, "product")) {
         handle_product( srv, con, b, m );

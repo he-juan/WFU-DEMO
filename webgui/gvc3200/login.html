@@ -219,16 +219,58 @@ ul.newList li a {
 }
 </style>
 <![endif]-->
+</head>
+<body>
+    <div class="bgimg"></div>
+<div class="mainDiv">    
+    <div id="sildedown">
+        <div class="titleDiv">
+            <span class="titleSpan"></span>
+        </div>
+        <div class="childTitleDiv">
+            <span class="childTitleSpan">Video Conference System</span>
+        </div>
+        <div class="errortip">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <div class="loginDiv">
+            <div class="expose">
+                <input id="username"/>
+                <input class="password" type="text"/>
+                <input id="password" type="password" autocomplete="off"/>                
+                <select id="languagepage" name="languagepage">
+                    <option value="en">English</option>
+                    <option value="zh">中文</option>
+                    <option value="es">Español</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                </select>
+                <button id='loginbtn'></button>
+            </div>
+        </div>
+    </div>
+    <div class="sfootContent" style="position:absolute;bottom:-100px;width:100%;clear:both;">
+    <div class="footIndex">
+        <span><font id="vendor"></font></span>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    var cookie_lang = $.cookie( "MyLanguage");
+    if ( !cookie_lang )
+        cookie_lang = 'en';
+    $('#languagepage').val(cookie_lang);
+</script>
+
 <script type="text/javascript">
 var lockout = 0;
-var insleepmode = 0;
+var devicestatus = 0;
 var mCheckwakeup = 0;
 
 $(function(){
     cb_get_action("coloreExist");
     init_skin();
     cb_get_action("productinfo");
-    cb_get_action("insleepmode");
+    cb_get_action("devicestatus");
 });
 
 function change_skin(skinName){
@@ -294,15 +336,18 @@ function cb_get_action_done(data, action){
             else
                 $("#vendor").text("All Rights Reserved " + vendor + " 2017");
         }
-        else if( action == "insleepmode" )
+        else if( action == "devicestatus" )
         {
-            insleepmode = msgs.headers['insleep'];
-            if( insleepmode == 1 )
+            devicestatus = msgs.headers['status'];
+            if( devicestatus == 1 )
             {
                 if( mCheckwakeup == 1 )
-                    setTimeout('cb_get_action("insleepmode")', 3000);
+                    setTimeout('cb_get_action("devicestatus")', 3000);
                 else
                     $('#loginbtn').text(lan_wakeup);
+            }
+            else if(devicestatus == 2){
+                $("#loginbtn").attr("disabled", "disabled");
             }
             else if( mCheckwakeup == 1 )
             {
@@ -314,7 +359,7 @@ function cb_get_action_done(data, action){
         else if( action == "reboot&reboottype=3" )
         {
             mCheckwakeup = 1;
-            setTimeout('cb_get_action("insleepmode")', 3000);
+            setTimeout('cb_get_action("devicestatus")', 3000);
         }
     }
     else
@@ -372,48 +417,6 @@ function unlockout()
     $('.errortip').find(".formtips").remove();
     cb_check_lockout();
 }
-    
-</script>
-</head>
-<body>
-    <div class="bgimg"></div>
-<div class="mainDiv">    
-    <div id="sildedown">
-        <div class="titleDiv">
-            <span class="titleSpan"></span>
-        </div>
-        <div class="childTitleDiv">
-            <span class="childTitleSpan">Video Conference System</span>
-        </div>
-        <div class="errortip">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        <div class="loginDiv">
-            <div class="expose">
-                <input id="username"/>
-                <input class="password" type="text"/>
-                <input id="password" type="password" autocomplete="off"/>                
-                <select id="languagepage" name="languagepage">
-                    <option value="en">English</option>
-                    <option value="zh">中文</option>
-                    <option value="es">Español</option>
-                    <option value="pt">Português</option>
-                    <option value="ru">Русский</option>
-                </select>
-                <button id='loginbtn'></button>
-            </div>
-        </div>
-    </div>
-    <div class="sfootContent" style="position:absolute;bottom:-100px;width:100%;clear:both;">
-    <div class="footIndex">
-        <span><font id="vendor"></font></span>
-    </div>
-</div>
-</div>
-
-<script type="text/javascript">
-    var cookie_lang = $.cookie( "MyLanguage");
-    if ( !cookie_lang )
-        cookie_lang = 'en';
-    $('#languagepage').val(cookie_lang);
 </script>
 
 <script type='text/javascript'>
@@ -495,7 +498,7 @@ $(document).ready(function () {
         if(e.keyCode == '13' && lockout == 0) 
             cb_login();
     });
-    cb_check_lockout();
+    //cb_check_lockout();
 });
 
 function showForm()
@@ -561,8 +564,8 @@ function cb_login_done(data){
         else
             $.cookie( "ver", new Date().getTime(), {path: '/', expires: 10});
         if( msgs.headers['insleep'] == "1" )
-            insleepmode = 1;
-        if( insleepmode == 1 )
+            devicestatus = 1;
+        if( devicestatus == 1 )
         {
             $.blockUI({
                 message: '<img src="../img/busy.gif" width="40px" height="40px" /><font class="downfont">' + lan_waiting  + '</font>',
@@ -783,7 +786,7 @@ function change_lang()
 {
     $('.childTitleSpan').html(lan_multiphone);
     $('#a_language').text(lan_language);
-    if( insleepmode == 1 )
+    if( devicestatus == 1 )
         $('#loginbtn').text(lan_wakeup);
     else
         $('#loginbtn').text(lan_login);

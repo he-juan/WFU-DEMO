@@ -241,6 +241,9 @@ function handlemessage(data){
         case "unhold_continue_record":
             confFrame.handle_unhold_record(data);
             break;
+        case "ui_sync":
+            handle_install_firware_sync(data);
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;
@@ -256,6 +259,12 @@ function change_to_sleep_mode(){
 
 function logoff_done(data){
     self.location='login.html';
+}
+
+function handle_install_firware_sync(data){
+    var state = data.state;
+    if(state == 1)
+        window.parent.location='/login.html';
 }
 
 function del_obj_incominginfo(line)
