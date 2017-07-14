@@ -21441,7 +21441,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_no_param(srv, con, b, m, "isCameraBlocked");
                 }
                 else if (!strcasecmp(action, "ctrlBFCPState")){
-                    handle_callservice_by_one_param(srv, con, b, m, "ison", "ctrlBFCPState", 0);
+                    handle_callservice_by_two_param(srv, con, b, m, "ison", "source", "ctrlBFCPState");
                 }
                 else if (!strcasecmp(action, "isBFCPOn")){
                     handle_callservice_by_no_param(srv, con, b, m, "isBFCPOn");
@@ -21603,6 +21603,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 else if(!strcasecmp(action, "getcmrnameandnumber")){
                     handle_callservice_by_no_param(srv, con, b, m, "getIPVTCameraNameAndNumber");
+                }
+                else if(!strcasecmp(action, "getwifidisplaystate")){
+                    handle_callservice_by_no_param(srv, con, b, m, "getWifiDisplayState");
+                }
+                else if(!strcasecmp(action, "getpresentsource")){
+                    handle_callservice_by_no_param(srv, con, b, m, "getPresentationSource");
                 }
                 else{
                     findcmd = 0;
