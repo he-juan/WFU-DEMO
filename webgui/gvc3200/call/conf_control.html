@@ -281,7 +281,7 @@ div{margin:0;padding:0;}
 .selecttitle{width:auto;height:35px;line-height:35px;background:#1D6EA8;padding-left:15px;}
 .selecttitle span{float: left;}
 #selectlist,#transferselectlist,#goonrecording{color:#222;text-align: center;margin: 0px;}
-#selectlist .newListSelected,#dndselect .newListSelected,#presentselect .newListSelected,#transferselectlist .newListSelected{float:none;margin: 20px 0 10px 120px;text-align:left;}
+#selectlist .newListSelected,#dndselect .newListSelected,#transferselectlist .newListSelected{float:none;margin: 20px 0 10px 120px;text-align:left;}
 .selectbtn{text-align:center;height:40px;position:relative;*z-index:-1;margin: 40px 0 10px 0;}
 #layoutdiv .selectbtn{margin-bottom:5%;}
 .selectbtn button{margin:8px 0 0 15px;width:100px;}
@@ -292,6 +292,14 @@ div{margin:0;padding:0;}
 #accpvideo{width:100px;height:30px;background:#4ABE6B;position:relative;}
 #rejectvideo{width:100px;height:30px;position:relative;background:#D8333D;margin-left:48px;}
 .listtips{width:100%;text-align:center;color:red;display:none;}
+.presentitem{width: 100%; height: 40px; margin-top: 30px;}
+.presentlabel{width: 44%; float: left; color: #000; text-align: right; height: 30px; line-height: 30px;}
+.presentlist{width: 56%; float: left;}
+.presentitem .newListSelected{margin-left: 10px; width: 182px !important; background: url(../img/settings_dropdown_control_unpressed_1.png) no-repeat}
+.presentitem .selectedTxtDiv{width: 182px !important;}
+.presentitem .newList{width: 178px;}
+.presentitem .selectedTxt{width: 150px !important;}
+#presentselect .selectbtn{margin: 30px 0 20px 0;}
 
 /*transfer*/
 #transferdiv{display: none;position:fixed;z-index:20;left:0;top:0px;background:#FFFFFF;width:100%;height:100%;}
@@ -941,12 +949,15 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
     <div id="presentselect" class="dragpopdiv">
         <div class="closecontain"><button class="closecalldiv"></button></div>
         <div class="poptitlediv"><span id="a_presentselect">Presentation Type</span></div>
-        <div id="presentlist" style="margin-top: 20px;">
-            <select id="presentmode">
-                <option value="1">Auto</option>
-                <option value="3">PC</option>
-                <option value="0">Close</option>
-            </select>
+        <div id="presentflow" class="presentitem">
+            <div id="preflow" class="presentlabel">Presentation flow settings: </div>
+            <div class="presentlist">
+                <select id="presentmode">
+                    <option value="1">Auto</option>
+                    <!--option value="3">PC</option-->
+                    <option value="0">Close</option>
+                </select>
+            </div>
         </div>
         <div class="selectbtn">
             <button id="presentsave">Save</button>
@@ -4265,6 +4276,15 @@ function cb_get_confaction(urihead,callbackfn,isoperate)
                     $("#present").attr("bfcp", mode);
                     $("#presentmode").getSetSSValue(mode);
                 }
+                else if(urihead.indexOf("getpresentsource") != -1){
+                    var data = eval("(" + data + ")");
+                    var bfcpSource = data.bfcpSource;
+                    if(bfcpSource == "hdmi")
+                        $("#presource").val("0");
+                    else
+                        $("#presource").val("1");
+                    $("#presource").resetSS();
+                }
                 else
                 {
                     var data = eval("("+data+")");
@@ -7001,8 +7021,16 @@ function getHDMIinfo(action, isall)
                     else if(action.indexOf('gethdmiinstate') != -1)
                     {
                         var state = data.state;
-                        if(state != "1")
-                            flag = 3;
+                        if(state == "1")
+                            flag = 1;
+                        else
+                            flag = 0;
+                    }
+                    else if(action.indexOf('getwifidisplaystate') != -1){
+                        if(data.state == "1")
+                            flag = 1;
+                        else
+                            flag = 0;
                     }
                 }
                 else
@@ -7206,8 +7234,8 @@ function translate_page()
     $("#present").attr("name",a_10002+" "+a_10004);
     //$("#present").attr("name",a_10004);
     $("#a_presentselect").text(a_10004);
-    $("#presentmode option:eq(0)").text(a_1317);
-    $("#presentmode option:eq(2)").text(a_32);
+    $("#presentmode option[value=1]").text(a_1317);
+    $("#presentmode option[value=0]").text(a_32);
     $("#caption").attr("name",a_16006);
     $("#close").attr("name",a_1);
     $("#details").attr("name",a_10015);
@@ -7272,6 +7300,7 @@ function translate_page()
     $("#gotopreset").text(a_19174);
     $("#savepreset").text(a_17);
     $("#layouttitletext").text(a_16703);
+    $("#preflow").text(a_19247 + ": ");
 }
 
 function addDragEvent()
@@ -7558,6 +7587,7 @@ function change_presentation_type(){
         return false;
     }
     var ison = $("#presentmode").val();
+    var source = 0;
     var flag = "";
     if(ison > 0)
     {
@@ -7570,31 +7600,19 @@ function change_presentation_type(){
             return false;
         }
         action = "gethdmiinstate&region=status";
-        flag = getHDMIinfo(action);
-        if(flag == 3)
+        var hdmiin = getHDMIinfo(action);
+        action = "getwifidisplaystate&region=confctrl";
+        var wifidisplay = getHDMIinfo(action);
+        if(!hdmiin && !wifidisplay)
         {
             $.prompt(a_10085);
             return false;
         }
-        /*var lines = "";
-        $("#conf div.remoteline").each(function(){
-            if(lines == "")
-            {
-                lines += $(this).attr("line");
-            }
-            else
-            {
-                lines += ":::";
-                lines += $(this).attr("line");
-            }
-        });
-        action = "isBFCPSupport&region=confctrl&lines="+encodeURIComponent(lines);
-        flag = getHDMIinfo(action);
-        if(flag == "false")
-        {
-            $.prompt(a_10005);
-            return false;
-        }*/
+        
+        if(!hdmiin && wifidisplay)
+            source = 1;
+        else if(hdmiin && wifidisplay)
+            source = $("#presource").val();
     }
     var videoon_num = 0;
     for(var i in mVideoOn_obj)
@@ -7607,7 +7625,7 @@ function change_presentation_type(){
         return false;
     }
     
-    var urihead = "action=ctrlBFCPState&region=confctrl&source=0&ison=" + ison;
+    var urihead = "action=ctrlBFCPState&region=confctrl&source=" + source + "&ison=" + ison;
     /*if(ison == "0")
     {
         urihead = "action=ctrlBFCPState&region=confctrl&ison=1";
@@ -9029,42 +9047,26 @@ function pageEventActions()
     });
 
     $("#present").click(function(){
-        $("#presentselect").show();
-        if( $("#presentselect").children("#presentlist").children(".newListSelected").length == 0 ){
+        if( $("#presentflow").children(".presentlist").children(".newListSelected").length == 0 ){
             $("#presentmode").sSelect();
         }
-        /*var hasvideo = false;
-        $("#conf .remoteline").each(function(){
-            var isvideo = $(this).attr("isvideo");
-            if(isvideo == "1")
-            {
-                hasvideo = true;
-                return false;
-            }
-        });*/
+        $("#presentselect").show();
+        var hdmiInOn = 0, wifiDisplayOn = 0;
         var urihead = "action=gethdmiinstate&region=status&time=" + new Date().getTime();
         $.ajax ({
             type: 'get',
             url:'/manager',
             data:urihead,
             dataType:'text',
+            async: false,
             success:function(data) {
                 var tObj = eval("(" + data + ")");
                 
                 if(tObj.res == "success"){
+                    $("#presentmode").resetSS();
                     var state = tObj.state;
                     if( state == "1"){
-                        if( $("#presentmode option").length < 3 ){
-                            $("#presentmode option:eq(1)").remove();
-                            var optionstr = "<option value='2'>PC</option><option value='0'>"+a_32+"</option>";
-                            $("#presentmode").append(optionstr);
-                            $("#presentmode").resetSS();
-                        }
-                    }else{
-                        if( $("#presentmode option").length == 3 ){
-                            $("#presentmode option:eq(1)").remove();
-                            $("#presentmode").resetSS();
-                        }
+                        hdmiInOn = 1;
                     }
                 }
                 else{}
@@ -9074,21 +9076,71 @@ function pageEventActions()
             }
         });
         
+        var urihead = "action=getwifidisplaystate&region=confctrl&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            dataType:'text',
+            async: false,
+            success:function(data) {
+                var tObj = eval("(" + data + ")");
+                
+                if(tObj.res == "success"){
+                    var state = tObj.state;
+                    if( state == "1"){
+                        wifiDisplayOn = 1;
+                    }
+                }
+                else{}
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                $("#presentmode").getSetSSValue("0");
+            }
+        });
+        
+        if(!hdmiInOn && !wifiDisplayOn){
+            $("#presentsource").hide();
+            if( $("#presentmode option").length == 3 ){
+                $("#presentmode option:eq(1)").remove();
+                $("#presentmode").resetSS();
+            }
+        }else{
+            $("#presentsource").hide();
+            if( $("#presentmode option").length < 3 ){
+                $("#presentmode option:eq(1)").remove();
+                var optionstr = "<option value='3'>PC</option><option value='0'>"+a_32+"</option>";
+                $("#presentmode").append(optionstr);
+                $("#presentmode").resetSS();
+            }
+        }
+        
+        if(hdmiInOn & wifiDisplayOn){
+            if($("#presource").length > 0)
+                $("#presentsource").show();
+            else{
+                var presourcehtml = "<div id='presentsource' class='presentitem'>" + 
+                                        "<div class='presentlabel'>" + a_19248 + ": </div>" + 
+                                        "<div class='presentlist'>" + 
+                                            "<select id='presource'>" + 
+                                                "<option value='0'>HDMI</option>" + 
+                                                "<option value='1'>WifiDisplay</option>" + 
+                                            "</select>" + 
+                                        "</div>" +
+                                    "</div>";
+                $("#presentflow").after(presourcehtml);
+                $("#presource").sSelect();
+            }
+            
+            urihead = "action=getpresentsource&region=confctrl";
+            cb_get_confaction(urihead, "", false);
+        }
+        
+        $("#presentselect").show();
+        
         urihead = "action=getBFCPMode&region=confctrl";
         cb_get_confaction(urihead, "", false);
 
-        /*var mode = "1";
-        var ison = $("#present").attr("ison");
-        if( ison == "1" ){
-            var type = $("#present").attr("bytype");
-            if( type == "videosource" ){
-                mode = "2";
-            }else{
-                mode = "1";
-            }
-        }else{
-            mode = "0";
-        }*/
     });
     
     $("#presentsave").click(function(){

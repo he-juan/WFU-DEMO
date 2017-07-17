@@ -244,6 +244,11 @@ function handlemessage(data){
         case "ui_sync":
             handle_install_firware_sync(data);
             break;
+        case "wifidisplay_status":
+        case "switch_presentation_source":
+        case "select_presentation_source":
+            confFrame.$("#presentcancel").click();
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;

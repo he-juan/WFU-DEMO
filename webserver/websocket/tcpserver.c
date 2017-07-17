@@ -71,6 +71,9 @@
 #define SIGNAL_IPVT_HAND_OPERATE "IPVT_hand_operate"
 #define SIGNAL_IPVT_HAND_OPRT_WEB "IPVT_hand_operate_for_web"
 #define SIGNAL_UI_SYNC "ui_sync"
+#define SIGNAL_WIFIDIS_STATUS "wifidisplay_status"
+#define SIGNAL_SWITCHPRE_SOURCE "switch_presentation_source"
+#define SIGNAL_SELECTPRE_SOURCE "select_presentation_source"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -1086,6 +1089,66 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         else
         {
             printf( "ui_sync: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_WIFIDIS_STATUS ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"wifidisplay_status\",\"status\":\"%d\"},", i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "wifidisplay_status: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_SWITCHPRE_SOURCE ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_STRING, &str,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"switch_presentation_source\",\"switchto\":\"%s\"},", str);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "switch_presentation_source: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_SELECTPRE_SOURCE ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_STRING, &str,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"select_presentation_source\",\"switchto\":\"%s\"},", str);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "switch_presentation_source: %s\n", error.message );
             dbus_error_free( &error );
         }
         return DBUS_HANDLER_RESULT_HANDLED;
