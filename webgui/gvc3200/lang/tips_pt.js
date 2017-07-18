@@ -785,11 +785,15 @@ tip_item.push (
         "Selecione a prioridade do log. As opções de prioridade do log são: Verbose/Debug/Info/Warn/Error/Fatal/Silent(Suprimir todas as saídas)"),
 
     /*Manutenção SysLog*/
+	new TipsDef("Syslog Protocol",
+        "Configure sending syslog through UDP or secured SSL/TLS protocol to syslog server."),
     new TipsDef("Syslog Level",
         "Selecione o nível dos registros para o syslog. A configuração padrão é \"Nenhum\". Existem 4 níveis: DEBUG, INFO, WARNING e ERROR. Por favor consultar o manual do usuário para mais detalhes."),
     new TipsDef("Syslog Server",
         "O endereço IP ou URL do servidor dos logs do sistema."),
-    new TipsDef("Send SIP Log",
+	new TipsDef("Syslog Filter",
+		"After entering the keywords, you will filter the system log with keywords, and multiple keywords should be separated by commas. For example, set the filter keyword  \"SIP\" to filter SIP log. set the filter keyword  \"Http,SIP\" to filter  Http and SIP log."),
+	new TipsDef("Send SIP Log",
         "Configure se os logs SIP estarão incluídos nas mensagens syslog."),
     new TipsDef("H.323 Syslog Level",
         "Selecione o nível de syslog H.323 na lista, a configuração padrão é \"Desligado\", o que quer dizer sem informação H.323 no syslog. Você pode também selecionar os níveis desde 1 até 10, 10 é o maior valor."),

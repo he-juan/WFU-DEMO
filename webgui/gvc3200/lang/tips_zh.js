@@ -782,12 +782,16 @@ tip_item.push (
         "在下拉菜单中选择日志优先级。"),
 
     /*Maintenance SysLog*/
+	new TipsDef("Syslog Protocol", "系统日志协议",
+        "配置通过UDP或加密的SSL/TLS协议将系统日志发送到服务器上。"),
     new TipsDef("Syslog Level", "系统日志级别",
         "在下拉菜单中选择报告日志的级别。默认设置为“NONE”。即不发送任何日志信息。详细信息请参考用户手册。"),
     new TipsDef("Syslog Server", "系统日志服务器地址",
         "系统日志服务器的IP地址或URL。"),
     new TipsDef("Send SIP Log", "发送SIP日志",
         "设置是否将SIP日志包含在系统日志中。"),
+	new TipsDef("Syslog Filter", "系统日志关键词过滤",
+		"输入关键词后将过滤带有关键词的系统日志，多个关键字需以逗号分隔输入。例如：设置过滤关键词为SIP，可以过滤出SIP日志 ；设置过滤关键词为 “HTTP,SIP”,可以过滤出HTTP和SIP日志。"),
     new TipsDef("H.323 Syslog Level", "H.323信令日志级别",
         "在下拉菜单中选择H.323信令日志级别。默认设置为“关”，即syslog中无H323的日志信息。还可以选择级别1到10,10为最高等级。"),
     

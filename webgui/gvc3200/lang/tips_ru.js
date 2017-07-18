@@ -776,11 +776,15 @@ tip_item.push (
         "Устанавливает глубину логирования. Варианты: Verbose/Debug/Info/Warn/Error/Fatal/Silent(подавление любых сообщений)"),
 
     /*Обслуживание SysLog*/
+	new TipsDef("Syslog Protocol",
+        "Configure sending syslog through UDP or secured SSL/TLS protocol to syslog server."),
     new TipsDef("Syslog Level",
         "Выбор уровня логирования syslog. По умолчанию \"Нет\". Доступны 4 уровня: DEBUG, INFO, WARNING и ERROR. За подробностями обратитесь к инструкции по эксплуатации."),
     new TipsDef("Syslog Server",
         "IP адрес или URL Syslog сервера."),
-    new TipsDef("Send SIP Log",
+	new TipsDef("Syslog Filter",
+		"After entering the keywords, you will filter the system log with keywords, and multiple keywords should be separated by commas. For example, set the filter keyword  \"SIP\" to filter SIP log. set the filter keyword  \"Http,SIP\" to filter  Http and SIP log."),
+	new TipsDef("Send SIP Log",
         "Устанавливает, будет ли SIP лог включен в сообщения syslog."),
     new TipsDef("H.323 Syslog Level",
         "Выбор уровня H.323 Syslog в выпадающем меню, по умолчанию \"Выключено\", что означает включение информации о H323 в сислог. Можно выбрать уровень от 1 до 10, 10 наивысший."),

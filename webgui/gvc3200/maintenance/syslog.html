@@ -14,6 +14,13 @@
     <div id="statusdiv"></div>
 	<form action="" method="get" id="Formvalidate">
 		<fieldset>
+            <div webtip="Syslog Protocol">
+                <div class="noreboot"><span id="a_syslogptl">Syslog Protocol</span> :</div>
+                <select id="syslogptl" name="syslogptl">
+                    <option value="0">UDP</option>
+                    <option value="1">SSL/TLS</option>
+                </select>
+            </div>
             <div webtip="Syslog Server">
                 <div class="rebootitem"><span id="a_syslogser">Syslog Server</span> :</div>
                 <input name="syslogserver" type="text" id="syslogserver" />
@@ -31,6 +38,10 @@
             <div webtip="Send SIP Log">
                 <div class="rebootitem"><span id="a_sendlog">Send SIP Log</span> :</div>
                 <input name="sendlog" type="checkbox" id="sendlog" checked="checked"><span id="a_sendlogyes">Yes</span>
+            </div>
+            <div webtip="Syslog Filter">
+                <div class="rebootitem"><span id="a_syslogfilter">Syslog Keyword Filter</span> :</div>
+                <input name="syslogfilter" type="text" id="syslogfilter" />
             </div>
             <div webtip="H.323 Syslog Level">
                 <div class="noreboot"><span id="a_h323sysloglev">H.323 Syslog Level</span> :</div>
@@ -76,10 +87,12 @@
 <script type="text/javascript">
 var req_items = new Array;
 req_items.push(
+    new ReqItem("syslogptl", "8402", ""),
     new ReqItem("syslogserver", "207", ""),
     new ReqItem("sysloglevel", "208", ""),
     new ReqItem("h323sysloglevel", "25055", ""),
-    new ReqItem("sendlog", "1387", "")
+    new ReqItem("sendlog", "1387", ""),
+    new ReqItem("syslogfilter", "22129", "")
 );
 
 $(function(){
@@ -92,7 +105,7 @@ function get_item_suc_callback(){
 }
 function setInitState(){
     translate_syslog();
-    $("#sysloglevel").sSelect();
+    $("#syslogptl, #sysloglevel").sSelect();
     $("#h323sysloglevel").sSelect({ddMaxHeight:'200px'});
     $("#Formvalidate").validate({
 		rules: { syslogserver: { maxlength: 64 } },
@@ -101,6 +114,7 @@ function setInitState(){
     });
 }
 function translate_syslog(){
+    $("#a_syslogptl").text(a_19249);
     $("#a_syslog").text(a_4144);
     $("#a_syslogser").text(a_4135);
     $("#a_sysloglev").text(a_4136);
@@ -113,6 +127,7 @@ function translate_syslog(){
     $("#h323sysloglevel option:eq(0)").text(a_8);
     $("#a_sendlog").text(a_19126);
     $("#a_sendlogyes").text(a_5);
+    $("#a_syslogfilter").text(a_19250);
     $("#a_save").text(a_17);
     $("#a_cancel").text(a_3);
 }
