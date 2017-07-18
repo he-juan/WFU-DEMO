@@ -620,6 +620,7 @@ $(function(){
     }
     //cb_get_colore_exist();
     cb_get_action("get&var-0000=1357&var-0001=68&var-0002=1561&var-0003=1311&var-0004=25023&var-0005=338&var-0006=2326&var-0007=277&var-0008=1341&var-0009=1685&var-0010=dnd&var-0011=184&var-0012=26001&var-0013=66&var-0014=1687&var-0015=270&var-0016=26004&var-0017=417");
+    cb_get_action("get&var-0000=:firmware_install")
     
     $("#languagepage").change(function(){
 		var lang = $(this).val();
@@ -1222,6 +1223,12 @@ function cb_get_action_done(data, action)
     else {
         if(action.indexOf("get&var-0000") != -1)
         {
+            if(action.indexOf("firmware_install") != -1){
+                var firminstall = msgs.headers[':firmware_install'];
+                if(firminstall == "1")
+                    window.parent.location='/login.html';
+            }
+            
             var confmenumode = msgs.headers['1357'];
             if( confmenumode == "" || confmenumode == undefined )
                 confmenumode = "0";
