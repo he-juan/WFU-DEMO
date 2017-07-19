@@ -1227,6 +1227,8 @@ function cb_get_action_done(data, action)
                 var firminstall = msgs.headers[':firmware_install'];
                 if(firminstall == "1")
                     window.parent.location='/login.html';
+                else
+                    return;
             }
             
             var confmenumode = msgs.headers['1357'];
