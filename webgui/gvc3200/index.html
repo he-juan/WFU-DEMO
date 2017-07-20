@@ -620,7 +620,8 @@ $(function(){
     }
     //cb_get_colore_exist();
     cb_get_action("get&var-0000=1357&var-0001=68&var-0002=1561&var-0003=1311&var-0004=25023&var-0005=338&var-0006=2326&var-0007=277&var-0008=1341&var-0009=1685&var-0010=dnd&var-0011=184&var-0012=26001&var-0013=66&var-0014=1687&var-0015=270&var-0016=26004&var-0017=417");
-    cb_get_action("get&var-0000=:firmware_install")
+    cb_get_action("get&var-0000=:firmware_install");
+    cb_get_action("isbtsupport&region=status");
     
     $("#languagepage").change(function(){
 		var lang = $(this).val();
@@ -1217,87 +1218,96 @@ function cb_get_maxline_done(data){
 
 function cb_get_action_done(data, action)
 {
-    var msgs = res_parse_rawtext(data);
-    cb_if_auth_fail(msgs);
-    if (cb_is_fail(msgs)){}   
-    else {
-        if(action.indexOf("get&var-0000") != -1)
-        {
-            if(action.indexOf("firmware_install") != -1){
-                var firminstall = msgs.headers[':firmware_install'];
-                if(firminstall == "1")
-                    window.parent.location='/login.html';
-                else
-                    return;
+    if( data.substring(0, 1) == "{" ){
+        if(action.indexOf("isbtsupport") != -1){
+            var tObj = eval("(" + data + ")");
+            if(tObj.support == "0"){
+                $(".status\\/remotecontrol\\.html").hide();
             }
-            
-            var confmenumode = msgs.headers['1357'];
-            if( confmenumode == "" || confmenumode == undefined )
-                confmenumode = "0";
-            f_init = 1;
-            update_menu_mode(confmenumode);
-            f_init = 0;
-            var curver =  msgs.headers['68'];
-            $("#version").text(a_3337 + " " + curver);
-            $("#clicktodial").val(msgs.headers['1561']);
-            var disconf = msgs.headers['1311'];
-            $("#disconfstate").val(disconf);
-            var autovideo = msgs.headers['25023'];
-            $("#autovideostate").val(autovideo);
-            var incalldtmf = msgs.headers['338'];
-            $("#incalldtmf").val(incalldtmf);
-            var remotevideo = msgs.headers['2326'];
-            $("#remotevideo").val(remotevideo);
-            var disipcall = msgs.headers['277'];
-            $("#disipcall").val(disipcall);
-            var distranfer = msgs.headers['1341'];
-            $("#distranfer").val(distranfer);
-            var tranfermode = msgs.headers['1685'];
-            $("#tranfermode").val(tranfermode);
-            var usequickipcall = msgs.headers['184'];
-            $("#usequickipcall").val(usequickipcall);
-            var disablepresent = msgs.headers['26001'];
-            $("#disablepresent").val(disablepresent);
-            var enablefecc = msgs.headers['26004'];
-            $("#enablefecc").val(enablefecc);
-            var prefix = msgs.headers['66'];
-            $("#prefix").val(prefix);
-            var disdialplan = msgs.headers['1687'];
-            $("#disdialplan").val(disdialplan);
-            mDisableconf = disconf;
-            mAutovideo = autovideo;
-
-            if( msgs.headers['dnd'] == "1" ){
-                $("#dndbtn").attr("dnd", "1").removeClass("dndoff").addClass("dndon");
-            }else{
-                $("#dndbtn").attr("dnd", "0").removeClass("dndon").addClass("dndoff");
-            }
-            /*
-            if( msgs.headers['417'] != "" ){ 
-                if( $.cookie("AccountIndex") == "2" ){
-                    $("#m_account_id").text(msgs.headers['417']);
-                    if( $.cookie("Mainpage") != "account" )
-                        $("#account_2_name").text(msgs.headers['417']);
-                }else{
-                    $("#account_2_name").text(msgs.headers['417']);
-                }
-            }
-            var sipname = msgs.headers['270'];
-            if( sipname == "" )
-                sipname = "SIP";
-            if( sipname != "" ){
-                if( $.cookie("AccountIndex") == "1" ){
-                    $("#m_account_id").text(sipname);
-                }else{
-                    if( $.cookie("Mainpage") == "account" )
-                        $("#account_1_name").text(sipname);
+        }
+    }else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){}   
+        else {
+            if(action.indexOf("get&var-0000") != -1)
+            {
+                if(action.indexOf("firmware_install") != -1){
+                    var firminstall = msgs.headers[':firmware_install'];
+                    if(firminstall == "1")
+                        window.parent.location='/login.html';
                     else
-                        $("#m_account_id").text(sipname);
+                        return;
                 }
-            }*/
-        }else if( action == "ping" )
-        {
-            cb_get_callstatus();
+                
+                var confmenumode = msgs.headers['1357'];
+                if( confmenumode == "" || confmenumode == undefined )
+                    confmenumode = "0";
+                f_init = 1;
+                update_menu_mode(confmenumode);
+                f_init = 0;
+                var curver =  msgs.headers['68'];
+                $("#version").text(a_3337 + " " + curver);
+                $("#clicktodial").val(msgs.headers['1561']);
+                var disconf = msgs.headers['1311'];
+                $("#disconfstate").val(disconf);
+                var autovideo = msgs.headers['25023'];
+                $("#autovideostate").val(autovideo);
+                var incalldtmf = msgs.headers['338'];
+                $("#incalldtmf").val(incalldtmf);
+                var remotevideo = msgs.headers['2326'];
+                $("#remotevideo").val(remotevideo);
+                var disipcall = msgs.headers['277'];
+                $("#disipcall").val(disipcall);
+                var distranfer = msgs.headers['1341'];
+                $("#distranfer").val(distranfer);
+                var tranfermode = msgs.headers['1685'];
+                $("#tranfermode").val(tranfermode);
+                var usequickipcall = msgs.headers['184'];
+                $("#usequickipcall").val(usequickipcall);
+                var disablepresent = msgs.headers['26001'];
+                $("#disablepresent").val(disablepresent);
+                var enablefecc = msgs.headers['26004'];
+                $("#enablefecc").val(enablefecc);
+                var prefix = msgs.headers['66'];
+                $("#prefix").val(prefix);
+                var disdialplan = msgs.headers['1687'];
+                $("#disdialplan").val(disdialplan);
+                mDisableconf = disconf;
+                mAutovideo = autovideo;
+    
+                if( msgs.headers['dnd'] == "1" ){
+                    $("#dndbtn").attr("dnd", "1").removeClass("dndoff").addClass("dndon");
+                }else{
+                    $("#dndbtn").attr("dnd", "0").removeClass("dndon").addClass("dndoff");
+                }
+                /*
+                if( msgs.headers['417'] != "" ){ 
+                    if( $.cookie("AccountIndex") == "2" ){
+                        $("#m_account_id").text(msgs.headers['417']);
+                        if( $.cookie("Mainpage") != "account" )
+                            $("#account_2_name").text(msgs.headers['417']);
+                    }else{
+                        $("#account_2_name").text(msgs.headers['417']);
+                    }
+                }
+                var sipname = msgs.headers['270'];
+                if( sipname == "" )
+                    sipname = "SIP";
+                if( sipname != "" ){
+                    if( $.cookie("AccountIndex") == "1" ){
+                        $("#m_account_id").text(sipname);
+                    }else{
+                        if( $.cookie("Mainpage") == "account" )
+                            $("#account_1_name").text(sipname);
+                        else
+                            $("#m_account_id").text(sipname);
+                    }
+                }*/
+            }else if( action == "ping" )
+            {
+                cb_get_callstatus();
+            }
         }
     }
 }

@@ -254,6 +254,7 @@ function handlemessage(data){
         case "switch_presentation_source":
         case "select_presentation_source":
             confFrame.$("#presentcancel").click();
+            break;
         case "IPVT_camera_invite":
             confFrame.handle_ipvtcmrinvite(data);
             break;

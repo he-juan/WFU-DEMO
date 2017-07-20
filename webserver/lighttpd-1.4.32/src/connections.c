@@ -21044,6 +21044,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_no_param(srv, con, b, m, "getUSBStorageState");
                 } else if (!strcasecmp(action, "getsdcardstate")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getSDCardStatus");
+                } else if (!strcasecmp(action, "isbtsupport")) {
+                    handle_callservice_by_no_param(srv, con, b, m, "isBtSupport");
                 } else{
                     findcmd = 0;
                 }
