@@ -242,6 +242,10 @@ function get_lost_ping_msg_suc(data) {
             $("#targethost").removeAttr("disabled");
             clearTimeout(pingtimeout);
         }
+    } else {
+        $("#start").removeAttr("disabled").removeClass("disableclass");
+        $("#targethost").removeAttr("disabled");
+        clearTimeout(pingtimeout);
     }
 }
 

@@ -8282,7 +8282,7 @@ static int handle_get_ping_msg (buffer *b, const struct message *m)
     count = 0;
     ch = fgetc(fp);
 
-    if (ch == 255) {
+    if (ch == -1) {
         buffer_append_string(b, "Response=Success\r\npingmsg=continue\r\n");
         close(fp);
         return 0;       
