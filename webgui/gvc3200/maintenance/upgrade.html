@@ -926,6 +926,8 @@ function pageEventActions(){
             view_message(a_16442,MSG_FAIL);
             return false;
         }
+        
+        $("#firpath").val($.trim($("#firpath").val()));
         var pre = $("#updatevia option:selected").text() + "://";
         if( $("#firpath").val().substring(0, pre.length).toUpperCase() == pre )
         {
