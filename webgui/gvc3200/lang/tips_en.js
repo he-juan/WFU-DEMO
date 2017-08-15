@@ -338,7 +338,7 @@ tip_item.push (
 	
 	
 	new TipsDef("Upload Local MOH Audio File",
-		"Click the BROWSE to upload audio file from PC. The MOH audio file should be \".wav\" or \".mp3\" format. It may take a long time uoloading and processing the file, please be patient. The Browse button will turn to \"Processing\" and back to \"Browse\" once the upload finished."),
+		"Click the BROWSE to upload audio file from PC. The MOH audio file should be \".wav\" or \".mp3\" format. It may take a long time uploading and processing the file, please be patient. The Browse button will turn to \"Processing\" and back to \"Browse\" once the upload finished."),
 	new TipsDef("Enable Local MOH",
 		"If set to \"Yes\" , the local MOH will be enabled.Users need to upload local MOH audio file. Once enabled, users could play the file when holding the call. The default setting is \"No\"."),
 	
