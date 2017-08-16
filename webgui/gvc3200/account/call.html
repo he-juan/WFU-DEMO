@@ -1146,6 +1146,17 @@ function pageEventActions(){
             $("#nacf").val( $.trim($("#nacf").val()) );
         }
         
+        if($("#dialplan").val() == ""){
+            $("#dialplan").val("{ x+ | \\+x+ | *x+ | *xx*x+ | x+*x+*x+*x+ | x+*x+*x+*x+#x+ }");
+        }
+        
+        var dialplan = $.trim($("#dialplan").val());
+        $("#dialplan").val(dialplan);
+        if(dialplan.charAt(0) != "{" || dialplan.charAt(dialplan.length - 1) != "}"){
+            $.prompt(a_19251);
+            return false;
+        }
+        
         var disdialpage = "0", discontact = "0", disincoming = "0", disoutgoing = "0", dismpkclick = "0";
         if( $("#disdialpage").attr("checked") ){
             disdialpage = "1";
@@ -1164,10 +1175,6 @@ function pageEventActions(){
         }
         var disdialplan = dismpkclick + disoutgoing + disincoming + discontact + disdialpage;
         $("#disdialplan").val( parseInt(disdialplan, 2) );
-        
-        if($("#dialplan").val() == ""){
-            $("#dialplan").val("{ x+ | \\+x+ | *x+ | *xx*x+ | x+*x+*x+*x+ | x+*x+*x+*x+#x+ }");
-        }
         
         cb_put(req_items, "");
         if( accountindex == '1' )
