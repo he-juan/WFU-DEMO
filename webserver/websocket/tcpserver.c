@@ -74,6 +74,8 @@
 #define SIGNAL_WIFIDIS_STATUS "wifidisplay_status"
 #define SIGNAL_SWITCHPRE_SOURCE "switch_presentation_source"
 #define SIGNAL_SELECTPRE_SOURCE "select_presentation_source"
+#define SIGNAL_IPVT_RECORD_OPERATE "IPVT_record_operate"
+#define SIGNAL_IPVT_RECORD_STATE "IPVT_record_state"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -1149,6 +1151,47 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         else
         {
             printf( "switch_presentation_source: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_RECORD_OPERATE ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_INT32, &j,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_record_operate\",\"line\":\"%d\",\"state\":\"%d\"},",i, j);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_record_operate: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_IPVT_RECORD_STATE ) )
+    {
+        if ( dbus_message_get_args( message, &error, 
+                                    DBUS_TYPE_INT32, &i,
+                                    DBUS_TYPE_INVALID ) )
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData,0,len);
+            snprintf(sendData,len,"{\"type\":\"IPVT_record_state\",\"state\":\"%d\"},", i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf( "IPVT_record_state: %s\n", error.message );
             dbus_error_free( &error );
         }
         return DBUS_HANDLER_RESULT_HANDLED;

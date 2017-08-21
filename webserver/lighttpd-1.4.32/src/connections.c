@@ -21403,6 +21403,15 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if (!strcasecmp(action, "stoprecord")){
                     handle_callservice_by_no_param(srv, con, b, m, "stopRecord");
                 }
+                else if (!strcasecmp(action, "ipvtrecord")){
+                    handle_callservice_by_one_param(srv, con, b, m, "state", "startOrStopIPVTRecording", 0);
+                }
+                else if (!strcasecmp(action, "ipvtrcdstate")){
+                    handle_callservice_by_no_param(srv, con, b, m, "isIPVTRecordingOn");
+                }
+                else if(!strcasecmp(action, "isallowipvtrcd")){
+                    handle_callservice_by_no_param(srv, con, b, m, "isAllowIPVTRecording");
+                }
                 else if (!strcasecmp(action, "isconfonhold")){
                     handle_callservice_by_no_param(srv, con, b, m, "isConfOnHold");
                 }

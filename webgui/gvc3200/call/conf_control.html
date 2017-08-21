@@ -578,6 +578,18 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .prompthost{display: inline-block;max-width: 40%;overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 5%;}
 .promptbutton{float: left; margin-left: 85px; margin-top: 30px; width:100px;}
 .promptbutton:hover{background: #d1d1d1;}
+#recordSelect{width: 300px; height: 120px; position: absolute; top:-150px; left:0; right:0; bottom:0; margin: auto; display:none;}
+#recordtitle{width: 100%; height: 40px; background: #1d6ea8; color:#fff; font-size: 18px; line-height: 40px; border: 1px solid #1d6ea8; border-top-left-radius: 5px; border-top-right-radius: 5px;}
+#recordtitle span{margin-left: 12px;}
+#recordtitle img{height: 12px; width: 12px; cursor: pointer; padding: 5px; margin: 10px; float: right;}
+.recordline{width: 100%; height: 39px; border: 1px solid #c1c1c1; border-top:none; background: #fff;}
+#ipvtrcd{border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
+.rcdicon{float: left; margin: 13px 0 0 15px;}
+#localrcd .rcdicon{width: 18px; height: 14px; background: url("../img/call/conf_control.png") -564px -171px no-repeat;}
+#ipvtrcd .rcdicon{width: 18px; height: 12px; background: url("../img/call/conf_control.png") -565px -213px no-repeat; margin-top:14px;}
+.rcdlinename{float:left; font-size: 15px; margin-left: 10px; line-height: 39px;}
+.rcdstart{height: 24px; width: 24px; cursor: pointer;position: absolute; right: 6px; background: url("../img/call/conf_control.png") -528px -165px no-repeat; margin: 8px;}
+.rcdstop{height: 24px; width: 24px; cursor: pointer;position: absolute; right: 6px; background: url("../img/call/conf_control.png") -528px -205px no-repeat; margin: 8px;}
 </style> 
 </head>
 <body>
@@ -1047,6 +1059,22 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
                     <div class="zoombtn"><button type="button" id="zoomtele" class="ptzctrl" keycode="169" arrowtype="zoomwide"></button></div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="recordSelect">
+        <div id="recordtitle">
+            <span>Recording Control</span>
+            <img src="../img/call/close_dtmf.png" />
+        </div>
+        <div id="localrcd" class="recordline">
+            <div class="rcdicon"></div>
+            <div class="rcdlinename">Local Recording</div>
+            <div id="localswitch" class="rcdstart"></div>
+        </div>
+        <div id="ipvtrcd" class="recordline">
+            <div class="rcdicon"></div>
+            <div class="rcdlinename">Cloud Recording</div>
+            <div id="ipvtswitch" class="rcdstart"></div>
         </div>
     </div>
     <div id="layoutdiv">
@@ -1542,7 +1570,18 @@ function handle_callmessage(data,obj_incominginfo)
                 var waitingline = $("#callingtips").attr("line");
                 if(data.line == waitingline)
                     $("#callingtips").hide();
-            }      
+            }
+            
+            if(data.acct == 1){
+               if($("#promptdiv") != undefined){
+                   $("#promptdiv").remove();
+                   ctrl_show_maskdiv(false);
+               }
+               if($("#recordSelect").is(":visible"))
+                   $("#recordSelect").hide();
+               $("#recordSelect .rcdstop").addClass("rcdstart").removeClass(".rcdstop");
+           }
+            
             break;
         case 1:
             break;
@@ -1814,6 +1853,16 @@ function handle_callmessage(data,obj_incominginfo)
             data.state = 8;
             handle_callfailed(data);
             mLineState[data.line] = 0;
+            
+            if(data.acct == "1"){
+                if($("#recordSelect").is(":visible"))
+                    $("#recordSelect").hide();
+               
+                $("#recordSelect .rcdstop").addClass("rcdstart").removeClass(".rcdstop");
+               
+                if($("#record").hasClass("active"))
+                    $("#record").removeClass("active");
+            }
             break;
         default:
             break;
@@ -2692,6 +2741,21 @@ function handle_handoperate(data){
         $("#handsup").attr("name", a_10220).removeClass("active");
 }
 
+function handle_ipvtrcdoperate(data){
+    var line = data.line;
+    var state = data.state;
+    if(state == "1"){
+        $("#ipvtswitch").addClass("rcdstop").removeClass("rcdstart");
+        if(!$("#record").hasClass("active"))
+            $("#record").attr("isrecord", 0).addClass("active");
+    }
+    else{
+        $("#ipvtswitch").addClass("rcdstart").removeClass("rcdstop");
+        if($(".rcdstart").length > 1)
+            $("#record").attr("isrecord", 1).removeClass("active");
+    }
+}
+
 function showhandsup(){
     if($(".remoteline[account=1]").length > 0 && mConfrole == "1"){
         var callstate = $(".remoteline[account=1]").attr("state");
@@ -3357,6 +3421,7 @@ function addconflist(data,todivID)
         
         cb_get_action("getipvrole&region=confctrl&line=" + line + "&type=init");
         cb_get_action("resumecamera&region=confctrl");
+        cb_get_action("ipvtrcdstate&region=confctrl");
     }
     
     if(mOEMID == "54")
@@ -4284,6 +4349,48 @@ function cb_get_action_done(data, action) {
                 tObj.number = tObj.cameraNumber;
                 handle_ipvtcmrinvite(tObj);
             }
+        }else if(action.indexOf("record") != -1){
+            data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+            var tObj = eval("(" + data + ")");
+            if(tObj.res.toLowerCase() == "success")
+            {
+                if(tObj.msg == "false"){
+                    showtip(a_605);
+                    return false;
+                }
+                            
+                if($(".remoteline[account=1][state=4]").length > 0 && mConfrole == "2"){
+                    if(action.indexOf("ipvt") != -1){
+                        if(action.indexOf("state=1") != -1)
+                            $("#ipvtrcd .rcdstart").addClass("rcdstop").removeClass("rcdstart");
+                        else
+                            $("#ipvtrcd .rcdstop").addClass("rcdstart").removeClass("rcdstop");
+                    }
+                    else{
+                        if(action.indexOf("start") != -1)
+                            $("#localrcd .rcdstart").addClass("rcdstop").removeClass("rcdstart");
+                        else
+                            $("#localrcd .rcdstop").addClass("rcdstart").removeClass("rcdstop");
+                    }
+                }
+            }
+            else
+            {
+                $.prompt(a_63);
+                return false;
+            }
+        }
+        else if(action.indexOf("ipvtrcdstate") != -1){
+            var tObj = eval("(" + data + ")");
+            var state = tObj.isOn;
+            if(state == "true"){
+                $("#ipvtswitch").addClass("rcdstop").removeClass("rcdstart");
+                $("#record").attr("isrecord", "0").addClass("active");
+            }else{
+                $("#ipvtswitch").addClass("rcdstart").removeClass("rcdstop");
+                if($(".rcdstart").length > 1)
+                    $("#record").attr("isrecord", "1").removeClass("active");
+            }
         }
     }else
     {
@@ -4874,13 +4981,17 @@ function setconfpause_callback(data)
             buttontip_position($("#pause"));
         }
         $("#switchvideosource").hide();
-        if($("#record").attr("isrecord") == "0")
-        {
-            mContinueRecording = 1;
+        if($(".remoteline[account=1][state=4]").length > 0 && mConfrole == "2"){
+           if($("#localswitch").hasClass("rcdstop"))
+               mContinueRecording = 1;
+           else
+               mContinueRecording = 0;
         }
-        else
-        {
-            mContinueRecording = 0;
+        else{
+           if($("#record").attr("isrecord") == "0")
+               mContinueRecording = 1;
+           else
+               mContinueRecording = 0;
         }
         if($("#dtmfDiv").is(":visible"))
         {
@@ -4892,6 +5003,9 @@ function setconfpause_callback(data)
         {
             $("#layoutdiv").hide();
             ctrl_show_maskdiv(false);
+        }
+        if($("#recordSelect").is(":visible")){
+           $("#recordSelect").hide();
         }
         if(mDisableconf == "0")
         {
@@ -5248,12 +5362,23 @@ function setrecord_callback(data)
     {
         $("#record").attr("isrecord",0).addClass("active");
         $("#continuerecording").hide(); 
+        
+        if($(".remoteline[account=1][state=4]").length > 0 && mConfrole == "2"){
+            $("#localswitch").addClass("rcdstop").removeClass("rcdstart");
+        }
+        
         if( !$("#addmemberdiv").is(":visible") && !$("#dtmfDiv").is(":visible") && !$("#detailsdiv").is(":visible") && !$("#layoutdiv").is(":visible") && !$("#ctrlFECCDiv").is(":visible") && !$("#selectvideodiv").is(":visible"))
             ctrl_show_maskdiv(false);
     }
     else
     {
-        $("#record").attr("isrecord",1).removeClass("active");
+        if($(".remoteline[account=1][state=4]").length > 0 && mConfrole == "2"){
+            $("#localswitch").addClass("rcdstart").removeClass("rcdstop");
+            if($(".rcdstart").length > 1)
+                $("#record").attr("isrecord",1).removeClass("active");
+        }else{
+            $("#record").attr("isrecord",1).removeClass("active");
+        }
     }
     if(isrecord == "2")
     {
@@ -7383,6 +7508,17 @@ function getSDCardstate()
     return state;
 }
 
+function showtip(tipstr)
+{
+    clearTimeout(mTipTimeout);
+    $("#operatetip span").text(tipstr);
+    var tipwidth = $("#operatetip").width();
+    var tipmarginLeft = (990 - tipwidth) / 2 - 480;
+    $("#operatetip").css("margin-left", tipmarginLeft + "px");
+    $("#operatetip").fadeIn();
+    setTimeout(function(){$("#operatetip").fadeOut();},2000);
+}
+
 function delayshowtip(tipstr)
 {
     clearTimeout(mTipTimeout);
@@ -7470,6 +7606,9 @@ function translate_page()
     $("#savepreset").text(a_17);
     $("#layouttitletext").text(a_16703);
     $("#preflow").text(a_19247 + ": ");
+    $("#recordtitle span").text(a_19252);
+    $("#localrcd .rcdlinename").text(a_19249);
+    $("#ipvtrcd .rcdlinename").text(a_19250);
 }
 
 function addDragEvent()
@@ -7847,7 +7986,7 @@ function cb_end_conf(role){
                             if(line == mConfid)
                             {
                                 callfn = "close_callback('"+mConfid+"');";
-                                var urihead = "action=endconf&region=confctrl&flag=0";
+                                var urihead = "action=endconf&region=confctrl&flag=1";
                                 cb_get_confaction(urihead,callfn,true);
                             }
                             else
@@ -8154,54 +8293,63 @@ function pageEventActions()
             $.prompt(a_7207);
             return false;
         }*/
-        var isrecord = parseInt($(this).attr("isrecord"));
-        var urihead;
-        /**
-        0:stop record
-        1:start record
-        **/
-        if(isrecord == 1)
-            urihead = "action=startrecord&region=confctrl";
-        else
-            urihead = "action=stoprecord&region=confctrl";
-
-        urihead += "&time=" + new Date().getTime();
-        $.ajax ({
-            type: 'get',
-            url:'/manager',
-            data:urihead,
-            dataType:'text',
-            success:function(data) {
-                //console.log(data);
-                if( data.substring(0, 1) == "{" )
-                {
-                    data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
-                    data = eval("("+data+")");
-                    var res = data.res;
-                    if(res.toLowerCase() == "success")
-                    {
-                        if(data.msg == "false")
-                        {
-                            $("#operatetip span").text(a_605);
-                            $("#operatetip").fadeIn();
-                            setTimeout(function(){$("#operatetip").fadeOut();},2000);
-                        }
-                    }
-                    else
-                    {
-                        $.prompt(a_63);
-                        return false;
-                    }
-                }else
-                {
-                    var msgs = res_parse_rawtext(data);
-                    cb_if_auth_fail(msgs);
+        if($(".remoteline[account=1][state=4]").length > 0 && mConfrole == "2"){
+            var isallowipvtrcd;
+            urihead = "action=isallowipvtrcd&region=confctrl&time=" + new Date().getTime();
+            $.ajax ({
+                type: 'get',
+                url:'/manager',
+                data:urihead,
+                async:false,
+                dataType:'text',
+                success:function(data) {
+                    var tObj = eval("(" + data + ")");
+                    isallowipvtrcd = tObj.isAllow;
+                },
+                error:function(xmlHttpRequest, errorThrown) {
+                    cb_networkerror(xmlHttpRequest, errorThrown);
                 }
-            },
-            error:function(xmlHttpRequest, errorThrown) {
-                cb_networkerror(xmlHttpRequest, errorThrown);
+            });
+            
+            if(isallowipvtrcd == "true"){
+                $("#recordSelect").show();
+                return;
             }
-        });
+        }
+        
+        var isrecord = parseInt($(this).attr("isrecord"));  /* 0-stop record  1-start record */
+        if(isrecord == 1)
+            cb_get_action("startrecord&region=confctrl");
+        else
+            cb_get_action("stoprecord&region=confctrl");
+    });
+    
+    $("#recordtitle img").click(function(){
+       $("#recordSelect").hide();
+    });
+   
+    $("#localswitch").click(function(){
+        if(!judge_ispause() || !countClickedTimes())
+        {
+            return false;
+        }
+       
+        if($(this).hasClass("rcdstart"))
+            cb_get_action("startrecord&region=confctrl");
+        else
+            cb_get_action("stoprecord&region=confctrl");
+    });
+   
+    $("#ipvtswitch").click(function(){
+        if(!judge_ispause() || !countClickedTimes())
+        {
+            return false;
+        }
+       
+        if($(this).hasClass("rcdstart"))
+            cb_get_action("ipvtrecord&region=confctrl&state=1");
+        else
+            cb_get_action("ipvtrecord&region=confctrl&state=0");
     });
 
     $("#pause").click(function(){
@@ -8242,13 +8390,17 @@ function pageEventActions()
         }
         if(ishold == "1")
         {
-            if($("#record").attr("isrecord") == "0")
-            {
-                mContinueRecording = 1;
+            if($(".remoteline[account=1][state=4]").length > 0 && mConfrole == "2"){
+                if($("#localswitch").hasClass("rcdstop"))
+                    mContinueRecording = 1;
+                else
+                    mContinueRecording = 0;
             }
-            else
-            {
-                mContinueRecording = 0;
+            else{
+                if($("#record").attr("isrecord") == "0")
+                    mContinueRecording = 1;
+                else
+                    mContinueRecording = 0;
             }
         }
         delayshowtip(a_7355);
@@ -9350,7 +9502,7 @@ function pageEventActions()
         $("#presentselect").hide();
     });
     $("#recordingOK").click(function(){
-        $("#record").click();
+        cb_get_action("startrecord&region=confctrl");
         var urihead = "action=continueRecord&region=confctrl&flag=1";
         cb_get_confaction(urihead,"");
         /*$("#continuerecording").hide();

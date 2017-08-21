@@ -271,6 +271,10 @@ function handlemessage(data){
         case "IPVT_hand_operate_for_web":
             confFrame.handle_handoperate(data);
             break;
+        case "IPVT_record_operate":
+        case "IPVT_record_state":
+            confFrame.handle_ipvtrcdoperate(data);
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;
