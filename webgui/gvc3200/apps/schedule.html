@@ -419,9 +419,9 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
                     <div class="desdiv" style="width:330px;">
                         <input id="search" type="text" class="searchinput" />
                         <select id="detailacct" class="acctselect">
-                            <option value="0">Account 1</option>
+                            <!--option value="0">Account 1</option>
                             <option value="1">Account 2</option>
-                            <option value="8">H.323</option>
+                            <option value="8">H.323</option-->
                         </select>
                         <p></p>
                     </div>
@@ -1494,18 +1494,29 @@ function cb_get_action_done(data, action) {
 }
 
 function cb_get_status_done(msgs) {
-    if (msgs.headers['account_0_name'].length > 0) {
-        mAcctName[0] = msgs.headers['account_0_name'];
+    if (msgs.headers['account_0_activate'] == 1) {
+        if(msgs.headers['account_0_name'].length > 0){
+            mAcctName[0] = msgs.headers['account_0_name'];
+        }else{
+            mAcctName[0] = "SIP";
+        }
+        $("#detailacct").append("<option value='0'>" + mAcctName[0] + "</option>");      
     }
-    if (msgs.headers['account_1_name'].length > 0) {
-        mAcctName[1] = msgs.headers['account_1_name'];
-    }
-    /*if (msgs.headers['account_5_no'].length > 0) {
-        mAcctName[2] = msgs.headers['account_5_name'];
-    }*/
-    
-    for(var i = 0; i < mMaxAccount; i++){
-        $("#detailacct option:eq(" + i + ")").text(mAcctName[i]);
+    if (msgs.headers['account_1_activate'] == 1) {
+        if(msgs.headers['account_1_name'].length > 0){
+            mAcctName[1] = msgs.headers['account_1_name'];
+        }else{
+            mAcctName[1] = 'IPVideoTalk';
+        }
+        $("#detailacct").append("<option value='1'>" + mAcctName[1] + "</option>");       
+    }      
+    if (msgs.headers['account_6_activate'] == 1) {
+        if(msgs.headers['account_6_name'].length > 0){
+            mAcctName[2] = msgs.headers['account_6_name'];
+        }else{
+            mAcctName[2] = 'H.323';
+        }
+        $("#detailacct").append("<option value='8'>" + mAcctName[2] + "</option>");       
     }
     
     for(var i = 0; i < 7; i++){
