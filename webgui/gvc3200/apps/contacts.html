@@ -1344,6 +1344,12 @@ function cb_get_action_done(data, action) {
                             mDisdialplan = 0;
                         break;
                 }
+            }else if(action.indexOf("22046") != -1){
+                var defaultAcct = msgs.headers['22046'];
+                if(defaultAcct == "2")
+                    $("#addsipacct0").getSetSSValue("0");
+                else
+                    $("#addsipacct0").getSetSSValue(defaultAcct);
             }
         }
     }
@@ -1983,12 +1989,14 @@ function pageEventActions(){
         if( $("#detailemail0div").children(".editdiv").children(".newListSelected").length == 0 ){
             $("#addemailtype0").sSelect();
         }
-        $("#addsipacct0").getSetSSValue("0");
+        //$("#addsipacct0").getSetSSValue("0");
         $("#addsipnumtype0, #addemailtype0").getSetSSValue("1");
         $("#addgroups .inputcbx").each(function(index, item) {
             $(item).attr("checked", false);
         });
         $("#addname").focus();
+        
+        cb_get_action('get&var-0000=22046');
     });
 
     $("#addnewnumspan,.addnumicon").click(function(){
