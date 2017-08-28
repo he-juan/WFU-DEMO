@@ -2018,20 +2018,17 @@ function pageEventActions(){
                     dataType:'text',
                     async:false,
                     success:function(data) {
-                        var msgs = res_parse_rawtext(data);
-                        cb_if_auth_fail(msgs);
-                        if (cb_is_fail(msgs)){}   
-                        else {
-                            if (msgs.headers['ip'].length > 1) {
-                                var ipserver = msgs.headers['ip'].split(".");
-                                if( dialnum.indexOf(":") != -1 ){
-                                    var ipandport = dialnum.split(":");
-                                    if(ipandport[0] >= 0 && ipandport[0] <= 255)
-                                        dialnum = ipserver[0] + "." + ipserver[1] + "." + ipserver[2] + "." + dialnum; 
-                                }else{
-                                    if(dialnum >= 0 && dialnum <= 255)
-                                        dialnum = ipserver[0] + "." + ipserver[1] + "." + ipserver[2] + "." + dialnum; 
-                                } 
+                        var tObj = eval( "(" + data + ")" );
+                        if(tObj.ipv4Addr){
+                            var ipserver = tObj.ipv4Addr.split(".");
+                            
+                            if( dialnum.indexOf(":") != -1 ){
+                                var ipandport = dialnum.split(":");
+                                if(ipandport[0] >= 0 && ipandport[0] <= 255)
+                                    dialnum = ipserver[0] + "." + ipserver[1] + "." + ipserver[2] + "." + dialnum;
+                            }else{
+                                if(dialnum >= 0 && dialnum <= 255)
+                                    dialnum = ipserver[0] + "." + ipserver[1] + "." + ipserver[2] + "." + dialnum;
                             }
                         }
                     },
