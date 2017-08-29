@@ -1201,13 +1201,13 @@ function cb_get_status_done(msgs) {
         $("#acct2reg").addClass( view_status_img_to_text( 1, msgs.headers['account_1_status'] ) );
         mDisableIPVT = 0;
         mEnableIPVT = 1;
-        try{
+        /*try{
             if( window.top.confFrame.getConfType() == "2" ){
                 mDisableIPVT = 1;
             }
         }catch(e)
         {
-        }
+        }*/
         if( mDisableIPVT ){
             $("#acct2state").hide();
         }else

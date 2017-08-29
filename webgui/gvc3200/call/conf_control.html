@@ -2166,7 +2166,7 @@ function hasIPVNumber()
     return flag;
 }
 
-function getConfType()
+/*function getConfType()
 {
     //type 0:no ipv member, 1:ipv conf and host, 2:ipv conf but not host
     var type = 0;
@@ -2176,12 +2176,10 @@ function getConfType()
         var state = $(this).attr("state");
         if(acct == "1" && state != "8")
         {
-            if( number.substring(0,2) == mIPVPrefix ){
-                type = 1;
-                return false;
-            }else{
-                type = 2; 
-            }
+            if(mConfrole == "2")
+				type = 1;
+			else if(mConfrole == "1")
+				type = 2;
         }
     });  
     if( type == 2 ){
@@ -2190,7 +2188,7 @@ function getConfType()
         $("#disableipvt",window.parent.document).val("0");
     } 
     return type;
-}
+}*/
 
 function isIPVConf()
 {
@@ -2218,13 +2216,13 @@ function setBusylinenum()
     var mainmenu = $.cookie( "Mainpage");
     if (mainmenu && mainmenu == "call" ) {
         try{
-            window.top.callFrame.updateMaxlineNumber(mBusylinenum, getConfType());
+            window.top.callFrame.updateMaxlineNumber(mBusylinenum, isIPVConf());
         }catch(e)
         {
             setTimeout(function(){setBusylinenum();},200);
         }
     }else{
-        getConfType();
+        //getConfType();
     }
 }
 
@@ -8122,7 +8120,7 @@ function pageEventActions()
             window.parent.block_download_func(a_6660);
             get_normal_calllog(2, 0);
         }
-        var conftype = getConfType();
+        //var conftype = getConfType();
         var count = 0;
         /*if( conftype == 2 ){
             $("#acctselect").empty();
