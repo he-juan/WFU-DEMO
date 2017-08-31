@@ -2831,7 +2831,13 @@ function handle_updatename(data)
 {
     var line = data.line;
     var name = data.name;
-    $("#line-"+line).attr("name",name).find(".confname").children().attr("title",name).text(name);
+    if($("#line-"+line).attr("account") == "1"){
+        $("#line-"+line).attr("name",name).find(".confname").children().attr("title",name).text(name);
+        $("#line-"+line).attr("name",name).find(".confnum").children().attr("title",name).text(name);
+    }
+    else{
+        $("#line-"+line).attr("name",name).find(".confname").children().attr("title",name).text(name);
+    }
 }
 
 /*
