@@ -347,7 +347,7 @@ tip_item.push (
     new TipsDef("Local RTP Port",
         "Este parâmetro define a porta RTP-RTCP local utilizada para transmitir e receber. Este é o RTP base para o canal 0. Quando configurado o canal 0 para áudio, o canal 0 utilizará este valor_porta para RTP e o valor_porta+1 para RTCP; canal 1 utilizará valor_porta+10 para RTP e o valor_porta+11 para RTCP. Para vídeo, o canal 0 utilizará valor_porta+2 para RTP e o valor_porta+3 para RTCP; o canal 1 utilizará o valor_porta+12 para RTP e o valor_porta+13 para RTCP. O valor padrão é 5004."),
     new TipsDef("Use Random Port",
-        "Quando está configurado \"Sim\", este parâmetro forçará  a geração aleatória de ambas as portas locais para SIP e RTP. Isto geralmente é necessário quando há vários telefones detrás do mesmo NAT. A configuração padrão é \"Sim\". (Este parâmetro deve estar configurado \"Não\" para que a Chamada IP Direta funcionar)"),
+        "Quando está configurado \"Sim\", este parâmetro forçará  a geração aleatória de ambas as portas locais para SIP e RTP. Isto geralmente é necessário quando há vários telefones detrás do mesmo NAT. A configuração padrão é \"Não\". (Este parâmetro deve estar configurado \"Não\" para que a Chamada IP Direta funcionar)"),
     new TipsDef("Keep-alive Interval",
         "Especifica com que frequência o dispositivo envia um pacote UDP em branco ao servidor SIP para manter o \"pin hole\" aberto no roteador NAT. A configuração padrão é 20 segundos."),
     new TipsDef("Use NAT IP",
