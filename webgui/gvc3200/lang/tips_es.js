@@ -187,7 +187,7 @@ tip_item.push (
 	
     
 	new TipsDef("Only Accept SIP Requests from Known Servers",
-		"Si se establece en \"Si\", la ID de usuario SIP será revisada en la solicitud URI del INVITE entrante. Si no coincide la ID de usuario SIP del dispositivo, la llamada será rechazada. Por defecto es \"Si\"."),
+		"Si se establece en \"Si\", la ID de usuario SIP será revisada en la solicitud URI del INVITE entrante. Si no coincide la ID de usuario SIP del dispositivo, la llamada será rechazada. Por defecto es \"No\"."),
     		
     /*Cuenta 1 2 3 Códec y Señal*/
     new TipsDef("DTMF",
@@ -668,7 +668,7 @@ tip_item.push (
     new TipsDef("Access Methode",
         "Permite a los usuarios seleccionar el acceso web para HTTP o HTTPS."),
     new TipsDef("Port",
-        "Por defecto, HTTP usa el puerto 8081 y HTTPS usa el puerto 443. Este campo es para personalizar el puerto web."),
+        "Por defecto, HTTP usa el puerto 80 y HTTPS usa el puerto 443. Este campo es para personalizar el puerto web."),
     new TipsDef("Https Enable",
         "Habilita el protocolo HTTP o HTTPS seguro para el acceso Web."),
     new TipsDef("Https Port",
@@ -797,6 +797,11 @@ tip_item.push (
 	new TipsDef("H.323 Syslog Level",
         "Selecciona el nivel de Syslog H.323 en el menú desplegable, el ajuste por defecto es \"Apagado\", el cual significa ninguna información syslog H323 en el syslog. Usted puede seleccionar desde nivel 1 a 10, 10 es el nivel más alto."),
     
+	new TipsDef("Ping Target Host",
+		"The IP address or URL for the Target Host of the Ping."),
+	new TipsDef("Target Host",
+		"The IP address or URL for the Target Host of the Traceroute."),
+	
     /*Mantenimiento Debug*/
     new TipsDef("Capture Trace",
         "Presione INICIO para iniciar la captura de la traza, y presiones PARAR para detener el proceso de captura."),
@@ -1232,6 +1237,8 @@ tip_item.push (
     new TipsDef("Developer Mode",
         "Si se enciende, la función ADB (Androide Debug Bridge) será habilitada en el dispositivo. El ajuste por defecto es \"Deshabilitado\"."),
     
+	new TipsDef("Echo Delay",
+		"Configures the device's HDMI audio delay to match the audio latency of different TV sets."),
     new TipsDef("Ringtone Volume",
         "Configura el volumen del tono de timbrado."),
     new TipsDef("Media Volume",

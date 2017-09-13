@@ -186,7 +186,7 @@ tip_item.push (
 	
     
     new TipsDef("Only Accept SIP Requests from Known Servers", "仅接受已知服务器的SIP请求",
-		"启用后，仅已知的服务器发来的SIP请求才会被接受，即设备未使用过的SIP服务器发送来的请求信息将会被拒绝。默认为勾选。"),
+		"启用后，仅已知的服务器发来的SIP请求才会被接受，即设备未使用过的SIP服务器发送来的请求信息将会被拒绝。默认为不勾选。"),
         
     /*Account1 2 3 Codec and Signal*/
     new TipsDef("DTMF", "",
@@ -218,7 +218,7 @@ tip_item.push (
 	 new TipsDef("H.263 Encoder Resolution", "H.263编码方案",
         "H.263视频编码方式(CIF/QCIF)，默认编码为CIF。"),
   	new TipsDef("SRTP Mode", "SRTP方式",
-        "默认值为“禁用”。可以选择为允许且强制模式执行SRTP或使用允许但不强制即协商模式执行SRTP。（注：SRTP功能Beta版本不支持。）"),
+        "默认值为“禁用”。可以选择为允许且强制模式执行SRTP或使用允许但不强制即协商模式执行SRTP。"),
     new TipsDef("SRTP Key Length", "SRTP加密位数",
         "设置SRTP使用的AES加密位数，默认为128&256位，即同时提供128位以及256位两种加密强度供SRTP接收方协商使用。若设置为128位，则仅提供128位加密强度的加密方式。若设置为256位，则仅提供256位加密强度的加密方式。"),
     new TipsDef("Silence Suppression", "静音抑制",
@@ -665,7 +665,7 @@ tip_item.push (
     new TipsDef("Access Methode", "访问方式",
         "选择通过http/https进行页面访问。"),
     new TipsDef("Port", "端口",
-        "设置使用http进行页面访问的端口。http默认使用8081端口；https默认使用443端口。"),
+        "设置使用http进行页面访问的端口。http默认使用80端口；https默认使用443端口。"),
     new TipsDef("Https Enable", "",
         "选择是否能够通过https进行页面访问。"),
     new TipsDef("Https Port", "",
@@ -795,6 +795,11 @@ tip_item.push (
     new TipsDef("H.323 Syslog Level", "H.323信令日志级别",
         "在下拉菜单中选择H.323信令日志级别。默认设置为“关”，即syslog中无H323的日志信息。还可以选择级别1到10,10为最高等级。"),
     
+	new TipsDef("Ping Target Host", "目标主机",
+		"Ping时的目标主机IP地址或URL。"),
+	new TipsDef("Target Host", "目标主机",
+	    "路由跟踪的目标主机的IP地址或URL。"),
+	
 	/*Maintenance Debug*/
     new TipsDef("Capture Trace", "抓包",
         "点击开始进行抓捕数据, 按停止结束。抓捕设备的数据报文可以方便诊断。默认是不开启的。"),
@@ -1225,7 +1230,7 @@ tip_item.push (
     new TipsDef("Always Ring Internal Ring", "总以扬声器振铃",
         "若选择“是”，当使用耳机来电时振铃通过扬声器播放。默认为“否”。"),
     new TipsDef("Factory Reset", "恢复出厂设置",
-        "将设备配置恢复出厂设置。可以勾选是否同时清除内置SD卡数据。注意：重置前请进行数据备份以免数据丢失。"),
+        "将设备配置恢复出厂设置。注意：重置前请进行数据备份以免数据丢失。"),
     new TipsDef("Disable Dial Plan", "禁用拨号规则", 
         "用于设置拨号界面、电话本、来电通话记录、去电通话记录 & Click2Dial是否禁用拨号规则，勾选后，相应功能将不再使用下方的拨号规则。"),
     new TipsDef("Remote Video Request", "远程视频请求", 
@@ -1237,6 +1242,8 @@ tip_item.push (
     new TipsDef("Developer Mode", "开发者模式",
         "打开开发者模式，设备可开启ADB（Android Debug Bridge）功能。默认不开启。"),
 
+	new TipsDef("Echo Delay", "回声延迟",
+	    "调整设备的HDMI音频延时来适配不同电视机的音频延时。"),
     new TipsDef("Ringtone Volume", "铃声音量",
         "设置设备的铃声音量"),
     new TipsDef("Media Volume", "媒体音量",

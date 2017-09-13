@@ -184,7 +184,7 @@ tip_item.push (
 	
     
 	new TipsDef("Only Accept SIP Requests from Known Servers",
-		"Если установлено \"Да\", во входящем INVITE будет проверяться соответствие SIP User ID. При несовпадении с SIP User ID устройства вызов будет сброшен. По умолчанию \"Да\"."),
+		"Если установлено \"Да\", во входящем INVITE будет проверяться соответствие SIP User ID. При несовпадении с SIP User ID устройства вызов будет сброшен. По умолчанию \"Нет\"."),
     		
     /*Аккаунт1 2 3 Кодеки и сигнализация */
     new TipsDef("DTMF",
@@ -660,7 +660,7 @@ tip_item.push (
     new TipsDef("Access Methode",
         "Выбор протокола HTTP или HTTPS для веб доступа."),
     new TipsDef("Port",
-        "По умолчанию HTTP использует порт 8081 и HTTPS использует порт 443. Здесь устанавливаются значения портов."),
+        "По умолчанию HTTP использует порт 80 и HTTPS использует порт 443. Здесь устанавливаются значения портов."),
     new TipsDef("Https Enable",
         "Использовать HTTP или защищённый HTTPS протокол для доступа к веб интерфейсу."),
     new TipsDef("Https Port",
@@ -789,6 +789,11 @@ tip_item.push (
     new TipsDef("H.323 Syslog Level",
         "Выбор уровня H.323 Syslog в выпадающем меню, по умолчанию \"Выключено\", что означает включение информации о H323 в сислог. Можно выбрать уровень от 1 до 10, 10 наивысший."),
     
+	new TipsDef("Ping Target Host",
+		"The IP address or URL for the Target Host of the Ping."),
+	new TipsDef("Target Host",
+		"The IP address or URL for the Target Host of the Traceroute."),
+	
     /*Обслуживание Debug*/
     new TipsDef("Capture Trace",
         "Нажмите СТАРТ для начала трассировки, и СТОП для окончания процесса."),
@@ -1224,6 +1229,8 @@ tip_item.push (
     new TipsDef("Developer Mode",
         "Если включено, функция ADB (Android Debug Bridge) будет использоваться на устройстве. По умолчанию \"Отключено\"."),
     
+	new TipsDef("Echo Delay",
+		"Configures the device's HDMI audio delay to match the audio latency of different TV sets."),
     new TipsDef("Ringtone Volume",
         "Устанавливает громкость рингтона."),
     new TipsDef("Media Volume",

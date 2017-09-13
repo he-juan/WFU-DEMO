@@ -186,7 +186,7 @@ tip_item.push (
 	
     
 	new TipsDef("Only Accept SIP Requests from Known Servers",
-		"If set to \"Yes\", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn't match the device's SIP User ID, the call will be rejected. The default is \"Yes\"."),
+		"If set to \"Yes\", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn't match the device's SIP User ID, the call will be rejected. The default is \"No\"."),
     		
     /*Account1 2 3 Codec and Signal*/
     new TipsDef("DTMF",
@@ -672,7 +672,7 @@ tip_item.push (
     new TipsDef("Access Methode",
         "Allows users to select HTTP or HTTPS for Web Access."),
     new TipsDef("Port",
-        "By default, HTTP uses port 8081 and HTTPS uses port 443. This field is for customizing the web port."),
+        "By default, HTTP uses port 80 and HTTPS uses port 443. This field is for customizing the web port."),
     new TipsDef("Https Enable",
         "Enable HTTP or secure HTTPS protocol for Web Access."),
     new TipsDef("Https Port",
@@ -801,6 +801,11 @@ tip_item.push (
 	new TipsDef("H.323 Syslog Level",
         "Select H.323 Syslog level in the drop-down menu, the default setting is \"Off\", which means no H323 syslog info in syslog. You can also select from level 1 to 10, 10 is the highest level."),
     
+	new TipsDef("Ping Target Host",
+		"The IP address or URL for the Target Host of the Ping."),
+	new TipsDef("Target Host",
+	    "The IP address or URL for the Target Host of the Traceroute."),
+	
     /*Maintenance Debug*/
     new TipsDef("Capture Trace",
         "Press START to start capturing a trace, and press STOP to stop the capture process."),
@@ -1243,6 +1248,8 @@ tip_item.push (
     new TipsDef("Developer Mode",
         "If turned on, ADB (Android Debug Bridge) function will be enabled on the device. The default setting is \"Disabled\"."),
     
+	new TipsDef("Echo Delay",
+	    "Configures the device's HDMI audio delay to match the audio latency of different TV sets."),
     new TipsDef("Ringtone Volume",
         "Configures the volume of ringtone."),
     new TipsDef("Media Volume",
