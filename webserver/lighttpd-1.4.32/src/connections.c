@@ -959,15 +959,17 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             //replace(disname, "\"", "\\\"", targetname);
 
             len = strlen(phonenum) * 2;
-            targetnumber = malloc(len);
-            memset(targetnumber, 0, len);
-            //replace(phonenum, "\"", "\\\"", targetnumber);
-            snprintf(targetnumber, len, "%s", phonenum);
-            json_handle(targetnumber);
-            //memset(targetnumber, 0, len);
-            //replace(phonenum, "\"", "\\\"", targetnumber);
-
-
+            if(!len){
+                targetnumber = "";
+            }else{
+                targetnumber = malloc(len);
+                memset(targetnumber, 0, len);
+                snprintf(targetnumber, len, "%s", phonenum);
+                json_handle(targetnumber);
+                //memset(targetnumber, 0, len);
+                //replace(phonenum, "\"", "\\\"", targetnumber);
+            }
+            
             if( pinyin != NULL ){
                 len = strlen(pinyin) * 2;
                 targetpinyin = malloc(len);
@@ -1008,7 +1010,8 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             //printf("%10d %10d %10s %10s %10d\n", data1, data2, targetname, phonenum, data3);
             free(res);
             free(targetname);
-            free(targetnumber);
+            if(targetnumber != NULL && targetnumber != "")
+                free(targetnumber);
             if( pinyin != NULL )
                 free(targetpinyin);
             if( pinyinfirst != NULL )
