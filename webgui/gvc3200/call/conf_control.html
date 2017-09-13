@@ -4916,11 +4916,13 @@ function set_ipvinfo(data){
     var IPVPassword = data.IPVPassword;
     var IPVHostcode = data.IPVHostcode;
     var IPVRegion = data.IPVRegion;
+    var IPVConfHost = data.IPVConfHost;
     if( IPVNumber != undefined ){
         $("#ipvconftitle").text(IPVTitle);
         $("#ipvconfnumber").text(IPVNumber);
         $("#ipvconfpass").text(IPVPassword);
         $("#ipvconfurl").text(IPVURL);
+        $("#ipvconfhost").text(IPVConfHost);
         $("#ipvconfpstn").text(a_9400+" " + IPVPSTN + " " + a_15058);
 		if( IPVPSTN == "0" || IPVPSTN == "" ){
             $("#pstndivs").hide();
