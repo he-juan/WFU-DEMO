@@ -334,7 +334,7 @@ tip_item.push (
 	
 	
 	new TipsDef("Start Video Automatically",
-		"Defines whether to enable video automatically when there is an incoming call or a call from the contacts, conference or MPK. If set to \"Yes\", the video will be started automatically in the above cases. If set to \"No\", answer or dial the call via SIP audio."),
+		"Defines whether to enable video automatically when there is an incoming call or a call from the contacts. If set to \"Yes\", the video will be started automatically in the above cases. If set to \"No\", answer or dial the call via SIP audio."),
 	
 	
 	new TipsDef("Upload Local MOH Audio File",

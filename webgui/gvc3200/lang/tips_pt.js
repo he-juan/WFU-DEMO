@@ -335,7 +335,7 @@ tip_item.push (
 	
 	
 	new TipsDef("Start Video Automatically",
-		"Define se é habilitado automaticamente o vídeo quando há uma chamada entrante ou uma chamada de algum contato, uma conferência ou MPK. Se está configurado \"Sim\", o vídeo iniciará automaticamente nos casos mencionados. Se está configurado \"Não\", atende a chamada via áudio SIP."),
+		"Define se é habilitado automaticamente o vídeo quando há uma chamada entrante ou uma chamada de algum contato. Se está configurado \"Sim\", o vídeo iniciará automaticamente nos casos mencionados. Se está configurado \"Não\", atende a chamada via áudio SIP."),
 	
 	
 	new TipsDef("Upload Local MOH Audio File",
