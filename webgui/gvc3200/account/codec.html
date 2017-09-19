@@ -302,6 +302,10 @@ fieldset div{margin-left:10px;}
                     <option value="3">BP/MP/HP</option>
                 </select>
             </div>
+            <div webtip="Use H.264 Constrained Profiles">
+                <div class="noreboot"><span id="a_useh264profile">Use H.264 Constrained Profiles</span> :</div>
+                <input name="useh264profile" type="checkbox" id="useh264profile"><span id="a_useh264profileyes">Yes</span>
+            </div>
             <div webtip="Video Bit Rate" style="width:740px;" class="h323mode">
                 <div class="noreboot"><span id="a_vidbr">Video Bit Rate</span> :</div>
                 <!--<input id="vbrate" name="vbrate" type="text"/><span id="vbraterange"></span>-->
@@ -683,6 +687,7 @@ function translate_codec(){
     $("#protype option:eq(1)").text(a_16121);
     $("#protype option:eq(2)").text(a_16122);
     $("#protype option:eq(3)").text(a_16123);
+    $("#a_useh264profile").text(a_19253);
     $("#a_h264payload").text(a_16124);
     $("#a_h263payload").text(a_16125);
     $("#a_L16_256payload").text(a_16126);
@@ -718,7 +723,7 @@ function translate_codec(){
     $("#a_decoderefresh").text(a_19235);
     $("#a_enablevideono").text(a_6);
     $("#a_slientrtp").text(a_16147);
-    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes, #a_initialinviteyes").text(a_5);
+    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes, #a_initialinviteyes, #a_useh264profileyes").text(a_5);
     $("#a_vidfr").text(a_16274);
     $("#vidframerate option:eq(0)").text("5 "+a_16277);
     $("#vidframerate option:eq(1)").text("15 "+a_16277);
@@ -776,6 +781,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("packetmodel", "26005", ""),
 				new ReqItem("imgsize", "2307", ""),
 				new ReqItem("protype", "2362", ""),
+                new ReqItem("useh264profile", "26045", ""),
 				new ReqItem("h264payload", "293", ""),
 				new ReqItem("h263payload", "350", ""),
                 new ReqItem("L16-256payload", "2300", ""),
@@ -845,6 +851,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("packetmodel", "26105", ""),
 				new ReqItem("imgsize", "2407", ""),
 				new ReqItem("protype", "2462", ""),
+                new ReqItem("useh264profile", "26145", ""),
 				new ReqItem("h264payload", "462", ""),
 				new ReqItem("h263payload", "473", ""),
                 new ReqItem("L16-256payload", "2400", ""),
@@ -909,6 +916,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("packetmodel", "26205", ""),
 				new ReqItem("imgsize", "2507", ""),
 				new ReqItem("protype", "2562", ""),
+                new ReqItem("useh264profile", "26245", ""),
 				new ReqItem("h264payload", "562", ""),
 				new ReqItem("h263payload", "573", ""),
                 new ReqItem("L16-256payload", "2500", ""),
@@ -993,6 +1001,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("ilibcfs", "695", ""),
 				new ReqItem("imgsize", "2607", ""),
                 new ReqItem("protype", "2662", ""),
+                new ReqItem("useh264profile", "26345", ""),
 				new ReqItem("h264payload", "662", ""),
                 new ReqItem("h263payload", "673", ""),
                 new ReqItem("L16-256payload", "2600", ""),
@@ -1056,6 +1065,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("packetmodel", "26405", ""),
 				new ReqItem("imgsize", "2707", ""),
                 new ReqItem("protype", "2762", ""),
+                new ReqItem("useh264profile", "26445", ""),
 				new ReqItem("h264payload", "1762", ""),
                 new ReqItem("h263payload", "1773", ""),
                 new ReqItem("L16-256payload", "2700", ""),
@@ -1120,6 +1130,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("packetmodel", "26505", ""),
 				new ReqItem("imgsize", "2807", ""),
                 new ReqItem("protype", "2862", ""),
+                new ReqItem("useh264profile", "26545", ""),
 				new ReqItem("h264payload", "1862", ""),
                 new ReqItem("h263payload", "1873", ""),
                 new ReqItem("L16-256payload", "2800", ""),
