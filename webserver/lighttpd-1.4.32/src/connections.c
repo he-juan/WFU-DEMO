@@ -1862,7 +1862,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             memset(targetname, 0, len);
             replace(disname, "\"", "\\\"", targetname);*/
 
-            if( email != NULL ){
+            if( email != NULL && strlen(email)){
                 len = strlen(email) * 2;
                 targetemail = malloc(len);
                 memset(targetemail, 0, len);
