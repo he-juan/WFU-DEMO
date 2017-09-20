@@ -788,7 +788,7 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
         snprintf(sqlstr, len, "select raw_contacts._id as raw_contacts_id,raw_contacts.chinese_pinyin as chinese_pinyin,raw_contacts.chinese_pinyin_first_letter as chinese_pinyin_first_letter from raw_contacts where _id=%d;", atoi(temp));
     }
     else if( !strcasecmp(type, "groups") ) {
-        snprintf(sqlstr, len, "select groups._id as groupid, groups.title as groupname, data.raw_contact_id from groups left join (select data1 as groups_id,raw_contact_id from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/group_membership')) as data on groups._id=data.groups_id where groups.deleted=0;");
+        snprintf(sqlstr, len, "select groups._id as groupid, groups.title as groupname, data.raw_contact_id from groups left join (select data1 as groups_id,raw_contact_id from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/group_membership')) as data on groups._id=data.groups_id where groups.deleted=0 and groups.auto_add=0 and groups.favorites=0;");
     }
     else if( !strcasecmp(type, "leftcalllogall") ) {
         temp = msg_get_header(m, "flag");
