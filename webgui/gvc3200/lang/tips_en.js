@@ -990,6 +990,8 @@ tip_item.push (
 		"Click the BROWSE button to load the contact file from PC to the device. Please make sure the file is XML format."),
     new TipsDef("File Encoding ",
 		"Selects the file encoding for download."),
+	new TipsDef("Emergency Call Numbers",
+		"Configures the emergency contact phone numbers. Input the number in the input box and click \"Add\" to add the number to the contacts list. To delete the existing emergency number, select the number in the contacts list and click \"Delete\"."),
 	
 	/*application settings IM*/	
 	new TipsDef("Google Talk",

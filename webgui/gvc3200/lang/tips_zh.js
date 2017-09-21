@@ -983,6 +983,8 @@ tip_item.push (
 		"从电脑本地直接浏览下载到设备，点击“浏览”，选择XML文件。"),
     new TipsDef("File Encoding ", "文件编码",
 		"该项用于设置联系人下载时支持的文件编码。"),
+	new TipsDef("Emergency Call Numbers", "紧急呼叫号码",
+		"紧急呼叫号码，用于设置紧急联系人电话号码。在输入框中填写号码后点击“添加”按钮即可将该号码添加到紧急联系人列表中。若需要删除紧急联系人号码，可选择紧急联系人列表中的号码，再点击列表框右方的“删除”按钮。"),
 	
 	/*application settings IM*/	
 	new TipsDef("Google Talk", "",

@@ -233,6 +233,9 @@ function pageEventActions(){
         }
         else if( $(this).attr("class").indexOf("hassubmenu") != -1 )
 	    {
+            if($(this).attr("class").indexOf("contacts") != -1){
+                cb_get_action("get&var-0000=198");
+            }
             if( $(this).children(".leftsecmenu").css("display") == "none" )
             {
                 $(this).siblings().removeClass("active");

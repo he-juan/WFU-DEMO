@@ -980,6 +980,8 @@ tip_item.push (
 		"Clique no botão NAVEGAR para carregar o arquivo dos contatos desde o PC no dispositivo. Por favor verifique que o arquivo está no formato XML."),
     new TipsDef("File Encoding ",
 		"Selecione a codificação do arquivo para baixar."),
+	new TipsDef("Emergency Call Numbers",
+		"Configures the emergency contact phone numbers. Input the number in the input box and click \"Add\" to add the number to the contacts list. To delete the existing emergency number, select the number in the contacts list and click \"Delete\"."),
 	
 	/*Configuração de aplicativos IM*/	
 	new TipsDef("Google Talk",

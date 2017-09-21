@@ -92,7 +92,7 @@ $(function(){
         if(e.keyCode == '13') {
 			if($("#jqibox").length != 0)
 				$("#jqibox").remove();
-		    if( $.cookie( "Mainpage") != "apps" || ($.cookie( "Mainpage") == "apps" && $.cookie("Subpage") == "ldap")){
+		    if( $.cookie( "Mainpage") != "apps" || ($.cookie( "Mainpage") == "apps" && ($.cookie("Subpage") == "ldap" || $.cookie("Subpage") == "emergency"))){
                 $("#a_save").click();
 			    return false;
 			}else{
@@ -115,7 +115,7 @@ $(function(){
     //set maindiv and body hight
     var height = $("#Formvalidate").outerHeight()-70;
     //$(".formDiv").css("height",height);
-    if($.cookie("Mainpage") == "apps" && $.cookie("Subpage") != "ldap")
+    if($.cookie("Mainpage") == "apps" && ($.cookie("Subpage") != "ldap" && $.cookie("Subpage") != "emergency"))
     {
         var bodyheight = $("#mainbody").outerHeight()-2;
         $("#leftdiv,#rightdiv").css("height",bodyheight);
