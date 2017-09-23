@@ -306,8 +306,10 @@ function cb_get_action_done(data, action){
         if( action == "coloreExist" )
         {
             var coloreexist = msgs.headers['coloreexist'];
+            $.cookie( "coloreExist", coloreexist , { path: '/', expires: 10 });
+            
             if( (coloreexist == 54 || coloreexist == 3) && !$.cookie( "MyLanguage") ){
-                $.cookie( "MyLanguage" ,  "zh" , { path: '/', expires: 10 });
+                $.cookie( "MyLanguage", "zh" , { path: '/', expires: 10 });
                 $('#languagepage').val("zh");
                 $("#languagepage").resetSS();
             }

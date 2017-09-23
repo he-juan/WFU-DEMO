@@ -540,8 +540,14 @@ body{background-color:#EFF0F1;}
 	}
     $('#languagepage').val(cookie_lang);
     document.write("<script src='lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
-	document.write("<script src='lang/tips_" + cookie_lang + ".js?ver=" + version + "'><\/script>");
-
+    
+    var oemid = $.cookie("coloreExist");
+    if(oemid == "54"){
+        document.write("<script src='lang/tips_" + cookie_lang + "_oem.js?ver=" + version + "'><\/script>");
+    }
+    else{
+        document.write("<script src='lang/tips_" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+    }
 </script>
 
 <script type="text/javascript">
@@ -1089,6 +1095,8 @@ function cb_get_colore_exist() {
 function cb_get_colore_exist_done(data){
     var msgs = res_parse_rawtext(data);
 	var coloreexist = msgs.headers['coloreexist'];
+    $.cookie( "coloreExist", coloreexist , { path: '/', expires: 10 });
+    
 	if( coloreexist == 3 ) {
         $('#existcolore').val('1');
         $("#account2_general, #account3_general").hide();
