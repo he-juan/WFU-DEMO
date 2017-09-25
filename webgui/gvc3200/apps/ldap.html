@@ -138,10 +138,10 @@ $(function(){
 	$("#connectmode").sSelect();
     $("#Formvalidate").validate({
 		rules: {
-			port: { digits: true, range: [1,65535] },
-            maxhits: { digits: true, range: [0,4000] },
+			port: { integer: true, range: [1,65535] },
+            maxhits: { integer: true, range: [0,4000] },
             username: { maxlength: 128 },
-            timeout: { digits: true, range: [1,180] }
+            timeout: { integer: true, range: [1,180] }
         },
 		errorElement: "em",
 		success: function(label) { label.text(" ").addClass("success"); }

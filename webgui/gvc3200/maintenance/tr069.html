@@ -82,7 +82,7 @@
             </div>
             <div webtip="Periodic Inform Interval">
                 <div class="rebootitem"><span id="a_perialinterval">Periodic Inform Interval</span> :</div>
-                <input name="perialinterval" type="text" id="perialinterval" /><span class="rebootspan"></span>
+                <input name="perialinterval" type="text" id="integer" /><span class="rebootspan"></span>
             </div>
             <div webtip="Connection Request Username">
                 <div class="rebootitem"><span id="a_conusername">Connection Request Username</span> :</div>
@@ -179,10 +179,10 @@ function setInitState(){
     $("#Formvalidate").validate({
 		rules: {
 		    acsurl:"url",
-			perialinterval: {digits: true },
+			perialinterval: {integer: true },
             conusername: { maxlength: 64 },
             conpwd: { maxlength: 64 },
-            conport: { digits:true, range:[0, 65535] }
+            conport: { integer:true, range:[0, 65535] }
         },
 		errorElement: "em",
 		success: function(label) { label.text(" "); }

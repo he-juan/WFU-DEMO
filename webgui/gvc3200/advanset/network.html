@@ -472,20 +472,20 @@ function setInitState(){
 		rules: {
 		    dhcpop12: { maxlength: 40 },
             dhcpop60: { maxlength: 40 },
-            /*ipaddress: { required:true, digits: true, range:[0,255] },
-            submask: { required:true, digits: true, range:[0,255] },
-            dftgateway: { required:true, digits: true, range:[0,255] },
-            dnsserver1: { required:true, digits: true, range:[0,255] },
-            dnsserver2: { required:true, digits: true, range:[0,255] },*/
-            //secaltserver: { digits: true, range:[0,255] },
-            //altserver: { digits: true, range:[0,255] },
-            //layer3qos: { digits: true, range:[0,63] },
-            layer3qossip: { digits: true, range:[0,63] },
-            layer3qosaudio: { digits: true, range:[0,63] },
-            layer3qosvideo: { digits: true, range:[0,63] },
-            layer2qos: { required:true, digits: true, range:[0,4094] },
-            layer2qospv: { required:true, digits: true, range:[0,7] },
-            proxyhttpport: { digits: true, range:[0,65535] },
+            /*ipaddress: { required:true, integer: true, range:[0,255] },
+            submask: { required:true, integer: true, range:[0,255] },
+            dftgateway: { required:true, integer: true, range:[0,255] },
+            dnsserver1: { required:true, integer: true, range:[0,255] },
+            dnsserver2: { required:true, integer: true, range:[0,255] },*/
+            //secaltserver: { integer: true, range:[0,255] },
+            //altserver: { integer: true, range:[0,255] },
+            //layer3qos: { integer: true, range:[0,63] },
+            layer3qossip: { integer: true, range:[0,63] },
+            layer3qosaudio: { integer: true, range:[0,63] },
+            layer3qosvideo: { integer: true, range:[0,63] },
+            layer2qos: { required:true, integer: true, range:[0,4094] },
+            layer2qospv: { required:true, integer: true, range:[0,7] },
+            proxyhttpport: { integer: true, range:[0,65535] },
             ipv6dns1: {ipv6: true},
             ipv6dns2: {ipv6: true},
             prefdnsserver: {ipv6: true}
@@ -1056,7 +1056,7 @@ function pageEventActions(){
         }
         else if( nettype == "1" )
         {
-            $("input[name=ipaddress]").rules("add", { required: true, digits: true, range:[0,255] });
+            $("input[name=ipaddress]").rules("add", { required: true, integer: true, range:[0,255] });
             if( !$("input[name=ipaddress]").valid() )
             {
                 view_message(a_16442,MSG_FAIL);
@@ -1071,7 +1071,7 @@ function pageEventActions(){
                 view_message(a_4246,MSG_FAIL);
                 return false;
             }
-            $("input[name=submask]").rules("add", { required: true, digits: true, range:[0,255] });
+            $("input[name=submask]").rules("add", { required: true, integer: true, range:[0,255] });
             if( !$("input[name=submask]").valid() )
             {
                 view_message(a_16442,MSG_FAIL);
@@ -1088,7 +1088,7 @@ function pageEventActions(){
                 view_message(a_4247,MSG_FAIL);
                 return false;
             }
-            $("input[name=dftgateway]").rules("add", { required: true, digits: true, range:[0,255] });
+            $("input[name=dftgateway]").rules("add", { required: true, integer: true, range:[0,255] });
             if( !$("input[name=dftgateway]").valid() )
             {
                 view_message(a_16442,MSG_FAIL);
@@ -1098,7 +1098,7 @@ function pageEventActions(){
             $("#gateway2").val( parseInt($("#gateway2").val()) );
             $("#gateway3").val( parseInt($("#gateway3").val()) );
             $("#gateway4").val( parseInt($("#gateway4").val()) );
-            $("input[name=dnsserver1]").rules("add", { required: true, digits: true, range:[0,255] });
+            $("input[name=dnsserver1]").rules("add", { required: true, integer: true, range:[0,255] });
             if( !$("input[name=dnsserver1]").valid() )
             {
                 view_message(a_16442,MSG_FAIL);
@@ -1110,7 +1110,7 @@ function pageEventActions(){
             $("#prednsser4").val( parseInt($("#prednsser4").val()) );
             if( $("input[name=dnsserver2]:filled").length > 0 )
 		    {
-		    	$("input[name=dnsserver2]").rules("add", { required: true, digits: true, range:[0,255] });
+		    	$("input[name=dnsserver2]").rules("add", { required: true, integer: true, range:[0,255] });
 		        if( !$("input[name=dnsserver2]").valid() )
 		        {
 		            view_message(a_16442,MSG_FAIL);
@@ -1126,7 +1126,7 @@ function pageEventActions(){
         }
         
         if( $("#relprednsser1").val() != "" || $("#relprednsser2").val() != "" || $("#relprednsser3").val() != "" || $("#relprednsser4").val() != "" ) {
-            $("input[name=altserver]").rules("add", { required: true, digits: true, range:[0,255] });
+            $("input[name=altserver]").rules("add", { required: true, integer: true, range:[0,255] });
             if( !$("input[name=altserver]").valid() )
             {
                 view_message(a_16442,MSG_FAIL);
@@ -1141,7 +1141,7 @@ function pageEventActions(){
         }
         //if( $("input[name=secaltserver]").val() != "" ) {
         if( $("#secrelprednsser1").val() != "" || $("#secrelprednsser2").val() != "" || $("#secrelprednsser3").val() != "" || $("#secrelprednsser4").val() != "" ) {
-            $("input[name=secaltserver]").rules("add", { required: true, digits: true, range:[0,255] });
+            $("input[name=secaltserver]").rules("add", { required: true, integer: true, range:[0,255] });
             if( !$("input[name=secaltserver]").valid() )
             {
                 view_message(a_16442,MSG_FAIL);
@@ -1172,7 +1172,7 @@ function pageEventActions(){
 
         if ($("#ipv6addr").val() == 1) {
             $("#staticipv6addr").rules('add', {required: true, ipv6: true});
-            $("#ipv6prefixlen").rules('add', {required: true, digits: true, range:[1,128]});
+            $("#ipv6prefixlen").rules('add', {required: true, integer: true, range:[1,128]});
             if (!$("#staticipv6addr, #ipv6prefixlen").valid()) {
                 view_message(a_16442,MSG_FAIL);
                 return false;

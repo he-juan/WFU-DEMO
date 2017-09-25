@@ -343,9 +343,9 @@ function setInitState(){
     $("#confmenu, #updatevia, #updateconfigvia, #custvia, #mdns, #autoup, #updaterule").sSelect();
     $("#Formvalidate").validate({
 		rules: {
-            hourofday: { digits: true, range:[0,23] },
-            dayofweek: { digits: true, range:[0,6] },
-            peroid: { digits: true, range:[60,5256000] }
+            hourofday: { integer: true, range:[0,23] },
+            dayofweek: { integer: true, range:[0,6] },
+            peroid: { integer: true, range:[60,5256000] }
         },
 		errorElement: "em",
 		success: function(label) { label.text(" "); }

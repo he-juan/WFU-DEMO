@@ -278,8 +278,8 @@ function setInitState(){
     },a_16685);
     $("#Formvalidate").validate({
 		rules: {
-			rtpport: { digits:true, range:[1024,65400], even:true },
-            keepalive: { digits:true, range:[10,160] },
+			rtpport: { integer:true, range:[1024,65400], even:true },
+            keepalive: { integer:true, range:[10,160] },
             stunserver: { url: true},
             stunservername: { maxlength: 128 },
             stunserverpwd: { maxlength: 128 }

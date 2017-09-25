@@ -221,8 +221,8 @@ function setInitState(){
     $("#Formvalidate").validate({
 		rules: {
             //secsipserver: { url:true, maxlength: 64 },
-            regexp: { digits:true, range:[1,1440] },
-            localport: { digits:true, range:[1024,65535] },
+            regexp: { integer:true, range:[1,1440] },
+            localport: { integer:true, range:[1024,65535] },
             authpwd: { maxlength: 64 }
         },
 		errorElement: "em",
