@@ -1119,7 +1119,7 @@ tip_item.push (
     new TipsDef("HDMI Out Resolution",
         "Configura a resolução de saída de imagem para o HDMI. Um valor de resolução superior quer dizer que a definição da imagem será maior. Por favor selecione a mesma resolução que o dispositivo de exibição de saída. O dispositivo lerá de maneira automática a resolução suportada pelo dispositivo de saída e a comparará com a resolução suportada por ele. Se utilizará unicamente a resolução suportada por ambos os dispositivos. O dispositivo obterá de maneira automática a resolução ótima quando ele for inicializado pela primeira vez."),
     new TipsDef("Move Speed",
-        "Especifica a velocidade de movimento e zoom para a câmera. \"1\" é o mais lento e \"16\" é mais rápido. A configuração padrão é \"5\"."),
+        "Especifica a velocidade de movimento e zoom para a câmera. \"1\" é o mais lento e \"16\" é mais rápido. A configuração padrão é \"1\"."),
     new TipsDef("Initial Position",
         "Especifica a posição inicial da câmera quando o dispositivo é ligado.<br/>Padrão: a câmera move-se para a posição padrão após a inicialização.<br/>Predefinição 1: a câmera move-se para a predefinição 1 após a inicialização. A predefinição 1 deve ser configurada antes da reinicialização.<br/>Última Posição: após a inicialização, a câmera move-se para a última posição antes da reinicialização. A configuração padrão é Padrão."),
     new TipsDef("VGA In ",
