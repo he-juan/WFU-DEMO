@@ -3663,13 +3663,30 @@ static int handle_get(buffer *b, const struct message *m)
         if( var != NULL )
             uri_decode(var);
 #ifndef BUILD_RECOVER
-        if ( (var == NULL) )
-        {
-            break;
-        }else if( protected_pvalue_find(pvalue_protect, (char *) var) )
-        {
-            continue;
-        }
+		if ( (var == NULL) )
+		{
+			break;
+		}
+		else if( protected_pvalue_find(pvalue_protect, (char *) var) )
+		{
+			continue;
+		}
+		else{
+			int tempvar = atoi(var);
+			
+			switch(tempvar)
+			{
+				case 34:        /*acct1-6 sip account passwords*/
+				case 406:
+				case 506:
+				case 606:
+				case 1706:
+				case 1806:
+				case 2:         /*admin password*/
+				case 196:       /*user password*/
+					continue;
+			}
+		}
 #else
         if ( (var == NULL) )
         {
@@ -20247,6 +20264,12 @@ static int handle_setheadsettype (buffer *b, const struct message *m)
 
 static int process_upload(server *srv, connection *con, buffer *b, const struct message *m)
 {
+	if (!valid_connection(con))
+	{
+		buffer_append_string(b, "Response=Error\r\nMessage=Authentication Required\r\n");
+		return -1;
+	}
+	
     printf("process_upload---------\r\n");
     //FILE *file_fd = NULL;
     int file_fd;
