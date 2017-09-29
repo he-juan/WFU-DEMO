@@ -200,8 +200,8 @@ function setInitState(){
     $("#dfttrnfmode,#enablefncall, #entrymute, #avspipmode").sSelect();  
     $("#Formvalidate").validate({
 		rules: { 
-		        confpincode: { integer:true },
-				ofhtimeout: { integer:true, range:[10,60] }
+		        confpincode: { digits:true },
+				ofhtimeout: { digits:true, range:[10,60] }
 		},
 		errorElement: "em",
 		success: function(label) { label.text(" ").addClass("success"); }

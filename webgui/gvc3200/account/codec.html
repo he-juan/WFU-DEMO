@@ -617,20 +617,20 @@ function setInitState(){
     }*/
     $("#Formvalidate").validate({
 		rules: {
-            dtmfpayload: { integer:true, range:[96,126] },
-			vocfp: { integer:true, range:[1,64] },
-            jittermax: { integer:true, range:[0,1000] },
-            g722payload: { required:true, integer:true, range:[96,126] },
-            g7221cpayload: { integer:true, range:[96,126] },
-            opuspayload: { integer:true, range:[96,126] },
-            h263payload: { integer:true, range:[96,127] },
-            h264payload: { integer:true, range:[96,127] },
-            L16_256payload: { integer:true, range:[96,127] },
-            fecpayload: { integer:true, range:[96,127] },
-            audiofecpayload: {integer:true, range:[96,127]},
-            audioredpayload: {integer:true, range:[96,127]},
-            fecredpayload: { integer:true, range:[96,127] },
-            feccpayload: { integer:true, range:[96,127] }
+            dtmfpayload: { digits:true, range:[96,126] },
+			vocfp: { digits:true, range:[1,64] },
+            jittermax: { digits:true, range:[0,1000] },
+            g722payload: { required:true, digits:true, range:[96,126] },
+            g7221cpayload: { digits:true, range:[96,126] },
+            opuspayload: { digits:true, range:[96,126] },
+            h263payload: { digits:true, range:[96,127] },
+            h264payload: { digits:true, range:[96,127] },
+            L16_256payload: { digits:true, range:[96,127] },
+            fecpayload: { digits:true, range:[96,127] },
+            audiofecpayload: {digits:true, range:[96,127]},
+            audioredpayload: {digits:true, range:[96,127]},
+            fecredpayload: { digits:true, range:[96,127] },
+            feccpayload: { digits:true, range:[96,127] }
         },		
 		errorElement: "em",
         errorPlacement: function(error, element) { 

@@ -1020,8 +1020,8 @@ function setInitState(){
     translate_call();
     $("#Formvalidate").validate({
 		rules: {
-                forwardwt: { integer:true, required:true, range:[1,120] },
-                ringto: { integer:true, range:[0,300] }
+                forwardwt: { digits:true, required:true, range:[1,120] },
+                ringto: { digits:true, range:[0,300] }
         },
 
 		errorElement: "em",

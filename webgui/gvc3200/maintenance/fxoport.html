@@ -141,7 +141,7 @@ function setInitState(){
     $("#country_based, #impedance_based, #calleridscheme").sSelect({ddMaxHeight:'270px'});
     $("#Formvalidate").validate({
 		rules: {
-			cudisthreshold: { integer:true, range:[50, 800] },
+			cudisthreshold: { digits:true, range:[50, 800] },
             pstndistone: { maxlength: 128 }
         },
 		errorElement: "em",

@@ -605,12 +605,12 @@ function setInitState(){
     translate_sip();
     $("#unreg, #uacref, #uasref, #siptranport, #callerdisplay, #sipt1to, #sipt2int, #rtpipfilter, #usepheader, #useppiheader").sSelect();
     $("#Formvalidate").validate({
-		rules: {regexp: { integer:true, range:[1,64800] },
-                retrytime: { integer:true, range:[1,3600] },
-                sipport: { integer:true, range:[5,65535] },
-                seexp: { required:true, integer:true, range:[90, 64800] },
-                minse: { integer:true, range:[90, 64800] },
-                lineseizetime: { integer:true, range:[15,60] }
+		rules: {regexp: { digits:true, range:[1,64800] },
+                retrytime: { digits:true, range:[1,3600] },
+                sipport: { digits:true, range:[5,65535] },
+                seexp: { required:true, digits:true, range:[90, 64800] },
+                minse: { digits:true, range:[90, 64800] },
+                lineseizetime: { digits:true, range:[15,60] }
         },		
  		errorElement: "em",
 		success: function(label) { label.text(" ").addClass("success"); }

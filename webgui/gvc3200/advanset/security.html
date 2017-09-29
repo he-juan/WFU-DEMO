@@ -234,7 +234,7 @@ function setInitState(){
     $("#accessmethod").sSelect();
     $("#Formvalidate").validate({
 		rules: {
-			port: { integer:true, range: [1,65535], required:true },
+			port: { digits:true, range: [1,65535], required:true },
             sslpkey: { maxlength: 2048 },
             sslcer: { maxlength: 2048 },
             sslpkpwd: { maxlength: 2048 },
