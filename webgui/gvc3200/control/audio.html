@@ -30,7 +30,7 @@ body{}
                 <div class="noreboot" style="margin-top:22px !important;"><span id="a_echodelay">Echo Delay</span> :</div>
                 <div class="startspan"></div>
                 <div class="dragContainer">
-                    <div id="dragEchoDelay" class="dragDiv" curvalue="0" max="9">
+                    <div id="dragEchoDelay" class="dragDiv" curvalue="0" min="-2" max="9">
                         <div class="voldragDiv"></div>
                         <div class="volchangeDiv"></div>
                         <div class="volimg"><span class="volspan" id="echodelayspan"></span></div>
@@ -42,7 +42,7 @@ body{}
                 <div class="noreboot" style="margin-top:22px !important;"><span id="a_ringtonevol">Ringtone Volume</span> :</div>
                 <div class="startspan"></div>
                 <div class="dragContainer">
-                    <div id="dragRingtoneDiv" class="dragDiv" curvalue="4" max="7">
+                    <div id="dragRingtoneDiv" class="dragDiv" curvalue="4" min="0" max="7">
                         <div class="voldragDiv"></div>
                         <div class="volchangeDiv"></div>
                         <div class="volimg"><span class="volspan" id="ringtonespan"></span></div>
@@ -54,7 +54,7 @@ body{}
                 <div class="noreboot" style="margin-top:22px !important;"><span id="a_meidavol">Media Volume</span> :</div>
                 <div class="startspan"></div>
                 <div class="dragContainer">
-                    <div id="dragMediaDiv" class="dragDiv" curvalue="10" max="15">
+                    <div id="dragMediaDiv" class="dragDiv" curvalue="10" min="0" max="15">
                         <div class="voldragDiv"></div>
                         <div class="volchangeDiv"></div>
                         <div class="volimg"><span class="volspan" id="mediaspan"></span></div>
@@ -66,7 +66,7 @@ body{}
                 <div class="noreboot" style="margin-top:22px !important;"><span id="a_alertvol">Notification Volume</span> :</div>
                 <div class="startspan"></div>
                 <div class="dragContainer">
-                    <div id="dragNotifyDiv" class="dragDiv" curvalue="4" max="7">
+                    <div id="dragNotifyDiv" class="dragDiv" curvalue="4" min="0" max="7">
                         <div class="voldragDiv"></div>
                         <div class="volchangeDiv"></div>
                         <div class="volimg"><span class="volspan" id="notifyspan"></span></div>
@@ -78,7 +78,7 @@ body{}
                 <div class="noreboot" style="margin-top:22px !important;"><span id="a_speakervol">Speaker Volume</span> :</div>
                 <div class="startspan"></div>
                 <div class="dragContainer">
-                    <div id="dragSpeakerDiv" class="dragDiv" curvalue="10" max="15">
+                    <div id="dragSpeakerDiv" class="dragDiv" curvalue="10" min="0" max="15">
                         <div class="voldragDiv"></div>
                         <div class="volchangeDiv"></div>
                         <div class="volimg"><span class="volspan" id="speakerspan"></span></div>
@@ -290,21 +290,23 @@ function cb_get_action_done(data, action){
                 axis:"x", 
                 containment: $(".dragContainer"),
                 create:function(event,ui){
-                    var maxval = $(this).parent(".dragDiv").attr("max");
-                    var curval = $(this).parent(".dragDiv").attr("curvalue");
-                    $(this).parent().parent().siblings(".startspan").text(0);
+                    var maxval = parseInt($(this).parent(".dragDiv").attr("max"));
+                    var minval = parseInt($(this).parent(".dragDiv").attr("min"));
+                    var curval = parseInt($(this).parent(".dragDiv").attr("curvalue"));
+                    $(this).parent().parent().siblings(".startspan").text(minval);
                     $(this).parent().parent().siblings(".endspan").text(maxval);
-                    var width = curval*200/maxval;
+                    var width = (curval - minval) * 200 / (maxval - minval);
                     //console.log(width);
                     $(this).css("left",width).prev(".volchangeDiv").css("width",width);
                     $(this).children(".volspan").text(curval);
                 },
                 drag:function(event,ui){
-                    var maxval = $(this).parent(".dragDiv").attr("max");
+                    var maxval = parseInt($(this).parent(".dragDiv").attr("max"));
+                    var minval = parseInt($(this).parent(".dragDiv").attr("min"));
                     $(this).prev(".volchangeDiv").css("width",ui.position.left);
                     //console.log(ui.position.left);
-                    var vol = (maxval/200)*ui.position.left;
-                    vol = fomatFloat(vol,0);
+                    var vol = (maxval - minval) / 200 * ui.position.left;
+                    vol = fomatFloat(vol,0) + minval;
                     $(this).children(".volspan").text(vol);
                 }
             });
