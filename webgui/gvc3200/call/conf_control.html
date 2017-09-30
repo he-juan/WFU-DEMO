@@ -1185,7 +1185,7 @@ var mHdmi2state = 0;
 var mHdmiModeContent = new Array();
 var mIsSysrcmd = 0; /*judge layout mode is system recommand mode or not*/
 var mIsSysrcmdBefore = 0;
-var mConfrole;  //0-normal 1-guest 2-host
+var mConfrole;  //0-normal 1-guest 2-host 3-panelists
 var promptTxt = "";
 var mInterval;
 
@@ -2721,11 +2721,18 @@ function handle_ipvtoperatecmr(data){
 }
 
 function handle_ipvtchangehost(data){
-    var state = data.state;  //0-change to host  1-change to guest
-    if(state == "0")
-        mConfrole = "2";
-    else if(state == "1")
-        mConfrole = "1";
+    var state = data.state;  //0-change to host  1-change to guest  2-change to panelists
+    switch (state) {
+        case "0":
+            mConfrole = "2";
+            break;
+        case "1":
+            mConfrole = "1";
+            break;
+        case "2":
+            mConfrole = "3";
+            break;
+    }
     
     showhandsup();
 }
@@ -2755,7 +2762,7 @@ function handle_ipvtrcdoperate(data){
 }
 
 function showhandsup(){
-    if($(".remoteline[account=1]").length > 0 && mConfrole == "1"){
+    if($(".remoteline[account=1]").length > 0 && (mConfrole == "1" || mConfrole == "3")){
         var callstate = $(".remoteline[account=1]").attr("state");
         if(callstate == 4 || callstate == 5){
             $("#handsup").css("display", "inline-block");
@@ -4314,7 +4321,7 @@ function cb_get_action_done(data, action) {
         }else if(action.indexOf("getipvrole") != -1){
             var tObj = eval("(" + data + ")");
             if(tObj.res == "success"){
-                mConfrole = tObj.role;  //0-normal 1-guest 2-host
+                mConfrole = tObj.role;  //0-normal 1-guest 2-host 3-panelists
                 if(action.indexOf("init") != -1){
                     //setTimeout(showhandsup(), 100);
                     cb_get_action("isipvthandup&region=confctrl");
@@ -4323,7 +4330,7 @@ function cb_get_action_done(data, action) {
                 else if(action.indexOf("closeprompt") != -1){
                     if(mConfrole == "2")
                         promptTxt = a_10224;
-                    else if(mConfrole == "1")
+                    else if(mConfrole == "1" || mConfrole == "3")
                     {
                         if($(".remoteline[account=0]").length > 0)
                             promptTxt = a_19354;
