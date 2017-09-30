@@ -20311,7 +20311,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
         //file_fd = fopen(file_name, "w+");
         if( strcasecmp(file_name, FIFO_PATH) == 0 )
         {
-            file_fd = open( file_name, O_WRONLY );
+            file_fd = open( file_name, O_WRONLY | O_NONBLOCK);
         }else
         {
             if( !access(file_name, 0) )
