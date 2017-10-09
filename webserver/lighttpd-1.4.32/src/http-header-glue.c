@@ -254,6 +254,18 @@ int http_response_handle_cachable(server *srv, connection *con, buffer *mtime) {
 	 *    request. That is, if no entity tags match, then the server MUST NOT
 	 *    return a 304 (Not Modified) response.
 	 */
+	 
+	 /*  avoid the chrome's bug(ver 53) which will cause the css file disappear if the 
+     *  page has iframe and the css file's reponse status is 304
+     */
+    stat_cache_entry *sce = NULL;
+    char *c = NULL;
+
+    if (HANDLER_ERROR != stat_cache_get_entry(srv, con, con->physical.path, &sce)) {
+        if (NULL != (c = buffer_search_string_len(sce->content_type, CONST_STR_LEN("text/css")))) {
+            return HANDLER_GO_ON;
+        }
+    }
 
 	/* last-modified handling */
 	if (con->request.http_if_none_match) {

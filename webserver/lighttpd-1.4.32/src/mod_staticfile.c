@@ -361,6 +361,7 @@ URIHANDLER_FUNC(mod_staticfile_subrequest) {
 	buffer *mtime = NULL;
 	data_string *ds;
 	int allow_caching = 1;
+	char *c = NULL;
 
 	/* someone else has done a decision for us */
 	if (con->http_status != 0) return HANDLER_GO_ON;
@@ -469,22 +470,37 @@ URIHANDLER_FUNC(mod_staticfile_subrequest) {
 	}
 
 	if (allow_caching) {
-		if (p->conf.etags_used && con->etag_flags != 0 && !buffer_is_empty(sce->etag)) {
-			if (NULL == array_get_element(con->response.headers, "ETag")) {
-				/* generate e-tag */
-				etag_mutate(con->physical.etag, sce->etag);
+		/*  avoid the chrome's bug(ver 53) which will cause the css file disappear if the 
+         *  page has iframe and the css file's reponse header contain the 'ETag' and 'Last-Modified'
+         */
+        if (NULL == (c = (buffer_search_string_len(sce->content_type, CONST_STR_LEN("text/css"))))) {
+		    if (p->conf.etags_used && con->etag_flags != 0 && !buffer_is_empty(sce->etag)) {
+			    if (NULL == array_get_element(con->response.headers, "ETag")) {
+				    /* generate e-tag */
+				    etag_mutate(con->physical.etag, sce->etag);
 
-				response_header_overwrite(srv, con, CONST_STR_LEN("ETag"), CONST_BUF_LEN(con->physical.etag));
-			}
-		}
+				    response_header_overwrite(srv, con, CONST_STR_LEN("ETag"), CONST_BUF_LEN(con->physical.etag));
+			    }
+		    }
 
-		/* prepare header */
-		if (NULL == (ds = (data_string *)array_get_element(con->response.headers, "Last-Modified"))) {
-			mtime = strftime_cache_get(srv, sce->st.st_mtime);
-			response_header_overwrite(srv, con, CONST_STR_LEN("Last-Modified"), CONST_BUF_LEN(mtime));
-		} else {
-			mtime = ds->value;
-		}
+		    /* prepare header */
+		    if (NULL == (ds = (data_string *)array_get_element(con->response.headers, "Last-Modified")) ) {
+			    mtime = strftime_cache_get(srv, sce->st.st_mtime);
+			    response_header_overwrite(srv, con, CONST_STR_LEN("Last-Modified"), CONST_BUF_LEN(mtime));
+		    } else {
+			    mtime = ds->value;
+		    }
+        }
+		
+		if (NULL == array_get_element(con->response.headers, "Cache-Control")) {
+            /* generate cache-control */
+            response_header_overwrite(srv, con, CONST_STR_LEN("Cache-Control"), CONST_STR_LEN("no-cache"));
+        }
+
+        if (NULL == array_get_element(con->response.headers, "Pragma")) {
+            /* generate pragma */
+            response_header_overwrite(srv, con, CONST_STR_LEN("Pragma"), CONST_STR_LEN("no-cache"));
+        }
 
 		if (HANDLER_FINISHED == http_response_handle_cachable(srv, con, mtime)) {
 			return HANDLER_FINISHED;
