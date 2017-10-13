@@ -3307,7 +3307,8 @@ function pageEventActions(){
     $("#addcontact").click(function(){
         mEditMode = 1;
         mTempDurationTime = 60;
-        var nowtime = convertCurrentTime();
+        var starttime = new Date().getTime() + 5 * 60 * 1000;  // default start time would be 5 minites later than current time
+        var nowtime = convertCurrentTime(starttime);
         var endtime = convertEndTime(nowtime,60);
         $("#changemembercancelbtn").click();
         //$("#cancelbtn").click();
