@@ -275,6 +275,9 @@ function handlemessage(data){
         case "IPVT_record_state":
             confFrame.handle_ipvtrcdoperate(data);
             break;
+        case "schedule_event_operate":
+            myFrame.handle_scheventoperate(data);
+            break;
         case "goto_sleep":
             change_to_sleep_mode();
             break;

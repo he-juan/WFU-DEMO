@@ -1418,16 +1418,20 @@ function cb_get_action_done(data, action) {
                         $("#itemsdiv #"+old_time).remove();
                 }
                 $("#delscheduleall").attr("disabled","disabled").addClass("deldisable");
+                if($("#selectall").prop("checked")){
+                    $("#selectall").prop("checked", false);
+                }
+                
                 if( $("#schedule_" + mSelectId).length == 0 ){
                     if( $("#itemsdiv .itemdiv").length > 0 ) 
                         $("#itemsdiv .itemdiv").eq(0).click();
                     else{
-                        /*$("#cancelbtn").click();
+                        $("#cancelbtn").click();
                         $("#delscheduleall").attr("disabled","disabled").addClass("deldisable");
                         $("#showmembernum").text("").hide();
-                        $("#detailautoanswer,#detaildnd").text("");*/
+                        $("#detailautoanswer,#detaildnd").text("");
                         $(".noscheudlediv").show();
-                        //$("#persondiv,#rightbtn,#itemsdiv").hide();
+                        $("#persondiv,#rightbtn,#itemsdiv").hide();
                     }
                 }else{
                     $("#schedule_" + mSelectId).click();
@@ -2066,8 +2070,6 @@ function add_calllog_to_schedule(numbers,names,accts,recordfrom)
             memberemail = "";
         }
         
-        
-        
         var stringdiv = memberdiv + membericon + membername + membernum + memberemail + "</div>";
         memberstring += stringdiv;
     }
@@ -2513,6 +2515,15 @@ function handle_endcall(){
         $("#schedulecallbtn").hide().appendTo($("#mainbody"));
         $("#itemsdiv .datediv").remove();
         setTimeout("get_schedule()", 500);
+    }
+}
+
+/*if google conference delete failed regain the data of schedule*/
+function handle_scheventoperate(data){
+    if(data.type == "3" && data.state == "0"){
+        $("#schedulecallbtn").hide().appendTo($("#mainbody"));
+        $("#itemsdiv .datediv").remove();
+        get_schedule();
     }
 }
 
