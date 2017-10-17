@@ -10837,6 +10837,9 @@ static int handle_provisioninit(buffer *b, const struct message *m)
         buffer_append_string (b, "0");
         return 0;
     }
+    
+    system("stop provision");
+    
     char *temp = NULL;
     temp = msg_get_header( m, "upgradeall" );
     if( temp != NULL ){
