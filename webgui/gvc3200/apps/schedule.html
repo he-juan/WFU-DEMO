@@ -2049,7 +2049,26 @@ function add_calllog_to_schedule(numbers,names,accts,recordfrom)
         var memberdiv = "<div class='memberdiv' confid=\""+confid+"\" number=\""+numberarray[n]+"\" isdelete=0 isexist=1 notsave=1 acctindex=\""+acctarray[n]+"\" recordfrom=" + recordarray[n] + ">";
         var membername = "<div class='membername'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div>";
         var membernum = "<div class='membernumber'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div>";
-        var stringdiv = memberdiv + membericon + membername + membernum + "</div>";
+        
+        var membername, membernum, memberemail;
+        if( mHasGoogle ){
+            membername = "<div class='membername'><div class='membernametop'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div><div class='membernamebot'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div></div>";
+            membernum = "<div class='membernumber' style='display:none;'><span class='emailspan' title=''></span></div>";
+            if( $("#relatedacct").val() != "1" ){   
+                memberemail = "<div class='memberemail' style='display:block;'><input class='emailinput' type='text' title=\""+a_302+"\"/></div>";
+            }else{
+                memberemail = "<div class='memberemail' style='display:none;'><input class='emailinput' type='text' title=\""+a_302+"\" /></div>";
+            }
+            
+        }else{
+            membername = "<div class='membername'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div>";
+            membernum = "<div class='membernumber'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div>";
+            memberemail = "";
+        }
+        
+        
+        
+        var stringdiv = memberdiv + membericon + membername + membernum + memberemail + "</div>";
         memberstring += stringdiv;
     }
     $("#membersdiv").append(memberstring);
