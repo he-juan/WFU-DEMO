@@ -286,6 +286,13 @@ fieldset div{margin-left:10px;}
                     <option value="2">Auto</option>
                 </select>
             </div>
+            <div webtip="Video Codec">
+                <div class="noreboot"><span id="a_videocodec">Video codec</span> :</div>
+                <select id="videocodec" name="videocodec">
+                    <option value="0">H.264</option>
+                    <option value="1">H.265</option>
+                </select>
+            </div>
             <div webtip="H.264 Image Size" class="h323mode">
                 <div class="noreboot"><span id="a_h264imgsize">H.264 image size</span> :</div>
                 <select id="imgsize" name="imgsize">
@@ -507,12 +514,13 @@ fieldset div{margin-left:10px;}
 	var mPromodel = "GVC3200";
     var mPresentfps = 0;
     var oldpresentbrate;
+    var colore = $('#existcolore',window.parent.document).val();
 $(function(){
 	//mPromodel = $("#promodel",window.parent.document).val();
-	var colore = $('#existcolore',window.parent.document).val();
 	if(colore == "54") {
 		//$('#noallow1 option:eq(4)').remove();   //also need to check line 465,avoid order mistake
 		//$(".g7221set").hide();
+        $("#videocodec").parent().hide();
 	}
     
     accountindex = $('#accountindex',parent.document.body).val();
@@ -605,7 +613,7 @@ function get_item_suc_callback() {
 }
 function setInitState(){
     translate_codec();
-    $('#codecpri, #remotevideo, #ilibcfs, #imgsize, #protype, #sdpattr, #enablevideo, #srtp, #g722rate, #g7221crate, #encryptdigit, #g723rate, #jitterbt, #jitterb, #vidframerate, #presentsdpsetting, #bfcptranspro, #presentprofile,  #presentimagesize, #presentvideoframebate, #packetmodel').sSelect();
+    $('#codecpri, #remotevideo, #ilibcfs, #imgsize, #protype, #sdpattr, #enablevideo, #srtp, #g722rate, #g7221crate, #encryptdigit, #g723rate, #jitterbt, #jitterb, #vidframerate, #presentsdpsetting, #bfcptranspro, #presentprofile, #presentimagesize, #presentvideoframebate, #packetmodel, #videocodec').sSelect();
     $("#vbrate,#presentvideobitrate").sSelect({ddMaxHeight:"250px"});
     //if( $('#hardwareversion',parent.document.body).val().substring(0, 2) == "V2" )
     /*if( 1 )
@@ -686,7 +694,11 @@ function translate_codec(){
     $("#a_audioredpayload").text(a_19389);
     $("#a_packetmodel").text(a_19234);
     $("#packetmodel option:eq(2)").text(a_1317);
-    $("#a_h264imgsize").text(a_16118);
+    $("#a_videocodec").text(a_16115);
+    if(colore == "54" || accountindex == "4")
+        $("#a_h264imgsize").text(a_16118);
+    else
+        $("#a_h264imgsize").text(a_12216);
     $("#a_h264protype").text(a_16119);
     $("#protype option:eq(0)").text(a_16120);
     $("#protype option:eq(1)").text(a_16121);
@@ -784,6 +796,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("P297", "1307", ""),
                 new ReqItem("ilibcfs", "97", ""),
                 new ReqItem("packetmodel", "26005", ""),
+                new ReqItem("videocodec", "video_encoder", ""),
 				new ReqItem("imgsize", "2307", ""),
 				new ReqItem("protype", "2362", ""),
                 new ReqItem("useh264profile", "26045", ""),

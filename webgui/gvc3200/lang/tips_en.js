@@ -242,7 +242,7 @@ tip_item.push (
     new TipsDef("Codec Negotiation Priority",
         "Configures the phone to use which codec sequence to negotiate as the callee. When set to \"Caller\", the phone negotiates by SDP codec sequence from received SIP Invite; When set to \"Callee\", the phone negotiates by audio codec sequence on the phone. The default setting is \"Callee\"."),
     new TipsDef("H.264 Image Size",
-        "Selects the H.264 image size.  The default setting is \"1080p\"."),
+        "Selects the image size.  The default setting is \"1080p\"."),
     new TipsDef("H.264 Profile Type",
         "Select the H.264 profile type from \"Baseline Profile\", \"Main Profile\", \"High Profile\" or \"BP/MP/HP\". The default setting is \"BP/MP/HP\". The lower profile type is easier to decode, while the higher level has high compression ratio. For device with low CPU, select \"Baseline Profile\" to play record; \"Baseline Profile\" is more likely to be used in a video conference that has high demandings for the video quality. Select among three types to achieve the best video effect."),
 	new TipsDef("Use H.264 Constrained Profiles",

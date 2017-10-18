@@ -241,7 +241,7 @@ tip_item.push (
         "根据当前网络环境选择抖动缓冲长度。默认300ms."),
     new TipsDef("Codec Negotiation Priority", "编码协商优先级", 
         "设置话机在作为被叫时进行编码协商时使用何种编码顺序。当设置为“主叫”时，话机按照收到的SIP Invite 中SDP的编码顺序进行协商；当设置为“被叫”时，话机根据话机中设置的语音编码顺序进行协商。默认设置为“被叫”。"),
-    new TipsDef("H.264 Image Size", "H.264 视频大小",
+    new TipsDef("H.264 Image Size", "视频大小",
         "支持的视频大小。默认为1080p."),
     new TipsDef("H.264 Profile Type", "H.264 Profile 类型",
         "设置H.264 Profile类型，可设置为基本档次、主要档次、高级档次或者BP/MP/HP。低级别的Profile类型更易解码，但是更高级别的Profile类型压缩率更高。通常，选择“高级档次”以获得高的视频压缩率。对于低CPU的设备，选择“基本档次”进行视频播放。通常会在要求较高的视频会议情况下使用“BP/MP/HP”，在视频解码时同时进行三种方式的协商，以达到最好的视频效果。"),
