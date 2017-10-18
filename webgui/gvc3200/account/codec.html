@@ -226,6 +226,10 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_enablerfc">Enable RFC5168 Support</span> :</div>
                 <input name="enablerfc" type="checkbox" id="enablerfc"><span id="a_enablerfcyes">Yes</span>
             </div>
+            <div webtip="Enable RTX">
+                <div class="noreboot"><span id="a_enablertx">Enable RTX</span> :</div>
+                <input name="enablertx" type="checkbox" id="enablertx"><span id="a_enablertxyes">Yes</span>
+            </div>
             <div webtip="Enable Video FEC">
                 <div class="noreboot"><span id="a_enablefec">Enable Video FEC</span> :</div>
                 <input name="enablefec" type="checkbox" id="enablefec"><span id="a_enablefecyes">Yes</span>
@@ -645,6 +649,7 @@ function translate_codec(){
     $("#a_enablevideo").text(a_16103);
     $("#a_enablevideo2").text(a_16104);
     $("#a_enablerfc").text(a_16105);
+    $("#a_enablertx").text(a_19256);
     $("#a_enablefec").text(a_16658);
     $("#a_fecmode").text(a_19111);
     $("#a_fecpayload").text(a_16657);
@@ -723,7 +728,7 @@ function translate_codec(){
     $("#a_decoderefresh").text(a_19235);
     $("#a_enablevideono").text(a_6);
     $("#a_slientrtp").text(a_16147);
-    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes, #a_initialinviteyes, #a_useh264profileyes").text(a_5);
+    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablertxyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes, #a_initialinviteyes, #a_useh264profileyes").text(a_5);
     $("#a_vidfr").text(a_16274);
     $("#vidframerate option:eq(0)").text("5 "+a_16277);
     $("#vidframerate option:eq(1)").text("15 "+a_16277);
@@ -803,6 +808,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("decoderefresh", "25111", ""),
 				new ReqItem("remotevideo", "2326", ""),
 				new ReqItem("enablerfc", "1331", ""),
+                new ReqItem("enablertx", "26085", ""),
 				new ReqItem("enablefec", "2393", ""),
 				new ReqItem("fecmode", "26022", ""),
 				new ReqItem("fecpayload", "2394", ""),
@@ -872,6 +878,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("jittermax", "2481", ""),
 				new ReqItem("remotevideo", "2426", ""),
 				new ReqItem("enablerfc", "478", ""),
+                new ReqItem("enablertx", "26185", ""),
 				new ReqItem("enablefec", "2493", ""),
 				new ReqItem("fecmode", "26122", ""),
 				new ReqItem("fecpayload", "2494", ""),
@@ -937,6 +944,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("jittermax", "2581", ""),
 				new ReqItem("remotevideo", "2526", ""),
 				new ReqItem("enablerfc", "578", ""),
+                new ReqItem("enablertx", "26285", ""),
 				new ReqItem("enablefec", "2593", ""),
 				new ReqItem("fecmode", "26222", ""),
 				new ReqItem("fecpayload", "2594", ""),
@@ -1022,6 +1030,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("jittermax", "2681", ""),
                 new ReqItem("remotevideo", "2626", ""),
 				new ReqItem("enablerfc", "678", ""),
+                new ReqItem("enablertx", "26385", ""),
 				new ReqItem("enablefec", "2693", ""),
 				new ReqItem("fecmode", "26322", ""),
 				new ReqItem("fecpayload", "2694", ""),
@@ -1086,6 +1095,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("jittermax", "2781", ""),
                 new ReqItem("remotevideo", "2726", ""),
 				new ReqItem("enablerfc", "1778", ""),
+                new ReqItem("enablertx", "26485", ""),
 				new ReqItem("enablefec", "2793", ""),
 				new ReqItem("fecmode", "26422", ""),
 				new ReqItem("fecpayload", "2794", ""),
@@ -1151,6 +1161,7 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("jittermax", "2881", ""),
                 new ReqItem("remotevideo", "2826", ""),
 				new ReqItem("enablerfc", "1878", ""),
+                new ReqItem("enablertx", "26585", ""),
 				new ReqItem("enablefec", "2893", ""),
 				new ReqItem("fecmode", "26522", ""),
 				new ReqItem("fecpayload", "2894", ""),
