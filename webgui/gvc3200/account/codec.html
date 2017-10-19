@@ -227,8 +227,12 @@ fieldset div{margin-left:10px;}
                 <input name="enablerfc" type="checkbox" id="enablerfc"><span id="a_enablerfcyes">Yes</span>
             </div>
             <div webtip="Enable RTX">
-                <div class="noreboot"><span id="a_enablertx">Enable RTX</span> :</div>
-                <input name="enablertx" type="checkbox" id="enablertx"><span id="a_enablertxyes">Yes</span>
+                <div class="noreboot"><span id="a_enablertx">Packet retransmission</span> :</div>
+                <select id="enablertx" name="enablertx">
+                    <option value="0">NACK</option>
+                    <option value="1">NACK+RTX(SSRC-GROUP)</option>
+                    <option value="2">Disabled</option>
+                </select>
             </div>
             <div webtip="Enable Video FEC">
                 <div class="noreboot"><span id="a_enablefec">Enable Video FEC</span> :</div>
@@ -613,7 +617,7 @@ function get_item_suc_callback() {
 }
 function setInitState(){
     translate_codec();
-    $('#codecpri, #remotevideo, #ilibcfs, #imgsize, #protype, #sdpattr, #enablevideo, #srtp, #g722rate, #g7221crate, #encryptdigit, #g723rate, #jitterbt, #jitterb, #vidframerate, #presentsdpsetting, #bfcptranspro, #presentprofile, #presentimagesize, #presentvideoframebate, #packetmodel, #videocodec').sSelect();
+    $('#codecpri, #remotevideo, #ilibcfs, #imgsize, #protype, #sdpattr, #enablevideo, #srtp, #g722rate, #g7221crate, #encryptdigit, #g723rate, #jitterbt, #jitterb, #vidframerate, #presentsdpsetting, #bfcptranspro, #presentprofile, #presentimagesize, #presentvideoframebate, #packetmodel, #videocodec, #enablertx').sSelect();
     $("#vbrate,#presentvideobitrate").sSelect({ddMaxHeight:"250px"});
     //if( $('#hardwareversion',parent.document.body).val().substring(0, 2) == "V2" )
     /*if( 1 )
@@ -658,6 +662,7 @@ function translate_codec(){
     $("#a_enablevideo2").text(a_16104);
     $("#a_enablerfc").text(a_16105);
     $("#a_enablertx").text(a_19256);
+    $("#enablertx option:eq(2)").text(a_32);
     $("#a_enablefec").text(a_16658);
     $("#a_fecmode").text(a_19111);
     $("#a_fecpayload").text(a_16657);
@@ -740,7 +745,7 @@ function translate_codec(){
     $("#a_decoderefresh").text(a_19235);
     $("#a_enablevideono").text(a_6);
     $("#a_slientrtp").text(a_16147);
-    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablertxyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes, #a_initialinviteyes, #a_useh264profileyes").text(a_5);
+    $("#a_enablevideoyes, #a_enablerfcyes, #a_enablefecyes, #a_enablefeccyes, #a_silsupyes, #a_slientrtpyes, #a_disablepresentyes, #a_usefvcodeyes, #a_audioredfecyes, #a_decoderefreshyes, #a_initialinviteyes, #a_useh264profileyes").text(a_5);
     $("#a_vidfr").text(a_16274);
     $("#vidframerate option:eq(0)").text("5 "+a_16277);
     $("#vidframerate option:eq(1)").text("15 "+a_16277);
