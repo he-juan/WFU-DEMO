@@ -1188,6 +1188,7 @@ var mIsSysrcmdBefore = 0;
 var mConfrole;  //0-normal 1-guest 2-host 3-panelists
 var promptTxt = "";
 var mInterval;
+var is4kon;
 
 var req_items = new Array;
 req_items.push(
@@ -2299,6 +2300,12 @@ function video_Invite(data)
 function addtoconf(data)
 {
     $(".noticetip,.disablediv").hide();
+    
+    is4kon = parseInt($('#is4kon', window.parent.document).val());
+    if(is4kon){
+        $("#layout").hide();
+    }
+    
     if(mOEMID != "54")
         $("#pause").show();
 
@@ -2919,11 +2926,6 @@ function addconflist_local()
     isvideoed.setAttribute("isvideoed",0);
     isvideoed.setAttribute("disabled","disabled");
     isvideoed.setAttribute("title", a_19241);
-    var feccbtn = document.createElement('BUTTON');
-    feccbtn.className = "startFECC btndisabled";
-    feccbtn.setAttribute("feccstate","0");
-    feccbtn.setAttribute("title",a_19020);
-    feccbtn.setAttribute("disabled","disabled");
     var del = document.createElement('BUTTON');
     del.setAttribute("title",a_1);
     del.setAttribute("disabled","disabled");
@@ -2934,7 +2936,16 @@ function addconflist_local()
     btndiv.appendChild(videoctrl);
     btndiv.appendChild(suspend);
     btndiv.appendChild(isvideoed);
-    btndiv.appendChild(feccbtn);
+    
+    if(!is4kon){
+        var feccbtn = document.createElement('BUTTON');
+        feccbtn.className = "startFECC btndisabled";
+        feccbtn.setAttribute("feccstate","0");
+        feccbtn.setAttribute("title",a_19020);
+        feccbtn.setAttribute("disabled","disabled");
+        btndiv.appendChild(feccbtn);
+    }
+
     btndiv.appendChild(del);
     itemdiv.appendChild(btndiv);
 
@@ -3250,7 +3261,8 @@ function addconflist(data,todivID)
             btndiv.appendChild(videoctrl);
             btndiv.appendChild(suspend);
             btndiv.appendChild(isvideoed);
-            btndiv.appendChild(feccbtn);
+            if(!is4kon)
+                btndiv.appendChild(feccbtn);
             if(state == "4")
             {
                 $(mute).show();
@@ -3275,7 +3287,8 @@ function addconflist(data,todivID)
                 $(isvideoed).hide();
             }
         }else{
-            btndiv.appendChild(feccbtn);
+            if(!is4kon)
+                btndiv.appendChild(feccbtn);
             if(state == "4")
             {
                 $(feccbtn).show();
@@ -8325,11 +8338,19 @@ function pageEventActions()
             });
             
             if(isallowipvtrcd == "true"){
+                if(is4kon)
+                    $("#localrcd").hide();
+                else
+                    $("#localrcd").show();
                 $("#recordSelect").show();
                 return;
             }
         }
         
+        if(is4kon){
+            showtip(a_605);
+            return;
+        }
         var isrecord = parseInt($(this).attr("isrecord"));  /* 0-stop record  1-start record */
         if(isrecord == 1)
             cb_get_action("startrecord&region=confctrl");
@@ -9463,13 +9484,14 @@ function pageEventActions()
             }
         });
         
-        if(!hdmiInOn && !wifiDisplayOn){
+        /*if hdmi1 out is 4k, PC mode should be disabled*/
+        if(is4kon || !hdmiInOn && !wifiDisplayOn){
             $("#presentsource").hide();
             if( $("#presentmode option").length == 3 ){
                 $("#presentmode option:eq(1)").remove();
                 $("#presentmode").resetSS();
             }
-        }else{
+        }else if(!is4kon && (hdmiInOn || wifiDisplayOn)){
             $("#presentsource").hide();
             if( $("#presentmode option").length < 3 ){
                 $("#presentmode option:eq(1)").remove();

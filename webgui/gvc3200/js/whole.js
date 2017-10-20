@@ -268,6 +268,9 @@ function pageEventActions(){
             $(this).parent("ul").parent("li.hassubmenu").find(".iconimg").addClass('iconactive');
 	    }else
 	    {
+            if($(this).attr("class").indexOf("control") != -1){
+                cb_get_action("get&var-0000=25104");
+            }
 	        $(this).children(".acctmenu").removeClass("leftsecmenuli").addClass("leftsecmenuli2");
 	        $(this).children(".acctmenu").children(".thirdmenuicn").removeClass("minus").addClass("plus");
 	        $(".leftsecmenu").css("display", "none");
