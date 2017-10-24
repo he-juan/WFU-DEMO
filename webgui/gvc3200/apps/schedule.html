@@ -3733,6 +3733,7 @@ function pageEventActions(){
             $("#allcontactsdiv").append(checkedDiv);
 
             $(".sreachitemcbx").bind("click",function(e){
+				searchkey = $("#search").val();
                 var $parent = $(this).parent().parent();
                 var acct = parseInt($("#detailacct").val());
                 $("#allcontactsdiv .contactsdiv").show();
@@ -3796,9 +3797,11 @@ function pageEventActions(){
                             });
                             
                             if(result == "false"){
-                                mCheckedmembernum--;
-                                $.prompt(a_10104);
-                                $("#search").val("");
+								mCheckedmembernum--;
+								$("#search").val("");
+								$("#searchdiv p").text(promptinfo).show(800,function(){
+									setTimeout(function(){$("#searchdiv p").hide(800);},2000);
+								});
                                 
                                 return false;
                             }
