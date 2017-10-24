@@ -1574,10 +1574,7 @@ function handle_callmessage(data,obj_incominginfo)
             }
             
             if(data.acct == 1){
-               if($("#promptdiv") != undefined){
-                   $("#promptdiv").remove();
-                   ctrl_show_maskdiv(false);
-               }
+               handle_promptdiv();
                if($("#recordSelect").is(":visible"))
                    $("#recordSelect").hide();
                $("#recordSelect .rcdstop").addClass("rcdstart").removeClass(".rcdstop");
@@ -2689,7 +2686,7 @@ function handle_ipvtcmrinvite(data){
         data.name = "";
     var hostinvitetext = htmlEncode(data.name);
     var prompthtml = "<div id='promptdiv'><div class='promptinfo'><span class='prompthost' title=\'" + hostinvitetext + "\'>" + hostinvitetext + "</span><span>&nbsp" + a_10218 + "</span></div><div id='acceptcmrivt'><button class='promptbutton' style='background:#4abe6b;'>" + a_10000 + "</button></div><div id='rejectcmrivt'><button class='promptbutton' style='background:#d8333d;'>" + a_19138 + "</button></div></div>";
-    var backgroundhtml = "<div class='transparentdiv' style='background:#000;opacity:0.5;width:100%;height:700px;z-index:1000;margin-top:-73%;'></div>"
+    //var backgroundhtml = "<div class='transparentdiv' style='background:#000;opacity:0.5;width:100%;height:700px;z-index:1000;margin-top:-73%;'></div>"
     
     if($("#promptdiv") != undefined)
         $("#promptdiv").remove();
@@ -2710,20 +2707,21 @@ function handle_ipvtcmrinvite(data){
 
 function handle_ipvtrejectcmr(data){
     if(data.status != 1){
-        if($("#promptdiv") != undefined){
-            $("#promptdiv").remove();
-            ctrl_show_maskdiv(false);
-        }
+        handle_promptdiv();
     }
 }
 
 function handle_ipvtoperatecmr(data){
-    if(data.isvideoed == 1)
-    {
-        if($("#promptdiv") != undefined){
-            $("#promptdiv").remove();
+    if(data.isvideoed == 1){
+        handle_promptdiv();
+    }
+}
+
+function handle_promptdiv(){
+    if($("#promptdiv") != undefined){
+        $("#promptdiv").remove();
+        if($("#dtmfDiv").css("display") == "none")
             ctrl_show_maskdiv(false);
-        }
     }
 }
 
@@ -5472,6 +5470,11 @@ function handle_video_on(data)
     */
     var line = data.line;
     mVideoOn_obj[line] = 1;
+    
+    var ipvtline = $(".remoteline[account=1]").attr("line");
+    if(line == ipvtline){
+        handle_promptdiv();
+    }
 }
 
 /*
@@ -8055,15 +8058,13 @@ function pageEventActions()
     $("#acceptcmrivt").unbind().live("click",function(){
         var line = $("#promptdiv").attr("line");
         cb_get_action("acceptorejectipvtcmr&region=confctrl&line=" + line + "&accept=1");
-        $("#promptdiv").remove();
-        ctrl_show_maskdiv(false);
+        handle_promptdiv();
     });
     
     $("#rejectcmrivt").unbind().live("click",function(){
         var line = $("#promptdiv").attr("line");
         cb_get_action("acceptorejectipvtcmr&region=confctrl&line=" + line + "&accept=0");
-        $("#promptdiv").remove();
-        ctrl_show_maskdiv(false);
+        handle_promptdiv();
     });
 
     $("#confcontrol").hover(function(){
