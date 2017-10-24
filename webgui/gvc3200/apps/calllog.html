@@ -1381,8 +1381,8 @@ function cb_get_action_done(data, action) {
                 else
                     disdialplan = parseInt(disdialplan).toString(2);
                 
-                mDisdialplan[3] = 1;
-                mDisdialplan[4] = 1;
+                mDisdialplan[3] = 1;  // incoming call
+                mDisdialplan[4] = 1;  // outgoing call
 
                 var length = disdialplan.length;
                 switch (length) {
@@ -1722,9 +1722,9 @@ function pageEventActions(){
         var type = $(this).parent().parent().attr("type");
         var isdialplan;
         if(type == 2)
-            isdialplan == mDisdialplan[4];
+            isdialplan = mDisdialplan[4];
         else
-            isdialplan == mDisdialplan[3];
+            isdialplan = mDisdialplan[3];
             
         if( dialacct == 2 ){
             cb_start_addmemberconf(dialnum, dialacct, "call","", isdialplan, "");
