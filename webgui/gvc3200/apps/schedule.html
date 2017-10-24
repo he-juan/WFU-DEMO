@@ -2054,7 +2054,7 @@ function add_calllog_to_schedule(numbers,names,accts,recordfrom)
         var membername = "<div class='membername'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div>";
         var membernum = "<div class='membernumber'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div>";
         
-        var membername, membernum, memberemail;
+        var memberemail = "";
         if( mHasGoogle ){
             membername = "<div class='membername'><div class='membernametop'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div><div class='membernamebot'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div></div>";
             membernum = "<div class='membernumber' style='display:none;'><span class='emailspan' title=''></span></div>";
@@ -2063,11 +2063,6 @@ function add_calllog_to_schedule(numbers,names,accts,recordfrom)
             }else{
                 memberemail = "<div class='memberemail' style='display:none;'><input class='emailinput' type='text' title=\""+a_302+"\" /></div>";
             }
-            
-        }else{
-            membername = "<div class='membername'><span title=\""+namearray[n]+"\">"+htmlEncode(namearray[n])+"</span></div>";
-            membernum = "<div class='membernumber'><span title=\""+numberarray[n]+"\">"+htmlEncode(numberarray[n])+"</span></div>";
-            memberemail = "";
         }
         
         var stringdiv = memberdiv + membericon + membername + membernum + memberemail + "</div>";
