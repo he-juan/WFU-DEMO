@@ -1317,10 +1317,6 @@ $(function(){
     cb_get_action("get&var-0000=:gui_calldetail");
     //get_normal_calllog(2, 0);
     window.parent.get_initws();
-    /*var urihead = "action=callstatusReport&region=confctrl&ctrlopen=0";
-    var callfn = "";
-    cb_get_confaction(urihead,callfn,true);*/
-    //create_preset_div();
 });
 
 function create_preset_div(line){
@@ -9485,14 +9481,36 @@ function pageEventActions()
             }
         });
         
-        /*if hdmi1 out is 4k, PC mode should be disabled*/
-        if(is4kon || !hdmiInOn && !wifiDisplayOn){
+        var videocodec = 0; // 0 - H.264   1 - H.265
+        var urihead = "action=get&var-0000=video_encoder&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            dataType:'text',
+            async: false,
+            success:function(data) {
+                var msgs = res_parse_rawtext(data);
+                cb_if_auth_fail(msgs);
+                if (cb_is_fail(msgs)){
+                }else {
+                    videocodec = parseInt(msgs.headers['video_encoder']);
+                }
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                $("#presentmode").getSetSSValue("0");
+            }
+        });
+        
+        
+        /*if hdmi1 out is 4k or video codec is H.265, PC mode should be disabled*/
+        if(is4kon || videocodec || !hdmiInOn && !wifiDisplayOn){
             $("#presentsource").hide();
             if( $("#presentmode option").length == 3 ){
                 $("#presentmode option:eq(1)").remove();
                 $("#presentmode").resetSS();
             }
-        }else if(!is4kon && (hdmiInOn || wifiDisplayOn)){
+        }else if(!is4kon && !videocodec && (hdmiInOn || wifiDisplayOn)){
             $("#presentsource").hide();
             if( $("#presentmode option").length < 3 ){
                 $("#presentmode option:eq(1)").remove();
