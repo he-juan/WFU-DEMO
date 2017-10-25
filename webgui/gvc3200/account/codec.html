@@ -259,7 +259,7 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_feccpayload">FECC Payload Type</span> :</div>
                 <input id="feccpayload" name="feccpayload" type="text" value='125' />
             </div>
-            <div webtip="H.264 Payload Type" class="h323mode">
+            <div webtip="H.264 Payload Type" class="h323mode h264config">
                 <div class="noreboot"><span id="a_h264payload">H.264 Payload Type</span> :</div>
                 <input id="h264payload" name="h264payload" type="text" value='99' />
             </div>
@@ -282,7 +282,7 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_slientrtp">Send Silent RTP Packets on Mute</span> :</div>
                 <input name="slientrtp" type="checkbox" id="slientrtp"><span id="a_slientrtpyes">Yes</span>
             </div>
-            <div webtip="Packetization-mode">
+            <div webtip="Packetization-mode" class="h264config">
                 <div class="noreboot"><span id="a_packetmodel">Packetization-mode</span> :</div>
                 <select id="packetmodel" name="packetmodel">
                     <option value="0">0</option>
@@ -297,7 +297,7 @@ fieldset div{margin-left:10px;}
                     <option value="1">H.265</option>
                 </select>
             </div>
-            <div webtip="H.264 Image Size" class="h323mode">
+            <div webtip="H.264 Image Size" class="h323mode ">
                 <div class="noreboot"><span id="a_h264imgsize">H.264 image size</span> :</div>
                 <select id="imgsize" name="imgsize">
                     <option value="11">4K</option>
@@ -308,7 +308,7 @@ fieldset div{margin-left:10px;}
                     <option value="1">VGA</option>
                 </select>
             </div>
-            <div webtip="H.264 Profile Type">
+            <div webtip="H.264 Profile Type" class="h264config">
                 <div class="noreboot"><span id="a_h264protype">H.264 Profile Type</span> :</div>
                 <select id="protype" name="protype">
                     <option value="0">Baseline</option>
@@ -317,7 +317,7 @@ fieldset div{margin-left:10px;}
                     <option value="3">BP/MP/HP</option>
                 </select>
             </div>
-            <div webtip="Use H.264 Constrained Profiles">
+            <div webtip="Use H.264 Constrained Profiles" class="h264config">
                 <div class="noreboot"><span id="a_useh264profile">Use H.264 Constrained Profiles</span> :</div>
                 <input name="useh264profile" type="checkbox" id="useh264profile"><span id="a_useh264profileyes">Yes</span>
             </div>
@@ -521,13 +521,15 @@ fieldset div{margin-left:10px;}
     var colore = $('#existcolore',window.parent.document).val();
 $(function(){
 	//mPromodel = $("#promodel",window.parent.document).val();
-	if(colore == "54") {
+	
+    
+    accountindex = $('#accountindex',parent.document.body).val();
+    
+    if(colore == "54" || accountindex == "3") {
 		//$('#noallow1 option:eq(4)').remove();   //also need to check line 465,avoid order mistake
-		//$(".g7221set").hide();
         $("#videocodec").parent().hide();
 	}
     
-    accountindex = $('#accountindex',parent.document.body).val();
     if( accountindex == "4" ){
         $("fieldset > div").hide();
         $(".h323mode").show();
@@ -601,16 +603,19 @@ function get_item_suc_callback() {
         $("#presentimagesize,#presentvideobitrate,#presentprofile").next(".newListSelected").addClass("newListDisabled");
         $(".disabledMask").show();
     }
-    if( accountindex == 2 ){
+    
+    if(accountindex == 1){
+        if($("#videocodec").val() == "1"){
+            $(".h264config").hide();
+        }
+    }else if( accountindex == 2 ){
         //$("#srtp").getSetSSValue("2");
         $(".sipmodeonly, .strpmode, .iptalkmode").hide();
         /*$(".strpmode").children("div").children("span").removeClass("netfontcolor").addClass("grayfont");
         $(".strpmode").children(".newListSelected").attr("disabled", true);*/
-    }
-    else if( accountindex == 3 ){
+    }else if( accountindex == 3 ){
         $(".sipmodeonly, .strpmode, .iptalkmode, .bjmode").hide();
-    }
-    else if( accountindex == 4){
+    }else if( accountindex == 4){
         $("#imgsize option:eq(0)").remove();
         $("#imgsize").resetSS();
     }
@@ -700,7 +705,7 @@ function translate_codec(){
     $("#a_packetmodel").text(a_19234);
     $("#packetmodel option:eq(2)").text(a_1317);
     $("#a_videocodec").text(a_16115);
-    if(colore == "54" || accountindex == "4")
+    if(colore == "54" || accountindex == "3" || accountindex == "4")
         $("#a_h264imgsize").text(a_16118);
     else
         $("#a_h264imgsize").text(a_12216);
@@ -1673,6 +1678,15 @@ function pageEventActions(){
             $("#presentimagesize,#presentprofile,#presentvideobitrate,#presentvideoframebate,#initialinvite").removeAttr("disabled");
             $("#presentimagesize,#presentvideobitrate,#presentprofile,#presentvideoframebate").next(".newListSelected").removeClass("newListDisabled");
             $(".disabledMask").hide();
+        }
+    });
+    
+    $("#videocodec").change(function(){
+        if($(this).val() == "0"){
+            $(".h264config").show();
+        }
+        else{
+            $(".h264config").hide();
         }
     });
 }
