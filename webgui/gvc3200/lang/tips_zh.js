@@ -720,6 +720,8 @@ tip_item.push (
     
     new TipsDef("Automatic Upgrade", "自动升级",
         "若启用该项，设备将根据配置的时间自动请求升级。默认设置为“每天检查”。"),
+	new TipsDef("Enable Randomized Automatic Upgrade", "开启随机自动升级",
+		"设置是否随机自动升级。即话机在设置的时间段内的随机时间点进行自动升级。此项主要用于多台话机不在同一时间点进行升级。"),
     new TipsDef("Automatic Upgrade Interval", "自动升级检测周期",
         "配置该项指定设备去http服务器检验固件更新或配置变更的时间间隔。"),
     new TipsDef("Authenticate Conf File", "认证配置文件",

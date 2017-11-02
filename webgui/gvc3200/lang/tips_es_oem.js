@@ -722,7 +722,9 @@ tip_item.push (
     
     new TipsDef("Automatic Upgrade",
         "Habilite la actualización y aprovisionamiento automática HTTP. El ajuste por defecto es \"Revisar todos los días\"."),
-    new TipsDef("Automatic Upgrade Interval",
+	new TipsDef("Enable Randomized Automatic Upgrade",
+		"Setting whether to upgrade automatically at random. It means whether the phone will upgrade automatically at random time point in the setting period. This option is mainly used for multiple phones upgrade at the same time."),
+	new TipsDef("Automatic Upgrade Interval",
         "Ingrese el número (en minutos) para revisar el servidor HTTP para actualización de firmware o cambios de configuración."),
     new TipsDef("Authenticate Conf File",
         "Autentica el archivo de configuración antes de que lo acepte el dispositivo. El ajuste por defecto es \"No\"."),

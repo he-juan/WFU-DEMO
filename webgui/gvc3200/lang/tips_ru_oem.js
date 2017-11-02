@@ -714,7 +714,9 @@ tip_item.push (
     
     new TipsDef("Automatic Upgrade",
         "Включить автоматическое обновление и провижининг по HTTP. По умолчанию \"Проверять каждый день\"."),
-    new TipsDef("Automatic Upgrade Interval",
+	new TipsDef("Enable Randomized Automatic Upgrade",
+		"Setting whether to upgrade automatically at random. It means whether the phone will upgrade automatically at random time point in the setting period. This option is mainly used for multiple phones upgrade at the same time."),
+	new TipsDef("Automatic Upgrade Interval",
         "Введите время (в минутах) для проверки HTTP сервера на обновление прошивки или файла конфигурации."),
     new TipsDef("Authenticate Conf File",
         "Аутентификация конфигурационного файла перед принятием. По умолчанию \"Нет\"."),

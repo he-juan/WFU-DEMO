@@ -726,6 +726,8 @@ tip_item.push (
     
     new TipsDef("Automatic Upgrade",
         "Enable automatic HTTP upgrade and provisioning. The default setting is \"Check Every Day\"."),
+	new TipsDef("Enable Randomized Automatic Upgrade",
+		"Setting whether to upgrade automatically at random. It means whether the phone will upgrade automatically at random time point in the setting period. This option is mainly used for multiple phones upgrade at the same time."),
     new TipsDef("Automatic Upgrade Interval",
         "Enter the number (in minutes) to check the HTTP server for firmware upgrade or configuration changes."),
     new TipsDef("Authenticate Conf File",
