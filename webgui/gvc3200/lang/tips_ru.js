@@ -239,6 +239,8 @@ tip_item.push (
         "Выбор профиля кодека H.264. Доступны варианты \"Базовый\" ,\"Основной\", \"Высший\" или комбинированный \"БП/ОП/ВП\". По умолчанию установлен \"BP/MP/HP\". Профили влияют на степень компрессии, чем выше профиль, тем больше ресурсов требуется для декомпрессии потока. Для устройств со слабой аппаратной частью рекомендуется использовать \"Базовый\". Попробуйте все варианты для выбора оптимального профиля."),
 	new TipsDef("Use H.264 Constrained Profiles",
         "Configures whether to use H.264 CBP to establish video call with WebRTC. The function takes effect when H.264 profile setting includes BP type. It is recommended to set to \"Yes\" when establish video call with WebRTC. The default setting is \"No\"."),
+	new TipsDef("H.265 Payload Type",
+		"Enter H.265 codec payload type. The valid range is from 96 to 127. The default value is 114."),
 	new TipsDef("SDP Bandwidth Attribute",
         "Выбор механизма согласования полосы в SDP: \"Стандарт\", \"Медиа\" или \"Нет\".<br/>Стандарт: используется AS на уровне сессии и TIAS на медиа уровне.<br/>Медиа: используется AS на медиа уровне.<br/>Нет: не изменять формат. <br/>Значение по умолчанию \"Медиа\". Пожалуйста, не изменяйте формат. В противном случае это может вызвать проблемы декодирования, если неизвестно, какой механизм использует сервер."),
     new TipsDef("Enable RFC5168 Support",

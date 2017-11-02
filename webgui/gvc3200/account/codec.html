@@ -170,32 +170,6 @@ fieldset div{margin-left:10px;}
                     <option value="2">High</option>
                 </select>
             </div>
-            <div style="width:680px;height:105px;display:none" webtip="Preferred Video Coder">
-                <div class="noreboot"><span id="a_prevcoder">Preferred Video Coder</span> :</div>
-                <div>
-                    <div style="width:110px;margin-left:0x;"><span id="a_notallowed2">Not Allowed</span>
-                        <select multiple="multiple" style="width:92px;height:80px;" id="noallow2">
-                            <option value="99">H264</option>
-                            <option value="34">H263</option>
-                            <option value="100">H263+</option>
-                        </select>
-                    </div>
-                    <div style="width:20px;margin-right:15px;"><br/>
-                        <span id="up2" style="cursor:pointer;margin:3px 0 4px 0;"><img src="../img/up.gif"/></span><br/>
-                        <span id="left2" style="cursor:pointer;margin-top:3px;"><img src="../img/left.gif"/></span><br/>
-                        <span id="right2" style="cursor:pointer;margin-top:3px;"><img src="../img/right.gif"/></span><br/>
-                        <span id="down2" style="cursor:pointer"><img src="../img/down2.gif"/></span>
-                    </div>
-                    <div style="width:110px;"><span id="a_allowed2">Allowed</span>
-                        <select multiple="multiple" style="width:92px;height:80px;" id="allow2"></select>
-                    </div>
-                    <div style="display:none">
-                        <input type="text" id="P295">
-                        <input type="text" id="P296">
-                        <input type="text" id="P297">
-                    </div>
-                </div>
-            </div>
             <div webtip="iLBC Frame Size" style="display:none">
                 <div class="noreboot"><span id="a_ilibcfs">iLBC Frame Size</span> :</div>
                 <select id="ilibcfs" name="ilibcfs">
@@ -259,43 +233,51 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_feccpayload">FECC Payload Type</span> :</div>
                 <input id="feccpayload" name="feccpayload" type="text" value='125' />
             </div>
-            <div webtip="H.264 Payload Type" class="h323mode">
-                <div class="noreboot"><span id="a_h264payload">H.264 Payload Type</span> :</div>
-                <input id="h264payload" name="h264payload" type="text" value='99' />
-            </div>
-            <div webtip="H.263+ Payload Type" style="display:none">
-                <div class="noreboot"><span id="a_h263payload">H.263+ Payload Type</span> :</div>
-                <input id="h263payload" name="h263payload" type="text" value='103' />
-            </div>
-            <div webtip="L16-256 Payload Type" style="display:none">
-                <div class="noreboot"><span id="a_L16_256payload">L16-256 Payload Type</span> :</div>
-                <input id="L16-256payload" name="L16_256payload" type="text" value='103' />
-            </div>
-            <div webtip="H.263 Encoder Resolution" style="display:none">
-                <div class="noreboot"><span id="a_h263resolution">H.263 Encoder resolution</span> :</div>
-                <input name="h263resolution" value="0" checked="checked" type="radio" id="h263resolution0">
-                <span id="a_h263resolution0">CIF</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input name="h263resolution" value="1" type="radio" id="h263resolution1">
-                <span id="a_h263resolution1">QCIF</span>
-            </div>
-            <div style="display:none">
-                <div class="noreboot"><span id="a_slientrtp">Send Silent RTP Packets on Mute</span> :</div>
-                <input name="slientrtp" type="checkbox" id="slientrtp"><span id="a_slientrtpyes">Yes</span>
-            </div>
-            <div webtip="Packetization-mode">
-                <div class="noreboot"><span id="a_packetmodel">Packetization-mode</span> :</div>
-                <select id="packetmodel" name="packetmodel">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">Auto</option>
+            <div webtip="SDP Bandwidth Attribute">
+                <div class="noreboot"><span id="a_sdpattr">SDP Bandwidth Attribute</span> :</div>
+                <select id="sdpattr">
+                    <option value="0">Standard</option>
+                    <option value="1">Media Level</option>
+                    <!--<option value="2">Session Level</option>-->
+                    <option value="3">None</option>  
                 </select>
             </div>
-            <div webtip="Video Codec">
-                <div class="noreboot"><span id="a_videocodec">Video codec</span> :</div>
-                <select id="videocodec" name="videocodec">
-                    <option value="0">H.264</option>
-                    <option value="1">H.265</option>
-                </select>
+            <div webtip="Video Jitter Buffer Maximum">
+                <div class="noreboot"><span id="a_jittermax">Video Jitter Buffer Maximum (ms)</span> :</div>
+                <input id="jittermax" name="jittermax" type="text" value='' />
+            </div>
+            <div webtip="Enable video Gradual decoder refresh">
+                <div class="noreboot"><span id="a_decoderefresh">Enable video Gradual decoder refresh</span> :</div>
+                <input name="decoderefresh" type="checkbox" id="decoderefresh"><span id="a_decoderefreshyes">Yes</span>
+            </div>
+            <div style="width:700px;height:145px;" webtip="Preferred Video Coder">
+                <div class="noreboot"><span id="a_prevcoder">Preferred Video Coder</span> :</div>
+                <div>
+                    <div style="width:110px;margin-left:0x;"><span id="a_notallowed2">Not Allowed</span>
+                        <select multiple="multiple" style="width:92px;height:120px;" id="noallow2">
+                            <option value="99">H.264</option>
+                            <option value="114">H.265</option>
+                            <!--option value="34">H263</option>
+                            <option value="100">H263+</option-->
+                        </select>
+                    </div>
+                    <div style="width:20px;margin-right:15px;top:25px;position:relative;"><br/>
+                        <span id="left2" style="cursor:pointer"><img src="../img/left.gif"/></span><br/><br/>
+                        <span id="right2" style="cursor:pointer"><img src="../img/right.gif"/></span><br/><br/>
+                    </div>
+                    <div style="width:110px;"><span id="a_allowed2">Allowed</span>
+                        <select multiple="multiple" style="width:92px;height:120px;" id="allow2"></select>
+                    </div>
+                    <div style="width:20px;margin-right:15px;top:25px;position:relative;"><br/>
+                        <span id="up2" style="cursor:pointer"><img src="../img/up.gif"/></span><br/><br/>
+                        <span id="down2" style="cursor:pointer"><img src="../img/down2.gif"/></span>
+                    </div>
+                    <div style="display:none">
+                        <input type="text" id="P295">
+                        <input type="text" id="P296">
+                        <!--input type="text" id="P297"-->
+                    </div>
+                </div>
             </div>
             <div webtip="H.264 Image Size" class="h323mode">
                 <div class="noreboot"><span id="a_h264imgsize">H.264 image size</span> :</div>
@@ -307,19 +289,6 @@ fieldset div{margin-left:10px;}
                     <option value="7">4SIF</option>
                     <option value="1">VGA</option>
                 </select>
-            </div>
-            <div webtip="H.264 Profile Type">
-                <div class="noreboot"><span id="a_h264protype">H.264 Profile Type</span> :</div>
-                <select id="protype" name="protype">
-                    <option value="0">Baseline</option>
-                    <option value="1">Main</option>
-                    <option value="2">High</option>
-                    <option value="3">BP/MP/HP</option>
-                </select>
-            </div>
-            <div webtip="Use H.264 Constrained Profiles">
-                <div class="noreboot"><span id="a_useh264profile">Use H.264 Constrained Profiles</span> :</div>
-                <input name="useh264profile" type="checkbox" id="useh264profile"><span id="a_useh264profileyes">Yes</span>
             </div>
             <div webtip="Video Bit Rate" style="width:740px;" class="h323mode">
                 <div class="noreboot"><span id="a_vidbr">Video Bit Rate</span> :</div>
@@ -352,15 +321,6 @@ fieldset div{margin-left:10px;}
                     <option value="8192">8192Kbps</option>
                 </select>
             </div>
-            <div webtip="SDP Bandwidth Attribute">
-                <div class="noreboot"><span id="a_sdpattr">SDP Bandwidth Attribute</span> :</div>
-                <select id="sdpattr">
-                    <option value="0">Standard</option>
-                    <option value="1">Media Level</option>
-                    <!--<option value="2">Session Level</option>-->
-                    <option value="3">None</option>  
-                </select>
-            </div>
             <div webtip="Video Frame Rate" class="h323mode">
                 <div class="noreboot"><span id="a_vidfr">Video Frame Rate</span> :</div>
                 <select id="vidframerate">
@@ -371,13 +331,53 @@ fieldset div{margin-left:10px;}
                     <option value="29">Variable</option>
                 </select>
             </div>
-            <div webtip="Video Jitter Buffer Maximum">
-                <div class="noreboot"><span id="a_jittermax">Video Jitter Buffer Maximum (ms)</span> :</div>
-                <input id="jittermax" name="jittermax" type="text" value='' />
+            <div webtip="Packetization-mode">
+                <div class="noreboot"><span id="a_packetmodel">Packetization-mode</span> :</div>
+                <select id="packetmodel" name="packetmodel">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">Auto</option>
+                </select>
             </div>
-            <div webtip="Enable video Gradual decoder refresh">
-                <div class="noreboot"><span id="a_decoderefresh">Enable video Gradual decoder refresh</span> :</div>
-                <input name="decoderefresh" type="checkbox" id="decoderefresh"><span id="a_decoderefreshyes">Yes</span>
+            <div webtip="H.264 Payload Type" class="h323mode">
+                <div class="noreboot"><span id="a_h264payload">H.264 Payload Type</span> :</div>
+                <input id="h264payload" name="h264payload" type="text" value='99' />
+            </div>
+            <div webtip="H.263+ Payload Type" style="display:none">
+                <div class="noreboot"><span id="a_h263payload">H.263+ Payload Type</span> :</div>
+                <input id="h263payload" name="h263payload" type="text" value='103' />
+            </div>
+            <div webtip="L16-256 Payload Type" style="display:none">
+                <div class="noreboot"><span id="a_L16_256payload">L16-256 Payload Type</span> :</div>
+                <input id="L16-256payload" name="L16_256payload" type="text" value='103' />
+            </div>
+            <div webtip="H.263 Encoder Resolution" style="display:none">
+                <div class="noreboot"><span id="a_h263resolution">H.263 Encoder resolution</span> :</div>
+                <input name="h263resolution" value="0" checked="checked" type="radio" id="h263resolution0">
+                <span id="a_h263resolution0">CIF</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="h263resolution" value="1" type="radio" id="h263resolution1">
+                <span id="a_h263resolution1">QCIF</span>
+            </div>
+            <div style="display:none">
+                <div class="noreboot"><span id="a_slientrtp">Send Silent RTP Packets on Mute</span> :</div>
+                <input name="slientrtp" type="checkbox" id="slientrtp"><span id="a_slientrtpyes">Yes</span>
+            </div>
+            <div webtip="H.264 Profile Type">
+                <div class="noreboot"><span id="a_h264protype">H.264 Profile Type</span> :</div>
+                <select id="protype" name="protype">
+                    <option value="0">Baseline</option>
+                    <option value="1">Main</option>
+                    <option value="2">High</option>
+                    <option value="3">BP/MP/HP</option>
+                </select>
+            </div>
+            <div webtip="Use H.264 Constrained Profiles">
+                <div class="noreboot"><span id="a_useh264profile">Use H.264 Constrained Profiles</span> :</div>
+                <input name="useh264profile" type="checkbox" id="useh264profile"><span id="a_useh264profileyes">Yes</span>
+            </div>
+            <div webtip="H.265 Payload Type">
+                <div class="noreboot"><span id="a_h265payload">H.265 Payload Type</span> :</div>
+                <input id="h265payload" name="h265payload" type="text" value='114' />
             </div>
             <div webtip="Enable Frame Skipping in Video Decoder" style="display:none;">
                 <div class="noreboot"><span id="a_enableframeskip">Enable Frame Skipping in Video Decoder</span> :</div>
@@ -521,10 +521,12 @@ fieldset div{margin-left:10px;}
     var colore = $('#existcolore',window.parent.document).val();
 $(function(){
 	//mPromodel = $("#promodel",window.parent.document).val();
-	if(colore == "54") {
+    if(colore == "54") {
 		//$('#noallow1 option:eq(4)').remove();   //also need to check line 465,avoid order mistake
 		//$(".g7221set").hide();
-        $("#videocodec").parent().hide();
+        $("#a_prevcoder").parent().parent().hide();
+        $("#h265payload").parent().hide();
+        $("#imgsize option[value=11]").remove();
 	}
     
     accountindex = $('#accountindex',parent.document.body).val();
@@ -568,6 +570,7 @@ function get_item_suc_callback() {
     $("#jitterbt").change(function(){
         update_jitter_length();
     });
+    
     /*$("#imgsize").change(function(){
         update_video_bit_display();
     });*/
@@ -609,6 +612,8 @@ function get_item_suc_callback() {
     }
     else if( accountindex == 3 ){
         $(".sipmodeonly, .strpmode, .iptalkmode, .bjmode").hide();
+        $("#a_prevcoder").parent().parent().hide();
+        $("#h265payload").parent().hide();
     }
     else if( accountindex == 4){
         $("#imgsize option:eq(0)").remove();
@@ -617,7 +622,7 @@ function get_item_suc_callback() {
 }
 function setInitState(){
     translate_codec();
-    $('#codecpri, #remotevideo, #ilibcfs, #imgsize, #protype, #sdpattr, #enablevideo, #srtp, #g722rate, #g7221crate, #encryptdigit, #g723rate, #jitterbt, #jitterb, #vidframerate, #presentsdpsetting, #bfcptranspro, #presentprofile, #presentimagesize, #presentvideoframebate, #packetmodel, #videocodec, #enablertx').sSelect();
+    $('#codecpri, #remotevideo, #ilibcfs, #imgsize, #protype, #sdpattr, #enablevideo, #srtp, #g722rate, #g7221crate, #encryptdigit, #g723rate, #jitterbt, #jitterb, #vidframerate, #presentsdpsetting, #bfcptranspro, #presentprofile, #presentimagesize, #presentvideoframebate, #packetmodel, #enablertx').sSelect();
     $("#vbrate,#presentvideobitrate").sSelect({ddMaxHeight:"250px"});
     //if( $('#hardwareversion',parent.document.body).val().substring(0, 2) == "V2" )
     /*if( 1 )
@@ -641,6 +646,7 @@ function setInitState(){
             opuspayload: { digits:true, range:[96,126] },
             h263payload: { digits:true, range:[96,127] },
             h264payload: { digits:true, range:[96,127] },
+            h265payload: { digits:true, range:[96,127] },
             L16_256payload: { digits:true, range:[96,127] },
             fecpayload: { digits:true, range:[96,127] },
             audiofecpayload: {digits:true, range:[96,127]},
@@ -699,8 +705,7 @@ function translate_codec(){
     $("#a_audioredpayload").text(a_19389);
     $("#a_packetmodel").text(a_19234);
     $("#packetmodel option:eq(2)").text(a_1317);
-    $("#a_videocodec").text(a_16115);
-    if(colore == "54" || accountindex == "4")
+    if(colore == "54" || accountindex == "4" || accountindex == "3")
         $("#a_h264imgsize").text(a_16118);
     else
         $("#a_h264imgsize").text(a_12216);
@@ -710,6 +715,7 @@ function translate_codec(){
     $("#protype option:eq(2)").text(a_16122);
     $("#protype option:eq(3)").text(a_16123);
     $("#a_useh264profile").text(a_19253);
+    $("#a_h265payload").text(a_19258);
     $("#a_h264payload").text(a_16124);
     $("#a_h263payload").text(a_16125);
     $("#a_L16_256payload").text(a_16126);
@@ -801,10 +807,10 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("P297", "1307", ""),
                 new ReqItem("ilibcfs", "97", ""),
                 new ReqItem("packetmodel", "26005", ""),
-                new ReqItem("videocodec", "video_encoder", ""),
 				new ReqItem("imgsize", "2307", ""),
 				new ReqItem("protype", "2362", ""),
                 new ReqItem("useh264profile", "26045", ""),
+                new ReqItem("h265payload", "26086", ""),
 				new ReqItem("h264payload", "293", ""),
 				new ReqItem("h263payload", "350", ""),
                 new ReqItem("L16-256payload", "2300", ""),
@@ -1537,6 +1543,8 @@ function pageEventActions(){
         
         if( $("#h264payload").val() == "" )
             $("#h264payload").val("99");
+        if( $("#h265payload").val() == "" )
+            $("#h265payload").val("114");
         if( $("#fecpayload").val() == "" )
             $("#fecpayload").val("120");
         if( $("#audiofecpayload").val() == "" )
@@ -1547,6 +1555,7 @@ function pageEventActions(){
             $("#feccpayload").val("125");
         
         var h264payload = $("#h264payload").val();
+        var h265payload = $("#h265payload").val();
         var fecpayload = $("#fecpayload").val();
         var audiofecpayload = $("#audiofecpayload").val();
         //var fecredpayload = $("#fecredpayload").val();
@@ -1556,6 +1565,7 @@ function pageEventActions(){
         var cmppayload = new Array();
         cmppayload.push(dtmfpayload);
         cmppayload.push(h264payload);
+        cmppayload.push(h265payload);
         cmppayload.push(g722payload);
         cmppayload.push(g7221cpayload);
         cmppayload.push(fecpayload);
@@ -1573,11 +1583,6 @@ function pageEventActions(){
             }
         }
         
-        /*if( dtmfpayload == h264payload || dtmfpayload == g722payload || g722payload == h264payload || fecpayload == h264payload || fecpayload == dtmfpayload || fecpayload == g722payload || feccpayload == dtmfpayload || feccpayload == g722payload || feccpayload == h264payload || feccpayload == fecpayload || opuspayload == dtmfpayload || opuspayload == g722payload || opuspayload == h264payload || opuspayload == fecpayload || opuspayload == feccpayload )// || fecredpayload == dtmfpayload || fecredpayload == h264payload || fecredpayload == fecpayload || fecredpayload == g722payload || fecredpayload == feccpayload || opuspayload == fecredpayload
-        {
-            $.prompt(a_16148);
-            return false;
-        }*/
         $('#P57').val( $('#allow1 option:eq(0)').val() != undefined ? $('#allow1 option:eq(0)').val() : "" );
         $('#P58').val( $('#allow1 option:eq(1)').val() != undefined ? $('#allow1 option:eq(1)').val() : "" );
         $('#P59').val( $('#allow1 option:eq(2)').val() != undefined ? $('#allow1 option:eq(2)').val() : "" );
@@ -1589,7 +1594,7 @@ function pageEventActions(){
          
         $('#P295').val( $('#allow2 option:eq(0)').val() != undefined ? $('#allow2 option:eq(0)').val() : "" );
         $('#P296').val( $('#allow2 option:eq(1)').val() != undefined ? $('#allow2 option:eq(1)').val() : "" );
-        $('#P297').val( $('#allow2 option:eq(2)').val() != undefined ? $('#allow2 option:eq(2)').val() : "" );
+        //$('#P297').val( $('#allow2 option:eq(2)').val() != undefined ? $('#allow2 option:eq(2)').val() : "" );
 
         cb_put(req_items, "");
         if( $("#vbrate").val() != oldvbrate )

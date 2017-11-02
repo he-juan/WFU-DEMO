@@ -248,6 +248,8 @@ tip_item.push (
         "Selecciona el tipo de perfil de H.264 desde \"Perfil Básico\" ,\"Perfil Principal\", \"Alto Perfil\" o \"BP/MP/HP\".  El ajuste por defecto es \"BP/MP/HP\". El tipo de perfil más bajo es más fácil de descodificar, mientras que el nivel más alto tiene una alta relación de compresión. Para dispositivo con bajo CPU, seleccione \"Perfil Básico\" para reproducir un registro;\"Perfil Básico\" es más probable que se use en una conferencia de vídeo que tenga alta demanda para la calidad del vídeo. Seleccione entre tres tipos para  lograr el mejor efecto de vídeo."),
 	new TipsDef("Use H.264 Constrained Profiles",
         "Configures whether to use H.264 CBP to establish video call with WebRTC. The function takes effect when H.264 profile setting includes BP type. It is recommended to set to \"Yes\" when establish video call with WebRTC. The default setting is \"No\"."),
+	new TipsDef("H.265 Payload Type",
+	    "Enter H.265 codec payload type. The valid range is from 96 to 127. The default value is 114."),
 	new TipsDef("SDP Bandwidth Attribute",
         "Seleccione el atributo de ancho de banda del SDP desde \"Estándar\", \"Nivel de Medios\" o \"Ninguno\".<br/>Estándar: use  AS en el nivel de sesión y TIAS en el nivel de medios.<br/> Nivel de Medios: use AS en el nivel de medios.<br/>Ninguno:  no cambia el formato. <br/> El ajuste por defecto es \"Nivel de Medios\". Por favor no cambie el formato. De lo contrario, puede causar falla de decodificación si no es claro acerca de cual es el formato que soporta el servidor."),
     new TipsDef("Enable RFC5168 Support",

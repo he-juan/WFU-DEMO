@@ -3235,6 +3235,7 @@ var a_19254="Emergency Contacts";
 var a_19255="Emergency call numbers";
 var a_19256="Packet retransmission";
 var a_19257="Enable randomized automatic upgrade";
+var a_19258="H.265 payload type";
 var a_19300="Введите указанный выше код, чтобы связать устройство с Вашей учётной записью";
 var a_19301="Теперь Вы можете управлять Вашей учётной записью IPVideoTalk и планировать встречи в онлайн режиме";
 var a_19302="Grandstream’s IPVideoTalk is a robust video and web conferencing platform available to you as a user of a Grandstream GVC series video conferencing system.  This paid subscription-based service allows you to turn a video conference hosted on Grandstream’s GVC series devices into a comprehensive, online video conference that can be joined from any other GVC series devices, any Web-RTC capable browser and any VoIP phone. Sign up now to receive a free trial!";

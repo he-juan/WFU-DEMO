@@ -246,6 +246,8 @@ tip_item.push (
         "Selecione o tamanho da imagem H.264. A configuração padrão é \"1080p\"."),
 	new TipsDef("Use H.264 Constrained Profiles",
         "Configures whether to use H.264 CBP to establish video call with WebRTC. The function takes effect when H.264 profile setting includes BP type. It is recommended to set to \"Yes\" when establish video call with WebRTC. The default setting is \"No\"."),
+	new TipsDef("H.265 Payload Type",
+	    "Enter H.265 codec payload type. The valid range is from 96 to 127. The default value is 114."),
 	new TipsDef("H.264 Profile Type",
         "Selecione o tipo de perfil H.264 a partir de \"Baseline Profile\" ,\"Main Profile\", \"High Profile\" ou \"BP/MP/HP\". A configuração padrão é \"BP/MP/HP\". O tipo de perfil mais baixo é mais fácil de decodificar, enquanto o nível mais alto possui uma relação de compressão maior. Para dispositivos com CPU fraco, deve selecionar \"Baseline Profile\" para reproduzir a gravação;\"Baseline Profile\" é preferido para ser utilizado em uma videoconferência que possua uma alta demanda de qualidade de vídeo. Selecione entre as três opções para atingir o melhor efeito de vídeo."),
     new TipsDef("SDP Bandwidth Attribute",
