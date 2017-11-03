@@ -229,10 +229,8 @@ $(function(){
 });
 
 function get_item_suc_callback(msgs) {
-    $("#himioutresolution").sSelect({ddMaxHeight:'200px'});
-    $("#himi2outresolution").resetSS();
     mInitposition = $("#initposition").val();
-    $("#initposition").resetSS();
+    $("#initposition").sSelect({ddMaxHeight:'250px'});
     var curspeed = $("#movespeed").val();
     $("#dragmobilespeedDiv .volspan").text(parseInt(curspeed));
         
@@ -300,7 +298,7 @@ function cb_get_action_done(data, action){
                     $("#himioutresolution option").remove();
                     var newoption = "<option value='-1'>" + a_9717 + "</option>";
                     $("#himioutresolution").append(newoption);
-                    $("#himioutresolution").resetSS();
+                    $("#himioutresolution").sSelect({ddMaxHeight:'250px'});
                 }
                 
                 if(hdmi2 == "true"){
@@ -310,7 +308,7 @@ function cb_get_action_done(data, action){
                     $("#himi2outresolution option").remove();
                     var newoption = "<option value='-1'>" + a_9717 + "</option>";
                     $("#himi2outresolution").append(newoption);
-                    $("#himi2outresolution").resetSS();
+                    $("#himi2outresolution").sSelect({ddMaxHeight:'250px'});
                 }
             }
         }else if(action.indexOf("gethdmimodes") != -1){
@@ -327,7 +325,7 @@ function cb_get_action_done(data, action){
                         var newoption = "<option value=" + i + ">" + modes[i] + "</option>";
                         $("#himioutresolution").append(newoption);
                     }
-                    $("#himioutresolution").resetSS();
+                    $("#himioutresolution").sSelect({ddMaxHeight:'250px'});
                     cb_get_action("getcurhdmimode&region=advanset&hdmi=hdmi1");
                 }
                 else if(action.indexOf("hdmi2") != -1){
@@ -341,7 +339,7 @@ function cb_get_action_done(data, action){
                         var newoption = "<option value=" + i + ">" + modes[i] + "</option>";
                         $("#himi2outresolution").append(newoption);
                     }
-                    $("#himi2outresolution").resetSS();
+                    $("#himi2outresolution").sSelect({ddMaxHeight:'250px'});
                     cb_get_action("getcurhdmimode&region=advanset&hdmi=hdmi2");
                 }
             }
@@ -464,7 +462,7 @@ function cb_get_action_done(data, action){
         }*/
         else if( action == "getpresetinfo&region=control" ){
             var tObj = eval("(" + data + ")");
-            if( tObj.Response == "success" ){                
+            if( tObj.Response == "success" ){
                 var presetItem = tObj.Data;
                 for(var i = 0; i < presetItem.length; i++){
                     var presetNum = parseInt(presetItem[i]["position"]) + 1;
