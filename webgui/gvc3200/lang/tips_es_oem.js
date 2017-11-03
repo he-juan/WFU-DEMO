@@ -629,11 +629,11 @@ tip_item.push (
         "Llene la contraseña para validar el servidor TURN."),
     
     new TipsDef("Layer 3 QoS for SIP",
-		"Este campo define el parámetro QoS de capa 3 para la precedencia IP, Diff-Serv o MPLS. El ajuste por defecto es 48."),
+		"Este campo define el parámetro QoS de capa 3 para la precedencia IP, Diff-Serv o MPLS. El ajuste por defecto es 26."),
 	new TipsDef("Layer 3 QoS for Audio",
-		"Define el parámetro QoS de capa 3 para los paquetes de audio. Este valor es usado para la precedencia IP, Diff-Serv o MPLS. El ajuste por defecto es 48."),
+		"Define el parámetro QoS de capa 3 para los paquetes de audio. Este valor es usado para la precedencia IP, Diff-Serv o MPLS. El ajuste por defecto es 46."),
     new TipsDef("Layer 3 QoS for Video",
-		"Define el parámetro QoS de capa 3 para los paquetes de vídeo. Este valor es usado para la precedencia IP, Diff-Serv o MPLS. El ajuste por defecto es 48."),
+		"Define el parámetro QoS de capa 3 para los paquetes de vídeo. Este valor es usado para la precedencia IP, Diff-Serv o MPLS. El ajuste por defecto es 34."),
 
     new TipsDef("IPv6 Address",
         "La dirección IPv6 obtenida en el teléfono."),

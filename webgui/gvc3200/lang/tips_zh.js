@@ -629,11 +629,11 @@ tip_item.push (
         "填写用于验证TURN服务器的密码。"),
     
     new TipsDef("Layer 3 QoS for SIP", "第三层SIP QoS",
-		"此项表示Layer 3 QoS用于IP优先级或Diff-Serv或MPLS的参数。默认值为48。"),
+		"此项表示Layer 3 QoS用于IP优先级或Diff-Serv或MPLS的参数。默认值为26。"),
 	new TipsDef("Layer 3 QoS for Audio", "第三层音频QoS",
-		"定义了音频数据包的3层QoS参数。此值用于IP优先级，Diff-Serv或MPLS。默认值为48。"),
+		"定义了音频数据包的3层QoS参数。此值用于IP优先级，Diff-Serv或MPLS。默认值为46。"),
     new TipsDef("Layer 3 QoS for Video", "第三层视频QoS",
-		"定义了视频数据包的3层QoS参数。此值用于IP优先级，Diff-Serv或MPLS。默认值为48。"),
+		"定义了视频数据包的3层QoS参数。此值用于IP优先级，Diff-Serv或MPLS。默认值为34。"),
        
     new TipsDef("IPv6 Address", "IPv6地址",
         "配置话机的IPv6地址。"),

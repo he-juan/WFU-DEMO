@@ -634,11 +634,11 @@ tip_item.push (
         "Coloque a senha para validar o servidor TURN."),
     
     new TipsDef("Layer 3 QoS for SIP",
-		"Este campo define o parâmetro de QoS Camada 3 para Precedência IP, Diff-Serv ou MPLS. A configuração padrão é 48."),
+		"Este campo define o parâmetro de QoS Camada 3 para Precedência IP, Diff-Serv ou MPLS. A configuração padrão é 26."),
 	new TipsDef("Layer 3 QoS for Audio",
-		"Define o parâmetro de QoS Camada 3 para pacotes de áudio. Este valor é utilizado para Precedência IP, Diff-Serv ou MPLS. A configuração padrão é 48."),
+		"Define o parâmetro de QoS Camada 3 para pacotes de áudio. Este valor é utilizado para Precedência IP, Diff-Serv ou MPLS. A configuração padrão é 46."),
     new TipsDef("Layer 3 QoS for Video",
-		"Define o parâmetro de QoS Camada 3 para pacotes de Vídeo. Este valor é utilizado para Precedência IP, Diff-Serv ou MPLS. A configuração padrão é 48."),
+		"Define o parâmetro de QoS Camada 3 para pacotes de Vídeo. Este valor é utilizado para Precedência IP, Diff-Serv ou MPLS. A configuração padrão é 34."),
 
     new TipsDef("IPv6 Address",
         "O endereço IPv6 obtido pelo telefone."),

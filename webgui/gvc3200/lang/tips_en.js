@@ -637,11 +637,11 @@ tip_item.push (
         "Fill in the password to validate TURN server."),
     
     new TipsDef("Layer 3 QoS for SIP",
-		"This field defines the Layer 3 QoS parameter for IP Precedence, Diff-Serv or MPLS. The default setting is 48."),
+		"This field defines the Layer 3 QoS parameter for IP Precedence, Diff-Serv or MPLS. The default setting is 26."),
 	new TipsDef("Layer 3 QoS for Audio",
-		"Defines the Layer 3 QoS parameter for audio packets. This value is used for IP Precedence, Diff-Serv or MPLS. The default setting is 48."),
+		"Defines the Layer 3 QoS parameter for audio packets. This value is used for IP Precedence, Diff-Serv or MPLS. The default setting is 46."),
     new TipsDef("Layer 3 QoS for Video",
-		"Defines the Layer 3 QoS parameter for video packets. This value is used for IP Precedence, Diff-Serv or MPLS. The default setting is 48."),
+		"Defines the Layer 3 QoS parameter for video packets. This value is used for IP Precedence, Diff-Serv or MPLS. The default setting is 34."),
 
     new TipsDef("IPv6 Address",
         "The IPv6 address obtained on the phone."),
