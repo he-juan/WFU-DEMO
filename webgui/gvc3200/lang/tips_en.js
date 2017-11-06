@@ -161,7 +161,7 @@ tip_item.push (
     new TipsDef("Remove OBP from route",
         "Configures to remove outbound proxy from route. This is used for the SIP Extension to notify the SIP server that the device is behind a NAT/Firewall. The default setting is \"No\"."),
     new TipsDef("Use Privacy Header",
-        "Controls whether the Privacy header will present in the SIP INVITE message or not, whether the header contains  the caller info. When set to \"Default\", the Privacy Header will show in INVITE only when  \"Huawei IMS\" special feature is on. If set to \"Yes\", the Privacy Header will always show in INVITE. If set to \"No\", the Privacy Header will not show in INVITE. The default setting is \"Default\"."),
+        "Controls whether the Privacy header will present in the SIP INVITE message or not, whether the header contains  the caller info. When set to \"Default\", the Privacy Header won't show in INVITE only when  \"Huawei IMS\" special feature is on. If set to \"Yes\", the Privacy Header will always show in INVITE. If set to \"No\", the Privacy Header will not show in INVITE. The default setting is \"Default\"."),
     new TipsDef("Use P-Preferred-Identity Header",
         "Controls whether the P-Preferred-Identity Header will present in the SIP INVITE message. Please refer to user manual for more details."),
     new TipsDef("SIP URI Scheme When Using TLS",
