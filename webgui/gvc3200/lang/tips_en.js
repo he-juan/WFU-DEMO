@@ -206,7 +206,7 @@ tip_item.push (
     new TipsDef("Opus Payload Type",
         "Enter a desired value (96-126) for the payload type of the Opus codec. The default value is 123."),
     new TipsDef("Preferred Video Coder",
-        "This parameter lets you select your preferred video codec from the \"available\" list. The device supports H.264, H.263 or H.263+. The H.264 codec is recommended."),
+        "This parameter lets you select your preferred video codec from the \"available\" list. The device supports H.264 and H.265. The H.264 codec is recommended."),
 	new TipsDef("iLBC Frame Size",
 		"Selects iLBC packet frame size."),
 	new TipsDef("H.264 Payload Type",

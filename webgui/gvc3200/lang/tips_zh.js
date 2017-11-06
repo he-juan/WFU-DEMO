@@ -206,7 +206,7 @@ tip_item.push (
     new TipsDef("Opus Payload Type", "Opus有效荷载类型",
 	    "输入Opus有效荷载值，范围为：96-126,默认为123。"),
     new TipsDef("Preferred Video Coder", "视频编码",
-        "设备支持H.264、H.263或H.263+，推荐使用H.264。"),
+        "设备支持H.264、H.265，推荐使用H.264。"),
 	new TipsDef("iLBC Frame Size", "iLBC帧大小",
 		"选择iLBC帧时长。"),
     new TipsDef("H.264 Payload Type", "H.264有效荷载类型",

@@ -207,7 +207,7 @@ tip_item.push (
     new TipsDef("Opus Payload Type",
         "Ingrese un valor deseado (96-126) para el tipo de carga útil del códec Opus. El valor por defecto es de 123."),
     new TipsDef("Preferred Video Coder",
-        "Este parámetro le permite seleccionar su códec de vídeo preferido desde la lista \"disponible\".  El dispositivo soporta H.264, H.263 o H.263+. El códec H.264 es recomendado."),
+        "Este parámetro le permite seleccionar su códec de vídeo preferido desde la lista \"disponible\".  El dispositivo soporta H.264 o H.265. El códec H.264 es recomendado."),
 	new TipsDef("iLBC Frame Size",
 		"Selecciona el tamaño del paquete iLBC."),
 	new TipsDef("H.264 Payload Type",
