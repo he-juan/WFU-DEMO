@@ -382,7 +382,7 @@ function setInitState(){
     $("#confmenu, #updatevia, #updateconfigvia, #custvia, #mdns, #autoup, #updaterule").sSelect();
     $("#Formvalidate").validate({
 		rules: {
-            starthour: { digits: true, range:[0,23] },
+            starthour: { digits: true, range:[0,23], required:true },
             endhour: { digits: true, range:[0,23] },
             //dayofweek: { digits: true, range:[0,6] },
             peroid: { digits: true, range:[60,5256000] }
