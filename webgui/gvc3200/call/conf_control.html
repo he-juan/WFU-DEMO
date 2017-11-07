@@ -1189,6 +1189,7 @@ var mConfrole;  //0-normal 1-guest 2-host 3-panelists
 var promptTxt = "";
 var mInterval;
 var is4kon;
+var videocodec = 0;  // 0-video codec is not H.265  1-video codec is H.265
 
 var req_items = new Array;
 req_items.push(
@@ -1389,6 +1390,8 @@ function handle_callmessage(data,obj_incominginfo)
                 window.parent.del_obj_incominginfo(line);
             mLineState[line] = 0;
             mCalllogItems = "";//for getting new calllog
+            if(videocodec)
+                videocodec = 0;
 
             if($("#incomingcall",window.parent.document).is(":visible") || mTabnum > 0)
             {
@@ -1659,6 +1662,9 @@ function handle_callmessage(data,obj_incominginfo)
             var i;
             var line = data.line;
             var msg = data.msg;
+            
+            if(msg == "64")
+                videocodec = 1;
             
             if(autoanswerFlag && data.name == "" && data.num == ""){
                 if(autoanswer.name == "")
@@ -1932,6 +1938,10 @@ function init_conference(data)
             var feccline = data.feccline;
             var remotehold = data.isremotehold;
             mLineState[line] = 1;
+
+            if(data.videomsg == "64"){
+                videocodec = 1;
+            }
 
             if($("#selectlist div[line=\""+line+"\"]").length > 0)
             {
@@ -9480,28 +9490,6 @@ function pageEventActions()
                 $("#presentmode").getSetSSValue("0");
             }
         });
-        
-        var videocodec = 0; // 0 - H.264   1 - H.265
-        var urihead = "action=get&var-0000=video_encoder&time=" + new Date().getTime();
-        $.ajax ({
-            type: 'get',
-            url:'/manager',
-            data:urihead,
-            dataType:'text',
-            async: false,
-            success:function(data) {
-                var msgs = res_parse_rawtext(data);
-                cb_if_auth_fail(msgs);
-                if (cb_is_fail(msgs)){
-                }else {
-                    videocodec = parseInt(msgs.headers['video_encoder']);
-                }
-            },
-            error:function(xmlHttpRequest, errorThrown) {
-                $("#presentmode").getSetSSValue("0");
-            }
-        });
-        
         
         /*if hdmi1 out is 4k or video codec is H.265, PC mode should be disabled*/
         if(is4kon || videocodec || !hdmiInOn && !wifiDisplayOn){
