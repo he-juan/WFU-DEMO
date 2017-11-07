@@ -1022,7 +1022,9 @@ function pageEventActions(){
             return false;
         }
         
-        if($("#endhour").val() != "" && $("#endhour").val() <  $("#starthour").val()){
+        var starthour = parseInt($("#starthour").val());
+        var endhour = parseInt($("#endhour").val());
+        if( $("#endhour").val() != "" && (endhour < starthour) ){
             $.prompt(a_16708);
             return false;
         }
