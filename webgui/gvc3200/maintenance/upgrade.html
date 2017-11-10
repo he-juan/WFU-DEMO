@@ -511,18 +511,14 @@ function init_upload(){
             window.clearInterval(interval);
             $("input[type='file']").attr("title", "");
             uploadkeytimer = 0;
-            if( $("#upgradeall").attr("checked") ){
-                if( response.indexOf("Response=Success") != -1 ){
-                    cb_upgrade_now();
-                }else if( response.indexOf("Message=Not enough space") != -1 ){
-                    button.text(a_7404);
-                    $.prompt(a_16477 + a_16462);
-                }else{
-                    button.text(a_7404);
-                    $.prompt(a_16477);
-                }
-            }else{
+            if( response.indexOf("Response=Success") != -1 ){
                 cb_upgrade_now();
+            }else if( response.indexOf("Message=Not enough space") != -1 ){
+                button.text(a_7404);
+                $.prompt(a_16477 + a_16462);
+            }else{
+                button.text(a_7404);
+                $.prompt(a_16477);
             }
             // enable upload button
             this.enable();
