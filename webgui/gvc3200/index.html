@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<link rel='shortcut icon' href="" type='image/x-icon' id="tabicon" />
 <link href='css/menu.css' type='text/css' rel='stylesheet'>
 <link href='css/pageframe.css' type='text/css' rel='stylesheet'>
 <script type='text/javascript' src='js/jquery.tools.min.js'></script>	
@@ -545,9 +546,11 @@ body{background-color:#EFF0F1;}
     var oemid = $.cookie("coloreExist");
     if(oemid == "54"){
         document.write("<script src='lang/tips_" + cookie_lang + "_oem.js?ver=" + version + "'><\/script>");
+        $("#tabicon").attr("href", "favicon_C12.ico");
     }
     else{
         document.write("<script src='lang/tips_" + cookie_lang + ".js?ver=" + version + "'><\/script>");
+        $("#tabicon").attr("href", "favicon_GS.ico");
     }
 </script>
 

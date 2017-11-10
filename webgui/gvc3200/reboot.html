@@ -1,7 +1,9 @@
 <!-- saved from url=(0022)http://internet.e-mail -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel='shortcut icon' href="" type='image/x-icon' id="tabicon"/>
 <link href='css/login.css' type='text/css' rel='stylesheet'>
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
@@ -10,6 +12,7 @@
 a:link , a:visited{text-decoration:none; color:#ff9001}
 a:hover {color: #fe5400;text-decoration:none}*/
 </style>
+</head>
 <script type="text/javascript">
 $(function(){
     cb_get_promodel();
@@ -17,12 +20,19 @@ $(function(){
     
     var shutdown_type = $.cookie( "ShutdownType");
     var cookie_lang = $.cookie( "MyLanguage");
+    var colore = $.cookie("coloreExist");
     if (cookie_lang == "zh"){
 		change_lang_zh(shutdown_type);
 	}else{
 		change_lang_en(shutdown_type);
 	}
 
+    if(colore == "54"){
+        $("#tabicon").attr("href", "favicon_C12.ico");
+    }else{
+        $("#tabicon").attr("href", "favicon_GS.ico");
+    }
+    
     $('.mainrbtDiv').hide();
     $('.loginDiv').hide();
     $('.mainrbtDiv').slideDown(1000, showForm);

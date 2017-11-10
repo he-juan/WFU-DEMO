@@ -2,6 +2,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+<link rel='shortcut icon' href="" type='image/x-icon' id="tabicon" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -313,9 +314,15 @@ function cb_get_action_done(data, action){
                 $('#languagepage').val("zh");
                 $("#languagepage").resetSS();
             }
+            
             if( coloreexist == 54 ){
                 $(".bgimg").css("background", "url('img/login/login_camera_cmcc.png') no-repeat scroll transparent");
+                $("#tabicon").attr("href", "favicon_C12.ico");
             }
+            else{
+                $("#tabicon").attr("href", "favicon_GS.ico");
+            }
+            
             init_lan(true);
         }
         else if( action == "productinfo" )
