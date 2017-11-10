@@ -314,7 +314,7 @@ function cb_get_plan(){
     });
 }
 function cb_get_ipvinfo(){
-    var urihead = "action=get&var-0000=405&var-0001=406&time=" + new Date().getTime();
+    var urihead = "action=getipvtacctinfo&region=account&time=" + new Date().getTime();
 	$.ajax ({
 		type: 'get',
 		url: '/manager',
@@ -333,7 +333,7 @@ function cb_get_ipvinfo(){
 function cb_login_pro(msgs){
     var account = msgs.headers["405"];
     var pwdinfo = msgs.headers["406"];
-    pwdinfo = $.md5(pwdinfo);
+    //pwdinfo = $.md5(pwdinfo);
     var timestamp = getUTCTimestamp();
     var queryUrl ="http://api.ipvideotalk.com/pro/user/login?source=WIN&version=1.0&format=JSON&appID=2012&jsoncallback=mycallback&timeStamp=" + timestamp + "&proAccount=" + account + "&password=" + pwdinfo;
     var signature = "&appID=2012&format=JSON&jsoncallback=mycallback&password=" + pwdinfo + "&proAccount=" + account + "&source=WIN&timeStamp=" + timestamp + "&version=1.0&testandtest&";

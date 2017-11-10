@@ -2780,6 +2780,29 @@ static int compare_md5_password(char *username, char *realm, char *password, cha
     return 1;
 }
 
+static int handle_ipvt_acctinfo( buffer *b )
+{
+    char *acct = nvram_my_get("405");
+    char *pswd = nvram_my_get("406");
+    
+    li_MD5_CTX Md5Ctx;
+    HASH HA1;
+    char a1[256];
+    li_MD5_Init(&Md5Ctx);
+    li_MD5_Update(&Md5Ctx, (unsigned char *)pswd, strlen(pswd));
+    li_MD5_Final(HA1, &Md5Ctx);
+    CvtHex(HA1, a1);
+    
+    int len = strlen(acct) + strlen(a1) + 32;
+    char *res = malloc(len);
+    memset(res, 0, len);
+    sprintf(res, "Response=Success\r\n405=%s\r\n406=%s", acct, a1);
+    
+    buffer_append_string(b, res);
+    free(res);
+    return 0;
+}
+
 static int handle_loginrealm( buffer *b )
 {
     long realm = random() * random();
@@ -21105,6 +21128,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_deltone(b, m);
                 } else if (!strcasecmp(action, "setdefaultacct")) {
                     handle_callservice_by_one_param(srv, con, b, m, "account", "setDefaultAccount", 0);
+                } else if (!strcasecmp(action, "getipvtacctinfo")) {
+                    handle_ipvt_acctinfo(b);
                 } else{
                     findcmd = 0;
                 }
