@@ -1663,9 +1663,11 @@ function handle_callmessage(data,obj_incominginfo)
             var line = data.line;
             var msg = data.msg;
             
-            if(msg == "64")
+            if(parseInt(msg) >= 16 && parseInt(msg) < 64)
+                videocodec = 0;
+            else if(parseInt(msg) >= 64 && parseInt(msg) < 253)
                 videocodec = 1;
-            
+                
             if(autoanswerFlag && data.name == "" && data.num == ""){
                 if(autoanswer.name == "")
                     data.name = autoanswer.num;
@@ -1939,9 +1941,11 @@ function init_conference(data)
             var remotehold = data.isremotehold;
             mLineState[line] = 1;
 
-            if(data.videomsg == "64"){
+            var msg = parseInt(data.videomsg);
+            if(msg >= 16 && msg < 64)
+                videocodec = 0;
+            else if(msg >= 64 && msg < 253)
                 videocodec = 1;
-            }
 
             if($("#selectlist div[line=\""+line+"\"]").length > 0)
             {
