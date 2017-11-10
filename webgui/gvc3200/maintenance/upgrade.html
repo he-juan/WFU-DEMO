@@ -175,21 +175,6 @@ input[type='file']{top:0;left:0;}
                 </select>
                 <span class="selectrebootspan" style="display:none;"></span>
             </div>
-            
-            <div webtip="Enable Randomized Automatic Upgrade" class="randomautoupdiv">
-                <div class="rebootitem"><span id="a_randomautoup">DHCP Option 66 Override Server</span> :</div>
-                <input name="randomautoup" type="checkbox" id="randomautoup"><span id="a_randomautoupyes">Yes</span>
-            </div>
-            
-            <div webtip="Automatic Upgrade Check Interval" class="byperioddiv">
-                <div class="rebootitem"><span id="a_period">Automatic Upgrade Check Interval</span> :</div>
-                <input id="peroid" name="peroid" type="text" /><!--span class="rebootspan"></span-->
-            </div>
-            
-            <div webtip="Hour of the Day" class="bydaydiv">
-                <div class="rebootitem"><span id="a_hourofday">Hour of the Day(0-23)</span> :</div>
-                <input id="starthour" name="starthour" type="text" /> — <input id="endhour" name="endhour" type="text" />
-            </div>
             <div webtip="Day of the Week" class="byweekdiv">
                 <div class="rebootitem"><span id="a_dayofweek">Day of the Week(0-6)</span> :</div>
                 <input id="dayofweek" name="dayofweek" type="text" style="display: none;"/>
@@ -221,6 +206,18 @@ input[type='file']{top:0;left:0;}
                     <input type="checkbox" value="6"></input>
                     <span>Saturday</span>
                 </div>
+            </div>
+            <div webtip="Automatic Upgrade Check Interval" class="byperioddiv">
+                <div class="rebootitem"><span id="a_period">Automatic Upgrade Check Interval</span> :</div>
+                <input id="peroid" name="peroid" type="text" /><!--span class="rebootspan"></span-->
+            </div>
+            <div webtip="Enable Randomized Automatic Upgrade" class="randomautoupdiv">
+                <div class="rebootitem"><span id="a_randomautoup">DHCP Option 66 Override Server</span> :</div>
+                <input name="randomautoup" type="checkbox" id="randomautoup"><span id="a_randomautoupyes">Yes</span>
+            </div>
+            <div webtip="Hour of the Day" class="bydaydiv">
+                <div class="rebootitem"><span id="a_hourofday">Hour of the Day(0-23)</span> :</div>
+                <input id="starthour" name="starthour" type="text" /> — <input id="endhour" name="endhour" type="text" />
             </div>
             <div webtip="Firmware Upgrade and Provisioning" class="upgradedivs">
                 <div class="rebootitem"><span id="a_autouprule">Firmware Upgrade and Provisioning</span> :</div>
