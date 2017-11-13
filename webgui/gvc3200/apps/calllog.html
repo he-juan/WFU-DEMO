@@ -1790,7 +1790,7 @@ function pageEventActions(){
             if( $("#hasipvt", window.parent.document).val() == "1" && mPromodel == "GVC3202" && mMaxlineNum < 2 ){
                 mMaxlineNum ++;
             }
-            if( membersnum > mMaxlineNum)
+            /*if( membersnum > mMaxlineNum)
             {
                 //list all members
                 $("#selectlist").empty();
@@ -1813,7 +1813,7 @@ function pageEventActions(){
                 $("#selectcall").show();
                 $("#selectcalldiv").show();
                 return false;
-            }
+            }*/
             callmode = "ipcall";
             for( var i = 0; i < membersnum; i++ ){
                 if( dialnumarray[i] == "anonymous" )
@@ -1845,13 +1845,14 @@ function pageEventActions(){
             //cb_get_action("addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(dialnum) + "&accounts=" + encodeURIComponent(todialacct) + "&confname=" + confname);
             //cb_start_addmemberconf(dialnum, todialacct, callmode, confname);
             var isdialplan = "";
-            $(".memberitemdiv[confid" + confid + "]").each(function(){
-                var calllogtype = $(this).attr("type");
-                if(calllogtype == 2)
+            var mtype = $(this).parent().parent().attr("mtype").split(":::");
+            var isdialplan = "";
+            for(var i = 0; i < mtype.length; i++){
+                if(mtype == 2)
                     isdialplan += mDisdialplan[4] + ":::";
                 else
                     isdialplan += mDisdialplan[3] + ":::";
-            });
+            }
             isdialplan = isdialplan.substring(0, isdialplan.length - 3);
             
             var isvideo = $(this).parent().parent(".itemdiv").attr("misvideo");

@@ -253,7 +253,7 @@ ol.mp_list li.mp_error {}
                 <div id="membernumdiv" style="position:relative;top:-22px;left:395px;font-size:16px;color:#444;width:30px;">
                     <span id="membernum">0</span>/<span id="membermaxnum">8</span>
                 </div>
-                <div style="position:relative;top:-102px;left:10px;font-size:14px;color:#444;width:420px;color:#999;" id="numbertipdiv" onclick="$('#dialnum').focus();">
+                <div style="position:relative;top:-82px;left:10px;font-size:14px;color:#444;width:420px;color:#999;" id="numbertipdiv" onclick="$('#dialnum').focus();">
                     <span id="numbertip"></span>
                 </div>
             </div>
@@ -629,6 +629,12 @@ function cb_get_action_done(data, action) {
             }
         }else if(action.indexOf("setdefaultacct") != -1){
             mDftAcct = mNewDftAcct;
+            
+            if(mDftAcct == "1")
+                $("#membernumdiv").hide();
+            else
+                $("#membernumdiv").show();
+            
             var id = "acct" + (parseInt(mDftAcct)+1) + "state";
             $("#acctsepline").after( $("#" + id) );
             $(".acctnum").show();
@@ -1213,6 +1219,7 @@ function cb_get_status_done(msgs) {
         }else
         {
             $("#acct2state").show();
+            $("#membernumdiv").hide();
             if( selacct == -1 )
                 selacct = 1;
         }
@@ -1712,10 +1719,12 @@ function pageEventActions(){
                 $("#dialnum").hide();
             else
                 $("#dialnum").show();
+            $("#membernumdiv").show();
         }
         else{
             if(mHasIPVNumber)
                 $("#dialnum").show();
+            $("#membernumdiv").hide();
         }
         if( selacct == 1 ){
             $("#numbertip").text(a_16693+" ("+a_10158+")");
@@ -1822,7 +1831,7 @@ function pageEventActions(){
             var names = dialname.split(",");
             var dialaccts = dialacct.split(":::");
             var numlength = numbers.length;
-            if( numlength > mMaxlineNum)
+            /*if( numlength > mMaxlineNum)
             {
                 //list all members
                 $("#selectlist").attr("callmode",mode).empty();
@@ -1841,7 +1850,7 @@ function pageEventActions(){
                 add_selectlist_event();
                 $("#selectcalldiv").show();
                 return false;
-            }
+            }*/
             //dialnum = dialnum.substring(1, dialnum.length-1);
             var tmpnum = dialnum.replace(/-/g,"");
             if( tmpnum == "" ){
@@ -1886,7 +1895,17 @@ function pageEventActions(){
                     }
                 }
                 
-                cb_start_addmemberconf(dialnum, dialacct, mode, "", "", "", isvideo);
+                var mtype = $(this).parent().parent().attr("mtype").split(":::");
+                var isdialplan = "";
+                for(var i = 0; i < mtype.length; i++){
+                    if(mtype == 2)
+                        isdialplan += mDisdialplan[4] + ":::";
+                    else
+                        isdialplan += mDisdialplan[3] + ":::";
+                }
+                isdialplan = isdialplan.substring(0, isdialplan.length - 3);
+                
+                cb_start_addmemberconf(dialnum, dialacct, mode, "", isdialplan, "", isvideo);
             }
         }
     });
@@ -1980,7 +1999,7 @@ function pageEventActions(){
         var dialnum = "";
         var dialacct = "";
         for(var i = 0; i < values.length; i++){
-            if( i > mMaxlineNum-1 ) break;
+            if( i > mMaxlineNum-1 && selacct != "1") break;
             if( dialnum != "" ){
                 dialnum += ":::";
                 dialacct += ":::";
@@ -2043,10 +2062,14 @@ function pageEventActions(){
             //selacct may be 1 for bluejeans account when no account configured,so use 0 forever as only one account
             //cb_start_single_call(dialnum, 0, ispage, isipcall);
             var isdialplan = mDisdialplan[6];
+            if(selacct == "1" && values.length > 1){
+                for(var i = 1; i < values.length; i++)
+                    isdialplan += ":::" + mDisdialplan[6];
+            }
             if( values.length == 1 ){
                 cb_start_single_call(dialnum, dialacct, ispage, isdialplan, isipcall, isvideo); 
             }else{
-                cb_start_addmemberconf(dialnum, dialacct, mode,"", isdialplan, "", isvideo);
+                cb_start_addmemberconf(dialnum, dialacct, mode, "", isdialplan, "", isvideo);
             }
             $('#dialnum').manifest('remove');
         }
