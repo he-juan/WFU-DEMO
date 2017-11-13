@@ -2876,7 +2876,7 @@ static int authenticate (const struct message *m)
     char *realpass = NULL;
     int isdft = 0;
 
-    if ((!strcasecmp ("admin", user)) || (!strcasecmp("gmiadmin", user)))
+    if ((!strcmp ("admin", user)) || (!strcmp("gmiadmin", user)))
     {
 #ifdef BUILD_ON_ARM
         realpass = nvram_get ("2");
@@ -2909,7 +2909,7 @@ static int authenticate (const struct message *m)
             return 0;
         }*/
         
-    } else if (!strcasecmp ("user", user)) 
+    } else if (!strcmp ("user", user)) 
     {
 #ifdef BUILD_ON_ARM
         realpass = nvram_get ("196");
