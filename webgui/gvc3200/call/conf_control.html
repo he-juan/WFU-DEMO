@@ -3467,11 +3467,19 @@ function addconflist(data,todivID)
 function update_line_videoedstate(data){
     var line = data.line;
     var type = data.type;
+    
+    // receive websocket of turning on/off camera func
+    // flag:  0-the operation failed   1-the operation successed
     if(data.flag == 1){
         if(type.indexOf("open") != -1)
             $("#line-"+line).find(".isvideoed").removeClass("unisvideoed").attr("isvideoed","0").attr("title", a_19241);
         else
             $("#line-"+line).find(".isvideoed").addClass("unisvideoed").attr("isvideoed","1").attr("title", a_10077);
+    }else{
+        if(type.indexOf("open") != -1)
+            $("#line-"+line).find(".isvideoed").addClass("unisvideoed").attr("isvideoed","1").attr("title", a_10077);
+        else
+            $("#line-"+line).find(".isvideoed").removeClass("unisvideoed").attr("isvideoed","0").attr("title", a_19241);
     }
 }
 
