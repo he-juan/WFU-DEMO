@@ -1301,7 +1301,7 @@ $(function(){
     if(calltype == 0)
     {
         $(".noticetip,.disablediv").show();
-            $("#bottombtn button").attr("disabled","disabled").addClass("btndisabled");
+        $("#bottombtn button").attr("disabled","disabled").addClass("btndisabled");
     }
     //init busyline
     mBusylinenum = 0;
@@ -1646,10 +1646,13 @@ function handle_callmessage(data,obj_incominginfo)
                 if(mDisableconf == "0" && data.oldstate != "8")
                     addtoconf(data);
                 
-                if($("#rightsidebtn #meettingdiv img",window.parent.document).attr("alt") != "setback")
-                {
-                    window.parent.isopenincall(true);
-                }
+                setTimeout(function(){
+                    if($("#rightsidebtn #meettingdiv img",window.parent.document).attr("alt") != "setback")
+                    {
+                        window.parent.isopenincall(true);
+                    }
+                },800);
+                
                 $("#blockall").attr("name",a_10132).attr("isblockall","0").removeClass("active");
                 $("#suspendall").attr("name",a_10134).attr("issuspendall","0").removeClass("active");
                 $("#muteall").attr("ismuteall","0").attr("name",a_10130).removeClass("active");
@@ -3226,9 +3229,9 @@ function addconflist(data,todivID)
     var del = document.createElement('BUTTON');
     del.setAttribute("title",a_1);
     del.className = "confdel";
-    /*var redial = document.createElement('BUTTON');
+    var redial = document.createElement('BUTTON');
     redial.className = "redialcall";
-    redial.setAttribute("title",a_10008);*/
+    redial.setAttribute("title",a_10008);
 
     if(mDisableconf == "1")
     {
@@ -3312,7 +3315,7 @@ function addconflist(data,todivID)
             $("#present").show();
         $("#record").show();
     }
-    //btndiv.appendChild(redial);
+    btndiv.appendChild(redial);
     btndiv.appendChild(del);
     itemdiv.appendChild(btndiv);
     
@@ -3732,7 +3735,10 @@ function handle_callfailed(data)
     $failedline.find(".conftype").children("span").attr("title",errortip).addClass("failedtip").text(a_643);
     $failedline.find(".confbtn").children().hide();
     $failedline.find(".confdel").show();
-    $failedline.find(".redialcall").show();
+
+    if($("#line-" + line).attr("account") == "1"){
+        $failedline.find(".redialcall").show();
+    }
 
     mConfmemeber_num--;
     mBusylinenum = mConfmemeber_num;
@@ -3759,6 +3765,9 @@ function handle_callfailed(data)
             $("#line-local").find("#localmute").attr("disabled","disabled").addClass("btndisabled");
             $("#line-local").find("#closecamera").attr("disabled","disabled").addClass("btndisabled");
             $("#line-local").find(".startFECC").attr("disabled","disabled").addClass("btndisabled");
+            if($("#line-" + line).attr("account") == "1"){
+                $("#addmember").removeAttr("disabled").removeClass("disabled");
+            }
         }
         else
         {
@@ -8646,22 +8655,26 @@ function pageEventActions()
         }*/
 
         var confname = "";
+        var isdialplan = "";
         for(var i in addconfmember)
         {
             var acct = addconfmember[i][1];
             if(acct == undefined || acct == "")
                 acct = mselacct;
             
-            mConfnumlist += addconfmember[i][0]+":::"; 
-            mConfacctlist += acct+":::"; 
+            mConfnumlist += addconfmember[i][0] + ":::"; 
+            mConfacctlist += acct + ":::"; 
+            isdialplan += "0:::";
         }
         mConfnumlist = mConfnumlist.substring(0, mConfnumlist.length-3);
         mConfacctlist = mConfacctlist.substring(0, mConfacctlist.length-3);
-        var urihead = "action=addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(mConfnumlist) + "&accounts=" + encodeURIComponent(mConfacctlist) + "&confname=" + confname;
+        isdialplan = isdialplan.substring(0, isdialplan.length-3);
 
-        var callfn = "addconfmember_callback();";
-        cb_start_addmemberconf(mConfnumlist, mConfacctlist, mode,"", "", isvideo);
+        cb_start_addmemberconf(mConfnumlist, mConfacctlist, mode, "", isdialplan, "", isvideo);
         addconfmember_callback();
+        
+        //var urihead = "action=addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(mConfnumlist) + "&accounts=" + encodeURIComponent(mConfacctlist) + "&confname=" + confname;
+        //var callfn = "addconfmember_callback();";
         //cb_get_confaction(urihead,callfn,true);
     });
 
