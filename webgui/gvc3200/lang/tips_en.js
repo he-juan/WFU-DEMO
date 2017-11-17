@@ -741,7 +741,7 @@ tip_item.push (
     new TipsDef("Automatic Upgrade Check Interval",
 		"Specifies the time period to check for firmware upgrade (in minutes). The default setting is 10080 minutes (7 days)."),
     new TipsDef("Hour of the Day",
-		"Set the time or time period for automatic upgrade of the phone. If set \"Enable Random Automatic upgrade\" to \"No\", the phone will upgrade automatically at the setting time point; If set \"Enable Random Automatic upgrade\" to \"Yes\", the phone will upgrade automatically at random time during the set period."),
+		"Set the time or time period of automatic upgrade, and automatically update during the set time or time period."),
     new TipsDef("Day of the Week",
 		"Defines the day of the week to check the HTTP/TFTP server for firmware upgrades or configuration files changes."),
     new TipsDef("Firmware Upgrade and Provisioning",

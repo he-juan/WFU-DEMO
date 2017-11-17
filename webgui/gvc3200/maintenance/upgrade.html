@@ -211,10 +211,10 @@ input[type='file']{top:0;left:0;}
                 <div class="rebootitem"><span id="a_period">Automatic Upgrade Check Interval</span> :</div>
                 <input id="peroid" name="peroid" type="text" /><!--span class="rebootspan"></span-->
             </div>
-            <div webtip="Enable Randomized Automatic Upgrade" class="randomautoupdiv">
-                <div class="rebootitem"><span id="a_randomautoup">DHCP Option 66 Override Server</span> :</div>
+            <!--div webtip="Enable Randomized Automatic Upgrade" class="randomautoupdiv">
+                <div class="rebootitem"><span id="a_randomautoup">Enable Randomized Automatic Upgrade</span> :</div>
                 <input name="randomautoup" type="checkbox" id="randomautoup"><span id="a_randomautoupyes">Yes</span>
-            </div>
+            </div-->
             <div webtip="Hour of the Day" class="bydaydiv">
                 <div class="rebootitem"><span id="a_hourofday">Hour of the Day(0-23)</span> :</div>
                 <input id="starthour" name="starthour" type="text" /> — <input id="endhour" name="endhour" type="text" />
@@ -341,7 +341,7 @@ req_items.push(
     //new ReqItem("keypadup", "88", ""),
     new ReqItem("authconffile", "240", ""),
     new ReqItem("sipnotify", "4428", ""),
-    new ReqItem("randomautoup", "8458", ""),
+    //new ReqItem("randomautoup", "8458", ""),
     new ReqItem("starthour", "285", ""),
     new ReqItem("endhour", "8459", ""),
     new ReqItem("dayofweek", "286", ""),
@@ -379,7 +379,7 @@ function setInitState(){
     $("#confmenu, #updatevia, #updateconfigvia, #custvia, #mdns, #autoup, #updaterule").sSelect();
     $("#Formvalidate").validate({
 		rules: {
-            starthour: { digits: true, range:[0,23], required:true },
+            starthour: { digits: true, range:[0,23] },
             endhour: { digits: true, range:[0,23] },
             //dayofweek: { digits: true, range:[0,6] },
             peroid: { digits: true, range:[60,5256000] }
@@ -688,7 +688,7 @@ function translate_upgrade(){
     $("#autoup option:eq(3)").text(a_16343);
     $("#a_period").text(a_16344);
     $("#a_randomautoup").text(a_19257);
-    $("#a_hourofday").text(a_16345);
+    $("#a_hourofday").text(a_16345 + "(0-23)");
     $("#a_dayofweek").text(a_16346);
     $(".weekday:eq(0) span").text(a_130);
     $(".weekday:eq(1) span").text(a_124);
@@ -745,13 +745,6 @@ function get_item_suc_callback() {
     } else {
         $("#usegsgap").removeAttr("checked");
         $(".gapsitem").show();
-    }
-    
-    if(!$("#randomautoup").prop("checked")){
-        if($("#autoup").val() != "1")
-            $("#endhour").attr("disabled", "disabled");
-    }else{
-        $("#endhour").removeAttr("disabled");
     }
     
     var dayofweek = $("#dayofweek").val().split("/");
@@ -869,23 +862,48 @@ function cb_auto_upgrade_change(){
     /*value: 0-disabled 1-check everyday 2-check everyweek 3-check every period*/
     if(value == "0")
     {
-        $(".byperioddiv, .bydaydiv, .byweekdiv, .randomautoupdiv").hide();
+        $(".byperioddiv, .bydaydiv, .byweekdiv").hide();
+        $("#starthour").rules("remove", "required");
+        $("#endhour").rules("remove", "required");
     }
     else if(value == "1")
     {
-        $(".byperioddiv, .byweekdiv, .randomautoupdiv").hide();
+        $(".byperioddiv, .byweekdiv").hide();
         $(".bydaydiv").show();
-        $("#endhour").removeAttr("disabled");
+        $("#starthour").rules("add", { required: true });
+        $("#endhour").rules("remove", "required");
     }
     else if(value == "2")
     {
         $(".byperioddiv").hide();
-        $(".bydaydiv, .byweekdiv, .randomautoupdiv").show();
+        $(".bydaydiv, .byweekdiv").show();
+        $("#starthour").rules("add", { required: true });
+        $("#endhour").rules("remove", "required");
     }
     else if(value == "3")
     {
         $(".byweekdiv").hide();
-        $(".bydaydiv, .byperioddiv, .randomautoupdiv").show();
+        $(".byperioddiv").show();
+        
+        var peroid = $("#peroid").val();
+        if(peroid == ""){
+            $(".bydaydiv").hide();
+        }else{
+            if(parseInt(peroid) < 1440)
+                $(".bydaydiv").hide();
+            else
+                $(".bydaydiv").show();
+        }
+    }
+    
+    if(value == "3"){
+        if($("#endhour").val() == ""){
+            $("#starthour").val("");
+        }
+    }else{
+        if($("#starthour").val() == ""){
+            $("#starthour").val("1");
+        }
     }
 }
 
@@ -977,15 +995,42 @@ function pageEventActions(){
         }
     });
     
-    $("#randomautoup").change(function(){
-        if(!$(this).prop("checked")){
-            $("#endhour").attr("disabled", "disabled").val("");
+    $("#peroid").bind('input propertychange', function(){
+        var peroid = $("#peroid").val();
+        if(peroid == ""){
+            $(".bydaydiv").hide();
         }else{
-            $("#endhour").removeAttr("disabled");
+            if(parseInt(peroid) < 1440)
+                $(".bydaydiv").hide();
+            else
+                $(".bydaydiv").show();
         }
     });
     
     $("#a_save").click(function(){
+        var autoup = $("#autoup").val();
+        var starthour = $("#starthour").val();
+        var endhour = $("#endhour").val();
+        if(autoup == "2"){
+            if( $("#endhour").val() != "" && (parseInt(endhour) < parseInt(starthour)) ){
+                $.prompt(a_16708);
+                return false;
+            }
+        }else if(autoup == "3"){
+            if(starthour == "" && endhour == ""){
+                $("#starthour").rules("remove", "required");
+                $("#endhour").rules("remove", "required");
+            }else{
+                $("#starthour").rules("add", { required: true });
+                $("#endhour").rules("add", { required: true });
+                
+                if( parseInt(endhour) < parseInt(starthour) ){
+                    $.prompt(a_16708);
+                    return false;
+                }
+            }
+        }
+        
         if( !$("#Formvalidate").valid() ){
             view_message(a_16442,MSG_FAIL);
             return false;
@@ -1012,13 +1057,6 @@ function pageEventActions(){
         
         if( $("#firpre").val().indexOf("#") != -1 || $("#firpost").val().indexOf("#") != -1 || $("#confpre").val().indexOf("#") != -1 || $("#confpost").val().indexOf("#") != -1 ){
             $.prompt(a_19004);
-            return false;
-        }
-        
-        var starthour = parseInt($("#starthour").val());
-        var endhour = parseInt($("#endhour").val());
-        if( $("#endhour").val() != "" && (endhour < starthour) ){
-            $.prompt(a_16708);
             return false;
         }
         
@@ -1052,10 +1090,6 @@ function pageEventActions(){
     
     $("#autoup").change(function(){
         cb_auto_upgrade_change();
-        if($(this).val() == "2" || $(this).val() == "3"){
-            $("#randomautoup").prop("checked", false);
-            $("#endhour").attr("disabled", "disabled").val("");
-        }
     });
 }
 
