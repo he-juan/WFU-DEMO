@@ -889,10 +889,11 @@ function cb_auto_upgrade_change(){
         if(peroid == ""){
             $(".bydaydiv").hide();
         }else{
-            if(parseInt(peroid) < 1440)
+            if(parseInt(peroid) < 1440){
                 $(".bydaydiv").hide();
-            else
+            }else{
                 $(".bydaydiv").show();
+            }
         }
     }
     
@@ -1000,8 +1001,11 @@ function pageEventActions(){
         if(peroid == ""){
             $(".bydaydiv").hide();
         }else{
-            if(parseInt(peroid) < 1440)
+            if(parseInt(peroid) < 1440){
                 $(".bydaydiv").hide();
+                $("#starthour").val("");
+                $("#endhour").val("");
+            }
             else
                 $(".bydaydiv").show();
         }
@@ -1013,7 +1017,7 @@ function pageEventActions(){
         var endhour = $("#endhour").val();
         if(autoup == "2"){
             if( $("#endhour").val() != "" && (parseInt(endhour) < parseInt(starthour)) ){
-                $.prompt(a_16708);
+                $.prompt(a_19259);
                 return false;
             }
         }else if(autoup == "3"){
@@ -1025,7 +1029,7 @@ function pageEventActions(){
                 $("#endhour").rules("add", { required: true });
                 
                 if( parseInt(endhour) < parseInt(starthour) ){
-                    $.prompt(a_16708);
+                    $.prompt(a_19259);
                     return false;
                 }
             }
