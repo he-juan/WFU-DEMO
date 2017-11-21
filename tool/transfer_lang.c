@@ -5,6 +5,8 @@
 #define LAN_PATH_DBG    "../../patch/language/"
 #define WRITE_LAN_PATH_DBG                        "../webgui/gvc3200/lang"
 
+char *lang_list[] = {"en", "zh", "es", "ru", "pt", "ja"};
+
 void string_format(char **str)
 {
     int last_flag = 0;
@@ -53,60 +55,47 @@ int init_lan_tr()
     printf("init_lan_tr\n");
     char *filepath = NULL, *writhpath = NULL;
 
-    filepath = malloc(64);
-    memset(filepath, 0, sizeof(filepath));
-    writhpath = malloc(64);
-    memset(writhpath, 0, sizeof(writhpath));
-    sprintf(filepath, "%s", LAN_PATH_DBG);
-    sprintf(writhpath, "%s", WRITE_LAN_PATH_DBG);
+    int len1 = strlen(LAN_PATH_DBG) + 32;
+    int len2 = strlen(WRITE_LAN_PATH_DBG) + 32;
 
-    char *filename = NULL, *wirtefile = NULL;
-    filename = malloc(64);
-    memset(filename, 0, sizeof(filename));
-    wirtefile = malloc(64);
-    memset(wirtefile, 0, sizeof(wirtefile));
+    char *filename = NULL, *writefile = NULL, *helpfile = NULL;
+    filename = malloc(len1);
+    writefile = malloc(len2);
+    helpfile = malloc(len1);
     int wlen;
     int i = 0;
-    for(i = 0; i < 5; i++)
+    for(i = 0; i < 6; i++)
     {
-		if (i == 0)
-		{
-			sprintf(filename, "%s/en.txt", filepath);
-            sprintf(wirtefile, "%s/en.js", writhpath);
-		}
-		else if (i == 1)
-		{
-			sprintf(filename, "%s/zh.txt", filepath);
-            sprintf(wirtefile, "%s/zh.js", writhpath);		
-		}
-		else if (i == 2)
-		{
-			sprintf(filename, "%s/es.txt", filepath);
-            sprintf(wirtefile, "%s/es.js", writhpath);		
-		}
-		else if (i == 3)
-		{
-			sprintf(filename, "%s/ru.txt", filepath);
-            sprintf(wirtefile, "%s/ru.js", writhpath);		
-		}
-		else if (i == 4)
-		{
-			sprintf(filename, "%s/pt.txt", filepath);
-            sprintf(wirtefile, "%s/pt.js", writhpath);		
-		}
+        memset(filename, 0, len1);
+        snprintf(filename, len1, "%s/%s.txt", LAN_PATH_DBG, lang_list[i]);
+        memset(writefile, 0, len2);
+        snprintf(writefile, len2, "%s/%s.js", WRITE_LAN_PATH_DBG, lang_list[i]);
 
-        printf("write tr filename-%s---------------------------\n", wirtefile );
+        printf("write tr filename-%s---------------------------\n", writefile );
 
         FILE *fp = fopen( filename , "r");
-        FILE *wfp = fopen( wirtefile , "w+");
+        FILE *wfp = fopen( writefile , "w+");
+        FILE *hfp = NULL;
         char line[1024] = "";
+        char hline[1024] = "";
         char *trid = NULL;
         char *lanstr = NULL;
+        char *htrid = NULL;
+        char *hlanstr = NULL;
         char *temp = NULL;
+
+        if (i > 1) {
+            memset(helpfile, 0, len1);
+            snprintf(helpfile, len1, "%s/en.txt", LAN_PATH_DBG);
+            hfp = fopen(helpfile, "r");
+        }
 
         while ((  fp != NULL) && !feof( fp ) )
         {
-            fgets( &line, sizeof(line), fp );
+            fgets( (char*)&line, sizeof(line), fp );
+            if (hfp != NULL && !feof(hfp)) {
+                fgets((char*)&hline, sizeof(hline), hfp);
+            }
             if( strstr(line, ",") == NULL )
                 continue;
             //printf("line is %s\n", line );
@@ -118,13 +107,26 @@ int init_lan_tr()
 					lanstr = strsep(&lanstr, "\r\n");
 				else
                 	lanstr = strsep(&lanstr, "\n");
+
+                if (!strcmp(lanstr, "") && hfp != NULL) {
+                    htrid = strtok(hline, ",");
+                    if (htrid != NULL) {
+                        hlanstr = strtok(NULL, "`");
+                        if (strstr(hlanstr, "\r") != NULL)
+                            hlanstr = strsep(&hlanstr, "\r\n");
+                        else
+                            hlanstr = strsep(&hlanstr, "\n");
+                        lanstr = hlanstr;
+                    }
+                }
+
+				string_format(&lanstr);
+
                 //printf("trid is %s, lanstr is %s\n", trid, lanstr );
                 wlen = 32 + strlen(lanstr);
                 temp = malloc ( wlen );
 
-				string_format(&lanstr);
-
-				if (i < 5)
+				if (i < 6)
 	                snprintf(temp, wlen, "var a_%s=\"%s\";\n", trid, lanstr);
 	            else 
 					snprintf(temp, wlen, "var tip_%s=\"%s\";\n", trid, lanstr);
@@ -137,11 +139,20 @@ int init_lan_tr()
                 free(temp);
             }
             memset(line, 0, sizeof(line));
+            if (hfp != NULL) {
+                memset(hline, 0, sizeof(hline));
+            }
         }
         fclose(fp);
         fclose(wfp);
+        if (hfp != NULL) {
+            fclose(hfp);
+        }
         sync();
     }
+    free(filename);
+    free(writefile);
+    free(helpfile);
     printf("init_lan_tr suc\n");
 }
 
