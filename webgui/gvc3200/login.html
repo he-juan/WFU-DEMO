@@ -243,6 +243,7 @@ ul.newList li a {
                     <option value="es">Español</option>
                     <option value="pt">Português</option>
                     <option value="ru">Русский</option>
+                    <option value="ja">日本語</option>
                 </select>
                 <button id='loginbtn'></button>
             </div>
@@ -448,7 +449,7 @@ $(document).ready(function () {
     $('#sildedown').hide();
     $('.loginDiv, #lobinbtmline,#password').hide();
     $('#sildedown').slideDown(1000, showForm);
-    $("#languagepage").sSelect({ddMaxHeight: '196px'});
+    $("#languagepage").sSelect({ddMaxHeight: '233px'});
     
     $("#languagepage").change(function(){
         var lang = $(this).val();

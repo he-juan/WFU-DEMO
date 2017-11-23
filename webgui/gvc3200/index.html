@@ -259,6 +259,7 @@ body{background-color:#EFF0F1;}
                     <option value="es">Español</option>
                     <option value="pt">Português</option>
                     <option value="ru">Русский</option>
+                    <option value="ja">日本語</option>
                 </select>
                 <div class="menulastline"></div>
                 <div class="exit" id="logoutdiv">Logout</div>
@@ -593,7 +594,7 @@ $(function(){
     translate_menu();
     $(".callaccept.h323mode").hide();
     $.cookie( "logout" ,  "-1" , { path: '/', expires: 10 }); 
-    $("#languagepage").sSelect({ddMaxHeight: '134px'});
+    $("#languagepage").sSelect({ddMaxHeight: '161px'});
     $('#languagepage').getSetSSValue(cookie_lang);
     
     cb_get_fxo_exist();

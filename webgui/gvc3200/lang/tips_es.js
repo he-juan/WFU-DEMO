@@ -173,7 +173,7 @@ tip_item.push (
         "Defines si el puerto efímero actual en contacto con TCP/TLS se utilizará cuando es seleccionado TLS/TCP para el transporte SIP."),
     new TipsDef("Authenticate Incoming INVITE",
 		"Si se establece en \"Si\", el dispositivo retará el INVITE entrante para autenticación con una respuesta SIP 401 No autorizado."),
-	new TipsDef("SIP Realm Used for Challenge INVITE ＆ NOTIFY",
+	new TipsDef("SIP Realm Used for Challenge INVITE & NOTIFY",
         "Configura esta opción para verificar el INVITE entrante, solo toma efecto cuando se habilita primero INVITE entrante. Este es usado para verificar la información de provisión NOTIFY,  incluyendo registro de entrada de sincronización, resincronización y reinicio del sistema, pero solo es efectivo cuando se habilita la autenticación SIP."),
     new TipsDef("Check Domain Certificates",
 		"Define si los certificados de dominio serán revisados cuando es usado TLS/TCP para el transporte SIP."),
@@ -207,7 +207,7 @@ tip_item.push (
     new TipsDef("Opus Payload Type",
         "Ingrese un valor deseado (96-126) para el tipo de carga útil del códec Opus. El valor por defecto es de 123."),
     new TipsDef("Preferred Video Coder",
-        "Este parámetro le permite seleccionar su códec de vídeo preferido desde la lista \"disponible\".  El dispositivo soporta H.264 o H.265. El códec H.264 es recomendado."),
+        "Este parámetro le permite seleccionar su códec de video preferido de la lista en \"available\".  El dispositivo es compatible con H.264 y H.265. Se recomienda el códec H.264."),
 	new TipsDef("iLBC Frame Size",
 		"Selecciona el tamaño del paquete iLBC."),
 	new TipsDef("H.264 Payload Type",
@@ -247,15 +247,15 @@ tip_item.push (
     new TipsDef("H.264 Profile Type",
         "Selecciona el tipo de perfil de H.264 desde \"Perfil Básico\" ,\"Perfil Principal\", \"Alto Perfil\" o \"BP/MP/HP\".  El ajuste por defecto es \"BP/MP/HP\". El tipo de perfil más bajo es más fácil de descodificar, mientras que el nivel más alto tiene una alta relación de compresión. Para dispositivo con bajo CPU, seleccione \"Perfil Básico\" para reproducir un registro;\"Perfil Básico\" es más probable que se use en una conferencia de vídeo que tenga alta demanda para la calidad del vídeo. Seleccione entre tres tipos para  lograr el mejor efecto de vídeo."),
 	new TipsDef("Use H.264 Constrained Profiles",
-        "Configures whether to use H.264 CBP to establish video call with WebRTC. The function takes effect when H.264 profile setting includes BP type. It is recommended to set to \"Yes\" when establish video call with WebRTC. The default setting is \"No\"."),
+        "Configura si usar H.264 CBP para establecer una videollamada con WebRTC. La función tiene efecto cuando la configuración del perfil H.264 incluye el tipo de BP. Se recomienda establecerlo en \"Yes\" cuando establezca una videollamada con WebRTC. La configuración predeterminada es \"No\"."),
 	new TipsDef("H.265 Payload Type",
-	    "Enter H.265 codec payload type. The valid range is from 96 to 127. The default value is 114."),
+	    "Ingrese el tipo de carga útil del códec H.265. El rango válido es de 96 a 127. El valor predeterminado es 114."),
 	new TipsDef("SDP Bandwidth Attribute",
         "Seleccione el atributo de ancho de banda del SDP desde \"Estándar\", \"Nivel de Medios\" o \"Ninguno\".<br/>Estándar: use  AS en el nivel de sesión y TIAS en el nivel de medios.<br/> Nivel de Medios: use AS en el nivel de medios.<br/>Ninguno:  no cambia el formato. <br/> El ajuste por defecto es \"Nivel de Medios\". Por favor no cambie el formato. De lo contrario, puede causar falla de decodificación si no es claro acerca de cual es el formato que soporta el servidor."),
     new TipsDef("Enable RFC5168 Support",
         "Si se fija en \"Si\", el soporte RFC5168 será habilitado para la vídeo llamada. El ajuste por defecto es \"Si\"."),
 	new TipsDef("Enable RTX",
-	    "When the function is enabled, signaling will carry RTX information, if the final negotiation is succeeded, the related media RTX function will realize packet loss retransmission purpose. When this function is disabled. then packet loss retransmission cannot be used."),
+	    "Cuando la función está habilitada, la señalización llevará información RTX"),
 	new TipsDef("Video Jitter Buffer Maximum",
         "Configura el tamaño de almacenamiento de acuerdo al entorno de red.  El rango válido es desde 0 a 1000. El ajuste por defecto es 50."),
 	new TipsDef("Enable video Gradual decoder refresh",
@@ -300,9 +300,9 @@ tip_item.push (
     new TipsDef("No Answer Timeout",
         "Define el tiempo de espera (en segundos) antes de la llamada sea desviada en sin respuesta. El valor por defecto es 20 segundos."),
 	new TipsDef("Enable DND Forword",
-		"If set to \"Yes\", call will be forwarded to the number specified below when DND on."),
+		"Si se establece en \"Yes\", la llamada se reenviará al número especificado a continuación cuando DND esté activado."),
 	new TipsDef("DND To",
-		"Specifies the number to be forwarded to for Call Forward when DND on."),
+		"Especifica el número al que se reenviará el desvío de llamadas cuando DND esté activado"),
 	new TipsDef("Call Forward Unconditional",
         "Configura el número a desviar incondicionalmente."),
     new TipsDef("Call Forward When Busy",
@@ -727,7 +727,7 @@ tip_item.push (
     new TipsDef("Automatic Upgrade",
         "Habilite la actualización y aprovisionamiento automática HTTP. El ajuste por defecto es \"Revisar todos los días\"."),
 	new TipsDef("Enable Randomized Automatic Upgrade",
-		"Setting whether to upgrade automatically at random. It means whether the phone will upgrade automatically at random time point in the setting period. This option is mainly used for multiple phones upgrade at the same time."),
+		"Configurar si actualizar automáticamente al azar. Significa si el teléfono se actualizará automáticamente en un punto de tiempo aleatorio en el período de configuración. Esta opción se usa principalmente para la actualización de múltiples teléfonos al mismo tiempo."),
 	new TipsDef("Automatic Upgrade Interval",
         "Ingrese el número (en minutos) para revisar el servidor HTTP para actualización de firmware o cambios de configuración."),
     new TipsDef("Authenticate Conf File",
@@ -793,7 +793,7 @@ tip_item.push (
 
     /*Mantenimiento SysLog*/
 	new TipsDef("Syslog Protocol",
-        "Configure sending syslog through UDP or secured SSL/TLS protocol to syslog server."),
+        "Configure el envío de syslog a través de UDP o el protocolo SSL / TLS asegurado al servidor syslog."),
     new TipsDef("Syslog Level",
         "Selecciona el nivel de registro para el syslog. El ajuste por defecto es \"Ninguno\". Hay 4 niveles: DEBUG, INFO, WARNING y ERROR. Por favor consulte el manual de usuario para más detalles."),
     new TipsDef("Syslog Server",
@@ -801,14 +801,14 @@ tip_item.push (
     new TipsDef("Send SIP Log",
         "Configura si los registros SIP serán incluido en los mensajes syslog."),
 	new TipsDef("Syslog Filter",
-		"After entering the keywords, you will filter the system log with keywords, and multiple keywords should be separated by commas. For example, set the filter keyword  \"SIP\" to filter SIP log. set the filter keyword  \"Http,SIP\" to filter  Http and SIP log."),
+		"Después de ingresar las palabras clave, filtrará el registro del sistema con palabras clave."),
 	new TipsDef("H.323 Syslog Level",
         "Selecciona el nivel de Syslog H.323 en el menú desplegable, el ajuste por defecto es \"Apagado\", el cual significa ninguna información syslog H323 en el syslog. Usted puede seleccionar desde nivel 1 a 10, 10 es el nivel más alto."),
     
 	new TipsDef("Ping Target Host",
-		"The IP address or URL for the Target Host of the Ping."),
+		"La dirección IP o URL para el host de destino del Ping."),
 	new TipsDef("Target Host",
-		"The IP address or URL for the Target Host of the Traceroute."),
+		"La dirección IP o URL para el host de destino de Traceroute"),
 	
     /*Mantenimiento Debug*/
     new TipsDef("Capture Trace",
@@ -986,7 +986,7 @@ tip_item.push (
     new TipsDef("File Encoding ",
 		"Selecciona la codificación de archivo para descargar"),
 	new TipsDef("Emergency Call Numbers",
-		"Configures the emergency contact phone numbers. Input the number in the input box and click \"Add\" to add the number to the contacts list. To delete the existing emergency number, select the number in the contacts list and click \"Delete\"."),
+		"Configura los números de teléfono de contacto de emergencia. Ingrese el número en el cuadro de entrada y haga clic en \"Add\" para agregar el número a la lista de contactos. Para eliminar el número de emergencia existente, seleccione el número en la lista de contactos y haga clic en \"Delete\"."),
 	
 	/*Ajustes de Aplicación IM*/	
 	new TipsDef("Google Talk",
@@ -1153,9 +1153,9 @@ tip_item.push (
     
 	/*Configuración de Sitio*/
 	new TipsDef("Timeout Operation",
-		"Establezca el tiempo límite para entrar al modo \"Entrar modo hibernación\" y \"Apagado\", el valor por defecto es \"Entrar modo hibernación\"."),
+		"Establezca el modo de tiempo de espera en \"Enter sleep mode\" y \"shut down\", el valor predeterminado es \"Enter sleep mode\"."),
     new TipsDef("Enter Sleep Mode",
-        "According timeout option to set the timeout, if the time is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
+        "Especifica la duración del tiempo de espera de acuerdo con la Operación de tiempo de espera, si el tiempo de espera se establece en \"Never\", el terminal no entrará automáticamente en modo de reposo ni lo apagará. El valor predeterminado es \"After 30 mins\"."),
     new TipsDef("Site Name",
         "Especifica el nombre de sitio a ser impuesto sobre el vídeo del vídeo local. Cuando se una a una conferencia multi punto, este nombre de sitio es mostrado en el vídeo de los otros participantes.<br>El valor por defecto es nulo.<br>No use algún caracter especial en este nombre de sitio, tales como dos puntos (:), coma (,), guion (-), o subrayar (_)."),
     new TipsDef("Display Position",
@@ -1248,7 +1248,7 @@ tip_item.push (
         "Si se enciende, la función ADB (Androide Debug Bridge) será habilitada en el dispositivo. El ajuste por defecto es \"Deshabilitado\"."),
     
 	new TipsDef("Echo Delay",
-		"Configures the device's HDMI audio delay to match the audio latency of different TV sets."),
+		"Configura la demora de audio HDMI del dispositivo para que coincida con la latencia de audio de diferentes televisores."),
     new TipsDef("Ringtone Volume",
         "Configura el volumen del tono de timbrado."),
     new TipsDef("Media Volume",
@@ -1260,7 +1260,7 @@ tip_item.push (
     new TipsDef("Notification Tone",
         "Configura el tono de timbre de notificación."),
     new TipsDef("Audio Device",
-		"This option defines input and output devices for voice in call or media voice, including Auto, Bluetooth, USB ,HDMI. and Built-in speaker. If select \"USB\", the voice input and output come from the USB device; If select \"Bluetooth\", the voice input and output come from the Bluetooth; If select \"HDMI\", the voice input comes from the built-in Mic in GVC while the output comes from HDMI; If select \"Built-in speaker\", the voice input comes from the built-in Mic in GVC while the output comes from Built-in speaker;If select \"Gooseneck mic\" and the output device is HDMI, the voice input comes from USB devices while the output comes from HDMI;If select \"Auto\", the device will automatically detect whether being connected to the USB, Bluetooth or HDMI, if connected to two or three of the above, the priority order of voice input and output is Bluetooth, USB, HDMI. The default settings is \"Auto\"."),
+		"Esta opción define los dispositivos de entrada y salida para voz en llamadas o medios de voz, incluidos Auto, Bluetooth, USB, HDMI. y altavoz incorporado. Si selecciona \"USB\", la entrada y salida de voz provienen del dispositivo USB; Si selecciona \"Bluetooth\",la entrada y salida de voz provienen de Bluetooth; Si selecciona \"HDMI\", la entrada de voz proviene del micrófono incorporado en GVC, mientras que la salida proviene de HDMI; Si selecciona \"Built-in speaker\", la entrada de voz proviene del micrófono incorporado en GVC, mientras que la salida proviene del altavoz incorporado; Si selecciona \"Gooseneck mic\" y el dispositivo de salida es HDMI, la entrada de voz proviene de dispositivos USB mientras que la salida proviene de HDMI; Si selecciona \"Auto\", el dispositivo detectará automáticamente si está conectado a USB, Bluetooth o HDMI, si está conectado a dos o tres de los anteriores, el orden de prioridad de la entrada y salida de voz es Bluetooth, USB, HDMI. La configuración predeterminada es \"Auto\"."),
     new TipsDef("Presentation Video Frame Rate",
         "Configura la tasa de cuados de vídeo para la presentación, el ajuste por defecto son 15fps."),
     new TipsDef("BFCP Transport Protocol",
@@ -1297,7 +1297,7 @@ tip_item.push (
         "Si es habilitado, el envío de paquetes RTDP (roundTripDelayRequest) como paquete H245 keep-alive por 10 segundos. El intervalo de tiempo agotado son 30 segundos y colgará la llamada una vez se agote el tiempo. El ajuste por defecto es \"No\". Nota: si es habilitado, puede causar incompatibilidad con algunos dispositivos."),
         
     new TipsDef("DTMF ",
-        "Este parámetro especifica el mecanismo para transmitir los dígitos DTMF. Hay 3 modos soportados: en audio, RFC2833，señal H245.")
+        "Este parámetro especifica el mecanismo para transmitir los dígitos DTMF. Hay 3 modos soportados: en audio, RFC2833, señal H245.")
     /*Sin uso */
     /*
     new TipsDef("Enable SCA (Shared Call Appearance)",

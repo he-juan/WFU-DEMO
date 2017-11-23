@@ -170,7 +170,7 @@ tip_item.push (
         "Определяет будет ли использоваться фактическая назначенный для TCP/TLS, если TLS/TCP выбран для SIP транспорта."),
     new TipsDef("Authenticate Incoming INVITE",
 		"При установке \"Да\" устройство будет использовать ответ SIP 401 Unauthorized response на входящий INVITE для аутентификации."),
-	new TipsDef("SIP Realm Used for Challenge INVITE ＆ NOTIFY",
+	new TipsDef("SIP Realm Used for Challenge INVITE & NOTIFY",
         "Устанавливает опцию для проверки входящего INVITE, действует только при включённой опции аутентификации при входящем INVITE. Используется для проверки предоставленной в NOTIFY информации, включая проверку синхронизации, ресинхронизации и перезагрузки."),
     new TipsDef("Check Domain Certificates",
 		"Определяет, будет ли проверяться сертификат домена при использовании TLS/TCP для передачи SIP."),
@@ -198,7 +198,7 @@ tip_item.push (
     new TipsDef("Opus Payload Type",
         "Устанавливается тип данных полезной нагрузки для кодека Opus (96-126). Значение по умолчанию 123."),
     new TipsDef("Preferred Video Coder",
-        "Этот параметр позволяет установить предпочтительный видеокодек из списка \"доступно\". Устройство поддерживает H.264 и H.265. Рекомендуется использовать H.264."),
+        "Этот параметр позволяет Вам выбрать предпочитаемый кодек из списка \"доступных\". Устройство поддерживает H.264 и H.265. Рекомендуется использовать кодек H.264."),
 	new TipsDef("iLBC Frame Size",
 		"Выбирает размер кадра пакета iLBC."),
 	new TipsDef("H.264 Payload Type",
@@ -238,15 +238,15 @@ tip_item.push (
     new TipsDef("H.264 Profile Type",
         "Выбор профиля кодека H.264. Доступны варианты \"Базовый\" ,\"Основной\", \"Высший\" или комбинированный \"БП/ОП/ВП\". По умолчанию установлен \"BP/MP/HP\". Профили влияют на степень компрессии, чем выше профиль, тем больше ресурсов требуется для декомпрессии потока. Для устройств со слабой аппаратной частью рекомендуется использовать \"Базовый\". Попробуйте все варианты для выбора оптимального профиля."),
 	new TipsDef("Use H.264 Constrained Profiles",
-        "Configures whether to use H.264 CBP to establish video call with WebRTC. The function takes effect when H.264 profile setting includes BP type. It is recommended to set to \"Yes\" when establish video call with WebRTC. The default setting is \"No\"."),
+        "Настраивает надо ли использовать H.264 CBP для установки видео вызова через WebRTC. Функция работает, если настройки профиля H.264 включают тип BP. Рекомендовано установить на \"Да\" при установке видео вызова через WebRTC. Уставка по умолчанию - \"Нет\"."),
 	new TipsDef("H.265 Payload Type",
-		"Enter H.265 codec payload type. The valid range is from 96 to 127. The default value is 114."),
+		"Введите тип полезной нагрузки для кодека H.265. Допустимый диапазон от 96 до 127. Уставка по умолчанию - 114."),
 	new TipsDef("SDP Bandwidth Attribute",
         "Выбор механизма согласования полосы в SDP: \"Стандарт\", \"Медиа\" или \"Нет\".<br/>Стандарт: используется AS на уровне сессии и TIAS на медиа уровне.<br/>Медиа: используется AS на медиа уровне.<br/>Нет: не изменять формат. <br/>Значение по умолчанию \"Медиа\". Пожалуйста, не изменяйте формат. В противном случае это может вызвать проблемы декодирования, если неизвестно, какой механизм использует сервер."),
     new TipsDef("Enable RFC5168 Support",
         "Если установлено \"Да\", для видеовызова будет включена поддержка RFC5168. По умолчанию \"Да\"."),
 	new TipsDef("Enable RTX",
-	    "When the function is enabled, signaling will carry RTX information, if the final negotiation is succeeded, the related media RTX function will realize packet loss retransmission purpose. When this function is disabled. then packet loss retransmission cannot be used."),
+	    "Когда функция включена, сигнал будет содержать информацию RTX, если окончательное согласование будет выполнено, соответствующая функция RTX мультимедиа осуществит повторную передачу потерянных пакетов. Если эта функция отключена, то повторная передача пакетов не может быть использована."),
 	new TipsDef("Video Jitter Buffer Maximum",
         "Устанавливается размер буфера, исходя из состояния сети. Диапазон значений от 0 до 1000. По умолчанию 50."),
 	new TipsDef("Enable video Gradual decoder refresh",
@@ -292,9 +292,9 @@ tip_item.push (
     new TipsDef("No Answer Timeout",
         "Задаёт время (в секундах) перед тем, как вызов будет переадресован в случае неответа. По умолчанию 20 секунд."),
 	new TipsDef("Enable DND Forword",
-		"If set to \"Yes\", call will be forwarded to the number specified below when DND on."),
+		"Если установлено на \"Да\", вызов будет переадресован на номер указанный ниже при включенном режиме Не беспокоить."),
 	new TipsDef("DND To",
-		"Specifies the number to be forwarded to for Call Forward when DND on."),
+		"Задаёт номер для Переадресации вызова при включенном режиме Не беспокоить."),
 	new TipsDef("Call Forward Unconditional",
         "Номер безусловной переадресации."),
     new TipsDef("Call Forward When Busy",
@@ -719,7 +719,7 @@ tip_item.push (
     new TipsDef("Automatic Upgrade",
         "Включить автоматическое обновление и провижининг по HTTP. По умолчанию \"Проверять каждый день\"."),
 	new TipsDef("Enable Randomized Automatic Upgrade",
-		"Setting whether to upgrade automatically at random. It means whether the phone will upgrade automatically at random time point in the setting period. This option is mainly used for multiple phones upgrade at the same time."),
+		"Запускать ли автоматическое обновление в случайное время. Это означает, будет ли телефон автоматически обновляться в произвольное время в рамках заданного периода. Эта опция в основном используется для одновременного обновления нескольких телефонов."),
 	new TipsDef("Automatic Upgrade Interval",
         "Введите время (в минутах) для проверки HTTP сервера на обновление прошивки или файла конфигурации."),
     new TipsDef("Authenticate Conf File",
@@ -785,22 +785,22 @@ tip_item.push (
 
     /*Обслуживание SysLog*/
 	new TipsDef("Syslog Protocol",
-        "Configure sending syslog through UDP or secured SSL/TLS protocol to syslog server."),
+        "Настройте отправку системного журнала на сервер системных журналов через UDP или защищённый SSL/TLS протокол."),
     new TipsDef("Syslog Level",
         "Выбор уровня логирования syslog. По умолчанию \"Нет\". Доступны 4 уровня: DEBUG, INFO, WARNING и ERROR. За подробностями обратитесь к инструкции по эксплуатации."),
     new TipsDef("Syslog Server",
         "IP адрес или URL Syslog сервера."),
 	new TipsDef("Syslog Filter",
-		"After entering the keywords, you will filter the system log with keywords, and multiple keywords should be separated by commas. For example, set the filter keyword  \"SIP\" to filter SIP log. set the filter keyword  \"Http,SIP\" to filter  Http and SIP log."),
+		"После ввода ключевых слов Вы сможете отфильтровать системный журнал по ключевым словам, несколько ключевых слов должны быть разделены запятыми. Например, введите \"SIP\" в качестве ключевого слова для фильтра журнала SIP. установите \"Http, SIP\" в качестве ключевое слова для фильтрации журнала Http и SIP."),
 	new TipsDef("Send SIP Log",
         "Устанавливает, будет ли SIP лог включен в сообщения syslog."),
     new TipsDef("H.323 Syslog Level",
         "Выбор уровня H.323 Syslog в выпадающем меню, по умолчанию \"Выключено\", что означает включение информации о H323 в сислог. Можно выбрать уровень от 1 до 10, 10 наивысший."),
     
 	new TipsDef("Ping Target Host",
-		"The IP address or URL for the Target Host of the Ping."),
+		"IP-адрес или URL для хоста назначения пинга."),
 	new TipsDef("Target Host",
-		"The IP address or URL for the Target Host of the Traceroute."),
+		"IP-адрес или URL для хоста назначения трассировки."),
 	
     /*Обслуживание Debug*/
     new TipsDef("Capture Trace",
@@ -978,7 +978,7 @@ tip_item.push (
     new TipsDef("File Encoding ",
 		"Установите кодировку для загрузки."),
 	new TipsDef("Emergency Call Numbers",
-		"Configures the emergency contact phone numbers. Input the number in the input box and click \"Add\" to add the number to the contacts list. To delete the existing emergency number, select the number in the contacts list and click \"Delete\"."),
+		"Настраивает номера телефонов аварийного контакта. Введите номер в поле ввода и нажмите \"Добавить\", чтобы добавить номер в список контактов. Чтобы удалить существующий номер службы экстренной помощи, выберите номер в списке контактов и нажмите \"Удалить\"."),
 	
 	/*настройки приложений мессенджеры*/	
 	new TipsDef("Google Talk",
@@ -1145,9 +1145,9 @@ tip_item.push (
 
     /*Настройки узла*/
 	new TipsDef("Timeout Operation",
-		"Устанавливает режим на \"Переход в спящий режим\" и \"Отключение\", значение по умолчанию \"Переход в спящий режим\"."),
+		"Выберите режим тайм-аута \"Перейти в спящий режим\" или \"Выключить\", значение по умолчанию \"Перейти в спящий режим\"."),
     new TipsDef("Enter Sleep Mode",
-        "Определяет длительность таймаута в соответствии с Timeout Operation, если тайм-аут установлен на \"Никогда\", терминал не будет автоматически вводиться в спящий режим или отключаться. По умолчанию установлено на \"Через 30 минут\"."),
+		"Задаёт продолжительность таймаута в соответствии с Timeout Operation, если для таймаута установлено значение \"Никогда\", терминал не будет автоматически входить в спящий режим или выключаться. Значение по умолчанию: \"Через 30 минут\"."),
     new TipsDef("Site Name",
         "Устанавливает имя, которое будет отображаться в локальном видеопотоке. При подключении к многоточечной конференции это имя будет отображено в видеопотоках других участников.<br>По умолчанию не задано.<br>Не используйте специальные символы, такие как двоеточие (:), запятая (,), дефис (-) или подчёркивание (_)."),
     new TipsDef("Display Position",
@@ -1240,7 +1240,7 @@ tip_item.push (
         "Если включено, функция ADB (Android Debug Bridge) будет использоваться на устройстве. По умолчанию \"Отключено\"."),
     
 	new TipsDef("Echo Delay",
-		"Configures the device's HDMI audio delay to match the audio latency of different TV sets."),
+		"Configures the device'sНастраивает HDMI аудио-задержки устройства, так что бы она соответствовала задержки звука различных телевизоров."),
     new TipsDef("Ringtone Volume",
         "Устанавливает громкость рингтона."),
     new TipsDef("Media Volume",
@@ -1252,7 +1252,7 @@ tip_item.push (
     new TipsDef("Notification Tone",
         "Устанавливает рингтон сообщений."),
     new TipsDef("Audio Device",
-		"This option defines input and output devices for voice in call or media voice, including Auto, Bluetooth, USB ,HDMI. and Built-in speaker. If select \"USB\", the voice input and output come from the USB device; If select \"Bluetooth\", the voice input and output come from the Bluetooth; If select \"HDMI\", the voice input comes from the built-in Mic in GVC while the output comes from HDMI; If select \"Built-in speaker\", the voice input comes from the built-in Mic in GVC while the output comes from Built-in speaker;If select \"Gooseneck mic\" and the output device is HDMI, the voice input comes from USB devices while the output comes from HDMI;If select \"Auto\", the device will automatically detect whether being connected to the USB, Bluetooth or HDMI, if connected to two or three of the above, the priority order of voice input and output is Bluetooth, USB, HDMI. The default settings is \"Auto\"."),
+		"Этот параметр определяет входные и выходные устройства для голосового вызова или голоса в среде, включая Авто, Bluetooth, USB, HDMI и встроенный динамик. Если выбрать \"USB\", ввод и вывод голоса происходят с USB-устройства; Если выбрать \"Bluetooth\", ввод и вывод голоса происходят с Bluetooth; Если выбрать \"HDMI\", ввод голоса происходит со встроенного микрофона GVC, а вывод - с HDMI; Если выбрать \"Встроенный динамик\", ввод голоса происходит со встроенного микрофона GVC, а вывод - со встроенного динамика; Если выбрать \"Микрофон с гибким штативом\", а выходным устройством является HDMI, ввод голоса происходит с USB-устройства, а вывод - с HDMI; Если выбрать \"Авто\", устройство автоматически определит, наличие подключения по USB, Bluetooth или HDMI, если оно подключено к двум или трем из вышеперечисленных, порядок приоритета ввода и вывода голоса - Bluetooth, USB, HDMI. Уставка по умолчанию - \"Авто\"."),
     new TipsDef("Presentation Video Frame Rate",
         "Определяет количество кадров в секунду для презентации, по умолчанию 15."),
     new TipsDef("BFCP Transport Protocol",
@@ -1289,7 +1289,7 @@ tip_item.push (
         "Если включено, пакет RTDP (roundTripDelayRequest) посылается как пакет H245 keep-alive каждые 10 секунд. Интервал таймаута составляет 30 секунд, и по истечении времени вызов будет прерван. По умолчанию \"Нет\". Внимание: включение может вызвать несовместимость с некоторыми устройствами."),
         
     new TipsDef("DTMF ",
-        "Этот параметр определяет механизм передачи DTMF. Поддерживается три метода: Аудио，RFC2833，сигнал H245.")
+        "Этот параметр определяет механизм передачи DTMF. Поддерживается три метода: Аудио, RFC2833, сигнал H245.")
     /*другое*/
     /*
     new TipsDef("Enable SCA (Shared Call Appearance)",

@@ -170,7 +170,7 @@ tip_item.push (
         "当设备选择TCP/TLS作为SIP传输方式时，配置是否使用实际临时端口。"),
     new TipsDef("Authenticate Incoming INVITE", "验证来电INVITE",
 		"若启用，设备将发送SIP 401 Unauthorized对来电INVITE进行验证。默认为不勾选。"),
-    new TipsDef("SIP Realm Used for Challenge INVITE ＆ NOTIFY", "用于Challenge INVITE ＆ NOTIFY的SIP Realm",
+    new TipsDef("SIP Realm Used for Challenge INVITE & NOTIFY", "用于Challenge INVITE ＆ NOTIFY的SIP Realm",
         "配置该项可验证来电INVITE，但必须开启来电INVITE才能生效。可验证provision的NOTIFY信息，包括check-sync，resync和reboot，但必须开启SIP NOTIFY认证才能生效。"),
 	new TipsDef("Check Domain Certificates", "检测域名证书",
 		"当TCP/TLS用于SIP传输时，配置是否检测域名证书。"),
