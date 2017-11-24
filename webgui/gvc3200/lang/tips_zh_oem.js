@@ -904,7 +904,7 @@ tip_item.push (
 		"OpenVPN客户密码(*.key)用于与OpenVPN服务器验证。点击“上传”将客户证书文件(*.key)上传到设备。"),
 	
 	/*maintenance tr069*/
-	new TipsDef("Enable TR-069", "启用TR-069",
+	new TipsDef("Enable TR-069", "打开TR-069",
 	    "设置是否启用TR-069。若设置为“是”，则设备向ACS服务器发送会话连接请求。默认设置为“否”。"),
 	new TipsDef("ACS URL", "ACS 源", 
 	    "此处填写TR-069自动配置服务器的URL。"),
@@ -912,7 +912,7 @@ tip_item.push (
 	    "设备向ACS发起连接请求时ACS对TR-069客户端即设备进行认证的用户名，必须与ACS侧的配置保持一致。"),
 	new TipsDef("ACS Password", "ACS密码",
 	    "ACS对设备进行认证的密码，必须与ACS侧的配置保持一致。"),
-	new TipsDef("Periodic Inform Enable", "启用定时连接",
+	new TipsDef("Periodic Inform Enable", "开启定时连接",
 	    "若启用定时连接，设备将会定时向ACS服务器发送连接请求。默认设置为“否”。"),
 	new TipsDef("Periodic Inform Interval", "定时连接间隔",
 	    "此处填写设备向ACS定时发送连接请求的时间间隔。"),

@@ -3,7 +3,6 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
-<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.validate.min.js'></script>
@@ -28,7 +27,7 @@
             <div webtip="ACS URL">
                 <div class="rebootitem"><span id="a_acsurl">ACS URL</span> :</div>
                 <input name="acsurl" type="text" id="acsurl" />
-                <span class="rebootspan"></span>
+                <!--span class="rebootspan"></span-->
             </div>
             <div webtip="" class="coloreversion">
                 <div class="noreboot"><span id="a_netenable">Enable Network Manager Function</span> :</div>
@@ -69,41 +68,41 @@
             </div>
             <div webtip="ACS Username" class="normalversion">
                 <div class="rebootitem"><span id="a_acsusername">ACS Username</span> :</div>
-                <input name="acsusername" type="text" id="acsusername" /><span class="rebootspan"></span>
+                <input name="acsusername" type="text" id="acsusername" /><!--span class="rebootspan"></span-->
             </div>
             <div webtip="ACS Password" class="normalversion">
                 <div class="rebootitem"><span id="a_acspwd">ACS Password</span> :</div>
-                <input name="acspwd" type="password" id="acspwd" autocomplete="off" /><span class="rebootspan"></span>
+                <input name="acspwd" type="password" id="acspwd" autocomplete="off" /><!--span class="rebootspan"></span-->
             </div>
             <div webtip="Periodic Inform Enable">
                 <div class="rebootitem"><span id="a_perialenable">Periodic Inform Enable</span> :</div>
                 <input name="perialenable" type="checkbox" id="perialenable"><span id="a_perialenableyes">Yes</span>
-                <span class="rebootspan"></span>
+                <!--span class="rebootspan"></span-->
             </div>
             <div webtip="Periodic Inform Interval">
                 <div class="rebootitem"><span id="a_perialinterval">Periodic Inform Interval</span> :</div>
-                <input name="perialinterval" type="text" id="perialinterval" /><span class="rebootspan"></span>
+                <input name="perialinterval" type="text" id="perialinterval" /><!--span class="rebootspan"></span-->
             </div>
             <div webtip="Connection Request Username">
                 <div class="rebootitem"><span id="a_conusername">Connection Request Username</span> :</div>
-                <input name="conusername" type="text" id="conusername" /><span class="rebootspan"></span>
+                <input name="conusername" type="text" id="conusername" /><!--span class="rebootspan"></span-->
             </div>
             <div webtip="Connection Request Password">
                 <div class="rebootitem"><span id="a_conpwd">Connection Request Password</span> :</div>
-                <input name="conpwd" type="password" id="conpwd" autocomplete="off" /><span class="rebootspan"></span>
+                <input name="conpwd" type="password" id="conpwd" autocomplete="off" /><!--span class="rebootspan"></span-->
             </div>
             <div webtip="Connection Request Port">
                 <div class="rebootitem"><span id="a_conport">Connection Request Port</span> :</div>
-                <input name="conport" type="text" id="conport" /><span class="rebootspan"></span>
+                <input name="conport" type="text" id="conport" /><!--span class="rebootspan"></span-->
             </div>
             <div webtip="CPE Cert File" style="width:680px;">
                 <div class="rebootitem"><span id="a_cpecert">CPE Cert File</span> :</div>
-                <textarea name="cpecert" id="cpecert" style="width:240px; padding:5px; height:100px;"></textarea><span class="rebootspan"></span>
+                <textarea name="cpecert" id="cpecert" style="width:240px; padding:5px; height:100px;"></textarea><!--span class="rebootspan"></span-->
             </div>
             <div webtip="CPE Cert Key" style="width:680px;">
                 <div class="rebootitem"><span id="a_cpekey">CPE Cert Key</span> :</div>
                 <textarea name="cpekey" id="cpekey" style="width:240px; padding:5px; height:100px;"></textarea>
-                <span class="rebootspan"></span>
+                <!--span class="rebootspan"></span-->
             </div>
         </fieldset>
         <div class="savediv">
@@ -179,7 +178,7 @@ function setInitState(){
     $("#Formvalidate").validate({
 		rules: {
 		    acsurl:"url",
-			perialinterval: {digits: true },
+			perialinterval: {digits: true, range: [1, 4294967295], required: true },
             conusername: { maxlength: 64 },
             conpwd: { maxlength: 64 },
             conport: { digits:true, range:[0, 65535] }
