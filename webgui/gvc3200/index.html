@@ -513,7 +513,6 @@ body{background-color:#EFF0F1;}
 <input type="text" id="account_li" style="display:none;" acctIndex="1" subpage="general" />
 <input type='text' id='dialtype' name='dialtype' value='0' style="display:none"/>
 <input type='text' id='hasipvt' name='hasipvt' value='0' style="display:none"/>
-<input type='text' id='is4kon' name='is4kon' value='0' style="display:none"/>
 </div>
 <div id="incomingcalldiv">
     <div class="incomingtitle"><span>Incoming call</span><button id="closecalldiv"></button></div>
@@ -1262,18 +1261,16 @@ function cb_get_action_done(data, action)
 					hdmi1out = hdmi1out.split("x");
 					
 					if(hdmi1out[0] >= 3840 && hdmi1out[1] >= 2160){
-						$("#is4kon").val(1);
 						$(".control\\/video\\.html").hide();
 						$("#control_video").attr("id", "control_audio");
 					}
 					else{
-						$("#is4kon").val(0);
 						$(".control\\/video\\.html").show();
 						$("#control_audio").attr("id", "control_video");
 					}
 					return;
 				}
-                
+
                 /*if(action == "get&var-0000=198"){
                     var specialmode = msgs.headers['198'];
                     if(specialmode != "102"){
