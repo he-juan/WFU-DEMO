@@ -415,7 +415,6 @@ div{margin:0;padding:0;}
 #zoomtele.buttonover{background:url("../img/control_all.png") -84px 0px  no-repeat;}
 
 .imgdiv{width:101px;height:58px;margin:0 !important;padding:0;*margin-top:0px !important;border:1px solid #BEC6CC;position: relative;border-width:0 1px 1px 0;display:block;float:left;}
-.imgdiv:hover{cursor:pointer;border:1px solid #219BF2;width:100px;height: 57px;*width:101px;*height:58px;}
 .imgdiv span{width:20px;height:20px;line-height:20px;font-size:14px;font-weight:bold;text-align:center;margin-left:8px;}
 .imgdiv span.noIMG{width:30px;height:30px;line-height:30px;border-radius: 50px;border:1px solid #666666;color:#666666;background:transparent;position:relative;left:50%;top:50%;margin-top:-15px;float: left;margin-left:-15px;background-color:#FFFFFF;}
 .imgdiv span.noIMG.spanselect{border:1px solid #219BF2;color:#219BF2;}
@@ -1036,7 +1035,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
         <div style="position:absolute; top:65px; left:45px;">
             <div id="feccleft" style="width:307px;display:block;float:left;">
                 <div style="height:20px;margin:13px 0 7px 0;"><span id="a_presettitle">Preset</span></div>
-                <div id="presetdiv" style="display:block;float:left;border:1px solid #BEC6CC;background:#F4F4F4;border-width:1px 0 0 1px;">
+                <div id="presetdiv" style="display:block;float:left;border:1px solid #BEC6CC;background:#F4F4F4;border-width:0 0 0 1px;">
                     <div id="presetbtndiv" style="display:none;display:block;position:absolute;left:0;top:40px;z-index:2;width:129px;height:81px;font-size:14px;background:url(../img/call/fecc_background.png) no-repeat;padding:5px 0;" presetid="0">
                         <button id="gotopreset" class="presetbtn" style="border-bottom:1px dashed #DADADA;">Go</button><button id="savepreset" class="presetbtn">Save</button>
                     </div>
@@ -1336,10 +1335,14 @@ function create_preset_div(line){
             idspan.innerHTML = (i + 1);
             imgdiv.appendChild(idspan);
             presetDivObj.appendChild(imgdiv);
+            
+            if(i < 3){
+                $("#presetdiv" + i).css("border-top", "1px solid #BEC6CC");
+            }
         }
         
         $("#ctrlFECCDiv").css({"width":"690px", "height":"450px"});
-        $("#feccleft").css("width", "307px");
+        $("#feccleft").css("width", "312px");
         $(".imgdiv").hover(function(){
             var selpos = $(this).attr("preset");
             var top = parseInt(selpos / 3) * 59 + 29;
@@ -1360,9 +1363,13 @@ function create_preset_div(line){
             idspan.innerHTML = (i + 1);
             imgdiv.appendChild(idspan);
             presetDivObj.appendChild(imgdiv);
+            
+            if(i < 4){
+                $("#presetdiv" + i).css("border-top", "1px solid #BEC6CC");
+            }
         }
         $("#ctrlFECCDiv").css({"width":"780px", "height":"500px"});
-        $("#feccleft").css("width", "409px");
+        $("#feccleft").css("width", "414px");
         $(".imgdiv").hover(function(){
             var selpos = $(this).attr("preset");
             var top = parseInt(selpos / 4) * 59 + 29;
