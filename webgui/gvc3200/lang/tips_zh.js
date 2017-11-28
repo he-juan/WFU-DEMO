@@ -161,7 +161,7 @@ tip_item.push (
     new TipsDef("Remove OBP from route", "从路由移除OBP", 
         "默认值为“否”。设备使用的路由中将移除代理。该设置用于设备在NAT/防火墙环境下，SIP帐号通知服务器将代理设置移除。"),
     new TipsDef("Use Privacy Header", "使用Privacy头域", 
-        "控制是否Privacy头域将出现在SIP INVITE消息中。头域中包含是否隐藏主叫号码的信息。当设置为“默认”时，仅当华为IMS的特殊功能开启后Privacy头域才不会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示Privacy头域。当设置为“否”时，SIP INVITE消息将不显示Privacy头域。默认设置为“默认”。"),
+        "控制Privacy头域是否将出现在SIP INVITE消息中。头域中包含是否隐藏主叫号码的信息。当设置为“默认”时，仅当华为IMS的特殊功能开启后Privacy头域才不会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示Privacy头域。当设置为“否”时，SIP INVITE消息将不显示Privacy头域。默认设置为“默认”。"),
     new TipsDef("Use P-Preferred-Identity Header", "使用P-Preferred-Identity头域", 
         "配置是否使用SIP INVITE消息中的P-Preferred-Identity头域。详细信息请参考用户手册。"),
     new TipsDef("SIP URI Scheme When Using TLS", "TLS使用的SIP URI格式",
