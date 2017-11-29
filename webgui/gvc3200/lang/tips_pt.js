@@ -772,7 +772,7 @@ tip_item.push (
     new TipsDef("mDNS Override Server",
 		"Se está configurado \"Utilizar Tipo A\", o dispositivo enviará solicitação mDNS tipo A ao servidor, e estando conectado com sucesso, então vai solicitar para baixar o arquivo de configuração. Se está configurado \"Utilizar Tipo SRV\",o dispositivo enviará ao servidor solicitação mDNS tipo SRV, e estando conectado com sucesso, então vai solicitar para baixar o arquivo de configuração. Se está configurado\"Desativar\", o dispositivo não enviará solicitações. A configuração padrão é \"Utilizar Tipo A\"."),
     new TipsDef("Auto Reboot to Upgrade Without Prompt", 
-		"Se está configurado \"Sim\", o dispositivo iniciará automaticamente a atualização depois de baixar os arquivos de firmware. Caso contrário, os usuários precisarão confirmar na mensagem amostrada antes de iniciar o processo de atualização. O valor padrão é \"Sim\"."),
+		"Se está configurado \"Sim\", o dispositivo iniciará automaticamente a atualização depois de baixar os arquivos de firmware. Caso contrário, os usuários precisarão confirmar na mensagem amostrada antes de iniciar o processo de atualização. O valor padrão é \"Não\"."),
 	new TipsDef("Disable SIP NOTIFY Authentication",
         "O dispositivo não responderá com mensagem 401 ao NOTIFY quando estiver configurado em \"Sim\"."),
     new TipsDef("GUI customization file URL",
