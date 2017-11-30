@@ -81,11 +81,12 @@ body{overflow-y:hidden;height:100%;}
 .accountstate img{vertical-align:middle;margin:0 0 0 23px;}
 .activeuse img{margin:0 0 0 21px;}
 .acctreg{display:block;float:left;width:24px;height:24px;margin:9px 10px 0 10px;}
-.acctname{display:block;float:left;overflow:hidden;white-space:nowrap;text-align:left;text-overflow: ellipsis;}
-.acctnum{display:block;float:right;margin:0 0 0 3px;text-align:center;overflow:hidden;width:96px;white-space:nowrap;text-overflow: ellipsis;}
+.acctname{display:block;float:left;overflow:hidden;white-space:nowrap;text-align:left;text-overflow: ellipsis; width: 130px;}
+.acctnum{display:block;float:right;margin:0 10px 0 3px;text-align:center;overflow:hidden;width:100px;white-space:nowrap;text-overflow: ellipsis;}
 .statuscont{color:#222;font-size:16px;width:272px;margin:10px 0 0 12px;line-height:30px;}
 #calltime, #inconfname{color:#f35353;}
 #a_confintime{margin-right:5px;}
+#dftacct{display:none;font-weight:normal;color:#5089ba;float:right;margin-right:10px;width: 100px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; text-align: center;}
 
 .appcontacticon{width:20px;height:18px;background:url("../img/apps/call_status_icons.png") 0px -107px no-repeat;margin-top:11px;}
 .appgroupicon{width:23px;height:16px;background:url("../img/apps/call_status_icons.png") -18px -93px no-repeat;}
@@ -233,7 +234,7 @@ ol.mp_list li.mp_error {}
                 <div class="acctnum" id="acct9num"></div>
             </div>
             <button id="setdftacct" style="position:absolute;margin:0;float:right;right:9px;white-space:nowrap;height:23px;line-height:12px;border-radius:11px;font-size:12px;margin-top:9px;display:none;">Set as Default</button>
-            <span id="dftacct" style="display:none;font-weight:normal;color:#5089ba;float:right;margin-right:19px;">Default Account</span>
+            <span id="dftacct">Default Account</span>
             <div id="noacctstate" style="width: 270px; height: 36px;display:none;">
                 <span id="a_noacctstate" style="line-height: 36px;margin-left:20px;font-size:16px;"></span>
             </div>
@@ -1156,7 +1157,7 @@ function translate_page(){
     $("#dialvideo option:eq(0)").text(a_10016);
     $("#selectcancel").text(a_3);
     $("#setdftacct").text(a_16697);
-    $("#dftacct").text(a_19113);
+    $("#dftacct").text(a_19113).attr("title", a_19113);
     $("#selectcall").text(a_504);
     if( mOEMID == "54" )
         $("#numbertip").text(a_4016);
@@ -1174,12 +1175,12 @@ function cb_get_status_done(msgs) {
     
     if (msgs.headers['account_0_activate'] == "1") {
         if( msgs.headers['account_0_name'].length > 0 )
-            $("#acct1name").text( msgs.headers['account_0_name'] );
+            $("#acct1name").text( msgs.headers['account_0_name'] ).attr("title", msgs.headers['account_0_name']);
         else if( msgs.headers['account_0_no'].length > 0 )
-            $("#acct1name").text( msgs.headers['account_0_no'] );
+            $("#acct1name").text( msgs.headers['account_0_no'] ).attr("title", msgs.headers['account_0_no']);
         else
             $("#acct1name").text( "SIP" );
-        $("#acct1num").text( msgs.headers['account_0_no'] );
+        $("#acct1num").text( msgs.headers['account_0_no'] ).attr("title", msgs.headers['account_0_no']);
         var status = msgs.headers['account_0_status'];
         if( status == "0" ){
             status = msgs.headers['account_3_status'];
@@ -1199,10 +1200,10 @@ function cb_get_status_done(msgs) {
     
     if (msgs.headers['account_1_no'] != undefined && msgs.headers['account_1_no'].length > 1 && msgs.headers['account_1_activate'] == "1") {
         if( msgs.headers['account_1_name'].length > 0 )
-            $("#acct2name").text( msgs.headers['account_1_name'] );
+            $("#acct2name").text( msgs.headers['account_1_name'] ).attr("title", msgs.headers['account_1_name']);
         else
-            $("#acct2name").text( msgs.headers['account_1_no'] );
-        $("#acct2num").text( msgs.headers['account_1_no'] );
+            $("#acct2name").text( msgs.headers['account_1_no'] ).attr("title", msgs.headers['account_1_no']);
+        $("#acct2num").text( msgs.headers['account_1_no'] ).attr("title", msgs.headers['account_1_no']);
         //$("#acct2reg").css("background", view_status_img_to_text( 1, msgs.headers['account_1_status'] ));
         $("#acct2reg").addClass( view_status_img_to_text( 1, msgs.headers['account_1_status'] ) );
         mDisableIPVT = 0;
@@ -1233,10 +1234,10 @@ function cb_get_status_done(msgs) {
     //if (msgs.headers['account_2_no'] != undefined && msgs.headers['account_2_no'].length > 1 && msgs.headers['account_2_activate'] == "1") {
     if( msgs.headers['account_2_activate'] == "1") {
         if( msgs.headers['account_2_name'].length > 0 )
-            $("#acct3name").text( msgs.headers['account_2_name'] );
+            $("#acct3name").text( msgs.headers['account_2_name'] ).attr("title", msgs.headers['account_2_name']);
         else
-            $("#acct3name").text( msgs.headers['account_2_no'] );
-        $("#acct3num").text( msgs.headers['account_2_no'] );
+            $("#acct3name").text( msgs.headers['account_2_no'] ).attr("title", msgs.headers['account_2_no']);
+        $("#acct3num").text( msgs.headers['account_2_no'] ).attr("title", msgs.headers['account_2_no']);
         //$("#acct3reg").css("background", view_status_img_to_text( 2, "1" ));
         $("#acct3reg").addClass( view_status_img_to_text( 2, msgs.headers['account_2_status'] ) );
         if(mOEMID == 54)
@@ -1252,10 +1253,10 @@ function cb_get_status_done(msgs) {
 
     if (msgs.headers['account_3_no'] != undefined && msgs.headers['account_3_no'].length > 1 && msgs.headers['account_3_activate'] == "1") {
         if( msgs.headers['account_3_name'].length > 0 )
-            $("#acct4name").text( msgs.headers['account_3_name'] );
+            $("#acct4name").text( msgs.headers['account_3_name'] ).attr("title", msgs.headers['account_3_name']);
         else
-            $("#acct4name").text( msgs.headers['account_3_no'] );
-        $("#acct4num").text( msgs.headers['account_3_no'] );
+            $("#acct4name").text( msgs.headers['account_3_no'] ).attr("title", msgs.headers['account_3_no']);
+        $("#acct4num").text( msgs.headers['account_3_no'] ).attr("title", msgs.headers['account_3_no']);
         //$("#acct4reg").css("background", view_status_img_to_text( 3, msgs.headers['account_3_status'] ));
         $("#acct4reg").addClass( view_status_img_to_text( 3, msgs.headers['account_3_status'] ) );
         $("#acct4state").show();
