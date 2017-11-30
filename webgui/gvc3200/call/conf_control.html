@@ -2327,7 +2327,10 @@ function addtoconf(data)
     {
         //no conference
         var confheight = window.parent.document.body.clientHeight-280;
-        var tabli = "<li class="+mConfid+" line="+mConfid+"><a href='#"+mConfid+"' class="+mConfid+">"+a_309+"</a></li>";
+        if(data.acct == "1")
+            var tabli = "<li class="+mConfid+" line="+mConfid+"><a href='#"+mConfid+"' class="+mConfid+">"+a_309+"</a></li>";
+        else
+            var tabli = "<li class="+mConfid+" line="+mConfid+"><a href='#"+mConfid+"' class="+mConfid+">"+a_10184+"</a></li>";
         var tabdiv = "<div id="+mConfid+" class="+mConfid+"></div>";
 
         $("#tabs ul").append(tabli);
@@ -2340,6 +2343,10 @@ function addtoconf(data)
     else
     {//console.log("aaa");
         //conference has been created
+        if(data.acct == "1")
+            $("a#conf").text(a_309);
+        else
+            $("a#conf").text(a_10184);
         addconflist(data,mConfid);
     }
     if($("a."+mConfid).parent("li").attr("aria-selected") == "false")
@@ -8125,7 +8132,7 @@ function pageEventActions()
     });
 
     $("#confcontrol").click(function(){
-        var endwidth = $(".confbasebtn").width() + "px";
+        var endwidth = $(".confbasebtn").width() - 250 + "px";
         $("#closeconfctrl").hide();
         $(".confctrlbtn").show().stop().animate({width:endwidth},{queue:false, duration:1000, easing:'swing'}); 
         setTimeout(function(){$("#closeconfctrl").show();},800);

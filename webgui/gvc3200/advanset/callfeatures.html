@@ -38,11 +38,11 @@
                 <div class="noreboot"><span id="a_confpincode">Conference PIN Code</span> :</div>
                 <input id="confpincode" name="confpincode" type="text" maxlength="10" />
             </div>
-            <div webtip="Disable Call-Waiting">
+            <div webtip="Disable Call-Waiting" style="display:none">
                 <div class="noreboot"><span id="a_callwait">Disable Call-Waiting</span> :</div>
                 <input name="callwait" type="checkbox" id="callwait"><span id="a_callwaityes">Yes</span>
             </div>
-            <div webtip="Disable Call-Waiting Tone">
+            <div webtip="Disable Call-Waiting Tone" style="display:none">
                 <div class="noreboot"><span id="a_discallwaittone">Disable Call-Waiting Tone</span> :</div>
                 <input name="callwaittone" type="checkbox" id="callwaittone"><span id="a_discallwaittoneyes">Yes</span>
             </div>
@@ -191,8 +191,6 @@ $(function(){
     if( colore == 54 ){
         $("#disableipcall").hide();
         $("#usequickipcall").parent().hide();
-        $("#callwait").parent().hide();
-        $("#callwaittone").parent().hide();
     }
 });
 function setInitState(){
