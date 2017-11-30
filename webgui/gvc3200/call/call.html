@@ -251,10 +251,10 @@ ol.mp_list li.mp_error {}
         <div class="calldiv">
             <div class="dialdiv" id="sipcalldiv">
                 <input id="dialnum" name="dialnum" style="display:none;" /> 
-                <div id="membernumdiv" style="position:relative;top:-22px;left:395px;font-size:16px;color:#444;width:30px;">
+                <div id="membernumdiv" style="position:absolute;top:105px;right:265px;font-size:16px;color:#444;width:30px;">
                     <span id="membernum">0</span>/<span id="membermaxnum">8</span>
                 </div>
-                <div style="position:relative;top:-82px;left:10px;font-size:14px;color:#444;width:420px;color:#999;" id="numbertipdiv" onclick="$('#dialnum').focus();">
+                <div style="position:relative;top:-85px;left:10px;font-size:14px;color:#444;width:420px;color:#999;" id="numbertipdiv" onclick="$('#dialnum').focus();">
                     <span id="numbertip"></span>
                 </div>
             </div>
@@ -373,7 +373,6 @@ $(function(){
     $("#rightdiv").css("height",(leftheight+2)+"px");   //no border
     if( mOEMID == '54' ){
         $("#righttopdiv").css("height",rightheight+"px");
-        $("#numbertipdiv").css("top","-86px");
         $("#dialtypediv, #rightbottomdiv, #itemaddbtn, #membernumdiv").hide();
         $("#dialvideodiv").addClass("dialvideodivoem");
         $("#dialtype").getSetSSValue('0');
