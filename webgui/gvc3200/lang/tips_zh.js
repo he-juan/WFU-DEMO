@@ -119,7 +119,7 @@ tip_item.push (
     new TipsDef("Wait Time Retry Registration", "重试注册间隔时间",
         "注册失败重试间隔时间，默认20秒。"),
     new TipsDef("Local SIP Port", "本地SIP端口",
-        "该项设置设备监听和传输的本地SIP端口。帐号1到帐号6的默认值分别为5060、5062、5064、5066、5068、5070。"),
+        "该项设置设备监听和传输的本地SIP端口。默认值为5060。"),
     new TipsDef("SUBSCRIBE for MWI", "支持MWI",
         "当该项设为“是”时，设备将会周期性发送语音留言的订阅消息（SUBSCRIBE）给服务器，服务器将会返回NOTIFY信息给设备。设备支持同步或异步的MWI。默认设置为“否”。"),
     new TipsDef("Session Expiration", "会话超时时间",

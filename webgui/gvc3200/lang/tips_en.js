@@ -119,7 +119,7 @@ tip_item.push (
     new TipsDef("Wait Time Retry Registration",
         "The amount of time in which the device will retry the registration process in the event that is failed. The default value is 20 seconds."),
     new TipsDef("Local SIP Port",
-        "Defines the local SIP port used to listen and transmit. The default value is 5060 for Account 1, 5062 for Account 2, 5064 for Account 3, 5066 for Account 4, 5068 for Account 5, and 5070 for Account 6."),
+        "Defines the local SIP port used to listen and transmit. The default value is 5060."),
     new TipsDef("SUBSCRIBE for MWI",
         "When set to \"Yes\", a SUBSCRIBE for Message Waiting Indication will be sent periodically. The device supports synchronized and non-synchronized MWI. The default setting is \"No\"."),
     new TipsDef("Session Expiration",
