@@ -17,6 +17,7 @@ body{}
 .volchangeDiv{height:6px;background:#2C9BEA;position:absolute;top:0px;left: 10px;border-radius:2px;width:0px;*overflow:hidden;margin-top:22px !important;}
 .volspan{width:22px;height:6px;color:#777;font-size:14px;position: relative;top:-15px;display: inline-block;text-align: center;}
 .startspan,.endspan{width: auto;margin-top: 22px !important;}
+.noreboot, .rebootitem{width: 280px;}
 </style>
 <body id="framebody">
 <div class="tooltip"></div>
@@ -137,11 +138,11 @@ body{}
                 <div class="noreboot"><span id="a_confmtone">Confirmation Tone</span> :</div>
                 <input id="confmtone" name="confmtone" type="text" />
             </div>
-            <div webtip="Call-Waiting Tone">
+            <div webtip="Call-Waiting Tone" style="display:none;">
                 <div class="noreboot"><span id="a_callwaittone">Call-Waiting Tone</span> :</div>
                 <input id="callwaittone" name="callwaittone" type="text" />
             </div>
-            <div webtip="Call-Waiting Tone Gain">
+            <div webtip="Call-Waiting Tone Gain" style="display:none;">
                 <div class="noreboot"><span id="a_cwaittonetx">Call-Waiting Tone Gain</span> :</div>
                 <select id="cwaittonetx">
                     <option value="0">Low</option>
@@ -239,10 +240,10 @@ function setInitState(){
     });
     
     var colore = $('#existcolore',parent.document.body).val();
-    if(colore == 54){
+    /*if(colore == 54){
         $("#callwaittone").parent().hide();
         $("#cwaittonetx").parent().hide();
-    }
+    }*/
 }
 function get_item_suc_callback(){
     

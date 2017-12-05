@@ -2089,6 +2089,7 @@ var a_12214="Once enabled, it may affect the call quality of Wi-Fi network.";
 var a_12215="Patch version";
 var a_12216="Image size";
 var a_12217="Disable web access";
+var a_12218="Network connectivity test";
 var a_12222="番号が上限に達しました。";
 var a_12223="この連絡先はすでに会議に参加しています。";
 var a_12224="スケジュール設定日";
