@@ -924,7 +924,7 @@ tip_item.push (
 
 	/*maintenance tr069*/
 	new TipsDef("Enable TR-069",
-	    "Enables TR-069. If set to \"Yes\", the device will send session request to the ACS server. The default setting is \"No\"."),
+	    "Enables TR-069. If set to \"Yes\", the device will send session request to the ACS server. The default setting is \"Yes\"."),
 	new TipsDef("ACS URL",
 	    "URL for TR-069 Auto Configuration Servers (ACS)."),
 	new TipsDef("ACS Username",

@@ -905,7 +905,7 @@ tip_item.push (
 	
 	/*maintenance tr069*/
 	new TipsDef("Enable TR-069", "打开TR-069",
-	    "设置是否启用TR-069。若设置为“是”，则设备向ACS服务器发送会话连接请求。默认设置为“否”。"),
+	    "设置是否启用TR-069。若设置为“是”，则设备向ACS服务器发送会话连接请求。默认设置为“是”。"),
 	new TipsDef("ACS URL", "ACS 源", 
 	    "此处填写TR-069自动配置服务器的URL。"),
 	new TipsDef("ACS Username", "ACS用户名",

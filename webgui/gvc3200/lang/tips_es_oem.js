@@ -900,7 +900,7 @@ tip_item.push (
 
 	/*Mantenimiento tr069*/
 	new TipsDef("Enable TR-069",
-	    "Habilita TR-069.  Si se establece en \"Si\", el dispositivo envía una solicitud  al servidor ACS. El ajuste por defecto es  \"No\"."),
+	    "Habilita TR-069.  Si se establece en \"Si\", el dispositivo envía una solicitud  al servidor ACS. El ajuste por defecto es  \"Si\"."),
 	new TipsDef("ACS URL",
 	    "URL para los servidores (ACS) de auto configuración TR-069."),
 	new TipsDef("ACS Username",
