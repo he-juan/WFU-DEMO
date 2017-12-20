@@ -129,7 +129,7 @@ function cb_get_logcat_done(data)
     if (cb_is_fail(msgs)){
     }else {
         //change to txt suffix, as ie browser will download the link but not open
-        setTimeout("$('#mainlogcat').css('border', '1px solid #9B9B9B');$('#logcatdiv').attr('src','/logcat/logcat.txt?time=' + new Date().getTime());", 200);
+        setTimeout("$('#logcatdiv').attr('src','/logcat/logcat.txt?time=' + new Date().getTime());", 200);
         //parent.window.location = "/logcat/logcat?time=" + new Date().getTime();
     }
 }
