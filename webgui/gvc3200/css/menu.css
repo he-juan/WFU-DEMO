@@ -335,7 +335,7 @@ DIV.jqi .jqimessage .field input.error { border: #ff0000 1px solid; width: 120px
 #returnkey div{background:transparent url(../img/remote/remote_control.png) -14px -4px no-repeat;}
 #homekey div{background:transparent url(../img/remote/remote_control.png) -37px -4px no-repeat;}
 #menukey div{background:transparent url(../img/remote/remote_control.png) -58px -4px no-repeat;}
-#customkey div{background: transparent url(../img/remote/remote_control.png) -168px -5px no-repeat; width: 20px; height: 20px;}
+#customkey div{background: transparent url(../img/remote/remote_control.png) -248px -53px no-repeat; width: 25px; height: 20px;}
 #customkey{width: 99%; height: 29px; margin: 1px;}
 #funcbtn div{width: 36px; height: 20px;}
 #reddigit div{background:transparent url(../img/remote/remote_control.png) -129px -52px no-repeat;}

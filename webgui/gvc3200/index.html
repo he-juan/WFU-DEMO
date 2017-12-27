@@ -1114,6 +1114,7 @@ function cb_get_colore_exist_done(data){
         if( coloreexist == 54 ){
             $("#maxlinenum").val('1');
             $(".mobilemenu").hide();
+            $("#customkey div").css("background", "url(../img/remote/remote_control.png) -168px -5px").css("width", "20px");
         }else{
             $(".mobilemenu").show();
             if (g_actype.toLowerCase() != 'admin') {
