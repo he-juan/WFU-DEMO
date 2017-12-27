@@ -5098,12 +5098,12 @@ function setconfpause_callback(data)
 function setcameraBlocked_callback(data)
 {
     var flag = data.flag;
-    if(flag == "false" || flag == "0")
+    if(flag == "true" || flag == "0")
     {
         $("#closecamera").attr("isclose",1).attr("title",a_628).removeClass("confvideo").addClass("confaudio");
         
     }
-    else if(flag == "true" || flag == "1")
+    else if(flag == "false" || flag == "1")
     {
         $("#closecamera").attr("isclose",0).attr("title",a_627).removeClass("confaudio").addClass("confvideo");
         
