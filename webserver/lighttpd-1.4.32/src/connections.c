@@ -2780,6 +2780,33 @@ static int compare_md5_password(char *username, char *realm, char *password, cha
     return 1;
 }
 
+static int compare_SHA256_password(char *username, char *realm, char *password, char *pw) {
+    unsigned char sha[256] = {0};
+    int len = strlen(username) + strlen(realm) + strlen(pw) + 16;
+    char *pw_str = (char*)malloc(len);
+    memset(pw_str, 0, len);
+    snprintf(pw_str, len, "%s:%s:%s", username, realm, pw);
+
+    SHA256((const unsigned char *)pw_str, strlen(pw_str), sha);
+
+    char sha_buf[65] = {0}, tmp[3] = {0};
+    for (int i = 0; i < 32; i++) {
+        sprintf(tmp,"%02x", sha[i]);
+        strcat(sha_buf, tmp);
+    }
+
+    printf("sha: %s\n", sha_buf);
+
+    free(pw_str);
+    pw_str = NULL;
+
+    if (0 == strcmp(password, sha_buf)) {
+        return 0;
+    }
+
+    return 1;
+}
+
 static int handle_ipvt_acctinfo( buffer *b )
 {
     char *acct = nvram_my_get("405");
@@ -2949,7 +2976,13 @@ static int authenticate (const struct message *m)
 
     int result = -1;
     if( mRealm != NULL ){
-        result = compare_md5_password(user, mRealm, pass, realpass);
+        char *encrypt_type = msg_get_header(m, "t");
+        if (encrypt_type != NULL && strcasecmp(encrypt_type, "sha") == 0) {
+            result = compare_SHA256_password(user, mRealm, pass, realpass);
+        } else {
+            result = compare_md5_password(user, mRealm, pass, realpass);
+        }
+        
         free(mRealm);
         mRealm = NULL;
     }else{

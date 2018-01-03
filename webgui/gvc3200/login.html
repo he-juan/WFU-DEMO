@@ -14,6 +14,7 @@
 <script type="text/javascript" src='js/jquery.stylish-select.min.js'></script>
 <script type="text/javascript" src='js/jquery.md5.js'></script>
 <script type="text/javascript" src='js/jquery.blockUI.js'></script>
+<script type="text/javascript" src="js/sha256.js"></script>
 <script type="text/javascript" src='lang/login.js'></script>
 <style type="text/css">
 html {
@@ -523,8 +524,8 @@ function cb_login_realm_done(data)
 {
     var realm = data;
     var A1 = $('#username').val()+":"+realm+":"+$('#password').val();
-    var md5pass = $.md5(A1);
-    var urihead = "action=login&Username=" + $('#username').val() + "&Secret=" + encodeURIComponent(md5pass) + "";
+    var shapass = sha256_digest(A1);
+    var urihead = "action=login&Username=" + $('#username').val() + "&Secret=" + encodeURIComponent(shapass) + "&t=sha";
     urihead += "&time=" + new Date().getTime();
     $.ajax ({
         type: 'get',
