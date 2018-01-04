@@ -208,3 +208,9 @@ em.success { padding-left: 0px; }
 #fnblockContainer > *{margin:2px;}
 #fnblockContainer button{border:0;border-radius: 0px;}
 #captionContainer input[type="text"]{width:100%;height:100%;text-align:center;background:transparent;border:0;}
+
+.pwdicon{width: 20px; height: 18px; z-index: 5; margin: 0 !important; cursor: pointer;}
+.pwdshow{background: url(../img/pwd_visible.png) -110px -30px no-repeat;}
+.pwdshow:hover{background: url(../img/pwd_visible.png) -152px -30px no-repeat;}
+.pwdhide{background: url(../img/pwd_visible.png) -23px -28px no-repeat;}
+.pwdhide:hover{background: url(../img/pwd_visible.png) -67px -28px no-repeat;}
