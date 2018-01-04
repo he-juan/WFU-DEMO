@@ -1177,6 +1177,12 @@ function pageEventActions(){
         $("#disdialplan").val( parseInt(disdialplan, 2) );
         
         cb_put(req_items, "");
+        
+        /* modify the value of packet retransmission as NACK when special mode is broadsoft */
+        if($("#spefea").val() == "102"){
+            cb_get_action("put&var-0000=26085&val-0000=0");
+        }
+        
         if( accountindex == '1' )
             cb_put_tonename(req_tone_items, "");
         //cb_put_tonename(req_tone_items);
