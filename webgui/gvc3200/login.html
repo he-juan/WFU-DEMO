@@ -343,9 +343,9 @@ function cb_get_action_done(data, action){
             
             var vendor = msgs.headers['vendor'];
             if( vendor == "" || vendor == undefined)
-                $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2017");
+                $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2018");
             else
-                $("#vendor").text("All Rights Reserved " + vendor + " 2017");
+                $("#vendor").text("All Rights Reserved " + vendor + " 2018");
         }
         else if( action == "devicestatus" )
         {
@@ -379,7 +379,7 @@ function cb_get_action_done(data, action){
         {
             document.title = "";
             $(".titleSpan").text("");
-            $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2017");
+            $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2018");
         }
     }
 }
