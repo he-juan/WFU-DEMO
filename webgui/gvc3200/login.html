@@ -523,7 +523,7 @@ function cb_login_realm_done(data)
 {
     var realm = data;
     var A1 = $('#username').val()+":"+realm+":"+$('#password').val();
-    var shapass = sha256_digest(A1);
+    var shapass = sha256(A1);
     var urihead = "action=login&Username=" + $('#username').val() + "&Secret=" + encodeURIComponent(shapass) + "&t=sha";
     urihead += "&time=" + new Date().getTime();
     $.ajax ({
