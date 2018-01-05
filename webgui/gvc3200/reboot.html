@@ -14,7 +14,6 @@ a:hover {color: #fe5400;text-decoration:none}*/
 </style>
 </head>
 <script type="text/javascript">
-var curYear = (new Date()).getFullYear();
 $(function(){
     cb_get_promodel();
     cb_get_vendor();
@@ -128,15 +127,15 @@ function cb_get_vendor_done(data){
         var vendor = msgs.headers['vendor'];
         if( vendor == "" || vendor == undefined)
         {
-            $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. " + curYear);
+            $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2017");
         }
         else
         {
-            $("#vendor").text("All Rights Reserved " + vendor + " " + curYear);
+            $("#vendor").text("All Rights Reserved " + vendor + ", 2017");
         }
     }else
     {
-        $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. " + curYear);
+        $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2017");
     }
 }
 

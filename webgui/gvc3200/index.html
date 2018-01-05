@@ -581,7 +581,6 @@ var linestatus0 = 0, linestatus1 = 0;
 var mDisableconf = false;
 var mAutovideo = false;
 var mInterval;
-var curYear = (new Date()).getFullYear();
 
 $(function(){
     if (window.PIE) {
@@ -1200,15 +1199,15 @@ function cb_get_vendor_done(data){
         var vendor = msgs.headers['vendor'];
         if( vendor == "" || vendor == undefined)
         {
-            $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. " + curYear);
+            $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2017");
         }
         else
         {
-            $("#vendor").text("All Rights Reserved " + vendor + " " + curYear);
+            $("#vendor").text("All Rights Reserved " + vendor + " 2017");
         }
     }else
     {
-        $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. " + curYear);
+        $("#vendor").text("All Rights Reserved Grandstream Networks, Inc. 2017");
     }
 }
 
