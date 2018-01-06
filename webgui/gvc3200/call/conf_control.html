@@ -2318,7 +2318,7 @@ function video_Invite(data)
 function addtoconf(data)
 {
     $(".noticetip,.disablediv").hide();
-    cb_get_action("get&var-0000=25104");
+    cb_get_action_sync("get&var-0000=25104");
     
     if(mOEMID != "54")
         $("#pause").show();
