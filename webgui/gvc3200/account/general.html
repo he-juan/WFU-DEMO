@@ -3,6 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.validate.min.js'></script>
@@ -11,7 +12,6 @@
 <script type="text/javascript" src='../js/jquery.md5.js'></script>
 <style>
 .serverside{display:none;}
-.pwdicon{position: absolute; top: 7px; right: 95px;}
 </style>
 <body id="framebody">
 <div class="tooltip"></div>
@@ -79,11 +79,9 @@
                 <div class="rebootitem"><span id="a_authid">SIP Authentication ID</span> :</div>
                 <input id="authid" name="authid" type="text" />
             </div>
-            <div webtip="SIP Authentication Password" class="serverside h323mode" style="position:relative">
+            <div webtip="SIP Authentication Password" class="serverside h323mode">
                 <div class="rebootitem"><span id="a_authpwd">SIP Authentication Password</span> :</div>
                 <input id="authpwd" name="sauthpwdserver" type="password" autocomplete="off" />
-                <input id="authpwd2" name="sauthpwdserver2" type="text" style="display:none;"/>
-                <div id="authpwdshow" class="pwdicon pwdshow" state="0" ></div>
             </div>
             <div webtip="Voice Mail Access Number" class="serverside">
                 <div class="noreboot"><span id="a_voicemailuid">Voice Mail Access Number</span> :</div>
@@ -225,8 +223,7 @@ function setInitState(){
             //secsipserver: { url:true, maxlength: 64 },
             regexp: { digits:true, range:[1,1440] },
             localport: { digits:true, range:[1024,65535] },
-            authpwd: { maxlength: 64 },
-            authpwd2: { maxlength: 64 }
+            authpwd: { maxlength: 64 }
         },
 		errorElement: "em",
 		success: function(label) { label.text(" ").addClass("success"); }
@@ -647,9 +644,6 @@ function save_settings(){
     if( accountindex != "1" && accountindex != "4" ){
         cb_put(sub_req_items);
     }else{
-        if($("#authpwdshow").attr("state") == "1"){
-            $("#authpwd").val($("#authpwd2").val());
-        }
 	    var pwd = $("#authpwd").val();
 	    if( pwd !="" && pwd != undefined ){
 		    switch (accountindex) 
@@ -696,20 +690,6 @@ function pageEventActions(){
         cb_get_action('put&flag=1&var-0000=22046&val-0000='+mNewDftAcct);
         $("#newdftacctdiv").hide();
         save_settings();
-    });
-    
-    $("#authpwdshow").click(function(){
-        //state: 0-password hidden  1-password display
-        var state = $(this).attr("state");
-        if(state == "0"){
-            $("#authpwd").hide();
-            $("#authpwd2").val($("#authpwd").val()).show();
-            $(this).attr("state", "1").removeClass("pwdshow").addClass("pwdhide");
-        }else{
-            $("#authpwd2").hide();
-            $("#authpwd").val($("#authpwd2").val()).show();
-            $(this).attr("state", "0").removeClass("pwdhide").addClass("pwdshow");
-        }
     });
     
     $("#a_save").click(function(){
