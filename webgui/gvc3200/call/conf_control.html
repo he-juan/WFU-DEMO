@@ -3283,8 +3283,10 @@ function addconflist(data,todivID)
             btndiv.appendChild(videoctrl);
             btndiv.appendChild(suspend);
             btndiv.appendChild(isvideoed);
-            if(!is4kon)
+            if(!is4kon){
                 btndiv.appendChild(feccbtn);
+                $("#record").show();
+            }
             if(state == "4")
             {
                 $(mute).show();
@@ -3324,7 +3326,6 @@ function addconflist(data,todivID)
         $("#closecamera").show();
         if($("#present").attr("bfcp") != "2" && ($("#disablepresent",window.parent.document).val() == "0" || hasIPVNumber()) )
             $("#present").show();
-        $("#record").show();
     }
     btndiv.appendChild(redial);
     btndiv.appendChild(del);
