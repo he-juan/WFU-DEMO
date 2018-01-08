@@ -10,6 +10,7 @@
 <script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
 <script type="text/javascript" src='../js/jquery.prompt.js'></script>
 <script type="text/javascript" src='../js/jquery.md5.js'></script>
+<script type="text/javascript" src='../js/hideShowPassword.min.js'></script>
 <style>
 .serverside{display:none;}
 </style>
@@ -685,6 +686,10 @@ function pageEventActions(){
             }
         }
     });*/
+    $("#authpwd").hideShowPassword({
+        innerToggle: true
+    });
+    
     $("#newdftacctok").click(function(){
         mNewDftAcct = $("#newdftacct").val();
         cb_get_action('put&flag=1&var-0000=22046&val-0000='+mNewDftAcct);

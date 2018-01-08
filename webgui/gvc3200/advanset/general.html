@@ -9,6 +9,7 @@
 <script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
 <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 <script type="text/javascript" src='../js/jscolor.js'></script>
+<script type="text/javascript" src='../js/hideShowPassword.min.js'></script>
 <style>
 .dragContainer{width:222px;height:38px;overflow:hidden;position:relative;}
 .voldragDiv{width:200px;height:22px;background: url("../img/settings_volume_none.png") no-repeat 0 8px;position:absolute;top:-8px;left: 10px;margin-top:22px !important;}
@@ -533,6 +534,10 @@ function translate_generalset(){
     $("#a_callcontactinter").text(a_16625);
 }
 function pageEventActions(){
+    $("#stunserverpwd").hideShowPassword({
+        innerToggle: true
+    });
+    
     $("#a_save").click(function(){
         if( !$("#Formvalidate").valid() ){
             view_message(a_16442,MSG_FAIL);

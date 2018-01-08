@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
-<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.prompt.js'></script>
 <script type="text/javascript" src='../js/jquery.validate.min.js'></script>
 <script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
 <script type="text/javascript" src='../js/ajaxupload.3.5.js'></script>
+<script type="text/javascript" src='../js/hideShowPassword.min.js'></script>
 <style>
 body {  }
 #statusdiv{margin-top:5px;height:15px;}
@@ -959,6 +959,10 @@ function pageEventActions(){
     /*$("input[name=uptype]").click(function(){
         cb_upgrade_type_change();
     });*/
+    
+    $("#httppass, #confighttppass, #xmlpass, #custpassword").hideShowPassword({
+        innerToggle: true
+    });
     
     $("#backupcfg").click(function(){
         cb_get_action("backupcfg&region=maintenance");

@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
-<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.validate.min.js'></script>
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/hideShowPassword.min.js'></script>
 
 <body id="framebody">
 <div class="tooltip"></div>
@@ -192,6 +192,10 @@ function translate_ldap(){
 }
 
 function pageEventActions(){
+    $("#password").hideShowPassword({
+        innerToggle: true
+    });
+    
     $("#a_save").click(function(){
         if( !$("#Formvalidate").valid() ){
             view_message(a_16442,MSG_FAIL);

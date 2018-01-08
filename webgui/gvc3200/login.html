@@ -14,7 +14,8 @@
 <script type="text/javascript" src='js/jquery.stylish-select.min.js'></script>
 <script type="text/javascript" src='js/jquery.md5.js'></script>
 <script type="text/javascript" src='js/jquery.blockUI.js'></script>
-<script type="text/javascript" src="js/sha256.js"></script>
+<script type="text/javascript" src='js/sha256.js'></script>
+<script type="text/javascript" src='js/hideShowPassword.min.js'></script>
 <script type="text/javascript" src='lang/login.js'></script>
 <style type="text/css">
 html {
@@ -88,7 +89,7 @@ body {
     clear: both;
     display: block;
     height: 115px;
-    margin: auto 0 0 180px;
+    margin: auto 0 0 190px;
     padding: 0;
     width: 450px;
 }
@@ -104,7 +105,7 @@ body {
 .expose input, .newListSelected {
     background:url("img/login/login_input_box_unpressed.png");
     border:none;
-    width:298px;
+    width:278px;
     height:20px;
     line-height:20px;
     margin:10px 0 0 0;
@@ -133,7 +134,7 @@ button {
     line-height:44px;
     cursor: pointer;
     font-size: 20px;
-    margin:30px 0 0 100px;
+    margin:30px 0 0 90px;
     padding:0;  
     text-decoration: none;
 }
@@ -161,7 +162,7 @@ button:disabled {
     cursor:pointer;
 }
  .newList {
-    width:320px;
+    width:304px;
     background:#2E3844;
     color:#C9D5DC;
     height:260px;
@@ -213,6 +214,33 @@ ul.newList li a {
     width:100%;
     height:100%;
 }
+
+.hideShowPassword-toggle{
+    width: 20px;
+    height: 18px;
+    z-index: 5;
+    margin: 0 !important;
+    cursor: pointer;
+    text-indent: -9999em;
+}
+
+.hideShowPassword-toggle-show{
+    background: url(../img/pwd_visible.png) -110px -30px no-repeat;
+}
+.hideShowPassword-toggle-show:hover{
+    background: url(../img/pwd_visible.png) -152px -30px no-repeat;
+}
+.hideShowPassword-toggle-hide{
+    background: url(../img/pwd_visible.png) -23px -28px no-repeat;
+}
+.hideShowPassword-toggle-hide:hover{
+    background: url(../img/pwd_visible.png) -67px -28px no-repeat;
+}
+
+.hideShowPassword-toggle{
+    top: 34% !important;
+    right: 13px !important;
+}
 </style>
 <!--[if lte IE 7]>
 <style type="text/css">
@@ -237,7 +265,7 @@ ul.newList li a {
             <div class="expose">
                 <input id="username"/>
                 <input class="password" type="text"/>
-                <input id="password" type="password" autocomplete="off"/>                
+                <input id="password" type="password" autocomplete="off" maxlength="64"/>
                 <select id="languagepage" name="languagepage">
                     <option value="en">English</option>
                     <option value="zh">中文</option>
@@ -271,21 +299,15 @@ var mCheckwakeup = 0;
 
 $(function(){
     cb_get_action("coloreExist");
-    init_skin();
     cb_get_action("productinfo");
     cb_get_action("devicestatus");
+
+    $("#password").hideShowPassword({
+        innerToggle: true,
+        hideToggleUntil: 'focus'
+    });
 });
 
-function change_skin(skinName){
-    //$("#cssfile").attr("href","css/"+ skinName +".css"); //设置不同皮肤
-}
-
-function init_skin()
-{
-    var cookie_skin = $.cookie( "MyCssSkin");
-    if (cookie_skin) 
-        change_skin( cookie_skin );
-}
 function cb_get_action(action) {
     var urihead = "action=" + action;
     urihead += "&time=" + new Date().getTime();
@@ -471,6 +493,8 @@ $(document).ready(function () {
         {
             $(this).hide();
             $("#password").show().focus();
+            $("#password").css("padding-right", "10px");
+            $(".hideShowPassword-toggle").show();
         }
     });
 
@@ -492,6 +516,7 @@ $(document).ready(function () {
                 $(this).hide();
                 $(".password").val(lan_password).show();
                 $(".password").css("background","url('img/login/login_input_box_unpressed.png')");
+                $(".hideShowPassword-toggle").hide();
             }
         }
     });

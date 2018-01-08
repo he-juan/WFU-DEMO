@@ -7,6 +7,7 @@
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.validate.min.js'></script>
 <script type="text/javascript" src='../js/jquery.overlay.js'></script>
+<script type="text/javascript" src='../js/hideShowPassword.min.js'></script>
 <style>
 .additem { width:420px; display:none; padding:50px;color:white; }
 #accform{width:420px;}
@@ -387,6 +388,11 @@ function pageEventActions(){
             $(".errortip").remove();
         }
 	});
+    
+    $("#acspwd, #conpwd").hideShowPassword({
+        innerToggle: true
+    });
+    
 	$("#a_chgok").click(function(e) {
         if($("#chguname").val() == ""){
             $(".errortip").remove();

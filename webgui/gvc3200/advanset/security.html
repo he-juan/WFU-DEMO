@@ -3,7 +3,6 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
-<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.validate.min.js'></script>
@@ -11,6 +10,7 @@
 <script type="text/javascript" src='../js/jquery.md5.js'></script>
 <script type="text/javascript" src='../js/jquery.prompt.js'></script>
 <script type="text/javascript" src='../js/ajaxupload.3.5.js'></script>
+<script type="text/javascript" src='../js/hideShowPassword.min.js'></script>
 <style>
 .certdiv{display:block;width:720px;margin:0;padding:0;}
 .certdiv div{display:block;float:left;text-align:center;margin:0;padding:0;}
@@ -568,6 +568,10 @@ function cb_get_action_done(data, action)
     }
 }
 function pageEventActions(){
+    $("#curadminpwd, #adminpasswd, #adminpasswd2, #curuserpwd, #userpasswd, #userpasswd2, #lockpasswd, #lockpasswd2, #sslpkpwd").hideShowPassword({
+        innerToggle: true
+    });
+    
     $("#accessmethod").change(function(){
         cb_accesschange();
     });
