@@ -6566,6 +6566,9 @@ function display_customscreenlayout(mode, content, hdmi, hdmi2state){
 function display_layoutlinediv(line, mode, order){
     var name, number;
     var account = $(".remoteline").attr("account");
+    if(account == "8"){
+        account = 3;
+    }
     
     if(line == 13){
         name = a_10032;
