@@ -1107,6 +1107,25 @@ function tobinChange(n)
     }
 }
 
+function cb_get_action_done(data, action){
+    if( data.substring(0, 1) == "{" ){
+    }else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){}   
+        else {
+            if(action.indexOf("26085") != -1){
+                /* RTX is not supported by special mode 'broadsoft', change the value of 
+                    packet retransmission as NACK only according to new requirement */
+                var specialmode = msgs.headers['26085'];
+                if(specialmode == "1"){
+                    cb_get_action("put&var-0000=26085&val-0000=0");
+                }
+            }
+        }
+    }
+}
+
 function pageEventActions(){
     $("#cftype").change(function(){
         update_forward_type();
@@ -1178,9 +1197,8 @@ function pageEventActions(){
         
         cb_put(req_items, "");
         
-        /* modify the value of packet retransmission as NACK when special mode is broadsoft */
         if($("#spefea").val() == "102"){
-            cb_get_action("put&var-0000=26085&val-0000=0");
+            cb_get_action("get&var-0000=26085");
         }
         
         if( accountindex == '1' )
