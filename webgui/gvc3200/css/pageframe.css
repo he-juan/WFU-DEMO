@@ -213,7 +213,7 @@ em.success { padding-left: 0px; }
 .hideShowPassword-wrapper{margin-top: 3px !important;}
 .hideShowPassword-wrapper input{padding-right: 0 !important;}
 .hideShowPassword-toggle{width: 20px; height: 18px; z-index: 5; margin: 0 !important; cursor: pointer; text-indent: -9999em; top: 16% !important; right: 4px !important;}
-.hideShowPassword-toggle-show{background: url(../img/pwd_visible.png) -110px -30px no-repeat;}
-.hideShowPassword-toggle-show:hover{background: url(../img/pwd_visible.png) -152px -30px no-repeat;}
-.hideShowPassword-toggle-hide{background: url(../img/pwd_visible.png) -23px -28px no-repeat;}
-.hideShowPassword-toggle-hide:hover{background: url(../img/pwd_visible.png) -67px -28px no-repeat;}
+.hideShowPassword-toggle-hide{background: url(../img/pwd_visible.png) -110px -30px no-repeat;}
+.hideShowPassword-toggle-hide:hover{background: url(../img/pwd_visible.png) -152px -30px no-repeat;}
+.hideShowPassword-toggle-show{background: url(../img/pwd_visible.png) -23px -28px no-repeat;}
+.hideShowPassword-toggle-show:hover{background: url(../img/pwd_visible.png) -67px -28px no-repeat;}
