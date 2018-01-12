@@ -1376,7 +1376,11 @@ int main()
 //    memset(&server_addr,0,sizeof(server_addr));
     server_addr.sin_family=AF_INET;
 //    strcpy(server_addr.sin_path,"/data/server.socket");
-    server_addr.sin_addr.s_addr=INADDR_ANY;
+
+    /*for security, only local address is supposed to be listened*/
+    //server_addr.sin_addr.s_addr=INADDR_ANY;
+    server_addr.sin_addr.s_addr=inet_addr("127.0.0.1");
+
     //server_addr.sin_addr.S_un.S_addr=INADDR_ANY;
     server_addr.sin_port=htons(10000);
     sockfd=socket(AF_INET,SOCK_STREAM,0);

@@ -25,7 +25,11 @@
     /* 填充服务器端口地址信息，以便下面使用此地址和端口监听 */  
     bzero(&s_add,sizeof(struct sockaddr_in));  
     s_add.sin_family=AF_INET;  
-    s_add.sin_addr.s_addr=htonl(INADDR_ANY); /* 这里地址使用全0，即所有 */  
+    
+    /*for security, only local address is supposed to be listened*/
+    //s_add.sin_addr.s_addr=htonl(INADDR_ANY); /* 这里地址使用全0，即所有 */  
+    s_add.sin_addr.s_addr=inet_addr("127.0.0.1");
+
     s_add.sin_port=htons(portnum);  
     /* 使用bind进行绑定端口 */  
     if(-1 == bind(sfp,(struct sockaddr *)(&s_add), sizeof(struct sockaddr)))  
