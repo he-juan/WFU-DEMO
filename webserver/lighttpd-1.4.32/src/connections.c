@@ -186,6 +186,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define TMP_CERT_PATH           "/tmp/upload_certs"
 #define TMP_CERT                "/tmp/content_certs"
 #define PROC_IF_INET6_PATH      "/proc/net/if_inet6"
+#define COREDUMP_PATH           "/data/coredump"
 
 //#define SIGNAL_LIGHTTPD_RSS_CHANGED             0
 //#define SIGNAL_LIGHTTPD_WEATHER_CHANGED         1
@@ -12853,6 +12854,99 @@ static int handle_tracelist (buffer *b)
 
 }
 
+static int handle_coredumplist (buffer *b)
+{
+    struct dirent *dp;
+    DIR *dir;
+    char *ptr = NULL;
+    int j = 0,len;
+    char name[256] = "";
+
+    if( access( COREDUMP_PATH, 0 ) )
+    {
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=The coredump directory doesn't exist\r\n");
+        return -1;
+    }
+
+    if( (dir = opendir(COREDUMP_PATH))== NULL )
+    {
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=The coredump directory open failed\r\n");
+        return -1;
+    }
+
+    buffer_append_string(b, "{\"Response\":\"Success\",\"Coredumplist\":[");
+
+    while ((dp = readdir( dir )) != NULL)
+    {
+        if(dp == NULL)
+        {
+            printf("dp is null\n");
+            break;
+        }
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+        {
+            sprintf(name, dp->d_name);
+            if( name[0] != '.' )
+            {
+                len = strlen(name);
+                uri_decode(name);
+
+                if(!j)
+                {
+                    buffer_append_string(b, "\"");
+                }
+                else
+                {
+                    buffer_append_string(b, ",\"");
+                }
+                buffer_append_string(b, name);
+                buffer_append_string(b, "\"");
+                j++;
+            }
+        }
+    }
+    buffer_append_string(b, "]}");
+    
+    closedir(dir);
+    return 1;
+}
+
+static int handle_deletecoredump(buffer *b, const struct message *m)
+{
+    const char *temp = NULL;
+    const char *path = NULL;
+
+    temp = msg_get_header(m, "coredumpname");
+    if( temp != NULL )
+    {
+        char *filename = NULL;
+        int len = strlen(temp)*2;
+        filename = malloc(len);
+        memset(filename, 0, len);
+        replace(temp, "../", "", filename);
+
+        len = strlen(COREDUMP_PATH) + strlen(filename) + 4;
+        path = malloc(len);
+        snprintf(path, len, "%s/%s", COREDUMP_PATH, filename);
+        printf("path = %s\n", path);
+        if( access(path, 0) == 0 )
+        {
+            unlink(path);
+            buffer_append_string(b, "Response=Success\r\n");
+        }else
+        {
+            buffer_append_string(b, "Response=Error\r\n");
+        }
+        free(filename);
+        free(path);
+    }else
+    {
+        buffer_append_string(b, "Response=Error\r\n");
+    }
+}
+
 char* substr(const char*str, unsigned start, unsigned end)
 {
     unsigned n = end - start;
@@ -21276,6 +21370,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_tracelist(b);
                 } else if (!strcasecmp(action, "deletetrace")) {
                     handle_deletetrace(b, m);
+                } else if (!strcasecmp(action, "coredumplist")){
+                    handle_coredumplist(b);
+                } else if (!strcasecmp(action, "deletecoredump")){
+                    handle_deletecoredump(b, m);
                 } else if (!strcasecmp(action, "initupstatus")) {
                     handle_initupstatus(b);
                 } else if (!strcasecmp(action, "provisioninit")) {

@@ -3,7 +3,6 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
-<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
@@ -20,16 +19,47 @@
             <div webtip="Trace List" style="width:710px;">
                 <div class="noreboot"><span id="a_tracelist">Trace List</span> :</div>
                 <select id="tracelist" name="tracelist"></select>
-                <button id="a_delete" type="button" style="margin-left:5px;margin-top:5px;">Delete</button>
+                <button id="a_delete" type="button" style="margin-left:5px;">Delete</button>
             </div>
             <div style="padding-bottom:10px;" webtip="View Trace">
                 <div class="noreboot"><span id="a_view">View Trace</span> :</div>
                 <button id="a_list" type="button">List</button>
             </div>
+            <!--div class='dotline' style='margin-top:30px;margin-bottom:30px;'></div>
+            <div webtip="Record">
+                <div class="noreboot"><span id="a_record">Record</span> :</div>
+                <button id="a_startrecord" type="button" state="0">Start</button>
+            </div>
+            <div webtip="Recording List" style="width:710px;">
+                <div class="noreboot"><span id="a_reclist">Recording List</span> :</div>
+                <select id="recordlist" name="recordlist"></select>
+                <button id="a_deleterec" type="button" style="margin-left:5px;">Delete</button>
+            </div>
+            <div style="padding-bottom:10px;" webtip="View Recording">
+                <div class="noreboot"><span id="a_viewrec">View Recording</span> :</div>
+                <button id="a_listrec" type="button">List</button>
+            </div-->
+            <div class='dotline' style='margin-top:30px;margin-bottom:30px;'></div>
+            <div webtip="Enable Core Dump Generation">
+                <div class="noreboot"><span id="a_enablecoredump">Enable Core Dump Generation</span> :</div>
+                <input type='checkbox' id='enabcoredump'><span id='a_enabcoredumpyes'>Yes</span>
+                <span class='rebootspan'></span>
+            </div>
+            <div webtip="Core Dump List" id='coredump_div'>
+                <div class="noreboot"><span id="a_coredumplist">Core Dump List</span> :</div>
+                <select id="coredumplist" name="coredumplist"></select>
+                <button id="a_delete_coredump" type="button" style="margin-left:5px;">Delete</button>
+            </div>
+            <div style="padding-bottom:10px;" webtip="View Core Dump">
+                <div class="noreboot"><span id="a_view_coredump">View Core Dump</span> :</div>
+                <button id="a_list_coredump" type="button">List</button>
+            </div>
+            <div class='savediv'>
+                <button id='a_save' class='savebtn' type='button'>Save</button>
+                <button id='a_cancel' type='reset'>Cancel</button>
+            </div>
         </fieldset>
 	</form>
-
-
 </div>
 <script type="text/javascript">
 	var cookie_lang = $.cookie( "MyLanguage");
@@ -45,28 +75,96 @@
 </script>
 <script type="text/javascript">
 
+var req_items = new Array;
+req_items.push(new ReqItem("enabcoredump", "29611", ""));
 
 $(function(){
     translate_debug();
     cb_get_action('capture&mode=mode&region=maintenance');
     cb_get_tracelist();
-    //cb_get(req_items);
+    cb_get_action('getrecordstate&region=maintenance');
+    cb_get_action('getrecordlist&region=maintenance');
+    cb_get_action('coredumplist&region=maintenance');
+    cb_get(req_items);
     pageEventActions();
 });
 function get_item_suc_callback() {
     
 }
 function cb_get_action_done(data, action) {
-    var msgs = res_parse_rawtext(data);
-    cb_if_auth_fail(msgs);
-    if (cb_is_fail(msgs)){
-    }else {
-        if(action == 'capture&mode=mode&region=maintenance')
-            view_mode_write(msgs);
-        //else if(action == 'capture&mode=on' || action == 'capture&mode=off')
-        else if(action == 'capture&mode=off&region=maintenance') {
-            view_message(a_7479, MSG_OK);
-            cb_get_tracelist();
+    if( data.substring(0, 1) == "{" ){
+        var tObj = eval("(" + data + ")");
+        if (action.indexOf("getrecordlist") != -1){
+            if ($("#recordlist").next(".newListSelected")) {
+                $("#recordlist").next(".newListSelected").remove();
+                $('#recordlist').empty();
+            }
+            var selvalue = "";
+            var reclist = tObj.Records;
+            for (var i = 0; reclist[i] != undefined; i++) {
+                var recOption = document.createElement('OPTION');
+                recOption.setAttribute('value', reclist[i]);
+                recOption.appendChild(document.createTextNode(reclist[i]));
+
+                $('#recordlist').append(recOption);
+            }
+            selvalue = reclist[0];
+            
+            $('#recordlist').sSelect();
+            $('#recordlist').getSetSSValue(selvalue);
+        } else if (action.indexOf("coredumplist") != -1){
+            if ($("#coredump_div .newListSelected")) {
+                $("#coredump_div .newListSelected").remove();
+                $('#coredumplist').empty();
+            }
+
+            var coredumplist = tObj.Coredumplist;
+            if(coredumplist.length){
+                for (var i = 0; coredumplist[i] != undefined; i++) {
+                    var $opt = $("<option value='" + coredumplist[i] + "'>" + htmlEncode(coredumplist[i]) + "</option>");
+                    $('#coredumplist').append($opt);
+                }
+                $("#a_delete_coredump").removeAttr("disabled");
+            }else{
+                $("#a_delete_coredump").attr("disabled", "disabled");
+            }
+            
+            $('#coredumplist').sSelect();
+        }
+    }
+    else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){
+        }else {
+            if(action == 'capture&mode=mode&region=maintenance')
+                view_mode_write(msgs);
+            //else if(action == 'capture&mode=on' || action == 'capture&mode=off')
+            else if(action == 'capture&mode=off&region=maintenance') {
+                view_message(a_7479, MSG_OK);
+                cb_get_tracelist();
+            } else if (action.indexOf('getrecordstate') != -1){
+                // init the status of start button:  0-ready to start 1-during recording
+                var record_state = msgs.headers['record_state'];
+                if (record_state == 1) {
+                    $("#a_startrecord").attr("state", "1");
+                    $("#a_startrecord").text(a_10);
+                }
+            } else if (action.indexOf("startrecording") != -1){
+                if(msgs.headers['response'] == "Success"){
+                    $("a_startrecord").text(a_10).attr("state", "1");
+                }
+            } else if (action.indexOf("stoprecording") != -1){
+                if(msgs.headers['response'] == "Success"){
+                    $("a_startrecord").text(a_9).attr("state", "0");
+                    cb_get_action('getrecordlist&region=maintenance');
+                }
+            } else if (action.indexOf("deleterecord") != -1){
+                
+            } else if (action.indexOf("deletecoredump") != -1){
+                cb_del_suc(data);
+                cb_get_action('coredumplist&region=maintenance')
+            }
         }
     }
 }
@@ -121,7 +219,7 @@ function cb_get_tracelist_done(data)
     if(selvalue != undefined)
         $("#a_delete").removeAttr("disabled");
 }
-function cb_put_suc(data, mode)
+function cb_del_suc(data, mode)
 {
     var msgs = res_parse_rawtext(data);
     cb_if_auth_fail(msgs);
@@ -145,7 +243,7 @@ function cb_delete_trace()
         data:urihead,
         dataType:'text',
         success:function(data) {
-            cb_put_suc(data);
+            cb_del_suc(data);
             cb_get_tracelist();
         },
         error:function(xmlHttpRequest, errorThrown) {
@@ -159,9 +257,18 @@ function translate_debug(){
     //$("#a_pcap").text(a_pcap);
     $("#a_view").text(a_16358);
     $("#a_tracelist").text(a_16359);
-    $("#a_delete").text(a_21);
-    $("#a_start").text(a_9);
-    $("#a_list").text(a_2106);
+    $("#a_delete, #a_deleterec, #a_delete_coredump").text(a_21);
+    $("#a_start, #a_startrecord").text(a_9);
+    $("#a_list, #a_listrec, #a_list_coredump").text(a_2106);
+    $("#a_record").text(a_410);
+    $("#a_reclist").text(a_19260);
+    $("#a_viewrec").text(a_19261);
+    $("#a_enablecoredump").text(a_19262);
+    $("#a_coredumplist").text(a_19263);
+    $("#a_view_coredump").text(a_19264);
+    $("#a_enabcoredumpyes").text(a_5);
+    $("#a_save").text(a_17);
+    $("#a_cancel").text(a_3);
 }
 function pageEventActions(){
     $("#a_start").click(function(){
@@ -180,6 +287,36 @@ function pageEventActions(){
     });
     $("#a_list").click(function(){
         parent.window.location = "/ppp";
+    });
+    
+    $("#a_startrecord").click(function(){
+        var state = $(this).attr("state");
+        if(state == "0"){
+            cb_get_action("startrecording&region=maintenance");
+        }else{
+            cb_get_action("stoprecording&region=maintenance");
+        }
+    });
+    
+    $("#a_listrec").click(function() {
+        parent.window.location = "/Recfiles";
+    });
+    
+    $("#a_deleterec").click(function() {
+        //if ($("#recordlist").getSetSSValue() == "" || $("#recordlist").getSetSSValue() == undefined)  return;
+        cb_get_action("deleterecord&region=maintenance&recordname=" + $("#recordlist").getSetSSValue());
+    });
+    
+    $("#a_list_coredump").click(function() {
+        parent.window.location = "/coredump";
+    });
+    
+    $("#a_delete_coredump").click(function() {
+        cb_get_action("deletecoredump&region=maintenance&coredumpname=" + $('#coredumplist').getSetSSValue());
+    });
+    
+    $('#a_save').click(function() {
+        cb_put(req_items, "", 0);
     });
 }
 
