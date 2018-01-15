@@ -13647,6 +13647,48 @@ static int handle_check_vericert(buffer *b, const struct message *m)
     }*/
 }
 
+static int handle_openvpn_cert (buffer *b, const struct message *m)
+{
+    char *buf = NULL;
+    int size;
+    char *pvalueparam = NULL;
+
+    pvalueparam = msg_get_header(m, "pvalue");
+
+    FILE* fp = fopen( TMP_CERT_PATH, "rb" );
+    if(fp == NULL){
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=The file is null\r\n");
+    } else {
+        fseek( fp, 0L, SEEK_END );
+        size = ftell(fp);
+        
+        if(size == 0){
+            buffer_append_string(b, "Response=Error\r\n"
+                    "Message=The file is empty\r\n");
+        } else {
+            buf = malloc(size);
+            memset(buf, 0, size);
+            fseek( fp, 0L, SEEK_SET);
+            fread (buf, 1, size, fp);
+            FILE *new_fd = fopen(TMP_CERT, "w+");
+            if( new_fd != NULL ){
+                fwrite(buf, 1, size, new_fd);
+                fflush(new_fd);
+                fclose(new_fd);
+            }
+            //printf("buf -> %s\n", buf);
+            nvram_set(pvalueparam, buf);
+            nvram_commit();
+            buffer_append_string(b, "Response=Success\r\n");
+            free(buf);
+        }
+    }
+    fclose(fp);
+
+    return 0;
+}
+
 static int handle_tonelist1 (buffer *b)
 {
     printf("handle_tonelist\n");
@@ -21355,6 +21397,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_no_param(srv, con, b, m, "getPowerTimerPolicy");
                 } else if (!strcasecmp(action, "settimeoutopt")) {
                     handle_callservice_by_one_param(srv, con, b, m, "type", "setPowerTimerPolicy", 0);
+                } else if (!strcasecmp(action, "setopenvpncert")) {
+                    handle_openvpn_cert(b, m);
                 } else{
                     findcmd = 0;
                 }

@@ -15,6 +15,8 @@ body{}
 .dotline { width:600px; margin-left:50px;}
 .staticip input[type="text"]{width:50px;}
 .staticip input{*width:50px;}
+fieldset .copyright{width: 70%; margin: 20px 15% 0 15%;}
+fieldset .copyright span{display: inline-block; text-align: right; width: 100%; color: #bbb; font-size: 12px;}
 </style>
 <body id="framebody">
 <div class="tooltip"></div>
@@ -281,7 +283,63 @@ body{}
                 <div class="noreboot"><span id="a_prefdnsserver">Preferred DNS Server</span> :</div>
                 <input name="prefdnsserver" type="text" id="prefdnsserver" />
             </div>
-
+            
+            <div class="titlediv">
+                <div class="titleboot"><span id="a_openvpnset">OpenVPN settings</span></div>
+            </div>
+            <div webtip="OpenVPN Enable">
+                <div class="noreboot"><span id="a_vpnenable">OpenVPN Enable</span> :</div>
+                <input name="vpnenable" type="checkbox" id="vpnenable" /><span id="a_vpnenableyes">Yes</span>
+            </div>
+            <div webtip="OpenVPN Server Address">
+                <div class="noreboot"><span id="a_vpnsevaddr">OpenVPN Server Address</span> :</div>
+                <input name="vpnsevaddr" type="text" id="vpnsevaddr" />
+            </div>
+            <div webtip="OpenVPN Port">
+                <div class="noreboot"><span id="a_vpnport">OpenVPN Port</span> :</div>
+                <input name="vpnport" type="text" id="vpnport" />
+            </div>
+            <div webtip="OpenVPN Transport">
+                <div class="noreboot"><span id="a_vpntransport">OpenVPN Transport</span> :</div>
+                <input name="vpntransport" value="0" checked="checked" type="radio" id="vpntransport0" radiogroup="vpntransport"><span>UDP</span>
+                <input name="vpntransport" value="1" type="radio" id="vpntransport1" radiogroup="vpntransport"><span>TCP</span>
+            </div>
+            <div webtip="OpenVPN CA">
+                <div class="noreboot"><span id="a_vpnca">OpenVPN® CA</span> :</div>
+                <button id="vpncaupload" type="button" uploadtype="vpnca" filetype="crt">Upload</button>
+                <button id="vpncadel" value="ca" type="button">Delete</button>
+            </div>
+            <div webtip="OpenVPN Client Certificate">
+                <div class="noreboot"><span id="a_vpncert">OpenVPN Certificate</span> :</div>
+                <button id="vpncertupload" type="button" uploadtype="vpncert" filetype="crt">Upload</button>
+                <button id="vpncertdel" value="cert" type="button">Delete</button>
+            </div>
+            <div webtip="OpenVPN Client Key">
+                <div class="noreboot"><span id="a_vpnkey">OpenVPN Client Key</span> :</div>
+                <button id="vpnkeyupload" type="button" uploadtype="vpnkey" filetype="key">Upload</button>
+                <button id="vpnkeydel" value="key" type="button">Delete</button>
+            </div>
+            <div webtip="OpenVPN Cipher Method">
+                <div class="noreboot"><span id="a_vpncipher">OpenVPN Cipher Method</span> :</div>
+                <select id="vpncipher" name="vpncipher">
+                    <option value="0">Blowfish</option>
+                    <option value="1">AES-128</option>
+                    <option value="2">AES-256</option>
+                    <option value="3">Triple-DES</option>
+                </select>
+            </div>
+            <div webtip="OpenVPN Username">
+                <div class="noreboot"><span id="a_vpnusername">OpenVPN Username</span> :</div>
+                <input name="vpnusername" type="text" id="vpnusername" />
+            </div>
+            <div webtip="OpenVPN Password">
+                <div class="noreboot"><span id="a_vpnpwd">OpenVPN Password</span> :</div>
+                <input name="vpnpwd" type="text" id="vpnpwd" />
+            </div>
+            <div class="copyright">
+                <span>© 2002-2014 OpenVPN Technologies, Inc.</span>
+                <span>OpenVPN is a registered trademark of OpenVPN Technologies, Inc.</span>
+            </div>
         </fieldset>
         <div class="savediv">
             <div id="statusdiv"></div>
@@ -373,7 +431,14 @@ req_items.push(
     new ReqItem("ipv6prefixlen", "1421", ""),
     new ReqItem("ipv6dns1", "1424", ""),
     new ReqItem("ipv6dns2", "1425", ""),
-    new ReqItem("prefdnsserver", "1423", "")
+    new ReqItem("prefdnsserver", "1423", ""),
+    new ReqItem("vpnenable", "7050", ""),
+    new ReqItem("vpnsevaddr", "7051", ""),
+    new ReqItem("vpnport", "7052", ""),
+    new ReqItem("vpntransport", "2912", ""),
+    new ReqItem("vpncipher", "8396", ""),
+    new ReqItem("vpnusername", "8394", ""),
+    new ReqItem("vpnpwd", "8395", "")
 );
 var default_ipv6static;
 var default_ipv6prefix;
@@ -384,6 +449,7 @@ $(function(){
     init_uploadca();
     init_uploadclient();
     init_uploadprivkey();
+    init_openvpn();
     var mOEMID = $('#existcolore', window.parent.document).val();
     if(mOEMID == '54'){
         $("#a_mediaaddr").text(a_19317);
@@ -424,7 +490,7 @@ function translate_page(){
     $("#a_relprednsser").text(a_16652);
     $("#a_2relprednsser").text(a_16192);
     $("#a_enablelldp").text(a_16193);
-    $("#a_enablelldpyes,#a_dhcp120yes").text(a_5);
+    $("#a_enablelldpyes, #a_dhcp120yes, #a_vpnenableyes").text(a_5);
     $("#a_useragent").text(a_16194);
     $("#a_sipuseragent").text(a_19128);
     $("#a_802xmode, #a_802mode").text(a_4140);  
@@ -463,11 +529,23 @@ function translate_page(){
     $("#a_ipv6dns1").text(a_19227);
     $("#a_ipv6dns2").text(a_19228);
     $("#a_prefdnsserver").text(a_19229);
+    $("#a_openvpnset").text(a_19274);
+    $("#a_vpnenable").text(a_19265);
+    $("#a_vpnsevaddr").text(a_19266);
+    $("#a_vpnport").text(a_19267);
+    $("#a_vpntransport").text(a_19268);
+    $("#a_vpncert").text(a_19269);
+    $("#a_vpnkey").text(a_19270);
+    $("#a_vpncipher").text(a_19271);
+    $("#a_vpnusername").text(a_19272);
+    $("#a_vpnpwd").text(a_19273);
+    $("#vpncaupload, #vpncertupload, #vpnkeyupload").text(a_4393);
+    $("#vpncadel, #vpncertdel, #vpnkeydel").text(a_21);
 }
 
 function setInitState(){
     translate_page();
-    $("#protocoltype, #networktype, #xmode, #ipv6addr, #dhcpvlan").sSelect(); 
+    $("#protocoltype, #networktype, #xmode, #ipv6addr, #dhcpvlan, #vpncipher").sSelect(); 
     //$("#xmode").sSelect({ddMaxHeight: '120px'}); 
     $("#Formvalidate").validate({
 		rules: {
@@ -786,6 +864,47 @@ function init_uploadprivkey(){
         }
     });
 }
+
+function init_openvpn(){
+    var btnarr = new Array($("#vpncaupload"), $("#vpncertupload"), $("#vpnkeyupload"));
+    for(var i in btnarr){
+        new Ajax_upload(btnarr[i], {
+            name: 'file',
+            action : '../upload?type=vericert',
+            onSubmit : function(file, ext) {
+                var filetype = this._button.attributes["filetype"].value;
+                console.log(this._button.attributes["filetype"].value);
+                if(ext[0] != filetype){
+                    $.prompt(a_16434);
+                    return false;
+                }
+                cb_ping();
+                window.parent.block_upload_func();
+            },
+            onComplete: function(file, response) {
+                var btnid = this._button.id;
+                var pvalue = "";
+                switch (btnid) {
+                    case 'vpncaupload':
+                        pvalue = "9902"
+                        break;
+                    case 'vpncertupload':
+                        pvalue = "9903"
+                        break;
+                    case 'vpnkeyupload':
+                        pvalue = "9904"
+                        break;
+                }
+                var action = "setopenvpncert&region=advanset&pvalue=" + pvalue;
+                cb_get_action(action);
+            }
+        });
+    }
+    
+    //init the status of delete buttons
+    cb_get_action("get&var-0000=9902&var-0001=9903&var-0002=9904");
+}
+
 function init_uploadframe(){
     var button = $('#a_uploadframe'), interval;
     var uploadkeytimer = 0;
@@ -1013,17 +1132,48 @@ function cb_put_suc(data, mode)
 function cb_get_action_done(data, action) {
     var msgs = res_parse_rawtext(data);
     cb_if_auth_fail(msgs);
-    if (cb_is_fail(msgs)){}   
-    else {
-        if(action == "put&var-0000=1684&val-0000=0"){
+    
+    if(action == "put&var-0000=1684&val-0000=0"){
+        setTimeout("cb_get_action('get&var-0000=in_lldp');", 1000);
+    }else if(action == "get&var-0000=in_lldp"){
+        if( msgs.headers["in_lldp"] == "0" ){
+            $("#openlldp").val("0");
+            window.parent.unblock_func();
+        }else{
             setTimeout("cb_get_action('get&var-0000=in_lldp');", 1000);
-        }else if(action == "get&var-0000=in_lldp"){
-            if( msgs.headers["in_lldp"] == "0" ){
-                $("#openlldp").val("0");
-                window.parent.unblock_func();
+        }
+    }else if(action == "get&var-0000=9902&var-0001=9903&var-0002=9904"){
+        if(!msgs.headers['9902']){
+            $("#vpncadel").prop("disabled", true);
+        }
+        if(!msgs.headers['9903']){
+            $("#vpncertdel").prop("disabled", true);
+        }
+        if(!msgs.headers['9904']){
+            $("#vpnkeydel").prop("disabled", true);
+        }
+    }else if(action.indexOf("setopenvpncert") != -1){
+        window.parent.unblock_func();
+        if(msgs.headers['response'] == "Success"){
+            $.prompt(a_16476);
+            if(action.indexOf("9902") != -1){
+                $("#vpncadel").prop("disabled", false);
+            }else if(action.indexOf("9903") != -1){
+                $("#vpncertdel").prop("disabled", false);
             }else{
-                setTimeout("cb_get_action('get&var-0000=in_lldp');", 1000);
+                $("#vpnkeydel").prop("disabled", false);
             }
+        }else{
+            $.prompt(a_16477);
+        }
+    }else if(action.indexOf("put&val-0000=&var-0000=990") != -1){
+        $.prompt(a_57);
+        if(action.indexOf("9902") != -1){
+            $("#vpncadel").prop("disabled", true);
+        }else if(action.indexOf("9903") != -1){
+            $("#vpncertdel").prop("disabled", true);
+        }else{
+            $("#vpnkeydel").prop("disabled", true);
         }
     }
 }
@@ -1050,6 +1200,24 @@ function pageEventActions(){
     $("#ipv6addr").change(function() {
         set_ipv6_item_dis($(this).val());
     });
+    
+    $("#vpncadel, #vpncertdel, #vpnkeydel").click(function(){
+        var delnvarm = "";
+        var btnid = $(this).attr("id");
+        switch (btnid) {
+            case "vpncadel":
+                delnvarm = "9902";
+                break;
+            case "vpncertdel":
+                delnvarm = "9903";
+                break;
+            case "vpnkeydel":
+                delnvarm = "9904";
+                break;
+        }
+        cb_get_action("put&val-0000=&var-0000=" + delnvarm);
+    });
+    
     $("#a_save").click(function(){
         var nettype = parseInt($("#networktype").val());
         if( nettype == "2") {
