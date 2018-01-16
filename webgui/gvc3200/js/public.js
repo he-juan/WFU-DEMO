@@ -1279,7 +1279,7 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isdialplan, isipcall,
     if( dialacct == '2' || dialacct == '8' )
         isdialplan = 0;
     
-    window.parent.confFrame.judge_failedLine(dialnum);
+    window.parent.confFrame.judge_failedLine(encodeURIComponent(dialnum));
     setTimeout(function(){
         cb_originate_call("originatecall&region=webservice&destnum=" + encodeURIComponent(dialnum) + "&account=" + dialacct + "&isvideo=" + isvideo + "&ispaging=" + ispaging +  "&isipcall=" + isipcall +  "&isdialplan=" + isdialplan + "&headerstring=&format=json",dialnum, dialacct);
     },100);

@@ -1316,6 +1316,10 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                 printf("phonenum is null\n");
                 continue;
             }
+            else{
+                json_handle(phonenum);
+            }
+            
             if( memberdate == NULL ){
                 printf("memberdate is null\n");
                 continue;
