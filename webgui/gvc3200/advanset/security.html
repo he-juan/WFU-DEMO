@@ -616,6 +616,21 @@ function pageEventActions(){
 		}else{
 		    $("#userpasswd").rules("remove");
 		}
+        
+        var reg = new RegExp("^[\x21-\x7E]+$");
+        if($("#adminpasswd").val() != ""){
+            if(!reg.test($("#adminpasswd").val())){
+                view_message($("#a_adminpwd").text() + " " + a_19275, MSG_FAIL);
+                return false;
+            }
+        }
+        if($("#userpasswd").val() != ""){
+            if(!reg.test($("#userpasswd").val())){
+                view_message($("#a_userpwd").text() + " " + a_19275, MSG_FAIL);
+                return false;
+            }
+        }
+        
 		if( !$("#Formvalidate").valid() ){
             view_message(a_16442,MSG_FAIL);
             return false;

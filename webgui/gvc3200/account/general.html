@@ -731,6 +731,12 @@ function pageEventActions(){
             return false;
         }
         
+        reg = new RegExp("^[\x21-\x7E]+$");
+        if(!reg.test($("#authpwd").val())){
+            view_message($("#a_authpwd").text() + " " + a_19275, MSG_FAIL);
+            return false;
+        }
+        
         if( accountindex == "2" ){
             if( $("#enableiptalkpro").attr("checked") ){
                 $("#accountacctive").prop("checked", true);
