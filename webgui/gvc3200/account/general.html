@@ -732,7 +732,7 @@ function pageEventActions(){
         }
         
         reg = new RegExp("^[\x21-\x7E]+$");
-        if(!reg.test($("#authpwd").val())){
+        if($("#authpwd").val() != "" && !reg.test($("#authpwd").val())){
             view_message($("#a_authpwd").text() + " " + a_19275, MSG_FAIL);
             return false;
         }
