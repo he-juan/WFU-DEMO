@@ -11,7 +11,7 @@ $(function(){
     $("#mainMenu").css('height',height-35);
 	$("#incomingcall").css('width',990).css('height',height-50);
 	$(".footContent").css('top',foottop).show();
-	$(".rebootspan, .selectrebootspan").html("&nbsp;&nbsp;&nbsp;&nbsp;");
+	$(".rebootspan, .selectrebootspan").html("&nbsp;&nbsp;&nbsp;&nbsp;").attr("title", a_4278);
 	//$("fieldset > div > div").addClass("righttext");
 	hideApply();
     

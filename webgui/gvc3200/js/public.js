@@ -11,7 +11,7 @@ var mIPtest = /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0
 var mRegnumber = new RegExp("^[0-9]*$");
 
 $(window).load(function() {
-	$(".rebootspan, .selectrebootspan").html("&nbsp;&nbsp;&nbsp;&nbsp;");
+	$(".rebootspan, .selectrebootspan").html("&nbsp;&nbsp;&nbsp;&nbsp;").attr("title", a_4278);
 	//$("fieldset > div > div").addClass("righttext");
 	checkIsApplyNeed();
 });
