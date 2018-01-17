@@ -1393,7 +1393,11 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             disname2 = sqlite3_column_text(stmt, 10);    //contact name
             confname = sqlite3_column_text(stmt, 11);    //in conf name
 
-            if( phonenum == NULL ) continue;
+            if( phonenum == NULL ) 
+                continue;
+            else
+                json_handle(phonenum);
+            
             if( disname == NULL ){
                 len = strlen(phonenum) + 8;
                 disname = malloc(len);
