@@ -1749,7 +1749,8 @@ function pageEventActions(){
         var confstate = $("#disconfstate",window.parent.document).val();
         
         var dialacct = $(this).parent().parent(".itemdiv").attr("account");
-        if( $(this).parent().parent(".itemdiv").attr("isconf") != "1" ){
+        //if( $(this).parent().parent(".itemdiv").attr("isconf") != "1" )
+        if( dialacct != "1" ){
             mMaxlineNum = mMaxMember - parseInt($("#busylinenum",window.parent.document).val());
             if( $("#hasipvt", window.parent.document).val() == "1" && mPromodel == "GVC3202" && mMaxlineNum < 2 ){
                 mMaxlineNum ++;
@@ -1841,7 +1842,7 @@ function pageEventActions(){
             if( $(this).parent().parent(".itemdiv").attr("confid") != "" )
                 confname = encodeURIComponent($(this).parent().parent(".itemdiv").attr("name"));*/
             var confid = $(this).parent().parent(".itemdiv").attr("confid");
-            var confname = $(this).parent().parent(".itemdiv").attr("name");
+            //var confname = $(this).parent().parent(".itemdiv").attr("name");
             //cb_get_action("addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(dialnum) + "&accounts=" + encodeURIComponent(todialacct) + "&confname=" + confname);
             //cb_start_addmemberconf(dialnum, todialacct, callmode, confname);
             var isdialplan = "";
@@ -1856,7 +1857,7 @@ function pageEventActions(){
             isdialplan = isdialplan.substring(0, isdialplan.length - 3);
             
             var isvideo = $(this).parent().parent(".itemdiv").attr("misvideo");
-            cb_start_addmemberconf(dialnum, todialacct, callmode, confid, isdialplan, confname, isvideo);
+            cb_start_addmemberconf(dialnum, todialacct, callmode, confid, isdialplan, "", isvideo);
             
             /*var confid = $(this).parent().parent(".itemdiv").attr("confid");
             if( confid != "" )
