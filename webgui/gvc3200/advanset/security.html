@@ -39,11 +39,11 @@
                     <option value="0">HTTP</option>
                     <option value="1">HTTPS</option>
                 </select>
-                <span class="selectrebootspan"></span>
+                <!--span class="selectrebootspan"></span-->
             </div>
             <div webtip="Port">
                 <div class="rebootitem"><span id="a_port">Port</span> :</div>
-                <input name="port" type="text" id="port" /><span class="rebootspan"></span>
+                <input name="port" type="text" id="port" /><!--span class="rebootspan"></span-->
             </div>
             <div webtip="Current Admin Password" class="g_adminpwd">
                 <div class="noreboot"><span id="a_curadminpwd">Current Admin Password</span> :</div>
@@ -195,6 +195,7 @@ var mDeleteIndex = 0;
 var mLeftMaxNum = 6;
 var mLeftPvalues = new Array;
 var mOEMID = '0';
+var mAccessmethod, mPort;
 
 $(function(){
     setInitState();
@@ -209,6 +210,8 @@ function get_item_suc_callback(){
     $("#adminpasswd2").val( $("#adminpasswd").val() );
     $("#userpasswd2").val( $("#userpasswd").val() );
     cb_accesschange();
+    mAccessmethod = $("#accessmethod").val();
+    mPort = $("#port").val();
 }
 function cb_accesschange(){
     if(mOEMID != "54"){
@@ -656,6 +659,52 @@ function pageEventActions(){
 		    }
         }else   
             cb_put(req_items, "", 0);
+            
+        var accessmethod = $("#accessmethod").val();
+        var port = $("#port").val();
+        if(accessmethod != mAccessmethod || port != mPort){
+            var cururl = window.parent.location.href;
+            var ipaddr = cururl.split("/")[2];
+            
+            var url = "http://"
+            if(accessmethod == "1"){
+                var url = "https://"
+            }
+            
+            if(port != mPort){
+                if(mPort == "80"){
+                    url += ipaddr + ":" + port;
+                }else{
+                    if(ipaddr.indexOf("]") == -1){
+                        // ipv4 addr
+                        if(accessmethod == "0" && port == "80" || accessmethod == "1" && port == "443")
+                            url += ipaddr.split(":")[0];
+                        else
+                            url += ipaddr.split(":")[0] + ":" + port;
+                    }else{
+                        // ipv6 addr
+                        if(accessmethod == "0" && port == "80" || accessmethod == "1" && port == "443")
+                            url += ipaddr.split("]")[0] + "]";
+                        else
+                            url += ipaddr.split("]")[0] + "]:" + port;
+                    }
+                }
+            }else{
+                url += ipaddr;
+            }
+            
+            var txt = '<div class="shortmsg">' + a_19276 + ": " + url + '</div>';
+            $.prompt(txt, {
+                buttons:{
+                    Yes: true
+                },
+                callback: function(v, m, f){
+                    if(v){
+                        window.parent.location.href = url;
+                    }else{}
+                }
+            });
+        }
     });
 }
 

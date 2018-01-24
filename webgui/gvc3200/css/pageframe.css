@@ -129,7 +129,7 @@ div.jqi button{ padding: 3px 10px;margin: 0 10px; background-color: #2F6073; bor
 div.jqi button:hover { background-color: #728A8C; }
 .jqiwarning .jqi .jqibuttons { background-color: transparent; }
 div.jqi .jqimessage .field { padding: 5px 0px 5px 0px; float:left;width:300px;line-height:25px; }
-div.jqi .jqimessage .shortmsg { float:left;width:600px;font-size: 12px; }
+div.jqi .jqimessage .shortmsg { float:left;width:600px;font-size: 13px; }
 div.jqi .jqimessage .field label { clear: left; display: block; float: left; width: 150px; }
 div.jqi .jqimessage .field input { border: #777777 1px solid; width: 120px; }
 DIV.jqi .jqimessage .field input.error { border: #ff0000 1px solid; width: 120px; }
