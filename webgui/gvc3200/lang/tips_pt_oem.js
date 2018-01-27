@@ -807,6 +807,12 @@ tip_item.push (
 		"Quando está configurado SIM, a captura efetuada conterá mensagens de depuração. A configuração padrão é NÃO."),
     new TipsDef("Trace List",
 		"Selecione o arquivo de captura existente. Pressione o botão \"Apagar\" que está à direita para apagar o arquivo."), 
+	new TipsDef("Record",
+		"Click to start capturing audio data, click the \"Stop\" button to end. To capture the audio data of the device can help to locate audio issues. The default is not enabled. You can record up to 1 minute audio data."),
+	new TipsDef("Recording List",
+		"Choose the existing audio file. Click the \"Delete\" button on the right to delete this file."),
+	new TipsDef("View Recording",
+		"Click on the \"List\" button to view. The captured audio data will cover the data which saved last time. Click to download the data to the computer for analysis."),
 
     /*Manutenção Idioma*/
     new TipsDef("Language",

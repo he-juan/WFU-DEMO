@@ -819,6 +819,12 @@ tip_item.push (
 		"Cuando se establezca en SI, la traza capturada contendrá los mensajes debug. El ajuste por defecto es NO."),
     new TipsDef("Trace List",
 		"Seleccione el archivo de captura existente. Presione el botón \"Eliminar\" a la derecha para eliminar el archivo."), 
+	new TipsDef("Record",
+		"Click to start capturing audio data, click the \"Stop\" button to end. To capture the audio data of the device can help to locate audio issues. The default is not enabled. You can record up to 1 minute audio data."),
+	new TipsDef("Recording List",
+		"Choose the existing audio file. Click the \"Delete\" button on the right to delete this file."),
+	new TipsDef("View Recording",
+		"Click on the \"List\" button to view. The captured audio data will cover the data which saved last time. Click to download the data to the computer for analysis."),
 
     /*Mantenimiento Idioma*/
     new TipsDef("Language",

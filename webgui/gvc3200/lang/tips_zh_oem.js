@@ -802,7 +802,13 @@ tip_item.push (
     new TipsDef("Enable Application Debug", "打开应用程序调试",
 		"当设置为是，设备将抓捕的数据生成调试信息。默认不勾选。"),
     new TipsDef("Trace List", "已有包列表",
-		"可选择已有的抓包文件。点击右方的“删除”按钮可删除该抓包文件。"), 
+		"可选择已有的抓包文件。点击右方的“删除”按钮可删除该抓包文件。"),
+	new TipsDef("Record", "录音",
+		"点击开始进行音频数据抓取, 按停止结束。抓捕设备的音频数据可以方便定位音频问题。默认不开启。最多可录1分钟音频数据。"),
+	new TipsDef("Recording List", "已有录音列表",
+		"可选择已有的音频文件。点击右方的“删除”按钮可删除该文件。"),
+	new TipsDef("View Recording", "查看已有录音",
+		"点击“列表”按钮查看。最新捕获的音频数据将覆盖上一次音频数据。可点击将数据下载到电脑以便分析。"),
 
 	/*Maintenance Language*/
     new TipsDef("Language", "语言选择",

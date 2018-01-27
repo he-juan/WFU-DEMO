@@ -157,7 +157,8 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define SIGNAL_CFUPDATED          "cfupdated"
 #define SIGNAL_APPLYED          "applyed"
 
-#define SIGNAL_VBRATEUPDATED          "video_bitrate_change"
+#define SIGNAL_RECORD_OPERATE       "avs_saveaudio"
+#define SIGNAL_VBRATEUPDATED        "video_bitrate_change"
 #define SIGNAL_WIFI_CHANGED         "wifi_changed"
 #define SIGNAL_WIFI_SCAN                    "wifi_scan"
 #define SIGNAL_COLORE_CHANGE_PWD        "change_password"
@@ -187,6 +188,8 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define TMP_CERT                "/tmp/content_certs"
 #define PROC_IF_INET6_PATH      "/proc/net/if_inet6"
 #define COREDUMP_PATH           "/data/coredump"
+#define RECORD_PATH             "/tmp"
+#define RECORD_TMP_PATH         "/tmp/recfiles"
 
 //#define SIGNAL_LIGHTTPD_RSS_CHANGED             0
 //#define SIGNAL_LIGHTTPD_WEATHER_CHANGED         1
@@ -3882,6 +3885,33 @@ static int dbus_send_applyed ( void )
     dbus_connection_send( bus, message, NULL );
     dbus_message_unref( message );
 #endif
+    return 0;
+}
+
+static int dbus_send_record_operation (const int arg1 )
+{
+#ifdef BUILD_ON_ARM
+    DBusMessage* message;
+
+    if ( bus == NULL )
+    {
+        printf( "Error: Dbus bus is NULL\n" );
+        return 1;
+    }
+
+    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, SIGNAL_RECORD_OPERATE);
+    if ( message == NULL )
+    {
+        printf( "message is NULL\n");
+        return 1;
+    }
+
+    dbus_message_append_args( message, DBUS_TYPE_BOOLEAN, &arg1, DBUS_TYPE_INVALID );
+
+    dbus_connection_send( bus, message, NULL );
+    dbus_message_unref( message );
+#endif
+
     return 0;
 }
 
@@ -12862,6 +12892,170 @@ static int handle_tracelist (buffer *b)
 
 }
 
+static int handle_get_record_list (buffer *b, const struct message *m)
+{
+    struct dirent *dp;
+    DIR *dir;
+    char *ptr = NULL;
+    int j=0;
+    char name[256] = "";
+    char *fileExt = NULL;
+    char *temp = NULL;  
+    int list;    //list: 0-get list  1-view record list
+    char *sys = NULL;
+
+    if( access( RECORD_PATH, 0 ) )
+    {
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=The recording directory doesn't exist\r\n");
+        return -1;
+    }
+
+    if( (dir = opendir(RECORD_PATH))== NULL )
+    {
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=Recording directory open failed\r\n");
+        return -1;
+    }
+    
+    temp = msg_get_header(m, "list");
+    list = atoi(temp);
+    
+    if(!list)
+    {
+        buffer_append_string(b, "{\"Response\":\"Success\",\"Records\":[");
+    }
+    else{
+        sys = malloc(128);
+        if( !access( RECORD_TMP_PATH, 0 ) )
+        {
+            memset(sys, 0, 128);
+            sprintf(sys, "rm %s -rf", RECORD_TMP_PATH);
+            system(sys);
+        }
+        
+        memset(sys, 0, 128);
+        sprintf(sys, "mkdir %s", RECORD_TMP_PATH);
+        system(sys);
+    }
+
+    while ((dp = readdir( dir )) != NULL)
+    {
+        if(dp == NULL)
+        {
+            printf("dp is null\n");
+            break;
+        }
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+        {
+            sprintf(name, dp->d_name);
+            if( name[0] != '.' )
+            {
+                uri_decode(name);
+                ptr = strrchr(name, '.');
+                if(ptr != NULL)
+                {
+                    fileExt = strdup(ptr+1);
+                    if( strcasecmp(fileExt, "pcm") == 0 )
+                    {
+                        if(!list)
+                        {
+                            if(!j)
+                            {
+                                buffer_append_string(b, "\"");
+                            }
+                            else
+                            {
+                                buffer_append_string(b, ",\"");
+                            }
+                            buffer_append_string(b, name);
+                            buffer_append_string(b, "\"");
+                            j++;
+                        } 
+                        else
+                        {
+                            memset(sys, 0, 128);
+                            sprintf(sys, "cp %s/%s %s", RECORD_PATH, name, RECORD_TMP_PATH);
+                            system(sys);
+                        }
+                    }
+                    free(fileExt);
+                    fileExt = NULL;
+                }
+            }
+        }
+    }
+    if(!list)
+    {
+        buffer_append_string(b, "]}");
+    }
+    else
+    {
+        free(sys);
+        buffer_append_string(b, "{\"res\":\"success\"}");
+    }
+
+    closedir(dir);
+    return 1;
+}
+
+static int handle_start_recording (buffer *b)
+{
+    char *saveaudio = nvram_get("saveaudio");
+    if (saveaudio != NULL && !strcmp(saveaudio, "1")) {
+        buffer_append_string(b, "Response=Error\r\nMessage=Already start\r\n");
+        return -1;
+    }
+    
+    dbus_send_record_operation(true);
+    buffer_append_string(b, "Response=Success\r\nMessage=Start success\r\n");
+}
+
+static int handle_stop_recording (buffer *b)
+{
+    dbus_send_record_operation(false);
+    buffer_append_string(b, "Response=Success\r\nMessage=Stop success\r\n");
+
+    return 0;
+}
+
+static int handle_delete_record(buffer *b, const struct message *m)
+{
+    const char *temp = NULL;
+    char *path = NULL;
+
+    temp = msg_get_header(m, "recordname");
+    if( temp != NULL )
+    {
+        char *filename = NULL;
+        int len = strlen(temp)*2;
+        filename = malloc(len);
+        memset(filename, 0, len);
+        replace(temp, "../", "", filename);
+
+        len = strlen(RECORD_PATH) + strlen(filename) + 4;
+        path = malloc(len);
+        snprintf(path, len, "%s/%s", RECORD_PATH, filename);
+        printf("path = %s\n", path);
+        if( access(path, 0) == 0 )
+        {
+            unlink(path);
+            buffer_append_string(b, "Response=Success\r\n");
+        }
+        else
+        {
+            buffer_append_string(b, "Response=Error\r\n");
+        }
+        free(filename);
+        free(path);
+    }
+    else
+    {
+        buffer_append_string(b, "Response=Error\r\n");
+    }
+    return 1;
+}
+
 static int handle_coredumplist (buffer *b)
 {
     struct dirent *dp;
@@ -21422,6 +21616,14 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_tracelist(b);
                 } else if (!strcasecmp(action, "deletetrace")) {
                     handle_deletetrace(b, m);
+                } else if (!strcasecmp(action, "getrecordlist")) {
+                    handle_get_record_list(b, m);
+                } else if (!strcasecmp(action, "startrecording")) {
+                    handle_start_recording(b);
+                } else if (!strcasecmp(action, "stoprecording")) {
+                    handle_stop_recording(b);
+                } else if (!strcasecmp(action, "deleterecordfile")){
+                    handle_delete_record(b, m);
                 } else if (!strcasecmp(action, "coredumplist")){
                     handle_coredumplist(b);
                 } else if (!strcasecmp(action, "deletecoredump")){

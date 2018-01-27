@@ -822,7 +822,13 @@ tip_item.push (
     new TipsDef("Enable Application Debug",
 		"When set to YES, the trace captured will contain debug messages. The default setting is NO."),
     new TipsDef("Trace List",
-		"Selects the existing capture file.Press the \"Delete\" button on the right to delete the file."), 
+		"Selects the existing capture file.Press the \"Delete\" button on the right to delete the file."),
+	new TipsDef("Record",
+		"Click to start capturing audio data, click the \"Stop\" button to end. To capture the audio data of the device can help to locate audio issues. The default is not enabled. You can record up to 1 minute audio data."),
+	new TipsDef("Recording List",
+		"Choose the existing audio file. Click the \"Delete\" button on the right to delete this file."),
+	new TipsDef("View Recording",
+		"Click on the \"List\" button to view. The captured audio data will cover the data which saved last time. Click to download the data to the computer for analysis."),
 
     /*Maintenance Language*/
     new TipsDef("Language",
