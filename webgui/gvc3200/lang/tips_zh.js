@@ -822,6 +822,12 @@ tip_item.push (
 		"可选择已有的音频文件。点击右方的“删除”按钮可删除该文件。"),
 	new TipsDef("View Recording", "查看已有录音",
 		"点击“列表”按钮查看。最新捕获的音频数据将覆盖上一次音频数据。可点击将数据下载到电脑以便分析。"),
+	new TipsDef("Enable Core Dump Generation", "生成核心转储",
+		"设置当有程序出现异常时是否生成并保存核心转储文件。"),
+	new TipsDef("Core Dump List", "已有核心转储列表",
+		"可选择已有的核心转储文件。点击右方的“删除”按钮可删除该文件。"),
+	new TipsDef("View Core Dump", "查看已有核心转储",
+		"点击“列表”按钮查看已有的核心转储文件。保存的文件将根据时间顺序排列。点击文件名可将该核心转储文件下载到电脑以供分析。"),
 
 	/*Maintenance Language*/
     new TipsDef("Language", "语言选择",

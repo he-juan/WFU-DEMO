@@ -812,6 +812,12 @@ tip_item.push (
 		"Choose the existing audio file. Click the \"Delete\" button on the right to delete this file."),
 	new TipsDef("View Recording",
 		"Click on the \"List\" button to view. The captured audio data will cover the data which saved last time. Click to download the data to the computer for analysis."),
+	new TipsDef("Enable Core Dump Generation",
+		"Configures whether to generate and save the core dump file when the programme crashes."),
+	new TipsDef("Core Dump List",
+		"Select the existing core dump file in the drop-down box. Users could lick the \"Delete\" button on the right to delete the file."),
+	new TipsDef("View Core Dump",
+		"Click the \"List\" button to view all existing core dump files. The files are listed in chronological order, users could click the file name to download the file to the local computer."),
 
     /*Mantenimiento Idioma*/
     new TipsDef("Language",
