@@ -14183,16 +14183,16 @@ static int handle_openvpn_cert (buffer *b, const struct message *m)
             buffer_append_string(b, "Response=Error\r\n"
                     "Message=The file is empty\r\n");
         } else {
-            buf = malloc(size);
+            buf = malloc(size + 1);
             memset(buf, 0, size);
             fseek( fp, 0L, SEEK_SET);
             fread (buf, 1, size, fp);
-            FILE *new_fd = fopen(TMP_CERT, "w+");
+            /*FILE *new_fd = fopen(TMP_CERT, "w+");
             if( new_fd != NULL ){
                 fwrite(buf, 1, size, new_fd);
                 fflush(new_fd);
                 fclose(new_fd);
-            }
+            }*/
             //printf("buf -> %s\n", buf);
             nvram_set(pvalueparam, buf);
             nvram_commit();
