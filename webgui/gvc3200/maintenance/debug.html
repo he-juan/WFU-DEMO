@@ -6,22 +6,61 @@
 <script type='text/javascript' src='../js/jquery.tools.min.js'></script>	
 <script type="text/javascript" src='../js/jquery.cookie.js'></script>
 <script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<style>
+.noreboot, .rebootitem{width: 250px;}
+.one-click-debug{border: 1px solid #ccc; width: 527px; margin-left: 114px; padding: 10px 10px 3px 10px;}
+.one-click-debug div{margin: 0 !important;}
+.debuginfoleft{float: left; height: 100%; width: 150px; text-align: right; line-height: 30px;}
+.debuginforight{float: right; height: 100%; width: 329px;}
+/*#debuglist{margin: 0; width: 100%;}*/
+.debuginforight .debugitem, .debuginforight .dotline, .debuginforight .select-all{margin-bottom: 10px !important;}
+</style>
 <body id="framebody" class="maintenancebody">
 <div id="mainbody" class="maindiv">
     <div class="navi"><span id="a_debug">Debug</span></div>
-    <div id="statusdiv"></div>
 	<form action="" method="get" class="Formvalidate">
+        <div id="statusdiv"></div>
 		<fieldset>
-            <div webtip="Capture Trace">
-                <div class="noreboot"><span id="a_operation">Capture Trace</span> :</div>
+            <div webtip="One-click Debugging">
+                <div class="noreboot"><span id="a_operation">One-click debugging</span> :</div>
                 <button id="a_start" type="button">Start</button>
             </div>
-            <div webtip="Trace List" style="width:710px;" id="tracelist_div">
+            <div webtip="Debug Information List" id="debuglist" class="one-click-debug">
+                <div class="debuginfoleft"><span id="a_debuglist">Debug Information List</span> :</div>
+                <div class="debuginforight">
+                    <div class="select-all">
+                        <input id="selectall" type="checkbox" />
+                        <span id="a_selectall">Select all</span>
+                    </div>
+                    <div class='dotline' style="width:85%;"></div>
+                    <div class="debugitem">
+                        <input id="syslogcheck" type="checkbox" />
+                        <span id="a_syslog">Syslog</span>
+                    </div>
+                    <div class="debugitem">
+                        <input id="logcatcheck" type="checkbox" />
+                        <span id="a_logcat">Logcat</span>
+                    </div>
+                    <!--div class="debugitem">
+                        <input id="dbuscheck" type="checkbox" />
+                        <span id="a_dbus">D-Bus data</span>
+                    </div>
+                    <div class="debugitem">
+                        <input id="bluetoothcheck" type="checkbox" />
+                        <span id="a_bluetooth">Bluetooth info</span>
+                    </div-->
+                    <div class="debugitem">
+                        <input id="capturecheck" type="checkbox" />
+                        <span id="a_capture">Capture trace</span>
+                    </div>
+                </div>
+            </div>
+            <div webtip="Package List" style="width:710px;" id="tracelist_div">
                 <div class="noreboot"><span id="a_tracelist">Trace List</span> :</div>
                 <select id="tracelist" name="tracelist"></select>
                 <button id="a_delete" type="button" style="margin-left:5px;">Delete</button>
             </div>
-            <div style="padding-bottom:10px;" webtip="View Trace">
+            <div style="padding-bottom:10px;" webtip="View Package">
                 <div class="noreboot"><span id="a_view">View Trace</span> :</div>
                 <button id="a_list" type="button">List</button>
             </div>
@@ -54,7 +93,7 @@
                 <div class="noreboot"><span id="a_view_coredump">View Core Dump</span> :</div>
                 <button id="a_list_coredump" type="button">List</button>
             </div>
-            <div class='savediv' style="margin-left:365px !important;">
+            <div class='savediv' style="margin-left:304px !important;">
                 <button id='a_save' class='savebtn' type='button'>Save</button>
                 <button id='a_cancel' type='reset'>Cancel</button>
             </div>
@@ -89,7 +128,7 @@ $(function(){
     pageEventActions();
 });
 function get_item_suc_callback() {
-    
+    $(".debuginforight input").attr("checked", "checked");
 }
 function cb_get_action_done(data, action) {
     if( data.substring(0, 1) == "{" ){
@@ -137,7 +176,7 @@ function cb_get_action_done(data, action) {
                 $("#a_delete_coredump").attr("disabled", "disabled");
             }
             
-            $('#coredumplist').sSelect();
+            $('#coredumplist').sSelect({ddMaxHeight:'250px'});
         }
     }
     else{
@@ -145,12 +184,13 @@ function cb_get_action_done(data, action) {
         cb_if_auth_fail(msgs);
         if (cb_is_fail(msgs)){
         }else {
-            if(action == 'capture&mode=mode&region=maintenance')
+            if(action.indexOf('mode=mode&region=maintenance') != -1)
                 view_mode_write(msgs);
             //else if(action == 'capture&mode=on' || action == 'capture&mode=off')
-            else if(action == 'capture&mode=off&region=maintenance') {
+            else if(action.indexOf('mode=off') != -1 || action.indexOf('mode=none') != -1) {
                 view_message(a_7479, MSG_OK);
                 cb_get_tracelist();
+                window.parent.location.href = "../ppp/debugInfo.tar";
             } else if (action.indexOf('saveaudio') != -1){
                 // init the status of start button:  0-ready to start 1-during recording
                 var record_state = msgs.headers['saveaudio'];
@@ -182,6 +222,7 @@ function view_mode_write(msgs)
     if (msgs.headers['mode'] == "on"){
         mode = 0;
         $("#a_start").text(a_10);
+        $(".debuginforight input").attr("disabled", "disabled");
     }
     else{
         mode = 1;
@@ -223,7 +264,7 @@ function cb_get_tracelist_done(data)
 	    }
 	    selvalue = tracelist[0];
 	}
-	$('#tracelist').sSelect();
+	$('#tracelist').sSelect({ddMaxHeight:'250px'});
 	$('#tracelist').getSetSSValue(tracelist[0]);
     if(selvalue != undefined)
         $("#a_delete").removeAttr("disabled");
@@ -262,7 +303,7 @@ function cb_delete_trace()
 } 
 function translate_debug(){
     $("#a_debug").text(a_16031);
-    $("#a_operation").text(a_16357);
+    $("#a_operation").text(a_19277);
     //$("#a_pcap").text(a_pcap);
     $("#a_view").text(a_16358);
     $("#a_tracelist").text(a_16359);
@@ -276,20 +317,80 @@ function translate_debug(){
     $("#a_coredumplist").text(a_19263);
     $("#a_view_coredump").text(a_19264);
     $("#a_enabcoredumpyes").text(a_5);
+    $("#a_debuglist").text(a_19280);
+    $("#a_selectall").text(a_405);
+    $("#a_syslog").text(a_4144);
+    $("#a_logcat").text(a_16030);
+    $("#a_dbus").text(a_19278);
+    $("#a_bluetooth").text(a_19279);
+    $("#a_capture").text(a_16357);
     $("#a_save").text(a_17);
     $("#a_cancel").text(a_3);
 }
 function pageEventActions(){
-    $("#a_start").click(function(){
-        if (mode == 1) {
-            mode = 0;
-            $("#a_start").text(a_10);
-            cb_get_action('capture&mode=on&region=maintenance');
-        } else {
-            mode = 1;
+    $("#selectall").change(function(e){
+        if(e.target.checked){
+            $(".debugitem input").attr("checked", "checked");
+            $("#a_start").prop("disabled", false);
             $("#a_start").text(a_9);
-            cb_get_action('capture&mode=off&region=maintenance');
+        }else{
+            $(".debugitem input").removeAttr("checked");
+            $("#a_start").prop("disabled", true);
+            $("#a_start").text(a_19281);
         }
+    });
+    
+    $(".debugitem input").change(function(e){
+        if(e.target.checked){
+            $(this).attr("checked", "checked");
+            if($(".debugitem input[checked=checked]").length == 3){
+                $("#selectall").prop("checked", true);
+            }
+            $("#a_start").prop("disabled", false);
+            if($(this).attr("id") == "capturecheck"){
+                $("#a_start").text(a_9);
+            }
+        }else{
+            $(this).removeAttr("checked");
+            $("#selectall").prop("checked", false);
+            if($(".debugitem input[checked=checked]").length == 0){
+                $("#a_start").prop("disabled", true);
+            }
+            if($(this).attr("id") == "capturecheck"){
+                $("#a_start").text(a_19281);
+            }
+        }
+    });
+    
+    $("#a_start").click(function(){
+        var request;
+        if($(this).text() == a_19281){
+            request = "oneclickdebug&mode=none&region=maintenance&";
+        }else{
+            if (mode == 1) {
+                mode = 0;
+                $("#a_start").text(a_10);
+                $(".debuginforight input").attr("disabled", "disabled");
+                request = "oneclickdebug&mode=on&region=maintenance&";
+            } else {
+                mode = 1;
+                $("#a_start").text(a_9);
+                $(".debuginforight input").removeAttr("disabled");
+                request = "oneclickdebug&mode=off&region=maintenance&";
+            }
+        }
+        
+        //var checkitems = ["syslog", "logcat", "dbus", "bluetooth", "capture"];
+        var checkitems = ["syslog", "logcat", "capture"];
+        for(var i = 0; i < checkitems.length; i++){
+            if($("#" + checkitems[i] + "check").prop("checked")){
+                request += checkitems[i] + "=1&";
+            }else{
+                request += checkitems[i] + "=0&";
+            }
+        }
+        request = request.substring(0, request.length - 1);
+        cb_get_action(request);
     });
     $("#a_delete").click(function(){
         cb_delete_trace();

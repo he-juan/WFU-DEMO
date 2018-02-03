@@ -190,6 +190,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define COREDUMP_PATH           "/data/coredump"
 #define RECORD_PATH             "/tmp"
 #define RECORD_TMP_PATH         "/tmp/recfiles"
+#define DEBUG_TMP_PATH          "/tmp/debuginfo"
 
 //#define SIGNAL_LIGHTTPD_RSS_CHANGED             0
 //#define SIGNAL_LIGHTTPD_WEATHER_CHANGED         1
@@ -12721,8 +12722,8 @@ static int handle_capture (buffer *b, const struct message *m)
     {
         capmode = 1;
         printf("timestr is on\n");
-        if( access(PCAP_PATH, 0) ) {
-            mkdir(PCAP_PATH, 0777);
+        if( access(DEBUG_TMP_PATH, 0) ) {
+            mkdir(DEBUG_TMP_PATH, 0777);
         }
         time_t timer;
         struct tm *tblock;
@@ -12759,11 +12760,11 @@ static int handle_capture (buffer *b, const struct message *m)
 
         if(p_value != NULL && p_value[0] != '\0' && strstr(p_value, "ppp") == NULL)
         {
-            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i %s -w %s/%s.pcap -n &", p_value, PCAP_PATH, timestr);
+            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i %s -w %s/%s.pcap -n &", p_value, DEBUG_TMP_PATH, timestr);
         }
         else
         {
-            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i eth0 -w %s/%s.pcap -n &", PCAP_PATH, timestr);
+            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i eth0 -w %s/%s.pcap -n &", DEBUG_TMP_PATH, timestr);
         }
 
         //snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -w %s/%s.pcap &", PCAP_PATH, timestr);
@@ -12786,6 +12787,319 @@ static int handle_capture (buffer *b, const struct message *m)
     }
 
     return 1;
+}
+
+static const char *return_peripheral_status(server *srv, connection *con, const char *method)
+{
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 2.5*60*1000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *temp = NULL;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+                                          
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, method );
+
+    printf("handle_callservice_by_no_param %s\n", method);
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+            
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+        
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+                            
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+            
+            temp = malloc(16);
+            memset(temp, 0, 16);
+            if ( res != NULL )
+            {
+                if(strstr(res, "1") != NULL){
+                    strcpy(temp, "connected");
+                }else{
+                    strcpy(temp, "disconnected");
+                }
+            }
+            else
+            {
+                strcpy(temp, "");
+            }
+
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return temp;
+}
+
+static char *get_device_info(server *srv, connection *con)
+{
+    char *buf = NULL, *tmpitem = NULL, *tempval = NULL;
+    char mac[64], ip[64], mask[64], gateway[64], dns1[64], dns2[64];
+    char *acctinfo[4][5] = {"SIP", "35", "47", accountstatus.acc1, "271", "IPVideoTalk", "404", "402", accountstatus.acc2, "401", "BlueJeans", "504", "502", accountstatus.acc3, "501", "H.323", "25035", "25033", accountstatus.acch323, "25059"};
+    char *sys_pvalue[6] = {"hw_rev", "68", "7033", "69", "70", "and_rev"};
+    char *item_name[6] = {"Hardware Version", "System Version", "Recovery Version", "Boot Version", "Kernel Version", "Android Version"};
+    char *iptype[3] = {"DHCP", "Static IP", "PPPoE"};
+    int ip_type = 0;
+    char *periname[5] = {"HDMI 1",  "HDMI 2", "HDMI IN", "USB", "SDCard"};
+    char *perimethod[5] = {"getHDMIOneState", "getHDMITwoState", "getHDMIInState", "getUSBState", "getSDCardStatus"};
+    char *periresult = NULL;
+    
+    buf = malloc(2048);
+    memset(buf, 0, 2048);
+    
+    /*get account info*/
+    strcat(buf, "/********** Account Info **********/\n");
+    tmpitem = malloc(256);
+    for(int i = 0; i < 4; i++){
+        memset(tmpitem, 0, 256);
+        sprintf(tmpitem, "Account_%d_name: %s\nAccount_%d_number: %s\nAccount_%d_server: %s\nAccount_%d_status: %d\nAccount_%d_activate: %s\n", i, acctinfo[i][0], i, nvram_my_get(acctinfo[i][1]), i, nvram_my_get(acctinfo[i][2]), i, acctinfo[i][3], i, nvram_my_get(acctinfo[i][4]));
+        strcat(buf, tmpitem);
+    }
+    
+    /*get system info*/
+    strcat(buf, "\n/********** System Info ***********/\n");
+    for(int i = 0; i < 6; i++)
+    {
+        char *value = nvram_get(sys_pvalue[i]);
+        memset(tmpitem, 0, 256);
+        sprintf(tmpitem, "%s: %s\n", item_name[i], value);
+        strcat(buf, tmpitem);
+    }
+    
+    /*get network info*/
+    strcat(buf, "\n/********** Network Info **********/\n");
+    tempval = nvram_get("wan_device");
+    if(tempval != NULL && tempval[0] != '\0' && strstr(tempval, "ppp") == NULL)
+        get_mac_address(tempval, mac);
+    else
+        get_mac_address("eth0", mac);
+        
+    if (tempval != NULL && tempval[0] != '\0')
+        get_ip_address(tempval, ip);
+    else
+        get_ip_address ("eth0", ip);
+        
+    if (tempval != NULL && tempval[0] != '\0')
+        get_ip_mask(tempval, mask);
+    else
+        get_ip_mask("eth0", mask);
+    
+    get_gateway(gateway);
+    
+    get_dns_server(dns1, 1);
+    get_dns_server(dns2, 2);
+        
+    tempval = nvram_get("8");
+    if(tempval != NULL)
+        ip_type = atoi(tempval);
+        
+    memset(tmpitem, 0, 256);
+    sprintf(tmpitem, "MAC: %s\nIP type: %s\nIP address: %s\nSubnet mask: %s\nGateway: %s\nDNS server 1: %s\nDNS server 2: %s\n", mac, iptype[ip_type], ip, mask, gateway, dns1, dns2);
+    strcat(buf, tmpitem);
+    
+    /*get peripheral info*/
+    strcat(buf, "\n/********* Peripheral Info ********/\n");
+    for(int i = 0; i < 5; i++){
+        memset(tmpitem, 0, 256);
+        periresult = return_peripheral_status(srv, con, perimethod[i]);
+        sprintf(tmpitem, "%s: %s\n", periname[i], periresult);
+        strcat(buf, tmpitem);
+    }
+    
+    free(periresult);
+    free(tmpitem);
+    return buf;
+}
+
+static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const struct message *m)
+{
+    char *temp = NULL, *cmd = NULL, *mode = NULL, *buf = NULL;
+    //int syslog = 1, logcat = 1, dbus = 1, bluetooth = 1, capture = 1;
+    int syslog = 1, logcat = 1, capture = 1;
+    struct dirent *dp;
+    DIR *dir;
+    char name[128] = "", *ptr = NULL, *fileExt = NULL;
+    
+    mode = msg_get_header(m, "mode");
+    
+    temp = msg_get_header(m, "syslog");
+    if(temp != NULL){
+        syslog = atoi(temp);
+    }
+    temp = msg_get_header(m, "logcat");
+    if(temp != NULL){
+        logcat = atoi(temp);
+    }
+    /*temp = msg_get_header(m, "dbus");
+    if(temp != NULL){
+        dbus = atoi(temp);
+    }
+    temp = msg_get_header(m, "bluetooth");
+    if(temp != NULL){
+        bluetooth = atoi(temp);
+    }*/
+    temp = msg_get_header(m, "capture");
+    if(temp != NULL){
+        capture = atoi(temp);
+    }
+
+    if(!strcasecmp(mode, "on") || !strcasecmp(mode, "none")){
+        cmd = malloc(128);
+        if( !access( DEBUG_TMP_PATH, 0 ) )
+        {
+            memset(cmd, 0, 128);
+            sprintf(cmd, "rm %s -rf", DEBUG_TMP_PATH);
+            system(cmd);
+        }
+        
+        memset(cmd, 0, 128);
+        sprintf(cmd, "mkdir %s", DEBUG_TMP_PATH);
+        system(cmd);
+        
+        if(syslog){
+            memset(cmd, 0, 128);
+            sprintf(cmd, "cp /data/debug/syslog/* %s -rf", DEBUG_TMP_PATH);
+            system(cmd);
+            
+            memset(cmd, 0, 128);
+            sprintf(cmd, "dmesg > %s/dmesg.txt", DEBUG_TMP_PATH);
+            system(cmd);
+        }
+        if(logcat){
+            memset(cmd, 0, 128);
+            sprintf(cmd, "logcat -ds *:V > %s/logcat.txt &", DEBUG_TMP_PATH);
+            system(cmd);
+        }
+        /*if(dbus){
+            memset(cmd, 0, 128);
+            sprintf(cmd, "dbus-moniter --system > %s/dbus.txt", DEBUG_TMP_PATH);
+            system(cmd);
+        }
+        if(bluetooth){
+        }*/
+        if(capture){
+            handle_capture(b, m);
+        }
+        free(cmd);
+    }
+    if(!strcasecmp(mode, "off") || !strcasecmp(mode, "none")){
+        /*create a new file to store the info of device*/
+        char *tmpcmd = NULL;
+        tmpcmd = malloc(64);
+        memset(tmpcmd, 0, 64);
+        sprintf(tmpcmd, "%s/device_info.txt", DEBUG_TMP_PATH);
+        FILE *deviceinfo = fopen(tmpcmd, "w+");
+        if( deviceinfo != NULL ){
+            buf = get_device_info(srv, con);
+            fwrite(buf, 1, strlen(buf), deviceinfo);
+            fflush(deviceinfo);
+            fclose(deviceinfo);
+        }
+        
+        if(buf != NULL){
+            free(buf);
+        }
+        
+        if(capture){
+            handle_capture(b, m);
+            
+            if( access( DEBUG_TMP_PATH, 0 ) )
+            {
+                printf("The directory doesn't exist\n");
+                return -1;
+            }
+
+            if( (dir = opendir(DEBUG_TMP_PATH))== NULL )
+            {
+                printf("directory open failed\n");
+                return -1;
+            }
+            
+            while ((dp = readdir( dir )) != NULL)
+            {
+                if(dp == NULL)
+                {
+                    printf("dp is null\n");
+                    break;
+                }
+                if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+                {
+                    sprintf(name, dp->d_name);
+                    printf("name -> %s\n", name);
+                    if( name[0] != '.' )
+                    {
+                        uri_decode(name);
+                        ptr = strrchr(name, '.');
+                        if(ptr != NULL)
+                        {
+                            fileExt = strdup(ptr + 1);
+                            if( !strcasecmp(fileExt, "pcap") )
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        memset(tmpcmd, 0, 64);
+        sprintf(tmpcmd, "cd /tmp && tar -cvf debugInfo.tar debuginfo/ && mv debugInfo.tar %s", DEBUG_TMP_PATH);
+        system(tmpcmd);
+        memset(tmpcmd, 0, 64);
+        if(capture)
+            sprintf(tmpcmd, "cp %s/debugInfo.tar %s/%s %s", DEBUG_TMP_PATH, DEBUG_TMP_PATH, name, PCAP_PATH);
+        else
+            sprintf(tmpcmd, "cp %s/debugInfo.tar %s", DEBUG_TMP_PATH, PCAP_PATH);
+        system(tmpcmd);
+
+        free(tmpcmd);
+    }
+    buffer_append_string(b, "Response=Done\r\n");
+    return 0;
 }
 
 static int handle_deletetrace(buffer *b, const struct message *m)
@@ -12865,7 +13179,7 @@ static int handle_tracelist (buffer *b)
                 if(ptr != NULL)
                 {
                     fileExt = strdup(ptr+1);
-                    if( strcasecmp(fileExt, "pcap") == 0 )
+                    if( strcasecmp(fileExt, "pcap") == 0 || strcasecmp(fileExt, "tar") == 0)
                     {
                         if(!j)
                         {
@@ -21606,7 +21920,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
             }
             else if (!strcasecmp(region, "maintenance")){
-                if (!strcasecmp(action, "capture")) {
+                if (!strcasecmp(action, "oneclickdebug")) {
+                    handle_oneclick_debug(srv, con, b, m);
+                } else if (!strcasecmp(action, "capture")) {
                     handle_capture(b, m);
                 } else if (!strcasecmp(action, "getdateinfo")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getDateInfo");
