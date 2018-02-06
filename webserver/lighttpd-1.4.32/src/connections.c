@@ -14184,9 +14184,9 @@ static int handle_openvpn_cert (buffer *b, const struct message *m)
                     "Message=The file is empty\r\n");
         } else {
             buf = malloc(size + 1);
-            memset(buf, 0, size);
-            fseek( fp, 0L, SEEK_SET);
-            fread (buf, 1, size, fp);
+            memset(buf, 0, size + 1);
+            fseek(fp, 0L, SEEK_SET);
+            fread (buf, 1, size + 1, fp);
             /*FILE *new_fd = fopen(TMP_CERT, "w+");
             if( new_fd != NULL ){
                 fwrite(buf, 1, size, new_fd);
