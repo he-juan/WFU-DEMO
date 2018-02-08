@@ -138,6 +138,9 @@ static int l_issetugid(void) {
 #define SIGNAL_PHONEINIT             "phone_init"
 #define METHOD_GETRINGTONE             "get_ringtone"
 #define SIGNAL_LANGUAGE_IMPORT          "importlan_response"
+#define SIGNAL_REQUEST_QR_URL       "request_qr_url"
+#define SIGNAL_RESPONSE_QR_URL      "response_qr_url"
+
 
 pthread_mutex_t dbusmutex = PTHREAD_MUTEX_INITIALIZER;
 #ifndef BUILD_RECOVER
@@ -159,6 +162,7 @@ extern char *wifiscanresult;
 extern int phonerebooting;
 extern int importlanrsps;
 extern int mpkextstartpvalue[5];
+extern char qrtoken[16];
 
 //extern pthread_cond_t changeinput_cond;
 //extern pthread_cond_t getusbmouse_cond;
@@ -1141,6 +1145,62 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         else
         {
             printf( "receive weather_fav error: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_REQUEST_QR_URL ) ) // signal lcd request qrcode
+    {
+        if ( dbus_message_get_args( message, &error, DBUS_TYPE_STRING, &str, DBUS_TYPE_INVALID ) )
+        {
+            char *protocal = nvram_get("900");
+            char *port = nvram_get("901");
+            if (port == NULL) {
+                port = "80";
+            }
+            int len;
+
+            long unsigned int token = rand();
+            snprintf(qrtoken, sizeof(qrtoken), "%08lx", token);
+
+            len = strlen(str) + strlen(qrtoken) + 64;
+            char *url = malloc(len);
+            memset(url, 0, len);
+
+            if (protocal != NULL && strcmp(protocal, "1") == 0) {
+                snprintf(url, len, "https://%s:%s/quickconf.html#%s", str, port, qrtoken);
+            } else {
+                snprintf(url, len, "http://%s:%s/quickconf.html#%s", str, port, qrtoken);
+            }
+            
+            printf("url: %s\n", url);
+
+            DBusMessage* message;
+
+            if ( bus == NULL )
+            {
+                printf( "Error: Dbus bus is NULL\n" );
+                free(url);
+                return DBUS_HANDLER_RESULT_HANDLED;
+            }
+
+            message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, SIGNAL_RESPONSE_QR_URL);
+            if ( message == NULL )
+            {
+                printf( "message is NULL\n" );
+                free(url);
+                return DBUS_HANDLER_RESULT_HANDLED;
+            }
+
+            dbus_message_append_args( message, DBUS_TYPE_STRING, &url, DBUS_TYPE_INVALID );
+
+            dbus_connection_send( bus, message, NULL );
+            dbus_message_unref( message );
+
+            free(url);
+        }
+        else
+        {
             dbus_error_free( &error );
         }
         return DBUS_HANDLER_RESULT_HANDLED;

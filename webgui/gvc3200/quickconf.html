@@ -1,0 +1,31 @@
+<html>
+<head>
+<script type="text/javascript" src='js/jquery.tools.min.js'></script>
+</head>
+<body>
+    <div id='ret'></div>
+<script type='text/javascript'>
+$(function(){
+    var hash = location.hash;
+    if (hash) {
+        hash = hash.substring(1);
+    }
+    urihead = "action=checkqrtoken&t=" + hash + "&time=" + new Date().getTime();
+    $.ajax({
+        type: 'get',
+        url: '/manager',
+        data: urihead,
+        success: function(data) {
+            if (data == "0") {
+                $("#ret").text("Authentication success!");
+            } else {
+                $("#ret").text("Authentication failed! Please refesh the QR code!");
+            }
+        },
+        error() {
+        }
+    });
+});
+</script>
+<body/>
+</html>

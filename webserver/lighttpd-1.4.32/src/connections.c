@@ -318,6 +318,7 @@ char usertype[80] = "";
 char gmiusertype[80] = "";
 char newloginuser[80] = "";
 char curuser[80] = "";
+char qrtoken[16] = "";
 time_t sessiontimeout = 0;
 time_t gmisessiontimeout = 0;
 #ifndef BUILD_RECOVER
@@ -8594,6 +8595,20 @@ static int handle_gettcpserverstate(server *srv, connection *con, buffer *b, con
     sprintf(temp, "response=Success\r\n");
     buffer_append_string(b, temp);
     free(temp);
+}
+
+static int handle_check_qr_token(buffer *b, const struct message *m)
+{
+    char *token = msg_get_header(m, "t");
+
+    if (token != NULL && strlen(qrtoken) != 0 && strcmp(token, qrtoken) == 0) {
+        buffer_append_string(b, "0");
+        memset(qrtoken, 0, sizeof(qrtoken));
+    }else {
+        buffer_append_string(b, "1");
+    }
+
+    return 0;
 }
 
 static int handle_developmode(server *srv, connection *con, buffer *b, const struct message *m)
@@ -21640,7 +21655,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
 #endif
     }else if(!strcasecmp(action,"getconnectstate")){
         handle_getconnectstate( srv, con, b, m );
-    } 
+    } else if (!strcasecmp(action, "checkqrtoken")) {
+        handle_check_qr_token(b, m);
+    }
     else if (valid_connection(con)) {
         int findcmd = 1;
 #ifndef BUILD_RECOVER
