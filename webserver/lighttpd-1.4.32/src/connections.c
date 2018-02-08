@@ -10964,7 +10964,7 @@ static int handle_provisioninit(buffer *b, const struct message *m)
     }
     int result = 0;
 
-    provision_ret = prov_upgrade_init(&provision_local_fd, &provision_destaddr);
+    provision_ret = prov_web_upgrade_init(&provision_local_fd, &provision_destaddr);
     if (provision_ret) {
         check_provision_pid();
         buffer_append_string (b, "0");
