@@ -5049,7 +5049,7 @@ static int handle_put(buffer *b, const struct message *m)
             printf(" add content %s to file\n", strToWrite );
             fwrite( strToWrite, 1, strlen(strToWrite), file_fd );
             fclose( file_fd );
-            sync();
+            //sync();
         }
     }
     else
@@ -23302,7 +23302,7 @@ int apply_cache_pvalue(int init)
         }
         fwrite( strToWrite, 1, strlen(strToWrite), file_fd );
         fclose( file_fd );
-        sync();
+        //sync();
     }
 
     if( init )
