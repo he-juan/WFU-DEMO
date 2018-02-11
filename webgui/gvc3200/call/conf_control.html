@@ -8175,6 +8175,10 @@ function pageEventActions()
     },function(){
         $("#direction").removeClass().addClass("normal");
     });
+
+    $("#direction button, .optionbtn button").bind("contextmenu", function(e){
+        return false;
+    });
     /************************/
     $("#gotopreset").click(function(e) {
         var presetid = $("#presetbtndiv").attr("presetid");
