@@ -3387,9 +3387,9 @@ function addconflist(data,todivID)
         callfn = "setdnd_callback(data,'isscheduleconf');";
         cb_get_confaction(urihead,callfn,false);
 
-        urihead = "action=isCameraBlocked&region=confctrl";
+        /*urihead = "action=isCameraBlocked&region=confctrl";
         callfn = "setcameraBlocked_callback(data);";
-        cb_get_confaction(urihead,callfn,false);
+        cb_get_confaction(urihead,callfn,false);*/
 
         urihead = "action=isBFCPOn&region=confctrl";
         callfn = "setBFCP_callback(data);";
@@ -3557,6 +3557,11 @@ function change_callconnectstate(data)
                 //if line is audio, hide video details
                 $(".onedetails[line=\""+line+"\"] .videodetail .spancontent").text("");
             }
+                    
+            urihead = "action=isCameraBlocked&region=confctrl";
+            callfn = "setcameraBlocked_callback(data);";
+            cb_get_confaction(urihead,callfn,false);
+            
             if(calltypeDescp != undefined)
             {
                 // if(mselacct != -1)
