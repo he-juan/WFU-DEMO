@@ -242,7 +242,10 @@ function cb_get_action_done(data, action){
                 img.src = '/com.base.module.preset/' + selpos + '.jpg?' + new Date().getTime();
                 $("#presetdiv" + selpos).append(img);
                 $("#presetdiv" + selpos).append(imgBG);
-            }            
+            }else{
+                $("#presetimg" + selpos).attr("src", '/com.base.module.preset/' + selpos + '.jpg?' + new Date().getTime());
+                $("#imagebg" + selpos).attr("src", '/com.base.module.preset/' + selpos + '.jpg?' + new Date().getTime());
+            }
             $("#presetnum" + selpos).removeClass("noIMG").addClass("hasIMG");
             $(".presetimg").css("display","none");
             $(".imagebg").css("display","block");
