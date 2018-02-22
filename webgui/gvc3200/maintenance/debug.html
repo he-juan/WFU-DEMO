@@ -121,9 +121,9 @@ $(function(){
     translate_debug();
     cb_get_action('capture&mode=mode&region=maintenance');
     cb_get_tracelist();
-    cb_get_action('get&var-0000=saveaudio');
     cb_get_action('getrecordlist&region=maintenance&list=0');
     cb_get_action('coredumplist&region=maintenance');
+    cb_get_action('get&var-0000=saveaudio');
     cb_get(req_items);
     pageEventActions();
 });
@@ -197,14 +197,17 @@ function cb_get_action_done(data, action) {
                 if (record_state == 1) {
                     $("#a_startrecord").attr("state", "1");
                     $("#a_startrecord").text(a_10);
+                    $("#a_deleterec").prop("disabled", true);
                 }
             } else if (action.indexOf("startrecording") != -1){
                 if(msgs.headers['response'] == "Success"){
                     $("#a_startrecord").text(a_10).attr("state", "1");
+                    $("#a_deleterec").prop("disabled", true);
                 }
             } else if (action.indexOf("stoprecording") != -1){
                 if(msgs.headers['response'] == "Success"){
                     $("#a_startrecord").text(a_9).attr("state", "0");
+                    $("#a_deleterec").prop("disabled", false);
                     cb_get_action('getrecordlist&region=maintenance&list=0');
                 }
             } else if (action.indexOf("deleterecordfile") != -1){
