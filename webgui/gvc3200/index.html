@@ -991,15 +991,26 @@ function cb_setdnd_action(urihead){
                 data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
                 var data = eval("("+data+")");
 
-                if(data.res == "success")
-                {
-                    if( $("#dndbtn").attr("dnd") == "1" ){
-                        $("#dndbtn").attr("dnd", "0").removeClass("dndon").addClass("dndoff");
-                    }else{
-                        $("#dndbtn").attr("dnd", "1").removeClass("dndoff").addClass("dndon");
+                /*bug 96825 - since websocket only support by IE 10+, 
+                    change the status of 'DND' after receive response from GMI for IE version under 10*/
+                var userAgent = navigator.userAgent;
+                var isIE = userAgent.indexOf("compatible") != -1 && userAgent.indexOf("MSIE") != -1;
+                if(isIE){
+                    var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                    reIE.test(userAgent);
+                    var ieVersion = parseFloat(RegExp["$1"]);
+                    if(ieVersion < 10){
+                        if(data.res == "error")
+                        {
+                            if( $("#dndbtn").attr("dnd") == "1" ){
+                                $("#dndbtn").attr("dnd", "0").removeClass("dndon").addClass("dndoff");
+                            }else{
+                                $("#dndbtn").attr("dnd", "1").removeClass("dndoff").addClass("dndon");
+                            }
+                            if(confFrame.countTabs() != 0)
+                                confFrame.setdnd_callback(data);
+                        }
                     }
-                    if(confFrame.countTabs() != 0)
-                        confFrame.setdnd_callback(data);
                 }
             }
             else
