@@ -739,7 +739,7 @@ function get_item_suc_callback() {
     //cb_upgrade_change(1);
     cb_auto_upgrade_change();
     a_confpathval = $("#confpath").val();
-    if (a_confpathval == GAPS_PATH) {
+    if (a_confpathval == GAPS_PATH && $("#updateconfigvia").val() == "2") {
         $("#usegsgap").prop("checked", "checked");
         $(".gapsitem").hide();
     } else {
@@ -993,6 +993,7 @@ function pageEventActions(){
     $("#usegsgap").click(function() {
         if ($(this).prop("checked")) {
             $("#confpath").val(GAPS_PATH);
+            $("#updateconfigvia").getSetSSValue("2");
             $(".gapsitem").hide();
         } else {
             $("#confpath").val(a_confpathval);
