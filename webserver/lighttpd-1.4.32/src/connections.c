@@ -314,6 +314,7 @@ typedef struct {
 
 char usercookie[80] = "";
 char gmicookie[80] = "";
+char qrcookie[80] = "";
 char usertype[80] = "";
 char gmiusertype[80] = "";
 char newloginuser[80] = "";
@@ -321,6 +322,7 @@ char curuser[80] = "";
 char qrtoken[16] = "";
 time_t sessiontimeout = 0;
 time_t gmisessiontimeout = 0;
+time_t qrsessiontimeout = 0;
 #ifndef BUILD_RECOVER
 ACCStatus accountstatus;
 int phonerebooting = 0;
@@ -3035,11 +3037,14 @@ static void authenticate_success_response(server *srv, connection *con,
         snprintf(tmp, 128, "phonecookie=\"%s\";HttpOnly", usercookie);
     	sessiontimeout = now + WEB_TIMEOUT;
     } else if (!strcasecmp("gmiadmin", newloginuser)) {
-	sprintf(gmicookie, "%08lx", cookie);
-    snprintf(tmp, 128, "gmicookie=\"%s\";HttpOnly", gmicookie);
-	gmisessiontimeout = now + WEB_TIMEOUT;
+    	sprintf(gmicookie, "%08lx", cookie);
+        snprintf(tmp, 128, "gmicookie=\"%s\";HttpOnly", gmicookie);
+    	gmisessiontimeout = now + WEB_TIMEOUT;
+    } else if (!strcasecmp("quickauth", newloginuser)) {
+        sprintf(qrcookie, "%08lx", cookie);
+        snprintf(tmp, 128, "qrcookie=\"%s\";HttpOnly", qrcookie);
+    	qrsessiontimeout = now + WEB_TIMEOUT;
     }
-
 
     response_header_overwrite(srv, con, CONST_STR_LEN("Set-Cookie"),
         CONST_GCHAR_LEN(tmp));
@@ -3073,8 +3078,6 @@ static void authenticate_success_response(server *srv, connection *con,
 #else
     insleep = "0";
 #endif
-
-
 
     const char * resType = msg_get_header(m, "format");
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
@@ -3135,6 +3138,48 @@ static int handle_logoff(buffer *b)
 		"Message=Logoff Success\r\n");
 
 	return 0;
+}
+
+static int check_qr_cookie(connection *con)
+{
+	char *before;
+	char *after;
+	char tmp[80] = "";
+	time_t now;
+    int valid = 0;
+    size_t i;
+
+    for (i = 0; i < con->request.headers->used; i++) {
+        data_string *ds;
+
+        ds = (data_string *)con->request.headers->data[i];
+        //printf("header %d is %s\n", i, ds->value->ptr );
+	    time(&now);
+  
+        if ( before = strstr(ds->value->ptr, "qrcookie=\"") ) {
+			before += sizeof("qrcookie=\"") -1;
+			if ( after = strstr(before, "\"")) {
+				strncpy(tmp, before, (after - before));
+				if((!strcmp(qrcookie, tmp)) && (now < qrsessiontimeout)) {
+					qrsessiontimeout = now + WEB_TIMEOUT;
+					valid = 1;
+					return valid;
+				}
+			}
+	    } else if ( before = strstr(ds->value->ptr, "qrcookie=") ) {
+			before += sizeof("qrcookie=") -1;
+			if ( after = strstr(before, ";")) {
+				strncpy(tmp, before, (after- before));
+				if((!strcmp(qrcookie, tmp)) && (now < qrsessiontimeout)) {
+					qrsessiontimeout = now + WEB_TIMEOUT;
+					valid = 1;
+					return valid;
+				}
+			}
+	    }
+    }
+
+	return valid;
 }
 
 static void print_message (DBusMessage *message )
@@ -8597,18 +8642,25 @@ static int handle_gettcpserverstate(server *srv, connection *con, buffer *b, con
     free(temp);
 }
 
-static int handle_check_qr_token(buffer *b, const struct message *m)
+static int handle_check_qr_token(server *srv, connection *con, buffer *b, const struct message *m)
 {
     char *token = msg_get_header(m, "t");
-
-    if (token != NULL && strlen(qrtoken) != 0 && strcmp(token, qrtoken) == 0) {
-        buffer_append_string(b, "0");
-        memset(qrtoken, 0, sizeof(qrtoken));
-    }else {
-        buffer_append_string(b, "1");
+    if(check_qr_cookie(con)){
+        buffer_append_string(b, "{\"res\": \"success\", \"msg\": \"authentication accepted\"}");
+        return 0;
     }
 
-    return 0;
+    if (token != NULL && strlen(qrtoken) != 0 && strcmp(token, qrtoken) == 0) {
+        memset(qrtoken, 0, sizeof(qrtoken));
+        strcpy(newloginuser, "quickauth");
+        strcpy(curuser, "quickauth");
+        return 1;
+    }else {
+        buffer_append_string(b, "{\"res\": \"error\", \"msg\": \"authentication failed\"}");
+        strcpy(newloginuser, "");
+        qrsessiontimeout = 0;
+        return 0;
+    }
 }
 
 static int handle_developmode(server *srv, connection *con, buffer *b, const struct message *m)
@@ -21656,8 +21708,23 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
     }else if(!strcasecmp(action,"getconnectstate")){
         handle_getconnectstate( srv, con, b, m );
     } else if (!strcasecmp(action, "checkqrtoken")) {
-        handle_check_qr_token(b, m);
-    }
+        int res = handle_check_qr_token(srv, con, b, m);
+        if(res){
+            authenticate_success_response(srv, con, b, m, 1);
+        }
+    } else if (!strcasecmp(action, "getacctconf")) {
+        handle_get(b, m);
+    } else if (!strcasecmp(action, "acctquickconf")) {
+        if(check_qr_cookie(con)){
+            handle_put(b, m);
+            handle_applypvalue(b, m);
+            handle_applyresponse(b);
+            buffer_append_string(b, res);
+            buffer_append_string(b, "Cookie Valid");
+        } else {
+            buffer_append_string(b, "Cookie Invalid");
+        }
+    } 
     else if (valid_connection(con)) {
         int findcmd = 1;
 #ifndef BUILD_RECOVER
@@ -23224,7 +23291,7 @@ int protected_pvalue_find(PvalueList *protected_list, char *pvalue)
 {
     int ret = 0;
     //if (strcmp(usertype, "admin"))
-    if ( strcmp("admin", curuser) && strcmp("gmiadmin", curuser))
+    if ( strcmp("admin", curuser) && strcmp("gmiadmin", curuser) && strcmp("quickauth", curuser) )
     {
         PvalueList *p = protected_list;
         if( strcmp( protected_list->pvalue, pvalue ) == 0 )

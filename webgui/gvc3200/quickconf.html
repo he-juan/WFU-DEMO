@@ -1,31 +1,201 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
 <html>
 <head>
+<title>账号快速配置</title>
 <script type="text/javascript" src='js/jquery.tools.min.js'></script>
+<style>
+*{margin: 0; padding: 0;}
+body{font-size: 20px; height: 100%; max-width: 600px; margin: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; text-align: center;}
+input{border: none; border-bottom: 1px inset #bbb;}
+input::-webkit-input-placeholder{font-size: 16px;}
+input:-ms-input-placeholder{font-size: 16px;}
+::-moz-placeholder{font-size: 16px;}
+button {border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 16px; height: 30px; min-width: 82px; font-family: Arial;}
+.acctitle{margin: 30px 0 15px 0; font-size: 24px; font-weight: bold;}
+.config-div{margin: 10px 0; height: 40px; line-height: 40px;}
+.config-div input{width: 75%; height: 30px; font-size: 16px;}
+.config-label{width: 75%; text-align: left; margin-left: 12.5%; position: relative;}
+.config-label input{position: absolute; top: 9px; left: 80px; width: 15px; height: 15px;}
+.config-label .config-yes{position: absolute; line-height: 34px; left:100px;}
+.opera-btn{margin-top: 40px; width: 75%; margin-left: 12.5%;}
+.opera-btn button{width: 35%; cursor: pointer;}
+.acct-active{margin: 10px 0; height: 30px; line-height: 30px;}
+.acct-active span{font-size: 16px;}
+.acct-active div{float: left;}
+.save-btn{background: #5089BA; float: left; margin-left: 10%;}
+.save-btn:hover{background: #186DB7;}
+.reset-btn{background: #777777; float: right; margin-right: 10%;}
+.reset-btn:hover{background: #595959;}
+#propmtip{font-size: 14px; width: 100%; text-align: center; height: 15px; line-height: 15px;}
+#propmtip span{display: none;}
+#ret2{position: absolute; margin:auto; top:-20px; bottom:0; left:0; right:0; height: 20px; width: 100%; font-size: 18px}
+#ret1, #ret2{display: none;}
+</style>
 </head>
 <body>
-    <div id='ret'></div>
+    <div id='ret1'>
+        <p class="acctitle">帐号配置</p>
+        <p id="propmtip"><span></span></p>
+        <div webtip="Account Active" class="acct-active">
+            <div class="config-label">
+                <span id="a_accountactive">帐号激活</span> 
+                <input name="acctactive" type="checkbox" id="acctactive" /><span id="a_accountacyes" class="config-yes"> 是</span>
+            </div>
+        </div>
+        <div webtip="Account Name" class="config-div">
+            <input id="accountname" name="accountname" type="text" placeholder="帐号名称" />
+        </div>
+        <div webtip="SIP Server" class="config-div">
+            <input id="sipserver" name="sipserver" type="text" placeholder="SIP服务器" />
+        </div>
+        <div webtip="SIP User ID" class="config-div">
+            <input id="userid" name="userid" type="text" placeholder="SIP用户ID"/>
+        </div>
+        <div webtip="SIP Authentication ID" class="config-div">
+            <input id="authid" name="authid" type="text" placeholder="SIP认证ID"/>
+        </div>
+        <div webtip="SIP Authentication Password" class="config-div">
+            <input id="authpwd" name="sauthpwdserver" type="password" autocomplete="off" placeholder="SIP认证密码"/>
+        </div>
+        <div class="opera-btn">
+            <button id="savebtn" type="button" class="save-btn">保存</button>
+            <button id="resetbtn" type="button" class="reset-btn">重置</button>
+        </div>
+    </div>
+    <div id="ret2">
+        二维码已失效，请更新二维码并重新扫描。
+    </div>
 <script type='text/javascript'>
 $(function(){
     var hash = location.hash;
     if (hash) {
         hash = hash.substring(1);
     }
-    urihead = "action=checkqrtoken&t=" + hash + "&time=" + new Date().getTime();
+    var checkres = false;
+    var urihead = "action=checkqrtoken&t=" + hash + "&format=json&jsoncallback=&time=" + new Date().getTime();
     $.ajax({
         type: 'get',
         url: '/manager',
         data: urihead,
+        async: false,
         success: function(data) {
-            if (data == "0") {
-                $("#ret").text("Authentication success!");
+            var tObj = eval("(" + data + ")");
+            if (tObj.res == "success") {
+                $("#ret1").show();
+                $("#ret2").hide();
+                checkres = true;
             } else {
-                $("#ret").text("Authentication failed! Please refesh the QR code!");
+                $("#ret2").show();
+                $("#ret1").hide();
             }
         },
         error() {
         }
     });
+    
+    if(checkres){
+        urihead = "action=getacctconf&var-0000=271&var-0001=270&var-0002=47&var-0003=35&var-0004=36&format=json&jsoncallback=&time=" + new Date().getTime();
+        $.ajax({
+            type: 'get',
+            url: '/manager',
+            data: urihead,
+            success: function(data){
+                var tObj = eval("(" + data + ")");
+                if(tObj.res == "success"){
+                    if(parseInt(tObj['271'])){
+                        $("#acctactive").prop("checked", true);
+                    }
+                    $("#accountname").val(tObj['270']);
+                    $("#sipserver").val(tObj['47']);
+                    $("#userid").val(tObj['35']);
+                    $("#authid").val(tObj['36']);
+                }
+            },
+            error: function(){}
+        });
+    }
+
+    $("#resetbtn").click(function(){
+        $("#acctactive").prop("checked", false);
+        $(".config-div input[type='text']").val("");
+    });
+    
+    $("#savebtn").click(function(){
+        if(!checkUrlPath( $("#sipserver").val() )){
+            ctrlPromptTip("SIP服务器为非法URL", "err");
+            return false;
+        }
+        
+        var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
+        if($("#userid").val() != "" && !reg.test($("#userid").val())){
+            ctrlPromptTip("用户ID不能包含除-_.!~*'()+以外的其他特殊字符", "err");
+            return false;
+        }
+        
+        reg = new RegExp("^[A-Za-z0-9-_.!~*'()+@]+$");
+        if($("#authid").val() != "" && !reg.test($("#authid").val())){
+            ctrlPromptTip("认证ID不能包含除-_.!~*'()+@以外的其他特殊字符", "err");
+            return false;
+        }
+        
+        /*var flag = 0;
+        $(".config-div input").each(function(){
+            if($(this).val() == undefined || $(this).val() == ""){
+                ctrlPromptTip($(this).attr("placeholder") + "不能为空", "err");
+                flag = 1;
+                return false;
+            }
+        });
+        if(flag) return false;*/
+        
+        var acctactive;
+        if($("#acctactive").prop("checked"))
+            acctactive = 1;
+        else
+            acctactive = 0;
+        
+        var request = "action=acctquickconf&var-0000=271&val-0000=" + acctactive + "&var-0001=270&val-0001=" + $("#accountname").val() + 
+                        "&var-0002=47&val-0002=" + $("#sipserver").val() + "&var-0003=35&val-0003=" + $("#userid").val() +
+                        "&var-0004=36&val-0004=" + $("#authid").val() + "&var-0005=34&val-0005=" + $("#authpwd").val() + "&time=" + new Date().getTime();
+        $.ajax({
+            type: 'get',
+            url: '/manager',
+            data: request,
+            success: function(data){
+                if(data.indexOf("Cookie Valid") != -1){
+                    ctrlPromptTip("保存成功", "suc");
+                }
+                else if(data.indexOf("Cookie Invalid") != -1){
+                    $("#ret2").show();
+                    $("#ret1").hide();
+                }
+            },
+            error: function(){}
+        });
+    });
 });
+
+function ctrlPromptTip(tip, status){
+    $("#propmtip span").text(tip)
+    if(status == "suc"){
+        $("#propmtip span").css("color", "green").fadeIn(1000);
+    }else{
+        $("#propmtip span").css("color", "red").fadeIn(1000);
+    }
+    setTimeout(function(){$("#propmtip span").fadeOut(1000)}, 2000);
+}
+
+function checkUrlPath(value){
+    var expression = /^((https?:\/\/)?|(ftp:\/\/)?|(tftp:\/\/)?)(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+    if (!value || expression.test(value)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 </script>
 <body/>
 </html>
