@@ -182,7 +182,12 @@ tip_item.push (
 	
     new TipsDef("Check SIP User ID for Incoming INVITE",
 		"Si se establece en \"Si\",  el ID de usuario SIP será revisado en la solicitud URI del INVITE entrante. Si no coincide la ID de usuario SIP del dispositivo, la llamada será rechazada."),
-	
+	new TipsDef("Trusted CA Certificates",
+		"Use the certificate for Authentication if set \"Check Domain certificates\" under Account->SIP Settings to \"Yes\" ."),
+	new TipsDef("Import Trusted CA Certificates",
+		"Click the BROWSE to upload certificate file from PC. The certificate file should be \".pem\", \".crt\" , \".cer\" or \".der\" format. The Browse button will turn to \"Processing\" and back to \"Browse\" once the upload finished."),
+	new TipsDef("Import Custom Certificates",
+		"Click \"Browse\" to upload custom certificate file from PC. The certificate file should be \".pem\", \".crt\", \".cer\" or \".der\" format."),
 	
 	
     

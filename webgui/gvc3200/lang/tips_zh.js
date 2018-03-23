@@ -181,10 +181,13 @@ tip_item.push (
 	
     new TipsDef("Check SIP User ID for Incoming INVITE", "检查来电INVITE的SIP用户ID",
 		"启用时，SIP用户ID将在收到来电INVITE的请求URI中被检查。若不匹配，来电将被拒绝。默认为不勾选。"),
+	new TipsDef("Trusted CA Certificates", "受信任CA证书",
+		"如果帐号->SIP设置中的“验证域名证书”设置为“是”，则验证的时候使用这里的证书进行验证。"),
+	new TipsDef("Import Trusted CA Certificates", "导入受信任CA证书",
+		"此处用于添加受信任CA证书，点击“浏览”按钮上传PC端证书文件。证书文件必须是.pem，.crt，.cer或者.der格式。一次可上传多份证书，多份证书在同一个文件中。"),
+	new TipsDef("Import Custom Certificates", "导入自定义证书",
+		"点击“浏览”按钮上传用户自定义证书文件。证书文件必须是.pem，.crt，.cer或者.der格式。"),
 	
-	
-	
-    
     new TipsDef("Only Accept SIP Requests from Known Servers", "仅接受已知服务器的SIP请求",
 		"启用后，仅已知的服务器发来的SIP请求才会被接受，即设备未使用过的SIP服务器发送来的请求信息将会被拒绝。默认为不勾选。"),
         

@@ -143,6 +143,25 @@
                 <div class="rebootitem"><span id="a_importcacert">Import Trusted CA Certificates</span> :</div>
                 <button id="a_browse" type="button">Browse</button>
             </div>
+            <div webtip="Custom Certificate" class="titlediv">
+                <div class="titleboot"><span id="a_cuscert">Custom Certificate</span></div>
+            </div>
+            <div style="border: 1px solid;width:720px;margin-left:20px;padding-bottom:10px;">
+                <div class="certdiv">
+                    <div class="certnum"><span id="a_customnum">Number</span></div><div class="certowner"><span id="a_customowner">Owner</span></div>
+                    <div class="certissuer"><span id="a_customissuer">Issuer</span></div><div class="certdate"><span id="a_customdate">Valid Date</span></div>
+                    <div class="certdeletediv" style="width:80px;"><span id="a_customdelete">Delete</span></div>
+                </div>
+                <div class="certdiv" id="certdiv7">
+                    <div class="certnum"><span>1</span></div><div class="certowner"><span id="a_certowner7"></span></div>
+                    <div class="certissuer"><span id="a_certissuer7"></span></div><div class="certdate"><span id="a_certdate7"></span></div>
+                    <div class="certdelete"><button numindex="7" type="button" class="delcertbtn" id="delcertbtn7">Delete</button></div>
+                </div>
+            </div>
+            <div webtip="Import Custom Certificates">
+                <div class="rebootitem"><span id="a_importcuscert">Import Custom Certificates</span> :</div>
+                <button id="a_cuscertupload" type="button">Browse</button>
+            </div>
         </fieldset>
         <div class="savediv">
             <button id="a_save" type="button" class="savebtn">Save</button>
@@ -204,6 +223,7 @@ $(function(){
     cb_get(req_items);
     cb_get_action("getvericert&region=advanset");
     init_upload_vericert();
+    init_upload_customcert();
     pageEventActions();
 });
 function get_item_suc_callback(){
@@ -284,13 +304,15 @@ function translate_webac(){
     $("#a_cancel").text(a_3);
     $("#a_websccesstitle").text(a_16029);
     $("#a_importcacert").text(a_19222);
-    $("#a_browse").text(a_16486);
-    $("#a_certnum").text(a_19218);
-    $("#a_certowner").text(a_19219);
-    $("#a_certissuer").text(a_19220);
-    $("#a_certdate").text(a_19221);
+    $("#a_browse, #a_cuscertupload").text(a_16486);
+    $("#a_certnum, #a_customnum").text(a_19218);
+    $("#a_certowner, #a_customowner").text(a_19219);
+    $("#a_certissuer, #a_customissuer").text(a_19220);
+    $("#a_certdate, #a_customdate").text(a_19221);
     $("#a_vericert").text(a_19223);
-    $("#a_certdelete, .delcertbtn").text(a_21);
+    $("#a_certdelete, .delcertbtn, #a_customdelete").text(a_21);
+    $("#a_cuscert").text(a_19282);
+    $("#a_importcuscert").text(a_19283);
 }
 function grant() {
     g_actype = $.cookie('type');
@@ -445,6 +467,32 @@ function init_upload_vericert(){
 		}
 	});
 }
+
+function init_upload_customcert(){
+    var button = $("#a_cuscertupload");
+	var fileext;
+	new Ajax_upload(button, {
+		name: 'file',
+		action : '../upload?type=vericert',
+		onSubmit : function(file, ext) {
+			cb_ping();
+			fileext = ext;
+			if (!(ext && (/^(pem)$/.test(ext) || /^(crt)$/.test(ext) || /^(cer)$/.test(ext) || /^(der)$/.test(ext)))) {
+				$.prompt(a_19217+"(.pem/.crt/.cer/.der).",MSG_FAIL);
+				return false;
+			}
+
+			window.parent.block_upload_func();
+		},
+		onComplete: function(file, response) {
+			var action = "setcustomcert&region=advanset&pvalue=8472";
+			cb_get_action(action);
+		}
+	});
+    
+    cb_get_action("get&var-0000=8472");
+}
+
 function convertCurrentTime(date){
     var dateObj = new Date;
     if( date != undefined && date != "" )
@@ -480,29 +528,41 @@ function cb_get_action_done(data, action)
 {
     if( action == "loginrealm" ){
         cb_check_login_realm_done(data, mIsCheck);
-    }
-    else if( action.indexOf("clearlock") != -1 ){
+    } else if ( action.indexOf("clearlock") != -1 ){
         var tObj = eval("(" + data + ")");
         if( tObj.res == "success" ){
             console.log('suc');
             view_message(a_7479, MSG_OK);
         }
-    }
+    } else if (action.indexOf("setcustomcert") != -1) {
+        if( data == "1" ){
+            setTimeout('cb_get_action("getvericert&region=advanset");', 1000);
+            $("#delcertbtn7").removeAttr("disabled").css("color", "");
+        }else if( data == "2" ){
+            $.prompt(a_19214);
+        }
+        window.parent.unblock_func();
+    } 
     else if( action.indexOf("getvericert&region=advanset") != -1 ){
         $("#a_certowner1, #a_certowner2, #a_certowner3, #a_certowner4, #a_certowner5, #a_certowner6").text("");
         $("#a_certissuer1, #a_certissuer2, #a_certissuer3, #a_certissuer4, #a_certissuer5, #a_certissuer6").text("");
         $("#a_certdate1, #a_certdate2, #a_certdate3, #a_certdate4, #a_certdate5, #a_certdate6").text("");
-        var cert_items = "2386:2486:2586:2686:2786:2886:";
+        var cert_items = "2386:2486:2586:2686:2786:2886:8472:";
         mLeftPvalues.splice(0, mLeftPvalues.length);
         mLeftMaxNum = 6;
         var tObj = eval("(" + data + ")");
         var tmpid = 1;
+        var tmptag = false;
         if( tObj.Response == "Success" ){
             var items = tObj.Data;
             var certinfo, tmpdata, nid, sepindex, tmppvalue, tmpinfo;
             for (var i = 0; items[i] != undefined; i++){
                 tmpdata = items[i];
                 tmppvalue = tmpdata.Pvalue;
+                if(tmppvalue == "8472"){
+                    tmptag = tmpid;
+                    tmpid = 7;
+                }
                 certinfo = tmpdata.Info;
                 console.log('tmppvalue = ' + tmppvalue + ',certinfo = ' + certinfo);
                 $("#certdiv"+tmpid).attr("pvalue", tmppvalue);
@@ -526,10 +586,13 @@ function cb_get_action_done(data, action)
                     }
                 }
                 $("#delcertbtn"+tmpid).removeAttr("disabled");
-                tmpid ++;
-                mLeftMaxNum --;
+                if(tmppvalue != "8472"){
+                    tmpid ++;
+                    mLeftMaxNum --;
+                }
             }
         }
+        if(tmptag) tmpid = tmptag;
         var certitems = cert_items.split(":");
         var pos = 0;
         for(; tmpid <= 6; tmpid++, pos++ ){
@@ -558,15 +621,22 @@ function cb_get_action_done(data, action)
         cb_if_auth_fail(msgs);
         if (cb_is_fail(msgs)){
         }else {
-            if( action.indexOf("put") != -1 ){
+            if (action.indexOf("get&var-0000=8472") != -1){
+                if(!msgs.headers['8472']){
+                    $("#delcertbtn7").attr("disabled", "disabled").removeClass("buttonover");
+                }
+            } else if ( action.indexOf("put") != -1 ){
                 $("#a_certowner"+mDeleteIndex).text("");
                 $("#a_certissuer"+mDeleteIndex).text("");
                 $("#a_certdate"+mDeleteIndex).text("");
                 $("#delcertbtn"+mDeleteIndex).attr("disabled", "disabled").removeClass("buttonover");
-                $("#a_browse").removeAttr("disabled");
-                mLeftMaxNum ++;
-                mLeftPvalues.push( $("#certdiv"+mDeleteIndex).attr("pvalue") );
-            }
+                if(mDeleteIndex != "7"){
+                    $("#a_browse").removeAttr("disabled");
+                    mLeftMaxNum ++;
+                    mLeftPvalues.push( $("#certdiv"+mDeleteIndex).attr("pvalue") );
+                }
+                $.prompt(a_del_ok);
+            } 
         }
     }
 }

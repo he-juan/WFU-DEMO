@@ -13944,7 +13944,7 @@ time_t ASN1_TIME_get ( ASN1_TIME * a,int *err )
 static int handle_getvericert(buffer *b)
 {
     printf("handle_getvericert\n");
-    const char *pcerts[6] = {"2386", "2486", "2586", "2686", "2786", "2886"};
+    const char *pcerts[7] = {"2386", "2486", "2586", "2686", "2786", "2886", "8472"};
     BIO *in = NULL;
     X509 *cert = NULL;
     int num = 0;
@@ -13955,7 +13955,7 @@ static int handle_getvericert(buffer *b)
     //int length = 1024*8;
 
     buffer_append_string(b, "{\"Response\":\"Success\",\"Data\":[");
-    for(int i = 0; i < 6; i ++){
+    for(int i = 0; i < 7; i ++){
         temp = nvram_my_get(pcerts[i]);
         if( !strcasecmp(temp, "") ){
             printf("this pvalue %s is empty\n", pcerts[i]);
@@ -14029,6 +14029,74 @@ static int handle_getvericert(buffer *b)
     buffer_append_string(b, "]}");
 
     return 1;
+}
+
+static int handle_custom_cert(buffer *b, const struct message *m)
+{
+    FILE *fp = fopen(TMP_CERT_PATH , "r");
+    char line[1024] = "";
+    char *buf = NULL;
+    int valid = 1;
+    int size;
+    char *pvalueparam = NULL;
+
+    int certificate = 0;
+    int privatekey = 0;
+
+    fseek( fp, 0L, SEEK_END );
+    size = ftell(fp);
+
+    if(size == 0){
+        buffer_append_string(b, "Response=Error\r\n"
+        "Message=The file is empty\r\n");
+        return 1;
+    } else {
+        buf = malloc(size + 1);
+        memset(buf, 0, size + 1);
+        fseek(fp, 0L, SEEK_SET);
+        fread (buf, 1, size + 1, fp);
+    }
+
+    fseek(fp, 0L, SEEK_SET);
+
+    while ((fp != NULL) && !feof(fp))
+    {
+        fgets( &line, 1024, fp );
+
+        if (strstr(line, "-BEGIN CERTIFICATE-") != NULL
+            || strstr(line, "--END CERTIFICATE-") != NULL) {
+            certificate++;
+        } else if (strstr(line, "-BEGIN RSA PRIVATE KEY-") != NULL
+            || strstr(line, "-END RSA PRIVATE KEY-") != NULL
+            || strstr(line, "-BEGIN PRIVATE KEY-") != NULL
+            || strstr(line, "-END PRIVATE KEY-") != NULL) {
+            privatekey++;
+        }
+
+        memset(line, 0, sizeof(line));
+    }
+
+    if (certificate < 2 || privatekey < 2) {
+        valid = 2;
+    }
+
+    if (valid == 2) {
+        buffer_append_string(b, "2");
+    } else {
+        pvalueparam = msg_get_header(m, "pvalue");
+        nvram_set(pvalueparam, buf);
+        nvram_commit();
+
+        dbus_send_cfupdated();
+        dbus_send_applyed();
+
+        buffer_append_string(b, "1");
+    }
+
+    free(buf);
+    fclose(fp);
+
+    return 0;
 }
 
 static int check_same_cert(long hash)
@@ -21956,6 +22024,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_savetimeset(b, m);
                 } else if (!strcasecmp(action, "getvericert")) {
                     handle_getvericert(b);
+                } else if (!strcasecmp(action, "setcustomcert")) {
+                    handle_custom_cert(b, m);
                 } else if (!strcasecmp(action, "checkvericert")) {
                     handle_check_vericert(b, m);
                 } else if (!strcasecmp(action, "getptz")) {
