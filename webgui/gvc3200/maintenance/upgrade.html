@@ -477,6 +477,7 @@ function init_upload(){
             // If you want to allow uploading only 1 file at time,
             // you can disable upload button
             this.disable();
+            window.parent.block_download_func(a_16431);
             
             // Animating upload button
             // Uploding -> Uploading. -> Uploading...
@@ -519,6 +520,7 @@ function init_upload(){
             }
             // enable upload button
             this.enable();
+            window.parent.unblock_func();
         }
     });
 }
