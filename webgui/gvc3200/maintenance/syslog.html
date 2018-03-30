@@ -156,6 +156,25 @@ function pageEventActions(){
             view_message(a_16442,MSG_FAIL);
             return false;
         }
+        
+        var wordsfilter = $("#syslogfilter").val().split(",");
+        let wordsjudge = true;
+        if(wordsfilter.length > 5){
+            wordsjudge = false;
+        } else {
+            for(var i in wordsfilter){
+                if(wordsfilter[i].length > 50){
+                    wordsjudge = false;
+                    break;
+                }
+            }
+        }
+        if(!wordsjudge) {
+            $("#statusdiv").text(a_19284).css("color", "red");
+            setTimeout( function(){ $("#statusdiv").text("") }, 3000);
+            return false;
+        }
+        
         cb_put(req_items, "", 0);
         cb_set_syslog();
     });
