@@ -598,6 +598,8 @@ tip_item.push (
         "该值可设置HTTP/HTTPS请求的用户代理。"),
     new TipsDef("SIP User Agent", "SIP用户代理",
         "该值可设置SIP的用户代理。若值包含$version，则会用真正的系统版本号替换$version。"),
+	new TipsDef("Frame Loss Compensation", "丢帧补偿",
+		"开启后通话中视频丢帧现象将会得到一定优化，默认开启。"),
     new TipsDef("802.1x Mode", "802.1x模式",
         "设置是否启用802.1x模式。用于配置连接到交换机时进行的802.1x身份验证。默认设置为“关闭”。"),
 	new TipsDef("802.1x Identity", "802.1x认证信息",

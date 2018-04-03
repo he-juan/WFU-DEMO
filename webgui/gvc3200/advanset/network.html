@@ -253,6 +253,10 @@ fieldset .copyright span{display: inline-block; text-align: right; width: 100%; 
                 <div class="rebootitem"><span id="a_mediaaddr">Media Address</span> :</div>
                 <input name="mediaaddr" type="text" id="mediaaddr" value='' />
             </div>
+            <div webtip="Frame Loss Compensation" class="uploadframediv" style="display:none;">
+                <div class="noreboot"><span id="a_frameloss">Frame Loss Compensation</span> :</div>
+                <input name="frameloss" type="checkbox" id="frameloss"><span id="a_framelossyes">Yes</span>
+            </div>
             <div class="titlediv">
                 <div class="titleboot"><span id="a_ipv6">IPv6</span></div>
             </div>
@@ -426,6 +430,7 @@ req_items.push(
     new ReqItem("proxyftp", "22044", ""),
     new ReqItem("noproxy", "22011", ""),
     new ReqItem("mediaaddr", "media_address", ""),
+    new ReqItem("frameloss", "enableFrameComp", ""),
     new ReqItem("ipv6addr", "1419", ""),
     new ReqItem("staticipv6addr", "1420", ""),
     new ReqItem("ipv6prefixlen", "1421", ""),
@@ -490,7 +495,7 @@ function translate_page(){
     $("#a_relprednsser").text(a_16652);
     $("#a_2relprednsser").text(a_16192);
     $("#a_enablelldp").text(a_16193);
-    $("#a_enablelldpyes, #a_dhcp120yes, #a_vpnenableyes").text(a_5);
+    $("#a_enablelldpyes, #a_dhcp120yes, #a_vpnenableyes, #a_framelossyes").text(a_5);
     $("#a_useragent").text(a_16194);
     $("#a_sipuseragent").text(a_19128);
     $("#a_802xmode, #a_802mode").text(a_4140);  
@@ -516,6 +521,7 @@ function translate_page(){
     $("#a_advsettitle").text(a_4101);
     $("#a_privatekey").text(a_4394);
     $("#a_frameca").text(a_19211);
+    $("#a_frameloss").text(a_4340);
     $("#a_protocoltype").text(a_19225);
     $("#protocoltype option:eq(0)").text(a_19390);
     $("#protocoltype option:eq(1)").text(a_19391);

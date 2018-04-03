@@ -594,6 +594,8 @@ tip_item.push (
 	    "Устанавливает user-agent для HTTP/HTTPS запроса."),
     new TipsDef("SIP User Agent",
         "Устанавливает user-agent для SIP. Если значение содержит слово \"$version\", оно заменит настоящую версию системы."),
+	new TipsDef("Frame Loss Compensation",
+		"Once enabled, the phenomenon of video loss frame will be optimized, it is enabled by default."),
     new TipsDef("802.1x Mode",
         "Позволяет пользователю включить или выключить режим 802.1x на устройстве. Устанавливает аутентификацию 802.1x при соединении с коммутатором. По умолчанию \"Закрыто\"."),
 	new TipsDef("802.1x Identity",
