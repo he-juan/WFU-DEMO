@@ -3290,6 +3290,7 @@ var a_19281="Capture";
 var a_19282="Custom certificate";
 var a_19283="Import custom certificate";
 var a_19284="Support 5 syslog keywords in maximum, each one can’t exceed 50 characters";
+var a_19285="Visual Angle";
 var a_19300="Введите указанный выше код, чтобы связать устройство с Вашей учётной записью";
 var a_19301="You can now fully manage your IPVideoTalk account and meeting schedule from the IPVideoTalk portal.";
 var a_19302="IPVideoTalk is Grandstream's powerful  online meeting and webinar platform that allows you to turn all GVC meetings into online meetings accessible to anyone.  Sign up now to receive your free trial and start enjoying hassle-free meetings today!";
