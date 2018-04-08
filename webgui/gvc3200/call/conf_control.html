@@ -507,7 +507,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .customlayoutlist .cunstomminorpip{width:227px;height:114px;text-align: center;}
 
 .ipvconfdivs{display:block;height:30px;}
-.ipvconfdes, .ipvconfcontent{display:inline-block;margin-left:25px;}
+.ipvconfdes, .ipvconfcontent{display:inline-block;margin-left:25px;line-height: 30px;}
 .ipvconfdes{width:150px;}
 
 .inputhint{color:gray;}
@@ -589,6 +589,9 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .rcdlinename{float:left; font-size: 15px; margin-left: 10px; line-height: 39px;}
 .rcdstart{height: 24px; width: 24px; cursor: pointer;position: absolute; right: 6px; background: url("../img/call/conf_control.png") -528px -165px no-repeat; margin: 8px;}
 .rcdstop{height: 24px; width: 24px; cursor: pointer;position: absolute; right: 6px; background: url("../img/call/conf_control.png") -528px -205px no-repeat; margin: 8px;}
+#ipvconfurl{word-wrap: break-word; max-width: 440px;}
+#a_ipvconftitle, #a_ipvconftitle + span, #a_ipvconfurl, #a_ipvconfurl + span, #a_ipvconfpstn, #a_ipvconfpstn + span{display: block; float: left; line-height: 30px;}
+#ipvconfurl{line-height: 13px};
 </style> 
 </head>
 <body>
@@ -666,7 +669,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
             <div id="linedetails">
                 <div id="ipvconfdetails" style="display:none;margin-top: 10px;border-bottom:1px solid #e1e1e1;">
                     <div class="ipvconfdivs">
-                        <span id="a_ipvconftitle" class="ipvconfdes">Subject</span>: <span id="ipvconftitle" class="ipvconfcontent" style="max-width:440px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;"></span>
+                        <span id="a_ipvconftitle" class="ipvconfdes">Subject</span><span>:</span> <span id="ipvconftitle" class="ipvconfcontent" style="max-width:440px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;"></span>
                     </div>
                     <div class="ipvconfdivs">
                         <span id="a_ipvconfnumber" class="ipvconfdes">Meeting ID</span>:<span id="ipvconfnumber" class="ipvconfcontent"></span>
@@ -678,7 +681,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
                         <span id="a_ipvconfpass" class="ipvconfdes">Password</span>:<span id="ipvconfpass" class="ipvconfcontent"></span>
                     </div>
                     <div class="ipvconfdivs">
-                        <span id="a_ipvconfurl" class="ipvconfdes">URL</span>:<span id="ipvconfurl" class="ipvconfcontent"></span>
+                        <span id="a_ipvconfurl" class="ipvconfdes">URL</span><span>:</span><span id="ipvconfurl" class="ipvconfcontent"></span>
                     </div>
                     <div class="ipvconfdivs">
                         <span id="a_ipvconfhostcode" class="ipvconfdes">Host code</span>:<span id="ipvconfhostcode" class="ipvconfcontent"></span>
@@ -687,9 +690,9 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
                         <span id="a_ipvconfregion" class="ipvconfdes">Server area</span>:<span id="ipvconfregion" class="ipvconfcontent"></span>
                     </div>
                     <div class="ipvconfdivs" id="pstndivs" style="margin-bottom:10px;">
-                        <span id="a_ipvconfpstn" class="ipvconfdes" style="display: block; float: left;">Join by phone</span>
-                        <span style="display: block; float: left;">:</span>
-                        <span id="ipvconfpstn" class="ipvconfcontent" style="max-width: 440px;"></span>
+                        <span id="a_ipvconfpstn" class="ipvconfdes">Join by phone</span>
+                        <span>:</span>
+                        <span id="ipvconfpstn" class="ipvconfcontent" style="max-width: 440px;line-height:14px;"></span>
                     </div>
                 </div>
                 <div id="detailstitle">
