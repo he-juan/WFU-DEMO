@@ -139,6 +139,10 @@ function get_item_suc_callback() {
     });
     if(count == 3 || count == 0){
         $(".debuginforight input").attr("checked", "checked");
+    } else {
+        if(!$("#capturecheck").prop("checked")){
+            $("#a_start").text(a_19237);
+        }
     }
 }
 function cb_get_action_done(data, action) {
