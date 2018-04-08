@@ -147,7 +147,7 @@ tip_item.push (
     new TipsDef("RTP IP Filter",
 		"Configures whether to filter the received RTP. If set to \"Disable\", the device will receive RTP from any address; If set to \"IP Only\", the device will receive RTP from certain IP address in SDP with no port limited; If set to \"IP and Port\", the device only send RTP to IP address & port in SDP. The default setting is \"Disable\"."),
     new TipsDef("Support SIP Instance ID",
-		"Defines whether SIP Instance ID is supported or not. The default setting is \"No\"."),
+		"Defines whether SIP Instance ID is supported or not. The default setting is \"Yes\"."),
 	new TipsDef("Validate Incoming SIP Messages",
 		"Defines whether the incoming SIP messages will be validated or not. The default setting is \"No\"."),
 	new TipsDef("SIP T1 Timeout",

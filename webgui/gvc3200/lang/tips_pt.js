@@ -150,7 +150,7 @@ tip_item.push (
     new TipsDef("RTP IP Filter",
 		"Configura se o RTP recebido é filtrado. Se está selecionado \"Desabilitar\", o dispositivo vai receber RTP a partir de qualquer endereço; Se está selecionado \"Unicamente IP\", o dispositivo irá receber RTP a partir do endereço IP determinado no SDP sem limitação de porta; Se está selecionado\"IP e Porta\", o dispositivo enviará RTP unicamente RTP ao endereço IP e porta no SDP. A opção padrão é \"Desabilitar\"."),
     new TipsDef("Support SIP Instance ID",
-		"Define se é suportado ou não o ID de Instância SIP. A opção padrão é \"Não\"."),
+		"Define se é suportado ou não o ID de Instância SIP. A opção padrão é \"Sim\"."),
 	new TipsDef("Validate Incoming SIP Messages",
 		"Define se serão validados ou não as mensagens SIP entrantes. A opção padrão é \"Não\"."),
 	new TipsDef("SIP T1 Timeout",
