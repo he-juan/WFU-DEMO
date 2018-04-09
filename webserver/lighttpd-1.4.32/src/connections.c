@@ -149,6 +149,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define GUI_XML_PARSE_ATTR    (XML_PARSE_NOBLANKS |XML_PARSE_NOERROR | XML_PARSE_NOWARNING)
 
 #define DBUS_PATH                 "/com/grandstream/dbus/gui"
+#define DBUS_CAM_PATH             "/com/grandstream/dbus/camtest"
 #define DBUS_INTERFACE            "com.grandstream.dbus.signal"
 #define SIGNAL_LIGHTTPD           "lighttpd"
 #define SIGNAL_CALLUPDATED          "callfuncupdated"
@@ -743,6 +744,33 @@ static int dbus_send_ptz_control ( const char *arg1, const int arg2, const int a
     }
 
     message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, SIGNAL_CAMERACONTROL);
+    if ( message == NULL )
+    {
+        printf( "message is NULL\n");
+        return 1;
+    }
+
+    dbus_message_append_args( message, DBUS_TYPE_STRING, &arg1, DBUS_TYPE_INT32, &arg2, DBUS_TYPE_INT32, &arg3, DBUS_TYPE_INT32, &arg4, DBUS_TYPE_INT32, &arg5, DBUS_TYPE_INVALID );
+
+    dbus_connection_send( bus, message, NULL );
+    dbus_message_unref( message );
+#endif
+
+    return 0;
+}
+
+static int dbus_send_angle_control ( const char *arg1, const int arg2, const int arg3, const int arg4, const int arg5 )
+{
+#ifdef BUILD_ON_ARM
+    DBusMessage* message;
+
+    if ( bus == NULL )
+    {
+        printf( "Error: Dbus bus is NULL\n" );
+        return 1;
+    }
+
+    message = dbus_message_new_signal( DBUS_CAM_PATH, DBUS_INTERFACE, SIGNAL_CAMERACONTROL);
     if ( message == NULL )
     {
         printf( "message is NULL\n");
@@ -12577,6 +12605,18 @@ static int handle_setptz(buffer *b, const struct message *m)
     return 1;
 }
 
+static int handle_set_visualangle(buffer *b, const struct message *m)
+{
+    buffer_append_string (b, "Response=Success\r\n");
+
+    char *temp = NULL;
+    temp = msg_get_header(m, "angle");
+    if ( temp != NULL ){
+        dbus_send_angle_control("distortion", atoi(temp), 0, 0, 0);
+    }
+    return 1;
+}
+
 static int handle_setfanspeed(buffer *b)
 {
     int result = system("/system/xbin/setFanSpeed.sh &");
@@ -22032,6 +22072,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_getptz(b);
                 } else if (!strcasecmp(action, "setptz")) {
                     handle_setptz(b, m);
+                } else if (!strcasecmp(action, "setvisualangle")) {
+                    handle_set_visualangle(b, m);
                 } else if (!strcasecmp(action, "setfanspeed")) {
                     handle_setfanspeed(b);
                 } else if (!strcasecmp(action, "getsleepmode")) {

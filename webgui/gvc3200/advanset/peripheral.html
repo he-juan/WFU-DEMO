@@ -277,7 +277,11 @@ function get_item_suc_callback(msgs) {
             $(this).prev(".volchangeDiv").css("width",width);
         },
         drag:function(event,ui){
-            $(this).prev(".volchangeDiv").css("width",ui.position.left);
+            $(this).prev(".volchangeDiv").css("width", ui.position.left);
+        },
+        stop:function(event,ui){
+            var angle = 170 - Math.round(ui.position.left / 200 * 40);
+            cb_get_action("setvisualangle&region=advanset&angle=" + angle);
         }
     });
 }
