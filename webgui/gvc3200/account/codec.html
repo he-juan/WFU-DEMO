@@ -524,8 +524,8 @@ $(function(){
     if(colore == "54") {
 		//$('#noallow1 option:eq(4)').remove();   //also need to check line 465,avoid order mistake
 		//$(".g7221set").hide();
-        $("#a_prevcoder").parent().parent().hide();
-        $("#h265payload").parent().hide();
+        //$("#a_prevcoder").parent().parent().hide();
+        //$("#h265payload").parent().hide();
         $("#imgsize option[value=11]").remove();
 	}
     
@@ -706,7 +706,7 @@ function translate_codec(){
     $("#a_audioredpayload").text(a_19389);
     $("#a_packetmodel").text(a_19234);
     $("#packetmodel option:eq(2)").text(a_1317);
-    if(colore == "54" || accountindex == "4" || accountindex == "3")
+    if( accountindex == "4" || accountindex == "3")
         $("#a_h264imgsize").text(a_16118);
     else
         $("#a_h264imgsize").text(a_12216);
