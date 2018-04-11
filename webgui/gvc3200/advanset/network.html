@@ -245,7 +245,7 @@ fieldset .copyright span{display: inline-block; text-align: right; width: 100%; 
                 <div class="rebootitem"><span id="a_sipuseragent">SIP User Agent</span> :</div>
                 <input name="sipuseragent" type="text" id="sipuseragent" value='' /><em></em>
             </div>
-            <div webtip="Frame Rate Compensation Certificate" class="uploadframediv" style="display:none;">
+            <div webtip="Frame Rate Compensation Certificate" style="display:none;">
                 <div class="rebootitem"><span id="a_frameca">Frame Rate Compensation Certificate</span> :</div>
                 <button id="a_uploadframe" type="button" value="Upload">Upload</button>
             </div>
@@ -459,7 +459,7 @@ $(function(){
     if(mOEMID == '54'){
         $("#a_mediaaddr").text(a_19317);
         $(".uploadframediv").show();
-        init_uploadframe();
+        //init_uploadframe();
     }
     $("input[type='file']").attr("title", "");
     pageEventActions();
