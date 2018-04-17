@@ -87,7 +87,7 @@ body{}
                     <option value="100">Position when power off</option>
                 </select>
             </div>
-            <div webtip="Visual Angle" style="margin-top:0px;margin-bottom:0px;">
+            <div webtip="Visual Angle" style="margin-top:0px;margin-bottom:0px;display:none;" id="visualanglediv">
                 <div class="noreboot" style="margin-top:21px !important;"><span id="a_visualangle">Visual Angle</span> :</div>
                 <div class="startspan" id="a_anglesmall" style="text-align:center;">small</div>
                 <div class="dragContainer" id="visualAngleContainer">
@@ -234,6 +234,7 @@ $(function(){
     cb_get_action("getpresetinfo&region=control");
     cb_get(req_items);
     cb_get_action("gethdmiconnectstatus&region=advanset");
+    cb_get_action("getlentype&region=advanset");
     /*cb_get_action("vgaread&region=webservice&type=0");
     cb_get_action("vgaread&region=webservice&type=1");
     cb_get_action("vgaread&region=webservice&type=2");*/
@@ -529,6 +530,11 @@ function cb_get_action_done(data, action){
         else {
             if( action.indexOf("getptz") != -1 ){
                 
+            } else if (action.indexOf("getlentype") != -1) {
+                var lentype = msgs.headers['len'];
+                if (lentype == "Trace Optical") {
+                    $("#visualanglediv").show();
+                }
             }
         }
     }

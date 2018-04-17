@@ -14380,6 +14380,23 @@ static int handle_openvpn_cert (buffer *b, const struct message *m)
     return 0;
 }
 
+static int handle_get_len_type(buffer *b)
+{
+    char buf[128] = "";
+    FILE *fproc = NULL;
+
+    fproc = fopen ("/proc/gxvboard/dev_info/len_type", "r");
+    if (fproc != NULL) {
+        fread (buf, 127, 1, fproc);
+        fclose (fproc);
+    }
+
+    buffer_append_string(b, "Response=Success\r\nlen=");
+    buffer_append_string(b, buf);
+
+    return 0;
+}
+
 static int handle_tonelist1 (buffer *b)
 {
     printf("handle_tonelist\n");
@@ -22111,6 +22128,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_one_param(srv, con, b, m, "type", "setPowerTimerPolicy", 0);
                 } else if (!strcasecmp(action, "setopenvpncert")) {
                     handle_openvpn_cert(b, m);
+                } else if (!strcasecmp(action, "getlentype")) {
+                    handle_get_len_type(b);
                 } else{
                     findcmd = 0;
                 }
