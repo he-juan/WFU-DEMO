@@ -169,6 +169,11 @@ fieldset .copyright span{display: inline-block; text-align: right; width: 100%; 
                 <div class="noreboot"><span id="a_enablelldp">Enable LLDP</span> :</div>
                 <input name="enablelldp" type="checkbox" id="enablelldp"><span id="a_enablelldpyes">Yes</span>
             </div>
+            <div webtip="Enable CDP" class="g_user">
+                <div class="noreboot"><span id="a_enablecdp">Enable CDP</span> :</div>
+                <input name="enablecdp" type="checkbox" id="enablecdp"><span id="a_enablecdpyes">Yes</span>
+                <span class="rebootspan"></span>
+            </div>
             <div id="layer3qos" class="g_user" webtip="Layer 3 QoS" style="display:none">
                 <div class="noreboot"><span id="a_layer3qos">Layer 3 QoS</span> :</div>
                 <input name="layer3qos" type="text" id="layer3qos" value="0" />
@@ -413,6 +418,7 @@ req_items.push(
     new ReqItem("secrelprednsser4", "5029", ""),
     new ReqItem("openlldp", "in_lldp", ""),
     new ReqItem("enablelldp", "1684", ""),
+    new ReqItem("enablecdp", "22119", ""),
     new ReqItem("useragent", "1541", ""),
     new ReqItem("sipuseragent", "26027", ""),
     new ReqItem("xmode", "7901", ""),
@@ -495,7 +501,8 @@ function translate_page(){
     $("#a_relprednsser").text(a_16652);
     $("#a_2relprednsser").text(a_16192);
     $("#a_enablelldp").text(a_16193);
-    $("#a_enablelldpyes, #a_dhcp120yes, #a_vpnenableyes, #a_framelossyes").text(a_5);
+    $("#a_enablecdp").text(a_19286);
+    $("#a_enablelldpyes, #a_dhcp120yes, #a_vpnenableyes, #a_framelossyes, #a_enablecdpyes").text(a_5);
     $("#a_useragent").text(a_16194);
     $("#a_sipuseragent").text(a_19128);
     $("#a_802xmode, #a_802mode").text(a_4140);  
