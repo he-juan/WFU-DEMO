@@ -14071,8 +14071,50 @@ static int handle_getvericert(buffer *b)
     return 1;
 }
 
+static int handle_check_custom_cert()
+{
+    SSL_CTX *ctx;
+
+    SSL_load_error_strings();
+    SSL_library_init();
+    OpenSSL_add_all_algorithms();
+
+    ctx = SSL_CTX_new(SSLv23_server_method());
+    if (ctx == NULL) {
+        printf("SSL Error: %s\n", ERR_error_string(ERR_get_error(), NULL));
+        return -1;
+    }
+
+    if (SSL_CTX_use_certificate_file(ctx, TMP_CERT_PATH, SSL_FILETYPE_PEM) < 0)
+    {
+        printf("SSL Error: %s\n", ERR_error_string(ERR_get_error(), NULL));
+        return -1;
+    }
+
+    if (SSL_CTX_use_PrivateKey_file(ctx, TMP_CERT_PATH, SSL_FILETYPE_PEM) < 0)
+    {
+        printf("SSL Error: %s\n", ERR_error_string(ERR_get_error(), NULL));
+        return -1;
+    }
+
+    if (SSL_CTX_check_private_key(ctx) != 1)
+    {
+        printf("SSL Error: %s\n", ERR_error_string(ERR_get_error(), NULL));
+        return -1;
+    }
+
+    return 0;
+}
+
 static int handle_custom_cert(buffer *b, const struct message *m)
 {
+    int pem_check = handle_check_custom_cert();
+
+    if (pem_check != 0) {
+        buffer_append_string(b, "2");
+        return -1;
+    }
+    
     FILE *fp = fopen(TMP_CERT_PATH , "r");
     char line[1024] = "";
     char *buf = NULL;
@@ -14097,41 +14139,14 @@ static int handle_custom_cert(buffer *b, const struct message *m)
         fread (buf, 1, size + 1, fp);
     }
 
-    fseek(fp, 0L, SEEK_SET);
+    pvalueparam = msg_get_header(m, "pvalue");
+    nvram_set(pvalueparam, buf);
+    nvram_commit();
 
-    while ((fp != NULL) && !feof(fp))
-    {
-        fgets( &line, 1024, fp );
+    dbus_send_cfupdated();
+    dbus_send_applyed();
 
-        if (strstr(line, "-BEGIN CERTIFICATE-") != NULL
-            || strstr(line, "--END CERTIFICATE-") != NULL) {
-            certificate++;
-        } else if (strstr(line, "-BEGIN RSA PRIVATE KEY-") != NULL
-            || strstr(line, "-END RSA PRIVATE KEY-") != NULL
-            || strstr(line, "-BEGIN PRIVATE KEY-") != NULL
-            || strstr(line, "-END PRIVATE KEY-") != NULL) {
-            privatekey++;
-        }
-
-        memset(line, 0, sizeof(line));
-    }
-
-    if (certificate < 2 || privatekey < 2) {
-        valid = 2;
-    }
-
-    if (valid == 2) {
-        buffer_append_string(b, "2");
-    } else {
-        pvalueparam = msg_get_header(m, "pvalue");
-        nvram_set(pvalueparam, buf);
-        nvram_commit();
-
-        dbus_send_cfupdated();
-        dbus_send_applyed();
-
-        buffer_append_string(b, "1");
-    }
+    buffer_append_string(b, "1");
 
     free(buf);
     fclose(fp);
