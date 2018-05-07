@@ -20,7 +20,7 @@ body{}
 #screenContainer{overflow: visible;width:222px;}
 #screenPercentDiv{width:100%;}
 </style>
-<body id="framebody">
+<body id="framebody" onunload="leavepage();">
 <div id="mainbody" class="maindiv">
     <div class="navi"><span id="a_device">Device Manager</span></div>
     <div id="statusdiv"></div>
@@ -228,6 +228,7 @@ var mHDMIMode = -1;
 var mHDMI2Mode = -1;
 var mScreenAction;
 var mInitposition;
+var visualangle;
 
 $(function(){
     translate_device();
@@ -241,6 +242,15 @@ $(function(){
     //cb_get_action("getptz&region=advanset");
     pageEventActions();
 });
+
+function leavepage(){
+    if($("#visualanglediv").css("display") != "none"){
+        var angle = 170 - Math.round($("#dragvisualAngleDiv .volchangeDiv").width() / 200 * 40);
+        if(angle != visualangle) {
+            cb_get_action("setvisualangle&region=advanset&angle=" + visualangle, false);
+        }
+    }
+}
 
 function get_item_suc_callback(msgs) {
     mInitposition = $("#initposition").val();
@@ -265,7 +275,7 @@ function get_item_suc_callback(msgs) {
         }
     });
     
-    var visualangle = $("#visualangle").val();
+    visualangle = $("#visualangle").val();
     if(!visualangle) visualangle = 170;
         
     $("#dragvisualAngleDiv .volimg").draggable({ 
@@ -639,7 +649,8 @@ function pageEventActions(){
         
         var angle = 170 - Math.round($("#dragvisualAngleDiv .volchangeDiv").width() / 200 * 40);
         $("#visualangle").val(angle);
-        
+        visualangle = angle;
+
         if(mHDMIMode != -1 && mHDMIMode != $("#himioutresolution").val()){
             cb_get_action("sethdmioutputmode&region=advanset&hdmi=hdmi1&mode=" + $("#himioutresolution").val());
             mHDMIMode = $("#himioutresolution").val();

@@ -541,13 +541,14 @@ function cb_set_property(type, value)
         }
     });
 }
-function cb_get_action(action){
+function cb_get_action(action, async){
 	var urihead = "action=" + action;
     urihead += "&time=" + new Date().getTime();
     $.ajax ({
         type: 'get',
         url:'/manager',
         data:urihead,
+        async: async == false ? false : true,
         dataType:'text',
         success:function(data) {
             cb_get_action_done(data, action);
