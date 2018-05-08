@@ -35,7 +35,8 @@
 # endif
 #endif
 
-#define ALTER_PEMFILE "/system/etc/gxe50xx.pem"
+#define ALTER_PEMFILE_1 "/data/security/gxe50xx.pem"
+#define ALTER_PEMFILE_2 "/system/etc/gxe50xx.pem"
 
 #ifdef USE_OPENSSL
 static void ssl_info_callback(const SSL *ssl, int where, int ret) {
@@ -588,8 +589,10 @@ int network_init(server *srv) {
         } else {
             /* added by cchma. load the alternative system ca file if the independent ca file is not exist. */
             if (access(s->ssl_pemfile->ptr, 0)) {
-                if (access(ALTER_PEMFILE, 0) == 0) {
-                    buffer_copy_string(s->ssl_pemfile, ALTER_PEMFILE);
+                if (access(ALTER_PEMFILE_1, 0) == 0) {
+                    buffer_copy_string(s->ssl_pemfile, ALTER_PEMFILE_1);
+                } else if (access(ALTER_PEMFILE_2, 0) == 0) {
+                    buffer_copy_string(s->ssl_pemfile, ALTER_PEMFILE_2);
                 }
             }
             printf("load pemfile: %s\n", s->ssl_pemfile->ptr);

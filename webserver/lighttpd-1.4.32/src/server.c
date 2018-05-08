@@ -1802,6 +1802,13 @@ int main (int argc, char **argv) {
 		srv->max_fds = 4096;
 	}
 
+    if (access("/tmp/user.pem", 0)) {
+        char *p = nvram_get("8472");
+        if (p != NULL && strcmp(p, "") != 0) {
+            system("nvram get 8472 > /tmp/user.pem");
+        }
+    }
+
 	if (i_am_root) {
 		struct group *grp = NULL;
 		struct passwd *pwd = NULL;
