@@ -630,8 +630,6 @@ tip_item.push (
         "Define la dirección IP de destino donde no es necesario un servidor proxy. El dispositivo no usará un servidor proxy cuando se envíen paquetes a la dirección IP de destino especificada."),
     new TipsDef("Enable LLDP",
         "Controla el servicio LLDP (Link Layer Discovery Protocol)."),
-    new TipsDef("Enable CDP",
-        "Configures whether to enable CDP to receive and/or transmit information from/to CDP-enabled devices."),
     new TipsDef("TURN Server Username",
         "Llene el nombre de usuario para validar el servidor TURN."),
     new TipsDef("TURN Server Password",

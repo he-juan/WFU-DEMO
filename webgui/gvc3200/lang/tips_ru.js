@@ -626,8 +626,6 @@ tip_item.push (
         "Определяет IP адрес получателя, при отправке пакетов которому не нужно использовать прокси сервер."),
     new TipsDef("Enable LLDP",
         "Управление сервисом LLDP (канальный протокол обнаружения устройств)."),
-    new TipsDef("Enable CDP",
-        "Configures whether to enable CDP to receive and/or transmit information from/to CDP-enabled devices."),
     new TipsDef("TURN Server Username",
         "Введите логин пользователя TURN сервера."),
     new TipsDef("TURN Server Password",
