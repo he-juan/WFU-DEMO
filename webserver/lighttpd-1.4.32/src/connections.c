@@ -22606,6 +22606,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if(!strcasecmp(action, "getpresentsource")){
                     handle_callservice_by_no_param(srv, con, b, m, "getPresentationSource");
                 }
+                else if(!strcasecmp(action, "gethdmione4K")){
+                    handle_callservice_by_no_param(srv, con, b, m, "getHdmiOne4K");
+                }
+                else if(!strcasecmp(action, "getline4Kvideo")){
+                    handle_callservice_by_no_param(srv, con, b, m, "getLine4KVideo");
+                }
                 else{
                     findcmd = 0;
                 }

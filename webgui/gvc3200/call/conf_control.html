@@ -1191,6 +1191,8 @@ var mConfrole;  //0-normal 1-guest 2-host 3-panelists
 var promptTxt = "";
 var mInterval;
 var is4kon = false;
+var ishdmione4K = false;
+var isline4Kvideo = false;
 var isallowipvtrcd = false;
 var videocodec = 0;  // 0-video codec is not H.265  1-video codec is H.265
 
@@ -2322,6 +2324,8 @@ function addtoconf(data)
 {
     $(".noticetip,.disablediv").hide();
     cb_get_action_sync("get&var-0000=25104");
+    cb_get_action_sync("gethdmione4K&region=confctrl");
+    cb_get_action_sync("getline4Kvideo&region=confctrl");
     
     if(mOEMID != "54")
         $("#pause").show();
@@ -2961,8 +2965,8 @@ function addconflist_local()
     btndiv.appendChild(videoctrl);
     btndiv.appendChild(suspend);
     btndiv.appendChild(isvideoed);
-    
-    if(!is4kon){
+   
+    if(!is4kon && (!ishdmione4K || !isline4Kvideo)){
         var feccbtn = document.createElement('BUTTON');
         feccbtn.className = "startFECC btndisabled";
         feccbtn.setAttribute("feccstate","0");
@@ -3233,7 +3237,7 @@ function addconflist(data,todivID)
             isvideoed.setAttribute("disabled","disabled");
         }
     }
-    
+   
     var feccbtn = document.createElement('BUTTON');
     feccbtn.className = "startFECC btndisabled";
     feccbtn.setAttribute("feccstate","0");
@@ -3286,7 +3290,7 @@ function addconflist(data,todivID)
             btndiv.appendChild(videoctrl);
             btndiv.appendChild(suspend);
             btndiv.appendChild(isvideoed);
-            if(!is4kon){
+            if(!is4kon && (!ishdmione4K || !isline4Kvideo)){
                 btndiv.appendChild(feccbtn);
                 $("#record").show();
             }
@@ -4456,6 +4460,14 @@ function cb_get_action_done(data, action) {
                 else
                     $("#localrcd").show();
             }
+        }
+        else if (action.indexOf("gethdmione4K") != -1) {
+            var tObj = eval("(" + data + ")");
+            ishdmione4K = eval(tObj.isHdmiOne4K);
+        }
+        else if (action.indexOf("getline4Kvideo") != -1) {
+            var tObj = eval("(" + data + ")");
+            isline4Kvideo = eval(tObj.hasLine4KVideo);
         }
     }else
     {
