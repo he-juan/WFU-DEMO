@@ -68,7 +68,7 @@ select, input[type="text"]{width:145px;}
 .emaileditdiv{display:none;}
 
 .firstline{height: 34px;line-height: 34px;margin-top: 0px;}
-.itemname, .host, .contentdiv{text-overflow: ellipsis;white-space:nowrap;overflow:hidden;}
+.itemname, .host, .contentdiv, .confurl{text-overflow: ellipsis;white-space:nowrap;overflow:hidden;}
 .itemname span, .itemstate span, .itemstate img{position:relative;bottom: -5px;*bottom: -3px;}
 .itemstate img{bottom:-7px;}
 #a_detailmember,#showmembernum{color:#1D6EA8;font-weight:bold;}
@@ -211,9 +211,11 @@ div.memberemail{width:152px;margin-left:25px;color:#666;display:none;}
                     <div class="contentdiv" style="width:50px;margin-left:-5px;"><span id="detaildnd"></span></div>
                     <div class="editdiv" style="width:54px;margin-left:-9px;"><input id="dndcheck" type="checkbox" /></div>
                 </div>
-                <div class="righttopdiv cloudconf">
+                <div class="righttopdiv cloudconf" style="height: auto;">
                     <div class="desdiv" style="width:50px;"><span>URL</span></div>
-                    <div class="contentdiv" style="width:280px;"><span id="conferenceurl"></span></div>
+                    <div class="contentdiv" style="width:280px;line-height: 20px">
+                        <div id="conferenceurl"></div>
+                    </div>
                 </div>
                 <div class="righttopdiv cloudconf" id="pstndivs" style="min-height:42px;height:auto;">
                     <div class="desdiv" style="width:120px;"><span id="a_pstn">PSTN Access</span></div>
@@ -616,7 +618,19 @@ function add_item_event(){
             presettext = a_10024 + " " + (preset+1);
         $("#showpreset").text(presettext).attr("title",presettext);
         $("#confpreset").val(preset);
-        $("#conferenceurl").text(confurl).attr("title",confurl);
+        $("#conferenceurl").empty();
+        if(confurl){
+            var confurlArr = confurl.split(", ");
+            if(confurlArr.length > 1){
+                for(var i = 0; i < confurlArr.length; i++){
+                    var confurlItem =$("<div class='confurl'></div>").text(confurlArr[i]).attr("title",confurlArr[i]);
+                    $("#conferenceurl").append(confurlItem);
+                }
+            }else{
+                var confurlItem =$("<div class='confurl' style='line-height: 42px'></div>").text(confurl).attr("title",confurl);
+                $("#conferenceurl").append(confurlItem);
+            }
+        }
         var confpstnstr = a_9400 + " " + confpstn + " " + a_15058;
         $("#conferencepstn").text(confpstnstr).attr("title",confpstnstr);
         var repeathtml = $("#repeat option").eq(repeat).text();
