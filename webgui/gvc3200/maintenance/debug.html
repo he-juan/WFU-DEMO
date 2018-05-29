@@ -203,8 +203,7 @@ function cb_get_action_done(data, action) {
                 view_mode_write(msgs);
             //else if(action == 'capture&mode=on' || action == 'capture&mode=off')
             else if(action.indexOf('mode=off') != -1 || action.indexOf('mode=none') != -1) {
-                cb_get_tracelist();
-                window.parent.location.href = "../ppp/debugInfo.tar";
+                cb_get_tracelist(true);
             } else if (action.indexOf('saveaudio') != -1){
                 // init the status of start button:  0-ready to start 1-during recording
                 var record_state = msgs.headers['saveaudio'];
@@ -246,7 +245,7 @@ function view_mode_write(msgs)
         $("#a_start").text(a_9);
     }
 }
-function cb_get_tracelist()
+function cb_get_tracelist(needdownloadlogfile)
 {
     var urihead = "action=tracelist&region=maintenance";
     urihead += "&time=" + new Date().getTime();
@@ -256,14 +255,14 @@ function cb_get_tracelist()
         data:urihead,
         dataType:'text',
         success:function(data) {
-            cb_get_tracelist_done(data);
+            cb_get_tracelist_done(data, needdownloadlogfile);
         },
         error:function(xmlHttpRequest, errorThrown) {
             cb_networkerror(xmlHttpRequest, errorThrown);
         }
     });
 }
-function cb_get_tracelist_done(data)
+function cb_get_tracelist_done(data, needdownloadlogfile)
 {
     if($("#tracelist_div .newListSelected")){
         $("#tracelist_div .newListSelected").remove();
@@ -285,6 +284,9 @@ function cb_get_tracelist_done(data)
 	$('#tracelist').getSetSSValue(tracelist[0]);
     if(selvalue != undefined)
         $("#a_delete").removeAttr("disabled");
+    if(needdownloadlogfile){
+        window.parent.location.href = "../ppp/debugInfo.tar";
+    }
 }
 function cb_del_suc(data, mode)
 {
