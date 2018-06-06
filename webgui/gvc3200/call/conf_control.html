@@ -8764,7 +8764,10 @@ function pageEventActions()
         var urihead = "";
         if(isIPVConf())
         {
-            $.prompt(a_16710);
+            if(setdnd == "0")
+                $.prompt(a_16710);
+            else
+                $.prompt(a_16716);
             return false;
         }
         if(setdnd == "0")

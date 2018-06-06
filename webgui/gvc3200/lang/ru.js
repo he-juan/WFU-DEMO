@@ -2905,6 +2905,7 @@ var a_16712="Мадрид";
 var a_16713="Стамбул";
 var a_16714="Джакарта";
 var a_16715="Нумеа, Новая Каледония";
+var a_16716="There exists IPVideoTalk line in conference, cannot disable DND!";
 var a_17001="Проверить обновления";
 var a_17002="Пульт ДУ не найден!";
 var a_17003="Your device is up-to-date.";

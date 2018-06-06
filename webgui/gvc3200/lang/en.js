@@ -2905,6 +2905,7 @@ var a_16712="Madrid";
 var a_16713="Istanbul";
 var a_16714="Jakarta";
 var a_16715="Noumea, New Caledonia";
+var a_16716="There exists IPVideoTalk line in conference, cannot disable DND!";
 var a_17001="Check updates";
 var a_17002="Remote control not found!";
 var a_17003="Your device is up-to-date.";

@@ -1370,6 +1370,7 @@ var a_16712="Madryt";
 var a_16713="Stambuł";
 var a_16714="Dżakarta";
 var a_16715="Numea, Nowa Kaledonia";
+var a_16716="There exists IPVideoTalk line in conference, cannot disable DND!";
 var a_17="Zapisz";
 var a_17001="Sprawdź aktualizacje";
 var a_17002="Nie znaleziono pilota.";

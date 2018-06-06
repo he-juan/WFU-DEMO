@@ -645,21 +645,21 @@ $(function(){
 		window.location.reload();
 	});
     $("#dndbtn").click(function(){
+        if(confFrame.isIPVConf())
+        {
+            if( $(this).attr("dnd") == "1" )
+                $.prompt(a_16716);
+            else
+                $.prompt(a_16710);
+            return false;
+        }
         var urihead = "";
         if( $(this).attr("dnd") == "1" ){
             //urihead = "action=setdndonoroff&region=confctrl&setdnd=1&dndtype=0&account=0";
             urihead = "action=setdndonoroff&region=confctrl&setdnd=0&account=0";
             cb_setdnd_action(urihead);
-        }else{
-            if(confFrame.isIPVConf())
-            {
-                $.prompt(a_16710);
-                return false;
-            }
-            else
-            {
-                $("#dndenabletip").show();
-            }
+        }else {
+            $("#dndenabletip").show();
         }
 	});
     $("#dndok").click(function(){
