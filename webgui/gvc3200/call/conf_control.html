@@ -589,9 +589,8 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
 .rcdlinename{float:left; font-size: 15px; margin-left: 10px; line-height: 39px;}
 .rcdstart{height: 24px; width: 24px; cursor: pointer;position: absolute; right: 6px; background: url("../img/call/conf_control.png") -528px -165px no-repeat; margin: 8px;}
 .rcdstop{height: 24px; width: 24px; cursor: pointer;position: absolute; right: 6px; background: url("../img/call/conf_control.png") -528px -205px no-repeat; margin: 8px;}
-#ipvconfurl{word-wrap: break-word; max-width: 440px;}
+#ipvconfurl{max-width: 440px;line-height:14px; display:table-cell; vertical-align: middle; word-wrap: break-word;}
 #a_ipvconftitle, #a_ipvconftitle + span, #a_ipvconfurl, #a_ipvconfurl + span, #a_ipvconfpstn, #a_ipvconfpstn + span{display: block; float: left; line-height: 30px;}
-#ipvconfurl{line-height: 13px};
 </style> 
 </head>
 <body>
@@ -680,8 +679,8 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
                     <div class="ipvconfdivs">
                         <span id="a_ipvconfpass" class="ipvconfdes">Password</span>:<span id="ipvconfpass" class="ipvconfcontent"></span>
                     </div>
-                    <div class="ipvconfdivs">
-                        <span id="a_ipvconfurl" class="ipvconfdes">URL</span><span>:</span><span id="ipvconfurl" class="ipvconfcontent"></span>
+                    <div class="ipvconfdivs" style="display: table;">
+                        <span id="a_ipvconfurl" class="ipvconfdes">URL</span><span style="margin-right: 25px">:</span><span id="ipvconfurl" class="ipvconfcontent"></span>
                     </div>
                     <div class="ipvconfdivs">
                         <span id="a_ipvconfhostcode" class="ipvconfdes">Host code</span>:<span id="ipvconfhostcode" class="ipvconfcontent"></span>
@@ -692,7 +691,7 @@ li.maxlayout{width:703px;height:406px;background-color:#4A4A4A;border-radius:4px
                     <div class="ipvconfdivs" id="pstndivs" style="display: table; margin-bottom:10px;">
                         <span id="a_ipvconfpstn" class="ipvconfdes">Join by phone</span>
                         <span style="margin-right: 25px">:</span>
-                        <span id="ipvconfpstn" class="ipvconfcontent" style="max-width: 440px;line-height:14px; display:table-cell; vertical-align: middle"></span>
+                        <span id="ipvconfpstn" class="ipvconfcontent" style="max-width: 440px;line-height:14px; display:table-cell; vertical-align: middle; word-wrap: break-word;"></span>
                     </div>
                 </div>
                 <div id="detailstitle">
