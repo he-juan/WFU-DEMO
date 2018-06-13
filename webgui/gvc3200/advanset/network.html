@@ -573,7 +573,8 @@ function setInitState(){
             proxyhttpport: { digits: true, range:[0,65535] },
             ipv6dns1: {ipv6: true},
             ipv6dns2: {ipv6: true},
-            prefdnsserver: {ipv6: true}
+            prefdnsserver: {ipv6: true},
+            vpnport: { digits: true, range:[1,65535] }
         },
 
 		errorElement: "em",
