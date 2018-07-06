@@ -530,6 +530,11 @@ $(function(){
 	}
     
     accountindex = $('#accountindex',parent.document.body).val();
+    if( accountindex == "2" ){
+        $("fieldset > div").hide();
+        $("#a_prevcoder").parent().parent().show();
+    }
+
     if( accountindex == "4" ){
         $("fieldset > div").hide();
         $(".h323mode").show();
@@ -863,67 +868,67 @@ function cb_get_pvalue(acctindex){
 		
 		case '2':
 			req_items.push(
-				new ReqItem("inaudio", "2401", ""),
-				new ReqItem("RFC2833", "2402", ""),
-				new ReqItem("sipinfo", "2403", ""),
-				new ReqItem("dtmfpayload", "496", ""),
-				new ReqItem("P57", "451", ""),
-				new ReqItem("P58", "452", ""),
-				new ReqItem("P59", "453", ""),
-				new ReqItem("P60", "454", ""),
-				new ReqItem("P61", "455", ""),
-				new ReqItem("P62", "456", ""),
-				new ReqItem("P46", "457", ""),
-				new ReqItem("P98", "458", ""),
+//				new ReqItem("inaudio", "2401", ""),
+//				new ReqItem("RFC2833", "2402", ""),
+//				new ReqItem("sipinfo", "2403", ""),
+//				new ReqItem("dtmfpayload", "496", ""),
+//				new ReqItem("P57", "451", ""),
+//				new ReqItem("P58", "452", ""),
+//				new ReqItem("P59", "453", ""),
+//				new ReqItem("P60", "454", ""),
+//				new ReqItem("P61", "455", ""),
+//				new ReqItem("P62", "456", ""),
+//				new ReqItem("P46", "457", ""),
+//				new ReqItem("P98", "458", ""),
 				new ReqItem("P295", "464", ""),
 				new ReqItem("P296", "465", ""),
-                new ReqItem("P297", "475", ""),
-                new ReqItem("ilibcfs", "495", ""),
-                new ReqItem("packetmodel", "26105", ""),
-				new ReqItem("imgsize", "2407", ""),
-				new ReqItem("protype", "2462", ""),
-                new ReqItem("useh264profile", "26145", ""),
-				new ReqItem("h264payload", "462", ""),
-				new ReqItem("h263payload", "473", ""),
-                new ReqItem("L16-256payload", "2400", ""),
-                new ReqItem("h263resolution", "477", ""),
-				new ReqItem("srtp", "443", ""),
-				new ReqItem("encryptdigit", "2483", ""),
-				new ReqItem("codecpri", "29161", ""),
-				new ReqItem("silencesup", "485", ""),
-				new ReqItem("vocfp", "486", ""),
-				new ReqItem("g722rate", "2473", ""),
-				new ReqItem("g722payload", "2474", ""),
-                new ReqItem("g7221crate", "26117", ""),
-                new ReqItem("g7221cpayload", "26116", ""),
-				new ReqItem("opuspayload", "2485", ""),
-				new ReqItem("g723rate", "493", ""),
-				new ReqItem("jitterbt", "498", ""),
-				new ReqItem("jitterb", "497", ""),
-				new ReqItem("jittermax", "2481", ""),
-				new ReqItem("remotevideo", "2426", ""),
-				new ReqItem("enablerfc", "478", ""),
-                new ReqItem("enablertx", "26185", ""),
-				new ReqItem("enablefec", "2493", ""),
-				new ReqItem("fecmode", "26122", ""),
-				new ReqItem("fecpayload", "2494", ""),
-				//new ReqItem("fecredpayload", "26107", ""),
-				new ReqItem("feccpayload", "26108", ""),
-				new ReqItem("enablefecc", "26104", ""),
-			    new ReqItem("vbrate", "2415", ""),
-				new ReqItem("sdpattr", "2460", ""),
-				new ReqItem("slientrtp", "2428", ""),
-                new ReqItem("vidframerate", "25005", ""),
-                new ReqItem("disablepresent", "26101", ""),
-                new ReqItem("initialinvite", "sendPreMode_1", ""),
-                new ReqItem("presentimagesize", "2476", ""),
-                new ReqItem("presentprofile", "2477", ""),
-                new ReqItem("presentvideobitrate", "2478", ""),
-                new ReqItem("presentsdpsetting", "2479", ""),
-                new ReqItem("presentvideoframebate", "26142", ""), 
-                //new ReqItem("usefvcode", "2448", ""), 
-                new ReqItem("enableframeskip", "25011", ""),
-				new ReqItem("enablevideo", "461", "")
+                new ReqItem("P297", "475", "")
+//                new ReqItem("ilibcfs", "495", ""),
+//                new ReqItem("packetmodel", "26105", ""),
+//				new ReqItem("imgsize", "2407", ""),
+//				new ReqItem("protype", "2462", ""),
+//                new ReqItem("useh264profile", "26145", ""),
+//				new ReqItem("h264payload", "462", ""),
+//				new ReqItem("h263payload", "473", ""),
+//                new ReqItem("L16-256payload", "2400", ""),
+//                new ReqItem("h263resolution", "477", ""),
+//				new ReqItem("srtp", "443", ""),
+//				new ReqItem("encryptdigit", "2483", ""),
+//				new ReqItem("codecpri", "29161", ""),
+//				new ReqItem("silencesup", "485", ""),
+//				new ReqItem("vocfp", "486", ""),
+//				new ReqItem("g722rate", "2473", ""),
+//				new ReqItem("g722payload", "2474", ""),
+//                new ReqItem("g7221crate", "26117", ""),
+//                new ReqItem("g7221cpayload", "26116", ""),
+//				new ReqItem("opuspayload", "2485", ""),
+//				new ReqItem("g723rate", "493", ""),
+//				new ReqItem("jitterbt", "498", ""),
+//				new ReqItem("jitterb", "497", ""),
+//				new ReqItem("jittermax", "2481", ""),
+//				new ReqItem("remotevideo", "2426", ""),
+//				new ReqItem("enablerfc", "478", ""),
+//                new ReqItem("enablertx", "26185", ""),
+//				new ReqItem("enablefec", "2493", ""),
+//				new ReqItem("fecmode", "26122", ""),
+//				new ReqItem("fecpayload", "2494", ""),
+//				//new ReqItem("fecredpayload", "26107", ""),
+//				new ReqItem("feccpayload", "26108", ""),
+//				new ReqItem("enablefecc", "26104", ""),
+//			    new ReqItem("vbrate", "2415", ""),
+//				new ReqItem("sdpattr", "2460", ""),
+//				new ReqItem("slientrtp", "2428", ""),
+//                new ReqItem("vidframerate", "25005", ""),
+//                new ReqItem("disablepresent", "26101", ""),
+//                new ReqItem("initialinvite", "sendPreMode_1", ""),
+//                new ReqItem("presentimagesize", "2476", ""),
+//                new ReqItem("presentprofile", "2477", ""),
+//                new ReqItem("presentvideobitrate", "2478", ""),
+//                new ReqItem("presentsdpsetting", "2479", ""),
+//                new ReqItem("presentvideoframebate", "26142", ""),
+//                //new ReqItem("usefvcode", "2448", ""),
+//                new ReqItem("enableframeskip", "25011", ""),
+//				new ReqItem("enablevideo", "461", "")
 			);
 			break;
 
@@ -1266,7 +1271,7 @@ function update_jitter_length()
 		$("#jitterbldiv").hide();
 	}else
 	{
-	    if( accountindex != "4" )
+	    if( accountindex != "4" && accountindex != "2" )
 		    $("#jitterbldiv").show();
 	}
 }
