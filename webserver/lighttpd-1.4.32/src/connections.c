@@ -23484,7 +23484,12 @@ int apply_cache_pvalue(int init)
     {
 #ifdef BUILD_ON_ARM
         printf("nvram set %s to %s\n", curPtr->pvalue, curPtr->data  );
-        nvram_set( curPtr->pvalue, curPtr->data );
+
+        if (!strcmp(curPtr->pvalue, "464") || !strcmp(curPtr->pvalue, "465") || !strcmp(curPtr->pvalue, "475")) {
+            nvram_l1set(curPtr->pvalue, curPtr->data);
+        } else {
+            nvram_set( curPtr->pvalue, curPtr->data );
+        }
 #endif
         prePtr = curPtr;
         curPtr = curPtr->next;
