@@ -185,6 +185,8 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define SIGNAL_FECC_GOTO_LOCAL_PRESET     "local_camera_activate_preset"
 #define SIGNAL_FECC_SAVE_REMOTE_PRESET     "remote_camera_store_preset"
 #define SIGNAL_FECC_GOTO_REMOTE_PRESET     "remote_camera_activate_preset"
+#define SIGNAL_QR_SCAN_SUCCESS      "qr_scan_success"
+#define SIGNAL_QR_CONFIG_COMPLETED  "qr_config_completed"
 #define TMP_CERT_PATH           "/tmp/upload_certs"
 #define TMP_CERT                "/tmp/content_certs"
 #define PROC_IF_INET6_PATH      "/proc/net/if_inet6"
@@ -8670,6 +8672,29 @@ static int handle_gettcpserverstate(server *srv, connection *con, buffer *b, con
     free(temp);
 }
 
+void send_qrcode_dbus_to_gui(char *sig)
+{
+    DBusMessage* message;
+
+    if ( bus == NULL )
+    {
+        printf( "Error: Dbus bus is NULL\n" );
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+
+    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, sig);
+    if ( message == NULL )
+    {
+        printf( "message is NULL\n" );
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+
+    dbus_message_append_args( message, DBUS_TYPE_INVALID );
+
+    dbus_connection_send( bus, message, NULL );
+    dbus_message_unref( message );
+}
+
 static int handle_check_qr_token(server *srv, connection *con, buffer *b, const struct message *m)
 {
     char *token = msg_get_header(m, "t");
@@ -8682,6 +8707,9 @@ static int handle_check_qr_token(server *srv, connection *con, buffer *b, const 
         memset(qrtoken, 0, sizeof(qrtoken));
         strcpy(newloginuser, "quickauth");
         strcpy(curuser, "quickauth");
+
+        send_qrcode_dbus_to_gui(SIGNAL_QR_SCAN_SUCCESS);
+
         return 1;
     }else {
         buffer_append_string(b, "{\"res\": \"error\", \"msg\": \"authentication failed\"}");
@@ -21861,6 +21889,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             handle_applyresponse(b);
             buffer_append_string(b, res);
             buffer_append_string(b, "Cookie Valid");
+            send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
         } else {
             buffer_append_string(b, "Cookie Invalid");
         }
