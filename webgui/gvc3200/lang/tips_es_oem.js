@@ -725,7 +725,7 @@ tip_item.push (
     new TipsDef("Validate Server Certificate",
         "Configure si validar el certificado del servidor cuando se descargue el firmware/archivo de configuración. Si se establece en \"Si\", el teléfono descargará el firmware/archivo de configuración solo desde el servidor legítimo. El ajuste por defecto es \"No\"."),
     new TipsDef("Allow DHCP Option 43 and Option 66 Override Server",
-        "Si la opción DHCP 43 or opción DHCP 66 está en ON en la LAN, el ajuste del servidor TFTP puede ser anulado. El ajuste por defecto es \"Si\"."),
+        "If DHCP option 43 or DHCP option 66 is turned ON in the LAN, the device will reset the configuration CPE, upgrade, network vlan Tag, and Priority according to option 43 sent by the server. At the same time, the update mode and server path of the configuration upgrade module will be reset according to the option 66 sent by the server. The default setting is \"on\"."),
     
     new TipsDef("Automatic Upgrade",
         "Habilite la actualización y aprovisionamiento automática HTTP. El ajuste por defecto es \"Revisar todos los días\"."),

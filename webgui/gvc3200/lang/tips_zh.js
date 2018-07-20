@@ -723,7 +723,7 @@ tip_item.push (
     new TipsDef("Validate Server Certificate", "验证服务器证书",
         "此项用于设置下载固件/配置文件时是否验证服务器证书。若勾选，则设备仅从验证合法的服务器上下载固件/配置文件。默认设置为“否”。"),
     new TipsDef("Allow DHCP Option 43 and Option 66 Override Server", "启动DHCP选项43和66服务器设置",
-        "如果在局域网内开启该项，TFTP服务器可能被重定向。<br>注意：在设备固件升级过程中TFTP服务器被重定向将可能导致升级错误，更多信息请参考用户手册。"),
+        "如果在局域网内开启该项，设备将会根据服务器下发的选项43内容对配置CPE、升级、网络vlan Tag和Priority进行重新设置。同时将会根据服务器下发的选项66内容对配置升级模块的更新方式和服务器路径进行重新设置。默认开启。"),
     
     new TipsDef("Automatic Upgrade", "自动升级",
         "若启用该项，设备将根据配置的时间自动请求升级。默认设置为“每天检查”。"),
