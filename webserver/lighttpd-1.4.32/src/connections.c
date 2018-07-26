@@ -185,6 +185,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define SIGNAL_FECC_GOTO_LOCAL_PRESET     "local_camera_activate_preset"
 #define SIGNAL_FECC_SAVE_REMOTE_PRESET     "remote_camera_store_preset"
 #define SIGNAL_FECC_GOTO_REMOTE_PRESET     "remote_camera_activate_preset"
+#define SIGNAL_QR_REFRESH  "qr_refresh"
 #define SIGNAL_QR_SCAN_SUCCESS      "qr_scan_success"
 #define SIGNAL_QR_CONFIG_COMPLETED  "qr_config_completed"
 #define TMP_CERT_PATH           "/tmp/upload_certs"
@@ -5306,6 +5307,31 @@ static int get_ipv6_dns_server(char *dns_server, int dns_type) {
     return 0;
 }
 
+static int network_connect_status(int net_type) {
+    int ret = 0;
+
+    if (net_type == 1)
+        system("getprop dhcp.eth0.ipaddress > /tmp/net");
+    else if (net_type == 2)
+        system("getprop dhcp.wlan0.ipaddress > /tmp/net");
+
+    FILE *fp = fopen("/tmp/net", "r");
+    char line[64] = "";
+
+    if (fp != NULL)
+    {
+        fgets(&line, sizeof(line), fp);
+
+        if (strcmp(line, "")) {
+            ret = 1;
+        }
+
+        fclose(fp);
+    }
+
+    return ret;
+}
+
 static void print_iter( DBusMessage *message, int depth)
 {
     DBusMessageIter iter;
@@ -8698,8 +8724,10 @@ void send_qrcode_dbus_to_gui(char *sig)
 static int handle_check_qr_token(server *srv, connection *con, buffer *b, const struct message *m)
 {
     char *token = msg_get_header(m, "t");
-    if(check_qr_cookie(con)){
+    if(check_qr_cookie(con)) {
         buffer_append_string(b, "{\"res\": \"success\", \"msg\": \"authentication accepted\"}");
+        send_qrcode_dbus_to_gui(SIGNAL_QR_SCAN_SUCCESS);
+
         return 0;
     }
 
@@ -10278,6 +10306,8 @@ static int handle_network (server *srv, connection *con,
     const char *resType = NULL;
     int ipv4_type = 0;
     int ipv6_type = 0;
+    int isEthernetConnected = 0;
+    int isWifiConnected = 0;
     resType = msg_get_header(m, "format");
 #ifdef BUILD_ON_ARM
     char *p_value = nvram_get("wan_device");
@@ -10490,6 +10520,9 @@ static int handle_network (server *srv, connection *con,
         buffer_append_string (b, res);
     }
 
+    isEthernetConnected = network_connect_status(1);
+    isWifiConnected = network_connect_status(2);
+
 #ifdef BUILD_ON_ARM
     val = nvram_my_get ("8");
 #else
@@ -10524,8 +10557,9 @@ static int handle_network (server *srv, connection *con,
 
         sprintf(info,
                 "{\"res\" : \"success\", \"mac\" : \"%s\", \"ip\" : \"%s\", \"mask\" : \"%s\", \"gateway\" : \"%s\", \"dns\" : \"%s\","
-                "\"dns2\" : \"%s\",  \"type\" : \"%s\", \"ipv6\":\"%s\", \"ipv6dns1\":\"%s\", \"ipv6dns2\":\"%s\", \"ipv6type\":\"%s\"}",
-                mac, ip, mask, gateway, dns,dns2, type, ipv6, ipv6dns1, ipv6dns2, ipv6type);
+                "\"dns2\" : \"%s\",  \"type\" : \"%s\", \"ipv6\":\"%s\", \"ipv6dns1\":\"%s\", \"ipv6dns2\":\"%s\", \"ipv6type\":\"%s\""
+                "\"ethstatus\":\"%d\", \"wifistatus\":\"%d\"}",
+                mac, ip, mask, gateway, dns,dns2, type, ipv6, ipv6dns1, ipv6dns2, ipv6type, isEthernetConnected, isWifiConnected);
         temp = info;
         temp = build_JSON_formate( srv, con, m, temp );
 
@@ -10565,6 +10599,13 @@ static int handle_network (server *srv, connection *con,
             snprintf(res, sizeof(res), "ipv6type=static\r\n" );
         }
         buffer_append_string (b, res);
+
+        snprintf(res, sizeof(res), "ethstatus=%d\r\n", isEthernetConnected );
+        buffer_append_string(b, res);
+
+        snprintf(res, sizeof(res), "wifistatus=%d\r\n", isWifiConnected );
+        buffer_append_string(b, res);
+
     }
     
     return 1;
@@ -21875,6 +21916,52 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
 #endif
     }else if(!strcasecmp(action,"getconnectstate")){
         handle_getconnectstate( srv, con, b, m );
+    } else if (region != NULL && !strcmp(region, "quickconf")) {
+        if (!strcasecmp(action, "checkqrtoken")) {
+            int res = handle_check_qr_token(srv, con, b, m);
+            if(res) {
+                authenticate_success_response(srv, con, b, m, 1);
+            }
+        } else if (check_qr_cookie(con)) {
+            if (!strcasecmp(action, "getacctconf")) {
+                handle_get(b, m);
+            } else if (!strcasecmp(action, "acctquickconf")) { 
+                handle_put(b, m);
+                handle_applypvalue(b, m);
+                handle_applyresponse(b);
+                buffer_append_string(b, res);
+                buffer_append_string(b, "Cookie Valid");
+            } else if (!strcasecmp(action, "getlanguages")) {
+                handle_getlanguages(b);
+            } else if (!strcasecmp(action, "gettimezone")) {
+                handle_callservice_by_no_param(srv, con, b, m, "getTimeZoneList");
+            } else if (!strcasecmp(action, "get")) {
+                handle_get(b, m);
+            } else if (!strcasecmp(action, "network")) {
+                handle_network(srv, con, b, m);
+            } else if (!strcasecmp(action, "savetimeset")) {
+                handle_savetimeset(b, m);
+            } else if (!strcasecmp(action, "putlanguage")) {
+                handle_putlanguage(b, m);
+            } else if (!strcasecmp(action, "savelockpwd")) {
+                handle_webservice_by_one_param(srv, con, b, m, "newlock", "setScreenLock", 1);
+            } else if (!strcasecmp(action, "put")) {
+                handle_put(b, m);
+            } else if (!strcasecmp(action, "sqlitedisplay")) {
+                handle_sqlitedisplay(b, m);
+            } else if (!strcasecmp(action, "setSitesettingInfo")) {
+                handle_setSitesettingInfo(srv, con,b, m);
+            } else if (!strcasecmp(action, "refreshqrcode")) {
+                send_qrcode_dbus_to_gui(SIGNAL_QR_REFRESH);
+                buffer_append_string(b, "response=success");
+            } else if (!strcasecmp(action, "quickconfdone")) {
+                send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
+                buffer_append_string(b, "response=success");
+            }
+        } else {
+            buffer_append_string(b, "Cookie Invalid");
+        }
+    /*
     } else if (!strcasecmp(action, "checkqrtoken")) {
         int res = handle_check_qr_token(srv, con, b, m);
         if(res){
@@ -21889,12 +21976,21 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             handle_applyresponse(b);
             buffer_append_string(b, res);
             buffer_append_string(b, "Cookie Valid");
-            send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
         } else {
             buffer_append_string(b, "Cookie Invalid");
         }
-    } 
-    else if (valid_connection(con)) {
+    } else if (!strcasecmp(action, "refreshqrcode")) {
+        if(check_qr_cookie(con)) {
+            send_qrcode_dbus_to_gui(SIGNAL_QR_REFRESH);
+            buffer_append_string(b, "response=success");
+        } else {
+            buffer_append_string(b, "Cookie Invalid");
+        }
+    } else if (!strcasecmp(action, "quickconfdone")) {
+        send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
+        buffer_append_string(b, "response=success");
+    */
+    } else if (valid_connection(con)) {
         int findcmd = 1;
 #ifndef BUILD_RECOVER
         if (protected_command_find(command_protect, action))
