@@ -1,201 +1,1737 @@
 <!DOCTYPE html>
-<meta charset="utf-8" />
-<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <html>
 <head>
-<title>账号快速配置</title>
-<script type="text/javascript" src='js/jquery.tools.min.js'></script>
-<style>
-*{margin: 0; padding: 0;}
-body{font-size: 20px; height: 100%; max-width: 600px; margin: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; text-align: center;}
-input{border: none; border-bottom: 1px inset #bbb;}
-input::-webkit-input-placeholder{font-size: 16px;}
-input:-ms-input-placeholder{font-size: 16px;}
-::-moz-placeholder{font-size: 16px;}
-button {border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 16px; height: 30px; min-width: 82px; font-family: Arial;}
-.acctitle{margin: 30px 0 15px 0; font-size: 24px; font-weight: bold;}
-.config-div{margin: 10px 0; height: 40px; line-height: 40px;}
-.config-div input{width: 75%; height: 30px; font-size: 16px;}
-.config-label{width: 75%; text-align: left; margin-left: 12.5%; position: relative;}
-.config-label input{position: absolute; top: 9px; left: 80px; width: 15px; height: 15px;}
-.config-label .config-yes{position: absolute; line-height: 34px; left:100px;}
-.opera-btn{margin-top: 40px; width: 75%; margin-left: 12.5%;}
-.opera-btn button{width: 35%; cursor: pointer;}
-.acct-active{margin: 10px 0; height: 30px; line-height: 30px;}
-.acct-active span{font-size: 16px;}
-.acct-active div{float: left;}
-.save-btn{background: #5089BA; float: left; margin-left: 10%;}
-.save-btn:hover{background: #186DB7;}
-.reset-btn{background: #777777; float: right; margin-right: 10%;}
-.reset-btn:hover{background: #595959;}
-#propmtip{font-size: 14px; width: 100%; text-align: center; height: 15px; line-height: 15px;}
-#propmtip span{display: none;}
-#ret2{position: absolute; margin:auto; top:-20px; bottom:0; left:0; right:0; height: 20px; width: 100%; font-size: 18px}
-#ret1, #ret2{display: none;}
-</style>
+    <title>账号快速配置</title>
+    <script type="text/javascript" src='js/jquery.tools.min.js'></script>
+    <script type="text/javascript" src='/js/jquery.cookie.js'></script>
+    <script type="text/javascript" src='/js/jquery.stylish-select.min.js'></script>
+    <style>
+        * {margin: 0;  padding: 0;  }
+        body {  font-size: 16px;  height: 100%;  max-width: 600px;  margin: auto;  position: absolute;  top: 0;
+            bottom: 0;  left: 0;  right: 0;  text-align: center;  background-color: #efeff4;  }
+        .mask{position: absolute; top: 0; left:0; right:0;bottom:0; background: rgba(55,55,55, 0.2);}
+        #notic{ position: relative; top: 40px;font-size: 14px;  width: 100%; text-align: center;  line-height: 20px; z-index: 1000;}
+        #message{position: absolute;left: 50%; transform: translateX(-50%);border-radius: 4px;  padding: 5px 10px;  background-color: white;  border: 1px solid #c8c7cc;word-break: break-all; }
+        .modal-mask{position: fixed;top:0; right:0;left:0; bottom: 0;background-color: rgba(55, 55, 55, 0.6); height: 100%}
+        .wrap{position: fixed;  overflow: auto;  top: 0;  right: 0;  bottom: 0;  left: 0;  z-index: 100;  outline: 0; background-color: transparent;}
+        div{text-align: left; }
+        input {  border: none; caret-color:#007aff; font-size: 16px;outline: medium;}
+        input::-webkit-input-placeholder {  font-size: 16px; color:#c7c7cc; }
+        input:-ms-input-placeholder {  font-size: 16px; color:#c7c7cc; }
+        ::-moz-placeholder {  font-size: 16px; color:#c7c7cc; }
+        ul::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 1px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: #a6a6a6;
+        }
+        button {  border: none;  border-radius: 4px;  color: white;  cursor: pointer;  font-size: 16px;  height: 30px;  min-width: 82px;  font-family: Arial;  }
+        .config-title {  text-align: left;  margin: 50px 0 10px 20px;  font-size: 15px;  color:#155bff;  }
+        .config-div { margin: 10px 0;  height: 40px;  line-height: 40px;  }
+        .config-div input {  width: 75%;  height: 30px;  font-size: 16px;  }
+        .config-label {  width: 75%;  text-align: left;  margin-left: 12.5%;  position: relative;  }
+        .config-label input {  position: absolute;  top: 9px;  left: 80px;  width: 15px;  height: 15px;  }
+        .config-label .config-yes {  position: absolute;  line-height: 34px;  left: 100px;  }
+        .opera-btn {  margin-top: 40px;  width: 75%;  margin-left: 12.5%;  }
+        .opera-btn button {  width: 35%;  cursor: pointer;  }
+        .acct-active {  margin: 10px 0;  height: 30px;  line-height: 30px;  }
+        .acct-active span {  font-size: 16px;  }
+        .acct-active div {  float: left;  }
+        #propmtip {  font-size: 14px;  width: 100%;  text-align: center;  height: 15px;  line-height: 15px;  }
+        #propmtip span {  display: none;  }
+        #ret2 { position: absolute;  margin: auto;  top: -20px;  bottom: 0;  left: 0;  right: 0;  height: 20px;  width: 100%;  font-size: 18px  }
+        .mask, #accountconf, #ret2, #setlanguage, #clanguage,#settimezone, #timezone-div, #setnetwork{ display: none;}
+        .lang ul, #timezone{ max-height: 350px; cursor: pointer;list-style: none; outline: none;text-align: left;  border: 1px solid #eceff2;overflow: auto;
+            -webkit-tap-highlight-color : rgba(0, 0, 0, 0);background-color: white; }
+        .selectDiv, .selectDiv2{width: 100% ; height: 40px;line-height:40px;border-top:1px solid #c8c7cc;border-bottom:1px solid #c8c7cc; font-size: 16px;background-color: white;}
+        .selectDiv div:first-child{position:absolute;width:100px;left: 20px;text-align: left;}
+        .selectDiv div:nth-child(2){ position:absolute; left:110px; right:45px;text-align: right; color:#8e8e93; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+        /*#selectedlang, #selectedtimezone{float:left; padding-left: 20px;}*/
+        .selectDiv2 div:first-child{position: absolute; left:17px;right:45px; text-align: left;text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+        .arrow{position:absolute;right:0px;width:8px;height:13px;margin: 15px 15px 15px 10px;  background: url('/img/quickconf/arrow_details_icon.png') 8px 13px;-webkit-background-size: cover;  background-size: cover;}
+        .clang_item, #timezone li{ position: relative;eight: 40px;line-height: 40px;padding-left:20px;border-bottom: 1px solid #eceff2; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+        .buttom-btn{height:45px;}
+        .buttom-btn button{height:45px;width:50%;background-color:white;color:#155bff;border-radius: 0;}
+        .buttom-btn button:first-child{ border-right:1px solid #eceff2; border-bottom-left-radius: 8px;}
+        .buttom-btn button:last-child{ border-bottom-right-radius: 8px;}
+        #setlanguage .lang-next-step, .step-btn{position: absolute;width: 100%; bottom: 45px;text-align: center;}
+        #setlanguage .lang-next-step button{width:80%;;min-width: 150px;height:50px;line-height:50px;border-radius:8px;background-color: #155bff; color: white; font-size: 16px;}
+        .step-btn button{width: 40%; min-width: 100px;height:50px;line-height:50px;border-radius:6px; border:1px solid #bcbbc1;background-color: #fefefe;color: #000000; font-size: 20px}
+        .step-btn button:last-child {margin-left: 10px; background-color: #007aff;color: white; }
+        .step-btn button:disabled{background-color: #9B9B9B;cursor: not-allowed;}
+        #ethernet-pic, #wifi-pic{ position: absolute;top: 6px;width:29px;height: 29px;}
+        .ethconnect{background: url("/img/quickconf/ethernet_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .ethdisconnect{background: url("/img/quickconf/ethernet_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .wificonnect{background: url("/img/quickconf/wifi_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .wifidisconnect{background: url("/img/quickconf/wifi_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        #selectproto ul li, #selectaddrtype ul li, #selectip6addrtype ul li{height: 40px;line-height: 40px;padding-left:20px;border-bottom: 1px solid #eceff2;position: relative; }
+        #selectproto ul li span,#selectaddrtype ul li span, #selectip6addrtype ul li span{position: absolute;  right: 40px;  left: 20px;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden;}
+        #selectproto ul li input + div,#selectaddrtype ul li input + div, #selectip6addrtype ul li input + div{position:absolute;right: 20px;top: 10px;}
+        #selectproto ul li input[checked="checked"] + div,#selectaddrtype ul li input[checked="checked"] + div,#selectip6addrtype ul li input[checked="checked"] + div
+        {width: 20px;height: 20px;background:url("/img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
+        /*#selectproto ul li input[checked="checked"] + div,#selectaddrtype ul li input[checked="checked"] + div{width: 10px;height: 10px;background-color: white;}*/
+        .modal-title{height: 40px;line-height:40px;font-size:16px;padding-left:20px;background-color:#155bff;border-radius: 8px 8px 0 0; color: white;}
+        #protocol-cancel, #sel-addrtype-cancel, #sel-addr6type-cancel{height: 40px;  line-height: 40px; text-align: center;color:#155bff}
+        .config-box{margin-top: 30px;  padding-left: 20px; font-size: 16px; background-color:white; border-bottom: 0.5px solid #c8c7cc;border-top: 0.5px solid #c8c7cc;}
+        .config-box .g_conf{position: relative;  height: 40px;line-height: 40px;border-bottom: 1px inset #eceff2;}
+        .config-box .g_conf span{ position: absolute;  right: 140px;  left: 0px;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden;}
+        .config-box .g_conf input{position: absolute;  width:130px;top:10px;right:20px;border:none;padding-left: 10px;color:#8e8e93; text-align:right;background-color:transparent;}
+
+        #acctactive{position: absolute;top:11px; right:20px;width:22px;height: 22px;}
+        .accountactive{background: url("/img/quickconf/checked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .accountinactive{background: url("/img/quickconf/unchecked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        input[type="radio"]{display: none;}
+        div .active{ position: absolute; top: 10px; right: 20px; width: 20px;  height: 20px; background:url("/img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
+        .qr-pic{ width: 300px; height: 206px; margin: 30px auto;}
+        .qrinvalid-pic{background: url("/img/quickconf/qr_code_invalid_image.png");  -webkit-background-size: cover;  background-size: cover;}
+        #setpwd{  position: relative;  }
+        #setpwd input{  width: 45px;height:45px; font-size: 30px;text-align: center; border: 1px solid #c8c7cc; -webkit-text-security:disc;text-security:disc;}
+        #pwdmask1, #pwdmask2{ position:absolute; top:0; left:0; right:0; bottom: 0; }
+        .content{position: absolute;left: 5px;right: 5px;bottom: 15px;background: white;font-size: 16px;border-radius: 8px;}
+    </style>
 </head>
 <body>
-    <div id='ret1'>
-        <p class="acctitle">帐号配置</p>
-        <p id="propmtip"><span></span></p>
-        <div webtip="Account Active" class="acct-active">
-            <div class="config-label">
-                <span id="a_accountactive">帐号激活</span> 
-                <input name="acctactive" type="checkbox" id="acctactive" /><span id="a_accountacyes" class="config-yes"> 是</span>
+
+<div id="notic" style="display: none;"><div id="message"></div></div>
+<div id="setlanguage">
+    <p class="config-title">选择语言</p>
+    <div class="lang">
+        <div class="selectDiv"><div>语言</div><div id="selectedlang"></div><div class="arrow"></div></div>
+        <div class="lang-next-step"><button>下一步</button></div>
+        <div id="clanguage" style="z-index: 100;">
+            <div class="modal-mask"></div>
+            <div class="wrap">
+                <div class="content">
+                    <div style="height: 15px;"></div>
+        <ul class="clang">
+            <li id="ja_JP" class="clang_item">日本語<div></div></li>
+            <li id="zh_TW" class="clang_item">中文 (台湾)<div></div></li>
+            <li id="zh_CN" class="clang_item">中文 (简体)<div></div></li>
+            <li id="zh_HK" class="clang_item">中文 (香港)<div></div></li>
+            <li id="in_ID" class="clang_item">Bahasa Indonesia<div></div></li>
+            <li id="ms_MY" class="clang_item">Bahasa Melayu<div></div></li>
+            <li id="af_ZA" class="clang_item">Afrikaans<div></div></li>
+            <li id="ca_ES" class="clang_item">Català<div></div></li>
+            <li id="cs_CZ" class="clang_item">Čeština<div></div></li>
+            <li id="da_DK" class="clang_item">Dansk<div></div></li>
+            <li id="de_DE" class="clang_item">Deutsch (Deutschland)<div></div></li>
+            <li id="de_LI" class="clang_item">Deutsch (Liechtenstein)<div></div></li>
+            <li id="de_AT" class="clang_item">Deutsch (Österreich)<div></div></li>
+            <li id="de_CH" class="clang_item">Deutsch (Schweiz)<div></div></li>
+            <li id="en_AU" class="clang_item">English (Australia)<div></div></li>
+            <li id="en_CA" class="clang_item">English (Canada)<div></div></li>
+            <li id="en_NZ" class="clang_item">English (New Zealand)<div></div></li>
+            <li id="en_SG" class="clang_item">English (Singapore)<div></div></li>
+            <li id="en_GB" class="clang_item">English (United Kingdom)<div></div></li>
+            <li id="en_US" class="clang_item">English (United States)<div></div></li>
+            <li id="es_ES" class="clang_item">Español (España)<div></div></li>
+            <li id="es_US" class="clang_item">Español (Estados Unidos)<div></div></li>
+            <li id="tl_PH" class="clang_item">Filipino<div></div></li>
+            <li id="fr_BE" class="clang_item">Français (Belgique)<div></div></li>
+            <li id="fr_CA" class="clang_item">Français (Canada)<div></div></li>
+            <li id="fr_FR" class="clang_item">Français (France)<div></div></li>
+            <li id="fr_CH" class="clang_item">Français (Suisse)<div></div></li>
+            <li id="hr_HR" class="clang_item">Hrvatski<div></div></li>
+            <li id="zu_ZA" class="clang_item">IsiZulu<div></div></li>
+            <li id="it_IT" class="clang_item">Italiano (Italia)<div></div></li>
+            <li id="it_CH" class="clang_item">Italiano (Svizzera)<div></div></li>
+            <li id="sw_TZ" class="clang_item">Kiswahili<div></div></li>
+            <li id="lv_LV" class="clang_item">Latviešu<div></div></li>
+            <li id="lt_LT" class="clang_item">Lietuvių<div></div></li>
+            <li id="hu_HU" class="clang_item">Magyar<div></div></li>
+            <li id="nl_BE" class="clang_item">Nederlands (België)<div></div></li>
+            <li id="nl_NL" class="clang_item">Nederlands (Nederland)<div></div></li>
+            <li id="nb_NO" class="clang_item">Norsk bokmål<div></div></li>
+            <li id="pl_PL" class="clang_item">Polski<div></div></li>
+            <li id="pt_BR" class="clang_item">Português (Brasil)<div></div></li>
+            <li id="pt_PT" class="clang_item">Português (Portugal)<div></div></li>
+            <li id="ro_RO" class="clang_item">Română<div></div></li>
+            <li id="rm_CH" class="clang_item">Romansh<div></div></li>
+            <li id="sk_SK" class="clang_item">Slovenčina<div></div></li>
+            <li id="sl_SI" class="clang_item">Slovenščina<div></div></li>
+            <li id="fi_FI" class="clang_item">Suomi<div></div></li>
+            <li id="sv_SE" class="clang_item">Svenska<div></div></li>
+            <li id="vi_VN" class="clang_item">Tiếng Việt<div></div></li>
+            <li id="tr_TR" class="clang_item">Türkçe<div></div></li>
+            <li id="el_GR" class="clang_item">Ελληνικά<div></div></li>
+            <li id="bg_BG" class="clang_item">Български<div></div></li>
+            <li id="ru_RU" class="clang_item">Русский<div></div></li>
+            <li id="sr_RS" class="clang_item">Српски<div></div></li>
+            <li id="uk_UA" class="clang_item">Українська<div></div></li>
+            <li id="iw_IL" class="clang_item">עברית<div></div></li>
+            <li id="ar_EG" class="clang_item">العربية<div></div></li>
+            <li id="fa_IR" class="clang_item">فارسی<div></div></li>
+            <li id="am_ET" class="clang_item">አማርኛ<div></div></li>
+            <li id="hi_IN" class="clang_item">हिन्दी<div></div></li>
+            <li id="th_TH" class="clang_item">ไทย<div></div></li>
+            <li id="ko_KR" class="clang_item">한국어<div></div></li>
+        </ul>
+                <div class="buttom-btn"><button id="lang-cancel">取消</button><button id="lang-confirm">确定</button></div>
+                </div></div>
+        </div>
+    </div>
+</div>
+
+<div id="settimezone" class="">
+    <p class="config-title">选择时区</p>
+    <div class="selectDiv"><div>时区</div><div id="selectedtimezone"></div><div class="arrow"></div></div>
+    <div class="step-btn"><button id="time-back-btn">上一步</button><button id="time-next-step">下一步</button></div>
+    <div></div>
+    <div id="timezone-div" style="z-index: 100;">
+        <div class="modal-mask"></div>
+        <div class="wrap">
+            <div class="content">
+                <div style="height: 15px;"></div>
+        <ul id="timezone">
+            <li id="GMT">GMT<div></div></li>
+            <li id="Pacific-Midway">Midway Island</li>
+            <li id="Pacific-Honolulu">Hawaii</li>
+            <li id="America-Anchorage">Alaska</li>
+            <li id="America-Los_Angeles">Pacific Time</li>
+            <li id="America-Tijuana">Tijuana</li>
+            <li id="America-Phoenix">Arizona</li>
+            <li id="America-Chihuahua">Chihuahua</li>
+            <li id="America-Denver">Mountain Time</li>
+            <li id="America-Costa_Rica">Central America</li>
+            <li id="America-Chicago">Central Time</li>
+            <li id="America-Mexico_City">Mexico City</li>
+            <li id="America-Regina">Saskatchewan</li>
+            <li id="America-Bogota">Bogota</li>
+            <li id="America-New_York">Eastern Time</li>
+            <li id="America-Caracas">Venezuela</li>
+            <li id="America-Barbados">Atlantic Time (Barbados)</li>
+            <li id="America-Halifax">Atlantic Time (Canada)</li>
+            <li id="America-Manaus">Manaus</li>
+            <li id="America-Santiago">Santiago</li>
+            <li id="America-St_Johns">Newfoundland</li>
+            <li id="America-Recife">Recife</li>
+            <li id="America-Sao_Paulo" >Brasilia</li>
+            <li id="America-Argentina/Buenos_Aires" >Buenos Aires</li>
+            <li id="America-Godthab" >Greenland</li>
+            <li id="America-Montevideo">Montevideo</li>
+            <li id="Atlantic-South_Georgia">Mid-Atlantic</li>
+            <li id="Atlantic-Azores">Azores</li>
+            <li id="Atlantic-Cape_Verde">Cape Verde Islands</li>
+            <li id="Africa-Casablanca">Casablanca</li>
+            <li id="Europe-London">London</li>
+            <li id="Europe-Amsterdam">Amsterdam, Berlin</li>
+            <li id="Europe-Belgrade">Belgrade</li>
+            <li id="Europe-Brussels">Brussels</li>
+            <li id="Europe-Madrid">Madrid</li>
+            <li id="Europe-Sarajevo">Sarajevo</li>
+            <li id="Africa-Windhoek">Windhoek</li>
+            <li id="Africa-Brazzaville">W. Africa Time</li>
+            <li id="Asia-Amman">Amman, Jordan</li>
+            <li id="Europe-Athens">Athens, Istanbul</li>
+            <li id="Europe-Istanbul">Istanbul</li>
+            <li id="Asia-Beirut">Beirut, Lebanon</li>
+            <li id="Africa-Cairo">Cairo</li>
+            <li id="Europe-Helsinki">Helsinki</li>
+            <li id="Asia-Jerusalem">Jerusalem</li>
+            <li id="Europe-Minsk">Minsk</li>
+            <li id="Africa-Harare">Harare</li>
+            <li id="Asia-Baghdad">Baghdad</li>
+            <li id="Europe-Moscow">Moscow, St.Petersburg</li>
+            <li id="Asia-Kuwait">Kuwait</li>
+            <li id="Africa-Nairobi">Nairobi</li>
+            <li id="Asia-Tehran">Tehran</li>
+            <li id="Asia-Baku">Baku</li>
+            <li id="Asia-Tbilisi">Tbilisi</li>
+            <li id="Asia-Yerevan">Yerevan</li>
+            <li id="Asia-Dubai">Dubai</li>
+            <li id="Asia-Kabul">Kabul</li>
+            <li id="Asia-Karachi">Islamabad, Karachi</li>
+            <li id="Asia-Oral">Ural'sk</li>
+            <li id="Asia-Yekaterinburg">Yekaterinburg</li>
+            <li id="Asia-Calcutta">Kolkata, Chennai, New Delhi, Mumbai</li>
+            <li id="Asia-Colombo">Sri Lanka</li>
+            <li id="Asia-Katmandu">Kathmandu</li>
+            <li id="Asia-Almaty">Astana</li>
+            <li id="Asia-Rangoon">Yangon</li>
+            <li id="Asia-Krasnoyarsk">Krasnoyarsk</li>
+            <li id="Asia-Bangkok">Bangkok</li>
+            <li id="Asia-Jakarta">Jakarta</li>
+            <li id="Asia-Shanghai">Beijing</li>
+            <li id="Asia-Hong_Kong">Hong Kong</li>
+            <li id="Asia-Irkutsk">Irkutsk</li>
+            <li id="Asia-Kuala_Lumpur">Kuala Lumpur</li>
+            <li id="Australia-Perth">Perth</li>
+            <li id="Asia-Taipei">Taipei</li>
+            <li id="Asia-Seoul">Seoul</li>
+            <li id="Asia-Tokyo">Tokyo, Osaka</li>
+            <li id="Asia-Yakutsk">Yakutsk</li>
+            <li id="Australia-Adelaide">Adelaide</li>
+            <li id="Australia-Darwin">Darwin</li>
+            <li id="Australia-Brisbane">Brisbane</li>
+            <li id="Australia-Hobart">Hobart</li>
+            <li id="Australia-Sydney">Sydney, Canberra</li>
+            <li id="Asia-Vladivostok">Vladivostok</li>
+            <li id="Pacific-Guam">Guam</li>
+            <li id="Asia-Magadan">Magadan</li>
+            <li id="Pacific-Noumea">Noumea, New Caledonia</li>
+            <li id="Pacific-Majuro">Majuro</li>
+            <li id="Pacific-Auckland">Auckland</li>
+            <li id="Pacific-Fiji">Fiji</li>
+            <li id="Pacific-Tongatapu">Tonga</li>
+        </ul>
+
+        <div class="buttom-btn"><button id="timezone-cancel">取消</button><button id="timezone-confirm">确定</button></div>
+            </div></div>
+    </div>
+</div>
+
+
+<div id="setnetwork">
+    <p class="config-title">网络配置</p>
+    <div class="config-box" style="margin-top: 0;">
+        <div class="g_conf"><span>IP地址</span><span id="ipaddress" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
+        <div class="g_conf"><div id="ethernet-pic"></div><span style="left: 45px;">以太网</span><span id="ethernetstatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
+        <div class="g_conf" style="border-bottom: none;"><div id="wifi-pic"></div><span style="left: 45px;">Wi-FI</span><span id="wifistatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
+    </div>
+    <div class="selectDiv2" style="margin-top: 30px;"><div>高级网路设置</div><div class="arrow"></div></div>
+    <div class="step-btn"><button id="network-back-btn">上一步</button><button id="network-next-step">下一步</button></div>
+</div>
+
+
+<div id="setprefernetwork" style="display: none; margin-top: 20px">
+    <div id="prefer" class="selectDiv" style="margin-bottom: 50px;"><div>首选网络协议</div><div id="protocol-type"></div><div class="arrow"></div></div>
+    <div id="ipv4" class="selectDiv"><div>IPv4地址类型</div><div id="ipv4addtype1"></div><div class="arrow"></div></div>
+    <div id="ipv6" class="selectDiv" style="border-top: none;"><div>IPv6地址类型</div><div id="ipv6addtype1"></div><div class="arrow"></div></div>
+    <div class="step-btn"><button id="prefer-back-btn">上一步</button><button id="prefer-done">完成</button></div>
+    <div id="selectproto" style="display: none; z-index: 100;">
+        <div class="modal-mask"></div>
+        <div class="wrap">
+            <div class="content">
+                <ul style="list-style: none; outline: none;">
+                <li><span>首选IPv4</span><input name="protocoltype" value="0" type="radio" checked=true  /><div></div></li>
+                <li><span>首选IPv6</span><input name="protocoltype" value="1" type="radio"/><div></div></li>
+                <li><span>仅限IPv4</span><input name="protocoltype" value="2" type="radio"/><div></div></li>
+                <li><span>仅限IPv6</span><input name="protocoltype" value="3" type="radio"/><div></div></li>
+            </ul>
+                <div id="protocol-cancel">取消</div>
             </div>
         </div>
-        <div webtip="Account Name" class="config-div">
-            <input id="accountname" name="accountname" type="text" placeholder="帐号名称" />
-        </div>
-        <div webtip="SIP Server" class="config-div">
-            <input id="sipserver" name="sipserver" type="text" placeholder="SIP服务器" />
-        </div>
-        <div webtip="SIP User ID" class="config-div">
-            <input id="userid" name="userid" type="text" placeholder="SIP用户ID"/>
-        </div>
-        <div webtip="SIP Authentication ID" class="config-div">
-            <input id="authid" name="authid" type="text" placeholder="SIP认证ID"/>
-        </div>
-        <div webtip="SIP Authentication Password" class="config-div">
-            <input id="authpwd" name="sauthpwdserver" type="password" autocomplete="off" placeholder="SIP认证密码"/>
-        </div>
-        <div class="opera-btn">
-            <button id="savebtn" type="button" class="save-btn">保存</button>
-            <button id="resetbtn" type="button" class="reset-btn">重置</button>
+    </div>
+</div>
+
+
+
+
+<div id="ipv4config" style="display: none;margin-top: 20px;position:relative;min-height: 500px" class="">
+    <div class="selectDiv"><div>IPv4地址类型</div><div id="ipv4addtype2"></div><div class="arrow"></div></div>
+
+    <div id="staticipconf" class="config-box" style="display: none">
+        <div class="g_conf"><span>IP地址</span><input id="ipv4address" value="" type="text" placeholder="请输入地址"/></div>
+        <div class="g_conf"><span>子网掩码</span><input id="submask" type="text" placeholder="请输入地址"/></div>
+        <div class="g_conf"><span>默认网关</span><input id="dftgateway" type="text" placeholder="请输入地址"/></div>
+        <div class="g_conf"><span>DNS服务器1</span><input id="dnsserver1" type="text" placeholder="请输入地址"/></div>
+        <div class="g_conf" style="border-bottom: none;"><span>DNS服务器2</span><input id="dnsserver2" type="text" placeholder="请输入地址"/></div>
+    </div>
+    <div id="pppoeconf" class="config-box" style="display: none">
+        <div class="g_conf"><span>PPPoE账号ID</span><input id="ppoeaccount" type="text"/></div>
+        <div class="g_conf"><span>PPPoE密码</span><input id="ppoepassword" type="text"/></div>
+    </div>
+
+    <div id="selectaddrtype" style="display: none; z-index: 100;">
+        <div class="modal-mask"></div>
+        <div class="wrap">
+            <div class="content">
+            <ul style="list-style: none; outline: none;">
+                <li><span>DHCP</span><input name="networktype" value="0" type="radio" checked=true /><div></div></li>
+                <li><span>静态IP</span><input name="networktype" value="1" type="radio"  /><div></div></li>
+                <li><span>PPPoE</span><input name="networktype" value="2" type="radio"/><div></div></li>
+            </ul><div id="sel-addrtype-cancel">取消</div>
+            </div>
         </div>
     </div>
-    <div id="ret2">
-        二维码已失效，请更新二维码并重新扫描。
+    <div class="step-btn"><button id="ipv4config-back-btn">上一步</button><button id="ip4config-done">完成</button></div>
+</div>
+
+
+<div id="ipv6config" class="" style="display: none;margin-top: 20px;position:relative;min-height: 500px">
+    <div class="selectDiv"><div>IPv6地址类型</div><div id="ipv6addtype2"></div><div class="arrow"></div></div>
+
+    <div id="staticip6conf" class="config-box" style="display: none;">
+        <div class="g_conf"><span>静态IPv6地址</span><input id="staticipv6addr" type="text" placeholder="请输入地址"/></div>
+        <div class="g_conf"><span>IPv6前缀长度</span><input id="ipv6prefixlen" type="number" placeholder="请输入长度值"/></div>
+        <div class="g_conf"><span>DNS服务器1</span><input id="ipv6dns1" type="text" placeholder="请输入地址"/></div>
+        <div class="g_conf"><span>DNS服务器2</span><input id="ipv6dns2" type="text"placeholder="请输入地址"/></div>
     </div>
+
+    <div class="step-btn"><button id="ipv6config-back-btn">上一步</button><button id="ip6config-done">完成</button></div>
+
+
+    <div id="selectip6addrtype" style="display: none; z-index: 100;">
+        <div class="modal-mask"></div>
+        <div class="wrap">
+            <div class="content">
+                <ul style="list-style: none; outline: none;">
+                    <li><span>DHCP</span><input name="ipv6addr" value="0" type="radio" checked=true /><div></div></li>
+                    <li><span>静态IP</span><input name="ipv6addr" value="1" type="radio"  /><div></div></li>
+                </ul><div id="sel-addr6type-cancel">取消</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div id='accountconf' style="display:none;position:relative;min-height: 500px">
+    <p class="config-title">帐号配置</p>
+    <div webtip="Account Name" class="config-box" style="margin-top: 0px;">
+        <div class="g_conf"><span>帐号名称</span><input id="accountname" name="accountname" type="text" placeholder="帐号名称"/></div>
+        <div class="g_conf"><span>SIP服务器</span><input id="sipserver" name="sipserver" type="text" placeholder="SIP服务器"/></div>
+        <div class="g_conf"><span>SIP用户ID</span><input id="userid" name="userid" type="text" placeholder="SIP用户ID"/></div>
+        <div class="g_conf"><span>SIP认证ID</span><input id="authid" name="authid" type="text" placeholder="SIP认证ID"/></div>
+        <div class="g_conf"><span>SIP认证密码</span><input id="authpwd" name="sauthpwdserver" type="password" autocomplete="off" placeholder="SIP认证密码"/></div>
+        <div class="g_conf" style="border-bottom: none;"><span>显示名称</span><input id="displayname" name="displayname" type="text" placeholder="显示名称"/></div>
+        <div class="g_conf" style="display:none;border-top:#eceff2;border-bottom: none;"><span>会场名称</span><input id="sitename" name="sitename" type="text" placeholder="会场名称"/></div>
+    </div>
+    <div class="config-box">
+        <div class="g_conf" style="border-bottom: none;"><span>帐号激活</span> <div id="acctactive"></div></div>
+    </div>
+    <div class="step-btn"><button id="account-back-btn">上一步</button><button id="account-next-step">下一步</button></div>
+</div>
+
+<div id="pwddiv" style="display:none;position:relative;min-height: 500px">
+    <p class="config-title">设置锁屏密码</p>
+    <div id="setpwd">
+        <p style="text-align: center;margin: 26px 0 30px 0;font-size: 12px;color: #8f8f8f;">请输入6位数字密码</p>
+        <div id="first" style="position: relative;text-align: center;">
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel"  value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel"  value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <div id="pwdmask1"></div>
+        </div>
+        <div id="second" style="display:none;position: relative; text-align: center;">
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel"  value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel"  value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <div id="pwdmask2"></div>
+        </div>
+    </div>
+    <div class="step-btn"><button id="pwd-back-btn">上一步</button><button id="pwd-next-step" disabled="disabled">下一步</button></div>
+</div>
+
+<div id="qrdiv" style="display: none;">
+    <div style=" width: 100%;position: relative;margin: 50px auto; text-align: center">
+        <div class="qr-pic qrinvalid-pic">
+
+        </div>
+        <p>二维码失效，请刷新二维码。</p>
+    </div>
+    <div class="step-btn"><button id="refreshqr" style="width: 80%;max-width: 300px;">刷新二维码</button></div>
+</div>
+<script src='/lang/zh.js'></script>
+<!--<script type="text/javascript" src='/js/public.js'></script>-->
 <script type='text/javascript'>
-$(function(){
-    var hash = location.hash;
-    if (hash) {
-        hash = hash.substring(1);
-    }
-    var checkres = false;
-    var urihead = "action=checkqrtoken&t=" + hash + "&format=json&jsoncallback=&time=" + new Date().getTime();
-    $.ajax({
-        type: 'get',
-        url: '/manager',
-        data: urihead,
-        async: false,
-        success: function(data) {
-            var tObj = eval("(" + data + ")");
-            if (tObj.res == "success") {
-                $("#ret1").show();
-                $("#ret2").hide();
-                checkres = true;
-            } else {
-                $("#ret2").show();
-                $("#ret1").hide();
-            }
-        },
-        error() {
+    var position = 0, isnetworkvisited = false;
+    var langobj = {curlangId:"",clickedlangId:"",isvisited:false};
+    var timezoneobj ={curtimezoneId:"",clickedtimezoneId:"",isvisited:false};
+    var networkconfigObj = {isvisited:false};
+    var accountobj ={isvisited:false};
+    var account_req_items = new Array;
+    account_req_items.push(
+        new ReqItem("acctactive", "271", ""),
+        new ReqItem("accountname", "270", ""),
+        new ReqItem("sipserver", "47", ""),
+        new ReqItem("userid", "35", ""),
+        new ReqItem("authid", "36", ""),
+        new ReqItem("displayname", "3", "")
+    );
+
+    var network_req_items = new Array();
+    network_req_items.push(
+        new ReqItem("protocoltype", "1415", ""),
+        new ReqItem("networktype", "8", ""),
+        new ReqItem("ppoeaccount", "82", ""),
+        new ReqItem("ppoepassword", "83", ""),
+        new ReqItem("pppoeservice", "269", ""),
+        new ReqItem("ipaddr1", "9", ""),
+        new ReqItem("ipaddr2", "10", ""),
+        new ReqItem("ipaddr3", "11", ""),
+        new ReqItem("ipaddr4", "12", ""),
+        new ReqItem("mask1", "13", ""),
+        new ReqItem("mask2", "14", ""),
+        new ReqItem("mask3", "15", ""),
+        new ReqItem("mask4", "16", ""),
+        new ReqItem("gateway1", "17", ""),
+        new ReqItem("gateway2", "18", ""),
+        new ReqItem("gateway3", "19", ""),
+        new ReqItem("gateway4", "20", ""),
+        new ReqItem("prednsser1", "21", ""),
+        new ReqItem("prednsser2", "22", ""),
+        new ReqItem("prednsser3", "23", ""),
+        new ReqItem("prednsser4", "24", ""),
+        new ReqItem("alerdnsser1", "25", ""),
+        new ReqItem("alerdnsser2", "26", ""),
+        new ReqItem("alerdnsser3", "27", ""),
+        new ReqItem("alerdnsser4", "28", ""),
+        new ReqItem("ipv6addr", "1419", ""),
+        new ReqItem("staticipv6addr", "1420", ""),
+        new ReqItem("ipv6prefixlen", "1421", ""),
+        new ReqItem("ipv6dns1", "1424", ""),
+        new ReqItem("ipv6dns2", "1425", "")
+    );
+    var networktypeArr = ["DHCP", "静态IP", "PPPoE"], ipv6networktypeArr = ["DHCP", "静态IP"];
+    var protocoltypeArr = ["首选IPv4","首选IPv6","仅限IPv4","仅限IPv6"];
+    var orignnetworktype = 0, orignip6nettype = 0;
+    var orignaddress = "", orignsubmask = "", origngateway = "", origndnssever1 = "", origndnssever2 = "";
+    var orignppoeaccount = "", orignppoepwd = "";
+    var savelockpwddone = 0, savelandone=0, savetimezonedone=0, saveaccountdone = 0;
+    var orignipv6addr = "", orignipv6prefixlen = "", orignipv6dns1 = "", orignipv6dns2 = "";
+    var city_names = [a_16489, a_16491,a_16492,a_16493, a_16494,a_16495,a_16496,a_16497,a_16498,
+        a_16499, a_16500,a_16501,a_16502,a_16503, a_16504,a_16505,a_16506,a_16507,a_16508,
+        a_16509,a_16510, a_16711, a_16511, a_16512, a_16513,a_16514,a_16515,a_16516,a_16517,
+        a_16518, a_16519, a_16520, a_16521, a_16522, a_16712, a_16523, a_16524, a_16525,
+        a_16526, a_16527, a_16713, a_16528, a_16529, a_16530, a_16531, a_16532, a_16533,a_16534,
+        a_16535, a_16536, a_16537, a_16538, a_16539, a_16540, a_16541, a_16542, a_16543, a_16544,
+        a_16545, a_16546, a_16547, a_16548, a_16549, a_16550, a_16551,a_16552,a_16553, a_16714,
+        a_16554, a_16555, a_16556, a_16557, a_16558, a_16559, a_16560, a_16561, a_16562, a_16563, a_16564,
+        a_16565, a_16566, a_16567,a_16568,a_16569,a_16570, a_16715, a_16490, a_16571, a_16572,a_16573];
+
+    var newgmts = new Array;
+
+    $(function () {
+        var hash = location.hash;
+        if (hash) {
+            hash = hash.substring(1);
         }
-    });
-    
-    if(checkres){
-        urihead = "action=getacctconf&var-0000=271&var-0001=270&var-0002=47&var-0003=35&var-0004=36&format=json&jsoncallback=&time=" + new Date().getTime();
+        var checkres = false;
+        var urihead = "action=checkqrtoken&region=quickconf&t=" + hash + "&format=json&jsoncallback=&time=" + new Date().getTime();
         $.ajax({
             type: 'get',
             url: '/manager',
             data: urihead,
-            success: function(data){
+            async: false,
+            success: function (data) {
                 var tObj = eval("(" + data + ")");
-                if(tObj.res == "success"){
-                    if(parseInt(tObj['271'])){
-                        $("#acctactive").prop("checked", true);
-                    }
-                    $("#accountname").val(tObj['270']);
-                    $("#sipserver").val(tObj['47']);
-                    $("#userid").val(tObj['35']);
-                    $("#authid").val(tObj['36']);
+                if (tObj.res == "success") {
+                    $("#setlanguage").show();
+                    $("#accountconf").hide();
+                    $("#qrdiv").hide();
+                    checkres = true;
+                } else {
+                    $("#setlanguage").hide();
+                    $("#accountconf").hide();
+                    $("#qrdiv").fadeIn(1000);
                 }
             },
-            error: function(){}
+            error() {
+            }
+        });
+        if (checkres) {
+            cb_get_action('getlanguages&region=quickconf');
+            cb_get_timezone();
+        }
+        pageEventActions();
+    });
+
+    function pageEventActions() {
+        $("#refreshqr").click(function () {
+            cb_get_action('refreshqrcode&region=quickconf');
+        });
+
+        $("#setlanguage .selectDiv").click(function(){
+            if($("#clanguage").is(':hidden')){
+                $("#clanguage").show();
+            }else{
+                $("#clanguage").hide();
+                $(langobj.clickedlangId).find("div").removeClass("active");
+                $(langobj.curlangId).find("div").addClass("active");
+                langobj.clickedlangId = langobj.curlangId;
+            }
+        });
+
+        $("#lang-cancel").click(function () {
+            $("#clanguage").hide();
+            $(langobj.clickedlangId).find("div").removeClass("active");
+            $(langobj.curlangId).find("div").addClass("active");
+            langobj.clickedlangId = langobj.curlangId;
+        });
+
+        $("#lang-confirm").click(function () {
+            langobj.curlangId = langobj.clickedlangId;
+            $("#selectedlang").text($(langobj.clickedlangId).text());
+            $("#clanguage").hide();
+        });
+
+        $("#clanguage ul").on("click",".clang_item",function(){
+            $(langobj.clickedlangId).find("div").removeClass("active");
+            $(this).find("div").addClass("active");
+            langobj.clickedlangId = "#" + $(this).attr('id');
+        });
+
+        $(".lang-next-step button").click(function () {
+            if(!timezoneobj.isvisited){
+                $(".lang-next-step button").attr("disabled", "disabled");
+            }
+            $("#setlanguage").hide();
+            $("#settimezone").fadeIn(1000);
+        });
+
+        $("#settimezone .selectDiv").click(function(){
+            if($("#timezone-div").is(':hidden')){
+                $("#timezone-div").show();
+            }else{
+                $("#timezone-div").hide();
+                $(timezoneobj.clickedtimezoneId).find("div").removeClass("active");
+                $(timezoneobj.curtimezoneId).find("div").addClass("active");
+                timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
+            }
+        });
+
+        $("#timezone-cancel").click(function () {
+            $("#timezone-div").hide();
+            $(timezoneobj.clickedtimezoneId).find("div").removeClass("active");
+            $(timezoneobj.curtimezoneId).find("div").addClass("active");
+            timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
+        });
+
+        $("#timezone-confirm").click(function () {
+            timezoneobj.curtimezoneId = timezoneobj.clickedtimezoneId;
+            $("#selectedtimezone").text($(timezoneobj.clickedtimezoneId).text());
+            $("#timezone-div").hide();
+        });
+
+        $("#timezone").on("click","li",function(){
+            $(timezoneobj.clickedtimezoneId).find("div").removeClass("active");
+            $(this).find("div").addClass("active");
+            timezoneobj.clickedtimezoneId = "#" + $(this).attr('id');
+        });
+
+        $("#time-back-btn").click(function () {
+            $("#settimezone").hide();
+            $("#setlanguage").fadeIn();
+        });
+
+        $("#time-next-step").click(function () {
+            if(isnetworkvisited){
+                $("#settimezone").hide();
+                $("#setnetwork").fadeIn();
+            }else{
+                $("#time-next-step").attr("disabled","disabled");
+                cb_get_action("network&region=quickconf");
+            }
+            if(!networkconfigObj.isvisited){
+                var uritail = "";
+                for (var i = 0; i < network_req_items.length; i++) {
+                    uritail += build_get(i, network_req_items[i].pvalue);
+                }
+                var urihead = "action=get&region=quickconf" + uritail + "&time=" + new Date().getTime();
+                $.ajax ({
+                    type: 'get',
+                    url:'/manager',
+                    data:urihead,
+                    dataType:'text',
+                    success:function(data) {
+                        networkconfigObj.isvisited = true;
+                        cb_get_items_suc(data, network_req_items);
+                    },
+                    error:function(xmlHttpRequest, errorThrown) {
+                        promptTip("网络错误！", "err");
+                    }
+                });
+            }
+        });
+
+        $("#network-back-btn").click(function(){
+            $("#settimezone").fadeIn();
+            $("#setnetwork").hide();
+        });
+
+        $("#setnetwork .selectDiv2").click(function () {
+            $("#setnetwork").hide();
+            $("#setprefernetwork").fadeIn();
+        });
+
+        $("#prefer").click(function () {
+            $("#selectproto").show();
+        });
+
+        $("#ipv4").click(function () {
+            $("#setprefernetwork").hide();
+            $("#ipv4config").show();
+            $('input[name=networktype]').each(function (index) {
+                if ($(this).prop("checked") == true) {
+                    if (index == 0) {
+                        $("#staticipconf, #pppoeconf").hide();
+                    } else if (index == 1) {
+                        $("#staticipconf").show();
+                        $("#ipv4address").focus();
+                        $("#pppoeconf").hide();
+                    } else {
+                        $("#staticipconf").hide();
+                        $("#pppoeconf").show();
+                        $("#ppoeaccount").focus();
+                    }
+                }
+            });
+        });
+
+        $("#selectproto ul").on("click","li",function() {
+            $(this).parent().children().children("input").attr('checked', false);
+            $(this).children("input").attr('checked', true);
+            setTimeout(function(){$("#selectproto").hide();},300);
+            $("#protocol-type").text($(this).children("span").text());
+        });
+
+        $("#protocol-cancel").click(function () {
+            $("#selectproto").hide();
+        });
+
+        $("#ipv4config .selectDiv").click(function () {
+            $("#selectaddrtype").show();
+        });
+
+
+        $("#ipv4config ul").on("click","li",function() {
+            $(this).parent().children().children("input").attr('checked', false);
+            $(this).children("input").attr('checked', true);
+            var index = $(this).index();
+            setTimeout(function(){$("#selectaddrtype").hide();},300);
+            $("#ipv4addtype2").text(networktypeArr[index]);
+            if(index == 0){
+                $("#staticipconf, #pppoeconf").hide();
+            }else if(index == 1){
+                $("#staticipconf").show();
+                $("#ipv4address").focus();
+                $("#pppoeconf").hide();
+            }else{
+                $("#staticipconf").hide();
+                $("#pppoeconf").show();
+                $("#ppoeaccount").focus();
+            }
+        });
+
+
+        $("#sel-addrtype-cancel").click(function () {
+            $("#selectaddrtype").hide();
+        });
+
+        $("#sel-addr6type-cancel").click(function () {
+            $("#selectip6addrtype").hide();
+        })
+
+        $("#prefer-back-btn").click(function () {
+            $("#setprefernetwork").hide();
+            $("#setnetwork").fadeIn(1000);
+        });
+
+        $("#ipv4config-back-btn").click(function () {
+            //检查ipv4 pppoe各项输入是否符合规则
+            if($("#staticipconf").css("display") == "block"){
+                var result = checkipv4addritems();
+                if(result.type == "err"){
+                    $("input[name=networktype]").each(function (index) {
+                        if(index == orignnetworktype){
+                            $("input[name=networktype]").attr('checked', false);
+                            $(this).attr("checked",true);
+                            $("#ipv4addtype2").text(networktypeArr[index]);
+                            $("#ipv4address").val(orignaddress);
+                            $("#submask").val(orignsubmask);
+                            $("#dftgateway").val(origngateway);
+                            $("#dnsserver1").val(origndnssever1);
+                            $("#dnsserver2").val(origndnssever2);
+                        }
+                    });
+                }else{
+                    $("#ipv4addtype1").text($("#ipv4addtype2").text());
+                }
+            }else if($("#pppoeconf").css("display") == "block"){
+                var result = checkipv4PPPoeitems();
+                if(result.type == "err"){
+                    $("input[name=networktype]").each(function (index) {
+                        if(index == orignnetworktype){
+                            $("input[name=networktype]").attr('checked', false);
+                            $(this).attr("checked",true);
+                            $("#ipv4addtype2").text(networktypeArr[index]);
+                            $("#ppoeaccount").val(orignppoeaccount);
+                            $("#ppoepassword").val(orignppoepwd);
+                        }
+                    });
+                }else{
+                    $("#ipv4addtype1").text($("#ipv4addtype2").text());
+                }
+            }else{
+                $("#ipv4addtype1").text($("#ipv4addtype2").text());
+            }
+            $("#ipv4config").hide();
+            $("#setprefernetwork").show();
+
+        });
+
+        $("#ip4config-done").click(function(){
+            //检查ipv4 pppoe各项输入是否符合规则
+            var result;
+            if($("#staticipconf").css("display") == "block"){
+                result = checkipv4addritems();
+            }else if($("#pppoeconf").css("display") == "block") {
+                result = checkipv4PPPoeitems();
+            }
+
+            if(result.type == "err"){
+                promptTip(result.message, result.type);
+                return;
+            }else{
+                $("#ipv4addtype1").text($("#ipv4addtype2").text());
+                $("#ipv4config").hide();
+                $("#setprefernetwork").show();
+            }
+        });
+
+        $("#ipv6").click(function () {
+            $("#setprefernetwork").hide();
+            $("#ipv6config").show();
+            $('input[name=ipv6addr]').each(function (index) {
+                if ($(this).prop("checked") == true) {
+                    if (index == 0) {
+                        $("#staticip6conf").hide();
+                    } else if (index == 1) {
+                        $("#staticip6conf").show();
+                    }
+                }
+            });
+        });
+
+        $("#ipv6config .selectDiv").click(function () {
+            $("#selectip6addrtype").show();
+        });
+
+
+        $("#ipv6config ul").on("click","li",function() {
+            $(this).parent().children().children("input").attr('checked', false);
+            $(this).children("input").attr('checked', true);
+            var index = $(this).index();
+            setTimeout(function(){$("#selectip6addrtype").hide();},300);
+            $("#ipv6addtype2").text(ipv6networktypeArr[index]);
+            if(index == 0){
+                $("#staticip6conf").hide();
+            }else if(index == 1){
+                $("#staticip6conf").show();
+            }
+        });
+
+        $("#ipv6config-back-btn").click(function () {
+            //检查ipv6地址各项输入是否符合规则
+            if($("#staticip6conf").css("display") == "block"){
+                var result = checkipv6addritems();
+                if(result.type == "err"){
+                    $("input[name=ipv6addr]").each(function (index) {
+                        if(index == orignip6nettype){
+                            $("input[name=ipv6addr]").attr('checked', false);
+                            $(this).attr("checked",true);
+                            $("#ipv6addtype2").text(networktypeArr[index]);
+                            $("#staticipv6addr").val(orignipv6addr);
+                            $("#ipv6prefixlen").val(orignipv6prefixlen);
+                            $("#ipv6dns1").val(orignipv6dns1);
+                            $("#ipv6dns2").val(orignipv6dns2);
+                        }
+                    });
+                }else{
+                    $("#ipv6addtype1").text($("#ipv6addtype2").text());
+                }
+            }else{
+                $("#ipv6addtype1").text($("#ipv6addtype2").text());
+            }
+            $("#ipv6config").hide();
+            $("#setprefernetwork").show();
+        });
+
+        $("#ip6config-done").click(function(){
+            //检查ipv6 各项输入是否符合规则
+            var result;
+            if($("#staticip6conf").css("display") == "block"){
+                result = checkipv6addritems();
+            }
+
+            if(result && result.type == "err"){
+                promptTip(result.message, result.type);
+                return;
+            }else{
+                $("#ipv6addtype1").text($("#ipv6addtype2").text());
+                $("#ipv6config").hide();
+                $("#setprefernetwork").show();
+            }
+        });
+
+
+        $("#prefer-done").click(function () {
+            //判断选中的ipv4类型 以及 ipv6类型 作相应处理
+            var networkdataarr = new Array();
+            var protocoltype = "0",ipv4type = "0" , ipv6type = "0";
+            $("input[name=protocoltype]").each(function (index) {
+                if ($(this).prop("checked") == true) {
+                    protocoltype = $(this).val();
+                }
+            });
+            $("input[name=networktype]").each(function (index) {
+                if ($(this).prop("checked") == true) {
+                    ipv4type = $(this).val();
+                }
+            });
+
+            $("input[name=ipv6addr]").each(function (index) {
+                if ($(this).prop("checked") == true) {
+                    ipv6type = $(this).val();
+                }
+            });
+
+            networkdataarr.push(
+                new ReqItem("protocoltype", "1415", protocoltype),
+                new ReqItem("networktype", "8", ipv4type),
+                new ReqItem("ipv6addr", "1419", ipv6type));
+            if(ipv4type == "1") {   // static ipv4
+                networkdataarr.push(
+                    new ReqItem("ipaddr1", "9", $("#ipv4address").val().split('.')[0]),
+                    new ReqItem("ipaddr2", "10", $("#ipv4address").val().split('.')[1]),
+                    new ReqItem("ipaddr3", "11", $("#ipv4address").val().split('.')[2]),
+                    new ReqItem("ipaddr4", "12", $("#ipv4address").val().split('.')[3]),
+                    new ReqItem("mask1", "13", $("#submask").val().split('.')[0]),
+                    new ReqItem("mask2", "14", $("#submask").val().split('.')[1]),
+                    new ReqItem("mask3", "15", $("#submask").val().split('.')[2]),
+                    new ReqItem("mask4", "16", $("#submask").val().split('.')[3]),
+                    new ReqItem("gateway1", "17", $("#dftgateway").val().split('.')[0]),
+                    new ReqItem("gateway2", "18", $("#dftgateway").val().split('.')[1]),
+                    new ReqItem("gateway3", "19", $("#dftgateway").val().split('.')[2]),
+                    new ReqItem("gateway4", "20", $("#dftgateway").val().split('.')[3]),
+                    new ReqItem("prednsser1", "21", $("#dnsserver1").val().split('.')[0]),
+                    new ReqItem("prednsser2", "22", $("#dnsserver1").val().split('.')[1]),
+                    new ReqItem("prednsser3", "23", $("#dnsserver1").val().split('.')[2]),
+                    new ReqItem("prednsser4", "24", $("#dnsserver1").val().split('.')[3]),
+                    new ReqItem("alerdnsser1", "25", $("#dnsserver2").val().split('.')[0]),
+                    new ReqItem("alerdnsser2", "26", $("#dnsserver2").val().split('.')[1]),
+                    new ReqItem("alerdnsser3", "27", $("#dnsserver2").val().split('.')[2]),
+                    new ReqItem("alerdnsser4", "28", $("#dnsserver2").val().split('.')[3])
+                );
+            }else if(ipv4type == "2") {
+                networkdataarr.push(
+                    new ReqItem("ppoeaccount", "82", $("#ppoeaccount").val()),
+                    new ReqItem("ppoepassword", "83", $("#ppoepassword").val()));
+            }
+
+            if(ipv6type == "1"){
+                networkdataarr.push(
+                    new ReqItem("staticipv6addr", "1420", $("#staticipv6addr").val()),
+                    new ReqItem("ipv6prefixlen", "1421", $("#ipv6prefixlen").val()),
+                    new ReqItem("ipv6dns1", "1424", $("#ipv6dns1").val()),
+                    new ReqItem("ipv6dns2", "1425", $("#ipv6dns2").val())
+                );
+            }
+
+            var uritail = build_put_items(networkdataarr);
+            var urihead = "action=put&region=quickconf&flag=" + 0 + uritail + "&time=" + new Date().getTime();
+            $.ajax ({
+                type: 'get',
+                url:'/manager',
+                data:urihead,
+                dataType:'text',
+                success:function(data) {
+                    cb_put_suc(data);
+                    setTimeout(function(){
+                        $("#setprefernetwork").hide();
+                        $("#setnetwork").show();
+                    },2000);
+                },
+                error:function(xmlHttpRequest, errorThrown) {
+                    promptTip("网络错误", "err");
+                }
+            });
+
+        });
+
+        $("#network-next-step").click(function () {
+            if (accountobj.isvisited) {
+                $("#setnetwork").hide();
+                $("#accountconf").fadeIn(1000);
+                $("#accountname").focus();
+            } else {
+                $("#network-next-step").attr("disabled","disabled");
+                var colore = $.cookie("coloreExist");
+                if(colore == "54"){
+                    //获取会场名称
+                    $("#sitename").parent().show();
+                    var sqlitestr="sqlitedisplay&region=quickconf&type=sitesetting&affect=read";
+                    cb_get_action(sqlitestr);
+                }
+                var uritail = '';
+                for (var i = 0; i < account_req_items.length; i++) {
+                    uritail += build_get(i, account_req_items[i].pvalue);
+                }
+                var accounturihead = "action=get&region=quickconf" + uritail + "&time=" + new Date().getTime();
+                $.ajax ({
+                    type: 'get',
+                    url:'/manager',
+                    data:accounturihead,
+                    dataType:'text',
+                    success:function(data) {
+                        accountobj.isvisited = true;
+                        $("#setnetwork").hide();
+                        $("#accountconf").fadeIn(1000);
+                        $("#accountname").focus();
+                        $("#network-next-step").removeAttr("disabled");
+                        cb_get_items_suc(data, account_req_items);
+                    },
+                    error:function(xmlHttpRequest, errorThrown) {
+                        promptTip("网络错误！", "err");
+                    }
+                });
+            }
+        });
+
+        $("#acctactive").click(function () {
+            if($(this).hasClass("accountactive")){
+                $(this).removeClass("accountactive");
+                $(this).addClass("accountinactive");
+            }else{
+                $(this).removeClass("accountinactive");
+                $(this).addClass("accountactive");
+            }
+
+        });
+
+        $("#resetbtn").click(function () {
+            $("#acctactive").prop("checked", false);
+            $(".config-div input[type='text']").val("");
+        });
+
+        $("#account-back-btn").click(function () {
+            $("#accountconf").hide();
+            $("#setnetwork").show();
+        });
+
+        $("#account-next-step").click(function () {
+            if (!checkUrlPath($("#sipserver").val())) {
+                promptTip("SIP服务器为非法URL", "err");
+                return false;
+            }
+            var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
+            if ($("#userid").val() != "" && !reg.test($("#userid").val())) {
+                promptTip("用户ID不能包含除-_.!~*'()+以外的其他特殊字符", "err");
+                return false;
+            }
+
+            reg = new RegExp("^[A-Za-z0-9-_.!~*'()+@]+$");
+            if ($("#authid").val() != "" && !reg.test($("#authid").val())) {
+                promptTip("认证ID不能包含除-_.!~*'()+@以外的其他特殊字符", "err");
+                return false;
+            }
+
+            $("#accountconf").hide();
+            $("#pwddiv").fadeIn(1000);
+            $("#first input").first().focus();
+        });
+
+        $("#pwd-back-btn").click(function () {
+            $("#first").show();
+            $("#second").hide();
+            $("#pwddiv").hide();
+            $("#accountconf").fadeIn(1000);
+            $("#accountname").focus();
+            $("#pwddiv input").val("");
+            $("#pwd-next-step").attr("disabled","disabled").text("下一步");
+            $("#pwddiv .config-title").text("输入锁屏密码");
+        });
+
+        $("#pwdmask1,#pwdmask2").click(function () {
+            var items;
+            if($(this).attr("id") == "pwdmask1"){
+                items = $("#first").find("input");
+            }else{
+                items = $("#second").find("input");
+            }
+            for (var i = 0; i < items.length; i++) {
+                if ($(items[i]).val() == "") {
+                    $(items[i]).focus();
+                    return;
+                }
+                $(items[items.length-1]).focus();
+            }
+        });
+
+        $("#first input,#second input").keydown(function (event) {
+            var items = $(this).parent().find("input");
+            if(event.which != 8){
+                if($(items[items.length-1]).val()!=""){
+                    return;
+                }
+                for (var j = items.length-1; j>=0; j--) {
+                    if ($(items[j]).val() != "" && j!= items.length-1) {
+                        $(items[j+1]).focus();
+                        return;
+                    }
+                }
+            }
+        });
+
+        $("#first input,#second input").keyup(function(event){
+            $(this).val($(this).val().replace(/\D/g,''));
+            var items = $(this).parent().find("input");
+            var len = items.length;
+            if($(items[len-1]).val() != ""){
+                $("#pwd-next-step").removeAttr("disabled");
+            }else{
+                $("#pwd-next-step").attr("disabled","disabled");
+            }
+            if(event.which == 8){
+                for (var j = len-1; j >= 0; j--) {
+                    if ($(items[j]).val() != "") {
+                        $(items[j]).focus();
+                        return;
+                    }
+                }
+            }else{
+                for (var i = 0; i < len; i++) {
+                    if ($(items[i]).val() == "") {
+                        $(items[i]).focus();
+                        return;
+                    }
+                }
+                //密码框都不为空则跳转到确认密码页
+                if($(this).parent().attr("id") == "first"){
+                    jumpToSecondpwd();
+                    return;
+                }
+                $(items[items.length-1]).focus();
+            }
+        });
+
+        $("#pwd-next-step").click(function(){
+            if($("#first").css("display") == "block"){
+                jumpToSecondpwd();
+            }else {
+                //最後配置結束發送各種保存請求
+                //判断密码是否一致
+                var firstpwds = $("#first").find("input");
+                var secondpwds = $("#second").find("input");
+                var lockpwd = "";
+                for (var i = 0; i < 6; i++) {
+                    lockpwd += $(firstpwds[i]).val();
+                    if($(firstpwds[i]).val() !=$(secondpwds[i]).val()){
+                        promptTip("两次密码不一致","err");
+                        $("#pwddiv input").val("");
+                        $("#first").show();
+                        $("#second").hide();
+                        $("#pwddiv .config-title").text("输入锁屏密码");
+                        $("#pwd-next-step").attr("disabled","disabled").text("下一步");
+                        return false;
+                    }
+                }
+                $(this).attr("disabled", "disabled");
+                cb_get_action("savelockpwd&region=quickconf&newlock=" + lockpwd);  //保存锁屏密码
+                cb_put_lan();  //保存语言
+                cb_savetimeset();  //保存时区
+                cb_saveaccount(); //保存账号
+            }
         });
     }
 
-    $("#resetbtn").click(function(){
-        $("#acctactive").prop("checked", false);
-        $(".config-div input[type='text']").val("");
-    });
-    
-    $("#savebtn").click(function(){
-        if(!checkUrlPath( $("#sipserver").val() )){
-            ctrlPromptTip("SIP服务器为非法URL", "err");
-            return false;
+    function jumpToSecondpwd(){
+        $("#first").hide();
+        $("#second").fadeIn(1000);
+        $("#pwddiv .config-title").text("再次输入密码");
+        $("#second input").first().focus();
+        $("#pwd-next-step").attr("disabled","disabled");
+        $("#pwd-next-step").text("完成");
+    }
+
+    function cb_get_items_suc(data, items){
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        view_page_write(msgs, items);
+    }
+
+    function view_page_write(msgs, items){
+        var temp;
+        var typeattr;
+        for (var i = 0; i < items.length; i++) {
+            var tempid = '#' + items[i].id;
+            var temp = $(tempid);
+            if (temp == null || temp == undefined || temp.length == 0 || temp.attr('type') == "radio") {
+                var tempname = 'input[name=' + items[i].id + ']';
+                temp = $(tempname);
+            }
+            typeattr = temp.attr('type');
+            if( typeattr == undefined ){
+                if( temp.is("select") ){
+                    if( temp.attr("multiple") == "multiple" )
+                        typeattr = "select-multiple";
+                    else
+                        typeattr = "select-one";
+                }else if( temp.is("textarea") ){
+                    typeattr = "textarea";
+                }
+            }
+            if (typeattr == 'checkbox') {
+                if (msgs.headers[items[i].pvalue.toLowerCase()] == "1" ) {
+                    temp.attr('checked', true);
+                } else {
+                    temp.attr('checked', false);
+                }
+            } else if (typeattr == 'text' || typeattr == 'number') {
+                var tempval = msgs.headers[items[i].pvalue.toLowerCase()];
+                temp.val( tempval );
+                if ((temp.attr["typename"] != undefined) && (temp.attr["typename"].val() == "sldValue")){
+                    for (var j = 0; j < bar_items.length; j++) {
+                        if (bar_items[j].id == temp.attr('id')) {
+                            bar_items[j].bar_class.SetValue(temp.val());
+                        }
+                    }
+                }
+            } else if (typeattr == 'select-one') {
+                var tempsel = tempid + ' option';
+                var tempsel = $(tempsel);
+                for (var q = 0; q < tempsel.length; q++) {
+                    if (tempsel.eq(q).val() == msgs.headers[items[i].pvalue.toLowerCase()]) {
+                        //tempsel.eq(q).attr('selected', true);
+                        temp.getSetSSValue(tempsel.eq(q).val());
+                        break;
+                    }
+                }
+            } else if (typeattr == 'select-multiple') {
+
+            } else if (typeattr == 'password') {
+                temp.val( msgs.headers[items[i].pvalue.toLowerCase()] );
+            } else if (temp.length != undefined && temp.length > 1 && temp[0].type == "radio") {
+                temp.each(function(){
+                    if($(this).val() == msgs.headers[items[i].pvalue.toLowerCase()])
+                        $(this).attr('checked',true);
+                });
+            } else if (typeattr == 'textarea') {
+            } else {
+                temp.text( msgs.headers[items[i].pvalue.toLowerCase()] );
+            }
         }
-        
-        var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
-        if($("#userid").val() != "" && !reg.test($("#userid").val())){
-            ctrlPromptTip("用户ID不能包含除-_.!~*'()+以外的其他特殊字符", "err");
-            return false;
+        if(msgs.headers["1415"]!=undefined){
+            get_item_suc_callback(msgs);
+        }else if(msgs.headers["271"]!=undefined){
+            getaccount_suc_callback(msgs);
         }
-        
-        reg = new RegExp("^[A-Za-z0-9-_.!~*'()+@]+$");
-        if($("#authid").val() != "" && !reg.test($("#authid").val())){
-            ctrlPromptTip("认证ID不能包含除-_.!~*'()+@以外的其他特殊字符", "err");
-            return false;
+
+    }
+
+    function getaccount_suc_callback(msg) {
+        if ($("#acctactive").text() == "1") {
+            $("#acctactive").addClass("accountactive");
+        }else{
+            $("#acctactive").addClass("accountinactive");
         }
-        
-        /*var flag = 0;
-        $(".config-div input").each(function(){
-            if($(this).val() == undefined || $(this).val() == ""){
-                ctrlPromptTip($(this).attr("placeholder") + "不能为空", "err");
-                flag = 1;
-                return false;
+        $("#acctactive").text("");
+    }
+
+
+    function get_item_suc_callback(msg){
+        $('input[name=protocoltype]').each(function (index) {
+           if($(this).prop("checked") == true){
+//               $("#protocol-type").text($(this).parent().children("span").text());
+               $("#protocol-type").text(protocoltypeArr[index]);
+           }
+        });
+
+        $('input[name=networktype]').each(function (index) {
+            if($(this).prop("checked") == true){
+//                var networktype = $(this).parent().children("span").text();
+//                $("#ipv4addtype1, #ipv4addtype2").text(networktype);
+                orignnetworktype = index;
+                $("#ipv4addtype1, #ipv4addtype2").text(networktypeArr[index]);
             }
         });
-        if(flag) return false;*/
-        
+
+        $('input[name=ipv6addr]').each(function (index) {
+            if($(this).prop("checked") == true){
+                orignip6nettype = index;
+                $("#ipv6addtype1, #ipv6addtype2").text(ipv6networktypeArr[index]);
+            }
+
+        });
+
+        orignaddress = msgs.headers["9"] + "." + msgs.headers["10"] + "." + msgs.headers["11"] + "." + msgs.headers["12"];
+        orignsubmask = msgs.headers["13"] + "." + msgs.headers["14"] + "." + msgs.headers["15"] + "." + msgs.headers["16"];
+        origngateway = msgs.headers["17"] + "." + msgs.headers["18"] + "." + msgs.headers["19"] + "." + msgs.headers["20"];
+        origndnssever1 = msgs.headers["21"] + "." + msgs.headers["22"] + "." + msgs.headers["23"] + "." + msgs.headers["24"];
+        origndnssever2 = msgs.headers["25"] + "." + msgs.headers["26"] + "." + msgs.headers["27"] + "." + msgs.headers["28"];
+        $("#ipv4address").val(orignaddress);
+        $("#submask").val(orignsubmask);
+        $("#dftgateway").val(origngateway);
+        $("#dnsserver1").val(origndnssever1);
+        $("#dnsserver2").val(origndnssever2);
+        orignppoeaccount = $("#ppoeaccount").val();
+        orignppoepwd = $("#ppoepassword").val();
+        orignipv6addr = $("#staticipv6addr").val();
+        orignipv6prefixlen = $("#ipv6prefixlen").val();
+        orignipv6dns1 = $("#ipv6dns1").val();
+        orignipv6dns2 = $("#ipv6dns2").val();
+    }
+
+    function cb_put_suc(data)
+    {
+        var msgs = res_parse_rawtext(data);
+        if( cb_is_fail(msgs) )
+            promptTip("保存失败, 正在更新数据, 请稍候.", "err");
+        else{
+            promptTip("保存成功!", "suc");
+        }
+    }
+
+    function cb_get_action(action, async){
+        var urihead = "action=" + action;
+        urihead += "&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            async: async == false ? false : true,
+            dataType:'text',
+            success:function(data) {
+                cb_get_action_done(data, action);
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                cb_networkerror(xmlHttpRequest, errorThrown);
+            }
+        });
+    }
+
+    function cb_get_action_done(data, action) {
+        if (data.substring(0, 1) == "{") {
+            data = eval("(" + data + ")");
+            if( action.indexOf("affect=read" ) != "-1" ){
+                if(data.Response == "Success")
+                {
+                    var items = data.Data;
+                    setsitename(items);
+                }
+            }else if(action.indexOf("savelockpwd") != -1){
+                savelockpwddone = 1;
+                checkallsavedone();
+            }
+        } else {
+            var msgs = res_parse_rawtext(data);
+            cb_if_auth_fail(msgs);
+            if (cb_is_fail(msgs)) {
+            } else {
+                if (action.indexOf("getlanguages") != -1) {
+                    var lan = msgs.headers["language"];
+                    lan = lan.split("\n")[0];
+                    langobj.curlangId = '#' + lan;
+                    langobj.clickedlangId = '#' + lan;
+                    var temp = $(langobj.curlangId);
+                    temp.find("div").addClass("active");
+                    $("#selectedlang").text(temp.text());
+                }else if(action.indexOf("refreshqrcode") != -1){
+
+                }else if(action.indexOf("network") != -1){
+                    $("#time-next-step").removeAttr("disabled");
+                    if(msgs.headers["response"].toLowerCase() == "success"){
+                        isnetworkvisited = true;
+                        $("#settimezone").hide();
+                        $("#setnetwork").fadeIn(1000);
+                        if(msgs.headers["ip"]!=""){
+                            $("#ipaddress").text(msgs.headers["ip"]);
+                        }
+                        if(msgs.headers["ethstatus"] == "1"){
+                            $("#ethernetstatus").text("已连接").css("color","#007aff");
+                            $("#ethernet-pic").addClass("ethconnect");
+                        }else{
+                            $("#ethernetstatus").text("未连接");
+                            $("#ethernet-pic").addClass("ethdisconnect");
+                        }
+                        if(msgs.headers["wifistatus"] == "1"){
+                            $("#wifistatus").text("已连接").css("color","#007aff");
+                            $("#wifi-pic").addClass("wificonnect");
+                        }else{
+                            $("#wifistatus").text("未连接");
+                            $("#wifi-pic").addClass("wifidisconnect");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function cb_get_timezone(){
+        var urihead = "action=gettimezone&region=quickconf";
+        urihead += "&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            dataType:'text',
+            success:function(data) {
+                cb_get_timezone_suc(data);
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                cb_networkerror(xmlHttpRequest, errorThrown);
+            }
+        });
+    }
+
+    function cb_get_timezone_suc(data) {
+        if (data.substring(0, 1) == "{") {
+            $(".lang-next-step button").removeAttr("disabled");
+            position = 1;
+            timezoneobj.isvisited=true;
+            var tObj = eval("(" + data + ")");
+            var timezone = tObj.timezone;
+            timezone = timezone.replace("/","-");
+            var citygmts = tObj.citygmt;
+            var newcitygmts = new Array();
+            newcitygmts.push(citygmts[0]);
+            var newcity_names = new Array();
+            newcity_names.push(city_names[0]);
+            var gmtvalues = new Array();
+            gmtvalues.push($("#timezone li").eq(0).attr("id"));
+
+            var preid, curid, newpos;
+            preid = parseInt(citygmts[0].substring(3).replace(":", ""));
+            newgmts.push(preid);
+            var insertnum = 0;
+            for (var k = 1; citygmts[k] != undefined; k++) {
+                curid = parseInt(citygmts[k].substring(3).replace(":", ""));
+                newpos = findPos(curid);
+                if (newpos == -1) {
+                    newgmts.push(curid);
+                    newcitygmts.push(citygmts[k]);
+                    newcity_names.push(city_names[k]);
+                    gmtvalues.push($("#timezone li").eq(k).attr("id"));
+                } else {
+                    insertnum++;
+                    newgmts = insert(newgmts, newpos, curid);
+                    newcitygmts = insert(newcitygmts, newpos, citygmts[k]);
+                    newcity_names = insert(newcity_names, newpos, city_names[k]);
+                    gmtvalues = insert(gmtvalues, newpos, $("#timezone li").eq(k).attr("id"));
+                }
+            }
+            var tmpid;
+            $('#timezone').empty();
+            for (var i = 0; i < newcitygmts.length; i++) {
+                var $toneopt = $("<li id='" + gmtvalues[i] + "'>" + newcitygmts[i] + "(" + newcity_names[i] + ")<div></div></li>");
+                $('#timezone').append($toneopt);
+            }
+            timezoneobj.curtimezoneId = "#" + timezone;
+            timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
+            var temp = $(timezoneobj.curtimezoneId);
+            temp.find("div").addClass("active");
+            $("#selectedtimezone").text(temp.text());
+        } else {
+//            window.parent.location.href = '/login.html';
+        }
+    }
+
+    function setsitename(items){
+        for(var i=0;items[i] != undefined;i++)
+        {
+            if(items[i].Sitename!=undefined){
+                $("#sitename").val(items[i].Sitename);
+                break;
+            }
+        }
+    }
+
+
+    function checkipv4addritems(){
+        if(!checkIpv4Address($("#ipv4address").val())){
+            return {type:"err", message: "ipv4地址格式错误！"};
+        }
+        if(!checkIpv4Address($("#submask").val())){
+            return {type:"err", message: "ipv4子网掩码格式错误！"};
+        }
+        if(!checkIpv4Address($("#dftgateway").val())){
+            return {type:"err", message: "ipv4的默认网关格式错误！"};
+        }
+        if(!checkIpv4Address($("#dnsserver1").val())){
+            return {type:"err", message: "ipv4的DNS服务器1格式错误！"};
+        }
+        if(!checkIpv4Address($("#dnsserver2").val())){
+            return {type:"err", message: "ipv4的DNS服务器2格式错误！"};
+        }
+        return {type: "suc", message:""};
+    }
+
+    function checkipv4PPPoeitems(){
+        if( $("#ppoeaccount").val() == "" || $("#ppoepassword").val() == "")
+        {
+            return {type:"err", message: "PPPoE帐号和密码不能为空!"};
+        }
+        return {type:"suc", message: ""};
+    }
+
+    function checkipv6addritems(){
+        if( !checkDialIPv6($("#staticipv6addr").val())){
+            return {type:"err", message: "ipv6地址格式错误！"};
+        }
+        if(!(checkdigits(parseInt($("#ipv6prefixlen").val())))){
+            return {type:"err", message: "IPv6前缀长度只能为数字"};
+        }
+        if(!range(parseInt($("#ipv6prefixlen").val().trim()), 1, 128)){
+            return {type:"err", message: "IPv6前缀长度有效值:1-128"};
+        }
+        if($("#ipv6dns1").val().trim() != "" &&!checkDialIPv6($("#ipv6dns1").val())){
+            return {type:"err", message: "ipv6的DNS服务器1格式错误！"};
+        }
+        if($("#ipv6dns1").val().trim() != "" && !checkIpv4Address($("#ipv6dns2").val())){
+            return {type:"err", message: "ipv6的DNS服务器2格式错误！"};
+        }
+        return {type: "suc", message:""};
+    }
+
+    function checkdigits (value){
+        if (value && /^(0|[1-9][0-9]*)$/i.test(value)) {
+            return true;
+        } else {
+            return false
+        }
+    }
+
+    function range(value, min, max){
+        if (value && (value > max || value < min)) {
+            return false;
+        }
+        return true;
+    }
+
+
+    function insert(dest, index, src){
+        var temp = dest.splice(index);
+        return dest.concat(src,temp);
+    }
+
+    function findPos(gmt){
+        var index = -1;
+        for( var i = 0; i < newgmts.length; i++ ){
+            if( gmt < newgmts[i] )
+            {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+
+    function cb_if_auth_fail(msgs){
+        if (msgs.headers['response'] != undefined && msgs.headers['response'].toLowerCase() == "error" &&
+            msgs.headers['message'] != undefined && msgs.headers['message'].toLowerCase() == "authentication required") {
+            window.parent.location.href = '/login.html';
+            throw "exit";
+        }
+    }
+
+    function cb_is_fail(msgs){
+        if (msgs.headers['response'] && msgs.headers['response'].toLowerCase() == "error") {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    function res_parse_rawtext(data) {
+        msgs = new Object();
+        msgs.headers = new Array();
+        msgs.names = new Array();
+
+        var allheaders = data.split('\r\n');
+        var y = 0;
+        for (var x = 0; x < allheaders.length; x++) {
+            if (allheaders[x].length) {
+                var fields = allheaders[x].split('=');
+                if (fields[0] != undefined
+                    && fields[1] != undefined) {
+                    var valuestr = fields[1];
+                    var j = 2;
+                    while (j < fields.length) {
+                        valuestr += "=" + fields[j];
+                        j++;
+                    }
+                    try
+                    {
+                        msgs.headers[fields[0].toLowerCase()] = decodeURIComponent(valuestr);
+                    }
+                    catch (e)
+                    {
+                        msgs.headers[fields[0].toLowerCase()] = valuestr;
+                    }
+                    msgs.names[y++] = fields[0].toLowerCase();
+                }
+            }
+        }
+
+        return msgs;
+    }
+
+    //保存语言
+    function cb_put_lan() {
+        var lan_ct = $(langobj.curlangId).attr("id");
+        var lancts = lan_ct.split("_");
+        var urihead = "action=putlanguage&region=quickconf&lan=" + lancts[0] + "&country=" + lancts[1];
+        urihead += "&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            dataType:'text',
+            success:function(data) {
+                savelandone = 1;
+                checkallsavedone()
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                promptTip("网络错误！", "err");
+            }
+        });
+    }
+
+    function cb_savetimeset(){
+        var timezone = $(timezoneobj.curtimezoneId).attr("id");
+        timezone = timezone.replace("-","/");
+        var urihead = "action=savetimeset&region=quickconf&timezone=" + timezone;
+        urihead += "&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            dataType:'text',
+            success:function(data) {
+                savetimezonedone = 1;
+                checkallsavedone();
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                promptTip("网络错误！", "err");
+            }
+        });
+    }
+
+    function cb_saveaccount(){
         var acctactive;
-        if($("#acctactive").prop("checked"))
+        if ($("#acctactive").hasClass("accountactive"))
             acctactive = 1;
         else
             acctactive = 0;
-        
-        var request = "action=acctquickconf&var-0000=271&val-0000=" + acctactive + "&var-0001=270&val-0001=" + $("#accountname").val() + 
-                        "&var-0002=47&val-0002=" + $("#sipserver").val() + "&var-0003=35&val-0003=" + $("#userid").val() +
-                        "&var-0004=36&val-0004=" + $("#authid").val() + "&var-0005=34&val-0005=" + $("#authpwd").val() + "&time=" + new Date().getTime();
+        var colore = $.cookie("coloreExist");
+        if(colore == "54"){
+            //保存会场名称
+            var setsitename = "setSitesettingInfo&region=quickconf&sitename=" + encodeURIComponent($("#sitename").val());
+            //save sitesettings information
+            cb_get_action(setsitename);
+        }
+        var request = "action=acctquickconf&region=quickconf&var-0000=271&val-0000=" + acctactive + "&var-0001=270&val-0001=" + $("#accountname").val() +
+            "&var-0002=47&val-0002=" + $("#sipserver").val() + "&var-0003=35&val-0003=" + $("#userid").val() +
+            "&var-0004=36&val-0004=" + $("#authid").val() + "&var-0005=34&val-0005=" + $("#authpwd").val() +"&var-0006=3&val-0006=" + $("#displayname").val()+
+            "&time=" + new Date().getTime();
         $.ajax({
             type: 'get',
             url: '/manager',
             data: request,
-            success: function(data){
-                if(data.indexOf("Cookie Valid") != -1){
-                    ctrlPromptTip("保存成功", "suc");
+            success: function (data) {
+                if (data.indexOf("Cookie Valid") != -1) {
+                    saveaccountdone = 1;
+                    checkallsavedone();
                 }
-                else if(data.indexOf("Cookie Invalid") != -1){
-                    $("#ret2").show();
-                    $("#ret1").hide();
+                else if (data.indexOf("Cookie Invalid") != -1) {
+                    $("#qrdiv").show();
+                    $("#accountconf").hide();
+                    promptTip("保存账号失败", "err");
                 }
             },
-            error: function(){}
+            error: function () {
+            }
         });
-    });
-});
-
-function ctrlPromptTip(tip, status){
-    $("#propmtip span").text(tip)
-    if(status == "suc"){
-        $("#propmtip span").css("color", "green").fadeIn(1000);
-    }else{
-        $("#propmtip span").css("color", "red").fadeIn(1000);
     }
-    setTimeout(function(){$("#propmtip span").fadeOut(1000)}, 2000);
-}
 
-function checkUrlPath(value){
-    var expression = /^((https?:\/\/)?|(ftp:\/\/)?|(tftp:\/\/)?)(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
-    if (!value || expression.test(value)) {
-        return true;
-    } else {
-        return false;
+    function checkallsavedone() {
+        if(savelockpwddone && saveaccountdone && savelandone && savetimezonedone){
+            promptTip("保存成功", "suc");
+            cb_get_action("quickconfdone&region=quickconf");
+            savelockpwddone = saveaccountdone = savelandone = savetimezonedone = 0;
+            $("#pwd-next-step").removeAttr("disabled");
+        }
     }
-}
+
+    function promptTip(tip, status) {
+        $("#message").text(tip)
+        if (status == "suc") {
+            $("#notic").css("color", "green").fadeIn(1000);
+        } else {
+            $("#notic").css("color", "red").fadeIn(1000);
+        }
+        setTimeout(function () {$("#notic").fadeOut(1000)}, 2000);
+    }
+
+    function checkUrlPath(value) {
+        var expression = /^((https?:\/\/)?|(ftp:\/\/)?|(tftp:\/\/)?)(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+        if (!value || expression.test(value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function checkIpv4Address(ip){
+        var strRegex = /^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)(:([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5]))?$/;
+        if (ip && strRegex.test(ip)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function checkDialIPv6(ip) {
+        var exp = /^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:)|(\[([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){1,7}:\](:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)(#[1-9]([0-9]){0,4}){0,1})|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)(#[1-9]([0-9]){0,4}){0,1})|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4}(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}:){1,7}:(#[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){7}[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){6}\.[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){5}\.([0-9A-Fa-f]{1,4}\.)?[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){4}\.([0-9A-Fa-f]{1,4}\.){0,2}[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){3}\.([0-9A-Fa-f]{1,4}\.){0,3}[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){2}.([0-9A-Fa-f]{1,4}\.){0,4}[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){0,5}\.((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)(:[1-9]([0-9]){0,4}){0,1})|(\.\.([0-9A-Fa-f]{1,4}\.){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)(:[1-9]([0-9]){0,4}){0,1})|([0-9A-Fa-f]{1,4}\.\.([0-9A-Fa-f]{1,4}\.){0,5}[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(\.\.([0-9A-Fa-f]{1,4}\.){0,6}[0-9A-Fa-f]{1,4}(:[1-9]([0-9]){0,4}){0,1})|(([0-9A-Fa-f]{1,4}\.){1,7}\.(:[1-9]([0-9]){0,4}){0,1}))$/;
+        if (ip && exp.test(ip)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function ReqItem(id, pvalue, value) {
+        this.id = id;
+        this.pvalue = pvalue;
+        this.value = value;
+        if (typeof ReqItem._initialized == 'undefined') {
+            ReqItem.prototype.showColor = function () {
+                alert(this.pvalue);
+            };
+            ReqItem._initialized = true;
+        }
+    }
+
+    function build_get(count, vari) {
+        var s = "";
+        var cnt = "" + count;
+        while (cnt.length < 4) {
+            cnt = "0" + cnt;
+        }
+
+        s += "&var-" + cnt + "=" + encodeURIComponent(vari);
+        return s;
+    }
+
+    function build_put(count, vari, vali){
+        var s = "";
+        var cnt = "" + count;
+        while (cnt.length < 4) {
+            cnt = "0" + cnt;
+        }
+        s += "&var-" + cnt + "=" + encodeURIComponent(vari);
+        s += "&val-" + cnt + "=" + encodeURIComponent(vali);
+        return s;
+    }
+
+    function build_put_items(items){
+        var uritail = "";
+        for(var i = 0; i < items.length; i++){
+            uritail += build_put(i,items[i].pvalue, items[i].value)
+        }
+        return uritail;
+    }
 
 </script>
-<body/>
+</body>
 </html>
