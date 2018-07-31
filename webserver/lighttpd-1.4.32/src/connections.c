@@ -21922,6 +21922,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             if(res) {
                 authenticate_success_response(srv, con, b, m, 1);
             }
+        } else if (!strcasecmp(action, "refreshqrcode")) {
+            send_qrcode_dbus_to_gui(SIGNAL_QR_REFRESH);
+            buffer_append_string(b, "response=success");
         } else if (check_qr_cookie(con)) {
             if (!strcasecmp(action, "getacctconf")) {
                 handle_get(b, m);
@@ -21943,6 +21946,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_savetimeset(b, m);
             } else if (!strcasecmp(action, "putlanguage")) {
                 handle_putlanguage(b, m);
+            } else if (!strcasecmp(action, "getlockpwd")) {
+                handle_callservice_by_no_param(srv, con, b, m, "isScreenLockEnabled");
             } else if (!strcasecmp(action, "savelockpwd")) {
                 handle_webservice_by_one_param(srv, con, b, m, "newlock", "setScreenLock", 1);
             } else if (!strcasecmp(action, "put")) {
@@ -21951,9 +21956,6 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_sqlitedisplay(b, m);
             } else if (!strcasecmp(action, "setSitesettingInfo")) {
                 handle_setSitesettingInfo(srv, con,b, m);
-            } else if (!strcasecmp(action, "refreshqrcode")) {
-                send_qrcode_dbus_to_gui(SIGNAL_QR_REFRESH);
-                buffer_append_string(b, "response=success");
             } else if (!strcasecmp(action, "quickconfdone")) {
                 send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
                 buffer_append_string(b, "response=success");
