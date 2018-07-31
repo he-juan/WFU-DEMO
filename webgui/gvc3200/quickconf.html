@@ -89,6 +89,7 @@
         #setpwd input{  width: 45px;height:45px; font-size: 30px;text-align: center; border: 1px solid #c8c7cc; -webkit-text-security:disc;text-security:disc;}
         #pwdmask1, #pwdmask2{ position:absolute; top:0; left:0; right:0; bottom: 0; }
         .content{position: absolute;left: 5px;right: 5px;bottom: 15px;background: white;font-size: 16px;border-radius: 8px;}
+        .suc-pic{display:inline-block;width:22px;height:22px;margin-bottom:10px;background: url("/img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
     </style>
 </head>
 <body>
@@ -373,7 +374,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 
@@ -381,13 +381,14 @@
 <div id='accountconf' style="display:none;position:relative;min-height: 500px">
     <p class="config-title">帐号配置</p>
     <div webtip="Account Name" class="config-box" style="margin-top: 0px;">
-        <div class="g_conf"><span>帐号名称</span><input id="accountname" name="accountname" type="text" placeholder="帐号名称"/></div>
-        <div class="g_conf"><span>SIP服务器</span><input id="sipserver" name="sipserver" type="text" placeholder="SIP服务器"/></div>
-        <div class="g_conf"><span>SIP用户ID</span><input id="userid" name="userid" type="text" placeholder="SIP用户ID"/></div>
-        <div class="g_conf"><span>SIP认证ID</span><input id="authid" name="authid" type="text" placeholder="SIP认证ID"/></div>
-        <div class="g_conf"><span>SIP认证密码</span><input id="authpwd" name="sauthpwdserver" type="password" autocomplete="off" placeholder="SIP认证密码"/></div>
-        <div class="g_conf" style="border-bottom: none;"><span>显示名称</span><input id="displayname" name="displayname" type="text" placeholder="显示名称"/></div>
-        <div class="g_conf" style="display:none;border-top:#eceff2;border-bottom: none;"><span>会场名称</span><input id="sitename" name="sitename" type="text" placeholder="会场名称"/></div>
+        <div class="g_conf"><span id="a_accountname">帐号名称</span><input id="accountname" name="accountname" type="text" placeholder="帐号名称"/></div>
+        <div class="g_conf master"><span>SIP服务器</span><input id="sipserver" name="sipserver" type="text" placeholder="SIP服务器"/></div>
+        <div class="g_conf master"><span>SIP用户ID</span><input id="userid" name="userid" type="text" placeholder="SIP用户ID"/></div>
+        <div class="g_conf master"><span>SIP认证ID</span><input id="authid" name="authid" type="text" placeholder="SIP认证ID"/></div>
+        <div class="g_conf"><span id="a_authpwd">SIP认证密码</span><input id="authpwd" name="authpwd" type="password" autocomplete="off" placeholder="SIP认证密码"/></div>
+        <div class="g_conf master" style="border-bottom: none;"><span>显示名称</span><input id="displayname" name="displayname" type="text" placeholder="显示名称"/></div>
+        <div class="g_conf mobile" style="display: none;"><span>SBC地址</span><input id="SBCaddress" name="SBCaddress" type="text" placeholder="SBC地址"/></div>
+        <div class="g_conf mobile" style="display:none;border-bottom: none;"><span>会场名称</span><input id="sitename" name="sitename" type="text" placeholder="会场名称"/></div>
     </div>
     <div class="config-box">
         <div class="g_conf" style="border-bottom: none;"><span>帐号激活</span> <div id="acctactive"></div></div>
@@ -397,28 +398,41 @@
 
 <div id="pwddiv" style="display:none;position:relative;min-height: 500px">
     <p class="config-title">设置锁屏密码</p>
+    <div id="existpwd" style="display: none;text-align: center;margin: 26px 0 30px 0;color: #8f8f8f;">
+        <p style="margin-bottom: 10px;">锁屏密码已设定</p>
+        <p>如需更改请点击 <span id="resetpwd" style="color: #007aff;">重置密码 ></span></p>
+    </div>
+    <div id="noexistpwd" style="display: none;">
     <div id="setpwd">
         <p style="text-align: center;margin: 26px 0 30px 0;font-size: 12px;color: #8f8f8f;">请输入6位数字密码</p>
         <div id="first" style="position: relative;text-align: center;">
             <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel"  value=""/>
             <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel"  value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
             <input class="pwditem" maxlength="1" type="tel" value=""/>
             <input class="pwditem" maxlength="1" type="tel" value=""/>
             <div id="pwdmask1"></div>
         </div>
         <div id="second" style="display:none;position: relative; text-align: center;">
             <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel"  value=""/>
             <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel"  value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
+            <input class="pwditem" maxlength="1" type="tel" value=""/>
             <input class="pwditem" maxlength="1" type="tel" value=""/>
             <input class="pwditem" maxlength="1" type="tel" value=""/>
             <div id="pwdmask2"></div>
         </div>
     </div>
+    </div>
     <div class="step-btn"><button id="pwd-back-btn">上一步</button><button id="pwd-next-step" disabled="disabled">下一步</button></div>
+</div>
+
+<div id="configdone" style="display:none;">
+    <div style="text-align: center;margin-top: 150px;">
+        <div class="suc-pic"></div>
+        <p>配置完成！</p>
+    </div>
 </div>
 
 <div id="qrdiv" style="display: none;">
@@ -437,16 +451,7 @@
     var langobj = {curlangId:"",clickedlangId:"",isvisited:false};
     var timezoneobj ={curtimezoneId:"",clickedtimezoneId:"",isvisited:false};
     var networkconfigObj = {isvisited:false};
-    var accountobj ={isvisited:false};
-    var account_req_items = new Array;
-    account_req_items.push(
-        new ReqItem("acctactive", "271", ""),
-        new ReqItem("accountname", "270", ""),
-        new ReqItem("sipserver", "47", ""),
-        new ReqItem("userid", "35", ""),
-        new ReqItem("authid", "36", ""),
-        new ReqItem("displayname", "3", "")
-    );
+    var accountobj ={isvisited:false}, pwdobj = {isvisited:false, haspwd:false};
 
     var network_req_items = new Array();
     network_req_items.push(
@@ -497,8 +502,9 @@
         a_16545, a_16546, a_16547, a_16548, a_16549, a_16550, a_16551,a_16552,a_16553, a_16714,
         a_16554, a_16555, a_16556, a_16557, a_16558, a_16559, a_16560, a_16561, a_16562, a_16563, a_16564,
         a_16565, a_16566, a_16567,a_16568,a_16569,a_16570, a_16715, a_16490, a_16571, a_16572,a_16573];
-
+    var lockpwd = "";
     var newgmts = new Array;
+    var colore = $.cookie("coloreExist");
 
     $(function () {
         var hash = location.hash;
@@ -525,7 +531,7 @@
                     $("#qrdiv").fadeIn(1000);
                 }
             },
-            error() {
+            error: function(){
             }
         });
         if (checkres) {
@@ -955,13 +961,18 @@
                 $("#accountname").focus();
             } else {
                 $("#network-next-step").attr("disabled","disabled");
-                var colore = $.cookie("coloreExist");
-                if(colore == "54"){
-                    //获取会场名称
-                    $("#sitename").parent().show();
-                    var sqlitestr="sqlitedisplay&region=quickconf&type=sitesetting&affect=read";
-                    cb_get_action(sqlitestr);
-                }
+                var account_req_items = new Array;
+                account_req_items.push(
+                    new ReqItem("acctactive", "271", ""),
+                    new ReqItem("accountname", "270", ""),
+                    new ReqItem("sipserver", "47", ""),
+                    new ReqItem("SBCaddress", "48", ""),
+                    new ReqItem("userid", "35", ""),
+                    new ReqItem("authid", "36", ""),
+                    new ReqItem("displayname", "3", "")
+                );
+                var sqlitestr="sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
+                cb_get_action(sqlitestr);
                 var uritail = '';
                 for (var i = 0; i < account_req_items.length; i++) {
                     uritail += build_get(i, account_req_items[i].pvalue);
@@ -1009,25 +1020,35 @@
         });
 
         $("#account-next-step").click(function () {
-            if (!checkUrlPath($("#sipserver").val())) {
-                promptTip("SIP服务器为非法URL", "err");
-                return false;
+            if(colore == "54"  && ($("#sipserver").val() == "" || $("#sipserver").val() == "ims.ge.chinamobile.com")){
+
+            }else{
+                if (!checkUrlPath($("#sipserver").val())) {
+                    promptTip("SIP服务器为非法URL", "err");
+                    return false;
+                }
+                var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
+                if ($("#userid").val() != "" && !reg.test($("#userid").val())) {
+                    promptTip("用户ID不能包含除-_.!~*'()+以外的其他特殊字符", "err");
+                    return false;
+                }
+
+                reg = new RegExp("^[A-Za-z0-9-_.!~*'()+@]+$");
+                if ($("#authid").val() != "" && !reg.test($("#authid").val())) {
+                    promptTip("认证ID不能包含除-_.!~*'()+@以外的其他特殊字符", "err");
+                    return false;
+                }
             }
-            var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
-            if ($("#userid").val() != "" && !reg.test($("#userid").val())) {
-                promptTip("用户ID不能包含除-_.!~*'()+以外的其他特殊字符", "err");
-                return false;
+            if(pwdobj.isvisited){
+                $("#accountconf").hide();
+                $("#pwddiv").fadeIn(1000);
+                $("#first input").first().focus();
+                showpwddiv();
+            }else{
+                $(this).attr("disabled","disabled");
+                cb_get_action("getlockpwd&region=quickconf");
             }
 
-            reg = new RegExp("^[A-Za-z0-9-_.!~*'()+@]+$");
-            if ($("#authid").val() != "" && !reg.test($("#authid").val())) {
-                promptTip("认证ID不能包含除-_.!~*'()+@以外的其他特殊字符", "err");
-                return false;
-            }
-
-            $("#accountconf").hide();
-            $("#pwddiv").fadeIn(1000);
-            $("#first input").first().focus();
         });
 
         $("#pwd-back-btn").click(function () {
@@ -1076,11 +1097,6 @@
             $(this).val($(this).val().replace(/\D/g,''));
             var items = $(this).parent().find("input");
             var len = items.length;
-            if($(items[len-1]).val() != ""){
-                $("#pwd-next-step").removeAttr("disabled");
-            }else{
-                $("#pwd-next-step").attr("disabled","disabled");
-            }
             if(event.which == 8){
                 for (var j = len-1; j >= 0; j--) {
                     if ($(items[j]).val() != "") {
@@ -1100,38 +1116,61 @@
                     jumpToSecondpwd();
                     return;
                 }
+                if($(this).parent().attr("id") == "second"){
+                    //判断两次密码是否一致
+                    if(checkpwds()) {
+                        $("#pwd-next-step").removeAttr("disabled");
+                    }else{
+                        promptTip("两次密码不一致", "err");
+                        $("#pwddiv input").val("");
+                        jumpToFirstpwd();
+                    }
+                }
                 $(items[items.length-1]).focus();
             }
         });
 
+        $("#resetpwd").click(function(){
+            $("#existpwd").hide();
+            $("#noexistpwd").fadeIn(1000);
+            jumpToFirstpwd();
+        });
+
         $("#pwd-next-step").click(function(){
-            if($("#first").css("display") == "block"){
+            if($("#noexistpwd").css("display") == "block" && $("#first").css("display") == "block"){
                 jumpToSecondpwd();
             }else {
                 //最後配置結束發送各種保存請求
-                //判断密码是否一致
-                var firstpwds = $("#first").find("input");
-                var secondpwds = $("#second").find("input");
-                var lockpwd = "";
-                for (var i = 0; i < 6; i++) {
-                    lockpwd += $(firstpwds[i]).val();
-                    if($(firstpwds[i]).val() !=$(secondpwds[i]).val()){
-                        promptTip("两次密码不一致","err");
-                        $("#pwddiv input").val("");
-                        $("#first").show();
-                        $("#second").hide();
-                        $("#pwddiv .config-title").text("输入锁屏密码");
-                        $("#pwd-next-step").attr("disabled","disabled").text("下一步");
-                        return false;
-                    }
-                }
                 $(this).attr("disabled", "disabled");
-                cb_get_action("savelockpwd&region=quickconf&newlock=" + lockpwd);  //保存锁屏密码
+                if(lockpwd !=""){
+                    cb_get_action("savelockpwd&region=quickconf&newlock=" + lockpwd);  //保存锁屏密码
+                }
                 cb_put_lan();  //保存语言
                 cb_savetimeset();  //保存时区
                 cb_saveaccount(); //保存账号
             }
         });
+    }
+
+    function checkpwds(){
+        var firstpwds = $("#first").find("input");
+        var secondpwds = $("#second").find("input");
+        lockpwd = "";
+        for (var i = 0; i < 6; i++) {
+            lockpwd += $(firstpwds[i]).val();
+            if($(firstpwds[i]).val() !=$(secondpwds[i]).val()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function jumpToFirstpwd(){
+        $("#first").show();
+        $("#second").hide();
+        $("#pwddiv .config-title").text("输入锁屏密码");
+        $("#first input").first().focus();
+        $("#pwd-next-step").attr("disabled","disabled").text("下一步");
     }
 
     function jumpToSecondpwd(){
@@ -1141,6 +1180,20 @@
         $("#second input").first().focus();
         $("#pwd-next-step").attr("disabled","disabled");
         $("#pwd-next-step").text("完成");
+    }
+
+    function showpwddiv(){
+        if(pwdobj.haspwd){
+            $("#existpwd").show();
+            $("#noexistpwd").hide();
+            $("#pwddiv .config-title").text("设置锁屏密码");
+            $("#pwd-next-step").removeAttr("disabled").text("完成");
+        }else{
+            $("#existpwd").hide();
+            $("#noexistpwd").show();
+            jumpToFirstpwd();
+        }
+
     }
 
     function cb_get_items_suc(data, items){
@@ -1179,13 +1232,6 @@
             } else if (typeattr == 'text' || typeattr == 'number') {
                 var tempval = msgs.headers[items[i].pvalue.toLowerCase()];
                 temp.val( tempval );
-                if ((temp.attr["typename"] != undefined) && (temp.attr["typename"].val() == "sldValue")){
-                    for (var j = 0; j < bar_items.length; j++) {
-                        if (bar_items[j].id == temp.attr('id')) {
-                            bar_items[j].bar_class.SetValue(temp.val());
-                        }
-                    }
-                }
             } else if (typeattr == 'select-one') {
                 var tempsel = tempid + ' option';
                 var tempsel = $(tempsel);
@@ -1225,21 +1271,26 @@
             $("#acctactive").addClass("accountinactive");
         }
         $("#acctactive").text("");
+        if(colore == "54"  && ($("#sipserver").val() == "" || $("#sipserver").val() == "ims.ge.chinamobile.com") ){
+            $("#a_accountname").text("账号");
+            $("#a_authpwd").text("密码");
+            $(".mobile").show();
+            $(".master").hide();
+        }else{
+            $(".mobile").hide();
+            $(".master").show();
+        }
     }
-
 
     function get_item_suc_callback(msg){
         $('input[name=protocoltype]').each(function (index) {
            if($(this).prop("checked") == true){
-//               $("#protocol-type").text($(this).parent().children("span").text());
                $("#protocol-type").text(protocoltypeArr[index]);
            }
         });
 
         $('input[name=networktype]').each(function (index) {
             if($(this).prop("checked") == true){
-//                var networktype = $(this).parent().children("span").text();
-//                $("#ipv4addtype1, #ipv4addtype2").text(networktype);
                 orignnetworktype = index;
                 $("#ipv4addtype1, #ipv4addtype2").text(networktypeArr[index]);
             }
@@ -1311,6 +1362,22 @@
             }else if(action.indexOf("savelockpwd") != -1){
                 savelockpwddone = 1;
                 checkallsavedone();
+            }else if(action.indexOf("getlockpwd") != -1){
+                if(data.res == "success"){
+                    pwdobj.isvisited = true;
+                    $("#accountconf").hide();
+                    $("#pwddiv").fadeIn(1000);
+                    $("#first input").first().focus();
+                    $("#account-next-step").removeAttr("disabled");
+                    if(data.flag == "1"){
+                        pwdobj.haspwd = true;
+                    }else {
+                        pwdobj.haspwd = false;
+                    }
+                    showpwddiv();
+                }else{
+                    promptTip("获取锁屏状态失败", "err");
+                }
             }
         } else {
             var msgs = res_parse_rawtext(data);
@@ -1582,7 +1649,7 @@
                 checkallsavedone()
             },
             error:function(xmlHttpRequest, errorThrown) {
-                promptTip("网络错误！", "err");
+                promptTip("保存语言失败！", "err");
             }
         });
     }
@@ -1602,7 +1669,7 @@
                 checkallsavedone();
             },
             error:function(xmlHttpRequest, errorThrown) {
-                promptTip("网络错误！", "err");
+                promptTip("保存时区失败！", "err");
             }
         });
     }
@@ -1613,21 +1680,52 @@
             acctactive = 1;
         else
             acctactive = 0;
-        var colore = $.cookie("coloreExist");
-        if(colore == "54"){
+        var account_put_items = new Array();
+        var accountname = $("#accountname").val();
+        account_put_items.push(
+            new ReqItem("acctactive", "271", acctactive),
+            new ReqItem("accountname", "270", accountname)
+        );
+        var pwd = $("#authpwd").val();
+        if( pwd !="" && pwd != undefined ){
+            account_put_items.push( new ReqItem("authpwd", "34", pwd));
+        }
+        if(colore == "54"  && ($("#sipserver").val() == "" || $("#sipserver").val() == "ims.ge.chinamobile.com")){
             //保存会场名称
             var setsitename = "setSitesettingInfo&region=quickconf&sitename=" + encodeURIComponent($("#sitename").val());
-            //save sitesettings information
-            cb_get_action(setsitename);
+            cb_get_action(setsitename);  //save sitesettings information
+            var sipuserid = "";
+            var sipauthid = "";
+            if (accountname.substring(0, 1) == "0") {
+                sipuserid = "+86" + accountname.substring(1);
+            } else if (accountname != "") {
+                sipuserid = "+86" + accountname;
+            }
+            if (accountname.substring(0, 1) == "0") {
+                sipauthid = "86" + accountname.substring(1) + "@ims.ge.chinamobile.com"
+            } else if (account_name != "") {
+                sipauthid = "86" + accountname + "@ims.ge.chinamobile.com"
+            }
+            account_put_items.push(
+                new ReqItem("sipserver", "47", "ims.ge.chinamobile.com"),
+                new ReqItem("userid", "35", sipuserid),
+                new ReqItem("userid", "36", sipauthid)
+            );
+        }else{
+            account_put_items.push(
+                new ReqItem("sipserver", "47", $("#sipserver").val()),
+                new ReqItem("userid", "35", $("#userid").val()),
+                new ReqItem("userid", "36", $("#authid").val()),
+                new ReqItem("displayname", "3", $("#displayname").val())
+            );
         }
-        var request = "action=acctquickconf&region=quickconf&var-0000=271&val-0000=" + acctactive + "&var-0001=270&val-0001=" + $("#accountname").val() +
-            "&var-0002=47&val-0002=" + $("#sipserver").val() + "&var-0003=35&val-0003=" + $("#userid").val() +
-            "&var-0004=36&val-0004=" + $("#authid").val() + "&var-0005=34&val-0005=" + $("#authpwd").val() +"&var-0006=3&val-0006=" + $("#displayname").val()+
-            "&time=" + new Date().getTime();
+
+        var uritail = build_put_items(account_put_items);
+        var urihead = "action=acctquickconf&region=quickconf" + uritail + "&time=" + new Date().getTime();
         $.ajax({
             type: 'get',
             url: '/manager',
-            data: request,
+            data: urihead,
             success: function (data) {
                 if (data.indexOf("Cookie Valid") != -1) {
                     saveaccountdone = 1;
@@ -1640,16 +1738,20 @@
                 }
             },
             error: function () {
+                promptTip("保存账号失败", "err");
             }
         });
     }
 
     function checkallsavedone() {
-        if(savelockpwddone && saveaccountdone && savelandone && savetimezonedone){
-            promptTip("保存成功", "suc");
-            cb_get_action("quickconfdone&region=quickconf");
-            savelockpwddone = saveaccountdone = savelandone = savetimezonedone = 0;
-            $("#pwd-next-step").removeAttr("disabled");
+        if(saveaccountdone && savelandone && savetimezonedone){
+            if(lockpwd == "" || (lockpwd != "" && savelockpwddone) ){
+                $("#pwddiv").hide();
+                $("#configdone").fadeIn(1000);
+                cb_get_action("quickconfdone&region=quickconf");
+                savelockpwddone = saveaccountdone = savelandone = savetimezonedone = 0;
+                $("#pwd-next-step").removeAttr("disabled");
+            }
         }
     }
 
