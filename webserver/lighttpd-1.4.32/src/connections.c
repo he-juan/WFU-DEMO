@@ -192,6 +192,8 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define TMP_CERT                "/tmp/content_certs"
 #define PROC_IF_INET6_PATH      "/proc/net/if_inet6"
 #define COREDUMP_PATH           "/data/coredump"
+#define MENU_ETC_PATH           "/system/lighttpd/etc/menu"
+#define MENU_ETC_FILE           MENU_ETC_PATH"/menu.json"
 #define RECORD_PATH             "/tmp"
 #define RECORD_TMP_PATH         "/tmp/recfiles"
 #define DEBUG_TMP_PATH          "/tmp/debuginfo"
@@ -3146,6 +3148,12 @@ static void authenticate_success_response(server *srv, connection *con,
     }
 }
 
+static void handle_getusertype(buffer *b)
+{
+    buffer_append_string(b, "Response=Success\r\nUser=");
+    buffer_append_string(b, curuser);
+}
+
 #ifndef BUILD_RECOVER
 static int handle_logoff(buffer *b)
 {
@@ -3778,6 +3786,45 @@ static int handle_coloreExist(buffer *b)
     return 0;
 }
 #endif
+
+static int handle_getmenu(buffer *b)
+{
+    FILE *menuFile = NULL;
+    char *menuFileContent = NULL;
+    char *ptr = NULL;
+    char name[256] = "";
+    char *filename = NULL;
+    int fileLen;
+
+    if (access(MENU_ETC_PATH, 0)) {
+        buffer_append_string(b, "{\"response\":\"error\"}");
+        return -1;
+    }
+
+    menuFile = fopen(MENU_ETC_FILE, "r");
+
+    if (menuFile == NULL) {
+        buffer_append_string(b, "{\"response\":\"error\"}");
+    } else {
+        fseek(menuFile, 0, SEEK_END);
+        fileLen = ftell(menuFile);
+
+        menuFileContent = malloc(fileLen + 1);
+        fseek(menuFile, 0, SEEK_SET);
+        fread(menuFileContent, fileLen, 1, menuFile);
+        menuFileContent[fileLen] = 0;
+
+        printf("menu: %s\n", menuFileContent);
+
+        buffer_append_string(b, menuFileContent);
+
+        fclose(menuFile);
+    }
+
+    return 0;
+}
+
+
 
 static int handle_get(buffer *b, const struct message *m)
 {
@@ -22013,7 +22060,11 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_recoverreset(b);
             }
 #else
-            if (!strcasecmp(action, "get")) {
+            if (!strcasecmp(action, "getmenu")) {
+                handle_getmenu(b);
+            } else if (!strcasecmp(action, "getusertype")) {
+                handle_getusertype(b);
+            } else if (!strcasecmp(action, "get")) {
                 handle_get(b, m);
             } else if (!strcasecmp(action, "put") || !strcasecmp(action, "setParameter") || !strcasecmp(action, "upgradeaddr") ) {
                 handle_put(b, m);
