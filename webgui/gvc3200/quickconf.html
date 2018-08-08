@@ -56,7 +56,7 @@
         .buttom-btn button:first-child{ border-right:1px solid #eceff2; border-bottom-left-radius: 8px;}
         .buttom-btn button:last-child{ border-bottom-right-radius: 8px;}
         #setlanguage .lang-next-step, .step-btn{position: absolute;width: 100%; bottom: 45px;text-align: center;}
-        #setlanguage .lang-next-step button{width:80%;;min-width: 150px;height:50px;line-height:50px;border-radius:8px;background-color: #155bff; color: white; font-size: 16px;}
+        #setlanguage .lang-next-step button{width:80%;;min-width: 150px;height:50px;line-height:50px;border-radius:8px;background-color: #155bff; color: white; font-size: 20px;}
         .step-btn button{width: 40%; min-width: 100px;height:50px;line-height:50px;border-radius:6px; border:1px solid #bcbbc1;background-color: #fefefe;color: #000000; font-size: 20px}
         .step-btn button:last-child {margin-left: 10px; background-color: #007aff;color: white; }
         .step-btn button:disabled{background-color: #9B9B9B;cursor: not-allowed;}
@@ -83,13 +83,17 @@
         .accountinactive{background: url("/img/quickconf/unchecked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
         input[type="radio"]{display: none;}
         div .active{ position: absolute; top: 10px; right: 20px; width: 20px;  height: 20px; background:url("/img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
-        .qr-pic{ width: 300px; height: 206px; margin: 30px auto;}
+        .qr-pic{ width: 300px; height: 206px; margin: 45px auto;}
         .qrinvalid-pic{background: url("/img/quickconf/qr_code_invalid_image.png");  -webkit-background-size: cover;  background-size: cover;}
+        .qrrefreshed-pic{background: url("/img/quickconf/qr_code_refreshed_image.png");  -webkit-background-size: cover;  background-size: cover;}
         #setpwd{  position: relative;  }
         #setpwd input{  width: 45px;height:45px; font-size: 30px;text-align: center; border: 1px solid #c8c7cc; -webkit-text-security:disc;text-security:disc;}
         #pwdmask1, #pwdmask2{ position:absolute; top:0; left:0; right:0; bottom: 0; }
         .content{position: absolute;left: 5px;right: 5px;bottom: 15px;background: white;font-size: 16px;border-radius: 8px;}
         .suc-pic{display:inline-block;width:22px;height:22px;margin-bottom:10px;background: url("/img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .qr-refreshsuc{position:relative;display:inline-block;width:22px;height:22px;top:3px;margin-right:6px;background: url("/img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        #modal-mask-prompt{ position: fixed;top:0;bottom:0;left: 0;right: 0;background-color:rgba(55, 55, 55, 0.6);z-index: 1000;}
+        #modal-mask-prompt div{margin: 150px auto;text-align:center;width: 200px;height: 50px;line-height: 50px; background: white;border-radius: 6px;}
     </style>
 </head>
 <body>
@@ -431,19 +435,28 @@
 <div id="configdone" style="display:none;">
     <div style="text-align: center;margin-top: 150px;">
         <div class="suc-pic"></div>
-        <p>配置完成！</p>
+        <p style="font-size: 20px;">配置完成！</p>
     </div>
 </div>
 
 <div id="qrdiv" style="display: none;">
     <div style=" width: 100%;position: relative;margin: 50px auto; text-align: center">
-        <div class="qr-pic qrinvalid-pic">
-
-        </div>
-        <p>二维码失效，请刷新二维码。</p>
+        <div class="qr-pic qrinvalid-pic"></div>
+        <p style="font-size: 17px;color: #8e8e93">二维码失效，请刷新二维码</p>
     </div>
     <div class="step-btn"><button id="refreshqr" style="width: 80%;max-width: 300px;">刷新二维码</button></div>
 </div>
+<div id="qrsucdiv" style="display:none;">
+    <div style=" width: 100%;position: relative;margin: 50px auto; text-align: center">
+        <div class="qr-pic qrrefreshed-pic"></div>
+        <div style="font-size:17px; text-align: center;"><span><i class="qr-refreshsuc"></i>二维码已刷新</span><p style="margin-top: 6px">请返回重新扫描</p></div>
+    </div>
+</div>
+
+<div id="modal-mask-prompt" style="display: none;">
+    <div>正在保存，请稍后...</div>
+</div>
+
 <script src='/lang/zh.js'></script>
 <!--<script type="text/javascript" src='/js/public.js'></script>-->
 <script type='text/javascript'>
@@ -1120,13 +1133,15 @@
                     //判断两次密码是否一致
                     if(checkpwds()) {
                         $("#pwd-next-step").removeAttr("disabled");
+                        $(this).blur();
+                        return;
                     }else{
                         promptTip("两次密码不一致", "err");
                         $("#pwddiv input").val("");
                         jumpToFirstpwd();
+                        return;
                     }
                 }
-                $(items[items.length-1]).focus();
             }
         });
 
@@ -1145,6 +1160,7 @@
                 if(lockpwd !=""){
                     cb_get_action("savelockpwd&region=quickconf&newlock=" + lockpwd);  //保存锁屏密码
                 }
+                $("#modal-mask-prompt").show();
                 cb_put_lan();  //保存语言
                 cb_savetimeset();  //保存时区
                 cb_saveaccount(); //保存账号
@@ -1393,7 +1409,8 @@
                     temp.find("div").addClass("active");
                     $("#selectedlang").text(temp.text());
                 }else if(action.indexOf("refreshqrcode") != -1){
-
+                    $("#qrdiv").hide();
+                    $("#qrsucdiv").fadeIn(1000);
                 }else if(action.indexOf("network") != -1){
                     $("#time-next-step").removeAttr("disabled");
                     if(msgs.headers["response"].toLowerCase() == "success"){
@@ -1703,7 +1720,7 @@
             }
             if (accountname.substring(0, 1) == "0") {
                 sipauthid = "86" + accountname.substring(1) + "@ims.ge.chinamobile.com"
-            } else if (account_name != "") {
+            } else if (accountname != "") {
                 sipauthid = "86" + accountname + "@ims.ge.chinamobile.com"
             }
             account_put_items.push(
@@ -1746,7 +1763,7 @@
     function checkallsavedone() {
         if(saveaccountdone && savelandone && savetimezonedone){
             if(lockpwd == "" || (lockpwd != "" && savelockpwddone) ){
-                $("#pwddiv").hide();
+                $("#pwddiv,#modal-mask-prompt").hide();
                 $("#configdone").fadeIn(1000);
                 cb_get_action("quickconfdone&region=quickconf");
                 savelockpwddone = saveaccountdone = savelandone = savetimezonedone = 0;
