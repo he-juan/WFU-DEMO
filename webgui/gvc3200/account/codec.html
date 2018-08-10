@@ -331,14 +331,6 @@ fieldset div{margin-left:10px;}
                     <option value="29">Variable</option>
                 </select>
             </div>
-            <div webtip="Packetization-mode">
-                <div class="noreboot"><span id="a_packetmodel">Packetization-mode</span> :</div>
-                <select id="packetmodel" name="packetmodel">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">Auto</option>
-                </select>
-            </div>
             <div webtip="H.264 Payload Type" class="h323mode">
                 <div class="noreboot"><span id="a_h264payload">H.264 Payload Type</span> :</div>
                 <input id="h264payload" name="h264payload" type="text" value='99' />
@@ -361,6 +353,14 @@ fieldset div{margin-left:10px;}
             <div style="display:none">
                 <div class="noreboot"><span id="a_slientrtp">Send Silent RTP Packets on Mute</span> :</div>
                 <input name="slientrtp" type="checkbox" id="slientrtp"><span id="a_slientrtpyes">Yes</span>
+            </div>
+            <div webtip="Packetization-mode" class="h323mode">
+                <div class="noreboot"><span id="a_packetmodel">Packetization-mode</span> :</div>
+                <select id="packetmodel" name="packetmodel">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">Auto</option>
+                </select>
             </div>
             <div webtip="H.264 Profile Type">
                 <div class="noreboot"><span id="a_h264protype">H.264 Profile Type</span> :</div>
@@ -1014,7 +1014,8 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("P295", "25045", ""),
                 new ReqItem("P296", "25046", ""),
                 new ReqItem("P297", "25047", ""),
-                new ReqItem("packetmodel", "26305", ""),
+//                new ReqItem("packetmodel", "26305", ""),
+                new ReqItem("packetmodel", "25072", ""),
                 new ReqItem("imgsize", "25061", ""),
                 new ReqItem("vbrate", "25063", ""),
                 new ReqItem("h264payload", "25064", ""),

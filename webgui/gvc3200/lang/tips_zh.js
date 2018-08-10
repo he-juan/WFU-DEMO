@@ -482,7 +482,7 @@ tip_item.push (
     new TipsDef("Enable Motion Detection", "开启动态检查",
 		   "设备在屏保/关闭LCD时如果检测到动作将唤醒设备。默认是激活的。"),
     new TipsDef("Packetization-mode", "打包模式",
-		   "视频封包模式0,1或自动；默认为1。"),
+		   "视频封包模式0,1或自动；默认为0。"),
     new TipsDef("Redundant P-frame", "冗余P帧",
 	    	"冗余P帧取代I帧。当I帧延时/丢失时，剩余P帧将取代I帧。这样以减少视频帧错误，但将适当增加带宽。默认不勾选。"),
     new TipsDef("Adaptive MB Intra Refresh", "自适应内部宏块刷新方法",

@@ -474,7 +474,7 @@ tip_item.push (
     new TipsDef("Enable Motion Detection",
 		"The device will exit idle/screensaver mode if motion is detected. The default setting is Yes."),
     new TipsDef("Packetization-mode",
-		"The packetization mode (0, 1 or Auto) for the video packets. The default setting is 1."),
+		"The packetization mode (0, 1 or Auto) for the video packets. The default setting is 0."),
     new TipsDef("Redundant P-frame",
 		"This setting allows the device to send redundant P-frames of I frames. When an I frame is delayed or has packet loss, the redundant P-frames will be used instead. It may make video phone call less prone to errors and thus make the video stream more robust towards error propagation, but may increase bandwidth usage. The default setting is set to No."),
     new TipsDef("Adaptive MB Intra Refresh",
