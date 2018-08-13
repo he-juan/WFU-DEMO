@@ -643,6 +643,7 @@ var a_sharpenfilter_en = "Sharpening Filter";
 var a_distrt_en = "Distinctive Ring Tone";
 var a_callpt_en = "Call Progress Tones";
 var a_attri_en = "Attribute";
+var a_echo_delay_en = "Echo Delay";
 var a_dialtone_en = "Dial Tone";
 var a_secdialtone_en = "Second Dial Tone";
 var a_ringbt_en = "Ring Back Tone";
@@ -2091,3 +2092,28 @@ var a_conferenceError2_en="The configuration number can not be empty";
 var USB_en="Disable USB Port";
 var SD_en="Disable SD Card";
 var Camera_en="Disable Camera";
+
+/******************device control*********************/
+var a_device_control_en = "Devcie Control";
+var a_camera_control_en="Camera Control";
+var a_movespeed_en = "Move Speed";
+var a_initial_position_en = "The initial position";
+var a_ptz_en = "PTZ";
+var a_preset_en = "Camera Preset";
+var a_ptz_control_en = "PTZ Control";
+var a_image_setting_en = "Adjusting Local Video Effects";
+var a_peripheral_en ="Peripheral";
+var a_HDMI1_out_resolution_en = "HDMI 1 Out Resolution";
+var a_HDMI2_out_resolution_en = "HDMI 2 Out Resolution";
+var a_remote_control_en="Remote Control";
+var a_remoteappconnect_en="Disable Remote Control App Connection";
+
+/******************call setting （add）*********************/
+var a_rules_en = "Rules";
+var a_noiseshield_en = "Noise Shield";
+
+/************callset audio ****************/
+var a_ringtonevol_en = "Volume：Ringtone + Media + Notification";
+var a_ringtoneset_en = "Ringtone：System Ringtone + Alert Tone";
+var a_audiodevice_en = "Audio Device";
+var a_aeclevel_en = "AEC Level";

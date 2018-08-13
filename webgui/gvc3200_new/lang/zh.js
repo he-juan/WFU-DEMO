@@ -637,6 +637,7 @@ var a_sharpenfilter_zh = "锐化过滤器";
 var a_distrt_zh = "个性化铃音";
 var a_callpt_zh = "呼叫音调";
 var a_attri_zh = "参数设置";
+var a_echo_delay_zh = "回声延迟";
 var a_dialtone_zh = "拨号音";
 var a_secdialtone_zh = "备选拨号音";
 var a_ringbt_zh = "回铃音";
@@ -2096,3 +2097,28 @@ var a_conferenceError2_zh="配置号码不能为空";
 var USB_zh="禁用USB接口";
 var SD_zh="禁用SD卡接口";
 var Camera_zh="禁用摄像头";
+
+/******************device control*********************/
+var a_device_control_zh = "设备控制";
+var a_camera_control_zh = "摄像头控制";
+var a_movespeed_zh = "移动速度";
+var a_initial_position_zh = "初始位置";
+var a_ptz_zh = "PTZ";
+var a_preset_zh = "预置位";
+var a_ptz_control_zh = "PTZ控制";
+var a_image_setting_zh = "图像设置";
+var a_peripheral_zh = "外围设备";
+var a_HDMI1_out_resolution_zh = "HDMI 1输出分辨率";
+var a_HDMI2_out_resolution_zh = "HDMI 2输出分辨率";
+var a_remote_control_zh= "遥控器";
+var a_remoteappconnect_zh="禁止手机遥控器连接";
+
+/******************call setting （add）*********************/
+var a_rules_zh = "规则";
+var a_noiseshield_zh = "Noise Shield";
+
+/************callset audio ****************/
+var a_ringtonevol_zh = "音量设置";
+var a_ringtoneset_zh = "铃声设置";
+var a_audiodevice_zh = "音频设备";
+var a_aeclevel_zh = "音频回声抑制等级";

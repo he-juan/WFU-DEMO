@@ -290,14 +290,10 @@ export const options = [
             {"name": "conventional", "lang": "a_conventionset", "sub": [
                 {"name": "Local RTP Port", "lang": "a_rtpport"},
                 {"name": "Use Random Port", "lang": "a_useranport", "oem": "54"},
-                {"name": "Disable in-call DTMF display", "lang": "a_disdtmf"},
-                {"name": "Enable Enterprise Contacts Timeout Auto Search", "lang": "a_backmatch", "product": "1"},
-                //{"name": "Hide LDAP Contacts", "lang": "a_hideldap"},
-                {"name": "Hide Local Call History", "lang": "a_hidecalllog", "product": "1,4"},
                 {"name": "Keep-alive Interval", "lang": "a_keepa"},
                 {"name": "STUN Server", "lang": "a_stunserver"},
-                {"name": "TURN Server Username", "lang": "a_stunservername", "product": "1"},
-                {"name": "TURN Server Password", "lang": "a_stunserverpwd", "product": "1"},
+                {"name": "TURN Server Username", "lang": "a_stunservername"},
+                {"name": "TURN Server Password", "lang": "a_stunserverpwd"},
                 {"name": "Use NAT IP", "lang": "a_usenatip"},
                 {"type": "button", "lang": "a_save"}
             ]},
@@ -310,130 +306,76 @@ export const options = [
         ]},
         {"name": "callfeatures", "lang": "account_call", "sub": [
             {"name": "callfeatures", "lang": "account_call", "sub": [
-                {"name": "Disable Video Call Feature", "lang": "a_disablevideo", "product": "1, 4"},
-                //{"name": "Disable Direct IP Call", "lang": "a_diripcall"},
-                {"name": "Use Quick IP-call mode", "lang": "a_usequickipcall", "product": "1"},
-                {"name": "Disable Call-Waiting", "lang": "a_callwait","product":"4"},
                 {"name": "Disable Call-Waiting Tone", "lang": "a_discallwaittone","product":"4"},
                 {"name": "Disable DND Reminder Ring", "lang": "a_disdndring","product":"4"},
-                {"name": "Disable Transfer", "lang": "a_disabletrnf", "product": "4","oem":"54"},
-                {"name": "Hold Call Before Completing Transfer", "lang": "a_disablebefortrnf", "product": "4","oem":"54"},
-                {"name": "Default Transfer Mode", "lang": "a_dfttrnfmode", "product": "1, 4","oem":"54"},
-                {"name": "Enable Function for Incoming Call", "lang": "a_enablefunction", "product": "1,4"},
-                {"name": "Disable Conference", "lang": "a_disableconf","product":"4"},
-                {"name": "Auto Conference", "lang": "a_autoconf", "product": "1,4"},
                 {"name": "Auto Mute on Entry", "lang": "a_entrymute"},
-                {"name": "Use # as Dial Key", "lang": "a_usepound", "product": "2,3,4"},
-                {"name": "Always Ring Speaker", "lang": "a_alring","product":"4"},
-                //{"name": "Always Display Dialer Interface", "lang": "a_entpg"},
-                //{"name": "Dialer Interface Display Interval", "lang": "a_tpginterval"},
-                {"name": "Offhook Auto Dial", "lang": "a_ofhdial","product":"4"},
-                {"name": "Offhook Auto Dial Delay", "lang": "a_ofautodialdelay","product":"4"},
-                {"name": "Offhook/Onhook Timeout", "lang": "a_ofhtimeout","product":"4"},
-                {"name": "Off-cradle Pickup", "lang": "a_offcradlepickup","product":"2,3,4"},
-                {"name": "On-cradle Hangup", "lang": "a_oncradlehangup","product":"2,3,4"},
-                {"name": "Dial Dtmf Button Size", "lang": "a_dtmfbtnsize", "product": "1, 2, 3, 4"},
-                {"name": "Dial Dtmf Button Color", "lang": "a_dtmfbtncolor", "product": "1, 2, 3, 4"},
-                {"name": "Auto Unhold When Press the Line Key", "lang": "a_autounhold", "product": "1,4"},
-                {"name": "Virtual Account Group Avaya Mode", "lang": "a_avayamode", "product": "1"},
-                {"name": "Virtual Account Group Concurrence Register", "lang": "a_vgregisternum","product":"4"},
+                {"name": "Noise Shield", "lang": "a_noiseshield"},
                 {"name": "Filter Characters", "lang": "a_filterchars"},
                 {"name": "Escape '#' as %23 in SIP URI", "lang": "a_escapeuri"},
-                {"name": "Use 3rd Party App as Basic Phone", "lang": "a_use3rdapp", "product": "1, 4", "oem": "54"},
-                {"name": "3rd Party App　Package Name", "lang": "a_use3rdapppkt", "product": "1, 4", "oem": "54"},
-                {"name": "Record Mode", "lang": "a_recordmode", "product": "1"},
-                {"name": "Environment", "lang": "a_environment", "product": "1, 2, 3, 4"},
+                {"name": "Disable in-call DTMF display", "lang": "a_disdtmf"},
+                {"name": "Disable Call-Waiting", "lang": "a_callwait","product":"4"},
                 {"type": "button", "lang": "a_save"}
             ]},
         ]},
+        {"name": "sitename", "lang": "a_sitename", "sub": [
+            {"name": "sitenameset", "lang": "a_sitenameset", "sub": [
+                {"name": "Background Transparency", "lang": "a_backopacity"},
+                {"name": "sitename", "lang": "a_sitename"},
+                {"name": "Display Position", "lang": "a_displaypos"},
+                {"name": "Display Duration", "lang": "a_displaytime"},
+                {"name": "Font Color", "lang": "a_fontcolor"},
+                {"name": "Font Size", "lang": "a_fontsize"},
+                {"name": "Bold", "lang": "a_bold"},
+                {"name": "Horizontal Offset", "lang": "a_horizonoffset"},
+                {"name": "Vertical Offset", "lang": "a_vericaloffset"},
+                {"type": "button", "lang": "a_save"}
+            ]}
+        ]},
         {"name": "audio", "lang": "advanced_ring", "sub": [
             {"name": "audio", "lang": "advanced_ring", "sub": [
-                {"name": "Auto Config CPT by Region", "lang": "a_autocptbyregion"},
-                {"name": "Dial Tone", "lang": "a_dialtone"},
-                {"name": "Second Dial Tone", "lang": "a_secdialtone"},
+                {"name": "Echo Delay", "lang": "a_echo_delay"},
+                {"name": "Volume：Ringtone + Media + Notification", "lang": "a_ringtonevol"},
+                {"name": "Ringtone：System Ringtone + Alert Tone", "lang": "a_ringtoneset"},
+                {"name": "Audio Device", "lang": "a_audiodevice"},
                 {"name": "Ring Back Tone", "lang": "a_ringbt"},
                 {"name": "Busy Tone", "lang": "a_busytone"},
                 {"name": "Reorder Tone", "lang": "a_reordertone"},
                 {"name": "Confirmation Tone", "lang": "a_confmtone"},
-                {"name": "Call-Waiting Tone", "lang": "a_callwaittone"},
-                {"name": "Call-Waiting Tone Gain", "lang": "a_cwaittonetx"},
-                //{"name": "PSTN Disconnect Tone", "lang": "a_pstndistone"},
                 {"name": "Default Ring Cadence", "lang": "a_defringcad2"},
+                {"name": "AEC Level", "lang": "a_aeclevel"},
                 {"type": "button", "lang": "a_save"}
             ]}
         ]},
-        {"name": "video", "lang": "advanced_video", "product": "1",  "sub": [
+        {"name": "video", "lang": "advanced_video", "sub": [
             {"name": "video", "lang": "advanced_video", "sub": [
-                {"name": "Video Frame Rate", "lang": "a_vidfr"},
+                {"name": "Always Ring Speaker", "lang": "a_alring"},
                 {"name": "Video Display Mode", "lang": "a_avspipmode"},
                 {"name": "Enable Frame Skipping in Video Decoder", "lang": "a_viddecodefs"},
                 {"type": "button", "lang": "a_save"}
             ]}
-        ]},
-        {"name": "multicast", "lang": "a_multipaging", "product": "1", "sub": [
-            {"name": "paging", "lang": "a_multipaging", "sub": [
-                {"name": "Paging Barge", "lang": "a_pagingbarge"},
-                {"name": "Paging Priority Active", "lang": "a_pagingpri"},
-                {"name": "Multicast Paging Codec", "lang": "a_pagingcodec"},
-                {"name": "Enable Multicast Paging Video", "lang": "a_mpenablevideo", "product": "1,4"},
-                {"name": "Multicast Paging Video Codec", "lang": "a_pagingvideocodec", "product": "1,4"},
-                {"name": "Multicast Paging Image Size", "lang": "a_mcimgsize", "product": "1,4"},
-                {"name": "Multicast Paging Video Bit Rate", "lang": "a_mcvidbr", "product": "1,4"},
-                {"name": "Video Frame Rate", "lang": "a_mcvidfr", "product": "1,4"},
-                {"name": "Multicast Paging H.264 Profile Type", "lang": "a_mch264protype", "product": "1,4"},
-                {"name": "Multicast Paging H.264 Payload Type", "lang": "a_mch264payload", "product": "1,4"},
-                {"type": "button", "lang": "a_save"}
-            ]},
-            {"name": "listening", "lang": "a_multicastlisten", "sub": []}
-        ]},
-        {"name": "pagingPtt", "lang": "a_ptt", "product": "2,3,4", "sub": [
-            {"name": "paging", "lang": "a_ptt", "sub": [
-                {"name": "pttMode", "lang": "a_pttMode"},
-                {"name": "ptt_multicastAddress", "lang": "a_ptt_multicastAddress"},
-                {"name": "ptt_multiPort", "lang": "a_ptt_multiPort"},
-                {"name": "ptt_emergencyVolume", "lang": "a_ptt_emergencyVolume"},
-                {"name": "Pagingenableglobal", "lang": "a_spectralinkPaging"},
-                {"name": "PagingdefaultChannel", "lang": "a_Spectralinkdefault"},
-                {"name": "PagingpriorityChannel", "lang": "a_Spectralinkpriority"},
-                {"name": "PagingemergencyChannel", "lang": "a_Spectralinkemergency"},
-                {"name": "PagingcallerID", "lang": "a_ptt_callerID"},
-                {"name": "Pagingptime", "lang": "a_ptt_ptime"},
-                {"name": "a_Spectralinkpaging2", "lang": "a_Spectralinkpaging2"},
-                {"name": "ptt_defaultChannel", "lang": "a_ptt_defaultChannel"},
-                {"name": "ptt_priorityChannel", "lang": "a_ptt_priorityChannel"},
-                {"name": "ptt_emergencyChannel", "lang": "a_ptt_emergencyChannel"},
-                {"name": "ptt_acceptatbusy", "lang": "a_ptt_acceptatbusy"},
-                {"name": "ptt_callerID", "lang": "a_ptt_callerID"},
-                {"name": "ptt_ptime", "lang": "a_ptt_ptime"},
-                {"name": "ptt_audioCodec", "lang": "a_ptt_audioCodec"},
-                {"name": "ptt_channel", "lang": "a_ptt_channel"},
-                {"name": "pagingbarge", "lang": "a_pagingbarge"},
-                {"name": "pagingpri", "lang": "a_pagingpri"},
-                {"name": "pagingcodec", "lang": "a_pagingcodec"}
-            ]}
-        ]},
+        ]}
     ]},
     {"name": "network", "lang": "network_setting", "sub": [
-        {"name": "ethernet", "lang": "ethernet_set", "product": "1",  "sub": [
+        {"name": "ethernet", "lang": "ethernet_set",  "sub": [
                 {"name": "ethernet", "lang": "ethernet_set",  "sub": [
                     {"name": "Preferred Internet Protocol", "lang": "a_protocoltype"},
-                    {"name": "Different Networks for Data and VoIP Calls", "lang": "a_twovlan", product: "1, 2, 3, 4"},
+                    // {"name": "Different Networks for Data and VoIP Calls", "lang": "a_twovlan", product: "1, 2, 3, 4"},
                     {"type": "p", "lang": ""},
-                    {"type": "p", "lang": "a_netfordata"},
+                    // {"type": "p", "lang": "a_netfordata"},
                     {"type": "p", "lang": ""},
-                    {"name": "Address Type", "lang": "a_addresstypeipv4"},
-                    {"name": "DHCP VLAN Override", "lang": "a_dhcpvlan"},
-                    {"name": "Host name", "lang": "a_dhcpop12"},
-                    {"name": "Vendor Class ID", "lang": "a_dhcpop60"},
-                    {"name": "IP Address", "lang": "a_ipaddr"},
-                    {"name": "Subnet Mask", "lang": "a_subnetmask"},
-                    {"name": "Default Gateway", "lang": "a_gateway"},
-                    {"name": "DNS Server 1", "lang": "a_prednsser"},
-                    {"name": "DNS Server 2", "lang": "a_alerdnsser"},
-                    {"name": "PPPoE Account ID", "lang": "a_pppacc"},
-                    {"name": "PPPoE Password", "lang": "a_pppoepwd"},
-                    {"name": "Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)", "lang": "a_layer2qosdata"},
-                    {"name": "Layer 2 QoS 802.1p Priority Value (Ethernet)", "lang": "a_layer2qospvdata"},
+                    {"name": "Address Type", "lang": "a_addresstypeipv4"}, //
+                    {"name": "DHCP VLAN Override", "lang": "a_dhcpvlan"}, //
+                    {"name": "Host name", "lang": "a_dhcpop12"}, //
+                    {"name": "Vendor Class ID", "lang": "a_dhcpop60"}, //
+                    {"name": "IP Address", "lang": "a_ipaddr"}, //
+                    {"name": "Subnet Mask", "lang": "a_subnetmask"},//
+                    {"name": "Default Gateway", "lang": "a_gateway"},//
+                    {"name": "DNS Server 1", "lang": "a_prednsser"},//
+                    {"name": "DNS Server 2", "lang": "a_alerdnsser"},//
+                    {"name": "PPPoE Account ID", "lang": "a_pppacc"},//
+                    {"name": "PPPoE Password", "lang": "a_pppoepwd"},//
+                    {"name": "Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)", "lang": "a_layer2qosdata"}, //
+                    {"name": "Layer 2 QoS 802.1p Priority Value (Ethernet)", "lang": "a_layer2qospvdata"}, //
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": ""},
                     {"name": "IPv6 Address", "lang": "a_ipv6addr"},
@@ -441,59 +383,16 @@ export const options = [
                     {"name": "IPv6 Prefix length", "lang": "a_ipv6prefixlen"},
                     {"name": "IPv6 DNS Server 1", "lang": "a_ipv6dns1"},
                     {"name": "IPv6 DNS Server 2", "lang": "a_ipv6dns2"},
-                    {"type": "p", "lang": "a_netforvoip"},
                     {"type": "p", "lang": ""},
-                    {"name": "Voip Address Type", "lang": "a_addresstypeipv4"},
-                    {"name": "IP Address", "lang": "a_ipaddr"},
-                    {"name": "Subnet Mask", "lang": "a_subnetmask"},
-                    {"name": "Default Gateway", "lang": "a_gateway"},
-                    {"name": "DNS Server 1", "lang": "a_prednsser"},
-                    {"name": "DNS Server 2", "lang": "a_alerdnsser"},
-                    {"name": "Layer 2 QoS 802.1Q/VLAN Tag (Ethernet) for VoIP Calls", "lang": "a_layer2qosvoip"},
-                    {"name": "Layer 2 QoS 802.1p Priority Value (Ethernet) for VoIP Calls", "lang": "a_layer2qospvvoip"},
-                    {"type": "p", "lang": ""},
-                    {"name": "IPv6 Address", "lang": "a_ipv6addr"},
-                    {"name": "Static IPv6 Address", "lang": "a_staticipv6addr"},
-                    {"name": "IPv6 Prefix length", "lang": "a_ipv6prefixlen"},
                     {"type": "p", "lang": "a_802mode"},
-                    {"name": "802.1x mode", "lang": "a_802mode"},
-                    {"name": "802.1x Identity", "lang": "a_identity"},
-                    {"name": "802.1x Secret", "lang": "a_md5pas"},
-                    {"name": "CA Certificate", "lang": "a_802ca"},
-                    {"name": "Client Certificate", "lang": "a_802client"},
-                    {"name": "Private Key", "lang": "a_privatekey"},
+                    {"name": "802.1x mode", "lang": "a_802mode"},//
+                    {"name": "802.1x Identity", "lang": "a_identity"},//
+                    {"name": "802.1x Secret", "lang": "a_md5pas"},//
+                    {"name": "CA Certificate", "lang": "a_802ca"},//
+                    {"name": "Client Certificate", "lang": "a_802client"},//
+                    {"name": "Private Key", "lang": "a_privatekey"},//
                     {"type": "button", "lang": "a_save"}
                 ]}
-        ]},
-        {"name": "bluetooth", "lang": "a_bluetooth", "product": "1,2,3", "sub": [
-            {"name": "bluetooth", "lang": "a_bluetooth", "sub": [
-                {"name": "Bluetooth", "lang": "a_bluetooth"},
-                {"name": "Device Name", "lang": "a_devicename"},
-                {"name": "Visible to Nearby Bluetooth Devices", "lang": "a_discoverable"}
-            ]}
-        ]},
-        {"name": "wifi", "lang": "a_wifiset", "sub": [
-            {"name": "basics", "lang": "a_wifinormal", "sub": [
-                {"name": "Wi-Fi Function", "lang": "a_wififunc"},
-                {"name": "ESSID", "lang": ""}
-            ]},
-            {"name": "security", "lang": "a_wifiauth", "sub": [
-                {"name": "ESSID", "lang": ""},
-                {"name": "Password", "lang": "a_password"},
-                {"name": "Security Mode for Hidden SSID", "lang": "a_hiddenauthmode"}
-            ]},
-            {"name": "advanced", "lang": "advanced_menu", "sub": [
-                {"name": "Layer 2 QoS 802.1p Priority Value (Wi-Fi)", "lang": "a_layer2qospvwifi"},
-                {"name": "Country Code", "lang": "a_countrycode"},
-                {"name": "Host Name", "lang": "a_dhcpop12", "product": "2,3,4"},
-                {"name": "Vendor Class ID", "lang": "a_dhcpop60", "product": "2,3,4"},
-                {"type": "button", "lang": "a_save"}
-            ]},
-            {"name": "roaming", "lang": "a_wifiroaming", "product": "2,3,4", "sub": [
-                {"name": "Signal Threshold", "lang": "a_signalthreshold"},
-                {"name": "Good Signal Scan Interval (s)", "lang": "a_roaminggoodinterval"},
-                {"name": "Poor Signal Scan Interval (s)", "lang": "a_roamingpoorinterval"}
-            ]}
         ]},
         {"name": "openvpn", "lang": "openvpn_set", "sub": [
             {"name": "openvpn", "lang": "openvpn_set", "sub": [
@@ -514,20 +413,12 @@ export const options = [
                 {"type": "p", "lang": "common_net", "product": "1,4"},
                 {"name": "Alternate DNS Server", "lang": "a_relprednsser"},
                 {"name": "Second Alternate DNS Server", "lang": "a_2relprednsser"},
-                //{"name": "Show IP Address on Account Widget", "lang": "a_showwidgetip", "product": "1"},
                 {"name": "Enable LLDP", "lang": "a_enablelldp", "product": "1"},
-                {"name": "LLDP TX Interval (s)", "lang": "a_lldpinterval", "product": "1"},
-                {"name": "Enable CDP", "lang": "a_enablecdp", "product": "1"},
                 {"name": "Layer 3 QoS for SIP", "lang": "a_layer3qossip"},
                 {"name": "Layer 3 QoS for Audio", "lang": "a_layer3qosaudio"},
                 {"name": "Layer 3 QoS for Video", "lang": "a_layer3qosvideo", "product": "1,4"},
                 {"name": "HTTP/HTTPS User-Agent", "lang": "a_useragent"},
                 {"name": "SIP User-Agent", "lang": "a_sipuseragent"},
-                //{"name": "Media Address", "lang": "a_mediaaddr", "product": "1,4"},
-                {"type": "p", "lang": "a_pcportmode", "product": "1,4"},
-                {"name": "PC Port Mode", "lang": "a_pcportmode", "product": "1,4"},
-                {"name": "PC Port VLAN Tag", "lang": "a_pcporttag", "product": "1"},
-                {"name": "PC Port Priority Value", "lang": "a_pcporttagpv", "product": "1"},
                 {"type": "p", "acl": "1", "lang": "a_proxyset"},
                 {"name": "HTTP/HTTPS Proxy Hostname", "lang": "a_proxyhttp"},
                 {"name": "HTTP/HTTPS Proxy Port", "lang": "a_proxyport"},
@@ -677,6 +568,64 @@ export const options = [
             ]}
         ]}
     ]},
+    {"name":"devicecontrol","lang":"a_device_control","sub":[
+        {"name":"cameracontrol","lang":"a_camera_control", "sub":[
+            {"name":"cameracontrol","lang":"a_camera_control", "sub":[
+                {"name": "Move Speed", "lang": "a_movespeed"},
+                {"name": "The Initial Position", "lang": "a_initial_position"},
+                {"type": "button", "lang": "a_save"}
+            ]}
+        ]},
+        {"name":"ptz","lang":"a_ptz", "sub":[
+            {"name":"ptz","lang":"a_ptz", "sub":[
+                {"name": "Camera Preset", "lang": "a_preset"},
+                {"name": "PTZ Control", "lang": "a_ptz_control"},
+                {"name": "Adjusting Local Video Effects", "lang": "a_image_setting"},
+                {"type": "button", "lang": "a_save"}
+            ]}
+        ]},
+        {"name":"peripheral","lang":"a_peripheral", "sub":[
+            {"name":"peripheral","lang":"a_peripheral", "sub":[
+                {"name": "HDMI 1 Out Resolution", "lang": "a_HDMI1_out_resolution"},
+                {"name": "HDMI 2 Out Resolution", "lang": "a_HDMI2_out_resolution"},
+                {"name": "Enable Auto Presentation When HDMI Plugged", "lang": "a_enablepreauto"},
+                {"type": "button", "lang": "a_save"}
+            ]}
+        ]},
+        {"name":"remotecontrol","lang":"a_remote_control", "sub":[
+            {"name":"remotecontrol","lang":"a_remote_control", "sub":[
+                {"name": "Disable Remote Control App Connection", "lang": "a_remoteappconnect"},
+                {"type": "button", "lang": "a_save"}
+            ]}
+        ]}
+        ]
+    },
+    {"name": "sysapp", "lang": "system_app", "sub": [
+        {"name": "ldap", "lang": "appset_ldap","product":"1", "sub": [
+            {"name": "ldap", "lang": "appset_ldap", "sub": [
+                {"name": "Connection Mode", "lang": "a_connectmode"},
+                {"name": "Server Address", "lang": "a_serveraddr"},
+                {"name": "Port", "lang": "a_port"},
+                {"name": "Base DN", "lang": "a_basedn"},
+                {"name": "LDAP User Name", "lang": "a_username"},
+                {"name": "LDAP Password", "lang": "a_password"},
+                {"name": "LDAP Name Attributes", "lang": "a_nameattr"},
+                {"name": "LDAP Number Attributes", "lang": "a_numattr"},
+                {"name": "LDAP Mail Attributes", "lang": "a_mailattr"},
+                {"name": "LDAP Name Filter", "lang": "a_namefilter"},
+                {"name": "LDAP Number Filter", "lang": "a_numberfilter"},
+                {"name": "LDAP Mail Filter", "lang": "a_mailfilter"},
+                {"name": "Search Field Filter", "lang": "a_searchfieldfilter"},
+                {"name": "LDAP Displaying Name Attributes", "lang": "a_disnameattr"},
+                {"name": "Max Hits", "lang": "a_maxhits"},
+                {"name": "Search Timeout", "lang": "a_searchtimeout"},
+                {"name": "LDAP Lookup For Dial", "lang": "a_lookupdial"},
+                {"name": "LDAP Lookup For Incoming Call", "lang": "a_lookupcall"},
+                {"name": "LDAP Dialing Default Account", "lang": "a_ldapdftacct"},
+                {"type": "button", "lang": "a_save"}
+            ]}
+        ]}
+    ]},
     {"name": "maintenance", "lang": "maintenance_menu", "sub": [
         {"name": "upgrade", "lang": "maintenance_upgrade", "sub": [
             {"name": "firmware", "lang": "a_firmwaretitle", "sub": [
@@ -803,93 +752,6 @@ export const options = [
                 {"name": "On Register", "lang": "a_onregister"},
                 {"name": "On Unregister", "lang": "a_onunregister"},
                 {"type": "button", "lang": "a_save"}
-            ]}
-        ]}
-    ]},
-    {"name": "sysapp", "lang": "system_app", "sub": [
-        {"name": "vpk", "lang": "a_accountprogkeys", "product": "1,2,3,4", "sub": [
-            {"name": "vpk", "lang": "a_accountprogkeys", "sub": []}
-        ]},
-        {"name": "mpk", "lang": "sysapp_mpk", "product": "1,4", "sub": [
-            {"name": "lcd", "lang": "advanced_mpkset", "sub": [
-                {"name": "Display Format", "lang": "a_disformat"},
-                {"name": "Show DisplayName from Server", "lang": "a_disfmtfromser"},
-                {"type": "button", "lang": "a_save"}
-            ]},
-            {"name": "general", "lang": "advanced_eventlist", "sub": []}
-        ]},
-        {"name": "contacts", "lang": "appset_phonebook", "product":"4",  "sub": [
-            {"name": "general", "lang": "account_general", "sub": [
-                {"name": "Sort Phonebook by", "lang": "a_sortmethod"},
-                {"name": "Phonebook Key Function", "lang": "a_phbkkeyfunc", "product":"1"},
-                {"name": "Emergency Call Numbers", "lang": "a_icecontacts", "product":"1"},
-                {"type": "button", "lang": "a_save"}
-            ]},
-            {"name": "import", "lang": "a_imexportcontacts", "sub": [
-                {"type": "p", "lang": "a_import"},
-                {"name": "Clear The Old List", "lang": "a_clearoldlist"},
-                {"name": "Clear Old History Mode", "lang": "a_clearoldlistmode"},
-                {"name": "Replace Duplicate Items", "lang": "a_downdup"},
-                {"name": "Replace Duplicate Entries Mode", "lang": "a_downdupmode"},
-                {"name": "File Encoding", "lang": "a_fileencode"},
-                {"name": "File Type", "lang": "a_exporttype"},
-                {"name": "Imort Local File", "lang": "a_importlocal"},
-                {"type": "p", "lang": "a_export"},
-                {"name": "File Encoding", "lang": "a_fileencode"},
-                {"name": "File Type", "lang": "a_exporttype"},
-                {"name": "Export", "lang": "a_export"}
-            ]},
-            {"name": "download", "lang": "a_downloadcontacts", "sub": [
-                {"name": "Clear The Old List", "lang": "a_clearoldlist"},
-                {"name": "Clear Old History Mode", "lang": "a_clearoldlistmode"},
-                {"name": "Replace Duplicate Items", "lang": "a_downdup"},
-                {"name": "Replace Duplicate Entries Mode", "lang": "a_downdupmode"},
-                {"name": "Download Mode", "lang": "a_downmode"},
-                {"name": "File Encoding", "lang": "a_fileencode"},
-                {"name": "Download Server", "lang": "a_downserver"},
-                {"name": "Config HTTP/HTTPS User Name", "lang": "a_httpuser"},
-                {"name": "Config HTTP/HTTPS Password", "lang": "a_httppass"},
-                {"name": "Download Interval", "lang": "a_autodowninterval"},
-                {"name": "Download Now", "lang": "a_downnow"},
-                {"type": "button", "lang": "a_save"}
-            ]},
-            {"name": "contact", "lang": "a_contact","product":"1,2,3,4", "sub": [
-
-            ]},
-            {"name": "contactgroups", "lang": "a_contactgroups","product":"1,2,3,4", "sub": [
-
-            ]}
-        ]},
-        {"name": "ldap", "lang": "appset_ldap","product":"1", "sub": [
-            {"name": "ldap", "lang": "appset_ldap", "sub": [
-                {"name": "Connection Mode", "lang": "a_connectmode"},
-                {"name": "Server Address", "lang": "a_serveraddr"},
-                {"name": "Port", "lang": "a_port"},
-                {"name": "Base DN", "lang": "a_basedn"},
-                {"name": "LDAP User Name", "lang": "a_username"},
-                {"name": "LDAP Password", "lang": "a_password"},
-                {"name": "LDAP Name Attributes", "lang": "a_nameattr"},
-                {"name": "LDAP Number Attributes", "lang": "a_numattr"},
-                {"name": "LDAP Mail Attributes", "lang": "a_mailattr"},
-                {"name": "LDAP Name Filter", "lang": "a_namefilter"},
-                {"name": "LDAP Number Filter", "lang": "a_numberfilter"},
-                {"name": "LDAP Mail Filter", "lang": "a_mailfilter"},
-                {"name": "Search Field Filter", "lang": "a_searchfieldfilter"},
-                {"name": "LDAP Displaying Name Attributes", "lang": "a_disnameattr"},
-                {"name": "Max Hits", "lang": "a_maxhits"},
-                {"name": "Search Timeout", "lang": "a_searchtimeout"},
-                {"name": "LDAP Lookup For Dial", "lang": "a_lookupdial"},
-                {"name": "LDAP Lookup For Incoming Call", "lang": "a_lookupcall"},
-                {"name": "LDAP Dialing Default Account", "lang": "a_ldapdftacct"},
-                {"type": "button", "lang": "a_save"}
-            ]}
-        ]},
-        {"name": "record", "lang": "sysapp_record", "sub": [
-            {"name": "call", "lang": "call_record", "sub": [
-                {"type": "button", "lang": "a_delete"}
-            ]},
-            {"name": "normal", "product": "1, 3, 4", "lang": "normal_record", "sub": [
-                {"type": "button", "lang": "a_delete"}
             ]}
         ]}
     ]},
