@@ -719,6 +719,8 @@ tip_item.push (
         "设置该项可使服务提供商锁定配置升级版本。只有匹配前缀和(或)后缀的配置文件会被下载并写入设备中。"),
     new TipsDef("Always send HTTP Basic Authentication Information", "总是发送HTTP身份认证信息",
         "此项用于设置使用wget下载cfg.xml文件时，是否向服务器发送HTTP基本身份验证信息。若为“是”，则不论服务 器是 否需要进行身份验证均发送HTTP/HTTPS用户名及密码。若为“否”，则只有当服务器需要进行身份验证时才发送HTTP /HTTPS用户名及密码。默认为“否”。"),
+    new TipsDef("CFG Provision",
+        "Device will download the configuration files and provision by the order you set."),
     new TipsDef("Validate Server Certificate", "验证服务器证书",
         "此项用于设置下载固件/配置文件时是否验证服务器证书。若勾选，则设备仅从验证合法的服务器上下载固件/配置文件。默认设置为“否”。"),
     new TipsDef("Allow DHCP Option 43 and Option 66 Override Server", "启动DHCP选项43和66服务器设置",

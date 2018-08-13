@@ -730,6 +730,8 @@ tip_item.push (
         "If configured, only the configuration file with the matching encrypted postfix will be downloaded and flashed into the device. This setting is mainly for ITSP to configure so that only the configuration file with specific postfix can be loaded."),
     new TipsDef("Always send HTTP Basic Authentication Information",
         "Configures to enable or disable sending HTTP basic authentication when the device uses wget to download \"cfg.xml\" file. If set to \"Yes\", the device will always send HTTP with credentials. Otherwise, the device will send HTTP with credentials only when the server requests for it. The default is setting is \"No\"."),
+    new TipsDef("CFG Provision",
+        "Device will download the configuration files and provision by the order you set."),
     new TipsDef("Validate Server Certificate",
         "Configures whether to validate the server certificate when download the firmware/config file. If set to \"Yes\", the phone will download the firmware/config file only from the legitimate server. The default setting is \"No\"."),
     new TipsDef("Allow DHCP Option 43 and Option 66 Override Server",

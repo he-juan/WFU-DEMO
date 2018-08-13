@@ -723,6 +723,8 @@ tip_item.push (
         "Se está configurado, unicamente o arquivo de configuração com o sufixo criptografado correspondente será descarregado e instalado no dispositivo. Esta configuração é utilizada principalmente por ITSP para definir assim que só pode ser carregado o arquivo de configuração com o sufixo especifico."),
     new TipsDef("Always send HTTP Basic Authentication Information",
         "Configure para habilitar ou desabilitar o envio de autenticação básica HTTP quando o dispositivo utiliza wget para baixar o arquivo \"cfg.xml\". Se está configurado \"Sim\", o dispositivo sempre enviará HTTP com credenciais. Caso contrário, o dispositivo enviará HTTP com credenciais unicamente quando o servidor as solicite. A configuração padrão é \"Não\"."),
+    new TipsDef("CFG Provision",
+        "Device will download the configuration files and provision by the order you set."),
     new TipsDef("Validate Server Certificate",
         "Configure para validar os certificados do servidor quando baixe o arquivo de firmware/configuração. Se está configurado \"Sim\", o telefone irá baixar o arquivo de firmware/configuração unicamente do servidor legítimo. A configuração padrão é \"Não\"."),
     new TipsDef("Allow DHCP Option 43 and Option 66 Override Server",

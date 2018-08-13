@@ -21,6 +21,11 @@ input[type='file']{top:0;left:0;}
 #a_reset{*padding-top:1px;}
 .weekday{float: left; width: 104px; margin-top: 0 !important;}
 .bydaydiv input{width: 110px;}
+#allow1 option,#noallow1 option{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
 </style>
 <body id="framebody" class="maintenancebody">
 <div id="mainbody" class="maindiv">
@@ -134,6 +139,33 @@ input[type='file']{top:0;left:0;}
             <div webtip="Always send HTTP Basic Authentication Information" class="firmupgradedivs configupgradedivs">
                 <div class="rebootitem"><span id="a_httpauth">Always send HTTP Basic Authentication Information</span> :</div>
                 <input name="httpauth" type="checkbox" id="httpauth" checked="checked"><span id="a_httpauthyes">Yes</span>
+            </div>
+            <div style="width:700px;height:145px;" webtip="CFG Provision" class="h323mode">
+                <div class="noreboot"><span id="a_cfgprovision">CFG Provision</span> :</div>
+                <div>
+                    <div style="width:120px;margin-left:0;"><span id="a_notallowed">Not Allowed</span>
+                        <select multiple="multiple" style="width:100px;height:120px;" id="noallow1">
+                            <option value="cfg.xml" title="cfg.xml">cfg.xml</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div style="width:20px;margin-right:15px;top:25px;position:relative;"><br/>
+                        <span id="left1" style="cursor:pointer"><img src="../img/left.gif"/></span><br/><br/>
+                        <span id="right1" style="cursor:pointer"><img src="../img/right.gif"/></span><br/><br/>
+                    </div>
+                    <div style="width:120px;"><span id="a_allowed">Allowed</span>
+                        <select multiple="multiple" style="width:100px;height:120px;" id="allow1"></select>
+                    </div>
+                    <div style="display:none" id="pvaluediv">
+                        <input type="text" id="P8501">
+                    </div>
+                    <div style="width:20px;margin-right:15px;top:25px;position:relative;"><br/>
+                        <span id="up1" style="cursor:pointer"><img src="../img/up.gif"/></span><br/><br/>
+                        <span id="down1" style="cursor:pointer"><img src="../img/down2.gif"/></span>
+                    </div>
+                </div>
             </div>
             <div class="titlediv custset">
                 <div class="titleboot"><span id="a_custfile">Cust File</span></div>
@@ -350,13 +382,14 @@ req_items.push(
     new ReqItem("httpuser", "6768", ""),
     new ReqItem("httppass", "6769", ""),
     new ReqItem("confighttpuser", "1360", ""),
-    new ReqItem("confighttppass", "1361", "")
+    new ReqItem("confighttppass", "1361", ""),
+    new ReqItem("P8501", "8501", "")
 );
 
 $(function(){
     confmenumode = $('#confmenumode',parent.document.body).val();
     setInitState();
-    cb_get(req_items);
+    cb_get_action('productinfo');
     init_upload_status();
     init_upload();
     init_upload_cfg();
@@ -364,6 +397,8 @@ $(function(){
     pageEventActions(); 
     update_conf_mode(confmenumode);
 });
+
+
 function update_conf_mode(confmenumode)
 {
     return; //do not hide settings for admin,for bugzilla 20323
@@ -719,6 +754,9 @@ function translate_upgrade(){
     $("#a_validatecert").text(a_19025);
     $("#a_advettings").text(a_4101);
     $("#a_sipnotify").text(a_19013);
+    $("#a_cfgprovision").text(a_20173);
+    $("#a_notallowed").text("");
+    $("#a_allowed").text("");
     //$("#factresetstyle option:eq(0)").text(a_fullreset);
     //$("#factresetstyle option:eq(1)").text(a_fastbootreset);
     //$("#factresetstyle option:eq(1)").text(a_voipreset);
@@ -726,7 +764,7 @@ function translate_upgrade(){
     $("#a_save").text(a_17);
     $("#a_cancel").text(a_3);
 }
-function get_item_suc_callback() {
+function get_item_suc_callback(msgs) {
     /*var colore = $('#existcolore',parent.document.body).val();
     if( colore == 1 )
     {
@@ -740,6 +778,7 @@ function get_item_suc_callback() {
     //cb_upgrade_type_change();
     //cb_upgrade_change(1);
     cb_auto_upgrade_change();
+    initCFGProvision();
     a_confpathval = $("#confpath").val();
     if (a_confpathval == GAPS_PATH && $("#updateconfigvia").val() == "2") {
         $("#usegsgap").prop("checked", "checked");
@@ -752,6 +791,19 @@ function get_item_suc_callback() {
     var dayofweek = $("#dayofweek").val().split("/");
     for(i in dayofweek){
         $(".weekday input[value=\'" + dayofweek[i] + "\']").prop("checked", true);
+    }
+}
+
+function initCFGProvision() {
+    var cfgprovisoon=$('#P8501').val()
+    var array=$('#P8501').val().split(";")
+    $("#allow1").empty();
+    for (var i = 0; i < array.length; i++) {
+        for (var j = 0; j < $('#noallow1 option').length; j++) {
+            if (array[i] == $('#noallow1 option').eq(j).val()) {
+                $('#noallow1 option').eq(j).appendTo('#allow1');
+            }
+        }
     }
 }
 
@@ -820,43 +872,65 @@ function save_settings()
 
 function cb_get_action_done(data, action)
 {
-    var msgs = res_parse_rawtext(data);
-    cb_if_auth_fail(msgs);
-    if (cb_is_fail(msgs)){
-        if( action == "importconf" )
-        {
-            $.prompt(a_16477);
-            $("#a_browse").text(a_16486).removeAttr("disabled").css('color','');
-            window.parent.unblock_func();
+    if(action=="productinfo"){
+        var data2 = res_parse_rawtext(data);
+        $("#noallow1 option:eq(3)").attr(
+            {
+                "value":"cfg"+ data2.headers.product.toLocaleLowerCase()+".xml",
+                "title":"cfg"+ data2.headers.product.toLocaleLowerCase()+".xml",
+            }).text("cfg"+ data2.headers.product.toLocaleLowerCase()+".xml")
+        cb_get_action("network&region=status");
+    }else if(action=="network&region=status"){
+        $("#noallow1 option:eq(1)").attr({
+            "value":"cfg"+ JSON.parse(data).mac.replace(/:/g,"").toLocaleLowerCase(),
+            "title":"cfg"+ JSON.parse(data).mac.replace(/:/g,"").toLocaleLowerCase(),
+        }).text("cfg"+ JSON.parse(data).mac.replace(/:/g,"").toLocaleLowerCase())
+        $("#noallow1 option:eq(2)").attr({
+            "value":"cfg"+ JSON.parse(data).mac.replace(/:/g,"").toLocaleLowerCase()+".xml",
+            "title":"cfg"+ JSON.parse(data).mac.replace(/:/g,"").toLocaleLowerCase()+".xml"
+        }).text("cfg"+ JSON.parse(data).mac.replace(/:/g,"").toLocaleLowerCase()+".xml")
+        cb_get(req_items);
+    }else{
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){
+            if( action == "importconf" )
+            {
+                $.prompt(a_16477);
+                $("#a_browse").text(a_16486).removeAttr("disabled").css('color','');
+                window.parent.unblock_func();
+            }
         }
-    }   
-    else {
-        if(action == "backupcfg&region=maintenance")
-        {
-            view_message(a_7479, MSG_OK);
-        }else if( action == "restorecfg&region=maintenance" )
-        {
-            window.parent.unblock_func();
-            var txt = '<div class="shortmsg">' + a_16473 + '</div>';
-            $.prompt(txt,{
-                buttons:{
-                    Yes: true, No: false
-                },
-                callback: function(v,m,f){
-                    if(v) {  self.parent.location='/reboot.html'; }
-                    else {}
-                }
-            });
-        }else if( action == "saveconf&region=maintenance" )
-        {
-            parent.window.location.href = "/config.txt?time=" + new Date().getTime();
-        }else if( action == "importconf&region=maintenance" )
-        {
-            $.prompt(a_16476);
-            $("#a_browse").text(a_16486).removeAttr("disabled").css('color','');
-            window.parent.unblock_func();
+        else {
+            if(action == "backupcfg&region=maintenance")
+            {
+                view_message(a_7479, MSG_OK);
+            }else if( action == "restorecfg&region=maintenance" )
+            {
+                window.parent.unblock_func();
+                var txt = '<div class="shortmsg">' + a_16473 + '</div>';
+                $.prompt(txt,{
+                    buttons:{
+                        Yes: true, No: false
+                    },
+                    callback: function(v,m,f){
+                        if(v) {  self.parent.location='/reboot.html'; }
+                        else {}
+                    }
+                });
+            }else if( action == "saveconf&region=maintenance" )
+            {
+                parent.window.location.href = "/config.txt?time=" + new Date().getTime();
+            }else if( action == "importconf&region=maintenance" )
+            {
+                $.prompt(a_16476);
+                $("#a_browse").text(a_16486).removeAttr("disabled").css('color','');
+                window.parent.unblock_func();
+            }
         }
     }
+
+
 }
 function cb_auto_upgrade_change(){
     var value = $("#autoup").val();
@@ -961,7 +1035,29 @@ function pageEventActions(){
     /*$("input[name=uptype]").click(function(){
         cb_upgrade_type_change();
     });*/
-    
+
+    $('#right1').click(function() {
+        $('#noallow1 option:selected').appendTo('#allow1');
+    });
+    $('#left1').click(function() {
+        $('#allow1 option:selected').appendTo('#noallow1');
+    });
+    $('#up1, #down1').click(function() {
+        var $opt = $("#allow1 option:selected");
+        if (!$opt.length) return;
+        var bGoUp = (this.id == "up1");
+        if (!bGoUp) $opt.reverse();
+        $opt.each(function(i) {
+            var $src = $(this);
+            var $dst = $src[bGoUp ? "prev" : "next"]();
+            if ($dst.length && $dst[0].selected) return;
+            $dst[bGoUp ? "before" : "after"]($src);
+        });
+    });
+
+
+
+
     $("#httppass, #confighttppass, #xmlpass, #custpassword").hideShowPassword({
         innerToggle: true
     });
@@ -1080,7 +1176,15 @@ function pageEventActions(){
         if(dayofweek.length > 0)
             dayofweek = dayofweek.substring(0, dayofweek.length - 1);
         $("#dayofweek").val(dayofweek);
-        
+
+        var array=[]
+        for(var i=0;i<$('#allow1 option').length;i++){
+            array.push($('#allow1 option')[i].value)
+        }
+        $("#P8501").val(array.join(";"))
+
+
+
         /*var newconfpathval = $("#confpath").val();
         if( newconfpathval != a_confpathval ) {
             var txt = '<div class="shortmsg">' + a_confreboot + '</div>';

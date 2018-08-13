@@ -3588,3 +3588,4 @@ var a_20169="A criar uma conferência direta agora";
 var a_20170="A criar a conferência agora, por favor aguarde";
 var a_20171="Falhou ao criar a conferência, por favor verifique o estado da rede";
 var a_20172="Falhou ao criar";
+var a_20173="CFG Provision"
