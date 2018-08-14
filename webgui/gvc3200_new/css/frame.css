@@ -5573,3 +5573,219 @@ table thead tr th{
     height: 102px;
     background: transparent url("../img/icon.png") 0px -92px no-repeat;
 }
+
+.RemoteControl{
+    color: #8f9fb2;
+    border-left:1px solid #8f9fb2;
+    border-right:1px solid #8f9fb2;
+}
+
+.RemoteControl a {
+    color: #8f9fb2;
+}
+
+#RemoteControlModal{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.3);
+}
+
+#remotectrl{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translateX(-50%) translateY(-50%);
+    background: url("../img/remote/remote_control_bg.png");
+    width: 150px;
+    height: 697px;
+    min-height: 697px;
+    min-width: 150px;
+}
+
+#closeremote{
+    position: absolute;
+    left:170px;
+    top:0;
+    background:url("../img/remote/close_unpressed.png") no-repeat;
+    width:42px;
+    height:42px;
+}
+#closeremote:hover{
+    background:url("../img/remote/close_pressed.png") no-repeat;
+}
+/*#remotectrl>div{
+    float:left;
+    box-sizing: border-box;
+}
+#remotectrl i{
+    display: block;
+    width: 20px;
+    height:20px;
+}
+#tophomebtn{
+    width: 150px;
+    height:55px;
+}
+#powerbtn{
+    width:32px;
+    height:32px;
+    cursor: pointer;
+    background:transparent url(../img/remote/remote_control.png) -133px -84px no-repeat;
+    margin:11px auto;
+    padding: 0;
+}
+#powerbtn:hover{
+    background:transparent url(../img/remote/remote_control.png) -170px -84px no-repeat;
+}
+#touchpad{width:100%; height:122px;}
+
+
+#returnkey,#homekey,#menukey{
+    width:50px;height:30px;padding: 5px 15px;
+}
+#returnkey i{background:transparent url(../img/remote/remote_control.png) -14px -4px no-repeat;}
+#homekey i{background:transparent url(../img/remote/remote_control.png) -37px -4px no-repeat;}
+#menukey i{background:transparent url(../img/remote/remote_control.png) -58px -4px no-repeat;}*/
+
+
+#RemoteControlModal button {
+    border: medium none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    font-family: Arial;
+}
+
+.center{position: absolute; top:0; bottom:0; left:0; right: 0; margin: auto; text-align: center;}
+.borderradius button{position: relative; min-width: 0; border-radius: 0;}
+.borderradius button div{position: absolute; left:0; right:0; top:0; bottom:0; text-align: center; margin: auto;}
+.btnarea {width:100%;height:30px;}
+.btnarea button{height:28px; float: left; padding: 0; min-width: 0; border-radius: 0; background: none;}
+.btnarea button:hover, .downbtnarea button:hover{background: #646464;}
+.downbtnarea{width:100%;height:32px;}
+.downbtnarea button{height:30px; float: left; padding: 0; min-width: 0; border-radius: 0; background: none;}
+.downbtnarea button div{height: 20px; width: 36px;}
+#topbuttonarea div, .radiusbtn div, .arrowbtn div, #mediabtn div{width: 20px; height: 20px;}
+.optbtnleft{width: 48px; margin: 1px 0 1px 1px;}
+.optbtnmid{width: 50px; margin: 1px;}
+.optbtnright{width: 48px; margin: 1px 1px 1px 0;}
+#tophomebtn{width:100%; height:55px; background:transparent; position:relative;}
+#touchpad{width:100%; height:122px;}
+#powerbtn{width:32px;height:32px;background:transparent url(../img/remote/remote_control.png) -133px -84px no-repeat;margin:0;padding: 0;position: absolute; top:25%; left:39.5%;}
+#powerbtn:hover{background:transparent url(../img/remote/remote_control.png) -170px -84px no-repeat;}
+#returnkey div{background:transparent url(../img/remote/remote_control.png) -14px -4px no-repeat;}
+#homekey div{background:transparent url(../img/remote/remote_control.png) -37px -4px no-repeat;}
+#menukey div{background:transparent url(../img/remote/remote_control.png) -58px -4px no-repeat;}
+#customkey div{background: transparent url(../img/remote/remote_control.png) -248px -53px no-repeat; width: 25px; height: 20px;}
+#customkey{width: 99%; height: 29px; margin: 1px;}
+#funcbtn div{width: 36px; height: 20px;}
+#reddigit div{background:transparent url(../img/remote/remote_control.png) -129px -52px no-repeat;}
+#yellowdigit div{background:transparent url(../img/remote/remote_control.png) -165px -52px no-repeat;}
+#bluedigit div{background:transparent url(../img/remote/remote_control.png) -201px -52px no-repeat;}
+.radiusbtn button{width: 48px; height: 35px; padding: 0; min-width: 0; border-radius: 0; background: none; margin:1px;}
+#volumedownbtn{float: left;}
+#volumeupbtn{float: right;}
+#volumedownbtn div{background:transparent url(../img/remote/remote_control.png) -190px -5px no-repeat;}
+#volumeupbtn div{background:transparent url(../img/remote/remote_control.png) -234px -5px no-repeat;}
+.centerarrow{width: 92px; height: 95px; margin: 12px auto 0 auto; position: relative;}
+.centerarrow button{padding: 0; min-width: 0; border-radius: 0; background: none;}
+#topbtn, #bottombtn{height: 20px; width: 30px;}
+#leftbtn, #rightbtn{height: 52px; width: 20px;}
+#centerbtn{width: 52px; height: 52px; position: absolute; background:transparent url(../img/remote/remote_control.png) -133px -123px no-repeat;}
+#centerbtn:hover{background:transparent url(../img/remote/remote_control.png) -185px -123px no-repeat;}
+#topbtn div{background:transparent url(../img/remote/remote_control.png) -169px -26px no-repeat;}
+#leftbtn div{background:transparent url(../img/remote/remote_control.png) -256px -27px no-repeat;}
+#rightbtn div{background:transparent url(../img/remote/remote_control.png) -298px -27px no-repeat;}
+#bottombtn div{background:transparent url(../img/remote/remote_control.png) -213px -26px no-repeat;}
+#zoomoutbtn{float: left;}
+#zoominbtn{float: right;}
+#zoomoutbtn div{background:transparent url(../img/remote/remote_control.png) -278px -4px no-repeat;}
+#zoominbtn div{background:transparent url(../img/remote/remote_control.png) -322px -4px no-repeat;}
+#mediabtn button{margin-top: 0px; height: 31px;}
+#layoutbtn div{background:transparent url(../img/remote/remote_control.png) -80px -4px no-repeat;}
+#ptzbtn div{background:transparent url(../img/remote/remote_control.png) -102px -4px  no-repeat;}
+#presentationbtn div{background:transparent url(../img/remote/remote_control.png) -124px -4px no-repeat;}
+#digitcall div{background:transparent url(../img/remote/remote_control.png) -14px -28px no-repeat;}
+#digitback div{background:transparent url(../img/remote/remote_control.png) -146px -4px no-repeat; width: 20px; height: 20px;}
+#digitendcall div{background:transparent url(../img/remote/remote_control.png) -52px -28px no-repeat;}
+#digit4, #digit5, #digit6{height: 31px;}
+#digit1 div{background:transparent url(../img/remote/remote_control.png) -14px -51px no-repeat;}
+#digit2 div{background:transparent url(../img/remote/remote_control.png) -52px -51px no-repeat;}
+#digit3 div{background:transparent url(../img/remote/remote_control.png) -90px -51px no-repeat;}
+#digit4 div{background:transparent url(../img/remote/remote_control.png) -14px -84px no-repeat;}
+#digit5 div{background:transparent url(../img/remote/remote_control.png) -52px -84px no-repeat;}
+#digit6 div{background:transparent url(../img/remote/remote_control.png) -90px -84px no-repeat;}
+#digit7 div{background:transparent url(../img/remote/remote_control.png) -14px -117px no-repeat;}
+#digit8 div{background:transparent url(../img/remote/remote_control.png) -52px -117px no-repeat;}
+#digit9 div{background:transparent url(../img/remote/remote_control.png) -90px -117px no-repeat;}
+#digitasterisk div{background:transparent url(../img/remote/remote_control.png) -90px -28px no-repeat;}
+#digit0 div{background:transparent url(../img/remote/remote_control.png) -52px -150px no-repeat;}
+#digithash div{background:transparent url(../img/remote/remote_control.png) -128px -28px no-repeat;}
+#bottommutebtn{width: 100%; height: 65px; position: relative;}
+#mutebtn{position: absolute; width: 32px; height: 32px; background:transparent url(../img/remote/remote_control.png) -207px -84px no-repeat;}
+#mutebtn:hover{background:transparent url(../img/remote/remote_control.png) -244px -84px no-repeat;}
+#bottomlogo{height: 50px; width: 100%; position: relative;}
+#bottomlogo div{width: 58px; height: 20px; background:transparent url(../img/remote/remote_control.png) -344px -26px no-repeat;}
+
+#bottomdigitarea{width:192px;height:162px;background:#181818;border:1px solid #000000;border-radius:12px;position:absolute;top:337px;left:14px;}
+.DigitButtonLeft {position: relative;font-size: 16px;font-weight: bold;color:#FFFFFF;border: 0px;top: 2px;left: -12px;}
+.DigitButtonRight {position: relative;font-size: 8px;font-weight: normal;color:#FFFFFF;border: 0px;top: -11px;left: 10px;}
+#digitrecord{width:35px;height:18px;background:transparent url(../img/remote/remote_control.png) -105px -19px no-repeat;left:4px;}
+#digitinfo{width:35px;height:18px;background:transparent url(../img/remote/remote_control.png) -140px -19px no-repeat;left:6px;}
+#digitcontact{width:17px;height:14px;background:transparent url(../img/remote/remote_control.png) no-repeat;left:4px;}
+
+#volumedownbtn:hover div{
+ background:url('../img/remote/remote_control.png') -212px -5px
+}
+#volumeupbtn:hover div{
+    background:url('../img/remote/remote_control.png') -256px -5px
+}
+#topbtn:hover div{
+    background:url('../img/remote/remote_control.png') -191px -26px
+}
+#leftbtn:hover div{
+    background:url('../img/remote/remote_control.png') -278px -27px
+}
+#rightbtn:hover div{
+    background:url('../img/remote/remote_control.png') -320px -27px
+}
+#bottombtn:hover div{
+    background:url('../img/remote/remote_control.png') -235px -26px
+}
+#zoomoutbtn:hover div{
+    background:url('../img/remote/remote_control.png') -300px -4px
+}
+#zoominbtn:hover div{
+    background:url('../img/remote/remote_control.png') -344px -4px
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

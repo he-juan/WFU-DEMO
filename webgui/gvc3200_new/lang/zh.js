@@ -51,6 +51,7 @@ var warn_dhcp_zh = "提示：主机名和厂家类别名长度之和超过40，�
 var a_changedftpwd_zh ="正在使用默认密码. 为了安全, 请修改密码.";
 var a_changepwd_zh ="修改密码";
 var a_dnd_zh = "勿扰模式";
+var a_RemoteControl_zh="遥控器"
 var a_snumber_zh = "序号";
 var a_issuedto_zh = "持有者";
 var a_issuedby_zh = "颁发者";

@@ -51,6 +51,7 @@ var warn_dhcp_en = "Tip:Host name and Vendor Class ID length is longer than 40, 
 var a_changedftpwd_en ="Using default password now, please change it for security concerns.";
 var a_changepwd_en ="Change password";
 var a_dnd_en = "DND";
+var a_RemoteControl_en="Remote control"
 var a_snumber_en = "Index ID";
 var a_issuedto_en = "Issued To";
 var a_issuedby_en = "Issued By";
