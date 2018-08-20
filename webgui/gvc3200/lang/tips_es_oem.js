@@ -18,7 +18,7 @@ tip_item.push (
         "URL o dirección IP, y puerto del servidor SIP."),*/
         
     new TipsDef("DHCP VLAN Override",
-        "Selecciona el modo VLAN con Opción DHCP. Cuando se establece en \"Opción DHCP 132 y opción DHCP 133\", el equipo recibirá la opción DHCP 132 y 133 con la información del ID de la VLAN y la prioridad de la VLAN. Cuando se configura a \"DHCP Encapsulado en Opción 43\", el equipo recibirá valores de la Opción 43 que encapsula el ID de VLAN y la prioridad de VLAN encapsulada. Nota: Asegúrese de que la opción \"Permitir que la Opción DHCP 43 y Opción 66 sobre escriba la información del server\" en la configuración: mantenimiento-> actualización esté marcada. El valor predeterminado es \"Deshabilitado\"."),
+        "Selecciona el modo VLAN con Opción DHCP. Cuando se establece en \"Opción DHCP 132 y opción DHCP 133\", el equipo recibirá la opción DHCP 132 y 133 con la información del ID de la VLAN y la prioridad de la VLAN. Cuando se configura a \"DHCP Encapsulado en Opción 43\", el equipo recibirá valores de la Opción 43 que encapsula el ID de VLAN y la prioridad de VLAN encapsulada. Nota: Asegúrese de que la opción \"Opcion DHCP 43, 160 y 66 Anulaciòn del servidor\" en la configuración: mantenimiento-> actualización esté marcada. El valor predeterminado es \"Deshabilitado\"."),
     
     /*Estado de Red*/
     new TipsDef("IP Address ",
@@ -726,8 +726,8 @@ tip_item.push (
         "Device will download the configuration files and provision by the order you set."),
     new TipsDef("Validate Server Certificate",
         "Configure si validar el certificado del servidor cuando se descargue el firmware/archivo de configuración. Si se establece en \"Si\", el teléfono descargará el firmware/archivo de configuración solo desde el servidor legítimo. El ajuste por defecto es \"No\"."),
-    new TipsDef("Allow DHCP Option 43 and Option 66 Override Server",
-        "If DHCP option 43 or DHCP option 66 is turned ON in the LAN, the device will reset the configuration CPE, upgrade, network vlan Tag, and Priority according to option 43 sent by the server. At the same time, the update mode and server path of the configuration upgrade module will be reset according to the option 66 sent by the server. The default setting is \"on\"."),
+    new TipsDef("Allow DHCP Option 43, 160 and 66 Override Server",
+        "If DHCP option 43, 160 and 66 is turned ON in the LAN, the device will reset the configuration CPE, upgrade, network vlan Tag, and Priority according to option 43 sent by the server. At the same time, the update mode and server path of the configuration upgrade module will be reset according to the option 160 and 66 sent by the server. The default setting is \"on\"."),
     
     new TipsDef("Automatic Upgrade",
         "Habilite la actualización y aprovisionamiento automática HTTP. El ajuste por defecto es \"Revisar todos los días\"."),

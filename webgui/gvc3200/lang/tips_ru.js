@@ -722,8 +722,8 @@ tip_item.push (
         "Device will download the configuration files and provision by the order you set."),
     new TipsDef("Validate Server Certificate",
         "Устанавливает, будет ли проверяться сертификат сервера при загрузке файла прошивки или конфигурации. Если установлено \"Да\", телефон будет загружать файлы только с доверенного сервера. По умолчанию \"Нет\"."),
-    new TipsDef("DHCP Option 66 Override Server",
-        "Если включена опция 66 DHCP, будут приняты параметры TFTP из опции. По умолчанию \"Да\"."),
+    new TipsDef("Allow DHCP Option 43, 160 and 66 Override Server",
+        "If DHCP option 43, 160 and 66 is turned ON in the LAN, the device will reset the configuration CPE, upgrade, network vlan Tag, and Priority according to option 43 sent by the server. At the same time, the update mode and server path of the configuration upgrade module will be reset according to the option 160 and 66 sent by the server. The default setting is \"on\"."),
     
     new TipsDef("Automatic Upgrade",
         "Включить автоматическое обновление и провижининг по HTTP. По умолчанию \"Проверять каждый день\"."),
