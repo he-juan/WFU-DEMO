@@ -10604,7 +10604,7 @@ static int handle_network (server *srv, connection *con,
 
         sprintf(info,
                 "{\"res\" : \"success\", \"mac\" : \"%s\", \"ip\" : \"%s\", \"mask\" : \"%s\", \"gateway\" : \"%s\", \"dns\" : \"%s\","
-                "\"dns2\" : \"%s\",  \"type\" : \"%s\", \"ipv6\":\"%s\", \"ipv6dns1\":\"%s\", \"ipv6dns2\":\"%s\", \"ipv6type\":\"%s\""
+                "\"dns2\" : \"%s\",  \"type\" : \"%s\", \"ipv6\":\"%s\", \"ipv6dns1\":\"%s\", \"ipv6dns2\":\"%s\", \"ipv6type\":\"%s\","
                 "\"ethstatus\":\"%d\", \"wifistatus\":\"%d\"}",
                 mac, ip, mask, gateway, dns,dns2, type, ipv6, ipv6dns1, ipv6dns2, ipv6type, isEthernetConnected, isWifiConnected);
         temp = info;
