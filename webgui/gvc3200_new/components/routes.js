@@ -1,6 +1,253 @@
 import React from 'react'
 import { Route, IndexRoute, browserHistory } from 'react-router'
-import SipAcct from "./modules/account/sipAcct";
+
+
+const SipAcct  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/account/sipAcct').default);
+    }, 'status');
+};
+const IpvtAcct  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/account/ipvtAcct').default);
+    }, 'status');
+};
+
+const Account  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/status/account').default);
+    }, 'account');
+};
+const Network  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/status/network').default);
+    }, 'account');
+};
+const System  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/status/system').default);
+    }, 'account');
+};
+const Storage  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/status/storage').default);
+    }, 'account');
+};
+
+const DialUp  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/calls/dialup').default);
+    }, 'calls');
+};
+const CallHistory  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/calls/history').default);
+    }, 'calls');
+};
+const Contact  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/calls/contact').default);
+    }, 'calls');
+};
+const Dnd  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/calls/dnd').default);
+    }, 'calls');
+};
+const Blackwhite  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/calls/blackwhite').default);
+    }, 'calls');
+};
+
+const General  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/callset/general').default);
+    }, 'callset');
+};
+const Callfeatures  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/callset/callfeatures').default);
+    }, 'callset');
+};
+const Audio  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/callset/audio').default);
+    }, 'callset');
+};
+const Video  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/callset/video').default);
+    }, 'callset');
+};
+const Multicast  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/callset/multicast').default);
+    }, 'callset');
+};
+const Ptt  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/callset/ptt').default);
+    }, 'callset');
+};
+
+const Ethernet  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/network/ethernet').default);
+    }, 'network');
+};
+const Bluetooth  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/network/bluetooth').default);
+    }, 'network');
+};
+const Wifi  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/network/wifi').default);
+    }, 'network');
+};
+const OpenVPN  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/network/openvpn').default);
+    }, 'network');
+};
+const Common  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/network/common').default);
+    }, 'network');
+};
+
+const Timeandlang  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/timeandlang').default);
+    }, 'sysset');
+};
+const Security  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/security').default);
+    }, 'sysset');
+};
+const Peripherals  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/peripherals').default);
+    }, 'sysset');
+};
+const Tr069  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/tr069').default);
+    }, 'sysset');
+};
+const Switch  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/switch').default);
+    }, 'sysset');
+};
+const Fxo  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/fxo').default);
+    }, 'sysset');
+};
+const Sitename  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/sitename').default);
+    }, 'sysset');
+};
+const BackupForm  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/backup').default);
+    }, 'sysset');
+};
+
+const Upgrade  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/maintenance/upgrade').default);
+    }, 'maintenance');
+};
+const Diagnosis  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/maintenance/diagnosis').default);
+    }, 'maintenance');
+};
+const Eventnotice  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/maintenance/eventnotice').default);
+    }, 'maintenance');
+};
+
+const Vpk  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysapp/vpk').default);
+    }, 'sysapp');
+};
+const Mpk  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysapp/mpk').default);
+    }, 'sysapp');
+};
+const Contacts  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysapp/contacts').default);
+    }, 'sysapp');
+};
+const Record  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysapp/record').default);
+    }, 'sysapp');
+};
+const Ldap  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysapp/ldap').default);
+    }, 'sysapp');
+};
+
+const Gds  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/extension/gds').default);
+    }, 'extension');
+};
+const Broadsoftfunc  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/extension/broadsoftfunc').default);
+    }, 'extension');
+};
+const Broadsoftcontact  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/extension/broadsoftcontact').default);
+    }, 'extension');
+};
+const Broadsoftimp  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/extension/broadsoftimp').default);
+    }, 'extension');
+};
+
+const Loopback  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/detection/loopback').default);
+    }, 'detection');
+};
+const Speaker  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/detection/speaker').default);
+    }, 'detection');
+};
+const Led  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/detection/led').default);
+    }, 'detection');
+};
+const CertVerify  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/detection/certverify').default);
+    }, 'detection');
+};
+const Reset  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/detection/reset').default);
+    }, 'detection');
+};
+
+/*import SipAcct from "./modules/account/sipAcct";
 import IpvtAcct from "./modules/account/ipvtAcct";
 
 import Account from "./modules/status/account";
@@ -12,50 +259,50 @@ import DialUp from "./modules/calls/dialup";
 import CallHistory from "./modules/calls/history";
 import Contact from "./modules/calls/contact";
 import Dnd from "./modules/calls/dnd";
-import Blackwhite from "./modules/calls/blackwhite";
+import Blackwhite from "./modules/calls/blackwhite";*/
 
-import General from "./modules/callset/general";
+/*import General from "./modules/callset/general";
 import Callfeatures from "./modules/callset/callfeatures";
 import Audio from "./modules/callset/audio";
 import Video from "./modules/callset/video";
 import Multicast from "./modules/callset/multicast";
-import Ptt from "./modules/callset/ptt"
+import Ptt from "./modules/callset/ptt"*/
 
-import Ethernet from "./modules/network/ethernet";
+/*import Ethernet from "./modules/network/ethernet";
 import Bluetooth from "./modules/network/bluetooth";
 import Wifi from "./modules/network/wifi";
 import OpenVPN from "./modules/network/openvpn";
-import Common from "./modules/network/common";
+import Common from "./modules/network/common";*/
 
-import Timeandlang from "./modules/sysset/timeandlang";
+/*import Timeandlang from "./modules/sysset/timeandlang";
 import Security from "./modules/sysset/security";
 import Peripherals from "./modules/sysset/peripherals";
 import Tr069 from "./modules/sysset/tr069";
 import Switch from "./modules/sysset/switch";
 import Fxo from "./modules/sysset/fxo";
 import Sitename from "./modules/sysset/sitename";
-import BackupForm from "./modules/sysset/backup";
+import BackupForm from "./modules/sysset/backup";*/
 
-import Upgrade from "./modules/maintenance/upgrade";
+/*import Upgrade from "./modules/maintenance/upgrade";
 import Diagnosis from "./modules/maintenance/diagnosis";
-import Eventnotice from "./modules/maintenance/eventnotice";
+import Eventnotice from "./modules/maintenance/eventnotice";*/
 
-import Vpk from "./modules/sysapp/vpk";
+/*import Vpk from "./modules/sysapp/vpk";
 import Mpk from "./modules/sysapp/mpk";
 import Contacts from "./modules/sysapp/contacts";
 import Record from "./modules/sysapp/record";
-import Ldap from "./modules/sysapp/ldap";
+import Ldap from "./modules/sysapp/ldap";*/
 
-import Gds from "./modules/extension/gds";
+/*import Gds from "./modules/extension/gds";
 import Broadsoftfunc from "./modules/extension/broadsoftfunc";
 import Broadsoftcontact from "./modules/extension/broadsoftcontact";
-import Broadsoftimp from "./modules/extension/broadsoftimp";
+import Broadsoftimp from "./modules/extension/broadsoftimp";*/
 
-import Loopback from "./modules/detection/loopback";
+/*import Loopback from "./modules/detection/loopback";
 import Speaker from "./modules/detection/speaker";
 import Led from "./modules/detection/led";
 import CertVerify from "./modules/detection/certverify";
-import Reset from "./modules/detection/reset";
+import Reset from "./modules/detection/reset";*/
 
 import * as Store from './entry'
 
@@ -68,81 +315,81 @@ const routes = () => {
     return (
         <div>
             <Route path="status">
-                <IndexRoute component={ Account } />
-                <Route onEnter={ requireAuth } path="acct" component={Account}/>
-                <Route onEnter={ requireAuth } path="network" component={Network}/>
-                <Route onEnter={ requireAuth } path="system" component={System}/>
-                <Route onEnter={ requireAuth } path="storage" component={Storage}/>
+                <IndexRoute getComponent={ Account } />
+                <Route onEnter={ requireAuth } path="acct" getComponent={Account}/>
+                <Route onEnter={ requireAuth } path="network" getComponent={Network}/>
+                <Route onEnter={ requireAuth } path="system" getComponent={System}/>
+                <Route onEnter={ requireAuth } path="storage" getComponent={Storage}/>
             </Route>
-            <Route onEnter={ requireAuth } path="account">
-                <IndexRoute component={ SipAcct } />
-                <Route onEnter={ requireAuth } path="sipAcct" component={SipAcct}/>
-                <Route onEnter={ requireAuth } path="ipvtAcct" component={IpvtAcct}/>
+            <Route path="account">
+                <IndexRoute getComponent={ SipAcct } />
+                <Route onEnter={ requireAuth } path="sipAcct" getComponent={SipAcct}/>
+                <Route onEnter={ requireAuth } path="ipvtAcct" getComponent={IpvtAcct}/>
             </Route>
             <Route path="calls" >
-                <IndexRoute component={ DialUp } />
-                <Route onEnter={ requireAuth } path="dialup" component={DialUp}/>
-                <Route onEnter={ requireAuth } path="history" component={CallHistory}/>
-                <Route onEnter={ requireAuth } path="contact" component={Contact}/>
-                <Route onEnter={ requireAuth } path="dnd" component={Dnd}/>
-                <Route onEnter={ requireAuth } path="blackwhite" component={Blackwhite}/>
+                <IndexRoute getComponent={ DialUp } />
+                <Route onEnter={ requireAuth } path="dialup" getComponent={DialUp}/>
+                <Route onEnter={ requireAuth } path="history" getComponent={CallHistory}/>
+                <Route onEnter={ requireAuth } path="contact" getComponent={Contact}/>
+                <Route onEnter={ requireAuth } path="dnd" getComponent={Dnd}/>
+                <Route onEnter={ requireAuth } path="blackwhite" getComponent={Blackwhite}/>
             </Route>
             <Route path="callset">
-                <IndexRoute component={ General } />
-                <Route onEnter={ requireAuth } path="general" component={General}/>
-                <Route onEnter={ requireAuth } path="callfeatures" component={Callfeatures}/>
-                <Route onEnter={ requireAuth } path="audio" component={Audio}/>
-                <Route onEnter={ requireAuth } path="video" component={Video}/>
-                <Route onEnter={ requireAuth } path="multicast" component={Multicast}/>
-                <Route onEnter={ requireAuth } path="pagingPtt" component={Ptt}/>
+                <IndexRoute getComponent={ General } />
+                <Route onEnter={ requireAuth } path="general" getComponent={General}/>
+                <Route onEnter={ requireAuth } path="callfeatures" getComponent={Callfeatures}/>
+                <Route onEnter={ requireAuth } path="audio" getComponent={Audio}/>
+                <Route onEnter={ requireAuth } path="video" getComponent={Video}/>
+                <Route onEnter={ requireAuth } path="multicast" getComponent={Multicast}/>
+                <Route onEnter={ requireAuth } path="pagingPtt" getComponent={Ptt}/>
             </Route>
             <Route path="network">
-                <IndexRoute component={ Ethernet } />
-                <Route onEnter={ requireAuth } path="ethernet" component={Ethernet}/>
-                <Route onEnter={ requireAuth } path="bluetooth" component={Bluetooth}/>
-                <Route onEnter={ requireAuth } path="wifi" component={Wifi}/>
-                <Route onEnter={ requireAuth } path="openvpn" component={OpenVPN}/>
-                <Route onEnter={ requireAuth } path="common" component={Common}/>
+                <IndexRoute getComponent={ Ethernet } />
+                <Route onEnter={ requireAuth } path="ethernet" getComponent={Ethernet}/>
+                <Route onEnter={ requireAuth } path="bluetooth" getComponent={Bluetooth}/>
+                <Route onEnter={ requireAuth } path="wifi" getComponent={Wifi}/>
+                <Route onEnter={ requireAuth } path="openvpn" getComponent={OpenVPN}/>
+                <Route onEnter={ requireAuth } path="common" getComponent={Common}/>
             </Route>
             <Route path="sysset">
-                <IndexRoute component={ Ethernet } />
-                <Route onEnter={ requireAuth } path="timeandlang" component={Timeandlang}/>
-                <Route onEnter={ requireAuth } path="security" component={Security}/>
-                <Route onEnter={ requireAuth } path="peripherals" component={Peripherals}/>
-                <Route onEnter={ requireAuth } path="tr069" component={Tr069}/>
-                <Route onEnter={ requireAuth } path="fxo" component={Fxo}/>
-                <Route onEnter={ requireAuth } path="sitename" component={Sitename}/>
-                <Route onEnter={ requireAuth } path="switch" component={Switch}/>
-                <Route onEnter={ requireAuth } path="backup" component={BackupForm} />
+                <IndexRoute getComponent={ Ethernet } />
+                <Route onEnter={ requireAuth } path="timeandlang" getComponent={Timeandlang}/>
+                <Route onEnter={ requireAuth } path="security" getComponent={Security}/>
+                <Route onEnter={ requireAuth } path="peripherals" getComponent={Peripherals}/>
+                <Route onEnter={ requireAuth } path="tr069" getComponent={Tr069}/>
+                <Route onEnter={ requireAuth } path="fxo" getComponent={Fxo}/>
+                <Route onEnter={ requireAuth } path="sitename" getComponent={Sitename}/>
+                <Route onEnter={ requireAuth } path="switch" getComponent={Switch}/>
+                <Route onEnter={ requireAuth } path="backup" getComponent={BackupForm} />
             </Route>
             <Route path="maintenance">
-                <IndexRoute component={ Upgrade } />
-                <Route onEnter={ requireAuth } path="upgrade" component={Upgrade}/>
-                <Route onEnter={ requireAuth } path="diagnosis" component={Diagnosis}/>
-                <Route onEnter={ requireAuth } path="eventnotice" component={Eventnotice}/>
+                <IndexRoute getComponent={ Upgrade } />
+                <Route onEnter={ requireAuth } path="upgrade" getComponent={Upgrade}/>
+                <Route onEnter={ requireAuth } path="diagnosis" getComponent={Diagnosis}/>
+                <Route onEnter={ requireAuth } path="eventnotice" getComponent={Eventnotice}/>
             </Route>
             <Route path="sysapp">
-                <IndexRoute component={ Vpk } />
-                <Route onEnter={ requireAuth } path="vpk" component={Vpk}/>
-                <Route onEnter={ requireAuth } path="mpk" component={Mpk}/>
-                <Route onEnter={ requireAuth } path="contacts" component={Contacts}/>
-                <Route onEnter={ requireAuth } path="record" component={Record}/>
-                <Route onEnter={ requireAuth } path="ldap" component={Ldap}/>
+                <IndexRoute getComponent={ Vpk } />
+                <Route onEnter={ requireAuth } path="vpk" getComponent={Vpk}/>
+                <Route onEnter={ requireAuth } path="mpk"  getComponent={Mpk}/>
+                <Route onEnter={ requireAuth } path="contacts" getComponent={Contacts}/>
+                <Route onEnter={ requireAuth } path="record" getComponent={Record}/>
+                <Route onEnter={ requireAuth } path="ldap" getComponent={Ldap}/>
             </Route>
             <Route path="extension">
-                <IndexRoute component={ Gds } />
-                <Route onEnter={ requireAuth } path="gds" component={Gds}/>
-                <Route onEnter={ requireAuth } path="broadsoftfunc" component={Broadsoftfunc}/>
-                <Route onEnter={ requireAuth } path="broadsoftcontact" component={Broadsoftcontact}/>
-                <Route onEnter={ requireAuth } path="broadsoftimp" component={Broadsoftimp}/>
+                <IndexRoute getComponent={ Gds } />
+                <Route onEnter={ requireAuth } path="gds" getComponent={Gds}/>
+                <Route onEnter={ requireAuth } path="broadsoftfunc" getComponent={Broadsoftfunc}/>
+                <Route onEnter={ requireAuth } path="broadsoftcontact" getComponent={Broadsoftcontact}/>
+                <Route onEnter={ requireAuth } path="broadsoftimp" getComponent={Broadsoftimp}/>
             </Route>
             <Route path="detection">
-                <IndexRoute component={ Loopback } />
-                <Route onEnter={ requireAuth } path="loopback" component={Loopback}/>
-                <Route onEnter={ requireAuth } path="speaker" component={Speaker}/>
-                <Route onEnter={ requireAuth } path="led" component={Led}/>
-                <Route onEnter={ requireAuth } path="certverify" component={CertVerify}/>
-                <Route onEnter={ requireAuth } path="reset" component={Reset}/>
+                <IndexRoute getComponent={ Loopback } />
+                <Route onEnter={ requireAuth } path="loopback" getComponent={Loopback}/>
+                <Route onEnter={ requireAuth } path="speaker" getComponent={Speaker}/>
+                <Route onEnter={ requireAuth } path="led" getComponent={Led}/>
+                <Route onEnter={ requireAuth } path="certverify" getComponent={CertVerify}/>
+                <Route onEnter={ requireAuth } path="reset" getComponent={Reset}/>
             </Route>
         </div>
     )

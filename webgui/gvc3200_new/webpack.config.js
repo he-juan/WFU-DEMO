@@ -19,7 +19,7 @@ module.exports = {
         proxy: {
             '/manager*': {
                 changeOrigin: true,
-                target: 'http://192.168.132.131',  //replace with the ip of device
+                target: 'http://0.0.0.0',  //replace with the ip of device
                 secure: false
             }
         }
@@ -28,7 +28,8 @@ module.exports = {
     output: {
         path: BUILD_PATH,
         publicPath: "/",
-        filename: "gs-app.js"
+        filename: "gs-app.js",
+        chunkFilename: '[name].[chunkhash:5].chunk.js',
     },
     module: {
         rules: [

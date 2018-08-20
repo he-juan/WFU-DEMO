@@ -16,8 +16,9 @@ module.exports = {
     devtool: "source-map",
     output: {
         path: BUILD_PATH,
-        publicPath: "/",
-        filename: "gs-app.js"
+        publicPath: "/build/",
+        filename: "gs-app.js",
+        chunkFilename: '[name].chunk.js',
     },
     module: {
         rules: [
