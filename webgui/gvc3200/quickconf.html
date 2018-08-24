@@ -3,7 +3,7 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <html>
 <head>
-    <title>账号快速配置</title>
+    <title id="a_title">Quick setup</title>
     <script type="text/javascript" src='js/jquery.tools.min.js'></script>
     <script type="text/javascript" src='/js/jquery.cookie.js'></script>
     <script type="text/javascript" src='/js/jquery.stylish-select.min.js'></script>
@@ -42,11 +42,11 @@
         .lang ul, #timezone{ max-height: 350px; cursor: pointer;list-style: none; outline: none;text-align: left;  border-bottom: 1px solid #eceff2;overflow: auto;
         -webkit-tap-highlight-color : rgba(0, 0, 0, 0);background-color: white;-webkit-overflow-scrolling: touch; }
         .selectDiv, .selectDiv2{width: 100% ; height: 40px;line-height:40px;border-top:1px solid #c8c7cc;border-bottom:1px solid #c8c7cc; font-size: 16px;background-color: white;}
-        .selectDiv div:first-child{position:absolute;width:130px;left: 20px;text-align: left;}
-        .selectDiv div:nth-child(2){ position:absolute; left:155px; right:45px;text-align: right; color:#8e8e93; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+        .selectDiv div:first-child{position:absolute;width:130px;left: 20px;text-align: left;text-overflow:ellipsis;white-space: nowrap;overflow:hidden;}
+        .selectDiv div:nth-child(2){ position:absolute; left:175px; right:25px;text-align: right; color:#8e8e93; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
         /*#selectedlang, #selectedtimezone{float:left; padding-left: 20px;}*/
         .selectDiv2 div:first-child{position: absolute; left:17px;right:45px; text-align: left;text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
-        .arrow{position:absolute;right:0px;width:8px;height:13px;margin: 15px 15px 15px 10px;  background: url('/img/quickconf/arrow_details_icon.png') 8px 13px;-webkit-background-size: cover;  background-size: cover;}
+        .arrow{position:absolute;right:0px;width:8px;height:13px;margin: 15px 8px 15px 5px;  background: url('/img/quickconf/arrow_details_icon.png') 8px 13px;-webkit-background-size: cover;  background-size: cover;}
         .clang_item, #timezone li{ position: relative;height: 40px;line-height: 40px;padding-left:20px;padding-right:35px;border-bottom: 1px solid #eceff2; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
         .buttom-btn{height:45px;}
         .buttom-btn button{height:45px;width:50%;background-color:white;color:#155bff;border-radius: 0;}
@@ -54,7 +54,7 @@
         .buttom-btn button:last-child{ border-bottom-right-radius: 8px;}
         #setlanguage .lang-next-step, .step-btn{position: absolute;width: 100%; bottom: 45px;text-align: center;}
         #setlanguage .lang-next-step button{width:80%;;min-width: 150px;height:50px;line-height:50px;border-radius:8px;background-color: #155bff; color: white; font-size: 20px;}
-        .step-btn button{width: 40%; min-width: 100px;height:50px;line-height:50px;border-radius:6px; border:1px solid #bcbbc1;background-color: #fefefe;color: #000000; font-size: 20px}
+        .step-btn button{width: 40%; min-width: 100px;height:50px;line-height:50px;border-radius:6px; border:1px solid #bcbbc1;background-color: #fefefe;color: #000000; font-size: 18px}
         .step-btn button:last-child {margin-left: 10px; background-color: #007aff;color: white; }
         .step-btn button:disabled{background-color: #9B9B9B;cursor: not-allowed;}
         #ethernet-pic, #wifi-pic{ position: absolute;top: 6px;width:29px;height: 29px;}
@@ -97,10 +97,10 @@
 
 <div id="notic" style="display: none;"><div id="message"></div></div>
 <div id="setlanguage">
-    <p class="config-title">选择语言</p>
+    <p class="config-title" id="a_sellang">Select language</p>
     <div class="lang">
-        <div class="selectDiv"><div>语言</div><div id="selectedlang"></div><div class="arrow"></div></div>
-        <div class="lang-next-step"><button>下一步</button></div>
+        <div class="selectDiv"><div id="a_lang">Language</div><div id="selectedlang"></div><div class="arrow"></div></div>
+        <div class="lang-next-step"><button name="a_nextstep">下一步</button></div>
         <div id="clanguage">
             <div class="modal-mask"></div>
             <div class="wrap">
@@ -169,16 +169,16 @@
             <li id="th_TH" class="clang_item">ไทย<div></div></li>
             <li id="ko_KR" class="clang_item">한국어<div></div></li>
         </ul>
-                <div class="buttom-btn"><button id="lang-cancel">取消</button><button id="lang-confirm">确定</button></div>
+                <div class="buttom-btn"><button id="lang-cancel" name="a_cancel">取消</button><button id="lang-confirm">确定</button></div>
                 </div></div>
         </div>
     </div>
 </div>
 
 <div id="settimezone" class="">
-    <p class="config-title">选择时区</p>
-    <div class="selectDiv"><div>时区</div><div id="selectedtimezone"></div><div class="arrow"></div></div>
-    <div class="step-btn"><button id="time-back-btn">上一步</button><button id="time-next-step">下一步</button></div>
+    <p class="config-title" id="a_seltimezone">Select time zone</p>
+    <div class="selectDiv"><div id="a_timezone">Timezone</div><div id="selectedtimezone"></div><div class="arrow"></div></div>
+    <div class="step-btn"><button id="time-back-btn" name="a_laststep">Previous step</button><button id="time-next-step" name="a_nextstep">Next step</button></div>
     <div></div>
     <div id="timezone-div" style="z-index: 100;">
         <div class="modal-mask"></div>
@@ -278,40 +278,40 @@
             <li id="Pacific-Tongatapu">Tonga</li>
         </ul>
 
-        <div class="buttom-btn"><button id="timezone-cancel">取消</button><button id="timezone-confirm">确定</button></div>
+        <div class="buttom-btn"><button id="timezone-cancel" name="a_cancel">Cancel</button><button id="timezone-confirm">Confirm</button></div>
             </div></div>
     </div>
 </div>
 
 
 <div id="setnetwork">
-    <p class="config-title">网络配置</p>
+    <p class="config-title" id="a_networkconf">Network configuration</p>
     <div class="config-box" style="margin-top: 0;">
-        <div class="g_conf"><span>IP地址</span><span id="ipaddress" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
-        <div class="g_conf"><div id="ethernet-pic"></div><span style="left: 45px;">以太网</span><span id="ethernetstatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
+        <div class="g_conf"><span id="a_ipaddr">IP Address</span><span id="ipaddress" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
+        <div class="g_conf"><div id="ethernet-pic"></div><span style="left: 45px;" id="a_ethernet">以太网</span><span id="ethernetstatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
         <div class="g_conf" style="border-bottom: none;"><div id="wifi-pic"></div><span style="left: 45px;">Wi-FI</span><span id="wifistatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
     </div>
-    <div class="selectDiv2" style="margin-top: 30px;"><div>高级网络设置</div><div class="arrow"></div></div>
-    <div class="step-btn"><button id="network-back-btn">上一步</button><button id="network-next-step">下一步</button></div>
+    <div class="selectDiv2" style="margin-top: 30px;"><div id="a_advnetworkconf">高级网络设置</div><div class="arrow"></div></div>
+    <div class="step-btn"><button id="network-back-btn" name="a_laststep">上一步</button><button id="network-next-step" name="a_nextstep">下一步</button></div>
 </div>
 
 
 <div id="setprefernetwork" style="display: none; margin-top: 20px">
-    <div id="prefer" class="selectDiv" style="margin-bottom: 50px;"><div>首选网络协议</div><div id="protocol-type"></div><div class="arrow"></div></div>
-    <div id="ipv4" class="selectDiv"><div>IPv4地址类型</div><div id="ipv4addtype1"></div><div class="arrow"></div></div>
-    <div id="ipv6" class="selectDiv" style="border-top: none;"><div>IPv6地址类型</div><div id="ipv6addtype1"></div><div class="arrow"></div></div>
-    <div class="step-btn"><button id="prefer-back-btn">取消</button><button id="prefer-done">完成</button></div>
+    <div id="prefer" class="selectDiv" style="margin-bottom: 50px;"><div id="a_protocoltype">Preferred Internet protocol</div><div id="protocol-type"></div><div class="arrow"></div></div>
+    <div id="ipv4" class="selectDiv"><div id="ipv4nettype1">IPv4地址类型</div><div id="ipv4addtype1"></div><div class="arrow"></div></div>
+    <div id="ipv6" class="selectDiv" style="border-top: none;"><div id="ipv6nettype1">IPv6地址类型</div><div id="ipv6addtype1"></div><div class="arrow"></div></div>
+    <div class="step-btn"><button id="prefer-back-btn" name="a_cancel">取消</button><button id="prefer-done" name="a_done">完成</button></div>
     <div id="selectproto" style="display: none; z-index: 100;">
         <div class="modal-mask"></div>
         <div class="wrap">
             <div class="content">
                 <ul style="list-style: none; outline: none;">
-                <li><span>首选IPv4</span><input name="protocoltype" value="0" type="radio" checked=true  /><div></div></li>
-                <li><span>首选IPv6</span><input name="protocoltype" value="1" type="radio"/><div></div></li>
-                <li><span>仅限IPv4</span><input name="protocoltype" value="2" type="radio"/><div></div></li>
-                <li><span>仅限IPv6</span><input name="protocoltype" value="3" type="radio"/><div></div></li>
+                <li><span id="a_preferipv4">首选IPv4</span><input name="protocoltype" value="0" type="radio" checked=true  /><div></div></li>
+                <li><span id="a_preferipv6">首选IPv6</span><input name="protocoltype" value="1" type="radio"/><div></div></li>
+                <li><span id="a_onlyipv4">仅限IPv4</span><input name="protocoltype" value="2" type="radio"/><div></div></li>
+                <li><span id="a_onlyipv6">仅限IPv6</span><input name="protocoltype" value="3" type="radio"/><div></div></li>
             </ul>
-                <div id="protocol-cancel">取消</div>
+                <div id="protocol-cancel" name="a_cancel">取消</div>
             </div>
         </div>
     </div>
@@ -319,18 +319,18 @@
 
 
 <div id="ipv4config" style="display: none;margin-top: 20px;position:relative;min-height: 500px" class="">
-    <div class="selectDiv"><div>IPv4地址类型</div><div id="ipv4addtype2"></div><div class="arrow"></div></div>
+    <div class="selectDiv"><div id="ipv4nettype2">IPv4地址类型</div><div id="ipv4addtype2"></div><div class="arrow"></div></div>
 
     <div id="staticipconf" class="config-box" style="display: none">
-        <div class="g_conf"><span>IP地址</span><input id="ipv4address" value="" type="text" placeholder="请输入地址"/></div>
-        <div class="g_conf"><span>子网掩码</span><input id="submask" type="text" placeholder="请输入地址"/></div>
-        <div class="g_conf"><span>默认网关</span><input id="dftgateway" type="text" placeholder="请输入地址"/></div>
-        <div class="g_conf"><span>DNS服务器1</span><input id="dnsserver1" type="text" placeholder="请输入地址"/></div>
-        <div class="g_conf" style="border-bottom: none;"><span>DNS服务器2</span><input id="dnsserver2" type="text" placeholder="请输入地址"/></div>
+        <div class="g_conf"><span id="a_ipaddr2">IP地址</span><input id="ipv4address" value="" type="text" placeholder=""/></div>
+        <div class="g_conf"><span id="a_submask">子网掩码</span><input id="submask" type="text" placeholder=""/></div>
+        <div class="g_conf"><span id="a_dftgateway">默认网关</span><input id="dftgateway" type="text" placeholder=""/></div>
+        <div class="g_conf"><span id="a_dnsserver1">DNS服务器1</span><input id="dnsserver1" type="text" placeholder=""/></div>
+        <div class="g_conf" style="border-bottom: none;"><span id="a_dnsserver2">DNS服务器2</span><input id="dnsserver2" type="text" placeholder=""/></div>
     </div>
     <div id="pppoeconf" class="config-box" style="display: none">
-        <div class="g_conf"><span>PPPoE账号ID</span><input id="ppoeaccount" type="text"/></div>
-        <div class="g_conf"><span>PPPoE密码</span><input id="ppoepassword" type="text"/></div>
+        <div class="g_conf"><span id="a_ppoeaccount">PPPoE账号ID</span><input id="ppoeaccount" type="text"/></div>
+        <div class="g_conf"><span id="a_ppoepassword">PPPoE密码</span><input id="ppoepassword" type="text"/></div>
     </div>
 
     <div id="selectaddrtype" style="display: none; z-index: 100;">
@@ -338,28 +338,28 @@
         <div class="wrap">
             <div class="content">
             <ul style="list-style: none; outline: none;">
-                <li><span>DHCP</span><input name="networktype" value="0" type="radio" checked=true /><div></div></li>
-                <li><span>静态IP</span><input name="networktype" value="1" type="radio"  /><div></div></li>
+                <li><span name="a_dhcp">DHCP</span><input name="networktype" value="0" type="radio" checked=true /><div></div></li>
+                <li><span name="a_staticip">Static IP</span><input name="networktype" value="1" type="radio"  /><div></div></li>
                 <li><span>PPPoE</span><input name="networktype" value="2" type="radio"/><div></div></li>
-            </ul><div id="sel-addrtype-cancel">取消</div>
+            </ul><div id="sel-addrtype-cancel" name="a_cancel">取消</div>
             </div>
         </div>
     </div>
-    <div class="step-btn"><button id="ipv4config-back-btn">取消</button><button id="ip4config-done">完成</button></div>
+    <div class="step-btn"><button id="ipv4config-back-btn" name="a_cancel">取消</button><button id="ip4config-done" name="a_done">完成</button></div>
 </div>
 
 
 <div id="ipv6config" class="" style="display: none;margin-top: 20px;position:relative;min-height: 500px">
-    <div class="selectDiv"><div>IPv6地址类型</div><div id="ipv6addtype2"></div><div class="arrow"></div></div>
+    <div class="selectDiv"><div id="ipv6nettype2">IPv6地址类型</div><div id="ipv6addtype2"></div><div class="arrow"></div></div>
 
     <div id="staticip6conf" class="config-box" style="display: none;">
-        <div class="g_conf"><span>静态IPv6地址</span><input id="staticipv6addr" type="text" placeholder="请输入地址"/></div>
-        <div class="g_conf"><span>IPv6前缀长度</span><input id="ipv6prefixlen" type="number" placeholder="请输入长度值"/></div>
-        <div class="g_conf"><span>DNS服务器1</span><input id="ipv6dns1" type="text" placeholder="请输入地址"/></div>
-        <div class="g_conf"><span>DNS服务器2</span><input id="ipv6dns2" type="text"placeholder="请输入地址"/></div>
+        <div class="g_conf"><span id="a_staticipv6addr">静态IPv6地址</span><input id="staticipv6addr" type="text" placeholder=""/></div>
+        <div class="g_conf"><span id="a_ipv6prefixlen">IPv6前缀长度</span><input id="ipv6prefixlen" type="number" placeholder=""/></div>
+        <div class="g_conf"><span id="a_ipv6dns1">DNS服务器1</span><input id="ipv6dns1" type="text" placeholder=""/></div>
+        <div class="g_conf"><span id="a_ipv6dns2">DNS服务器2</span><input id="ipv6dns2" type="text"placeholder=""/></div>
     </div>
 
-    <div class="step-btn"><button id="ipv6config-back-btn">取消</button><button id="ip6config-done">完成</button></div>
+    <div class="step-btn"><button id="ipv6config-back-btn" name="a_cancel">取消</button><button id="ip6config-done" name="a_done">完成</button></div>
 
 
     <div id="selectip6addrtype" style="display: none; z-index: 100;">
@@ -367,9 +367,9 @@
         <div class="wrap">
             <div class="content">
                 <ul style="list-style: none; outline: none;">
-                    <li><span>DHCP</span><input name="ipv6addr" value="0" type="radio" checked=true /><div></div></li>
-                    <li><span>静态IP</span><input name="ipv6addr" value="1" type="radio"  /><div></div></li>
-                </ul><div id="sel-addr6type-cancel">取消</div>
+                    <li><span name="a_dhcp">DHCP</span><input name="ipv6addr" value="0" type="radio" checked=true /><div></div></li>
+                    <li><span name="a_staticip">静态IP</span><input name="ipv6addr" value="1" type="radio"  /><div></div></li>
+                </ul><div id="sel-addr6type-cancel" name="a_cancel">取消</div>
             </div>
         </div>
     </div>
@@ -378,32 +378,32 @@
 
 
 <div id='accountconf' style="display:none;position:relative;min-height: 500px">
-    <p class="config-title">帐号配置</p>
+    <p class="config-title" id="a_acctconf">帐号配置</p>
     <div webtip="Account Name" class="config-box" style="margin-top: 0px;">
-        <div class="g_conf"><span id="a_accountname">帐号名称</span><input id="accountname" name="accountname" type="text" placeholder="帐号名称"/></div>
-        <div class="g_conf master"><span>SIP服务器</span><input id="sipserver" name="sipserver" type="text" placeholder="SIP服务器"/></div>
-        <div class="g_conf master"><span>SIP用户ID</span><input id="userid" name="userid" type="text" placeholder="SIP用户ID"/></div>
-        <div class="g_conf master"><span>SIP认证ID</span><input id="authid" name="authid" type="text" placeholder="SIP认证ID"/></div>
-        <div class="g_conf"><span id="a_authpwd">SIP认证密码</span><input id="authpwd" name="authpwd" type="password" autocomplete="off" placeholder="SIP认证密码"/></div>
-        <div class="g_conf master" style="border-bottom: none;"><span>显示名称</span><input id="displayname" name="displayname" type="text" placeholder="显示名称"/></div>
-        <div class="g_conf mobile" style="display: none;"><span>SBC地址</span><input id="SBCaddress" name="SBCaddress" type="text" placeholder="SBC地址"/></div>
-        <div class="g_conf mobile" style="display:none;border-bottom: none;"><span>会场名称</span><input id="sitename" name="sitename" type="text" placeholder="会场名称"/></div>
+        <div class="g_conf"><span id="a_accountname">帐号名称</span><input id="accountname" name="accountname" type="text" placeholder=""/></div>
+        <div class="g_conf master"><span id="a_sipserver">SIP服务器</span><input id="sipserver" name="sipserver" type="text" placeholder=""/></div>
+        <div class="g_conf master"><span id="a_userid">SIP用户ID</span><input id="userid" name="userid" type="text" placeholder=""/></div>
+        <div class="g_conf master"><span id="a_authid">SIP认证ID</span><input id="authid" name="authid" type="text" placeholder=""/></div>
+        <div class="g_conf"><span id="a_authpwd">SIP认证密码</span><input id="authpwd" name="authpwd" type="password" autocomplete="off" placeholder=""/></div>
+        <div class="g_conf master" style="border-bottom: none;"><span id="a_displayname">显示名称</span><input id="displayname" name="displayname" type="text" placeholder=""/></div>
+        <div class="g_conf mobile" style="display: none;"><span id="a_sbcaddr">SBC地址</span><input id="SBCaddress" name="SBCaddress" type="text" placeholder=""/></div>
+        <div class="g_conf mobile" style="display:none;border-bottom: none;"><span id="a_sitename">SIte Name</span><input id="sitename" name="sitename" type="text" placeholder=""/></div>
     </div>
     <div class="config-box">
-        <div class="g_conf" style="border-bottom: none;"><span>帐号激活</span> <div id="acctactive"></div></div>
+        <div class="g_conf" style="border-bottom: none;"><span id="a_acctactive">帐号激活</span> <div id="acctactive"></div></div>
     </div>
-    <div class="step-btn"><button id="account-back-btn">上一步</button><button id="account-next-step">下一步</button></div>
+    <div class="step-btn"><button id="account-back-btn" name="a_laststep">上一步</button><button id="account-next-step" name="a_nextstep">下一步</button></div>
 </div>
 
 <div id="pwddiv" style="display:none;position:relative;min-height: 500px">
-    <p class="config-title">设置锁屏密码</p>
+    <p class="config-title" id="a_setlockpwd">Set Screen lock password</p>
     <div id="existpwd" style="display: none;text-align: center;margin: 26px 0 30px 0;color: #8f8f8f;">
-        <p style="margin-bottom: 10px;">锁屏密码已设定</p>
-        <p>如需更改请点击 <span id="resetpwd" style="color: #007aff;">重置密码 ></span></p>
+        <p style="margin-bottom: 10px;" id="a_hassetpwd">Screen lock password has been set</p>
+        <p><span id="a_clickhint">If needed change please click</span> <span id="resetpwd" style="color: #007aff;"> reset password ></span></p>
     </div>
     <div id="noexistpwd" style="display: none;">
     <div id="setpwd">
-        <p style="text-align: center;margin: 26px 0 30px 0;font-size: 12px;color: #8f8f8f;">请输入6位数字密码</p>
+        <p style="text-align: center;margin: 26px 0 30px 0;font-size: 12px;color: #8f8f8f;" id="a_inputpwd">请输入6位数字密码</p>
         <div id="first" style="position: relative;text-align: center;">
             <input class="pwditem" maxlength="1" type="tel" value=""/>
             <input class="pwditem" maxlength="1" type="tel" value=""/>
@@ -424,27 +424,27 @@
         </div>
     </div>
     </div>
-    <div class="step-btn"><button id="pwd-back-btn">上一步</button><button id="pwd-next-step">完成</button></div>
+    <div class="step-btn"><button id="pwd-back-btn" name="a_laststep">上一步</button><button id="pwd-next-step" name="a_done">完成</button></div>
 </div>
 
 <div id="configdone" style="display:none;">
     <div style="text-align: center;margin-top: 150px;">
         <div class="suc-pic"></div>
-        <p style="font-size: 20px;">配置完成！</p>
+        <p style="font-size: 20px;" id="a_confdone">配置完成！</p>
     </div>
 </div>
 
 <div id="qrdiv" style="display: none;">
     <div style=" width: 100%;position: relative;margin: 50px auto; text-align: center">
         <div class="qr-pic qrinvalid-pic"></div>
-        <p style="font-size: 17px;color: #8e8e93">二维码失效，请刷新二维码</p>
+        <p style="font-size: 17px;color: #8e8e93" id="a_qrinvalid">二维码失效，请刷新二维码</p>
     </div>
     <div class="step-btn"><button id="refreshqr" style="width: 80%;max-width: 300px;">刷新二维码</button></div>
 </div>
 <div id="qrsucdiv" style="display:none;">
     <div style=" width: 100%;position: relative;margin: 50px auto; text-align: center">
         <div class="qr-pic qrrefreshed-pic"></div>
-        <div style="font-size:17px; text-align: center;"><span><i class="qr-refreshsuc"></i>二维码已刷新</span><p style="margin-top: 6px">请返回重新扫描</p></div>
+        <div style="font-size:17px; text-align: center;"><span><i class="qr-refreshsuc"></i><span id="a_hasrefreshqr">二维码已刷新</span></span><p style="margin-top: 6px" id="a_scanprompt">请返回重新扫描</p></div>
     </div>
 </div>
 
@@ -452,7 +452,7 @@
     <div id="result"></div>
 </div>
 
-<script id="language" src='/lang/zh.js'></script>
+<script id="language" src='/lang/en.js'></script>
 <!--<script type="text/javascript" src='/js/public.js'></script>-->
 <script type='text/javascript'>
 
@@ -495,27 +495,20 @@
         new ReqItem("ipv6dns1", "1424", ""),
         new ReqItem("ipv6dns2", "1425", "")
     );
-    var networktypeArr = ["DHCP", "静态IP", "PPPoE"], ipv6networktypeArr = ["DHCP", "静态IP"];
-    var protocoltypeArr = ["首选IPv4","首选IPv6","仅限IPv4","仅限IPv6"];
+    var networktypeArr = [], ipv6networktypeArr = [];
+    var protocoltypeArr = [];
     var orignnetworktype = 0, orignip6nettype = 0, originprtctype = 0;
     var orignaddress = "", orignsubmask = "", origngateway = "", origndnssever1 = "", origndnssever2 = "";
     var orignppoeaccount = "", orignppoepwd = "";
     var savelockpwddone = 0, savelandone=0, savetimezonedone=0, saveaccountdone = 0, savenetworkdone = 0;
     var orignipv6addr = "", orignipv6prefixlen = "", orignipv6dns1 = "", orignipv6dns2 = "";
-    var city_names = [a_16489, a_16491,a_16492,a_16493, a_16494,a_16495,a_16496,a_16497,a_16498,
-        a_16499, a_16500,a_16501,a_16502,a_16503, a_16504,a_16505,a_16506,a_16507,a_16508,
-        a_16509,a_16510, a_16711, a_16511, a_16512, a_16513,a_16514,a_16515,a_16516,a_16517,
-        a_16518, a_16519, a_16520, a_16521, a_16522, a_16712, a_16523, a_16524, a_16525,
-        a_16526, a_16527, a_16713, a_16528, a_16529, a_16530, a_16531, a_16532, a_16533,a_16534,
-        a_16535, a_16536, a_16537, a_16538, a_16539, a_16540, a_16541, a_16542, a_16543, a_16544,
-        a_16545, a_16546, a_16547, a_16548, a_16549, a_16550, a_16551,a_16552,a_16553, a_16714,
-        a_16554, a_16555, a_16556, a_16557, a_16558, a_16559, a_16560, a_16561, a_16562, a_16563, a_16564,
-        a_16565, a_16566, a_16567,a_16568,a_16569,a_16570, a_16715, a_16490, a_16571, a_16572,a_16573];
+    var city_names = [];
     var lockpwd = "";
     var newgmts = new Array;
     var colore = $.cookie("coloreExist");
 
     $(function () {
+        translate_page();
         var hash = location.hash;
         if (hash) {
             hash = hash.substring(1);
@@ -545,7 +538,7 @@
         });
         if (checkres) {
             cb_get_action('getlanguages&region=quickconf');
-            cb_get_timezone();
+//            cb_get_timezone();
         }
         pageEventActions();
     });
@@ -996,13 +989,13 @@
                 }
                 var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
                 if ($("#userid").val() != "" && !reg.test($("#userid").val())) {
-                    promptTip("用户ID不能包含除-_.!~*'()+以外的其他特殊字符", "err");
+                    promptTip(a_16441, "err");
                     return false;
                 }
 
                 reg = new RegExp("^[A-Za-z0-9-_.!~*'()+@]+$");
                 if ($("#authid").val() != "" && !reg.test($("#authid").val())) {
-                    promptTip("认证ID不能包含除-_.!~*'()+@以外的其他特殊字符", "err");
+                    promptTip(a_19194, "err");
                     return false;
                 }
             }
@@ -1024,7 +1017,7 @@
             $("#accountconf").fadeIn(1000);
             $("#accountname").focus();
             $("#pwddiv input").val("");
-            $("#pwddiv .config-title").text("输入锁屏密码");
+            $("#a_setlockpwd").text(a_20205);
         });
 
         $("#pwdmask1,#pwdmask2").click(function () {
@@ -1101,7 +1094,7 @@
                         $(this).blur();
                         return;
                     } else {
-                        promptTip("两次密码不一致", "err");
+                        promptTip(a_16448, "err");
                         $("#pwddiv input").val("");
                         jumpToFirstpwd();
                         return;
@@ -1122,7 +1115,7 @@
             if (lockpwd != "") {
                 cb_get_action("savelockpwd&region=quickconf&newlock=" + lockpwd);  //保存锁屏密码
             }
-            showTips("正在保存，请稍候...");
+            showTips(a_7478);
             var lan_ct = $(langobj.curlangId).attr("id");
             var lancts = lan_ct.split("_");
             cb_get_action("putlanguage&region=quickconf&lan=" + lancts[0] + "&country=" + lancts[1]);//保存语言
@@ -1157,7 +1150,7 @@
         lockpwd = "";
         $("#first").show();
         $("#second").hide();
-        $("#pwddiv .config-title").text("输入锁屏密码");
+        $("#a_setlockpwd").text(a_20205);
         $("#setpwd input").css("-webkit-text-security","");
         $("#setpwd input").css("text-security","");
         $("#pwd-next-step").removeAttr("disabled");
@@ -1166,7 +1159,7 @@
     function jumpToSecondpwd(){
         $("#first").hide();
         $("#second").fadeIn(1000);
-        $("#pwddiv .config-title").text("再次输入密码");
+        $("#a_setlockpwd").text(a_9656);
         $("#second input").val("");
         $("#second input").first().focus();
         $("#pwd-next-step").attr("disabled","disabled");
@@ -1176,7 +1169,7 @@
         if(pwdobj.haspwd){
             $("#existpwd").show();
             $("#noexistpwd").hide();
-            $("#pwddiv .config-title").text("设置锁屏密码");
+            $("#a_setlockpwd").text(a_20205);
         }else{
             $("#existpwd").hide();
             $("#noexistpwd").show();
@@ -1259,8 +1252,8 @@
         }
         $("#acctactive").text("");
         if(colore == "54"  && ($("#sipserver").val() == "" || $("#sipserver").val() == "ims.ge.chinamobile.com") ){
-            $("#a_accountname").text("账号");
-            $("#a_authpwd").text("密码");
+            $("#a_accountname").text(a_301);
+            $("#a_authpwd").text(a_6759);
             $(".mobile").show();
             $(".master").hide();
         }else{
@@ -1316,7 +1309,7 @@
         if( cb_is_fail(msgs) ){
         }
         else{
-            promptTip("保存成功!", "suc");
+            promptTip(a_7479, "suc");
         }
     }
 
@@ -1374,6 +1367,15 @@
                     var temp = $(langobj.curlangId);
                     temp.find("div").addClass("active");
                     $("#selectedlang").text(temp.text());
+                    if(lan == "zh_CN"){
+                        $("#language").attr("src", '/lang/zh.js');
+                        $.getScript('/lang/zh.js',function(){
+                            translate_page();
+                            cb_get_timezone();
+                        });
+                    }else{
+                        cb_get_timezone();
+                    }
                 }else if(action.indexOf("refreshqrcode") != -1){
                     $("#qrdiv").hide();
                     $("#qrsucdiv").fadeIn(1000);
@@ -1387,17 +1389,17 @@
                             $("#ipaddress").text(msgs.headers["ip"]);
                         }
                         if(msgs.headers["ethstatus"] == "1"){
-                            $("#ethernetstatus").text("已连接").css("color","#007aff");
+                            $("#ethernetstatus").text(a_9716).css("color","#007aff");
                             $("#ethernet-pic").addClass("ethconnect");
                         }else{
-                            $("#ethernetstatus").text("未连接");
+                            $("#ethernetstatus").text(a_12044);
                             $("#ethernet-pic").addClass("ethdisconnect");
                         }
                         if(msgs.headers["wifistatus"] == "1"){
-                            $("#wifistatus").text("已连接").css("color","#007aff");
+                            $("#wifistatus").text(a_9716).css("color","#007aff");
                             $("#wifi-pic").addClass("wificonnect");
                         }else{
-                            $("#wifistatus").text("未连接");
+                            $("#wifistatus").text(a_12044);
                             $("#wifi-pic").addClass("wifidisconnect");
                         }
                     }else{
@@ -1530,19 +1532,19 @@
 
     function checkipv4addritems(){
         if(!checkIpv4Address($("#ipv4address").val())){
-            return {type:"err", message: "ipv4地址格式错误！"};
+            return {type:"err", message: a_4246};
         }
         if(!checkIpv4Address($("#submask").val())){
-            return {type:"err", message: "ipv4子网掩码格式错误！"};
+            return {type:"err", message: a_4247};
         }
         if(!checkIpv4Address($("#dftgateway").val())){
-            return {type:"err", message: "ipv4的默认网关格式错误！"};
+            return {type:"err", message: a_4248};
         }
         if(!checkIpv4Address($("#dnsserver1").val())){
-            return {type:"err", message: "ipv4的DNS服务器1格式错误！"};
+            return {type:"err", message: a_4249};
         }
         if(!checkIpv4Address($("#dnsserver2").val())){
-            return {type:"err", message: "ipv4的DNS服务器2格式错误！"};
+            return {type:"err", message: a_4249};
         }
         return {type: "suc", message:""};
     }
@@ -1550,26 +1552,26 @@
     function checkipv4PPPoeitems(){
         if( $("#ppoeaccount").val() == "" || $("#ppoepassword").val() == "")
         {
-            return {type:"err", message: "PPPoE帐号和密码不能为空!"};
+            return {type:"err", message: a_16446};
         }
         return {type:"suc", message: ""};
     }
 
     function checkipv6addritems(){
         if( !checkDialIPv6($("#staticipv6addr").val())){
-            return {type:"err", message: "ipv6地址格式错误！"};
+            return {type:"err", message: a_528};
         }
         if(!(checkdigits(parseInt($("#ipv6prefixlen").val())))){
-            return {type:"err", message: "IPv6前缀长度只能为数字"};
+            return {type:"err", message: a_20211};
         }
         if(!range(parseInt($("#ipv6prefixlen").val().trim()), 1, 128)){
-            return {type:"err", message: "IPv6前缀长度有效值:1-128"};
+            return {type:"err", message: a_20212};
         }
         if($("#ipv6dns1").val().trim() != "" &&!checkDialIPv6($("#ipv6dns1").val())){
-            return {type:"err", message: "ipv6的DNS服务器1格式错误！"};
+            return {type:"err", message: a_4249};
         }
         if($("#ipv6dns1").val().trim() != "" && !checkIpv4Address($("#ipv6dns2").val())){
-            return {type:"err", message: "ipv6的DNS服务器2格式错误！"};
+            return {type:"err", message: a_4249};
         }
         return {type: "suc", message:""};
     }
@@ -1793,6 +1795,70 @@
                 $("#pwd-next-step").removeAttr("disabled");
             }
         }
+    }
+
+    function translate_page(){
+        $("#a_title").text(a_20203);
+        document.title = a_20203;
+        $("#a_sellang").text(a_20200);
+        $("#a_lang").text(a_16216);
+        $("button[name=a_nextstep]").text(a_19041);
+        $("button[name=a_laststep]").text(a_19085);
+        $("button[name=a_cancel], div[name=a_cancel]").text(a_3);
+        $("button[name=a_done]").text(a_15012);
+        $("#a_seltimezone").text(a_12066);
+        $("#a_timezone").text(a_6657);
+        $("#lang-confirm, #timezone-confirm").text(a_2);
+        $("#a_networkconf").text(a_20201);
+        $("#a_advnetworkconf").text(a_20202);
+        $("#a_ipaddr,#a_ipaddr2").text(a_6650);
+        $("#a_submask").text(a_4127);
+        $("#a_dftgateway").text(a_4129);
+        $("#a_dnsserver1, #a_ipv6dns1").text(a_16184);
+        $("#a_dnsserver2,#a_ipv6dns2").text(a_16185);
+        $("#a_ppoeaccount").text(a_4156);
+        $("#a_ppoepassword").text(a_4157);
+        $("#a_dhcp").text(a_4124);
+        $("#a_staticip").text(a_4125);
+        $("span[name=a_dhcp]").text(a_4124);
+        $("span[name=a_staticip]").text(a_4125);
+        $("#a_protocoltype").text(a_19225);
+        $("#ipv4nettype1,#ipv4nettype2").text("IPv4"+a_4150);
+        $("#ipv6nettype1,#ipv6nettype2").text(a_19308);
+        $("#a_preferipv4").text(a_19390);
+        $("#a_preferipv6").text(a_19391);
+        $("#a_onlyipv4").text(a_19392);
+        $("#a_onlyipv6").text(a_19393);
+        $("#a_staticipv6addr").text(a_19232);
+        $("#a_ipv6prefixlen").text(a_19233);
+        $("#a_acctconf").text(a_20204);
+        $("#a_accountname").text(a_1120);
+        $("#a_sipserver").text(a_1121);
+        $("#a_userid").text(a_1122);
+        $("#a_authid").text(a_1123);
+        $("#a_authpwd").text(a_1124);
+        $("#a_displayname").text(a_1126);
+        $("#a_sbcaddr").text(a_20050);
+        $("#a_sitename").text(a_16225);
+        $("#a_acctactive").text(a_1119);
+        $("#a_setlockpwd").text(a_20205);
+        $("#a_hassetpwd").text(a_20206);
+        $("#a_clickhint").text(a_20207);
+        $("#resetpwd").text(a_20208);
+        $("#a_inputpwd").text(a_20209);
+        $("#a_confdone").text(a_20210);
+        networktypeArr = [a_4124, a_4125, "PPPoE"];
+        ipv6networktypeArr = [a_4124, a_4125];
+        protocoltypeArr = [a_19390,a_19391,a_19392,a_19393];
+        city_names = [a_16489, a_16491,a_16492,a_16493, a_16494,a_16495,a_16496,a_16497,a_16498,
+            a_16499, a_16500,a_16501,a_16502,a_16503, a_16504,a_16505,a_16506,a_16507,a_16508,
+            a_16509,a_16510, a_16711, a_16511, a_16512, a_16513,a_16514,a_16515,a_16516,a_16517,
+            a_16518, a_16519, a_16520, a_16521, a_16522, a_16712, a_16523, a_16524, a_16525,
+            a_16526, a_16527, a_16713, a_16528, a_16529, a_16530, a_16531, a_16532, a_16533,a_16534,
+            a_16535, a_16536, a_16537, a_16538, a_16539, a_16540, a_16541, a_16542, a_16543, a_16544,
+            a_16545, a_16546, a_16547, a_16548, a_16549, a_16550, a_16551,a_16552,a_16553, a_16714,
+            a_16554, a_16555, a_16556, a_16557, a_16558, a_16559, a_16560, a_16561, a_16562, a_16563, a_16564,
+            a_16565, a_16566, a_16567,a_16568,a_16569,a_16570, a_16715, a_16490, a_16571, a_16572,a_16573];
     }
 
     function promptTip(tip, status) {
