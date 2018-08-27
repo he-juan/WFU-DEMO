@@ -9,6 +9,7 @@
     <script type="text/javascript" src='/js/jquery.stylish-select.min.js'></script>
     <style>
         * {margin: 0;  padding: 0;  }
+        html{  font-size:16px;  }
         body {  font-size: 16px;  height: 100%; overflow: hidden; max-width: 600px;  margin: auto;  position: fixed;  top: 0;
             bottom: 0;  left: 0;  right: 0;  text-align: center;  background-color: #efeff4; z-index: 1; }
         .mask{position: absolute; top: 0; left:0; right:0;bottom:0; background: rgba(55,55,55, 0.2);}
@@ -318,7 +319,7 @@
 </div>
 
 
-<div id="ipv4config" style="display: none;margin-top: 20px;position:relative;min-height: 500px" class="">
+<div id="ipv4config" style="display: none;margin-top: 20px;position:relative;" class="">
     <div class="selectDiv"><div id="ipv4nettype2">IPv4地址类型</div><div id="ipv4addtype2"></div><div class="arrow"></div></div>
 
     <div id="staticipconf" class="config-box" style="display: none">
@@ -349,7 +350,7 @@
 </div>
 
 
-<div id="ipv6config" class="" style="display: none;margin-top: 20px;position:relative;min-height: 500px">
+<div id="ipv6config" class="" style="display: none;margin-top: 20px;position:relative;">
     <div class="selectDiv"><div id="ipv6nettype2">IPv6地址类型</div><div id="ipv6addtype2"></div><div class="arrow"></div></div>
 
     <div id="staticip6conf" class="config-box" style="display: none;">
@@ -377,7 +378,7 @@
 
 
 
-<div id='accountconf' style="display:none;position:relative;min-height: 500px">
+<div id='accountconf' style="display:none;position:relative;">
     <p class="config-title" id="a_acctconf">帐号配置</p>
     <div webtip="Account Name" class="config-box" style="margin-top: 0px;">
         <div class="g_conf"><span id="a_accountname">帐号名称</span><input id="accountname" name="accountname" type="text" placeholder=""/></div>
@@ -395,7 +396,7 @@
     <div class="step-btn"><button id="account-back-btn" name="a_laststep">上一步</button><button id="account-next-step" name="a_nextstep">下一步</button></div>
 </div>
 
-<div id="pwddiv" style="display:none;position:relative;min-height: 500px">
+<div id="pwddiv" style="display:none;position:relative;">
     <p class="config-title" id="a_setlockpwd">Set Screen lock password</p>
     <div id="existpwd" style="display: none;text-align: center;margin: 26px 0 30px 0;color: #8f8f8f;">
         <p style="margin-bottom: 10px;" id="a_hassetpwd">Screen lock password has been set</p>
@@ -506,9 +507,12 @@
     var lockpwd = "";
     var newgmts = new Array;
     var colore = $.cookie("coloreExist");
+    var height;
 
     $(function () {
+        height = document.body.clientHeight;
         translate_page();
+        init_page();
         var hash = location.hash;
         if (hash) {
             hash = hash.substring(1);
@@ -524,12 +528,10 @@
                 var tObj = eval("(" + data + ")");
                 if (tObj.res == "success") {
                     $("#setlanguage").show();
-                    $("#accountconf").hide();
                     $("#qrdiv").hide();
                     checkres = true;
                 } else {
                     $("#setlanguage").hide();
-                    $("#accountconf").hide();
                     $("#qrdiv").fadeIn(1000);
                 }
             },
@@ -1032,9 +1034,10 @@
                     $(items[i]).focus();
                     return;
                 }
-                $(items[items.length - 1]).focus();
             }
+            $(items[items.length - 1]).focus();
         });
+
 
         $("#first input,#second input").keydown(function (event) {
             var items = $(this).parent().find("input");
@@ -1148,6 +1151,7 @@
 
     function jumpToFirstpwd(){
         lockpwd = "";
+        $("#first input").first().focus();
         $("#first").show();
         $("#second").hide();
         $("#a_setlockpwd").text(a_20205);
@@ -1859,6 +1863,14 @@
             a_16545, a_16546, a_16547, a_16548, a_16549, a_16550, a_16551,a_16552,a_16553, a_16714,
             a_16554, a_16555, a_16556, a_16557, a_16558, a_16559, a_16560, a_16561, a_16562, a_16563, a_16564,
             a_16565, a_16566, a_16567,a_16568,a_16569,a_16570, a_16715, a_16490, a_16571, a_16572,a_16573];
+    }
+
+    function init_page(){
+        $("#accountconf, #pwddiv").css("min-height", (height-50)+"px" );
+        $("#ipv4config, #ipv6config").css("min-height", (height-20)+"px" );
+        if(height < 505){
+            $("#accountconf .step-btn").css("bottom", "20px" );
+        }
     }
 
     function promptTip(tip, status) {
