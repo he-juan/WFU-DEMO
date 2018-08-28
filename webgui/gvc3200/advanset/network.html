@@ -131,10 +131,10 @@ fieldset .copyright span{display: inline-block; text-align: right; width: 100%; 
                 <input id="pppoeservice" name="pppoeservice" type="text" />
             </div>
             <div class="titlediv">
-                <div class="titleboot"><span id="a_802xmode">802.1x Mode</span></div>
+                <div class="titleboot"><span id="a_802xmode">802.1X Mode</span></div>
             </div>
-            <div webtip="802.1x Mode">
-                <div class="rebootitem"><span id="a_802mode">802.1x Mode</span> :</div>
+            <div webtip="802.1X Mode">
+                <div class="rebootitem"><span id="a_802mode">802.1X Mode</span> :</div>
                 <select name="xmode" id="xmode">
                     <option value="0">Close</option> 
                     <option value="1">EAP-MD5</option>     
@@ -142,12 +142,12 @@ fieldset .copyright span{display: inline-block; text-align: right; width: 100%; 
                     <option value="3">EAP-PEAP</option>           
                 </select>
             </div>
-            <div id="identitydiv" webtip="802.1x Identity">
-                <div class="rebootitem"><span id="a_identity">802.1x Identity</span> :</div>
+            <div id="identitydiv" webtip="802.1X Identity">
+                <div class="rebootitem"><span id="a_identity">802.1X Identity</span> :</div>
                 <input name="identity" type="text" id="identity" />
             </div>
-            <div id="md5pasdiv" webtip="802.1x Secret">
-                <div class="rebootitem"><span id="a_md5pas">802.1x Secret</span> :</div>
+            <div id="md5pasdiv" webtip="802.1X Secret">
+                <div class="rebootitem"><span id="a_md5pas">802.1X Secret</span> :</div>
                 <input name="md5pas" type="password" id="md5pas" autocomplete="off" />
             </div>
             <div webtip="CA Certificate" class="uploaddiv" id="uploaddivpart2">
@@ -975,7 +975,7 @@ function cb_show_802_mode(){
     }
     else if(mode == 1)
     {
-        $("#md5pasdiv").attr("webtip", "802.1x Secret");
+        $("#md5pasdiv").attr("webtip", "802.1X Secret");
         $("#identitydiv, #md5pasdiv").show();
         $("#a_md5pas").text(a_16196);
         $("#uploaddivpart1, #uploaddivpart3").hide();
@@ -983,7 +983,7 @@ function cb_show_802_mode(){
     }
     else if(mode == 2)
     {
-        $("#md5pasdiv").attr("webtip", "802.1x Private Key Password");
+        $("#md5pasdiv").attr("webtip", "802.1X Private Key Password");
         $("#identitydiv, #md5pasdiv").show();
         $("#a_md5pas").text(a_4394);
         $("#uploaddivpart1, #uploaddivpart3").show();
@@ -991,7 +991,7 @@ function cb_show_802_mode(){
     }
     else
     {
-        $("#md5pasdiv").attr("webtip", "802.1x Secret");
+        $("#md5pasdiv").attr("webtip", "802.1X Secret");
         $("#identitydiv, #md5pasdiv").show();
         $("#a_md5pas").text(a_16196);
         $("#uploaddivpart1, #uploaddivpart3").hide();
