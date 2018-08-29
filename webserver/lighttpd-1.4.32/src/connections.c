@@ -5369,7 +5369,7 @@ static int network_connect_status(int net_type) {
     {
         fgets(&line, sizeof(line), fp);
 
-        if (strcmp(line, "")) {
+        if (strcmp(line, "") && strlen(line) > 7) {
             ret = 1;
         }
 
