@@ -571,20 +571,6 @@ class ContactTab extends Component {
                                okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelContactsCancel}>
                             <p className="confirm-content">{this.tr("a_deletecontacts")}</p>
                         </Modal>
-                        <Button type="primary" disabled={!hasSelected}  style={{marginRight:'10px'}} onClick={this.showAddWhitelistModal}>
-                            {this.tr("a_whitelist")}
-                        </Button>
-                        <Modal visible={this.state.displayAddWhitelistModal} title={this.tr("a_whitelist")} className="confirm-modal"
-                               okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.handleAddWhitelist} onCancel={this.handleAddWhitelistCancel}>
-                            <p className="confirm-content">{this.tr("a_isWhitelist")}</p>
-                        </Modal>
-                        <Button type="primary" disabled={!hasSelected} style={{marginRight:'10px'}} onClick={this.showAddBlacklistModal}>
-                            {this.tr("a_blacklist")}
-                        </Button>
-                        <Modal visible={this.state.displayAddBlacklistModal} title={this.tr("a_blacklist")} className="confirm-modal"
-                               okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.handleAddBlacklist} onCancel={this.handleAddBlacklistCancel}>
-                            <p className="confirm-content">{this.tr("a_isBlacklist")}</p>
-                        </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} onClick={this.showContactModal}>
                             {this.tr("a_newcontact")}
                         </Button>
@@ -605,7 +591,7 @@ class ContactTab extends Component {
                         columns = { columns }
                         pagination = { false }
                         dataSource = { data }
-                        showHeader = { true }
+                        showHeader = { false }
                     />
                     <div className = "nodatooltips" style={{display: this.state.showtips}}>
                         <div></div>

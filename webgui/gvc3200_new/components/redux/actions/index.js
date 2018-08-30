@@ -2099,7 +2099,10 @@ export const getContactCount = () => (dispatch) => {
 }
 
 export const getContacts = (callback) => (dispatch) => {
-    let request = 'action=sqlitecontacts&type=contacts';
+    // let request = 'action=sqlitecontacts&type=contacts';
+    // let request = 'action=sqlitecontacts&region=apps&type=contacts';
+    let request = "action=sqlitecontacts&region=apps&type=contacts&sqlstr=select contacts._id as contacts_id,raw_contacts._id as raw_contacts_id,raw_contacts.display_name as contact_display_name,data.phone,data.accountid,data._id from contacts left join raw_contacts on contacts.name_raw_contact_id=raw_contacts._id left join (select _id, raw_contact_id,data1 as phone,data11 as accountid from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on raw_contacts._id=data.raw_contact_id;"
+
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['Response'] == 'Success') {
@@ -2119,7 +2122,7 @@ export const getContacts = (callback) => (dispatch) => {
 }
 
 export const setContacts = (infostr,callback) => (dispatch) => {
-    let request="action=setcontact&contactInfo=" + encodeURIComponent(infostr) + "&format=json";
+    let request="action=setcontact&region=webservice&contactInfo=" + encodeURIComponent(infostr) + "&format=json";
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
@@ -2147,7 +2150,8 @@ export const removeContact = (contactid, callback) => (dispatch) => {
 }
 
 export const getGroups = (callback) => (dispatch) => {
-    let request = 'action=sqlitecontacts&type=groups';
+    // let request = 'action=sqlitecontacts&type=groups';
+    let request = 'action=sqlitecontacts&region=apps&type=groups';
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['Response'] == 'Success') {
@@ -2190,7 +2194,7 @@ const formatContactAndGroupsData = function(data,type){
 }
 
 export const setGroups = (groupname,ringtone,editGroupId,callback) => (dispatch) => {
-    let request = 'action=setgroup&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname+':::'+ringtone)+'&format=json';
+    let request = 'action=setgroup&region=webservice&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname+':::'+ringtone)+'&format=json';
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
@@ -2274,6 +2278,16 @@ export const get_clear = (callback) => (dispatch) => {
 
 export const get_deleteCall = (deleteId,flag, callback) => (dispatch) => {
     let request = 'action=removecall&region=webservice&flag='+ flag +'&id=' + deleteId;
+    actionUtil.handleGetRequest(request).then(function(data) {
+        var tObj = eval("(" + data + ")");
+        callback(tObj.res);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
+export const get_deleteCallConf = (deleteId,callback) => (dispatch) => {
+    let request = 'action=removecallconf&region=webservice&confId' + deleteId;
     actionUtil.handleGetRequest(request).then(function(data) {
         var tObj = eval("(" + data + ")");
         callback(tObj.res);
@@ -2424,6 +2438,108 @@ export const getContactsinfo = () => (dispatch) => {
     })
 }
 
+export const getAllConfMember = (callback) => (dispatch) => {
+    let request = 'action=sqlitecontacts&region=apps&type=confmember&flag=1';
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = JSON.parse(data);
+        let confmemberinfodata = msgs['Data'];
+        dispatch({type: 'REQUEST_GET_CONFMEMBERINFO', confmemberinfodata: confmemberinfodata});
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getPreConf = (callback) => (dispatch) => {
+    let request = 'action=sqliteconf&region=apps&type=preconf';
+    actionUtil.handleGetRequest(request).then(function(res) {
+        let msgs = JSON.parse(res);
+        let data = msgs['Data'];
+        dispatch({type: 'REQUEST_GET_PRECONFINFO', preconfdata: data});
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getConfInfo = (callback) => (dispatch) => {
+    let request = 'action=sqliteconf&region=apps&type=schedule';
+    actionUtil.handleGetRequest(request).then(function(res) {
+        let msgs = JSON.parse(res);
+        let data = msgs['Data'];
+        dispatch({type: 'REQUEST_GET_CONFINFO', confinfodata: data});
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const get_deleteConf = (deleteId, callback) => (dispatch) => {
+    let request = 'action=deleteschedule&region=webservice&id=' + deleteId;
+    actionUtil.handleGetRequest(request).then(function(data) {
+        var tObj = eval("(" + data + ")");
+        callback(tObj.res);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
+export const get_deleteOnceConf = (deleteId, callback) => (dispatch) => {
+    let request = 'action=notifyschedule&region=webservice&type=5&scheduleId=' + deleteId;
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        var response = msgs.headers['response'];
+        if(response == "Success") {
+            callback('success')
+        } else {
+            callback("ERROR")
+        }
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
+export const getPresetInfo = (callback) => (dispatch) => {
+    let request = 'action=getpresetinfo&region=control';
+    actionUtil.handleGetRequest(request).then(function(res) {
+        let msgs = JSON.parse(res);
+        let data = msgs['Data'];
+        dispatch({type: 'REQUEST_GET_PRESETINFO', presetinfo: data});
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const setschedule = (infostr,type,callback) => (dispatch) => {
+    let request="action=addschedule&region=webservice&id=" + infostr;
+    if(type == 1) {
+        request="action=updateschedule&region=webservice&id=" + infostr;
+    }
+    actionUtil.handleGetRequest(request).then(function(data){
+        let msgs = JSON.parse(data)
+        if (msgs['res'] == 'success') {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_saved'}});
+            callback();
+        } else if (msgs['res'] == 'error') {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_errorname'}});
+        }
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+// export const updateschedule = (infostr,callback) => (dispatch) => {
+//     let request="action=updateschedule&region=webservice&id=" + encodeURIComponent(infostr) + "&format=json";
+//     actionUtil.handleGetRequest(request).then(function(data){
+//         let msgs = JSON.parse(data)
+//         if (msgs['res'] == 'success') {
+//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_saved'}});
+//             callback();
+//         } else if (msgs['res'] == 'error') {
+//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_errorname'}});
+//         }
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
+
 //################## Detection #################//
 export const diagnosePem = (callback) => (dispatch) => {
     let request = 'action=diagnosepem';
@@ -2553,3 +2669,5 @@ export const setDndMode = (value, callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+

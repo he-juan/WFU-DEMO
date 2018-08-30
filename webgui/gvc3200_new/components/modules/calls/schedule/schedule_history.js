@@ -229,6 +229,7 @@ class Call extends Component {
 
     onSelectChange = (selectedRowKeys) => {
         this.setState({selectedRowKeys});
+        console.log(this.state.selectedRowKeys)
     }
 
     onSelectItem = (record, selected, selectedRows) => {
@@ -612,15 +613,10 @@ class Call extends Component {
     }
 
     handleNewConf = (text) => {
-        let data = text
-        if(!text.length) {
-            data = [text]
-
-        }
         this.setState({
             displayNewConfModal: true,
             addNewConf:true,
-            confMemberData:data
+            confMemberData:text
         })
     }
 

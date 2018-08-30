@@ -44,6 +44,11 @@ const CallHistory  = (location, cb) => {
         cb(null, require('./modules/calls/history').default);
     }, 'calls');
 };
+const Schedule  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/calls/schedule').default);
+    }, 'calls');
+};
 const Contact  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/calls/contact').default);
@@ -330,6 +335,7 @@ const routes = () => {
                 <IndexRoute getComponent={ DialUp } />
                 <Route onEnter={ requireAuth } path="dialup" getComponent={DialUp}/>
                 <Route onEnter={ requireAuth } path="history" getComponent={CallHistory}/>
+                <Route onEnter={ requireAuth } path="schedule" getComponent={Schedule}/>
                 <Route onEnter={ requireAuth } path="contact" getComponent={Contact}/>
                 <Route onEnter={ requireAuth } path="dnd" getComponent={Dnd}/>
                 <Route onEnter={ requireAuth } path="blackwhite" getComponent={Blackwhite}/>

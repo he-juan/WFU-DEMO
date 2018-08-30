@@ -1816,6 +1816,7 @@ var a_contacts_zh = "个联系人";
 var a_addcontact_zh = "添加联系人";
 var a_addLocalcontact_zh = "保存至已有联系人";
 var a_numberexceed_zh = "该联系人已有三个号码,请另选联系人";
+var a_displayName_zh = "显示名";
 var a_name_first_zh = "姓";
 var a_name_last_zh = "名";
 var a_workphone_zh = "工作电话";
@@ -1885,6 +1886,8 @@ var history_all_zh = "历史记录";
 var a_deletehiscalls_zh = "删除历史记录";
 var history_missed_zh = "未接记录";
 var history_intercept_zh = "拦截记录";
+var missed_call_zh = "未接来电";
+var a_preschedule_zh = "待开会议"
 var a_total_zh = "总记录数";
 var a_delinterceptcalls_zh = "删除拦截记录";
 var a_isdelinterceptcalls_zh = "确定删除所选拦截记录?";
@@ -2171,3 +2174,60 @@ var a_ringtonevol_zh = "音量设置";
 var a_ringtoneset_zh = "铃声设置";
 var a_audiodevice_zh = "音频设备";
 var a_aeclevel_zh = "音频回声抑制等级";
+
+/****************conference schedule ****************/
+var a_newConf_zh = "新增会议"
+var a_editConf_zh = "编辑会议"
+var a_confdetail_zh = "会议详情"
+var a_confSubject_zh = "会议主题"
+var a_confPreset_zh = "会议预置位"
+var a_confDuration_zh = "会议时长"
+var a_cycleType_zh = "循环类型"
+var a_pinCode_zh = "PIN码"
+var a_confMember_zh = "参会成员"
+var a_everyFixedDays_zh = "每固定天数"
+var a_customRepeat_zh = "自定义重复"
+var a_everyFixedWeeks_zh = "每固定周数"
+var a_everyFixedMonth_zh = "每固定月数"
+var a_everyFixedYear_zh = "每固定年数"
+
+var a_oneTimeEvent_zh = "一次性活动"
+var a_daily_zh = "每天"
+var a_weekday_zh = "每个工作日 (周一至周五)"
+var a_weekly_zh = "每周"
+var a_monthly_zh = "每月 (按日期)"
+var a_monthly1_zh = "每月 (按星期)"
+var a_yearly_zh = "每年"
+var a_custom_zh = "自定义"
+var a_repeatDate_zh = "重复日期"
+var a_cycle_zh = "循环周期"
+
+var a_first_zh = "第一个"
+var a_second_zh = "第二个"
+var a_third_zh = "第三个"
+var a_fourth_zh = "第四个"
+var a_last_zh = "最后一个"
+
+var a_organizer_zh = "组织者"
+var a_me_zh = "我"
+var a_nummember_zh = "参会人数"
+var a_waithost_zh = "待主持"
+var a_process_zh = "进行中"
+var a_notstart_zh = "未开始"
+var a_expired_zh = "已过期"
+var a_over_zh = "已结束"
+var a_startMeet_zh = "立即启会"
+var a_editMeet_zh = "编辑会议"
+var a_cancelMeet_zh = "取消会议"
+var a_cancelMeetWarn_zh = "是否取消会议"
+var a_delrepconf_zh = "取消此系列中的所有的活动"
+var a_delreponceconf_zh = "仅取消此次活动"
+var a_cancelsuc_zh = "取消成功"
+var a_cancelerr_zh = "取消失败"
+var a_preset_zh = "预置位"
+var a_timeWarn_zh = "预约的时间必须晚于当前时间"
+var a_memberempty_zh = "请至少选择一个成员!"
+var a_addMember_zh = "添加参会成员"
+
+
+

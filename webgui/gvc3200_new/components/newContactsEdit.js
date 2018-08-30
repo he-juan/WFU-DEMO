@@ -12,6 +12,11 @@ const acctname_item = ['270','417','517','617','1717','1817',"50617","50717","50
 let mCurContacts = [];
 let req_items = new Array;
 let acctnames = new Array;
+const children_acctnames = [
+    <option value="0">SIP</option>,
+    <option value="1">IPVideoTalk</option>,
+    <option value="8">H.323</option>,
+]
 
 class NewContactsEdit extends Component {
     constructor(props){
@@ -241,7 +246,7 @@ class NewContactsEdit extends Component {
         if(addoredit == 'edit'){
             rawcontact = `{"contactid":"${this.props.editContact['Id']}"}`;
         }
-        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"givenname":"${firstname || ""}","familyname":"${lastname || ""}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[${emailstr}]}`;
+        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${lastname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[${emailstr}]}`;
         this.props.setContacts(infostr,()=>{
             this.props.updateContact()
         })
@@ -287,37 +292,41 @@ class NewContactsEdit extends Component {
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
         var acctnumber = new Array;
-        const children_acctnames = [];
+        // const children_acctnames = [];
         for (var item in acctnames) {
             acctnumber.push(acctnames[item]);
         }
-        children_acctnames.push(<Option value = '-1'>{callTr("a_accountdy")}</Option>)
-        for ( var i = 0; i < acctnumber.length; i++ ) {
-            if (acctnumber[i] !== ''){
-                children_acctnames.push(<Option value = {i.toString()}>{acctnumber[i]}</Option>)
-            }
-        }
+        // children_acctnames.push(<Option value = '-1'>{callTr("a_accountdy")}</Option>)
+        // for ( var i = 0; i < acctnumber.length; i++ ) {
+        //     if (acctnumber[i] !== ''){
+        //         children_acctnames.push(<Option value = {i.toString()}>{acctnumber[i]}</Option>)
+        //     }
+        // }
 
         let GroupDisplay = (this.props.groups.length == 0) ? 'none' : 'block';
         return (
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_ok")} cancelText={callTr("a_cancel")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
-                    <FormItem label={(<span>{callTr("a_name")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_displayName")}</span>)}>
                         {getFieldDecorator('lastname', {
+                            rules: [{
+                                required: true
+                            }]
                         })(
-                            <Input style={{width:'44%'}} placeholder={callTr('a_name_first')}/>
-                        )}&nbsp;&nbsp;
-                        {getFieldDecorator('firstname', {
-                        })(
-                            <Input style={{width:'44%'}} placeholder={callTr('a_name_last')} />
+                            <Input style={{width:'89%'}}/>
                         )}
+                        {/*&nbsp;&nbsp;*/}
+                        {/*{getFieldDecorator('firstname', {*/}
+                        {/*})(*/}
+                        {/*<Input style={{width:'44%'}} placeholder={callTr('a_name_last')} />*/}
+                        {/*)}*/}
                     </FormItem>
                     {
                         (numValuesmap != "" || numValuesmap.length > 0) && numValuesmap.map((val,idx,arr) => {
                             return (
                                 <FormItem className="numcontact" label={idx == 0 ? (<span>{callTr("a_number")}&nbsp;</span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)} >
                                     {getFieldDecorator('bindaccount'+idx, {
-                                        initialValue: val.split(" ")[1] ? val.split(" ")[1] : "-1"
+                                        initialValue: val.split(" ")[1] ? val.split(" ")[1] : "0"
                                     })(
                                         <Select style={{width:'44%'}}>
                                             {children_acctnames}
@@ -332,23 +341,6 @@ class NewContactsEdit extends Component {
                                         <Input style={{width:'44%'}} type="text" onChange ={this.connectInputValue} />
                                     )}
                                     <i className={idx === 0 ? 'add-btn' : 'del-btn' } onClick = {this.hanleNumContacts.bind(this)} style={{ backgroundPosition: idx === 0 ? '-63px -25px' :  '-21px -25px'}}/>
-                                </FormItem>
-                            )
-                        })
-                    }
-                    {
-                        (emailValuesmap != "" || emailValuesmap.length > 0) && emailValuesmap.map((val,idx,arr) => {
-                            return (
-                                <FormItem className="emailcontact" label={idx == 0 ? (<span>{callTr("a_email")}&nbsp;</span>) : (<span style={{visibility:'hidden'}}></span>)} >
-                                    {getFieldDecorator('accountemail'+idx, {
-                                        rules: [{
-                                            max:64,message: callTr("max_length64"),
-                                        }],
-                                        initialValue: val
-                                    })(
-                                        <Input style={{width:'89%'}} type="text" onChange ={this.connectInputEmailValue} />
-                                    )}
-                                    <i className={idx === 0 ? 'add-btn' : 'del-btn' } onClick = {this.hanleEmailContacts.bind(this)} style={{ backgroundPosition: idx === 0 ? '-63px -25px' :  '-21px -25px'}}/>
                                 </FormItem>
                             )
                         })

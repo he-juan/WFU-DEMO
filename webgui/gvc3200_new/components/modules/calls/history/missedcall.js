@@ -229,6 +229,7 @@ class Call extends Component {
 
     onSelectChange = (selectedRowKeys) => {
         this.setState({selectedRowKeys});
+        console.log(this.state.selectedRowKeys)
     }
 
     onSelectItem = (record, selected, selectedRows) => {
@@ -445,11 +446,11 @@ class Call extends Component {
             </div>;
         } else {
             statue =
-            <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
-                <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={this.handleAddContact.bind(this, memberArr[0], index)}></button>
-                <button className='allow-detail' id = {'allow-detail'+index}  onClick={this.handleNewConf.bind(this, memberArr[0], index)}></button>
-                <button className='allow-call' id = {'allow-call'+index} onClick={this.handleCall.bind(this, memberArr[0], index)}></button>
-            </div>;
+                <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
+                    <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={this.handleAddContact.bind(this, memberArr[0], index)}></button>
+                    <button className='allow-detail' id = {'allow-detail'+index}  onClick={this.handleNewConf.bind(this, memberArr[0], index)}></button>
+                    <button className='allow-call' id = {'allow-call'+index} onClick={this.handleCall.bind(this, memberArr[0], index)}></button>
+                </div>;
         }
         return statue;
     }
@@ -470,7 +471,7 @@ class Call extends Component {
             let memberArr = []
             let haslogItem = false
             for (let j = 0; j < confmember.length; j++) {
-                if(confmember[j].Id == logItemdata[i].Id) {
+                if(confmember[j].Id == logItemdata[i].Id && logItemdata[i].Type == '3') {
                     confmember[j].recordName = ''
                     for (let k = 0; k < contactList.length; k++) {
                         if(confmember[j].Number == contactList[k].Number) {
@@ -582,11 +583,11 @@ class Call extends Component {
     _createInlineAction(text) {
         let status;
         status =
-        <div className = {"callRecord"}>
-            <button className={text.recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'}  onClick={this.handleAddContact.bind(this, text,0)}></button>
-            <button className='allow-detail'  onClick={this.handleNewConf.bind(this, text,0)}></button>
-            <button className='allow-call' onClick={this.handleCall.bind(this, text)}></button>
-        </div>;
+            <div className = {"callRecord"}>
+                <button className={text.recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'}  onClick={this.handleAddContact.bind(this, text,0)}></button>
+                <button className='allow-detail'  onClick={this.handleNewConf.bind(this, text,0)}></button>
+                <button className='allow-call' onClick={this.handleCall.bind(this, text)}></button>
+            </div>;
         return status;
 
     }
@@ -612,15 +613,10 @@ class Call extends Component {
     }
 
     handleNewConf = (text) => {
-        let data = text
-        if(!text.length) {
-            data = [text]
-
-        }
         this.setState({
             displayNewConfModal: true,
             addNewConf:true,
-            confMemberData:data
+            confMemberData:text
         })
     }
 
@@ -692,9 +688,9 @@ class Call extends Component {
                         </Modal>
                     </div>
                     {/*<div style={{'float':'right'}}>*/}
-                        {/*<div className = 'search_div'>*/}
-                            {/*<Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_search")}></Input>*/}
-                        {/*</div>*/}
+                    {/*<div className = 'search_div'>*/}
+                    {/*<Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_search")}></Input>*/}
+                    {/*</div>*/}
                     {/*</div>*/}
                 </div>
                 <div className = 'CallDiv Callhistory'>
@@ -706,9 +702,9 @@ class Call extends Component {
                         dataSource = { data }
                         showHeader = { false }
                         expandIconAsCell={false}
-                        expandedRowRender= {this.expandedRowRender.bind(this)}
-                        onRowClick={this.handelOnRowClick.bind(this)}	//添加单击方法
-                        expandedRowKeys={this.state.expandedRows}		//添加 回设置 展开的数组
+                        // expandedRowRender= {this.expandedRowRender.bind(this)}
+                        // onRowClick={this.handelOnRowClick.bind(this)}	//添加单击方法
+                        // expandedRowKeys={this.state.expandedRows}		//添加 回设置 展开的数组
                         expandIconColumnIndex={-1}
                     />
                     <div className = "nodatooltips" style={{display: this.state.showtips}}>

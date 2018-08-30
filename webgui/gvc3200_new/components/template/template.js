@@ -29,7 +29,23 @@ export const options = [
                 {"name": "Download Server", "lang": "a_downserver"},
                 {"name": "Download Now", "lang": "a_downinterval"}
             ]}
-        ]}
+        ]},
+        {"name": "schedule", "lang": "meeting_schedule", "sub": [
+            {"name": "preschedule", "lang": "a_preschedule", "sub": [
+
+                ]},
+            {"name": "conf_history", "lang": "history_all", "sub": [
+
+                ]}
+        ]},
+        {"name": "history", "lang": "call_history", "sub": [
+            {"name": "all", "lang": "history_all", "sub": [
+
+                ]},
+            {"name": "missed-call", "lang": "missed_call", "sub": [
+
+                ]}
+        ]},
     ]},
     {"name": "account", "lang": "a_account", "sub": [
         {"name": "sipAcct", "lang": "SIP", "sub": [

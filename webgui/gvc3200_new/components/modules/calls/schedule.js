@@ -1,21 +1,28 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../mixins/Enhance";
-import {Layout, Tabs, Popconfirm, Modal, Input, message, Form} from "antd";
+import {Layout, Tabs, Popconfirm, Modal, Input, message, Form, Button} from "antd";
 import * as Actions from '../../redux/actions/index';
 import { bindActionCreators } from 'redux';
 import {  connect } from 'react-redux';
 import * as optionsFilter from "../../template/optionsFilter";
-import Call from "./history/call";
-import MissedCall from "./history/missedcall";
+import PreShedule from "./schedule/preschedule";
+import Schdule_History from "./schedule/schedule_history";
+import NewConEdit from "../../newConfEdit"
+
 const Content = Layout;
 const TabPane = Tabs.TabPane;
-const CallForm = Form.create()(Call);
-const MissedCallForm = Form.create()(MissedCall);
+const ScheduleForm = Form.create()(PreShedule);
+const HistoryForm = Form.create()(Schdule_History);
+const NewConEditForm = Form.create()(NewConEdit)
 
 class History extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            displayNewConfModal: false,
+            confMemberData:[],
+            addNewConf:false
+        }
     }
 
     callback = (key) => {
@@ -50,15 +57,28 @@ class History extends Component {
         return Timevalue;
     }
 
+    handleHideNewConfModal = () => {
+        this.setState({displayNewConfModal: false})
+    }
+
+    handleNewConf = () => {
+        this.setState({
+            displayNewConfModal: true,
+            addNewConf:true,
+            confMemberData:[]
+        })
+    }
+
     render() {
+        const callTr = this.tr;
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
-                <TabPane tab = {this.tr("history_all")} key={0}>
-                    <CallForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                <TabPane tab = {this.tr("a_preschedule")} key={0}>
+                    <ScheduleForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
-                <TabPane tab = {this.tr("missed_call")} key={1}>
-                    <MissedCallForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                <TabPane tab = {this.tr("history_all")} key={1}>
+                    <HistoryForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
             </Tabs>
 
@@ -77,10 +97,20 @@ class History extends Component {
         }
 
         return (
+            <div>
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("call_history")}</div>
+                <div className="subpagetitle">{this.tr("meeting_schedule")}</div>
+                <Button className='btn_addschedule' onClick={this.handleNewConf} type="primary" >
+                    {callTr('a_newConf')}
+                </Button>
                 {tabList}
             </Content>
+                <NewConEditForm {...this.props} callTr={callTr}
+                                handleHideNewConfModal= {this.handleHideNewConfModal}
+                                displayNewConfModal={this.state.displayNewConfModal}
+                                confMemberData={this.state.confMemberData}
+                                addNewConf={this.state.addNewConf}/>
+            </div>
         );
     }
 }

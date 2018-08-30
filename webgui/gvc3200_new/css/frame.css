@@ -1715,7 +1715,7 @@ table thead tr th{
 .gdslist button,.mpklist button,.vpklist button{
     margin: 10px;
 }
-.allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call, .Playing, .Pause , .initial {
+.allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact, .Playing, .Pause , .initial {
     display: inline-block;
     position: relative;
     top: 5px;
@@ -1728,7 +1728,7 @@ table thead tr th{
 }
 
 @-moz-document url-prefix() {
-    .allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call/*, .Playing, .Pause , .initial*/ {
+    .allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact/*, .Playing, .Pause , .initial*/ {
         top: -5px;
     }
 }
@@ -1815,6 +1815,9 @@ table thead tr th{
     background-position: -631px -66px;
 }
 .allow-call:hover {
+    background-position: -652px -66px;
+}
+.allow-addContact {
     background-position: -652px -66px;
 }
 .allow-delete {
@@ -1936,6 +1939,9 @@ table thead tr th{
   display: block;
 }
 
+.display-inline {
+    display: inline-block;
+}
 .pwdrank{
     width: 105%;
     margin-left: 7px;
@@ -2736,10 +2742,10 @@ table thead tr th{
     background-position: -500px 0;
 }
 
-.anticon-cross-circle {
-    background-image: url(../img/icon.png);
-    background-position: -525px 0;
-}
+/*.anticon-cross-circle {*/
+    /*background-image: url(../img/icon.png);*/
+    /*background-position: -525px 0;*/
+/*}*/
 
 .anticon-check-circle:before {
     content: "";
@@ -3461,14 +3467,16 @@ table thead tr th{
     text-align: center;
 }
 #contacteditdiv {
-    display: inline-block;
-    margin-top: 100px;
-    min-height: 300px;
-    max-height: 670px;
-    width: 800px;
-    background:#FDFCFC;
+    background: #FDFCFC;
     border-radius: 5px;
     text-align: left;
+    width: 400px;
+    height: 110px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -55px;
+    margin-left: -200px;
 }
 #contacteditdiv .titlediv {
     background:#fff;
@@ -3478,12 +3486,13 @@ table thead tr th{
     line-height:50px;
     border-bottom:1px solid #eceef3;
     border-radius: 5px;
+    text-align: center;
 }
 .titlediv span {
     display: inline-block;
     height: 50px;
     line-height: 50px;
-    padding-left: 380px;
+    /*padding-left: 380px;*/
     font-size: 1rem;
     font-weight: bold;
     color: #253d4c;
@@ -3618,19 +3627,14 @@ table thead tr th{
 }
 
 .appsbtn {
-    height:60px;
+    height: 60px;
     line-height: 60px;
-    text-align: right;
-    float: left;
-    width: 100%;
-    padding-right: 20px;
-    margin-top: 30px;
-    border-top: 1px solid #eceef3;
-    box-shadow: 0 2px 5px 2px rgba(165,172,183,.35);
+    text-align: center
 }
 
 .appsbtn button {
     width: 150px;
+    display: inline-block;
 }
 
 .logitemdiv button {
@@ -5348,7 +5352,7 @@ table thead tr th{
 }
 
 .Callhistory table tbody tr td:nth-child(2), .Callhistory table tbody tr td:nth-child(4) {
-    display: inline-block;
+    /*display: inline-block;*/
     max-width: 200px;
     margin-right: 10px;
     overflow: hidden;
@@ -5762,30 +5766,160 @@ table thead tr th{
 #zoominbtn:hover div{
     background:url('../img/remote/remote_control.png') -344px -4px
 }
+.call-line{
+    text-align: left;
+    border-top:  1px solid #fff;
+    background: #f0f4ff;
+}
+.call-line-info{
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+}
+.call-line-name{
+    text-align: left;
+    width: 30%;
+}
+.call-line-number {
+    width: 25%;
+}
+.call-line-date{
+    width: 20%;
+}
+.call-line-duration {
+    width: 5%;
+}
+.call-line-act {
+    width: 20%;
+    padding-right: 50px;
+    text-align: right;
+}
+.call-checkall {
+    width: 70px;
+    margin-left: 2px;
+}
+.btnbox{
+    height: 50px;
+    border-bottom: 1px solid #dfe1e2;
+    box-shadow: 0 1px 10px rgba(223,225,229,.5);
+    overflow: hidden;
+    padding: 10px 10px 10px 22px;
+}
 
+.ant-table-expanded-row {
+    background: #f0f4ff!important;
+}
+.ant-table-expanded-row td{
+    padding: 0!important;
+    padding-left: 62px!important;
+}
+.line-hoverbg{
+    background: #f0f4ff!important;
+}
+.select-callnum {
+    overflow: hidden;
+    min-width: 100px;
+    line-height: 30px;
+}
+.allow-detail,.allow-call,.allow-addContact {
+    margin: 0 5px;
+}
+.select-callnum span{float: left}
+.select-callnum span:nth-child(2){float: right;}
+.select-callnum button{
+    background-color: transparent;
+    border: none;}
+.addContact-select{
+    width: auto;
 
+}
+.add-contact{}
+.confinfo_memberlist{
+    width: 80%;
+    margin: 0 auto;
+}
+.confModal{
+    width: 800px!important;
+}
+.confModal .ant-form-item-label {
+    width: 25%;
+}
+.confModal .ant-form-item-control-wrapper{
+    width: 70%;
+}
+.memberlist {overflow: hidden;padding-left: 25%;line-height: 33px}
+.memberlist div{width: 50%;float: left}
+.confModal span.contactsIcon {
+    display: inline-block;
+    line-height: 33px;
+    height: 33px;
+    padding-left: 32px;
+    background-image: url(../img/icon.png);
+    background-position: -165px -87px;
+    background-repeat: no-repeat;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.confModal span.contactstext{
+    display: inline-block;
+    line-height: 33px;
+    height: 33px;
+    position: relative;
+    padding-left: 10px;
+    max-width: 270px;
+}
+.confModal .ant-modal-footer {
+     display: block;
+}
+.confModal .ant-form-item-required:before {
+    display: inline-block;
+    margin-right: 4px;
+    content: "*";
+    line-height: 1;
+    font-size: 12px;
+    color: #f04134;
+}
+/******************shedule*****************/
+.confbox{
+    padding:15px ;
+    font-size: 14px;
+    /*border-bottom: 1px solid #dfe1e2;*/
+    border: solid 1px #dfe1e2;
+    border-bottom: none;
+}
+.confbox:last-child {
+    border-bottom: 1px solid #dfe1e2;
+}
+.confbox .ant-row{
+    line-height: 35px;
+    height: 35px;
+}
+.confbox .ant-row:nth-child(1){
+    color: #000;
+}
+.confbox .ant-row:nth-child(2){
+    margin-bottom: 15px;
+    color: #000;
+}
+.conf-label{
+    padding-left: 15px;
+}
+.conf-status{
+    padding-right: 50px;
+    text-align: right;
+}
+.conf-status button{
+    margin-left: 8px;
+}
+.btn_addschedule {
+    display: inline-block;
+    width: 100px;
+    margin: 10px 0 5px 40px;
+}
+.confModal .ant-tabs-nav-container{
+    padding-left: 320px;
+    border: none;
+    box-shadow: none;
+}
+.confModal .ant-tabs-bar {
+    border: none;
+}

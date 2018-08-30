@@ -601,6 +601,42 @@ const contactinfodata = (state={}, action) => {
     }
 }
 
+const confmemberinfodata = (state={}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_CONFMEMBERINFO:
+            return action.confmemberinfodata
+        default:
+            return state
+    }
+}
+
+const preconfdata = (state={}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_PRECONFINFO:
+            return action.preconfdata
+        default:
+            return state
+    }
+}
+
+const presetinfo = (state={}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_PRESETINFO:
+            return action.presetinfo
+        default:
+            return state
+    }
+}
+
+const confinfodata = (state={}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_CONFINFO:
+            return action.confinfodata
+        default:
+            return state
+    }
+}
+
 const bluetooth = (state={}, action) => {
     switch (action.type) {
         case Actions.GET_BLUETOOTH_STATUS:
@@ -715,6 +751,10 @@ const rootReducer = combineReducers({
     contactsAcct,
     groupInformation,
     contactinfodata,
+    confmemberinfodata,
+    preconfdata,
+    confinfodata,
+    presetinfo,
     thirdapplist,
     bluetooth,
     discoverable,
