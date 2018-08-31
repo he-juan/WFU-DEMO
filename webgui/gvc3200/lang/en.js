@@ -3603,3 +3603,4 @@ var a_20210 = "Configuration finished";
 var a_20211 = "Effective value of IPv6 prefix length can only be numeric";
 var a_20212 = "Effective value of IPv6 prefix length: 1-128.";
 var a_20213 = "Please input address";
+var a_20214 = "Invalid SIP server address";

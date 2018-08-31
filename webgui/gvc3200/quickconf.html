@@ -986,7 +986,7 @@
 
             } else {
                 if (!checkUrlPath($("#sipserver").val())) {
-                    promptTip("SIP服务器为非法URL", "err");
+                    promptTip(a_20214, "err");
                     return false;
                 }
                 var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
@@ -1827,7 +1827,7 @@
         $("span[name=a_dhcp]").text(a_4124);
         $("span[name=a_staticip]").text(a_4125);
         $("#a_protocoltype").text(a_19225);
-        $("#ipv4nettype1,#ipv4nettype2").text("IPv4"+a_4150);
+        $("#ipv4nettype1,#ipv4nettype2").text("IPv4 "+a_4150);
         $("#ipv6nettype1,#ipv6nettype2").text(a_19308);
         $("#a_preferipv4").text(a_19390);
         $("#a_preferipv6").text(a_19391);
