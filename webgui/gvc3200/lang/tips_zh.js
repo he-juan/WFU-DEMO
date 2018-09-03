@@ -628,6 +628,8 @@ tip_item.push (
         "配置设备不使用代理的目的地。"),
     new TipsDef("Enable LLDP", "开启LLDP",
         "勾选后，设备将会接收交换机发送的LAN信息设置VLAN和QoS参数。默认为“是”。"),
+    new TipsDef("Enable CDP", "开启CDP",
+        "此项用于设置是否启用ＣＤＰ实现与已开启ＣＤＰ的网络设备进行信息收发。"),
     new TipsDef("TURN Server Username", "TURN服务器用户名",
         "填写用于验证TURN服务器的用户名。"),
     new TipsDef("TURN Server Password", "TURN服务器密码",

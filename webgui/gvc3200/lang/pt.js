@@ -3293,6 +3293,7 @@ var a_19282="Certificado personalizado";
 var a_19283="Importar certificado personalizado";
 var a_19284="Suporta unicamente 5 palavras chave no máximo, cada uma não pode ter mais de 50 caracteres";
 var a_19285="Ângulo de visão";
+var a_19286="Enable CDP";
 var a_19300="Digite o código abaixo para vincular o seu dispositivo à sua conta";
 var a_19301="Você pode gerenciar completamente sua conta de IPVideoTalk e agendar reuniões desde o portal de IPVideoTalk.";
 var a_19302="IPVideoTalk é uma poderosa plataforma da Grandstream para webinars é reuniões online que permite levar as reuniões tradicionais do GVC para um ambiente de reuniões on line, acessíveis para qualquer pessoa. Realize o seu cadastro para receber sua conta de teste grátis e começar a desfrutar desde hoje suas reuniões sem complicações!";
