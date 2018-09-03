@@ -1,15 +1,14 @@
 
 import $ from 'jquery'
-import {Component} from 'react'
 import * as actionUtil from './actionUtil'
 import * as Store from '../../entry'
 /**********************************************************************/
 /****************************** actions *******************************/
 /**********************************************************************/
 
-export const setCurLocale = (cur_locale) => (dispatch) => {
-    dispatch({type: 'LOCALE_CHANGE', curLocale: cur_locale})
-}
+// export const setCurLocale = (cur_locale) => (dispatch) => {
+//     dispatch({type: 'LOCALE_CHANGE', curLocale: cur_locale})
+// }
 
 export const promptMsg = (type, label) => (dispatch) => {
     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: type, content: label}})
@@ -2671,3 +2670,14 @@ export const setDndMode = (value, callback) => (dispatch) => {
 }
 
 
+
+export * from './actions.common'
+export * from './actions.account'
+export * from './actions.applications'
+export * from './actions.calls'
+export * from './actions.deviceControl'
+export * from './actions.maintenance'
+export * from './actions.networkSettings'
+export * from './actions.phoneSettings'
+export * from './actions.status'
+export * from './actions.systemSettings'

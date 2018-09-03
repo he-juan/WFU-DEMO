@@ -1,23 +1,37 @@
 import { combineReducers } from 'redux'
+
+import * as common from './reducers.common'
+import * as account from './reducers.account'
+import * as calls from './reducers.calls'
+import * as phoneSetting from './reducers.phoneSettings'
+import * as networkSetting from './reducers.networkSettings'
+import * as systemSettings from './reducers.systemSettings'
+import * as deviceControl from './reducers.deviceControl'
+import * as applications from './reducers.applications'
+import * as maintenance from './reducers.maintenance'
+import * as status from './reducers.status'
+
+
+
 import * as Actions from '../actions/actionType'
 
-const curLocale = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.LOCALE_CHANGE:
-            return action.curLocale
-        default:
-            return state
-    }
-}
+// const curLocale = (state = {}, action) => {
+//     switch (action.type) {
+//         case Actions.LOCALE_CHANGE:
+//             return action.curLocale
+//         default:
+//             return state
+//     }
+// }
 
-const pageStatus = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.PAGE_STATUS:
-            return action.pageStatus
-        default:
-            return state
-    }
-}
+// const pageStatus = (state = {}, action) => {
+//     switch (action.type) {
+//         case Actions.PAGE_STATUS:
+//             return action.pageStatus
+//         default:
+//             return state
+//     }
+// }
 
 const hashChange = (state = {}, action) => {
     switch (action.type) {
@@ -685,7 +699,7 @@ const resetkeyteststatus = (state=-1,action) => {
 
 
 const rootReducer = combineReducers({
-    curLocale,
+    // curLocale,
     userType,
     menuList,
     vendor,
@@ -715,7 +729,7 @@ const rootReducer = combineReducers({
     systemPn,
     storageInfo,
     eventItems,
-    pageStatus,
+    // pageStatus,
     hashChange,
     curMenu,
     curTabKey,
@@ -759,7 +773,20 @@ const rootReducer = combineReducers({
     bluetooth,
     discoverable,
     speakerteststatus,
-    resetkeyteststatus
+    resetkeyteststatus,
+
+
+// 拆分后处理
+    ...common,
+    ...account,
+    ...applications,
+    ...calls,
+    ...phoneSetting,
+    ...networkSetting,
+    ...systemSettings,
+    ...deviceControl,
+    ...maintenance,
+    ...status
 })
 
 export default rootReducer

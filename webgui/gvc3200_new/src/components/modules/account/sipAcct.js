@@ -134,21 +134,21 @@ class SlidingTabsDemo extends React.Component {
       }
 
       return (
-          <div style = {{background:"#f3f7fa"}}>
-              <div className="subpagetitle">{callTr("account_set")}</div>
-              <Tabs defaultActiveKey= "0" onTabClick={this.onTabClick.bind(this)} className = "AcctTabs" onChange={this.onChange.bind(this,"1")} type="card" size="large">
-                  {
-                      [...Array(maxacctnum)].map((tabpane,index) => {
-                          return (
-                              <TabPane tab={(<span><Icon className = "userIcon" />{callTr("a_account")+" "+(index+1)}</span>)} key={index}>
+            <div style = {{background:"#f3f7fa"}}>
+                <div className="subpagetitle">SIP</div>
+                {/* <Tabs defaultActiveKey= "0" onTabClick={this.onTabClick.bind(this)} className = "AcctTabs" onChange={this.onChange.bind(this,"1")} type="card" size="large">
+                    {
+                        [...Array(maxacctnum)].map((tabpane,index) => {
+                            return (
+                                <TabPane tab={(<span><Icon className = "userIcon" />{callTr("a_account")+" "+(index+1)}</span>)} key={index}>
 
-                              </TabPane>
-                          )
-                      })
-                  }
-              </Tabs>
-              {tabList}
-          </div>
+                                </TabPane>
+                            )
+                        })
+                    }
+                </Tabs> */}
+                {tabList}
+            </div>
       )
   }
 }
