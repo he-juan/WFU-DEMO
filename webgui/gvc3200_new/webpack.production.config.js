@@ -67,6 +67,10 @@ module.exports = {
             {
                 from: path.resolve(ROOT_PATH, './src/lang'),
                 to: path.resolve(BUILD_PATH, './lang')
+            },
+            {
+                from: path.resolve(ROOT_PATH, './src/img/favicon.ico'),
+                to: path.resolve(BUILD_PATH, './img/favicon.ico')
             }
         ]),
         new HtmlWebpackPlugin({
