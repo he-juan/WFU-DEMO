@@ -2136,7 +2136,7 @@ export const setContacts = (infostr,callback) => (dispatch) => {
 }
 
 export const removeContact = (contactid, callback) => (dispatch) => {
-    let request = 'action=removecontact&contactID='+contactid;
+    let request = 'action=removecontact&region=webservice&contactid='+contactid;
     actionUtil.handleGetRequest(request).then(function(data){
         var tObj = eval("(" + data + ")");
         if (tObj.res == "success"){
@@ -2444,6 +2444,18 @@ export const getAllConfMember = (callback) => (dispatch) => {
         let msgs = JSON.parse(data);
         let confmemberinfodata = msgs['Data'];
         dispatch({type: 'REQUEST_GET_CONFMEMBERINFO', confmemberinfodata: confmemberinfodata});
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getNormalCalllogNames = () => (dispatch) => {
+    let request = 'action=sqlitecontacts&region=apps&type=leftcalllogname';
+
+    actionUtil.handleGetRequest(request).then(function(res) {
+        let msgs = JSON.parse(res);
+        let data = msgs['Data'];
+        dispatch({type: 'REQUEST_GET_CALLNAME', callnameinfo: data});
     }).catch(function(error) {
         promptForRequestFailed();
     });

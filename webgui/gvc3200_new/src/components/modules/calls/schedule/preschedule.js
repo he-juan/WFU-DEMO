@@ -34,7 +34,8 @@ class ContactEditDiv extends Component {
             addaccount:'',
             showtips: 'none',
             contactsinfo:[],
-            confMember:[]
+            confMember:[],
+            confSubject:''
         }
     }
 
@@ -205,9 +206,10 @@ class Call extends Component {
             expandedRows:[],
             checkedAll: false,
             displayNewConfModal: false,
-            confMemberData:[],
+            confMemberData: [],
+            editConfData: [],
             addNewConf:false,
-            showtips: 'none'
+            confdetail:false
         }
     }
 
@@ -268,13 +270,15 @@ class Call extends Component {
     }
 
     handleHideNewConfModal = () => {
-        this.setState({displayNewConfModal: false})
+        this.setState({displayNewConfModal: false,confdetail:false})
     }
 
-    handleOkDelete = (deleteId,option) => {
-        console.log('text',deleteId,option)
+    handleOkDelete = (event,deleteId,option) => {
+        // event.cancelBubble = true;
+        console.log(event)
+        event.stopPropagation( );
+        // console.log('text',deleteId,option)
         if(option==1) {
-            console.log('555555')
             this.props.get_deleteOnceConf(deleteId, (result) => {
                 if (result == 'success') {
                     this.updateDate()
@@ -293,14 +297,147 @@ class Call extends Component {
         }
     }
 
+    cancelPop = (event) => {
+        event.cancelBubble = true;
+        event.stopPropagation( );
+    }
+
+    handleEdit = (event,text,isDetail) => {
+        let confdetail = isDetail == true
+        if(isDetail != true) {
+            event.cancelBubble = true;             // true 为阻止冒泡
+            event.stopPropagation( );                // 阻止事件的进一步传播，包括（冒泡，捕获），无参数
+        }
+        this.props.form.resetFields();
+
+        let confinfo = text.confinfo
+        let Starttime = confinfo.Starttime
+        let arr = Starttime.split(' ')
+        let year = moment(arr[0],'YYYY-MM-DD')
+        let hours = arr[1].split(':')[0]
+        let minutes = arr[1].split(':')[1]
+        let Duration = (confinfo.Duration / 60).toString()
+        let Preset = confinfo.Preset.toString()
+        let Recyle = confinfo.Recycle.toString()
+        let repetRule = confinfo.RepeatRule
+
+        let obj = {
+            Id : confinfo.Id,
+            confSubject : confinfo.Displayname,
+            confStatedate : year,
+            confhours : hours,
+            confminutes : minutes,
+            duration : Duration,
+            confpreset : Preset,
+            cycle : Recyle
+        }
+        // console.log(this.tojson(repetRule))
+        if(confinfo.Schedulepsw) {
+            obj.pincode = confinfo.Schedulepsw
+        }
+        if(Recyle == '7') {
+            // interval = confinfo
+            let ruleobj = this.tojson(repetRule)
+            let freq = ruleobj.FREQ
+            let weekstrArr = ['SU','MO','TU','WE','TH','FR','SA']
+            if (ruleobj.INTERVAL) {
+                obj.interval = ruleobj.INTERVAL
+            }
+            if(ruleobj.UNTIL) {
+                let value = ruleobj.UNTIL
+                value = value.replace(/T/g, "");
+                value = value.replace(/Z/g, "");
+                let endDate = value.substring(0,4)+"/"+value.substring(4,6)+"/"+value.substring(6,8)+" "+value.substring(8,10)+":"+value.substring(10,12);
+                var enddateobj = new Date(endDate);
+                var time = enddateobj.getTime();
+                var offset = enddateobj.getTimezoneOffset();
+                enddateobj.setTime(time-offset*60000);
+                var endmonth = (enddateobj.getMonth()+1);
+                var endday = enddateobj.getDate();
+                endDate = enddateobj.getFullYear() + "-";
+                if( endmonth < 10 )
+                    endDate += "0";
+                endDate += endmonth;
+                endDate += "-";
+                if( endday < 10 )
+                    endDate += "0";
+                endDate += endday;
+                obj.customEndDate = moment(endDate, 'YYYY-MM-DD')
+            }
+            if (repetRule.indexOf('DAILY') != -1) {
+                obj.customRepeat = '0'
+            } else if (repetRule.indexOf('WEEKLY') != -1 ) {
+                obj.customRepeat = '1'
+                if(ruleobj.BYDAY) {
+                    let arr = ruleobj.BYDAY.split(',')
+                    for (let i = 0; i < weekstrArr.length; i++) {
+                        for (let j = 0; j < arr.length; j++) {
+                            if(weekstrArr[i] == arr[j]) {
+                                obj['dayofweek' + i] = 1
+                            }
+                        }
+                    }
+                }
+            } else if (freq == 'MONTHLY' && repetRule.indexOf('BYMONTHDAY') != -1 ) {
+                obj.customRepeat = '2'
+                obj.monthByDay = ruleobj.BYMONTHDAY
+            } else if (freq == 'MONTHLY' && repetRule.indexOf('BYDAY') != -1 ) {
+                obj.customRepeat = '3'
+                obj.monthWeekOrdinal = ruleobj.BYDAY.substring(0,1)
+                for (let i = 0; i < weekstrArr.length; i++) {
+                    if(weekstrArr[i] == ruleobj.BYDAY.substring(1,2)) {
+                        obj.monthWeekDay = i.toString()
+                    }
+                }
+            } else if (repetRule.indexOf('YEARLY') != -1 ) {
+                obj.customRepeat = '4'
+            }
+        }
+        console.log(obj)
+
+        this.props.form.setFieldsValue(obj);
+
+        this.setState({
+            displayNewConfModal: true,
+            addNewConf:false,
+            confMemberData:text.memberArr,
+            confdetail: confdetail
+        })
+    }
+
+    tojson = (str) => {
+        return eval("("+this.toArray(str)+")");
+    }
+
+    toArray = (str) => {
+        var list = str.split(";");
+        var myStr = "{";
+        for(var i=0;i<list.length;i++)
+        {
+            try{
+                var keys = list[i].split("=");
+                var key = keys[0].replace(/(^\s*)|(\s*$)/g, "");
+                var value= keys[1].replace(/(^\s*)|(\s*$)/g, "");
+                if(i>0)
+                {
+                    myStr += ",";
+                }
+                myStr += "\""+key+"\":\""+value+"\"";
+            }catch(e)
+            {
+                continue;
+            }
+        }
+        myStr += "}";
+        return myStr;
+    }
+
     render() {
         const [confinfodata, callTr, _createTime, isToday, convertTime, logItemdata, view_status_Duration,curContactList] =
             [this.props.confinfodata, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime, this.props.logItemdata, this.props.view_status_Duration, this.state.curContactList];
         // console.log(contactsInformation,logItemdata,this.props.confmemberinfodata)
-        // const confmember = this.props.confmemberinfodata
+
         let preconfdata = this.props.preconfdata;
-        const {getFieldDecorator} = this.props.form;
-        // console.log('contactsInformation',contactsInformation)
         let status = [
             {type:0,statusname:callTr('a_waithost')},
             {type:1,statusname:callTr('a_process')},
@@ -322,16 +459,17 @@ class Call extends Component {
                 status:status[2]
             }
 
+
             data.push(obj)
         }
-        console.log(data)
+        // console.log(data)
         return (
             <div>
                 <div className = 'preconflist'>
                     {
                         (data != "" || data.length > 0) && data.map((item) => {
                             return (
-                                <div className={'confbox'}>
+                                <div className={'confbox'} onClick={(e)=>this.handleEdit(e,item,true)}>
                                     <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_switchTime')}：</Col>
                                         <Col span={12}>{item.confinfo.Starttime}</Col>
@@ -357,22 +495,24 @@ class Call extends Component {
                                         <Col className='' span={3}>{item.memberArr.length}</Col>
                                         <Col className='conf-status' span={18}>
                                             <Button type="primary">{this.tr("a_startMeet")}</Button>
-                                            <Button type="primary">{this.tr("a_editMeet")}</Button>
+                                            <Button
+                                                // onClick={this.handleEdit.bind(this, item)}
+                                                onClick={(e)=>this.handleEdit(e,item)} type="primary">{this.tr("a_editMeet")}</Button>
                                             {/*<Button type="primary">{this.tr("a_cancelMeet")}</Button>*/}
 
-                                            {item.confinfo['Recycle'] == '7' ? (
-                                                <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleOkDelete.bind(this, item.confinfo.Id)}>
+                                            {item.confinfo['Recycle'] != '7' ? (
+                                                <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
                                                     {/*<button className='allow-delete'></button>*/}
-                                                    <Button type="primary">{this.tr("a_cancelMeet")}</Button>
+                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{this.tr("a_cancelMeet")}</Button>
                                                 </Popconfirm>
                                             ) : (
                                                 <Popover content={
                                                     <div>
-                                                        <p onClick={this.handleOkDelete.bind(this, item.confinfo.Id)}>{callTr('a_delrepconf')}</p>
-                                                        <p onClick={this.handleOkDelete.bind(this, item.confinfo.Id,1)}>{callTr('a_delreponceconf')}</p>
+                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id)} >{callTr('a_delrepconf')}</p>
+                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id,1)} >{callTr('a_delreponceconf')}</p>
                                                     </div>
                                                 } trigger="click">
-                                                    <Button type="primary">{this.tr("a_cancelMeet")}</Button>
+                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{this.tr("a_cancelMeet")}</Button>
                                                 </Popover>
                                             )}
 
@@ -382,8 +522,8 @@ class Call extends Component {
                                         </Col>
                                     </Row>
                                     {/*<div style = {{'height':'33px'}}>*/}
-                                        {/*<span className = "contactsIcon"></span>*/}
-                                        {/*<span className = "ellips contactstext contactname">{member.recordName ? member.recordName:member.Name}</span>*/}
+                                    {/*<span className = "contactsIcon"></span>*/}
+                                    {/*<span className = "ellips contactstext contactname">{member.recordName ? member.recordName:member.Name}</span>*/}
                                     {/*</div>*/}
                                     {/*<div>{member.Number} </div>*/}
                                     {/*<span>{member.recordName ? member.recordName:member.Name}</span><span></span>*/}
@@ -393,11 +533,21 @@ class Call extends Component {
                     }
                 </div>
                 <div className = 'CallDiv Callhistory'>
-                    <div className = "nodatooltips" style={{display: this.state.showtips}}>
+                    <div className = "nodatooltips" style={{display: data.length > 0 ? 'none':'block'}}>
                         <div></div>
                         <p>{this.tr("no_data")}</p>
                     </div>
                 </div>
+                <NewConEditForm {...this.props} callTr={this.props.callTr}
+                                handleHideNewConfModal= {this.handleHideNewConfModal}
+                                updateDate = {this.updateDate}
+                                displayNewConfModal={this.state.displayNewConfModal}
+                                confMemberData={this.state.confMemberData}
+                                addNewConf={this.state.addNewConf}
+                                editConfData = {this.state.editConfData}
+                                confSubject = {this.state.confSubject}
+                                confdetail = {this.state.confdetail}
+                />
             </div>
         )
     }

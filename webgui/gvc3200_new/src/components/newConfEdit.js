@@ -10,23 +10,21 @@ const Option = Select.Option
 const TabPane = Tabs.TabPane;
 
 const weekstrArr = ['SU','MO','TU','WE','TH','FR','SA']
+// const TypeArr = [{type}]
 
 const config = {
     rules: [{ type: 'object', required: true, message: 'Please select time!' }],
 };
-
+let curMember = []
 class NewContactsEdit extends Component {
     constructor(props){
         super(props);
         this.state = {
             addNewContact:[0],
             selectedRowKeys: [],
-            editNumbers:[],
-            groups:[],
+            selectedContactRowKeys: [],
+            selectedCallRowKeys:[],
             value:"",
-            numValuesinnr:[""],
-            eValue:"",
-            emailValuesinnr:[""],
             cycle_group_class:{
                 str_interval: 'a_everyFixedDays',
                 customRepeat:'display-hidden',
@@ -41,24 +39,59 @@ class NewContactsEdit extends Component {
             },
             displayAddModal: false,
             allContacts:[],
-            curContacts:[]
+            curContacts:[],
+            allCallLog:[],
+            curCallLog:[],
+            tempMember:[],
+            curMember:[],
+            contType:'-1',
+            callType:'-1',
+            activeKey:'0'
         }
     }
 
     componentWillMount = () => {
+        if(this.props.editConfData && this.props.editConfData.length > 0) {
+            let editConfData = this.props.editConfData[0]
+            let confinfo = editConfData.confinfo
+            let Displayname = confinfo.Displayname
+            let Duration = confinfo.Duration
+            let Starttime = confinfo.Starttime
+            let Recyle = confinfo.Recyle
+            let RepetRule = confinfo.RepeatRule
+            let Preset = confinfo.Preset
+            this.props.form.setFieldsValue({
+                confSubject: Displayname,
+            });
+        }
     }
 
     componentDidMount = () => {
         // this.props.getContactCount();
-        this.props.get_calllog(0);
-        this.props.getContacts()
+        // this.props.get_calllog(0);
         // this.props.getContacts((items)=>{this.setState({items:items})});
-
+        if(!this.props.contactsInformation.length) {
+            this.props.getContacts()
+        }
+        if(!this.props.callnameinfo.length) {
+            this.props.getNormalCalllogNames()
+        }
+        if(!this.props.getAllConfMember.length) {
+            this.props.getNormalCalllogNames()
+        }
+        if(!this.props.contactsAcct.length) {
+            this.props.getAcctStatus()
+        }
         this.props.getPresetInfo()
+
+
     }
 
     handleOk = () => {
-        let addoredit = this.props.addNewContact ? 'add' : 'edit';
+        if(this.props.confdetail) {
+            this.handleCancel()
+        }
+        let addoredit = this.props.addNewConf ? 'add' : 'edit';
         let values = this.props.form.getFieldsValue();
         values.confStatedate = values.confStatedate.format('YYYY-MM-DD')
         let start_time = values.confStatedate + ' ' + values.confhours + ':' +values.confminutes
@@ -66,7 +99,7 @@ class NewContactsEdit extends Component {
             this.props.promptMsg('ERROR','a_timeWarn');
             return
         }
-        let memberData = this.props.confMemberData
+        let memberData = this.state.curMember
         if(memberData.length == 0) {
             this.props.promptMsg('ERROR','a_memberempty');
             return
@@ -78,7 +111,7 @@ class NewContactsEdit extends Component {
         let milliseconds= setdate.getTime()
         let pincode = values.pinCode
         let repeat = parseInt(values.cycle)
-        let repeatRule = '', membernames = '', membernumbers = '', memberaccts = '',recordsfrom = '';
+        let repeatRule = '', membernames = '', membernumbers = '', memberaccts = '',memberemails='',recordsfrom = '';
         switch(repeat){
             case 0:
                 repeatRule = "";
@@ -112,6 +145,7 @@ class NewContactsEdit extends Component {
         }
         let preset = values.confpreset
         for (let i = 0; i < memberData.length; i++) {
+            console.log(memberData[i])
             if(i>0) {
                 membernames += ':::';
                 membernumbers += ':::';
@@ -120,7 +154,8 @@ class NewContactsEdit extends Component {
             }
             membernames += memberData[i].recordName ? memberData[i].recordName : memberData[i].Name
             membernumbers += memberData[i].Number
-            memberaccts += memberData[i].Account
+            memberaccts += memberData[i].Account || memberData[i].Acctid
+            // recordsfrom = memberData[i].recordsfrom || ''
             let type = memberData[i].Type
             if (type==1 || type==3) {
                 recordsfrom +=3
@@ -130,8 +165,9 @@ class NewContactsEdit extends Component {
                 recordsfrom += 5
             }
         }
+        console.log(recordsfrom)
 
-        let infostr = "&host" + encodeURIComponent(host)
+        let infostr = "&host=" + encodeURIComponent(host)
             + "&confname=" + encodeURIComponent(confname)
             + "&duration=" + encodeURIComponent(duration)
             + "&start_time=" + encodeURIComponent(start_time)
@@ -149,13 +185,24 @@ class NewContactsEdit extends Component {
         this.props.handleHideNewConfModal();
         this.checkoutCyclemode(0);
         this.props.form.resetFields()
+        this.setState({
+            curMember:[],
+            tempMember:[]
+        })
 
+        if (addoredit == 'add') {
+            this.props.setschedule(infostr,()=>{
+            })
+        } else {
+            infostr = values.Id + infostr
+            this.props.setschedule(infostr, 1, ()=>{
 
-        // this.props.setschedule(infostr,()=>{
-        //     this.props.getContactCount();
-        //     this.props.getPresetInfo()
-        // })
-
+            })
+        }
+        if(typeof this.props.updateDate == "function") {
+            this.props.updateDate();
+        }
+        console.log(infostr)
     }
 
     getCustomRepeatRule = () => {
@@ -164,8 +211,6 @@ class NewContactsEdit extends Component {
         var bymonthday = -1, ordinal = -1, dayweek = 0;
         let repeatRule = ''
         var custype = parseInt(values.customRepeat)
-
-        console.log('custype',custype)
         switch(custype){
             case 0:
                 freq = "DAILY";
@@ -198,15 +243,6 @@ class NewContactsEdit extends Component {
                 break;
             case 4:
                 freq = "YEARLY";
-                console.log('heheeee')
-                // var repmonth = parseInt($("#cusyearlydatemonth").val());
-                // var repday = parseInt($("#cusyearlydateday").val());
-                // if( repmonth < 10 )
-                //     byyearday += "0";
-                // byyearday += repmonth;
-                // if( repday < 10 )
-                //     byyearday += "0";
-                // byyearday += repday;
                 byyearday = values.yearly.toString().replace(',','')
                 break;
         }
@@ -242,7 +278,7 @@ class NewContactsEdit extends Component {
             myDate.setTime(time+offset*60000);
             repeatRule += ";UNTIL=" + this.date2str(myDate,"yyyyMMddThhmmssZ");
         }
-        console.log(repeatRule)
+        // console.log(repeatRule)
         return repeatRule;
     }
 
@@ -254,14 +290,13 @@ class NewContactsEdit extends Component {
 
     handleCancel = () => {
         this.props.handleHideNewConfModal();
-        this.checkoutCyclemode(0);
-
+        // this.checkoutCyclemode(0);
         var containermask = document.getElementsByClassName("containermask")[0];
         if (containermask){
             containermask.style.display = "block";
         }
         this.props.form.resetFields()
-        this.setState({numValuesinnr:[""],emailValuesinnr:[""]});
+        this.setState({curMember:[]});
     }
 
     onChangeCycle = (value) => {
@@ -278,16 +313,16 @@ class NewContactsEdit extends Component {
             monthByWeek: 'display-hidden',
             everyFixedYear: 'display-hidden',
             customClass:'display-hidden',
-            interval:'display-hidden'
+            interval:'display-hidden',
+            str_interval:'a_everyFixedDays'
         };
         if (value == '7') {
             mode.customRepeat = 'display-block'
             mode.everyFixedDays = 'display-block'
         }
-        this.setState({
-            cycle_group_class: mode
-        })
+        return mode
     }
+
     onChangeCustomCycle = (value) => {
         this.checkoutCustomCycleMode(value);
     }
@@ -303,7 +338,6 @@ class NewContactsEdit extends Component {
             customClass:'display-block',
             interval:'display-block',
             str_interval:'a_everyFixedDays'
-
         };
         if (value == '0') {
             mode.everyFixedDays = 'display-block'
@@ -323,9 +357,8 @@ class NewContactsEdit extends Component {
             mode.everyFixedYear = 'display-block'
             mode.str_interval = 'a_everyFixedYear'
         }
-        this.setState({
-            cycle_group_class: mode
-        })
+
+        return mode
     }
 
     _createName = (text, record, index) => {
@@ -342,7 +375,7 @@ class NewContactsEdit extends Component {
         for (let i = 1; i < 13; i++) {
             let obj = {}
             obj.label = i
-                // + callTr('a_month')
+            // + callTr('a_month')
 
             obj.value = i
             if(i<10) {
@@ -367,7 +400,7 @@ class NewContactsEdit extends Component {
         return dateOption
     }
 
-    createOptionObj = () => {
+    createOptionObj = (extraMinutes) => {
         const {callTr} = this.props;
         let monthArr =[]
         let dayArr= []
@@ -382,7 +415,13 @@ class NewContactsEdit extends Component {
             if(i<12) {
                 let minutes = i * 5
                 minutes = minutes < 10 ? 0 + minutes.toString() : minutes.toString()
-                minutesArr.push(<Option value = {minutes}>{minutes}</Option>)
+                minutesArr.push(<Option value = {minutes.toString()}>{minutes}</Option>)
+                console.log()
+                if(extraMinutes < ((i+1) * 5) && (parseInt(extraMinutes/5) != extraMinutes/5)
+                ) {
+                    extraMinutes = extraMinutes < 10 ? 0 + extraMinutes.toString() : extraMinutes.toString()
+                    minutesArr.push(<Option value = {extraMinutes.toString()}>{extraMinutes}</Option>)
+                }
             }
             if(i<24) {
                 let hours = i
@@ -399,7 +438,7 @@ class NewContactsEdit extends Component {
             let position = parseInt(presetinfo[i].position)
             let name = presetinfo[i].name ? ('(' +presetinfo[i].name +')') : ''
             if(position<24) {
-                presetArr.push(<Option value = {position}>{callTr('a_preset') + (position + 1) + name }</Option>)
+                presetArr.push(<Option value = {position.toString()}>{callTr('a_preset') + (position + 1) + name }</Option>)
             }
         }
         return {dayArr:dayArr,hoursArr:hoursArr,minutesArr:minutesArr,durationArr:durationArr,presetArr:presetArr}
@@ -414,11 +453,11 @@ class NewContactsEdit extends Component {
     }
 
     transStr = (num) => {
-        return num<10 ? '0' + num : num
+        return num < 10 ? '0' + num : num
     }
 
 
-    /*******AddModal*******/
+    /*******AddModal****contact list***/
 
     handleAddMember = () => {
         this.setState({
@@ -427,57 +466,424 @@ class NewContactsEdit extends Component {
     }
 
     handleAddModalOk = () => {
-
+        let memberArr = []
+        let curMember = this.state.curMember
+        let tempMember = this.state.tempMember
+        // for (let i = tempMember.length -1 ; i >= 0 ; i--) {
+        //     for (let j = 0; j < curMember.length; j++) {
+        //         if(tempMember[i] && curMember[j] && tempMember[i].Number == curMember[j].Number) {
+        //             tempMember.splice(i,1)
+        //         }
+        //     }
+        // }
+        memberArr = curMember.concat(tempMember)
+        for (let i = memberArr.length -1 ; memberArr[i] != undefined ; i--) {
+            for (let j = i-1; memberArr[j] != undefined ; j--) {
+                console.log(j)
+                if(memberArr[j] && memberArr[i].Number == memberArr[j].Number) {
+                    memberArr.splice(j,1)
+                }
+            }
+        }
+        // memberArr = curMember.concat(tempMember)
+        this.setState({
+            curMember: memberArr,
+            tempMember:[],
+            selectedRowKeys:[],
+            selectedContactRowKeys:[],
+            selectedCallRowKeys:[],
+            displayAddModal: false,
+            activeKey:'0'
+        })
     }
+
     handleAddModalCancel = () => {
-        this.setState({displayAddModal:false});
+        this.setState({
+            tempMember:[],
+            selectedRowKeys:[],
+            selectedContactRowKeys:[],
+            selectedCallRowKeys:[],
+            displayAddModal: false,
+            activeKey:'0'
+        })
     }
 
     createContactObj = () => {
-        // if(!$.isArray(this.props.contactsInformation)) {
-        //     this.props.getContacts()
-        //     return;
-        // }
-        const {callTr} = this.props;
         const columns = [
-            {title: callTr("a_name"),key: 'row0',dataIndex: 'row0',width: '50%'},
-            {title: callTr("a_type"),key: 'row1',dataIndex: 'row1',width: '25%'},
-            {title: callTr("a_number"),key: 'row2',dataIndex: 'row2',width: '25%'
-            }];
+            {title: '',key: 'row0',dataIndex: 'row0',width: '50%'},
+            {title: '',key: 'row1',dataIndex: 'row1',width: '25%'},
+            {title: '',key: 'row2',dataIndex: 'row2',width: '25%'}];
         let contactsInformation  = this.props.contactsInformation;
-        console.log(contactsInformation)
+        let contactsAcct = this.props.contactsAcct
+        // console.log('contactsInformation',contactsInformation)
+        // console.log('contactsAcct',this.props.contactsAcct)
+        if(!this.props.contactsAcct.length){
+            return {columns:columns,data:[]}
+        }
         let contactItems = [];
         for (let i = 0; i < contactsInformation.length; i++ ) {
-            let type = 'SIP'
-            if (contactsInformation[i].AcctIndex == '1') {
-                // type = 'IPVideoTalk'
-                type = 'IPVT'
-            } else if (contactsInformation[i].AcctIndex == '8') {
-                type = 'H.323'
+            if(contactsInformation[i].Number.length > 1 ) {
+                for (let j = 0; j < contactsInformation[i].Number.length; j++) {
+                    for (let k = 0; k < contactsAcct.length; k++) {
+                        if(contactsInformation[i].Id == contactsAcct[k].Id) {
+                            contactItems.push({
+                                key: i,
+                                row0: contactsInformation[i].Name,
+                                row1: this.createTypeName(contactsAcct[k].AcctIndex[j]),
+                                row2: contactsInformation[i].Number[j],
+                                acct: contactsAcct[k].AcctIndex[j]
+                            })
+                        }
+                    }
+                }
+            } else {
+                contactItems.push({
+                    key: i,
+                    row0: contactsInformation[i].Name,
+                    row1: this.createTypeName(contactsInformation[i].AcctIndex),
+                    row2: contactsInformation[i].Number[0],
+                    acct: contactsInformation[i].AcctIndex
+                })
             }
-            contactItems.push({
-                key: i,
-                row0: contactsInformation[i].Name,
-                row1: type,
-                row2: contactsInformation[i].Number,
-            })
+
         }
-        // this.setState({allContacts:contactItems});
-        // if(!this.state.curContacts.length && contactItems.length) {
-        //     this.setState({curContacts:contactItems});
-        // }
-        // return contactItems
+        for (let i = 0; i < contactItems.length; i++) {
+            contactItems[i].key = i
+        }
+        if(contactItems.length) {
+            if(!this.state.allContacts.length) {
+                this.setState({allContacts:contactItems});
+            }
+            if(!this.state.curContacts.length) {
+                this.setState({curContacts:contactItems});
+            }
+        }
         return {columns:columns,data:contactItems}
     }
 
-    handleChange = () => {
+    createTypeName = (value) => {
+        let typeName = 'SIP'
+        if (value == '1') {
+            // typeName = 'IPVideoTalk'
+            typeName = 'IPVT'
+        } else if (value == '8') {
+            typeName = 'H.323'
+        }
+        return typeName
+    }
 
+    handleSearchContact = (e) => {
+        var searchkey = e.target.value.trim();
+        let data = [];
+        let dataSource = this.state.allContacts
+        let acct = this.state.contType
+        if(searchkey =='') {
+            data = [...dataSource]
+        } else {
+            for (let i = 0; i < dataSource.length; i++) {
+                let item = dataSource[i]
+                let name = item.row0;
+                let number = item.row2;
+                // console.log(name,number,acct,searchkey)
+                if ((number.indexOf(searchkey) != -1 || name.indexOf(searchkey) != -1) && (item.acct == acct || acct=='-1')) {
+                    data.push(item);
+                }
+            }
+        }
+        this.setState({
+            curContacts: data
+        });
+    }
+
+    onSelectItem = (record, selected, selectedRows) => {
+        if (selected) {
+            if(this.checkMember(record.acct)) {
+                return
+            }
+        }
+        let selectedContactRowKeys = this.state.selectedContactRowKeys
+
+        console.log(record)
+
+        let name = record.row0;
+        // let number = record.row2[0];
+        let number = record.row2;
+
+        // console.log(number)
+        let acct = record.acct
+        let tempMember = this.state.tempMember
+        if (selected) {
+            tempMember.push({Name: name, Number: number, Account: acct});
+            selectedContactRowKeys.push(record.key)
+        } else {
+            for (let j = 0; j < tempMember.length; j++) {
+                if (tempMember[j].Number == number) {
+                    tempMember.splice(j, 1);
+                    break;
+                }
+            }
+            for (let i = 0; i < selectedContactRowKeys.length; i++) {
+                if (record.key == selectedContactRowKeys[i]) {
+                    selectedContactRowKeys.splice(i,1)
+                }
+            }
+        }
+        this.setState({tempMember:tempMember,selectedContactRowKeys:selectedContactRowKeys,selectedRowKeys:selectedContactRowKeys})
+    }
+
+    checkMember = (newMemberAcct) => {
+        let member = this.state.curMember
+        if (this.state.tempMember.length > 0) {
+            member = this.state.tempMember
+        }
+        // let existMember = this.state.curMember.length > 0 || this.state.tempMember.length > 0
+        let ismax = true
+        if((member[0] && member[0].Account == '1' && newMemberAcct == '1') || !member[0]){
+            ismax = false
+        } else {
+            this.props.promptMsg('ERROR','a_maxmemberwarn');
+        }
+        return ismax
+    }
+
+    handlefilter = (value,v) => {
+        // v : 0 1 8
+        // value : 0 contact  1 calllog
+        if(v != -1) {
+            let data = [];
+            let dataSource = this.state.allContacts
+            if(value == '1') {
+                dataSource = this.state.allCallLog
+            }
+            for (let i = 0; i < dataSource.length; i++) {
+                if (dataSource[i].acct == v) {
+                    data.push(dataSource[i]);
+                }
+            }
+            if(value == '1') {
+                this.setState({curCallLog: data, callType: v});
+            } else {
+                this.setState({curContacts: data, contType: v});
+            }
+        }
+    }
+
+    /*******AddModal****contact list***/
+
+    createCalllogObj = () => {
+        // console.log('create Call again')
+        const columns = [
+            {title: '',key: 'row0',dataIndex: 'row0',width: '75%',
+                render: (text, record, index) => (
+                    this._createRow0(text, record, index)
+                )},
+            {title: '',key: 'row1',dataIndex: 'row1',width: '25%',
+                render: (text, record, index) => (
+                    this.convertTime(text, record, index)
+                )}];
+        let logItemdata = this.props.logItemdata
+        let confmember = this.props.confmemberinfodata ? this.props.confmemberinfodata : []
+        let contactList = this.props.contactsInformation
+        let callnameinfo = this.props.callnameinfo
+        if(!contactList.length) {
+            return {columns:columns,data:[]}
+        }
+        let dataResult = [];
+        for ( let i = 0; i < logItemdata.length; i++ ) {
+            let data = {};
+            let memberArr = []
+            let haslogItem = false
+            if(logItemdata[i].IsConf == '1') {
+                for (let j = 0; j < confmember.length; j++) {
+                    if(confmember[j].Id == logItemdata[i].Id) {
+                        confmember[j].recordName = ''
+                        for (let k = 0; k < contactList.length; k++) {
+                            if(confmember[j].Number == contactList[k].Number) {
+                                confmember[j].recordName = contactList[k].Name
+                            }
+                        }
+                        memberArr.push(confmember[j])
+                        haslogItem = true
+                    }
+                }
+            }
+            if (!haslogItem) {
+                let hasrecord = false
+                for (let j = 0; callnameinfo[j] != undefined; j++) {
+                    if(callnameinfo[j].Id == logItemdata[i].Id) {
+                        hasrecord = true
+                        let obj = logItemdata[i]
+                        obj.Name = callnameinfo[j].Name
+                        obj.Number = logItemdata[i].NameOrNumber
+                        memberArr.push(obj)
+                    }
+                }
+                if(!hasrecord) {
+                    let obj = logItemdata[i]
+                    obj.Name = logItemdata[i].NameOrNumber
+                    obj.Number = logItemdata[i].NameOrNumber
+                    memberArr.push(obj)
+                }
+
+            }
+            data = {
+                logItem : logItemdata[i],
+                memberArr: memberArr
+            }
+            dataResult.push({
+                key: i,
+                row0: data,
+                row1: parseInt(logItemdata[i].Date)
+            })
+        }
+        if(dataResult.length) {
+            if(!this.state.allCallLog.length) {
+                this.setState({allCallLog:dataResult});
+            }
+            if(!this.state.curCallLog.length) {
+                this.setState({curCallLog:dataResult});
+            }
+        }
+
+        return {columns:columns,data:dataResult}
+
+        // if (logItemdata.length == 0) {
+        //     this.setState({showtips:'block'})
+        // } else {
+        //     this.setState({showtips:'none'})
+        // }
+    }
+
+    _createRow0 = (text, record , index) => {
+        let logItem = text.logItem
+        let memberArr = text.memberArr
+        let type = logItem.Type
+        if (type == '-1') {
+            type = memberArr[0].Type
+        }
+        let nameStr = ''
+        if(logItem.IsConf == '1') {
+            nameStr = logItem.NameOrNumber + '：'
+            for (let i = 0; memberArr[i] != undefined; i++) {
+                if(i>0) {
+                    nameStr += '，'
+                }
+                nameStr += memberArr[i].recordName ? memberArr[i].recordName : memberArr[i].Name
+            }
+        } else {
+            nameStr = memberArr[0].Name
+        }
+        return <span className={nameStr}><i className={"type" + type}></i>{nameStr}</span>;
+    }
+
+    handleSearchCall = (e) => {
+        var searchkey = e.target.value.trim();
+        let data = [];
+        let dataSource = this.state.allCallLog
+        let acct = this.state.callType
+        if(searchkey =='') {
+            data = [...dataSource]
+        } else {
+            for (let i = 0; i < dataSource.length; i++) {
+                let logItem = dataSource[i].row0.logItem
+                let memberArr = dataSource[i].row0.memberArr
+                let nameStr = ''
+                let numberStr = ""
+                if(logItem.IsConf == '1') {
+                    nameStr = logItem.NameOrNumber + '：'
+                    for (let i = 0; memberArr[i] != undefined; i++) {
+                        if(i>0) {
+                            nameStr += '，'
+                        }
+                        nameStr += memberArr[i].recordName ? memberArr[i].recordName : memberArr[i].Name
+                        numberStr += memberArr[i].Number
+                    }
+                } else {
+                    nameStr = memberArr[0].Name
+                    numberStr = memberArr[0].Number
+                }
+                if ((nameStr.indexOf(searchkey) != -1 || numberStr.indexOf(searchkey) != -1) && (memberArr[0].Account == acct || acct=='-1')) {
+                    data.push(dataSource[i]);
+                }
+            }
+        }
+
+        // console.log('result',data)
+        this.setState({
+            curCallLog: data
+        });
+
+    }
+
+    onCallRowChange = (selectedCallRowKeys) => {
+
+        // this.setState({selectedCallRowKeys});
+    }
+
+    onSelectCallItem = (record, selected, selectedRows) => {
+        console.log(record)
+        let dataArr = record.row0.memberArr
+        console.log(dataArr[0].Account,record.row0.logItem.Account)
+        if (selected) {
+            if(this.checkMember(dataArr[0].Account)) {
+                return
+            }
+        }
+        let tempMember = this.state.tempMember
+        let selectedCallRowKeys = this.state.selectedCallRowKeys
+        if(selected) {
+            selectedCallRowKeys.push(record.key)
+        } else {
+            for (let i = 0; i < selectedCallRowKeys.length; i++) {
+                if (record.key == selectedCallRowKeys[i]) {
+                    selectedCallRowKeys.splice(i,1)
+                }
+            }
+        }
+        for (let j = 0; dataArr[j] != undefined ; j++) {
+            let item = dataArr[j]
+            let name = item.Name;
+            let number = item.Number;
+            let acct = item.Account
+            if (selected) {
+                tempMember.push({Name: name, Number: number, Account: acct});
+            } else {
+                for (let i = tempMember.length - 1 ; tempMember[i] != undefined; i++) {
+                    if (tempMember[i].Number == number) {
+                        tempMember.splice(i, 1);
+                        // break;
+                    }
+                }
+            }
+        }
+        this.setState({tempMember:tempMember,selectedCallRowKeys:selectedCallRowKeys,selectedRowKeys:selectedCallRowKeys})
+    }
+
+    changeTab = (key) => {
+        let selectedRowKeys = []
+        if (key == '1') {
+            selectedRowKeys = this.state.selectedCallRowKeys
+        } else {
+            selectedRowKeys = this.state.selectedContactRowKeys
+        }
+        console.log(selectedRowKeys)
+        this.setState({selectedRowKeys:selectedRowKeys})
+
+        console.log(key)
     }
 
     render() {
         let title = this.props.addNewConf ? 'a_newConf' : 'a_editConf';
+        let allDisabled = false
+        // title = this.props.confdetail ? 'a_detail' : title
+        if(this.props.confdetail) {
+            title = 'a_detail'
+            allDisabled = true
+        }
+        let values = this.props.form.getFieldsValue();
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
+
         let dateFormat = 'YYYY/MM/DD';
         let myDate = new Date()
         let curMonth = (parseInt(myDate.getMonth()) + 1)
@@ -495,65 +901,98 @@ class NewContactsEdit extends Component {
         for (let i = 0; i < 7; i++) {
             dayofweekArrvalue[i] = i==curWeekDay ? 1:0
         }
+        // let memberData = this.props.confMemberData
         let memberData = this.props.confMemberData
+        if( this.state.curMember.length == 0  && this.props.confMemberData.length>0) {
+            this.setState({curMember:this.props.confMemberData})
+        } else if(this.state.curMember.length > 0) {
+            memberData = this.state.curMember
+        }
+
         let DateOptions = this.createDateOption()
-        let optionObj = this.createOptionObj()
-        let classObj = this.state.cycle_group_class
-        // this.createContactObj()
-        // const contactcolumns = [
-        //     {title: callTr("a_name"),key: 'row0',dataIndex: 'row0',width: '50%'},
-        //     {title: callTr("a_type"),key: 'row1',dataIndex: 'row1',width: '25%'},
-        //     {title: callTr("a_number"),key: 'row2',dataIndex: 'row2',width: '25%'}];
-        // let contactData = [];
-        // if (this.state.curContacts) {
-        //     contactData = this.state.curContacts;
-        // } else {
-        //     contactData = this.createContactData();
-        // }
-        // console.log('contactData',contactData)
+        let extraMinutes = values.confminutes
+        let optionObj = {}
+        if( (parseInt(extraMinutes/5)) != extraMinutes/5 ) {
+            optionObj = this.createOptionObj(values.confminutes)
+        } else {
+            optionObj = this.createOptionObj(curMinutes)
+        }
+
+
+
         let contactObj = this.createContactObj()
+        let contactData = contactObj.data
+        if (this.state.curContacts) {
+            contactData = this.state.curContacts
+        }
+        let calllogObj = this.createCalllogObj()
+        let calllogData = calllogObj.data
+        if (this.state.curCallLog) {
+            calllogData = this.state.curCallLog
+        }
+        // console.log('6',this.props.editConfData)
+
+
+        let classObj = {}
+        if(values.cycle != '7') {
+            classObj = this.checkoutCyclemode(values.cycle)
+        } else {
+            classObj = this.checkoutCustomCycleMode(values.customRepeat)
+        }
+
+
+
+
+
         const {selectedRowKeys} = this.state;
-        const rowSelection = {
+        const ContRowSelection = {
             selectedRowKeys,
-            onChange: this.onSelectChange,
             onSelect: this.onSelectItem,
-            onSelectAll: this.onSelectAllContacts
+        }
+        const callRowSelection = {
+            selectedRowKeys,
+            onSelect: this.onSelectCallItem,
         }
         return(
             <div>
                 <Modal className='importModal confModal' visible={this.props.displayNewConfModal}
                        title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_ok")} cancelText={callTr("a_cancel")} >
                     <Form onSubmit={this.handleSubmit} hideRequiredMark >
+                        <FormItem className='display-hidden'>
+                            {getFieldDecorator('Id', {})(
+                                <Input hidden />
+                            )}
+                        </FormItem>
                         <FormItem label={(<span>{callTr("a_confSubject")}</span>)}>
                             {getFieldDecorator('confSubject', {
                                 rules: [{required: true}]
                             })(
-                                <Input style={{width:'93%'}}/>
+                                <Input disabled={allDisabled} style={{width:'93%'}}/>
                             )}
                         </FormItem>
                         <FormItem label={(<span>{callTr("a_timestart")}</span>)}>
                             {getFieldDecorator('confStatedate', {
                                 rules: [{ type: 'object', required: true, message: 'Please select time!' }],
                                 initialValue:moment(curDate, 'YYYY-MM-DD')
-                             })(
-                                <DatePicker disabledDate={this.disabledDate} onChange={this.onStartChange.bind(this)} style={{width:'40%'}} format={dateFormat}/>
+                            })(
+                                <DatePicker disabled={allDisabled} disabledDate={this.disabledDate} onChange={this.onStartChange.bind(this)} style={{width:'40%'}} format={dateFormat}/>
                             )}
                             &nbsp;&nbsp;
                             {getFieldDecorator('confhours', {
                                 rules: [{required: true}],
-                                initialValue: curHour
+                                initialValue: curHour.toString()
                             })(
-                                <Select defaultValue="a1" style={{width:'25%'}} >
+                                <Select disabled={allDisabled} defaultValue="a1" style={{width:'25%'}} >
                                     {optionObj.hoursArr}
                                 </Select>
                             )}
                             &nbsp;<span>:</span>&nbsp;
                             {getFieldDecorator('confminutes', {
                                 rules: [{required: true}],
-                                initialValue: curMinutes
+                                initialValue: curMinutes.toString()
 
                             })(
-                                <Select style={{width:'25%'}}>
+                                <Select disabled={allDisabled} style={{width:'25%'}}>
                                     {optionObj.minutesArr}
                                 </Select>
                             )}
@@ -563,7 +1002,7 @@ class NewContactsEdit extends Component {
                                 rules: [{required: true}],
                                 initialValue: '1'
                             })(
-                                <Select style={{width:'25%'}}>
+                                <Select disabled={allDisabled} style={{width:'25%'}}>
                                     {optionObj.durationArr}
                                 </Select>
                             )}
@@ -574,7 +1013,7 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('confpreset', {
                                 initialValue: '-1'
                             })(
-                                <Select style={{width:'40%'}}>
+                                <Select disabled={allDisabled} style={{width:'40%'}}>
                                     {optionObj.presetArr}
                                 </Select>
                             )}
@@ -583,7 +1022,7 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('cycle', {
                                 initialValue: '0'
                             })(
-                                <Select onChange={ this.onChangeCycle.bind(this) } style={{width:'40%'}} >
+                                <Select disabled={allDisabled} style={{width:'40%'}} >
                                     <option value="0">{callTr("a_oneTimeEvent")}</option>
                                     <option value="1">{callTr("a_daily")}</option>
                                     <option value="2">{callTr("a_weekday")}</option>
@@ -595,11 +1034,11 @@ class NewContactsEdit extends Component {
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem className={ classObj.customRepeat } label={(<span>{callTr("a_customRepeat")}</span>)}>
+                        <FormItem className={classObj.customRepeat} label={(<span>{callTr("a_customRepeat")}</span>)}>
                             {getFieldDecorator('customRepeat', {
                                 initialValue: '0'
                             })(
-                                <Select onChange={ this.onChangeCustomCycle.bind(this) } style={{width:'40%'}} >
+                                <Select disabled={allDisabled} style={{width:'40%'}} >
                                     <option value="0">{callTr("a_daily")}</option>
                                     <option value="1">{callTr("a_weekly")}</option>
                                     <option value="2">{callTr("a_monthly")}</option>
@@ -612,62 +1051,62 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('interval', {
                                 initialValue: '1'
                             })(
-                                <Input style={{width:'40%'}}/>
+                                <Input disabled={allDisabled} style={{width:'40%'}}/>
                             )}
                         </FormItem>
                         <FormItem className={ classObj.dayofweek + " " + "mutilCheckbox" } label={< span > { callTr("a_dayofweek") }</span >}>
                             {getFieldDecorator('dayofweek', {
                                 rules: [],
                                 // initialValue: this.props.itemValues['dayofweek']
-                            })(<Input className="P-286" style={{"display": "none"}}/>)}
+                            })(<Input disabled={allDisabled} className="P-286" style={{"display": "none"}}/>)}
                             {getFieldDecorator('dayofweek0', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[0])
                             })(
-                                <Checkbox>{callTr("a_sunday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_sunday")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek1', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[1])
                             })(
-                                <Checkbox>{callTr("a_monday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_monday")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek2', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[2])
                             })(
-                                <Checkbox>{callTr("a_tuesday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_tuesday")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek3', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[3])
                             })(
-                                <Checkbox>{callTr("a_wednesday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_wednesday")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek4', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[4])
                             })(
-                                <Checkbox>{callTr("a_thursday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_thursday")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek5', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[5])
                             })(
-                                <Checkbox>{callTr("a_friday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_friday")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek6', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[6])
                             })(
-                                <Checkbox>{callTr("a_saturday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_saturday")}</Checkbox>
                             )}
                         </FormItem>
                         <FormItem className={ classObj.monthByDay } label={(<span>{callTr("a_repeatDate")}</span>)}>
                             {getFieldDecorator('monthByDay', {
                                 initialValue: curDay.toString()
                             })(
-                                <Select style={{width:'40%'}} >
+                                <Select disabled={allDisabled} style={{width:'40%'}} >
                                     {optionObj.dayArr}
                                 </Select>
                             )}
@@ -676,7 +1115,7 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('monthWeekOrdinal', {
                                 initialValue: weekNum.toString()
                             })(
-                                <Select style={{width:'40%'}} >
+                                <Select disabled={allDisabled} style={{width:'40%'}} >
                                     <option value="1">{callTr("a_first")}</option>
                                     <option value="2">{callTr("a_second")}</option>
                                     <option value="3">{callTr("a_third")}</option>
@@ -687,7 +1126,7 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('monthWeekDay', {
                                 initialValue: curWeekDay.toString()
                             })(
-                                <Select  style={{width:'40%'}} >
+                                <Select disabled={allDisabled} style={{width:'40%'}} >
                                     <option value="0">{callTr("a_sunday")}</option>
                                     <option value="1">{callTr("a_monday")}</option>
                                     <option value="2">{callTr("a_tuesday")}</option>
@@ -702,13 +1141,14 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('yearly', {
                                 initialValue: [this.transStr(curMonth), this.transStr(curDay)]
                             })(
-                                <Cascader options={DateOptions}  placeholder="Please select" style={{width:'40%'}} />
+                                <Cascader disabled={allDisabled} options={DateOptions}  placeholder="Please select" style={{width:'40%'}} />
                             )}
                         </FormItem>
                         <FormItem className={ classObj.customClass } label={(<span>{callTr("a_cycle")}</span>)}>
                             {getFieldDecorator('confStatedate', {
                             })(
                                 <DatePicker
+                                    disabled={allDisabled}
                                     format="YYYY-MM-DD"
                                     disabledDate={this.disabledDate}
                                     disabled={true}
@@ -719,7 +1159,7 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('customEndDate', {
 
                             })(
-                                <DatePicker
+                                <DatePicker disabled={allDisabled} placeholder="为空则无结束日期"
                                     format="YYYY-MM-DD"
                                     style={{width:'40%'}}
                                 />
@@ -730,12 +1170,12 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('pinCode', {
                                 initialValue: ''
                             })(
-                                <Input style={{width:'40%'}}/>
+                                <Input disabled={allDisabled} style={{width:'40%'}}/>
                             )}
 
                         </FormItem>
                         <FormItem label={(<span className='ant-form-item-required'>{callTr("a_confMember")}</span>)}>
-                            <Button type="primary" onClick={this.handleAddMember.bind(this)}>
+                            <Button disabled={allDisabled} type="primary" onClick={this.handleAddMember.bind(this)}>
                                 {callTr('a_add')}
                             </Button>
                         </FormItem>
@@ -760,38 +1200,51 @@ class NewContactsEdit extends Component {
 
                 <Modal className='importModal confModal' style={{'minHeight':'540px'}} title={callTr('a_addMember')} onOk={this.handleAddModalOk} onCancel={this.handleAddModalCancel}
                        okText={callTr("a_ok")} cancelText={callTr("a_cancel")}  visible={this.state.displayAddModal}>
-                    <Tabs className="config-tab" defaultActiveKey="0">
-                        <TabPane tab = {this.tr("a_contactlist")} key='0'>
-                            <div style={{'width':'90%',margin:'0 auto'}}>
+                    <Tabs className="config-tab" defaultActiveKey={this.state.activeKey} onChange={this.changeTab}>
+                        <TabPane tab = {this.tr("a_contact")} key='0'>
+                            <div className="scrollbox">
                                 <div style={{marginBottom:'15px'}}>
-                                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_search")}></Input>
-                                    <Select id="addsipacct0" className="acctselect" style={{'width':'25%','margin-left':'2%'}}>
+                                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchContact.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_search")}></Input>
+                                    <Select value={this.state.contType} className="acctselect" onChange={this.handlefilter.bind(this,0)} style={{'width':'25%','margin-left':'2%'}}>
+                                        <option value="-1">All</option>
                                         <option value="0">SIP</option>
                                         <option value="1">IPVideoTalk</option>
                                         <option value="8">H.323</option>
                                     </Select>
                                 </div>
                                 <Table
-                                    rowSelection={rowSelection}
+                                    rowSelection={ContRowSelection}
                                     rowKey = ""
                                     columns = { contactObj.columns }
                                     pagination = { false }
-                                    dataSource = { contactObj.data }
+                                    dataSource = { contactData }
                                     showHeader = { false }
                                 />
-                                <div className = "nodatooltips" style={{display: contactObj.data.length == 0 ? 'block':'none'}}>
-                                    <div></div>
-                                    <p>{this.tr("no_data")}</p>
-                                </div>
                             </div>
-
                         </TabPane>
-                        <TabPane tab = {this.tr("a_concatgroup")} key='1'>
-                            tab2
+                        <TabPane tab = {this.tr("call_history")} key='1'>
+                            <div className="scrollbox">
+                                <div style={{marginBottom:'15px'}}>
+                                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchCall.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_search")}></Input>
+                                    <Select value={this.state.callType} className="acctselect" onChange={this.handlefilter.bind(this,1)} style={{'width':'25%','margin-left':'2%'}}>
+                                        <option value="-1">All</option>
+                                        <option value="0">SIP</option>
+                                        <option value="1">IPVideoTalk</option>
+                                        <option value="8">H.323</option>
+                                    </Select>
+                                </div>
+                                <Table
+                                    rowSelection={callRowSelection}
+                                    rowKey = ""
+                                    columns = { calllogObj.columns }
+                                    pagination = { false }
+                                    dataSource = { calllogData }
+                                    showHeader = { false }
+                                />
+                            </div>
                         </TabPane>
                     </Tabs>
                 </Modal>
-
             </div>
         )
     }
@@ -801,8 +1254,11 @@ const mapStateToProps = (state) => ({
     product: state.product,
     presetinfo: state.presetinfo,
     activeKey: state.TabactiveKey,
-    contactsInformation: state.contactsInformation
-
+    contactsInformation: state.contactsInformation,
+    logItemdata: state.logItemdata,
+    callnameinfo:state.callnameinfo,
+    confmemberinfodata:state.confmemberinfodata,
+    contactsAcct: state.contactsAcct,
 });
 
 function mapDispatchToProps(dispatch) {
@@ -810,7 +1266,10 @@ function mapDispatchToProps(dispatch) {
         get_calllog: Actions.get_calllog,
         getContacts:Actions.getContacts,
         getPresetInfo: Actions.getPresetInfo,
-        setschedule: Actions.setschedule
+        setschedule: Actions.setschedule,
+        getNormalCalllogNames:Actions.getNormalCalllogNames,
+        getAllConfMember:Actions.getAllConfMember,
+        getAcctStatus: Actions.getAcctStatus
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -624,6 +624,15 @@ const confmemberinfodata = (state={}, action) => {
     }
 }
 
+const callnameinfo = (state={}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_CALLNAME:
+            return action.callnameinfo
+        default:
+            return state
+    }
+}
+
 const preconfdata = (state={}, action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_PRECONFINFO:
@@ -766,6 +775,7 @@ const rootReducer = combineReducers({
     groupInformation,
     contactinfodata,
     confmemberinfodata,
+    callnameinfo,
     preconfdata,
     confinfodata,
     presetinfo,

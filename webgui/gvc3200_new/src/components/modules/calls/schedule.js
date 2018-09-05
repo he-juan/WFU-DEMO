@@ -30,6 +30,12 @@ class History extends Component {
         this.props.jumptoTab(key);
     }
 
+    updateDate = () => {
+        this.props.getAllConfMember();
+        this.props.getPreConf();
+        this.props.getConfInfo()
+    }
+
     componentDidMount = () => {
 
     }
@@ -45,11 +51,11 @@ class History extends Component {
         var value;
         var isYtd;
         if (new Date(str).toDateString() === new Date().toDateString()) {
-           value = "Today";
-       }else if (new Date(str) < new Date()){
-           value = (this.isYestday(new Date(str))) ? "Yestday" : "Before";
-       }
-       return value;
+            value = "Today";
+        }else if (new Date(str) < new Date()){
+            value = (this.isYestday(new Date(str))) ? "Yestday" : "Before";
+        }
+        return value;
     }
 
     _createTime = (text, record, index) => {
@@ -98,15 +104,16 @@ class History extends Component {
 
         return (
             <div>
-            <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("meeting_schedule")}</div>
-                <Button className='btn_addschedule' onClick={this.handleNewConf} type="primary" >
-                    {callTr('a_newConf')}
-                </Button>
-                {tabList}
-            </Content>
+                <Content className="content-container config-container">
+                    <div className="subpagetitle">{this.tr("meeting_schedule")}</div>
+                    <Button className='btn_addschedule' onClick={this.handleNewConf} type="primary" >
+                        {callTr('a_newConf')}
+                    </Button>
+                    {tabList}
+                </Content>
                 <NewConEditForm {...this.props} callTr={callTr}
                                 handleHideNewConfModal= {this.handleHideNewConfModal}
+                                updateDate = {this.updateDate}
                                 displayNewConfModal={this.state.displayNewConfModal}
                                 confMemberData={this.state.confMemberData}
                                 addNewConf={this.state.addNewConf}/>
@@ -126,7 +133,10 @@ function mapDispatchToProps(dispatch) {
     var actions = {
         jumptoTab: Actions.jumptoTab,
         getItemValues:Actions.getItemValues,
-        promptMsg:Actions.promptMsg
+        promptMsg:Actions.promptMsg,
+        getAllConfMember:Actions.getAllConfMember,
+        getPreConf:Actions.getPreConf,
+        getConfInfo:Actions.getConfInfo
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -5923,3 +5923,9 @@ table thead tr th{
 .confModal .ant-tabs-bar {
     border: none;
 }
+.scrollbox{max-height: 400px;overflow-y: auto;width: 95%;margin: 0 auto}
+.confModal .ant-tabs-content{
+    height: 300px;
+}
+.confModal table{border: none}
+.confbox button{z-index: 100}
