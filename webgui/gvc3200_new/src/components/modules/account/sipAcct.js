@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../mixins/Enhance";
 import GeneralForm from "./sipAccount/general";
+import NetFrom from './sipAccount/net'
 import SipForm from "./sipAccount/sip";
 import CodecForm from "./sipAccount/codec";
 import CallForm from "./sipAccount/call";
@@ -15,6 +16,7 @@ const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 
 const AccountGeneralForm = Form.create()(GeneralForm);
+const AccountNetForm = Form.create()(NetFrom);
 const AccountSipForm = Form.create()(SipForm);
 const AccountCodecForm = Form.create()(CodecForm);
 const AccountCallForm = Form.create()(CallForm);
@@ -104,16 +106,19 @@ class SlidingTabsDemo extends React.Component {
               <TabPane tab={callTr("account_general")} key={0}>
                   <AccountGeneralForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("account_sip")} key={1}>
+              <TabPane tab={callTr("account_net")} key={1}>
+                  <AccountNetForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
+              </TabPane>
+              <TabPane tab={callTr("account_sip")} key={2}>
                   <AccountSipForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("account_codec")} key={2}>
+              <TabPane tab={callTr("account_codec")} key={3}>
                   <AccountCodecForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder="" hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("account_call")} key={3}>
+              <TabPane tab={callTr("account_call")} key={4}>
                   <AccountCallForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("advanced_menu")} key={4}>
+              <TabPane tab={callTr("advanced_menu")} key={5}>
                   <AccountAdvancedForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
           </Tabs>

@@ -247,56 +247,56 @@ export const reboot = () => (dispatch) => {
     });
 }
 
-export const getItemValues = (items, callback) => (dispatch) => {
-    let uritail = "";
-    for (var i = 0; i < items.length; i++) {
-        uritail += actionUtil.build_get(i, items[i].pvalue);
-    }
-    let request = "action=get" + uritail;
+// export const getItemValues = (items, callback) => (dispatch) => {
+//     let uritail = "";
+//     for (var i = 0; i < items.length; i++) {
+//         uritail += actionUtil.build_get(i, items[i].pvalue);
+//     }
+//     let request = "action=get" + uritail;
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        let values = actionUtil.pvalueToConfName(msgs, items);
-        dispatch({type: 'REQUEST_GET_ITEM_VALUE', itemValues: values});
-        callback(values);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let msgs = actionUtil.res_parse_rawtext(data);
+//         let values = actionUtil.pvalueToConfName(msgs, items);
+//         dispatch({type: 'REQUEST_GET_ITEM_VALUE', itemValues: values});
+//         callback(values);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const setItemValues = (items, values, flag, callback) => (dispatch) => {
-    let uritail = "",itemVal;
-    for (let i = 0; i < items.length; i++) {
-        itemVal = values[items[i].name]
-        if(typeof itemVal == 'boolean') {
-            itemVal = Number(itemVal)
-        } else if (typeof itemVal == 'number' && isNaN(itemVal)) {
-            itemVal = '0'
-        } else if (itemVal == undefined){
-            itemVal = ""
-        }
-        uritail += actionUtil.build_put(i, items[i].pvalue, itemVal);
-    }
-    flag = (flag == 0 || flag == 1) ? flag : 0;
+// export const setItemValues = (items, values, flag, callback) => (dispatch) => {
+//     let uritail = "",itemVal;
+//     for (let i = 0; i < items.length; i++) {
+//         itemVal = values[items[i].name]
+//         if(typeof itemVal == 'boolean') {
+//             itemVal = Number(itemVal)
+//         } else if (typeof itemVal == 'number' && isNaN(itemVal)) {
+//             itemVal = '0'
+//         } else if (itemVal == undefined){
+//             itemVal = ""
+//         }
+//         uritail += actionUtil.build_put(i, items[i].pvalue, itemVal);
+//     }
+//     flag = (flag == 0 || flag == 1) ? flag : 0;
 
-    let request = "action=put&flag=" + flag + uritail;
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        if (actionUtil.cb_if_is_fail(msgs)) {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
-        } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
-            checkIsApplyNeed(dispatch);
-            callback();
-        }
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     let request = "action=put&flag=" + flag + uritail;
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let msgs = actionUtil.res_parse_rawtext(data);
+//         if (actionUtil.cb_if_is_fail(msgs)) {
+//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
+//         } else {
+//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+//             checkIsApplyNeed(dispatch);
+//             callback();
+//         }
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const checkIsApply = () => (dispatch) => {
-    checkIsApplyNeed(dispatch);
-}
+// export const checkIsApply = () => (dispatch) => {
+//     checkIsApplyNeed(dispatch);
+// }
 
 const checkIsApplyNeed = (dispatch) => {
     let request = "action=needapply";
