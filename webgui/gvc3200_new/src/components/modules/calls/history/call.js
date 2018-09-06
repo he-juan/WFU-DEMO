@@ -207,6 +207,7 @@ class Call extends Component {
 
     componentDidMount = () => {
         this.props.get_calllog(0);
+        this.props.getNormalCalllogNames()
         this.props.getAcctStatus((result)=>{
             if(!this.isEmptyObject(result)) {
                 let acctstatus = result.headers;
@@ -313,53 +314,37 @@ class Call extends Component {
     }
 
     _createRow0 = (text, record , index) => {
-        // console.log('_createRow0',text)
         let logItem = text.logItem
         let memberArr = text.memberArr
-        let nameStr = logItem.NameOrNumber + '：'
-        for (let i = 0; memberArr[i] != undefined; i++) {
-            if(i>0) {
-                nameStr += '，'
-            }
-            nameStr += memberArr[i].recordName ? memberArr[i].recordName : memberArr[i].Name
+        let type = logItem.Type
+        if (type == '-1') {
+            type = memberArr[0].Type
         }
-        // console.log(nameStr)
-        // text = this.changerow0(text);
-        // var name = text.row0;
-        // var nameValue = name + ((text.row1.length > 1) ? " (" + text.row1.length + ")": "");
-        return <span className={nameStr}><i className={"type" + logItem.Type}></i>{nameStr}</span>;
-    }
-
-
-    handleAddContact = (text) => {
-        // text = this.changerow0(text);
-        // console.log('text',text)
-        this.setState({
-            displayDiv : "display-block",
-            detailDiv: text
-        });
-    }
-
-    changerow0 = (text) => {
-        var msgsContacts = this.props.msgsContacts;
-        let accountIndex = text.row0.split('--- ---')[1] || text.row5;
-        text.row0 = text.row0.split('--- ---')[0];
-        if (msgsContacts.length > 0) {
-            for ( let i = 0; i <  msgsContacts.length; i++) {
-                if((msgsContacts[i].Number == text.row1[0]) && (msgsContacts[i].AcctIndex == accountIndex)){
-                    text.row0 = msgsContacts[i].Name;
-                    if(msgsContacts[i].AcctIndex == accountIndex) {
-                        text.row6 = true
-                        text.row5 = accountIndex
-                        break;
-                    } else {
-                        text.row6 = false
-                    }
+        let nameStr = ''
+        if(logItem.IsConf == '1') {
+            nameStr = logItem.NameOrNumber + '：'
+            for (let i = 0; memberArr[i] != undefined; i++) {
+                if(i>0) {
+                    nameStr += '，'
                 }
-
+                nameStr += memberArr[i].recordName ? memberArr[i].recordName : memberArr[i].Name
             }
+        } else {
+            nameStr = memberArr[0].Name
         }
-        return text
+        return <span className={nameStr}><i className={"type" + type}></i>{nameStr}</span>;
+    }
+
+
+    handleAddContact = (event,text) => {
+        console.log('e',event,'text',text)
+        if(!event.Id) {
+            event.cancelBubble = true;
+            event.stopPropagation( );
+        } else {
+            text = event
+        }
+        this.setState({displayDiv : "display-block",detailDiv: text});
     }
 
     showDelHistCallsModal = () => {
@@ -370,23 +355,14 @@ class Call extends Component {
         this.setState({displayDelHistCallsModal: false});
     }
 
-    showAddWhitelistModal = () => {
-        this.setState({displayAddWhitelistModal: true});
-    }
-
-    handleAddWhitelistCancel = () =>{
-        this.setState({displayAddWhitelistModal: false});
-    }
-
-    showAddBlacklistModal = () => {
-        this.setState({displayAddBlacklistModal: true});
-    }
-
-    handleAddBlacklistCancel = () =>{
-        this.setState({displayAddBlacklistModal: false});
-    }
-
-    handleCall = (text, index) => {
+    handleCall = (event,text, index) => {
+        console.log('e',event,'text',text)
+        if(!event.Id) {
+            event.cancelBubble = true;
+            event.stopPropagation( );
+        } else {
+            text = event
+        }
         if(!this.state.existActiveAccount){
             this.props.promptMsg('WARNING','no_existActiveAcct');
             return false;
@@ -433,12 +409,12 @@ class Call extends Component {
             for (let i = 0; memberArr[i] != undefined ; i++) {
                 content.push(
                     <div className="select-callnum">
-                        <span>{memberArr[i].Number}</span><span><button className='allow-call' id = {'allow-call'+index} onClick={this.handleCall.bind(this, memberArr[i], index)}></button></span>
+                        <span>{memberArr[i].Number}</span><span><button className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall.bind(e, memberArr[i], index)}></button></span>
                     </div>
                 )
             }
             statue = <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
-                <button className='allow-detail' id = {'allow-detail'+index}  onClick={this.handleNewConf.bind(this, memberArr, index)}></button>
+                <button className='allow-detail' id = {'allow-detail'+index}  onClick={(e)=>this.handleNewConf.bind(e, memberArr, index)}></button>
                 <Popover content={content} placement="leftTop" trigger="click">
                     <button className='allow-call' id = {'allow-call'+index}></button>
                 </Popover>
@@ -446,9 +422,9 @@ class Call extends Component {
         } else {
             statue =
             <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
-                <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={this.handleAddContact.bind(this, memberArr[0], index)}></button>
-                <button className='allow-detail' id = {'allow-detail'+index}  onClick={this.handleNewConf.bind(this, memberArr[0], index)}></button>
-                <button className='allow-call' id = {'allow-call'+index} onClick={this.handleCall.bind(this, memberArr[0], index)}></button>
+                <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
+                <button className='allow-detail' id = {'allow-detail'+index} onClick={(e)=>this.handleNewConf(e,memberArr[0], index)}></button>
+                <button className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall(e,memberArr[0], index)} ></button>
             </div>;
         }
         return statue;
@@ -464,37 +440,47 @@ class Call extends Component {
         }
         let confmember = this.props.confmemberinfodata
         let contactList = this.props.contactsInformation
-        // console.log(confmember)
+        let callnameinfo = this.props.callnameinfo
         for ( let i = 0; i < logItemdata.length; i++ ) {
             let data = {};
             let memberArr = []
             let haslogItem = false
-            for (let j = 0; j < confmember.length; j++) {
-                if(confmember[j].Id == logItemdata[i].Id) {
-                    confmember[j].recordName = ''
-                    for (let k = 0; k < contactList.length; k++) {
-                        if(confmember[j].Number == contactList[k].Number) {
-                            confmember[j].recordName = contactList[k].Name
+            if(logItemdata[i].IsConf == '1') {
+                for (let j = 0; j < confmember.length; j++) {
+                    if(confmember[j].Id == logItemdata[i].Id) {
+                        confmember[j].recordName = ''
+                        for (let k = 0; k < contactList.length; k++) {
+                            if(confmember[j].Number == contactList[k].Number) {
+                                confmember[j].recordName = contactList[k].Name
+                            }
                         }
+                        memberArr.push(confmember[j])
+                        haslogItem = true
                     }
-                    memberArr.push(confmember[j])
-                    haslogItem = true
                 }
             }
-            if (haslogItem) {
-                data = {
-                    logItem : logItemdata[i],
-                    memberArr: memberArr
+            if (!haslogItem) {
+                for (let j = 0; callnameinfo[j] != undefined; j++) {
+                    if(callnameinfo[j].Id == logItemdata[i].Id) {
+                        let obj = logItemdata[i]
+                        obj.Name = callnameinfo[j].Name
+                        obj.Number = logItemdata[i].NameOrNumber
+                        memberArr.push(obj)
+                    }
                 }
-
-                dataResult.push({
-                    key: i,
-                    row0: data,
-                    row1: parseInt(logItemdata[i].Date),
-                    row2: data
-                })
             }
+            data = {
+                logItem : logItemdata[i],
+                memberArr: memberArr
+            }
+            dataResult.push({
+                key: i,
+                row0: data,
+                row1: parseInt(logItemdata[i].Date),
+                row2: data
+            })
         }
+
         this.historyList = dataResult;
         this.setState({
             curContactList: dataResult
@@ -541,21 +527,12 @@ class Call extends Component {
 
     handelOnRowClick(record) {
         //添加双击执行发那个法 获取自己维护的 数组，判断数组中是否包含 这行key，相应添加或者删除
-        console.log('click')
-        $('.line-hoverbg').removeClass('line-hoverbg')
-        $('.ant-table-row:eq('+record.key+')').addClass('line-hoverbg')
-        // let nodeStr =
-        // console.log($('.ant-table-row:eq('+record.key+')'))
-        // console.log(this)
-        // console.log($("#search"))
-        // console.log($('.' + record.row2))
-        // console.log($('.' + record.row2).parent().parent())
-        // console.log($('#call-line'+ record.key))
-        // console.log($('#call-line'+ record.key).parent().parent())
+        let num = parseInt(record.key)
+        $('.ant-table-row').removeClass('line-hoverbg')
+        $('.ant-table-row:eq('+ num +')').addClass('line-hoverbg')
         let expandedRows = this.state.expandedRows
         console.log(expandedRows,record.key)
         if(expandedRows.length > 0 && expandedRows[0] == record.key ) {
-            console.log('here')
             this.setState({
                 expandedRows: []
             });
@@ -601,7 +578,7 @@ class Call extends Component {
                     <div className='call-line-info call-line-name'>{this._createInlineName(memberArr[i])}</div>
                     <div className='call-line-info call-line-number'>{memberArr[i].Number}</div>
                     <div className='call-line-info call-line-date'>{this.props.convertTime(memberArr[i].Date)}</div>
-                    <div className='call-line-info call-line-duration'>{this.view_status_Duration(memberArr[i].Duration)}</div>
+                    <div className='call-line-info call-line-duration'>{this.convertDuration(memberArr[i].Duration)}</div>
                     <div className='call-line-info call-line-act'>
                         {this._createInlineAction(memberArr[i])}
                     </div>
@@ -611,7 +588,39 @@ class Call extends Component {
         return status;
     }
 
-    handleNewConf = (text) => {
+    convertDuration = (duration) => {
+        const callTr = this.props.callTr
+        if( duration == 0 )
+            return "0" + callTr('a_114');
+        var day = parseInt(duration / (24 * 3600));
+        duration %= (24 * 3600);
+        var hour = parseInt(duration / 3600);
+        if( day > 0 )
+            hour += day * 24;
+        duration %= 3600;
+        var min = parseInt(duration / 60);
+        var sec = parseInt(duration % 60);
+        var timestr = "";
+        if( hour > 0 ){
+            timestr += hour + callTr('a_108') + "" + min + callTr('a_110') + "" + sec + callTr('a_113');
+        }else if( min > 0 ){
+            timestr += min + callTr('a_110') + "" + sec + callTr('a_113');
+        }else{
+            timestr += sec + callTr('a_114');
+        }
+
+        return timestr;
+    }
+
+    handleNewConf = (event,text) => {
+        console.log('e',event,'text',text)
+        if(!event.Id) {
+            event.cancelBubble = true;
+            event.stopPropagation( );
+        } else {
+            text = event
+        }
+
         let data = text
         if(!text.length) {
             data = [text]
@@ -736,7 +745,8 @@ const mapStateToProps = (state) => ({
     callDialog: state.callDialog,
     msgsContacts: state.msgsContacts,
     contactinfodata: state.contactinfodata,
-    confmemberinfodata: state.confmemberinfodata
+    confmemberinfodata: state.confmemberinfodata,
+    callnameinfo:state.callnameinfo
 
 })
 
@@ -756,7 +766,9 @@ const mapDispatchToProps = (dispatch) => {
         addNewWhiteMember: Actions.addNewWhiteMember,
         getContactsinfo:Actions.getContactsinfo,
         getAllConfMember:Actions.getAllConfMember,
-        get_deleteCallConf:Actions.get_deleteCallConf
+        get_deleteCallConf:Actions.get_deleteCallConf,
+        getNormalCalllogNames:Actions.getNormalCalllogNames
+
     }
     return bindActionCreators(actions, dispatch)
 }

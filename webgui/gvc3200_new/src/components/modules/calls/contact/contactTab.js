@@ -219,52 +219,6 @@ class ContactTab extends Component {
         });
     }
 
-    handleAddWhitelist = () => {
-        let datasource = this.selectedContactList
-        var arrayNum = [];
-        var arrayName = [];
-        let contactItem;
-        for (let i = 0; i <datasource.length ; i++) {
-            contactItem = datasource[i];
-            for(let j = 0; j < contactItem.number.length; j++){
-                arrayName.push(contactItem.name);
-                arrayNum.push(contactItem.number[j]);
-            }
-        }
-        var numbers = arrayNum.join(':::');
-        var names = arrayName.join(':::');
-        this.props.addNewWhiteMember(numbers, names,(result) => {
-            this.selectedContactList = [];
-        });
-        this.setState({
-            selectedRowKeys: [],
-            displayAddWhitelistModal: false
-        });
-    }
-
-    handleAddBlacklist = () => {
-        let datasource = this.selectedContactList
-        var arrayNum = [];
-        var arrayName = [];
-        let contactItem;
-        for (let i = 0; i <datasource.length ; i++) {
-            contactItem = datasource[i];
-            for(let j = 0; j < contactItem.number.length; j++){
-                arrayName.push(contactItem.name);
-                arrayNum.push(contactItem.number[j]);
-            }
-        }
-        var numbers = arrayNum.join(':::');
-        var names = arrayName.join(':::');
-        this.props.addNewBlackMember(numbers, names, (result) => {
-            this.selectedContactList = [] ;
-        });
-        this.setState({
-            selectedRowKeys: [],
-            displayAddBlacklistModal: false
-        });
-    }
-
     showContactModal = () => {
         this.props.form.resetFields();
         this.setState({displayModal:true,addNewContact:true,emailValues:[""],numValues:[""]});
@@ -286,8 +240,9 @@ class ContactTab extends Component {
     }
 
     handleEditItem = (text, index) => {
-        var firstname = text.firstname;
-        var lastname = text.lastname;
+        // var firstname = text.firstname;
+        var name = text.Name;
+        console.log(text,text.Name)
         this.props.form.resetFields();
         let emailValues = this.state.emailValues;
         let numValues = this.state.numValues;
@@ -298,11 +253,11 @@ class ContactTab extends Component {
         }
         this.setState({displayModal:true,editContact:text,addNewContact:false});
         var obj = {
-            lastname:lastname,
-            firstname:firstname
+            name:name
         };
         for (var i = 0; i < text.AcctIndex.length; i++) {
             let acctstatus = this.props.acctStatus.headers;
+            console.log('head',this.props.acctStatus.headers)
             var Index = text.AcctIndex[i];
             if(acctstatus[`account_${Index}_no`] == ""){
                 text.AcctIndex[i] = '-1'
@@ -327,12 +282,14 @@ class ContactTab extends Component {
         });
     }
 
-    checkRepeatName = (firstname,lastname) => {
-        let data = this.props.contactinfodata
-        firstname = firstname ? firstname : ""
-        lastname = lastname ? lastname : ""
+    checkRepeatName = (name) => {
+        let data = this.props.contactsInformation
+        console.log(this.props.contactsInformation)
+        name = name ? name : ""
+        // lastname = lastname ? lastname : ""
         for(var i = 0; data[i] != undefined; i++) {
-            if(data[i].FirstName == firstname && data[i].LastName == lastname)
+            // console.log(data[i])
+            if(data[i].Name == name)
                 return true;
         }
         return false

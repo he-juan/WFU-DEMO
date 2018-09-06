@@ -108,61 +108,17 @@ class NewContactsEdit extends Component {
         }
     }
 
-    connectInputEmailValue = (e) => {
-        let [input,value] = [e.target,e.target.value];
-        this.setState({eValue:value},(e) => {
-            let iceIndex = input.id.slice(-1)
-            let emailValuesinnr = this.state.emailValuesinnr
-            emailValuesinnr[iceIndex] = value
-            this.setState({emailValuesinnr:emailValuesinnr})
-        })
-    }
-
-    hanleEmailContacts = (e) => {
-        let prevElem = e.target.previousElementSibling
-        let emailValues = this.props.emailValues;
-        let addNewContact = this.props.addNewContact;
-        let emailValuesinnr;
-        if (emailValues.length === 1 && emailValues[0] === "" && addNewContact == true) {
-            emailValuesinnr = this.state.emailValuesinnr;
-        } else {
-            emailValuesinnr = emailValues;
-        }
-        if(e.target.className.indexOf("add-btn") != -1 && prevElem.value != "" ) {
-            let emails = document.querySelectorAll('.emailcontact')
-            let index = emails.length - 1
-            let value = $('#accountemail' + index).val()
-            if(value==='' && typeof value){
-                this.props.promptMsg('ERROR','a_emailmpty');
-                return false;
-            }
-            emailValuesinnr.push("")
-            this.setState({emailValuesinnr: emailValuesinnr})
-        } else if(e.target.className.indexOf("del-btn") != -1) {
-            let parentElem = e.target.parentNode.parentNode.parentNode
-            emailValuesinnr.filter((val,idx,arr) => {
-                return val == prevElem.value && arr.splice(idx,1)
-            })
-            for(let i=0;i<emailValuesinnr.length;i++){
-                this.props.form.resetFields(['accountemail'+i])
-            }
-            this.setState({emailValuesinnr:emailValuesinnr})
-        } else {
-            this.props.promptMsg('ERROR','a_emailmpty');
-            return false;
-        }
-    }
-
     handleOk = () => {
         let addoredit = this.props.addNewContact ? 'add' : 'edit';
-        let name = this.props.form.getFieldsValue(['firstname','lastname'])
+        let displayname = this.props.form.getFieldsValue(['name']).name
+        console.log(displayname,addoredit)
         let values = this.props.form.getFieldsValue();
-        let [firstname,lastname] = [name.firstname,name.lastname]
-        if((firstname == undefined || firstname.replace(/(^\s*)|(\s*$)/g,"") == "") && (lastname == undefined || lastname.replace(/(^\s*)|(\s*$)/g,"") == "")) {
+        if(displayname == undefined || displayname.replace(/(^\s*)|(\s*$)/g,"") == "") {
             this.props.promptMsg('ERROR','a_nameempty');
             return false;
         }
-        if(typeof this.props.checkRepeatName == "function" && this.props.checkRepeatName(firstname,lastname) && (addoredit == "add")){
+        console.log(this.props.checkRepeatName(displayname))
+        if(typeof this.props.checkRepeatName == "function" && this.props.checkRepeatName(displayname) && (addoredit == "add")){
             const {callTr} = this.props;
             let self = this
             Modal.confirm({
@@ -173,16 +129,16 @@ class NewContactsEdit extends Component {
                     return false
                 },
                 onOk() {
-                    self.handleConfirmModal(firstname,lastname)
+                    self.handleConfirmModal(displayname)
                 },
             });
         } else {
-            this.handleConfirmModal(firstname,lastname)
+            this.handleConfirmModal(displayname)
         }
     }
 
-    handleConfirmModal = (firstname,lastname) => {
-        this.handleAddEditContacts(firstname, lastname);
+    handleConfirmModal = (displayname) => {
+        this.handleAddEditContacts(displayname);
         this.props.handleHideModal();
         var containermask = document.getElementsByClassName("containermask")[0];
         if (containermask){
@@ -191,10 +147,10 @@ class NewContactsEdit extends Component {
         this.setState({numValuesinnr:[""],emailValuesinnr:[""]});
     }
 
-    handleAddEditContacts = (firstname, lastname) => {
+    handleAddEditContacts = (displayname) => {
         let addoredit = this.props.addNewContact ? 'add' : 'edit';
         let numberstr = "";
-        let emailstr = "";
+        // let emailstr = "";
         let groupstr = "";
         let numValues = this.props.numValues;
         let addNewContact = this.props.addNewContact;
@@ -204,13 +160,13 @@ class NewContactsEdit extends Component {
         } else {
             numValuesinnr = numValues;
         }
-        let emailValues = this.props.emailValues;
-        let emailValuesinnr;
-        if (emailValues.length === 1 && emailValues[0] === "" && addNewContact == true) {
-            emailValuesinnr = this.state.emailValuesinnr;
-        } else {
-            emailValuesinnr = emailValues;
-        }
+        // let emailValues = this.props.emailValues;
+        // let emailValuesinnr;
+        // if (emailValues.length === 1 && emailValues[0] === "" && addNewContact == true) {
+        //     emailValuesinnr = this.state.emailValuesinnr;
+        // } else {
+        //     emailValuesinnr = emailValues;
+        // }
         for (var i = 0; i < numValuesinnr.length; i++ ) {
             if (this.props.form.getFieldsValue(['accountnumber' + i])['accountnumber'+i] == "") {
                 continue;
@@ -229,12 +185,12 @@ class NewContactsEdit extends Component {
             }
 
         }
-        for (var i = 0; i < emailValuesinnr.length; i++) {
-            if( emailstr != "" )
-                emailstr += ',';
-            emailstr += '{"type":"1","address":"' + this.props.form.getFieldsValue(['accountemail' + i])['accountemail'+i]
-            emailstr += '"}';
-        }
+        // for (var i = 0; i < emailValuesinnr.length; i++) {
+        //     if( emailstr != "" )
+        //         emailstr += ',';
+        //     emailstr += '{"type":"1","address":"' + this.props.form.getFieldsValue(['accountemail' + i])['accountemail'+i]
+        //     emailstr += '"}';
+        // }
         for (var i = 0; i < this.props.groups.length; i++) {
             if( groupstr != "" )
                 groupstr += ',';
@@ -246,7 +202,9 @@ class NewContactsEdit extends Component {
         if(addoredit == 'edit'){
             rawcontact = `{"contactid":"${this.props.editContact['Id']}"}`;
         }
-        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${lastname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[${emailstr}]}`;
+        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${displayname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[]}`;
+
+        // contactInfo: {"rawcontact":{},"structuredname":{"displayname":"asd"},"groupmembership":[],"phone":[{"type":"1","account":"0","number":"1233331"}],"email":[]}
         this.props.setContacts(infostr,()=>{
             this.props.updateContact()
         })
@@ -307,8 +265,9 @@ class NewContactsEdit extends Component {
         return (
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_ok")} cancelText={callTr("a_cancel")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
+
                     <FormItem label={(<span>{callTr("a_displayName")}</span>)}>
-                        {getFieldDecorator('lastname', {
+                        {getFieldDecorator('name', {
                             rules: [{
                                 required: true
                             }]
