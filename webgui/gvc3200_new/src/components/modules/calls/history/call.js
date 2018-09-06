@@ -237,11 +237,12 @@ class Call extends Component {
         console.log('onSelectItem',record)
         let key = record.key
         let id = record.row0.logItem.Id
+        let IsConf = record.row0.logItem.IsConf
         // let name = record.row0.row0;
         // let number = record.row0.row1;
         // let id = record.row0.row4;
         if (selected) {
-            self.selectedContactList.push({key: key, id: id});
+            self.selectedContactList.push({key: key, id: id,IsConf:IsConf});
         } else {
             for (let j = 0; j < self.selectedContactList.length; j++) {
                 if (self.selectedContactList[j].id == id) {
@@ -266,7 +267,7 @@ class Call extends Component {
         for (let i = 0; i < data.length; i++) {
             if(e.target.checked) {
                 selectedRowKeys.push(data[i].key)
-                selectedContactList.push({id:data[i].row0.logItem.Id})
+                selectedContactList.push({id:data[i].row0.logItem.Id,IsConf:data[i].row0.logItem.IsConf})
             }
         }
         this.selectedContactList = selectedContactList
@@ -277,36 +278,56 @@ class Call extends Component {
 
 
     handleOkDeleteAll = () => {
-        let selectedRowKeys = this.state.selectedRowKeys
         let datasource = this.selectedContactList
-        // let datasource = this.state.selectedRowKeys
-
-        console.log(datasource)
-
-        let seletedArr = [];
-
+        let seletedConfArr = [];
+        let seletedCallArr = [];
         for (let i = 0; i <datasource.length ; i++) {
-            seletedArr = seletedArr.concat(datasource[i].id)
-        }
-        var deleteId = seletedArr.join(',');
-        var flag = 2;
-        this.get_deleteCallConf(deleteId,(result) => {
-            if (result == 'success') {
-                this.props.get_calllog(0);
-                this.props.promptMsg('SUCCESS',"a_del_ok");
-                this._createData();
-                this.selectedContactList = [];
+            if(datasource[i].IsConf == '1') {
+                seletedConfArr = seletedConfArr.concat(datasource[i].id)
+            } else {
+                seletedCallArr = seletedCallArr.concat(datasource[i].id)
             }
+        }
+        let self = this
+        var delconf = new Promise(function(resolve, reject) {
+            let deleteId = seletedConfArr.join(',');
+            self.props.get_deleteCallConf(deleteId,(result) => {
+                if (result == 'success') {
+                    resolve('success')
+                } else {
+                    reject()
+                }
+            })
         })
+        var delcall = new Promise(function(resolve, reject) {
+            let deleteId = seletedCallArr.join(',');
+            let flag = 2;
+            self.props.get_deleteCall(deleteId,flag, (result) => {
+                if (result == 'success') {
+                    resolve('success')
+                } else {
+                    reject()
+                }
+            });
+        })
+        var promiseAll
+        if(seletedConfArr.length > 0 && seletedCallArr.length > 0) {
+            promiseAll = Promise.all([delconf,delcall])
+        } else if (seletedConfArr.length > 0) {
+            promiseAll = Promise.all([delconf])
+        } else {
+            promiseAll = Promise.all([delcall])
+        }
 
-        // this.props.get_deleteCall(deleteId,flag, (result) => {
-        //     if (result == 'success') {
-        //         this.props.get_calllog(0);
-        //         this.props.promptMsg('SUCCESS',"a_del_ok");
-        //         this._createData();
-        //         this.selectedContactList = [];
-        //     }
-        // });
+        promiseAll.then(function (res) {
+            self.props.get_calllog(0);
+            setTimeout(function () {
+                self.props.promptMsg('SUCCESS', "a_del_ok");
+                self._createData();
+            }, 500);
+            self.selectedContactList = [];
+        })                 
+
         this.setState({
             selectedRowKeys: [],
             displayDelHistCallsModal: false
@@ -337,7 +358,6 @@ class Call extends Component {
 
 
     handleAddContact = (event,text) => {
-        console.log('e',event,'text',text)
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
@@ -356,7 +376,6 @@ class Call extends Component {
     }
 
     handleCall = (event,text, index) => {
-        console.log('e',event,'text',text)
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
@@ -644,7 +663,6 @@ class Call extends Component {
         // const confmember = this.props.confmemberinfodata
         const {getFieldDecorator} = this.props.form;
         // console.log('contactsInformation',contactsInformation)
-
         const columns = [{
             title: callTr("a_name"),
             key: 'row0',

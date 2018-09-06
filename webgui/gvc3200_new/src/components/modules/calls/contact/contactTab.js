@@ -45,6 +45,7 @@ class ContactTab extends Component {
     }
 
     componentDidMount = () => {
+        console.log('componentDidMount')
         this.updateContact();
     }
 
@@ -64,6 +65,7 @@ class ContactTab extends Component {
         if($.isArray(nextProps.contactsInformation)
             && $.isArray(nextProps.contactsInformation)
             && this.props.contactsInformation.length !== nextProps.contactsInformation.length) {
+            console.log('componentWillReceiveProps')
             this.updateContact();
             this._createData();
         }
@@ -75,6 +77,7 @@ class ContactTab extends Component {
         this.props.getContacts((items)=>{this.setState({items:items})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
         this.props.getContactsinfo();
+        console.log('updateContact')
         if(!this.isEmptyObject(this.props.acctStatus)){
             this.setState({
                 existActiveAccount: this.checkActiveAcct(this.props.acctStatus)
@@ -339,7 +342,8 @@ class ContactTab extends Component {
             return;
         }
         if (!$.isArray(this.props.contactinfodata)) {
-            this.props.getContactsinfo();
+            // this.props.getContactsinfo();
+            return;
         }
         let contactsInformation  = this.props.contactsInformation;
         let groupInformation = this.props.groupInformation;
