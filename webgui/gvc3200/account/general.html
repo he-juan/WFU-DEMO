@@ -84,7 +84,7 @@
                 <div class="rebootitem"><span id="a_authpwd">SIP Authentication Password</span> :</div>
                 <input id="authpwd" name="sauthpwdserver" type="password" autocomplete="off" />
             </div>
-            <div webtip="Voice Mail Access Number" class="serverside">
+            <div webtip="Voice Mail Access Number" class="serverside h323mode">
                 <div class="noreboot"><span id="a_voicemailuid">Voice Mail Access Number</span> :</div>
                 <input id="vmuserid" name="vmuserid" type="text" />
             </div>
@@ -442,7 +442,8 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("sipserver", "25033", ""),
 				new ReqItem("userid", "25034", ""),
 				new ReqItem("authid", "25035", ""),
-				new ReqItem("authpwd", "25036", "")
+				new ReqItem("authpwd", "25036", ""),
+                new ReqItem("vmuserid", "626", "")
 				//new ReqItem("accountacctive", "601", ""),
 				//new ReqItem("accountname", "617", ""),
 				
