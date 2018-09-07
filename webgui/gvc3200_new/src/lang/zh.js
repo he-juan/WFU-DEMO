@@ -1877,7 +1877,8 @@ var turnoff_led_zh = "关闭LED";
 
 /******************** Call *******************/
 var a_calls_zh = "通话";
-var a_dialup_zh = "呼叫";
+var a_dialup_zh = "拨打";
+var a_acctunregistered_zh = "帐号未注册";
 var call_history_zh = "通话记录";
 var call_historycontact_zh = "通话记录, 通讯录";
 var meeting_schedule_zh = "会议预约";

@@ -4110,7 +4110,7 @@ table thead tr th{
 }
 
 .call-inputnum-formitem{
-    width: 310px;
+    width: 800px;
     float: left;
     margin-bottom: 0;
 }
@@ -4143,8 +4143,8 @@ table thead tr th{
 
 .dial-up-bottom{
     width: 100%;
-    height: 92%;
-    margin-top: 10px;
+    height: 85%;
+    margin-top: 80px;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 5px;
@@ -4229,7 +4229,7 @@ table thead tr th{
     margin: 10px 8px 0 0;
 }
 
-.call-area .item-type1{
+.call-area .item-type1,.call-area .item-type-1{
     background: url(../img/icon.png) -459px -25px no-repeat;
     float: left;
     margin: 15px 12px 0 4px;
@@ -5929,3 +5929,117 @@ table thead tr th{
 }
 .confModal table{border: none}
 .confbox button{z-index: 100}
+
+.dialdiv{  width: 800px;  height: 89px;  margin: 0; }
+.mf_container{
+    border: 1px solid #A5A8A6;border-radius:4px;cursor: text;display: inline-block; height: 89px;width: 800px;overflow:auto;
+}
+#inputnum{  width: 14px;  outline: none;  border: none;
+}
+/*** Manifest ***/
+/* Manifest container that wraps the elements and now acts as, and should be styled as, the input. */
+div.mf_container {border: 1px solid #A5A8A6;border-radius:4px;cursor: text;display: inline-block; height: 89px;width: 800px;overflow:auto;}
+
+/* Ordered list for displaying selected items. */
+div.mf_container ol.mf_list {display: inline;list-style: none;}
+
+/* Selected item, regardless of state (highlighted, selected). */
+div.mf_container ol.mf_list li.mf_item {background:#E4E5E5;cursor: pointer;display: inline-block;margin: 6px 0 0 6px;height:23px;line-height:23px;border-radius:20px;padding:0px 8px;color:#fff;*float:left;}
+div.mf_container ol.mf_list li.mf_item_0 {background:#AEE0FE;}
+div.mf_container ol.mf_list li.mf_item_0_unreg {background:#B4B3B3;}
+div.mf_container ol.mf_list li.mf_item_1 {background:#69B2FE;}
+div.mf_container ol.mf_list li.mf_item_2 {background:#0A65DF;}
+div.mf_container ol.mf_list li.mf_item_8 {background:#014298;}
+div.mf_container ol.mf_list li.mfred_item{color: red;}
+/* Selected item that's highlighted by mouseover. */
+div.mf_container ol.mf_list li.mf_item.mf_highlighted {background-color: #C5C6C6;}
+div.mf_container ol.mf_list li.mf_item.mf_selected { background-color:#1D6EA8; color: #FFFFFF; }
+div.mf_container ol.mf_list li.mf_item_0.mf_highlighted, div.mf_container ol.mf_list li.mf_item_0.mf_selected {background-color: #88C1E5;}
+div.mf_container ol.mf_list li.mf_item_0_unreg.mf_highlighted, div.mf_container ol.mf_list li.mf_item_0_unreg.mf_selected {background:#B4B3B3;}
+div.mf_container ol.mf_list li.mf_item_1.mf_highlighted, div.mf_container ol.mf_list li.mf_item_1.mf_selected {background-color: #4F94DC;}
+div.mf_container ol.mf_list li.mf_item_2.mf_highlighted, div.mf_container ol.mf_list li.mf_item_2.mf_selected {background-color: #0553BC;}
+div.mf_container ol.mf_list li.mf_item_8.mf_highlighted, div.mf_container ol.mf_list li.mf_item_8.mf_selected {background-color: #003375;}
+
+/* Selected item that's selected by click or keyboard. */
+
+/* Remove link. */
+div.mf_container ol.mf_list li.mf_item a.mf_remove {color: #FFFFFF;margin-left: 10px;text-decoration: none; }
+
+/* Remove link that's highlighted. */
+div.mf_container ol.mf_list li.mf_item.mf_highlighted a.mf_remove { color: #E32834; }
+
+/* Remove link that's selected. */
+div.mf_container ol.mf_list li.mf_item.mf_selected a.mf_remove { color: #E32834; }
+
+/* Actual input, styled to be invisible within the container. */
+div.mf_container input.mf_input {border: 0;font: inherit;font-size: 100%;margin: 2px;outline: none;padding: 2px; height: 22px;}
+
+/*** Marco Polo ***/
+
+/* Ordered list for display results. */
+ol.mp_list {background-color: #FFFFFF;border-left: 1px solid #C0C0C0;border-right: 1px solid #C0C0C0;overflow: hidden;position: absolute;width: 498px;z-index: 99999;}
+
+/* Each list item, regardless of success, error, etc. */
+ol.mp_list li { border-bottom: 1px solid #C0C0C0;padding: 4px 4px 5px 9px; }
+
+/* Each list item from a successful request. */
+ol.mp_list li.mp_item {}
+
+/* Each list item that's selectable. */
+ol.mp_list li.mp_selectable {cursor: pointer;}
+
+/* Currently highlighted list item. */
+ol.mp_list li.mp_highlighted { background-color: #E0E0E0;}
+
+/* When a request is made that returns zero results. */
+ol.mp_list li.mp_no_results {}
+
+/* When a request is made that doesn't meet the 'minChars' length option. */
+ol.mp_list li.mp_min_chars {}
+
+/* When a request is made that fails during the ajax request. */
+ol.mp_list li.mp_error {}
+
+.acctselbox{
+    width: 800px;
+    height: 33px;
+    /*margin-bottom: 10px;*/
+    padding-left: 8px;
+}
+.dial-up-top .account-info{
+    position: absolute;
+    background-color: #E4E4E4;
+    z-index: 1;
+}
+.dial-up-top .account-info ol{
+    width: 800px;
+    border: 1px solid #A5A8A6;
+    border-radius: 4px;
+}
+.dial-up-top .account-item{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #A5A8A6;
+    padding-left: 8px;
+}
+
+.dial-up-top .account-info .acct-item-num{
+
+}
+
+.dial-up-top .account-info .acct-item-name{
+    display: inline-block;
+    width: 300px;
+}
+.acct-item-disable{
+    color : #797979;
+    cursor: not-allowed;
+}
+.dial-up-top .account-info ol li:last-child{
+    border-bottom: none;
+}
+
+.dial-up-top .acct_status{
+    float:right;
+    margin-right: 50px;
+}

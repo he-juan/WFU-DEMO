@@ -1874,6 +1874,7 @@ var turnoff_led_en = "Turn Off LED";
 /******************** Call *******************/
 var a_calls_en = "Calls";
 var a_dialup_en = "Call";
+var a_acctunregistered_en = "Account is not registered";
 var call_history_en = "Call History";
 var call_historycontact_en = "Call History, Contacts";
 var meeting_schedule_en = "Schedule";

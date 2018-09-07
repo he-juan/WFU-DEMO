@@ -1,6 +1,7 @@
 {
     "menu": [
         {"name": "calls", "lang": "a_calls", "icon": "", "acl": "0","sub": [
+            {"name": "dialup", "lang": "a_dialup", "acl": "0"},
             {"name": "contact", "lang": "a_contact", "acl": "0"},
             {"name": "schedule", "lang": "meeting_schedule", "acl": "0"},
             {"name": "history", "lang": "call_history", "acl": "0"}

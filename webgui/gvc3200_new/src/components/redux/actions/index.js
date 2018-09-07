@@ -2444,6 +2444,7 @@ export const getAllConfMember = (callback) => (dispatch) => {
         let msgs = JSON.parse(data);
         let confmemberinfodata = msgs['Data'];
         dispatch({type: 'REQUEST_GET_CONFMEMBERINFO', confmemberinfodata: confmemberinfodata});
+        callback(confmemberinfodata);
     }).catch(function(error) {
         promptForRequestFailed();
     });
