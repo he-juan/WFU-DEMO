@@ -15,7 +15,7 @@ class CallForm extends React.Component {
     handlePvalue = () => {
         req_items = [];
         req_items.push(
-            this.getReqItem("autoanswer", "51525", "")
+            this.getReqItem("autoansidle", "425", "")
         );
         return req_items;
     }
@@ -56,11 +56,11 @@ class CallForm extends React.Component {
 
         let itemList =
            <Form>
-               <FormItem className = "select-item"　 label={(<span>{callTr("a_autoans")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                   {getFieldDecorator('autoanswer', {
-                        initialValue: this.props.itemValues['autoanswer'] ? this.props.itemValues['autoanswer'] : "0"
+               <FormItem className = "select-item"　 label={(<span>{callTr("a_autoansidle")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                   {getFieldDecorator('autoansidle', {
+                        initialValue: this.props.itemValues['autoansidle'] ? this.props.itemValues['autoansidle'] : "0"
                         })(
-                            <Select className={"P-51525"}>
+                            <Select className={"P-425"}>
                                 <Option value="0">{callTr("a_no")}</Option>
                                 <Option value="1">{callTr("a_yes")}</Option>
                             </Select>

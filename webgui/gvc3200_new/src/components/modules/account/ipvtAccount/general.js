@@ -15,10 +15,10 @@ class GeneralForm extends React.Component {
     handlePvalue = () => {
         req_items = [];
         req_items.push(
-            this.getReqItem("accountactive", "51501", ""),
-            this.getReqItem("name", "51507", ""),
-            this.getReqItem("siptranport", "51548", ""),
-            this.getReqItem("accountname", "51517", "")
+            this.getReqItem("accountactive", "401", ""),
+            this.getReqItem("name", "407", ""),
+            this.getReqItem("siptranport", "448", ""),
+            this.getReqItem("enableiptalkpro", "7059", "")
         );
         return req_items;
     }
@@ -45,7 +45,6 @@ class GeneralForm extends React.Component {
     handleSubmit = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
-              values['accountname'] = "IPVideoTalk"
               this.props.setItemValues(req_items, values,1);
           }
         });
@@ -60,35 +59,42 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form>
-               <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem style={{display:'none'}} label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
-                    })(<Checkbox className={"P-51501"}/>)
+                    })(<Checkbox className={"P-7059"}/>)
+                    }
+               </FormItem>
+               <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                   {getFieldDecorator('enableiptalkpro', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(this.props.itemValues['enableiptalkpro'])
+                    })(<Checkbox className={"P-7059"}/>)
                     }
                </FormItem>
 
-               <FormItem label={(<span>{callTr("a_name")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_alias")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('name', {
                        rules: [{
                           max:64,message: callTr("max_length64"),
                        }],
                        initialValue: this.props.itemValues['name']
                        })(
-                       <Input type="text" className={"P-51507"}/>
+                       <Input type="text" className={"P-407"}/>
                    )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_curplans")}&nbsp;<Tooltip title={this.tips_tr("Current plans")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               {/* <FormItem label={(<span>{callTr("a_curplans")}&nbsp;<Tooltip title={this.tips_tr("Current plans")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('curpackage', {
                        })(
                            <span id = "curpackagehtml">IPVideoTalk Pro<a href="http://www.ipvideotalk.com/pricing.html" id="viewpackage" target="_blank" style={{marginLeft:'20px'}}>{callTr("a_detail")}</a></span>
                    )}
-               </FormItem>
+               </FormItem> */}
                <FormItem className = "select-item"　 label={(<span>{callTr("a_siptranport")}&nbsp;<Tooltip title={this.tips_tr("SIP Transport ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('siptranport', {
                         initialValue: Number(this.props.itemValues['siptranport']) ? this.props.itemValues['siptranport'] : "1"
                         })(
-                            <Select className={"P-51548"}>
+                            <Select className={"P-448"}>
                                 <Option value="1">TCP</Option>
                                 <Option value="2">TLS</Option>
                             </Select>

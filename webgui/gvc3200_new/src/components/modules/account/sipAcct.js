@@ -118,9 +118,9 @@ class SlidingTabsDemo extends React.Component {
               <TabPane tab={callTr("account_call")} key={4}>
                   <AccountCallForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("advanced_menu")} key={5}>
+              {/* <TabPane tab={callTr("advanced_menu")} key={5}>
                   <AccountAdvancedForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
-              </TabPane>
+              </TabPane> */}
           </Tabs>
 
       for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {

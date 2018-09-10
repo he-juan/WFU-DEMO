@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Enhance from "../../mixins/Enhance";
 import GeneralForm from "./ipvtAccount/general";
 import CallForm from "./ipvtAccount/call";
+import CodecFrom from "./ipvtAccount/codec"
 import {Layout, Tabs, Form} from "antd";
 import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
@@ -12,6 +13,7 @@ const TabPane = Tabs.TabPane;
 
 const IpvtGeneralForm = Form.create()(GeneralForm);
 const IpvtSipForm = Form.create()(CallForm);
+const IpvtCodecFrom = Form.create()(CodecFrom);
 
 class SlidingTabsDemo extends Component {
     constructor(props){
@@ -50,7 +52,10 @@ class SlidingTabsDemo extends Component {
                     <TabPane tab={this.props.callTr("account_general")} key={0}>
                         <IpvtGeneralForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr} hideItem={hideItem} tabOrder="" />
                     </TabPane>
-                    <TabPane tab={this.props.callTr("account_call")} key={1}>
+                    <TabPane tab={this.props.callTr("account_codec")} key={1}>
+                        <IpvtCodecFrom {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr}  hideItem={hideItem} tabOrder="" />
+                    </TabPane>
+                    <TabPane tab={this.props.callTr("account_call")} key={2}>
                         <IpvtSipForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr}  hideItem={hideItem} tabOrder="" />
                     </TabPane>
                 </Tabs>

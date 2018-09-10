@@ -42,7 +42,7 @@ const nvram = {
      * 视频
      */
     'P295': "295",
-    'P297': "1307",
+    'P296': "296",
     'enablerfc': "1331",        // 支持RFC5168
     'enablertx' : "26085",     // 丢包重传
     'enablefec': "2393",       // 开启视频前向纠错
@@ -152,7 +152,7 @@ class CodecForm extends React.Component {
             this.getReqItem("useh264profile", nvram["useh264profile"], ""),
             this.getReqItem("initialinvite", nvram["initialinvite"], ""),
             this.getReqItem("P295", nvram["P295"], ""),
-            this.getReqItem("P297", nvram["P297"], ""),
+            this.getReqItem("P296", nvram["P296"], ""),
             this.getReqItem("enablertx", nvram["enablertx"], ""),
             this.getReqItem("h265payload", nvram["h265payload"], ""),
 
@@ -232,30 +232,23 @@ class CodecForm extends React.Component {
 
     getVideoData = (itemValues) => {
         const VideoTargetKeys = [];
-        const VideoData = [];
-        let itemVal = itemValues;
-        //const ops = ["H263","H264","VP8"];
-        //const values = ['34','99','100'];
-        //const keys = ['P296','P295',"P8"];
-        const ops = ["H264", "H265"];
-        const values = ['99', "114"];
-        const keys = ['P295', "P297"];
-        //let set = new Set([itemVal['P295'],itemVal['P296'],itemVal['P8']])
-        let set = new Set([itemVal['P295'], itemVal['P297']])
-        for (let i = 0, j = [...set].length; i < keys.length; i++) {
-            let chosenIdx = values.indexOf([...set][i])
-            const data = {
-                key: i.toString(),
-                description: ops[i],
-                chosen: j--
-            };
-            j = j <= 0 ? j = 0 : j;
-            if (data.chosen && [...set][i] != "") {
-                VideoTargetKeys.push(`${chosenIdx}`);
-
+        let values = itemValues;
+        const VideoData = [
+            {
+                key: '99',
+                title: 'H264'
+            },
+            {
+                key: '114',
+                title: 'H265'
             }
-            VideoData.push(data);
-        }
+        ];
+        const keys = ['P295', "P296"];
+        keys.forEach((item, i) => {
+            if(values[item] != '') {
+                VideoTargetKeys.push(values[item])
+            }
+        })
         this.setState({ VideoData, VideoTargetKeys });
     }
 
@@ -292,17 +285,11 @@ class CodecForm extends React.Component {
 
     saveVideo = () => {
         let video = this.state.VideoTargetKeys;
-        //let keys = ['P296','P295','P8'];
-        //let values = ['34','99','100'];
-        let keys = ['P295','P297'];
-        let values = ['99', '114'];
-        for (var i = 0, videoObj = {}; i < video.length; i++) {
-            let videokey = Number(video[i]);
-            videoObj[keys[i]] = values[videokey];
-        }
-        for (var i = video.length; i < keys.length; i++) {
-            videoObj[keys[i]] = '';
-        }
+        let keys = ['P295','P296'];
+        let videoObj = {};
+        keys.forEach((item, i) => {
+            videoObj[item] = video[i] ? video[i] : ''
+        })
         console.log(videoObj)
         return videoObj;
     }
@@ -741,7 +728,7 @@ class CodecForm extends React.Component {
                 </FormItem>
                 {/* 视频编码 */}
                 <FormItem label={(<span>{callTr("a_prevcoder")}&nbsp;<Tooltip title={this.tips_tr("Preferred Video Coder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                    <Transfer dataSource={this.state.VideoData} sorter={true} titles={[callTr("a_notallowed"), callTr("a_allowed")]} listStyle={{ width: 135, height: 206, }} targetKeys={this.state.VideoTargetKeys} onChange={this.handleVideoChange} render={this.renderItem} />
+                    <Transfer dataSource={this.state.VideoData} sorter={true} titles={[callTr("a_notallowed"), callTr("a_allowed")]} listStyle={{ width: 135, height: 206, }} targetKeys={this.state.VideoTargetKeys} onChange={this.handleVideoChange} render={item => item.title} />
                 </FormItem>
                 {/* H.264 视频大小 */}
                 <FormItem className="select-item" label={(<span>{callTr("a_16118")}&nbsp;<Tooltip title={this.tips_tr("H.264 Image Size ")}><Icon type="question-circle-o" /></Tooltip></span>)}>

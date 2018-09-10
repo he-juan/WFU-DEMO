@@ -101,6 +101,7 @@ export const options = [
                 {"name": "Support SIP Instance ID", "lang": "a_suptsipintid"},
                 {"name": "Validate Incoming SIP Messages", "lang": "a_validincommsg"},
                 {"name": "Check SIP User ID for Incoming INVITE", "lang": "a_checkinvite"},
+                {"name": "Authenticate Incoming INVITE", "lang": "a_authinvite"},
                 {"name": "SIP realm used for challenge INVITE & NOTIFY", "lang": "a_challenge"},
                 {"name": "Only Accept SIP Requests from Known Servers", "lang": "a_accpsip"},
                 {"name": "SIP T1 Timeout", "lang": "a_sipt1to"},
@@ -224,10 +225,11 @@ export const options = [
                 {"name": "Video Jitter Buffer Maximum (ms)", "lang": "a_videojittermax"},
                 {"name": "Use H.264 Constrained Profiles", "lang": "a_useh264profile"},
                 {"name": "Disable Presentation", "lang": "a_disablepres"},
+                {"name": "Initial INVITE with Media Info", "lang": "a_initialinvite"},                
                 {"name": "Presentation H.264 Image Size", "lang": "a_presentimagesize"},
                 {"name": "Presentation H.264 Profile", "lang": "a_presentprofile"},
                 {"name": "Presentation Video Bit Rate(Kbps)", "lang": "a_presentvideobitrate"},
-                {"name": "Presentation Video Frame Rate", "lang": "a_presentvideoframebate"}
+                {"name": "Presentation Video Frame Rate", "lang": "a_presentvideoframebate"},
             ]},
             {"name": "call", "lang": "advanced_call", "sub": [
                 {"name": "Call Log", "lang": "a_calllog", "acl": "1"},
