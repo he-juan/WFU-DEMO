@@ -26,3 +26,28 @@ export const pageStatus = (state = {}, action) => {
             return state
     }
 }
+
+/**
+ * 监控 敲击回车键 触发表单提交
+ */
+export const enterSave = (state={}, action) => {
+    switch (action.type) {
+        case Actions.ENTER_SAVING:
+            return action.enterSave
+        default:
+            return state
+    }
+}
+
+/**
+ * 返回表单初始数据
+ */
+export const itemValues = (state={}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_ITEM_VALUE:
+            return action.itemValues
+        default:
+            return state
+    }
+}
+

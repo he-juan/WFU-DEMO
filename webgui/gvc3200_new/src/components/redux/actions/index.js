@@ -331,6 +331,9 @@ export const applyValue = (applyfunc, callback) => (dispatch) => {
     });
 }
 
+/**
+ * 将配置 存cookie 或 应用
+ */
 const getApplyResponse = (dispatch, applyfunc) => {
     let request = 'action=applypvaluersps';
 
@@ -395,39 +398,39 @@ const saveOrRunApplyFunInCookie = (type,urihead) => {
 
 }
 
-export const cb_set_autoanswer = ( i ,autoanswer ) => (dispatch) => {
-    var urihead = "action=autoanswer&acct=" + i + "&value=" + autoanswer;
-    urihead += "&time=" + new Date().getTime();
-    saveOrRunApplyFunInCookie('save',urihead)
-}
+// export const cb_set_autoanswer = ( i ,autoanswer ) => (dispatch) => {
+//     var urihead = "action=autoanswer&acct=" + i + "&value=" + autoanswer;
+//     urihead += "&time=" + new Date().getTime();
+//     saveOrRunApplyFunInCookie('save',urihead)
+// }
 
-export const cb_updateautoanswerstatus = (i) => (dispatch) => {
-    var urihead = "action=updateautoanswerstatus&acct=" + i;
-    urihead += "&time=" + new Date().getTime();
-    saveOrRunApplyFunInCookie('save',urihead)
-}
+// export const cb_updateautoanswerstatus = (i) => (dispatch) => {
+//     var urihead = "action=updateautoanswerstatus&acct=" + i;
+//     urihead += "&time=" + new Date().getTime();
+//     saveOrRunApplyFunInCookie('save',urihead)
+// }
 
-export const cb_set_callforward = ( i, type ,isbusyto, number1, isnoanswerto, number2, noanswerlimit, isdndto, number3 ) => (dispatch) => {
-    //autoTo number
-    //TimeRurl time1, time2, number1, number2
-    //Other isbusyto, number1, isnoanswerto, number2, noanswerlimit, isdndto, number3
-    var urihead = "action=callforward&acct=" + i + "&type=" + type;
-    switch (type) {
-        case 'allTo':
-            urihead += "&number="+isbusyto
-            break;
-        case 'TimeRule':
-            urihead += "&time1="+encodeURI(isbusyto)+"&time2="+encodeURI(number1)+"&number1="+isnoanswerto+"&number2="+number2
-            break;
-        case 'WorkRule':
-            urihead += "&isbusyto="+isbusyto+"&number1="+number1+"&isnoanswerto="+isnoanswerto+"&number2="+number2+"&noanswerlimit="+noanswerlimit+"&isdndto="+isdndto+"&number3="+number3
-            break;
-        default:
-            break;
-    }
-    urihead += "&time=" + new Date().getTime();
-    saveOrRunApplyFunInCookie('save',urihead);
-}
+// export const cb_set_callforward = ( i, type ,isbusyto, number1, isnoanswerto, number2, noanswerlimit, isdndto, number3 ) => (dispatch) => {
+//     //autoTo number
+//     //TimeRurl time1, time2, number1, number2
+//     //Other isbusyto, number1, isnoanswerto, number2, noanswerlimit, isdndto, number3
+//     var urihead = "action=callforward&acct=" + i + "&type=" + type;
+//     switch (type) {
+//         case 'allTo':
+//             urihead += "&number="+isbusyto
+//             break;
+//         case 'TimeRule':
+//             urihead += "&time1="+encodeURI(isbusyto)+"&time2="+encodeURI(number1)+"&number1="+isnoanswerto+"&number2="+number2
+//             break;
+//         case 'WorkRule':
+//             urihead += "&isbusyto="+isbusyto+"&number1="+number1+"&isnoanswerto="+isnoanswerto+"&number2="+number2+"&noanswerlimit="+noanswerlimit+"&isdndto="+isdndto+"&number3="+number3
+//             break;
+//         default:
+//             break;
+//     }
+//     urihead += "&time=" + new Date().getTime();
+//     saveOrRunApplyFunInCookie('save',urihead);
+// }
 
 export const getNvrams = (nvrams, callback) => (dispatch) => {
     let request = "action=get"
@@ -575,7 +578,7 @@ export const cb_audio_upload = (fileext,acctIndex,callback) => (dispatch) => {
 }
 
 export const getTonelist = (tonelist,callback) => (dispatch) => {
-    let request = 'action='+tonelist;
+    let request = 'region=account&action='+tonelist;
 
     actionUtil.handleGetRequest(request).then(function(data) {
         callback(data);
@@ -585,8 +588,8 @@ export const getTonelist = (tonelist,callback) => (dispatch) => {
 }
 
 export const getTonelistAll = (callback) => (dispatch) => {
-    let request = 'action=tonelist';
-    let request2 = 'action=customtone';
+    let request = 'action=tonelist&region=account';
+    let request2 = 'action=customtone&region=account';
     Promise.all([
         actionUtil.handleGetRequest(request),
         actionUtil.handleGetRequest(request2)])

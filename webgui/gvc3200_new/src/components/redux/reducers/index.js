@@ -258,14 +258,14 @@ const mainHeight = (state={}, action) => {
     }
 }
 
-const enterSave = (state={}, action) => {
-    switch (action.type) {
-        case Actions.ENTER_SAVING:
-            return action.enterSave
-        default:
-            return state
-    }
-}
+// const enterSave = (state={}, action) => {
+//     switch (action.type) {
+//         case Actions.ENTER_SAVING:
+//             return action.enterSave
+//         default:
+//             return state
+//     }
+// }
 
 const curAccount = (state = '0', action) => {
     switch (action.type) {
@@ -276,14 +276,14 @@ const curAccount = (state = '0', action) => {
     }
 }
 
-const itemValues = (state={}, action) => {
-    switch (action.type) {
-        case Actions.REQUEST_GET_ITEM_VALUE:
-            return action.itemValues
-        default:
-            return state
-    }
-}
+// const itemValues = (state={}, action) => {
+//     switch (action.type) {
+//         case Actions.REQUEST_GET_ITEM_VALUE:
+//             return action.itemValues
+//         default:
+//             return state
+//     }
+// }
 
 const ipvtExist = (state={}, action) => {
     switch (action.type) {
@@ -728,9 +728,9 @@ const rootReducer = combineReducers({
     heldStatus,
     applyButtonStatus,
     mainHeight,
-    enterSave,
+    // enterSave,
     curAccount,
-    itemValues,
+    // itemValues,
     acctStatus,
     networkStatus,
     systemUptime,
