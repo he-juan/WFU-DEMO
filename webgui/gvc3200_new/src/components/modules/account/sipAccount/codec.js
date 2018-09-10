@@ -733,16 +733,15 @@ class CodecForm extends React.Component {
                 {/* H.264 视频大小 */}
                 <FormItem className="select-item" label={(<span>{callTr("a_16118")}&nbsp;<Tooltip title={this.tips_tr("H.264 Image Size ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('imgsize', {
-                        initialValue: this.props.itemValues['imgsize'] ? this.props.itemValues['imgsize'] : "5"
+                        initialValue: this.props.itemValues['imgsize'] ? this.props.itemValues['imgsize'] : "10"
                     })(
-                        <Select onChange={this.handleImgsize.bind(this)} className={"P-" + nvram["imgsize"]}>
-                            <Option value="10" className={product == 'GXV3380' ? "display-block" : "display-hidden"}>1080P</Option>
+                        <Select className={"P-" + nvram["imgsize"]}>
+                            <Option value="11">4K</Option>
+                            <Option value="10">1080P</Option>
                             <Option value="9">720P</Option>
                             <Option value="4">4CIF</Option>
+                            <Option value="7">4SIF</Option>
                             <Option value="1">VGA</Option>
-                            <Option value="5">CIF</Option>
-                            <Option value="0">QVGA</Option>
-                            <Option value="6">QCIF</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -807,7 +806,7 @@ class CodecForm extends React.Component {
                     {getFieldDecorator('packetmodel', {
                         initialValue: this.props.itemValues['packetmodel']
                     })(
-                        <Select onChange={this.handlePacketModel.bind(this)} className={"P-" + nvram["packetmodel"]}>
+                        <Select className={"P-" + nvram["packetmodel"]}>
                             <Option value="0">0</Option>
                             <Option value="1">1</Option>
                             <Option value="2">{callTr('a_auto')}</Option>
