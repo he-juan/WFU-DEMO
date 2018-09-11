@@ -18,6 +18,12 @@ const BlueJeansAcct = (location, cb) => {
         cb(null, require('./modules/account/blueJeansAcct').default);
     }, 'status');
 }
+
+const H323Acct = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/account/h323Acct').default)
+    }, 'status')
+}
 const Account  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/status/account').default);
@@ -336,6 +342,7 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="sipAcct" getComponent={SipAcct}/>
                 <Route onEnter={ requireAuth } path="ipvtAcct" getComponent={IpvtAcct}/>
                 <Route onEnter={ requireAuth } path="BlueJeansAcct" getComponent={BlueJeansAcct}/>
+                <Route onEnter={ requireAuth } path="H323Acct" getComponent={H323Acct}/>
             </Route>
             <Route path="calls" >
                 <IndexRoute getComponent={ DialUp } />

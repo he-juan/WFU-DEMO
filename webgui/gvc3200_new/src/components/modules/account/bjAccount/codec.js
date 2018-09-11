@@ -80,7 +80,7 @@ class CodecForm extends React.Component {
             this.getReqItem("useh264profile", "26245", ""),　// 使用H.264 Constrained Profiles
 
             /**
-             * 掩饰设置
+             * 演示设置
              */
             this.getReqItem("disablepresent", "26201", ""),
             this.getReqItem("initialinvite", "sendPreMode_2", ""),
