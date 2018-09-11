@@ -401,13 +401,23 @@ function showincominglist(iscall,data)
             var acct = $(this).parent().parent().attr("acct");
             if(isvideo == 1)
             {
-                //one checked line is video call
-                $("#videoaccept,#audioaccept").show();
+                if(acct == "1"){  //IPVT call
+                    $("#videoaccept").show();
+                    $("#audioaccept").hide();   //  9.11  hide audio accept
+                }else{
+                    //one checked line is video call
+                    $("#videoaccept,#audioaccept").show();
+                }
             }
             else
             {
-                $("#audioaccept").show();
-                $("#videoaccept").hide();
+                if(acct == "1"){
+                    $("#audioaccept").hide();
+                    $("#videoaccept").show();
+                }else{
+                    $("#audioaccept").show();
+                    $("#videoaccept").hide();
+                }
             }
             if(acct == "8")
             {
@@ -424,13 +434,17 @@ function showincominglist(iscall,data)
         $("#incominglist .inputcbx").show();
         $("#incominglist .inputcbx")[0].setAttribute("checked",true);
     }
-        
 
     if(data.msg == "1" && data.state == "2")
     {
         //video call
         data.isvideo = "1";
-        $("#videoaccept,#audioaccept").show();
+        if(data.acct == "1"){
+            $("#videoaccept").show();
+            $("#audioaccept").hide();   //  9.11  hide audio accept
+        }else{
+            $("#videoaccept,#audioaccept").show();
+        }
     }
     else if(data.msg == "0" && data.state == "2")
     {
