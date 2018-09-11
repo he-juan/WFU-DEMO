@@ -86,6 +86,7 @@ class CodecForm extends React.Component {
         this.handlePvalue();
         
         this.state = {
+            vbrateAvailable: [],
             VocoderData: [],
             VocoderTargetKeys: [],
             VideoDate: [],
@@ -93,6 +94,16 @@ class CodecForm extends React.Component {
             beforeImgsize: "",
             beforePacketModel: "",
             disablePresentStatus: false
+        }
+
+        // 视频大小对应的视频比特率
+        this.imgsizeToVbrate = {
+            '11' : ['1024','1280','1536','1792','2048','2560','3072','3584','4096', '4608', '5120', '5632', '6144', '6656', '7168', '7680', '8192'],
+            '10': ['1024','1280','1536','1792','2048','2560','3072','3584','4096'],
+            '9' : ['512', '640', '768', '896', '1024', '1280', '1536', '1792', '2048'],
+            '4' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
+            '7' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
+            '1' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
         }
     }
 
@@ -167,6 +178,7 @@ class CodecForm extends React.Component {
     componentDidMount = () => {
         this.props.getItemValues(this.handlePvalue(), (values) => {
             this.setCodecTransfer(values);
+            this.setVbrateOptions(values['imgsize']);
             this.setState({
                 beforeImgsize: values['imgsize'],
                 beforePacketModel: values['packetmodel'],
@@ -185,6 +197,7 @@ class CodecForm extends React.Component {
             if (this.props.activeKey != nextProps.activeKey) {
                 this.props.getItemValues(this.handlePvalue(), (values) => {
                     this.setCodecTransfer(values);
+                    this.setVbrateOptions(values['imgsize']);
                 });
                 this.props.form.resetFields();
             }
@@ -307,42 +320,58 @@ class CodecForm extends React.Component {
         };
     }
 
-    handlePacketModel = (value) => {
-        let imgsize = this.props.form.getFieldValue('imgsize');
-        this.checkPacketModelAndImgsize(value, imgsize);
+    // handlePacketModel = (value) => {
+    //     let imgsize = this.props.form.getFieldValue('imgsize');
+    //     this.checkPacketModelAndImgsize(value, imgsize);
 
+    // }
+
+    // handleImgsize = (value) => {
+    //     let packetmodel = this.props.form.getFieldValue('packetmodel');
+    //     this.checkPacketModelAndImgsize(packetmodel, value);
+    // }
+
+    // checkPacketModelAndImgsize = (packetmodel, imgsize) => {
+    //     if (packetmodel == 0 && (imgsize == '1' || imgsize == '4' || imgsize == '9' || imgsize == '10')) {
+    //         let a_ok = this.tr('a_ok'), a_cancel = this.tr('a_cancel'), self = this;
+    //         let packetmodetip = this.tr('a_packetmodetip');
+    //         Modal.confirm({
+    //             content: <div><span dangerouslySetInnerHTML={{ __html: packetmodetip }}></span></div>,
+    //             cancelText: <span dangerouslySetInnerHTML={{ __html: a_cancel }}></span>,
+    //             okText: <span dangerouslySetInnerHTML={{ __html: a_ok }}></span>,
+    //             onOk() {
+    //                 self.props.form.setFieldsValue({ 'imgsize': '5' });
+    //                 self.setState({ beforeImgsize: '5', beforePacketModel: packetmodel })
+    //             },
+    //             onCancel() {
+    //                 self.props.form.setFieldsValue({
+    //                     'packetmodel': self.state.beforePacketModel,
+    //                     'imgsize': self.state.beforeImgsize
+    //                 });
+    //             },
+    //         });
+    //     } else {
+    //         this.setState({ beforeImgsize: imgsize, beforePacketModel: packetmodel })
+    //     }
+
+    // }
+    handleImgSizeChange = (v) => {
+        this.setVbrateOptions(v);
+        let vbrate = v == this.props.itemValues['imgsize'] ? this.props.itemValues['vbrate'] : this.imgsizeToVbrate[v][0]
+        this.props.form.setFieldsValue({
+            vbrate
+        })
     }
 
-    handleImgsize = (value) => {
-        let packetmodel = this.props.form.getFieldValue('packetmodel');
-        this.checkPacketModelAndImgsize(packetmodel, value);
-    }
-
-    checkPacketModelAndImgsize = (packetmodel, imgsize) => {
-        if (packetmodel == 0 && (imgsize == '1' || imgsize == '4' || imgsize == '9' || imgsize == '10')) {
-            let a_ok = this.tr('a_ok'), a_cancel = this.tr('a_cancel'), self = this;
-            let packetmodetip = this.tr('a_packetmodetip');
-            Modal.confirm({
-                content: <div><span dangerouslySetInnerHTML={{ __html: packetmodetip }}></span></div>,
-                cancelText: <span dangerouslySetInnerHTML={{ __html: a_cancel }}></span>,
-                okText: <span dangerouslySetInnerHTML={{ __html: a_ok }}></span>,
-                onOk() {
-                    self.props.form.setFieldsValue({ 'imgsize': '5' });
-                    self.setState({ beforeImgsize: '5', beforePacketModel: packetmodel })
-                },
-                onCancel() {
-                    self.props.form.setFieldsValue({
-                        'packetmodel': self.state.beforePacketModel,
-                        'imgsize': self.state.beforeImgsize
-                    });
-                },
-            });
-        } else {
-            this.setState({ beforeImgsize: imgsize, beforePacketModel: packetmodel })
+    setVbrateOptions = (v) => {
+        if(v == '' || !v) {
+            v = '10'
         }
-
+        let vbrateAvailable = this.imgsizeToVbrate[v];
+        this.setState({
+            vbrateAvailable
+        })
     }
-
     handleSubmit = () => {
         const product = this.props.product;
         const { setFieldsValue } = this.props.form;
@@ -735,7 +764,7 @@ class CodecForm extends React.Component {
                     {getFieldDecorator('imgsize', {
                         initialValue: this.props.itemValues['imgsize'] ? this.props.itemValues['imgsize'] : "10"
                     })(
-                        <Select className={"P-" + nvram["imgsize"]}>
+                        <Select className={"P-" + nvram["imgsize"]} onChange={(v) => {this.handleImgSizeChange(v)}}>
                             <Option value="11">4K</Option>
                             <Option value="10">1080P</Option>
                             <Option value="9">720P</Option>
@@ -751,22 +780,13 @@ class CodecForm extends React.Component {
                         initialValue: this.props.itemValues['vbrate'] ? this.props.itemValues['vbrate'] : "2048"
                     })(
                         <Select className={"P-" + nvram["vbrate"]}>
-                            <Option value="32">32 Kbps</Option>
-                            <Option value="64">64 Kbps</Option>
-                            <Option value="96">96 Kbps</Option>
-                            <Option value="128">128 Kbps</Option>
-                            <Option value="160">160 Kbps</Option>
-                            <Option value="192">192 Kbps</Option>
-                            <Option value="210">210 Kbps</Option>
-                            <Option value="256">256 Kbps</Option>
-                            <Option value="384">384 Kbps</Option>
-                            <Option value="512">512 Kbps</Option>
-                            <Option value="640">640 Kbps</Option>
-                            <Option value="768">768 Kbps</Option>
-                            <Option value="1024">1024 Kbps</Option>
-                            <Option value="1280">1280 Kbps</Option>
-                            <Option value="1536">1536 Kbps</Option>
-                            <Option value="2048">2048 Kbps</Option>
+                            {
+                                this.state.vbrateAvailable.map((v) => {
+                                    return (
+                                        <Option value={v}>{v}Kbps</Option>
+                                    )
+                                })
+                            }
                         </Select>
                     )}
                 </FormItem>

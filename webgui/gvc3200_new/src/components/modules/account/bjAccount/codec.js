@@ -13,6 +13,7 @@ class CodecForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            vbrateAvailable: [],
             videoTargetKeys: [],
             beforeImgsize: "",
             beforePacketModel: "",
@@ -37,6 +38,17 @@ class CodecForm extends React.Component {
                 title: 'PCMA',
             }
         ]
+
+        // 视频大小对应的视频比特率
+        this.imgsizeToVbrate = {
+            '10': ['1024','1280','1536','1792','2048','2560','3072','3584','4096'],
+            '9' : ['512', '640', '768', '896', '1024', '1280', '1536', '1792', '2048'],
+            '4' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
+            '7' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
+            '1' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
+        }
+
+
     }
 
     handlePvalue = () => {
@@ -98,6 +110,7 @@ class CodecForm extends React.Component {
     componentDidMount = () => {
         this.props.getItemValues(this.handlePvalue(), (values) => {
             this.getVideoData(values);
+            this.setVbrateOptions(values['imgsize']);
         });
     }
 
@@ -105,7 +118,10 @@ class CodecForm extends React.Component {
         if (nextProps.activeKey == this.props.tabOrder) {
             // selected tab changed
             if (this.props.activeKey != nextProps.activeKey) {
-                this.props.getItemValues(this.handlePvalue());
+                this.props.getItemValues(this.handlePvalue(), (values) => {
+                    this.getVideoData(values);
+                    this.setVbrateOptions(values['imgsize']);
+                });
                 this.props.form.resetFields();
             }
 
@@ -140,39 +156,22 @@ class CodecForm extends React.Component {
         // console.log(videoObj)
         return videoObj;
     }
-    handlePacketModel = (value) => {
-        let imgsize = this.props.form.getFieldValue('imgsize');
-        this.checkPacketModelAndImgsize(value, imgsize);
-
-    }
-    handleImgsize = (value) => {
-        let packetmodel = this.props.form.getFieldValue('packetmodel');
-        this.checkPacketModelAndImgsize(packetmodel, value);
+    handleImgSizeChange = (v) => {
+        this.setVbrateOptions(v);
+        let vbrate = v == this.props.itemValues['imgsize'] ? this.props.itemValues['vbrate'] : this.imgsizeToVbrate[v][4]
+        this.props.form.setFieldsValue({
+            vbrate
+        })
     }
 
-    checkPacketModelAndImgsize = (packetmodel, imgsize) => {
-        if (packetmodel == 0 && (imgsize == '1' || imgsize == '4' || imgsize == '9' || imgsize == '10')) {
-            let a_ok = this.tr('a_ok'), a_cancel = this.tr('a_cancel'), self = this;
-            let packetmodetip = this.tr('a_packetmodetip');
-            Modal.confirm({
-                content: <div><span dangerouslySetInnerHTML={{ __html: packetmodetip }}></span></div>,
-                cancelText: <span dangerouslySetInnerHTML={{ __html: a_cancel }}></span>,
-                okText: <span dangerouslySetInnerHTML={{ __html: a_ok }}></span>,
-                onOk() {
-                    self.props.form.setFieldsValue({ 'imgsize': '5' });
-                    self.setState({ beforeImgsize: '5', beforePacketModel: packetmodel })
-                },
-                onCancel() {
-                    self.props.form.setFieldsValue({
-                        'packetmodel': self.state.beforePacketModel,
-                        'imgsize': self.state.beforeImgsize
-                    });
-                },
-            });
-        } else {
-            this.setState({ beforeImgsize: imgsize, beforePacketModel: packetmodel })
+    setVbrateOptions = (v) => {
+        if(v == '' || !v) {
+            v = '10'
         }
-
+        let vbrateAvailable = this.imgsizeToVbrate[v];
+        this.setState({
+            vbrateAvailable
+        })
     }
     toggleDisablePresent() {
         let disablePresentStatus = this.state.disablePresentStatus
@@ -409,8 +408,7 @@ class CodecForm extends React.Component {
                     {getFieldDecorator('imgsize', {
                         initialValue: this.props.itemValues['imgsize'] ? this.props.itemValues['imgsize'] : "10"
                     })(
-                        <Select className="P-2507">
-                            <Option value="11">4k</Option>
+                        <Select className="P-2507" onChange={(v) => {this.handleImgSizeChange(v)}}>
                             <Option value="10">1080p</Option>
                             <Option value="9">720p</Option>
                             <Option value="4">4CIF</Option>
@@ -424,15 +422,13 @@ class CodecForm extends React.Component {
                         initialValue: this.props.itemValues['vbrate'] ? this.props.itemValues['vbrate'] : "2048"
                     })(
                         <Select className="P-2515">
-                            <Option value="1024">1024 Kbps</Option>
-                            <Option value="1280">1280 Kbps</Option>
-                            <Option value="1536">1536 Kbps</Option>
-                            <Option value="1792">1792 Kbps</Option>
-                            <Option value="2048">2048 Kbps</Option>
-                            <Option value="2560">2560 Kbps</Option>
-                            <Option value="3072">3072 Kbps</Option>
-                            <Option value="3584">3584 Kbps</Option>
-                            <Option value="4096">4096 Kbps</Option>
+                            {
+                                this.state.vbrateAvailable.map((v) => {
+                                    return (
+                                        <Option value={v}>{v}Kbps</Option>
+                                    )
+                                })
+                            }
                         </Select>
                     )}
                 </FormItem>
