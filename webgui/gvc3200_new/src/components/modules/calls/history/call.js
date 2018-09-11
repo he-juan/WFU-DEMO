@@ -326,7 +326,7 @@ class Call extends Component {
                 self._createData();
             }, 500);
             self.selectedContactList = [];
-        })                 
+        })
 
         this.setState({
             selectedRowKeys: [],
@@ -343,7 +343,8 @@ class Call extends Component {
         }
         let nameStr = ''
         if(logItem.IsConf == '1') {
-            nameStr = logItem.NameOrNumber + '：'
+            // nameStr = logItem.NameOrNumber + '：'
+            nameStr = 'Conf：'
             for (let i = 0; memberArr[i] != undefined; i++) {
                 if(i>0) {
                     nameStr += '，'

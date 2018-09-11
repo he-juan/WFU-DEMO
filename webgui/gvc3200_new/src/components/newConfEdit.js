@@ -17,6 +17,8 @@ const config = {
 };
 let curMember = []
 class NewContactsEdit extends Component {
+    // selectedContactRowKeys = [];
+    // selectedCallRowKeys = [];
     constructor(props){
         super(props);
         this.state = {
@@ -44,9 +46,13 @@ class NewContactsEdit extends Component {
             curCallLog:[],
             tempMember:[],
             curMember:[],
+            extraSearchMember:[],
+            selExtraSearMem:[],
             contType:'-1',
             callType:'-1',
-            activeKey:'0'
+            activeKey:'0',
+            showContact: true,
+            showCallLog: true
         }
     }
 
@@ -76,8 +82,8 @@ class NewContactsEdit extends Component {
         if(!this.props.callnameinfo.length) {
             this.props.getNormalCalllogNames()
         }
-        if(!this.props.getAllConfMember.length) {
-            this.props.getNormalCalllogNames()
+        if(!this.props.confmemberinfodata.length) {
+            this.props.getAllConfMember()
         }
         if(!this.props.contactsAcct.length) {
             this.props.getAcctStatus()
@@ -145,7 +151,7 @@ class NewContactsEdit extends Component {
         }
         let preset = values.confpreset
         for (let i = 0; i < memberData.length; i++) {
-            console.log(memberData[i])
+            // console.log(memberData[i])
             if(i>0) {
                 membernames += ':::';
                 membernumbers += ':::';
@@ -165,7 +171,7 @@ class NewContactsEdit extends Component {
                 recordsfrom += 5
             }
         }
-        console.log(recordsfrom)
+        // console.log(recordsfrom)
 
         let infostr = "&host=" + encodeURIComponent(host)
             + "&confname=" + encodeURIComponent(confname)
@@ -202,7 +208,7 @@ class NewContactsEdit extends Component {
         if(typeof this.props.updateDate == "function") {
             this.props.updateDate();
         }
-        console.log(infostr)
+        // console.log(infostr)
     }
 
     getCustomRepeatRule = () => {
@@ -416,7 +422,7 @@ class NewContactsEdit extends Component {
                 let minutes = i * 5
                 minutes = minutes < 10 ? 0 + minutes.toString() : minutes.toString()
                 minutesArr.push(<Option value = {minutes.toString()}>{minutes}</Option>)
-                console.log()
+                // console.log()
                 if(extraMinutes < ((i+1) * 5) && (parseInt(extraMinutes/5) != extraMinutes/5)
                 ) {
                     extraMinutes = extraMinutes < 10 ? 0 + extraMinutes.toString() : extraMinutes.toString()
@@ -449,7 +455,6 @@ class NewContactsEdit extends Component {
     }
 
     onStartChange = () => {
-        console.log(6666)
     }
 
     transStr = (num) => {
@@ -479,8 +484,8 @@ class NewContactsEdit extends Component {
         memberArr = curMember.concat(tempMember)
         for (let i = memberArr.length -1 ; memberArr[i] != undefined ; i--) {
             for (let j = i-1; memberArr[j] != undefined ; j--) {
-                console.log(j)
-                if(memberArr[j] && memberArr[i].Number == memberArr[j].Number) {
+                // console.log(memberArr[i],memberArr[j])
+                if(memberArr[j] && memberArr[i] && memberArr[i].Number == memberArr[j].Number) {
                     memberArr.splice(j,1)
                 }
             }
@@ -550,6 +555,7 @@ class NewContactsEdit extends Component {
         for (let i = 0; i < contactItems.length; i++) {
             contactItems[i].key = i
         }
+
         if(contactItems.length) {
             if(!this.state.allContacts.length) {
                 this.setState({allContacts:contactItems});
@@ -576,6 +582,9 @@ class NewContactsEdit extends Component {
         var searchkey = e.target.value.trim();
         let data = [];
         let dataSource = this.state.allContacts
+        let selectedList = this.state.selectedContactRowKeys
+        // console.log(dataSource)
+
         let acct = this.state.contType
         if(searchkey =='') {
             data = [...dataSource]
@@ -590,10 +599,59 @@ class NewContactsEdit extends Component {
                 }
             }
         }
+        if(data.length) {
+            this.setState({showContact:true})
+        }
+
+        let selExtraSearMem = this.state.selExtraSearMem
+        if(selExtraSearMem.length > 0) {
+            data = data.concat(selExtraSearMem)
+        }
+        let selectRows = []
+        for(let i = 0; i < selectedList.length;i++){
+            for(let j=0; j < data.length;j++){
+                if(data[j].key == selectedList[i]){
+                    selectRows.push(j);
+                    break;
+                }
+            }
+        }
+        let extraSearchMember = this.state.extraSearchMember
+        if (!data.length) {
+            if(/^[0-9]+$/.test(searchkey) && searchkey!= '') {
+                acct = acct == '-1' ? '0' : acct
+                let typeName = 'SIP'
+                if (acct == '1') {
+                    // typeName = 'IPVideoTalk'
+                    typeName = 'IPVT'
+                } else if (acct == '8') {
+                    typeName = 'H.323'
+                }
+                let obj = {
+                    key: dataSource.length,
+                    row0: searchkey,
+                    row1: typeName,
+                    row2: searchkey,
+                    acct: acct
+                }
+                data.push(obj)
+                extraSearchMember.push(obj)
+            } else {
+                this.setState({showContact:false})
+            }
+        }
+
+        //  额外搜索的号码清空后无法选中
         this.setState({
-            curContacts: data
+            curContacts: data,
+            selectedRowKeys:selectRows,
+            extraSearchMember:extraSearchMember
         });
     }
+
+    // onSelectChange = (selectedRowKeys) => {
+    //     this.setState({selectedRowKeys});
+    // }
 
     onSelectItem = (record, selected, selectedRows) => {
         if (selected) {
@@ -603,7 +661,7 @@ class NewContactsEdit extends Component {
         }
         let selectedContactRowKeys = this.state.selectedContactRowKeys
 
-        console.log(record)
+        // console.log(record)
 
         let name = record.row0;
         // let number = record.row2[0];
@@ -628,7 +686,35 @@ class NewContactsEdit extends Component {
                 }
             }
         }
-        this.setState({tempMember:tempMember,selectedContactRowKeys:selectedContactRowKeys,selectedRowKeys:selectedContactRowKeys})
+
+        let selectRows = []
+        let selectedList = selectedContactRowKeys
+        let data = this.state.curContacts
+
+        for(let i = 0; i < selectedList.length;i++){
+            for(let j=0; j < data.length;j++){
+                if(data[j].key == selectedList[i]){
+                    selectRows.push(j);
+                    break;
+                }
+            }
+        }
+
+        let extraSearchMember = this.state.extraSearchMember
+
+        for (let i = 0; i < extraSearchMember.length; i++) {
+            if(record.row0 == extraSearchMember[i].row0 && selected) {
+                data = this.state.selExtraSearMem
+                data.push(extraSearchMember[i])
+                this.setState({selExtraSearMem:data})
+            }
+        }
+
+        this.setState({
+            tempMember:tempMember,
+            selectedContactRowKeys:selectedContactRowKeys,
+            selectedRowKeys:selectRows
+        })
     }
 
     checkMember = (newMemberAcct) => {
@@ -649,23 +735,28 @@ class NewContactsEdit extends Component {
     handlefilter = (value,v) => {
         // v : 0 1 8
         // value : 0 contact  1 calllog
-        if(v != -1) {
-            let data = [];
-            let dataSource = this.state.allContacts
-            if(value == '1') {
-                dataSource = this.state.allCallLog
-            }
-            for (let i = 0; i < dataSource.length; i++) {
-                if (dataSource[i].acct == v) {
-                    data.push(dataSource[i]);
-                }
-            }
-            if(value == '1') {
-                this.setState({curCallLog: data, callType: v});
-            } else {
-                this.setState({curContacts: data, contType: v});
-            }
+        if(value == '1') {
+            this.setState({callType: v});
+        } else {
+            this.setState({contType: v});
         }
+        // if(v != -1) {
+        //     let data = [];
+        //     let dataSource = this.state.allContacts
+        //     if(value == '1') {
+        //         dataSource = this.state.allCallLog
+        //     }
+        //     for (let i = 0; i < dataSource.length; i++) {
+        //         if (dataSource[i].acct == v) {
+        //             data.push(dataSource[i]);
+        //         }
+        //     }
+        //     if(value == '1') {
+        //         this.setState({curCallLog: data, callType: v});
+        //     } else {
+        //         this.setState({curContacts: data, contType: v});
+        //     }
+        // }
     }
 
     /*******AddModal****contact list***/
@@ -683,9 +774,12 @@ class NewContactsEdit extends Component {
                 )}];
         let logItemdata = this.props.logItemdata
         let confmember = this.props.confmemberinfodata ? this.props.confmemberinfodata : []
+
+
+
         let contactList = this.props.contactsInformation
         let callnameinfo = this.props.callnameinfo
-        if(!contactList.length) {
+        if(!contactList.length || !confmember.length) {
             return {columns:columns,data:[]}
         }
         let dataResult = [];
@@ -720,6 +814,7 @@ class NewContactsEdit extends Component {
                 }
                 if(!hasrecord) {
                     let obj = logItemdata[i]
+                    // console.log('obj',obj)
                     obj.Name = logItemdata[i].NameOrNumber
                     obj.Number = logItemdata[i].NameOrNumber
                     memberArr.push(obj)
@@ -763,7 +858,8 @@ class NewContactsEdit extends Component {
         }
         let nameStr = ''
         if(logItem.IsConf == '1') {
-            nameStr = logItem.NameOrNumber + '：'
+            // nameStr = logItem.NameOrNumber + '：'
+            nameStr = 'Conf:'
             for (let i = 0; memberArr[i] != undefined; i++) {
                 if(i>0) {
                     nameStr += '，'
@@ -781,6 +877,8 @@ class NewContactsEdit extends Component {
         let data = [];
         let dataSource = this.state.allCallLog
         let acct = this.state.callType
+        let selectedList = this.state.selectedCallRowKeys
+        // console.log(dataSource)
         if(searchkey =='') {
             data = [...dataSource]
         } else {
@@ -790,7 +888,9 @@ class NewContactsEdit extends Component {
                 let nameStr = ''
                 let numberStr = ""
                 if(logItem.IsConf == '1') {
-                    nameStr = logItem.NameOrNumber + '：'
+                    // nameStr = logItem.NameOrNumber + '：'
+                    nameStr = 'Conf：'
+
                     for (let i = 0; memberArr[i] != undefined; i++) {
                         if(i>0) {
                             nameStr += '，'
@@ -808,9 +908,25 @@ class NewContactsEdit extends Component {
             }
         }
 
-        // console.log('result',data)
+        if (!data.length) {
+            this.setState({showCallLog:false})
+        } else {
+            this.setState({showCallLog:true})
+        }
+
+        let selectRows = []
+        for(let i = 0; i < selectedList.length;i++){
+            for(let j=0; j < data.length;j++){
+                if(data[j].key == selectedList[i]){
+                    selectRows.push(j);
+                    break;
+                }
+            }
+        }
+
         this.setState({
-            curCallLog: data
+            curCallLog: data,
+            selectedRowKeys:selectRows
         });
 
     }
@@ -821,9 +937,7 @@ class NewContactsEdit extends Component {
     }
 
     onSelectCallItem = (record, selected, selectedRows) => {
-        console.log(record)
         let dataArr = record.row0.memberArr
-        console.log(dataArr[0].Account,record.row0.logItem.Account)
         if (selected) {
             if(this.checkMember(dataArr[0].Account)) {
                 return
@@ -845,6 +959,7 @@ class NewContactsEdit extends Component {
             let name = item.Name;
             let number = item.Number;
             let acct = item.Account
+            // console.log(dataArr[j],name,number)
             if (selected) {
                 tempMember.push({Name: name, Number: number, Account: acct});
             } else {
@@ -856,7 +971,27 @@ class NewContactsEdit extends Component {
                 }
             }
         }
-        this.setState({tempMember:tempMember,selectedCallRowKeys:selectedCallRowKeys,selectedRowKeys:selectedCallRowKeys})
+        let selectRows = []
+        let selectedList = selectedCallRowKeys
+
+        // console.log(selectedCallRowKeys)
+
+        let data = this.state.curCallLog
+
+        for(let i = 0; i < selectedList.length;i++){
+            for(let j=0; j < data.length;j++){
+                if(data[j].key == selectedList[i]){
+                    selectRows.push(j);
+                    break;
+                }
+            }
+        }
+
+        this.setState({
+            tempMember:tempMember,
+            selectedCallRowKeys:selectedCallRowKeys,
+            selectedRowKeys:selectRows
+        })
     }
 
     changeTab = (key) => {
@@ -866,17 +1001,14 @@ class NewContactsEdit extends Component {
         } else {
             selectedRowKeys = this.state.selectedContactRowKeys
         }
-        console.log(selectedRowKeys)
         this.setState({selectedRowKeys:selectedRowKeys})
-
-        console.log(key)
     }
 
     render() {
         let title = this.props.addNewConf ? 'a_newConf' : 'a_editConf';
         let allDisabled = false
         // title = this.props.confdetail ? 'a_detail' : title
-        if(this.props.confdetail) {
+        if(this.props.confdetail) { // show detail
             title = 'a_detail'
             allDisabled = true
         }
@@ -885,19 +1017,16 @@ class NewContactsEdit extends Component {
         const {callTr,itemValues} = this.props;
 
         let dateFormat = 'YYYY/MM/DD';
-        let myDate = new Date()
-        let curMonth = (parseInt(myDate.getMonth()) + 1)
-        let curDay = myDate.getDate()
-        let curDate = myDate.getFullYear() + '/' + curMonth + '/' + curDay
-        let curHour = this.transStr(myDate.getHours())
-        let curMinutes = myDate.getMinutes() + 10
-        if (curMinutes > 59) {
-            curMinutes = (curMinutes-59).toString()
-            curHour = (parseInt(curHour) + 1).toString()
-        }
-        let curWeekDay = myDate.getDay().toString()
+        let now = moment().add(10, "minutes")
+        let curMonth = now.month()
+        let curDay = now.date()
+        let curDate = now
+        let curHour = this.transStr(now.hours())
+        let curMinutes = this.transStr(now.minutes())
+        let curWeekDay = now.day()
         let weekNum = Math.ceil(curDay / 7).toString()
         let dayofweekArrvalue = []
+
         for (let i = 0; i < 7; i++) {
             dayofweekArrvalue[i] = i==curWeekDay ? 1:0
         }
@@ -918,20 +1047,23 @@ class NewContactsEdit extends Component {
             optionObj = this.createOptionObj(curMinutes)
         }
 
-
-
         let contactObj = this.createContactObj()
         let contactData = contactObj.data
         if (this.state.curContacts) {
             contactData = this.state.curContacts
         }
+        if(!this.state.showContact) {
+            contactData = []
+        }
+
         let calllogObj = this.createCalllogObj()
         let calllogData = calllogObj.data
         if (this.state.curCallLog) {
             calllogData = this.state.curCallLog
         }
-        // console.log('6',this.props.editConfData)
-
+        if(!this.state.showCallLog) {
+            calllogData = []
+        }
 
         let classObj = {}
         if(values.cycle != '7') {
@@ -940,14 +1072,10 @@ class NewContactsEdit extends Component {
             classObj = this.checkoutCustomCycleMode(values.customRepeat)
         }
 
-
-
-
-
         const {selectedRowKeys} = this.state;
         const ContRowSelection = {
             selectedRowKeys,
-            onSelect: this.onSelectItem,
+            onSelect: this.onSelectItem
         }
         const callRowSelection = {
             selectedRowKeys,

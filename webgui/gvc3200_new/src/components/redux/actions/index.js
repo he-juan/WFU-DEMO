@@ -2289,7 +2289,7 @@ export const get_deleteCall = (deleteId,flag, callback) => (dispatch) => {
 }
 
 export const get_deleteCallConf = (deleteId,callback) => (dispatch) => {
-    let request = 'action=removecallconf&region=webservice&confId' + deleteId;
+    let request = 'action=removecallconf&region=webservice&confId=' + deleteId;
     actionUtil.handleGetRequest(request).then(function(data) {
         var tObj = eval("(" + data + ")");
         callback(tObj.res);
