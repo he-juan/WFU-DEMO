@@ -2630,10 +2630,12 @@ function handle_remotehold(data)
     if(state == "1")
     {
         $remoteline.attr("remotehold","1");
-        $remoteline.find(".mute").attr("disabled","disabled").addClass("btndisabled");
-        $remoteline.find(".confblock").attr("disabled","disabled").addClass("btndisabled");
-        $remoteline.find(".confaudio").attr("disabled","disabled").addClass("btndisabled");
-        $remoteline.find(".confvideo").attr("disabled","disabled").addClass("btndisabled");
+        if($remoteline.attr("account") != "1"){
+            $remoteline.find(".mute").attr("disabled","disabled").addClass("btndisabled");
+            $remoteline.find(".confblock").attr("disabled","disabled").addClass("btndisabled");
+            $remoteline.find(".confaudio").attr("disabled","disabled").addClass("btndisabled");
+            $remoteline.find(".confvideo").attr("disabled","disabled").addClass("btndisabled");
+        }
         if($("#layoutdiv").is(":visible"))
         {
             $("#layoutdiv").hide();
@@ -2643,10 +2645,12 @@ function handle_remotehold(data)
     else
     {
         $remoteline.attr("remotehold","0");
-        $remoteline.find(".mute").removeAttr("disabled").removeClass("btndisabled");
-        $remoteline.find(".confblock").removeAttr("disabled").removeClass("btndisabled");
-        $remoteline.find(".confaudio").removeAttr("disabled").removeClass("btndisabled");
-        $remoteline.find(".confvideo").removeAttr("disabled").removeClass("btndisabled");
+        if($remoteline.attr("account") != "1"){
+            $remoteline.find(".mute").removeAttr("disabled").removeClass("btndisabled");
+            $remoteline.find(".confblock").removeAttr("disabled").removeClass("btndisabled");
+            $remoteline.find(".confaudio").removeAttr("disabled").removeClass("btndisabled");
+            $remoteline.find(".confvideo").removeAttr("disabled").removeClass("btndisabled");
+        }
     }
 }
 
@@ -3214,6 +3218,16 @@ function addconflist(data,todivID)
         suspend.className = "confsuspend";
         suspend.setAttribute("issuspend",0);
         suspend.setAttribute("title",a_16700);
+        if(account == 1){
+            mute.className += " btndisabled";
+            mute.setAttribute("disabled","disabled");
+            videoctrl.className += " btndisabled";
+            videoctrl.setAttribute("disabled","disabled");
+            block.className += " btndisabled";
+            block.setAttribute("disabled","disabled");
+            suspend.className += " btndisabled";
+            suspend.setAttribute("disabled","disabled");
+        }
         var isvideoed = document.createElement('BUTTON');
         if(dataisvideo == 1){
             isvideoed.className = "isvideoed unisvideoed";
@@ -3584,7 +3598,7 @@ function change_callconnectstate(data)
                 if($("#layoutdiv").is(":visible"))
                     $("#layoutdiv").hide();
                 var ipvConf = $("#tabs div#line-"+line).attr("number").substring(0,2);
-                if(account == 1 && ipvConf == mIPVPrefix)
+                if(account == 1 )
                     $("#tabs div#line-"+line+" .confbtn button[name='videstate']").attr("disabled","disabled").addClass("btndisabled");
                 var $linefecc = $("#tabs div#line-"+line+" .confbtn .startFECC");
                 var remotehold = $("#tabs div#line-"+line).attr("remotehold");
@@ -3608,7 +3622,6 @@ function change_callconnectstate(data)
                     //judge line is conference or not when use IPV
                     if(account == 1)
                     {
-                        $("#tabs div#line-"+line+" .confbtn .confsuspend").removeAttr("disabled").removeClass("btndisabled");
                         $("#tabs div#line-"+line+" .confbtn .isvideoed").removeAttr("disabled").removeClass("btndisabled");
                     }
                     else
