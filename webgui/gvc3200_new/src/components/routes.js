@@ -174,6 +174,18 @@ const BackupForm  = (location, cb) => {
     }, 'sysset');
 };
 
+const Preset  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/device/Preset').default);
+    }, 'devicecontrol');
+};
+
+const eptz  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/device/eptz').default);
+    }, 'devicecontrol');
+};
+
 const Upgrade  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/maintenance/upgrade').default);
@@ -320,6 +332,9 @@ import Led from "./modules/detection/led";
 import CertVerify from "./modules/detection/certverify";
 import Reset from "./modules/detection/reset";*/
 
+/*import Preset from "./modules/device/Preset";
+import eptz from "./modules/device/eptz";*/
+
 import * as Store from './entry'
 
 const routes = () => {
@@ -380,6 +395,11 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="sitename" getComponent={Sitename}/>
                 <Route onEnter={ requireAuth } path="switch" getComponent={Switch}/>
                 <Route onEnter={ requireAuth } path="backup" getComponent={BackupForm} />
+            </Route>
+            <Route path="devicecontrol">
+                <IndexRoute getComponent={ Preset } />
+                <Route onEnter={ requireAuth } path="cameracontrol" getComponent={Preset}/>
+                <Route onEnter={ requireAuth } path="ptz" getComponent={eptz}/>
             </Route>
             <Route path="maintenance">
                 <IndexRoute getComponent={ Upgrade } />

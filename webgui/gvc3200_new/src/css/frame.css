@@ -19,6 +19,11 @@ a, a:hover{text-decoration: none;}
     background-size: cover;
     background-position: center center;
 }
+
+.ant-modal-wrap{
+    z-index: 1200;
+}
+
 .mainDiv {
     background: transparent;
     color: #EBEBEB;
@@ -5924,11 +5929,15 @@ table thead tr th{
     border: none;
 }
 .scrollbox{max-height: 300px;overflow-y: auto;width: 95%;margin: 0 auto}
+
+
+.scrollbox{max-height: 400px;overflow-y: auto;width: 95%;margin: 0 auto}
 .confModal .ant-tabs-content{
     height: 300px;
 }
 .confModal table{border: none}
 .confbox button{z-index: 100}
+
 
 .dialdiv{  width: 800px;  height: 89px;  margin: 0; }
 .mf_container{
@@ -6043,3 +6052,155 @@ ol.mp_list li.mp_error {}
     float:right;
     margin-right: 50px;
 }
+
+
+/*preset*/
+#preset *{
+    box-sizing:border-box;
+}
+
+.preset_table{
+    width: 601px;
+    height:601px;
+    border-left:1px solid #e1e1e1;
+    border-top:1px solid #e1e1e1;
+    margin-top: 50px;
+    margin-left: 100px;
+}
+
+.preset_box{
+    position: relative;
+    float:left;
+    width: 150px;
+    height:100px;
+    line-height: 100px;
+    text-align: center;
+    border-right:1px solid #e1e1e1;
+    border-bottom:1px solid #e1e1e1;
+    cursor: pointer;
+}
+
+.preset_content{
+    position: relative;
+    width: 149px;
+    height: 99px;
+   /* transition: all linear 500ms;*/
+}
+
+.preset_title{
+    position: absolute;
+    width: 150px;
+    height: 20px;
+    line-height: 20px;
+    z-index:20;
+}
+
+.preset_content:hover{
+    /*transform: scale(1.1);*/
+}
+
+.preset_box img{
+    width: 149px;
+    height: 99px;
+    background: #0a53ff;
+}
+
+.preset_table:after{
+    display:block;
+    clear:both;
+    content:"";
+    visibility:hidden;
+    height:0
+}
+
+.preset_config{
+    position: absolute;
+    display: none;
+    width: 20px;
+    height:20px;
+    right:0;
+    bottom:0;
+    z-index: 30;
+    background: #0ddb3e;
+}
+.preset_content:hover .preset_config{
+    display:block;
+}
+
+.preset_apply{
+    position: absolute;
+    width: 149px;
+    height: 99px;
+    text-align: center;
+    line-height: 99px;
+    background: transparent;
+    color:#0ddb3e;
+    z-index: 21;
+}
+
+#direction{
+    width:163px;
+    height:163px;
+    background:transparent;
+    position:relative;
+}
+
+#direction.normal{background:url("../img/control_all.png") -652px -28px  no-repeat;}
+#direction.uphover{background:url("../img/control_all.png") -0px -28px  no-repeat;}
+#direction.upactive{background:url("../img/control_all.png") -0px -191px  no-repeat;}
+#direction.downhover{background:url("../img/control_all.png") -326px -28px  no-repeat;}
+#direction.downactive{background:url("../img/control_all.png") -326px -191px  no-repeat;}
+#direction.righthover{background:url("../img/control_all.png") -163px -28px  no-repeat;}
+#direction.rightactive{background:url("../img/control_all.png") -163px -191px  no-repeat;}
+#direction.lefthover{background:url("../img/control_all.png") -489px -28px  no-repeat;}
+#direction.leftactive{background:url("../img/control_all.png") -489px -191px  no-repeat;}
+
+
+.ptzctrl{
+    position: absolute;
+    width:40px;
+    height:40px;
+}
+#up{background:url("../img/control_all.png") -80px -354px  no-repeat;top:7px;left:62px;}
+#up:hover{background:url("../img/control_all.png") -120px -354px  no-repeat;}
+#down{background:url("../img/control_all.png") -160px -354px  no-repeat;top:114px;left:62px;}
+#down:hover{background:url("../img/control_all.png") -200px -354px  no-repeat;}
+#left{background:url("../img/control_all.png") -0px -354px  no-repeat;left:7px;top:62px;}
+#left:hover{background:url("../img/control_all.png") -40px -354px  no-repeat;}
+#right{background:url("../img/control_all.png") -240px -354px  no-repeat;left:117px;top:62px;}
+#right:hover{background:url("../img/control_all.png") -280px -354px  no-repeat;}
+#zoomwide{background:url("../img/control_all.png") 0px 0px  no-repeat;margin-left:13px;margin-top:6px;width:28px;height:28px;min-width:0px;}
+#zoomtele{background:url("../img/control_all.png") -56px 0px  no-repeat;margin-left:13px;margin-top:6px;width:28px;height:28px;min-width:0px;}
+#zoomwide:hover{background:url("../img/control_all.png") -28px 0px  no-repeat;}
+#zoomtele:hover{background:url("../img/control_all.png") -84px 0px  no-repeat;}
+.divingline{width:1px;height:40px;background:url("../img/ptz_divingline.png") no-repeat;display:inline-block;margin:0 !important;background-position: center;float:left;}
+.optionbtn .zoombtn{background:transparent;width:54px;height:40px;color:#666666;font-weight:bold;font-size:20px;min-width:0px;padding:0px;float:left;text-align: center}
+.optionbtn{margin-top: 75px !important;height:40px;border-radius:4px;border:1px solid #999999;background-color:#FAF9F9;}
+
+.deletePreset{
+    float: left;
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border:1px solid #e1e1e1;
+}
+.savePreset{
+    float: left;
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border:1px solid #e1e1e1;
+}
+
+
+
+
+
+
+
+
+
+
+
