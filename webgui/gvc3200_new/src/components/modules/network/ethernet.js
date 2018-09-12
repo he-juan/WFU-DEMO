@@ -1356,7 +1356,7 @@ class Ethernet extends Component {
                     }
                 </FormItem>
                 <p className="blocktitle"><s></s>{callTr("a_802mode")}</p>
-                <FormItem className="select-item"  label={< span > { callTr("a_802mode") } < Tooltip title={callTipsTr("802.1x mode")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className="select-item"  label={< span > { callTr("a_802mode") } < Tooltip title={callTipsTr("802.1X mode")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('xmode', {
                         rules: [],
                         initialValue: this.props.itemValues["xmode"] ? this.props.itemValues["xmode"] : "0"
@@ -1369,14 +1369,14 @@ class Ethernet extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className={ this.state.lan_mode_class.identity } label={< span > { callTr("a_identity") } < Tooltip title={callTipsTr("802.1x Identity")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ this.state.lan_mode_class.identity } label={< span > { callTr("a_identity") } < Tooltip title={callTipsTr("802.1X Identity")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type="text" name = "identity" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator('identity', {
                         rules: [],
                         initialValue: this.props.itemValues.identity
                     })(<Input name = "identity" className="P-7902"/>)}
                 </FormItem>
-                <FormItem className={ this.state.lan_mode_class.md5pas } label={< span > { callTr("a_md5pas") } < Tooltip title = {callTipsTr("802.1x Secret")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ this.state.lan_mode_class.md5pas } label={< span > { callTr("a_md5pas") } < Tooltip title = {callTipsTr("802.1X Secret")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type={this.state.type802} name = "md5pas" style = {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("md5pas", {
                         rules: [],

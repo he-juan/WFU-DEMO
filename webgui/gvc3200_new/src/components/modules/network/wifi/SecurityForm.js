@@ -123,7 +123,7 @@ class SecurityForm extends Component {
 							<Option value="0">{callTr("a_none")}</Option>
 							<Option value="1">WEP</Option>
 							<Option value="2">WPA/WPA2 PSK</Option>
-							{/*<Option value="3">802.1x EAP</Option>*/}
+							{/*<Option value="3">802.1X EAP</Option>*/}
 						</Select>
                     )}
                 </FormItem>

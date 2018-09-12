@@ -368,9 +368,9 @@ export const options = [
                     {"name": "IPv6 DNS Server 2", "lang": "a_ipv6dns2"},
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": "a_802mode"},
-                    {"name": "802.1x mode", "lang": "a_802mode"},//
-                    {"name": "802.1x Identity", "lang": "a_identity"},//
-                    {"name": "802.1x Secret", "lang": "a_md5pas"},//
+                    {"name": "802.1X mode", "lang": "a_802mode"},//
+                    {"name": "802.1X Identity", "lang": "a_identity"},//
+                    {"name": "802.1X Secret", "lang": "a_md5pas"},//
                     {"name": "CA Certificate", "lang": "a_802ca"},//
                     {"name": "Client Certificate", "lang": "a_802client"},//
                     {"name": "Private Key", "lang": "a_privatekey"},//
