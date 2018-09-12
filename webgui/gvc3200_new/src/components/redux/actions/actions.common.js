@@ -2,6 +2,12 @@ import $ from 'jquery'
 import * as actionUtil from './actionUtil'
 import * as Store from '../../entry'
 
+
+
+const promptForRequestFailed = () => (dispatch) => {
+    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+}
+
 /**
  * 设置语音
  */
@@ -95,5 +101,25 @@ const checkIsApplyNeed = (dispatch) => {
     }).catch(function(error) {
         console.log(error)
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+export const cb_ping = (callback) => (dispatch) => {
+    let request = "action=ping" + "";
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if (actionUtil.cb_if_is_fail(msgs)) {
+            // send notice action
+        } else {
+            if (msgs.headers['response'].toLowerCase() == "error" &&
+                msgs.headers['message'].toLowerCase() == "authentication required") {
+                dispatch({type: 'PAGE_STATUS', pageStatus: 0})
+                throw "exit";
+            } else {
+                callback();
+            }
+        }
+    }).catch(function(error) {
+        promptForRequestFailed();
     });
 }

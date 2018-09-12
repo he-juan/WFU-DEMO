@@ -390,7 +390,7 @@ class Common extends Component {
                         <Checkbox className="P-1684"/>
                     )}
                 </FormItem>
-                <FormItem label={< span > {this.tr("a_lldpinterval")} < Tooltip title = {this.tips_tr("LLDP TX Interval")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                {/*<FormItem label={< span > {this.tr("a_lldpinterval")} < Tooltip title = {this.tips_tr("LLDP TX Interval")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("lldpinterval", {
                         rules: [{
                             required: true,
@@ -420,7 +420,7 @@ class Common extends Component {
                         <Checkbox className="P-22119"/>
                     )}
                     <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
+                </FormItem>*/}
                 <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_layer3qossip")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer3qossip", {
                         rules: [{

@@ -686,56 +686,15 @@ export const writeHideConfig = (type, value) => (dispatch) => {
 
 
 //################## sysset #################//
-export const getReadshowipState = (callback) => (dispatch) => {
-    let request = 'action=readshowip';
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        dispatch({type: 'REQUEST_GET_READSHOWIP_STATE', readshowipState: msgs});
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
-export const get_showwidgetip = (showip) => (dispatch) => {
-    let request = 'action=writeshowip&showip='+showip;
 
-    actionUtil.handleGetRequest(request).then(function(data) {
 
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
-export const get_Restart8021x = () => (dispatch) => {
-    let request = 'action=restart8021x';
 
-    actionUtil.handleGetRequest(request).then(function(data) {
 
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
-export const cb_putTwoline = (enable, vid, priority, callback) => (dispatch) => {
-    let request = "action=puttwovlan&enable=" + enable + "&vid=" + vid + "&priority=" + priority;
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        callback(enable);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
-
-export const cb_put_network2 = () => (dispatch) => {
-    let request = 'action=putnetwork';
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-        //window.parent.unblock_func();
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 export const getTimezone = (callback) => (dispatch) => {
     let request = 'action=gettimezone';
@@ -792,25 +751,7 @@ export const putLanguage = (value) => (dispatch) => {
     });
 }
 
-export const cb_ping = (callback) => (dispatch) => {
-    let request = "action=ping" + "";
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        if (actionUtil.cb_if_is_fail(msgs)) {
-            // send notice action
-        } else {
-            if (msgs.headers['response'].toLowerCase() == "error" &&
-                msgs.headers['message'].toLowerCase() == "authentication required") {
-                dispatch({type: 'PAGE_STATUS', pageStatus: 0})
-        	    throw "exit";
-            } else {
-                callback();
-            }
-        }
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+
 
 export const cb_put_importlan = (callback) => (dispatch) => {
     let request = 'action=importlang';
@@ -1158,16 +1099,7 @@ export const unpairbluetooth = (address, callback) => (dispatch) => {
 
 
 
-export const setOpenVPNCert = (pvalue, callback) => (dispatch) => {
-    let request = "action=setopenvpncert&pvalue=" + pvalue;
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        callback(msgs);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 //################## maintenance #################//
 export const getEventItems = () => (dispatch) => {

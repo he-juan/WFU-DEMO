@@ -88,7 +88,6 @@ class LdapForm extends Component {
         const {getFieldDecorator} = this.props.form;
         const [callTr,tips_tr,checkUrlPath] = [this.props.callTr,this.props.tips_tr,this.props.checkUrlPath];
         this.isWP8xx() && (acctname_item.splice(3,acctname_item.length-1))
-
         let itemList =
             <Form hideRequiredMark>
                 <FormItem className = "select-item" label={(<span>{callTr("a_connectmode")}&nbsp;<Tooltip title={tips_tr("Connection Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
@@ -223,7 +222,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8039"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_searchfieldfilter")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("Search Field Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                {/*<FormItem label={(<span>{callTr("a_searchfieldfilter")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("Search Field Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('searchfieldfilter', {
                         initialValue: this.props.itemValues['searchfieldfilter'] ? this.props.itemValues['searchfieldfilter'] : "0"
                     })(
@@ -234,7 +233,7 @@ class LdapForm extends Component {
                             <Option value="3">{callTr("a_mailfilter2")}</Option>
                         </Select>
                     )}
-                </FormItem>
+                </FormItem>*/}
                 <FormItem label={(<span>{callTr("a_disnameattr")}&nbsp;<Tooltip title={tips_tr("LDAP Displaying Name Attributes")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('disnameattr', {
                         rules: [{
