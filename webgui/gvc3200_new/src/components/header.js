@@ -4,10 +4,12 @@ import Enhance from './mixins/Enhance';
 import * as Actions from './redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {Layout, Menu, Button, Select, Input, Dropdown, Icon, Popconfirm} from "antd";
+import {Layout, Menu, Button, Select, Input, Dropdown, Icon, Popconfirm,Modal} from "antd";
 const Header = Layout;
 const Search = Input.Search;
 import { matchSearchResult } from './template/optionsFilter'
+
+const confirm = Modal.confirm;
 
 class SearchresultItem extends Component {
     constructor(props) {
@@ -165,6 +167,10 @@ class InputSearchdiv extends Component {
 
 }
 
+const req_items = [
+    {"name": "dnd", "pvalue": "dnd", "value": ""},
+]
+
 class MainHeader extends Component {
     constructor(props) {
         super(props);
@@ -182,8 +188,8 @@ class MainHeader extends Component {
         var pwdchange = $.cookie("needchange");
         pwdchange == 0 ? this.props.passTipStyle("display-hidden") : this.props.passTipStyle("display-block");
         var dndstyle;
-        this.props.getDndMode( (result) => {
-            dndstyle = (result.dndinfo == 'dndon' ? 'dndon' : 'dndoff');
+        this.props.getItemValues(req_items,(values) => {
+            dndstyle = (values.dnd == '1' ? 'dndon' : 'dndoff');
             this.setState({dndstyle: dndstyle})
         })
     }
@@ -251,16 +257,53 @@ class MainHeader extends Component {
     handleSetDndMode = () => {
         var dndtype;
         var dndstyle;
-        this.props.getDndMode( (result) => {
-            dndtype = (result.dndinfo == 'dndon' ? '0' : '1');
+        this.props.getItemValues(req_items,(values)=>{
+            var self = this;
+            if(values.dnd == '1'){
+                confirm({
+                    title: 'close?',
+                    content: 'close?',
+                    okText: 'Yes',
+                    cancelText: 'No',
+                    onOk() {
+                        self.props.setDndMode("0",()=>{
+                            self.setState({dndstyle: "dndoff"})
+                        })
+                    },
+                    onCancel() {
+                        console.log('Cancel');
+                    },
+                });
+            }else{
+                confirm({
+                    title: 'open??',
+                    content: 'open',
+                    okText: 'Yes',
+                    cancelText: 'No',
+                    onOk() {
+                        self.props.setDndMode("1",()=>{
+                            self.setState({dndstyle: "dndon"})
+                        })
+                    },
+                    onCancel() {
+                        console.log('Cancel');
+                    },
+                });
+            }
+           /* dndtype = (result.dndinfo == 'dndon' ? '0' : '1');
             this.props.setDndMode(dndtype, (result) => {
                 this.props.getDndMode( (result) => {
                     dndstyle = (result.dndinfo == 'dndon' ? 'dndon' : 'dndoff');
                     this.setState({dndstyle: dndstyle})
                 })
-            });
+            });*/
         });
     }
+
+
+
+
+
 
     cb_logout_done(data) {
         var msgs = this.res_parse_rawtext(data);
@@ -481,7 +524,8 @@ const mapStateToProps = (state) => ({
     product: state.product,
     oemId:state.oemId,
     userType: state.userType,
-    productStr: state.productStr
+    productStr: state.productStr,
+    itemValues:state.itemValues,
 })
 
 function mapDispatchToProps(dispatch) {
@@ -499,6 +543,7 @@ function mapDispatchToProps(dispatch) {
       setDndMode: Actions.setDndMode,
       getDndMode: Actions.getDndMode,
       setKeyCode:Actions.setKeyCode,
+      getItemValues:Actions.getItemValues,
   }
   return bindActionCreators(actions, dispatch)
 }

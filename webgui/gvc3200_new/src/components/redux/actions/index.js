@@ -487,7 +487,7 @@ const getAcctStatusApply  = (dispatch, callback) => {
 }
 
 export const getNetworkStatus = () => (dispatch) => {
-    let request = 'action=network';
+    let request = 'action=network&format=json';
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = JSON.parse(data);
@@ -2677,13 +2677,25 @@ export const setKeyCode = (action,keycode,repeattimes,callback) => (dispatch) =>
 
 
 export const setDndMode = (value, callback) => (dispatch) => {
-    let request = 'action=setdndonoroff&region=confctrl&dndtype=' + value;
+    let request ="action=setdndonoroff&region=confctrl&setdnd="+value+"&account=0";
     actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
         callback(data)
     }).catch(function(error) {
         promptForRequestFailed();
     });
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
