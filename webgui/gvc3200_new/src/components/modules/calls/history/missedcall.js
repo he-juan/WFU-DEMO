@@ -674,13 +674,13 @@ class Call extends Component {
                             {this.tr("a_delete")}
                         </Button>
                         <Modal visible={this.state.displayDelHistCallsModal} title={this.tr("a_deletehiscalls")} className="confirm-modal"
-                               okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelHistCallsCancel}>
+                               okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelHistCallsCancel}>
                             <p className="confirm-content">{this.tr("a_deletecalls")}</p>
                         </Modal>
                     </div>
                     {/*<div style={{'float':'right'}}>*/}
                     {/*<div className = 'search_div'>*/}
-                    {/*<Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_search")}></Input>*/}
+                    {/*<Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_65")}></Input>*/}
                     {/*</div>*/}
                     {/*</div>*/}
                 </div>

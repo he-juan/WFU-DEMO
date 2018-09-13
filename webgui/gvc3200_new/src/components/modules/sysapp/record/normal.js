@@ -133,7 +133,7 @@ class Normal extends Component {
             <div style = {{margin:"20px 50px 20px 20px"}}>
                 <div style={{margin:"12px 10px", height:'32px','maxWidth':'1100px'}}>
                     <div style={{'float':'left'}}>
-                        <Popconfirm placement="right" title={this.tr("a_deleteall")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleOkDeleteMultiNor}>
+                        <Popconfirm placement="right" title={this.tr("a_deleteall")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDeleteMultiNor}>
                             <Button className="select-delete" type="primary" disabled={!hasSelected}>
                                 <i className={!hasSelected ? "select-delete-icon" : ""} />
                                 {this.tr("a_delete")}

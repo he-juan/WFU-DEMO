@@ -331,7 +331,7 @@ class Call extends Component {
             confpreset : Preset,
             cycle : Recyle
         }
-        // console.log(this.tojson(repetRule))
+        console.log(this.tojson(repetRule))
         if(confinfo.Schedulepsw) {
             obj.pincode = confinfo.Schedulepsw
         }
@@ -440,9 +440,9 @@ class Call extends Component {
         let preconfdata = this.props.preconfdata;
         let status = [
             {type:0,statusname:callTr('a_waithost')},
-            {type:1,statusname:callTr('a_process')},
+            {type:1,statusname:callTr('a_9348')},
             {type:2,statusname:callTr('a_notstart')},
-            {type:3,statusname:callTr('a_expired')},
+            {type:3,statusname:callTr('a_10174')},
             {type:4,statusname:callTr('a_over')}
         ]
         let data = []
@@ -486,8 +486,8 @@ class Call extends Component {
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('a_organizer')}：</Col>
-                                        <Col className='' span={12}>{item.confinfo.Host == 1? callTr('a_me'): htmlEncode(item.confinfo.Host)}</Col>
+                                        <Col className='conf-label' span={3}>{callTr('a_10055')}：</Col>
+                                        <Col className='' span={12}>{item.confinfo.Host == 1? callTr('a_10057'): htmlEncode(item.confinfo.Host)}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
                                     <Row>
@@ -501,7 +501,7 @@ class Call extends Component {
                                             {/*<Button type="primary">{this.tr("a_cancelMeet")}</Button>*/}
 
                                             {item.confinfo['Recycle'] != '7' ? (
-                                                <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
+                                                <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
                                                     {/*<button className='allow-delete'></button>*/}
                                                     <Button onClick={(e)=>this.cancelPop(e)} type="primary">{this.tr("a_cancelMeet")}</Button>
                                                 </Popconfirm>

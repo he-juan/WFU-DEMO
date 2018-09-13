@@ -201,7 +201,7 @@ class ConfigForm extends Component {
         result == 1 ? tips = "a_uploadfail" : tips = "a_uploadsuctips";
         Modal.info({
             content: <span dangerouslySetInnerHTML={{__html: callTr(tips)}}></span>,
-            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
             onOk() {},
         });
     }

@@ -39,8 +39,8 @@ class VoiceForm extends Component {
     checkHandsetTx = (callback) => {
         confirm({
             content: this.props.callTr("a_handsetrxtip"),
-            okText: this.props.callTr("a_ok"),
-            cancelText: this.props.callTr("a_cancel"),
+            okText: this.props.callTr("a_2"),
+            cancelText: this.props.callTr("a_3"),
             onOk() {
                 callback();
             }

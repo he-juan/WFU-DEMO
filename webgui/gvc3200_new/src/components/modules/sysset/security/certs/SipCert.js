@@ -158,7 +158,7 @@ class SipCert extends Component {
                     <Column title={callTr("a_validdate")} dataIndex="validate" key="validate" />
                     <Column title={callTr("a_operate")} key="delete" render={(text, record, index) => (
                         <span>
-                            <Popconfirm placement="top" title={callTr("a_promptdelete")} okText={callTr("a_ok")} cancelText={callTr("a_cancel")}
+                            <Popconfirm placement="top" title={callTr("a_promptdelete")} okText={callTr("a_2")} cancelText={callTr("a_3")}
 								onConfirm={this.deleteCert.bind(this, text.pvalue)}>
                                 <a className="delete-icon"></a>
                             </Popconfirm>

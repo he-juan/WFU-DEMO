@@ -136,7 +136,7 @@ class White extends Component {
         let status;
         status = <div id = {text.Id} className = {"callRecord " + "Id" + text.Id}>
             <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
-            <Popconfirm placement="top" title={this.tr("a_deletewhite")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
+            <Popconfirm placement="top" title={this.tr("a_deletewhite")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
                 <button className='allow-delete' id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;
@@ -208,8 +208,8 @@ class White extends Component {
                         <Modal visible={this.state.displayRemoveConfirmModal} className="black-white-confirm-modal" onCancel={this.handleCancel} footer={null}>
                             <p className="confirm-content">{this.tr("a_deletewhite")}</p>
                             <div className="modal-footer">
-                                <Button onClick={this.handleCancel}>{this.tr("a_cancel")}</Button>
-                                <Button type="primary" onClick={this.handleRemoveWhitelist}>{this.tr("a_ok")}</Button>
+                                <Button onClick={this.handleCancel}>{this.tr("a_3")}</Button>
+                                <Button type="primary" onClick={this.handleRemoveWhitelist}>{this.tr("a_2")}</Button>
                             </div>
                         </Modal>
                         <Button type="primary" onClick={this.showContactModal} style={{marginRight:'10px'}}>

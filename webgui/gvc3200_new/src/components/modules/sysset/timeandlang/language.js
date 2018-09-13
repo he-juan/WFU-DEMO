@@ -199,7 +199,7 @@ class LanguageForm extends Component {
                 if (info.file.status === 'done') {
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadsuctips")}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
                     cb_put_importlan( () => {
@@ -208,7 +208,7 @@ class LanguageForm extends Component {
                 } else if (info.file.status === 'error') {
                     Modal.error({
                         content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail")}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
                 }

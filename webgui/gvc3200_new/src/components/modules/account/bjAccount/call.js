@@ -83,7 +83,7 @@ class CallForm extends React.Component {
                         Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_process'}});
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: self.tr(label)}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_ok')}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_2')}}></span>,
                             onOk() {},
                         });
                     })
@@ -131,7 +131,7 @@ class CallForm extends React.Component {
                        })(
                            <Checkbox className={"P-2557" }/>
                    )}
-               </FormItem>        
+               </FormItem>
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
                 </FormItem>

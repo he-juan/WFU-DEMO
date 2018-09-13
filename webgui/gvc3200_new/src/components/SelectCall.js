@@ -252,9 +252,9 @@ class SelectCall extends Component {
         }
         const hasSelected = selectedRowKeys.length > 0;
         return (
-            <Modal title={callTr('a_selectcall')} onOk={this.handleOk} onCancel={this.handleCancel} className='selectcall-modal blacklistmodule' visible={this.props.displayCallModal} okText={callTr("a_ok")} cancelText={callTr("a_cancel")}>
+            <Modal title={callTr('a_selectcall')} onOk={this.handleOk} onCancel={this.handleCancel} className='selectcall-modal blacklistmodule' visible={this.props.displayCallModal} okText={callTr("a_2")} cancelText={callTr("a_3")}>
                 <div className = 'search_call'>
-                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="callsearch" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_search")}></Input>
+                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="callsearch" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_65")}></Input>
                 </div>
                 <Table
                     rowSelection={rowSelection}

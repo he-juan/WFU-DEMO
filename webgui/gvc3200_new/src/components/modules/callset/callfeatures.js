@@ -288,7 +288,7 @@ class CallfeaturesForm extends Component {
                         initialValue: itemvalue['enablefunction'] ? itemvalue['enablefunction'] : "0"
                     })(
                         <Select className={"P-preview"} onChange={this.changeIncomingFunc}>
-                            <Option value="0">{callTr("a_none")}</Option>
+                            <Option value="0">{callTr("a_20")}</Option>
                             <Option value="1">{callTr("a_enpreview")}</Option>
                             <Option value="2">{callTr("a_enforward")}</Option>
                         </Select>
@@ -479,7 +479,7 @@ class CallfeaturesForm extends Component {
                         initialValue: itemvalue['use3rdapp'] ? itemvalue['use3rdapp'] : ''
                     })(
                         <Select onChange={ this.onChangeMode.bind(this) } className="P-oem_phone_name">
-                            <Option value="">{callTr("a_none")}</Option>
+                            <Option value="">{callTr("a_20")}</Option>
                             {children}
                         </Select>
                     )}

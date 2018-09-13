@@ -181,7 +181,7 @@ class channel extends Component {
                       onCancel={this.handleCancel} visible={this.state.Modalvisible}
                       footer={[
                           <Button key="back" type="ghost" size="large"
-                                  onClick={this.handleCancel}>{this.tr("a_cancel")}</Button>,
+                                  onClick={this.handleCancel}>{this.tr("a_3")}</Button>,
                           <Button key="submit" type="primary" onClick={this.handleOk}>
                               {this.tr("a_save")}
                           </Button>,

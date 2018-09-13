@@ -347,21 +347,21 @@ class NewContactsEdit extends Component {
         };
         if (value == '0') {
             mode.everyFixedDays = 'display-block'
-            mode.str_interval='a_everyFixedDays'
+            mode.str_interval='a_15028'
         } else if(value == '1') {
             mode.dayofweek = 'display-block'
-            mode.str_interval = 'a_everyFixedWeeks'
+            mode.str_interval = 'a_15029'
         } else if(value == '2') {
             mode.everyFixedMonth = 'display-block'
             mode.monthByDay = 'display-block'
-            mode.str_interval = 'a_everyFixedMonth'
+            mode.str_interval = 'a_15030'
         } else if(value == '3') {
             mode.everyFixedMonth = 'display-block'
             mode.monthByWeek ='display-block'
-            mode.str_interval = 'a_everyFixedMonth'
+            mode.str_interval = 'a_15030'
         } else if(value == '4') {
             mode.everyFixedYear = 'display-block'
-            mode.str_interval = 'a_everyFixedYear'
+            mode.str_interval = 'a_15031'
         }
 
         return mode
@@ -414,7 +414,7 @@ class NewContactsEdit extends Component {
         let minutesArr = []
         let durationArr = []
         let presetArr = [
-            <Option value = '-1'>{callTr('a_none')}</Option>
+            <Option value = '-1'>{callTr('a_20')}</Option>
         ]
         let presetinfo = this.props.presetinfo
         for (let i = 0; i < 31; i++) {
@@ -444,7 +444,7 @@ class NewContactsEdit extends Component {
             let position = parseInt(presetinfo[i].position)
             let name = presetinfo[i].name ? ('(' +presetinfo[i].name +')') : ''
             if(position<24) {
-                presetArr.push(<Option value = {position.toString()}>{callTr('a_preset') + (position + 1) + name }</Option>)
+                presetArr.push(<Option value = {position.toString()}>{callTr('a_10024') + (position + 1) + name }</Option>)
             }
         }
         return {dayArr:dayArr,hoursArr:hoursArr,minutesArr:minutesArr,durationArr:durationArr,presetArr:presetArr}
@@ -1005,11 +1005,10 @@ class NewContactsEdit extends Component {
     }
 
     render() {
-        let title = this.props.addNewConf ? 'a_newConf' : 'a_editConf';
+        let title = this.props.addNewConf ? 'a_10035' : 'a_10051'; // add : edit
         let allDisabled = false
-        // title = this.props.confdetail ? 'a_detail' : title
         if(this.props.confdetail) { // show detail
-            title = 'a_detail'
+            title = 'a_12160'
             allDisabled = true
         }
         let values = this.props.form.getFieldsValue();
@@ -1084,21 +1083,21 @@ class NewContactsEdit extends Component {
         return(
             <div>
                 <Modal className='importModal confModal' visible={this.props.displayNewConfModal}
-                       title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_ok")} cancelText={callTr("a_cancel")} >
+                       title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} >
                     <Form onSubmit={this.handleSubmit} hideRequiredMark >
                         <FormItem className='display-hidden'>
                             {getFieldDecorator('Id', {})(
                                 <Input hidden />
                             )}
                         </FormItem>
-                        <FormItem label={(<span>{callTr("a_confSubject")}</span>)}>
+                        <FormItem label={(<span>{callTr("a_15054")}</span>)}>
                             {getFieldDecorator('confSubject', {
                                 rules: [{required: true}]
                             })(
                                 <Input disabled={allDisabled} style={{width:'93%'}}/>
                             )}
                         </FormItem>
-                        <FormItem label={(<span>{callTr("a_timestart")}</span>)}>
+                        <FormItem label={(<span>{callTr("a_4033")}</span>)}>
                             {getFieldDecorator('confStatedate', {
                                 rules: [{ type: 'object', required: true, message: 'Please select time!' }],
                                 initialValue:moment(curDate, 'YYYY-MM-DD')
@@ -1125,7 +1124,7 @@ class NewContactsEdit extends Component {
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem label={(<span>{callTr("a_confDuration")}</span>)}>
+                        <FormItem label={(<span>{callTr("a_3501")}</span>)}>
                             {getFieldDecorator('duration', {
                                 rules: [{required: true}],
                                 initialValue: '1'
@@ -1137,7 +1136,7 @@ class NewContactsEdit extends Component {
                             &nbsp;&nbsp;
                             <span>{callTr("a_Hour")}</span>
                         </FormItem>
-                        <FormItem label={(<span>{callTr("a_confPreset")}</span>)}>
+                        <FormItem label={(<span>{callTr("a_10024")}</span>)}>
                             {getFieldDecorator('confpreset', {
                                 initialValue: '-1'
                             })(
@@ -1146,32 +1145,32 @@ class NewContactsEdit extends Component {
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem label={(<span>{callTr("a_cycleType")}</span>)}>
+                        <FormItem label={(<span>{callTr("a_10054")}</span>)}>
                             {getFieldDecorator('cycle', {
                                 initialValue: '0'
                             })(
                                 <Select disabled={allDisabled} style={{width:'40%'}} >
-                                    <option value="0">{callTr("a_oneTimeEvent")}</option>
-                                    <option value="1">{callTr("a_daily")}</option>
-                                    <option value="2">{callTr("a_weekday")}</option>
-                                    <option value="3">{callTr("a_weekly")}</option>
-                                    <option value="4">{callTr("a_monthly")}</option>
-                                    <option value="5">{callTr("a_monthly1")}</option>
-                                    <option value="6">{callTr("a_yearly")}</option>
-                                    <option value="7">{callTr("a_custom")}</option>
+                                    <option value="0">{callTr("a_10143")}</option>
+                                    <option value="1">{callTr("a_10144")}</option>
+                                    <option value="2">{callTr("a_10145")}</option>
+                                    <option value="3">{callTr("a_10146")}</option>
+                                    <option value="4">{callTr("a_10148")}</option>
+                                    <option value="5">{callTr("a_10149")}</option>
+                                    <option value="6">{callTr("a_10150")}</option>
+                                    <option value="7">{callTr("a_10151")}</option>
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem className={classObj.customRepeat} label={(<span>{callTr("a_customRepeat")}</span>)}>
+                        <FormItem className={classObj.customRepeat} label={(<span>{callTr("a_15025")}</span>)}>
                             {getFieldDecorator('customRepeat', {
                                 initialValue: '0'
                             })(
                                 <Select disabled={allDisabled} style={{width:'40%'}} >
-                                    <option value="0">{callTr("a_daily")}</option>
-                                    <option value="1">{callTr("a_weekly")}</option>
-                                    <option value="2">{callTr("a_monthly")}</option>
-                                    <option value="3">{callTr("a_monthly1")}</option>
-                                    <option value="4">{callTr("a_yearly")}</option>
+                                    <option value="0">{callTr("a_10144")}</option>
+                                    <option value="1">{callTr("a_10146")}</option>
+                                    <option value="2">{callTr("a_10148")}</option>
+                                    <option value="3">{callTr("a_10149")}</option>
+                                    <option value="4">{callTr("a_10150")}</option>
                                 </Select>
                             )}
                         </FormItem>
@@ -1230,7 +1229,7 @@ class NewContactsEdit extends Component {
                                 <Checkbox disabled={allDisabled}>{callTr("a_saturday")}</Checkbox>
                             )}
                         </FormItem>
-                        <FormItem className={ classObj.monthByDay } label={(<span>{callTr("a_repeatDate")}</span>)}>
+                        <FormItem className={ classObj.monthByDay } label={(<span>{callTr("a_15032")}</span>)}>
                             {getFieldDecorator('monthByDay', {
                                 initialValue: curDay.toString()
                             })(
@@ -1239,33 +1238,33 @@ class NewContactsEdit extends Component {
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem className={ classObj.monthByWeek } label={(<span>{callTr("a_repeatDate")}</span>)}>
+                        <FormItem className={ classObj.monthByWeek } label={(<span>{callTr("a_15032")}</span>)}>
                             {getFieldDecorator('monthWeekOrdinal', {
                                 initialValue: weekNum.toString()
                             })(
                                 <Select disabled={allDisabled} style={{width:'40%'}} >
-                                    <option value="1">{callTr("a_first")}</option>
-                                    <option value="2">{callTr("a_second")}</option>
-                                    <option value="3">{callTr("a_third")}</option>
-                                    <option value="4">{callTr("a_fourth")}</option>
-                                    <option value="5">{callTr("a_last")}</option>
+                                    <option value="1">{callTr("a_19162")}</option>
+                                    <option value="2">{callTr("a_19163")}</option>
+                                    <option value="3">{callTr("a_19164")}</option>
+                                    <option value="4">{callTr("a_19165")}</option>
+                                    <option value="5">{callTr("a_19166")}</option>
                                 </Select>
                             )}&nbsp;&nbsp;
                             {getFieldDecorator('monthWeekDay', {
                                 initialValue: curWeekDay.toString()
                             })(
                                 <Select disabled={allDisabled} style={{width:'40%'}} >
-                                    <option value="0">{callTr("a_sunday")}</option>
-                                    <option value="1">{callTr("a_monday")}</option>
-                                    <option value="2">{callTr("a_tuesday")}</option>
-                                    <option value="3">{callTr("a_wednesday")}</option>
-                                    <option value="4">{callTr("a_thursday")}</option>
-                                    <option value="5">{callTr("a_friday")}</option>
-                                    <option value="6">{callTr("a_saturday")}</option>
+                                    <option value="0">{callTr("a_130")}</option>
+                                    <option value="1">{callTr("a_124")}</option>
+                                    <option value="2">{callTr("a_125")}</option>
+                                    <option value="3">{callTr("a_126")}</option>
+                                    <option value="4">{callTr("a_127")}</option>
+                                    <option value="5">{callTr("a_128")}</option>
+                                    <option value="6">{callTr("a_129")}</option>
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem className={ classObj.everyFixedYear } label={(<span>{callTr("a_repeatDate")}</span>)}>
+                        <FormItem className={ classObj.everyFixedYear } label={(<span>{callTr("a_15032")}</span>)}>
                             {getFieldDecorator('yearly', {
                                 initialValue: [this.transStr(curMonth), this.transStr(curDay)]
                             })(
@@ -1294,7 +1293,7 @@ class NewContactsEdit extends Component {
                             )}
                         </FormItem>
 
-                        <FormItem label={(<span>{callTr("a_pinCode")}</span>)}>
+                        <FormItem label={(<span>{callTr("a_19133")}</span>)}>
                             {getFieldDecorator('pinCode', {
                                 initialValue: ''
                             })(
@@ -1302,9 +1301,9 @@ class NewContactsEdit extends Component {
                             )}
 
                         </FormItem>
-                        <FormItem label={(<span className='ant-form-item-required'>{callTr("a_confMember")}</span>)}>
+                        <FormItem label={(<span className='ant-form-item-required'>{callTr("a_15035")}</span>)}>
                             <Button disabled={allDisabled} type="primary" onClick={this.handleAddMember.bind(this)}>
-                                {callTr('a_add')}
+                                {callTr('a_23')}
                             </Button>
                         </FormItem>
                         <div className = 'confinfo_memberlist'>
@@ -1326,13 +1325,13 @@ class NewContactsEdit extends Component {
                     </Form>
                 </Modal>
 
-                <Modal className='importModal confModal' style={{'minHeight':'540px'}} title={callTr('a_addMember')} onOk={this.handleAddModalOk} onCancel={this.handleAddModalCancel}
-                       okText={callTr("a_ok")} cancelText={callTr("a_cancel")}  visible={this.state.displayAddModal}>
+                <Modal className='importModal confModal' style={{'minHeight':'540px'}} title={callTr('a_517')} onOk={this.handleAddModalOk} onCancel={this.handleAddModalCancel}
+                       okText={callTr("a_2")} cancelText={callTr("a_3")}  visible={this.state.displayAddModal}>
                     <Tabs className="config-tab" defaultActiveKey={this.state.activeKey} onChange={this.changeTab}>
                         <TabPane tab = {this.tr("a_contact")} key='0'>
                             <div className="scrollbox">
                                 <div style={{marginBottom:'15px'}}>
-                                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchContact.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_search")}></Input>
+                                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchContact.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_65")}></Input>
                                     <Select value={this.state.contType} className="acctselect" onChange={this.handlefilter.bind(this,0)} style={{'width':'25%','margin-left':'2%'}}>
                                         <option value="-1">All</option>
                                         <option value="0">SIP</option>
@@ -1353,7 +1352,7 @@ class NewContactsEdit extends Component {
                         <TabPane tab = {this.tr("call_history")} key='1'>
                             <div className="scrollbox">
                                 <div style={{marginBottom:'15px'}}>
-                                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchCall.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_search")}></Input>
+                                    <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchCall.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_65")}></Input>
                                     <Select value={this.state.callType} className="acctselect" onChange={this.handlefilter.bind(this,1)} style={{'width':'25%','margin-left':'2%'}}>
                                         <option value="-1">All</option>
                                         <option value="0">SIP</option>

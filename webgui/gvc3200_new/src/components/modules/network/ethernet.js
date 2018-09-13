@@ -345,7 +345,7 @@ class Ethernet extends Component {
                     if (values.ppoeaccount == "" || values.ppoepassword == "") {
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("warn_pppoe")}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
                         return false;
@@ -359,7 +359,7 @@ class Ethernet extends Component {
                     {
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("error_mask")}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
                         return false;

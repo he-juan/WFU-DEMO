@@ -80,8 +80,8 @@ class ManualModal extends Component {
                 visible = {addmanualVisible}
                 onOk={this.handleAddOk}
                 onCancel={this.handleCancel}
-                okText={callTr("a_ok")}
-                cancelText={callTr("a_cancel")}
+                okText={callTr("a_2")}
+                cancelText={callTr("a_3")}
             >
                 <Form hideRequiredMark>
                     <FormItem label={(<span>{callTr("a_number")}</span>)}>

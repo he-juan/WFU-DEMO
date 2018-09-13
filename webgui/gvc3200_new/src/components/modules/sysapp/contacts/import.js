@@ -143,7 +143,7 @@ class ImportEdit extends Component {
            if(ext == 'xml' && this.state.importtype == '2') {
                Modal.info({
                    content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_vcard")}}></span>,
-                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                    onOk() {},
                });
                reject();
@@ -151,7 +151,7 @@ class ImportEdit extends Component {
            if(ext == 'vcf' && this.state.importtype == '1') {
                Modal.info({
                    content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_xml")}}></span>,
-                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                    onOk() {},
                });
                reject();
@@ -160,7 +160,7 @@ class ImportEdit extends Component {
             if ( !(ext && /^(xml|vcf)$/.test(ext)) ){
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_xml_etc")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {},
                 });
                 reject();

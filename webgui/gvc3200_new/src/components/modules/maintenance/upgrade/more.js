@@ -63,8 +63,8 @@ class MoreForm extends Component {
         if(!m_uploading) {
             confirm({
                 content: <span dangerouslySetInnerHTML={{__html: callTr("a_resetconfirm")}}></span>,
-                okText: callTr("a_ok"),
-                cancelText: callTr("a_cancel"),
+                okText: callTr("a_2"),
+                cancelText: callTr("a_3"),
                 onOk() {
                     cb_resetres_ok("0");
                 },

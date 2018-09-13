@@ -164,7 +164,7 @@ class Common extends Component {
                 if (tmpproxy.indexOf(":") != -1 && tmpproxy.split(":").length == 2 || tmpproxy.toUpperCase().indexOf("HTTP") != -1) {
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: callTr("warn_proxyurl")}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
                     return false;
@@ -172,7 +172,7 @@ class Common extends Component {
                 if( (tmpproxy == "" && tmpport != "") || (tmpproxy != "" && tmpport == "") || (tmpnoproxy != "" && tmpproxy == "" && tmpport == "") ) {
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: callTr("warn_proxy")}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
                     return false;

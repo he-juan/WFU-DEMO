@@ -111,7 +111,7 @@ class VpkForm extends Component {
             vpkdtmfContent: "",
             matchCallNumIp: ""
         });
-        this.props.onChangeState("a_add");
+        this.props.onChangeState("a_23");
         if (init != 'init') {
             this.props.handleVpkFormHideShow('hide')
         }
@@ -336,7 +336,7 @@ class VpkForm extends Component {
               let req_items_arr = this.handlePvalue(operatename);
               req_items_arr[0].splice(6,req_items_arr[0].length-1)
               let vpkOrder = this.props.vpkOrder;
-              if(operatename == 'a_add') {
+              if(operatename == 'a_23') {
                   if(vpkOrder[0] == "") {
                       vpkOrder = []
                   }
@@ -439,7 +439,7 @@ class VpkForm extends Component {
                     )}
                 </FormItem>
                 <FormItem className="operatebtn">
-                    <Button className="cancel" size="large" onClick={this.handleCancel}>{callTr("a_cancel")}</Button>
+                    <Button className="cancel" size="large" onClick={this.handleCancel}>{callTr("a_3")}</Button>
                     <Button className="submit" type="primary" htmlType="submit" size="large" disabled={this.props.disableAppend}>
                         {callTr(this.props.operatename)}
                     </Button>
@@ -456,7 +456,7 @@ class Vpk extends Component {
         this.state = {
             selectedRowKeys: [], //configure the default column
             vpkdata: [],
-            operatename: "a_add",
+            operatename: "a_23",
             VpkEditIdx:"",
             disableAppend: false,
             disableAddBtn: false,
@@ -573,7 +573,7 @@ class Vpk extends Component {
         }
         this.props.getItemValues(req_items,(values) => {
             this.getItemValuesCallback(values,vpkOrder)
-            this.onChangeState('a_add',vpkOrder.length)
+            this.onChangeState('a_23',vpkOrder.length)
         })
     }
 
@@ -784,8 +784,8 @@ class Vpk extends Component {
                     </div>
                     <div className="vpklist">
                         <div>
-                            <Button style={{width : '86px'}} type="primary" disabled={this.state.disableAddBtn} onClick={this.handleVpkFormHideShow} >{this.tr("a_add")}</Button>
-                            <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleDeleteMulti}>
+                            <Button style={{width : '86px'}} type="primary" disabled={this.state.disableAddBtn} onClick={this.handleVpkFormHideShow} >{this.tr("a_23")}</Button>
+                            <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteMulti}>
                                 <Button type="primary" className= "select-delete" disabled={!hasSelected}>
                                     <i className={!hasSelected ? "select-delete-icon" : ""} />{this.tr("a_delete")}
                                 </Button>
@@ -810,7 +810,7 @@ class Vpk extends Component {
                                     <span className="ant-divider" />
                                     <i className='allow-edit' onClick={this.handleEditItem.bind(this, text, index)}/>
                                     <span className="ant-divider" />
-                                    <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
+                                    <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
                                         <i className='allow-delete'/>
                                     </Popconfirm>
                                 </pre>

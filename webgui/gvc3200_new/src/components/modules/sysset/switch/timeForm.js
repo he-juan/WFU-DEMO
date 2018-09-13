@@ -182,7 +182,7 @@ class TimeForm extends Component {
             if (this.state.timeList[i][0].isAfter(this.state.timeList[i][1])) {
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("a_switch_time_error")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {
                     },
                 });
@@ -427,12 +427,12 @@ class TimeForm extends Component {
                         this.state.changeStyleIsAdd == true ?
                             <Button type="primary" size="large" style={{marginLeft: 0}}
                                     disabled={this.state.addDisabled}
-                                    onClick={this.handleSubmit}>{callTr("a_add")}</Button> :
+                                    onClick={this.handleSubmit}>{callTr("a_23")}</Button> :
                             <div><Button className="submit" type="primary" size="large"
                                          style={{marginLeft: 0, marginTop: 0}}
                                          onClick={this.handleSubmit2}>{callTr("a_save")}</Button>
                                 <Button className="cancel" size="large" onClick={this.handleCancel}
-                                        style={{marginLeft: "20px", marginTop: 0}}>{callTr("a_cancel")}</Button></div>
+                                        style={{marginLeft: "20px", marginTop: 0}}>{callTr("a_3")}</Button></div>
                     }
                 </FormItem>
             </Form>
@@ -486,8 +486,8 @@ class TimeForm extends Component {
                     <Column title={this.tr("a_operate")} width={110} key="option" render={(text, record, index) => (
                         <span>
                     <a className="edit-icon" onClick={this.handleEditItem.bind(this, text, index)}></a>
-                    <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")}
-                                cancelText={this.tr("a_cancel")}
+                    <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")}
+                                cancelText={this.tr("a_3")}
                                 onConfirm={this.handleDeleteItem.bind(this, text, index)}>
                         <a className="delete-icon" style={{marginLeft: "10px", "marginTop": "3px"}}></a>
                     </Popconfirm>

@@ -135,8 +135,8 @@ class DeployForm extends Component {
                     const self = this;
                     confirm({
                         content: <span dangerouslySetInnerHTML={{__html: callTr("a_pnp5060port")}}></span>,
-                        okText: callTr("a_ok"),
-                        cancelText: callTr("a_cancel"),
+                        okText: callTr("a_2"),
+                        cancelText: callTr("a_3"),
                         onOk() {
                             self.save_settings();
                         },

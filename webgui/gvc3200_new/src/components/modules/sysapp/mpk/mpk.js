@@ -856,17 +856,17 @@ class MpkForm extends Component {
                             </Modal>
                         </FormItem>
                         <FormItem　className="operatebtn">
-                            <Button className="cancel" size="large" onClick={this.hanleCancelMpk}>{callTr("a_cancel")}</Button>
+                            <Button className="cancel" size="large" onClick={this.hanleCancelMpk}>{callTr("a_3")}</Button>
                             <Button className="submit" type="primary" onClick={this.handleSubmit1.bind(this,this.state.btnFlag)} size="large">
-                                {this.state.btnFlag == false　? this.tr("a_add") : this.tr("a_ok")}
+                                {this.state.btnFlag == false　? this.tr("a_23") : this.tr("a_2")}
                             </Button>
                         </FormItem>
                     </Form>
                 </div>
                 <div className="mpklist">
                     <div>
-                        <Button style={{width : '86px'}} type="primary" disabled={this.state.disableAddBtn} onClick={this.handleMpkFormHideShow} >{this.tr("a_add")}</Button>
-                        <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleDelete}>
+                        <Button style={{width : '86px'}} type="primary" disabled={this.state.disableAddBtn} onClick={this.handleMpkFormHideShow} >{this.tr("a_23")}</Button>
+                        <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDelete}>
                             <Button type="primary" className= "select-delete" disabled={!hasSelected}>
                                 <i className={!hasSelected ? "select-delete-icon" : ""} />{this.tr("a_delete")}
                             </Button>

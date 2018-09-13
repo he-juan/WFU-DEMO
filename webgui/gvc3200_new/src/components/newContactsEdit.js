@@ -123,8 +123,8 @@ class NewContactsEdit extends Component {
             let self = this
             Modal.confirm({
                 content: <span dangerouslySetInnerHTML={{__html: callTr("a_namerepeat")}}></span>,
-                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
-                cancelText: <span dangerouslySetInnerHTML={{__html: callTr("a_cancel")}}></span>,
+                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
+                cancelText: <span dangerouslySetInnerHTML={{__html: callTr("a_3")}}></span>,
                 onCancel() {
                     return false
                 },
@@ -263,7 +263,7 @@ class NewContactsEdit extends Component {
 
         let GroupDisplay = (this.props.groups.length == 0) ? 'none' : 'block';
         return (
-            <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_ok")} cancelText={callTr("a_cancel")} className='contacts-modal' visible={this.props.displayModal}>
+            <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
 
                     <FormItem label={(<span>{callTr("a_displayName")}</span>)}>

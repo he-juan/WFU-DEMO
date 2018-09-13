@@ -372,7 +372,7 @@ class DownloadContactsForm extends Component {
                      initialValue: this.props.itemValues['phbkdowninterval'] ? this.props.itemValues['phbkdowninterval'] : "0"
                      })(
                          <Select className="P-332">
-                             <Option value="0">{callTr("a_none")}</Option>
+                             <Option value="0">{callTr("a_20")}</Option>
                              <Option value="120">{callTr("a_2hour")}</Option>
                              <Option value="240">{callTr("a_4hour")}</Option>
                              <Option value="360">{callTr("a_6hour")}</Option>

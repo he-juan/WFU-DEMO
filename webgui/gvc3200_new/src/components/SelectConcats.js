@@ -221,11 +221,11 @@ class SelectContacts extends Component {
         return (
             <Modal title={callTr('a_selectcontact')} onOk={this.handleOk} onCancel={this.handleCancel}
                    className='selectcontact-modal contactModal' visible={this.props.displayContactsModal}
-                   okText={callTr("a_ok")} cancelText={callTr("a_cancel")}>
+                   okText={callTr("a_2")} cancelText={callTr("a_3")}>
                 <div className='search_call'>
                     <Input prefix={<Icon type="search" style={{color: 'rgba(0,0,0,.25)'}}/>}
                            id={this.props.searchId} onChange={this.handleChange.bind(this)}
-                           placeholder={callTr("a_search")}></Input>
+                           placeholder={callTr("a_65")}></Input>
                 </div>
                 <Table
                     rowSelection={rowSelection}

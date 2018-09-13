@@ -26,7 +26,7 @@ class GdsForm extends Component {
             gdsnumber: "",
             gdspwd: ""
         });
-        this.props.onChangeState(2, "a_add");
+        this.props.onChangeState(2, "a_23");
         this.props.ctrlGdsOperations("hide");
     }
 
@@ -41,7 +41,7 @@ class GdsForm extends Component {
                 const operatename = this.props.operatename;
                 let startindex, gdsdata = this.props.gdsdata;;
                 for(let i = 0; i < gdsdata.length; i++){
-                    if(operatename == "a_add" && values['gdsnumber'] == gdsdata[i].gdsnumber){
+                    if(operatename == "a_23" && values['gdsnumber'] == gdsdata[i].gdsnumber){
                         this.props.promptMsg('ERROR',"a_sameuseriderror");
                         return false;
                     }
@@ -52,7 +52,7 @@ class GdsForm extends Component {
                     this.props.promptMsg('ERROR',"a_gdsnumbererror");
                     return false;
                 }
-                if(operatename == "a_add"){
+                if(operatename == "a_23"){
                     const cmparray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
                     startindex = -1;
 
@@ -81,7 +81,7 @@ class GdsForm extends Component {
                     let servicetype = (values["serviceType"] == '0' ? "GDS" : "DTMF");
                     let tempitem = {key: startindex, gdsorder: startindex + 1, serviceType: servicetype, doorsystemType: (values["serviceType"] == '0' ? values["doorsystemType"] : '0'), gdsname: values["gdsname"], gdsnumber: (values["serviceType"] == '0' ? values["gdsnumber"] : ''),
                         gdspwd: values["gdspwd"]};
-                    if(operatename == "a_add"){
+                    if(operatename == "a_23"){
                         gdsdata.splice(startindex, 0, tempitem);
                     }
                     else{
@@ -177,7 +177,7 @@ class GdsForm extends Component {
                     )}
                 </FormItem>
                 <FormItem className="operatebtn">
-                    <Button className="cancel" size="large" onClick={this.handleCancel}>{callTr("a_cancel")}</Button>
+                    <Button className="cancel" size="large" onClick={this.handleCancel}>{callTr("a_3")}</Button>
                     <Button className="submit" type="primary" htmlType="submit" size="large" disabled={this.props.disableAppend}>
                         {callTr(this.props.operatename)}
                     </Button>
@@ -196,7 +196,7 @@ class Gds extends Component {
         this.state = {
             selectedRowKeys: [], //configure the default column
             gdsdata: [],
-            operatename: "a_add",
+            operatename: "a_23",
             disableAppend: false,  // to control add gds item button disabled or not , the max num is 10
             gdsvisible: "display-hidden",
             disabledbtn: false,
@@ -427,9 +427,9 @@ class Gds extends Component {
                     <div className="gdslist">
                         <div>
                             <Button className="select-delete" type="primary" onClick={this.ctrlGdsOperations.bind(this, "show")} disabled={this.state.disabledbtn}>
-                                {this.tr("a_add")}
+                                {this.tr("a_23")}
                             </Button>
-                            <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleDeleteMulti}>
+                            <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteMulti}>
                                 <Button className="select-delete" type="primary" disabled={!hasSelected}>
                                     <i className={!hasSelected ? "select-delete-icon" : ""} />
                                     {this.tr("a_delete")}
@@ -445,7 +445,7 @@ class Gds extends Component {
                             <Column title={this.tr("a_operate")} key="operate" render={(text, record, index) => (
                                 <span>
                                     <a className="edit-icon" onClick={this.handleEditItem.bind(this, text)}></a>
-                                    <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
+                                    <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
                                         <a className="delete-icon" style={{marginLeft: "10px", "marginTop": "3px"}}></a>
                                     </Popconfirm>
                                 </span>

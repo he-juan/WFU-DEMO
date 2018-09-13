@@ -308,7 +308,7 @@ class CallForm extends React.Component {
             if (!(ext && (/^(wav)$/.test(ext) || /^(mp3)$/.test(ext)))) {
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_wrong")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {},
                 });
                 reject();
@@ -352,7 +352,7 @@ class CallForm extends React.Component {
                         Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_process'}});
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: self.tr(label)}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_ok')}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_2')}}></span>,
                             onOk() {},
                         });
                     })
@@ -568,7 +568,7 @@ class CallForm extends React.Component {
                        initialValue: this.props.itemValues['cftype'] ? this.props.itemValues['cftype'] : "None"
                        })(
                            <Select onChange = {this.hanleCallTransferType} className={"P-" + nvram["cftype"]}>
-                               <Option value="None">{callTr("a_none")}</Option>
+                               <Option value="None">{callTr("a_20")}</Option>
                                <Option value="allTo">{callTr("a_uccf")}</Option>
                                <Option value="TimeRule">{callTr("a_timecf")}</Option>
                                <Option value="WorkRule">{callTr("a_workcf")}</Option>

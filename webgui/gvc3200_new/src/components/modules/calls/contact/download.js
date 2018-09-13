@@ -237,7 +237,7 @@ class DownloadContactsForm extends Component {
         const [callTr] = [this.props.callTr];
         const itemValues = this.state.formitemValues;
         return (
-            <Modal title={callTr('a_downloadcontacts')} className="downloadModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayDwonloadModal}>
+            <Modal title={callTr('a_savephone')} className="downloadModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayDwonloadModal}>
                 <Form>
                     <FormItem label={(<span>{callTr("a_clearoldlist")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('clearold', {
@@ -348,7 +348,7 @@ class DownloadContactsForm extends Component {
                             initialValue: itemValues['phbkdowninterval'] ? itemValues['phbkdowninterval'] : "0"
                          })(
                              <Select className="P-332">
-                                 <Option value="0">{callTr("a_none")}</Option>
+                                 <Option value="0">{callTr("a_20")}</Option>
                                  <Option value="120">{callTr("a_2hour")}</Option>
                                  <Option value="240">{callTr("a_4hour")}</Option>
                                  <Option value="360">{callTr("a_6hour")}</Option>

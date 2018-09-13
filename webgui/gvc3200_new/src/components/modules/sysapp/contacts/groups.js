@@ -190,7 +190,7 @@ class GroupsAddEditBox extends Component {
 
                     <Badge style={{margin:'0.5rem 0',fontWeight:'bold'}} status="processing" text={callTr("a_groupmembers")} />
                     <FormItem>
-                        <Search style={{margin:'0.5rem 1rem',height:'32px'}} placeholder={ `${callTr('a_search')} ${mContactNum} ${callTr('a_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                        <Search style={{margin:'0.5rem 1rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                     </FormItem>
                     {
                         (this.state.searchContacts.length>0 ? this.state.searchContacts : this.props.items).map((item,index)=>{
@@ -361,7 +361,7 @@ class GroupsForm extends Component {
 
                     <Col span={2}>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="primary" size='large' onClick={this.handleAddContact}>{callTr('a_add')}</Button>
+                        <Button type="primary" size='large' onClick={this.handleAddContact}>{callTr('a_23')}</Button>
                     </Col>
                 </Row>
                 <Collapse accordion bordered={false} defaultActiveKey={[String(groupslength)]}>

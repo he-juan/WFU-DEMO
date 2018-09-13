@@ -265,7 +265,7 @@ class Call extends Component {
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>
                     <div style={{'float':'left'}}>
-                        <Popconfirm placement="right" title={this.tr("a_deleteall")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleOkDeleteMulti}>
+                        <Popconfirm placement="right" title={this.tr("a_deleteall")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDeleteMulti}>
                             <Button className="select-delete" type="primary" disabled={!hasSelected}>
                                 <i className={!hasSelected ? "select-delete-icon" : ""} />
                                 {this.tr("a_delete")}

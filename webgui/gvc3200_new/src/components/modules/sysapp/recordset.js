@@ -58,7 +58,7 @@ class RecordSet extends Component {
                     if (tmpproxy.indexOf(":") != -1 || tmpproxy.split(":").length == 2 || (!reg.test(tmpproxy) && tmpproxy != '')) {
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("warn_ftpurl")}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
                         return false;
@@ -66,7 +66,7 @@ class RecordSet extends Component {
                     if( (tmpproxy == "" && tmpport != "") || (tmpproxy != "" && tmpport == "")) {
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("warn_ftp")}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
                         return false;
@@ -75,7 +75,7 @@ class RecordSet extends Component {
                     if(!path_verify.test(values.ftppath) && values.ftppath!='') {
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("warn_ftppath")}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
                         return false;
@@ -84,14 +84,14 @@ class RecordSet extends Component {
                         if(tmpproxy == "" || tmpport=="") {
                             Modal.info({
                                 content: <span dangerouslySetInnerHTML={{__html: callTr("warn_ftp")}}></span>,
-                                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                                 onOk() {},
                             });
                             return false;
                         } else if(values.ftppath==''){
                             Modal.info({
                                 content: <span dangerouslySetInnerHTML={{__html: callTr("warn_ftppath")}}></span>,
-                                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                                 onOk() {},
                             });
                             return false;
@@ -210,7 +210,7 @@ class RecordSet extends Component {
                                     initialValue: itemValues.ftpuploadinterval ? itemValues.ftpuploadinterval : "0"
                                 })(
                                     <Select>
-                                        <Option value="0">{callTr('a_none')}</Option>
+                                        <Option value="0">{callTr('a_20')}</Option>
                                         <Option value="2">2</Option>
                                         <Option value="4">4</Option>
                                         <Option value="6">6</Option>

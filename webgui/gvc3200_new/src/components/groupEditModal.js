@@ -146,7 +146,7 @@ class GroupEditModal extends Component {
         const selectItems = this.props.selectItems;
         const obj = this.props.obj;
         return (
-             <Modal title={callTr('a_groupedit')} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_ok")} cancelText={callTr("a_cancel")} className='groups-modal' visible={this.props.displayGroupModal}>
+             <Modal title={callTr('a_groupedit')} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='groups-modal' visible={this.props.displayGroupModal}>
                 <Form hideRequiredMark>
                     <FormItem label={(<span>{callTr("a_groupname")}</span>)}>
                         {getFieldDecorator('groupname', {
@@ -170,7 +170,7 @@ class GroupEditModal extends Component {
                         <div className = "contactsDiv">
                             <p>{callTr("a_contact")}</p>
                             <div>
-                                <Search placeholder={callTr("a_search")} onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                                <Search placeholder={callTr("a_65")} onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                                 <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
                                     <Col span={2}>
                                         {getFieldDecorator('contactCheckall', {

@@ -385,7 +385,7 @@ class GroupTab extends Component {
         let statue;
         statue = <div className = {"callRecord " + text.Id}>
             <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
-            <Popconfirm placement="top" title={this.tr("a_deletetgroup")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
+            <Popconfirm placement="top" title={this.tr("a_deletetgroup")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
                 <button className='allow-delete' id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;
@@ -437,7 +437,7 @@ class GroupTab extends Component {
                             {this.tr("a_delete")}
                         </Button>
                         <Modal visible={this.state.displayDelGroupModal} title={this.tr("a_deletegrouptitle")} className="confirm-modal"
-                               okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelGroupCancel}>
+                               okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelGroupCancel}>
                             <p className="confirm-content">{this.tr("a_deletetgroup")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} onClick={this.showGroupModal}>
@@ -446,7 +446,7 @@ class GroupTab extends Component {
                     </div>
                     <div style={{'float':'right'}}>
                         <div className = 'search_div'>
-                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_search")}></Input>
+                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_65")}></Input>
                         </div>
                     </div>
                 </div>

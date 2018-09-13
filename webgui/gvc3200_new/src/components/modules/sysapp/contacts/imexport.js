@@ -243,7 +243,7 @@ class ImexportForm extends Component {
             if( (ext && /^(xml|vcf|csv)$/.test(ext)) && ext != 'xml' && this.state.importtype == '1') {
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_xml")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {},
                 });
                 reject();
@@ -251,7 +251,7 @@ class ImexportForm extends Component {
             if( (ext && /^(xml|vcf|csv)$/.test(ext)) && ext != 'vcf' && this.state.importtype == '2') {
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_vcard")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {},
                 });
                 reject();
@@ -259,7 +259,7 @@ class ImexportForm extends Component {
             if((ext && /^(xml|vcf|csv)$/.test(ext)) && ext != 'csv' && this.state.importtype == '3') {
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_csv")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {},
                 });
                 reject();
@@ -267,7 +267,7 @@ class ImexportForm extends Component {
             if ( !(ext && /^(xml|vcf|csv)$/.test(ext)) ){
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html:hiddenConf ? this.tr("ext_xml_etc") : this.tr("ext_xml_csv_etc")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {},
                 });
                 reject();

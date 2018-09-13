@@ -149,7 +149,7 @@ class ExportEdit extends Component {
         let self = this;
 
         return (
-            <Modal title={callTr('a_export')} className="importModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayExportModal}>
+            <Modal title={callTr('a_savephone')} className="importModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayExportModal}>
                 <Form hideRequiredMark>
                     <FormItem className = "select-item" label={(<span>{callTr("a_fileencode")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('fileencode', {

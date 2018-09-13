@@ -120,7 +120,7 @@ class Loopback extends Component {
                             <Button onClick={this.showConfirmModal}>{this.tr("a_starttest")}</Button>
                         </div>
                         <Modal visible={this.state.displayConfirmModal} title={this.tr("a_starttest")} className="confirm-modal" style={{marginTop:"200px"}}
-                               okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.micStartTest} onCancel={this.handleConfirmCancel}>
+                               okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.micStartTest} onCancel={this.handleConfirmCancel}>
                             <p className="confirm-content">{this.tr("tip_audioloopstart")}</p>
                         </Modal>
                         <div className={`mic-btn ${this.state.stopMicTestVisible}`}>

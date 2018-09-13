@@ -30,7 +30,7 @@ class HandleWebsocket extends React.Component {
         }
         switch (type) {
             case 'install':
-                let a_ok = this.tr('a_ok')
+                let a_2 = this.tr('a_2')
                 if(message['msg'] == 'progress') {
                     this.props.progressMessage(message['val'], 'block', this.tr('a_firmwareupgrade'));
                     if (message['val'] == 100) {
@@ -39,7 +39,7 @@ class HandleWebsocket extends React.Component {
                             let a_succheck = this.tr('a_succheck')
                             Modal.info({
                                 content: <span dangerouslySetInnerHTML={{__html: a_succheck}}></span>,
-                                okText: <span dangerouslySetInnerHTML={{__html: a_ok}}></span>,
+                                okText: <span dangerouslySetInnerHTML={{__html: a_2}}></span>,
                                 onOk() {
                                 },
                             });
@@ -90,7 +90,7 @@ class HandleWebsocket extends React.Component {
                     errorMsg = this.tr('a_install_fail') + ',' + this.tr(errorMsg) + '!';
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: errorMsg}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: a_ok}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: a_2}}></span>,
                         onOk() {
                         },
                     });

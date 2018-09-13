@@ -242,11 +242,11 @@ class BlockCallModal extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <Modal title={callTr('a_blockhistorycall')} onOk={this.handleOk} onCancel={this.handleCancel}
-                   className='selectcall-modal blockCallModal' visible={this.props.displayBlockCallModal} okText={callTr("a_ok")}
-                   cancelText={callTr("a_cancel")}>
+                   className='selectcall-modal blockCallModal' visible={this.props.displayBlockCallModal} okText={callTr("a_2")}
+                   cancelText={callTr("a_3")}>
                 <div className='search_call'>
                     <Input prefix={<Icon type="search" style={{color: 'rgba(0,0,0,.25)'}}/>} id="blockCallSearch"
-                           onChange={this.handleChange.bind(this)} placeholder={callTr("a_search")}></Input>
+                           onChange={this.handleChange.bind(this)} placeholder={callTr("a_65")}></Input>
                 </div>
                 {/*<div className='CallDiv'>*/}
                     <Table

@@ -79,7 +79,7 @@ class RmtacsForm extends Component {
 
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: callTr("a_protocalchanged") + newUrl}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {
                             window.parent.location.href = newUrl;
                         },

@@ -40,7 +40,7 @@ class RoamingForm extends Component{
                 this.props.setItemValues(req_items, values, 0, ()=>{
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: this.props.callTr("a_wifirebooteffect")}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: this.props.callTr("a_ok")}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: this.props.callTr("a_2")}}></span>,
                         onOk() {},
                     });
                 });

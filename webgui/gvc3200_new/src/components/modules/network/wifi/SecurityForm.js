@@ -120,7 +120,7 @@ class SecurityForm extends Component {
                         initialValue: itemvalue['hiddenauthmode'] ? itemvalue['hiddenauthmode'] : "0"
                     })(
 						<Select onChange={this.checkEssidPwd}>
-							<Option value="0">{callTr("a_none")}</Option>
+							<Option value="0">{callTr("a_20")}</Option>
 							<Option value="1">WEP</Option>
 							<Option value="2">WPA/WPA2 PSK</Option>
 							{/*<Option value="3">802.1X EAP</Option>*/}

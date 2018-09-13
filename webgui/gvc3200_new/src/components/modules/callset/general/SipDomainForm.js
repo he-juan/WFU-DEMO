@@ -10,7 +10,7 @@ class SipDomainForm extends Component{
 	state = {
 		disabled: false,
 		serverdata: [],
-		btntype: "a_add",
+		btntype: "a_23",
 		curorder: 0,
 		keys: [0],
 		display: [],  //default: display-hidden
@@ -102,7 +102,7 @@ class SipDomainForm extends Component{
 		const {form} = this.props;
 		const serverdata = this.state.serverdata;
 		
-		if(this.state.btntype == "a_add"){
+		if(this.state.btntype == "a_23"){
 			for(let i = 0; i < serverdata.length; i++){
 				if(value == serverdata[i].serveralias){
 					callback(this.props.callTr("a_serveraliasrepeat"));
@@ -163,7 +163,7 @@ class SipDomainForm extends Component{
 		form.resetFields();
 		this.setState({
 			keys: [0],
-			btntype: "a_add"
+			btntype: "a_23"
 		});
 	}
 	
@@ -178,7 +178,7 @@ class SipDomainForm extends Component{
             if(!err){
 				const curserveralias = form.getFieldValue("serveralias");
 				/* add server item logic */
-				if(this.state.btntype == "a_add"){
+				if(this.state.btntype == "a_23"){
 					let odr = 0;
 					if(tempserver.length){
 						odr = tempserver[tempserver.length-1].order + 1;
@@ -213,7 +213,7 @@ class SipDomainForm extends Component{
 					form.resetFields();
 					this.setState({
 						keys: [0],
-						btntype: "a_add",
+						btntype: "a_23",
 					});
 				}
             }
@@ -318,7 +318,7 @@ class SipDomainForm extends Component{
 					</FormItem>
 					{serverListItems}
 					<FormItem className="operatebtn">
-	                    <Button className="cancel" size="large" onClick={this.onCancel}>{callTr("a_cancel")}</Button>
+	                    <Button className="cancel" size="large" onClick={this.onCancel}>{callTr("a_3")}</Button>
 	                    <Button className="submit" type="primary" size="large" onClick={this.onSaving}>{callTr(this.state.btntype)}</Button>
 	                </FormItem>
 				</Form>
@@ -344,7 +344,7 @@ class SipDomainForm extends Component{
 					<Column title={this.tr("a_operate")} key="operate" render={(text, record, index) => (
 						<span>
 							<a className="edit-icon" onClick={this.onEdit.bind(this, text)}></a>
-							<Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.onDelete.bind(this, text.order)}>
+							<Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.onDelete.bind(this, text.order)}>
 								<a className="delete-icon" style={{margin: "3px 0 0 10px"}}></a>
 							</Popconfirm>
 						</span>

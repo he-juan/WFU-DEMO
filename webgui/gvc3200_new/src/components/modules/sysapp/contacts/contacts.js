@@ -202,10 +202,10 @@ class ContactsForm extends Component {
                         <Button type="primary" size='large' onClick={this.handleExport}>{callTr('a_export')}</Button>
                     </Col>
                     <Col span={2}>
-                        <Button type="primary" size='large' onClick={this.handleAddContact}>{callTr('a_add')}</Button>
+                        <Button type="primary" size='large' onClick={this.handleAddContact}>{callTr('a_23')}</Button>
                     </Col>
                     <Col span={6}>
-                        <Search style={{marginTop:'-0.5rem',height:'32px'}} placeholder={ `${callTr('a_search')} ${mContactNum} ${callTr('a_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                        <Search style={{marginTop:'-0.5rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                     </Col>
                 </Row>
                 {

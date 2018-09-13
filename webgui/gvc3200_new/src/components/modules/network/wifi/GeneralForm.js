@@ -170,7 +170,7 @@ class DetailForm extends Component {
         const strengtharr = ["a_poor", "a_fair", "a_good", "a_exclt"];
         let securitystr = wifidata.securityStr;
         if(securitystr.toLowerCase() == "none"){
-            securitystr = callTr("a_none");
+            securitystr = callTr("a_20");
         }
 
         let itemstatus = "display-hidden";
@@ -922,7 +922,7 @@ class GeneralForm extends Component {
                                     </div>
                                 }
                                 <Modal title={this.state.wifi.ssid} onOk={this.handleConnect} onCancel={this.handleCancle} confirmLoading={this.state.confirmLoading}
-                                    visible={this.state.visible} okText={callTr(oktext)} cancelText={callTr("a_cancel")}>
+                                    visible={this.state.visible} okText={callTr(oktext)} cancelText={callTr("a_3")}>
                                     <WifiDetailForm {...this.props} callTr={callTr} wifiData={this.state.wifi} needmodify={this.state.needmodify} protocoltype={this.state.protocoltype} />
                                 </Modal>
                             </div>

@@ -244,7 +244,7 @@ class SwitchForm extends Component {
             if (!(ext && (/^(wav)$/.test(ext) || /^(mp3)$/.test(ext)|| /^(ogg)$/.test(ext)))) {
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_wrong2")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {
                     },
                 });
@@ -274,7 +274,7 @@ class SwitchForm extends Component {
                 if (info.file.status === 'done') {
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: self.tr("a_uploadsuc")}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_ok')}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_2')}}></span>,
                         onOk() {
                         },
                     });

@@ -150,7 +150,7 @@ class InputSearchdiv extends Component {
                     <div style={{ "padding-right": '25px' }}>
                         <Search
                             id="searchconfig"
-                            placeholder={this.props.callTr('a_search')}
+                            placeholder={this.props.callTr('a_65')}
                             style={{ width: '100%' }}
                             onSearch={value => this.searchInput(value)}
                         />
@@ -357,7 +357,7 @@ class MainHeader extends Component {
             <Menu className = "headermenu">
                 <Menu.Item><div className = "triangleIcon triangleIconAdmin"></div></Menu.Item>
                 <Menu.Item className="headermenuitem" key="1">
-                    <Popconfirm placement="left" title={this.tr("a_confirmrbt")} onConfirm={this.cb_reboot} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")}>
+                    <Popconfirm placement="left" title={this.tr("a_confirmrbt")} onConfirm={this.cb_reboot} okText={this.tr("a_2")} cancelText={this.tr("a_3")}>
                         <a>
                             <Icon className="poweroff" style={{"margin-right":"7px"}} />
                             {this.tr("reboot")}

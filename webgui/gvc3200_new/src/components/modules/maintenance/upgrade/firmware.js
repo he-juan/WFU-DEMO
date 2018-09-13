@@ -153,7 +153,7 @@ class FirmwareForm extends Component {
             this.props.promptSpinMsg('display-hidden', "a_uploadwait");
             Modal.info({
                 content: <span dangerouslySetInnerHTML={{__html: information}}></span>,
-                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                 onOk() {
                 },
             });
@@ -185,7 +185,7 @@ class FirmwareForm extends Component {
                 if (values === "0") {
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: callTr("a_provisioning")}}></span>,
-                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                        okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
                     promptSpinMsg('display-hidden', "a_uploadwait");
@@ -206,7 +206,7 @@ class FirmwareForm extends Component {
             cb_ping();
             const modal = Modal.info({
                 content: <span dangerouslySetInnerHTML={{__html: callTr("a_upgrading")}}></span>,
-                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                 onOk() {},
             });
             setTimeout(() => modal.destroy(), 2000);
@@ -218,8 +218,8 @@ class FirmwareForm extends Component {
         let self = this;
         Modal.confirm({
             content: <span dangerouslySetInnerHTML={{__html: callTr("a_confsysupgrade")}}></span>,
-            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
-            cancelText: <span dangerouslySetInnerHTML={{__html: callTr("a_cancel")}}></span>,
+            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
+            cancelText: <span dangerouslySetInnerHTML={{__html: callTr("a_3")}}></span>,
             onOk() {self.handleUpgrade()},
             onCancel() {}
         });
@@ -259,7 +259,7 @@ class FirmwareForm extends Component {
                         //button.text(a_7404);
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail") + callTr("a_lowspace")}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
                         promptSpinMsg('display-hidden', "a_uploadwait");
@@ -267,7 +267,7 @@ class FirmwareForm extends Component {
                         //button.text(a_7404);
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail")}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_ok")}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
                         promptSpinMsg('display-hidden', "a_uploadwait");

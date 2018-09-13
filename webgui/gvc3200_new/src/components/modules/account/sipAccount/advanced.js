@@ -154,7 +154,7 @@ class AdvancedForm extends React.Component {
             if (!(ext && (/^(wav)$/.test(ext) || /^(mp3)$/.test(ext)))) {
                 Modal.info({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_wrong")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
                     onOk() {},
                 });
                 reject();
@@ -190,7 +190,7 @@ class AdvancedForm extends React.Component {
                         Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_process'}});
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: self.tr(label)}}></span>,
-                            okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_ok')}}></span>,
+                            okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_2')}}></span>,
                             onOk() {},
                         });
                     })

@@ -270,7 +270,7 @@ class Record extends Component {
             <button className='allow-download'  id = {'allow-download'+index}  onClick={this.handleDownload.bind(this,text,index)}></button>
             <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
             <button style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
-            <Popconfirm placement="top" title={this.tr("a_deleteall")} okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
+            <Popconfirm placement="top" title={this.tr("a_deleteall")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
                 <button className='allow-delete' id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;
@@ -368,8 +368,8 @@ class Record extends Component {
                     <Input id="renameinput" name="renameinput" type="text" ></Input>
                 </div>
             ),
-            okText: <span dangerouslySetInnerHTML={{__html: self.tr("a_ok")}}></span>,
-            cancelText: <span dangerouslySetInnerHTML={{__html: self.tr("a_cancel")}}></span>,
+            okText: <span dangerouslySetInnerHTML={{__html: self.tr("a_2")}}></span>,
+            cancelText: <span dangerouslySetInnerHTML={{__html: self.tr("a_3")}}></span>,
             onOk() {self.handleOk(mOpid,mType,path)},
             onCancel() {}
         });

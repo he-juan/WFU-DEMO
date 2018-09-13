@@ -111,7 +111,7 @@ class BackupModal extends Component {
                 footer = {[
                     <Button type="primary" disabled={this.state.backupbtndisable} onClick={this.handleAddOk}>{callTr("a_backup")}</Button>,
                     <Button type="primary" onClick={this.handleCancel}>
-                      {callTr("a_cancel")}
+                      {callTr("a_3")}
                     </Button>,
                 ]}
             >
@@ -351,8 +351,8 @@ class Backup extends Component {
                 var self = this;
                 Modal.confirm({
                     content: <span dangerouslySetInnerHTML={{__html: this.tr("a_rebootcheck")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_ok")}}></span>,
-                    cancelText: <span dangerouslySetInnerHTML={{__html: this.tr("a_cancel")}}></span>,
+                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
+                    cancelText: <span dangerouslySetInnerHTML={{__html: this.tr("a_3")}}></span>,
                     onOk() {self.cb_reboot()},
                     onCancel() {}
                 });
@@ -423,12 +423,12 @@ class Backup extends Component {
                             </div>
                             <div className="operationDiv" style={{'text-align':'right'}}>
                                 <Modal visible={this.state.restoreCofirmModalVisible} title={this.tr("a_restore")} className="confirm-modal"
-                                       okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.showRestoryModal} onCancel={this.hideRestoryConfirmModal}>
+                                       okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.showRestoryModal} onCancel={this.hideRestoryConfirmModal}>
                                     <p className="confirm-content">{this.tr("a_isBackup")}</p>
                                 </Modal>
                                 <Button className="select-restory" type="primary" onClick={this.showRestoryConfirmModal}><i></i>{this.tr("a_restore")}</Button>
                                 <Modal visible={this.state.deleteCofirmModalVisible} title={this.tr("a_delete")} className="confirm-modal"
-                                       okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.handledeleteBackup} onCancel={this.hideDeleteConfirmModal}>
+                                       okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handledeleteBackup} onCancel={this.hideDeleteConfirmModal}>
                                     <p className="confirm-content">{this.tr("a_isdeleteBackup")}</p>
                                 </Modal>
                                 <Button className="select-delete" type="primary" onClick = {this.showDeleteConfirmModal}><i></i>{this.tr("a_delete")}</Button>

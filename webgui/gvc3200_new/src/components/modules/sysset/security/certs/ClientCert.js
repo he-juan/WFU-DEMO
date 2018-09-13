@@ -217,7 +217,7 @@ class ClientCert extends Component {
                                 const modal = Modal.info({
                                     title: this.props.callTr("a_installtip"),
                                     content: this.props.callTr("a_canotinclude"),
-                                    okText: this.props.callTr("a_ok"),
+                                    okText: this.props.callTr("a_2"),
                                 });
                                 setTimeout(() => modal.destroy(), 3000);
                             });
@@ -227,7 +227,7 @@ class ClientCert extends Component {
                         //this.props.promptMsg("ERROR", "a_installfail");
                         const modal = Modal.error({
                             title: this.props.callTr("a_installfail"),
-                            okText: this.props.callTr("a_ok"),
+                            okText: this.props.callTr("a_2"),
                         });
                         setTimeout(() => modal.destroy(), 3000);
                         this.handleCertModalVisible(false);
@@ -262,7 +262,7 @@ class ClientCert extends Component {
                     <div>{callTr("a_addcert")}</div>
                     <Button className="upload-btn" onClick={this.handleCertModalVisible.bind(this, true)}>
                         <span className="upload-icon" />
-                        <span style={{marginLeft: "5px"}}>{callTr("a_add")}</span>
+                        <span style={{marginLeft: "5px"}}>{callTr("a_23")}</span>
                     </Button>
                 </div>
                 <Table className="list-table" style={{maxWidth: "950px", paddingRight: "40px"}} dataSource={this.state.certdata} pagination={false} >
@@ -271,14 +271,14 @@ class ClientCert extends Component {
                     <Column title={callTr("a_certuse")} dataIndex="certuse" key="certuse" render={(text) => (<span>{callTr(text)}</span>)}/>
                     <Column title={callTr("a_operate")} key="delete" render={(text, record, index) => (
                         <span>
-                            <Popconfirm placement="top" title={callTr("a_promptdelete")} okText={callTr("a_ok")} cancelText={callTr("a_cancel")}
+                            <Popconfirm placement="top" title={callTr("a_promptdelete")} okText={callTr("a_2")} cancelText={callTr("a_3")}
 								onConfirm={this.handleDeleteCert.bind(this, text)}>
                                 <a className="delete-icon"></a>
                             </Popconfirm>
                         </span>
                     )}/>
                 </Table>
-                <Modal title={callTr("a_addcert")} okText={callTr("a_uploadinstall")} cancelText={callTr("a_cancel")}
+                <Modal title={callTr("a_addcert")} okText={callTr("a_uploadinstall")} cancelText={callTr("a_3")}
                     visible={this.state.addcertvisible} onOk={this.handleUploadAndInstall} confirmLoading={this.state.loading}
                     onCancel={this.handleCertModalVisible.bind(this, false)}>
                     <AddCertForm {...this.props} reset={this.state.reset}/>

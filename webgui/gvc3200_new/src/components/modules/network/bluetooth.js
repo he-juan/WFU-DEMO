@@ -56,8 +56,8 @@ class RenameModal extends Component {
             <Modal className="blueth-raname-modal" title={callTr("a_rename")} visible={renamemodalvisible}
                    onOk={this.handelRename} onCancel={this.handleCancel}
                    footer={[
-                       <Button key="back" onClick={this.handleCancel}>{callTr("a_cancel")}</Button>,
-                       <Button key="submit" type="primary" disabled={this.state.okbtndisabled} onClick={this.handelRename}>{callTr("a_ok")}</Button>,
+                       <Button key="back" onClick={this.handleCancel}>{callTr("a_3")}</Button>,
+                       <Button key="submit" type="primary" disabled={this.state.okbtndisabled} onClick={this.handelRename}>{callTr("a_2")}</Button>,
                    ]}>
                 <Form hideRequiredMark>
                     <FormItem>

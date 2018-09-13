@@ -482,6 +482,7 @@ class ContactTab extends Component {
         const curContactList = this.state.curContactList
         const columns = [{
             title: callTr("a_name"),
+            // title: '',
             key: 'row0',
             dataIndex: 'row0',
             width: '25%',
@@ -490,6 +491,7 @@ class ContactTab extends Component {
             )
         }, {
             title: callTr("a_number"),
+            // title: '',
             key: 'row1',
             dataIndex: 'row1',
             width: '25%',
@@ -498,11 +500,13 @@ class ContactTab extends Component {
             )
         }, {
             title: callTr("a_concatgroup"),
+            // title: '',
             key: 'row2',
             dataIndex: 'row2',
             width: '25%'
         }, {
-            title: callTr("a_operate"),
+            // title: callTr("a_operate"),
+            title: '',
             key: 'row3',
             dataIndex: 'row3',
             width: '25%',
@@ -529,7 +533,7 @@ class ContactTab extends Component {
                             {this.tr("a_delete")}
                         </Button>
                         <Modal visible={this.state.displayDelContactsModal} title={this.tr("a_deletecontactstitle")} className="confirm-modal"
-                               okText={this.tr("a_ok")} cancelText={this.tr("a_cancel")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelContactsCancel}>
+                               okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelContactsCancel}>
                             <p className="confirm-content">{this.tr("a_deletecontacts")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} onClick={this.showContactModal}>
@@ -541,7 +545,7 @@ class ContactTab extends Component {
                     </div>
                     <div style={{'float':'right'}}>
                         <div className = 'search_div'>
-                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_search")}></Input>
+                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_65")}></Input>
                         </div>
                     </div>
                 </div>
@@ -552,7 +556,7 @@ class ContactTab extends Component {
                         columns = { columns }
                         pagination = { false }
                         dataSource = { data }
-                        showHeader = { false }
+                        // showHeader = { false }
                     />
                     <div className = "nodatooltips" style={{display: this.state.showtips}}>
                         <div></div>
