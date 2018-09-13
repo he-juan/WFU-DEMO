@@ -214,3 +214,26 @@ export const cb_if_is_fail = function(msgs) {
         return false;
     }
 }
+
+
+/**
+ * 检测是否有需要被应用的配置项
+ */
+export　const checkIsApplyNeed = (dispatch) => {
+    let request = "action=needapply";
+    handleGetRequest(request).then(function(data) {
+        let msgs = res_parse_rawtext(data);
+        let needApply = msgs.headers['needapply'];
+
+        var str;
+        if (needApply == "1") {
+            str = new Date().getTime();
+        } else {
+            str = "1";
+        }
+        dispatch({type: 'UPDATE_APPLY_BUTTON', applyButtonStatus: str});
+    }).catch(function(error) {
+        console.log(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}

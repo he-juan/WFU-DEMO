@@ -9,6 +9,7 @@
     "babel-polyfill": "^6.23.0",
     "echarts": "^3.7.0",
     "intl": "^1.2.5",
+    "moment": "^2.22.2",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-intl": "^2.3.0"

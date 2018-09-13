@@ -261,6 +261,7 @@ export const options = [
                 {"name": "H.264 Image Size", "lang": "a_h264imgsize"},
                 {"name": "Video Bit Rate", "lang": "a_vidbr"},
                 {"name": "Video Frame Rate", "lang": "a_vidfr"},
+                {"name": "Packetization-mode", "lang": "a_packetmodel"},
             ]},
             {"name": "call", "lang": "advanced_call", "sub": [
                 {"name": "Auto Answer", "lang": "a_autoans", "acl": "1"},

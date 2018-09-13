@@ -2478,7 +2478,7 @@ table thead tr th{
     font-size: 0.875rem;
 }
 
-.ant-select, .ant-input, .ant-radio-wrapper-checked span {
+.ant-select, .ant-input,.ant-time-picker-input, .ant-radio-wrapper-checked span {
     color: #0d1017;
     font-size: 0.875rem;
 }

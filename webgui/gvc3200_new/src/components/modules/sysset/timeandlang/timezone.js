@@ -1,14 +1,18 @@
 import React, {Component, PropTypes} from 'react'
 import Enhance from "../../../mixins/Enhance";
-import { Form, Input, Icon, Tooltip, Checkbox, Radio, Select, Button, Row, InputNumber } from "antd";
+import { Form, Input, Icon, Tooltip, Checkbox, Radio, Select, Button, DatePicker, TimePicker, LocaleProvider } from "antd";
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import moment from 'moment'
+
+import en_US from 'antd/lib/locale-provider/en_US'
+
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 let req_items;
-
 var city_names = [ "a_gmt0", "a_Midway","a_Honolulu","a_Anchorage",
 "a_Los_Angeles","a_Tijuana","a_Phoenix","a_Chihuahua","a_Denver",
 "a_Costa_Rica", "a_Chicago","a_Mexico_City","a_Regina","a_Bogota",
@@ -55,20 +59,38 @@ class TimezoneForm extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {}
+        this.state = {
+            initDate: '',
+            initTime: '',
+            datefmt: '3',
+            timefmt: '1'
+        }
 
+        this.datefmtMap = {
+            '3': 'YYYY/M/D',
+            '0': 'YYYY/M/D',
+            '1': 'M/D/YYYY',
+            '2': 'D/M/YYYY'
+        }
+        this.timefmtMap = {
+            '0':'hh:mm a',
+            '1':'HH:mm'
+        }
         this.handleNvram();
     }
 
     handleNvram = () => {
          req_items = [];
          req_items.push(
-             this.getReqItem("ntpserver", "30", ""),
+             this.getReqItem("ntpaddr", "30", ""),
              this.getReqItem("overridentp", "144", ""),
              this.getReqItem("overrideset", "143", ""),
              //this.getReqItem("timezone", "64", ""),
              this.getReqItem("timefmt", "122", ""),
-             this.getReqItem("datefmt", "102", "")
+             this.getReqItem("datefmt", "102", ""),
+             this.getReqItem("ntpaddr2", "8333", ""), // 指定网络时间协议服务器地址 2
+
+            
          )
          return req_items;
     }
@@ -145,12 +167,20 @@ class TimezoneForm extends Component {
     }
 
     componentDidMount() {
-        this.props.getItemValues(req_items);
+        this.props.getItemValues(req_items, (v) => {
+            let datefmt = v.datefmt;
+            let timefmt = v.timefmt;
+            this.setState({
+                datefmt,
+                timefmt
+            })
+        });
         this.props.getTimezone((values) => {
             this.getTimezone_suc(values);
         });
+        this.getDateInfo();
     }
-
+    
     componentWillReceiveProps = (nextProps) => {
         if (nextProps.activeKey == this.props.tabOrder) {
             if (this.props.activeKey != nextProps.activeKey) {
@@ -168,6 +198,41 @@ class TimezoneForm extends Component {
         }
     }
 
+    getDateInfo = () => {
+        this.props.getDateInfo((data) => {
+            const _data = JSON.parse(data)
+            this.setState({
+                initDate:  _data.Date, 
+                initTime: _data.Time
+            });
+        })
+    }
+    dateChangeHandler = (moment) => {
+        let date = moment.format('YYYY/M/D');
+        let time = this.props.form.getFieldValue('time').format('HH:mm');
+        this.props.setDateInfo({
+            date,
+            time
+        })
+    }
+    timeChangeHandler = (moment) => {
+        let date = this.props.form.getFieldValue('date').format('YYYY/M/D');
+        let time = moment.format('HH:mm');
+        this.props.setDateInfo({
+            date,
+            time
+        })
+    }
+    handleTimefmt = (e) => {
+        this.setState({
+            timefmt: e.target.value
+        })
+    }
+    handleDatefmt = (v) => {
+        this.setState({
+            datefmt: v
+        })
+    }
     handleSubmit = () => {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if(!err) {
@@ -182,19 +247,68 @@ class TimezoneForm extends Component {
         const callTr = this.props.callTr;
         const callTipsTr = this.props.callTipsTr;
         const {getFieldDecorator} = this.props.form;
-
+        const initialDate = moment(this.state.initDate, 'YYYY/M/D'); //服务器端是固定的
+        const initialTime = moment(this.state.initTime, 'hh:mm');
+        if(!initialDate._isValid || !initialTime._isValid) {
+            return false
+        }
+        // 国际化临时处理
+        let locale;
+        if (this.props.curLocale !== 'zh') {
+            locale = en_US;
+            moment.locale('en');
+        } else {
+            locale = null;
+            moment.locale('zh-cn');
+        }
         let itemList =
+            <LocaleProvider locale={locale}>
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_ntpserver")} <Tooltip title={callTipsTr("Assign NTP Server Address")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
-                    {getFieldDecorator("ntpserver", {
+                <FormItem label={<span>{callTr("a_12065")} 1 <Tooltip title={callTipsTr("Assign NTP Server Address")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                    {getFieldDecorator("ntpaddr", {
                         rules: [
                             {
                                 max: 32,
                                 message: callTr("a_lengthlimit") + "32"
                             }
                         ],
-                        initialValue: this.props.itemValues.ntpserver
+                        initialValue: this.props.itemValues.ntpaddr
                     })(<Input className="30"/>)}
+                </FormItem>
+                <FormItem label={<span>{callTr("a_12065")} 2 <Tooltip title={callTipsTr("Assign NTP Server Address")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                    {getFieldDecorator("ntpaddr2", {
+                        rules: [
+                            {
+                                max: 32,
+                                message: callTr("a_lengthlimit") + "32"
+                            }
+                        ],
+                        initialValue: this.props.itemValues.ntpaddr2
+                    })(<Input className="30"/>)}
+                </FormItem>
+                {/* 设置日期 */}
+                <FormItem label={<span>{callTr("a_setdate")}<Tooltip title={callTipsTr("??")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                    {getFieldDecorator("date", {
+                        initialValue: initialDate
+                    })(<DatePicker format={this.datefmtMap[this.state.datefmt]} allowClear={false} showToday={false} onChange={this.dateChangeHandler} />)}
+                </FormItem>
+                {/* 设置时间 */}
+                <FormItem label={<span>{callTr("a_settime")}<Tooltip title={callTipsTr("??")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                    {getFieldDecorator("time", {
+                        initialValue: initialTime
+                    })(<TimePicker use12Hours={this.state.timefmt == '0'} format={this.timefmtMap[this.state.timefmt]} allowEmpty={false} onChange={this.timeChangeHandler}/> )}
+                </FormItem>
+
+                <FormItem className="select-item" label={<span>{callTr("a_timezone")} <Tooltip title={callTipsTr("Time Zone")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                    {getFieldDecorator('timezone', {
+                        rules: [],
+                        initialValue: timezone
+                    })(
+                        <Select  onChange={ this.onChangeTimezone.bind(this) }>
+                            {children}
+                        </Select>
+                    )
+                    }
                 </FormItem>
                 <FormItem label={<span>{callTr("a_dhcpoption")} <Tooltip title={callTipsTr("DHCP Option 42 Override NTP Server")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator("overridentp", {
@@ -216,23 +330,12 @@ class TimezoneForm extends Component {
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem className="select-item" label={<span>{callTr("a_timezone")} <Tooltip title={callTipsTr("Time Zone")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
-                    {getFieldDecorator('timezone', {
-                        rules: [],
-                        initialValue: timezone
-                    })(
-                        <Select  onChange={ this.onChangeTimezone.bind(this) }>
-                            {children}
-                        </Select>
-                    )
-                    }
-                </FormItem>
                 <FormItem label={<span>{callTr("a_timefmt")} <Tooltip title={callTipsTr("Time Display Format")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator('timefmt', {
                         rules: [],
                         initialValue: this.props.itemValues.timefmt
                     })(
-                        <RadioGroup className="P-122">
+                        <RadioGroup className="P-122" onChange={(e) => {this.handleTimefmt(e)}}>
                             <Radio value="0">{callTr("a_12hour")}</Radio>
                             <Radio value="1">{callTr("a_24hour")}</Radio>
                         </RadioGroup>
@@ -244,7 +347,7 @@ class TimezoneForm extends Component {
                         rules: [],
                         initialValue: this.props.itemValues["datefmt"] ? this.props.itemValues["datefmt"] : "0"
                     })(
-                        <Select className="P-102">
+                        <Select className="P-102" onChange={(v) => {this.handleDatefmt(v)}}>
                             <Option value="3">{callTr("a_normalymd")}</Option>
                             <Option value="0">{callTr("a_ymd")}</Option>
                             <Option value="1">{callTr("a_mdy")}</Option>
@@ -256,7 +359,8 @@ class TimezoneForm extends Component {
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
                 </FormItem>
-            </Form>;
+            </Form>
+            </LocaleProvider>;
 
         let hideItem = this.props.hideItem;
         for (var i = hideItem.length-1; hideItem[i] != undefined && i>=0; i--) {
@@ -269,9 +373,9 @@ class TimezoneForm extends Component {
 
 const mapStateToProps = (state) => ({
     itemValues: state.itemValues,
-    timezoneValues: state.timezoneValues,
     enterSave: state.enterSave,
-    activeKey: state.TabactiveKey
+    activeKey: state.TabactiveKey,
+    curLocale: state.curLocale
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -281,6 +385,8 @@ const mapDispatchToProps = (dispatch) => {
         getTimezone:Actions.getTimezone,
         saveTimeset:Actions.saveTimeset,
         setPageStatus: Actions.setPageStatus,
+        getDateInfo: Actions.getDateInfo,
+        setDateInfo: Actions.setDateInfo
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -63,7 +63,7 @@ export const setItemValues = (items, values, flag, callback) => (dispatch) => {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
-            checkIsApplyNeed(dispatch);
+            actionUtil.checkIsApplyNeed(dispatch);
             if (typeof callback === 'function') {
                 callback();
             }
@@ -78,7 +78,7 @@ export const setItemValues = (items, values, flag, callback) => (dispatch) => {
  * 检测是否有需要被应用的配置项
  */
 export const checkIsApply = () => (dispatch) => {
-    checkIsApplyNeed(dispatch);
+    actionUtil.checkIsApplyNeed(dispatch);
 }
 
 /**
