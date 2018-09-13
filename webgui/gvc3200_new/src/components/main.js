@@ -53,6 +53,8 @@ class Main extends React.Component {
             }
             this.props.setMaxAcctNum(maxacctnum);
         });
+
+        this.props.getMaxlineCount();
         
         this.props.getUserType();
         this.props.getFxoexit();
@@ -168,7 +170,8 @@ const mapDispatchToProps = (dispatch) => {
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,
-        setHeldStatus: Actions.setHeldStatus
+        setHeldStatus: Actions.setHeldStatus,
+        getMaxlineCount: Actions.getMaxlineCount
     }
     return bindActionCreators(actions, dispatch)
 }

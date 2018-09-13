@@ -29,6 +29,7 @@ class Init_Websocket extends React.Component {
 
         websocket.onopen = () => {
             this.logging('Websocket connected');
+            websocket.send("open" + '\n');
             if (typeof this.props.onOpen !== 'undefined') this.props.onOpen();
         };
 
@@ -39,6 +40,7 @@ class Init_Websocket extends React.Component {
         this.shouldReconnect = this.props.reconnect;
         websocket.onclose = () => {
             this.logging('Websocket disconnected');
+            websocket.send("close" + '\n');
             if (typeof this.props.onClose !== 'undefined') this.props.onClose();
             if (this.shouldReconnect) {
                 let time = this.generateInterval(this.state.attempts);
@@ -50,11 +52,9 @@ class Init_Websocket extends React.Component {
             }
         }
 
-         // window.onbeforeunload = () => {
-         //     console.log("refresh");
-         //     console.log(websocket);
-         //     websocket.close();
-         // };
+         window.onbeforeunload = () => {
+             websocket.close();
+         };
     }
 
     componentDidMount() {

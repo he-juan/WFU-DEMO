@@ -35,3 +35,23 @@ export const quickStartIPVConf = (isvideo) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+/**
+ * 获取最大通话路数
+ */
+export const getMaxlineCount =() => (dispatch) =>{
+    let request = "action=getmaxlinecount";
+    actionUtil.handleGetRequest(request).then(function(data){
+        let tObj = JSON.parse(data);
+        dispatch({type: 'REQUEST_GET_MAXLINECOUNT', maxlinecount: tObj.count});
+    }).catch(function(error) {
+        console.log("getMaxlineCount Exception:",error);
+    });
+}
+
+/**
+ * set the number of current lines
+ */
+export const setbusylinenum = (busylinenum) => (dispatch) => {
+    dispatch({ type: 'BUSYLINE_STATUS', busylinenum:  busylinenum})
+}
