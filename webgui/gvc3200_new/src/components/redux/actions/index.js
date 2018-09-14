@@ -784,116 +784,116 @@ const cb_get_import_response = (callback) => (dispatch) => {
     });
 }
 
-export const getVeriCert = () => (dispatch) => {
-    let request = 'action=getvericert';
+// export const getVeriCert = () => (dispatch) => {
+//     let request = 'action=getvericert';
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = eval("(" + data + ")")
-        dispatch({type: 'REQUEST_GET_VERI_CERT', certInfo: tObj})
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let tObj = eval("(" + data + ")")
+//         dispatch({type: 'REQUEST_GET_VERI_CERT', certInfo: tObj})
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const checkVeriCert = (info, callback) => (dispatch) => {
-    let request ;
-    if(info.type == "sipCert"){
-        request = 'action=checkvericert&maxnum=' + info.maxnum + "&pvalue0=" + info.pvalue;
-    }else{
-        request = 'action=setcustomcert&pvalue='+info.pvalue;
-    }
-    actionUtil.handleGetRequest(request).then(function(data) {
-        callback(data);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+// export const checkVeriCert = (info, callback) => (dispatch) => {
+//     let request ;
+//     if(info.type == "sipCert"){
+//         request = 'action=checkvericert&maxnum=' + info.maxnum + "&pvalue0=" + info.pvalue;
+//     }else{
+//         request = 'action=setcustomcert&pvalue='+info.pvalue;
+//     }
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         callback(data);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const getVpnCerts = (callback) => (dispatch) => {
-    let request = 'action=getvpncerts';
+// export const getVpnCerts = (callback) => (dispatch) => {
+//     let request = 'action=getvpncerts';
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = eval("(" + data + ")");
-        callback(tObj.list);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let tObj = eval("(" + data + ")");
+//         callback(tObj.list);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const getWifiCerts = (callback) => (dispatch) => {
-    let request = 'action=getwificerts';
+// export const getWifiCerts = (callback) => (dispatch) => {
+//     let request = 'action=getwificerts';
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = eval("(" + data + ")");
-        callback(tObj.list);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let tObj = eval("(" + data + ")");
+//         callback(tObj.list);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const uploadAndInstallCert = (values, file, callback) => (dispatch) => {
-    let url = "../upload?type=vericert";
+// export const uploadAndInstallCert = (values, file, callback) => (dispatch) => {
+//     let url = "../upload?type=vericert";
 
-    actionUtil.handleUploadCert(url, file).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        if(msgs.headers['response'] == "Success"){
-            cb_install_cert(values, callback);
-        }
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleUploadCert(url, file).then(function(data) {
+//         let msgs = actionUtil.res_parse_rawtext(data);
+//         if(msgs.headers['response'] == "Success"){
+//             cb_install_cert(values, callback);
+//         }
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-const cb_install_cert = (values, callback) => {
-    let request = "action=installcert&certname=" + encodeURIComponent(values['certname']) + "&ext=" + values['ext'] +
-                  "&use=" + values['certuse'] + "&certpwd=" + encodeURIComponent(values['certpwd']);
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = eval("(" + data + ")");
-        callback(tObj);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+// const cb_install_cert = (values, callback) => {
+//     let request = "action=installcert&certname=" + encodeURIComponent(values['certname']) + "&ext=" + values['ext'] +
+//                   "&use=" + values['certuse'] + "&certpwd=" + encodeURIComponent(values['certpwd']);
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let tObj = eval("(" + data + ")");
+//         callback(tObj);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const cb_delete_cert = (name, use, callback) => (dispatch) => {
-    let request = "action=deletecert&certname=" + encodeURIComponent(name) + "&use=" + use;
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = eval("(" + data + ")");
-        callback(tObj);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+// export const cb_delete_cert = (name, use, callback) => (dispatch) => {
+//     let request = "action=deletecert&certname=" + encodeURIComponent(name) + "&use=" + use;
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let tObj = eval("(" + data + ")");
+//         callback(tObj);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const cb_check_password = (value, callback) => (dispatch) => {
-    let g_actype = value;
-    let request = "action=checkpwd&Username=" + g_actype;
+// export const cb_check_password = (value, callback) => (dispatch) => {
+//     let g_actype = value;
+//     let request = "action=checkpwd&Username=" + g_actype;
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        if (actionUtil.cb_if_is_fail(msgs)) {
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let msgs = actionUtil.res_parse_rawtext(data);
+//         if (actionUtil.cb_if_is_fail(msgs)) {
 
-        } else {
-            callback(msgs);
-        }
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//         } else {
+//             callback(msgs);
+//         }
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const cb_check_current_pwd = (username, inputpwd, callback) => (dispatch) => {
-    let request = "action=checkcurpwd&username=" + username + "&curpwd=" + encodeURIComponent(inputpwd);
+// export const cb_check_current_pwd = (username, inputpwd, callback) => (dispatch) => {
+//     let request = "action=checkcurpwd&username=" + username + "&curpwd=" + encodeURIComponent(inputpwd);
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        if (actionUtil.cb_if_is_fail(msgs)) {
-        } else {
-            callback(msgs);
-        }
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let msgs = actionUtil.res_parse_rawtext(data);
+//         if (actionUtil.cb_if_is_fail(msgs)) {
+//         } else {
+//             callback(msgs);
+//         }
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
 export const cb_get_wifiresult = (callback) => (dispatch) => {
     let request = "action=wifiscan";

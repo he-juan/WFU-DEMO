@@ -4,6 +4,7 @@ import RmtacsForm from "./security/RmtacsForm.js";
 import UserinfoForm from "./security/UserinfoForm.js";
 import SiptlsForm from "./security/SiptlsForm.js";
 import CertificateForm from "./security/CertificateForm.js";
+import ScreenLockForm from './security/ScreenLockForm'
 import {Layout, Tabs, Form} from "antd";
 import * as optionsFilter from "../../template/optionsFilter.js";
 import * as Actions from '../../redux/actions/index'
@@ -16,6 +17,7 @@ const SecurityRmtacsForm = Form.create()(RmtacsForm);
 const SecurityUserinfoForm = Form.create()(UserinfoForm);
 const SecuritySiptlsForm = Form.create()(SiptlsForm);
 const SecurityCertificateForm = Form.create()(CertificateForm);
+const SecurityScreenLockForm = Form.create()(ScreenLockForm);
 let tabList;
 
 class Security extends Component {
@@ -38,6 +40,10 @@ class Security extends Component {
                 </TabPane>
                 <TabPane tab={this.tr("a_userinfo")} key={1} tabName="userinfo">
                     <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                        hideItem={hideItem} tabOrder="" />
+                </TabPane>
+                <TabPane tab={this.tr("a_screenlockpwd")} key={1} tabName="screenlockpwd">
+                    <SecurityScreenLockForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
                 <TabPane tab="SIP TLS" key={2} tabName="siptls">

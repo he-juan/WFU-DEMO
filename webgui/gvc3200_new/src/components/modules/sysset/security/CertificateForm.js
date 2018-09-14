@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Form } from "antd";
 import SipCert from "./certs/SipCert";
-import ClientCert from "./certs/ClientCert"
 import CustomCert from "./certs/CustomCert"
 
 class CertificateForm extends Component {
@@ -18,8 +17,6 @@ class CertificateForm extends Component {
             <Form hideRequiredMark>
                 <div className="blocktitle"><s></s>{callTr("a_802ca")}</div>
                 <SipCert {...this.props} />
-                <div className="blocktitle"><s></s>{callTr("a_usercert")}</div>
-                <ClientCert {...this.props} />
                 <div className="blocktitle"><s></s>{callTr("a_customcert")}</div>
                 <CustomCert {...this.props} />
             </Form>
@@ -36,8 +33,6 @@ function mapDispatchToProps(dispatch) {
       getVeriCert: Actions.getVeriCert,
       checkVeriCert: Actions.checkVeriCert,
       putNvrams: Actions.putNvrams,
-      getVpnCerts: Actions.getVpnCerts,
-      getWifiCerts: Actions.getWifiCerts,
       promptMsg: Actions.promptMsg,
       uploadAndInstallCert: Actions.uploadAndInstallCert,
       deleteCert: Actions.cb_delete_cert

@@ -77,22 +77,28 @@ class UserinfoForm extends Component {
         g_actype = $.cookie('type');
     }
 
-    checkCurPwd = (rule, value, callback) => {
+    checkCurPwd = (curpwd_input, cb) => {
+        let value = curpwd_input; 
         if(value != ""){
             const username = this.props.userType;
             this.props.cb_check_current_pwd(username, value, (msgs) => {
                 if(msgs.headers["response"] == "Success"){
                     if(msgs.headers["same"] == 0){
-                        callback(this.props.callTr("a_pwdnotsame"));
+                        this.props.form.setFields({
+                            curadmipwd: {
+                                value: value,
+                                errors: [new Error(this.props.callTr("a_pwdnotsame"))],
+                            }
+                        })
                     }
                     else{
-                        callback();
+                        cb();
                     }
                 }
             });
         }
         else{
-            callback();
+            return false;
         }
     }
 
@@ -219,22 +225,25 @@ class UserinfoForm extends Component {
                     }
                 }
 
-                this.props.setItemValues(req_items, values, 0, () => {
-                    this.props.cb_check_password(g_actype, (msgs)=> {
-                        if( msgs.headers["needchange"] == 0 ){
-                            $.cookie("needchange", "0", {path: '/', expires:10});
-                            this.props.passTipStyle("display-hidden");
-                        }else{
-                            $.cookie("needchange", "1", {path: '/', expires:10});
-                            this.props.passTipStyle("display-block");
-                        }
+                this.checkCurPwd(curpwd_input, () => {
+                    this.props.setItemValues(req_items, values, 0, () => {
+                        this.props.cb_check_password(g_actype, (msgs)=> {
+                            if( msgs.headers["needchange"] == 0 ){
+                                $.cookie("needchange", "0", {path: '/', expires:10});
+                                this.props.passTipStyle("display-hidden");
+                            }else{
+                                $.cookie("needchange", "1", {path: '/', expires:10});
+                                this.props.passTipStyle("display-block");
+                            }
+                        });
+                        form.resetFields()
+                        this.setState({
+                            adminvisible: false,
+                            uservisible: false
+                        })
                     });
-                    form.resetFields()
-                    this.setState({
-                        adminvisible: false,
-                        uservisible: false
-                    })
-                });
+                })
+                
             }
         });
     }
@@ -250,8 +259,6 @@ class UserinfoForm extends Component {
                 <FormItem label={<span>{logintype == "admin" ? callTr("a_curadminpwd") : callTr("a_curuserpwd")}<Tooltip title={callTipsTr("Current Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("curadmipwd", {
                         rules: [{
-                            validator: this.checkCurPwd
-                        },{
                             required: true, message: callTr("tip_require")
                         }],
                         initialValue: ""

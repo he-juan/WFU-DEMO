@@ -14,7 +14,10 @@ let req_items;
 class Tr069 extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            pwdstatus1:'password',
+            pwdstatus2:'password',
+        }
 
         req_items = new Array;
         req_items.push(
@@ -31,6 +34,18 @@ class Tr069 extends Component {
             this.getReqItem("cpekey", "8221", "")
         )
     }
+
+    handlePwdVisible1 = () => {
+        let pwdstatus = this.state.pwdstatus1;
+        pwdstatus = pwdstatus == "password" ? "text" : "password";
+        this.setState({pwdstatus1 : pwdstatus});
+    }
+    handlePwdVisible2 = () => {
+        let pwdstatus = this.state.pwdstatus2;
+        pwdstatus = pwdstatus == "password" ? "text" : "password";
+        this.setState({pwdstatus2 : pwdstatus});
+    }
+
 
     componentDidMount() {
         this.props.getItemValues(req_items);
@@ -59,7 +74,7 @@ class Tr069 extends Component {
             <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
                 <FormItem label={< span > {
                     this.tr("a_openacs")
-                } < Tooltip title = {this.tips_tr("Enable TR-069")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("Enable TR-069")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("openacs", {
                         rules: [],
                         valuePropName: 'checked',
@@ -71,7 +86,7 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_acsurl")
-                } < Tooltip title = {this.tips_tr("ACS URL")} > <Icon type="question-circle-o"/> < /Tooltip></span>}>
+                } < Tooltip title = {this.tips_tr("ACS URL")} > <Icon type="question-circle-o"/> </Tooltip></span>}>
                     {getFieldDecorator("acsurl", {
                         rules: [
                             {
@@ -85,7 +100,7 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_acsusername")
-                } < Tooltip title = {this.tips_tr("ACS Username")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("ACS Username")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("acsusername", {
                         rules: [
                             {
@@ -98,15 +113,15 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_acspwd")
-                } < Tooltip title = {this.tips_tr("ACS Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("ACS Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("acspwd", {
                         rules: [ ],
                         initialValue:this.props.itemValues.acspwd
-                    })(<Input type="password" className="P-4505"/>)}
+                    })(<Input type={this.state.pwdstatus1} className="P-4505"  suffix={<Icon type="eye" className={this.state.pwdstatus1} onClick={this.handlePwdVisible1} />}/>)}
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_perialenable")
-                } < Tooltip title = {this.tips_tr("Periodic Inform Enable")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("Periodic Inform Enable")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("perialenable", {
                         rules: [],
                         valuePropName: 'checked',
@@ -117,7 +132,7 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_perialinterval")
-                } < Tooltip title = {this.tips_tr("Periodic Inform Interval")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("Periodic Inform Interval")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("perialinterval", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -129,7 +144,7 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_conusername")
-                } < Tooltip title = {this.tips_tr("Connection Request Username")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("Connection Request Username")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("conusername", {
                         rules: [
                             {
@@ -142,7 +157,7 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_conpwd")
-                } < Tooltip title = {this.tips_tr("Connection Request Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("Connection Request Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("conpwd", {
                         rules: [
                             {
@@ -151,11 +166,11 @@ class Tr069 extends Component {
                             }
                         ],
                         initialValue:this.props.itemValues.conpwd
-                    })(<Input type="password" className="P-4512"/>)}
+                    })(<Input type={this.state.pwdstatus2} className="P-4512" suffix={<Icon type="eye" className={this.state.pwdstatus2} onClick={this.handlePwdVisible2} />} />)}
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_conport")
-                } < Tooltip title = {this.tips_tr("Connection Request Port")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("Connection Request Port")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("conport", {
                         rules: [{
                                 validator: (data, value, callback) => {
@@ -171,7 +186,7 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_cpecert")
-                } < Tooltip title = {this.tips_tr("CPE Cert File")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("CPE Cert File")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("cpecert", {
                         rules: [ ],
                         initialValue:this.props.itemValues.cpecert
@@ -182,7 +197,7 @@ class Tr069 extends Component {
                 </FormItem>
                 <FormItem label={< span > {
                     this.tr("a_cpekey")
-                } < Tooltip title = {this.tips_tr("CPE Cert Key")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("CPE Cert Key")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("cpekey", {
                         rules: [ ],
                         initialValue:this.props.itemValues.cpekey

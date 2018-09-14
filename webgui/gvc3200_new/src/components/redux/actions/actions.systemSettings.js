@@ -93,6 +93,154 @@ export const putLanguage = (value) => (dispatch) => {
             checkIsApplyNeed();
         }
     }).catch(function(error) {
-        promptForRequestFailed();
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
     });
 }
+
+/**
+ * 检测当前管理员密码是否正确
+ */
+export const cb_check_current_pwd = (username, inputpwd, callback) => (dispatch) => {
+    let request = "action=checkcurpwd&username=" + username + "&curpwd=" + encodeURIComponent(inputpwd);
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if (actionUtil.cb_if_is_fail(msgs)) {
+        } else {
+            callback(msgs);
+        }
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+
+export const cb_check_password = (value, callback) => (dispatch) => {
+    let g_actype = value;
+    let request = "action=checkpwd&Username=" + g_actype;
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if (actionUtil.cb_if_is_fail(msgs)) {
+
+        } else {
+            callback(msgs);
+        }
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+
+/**
+ *  设置锁屏密码
+ */
+export const saveLockPwd = (value, callback) => (dispatch) => {
+    let request = "action=savelockpwd&region=advanset&newlock=" + value
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if (actionUtil.cb_if_is_fail(msgs)) {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
+        } else {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            actionUtil.checkIsApplyNeed(dispatch);
+            if (typeof callback === 'function') {
+                callback();
+            }
+        }
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+/**
+ * 刪除锁屏密码
+ */
+export const delLockPwd = () => (dispatch) => {
+    let request = "action=clearlock&region=advanset";
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if (actionUtil.cb_if_is_fail(msgs)) {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
+        } else {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_57'}});
+            if (typeof callback === 'function') {
+                callback();
+            }
+        }
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+/************ 证书管理相关　start *******************/
+export const getVeriCert = () => (dispatch) => {
+    let request = 'action=getvericert&region=advanset';
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = eval("(" + data + ")")
+        dispatch({type: 'REQUEST_GET_VERI_CERT', certInfo: tObj})
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+export const checkVeriCert = (info, callback) => (dispatch) => {
+    let request ;
+    if(info.type == "sipCert"){
+        request = 'action=checkvericert&maxnum=' + info.maxnum + "&pvalue0=" + info.pvalue;
+    }else{
+        request = 'action=setcustomcert&pvalue='+info.pvalue;
+    }
+    actionUtil.handleGetRequest(request).then(function(data) {
+        callback(data);
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+export const uploadAndInstallCert = (values, file, callback) => (dispatch) => {
+    let url = "../upload?type=vericert";
+
+    actionUtil.handleUploadCert(url, file).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if(msgs.headers['response'] == "Success"){
+            cb_install_cert(values, callback);
+        }
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+const cb_install_cert = (values, callback) => {
+    let request = "action=installcert&certname=" + encodeURIComponent(values['certname']) + "&ext=" + values['ext'] +
+                  "&use=" + values['certuse'] + "&certpwd=" + encodeURIComponent(values['certpwd']);
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = eval("(" + data + ")");
+        callback(tObj);
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+export const cb_delete_cert = (name, use, callback) => (dispatch) => {
+    let request = "action=deletecert&certname=" + encodeURIComponent(name) + "&use=" + use;
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = eval("(" + data + ")");
+        callback(tObj);
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    });
+}
+
+/************ 证书管理相关　end *******************/

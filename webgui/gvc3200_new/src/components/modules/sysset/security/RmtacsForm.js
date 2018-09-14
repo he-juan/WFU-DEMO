@@ -6,9 +6,9 @@ import {Form, Tooltip, Icon, Input, Checkbox, Select, Button, InputNumber, Modal
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const req_items = [{"name":"distelnet", "pvalue":"276", "value":""},
-                    {"name":"accessmethod", "pvalue":"900", "value":""},
-                    {"name":"port", "pvalue":"901", "value":""},
+const req_items = [{"name":"distelnet", "pvalue":"276", "value":""},     // 禁止SSH访问
+                    {"name":"accessmethod", "pvalue":"900", "value":""},　// 连接方式
+                    {"name":"port", "pvalue":"901", "value":""},　　　　　//　端口
                     {"name":"confmenu", "pvalue":"1357", "value":""},
                     {"name":"apppermission", "pvalue":"29604", "value":""}];
 
@@ -134,7 +134,7 @@ class RmtacsForm extends Component {
                         <Input className="P-901"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_confmenu")}<Tooltip title={callTipsTr("Configuration via Keypad Menu")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                {/* <FormItem label={<span>{callTr("a_confmenu")}<Tooltip title={callTipsTr("Configuration via Keypad Menu")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("confmenu", {
                         initialValue: itemvalue['confmenu'] ? itemvalue['confmenu'] : "0"
                     })(
@@ -157,7 +157,7 @@ class RmtacsForm extends Component {
                             <Option value="3">{callTr("a_notallow")}</Option>
                         </Select>
                     )}
-                </FormItem>
+                </FormItem> */}
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
                 </FormItem>
