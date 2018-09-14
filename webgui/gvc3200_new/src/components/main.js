@@ -5,13 +5,17 @@ import Routes from "./routes"
 import MainNav from './nav/main_nav'
 import Footer from "./footer"
 import Enhance from "./mixins/Enhance"
-import {Layout,BackTop} from "antd"
+import {Layout,BackTop,LocaleProvider} from "antd"
 import * as Actions from './redux/actions/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import CallDialog from './call/callDialog'
 import CallTip from './call/callTip'
-
+import en_US from "antd/lib/locale-provider/en_US";
+import ja_JP from "antd/lib/locale-provider/ja_JP";
+import es_ES from "antd/lib/locale-provider/es_ES";
+import pt_BR from "antd/lib/locale-provider/pt_BR";
+import ru_RU from "antd/lib/locale-provider/ru_RU";
 const Content  = Layout;
 let savingtimes = 0;
 
@@ -35,15 +39,8 @@ class Main extends React.Component {
             const product = this.props.product;
             let maxacctnum;
             switch (product) {
-                case "WP800":
-                    maxacctnum = 2;
-                    break;
-                case "WP820":
-                    maxacctnum = 2;
-                    break;
-                case "GXV3380":
-                case "GXV3370":
-                    maxacctnum = 16;
+                case "GVC3210":
+                    maxacctnum = 4;
                     break;
                 default:
                     maxacctnum = 16;
@@ -121,17 +118,32 @@ class Main extends React.Component {
     }
 
     render() {
+        let locale
+        if (this.props.curLocale == 'en') {
+            locale = en_US;
+        }else if(this.props.curLocale == 'ja'){
+            locale = ja_JP;
+        }else if(this.props.curLocale == 'es'){
+            locale = es_ES;
+        }else if(this.props.curLocale == 'pt'){
+            locale = pt_BR;
+        }else if(this.props.curLocale == 'ru'){
+            locale = ru_RU;
+        } else if(this.props.curLocale == 'zh'){
+            locale = null;
+        }
         return (
+            <LocaleProvider locale={locale}>
             <Content className='main-container'>
                 <MainNav />
                 <div className='main-content'>
                     {
-                        this.props.callDialog == "minimize" 
+                        this.props.callDialog == "minimize"
                         ? <CallTip status={this.props.callDialog} />
                         : null
                     }
                     {
-                        !isNaN(this.props.callDialog) 
+                        !isNaN(this.props.callDialog)
                         ? <CallDialog status={this.props.callDialog} />
                         : null
                     }
@@ -146,13 +158,15 @@ class Main extends React.Component {
                     <Footer />
                 </div>
             </Content>
+            </LocaleProvider>
         );
     }
 }
 
 const mapStateToProps = (state) => ({
     product: state.product,
-	callDialog: state.callDialog
+	callDialog: state.callDialog,
+    curLocale:state.curLocale
 })
 
 const mapDispatchToProps = (dispatch) => {
