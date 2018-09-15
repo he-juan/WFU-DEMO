@@ -194,33 +194,6 @@ class MainHeader extends Component {
         })
     }
 
-    cb_reboot = () => {
-        var urihead = "action=ping";
-        urihead += "&time=" + new Date().getTime();
-        var self = this;
-        $.ajax ({
-            type: 'get',
-            url:'/manager',
-            data:urihead,
-            dataType:'text',
-            success:function(data) {
-                self.cb_rebootres(data);
-            },
-            error:function(xmlHttpRequest, errorThrown) {
-                self.cb_networkerror(xmlHttpRequest, errorThrown);
-            }
-        });
-    }
-
-    cb_rebootres(data) {
-        var msgs = this.res_parse_rawtext(data);
-        if (msgs.headers['response'].toLowerCase() == "pong") {
-            this.props.setPageStatus(2)
-        } else {
-            this.props.setPageStatus(0)
-        }
-    }
-
     handleClickLogout() {
         hashHistory.push('/status/acct');
         this.props.setPageStatus(0)
@@ -356,14 +329,6 @@ class MainHeader extends Component {
         const operationMenu = (
             <Menu className = "headermenu">
                 <Menu.Item><div className = "triangleIcon triangleIconAdmin"></div></Menu.Item>
-                <Menu.Item className="headermenuitem" key="1">
-                    <Popconfirm placement="left" title={this.tr("a_confirmrbt")} onConfirm={this.cb_reboot} okText={this.tr("a_2")} cancelText={this.tr("a_3")}>
-                        <a>
-                            <Icon className="poweroff" style={{"margin-right":"7px"}} />
-                            {this.tr("reboot")}
-                        </a>
-                    </Popconfirm>
-                </Menu.Item>
                 <Menu.Item className="headermenuitem" key="2">
                     <a onClick={this.handleClickLogout.bind(this)}>
                         <Icon className="logout" style={{"margin-right":"7px"}} />
