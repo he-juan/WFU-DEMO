@@ -51,3 +51,11 @@ export const itemValues = (state={}, action) => {
     }
 }
 
+/**
+ * 临时模拟用一下，后续等通话功能完善后再改
+ * 是否在拨打状态
+ * state 为 0 则 未拨打， 为 1 则 正在拨打
+ */
+export const isCalling = (state = 0, action) => {
+    return state
+}

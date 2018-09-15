@@ -168,6 +168,12 @@ const BackupForm  = (location, cb) => {
     }, 'sysset');
 };
 
+const Power = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/sysset/power').default);
+    }, 'sysset');
+}
+
 const Preset  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/device/Preset').default);
@@ -379,7 +385,7 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="common" getComponent={Common}/>
             </Route>
             <Route path="sysset">
-                <IndexRoute getComponent={ Ethernet } />
+                <IndexRoute getComponent={ Power } />
                 <Route onEnter={ requireAuth } path="timeandlang" getComponent={Timeandlang}/>
                 <Route onEnter={ requireAuth } path="security" getComponent={Security}/>
                 <Route onEnter={ requireAuth } path="peripherals" getComponent={Peripherals}/>
@@ -388,6 +394,7 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="sitename" getComponent={Sitename}/>
                 <Route onEnter={ requireAuth } path="switch" getComponent={Switch}/>
                 <Route onEnter={ requireAuth } path="backup" getComponent={BackupForm} />
+                <Route onEnter={ requireAuth } path="power" getComponent={Power} />
             </Route>
             <Route path="devicecontrol">
                 <IndexRoute getComponent={ Preset } />

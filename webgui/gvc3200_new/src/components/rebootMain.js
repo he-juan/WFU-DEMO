@@ -14,18 +14,21 @@ class RebootMain extends Component {
     }
 
     componentDidMount() {
-       this.setVendorMsg();
+        this.setVendorMsg();
 
-       $('.mainrbtDiv').hide();
-       $('.loginDiv').hide();
-       $('.mainrbtDiv').slideDown(1000,function(){
-           $('.loginDiv').fadeIn(1000);
-       });
-       if( $.cookie("resetreboot") != "1" ){
-           setTimeout(() => this.props.reboot(), 1000);
-       }else{
-           $.cookie("resetreboot", "0", { path: '/', expires: 10 });
-       }
+        $('.mainrbtDiv').hide();
+        $('.loginDiv').hide();
+        $('.mainrbtDiv').slideDown(1000,function(){
+            $('.loginDiv').fadeIn(1000);
+        });
+        let reboottype = $.cookie('reboottype') || '0';
+        
+        setTimeout(() => this.props.sysReboot(reboottype), 1000);
+        // if( $.cookie("resetreboot") != "1" ){
+        //     setTimeout(() => this.props.reboot(), 1000);
+        // }else{
+        //     $.cookie("resetreboot", "0", { path: '/', expires: 10 });
+        // }
     }
 
     setVendorMsg = () => {
@@ -42,33 +45,41 @@ class RebootMain extends Component {
     }
 
     render() {
+        let rebootype = $.cookie('reboottype') || '0';
+        let title, subtitle, tips;
+        if(rebootype == '0' || rebootype == '4') {
+            title = this.tr("a_19324");
+            subtitle = this.tr('a_19355');
+            tips = this.tr('a_19356');
+        } else if (rebootype == '1' || rebootype == '5') {
+            title = this.tr('a_19325');
+            subtitle = this.tr('a_19348');
+            tips = this.tr('a_19349');
+        } else if ( rebootype == '2' || rebootype == '6' ) {
+            title = this.tr("a_16375");
+            subtitle = this.tr("a_19350");
+            tips = this.tr("a_19351");
+        }
         return (
             <div className="reboot">
                 <div className="reboot_title">
                     <div className='header-vendor-div'>
-                        {this.props.oemId=="54"?<span>{this.props.productStr}</span>:
-                            this.props.oemId=="70"?
-                                <a>
-                                    <i className ="spriteNec"></i>
-                                    <span>{this.props.productStr}</span>
-                                </a>:
-                                <a href="http://www.grandstream.com" target="_blank">
-                                    <i className ="sprite"></i>
-                                    <span>{this.props.productStr}</span>
-                                </a>
-                        }
+                        <a href="http://www.grandstream.com" target="_blank">
+                            <i className ="sprite"></i>
+                            <span>{this.props.productStr}</span>
+                        </a>
                     </div>
-                    <div className="reboot_title_span">{this.tr("a_reboot")}</div>
+                    <div className="reboot_title_span">{title}</div>
                 </div>
                 <div className="rebootContent">
-                    <div className="rebootContent_title">{this.tr("rebooting")}</div>
-                    <div className="rebootContent_content">{this.tr("reboottip")}</div>
-                    {$.cookie("MyLanguage") == "zh" ?  <div className="rebootContent_content">{this.tr("clicktip")}<span style={{"color":"#3d77ff"}}>{this.tr("clicktip2")}</span>{this.tr("clicktip3")}</div> :
-                    <div className="rebootContent_content">{this.tr("clicktip")}<span style={{"color":"#3d77ff"}}>{this.tr("clicktip2")}</span></div>}
+                    <div className="rebootContent_title">{subtitle}</div>
+                    <div className="rebootContent_content">{tips}</div>
+                   
                     <a href="index.html"><span id="clicklogin">{this.tr("clicklogin")}</span></a>
-                    <span className={this.props.oemId == "54" ? 'display-hidden' : 'display-block'}  style={{color:"#bac0ca",fontSize:"12px"}} id="vendor">
-                                {this.state.vendorMsg}
-                             </span>
+                    
+                    <span style={{color:"#bac0ca",fontSize:"12px"}} id="vendor">
+                        {this.state.vendorMsg}
+                    </span>
                 </div>
             </div>
         );
@@ -84,7 +95,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     var actions = {
-        reboot: Actions.reboot
+        sysReboot: Actions.sysReboot
     }
     return bindActionCreators(actions, dispatch)
 }
