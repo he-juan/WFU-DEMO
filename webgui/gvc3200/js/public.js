@@ -1470,7 +1470,7 @@ function cb_start_addmemberconf(numbers, accounts, callmode, confid, isdialplan,
         accounts = dialacct;
     }*/
     
-    urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo + "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan + "&confname=" + confname;
+    urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo + "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + encodeURIComponent(isdialplan) + "&confname=" + confname;
     cb_originate_call(urihead,numbers, accounts);
 }
 
