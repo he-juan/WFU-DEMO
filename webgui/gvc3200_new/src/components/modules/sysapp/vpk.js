@@ -45,7 +45,7 @@ class VpkForm extends Component {
          let acctIdx,AddVpkOrder;
          req_items = [];
 
-         if( operatename == "a_save") {
+         if( operatename == "a_17") {
              acctIdx = this.props.VpkEditIdx
              AddVpkOrder = parseInt(vpkdata[acctIdx].vpkOrder)
          } else {
@@ -279,7 +279,7 @@ class VpkForm extends Component {
         switch (this.state.keyMode) {
             case '17':
                 for(let i = 0; i < vpkdata.length; i++) {
-                    if(operatename == 'a_save' && i == this.props.VpkEditIdx) {
+                    if(operatename == 'a_17' && i == this.props.VpkEditIdx) {
                         continue;
                     }
                     if(vpkdata[i]['vpkmodeval'] == '17' && vpkdata[i].vpkacctval == values['vpkacct'] ) {
@@ -289,7 +289,7 @@ class VpkForm extends Component {
                 break;
             case '5':
                 for(let i = 0; i < vpkdata.length; i++) {
-                    if(operatename == 'a_save' && i == this.props.VpkEditIdx) {
+                    if(operatename == 'a_17' && i == this.props.VpkEditIdx) {
                         continue;
                     }
                     if(vpkdata[i]['vpkmodeval'] == values['vpkmode'] && vpkdata[i]['vpkdtmfContent'] == values['vpkuserid'] && vpkdata[i]['vpkdtmf'] == values['vpkdtmf'] ) {
@@ -300,7 +300,7 @@ class VpkForm extends Component {
             case '4':
             case '13':
                 for(let i = 0; i < vpkdata.length; i++) {
-                    if(operatename == 'a_save' && i == this.props.VpkEditIdx) {
+                    if(operatename == 'a_17' && i == this.props.VpkEditIdx) {
                         continue;
                     }
                     if(vpkdata[i]['vpkmodeval'] == values['vpkmode'] && vpkdata[i]['vpkAddress'] == values['vpkuserid'] ) {
@@ -310,7 +310,7 @@ class VpkForm extends Component {
                 break;
             default:
                 for(let i=0;i < vpkdata.length; i++) {
-                    if(operatename == 'a_save' && i == this.props.VpkEditIdx) {
+                    if(operatename == 'a_17' && i == this.props.VpkEditIdx) {
                         continue;
                     }
                     if(vpkdata[i]['vpkmodeval'] == values['vpkmode'] && vpkdata[i]['vpkacctval'] == values['vpkacct'] && vpkdata[i]['vpkuserid'] == values['vpkuserid']) {
@@ -359,7 +359,7 @@ class VpkForm extends Component {
                         initialValue: this.props.itemValues['vpkmode'] ? this.props.itemValues['vpkmode'] : "0"
                         })(
                             <Select onChange = {this.handleKeyModeChange.bind(this,'selChange')} disabled={!this.props.disableAddBtn}>
-                                <Option value="17">{callTr("a_acct")}</Option>
+                                <Option value="17">{callTr("a_7476")}</Option>
                                 <Option value="0">{callTr("a_speeddial")}</Option>
                                 <Option value="1">{callTr("a_busy")}</Option>
                                 <Option value="8">{callTr("a_callredir")}</Option>
@@ -500,7 +500,7 @@ class Vpk extends Component {
         let name = ""
         switch (key) {
             case "17":
-                name = "a_acct"
+                name = "a_7476"
                 break;
             case "0":
                 name = "a_speeddial"
@@ -692,7 +692,7 @@ class Vpk extends Component {
             matchCallNumIp: text.matchCallNumIp
         });
         this.setState({
-            operatename: "a_save",
+            operatename: "a_17",
             VpkEditIdx: index,
             disableAppend: false,
         });
@@ -787,15 +787,15 @@ class Vpk extends Component {
                             <Button style={{width : '86px'}} type="primary" disabled={this.state.disableAddBtn} onClick={this.handleVpkFormHideShow} >{this.tr("a_23")}</Button>
                             <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteMulti}>
                                 <Button type="primary" className= "select-delete" disabled={!hasSelected}>
-                                    <i className={!hasSelected ? "select-delete-icon" : ""} />{this.tr("a_delete")}
+                                    <i className={!hasSelected ? "select-delete-icon" : ""} />{this.tr("a_19067")}
                                 </Button>
                             </Popconfirm>
                         </div>
                         <Table style={{"maxWidth":"1400px"}} rowSelection={rowSelection} dataSource={this.state.vpkdata} pagination={false} >
 
-                            <Column title={this.tr("a_groupnum")} dataIndex="key" key="groupnum" />
+                            <Column title={this.tr("a_22005")} dataIndex="key" key="groupnum" />
                             <Column title={this.tr("a_keymode")} dataIndex="vpkmode" key="mode" render={(text, record, index) => ( this.tr(text) )}/>
-                            <Column title={this.tr("a_acct")} dataIndex="vpkacct" key="acct" />
+                            <Column title={this.tr("a_7476")} dataIndex="vpkacct" key="acct" />
                             <Column title={this.tr("a_name")} dataIndex="vpkname" key="name" />
                             <Column title={this.tr("a_userid")} dataIndex="vpkuserid" key="userid" />
                             <Column title={this.tr("a_address")} dataIndex="vpkAddress" key="address" />

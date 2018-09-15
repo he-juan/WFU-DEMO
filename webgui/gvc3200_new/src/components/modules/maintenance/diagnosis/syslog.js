@@ -84,7 +84,7 @@ class SyslogForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem className="select-item" label={(<span>{callTr("a_syslogptl")}
+                <FormItem className="select-item" label={(<span>{callTr("a_12200")}
                     <Tooltip title={callTipsTr("Syslog Protocol")}><Icon type="question-circle-o"/></Tooltip>
                     </span>)}>
                     {getFieldDecorator('syslogptl', {
@@ -113,7 +113,7 @@ class SyslogForm extends Component {
                         initialValue: this.props.itemValues['syslogser']
                     })(<Input className="P-207"/>)}
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_sysloglev")}
+                <FormItem className="select-item" label={(<span>{callTr("a_4136")}
                         <Tooltip title={callTipsTr("Syslog Level")}><Icon type="question-circle-o"/></Tooltip>
                     </span>
                 )}>
@@ -131,7 +131,7 @@ class SyslogForm extends Component {
                     )}
                 </FormItem>
                 <FormItem className={ this.state.aSendlog } label={< span > {
-                    callTr("a_sendlog")
+                    callTr("a_19126")
                 } < Tooltip title = {callTipsTr("Send SIP Log")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("sendlog", {
                         rules: [],
@@ -143,7 +143,7 @@ class SyslogForm extends Component {
                 </FormItem>
                 <FormItem label={(
                     <span>
-                        {callTr("a_syslogfilter")}
+                        {callTr("a_12201")}
                         <Tooltip title={callTipsTr("Syslog Filter")}>
                             <Icon type="question-circle-o"/>
                         </Tooltip>
@@ -155,7 +155,7 @@ class SyslogForm extends Component {
                     })(<Input className="P-22129"/>)}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>;
 

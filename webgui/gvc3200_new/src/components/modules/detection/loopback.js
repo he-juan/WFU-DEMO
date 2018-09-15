@@ -129,7 +129,7 @@ class Loopback extends Component {
                                     return(
                                         <Button onClick={this.micPhoneTest.bind(this, i)}disabled={this.state.micdisabled}>
                                             <span className="micro-icon"></span>
-                                            {this.tr("micro_phone") + (i+1) + " " + this.tr("a_test")}
+                                            {this.tr("micro_phone") + (i+1) + " " + this.tr("a_4370")}
                                         </Button>
                                     )
                                 })

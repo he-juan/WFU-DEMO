@@ -107,12 +107,12 @@ class CallForm extends Component {
         let curacct = parseInt(this.props.curAcct) - 1;
         let itemList = 
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_feakey")}<Tooltip title={callTipsTr("Feature Key Synchronization")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16164")}<Tooltip title={callTipsTr("Feature Key Synchronization")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("feakey", {
                         initialValue: itemvalue['feakey'] ? itemvalue['feakey'] : "0"
                     })(
                         <Select className={"P-" + pvaluearray["feakey"][curacct]}>
-                            <Option value="0">{callTr("a_disable")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
                             <Option value="1">BroadSoft</Option>
                         </Select>
                     )}
@@ -125,7 +125,7 @@ class CallForm extends Component {
                         <Checkbox className={"P-" + pvaluearray["bscallpark"][curacct]}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_confuri")}<Tooltip title={callTipsTr("Conference URI")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16174")}<Tooltip title={callTipsTr("Conference URI")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("confuri", {
                         initialValue: itemvalue['confuri']
                     })(
@@ -140,7 +140,7 @@ class CallForm extends Component {
                         <Checkbox onChange={this.handleCallCenterChange} className={"P-" + pvaluearray["bcallcenter"][curacct]}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_hotelevent")}<Tooltip title={callTipsTr("Hoteling Event")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16176")}<Tooltip title={callTipsTr("Hoteling Event")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("hotelevent", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['hotelevent'])
@@ -148,7 +148,7 @@ class CallForm extends Component {
                         <Checkbox disabled={this.state.disabled} className={"P-" + pvaluearray["hotelevent"][curacct]}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_centerstatus")}<Tooltip title={callTipsTr("Call Center Status")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_583")}<Tooltip title={callTipsTr("Call Center Status")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("centerstatus", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['centerstatus'])
@@ -157,7 +157,7 @@ class CallForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
             

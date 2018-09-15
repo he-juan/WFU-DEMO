@@ -5,7 +5,7 @@ import * as Store from '../../entry'
 
 
 const promptForRequestFailed = () => (dispatch) => {
-    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
 }
 
 /**
@@ -35,7 +35,7 @@ export const getItemValues = (items, callback) => (dispatch) => {
         }
     }).catch(function(error) {
         console.log(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -70,7 +70,7 @@ export const setItemValues = (items, values, flag, callback) => (dispatch) => {
         }
     }).catch(function(error) {
         console.log(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -100,7 +100,7 @@ const checkIsApplyNeed = (dispatch) => {
         dispatch({type: 'UPDATE_APPLY_BUTTON', applyButtonStatus: str});
     }).catch(function(error) {
         console.log(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 

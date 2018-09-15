@@ -101,9 +101,9 @@ class GestureForm extends Component {
                         initialValue: itemvalue["ringoncall"] ? itemvalue["ringoncall"] : "3"
                     })(
                         <Select className="P-22225" onChange={ this.onChangeMode.bind(this) }>
-                            <Option value="1">{callTr("a_reject")}</Option>
+                            <Option value="1">{callTr("a_10038")}</Option>
                             <Option value="2">{callTr("a_rejectwithmsg")}</Option>
-                            <Option value="3">{callTr("a_downoff")}</Option>
+                            <Option value="3">{callTr("a_8")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -136,9 +136,9 @@ class GestureForm extends Component {
                         initialValue: itemvalue['weakvolume'] ? itemvalue['weakvolume'] : "3"
                     })(
                         <Select className="P-22226">
-                            <Option value="1">{callTr("a_callmute")}</Option>
+                            <Option value="1">{callTr("a_649")}</Option>
                             <Option value="2">{callTr("a_alarmweak")}</Option>
-                            <Option value="3">{callTr("a_downoff")}</Option>
+                            <Option value="3">{callTr("a_8")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -147,9 +147,9 @@ class GestureForm extends Component {
                         initialValue: itemvalue['weakalarm'] ? itemvalue['weakalarm'] : "3"
                     })(
                         <Select className="P-22227">
-                            <Option value="1">{callTr("a_callmute")}</Option>
+                            <Option value="1">{callTr("a_649")}</Option>
                             <Option value="2">{callTr("a_alarmweak")}</Option>
-                            <Option value="3">{callTr("a_downoff")}</Option>
+                            <Option value="3">{callTr("a_8")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -163,7 +163,7 @@ class GestureForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

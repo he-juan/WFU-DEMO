@@ -73,7 +73,7 @@ class Tr069 extends Component {
         let itemList =
             <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
                 <FormItem label={< span > {
-                    this.tr("a_openacs")
+                    this.tr("a_16360")
                 } < Tooltip title = {this.tips_tr("Enable TR-069")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("openacs", {
                         rules: [],
@@ -131,7 +131,7 @@ class Tr069 extends Component {
                     )}
                 </FormItem>
                 <FormItem label={< span > {
-                    this.tr("a_perialinterval")
+                    this.tr("a_16369")
                 } < Tooltip title = {this.tips_tr("Periodic Inform Interval")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("perialinterval", {
                         rules: [{
@@ -185,7 +185,7 @@ class Tr069 extends Component {
                     })(<Input min={0} max={65535} className="P-4518"/>)}
                 </FormItem>
                 <FormItem label={< span > {
-                    this.tr("a_cpecert")
+                    this.tr("a_16373")
                 } < Tooltip title = {this.tips_tr("CPE Cert File")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("cpecert", {
                         rules: [ ],
@@ -196,7 +196,7 @@ class Tr069 extends Component {
                     }
                 </FormItem>
                 <FormItem label={< span > {
-                    this.tr("a_cpekey")
+                    this.tr("a_16374")
                 } < Tooltip title = {this.tips_tr("CPE Cert Key")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("cpekey", {
                         rules: [ ],
@@ -207,7 +207,7 @@ class Tr069 extends Component {
                     }
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>
                 </FormItem>
             </Form>
 

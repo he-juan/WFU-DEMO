@@ -210,7 +210,7 @@ class MoreForm extends Component {
                     )}
                 </FormItem>
                 {this.state.councodevis
-                ? <FormItem className={this.state.councodevis} label={<span>{callTr("a_countrycode")}<Tooltip title={callTipsTr("Country Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                ? <FormItem className={this.state.councodevis} label={<span>{callTr("a_19167")}<Tooltip title={callTipsTr("Country Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("councode", {
                         initialValue: itemvalue['councode'] ? itemvalue['councode'] : "US"
                     })(
@@ -223,7 +223,7 @@ class MoreForm extends Component {
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 : "" }
-                <FormItem label={< span > {callTr("a_dhcpop12")} < Tooltip title={callTipsTr("Host name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16187")} < Tooltip title={callTipsTr("Host name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("dhcpop12", {
                         rules: [
                             {
@@ -238,7 +238,7 @@ class MoreForm extends Component {
                         initialValue: this.props.itemValues.dhcpop12
                     })(<Input className="P-146"/>)}
                 </FormItem>
-                <FormItem label={< span> {callTr("a_dhcpop60")} < Tooltip title={callTipsTr("Vendor Class ID")}> <Icon
+                <FormItem label={< span> {callTr("a_16189")} < Tooltip title={callTipsTr("Vendor Class ID")}> <Icon
                     type="question-circle-o"/> <
                     /Tooltip></span>}>
                     {getFieldDecorator("dhcpop60", {
@@ -257,7 +257,7 @@ class MoreForm extends Component {
                 </FormItem>
                 <FormItem>
                     <Button className="submit" type="primary" size="large"
-                            onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                            onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
         let hideItem = this.props.hideItem;

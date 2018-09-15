@@ -69,7 +69,7 @@ class RingtoneForm extends Component {
                         <Checkbox onChange={this.handleCptChange} className="P-22041"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_dialtone")}<Tooltip title={callTipsTr("Dial Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16305")}<Tooltip title={callTipsTr("Dial Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("dialtone", {
                         rules: [{
                             max: 108, message: callTr("a_lengthlimit") + "108!"
@@ -89,7 +89,7 @@ class RingtoneForm extends Component {
                         <Input disabled={this.state.disabled} className="P-2909"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_ringbt")}<Tooltip title={callTipsTr("Ring Back Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16306")}<Tooltip title={callTipsTr("Ring Back Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("ringbt", {
                         rules: [{
                             max: 108, message: callTr("a_lengthlimit") + "108!"
@@ -99,7 +99,7 @@ class RingtoneForm extends Component {
                         <Input disabled={this.state.disabled} className="P-4001"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_busytone")}<Tooltip title={callTipsTr("Busy Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16307")}<Tooltip title={callTipsTr("Busy Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("busytone", {
                         rules: [{
                             max: 108, message: callTr("a_lengthlimit") + "108!"
@@ -109,7 +109,7 @@ class RingtoneForm extends Component {
                         <Input disabled={this.state.disabled} className="P-4002"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_reordertone")}<Tooltip title={callTipsTr("Reorder Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16308")}<Tooltip title={callTipsTr("Reorder Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("reordertone", {
                         rules: [{
                             max: 108, message: callTr("a_lengthlimit") + "108!"
@@ -119,7 +119,7 @@ class RingtoneForm extends Component {
                         <Input disabled={this.state.disabled} className="P-4003"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_confmtone")}<Tooltip title={callTipsTr("Confirmation Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16309")}<Tooltip title={callTipsTr("Confirmation Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("confmtone", {
                         rules: [{
                             max: 108, message: callTr("a_lengthlimit") + "108!"
@@ -129,7 +129,7 @@ class RingtoneForm extends Component {
                         <Input disabled={this.state.disabled} className="P-4004"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_callwaittone")}<Tooltip title={callTipsTr("Call-Waiting Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16310")}<Tooltip title={callTipsTr("Call-Waiting Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("callwaittone", {
                         rules: [{
                             max: 108, message: callTr("a_lengthlimit") + "108!"
@@ -139,18 +139,18 @@ class RingtoneForm extends Component {
                         <Input disabled={this.state.disabled} className="P-4005"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_cwaittonetx")}<Tooltip title={callTipsTr("Call-Waiting Tone Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16311")}<Tooltip title={callTipsTr("Call-Waiting Tone Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("cwaittonetx", {
                         initialValue: itemvalue['cwaittonetx'] ? itemvalue['cwaittonetx'] : "0"
                     })(
                         <Select disabled={this.state.disabled} className="P-1555">
-							<Option value="0">{callTr("a_low")}</Option>
-							<Option value="1">{callTr("a_medium")}</Option>
-							<Option value="2">{callTr("a_high")}</Option>
+							<Option value="0">{callTr("a_16144")}</Option>
+							<Option value="1">{callTr("a_16236")}</Option>
+							<Option value="2">{callTr("a_16145")}</Option>
 						</Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_defringcad2")}<Tooltip title={callTipsTr("Default Ring Cadence")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16314")}<Tooltip title={callTipsTr("Default Ring Cadence")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("defringcad2", {
                         rules: [{
                             max: 108, message: callTr("a_lengthlimit") + "108!"
@@ -161,7 +161,7 @@ class RingtoneForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
         );

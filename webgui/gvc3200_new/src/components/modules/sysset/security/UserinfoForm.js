@@ -36,7 +36,7 @@ class PasswordRank extends Component {
                         <div className="pwdrankchild yellow"></div>
                         <div className="pwdrankchild yellow"></div>
                         <div className="pwdrankchild"></div>
-                        <div className="pwdranklabel">{callTr("a_medium")}</div>
+                        <div className="pwdranklabel">{callTr("a_16236")}</div>
                     </div>
                 )
                 break;
@@ -256,7 +256,7 @@ class UserinfoForm extends Component {
         const logintype = this.props.userType;
         let itemList =
             <Form className="pwdform" hideRequiredMark>
-                <FormItem label={<span>{logintype == "admin" ? callTr("a_curadminpwd") : callTr("a_curuserpwd")}<Tooltip title={callTipsTr("Current Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{logintype == "admin" ? callTr("a_19007") : callTr("a_19008")}<Tooltip title={callTipsTr("Current Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("curadmipwd", {
                         rules: [{
                             required: true, message: callTr("tip_require")
@@ -267,7 +267,7 @@ class UserinfoForm extends Component {
                             suffix={<Icon type="eye" className={this.state.pwdstatus0} onClick={this.handlePwdVisible.bind(this, 0)} />} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_adminpwd")}<Tooltip title={callTipsTr("Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16317")}<Tooltip title={callTipsTr("Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("adminpasswd", {
                         rules: [{
                             role: "admin", validator: this.checkConfirm,
@@ -282,7 +282,7 @@ class UserinfoForm extends Component {
                             suffix={<Icon type="eye" className={this.state.pwdstatus1} onClick={this.handlePwdVisible.bind(this, 1)} />} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_conadminpwd")}<Tooltip title={callTipsTr("Confirm Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16318")}<Tooltip title={callTipsTr("Confirm Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("adminpasswd2", {
                         rules: [{
                             role: "admin", validator: this.checkPassword,
@@ -295,7 +295,7 @@ class UserinfoForm extends Component {
                             suffix={<Icon type="eye" className={this.state.pwdstatus2} onClick={this.handlePwdVisible.bind(this, 2)} />} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_userpwd")}<Tooltip title={callTipsTr("User Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16319")}<Tooltip title={callTipsTr("User Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("userpasswd", {
                         rules: [{
                             role: "user", validator: this.checkConfirm,
@@ -310,7 +310,7 @@ class UserinfoForm extends Component {
                             suffix={<Icon type="eye" className={this.state.pwdstatus3} onClick={this.handlePwdVisible.bind(this, 3)} />} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_conuserpwd")}<Tooltip title={callTipsTr("Confirm User Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16320")}<Tooltip title={callTipsTr("Confirm User Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("userpasswd2", {
                         rules: [{
                             role: "user", validator: this.checkPassword,
@@ -324,7 +324,7 @@ class UserinfoForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

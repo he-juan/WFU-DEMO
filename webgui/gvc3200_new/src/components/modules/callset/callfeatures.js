@@ -223,7 +223,7 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-22091"} onClick={this.changeDisableVideo}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_usequickipcall")}<Tooltip title={callTipsTr("Use Quick IP-call mode")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16294")}<Tooltip title={callTipsTr("Use Quick IP-call mode")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("usequickipcall", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['usequickipcall'])
@@ -239,7 +239,7 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-91"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_discallwaittone")}<Tooltip title={callTipsTr("Disable Call-Waiting Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16290")}<Tooltip title={callTipsTr("Disable Call-Waiting Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("discallwaittone", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['discallwaittone'])
@@ -255,7 +255,7 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-1486"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_disabletrnf")}<Tooltip title={callTipsTr("Disable Transfer")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16295")}<Tooltip title={callTipsTr("Disable Transfer")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("disabletrnf", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['disabletrnf'])
@@ -271,7 +271,7 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-8466"}/>
                     )}
                 </FormItem>
-                <FormItem className={this.state.transvis} label={<span>{callTr("a_dfttrnfmode")}<Tooltip title={callTipsTr("Default Transfer Mode")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem className={this.state.transvis} label={<span>{callTr("a_16296")}<Tooltip title={callTipsTr("Default Transfer Mode")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("dfttrnfmode", {
                         initialValue: itemvalue['dfttrnfmode'] ? itemvalue['dfttrnfmode'] : "0"
                     })(
@@ -282,19 +282,19 @@ class CallfeaturesForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_enablefunction")}<Tooltip title={callTipsTr("Enable Function for Incoming Call")}><Icon type="question-circle-o"/></Tooltip></span>}
+                <FormItem label={<span>{callTr("a_16615")}<Tooltip title={callTipsTr("Enable Function for Incoming Call")}><Icon type="question-circle-o"/></Tooltip></span>}
                           validateStatus={this.state.incomingfunc} help={callTr(this.state.incominghelp)} hasFeedback>
                     {getFieldDecorator("enablefunction", {
                         initialValue: itemvalue['enablefunction'] ? itemvalue['enablefunction'] : "0"
                     })(
                         <Select className={"P-preview"} onChange={this.changeIncomingFunc}>
                             <Option value="0">{callTr("a_20")}</Option>
-                            <Option value="1">{callTr("a_enpreview")}</Option>
+                            <Option value="1">{callTr("a_68")}</Option>
                             <Option value="2">{callTr("a_enforward")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_disableconf")}<Tooltip title={callTipsTr("Disable Conference")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16297")}<Tooltip title={callTipsTr("Disable Conference")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("disableconf", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['disableconf'])
@@ -302,7 +302,7 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-1311"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_autoconf")}<Tooltip title={callTipsTr("Auto Conference")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16289")}<Tooltip title={callTipsTr("Auto Conference")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("autoconf", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['autoconf'])
@@ -310,19 +310,19 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-1682"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_entrymute")}<Tooltip title={callTipsTr("Auto Mute on Entry")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_19328")}<Tooltip title={callTipsTr("Auto Mute on Entry")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("entrymute", {
                         initialValue: itemvalue['entrymute'] ? itemvalue['entrymute'] : "0"
                     })(
                         <Select className={"P-29607"}>
-                            <Option value="0">{callTr("a_disable")}</Option>
-                            <Option value="1">{callTr("a_incomingmute")}</Option>
-                            <Option value="2">{callTr("a_calloutmute")}</Option>
-                            <Option value="3">{callTr("a_comingandoutmute")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="1">{callTr("a_19329")}</Option>
+                            <Option value="2">{callTr("a_19330")}</Option>
+                            <Option value="3">{callTr("a_19331")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem  label={(<span>{callTr("a_usepound")}<Tooltip title={callTipsTr("Use # as Dial Key")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem  label={(<span>{callTr("a_16171")}<Tooltip title={callTipsTr("Use # as Dial Key")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('dialkey', {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['dialkey'])
@@ -338,7 +338,7 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-1439"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_ofhdial")}<Tooltip title={callTipsTr("Offhook Auto Dial")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16301")}<Tooltip title={callTipsTr("Offhook Auto Dial")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("ofhdial", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -407,9 +407,9 @@ class CallfeaturesForm extends Component {
                         initialValue: itemvalue['dtmfbtnsize'] ? itemvalue['dtmfbtnsize'] : "0"
                     })(
                         <Select className={"P-dial_dtmf_btn_size"}>
-                            <Option value="0">{callTr("a_dtmfbtnlarge")}</Option>
-                            <Option value="1">{callTr("a_dtmfbtnmiddle")}</Option>
-                            <Option value="2">{callTr("a_dtmfbtnsmall")}</Option>
+                            <Option value="0">{callTr("a_16249")}</Option>
+                            <Option value="1">{callTr("a_10090")}</Option>
+                            <Option value="2">{callTr("a_16248")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -459,7 +459,7 @@ class CallfeaturesForm extends Component {
                         <Input className="P-22133"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_filterchars")}<Tooltip title={callTipsTr("Filter Characters")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_19112")}<Tooltip title={callTipsTr("Filter Characters")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("filterchars", {
                         initialValue: itemvalue['filterchars']
                     })(
@@ -510,7 +510,7 @@ class CallfeaturesForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
         let hiddenOptions = optionsFilter.getHiddenOptions(0);
@@ -539,7 +539,7 @@ class Callfeatures extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("account_call")}</div>
+                <div className="subpagetitle">{this.tr("a_16027")}</div>
                 <CallsetFeatureForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} itemValues={this.props.itemValues}/>
             </Content>
         );

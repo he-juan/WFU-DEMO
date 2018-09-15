@@ -217,7 +217,7 @@ class LanguageForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem className = "select-item" label={<span>{callTr("a_lang")} <Tooltip title={callTipsTr("Language")}> <Icon type="question-circle-o"/> </Tooltip> </span> } >
+                <FormItem className = "select-item" label={<span>{callTr("a_23526")} <Tooltip title={callTipsTr("Language")}> <Icon type="question-circle-o"/> </Tooltip> </span> } >
                     { getFieldDecorator('lang', {
                         rules: [],
                         initialValue: lang
@@ -283,24 +283,24 @@ class LanguageForm extends Component {
                         <Option value="hi_IN">हिन्दी</Option>
                         <Option value="th_TH">ไทย</Option>
                         <Option value="ko_KR">한국어</Option>
-                        <Option value="customized">{this.tr("a_customized")}</Option>
+                        <Option value="customized">{this.tr("a_15")}</Option>
                     </Select>
                     )
                 }
 　　　         </FormItem>
-              <FormItem className = {this.state.a_importlan} label={ <span> {callTr("a_importlan")} <Tooltip title={callTipsTr("Custom Language")}> <Icon type="question-circle-o" /> </Tooltip> </span> } >
-                {getFieldDecorator('a_importlan', {
+              <FormItem className = {this.state.a_importlan} label={ <span> {callTr("a_19023")} <Tooltip title={callTipsTr("Custom Language")}> <Icon type="question-circle-o" /> </Tooltip> </span> } >
+                {getFieldDecorator('a_19023', {
                     valuePropName: 'fileList',
                     normalize: this._normFile
                 })
                     (<Upload {...props}>
                         <Button>
-                          <Icon type="upload" /> {this.tr("a_browse")}
+                          <Icon type="upload" /> {this.tr("a_16486")}
                         </Button>
                     </Upload>)
                 }
               </FormItem>
-              <FormItem className = {"select-item" + " " +this.state.cusdftlangStyle} label={ <span> {callTr("a_cusdftlang")} <Tooltip title={callTipsTr("Default Custom Language")}> <Icon type="question-circle-o" /> </Tooltip> </span> }>
+              <FormItem className = {"select-item" + " " +this.state.cusdftlangStyle} label={ <span> {callTr("a_19024")} <Tooltip title={callTipsTr("Default Custom Language")}> <Icon type="question-circle-o" /> </Tooltip> </span> }>
                   { getFieldDecorator('cusdftlanglist', {
                       rules: [],
                       initialValue: cusdftlanglist
@@ -369,7 +369,7 @@ class LanguageForm extends Component {
                     </Select>)}
 　　　         </FormItem>
               <FormItem>
-                  <Button className="submit"  disabled = {disabled} type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_save")}</Button>
+                  <Button className="submit"  disabled = {disabled} type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>
               </FormItem>
               <FormItem>
                   {getFieldDecorator('enablecuslang', {

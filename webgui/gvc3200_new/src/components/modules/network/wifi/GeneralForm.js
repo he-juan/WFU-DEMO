@@ -182,25 +182,25 @@ class DetailForm extends Component {
             <Form className="wifi-detail-form" hideRequiredMark>
                 {
                     wifidata.staticip ?
-                    <FormItem className={this.state.ipaddrdisplay} label={<span>{callTr("a_ipaddress")}</span>}>
+                    <FormItem className={this.state.ipaddrdisplay} label={<span>{callTr("a_23531")}</span>}>
                         <span>{wifidata.staticip}</span>
                     </FormItem>
                     : ""
                 }
                 {
                     wifidata.staticip ?
-                    <FormItem className={this.state.ipv4addrdisplay} label={<span>{callTr("a_ipv4addr")}</span>}>
+                    <FormItem className={this.state.ipv4addrdisplay} label={<span>{callTr("a_4313")}</span>}>
                         <span>{wifidata.staticip}</span>
                     </FormItem> : ""
                 }
                 {
                     wifidata.staticip6 ?
-                    <FormItem className={this.state.ipv6addrdisplay} label={<span>{callTr("a_ipv6addr")}</span>}>
+                    <FormItem className={this.state.ipv6addrdisplay} label={<span>{callTr("a_19226")}</span>}>
                         <span>{wifidata.staticip6}</span>
                     </FormItem> : ""
                 }
-                <FormItem label={<span>{callTr("a_status")}</span>} className={itemstatus}>
-                    <span>{callTr("a_connected")}</span>
+                <FormItem label={<span>{callTr("a_10060")}</span>} className={itemstatus}>
+                    <span>{callTr("a_23529")}</span>
                 </FormItem>
                 <FormItem label={<span>{callTr("a_wifistrength")}</span>}>
                     <span>{callTr(strengtharr[parseInt(wifidata.level)])}</span>
@@ -311,13 +311,13 @@ class DetailForm extends Component {
                         )}
                     </FormItem>
                     <div className={this.state.display}>
-                        <FormItem label={<span>{"IP " + callTr("a_networktype")}</span>}>
+                        <FormItem label={<span>{"IP " + callTr("a_4150")}</span>}>
                             {getFieldDecorator("nettype", {
                                 initialValue: wifidata.staticip ? "1" : "0"
                             })(
                                 <RadioGroup onChange={this.netTypeChange}>
                                     <Radio value="0">DHCP</Radio>
-                                    <Radio value="1">{callTr("a_static")}</Radio>
+                                    <Radio value="1">{callTr("a_4125")}</Radio>
                                 </RadioGroup>
                             )}
                         </FormItem>
@@ -327,7 +327,7 @@ class DetailForm extends Component {
                             protocoltype == "3" && this.isWP8xx() ? "":
                             <div>
                                 <p className="blocktitle" style={this.isWP8xx() ? {display:'block'} : {display:'none'}}><s></s>IPv4</p>
-                                <FormItem label={<span>{callTr("a_ipaddress")}</span>}>
+                                <FormItem label={<span>{callTr("a_23531")}</span>}>
                                     {getFieldDecorator("ipaddr", {
                                         rules: [{
                                             validator: (data, value, callback) => {
@@ -341,7 +341,7 @@ class DetailForm extends Component {
                                         <Input />
                                     )}
                                 </FormItem>
-                                <FormItem label={<span>{callTr("a_gateway")}</span>}>
+                                <FormItem label={<span>{callTr("a_16191")}</span>}>
                                     {getFieldDecorator("gateway", {
                                         rules: [{
                                             validator: (data, value, callback) => {
@@ -406,7 +406,7 @@ class DetailForm extends Component {
                             protocoltype != "2" && this.isWP8xx() ?
                             <div>
                                 <p className={"blocktitle"} ><s></s>IPv6</p>
-                                <FormItem label={<span> {callTr("a_staticipv6addr")}</span >}>
+                                <FormItem label={<span> {callTr("a_19309")}</span >}>
                                     {getFieldDecorator('staticipv6addr', {
                                         rules: [{
                                             required: true,
@@ -420,7 +420,7 @@ class DetailForm extends Component {
                                         initialValue: wifidata.staticip6 ? wifidata.staticip6 : ""
                                     })(<Input maxLength="40"/>)}
                                 </FormItem>
-                                <FormItem label={<span>{callTr("a_ipv6prefixlen")}</span >}>
+                                <FormItem label={<span>{callTr("a_19310")}</span >}>
                                     {getFieldDecorator('ipv6prefixlen', {
                                         rules: [{
                                             required: true,
@@ -438,7 +438,7 @@ class DetailForm extends Component {
                                     })(<Input maxLength="40"/>)
                                     }
                                 </FormItem>
-                                <FormItem label={<span> {callTr("a_ipv6dns1")}</span>}>
+                                <FormItem label={<span> {callTr("a_19227")}</span>}>
                                     {getFieldDecorator('ipv6dns1', {
                                         rules: [{
                                             required: true,
@@ -452,7 +452,7 @@ class DetailForm extends Component {
                                         initialValue: wifidata.static6dnsone ? wifidata.static6dnsone : ""
                                     })(<Input maxLength="40"/>)}
                                 </FormItem>
-                                <FormItem label={<span> {callTr("a_ipv6dns2")}</span >}>
+                                <FormItem label={<span> {callTr("a_19228")}</span >}>
                                     {getFieldDecorator('ipv6dns2', {
                                         rules: [
                                             {
@@ -638,7 +638,7 @@ class GeneralForm extends Component {
                 let modifybtn = document.querySelector(".modifybtn");
                 if(wifilist[index].isSaved == "true"){
                     forgetbtn.innerHTML = this.props.callTr("a_forget");
-                    modifybtn.innerHTML = this.props.callTr("a_edit");
+                    modifybtn.innerHTML = this.props.callTr("a_22");
                     forgetbtn.style.display = "block";
                     modifybtn.style.display = "block";
                 }else{
@@ -660,7 +660,7 @@ class GeneralForm extends Component {
             let modifybtn = document.createElement("Button");
             modifybtn.className = "ant-btn ant-btn-lg modifybtn custombtn";
             modifybtn.setAttribute("type", "button");
-            modifybtn.innerHTML = this.props.callTr("a_edit");
+            modifybtn.innerHTML = this.props.callTr("a_22");
             modelfooter.insertBefore(modifybtn, modelfooter.childNodes[0]);
 
             let forgetbtn = document.createElement("Button");
@@ -824,7 +824,7 @@ class GeneralForm extends Component {
         const itemvalue = this.props.itemValues;
         let oktext = "";
         if(this.state.needmodify){
-            oktext = "a_save";
+            oktext = "a_17";
         }else{
             if (this.state.wifi.isConnected == "CONNECTED"){
                 oktext = "a_disconnect";
@@ -835,28 +835,28 @@ class GeneralForm extends Component {
 
         return(
             <Form hideRequiredMark>
-                <FormItem className={ this.state.preferredprotodisplay} label={<span> {callTr("a_protocoltype") } <Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className={ this.state.preferredprotodisplay} label={<span> {callTr("a_19225") } <Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("protocoltype", {
                         initialValue: this.state.protocoltype
                     })(
                         <Select className="P-22233" onChange={this.changeProtocaltype}>
                             <Option value="0">{callTr("a_preipv4")}</Option>
                             <Option value="1">{callTr("a_preipv6")}</Option>
-                            <Option value="2">{callTr("a_onlyipv4")}</Option>
-                            <Option value="3">{callTr("a_onlyipv6")}</Option>
+                            <Option value="2">{callTr("a_19392")}</Option>
+                            <Option value="3">{callTr("a_19393")}</Option>
                         </Select>
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem className={ this.state.preferredprotodisplay} style={{marginBottom: "40px"}}>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
                 <FormItem label={<span>{callTr("a_wififunc")}<Tooltip title={callTipsTr("Wi-Fi Function")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("wififunc", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['wififunc'])
                     })(
-                        <Switch checkedChildren={callTr("a_wifienable")} unCheckedChildren={callTr("a_wifidisable")}
+                        <Switch checkedChildren={callTr("a_7")} unCheckedChildren={callTr("a_8")}
 							onChange={this.handleWifiChange}/>
                     )}
                 </FormItem>
@@ -878,7 +878,7 @@ class GeneralForm extends Component {
                                             this.state.wifiresult[0].isConnected == "CONNECTED" ?
                                             <Row className="wifirow connectedwifi" type="flex" justify="space-around">
                                                 <Col span={12}>{this.state.wifiresult[0].ssid}</Col>
-                                                <Col span={4}><div className="wifisecu" style={{fontSize: 12}}>{callTr("a_connected")}</div></Col>
+                                                <Col span={4}><div className="wifisecu" style={{fontSize: 12}}>{callTr("a_23529")}</div></Col>
                                                 <Col span={1}></Col>
                                                 <Col span={2}><div className={`wificon wifilevel_${this.state.wifiresult[0].level}`}></div></Col>
                                                 <Col span={5}>

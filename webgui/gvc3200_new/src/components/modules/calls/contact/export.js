@@ -79,7 +79,7 @@ class ExportEdit extends Component {
                 let errorCode = phbkprogress;
                 let errorMessage = 'a_exportfail';
                 if(errorCode == 3) {
-                    errorMessage = 'a_nocontactexport';
+                    errorMessage = 'a_4786';
                 } else if (errorCode == 22) {
                     errorMessage = 'a_taskinprogress';
                 }
@@ -151,7 +151,7 @@ class ExportEdit extends Component {
         return (
             <Modal title={callTr('a_savephone')} className="importModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayExportModal}>
                 <Form hideRequiredMark>
-                    <FormItem className = "select-item" label={(<span>{callTr("a_fileencode")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem className = "select-item" label={(<span>{callTr("a_4755")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('fileencode', {
                             initialValue: "UTF-8"
                             })(
@@ -170,7 +170,7 @@ class ExportEdit extends Component {
                                 </Select>
                         )}
                　　　</FormItem>
-                    <FormItem className = "select-item" label={(<span>{callTr("a_exporttype")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem className = "select-item" label={(<span>{callTr("a_4756")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                        {getFieldDecorator('exporttype', {
                            initialValue: "1"
                            })(
@@ -181,7 +181,7 @@ class ExportEdit extends Component {
                        )}
               　　　　</FormItem>
                     <FormItem label={(<span style={{visibility:'hidden'}}>g</span>)}>
-                        <Button onClick = {this.hanleExportContacts}  size="large"><Icon type="download" />{callTr("a_export")}</Button>
+                        <Button onClick = {this.hanleExportContacts}  size="large"><Icon type="download" />{callTr("a_34")}</Button>
                     </FormItem>
                 </Form>
             </Modal>

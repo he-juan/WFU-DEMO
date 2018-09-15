@@ -209,7 +209,7 @@ class Power extends Component {
 
 
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={() => { this.handleSubmit() }}>{this.tr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={() => { this.handleSubmit() }}>{this.tr("a_17")}</Button>
                 </FormItem>
             </Form>
 

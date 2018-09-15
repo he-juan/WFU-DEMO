@@ -331,8 +331,8 @@ class MainHeader extends Component {
                 <Menu.Item><div className = "triangleIcon triangleIconAdmin"></div></Menu.Item>
                 <Menu.Item className="headermenuitem" key="2">
                     <a onClick={this.handleClickLogout.bind(this)}>
-                        <Icon className="logout" style={{"margin-right":"7px"}} />
-                        {this.tr("logout")}
+                        <Icon className="a_23009" style={{"margin-right":"7px"}} />
+                        {this.tr("a_23009")}
                     </a>
                 </Menu.Item>
             </Menu>
@@ -355,7 +355,7 @@ class MainHeader extends Component {
                 <Menu theme="dark" type="horizontal" style={{"height":"100%"}}>
                     <div className={"changepwddiv" + " " +pwdvisible} >
                         {this.tr("a_changedftpwd")}
-                        <a onClick={this.handlepwdchange}>{this.tr("a_changepwd")}</a>
+                        <a onClick={this.handlepwdchange}>{this.tr("a_6295")}</a>
                     </div>
                     <div className='header-vendor-div'>
                         {oemId=="54"?<span>{this.props.productStr}</span>:
@@ -372,10 +372,10 @@ class MainHeader extends Component {
                     </div>
                     <div className='header-btn-div'>
                         <div className={"remote " + this.state.dndstyle} id="dndbtn">
-                            <a onClick={this.handleSetDndMode}>{this.tr("a_dnd")}</a>
+                            <a onClick={this.handleSetDndMode}>{this.tr("a_1302")}</a>
                         </div>
                         <div className="RemoteControl" style={{width:100}}>
-                            <a onClick={this.showRemoteControl}>{this.tr("a_RemoteControl")}</a>
+                            <a onClick={this.showRemoteControl}>{this.tr("a_19043")}</a>
                         </div>
                         <div>
                             <Dropdown overlay={languageMenu}>
@@ -400,7 +400,7 @@ class MainHeader extends Component {
                     </InputSearchdiv>
                     <div className="applyDiv">
                         <Button id="apply" className="apply"
-                            onClick={this.props.applyValue.bind(this, applyfunc, ()=>{$.cookie("applyfunc", "", {path: '/', expires:10});})} ghost>{this.tr("a_apply")}
+                            onClick={this.props.applyValue.bind(this, applyfunc, ()=>{$.cookie("applyfunc", "", {path: '/', expires:10});})} ghost>{this.tr("a_16003")}
                         </Button>
                     </div>
                     <div id="RemoteControlModal" style={{display: this.state.showControl ? "block" : "none"}}>

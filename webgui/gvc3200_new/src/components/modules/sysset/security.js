@@ -34,7 +34,7 @@ class Security extends Component {
         let hideItem = [];
         tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{'min-height': this.props.mainHeight}}>
-                <TabPane tab={this.tr("maintenance_web")} key={0} tabName="remoteaccess">
+                <TabPane tab={this.tr("a_16029")} key={0} tabName="remoteaccess">
                     <SecurityRmtacsForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
@@ -42,7 +42,7 @@ class Security extends Component {
                     <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
-                <TabPane tab={this.tr("a_screenlockpwd")} key={1} tabName="screenlockpwd">
+                <TabPane tab={this.tr("a_9688")} key={1} tabName="screenlockpwd">
                     <SecurityScreenLockForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
@@ -72,7 +72,7 @@ class Security extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("security_set")}</div>
+                <div className="subpagetitle">{this.tr("a_4221")}</div>
                 {tabList}
             </Content>
         );

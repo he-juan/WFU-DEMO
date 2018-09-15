@@ -139,7 +139,7 @@ class GeneralForm extends Component {
                         initialValue: this.props.itemValues['phbkkeyfunc'] ? this.props.itemValues['phbkkeyfunc'] : "0"
                     })(
                         <Select className="P-1526">
-                            <Option value="0">{callTr("a_default")}</Option>
+                            <Option value="0">{callTr("a_12")}</Option>
                             <Option value="1">{callTr("a_ldapsearch")}</Option>
                             <Option value="2">{callTr("a_localphbk")}</Option>
                             <Option value="3">{callTr("a_localgroup")}</Option>
@@ -152,7 +152,7 @@ class GeneralForm extends Component {
                     {
                         (this.state.iceValues != "" || this.state.iceValues.length > 0) && this.state.iceValues.map((val,idx,arr) => {
                             return (
-                                <FormItem className="icecontact" label={idx == 0 ? (<span>{callTr("a_icecontacts")}&nbsp;<Tooltip title={this.tips_tr("Emergency Call Numbers")}><Icon type="question-circle-o" /></Tooltip></span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)}>
+                                <FormItem className="icecontact" label={idx == 0 ? (<span>{callTr("a_19255")}&nbsp;<Tooltip title={this.tips_tr("Emergency Call Numbers")}><Icon type="question-circle-o" /></Tooltip></span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)}>
                                     {getFieldDecorator('addicecontacts'+idx, {
                                         rules: [{
                                             max:64,message: callTr("max_length64"),
@@ -167,7 +167,7 @@ class GeneralForm extends Component {
                         })
                     }
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>;
 

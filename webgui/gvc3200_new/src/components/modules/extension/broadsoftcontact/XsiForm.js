@@ -218,7 +218,7 @@ class XsiForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_server")}<Tooltip title={callTipsTr("Server")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_19191")}<Tooltip title={callTipsTr("Server")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("server", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -230,7 +230,7 @@ class XsiForm extends Component {
                         <Input className="P-1591"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_port")}<Tooltip title={callTipsTr("Port ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_1173")}<Tooltip title={callTipsTr("Port ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -325,7 +325,7 @@ class XsiForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

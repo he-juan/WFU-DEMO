@@ -217,7 +217,7 @@ class CallDialog extends Component {
                 break;
             case 8:
                 ctrlbtnvisible = "display-hidden";
-                linestatustip = "call_failed" ;
+                linestatustip = "a_643" ;
                 break;
             case 86:
                 ctrlbtnvisible = "display-hidden";
@@ -262,7 +262,7 @@ class CallDialog extends Component {
                     <p className="line-status-tip"><div className={`${this.state.callstatus}`}><div className={`call-type-${dialogstatus} ${this.state.holdtype}`}></div>
                         <span>{dialogstatus == "4" ? this.state.displaytime : this.tr(linestatustip)}</span></div></p>
                     <div className="call-ctrl-btn">
-    					<Button  title={this.props.muteStatus.status == "1" ? this.tr("a_callunmute"): this.tr("a_callmute")} className={`${ctrlbtnvisible} mute-btn`} onClick={this.handleLineMute}>
+    					<Button  title={this.props.muteStatus.status == "1" ? this.tr("a_659"): this.tr("a_649")} className={`${ctrlbtnvisible} mute-btn`} onClick={this.handleLineMute}>
                             <Icon className={this.props.muteStatus.status == "1" ? "unmute-icon": "mute-icon"} />
                         </Button>
     					<Button title={this.props.recordStatus == "1" ? this.tr("a_recordstop"): this.tr("a_callrecord")} className={`${ctrlbtnvisible} rcd-btn`} onClick={this.handleLineRecord}>

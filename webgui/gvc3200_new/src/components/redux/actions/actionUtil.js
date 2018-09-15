@@ -234,6 +234,6 @@ export　const checkIsApplyNeed = (dispatch) => {
         dispatch({type: 'UPDATE_APPLY_BUTTON', applyButtonStatus: str});
     }).catch(function(error) {
         console.log(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }

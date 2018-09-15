@@ -74,7 +74,7 @@ class SiptlsForm extends Component {
                         <Input type="textarea" autosize={{minRows: 2, maxRows: 6}} className="P-279"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_sslpkpwd")}<Tooltip title={callTipsTr("SIP TLS Private Key Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16287")}<Tooltip title={callTipsTr("SIP TLS Private Key Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("sslpkpwd", {
                         initialValue: itemvalue['sslpkpwd']
                     })(
@@ -83,7 +83,7 @@ class SiptlsForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

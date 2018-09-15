@@ -168,7 +168,7 @@ class RecordSet extends Component {
                             )}
                         </FormItem>
                         <div className={this.state.ftpitemdis}>
-                            <FormItem label={< span > {callTr("a_serveraddr")} </span >}>
+                            <FormItem label={< span > {callTr("a_6755")} </span >}>
                                 {getFieldDecorator("ftpurl", {
                                     rules: [{
                                         max: 256, message: this.tr("a_lengthlimit") + "256"
@@ -176,7 +176,7 @@ class RecordSet extends Component {
                                     initialValue: itemValues.ftpurl ? itemValues.ftpurl : ""
                                 })(<Input className=""/>)}
                             </FormItem>
-                            <FormItem label={< span > {callTr("a_port")} </span >}>
+                            <FormItem label={< span > {callTr("a_1173")} </span >}>
                                 {getFieldDecorator("ftpport", {
                                     rules: [{
                                         validator: (data, value, callback) => {
@@ -195,7 +195,7 @@ class RecordSet extends Component {
                                     initialValue: itemValues.ftppath ? itemValues.ftppath : ""
                                 })(<Input className=""/>)}
                             </FormItem>
-                            <FormItem label={< span > {callTr("a_cusername")} </span >}>
+                            <FormItem label={< span > {callTr("a_9206")} </span >}>
                                 {getFieldDecorator("ftpusername", {
                                     initialValue: itemValues.ftpusername ? itemValues.ftpusername : ""
                                 })(<Input className=""/>)}
@@ -222,7 +222,7 @@ class RecordSet extends Component {
                         </div>
                     </div> : null}
                     <Button className="submit" style={{marginLeft: 306, fontSize: '14px'}} type="primary"
-                            onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                            onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </Form>
             </Modal>
         )

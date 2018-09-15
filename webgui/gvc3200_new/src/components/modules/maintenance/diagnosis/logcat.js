@@ -53,10 +53,10 @@ class LogactForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={( <span> {callTr("a_clearlog")} <Tooltip title={callTipsTr("Clear Log")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} hasFeedback>
-                    <Button style = {{"border":"1px solid #3d77ff", "height":"30px","width":"80px"}} onClick={this.onClickClearLogcat}>{callTr("a_clear")}</Button>
+                <FormItem label={( <span> {callTr("a_16353")} <Tooltip title={callTipsTr("Clear Log")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} hasFeedback>
+                    <Button style = {{"border":"1px solid #3d77ff", "height":"30px","width":"80px"}} onClick={this.onClickClearLogcat}>{callTr("a_6332")}</Button>
                 </FormItem>
-                <FormItem label={( <span> {callTr("a_logtag")} <Tooltip title={callTipsTr("Log Tag")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem label={( <span> {callTr("a_16354")} <Tooltip title={callTipsTr("Log Tag")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {getFieldDecorator('logtag', {
                         rules: [
                             {
@@ -67,7 +67,7 @@ class LogactForm extends Component {
                     })(<Input/>)
                     }
                 </FormItem>
-                <FormItem className="select-item" label={( <span> {callTr("a_logpriority")} <Tooltip title={callTipsTr("Log Priority")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem className="select-item" label={( <span> {callTr("a_16355")} <Tooltip title={callTipsTr("Log Priority")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {getFieldDecorator('logpriority', {
                         rules: [],
                         initialValue: 'V'
@@ -86,7 +86,7 @@ class LogactForm extends Component {
                 </FormItem>
                 <FormItem>
                     <Button className="button" type="primary" size="large" onClick={this.onClickGetlog.bind(this)} style={{margin: "15px 0 0 133%"}}>
-                        {this.tr("a_getlog")}
+                        {this.tr("a_16356")}
                     </Button>
                 </FormItem>
                 <Row id='mainlogcat'>

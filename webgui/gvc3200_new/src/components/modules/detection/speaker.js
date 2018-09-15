@@ -30,18 +30,18 @@ class Speaker extends Component {
 
     handleTest = () => {
         const { speakerTestStatus,speakerTest, promptSpinMsg, promptMsg } = this.props;
-        promptSpinMsg('display-block', "a_process");
+        promptSpinMsg('display-block', "a_9348");
         speakerTestStatus == 1 ?
             speakerTest("off", (result) => {
                 if(result.res != "success"){
                     promptMsg('ERROR', "process_fail");
                 }
-                promptSpinMsg('display-hidden', "a_process");
+                promptSpinMsg('display-hidden', "a_9348");
             }) : speakerTest("on", (result) => {
                 if(result.res != "success"){
                     promptMsg('ERROR', "process_fail");
                 }
-                promptSpinMsg('display-hidden', "a_process");
+                promptSpinMsg('display-hidden', "a_9348");
             })
     }
 
@@ -55,7 +55,7 @@ class Speaker extends Component {
         }
         return (
             <Content className="content-container">
-                <div className="subpagetitle">{this.tr("builtin_speaker")}</div>
+                <div className="subpagetitle">{this.tr("a_18540")}</div>
                 <div className="detect-area" style={{'min-height': this.props.mainHeight}}>
                     <div className="detect-speaker ab-center">
                         <p className="speakertip">{this.tr("speaker_tip")}</p>

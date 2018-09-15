@@ -56,7 +56,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.setup
                     })(<Input id="setup"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_incomingcall") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_670") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('IncomingCall', {
                         rules: [
                             {
@@ -104,7 +104,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.onhook
                     })(<Input id="OnHook"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_missedcall") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_3524") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('MissCall', {
                         rules: [
                             {
@@ -285,7 +285,7 @@ class EventnoticeForm extends Component {
                     })(<Input id="Unregister"/>)}
                 </FormItem>
                 <FormItem >
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>;
 

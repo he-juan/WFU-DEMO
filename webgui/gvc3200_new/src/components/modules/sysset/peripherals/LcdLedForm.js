@@ -127,7 +127,7 @@ class LcdLedForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_disbacklight")}<Tooltip title={callTipsTr("Disable Missed Call Backlight")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16376")}<Tooltip title={callTipsTr("Disable Missed Call Backlight")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("disbacklight", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['disbacklight'])
@@ -168,7 +168,7 @@ class LcdLedForm extends Component {
                         <Checkbox className="P-1694"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_dislcdindtor")}<Tooltip title={callTipsTr("Disable Indicator When LCD is Off")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16384")}<Tooltip title={callTipsTr("Disable Indicator When LCD is Off")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("dislcdindtor", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['dislcdindtor'])
@@ -185,7 +185,7 @@ class LcdLedForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
                 <p className={"blocktitle"}><s></s>{callTr("a_adjustlight")}</p>
                 <FormItem　className = "redControl" label={<span>{callTr("a_adjustred")}</span>}>

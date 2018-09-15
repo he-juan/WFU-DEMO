@@ -42,19 +42,19 @@ class Diagnosis extends Component {
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style={{'minHeight': this.props.mainHeight}}>
-                <TabPane tab={this.tr("maintenance_syslog")} key={0}>
+                <TabPane tab={this.tr("a_4144")} key={0}>
                     <DiagnosisSyslogForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
                         hideItem={hideItem} tabOrder=""/>
                 </TabPane>
-                <TabPane tab={this.tr("maintenance_logcat")} key={1}>
+                <TabPane tab={this.tr("a_16030")} key={1}>
                     <DiagnosisLogactForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
                         hideItem={hideItem} tabOrder=""/>
                 </TabPane>
-                <TabPane tab={this.tr("maintenance_debug")} key={2}>
+                <TabPane tab={this.tr("a_16031")} key={2}>
                     <DiagnosisDebugForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
                         hideItem={hideItem} tabOrder=""/>
                 </TabPane>
-                <TabPane tab={this.tr("a_traceroute")} key={3}>
+                <TabPane tab={this.tr("a_16628")} key={3}>
                     <DiagnosisTracerouteForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
                         clearTraceroute = {this.clearTraceroute} hideItem={hideItem} tabOrder=""/>
                 </TabPane>

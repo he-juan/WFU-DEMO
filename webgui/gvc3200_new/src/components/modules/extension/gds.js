@@ -113,7 +113,7 @@ class GdsForm extends Component {
                     })(
                         <Select onChange={this.props.handleChangeType}>
                             <Option value="0">{callTr("a_dstype")}</Option>
-                            <Option value="1">{callTr("a_dtmftype")}</Option>
+                            <Option value="1">{callTr("a_7477")}</Option>
                         </Select>
                     )
                     }
@@ -136,7 +136,7 @@ class GdsForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={<span>{callTr("a_gdsname")}<Tooltip title={callTipsTr("GDS Name")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_23541")}<Tooltip title={callTipsTr("GDS Name")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("gdsname", {
                         rules: [{
                             required: true, message: callTr("a_gdsnameempty")
@@ -282,7 +282,7 @@ class Gds extends Component {
         });
         document.getElementById("gdsname").focus();
         this.setState({
-            operatename: "a_save",
+            operatename: "a_17",
             disableAppend: false,
         });
     }
@@ -432,14 +432,14 @@ class Gds extends Component {
                             <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteMulti}>
                                 <Button className="select-delete" type="primary" disabled={!hasSelected}>
                                     <i className={!hasSelected ? "select-delete-icon" : ""} />
-                                    {this.tr("a_delete")}
+                                    {this.tr("a_19067")}
                                 </Button>
                             </Popconfirm>
                         </div>
                         <Table style={{"max-width":"1100px"}} rowSelection={rowSelection} dataSource={this.state.gdsdata} pagination={false} >
-                            <Column title={this.tr("a_groupnum")} dataIndex="gdsorder" key="order" />
+                            <Column title={this.tr("a_22005")} dataIndex="gdsorder" key="order" />
                             <Column title={this.tr("a_servicetype")} dataIndex="serviceType" key="type" />
-                            <Column title={this.tr("a_gdsname")} dataIndex="gdsname" key="name" />
+                            <Column title={this.tr("a_23541")} dataIndex="gdsname" key="name" />
                             <Column title={this.tr("a_gdsnumber")} dataIndex="gdsnumber" key="number" />
                             <Column title={this.tr("a_dtmfcontent")} className="display-hidden" dataIndex="gdspwd" key="pwd" />
                             <Column title={this.tr("a_operate")} key="operate" render={(text, record, index) => (

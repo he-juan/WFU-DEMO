@@ -22,7 +22,7 @@ const saveOrRunApplyFunInCookie = (type,urihead) => {
             actionUtil.handleGetRequest(request).then(function(data) {
             }).catch(function(error) {
                 console.log(error)
-                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
             });
         }
         Store.cookie("applyFun",'', { path: '/', expires: 10 });
@@ -100,7 +100,7 @@ export const set_defaultacct = (acctindex, callback) => (dispatch) =>{
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
             callback();
         } else if (msgs['res'] == 'error') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_errorname'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
         }
     }).catch(function(error) {
         promptForRequestFailed();

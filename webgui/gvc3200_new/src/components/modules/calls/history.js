@@ -57,7 +57,7 @@ class History extends Component {
                 <TabPane tab = {this.tr("history_all")} key={0}>
                     <CallForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
-                <TabPane tab = {this.tr("missed_call")} key={1}>
+                <TabPane tab = {this.tr("a_3524")} key={1}>
                     <MissedCallForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
             </Tabs>
@@ -78,7 +78,7 @@ class History extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("call_history")}</div>
+                <div className="subpagetitle">{this.tr("a_3536")}</div>
                 {tabList}
             </Content>
         );

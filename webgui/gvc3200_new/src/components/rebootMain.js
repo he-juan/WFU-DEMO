@@ -61,7 +61,7 @@ class RebootMain extends Component {
             tips = this.tr("a_19351");
         }
         return (
-            <div className="reboot">
+            <div className="a_20008">
                 <div className="reboot_title">
                     <div className='header-vendor-div'>
                         <a href="http://www.grandstream.com" target="_blank">

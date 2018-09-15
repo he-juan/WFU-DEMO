@@ -384,12 +384,12 @@ class TimeForm extends Component {
         const callTipsTr = this.props.callTipsTr;
         const {getFieldDecorator} = this.props.form;
         const weekButton = [
-            this.props.callTr("a_monday"),
-            this.props.callTr("a_tuesday"),
-            this.props.callTr("a_wednesday"),
-            this.props.callTr("a_thursday"),
-            this.props.callTr("a_friday"),
-            this.props.callTr("a_saturday"),
+            this.props.callTr("a_124"),
+            this.props.callTr("a_125"),
+            this.props.callTr("a_126"),
+            this.props.callTr("a_127"),
+            this.props.callTr("a_128"),
+            this.props.callTr("a_129"),
             this.props.callTr("a_sunday"),
         ]
         var showtips = "none";
@@ -402,14 +402,14 @@ class TimeForm extends Component {
             <Form hideRequiredMark id="switchForm">
                 {this.state.timeList.map((time, index) => {
                     return <FormItem label={index == 0 ?
-                        <span>{callTr("a_switchTime")}<Tooltip title={callTipsTr("switchTime")}><Icon
+                        <span>{callTr("a_10056")}<Tooltip title={callTipsTr("switchTime")}><Icon
                             type="question-circle-o"/></Tooltip></span> : <span></span>} className="icecontact"
                                      style={{marginBottom: "10px"}}>
                         <TimePicker value={time[0]} format={'HH:mm'} style={{width: 220}}
                                     placeholder={callTr("a_preTime")} onChange={this.changeTime.bind(this, index, 0)}/>
                         &nbsp;&nbsp;&nbsp;<span style={{color: "#b8bdcc"}}>—</span>&nbsp;&nbsp;&nbsp;
                         <TimePicker value={time[1]} format={'HH:mm'} style={{width: 220}}
-                                    placeholder={callTr("a_endTime")} onChange={this.changeTime.bind(this, index, 1)}/>
+                                    placeholder={callTr("a_4034")} onChange={this.changeTime.bind(this, index, 1)}/>
                         <i className={this.state.timemaxLength == this.state.timeList.length ? 'del-btn' : this.state.timeList.length == index + 1 ? 'add-btn' : 'del-btn'}
                            onClick={this.hanleIceContacts.bind(this, index)}
                            style={{backgroundPosition: this.state.timemaxLength == this.state.timeList.length ? '-21px -25px' : this.state.timeList.length == index + 1 ? '-63px -25px' : '-21px -25px'}}/>
@@ -430,7 +430,7 @@ class TimeForm extends Component {
                                     onClick={this.handleSubmit}>{callTr("a_23")}</Button> :
                             <div><Button className="submit" type="primary" size="large"
                                          style={{marginLeft: 0, marginTop: 0}}
-                                         onClick={this.handleSubmit2}>{callTr("a_save")}</Button>
+                                         onClick={this.handleSubmit2}>{callTr("a_17")}</Button>
                                 <Button className="cancel" size="large" onClick={this.handleCancel}
                                         style={{marginLeft: "20px", marginTop: 0}}>{callTr("a_3")}</Button></div>
                     }
@@ -444,24 +444,24 @@ class TimeForm extends Component {
                                 let array2 = []
                                 for (let i = 0; i < array.length; i++) {
                                     if (array[i] == "MO") {
-                                        array2.push(callTr("a_monday"))
+                                        array2.push(callTr("a_124"))
                                     } else if (array[i] == "TU") {
-                                        array2.push(callTr("a_tuesday"))
+                                        array2.push(callTr("a_125"))
                                     } else if (array[i] == "WE") {
-                                        array2.push(callTr("a_wednesday"))
+                                        array2.push(callTr("a_126"))
                                     } else if (array[i] == "TH") {
-                                        array2.push(callTr("a_thursday"))
+                                        array2.push(callTr("a_127"))
                                     } else if (array[i] == "FR") {
-                                        array2.push(callTr("a_friday"))
+                                        array2.push(callTr("a_128"))
                                     } else if (array[i] == "SA") {
-                                        array2.push(callTr("a_saturday"))
+                                        array2.push(callTr("a_129"))
                                     } else if (array[i] == "SU") {
                                         array2.push(callTr("a_sunday"))
                                     }
                                 }
                                 return array2.join(",")
                             }}/>
-                    <Column title={this.tr("a_switchTime")} width={590} dataIndex="time" key="keymode"
+                    <Column title={this.tr("a_10056")} width={590} dataIndex="time" key="keymode"
                             render={(text, record, index) => {
                                 let array = text.split(",")
                                 for (let i = 0; i < array.length; i++) {

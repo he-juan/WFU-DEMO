@@ -362,7 +362,7 @@ class Record extends Component {
             }
         }
         Modal.info({
-            title: <span dangerouslySetInnerHTML={{__html: self.tr("a_rename")}}></span>,
+            title: <span dangerouslySetInnerHTML={{__html: self.tr("a_69")}}></span>,
             content: (
                 <div>
                     <Input id="renameinput" name="renameinput" type="text" ></Input>
@@ -518,7 +518,7 @@ class Record extends Component {
                 if (msg == "Playing") {
                     this.props.promptMsg('ERROR',"a_playing");
                 } else {
-                    this.props.promptMsg('ERROR',"a_errorname");
+                    this.props.promptMsg('ERROR',"a_63");
                 }
            }
         });
@@ -606,7 +606,7 @@ class Record extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("sysapp_record")}</div>
+                <div className="subpagetitle">{this.tr("a_12098")}</div>
                 {
                 this.state.showRecordSet ?
                 <div  style={{height:'1px',position:'relative',background:'transparent'}}>

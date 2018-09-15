@@ -20,7 +20,7 @@ class Account extends Component {
         switch (code){
             case "1":
             case "2":
-                codetext = "a_register";
+                codetext = "a_1138";
                 return codetext;
             case "3":
             case "5":
@@ -37,7 +37,7 @@ class Account extends Component {
                 return codetext;
             case "0":
             default:
-                codetext = "a_unregister";
+                codetext = "a_1139";
                 return codetext;
         }
     }
@@ -76,9 +76,9 @@ class Account extends Component {
         }
 
         let account = this.tr("a_account");
-        let number = this.tr("a_number");
-        let sipserver = this.tr("a_sipserver");
-        let status = this.tr("a_status");
+        let number = this.tr("a_10006");
+        let sipserver = this.tr("a_23536");
+        let status = this.tr("a_10060");
 
         const columns = [{
             title: account,
@@ -137,7 +137,7 @@ class Account extends Component {
 
       return (
           <Content className="content-container">
-              <div className="subpagetitle">{this.tr("status_acc")}</div>
+              <div className="subpagetitle">{this.tr("a_4306")}</div>
                 <div style={{"margin": "10px 16px 0 16px","borderRadius":"4px 4px 0px 0px","minHeight":this.props.mainHeight}} >
                     <Table className = "accountTable"
                       rowKey=""

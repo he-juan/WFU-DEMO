@@ -354,7 +354,7 @@ class SwitchForm extends Component {
                 <Upload {...cilentCertProps} style={{position: "absolute", top: -8, left: 775}}>
                     <Button className="upload-btn" disabled={this.state.promptToneDisabled} id="switch_upload">
                         <span className="upload-icon"/>
-                        <span style={{marginLeft: "5px"}}>{callTr("a_upload")}</span>
+                        <span style={{marginLeft: "5px"}}>{callTr("a_16197")}</span>
                     </Button>
                 </Upload>
             )}
@@ -402,7 +402,7 @@ class SwitchForm extends Component {
             </FormItem>
             <FormItem>
                 <Button className="submit" type="primary" size="large"
-                        onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                        onClick={this.handleSubmit}>{callTr("a_17")}</Button>
             </FormItem>
         </Form>
         let hideItem = this.props.hideItem;

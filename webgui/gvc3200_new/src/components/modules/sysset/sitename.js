@@ -82,12 +82,12 @@ class SitenameForm extends Component {
         
         return(
             <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
-                <FormItem label={<span>{callTr("a_backopacity")}<Tooltip title={callTipsTr("Background Transparency")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16221")}<Tooltip title={callTipsTr("Background Transparency")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("bgtp", {
                         initialValue: itemvalues["bg_tp"] ? itemvalues["bg_tp"] : "0"
                     })(
 						<Select>
-							<Option value="0">{callTr("a_opaque")}</Option>
+							<Option value="0">{callTr("a_16223")}</Option>
 							<Option value="1">5%</Option>
 							<Option value="2">10%</Option>
 							<Option value="3">15%</Option>
@@ -95,39 +95,39 @@ class SitenameForm extends Component {
 						</Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_sitename")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Site Name")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_20073")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Site Name")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("sitename", {
                         initialValue: itemvalues["Sitename"] ? itemvalues["Sitename"] : ""
                     })(
                         <Input maxLength={16} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_displaypos")}<Tooltip title={callTipsTr("Display Position")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16226")}<Tooltip title={callTipsTr("Display Position")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("dispos", {
                         initialValue: itemvalues["displayposition"] ? itemvalues["displayposition"] : "0"
                     })(
 						<Select>
-							<Option value="0">{callTr("a_upperleft")}</Option>
-							<Option value="1">{callTr("a_upperright")}</Option>
-							<Option value="2">{callTr("a_lowerleft")}</Option>
-							<Option value="3">{callTr("a_lowerright")}</Option>
+							<Option value="0">{callTr("a_16227")}</Option>
+							<Option value="1">{callTr("a_16228")}</Option>
+							<Option value="2">{callTr("a_16229")}</Option>
+							<Option value="3">{callTr("a_16230")}</Option>
 						</Select>
                     )}
                 </FormItem>
-				<FormItem label={<span>{callTr("a_displaytime")}<Tooltip title={callTipsTr("Display Duration")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem label={<span>{callTr("a_16231")}<Tooltip title={callTipsTr("Display Duration")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("disduration", {
                         initialValue: itemvalues["displayduration"] ? itemvalues["displayduration"] : "0"
                     })(
 						<Select>
-							<Option value="0">{callTr("a_notdisplay")}</Option>
-							<Option value="1">1 {callTr("a_min")}</Option>
-							<Option value="2">5 {callTr("a_mins")}</Option>
-							<Option value="3">10 {callTr("a_mins")}</Option>
-							<Option value="4">{callTr("a_alwaysdisplay")}</Option>
+							<Option value="0">{callTr("a_16233")}</Option>
+							<Option value="1">1 {callTr("a_109")}</Option>
+							<Option value="2">5 {callTr("a_110")}</Option>
+							<Option value="3">10 {callTr("a_110")}</Option>
+							<Option value="4">{callTr("a_16232")}</Option>
 						</Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_fontcolor")}<Tooltip title={callTipsTr("Font Color")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16234")}<Tooltip title={callTipsTr("Font Color")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <div>
                         <div className="color-pick-btn" onClick={this.showBlockPicker}>
                             <div className="color-chosen" style={{background: this.state.curColor}}></div>
@@ -142,22 +142,22 @@ class SitenameForm extends Component {
                         : null}
                     </div>
                 </FormItem>
-                <FormItem label={<span>{callTr("a_fontsize")}<Tooltip title={callTipsTr("Font Size")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16235")}<Tooltip title={callTipsTr("Font Size")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("fontsize", {
                         initialValue: itemvalues["fontsize"] ? itemvalues["fontsize"] : "0"
                     })(
 						<Select>
-							<Option value="0">{callTr("a_smallest")}</Option>
-							<Option value="1">{callTr("a_smaller")}</Option>
-							<Option value="2">{callTr("a_dtmfbtnsmall")}</Option>
-							<Option value="3">{callTr("a_medium")}</Option>
-							<Option value="4">{callTr("a_dtmfbtnlarge")}</Option>
-							<Option value="5">{callTr("a_larger")}</Option>
-							<Option value="6">{callTr("a_largest")}</Option>
+							<Option value="0">{callTr("a_16246")}</Option>
+							<Option value="1">{callTr("a_16247")}</Option>
+							<Option value="2">{callTr("a_16248")}</Option>
+							<Option value="3">{callTr("a_16236")}</Option>
+							<Option value="4">{callTr("a_16249")}</Option>
+							<Option value="5">{callTr("a_16250")}</Option>
+							<Option value="6">{callTr("a_16251")}</Option>
 						</Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_bold")}<Tooltip title={callTipsTr("Bold")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16237")}<Tooltip title={callTipsTr("Bold")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("bold", {
                         valuePropName: "checked",
                         initialValue: parseInt(itemvalues["bold"])
@@ -180,7 +180,7 @@ class SitenameForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
         );
@@ -197,7 +197,7 @@ class Sitename extends Component {
     render(){
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("a_sitenameset")}</div>
+                <div className="subpagetitle">{this.tr("a_16013")}</div>
                 <WrappedSitenameForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr}/>
             </Content>
         );

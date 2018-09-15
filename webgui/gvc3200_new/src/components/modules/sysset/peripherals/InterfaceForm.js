@@ -10,7 +10,7 @@ const req_items = [{"name":"aemode", "pvalue":"915", "value":""},
                     {"name":"disrj9autodtc", "pvalue":"22132", "value":""},
                     {"name":"USB", "pvalue":"22036", "value":""},
                     {"name":"SD", "pvalue":"22035", "value":""},
-                    {"name":"Camera", "pvalue":"22236", "value":""},
+                    {"name":"a_10102", "pvalue":"22236", "value":""},
                     ];
 
 class InterfaceForm extends Component {
@@ -38,7 +38,7 @@ class InterfaceForm extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if(!err){
                /* if(values.Camera==true){
-                    values.Camera=this.props.itemValues['Camera']
+                    values.Camera=this.props.itemValues['a_10102']
                 }else{
                     values.Camera=2
                 }*/
@@ -63,8 +63,8 @@ class InterfaceForm extends Component {
                         initialValue: itemvalue['aemode'] ? itemvalue['aemode'] : "0"
                     })(
                         <Select className="P-915">
-                            <Option value="0">{callTr("a_modebright")}</Option>
-                            <Option value="1">{callTr("a_modedark")}</Option>
+                            <Option value="0">{callTr("a_16387")}</Option>
+                            <Option value="1">{callTr("a_16388")}</Option>
                         </Select>
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
@@ -106,17 +106,17 @@ class InterfaceForm extends Component {
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>:null}
-                {this.props.oemId==70?<FormItem label={<span>{callTr("Camera")}<Tooltip title={callTipsTr("Camera")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    {getFieldDecorator("Camera", {
+                {this.props.oemId==70?<FormItem label={<span>{callTr("a_10102")}<Tooltip title={callTipsTr("a_10102")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                    {getFieldDecorator("a_10102", {
                         valuePropName: 'checked',
-                        initialValue: !parseInt(itemvalue['Camera'])
+                        initialValue: !parseInt(itemvalue['a_10102'])
                     })(
                         <Checkbox className="P-22236"/>
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>:null}
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

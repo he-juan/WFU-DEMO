@@ -35,7 +35,7 @@ class Contact extends Component {
                 <TabPane tab = {this.tr("a_contactlist")} key={0}>
                     <ContactTabForm {...this.props} hideItem={hideItem} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
-                <TabPane tab = {this.tr("a_concatgroup")} key={1}>
+                <TabPane tab = {this.tr("a_4779")} key={1}>
                     <GroupTabForm {...this.props} hideItem={hideItem} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
             </Tabs>

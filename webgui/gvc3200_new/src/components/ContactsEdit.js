@@ -127,11 +127,11 @@ class ContactsEdit extends Component {
                     <FormItem label={(<span>{callTr("a_name")}</span>)}>
                         {getFieldDecorator('firstname', {
                         })(
-                            <Input style={{width:'40%'}} placeholder={callTr('a_name_first')}/>
+                            <Input style={{width:'40%'}} placeholder={callTr('a_207')}/>
                         )}&nbsp;&nbsp;
                         {getFieldDecorator('lastname', {
                         })(
-                            <Input style={{width:'40%'}} placeholder={callTr('a_name_last')} />
+                            <Input style={{width:'40%'}} placeholder={callTr('a_208')} />
                         )}
                     </FormItem>
                     <FormItem label={(<span>{callTr("a_workphone")}</span>)}>
@@ -171,7 +171,7 @@ class ContactsEdit extends Component {
                             initialValue: itemValues['ringtone'] ? itemValues['ringtone'] : 'content://settings/system/ringtone'
                         })(
                             <Select style={{width:'50%'}}>
-                                <Option value="content://settings/system/ringtone">{callTr("a_sysdefault")}</Option>
+                                <Option value="content://settings/system/ringtone">{callTr("a_8421")}</Option>
                                 <Option value="ringtone_silence">Silent</Option>
                                 {children}
                             </Select>
@@ -184,7 +184,7 @@ class ContactsEdit extends Component {
                             <Select style={{width:'50%'}}>
                                 {
                                     acctname_item.map((acct,index)=> {
-                                        return <Option value={`${index}`}>{itemValues['name'+index] ? itemValues['name'+index] : `${callTr('a_acct')} ${index+1}` }</Option>
+                                        return <Option value={`${index}`}>{itemValues['name'+index] ? itemValues['name'+index] : `${callTr('a_7476')} ${index+1}` }</Option>
                                     })
                                 }
                             </Select>

@@ -71,7 +71,7 @@ class ImportEdit extends Component {
                 break;
             case '4':
                 let errorCode = phbkprogress;
-                let errorMessage = 'a_importfail';
+                let errorMessage = 'a_16474';
                 if(errorCode == 4) {
                     errorMessage = 'a_nospaceleft';
                 } else if (errorCode == 12) {
@@ -211,9 +211,9 @@ class ImportEdit extends Component {
        };
 
        return (
-           <Modal title={callTr('a_import')} className="importModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayImportModal}>
+           <Modal title={callTr('a_45')} className="importModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayImportModal}>
                 <Form hideRequiredMark>
-                    <FormItem label={(<span>{callTr("a_clearoldlist")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem label={(<span>{callTr("a_16485")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('clearoldlist0', {
                             valuePropName: 'checked',
                             initialValue: 0
@@ -249,7 +249,7 @@ class ImportEdit extends Component {
                                 </RadioGroup>
                         )}
                     </FormItem>
-                    <FormItem className = "select-item" label={(<span>{callTr("a_fileencode")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem className = "select-item" label={(<span>{callTr("a_4755")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('importfileencode', {
                             initialValue: "UTF-8"
                         })(
@@ -268,7 +268,7 @@ class ImportEdit extends Component {
                             </Select>
                         )}
                     </FormItem>
-                    <FormItem className = "select-item" label={(<span>{callTr("a_exporttype")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem className = "select-item" label={(<span>{callTr("a_4756")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('importtype', {
                             initialValue: "1"
                         })(

@@ -246,7 +246,7 @@ class NewContactsEdit extends Component {
         } else {
             emailValuesmap = emailValues;
         }
-        let title = this.props.addNewContact ? 'a_newcontact' : 'a_editContacts';
+        let title = this.props.addNewContact ? 'a_4840' : 'a_editContacts';
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
         var acctnumber = new Array;
@@ -266,7 +266,7 @@ class NewContactsEdit extends Component {
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
 
-                    <FormItem label={(<span>{callTr("a_displayName")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_1126")}</span>)}>
                         {getFieldDecorator('name', {
                             rules: [{
                                 required: true
@@ -277,13 +277,13 @@ class NewContactsEdit extends Component {
                         {/*&nbsp;&nbsp;*/}
                         {/*{getFieldDecorator('firstname', {*/}
                         {/*})(*/}
-                        {/*<Input style={{width:'44%'}} placeholder={callTr('a_name_last')} />*/}
+                        {/*<Input style={{width:'44%'}} placeholder={callTr('a_208')} />*/}
                         {/*)}*/}
                     </FormItem>
                     {
                         (numValuesmap != "" || numValuesmap.length > 0) && numValuesmap.map((val,idx,arr) => {
                             return (
-                                <FormItem className="numcontact" label={idx == 0 ? (<span>{callTr("a_number")}&nbsp;</span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)} >
+                                <FormItem className="numcontact" label={idx == 0 ? (<span>{callTr("a_10006")}&nbsp;</span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)} >
                                     {getFieldDecorator('bindaccount'+idx, {
                                         initialValue: val.split(" ")[1] ? val.split(" ")[1] : "0"
                                     })(

@@ -240,7 +240,7 @@ class SipDomainForm extends Component{
 		}
 		this.setState({
 			keys: tmpkeys,
-			btntype: "a_save",
+			btntype: "a_17",
 			curorder: text.order
 		});
 		

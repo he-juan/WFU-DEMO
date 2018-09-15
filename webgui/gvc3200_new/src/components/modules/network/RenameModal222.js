@@ -24,7 +24,7 @@ class Renamemodal extends Component {
         const {getFieldDecorator} = this.props.form;
         const callTr = this.props.callTr;
         return (
-            <Modal className="blueth-raname-modal" title={callTr("a_rename")} visible={renamemodalvisible}
+            <Modal className="blueth-raname-modal" title={callTr("a_69")} visible={renamemodalvisible}
                    onOk={this.handelRename} onCancel={this.handleCancel}>
                 <Form hideRequiredMark>
                     <FormItem>

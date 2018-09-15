@@ -254,7 +254,7 @@ class pagingchannel extends Component {
                           <Button key="back" type="ghost" size="large"
                                   onClick={this.handleCancel}>{this.tr("a_3")}</Button>,
                           <Button key="submit" type="primary" onClick={this.handleOk}>
-                              {this.tr("a_save")}
+                              {this.tr("a_17")}
                           </Button>,
                       ]}>
             <div className="pttChannelBox">

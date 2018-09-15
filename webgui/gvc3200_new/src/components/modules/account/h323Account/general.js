@@ -75,38 +75,38 @@ class GeneralForm extends React.Component {
 
         let itemList =
             <Form>
-                <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_23532")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
                     })(<Checkbox className={"P-25059"} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_enablegk")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19120")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('enablegk', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['enablegk'])
                     })(<Checkbox className={"P-25032"} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_enableh460")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19204")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('enableh460', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['enableh460'])
                     })(<Checkbox className={"P-25066"} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_gkdiscovermode")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19122")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('gkdiscovermode', {
                         initialValue: this.props.itemValues['gkdiscovermode'] ? this.props.itemValues['gkdiscovermode'] : "0"
                     })(
                         <Select className="P-25051">
-                            <Option value="0">{callTr("a_auto")}</Option>
+                            <Option value="0">{callTr("a_9047")}</Option>
                             <Option value="1">{callTr("a_1016")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_sitenumber")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19117")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('userid', {
                         
                         initialValue: this.props.itemValues['userid']
@@ -114,7 +114,7 @@ class GeneralForm extends React.Component {
                         <Input type="text" className="P-25034" />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_gkauthusername")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19118")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('authid', {
                         
                         initialValue: this.props.itemValues['authid']
@@ -148,7 +148,7 @@ class GeneralForm extends React.Component {
                         <Input type="text" className="P-25054" />
                     )}
                 </FormItem>
-               <FormItem label={(<span>{callTr("a_h323localport")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_19210")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('localport', {
                         
                         initialValue: this.props.itemValues['localport']
@@ -156,7 +156,7 @@ class GeneralForm extends React.Component {
                         <Input type="text" className="P-25068" />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_symrtp")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16096")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('symrtp', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['symrtp'])
@@ -164,7 +164,7 @@ class GeneralForm extends React.Component {
                     }
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>;
         let hideItem = this.props.hideItem;

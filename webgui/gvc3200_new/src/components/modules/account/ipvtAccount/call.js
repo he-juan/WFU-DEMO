@@ -56,18 +56,18 @@ class CallForm extends React.Component {
 
         let itemList =
            <Form>
-               <FormItem className = "select-item"　 label={(<span>{callTr("a_autoansidle")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem className = "select-item"　 label={(<span>{callTr("a_19141")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('autoansidle', {
                         initialValue: this.props.itemValues['autoansidle'] ? this.props.itemValues['autoansidle'] : "0"
                         })(
                             <Select className={"P-425"}>
-                                <Option value="0">{callTr("a_no")}</Option>
-                                <Option value="1">{callTr("a_yes")}</Option>
+                                <Option value="0">{callTr("a_22005")}</Option>
+                                <Option value="1">{callTr("a_22004")}</Option>
                             </Select>
                    )}
           　　　</FormItem>
               <FormItem>
-                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>
         </Form>;
 

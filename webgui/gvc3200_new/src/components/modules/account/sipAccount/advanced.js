@@ -183,11 +183,11 @@ class AdvancedForm extends React.Component {
                     Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_uploading'}});
                 }
                 if (info.file.status === 'done') {
-                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_process'}});
+                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_9348'}});
                     window.localStorage.setItem("fileList"+curAccount,JSON.stringify(fileList))
                     let fileext = info.file.name.slice(name.lastIndexOf(".")+1)
                     self.props.cb_audio_upload(fileext,curAccount,(label,type)=>{
-                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_process'}});
+                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_9348'}});
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: self.tr(label)}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_2')}}></span>,
@@ -208,8 +208,8 @@ class AdvancedForm extends React.Component {
 
        let itemList =
            <Form hideRequiredMark>
-               <p className="blocktitle"><s></s>{callTr("security_set")}</p>
-               <FormItem  label={(<span>{callTr("a_checkdomain")}&nbsp;<Tooltip title={this.tips_tr("Check Domain Certificates")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <p className="blocktitle"><s></s>{callTr("a_4221")}</p>
+               <FormItem  label={(<span>{callTr("a_16102")}&nbsp;<Tooltip title={this.tips_tr("Check Domain Certificates")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('checkdomain', {
                        valuePropName: 'checked',
                        initialValue: parseInt(itemValues['checkdomain'])
@@ -217,7 +217,7 @@ class AdvancedForm extends React.Component {
                            <Checkbox className={"P-" + nvram["checkdomain"][curAccount]}/>
                    )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_validatecert")}&nbsp;<Tooltip title={this.tips_tr("Validate Certification Chain")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_19336")}&nbsp;<Tooltip title={this.tips_tr("Validate Certification Chain")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('validatecert', {
                        valuePropName: 'checked',
                        initialValue: parseInt(itemValues['validatecert'])
@@ -225,7 +225,7 @@ class AdvancedForm extends React.Component {
                            <Checkbox className={"P-" + nvram["validatecert"][curAccount]}/>
                    )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_validincommsg")}&nbsp;<Tooltip title={this.tips_tr("Validate Incoming SIP Messages")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16098")}&nbsp;<Tooltip title={this.tips_tr("Validate Incoming SIP Messages")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('validincommsg', {
                        valuePropName: 'checked',
                        initialValue: parseInt(itemValues['validincommsg'])
@@ -244,7 +244,7 @@ class AdvancedForm extends React.Component {
                            </Select>
                    )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_accpsip")}&nbsp;<Tooltip title={this.tips_tr("Only Accept SIP Requests from Known Servers")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16080")}&nbsp;<Tooltip title={this.tips_tr("Only Accept SIP Requests from Known Servers")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accpsip', {
                        valuePropName: 'checked',
                        initialValue: parseInt(itemValues['accpsip'])
@@ -252,7 +252,7 @@ class AdvancedForm extends React.Component {
                            <Checkbox className={"P-" + nvram["accpsip"][curAccount]}/>
                    )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_checkinvite")}&nbsp;<Tooltip title={this.tips_tr("Check SIP User ID for Incoming INVITE")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16078")}&nbsp;<Tooltip title={this.tips_tr("Check SIP User ID for Incoming INVITE")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('checkinvite', {
                        valuePropName: 'checked',
                        initialValue: parseInt(itemValues['checkinvite'])
@@ -287,14 +287,14 @@ class AdvancedForm extends React.Component {
                    )}
                </FormItem>
                <p className="blocktitle"><s></s>MOH</p>
-               <FormItem  label={(<span>{callTr("a_uploadaudio")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Upload Local MOH Audio File")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Upload Local MOH Audio File")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Upload {...UploadMOHfileProps} fileList={this.state.fileList}>
                         <Button>
-                            <Icon type="upload" /> {this.tr("a_browse")}
+                            <Icon type="upload" /> {this.tr("a_16486")}
                         </Button>
                     </Upload>
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_enablemoh")}&nbsp;<Tooltip title={this.tips_tr("Enable Local MOH")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16181")}&nbsp;<Tooltip title={this.tips_tr("Enable Local MOH")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('enablemoh', {
                        valuePropName: 'checked',
                        initialValue: parseInt(itemValues['enablemoh'])
@@ -308,7 +308,7 @@ class AdvancedForm extends React.Component {
                        initialValue: itemValues['group'] ? itemValues['group'] : "-1"
                        })(
                            <Select className={"P-" + nvram["group"][curAccount]}>
-                               <Option value="-1">{callTr("a_default")}</Option>
+                               <Option value="-1">{callTr("a_12")}</Option>
                                {
                                    acctname_item.map((val,i,arr) => {
                                        if(i==15 && this.props.ipvtExist == '1'){
@@ -322,18 +322,18 @@ class AdvancedForm extends React.Component {
                            </Select>
                    )}
                </FormItem>
-               <FormItem className="select-item" label={(<span>{callTr("a_spefea")}&nbsp;<Tooltip title={this.tips_tr("Special Feature")}><Icon type="question-circle-o"/></Tooltip></span>)}>
+               <FormItem className="select-item" label={(<span>{callTr("a_16161")}&nbsp;<Tooltip title={this.tips_tr("Special Feature")}><Icon type="question-circle-o"/></Tooltip></span>)}>
                    {getFieldDecorator('spefea', {
                        initialValue: parseInt(itemValues['spefea']) ? itemValues['spefea'] : "100"
                    })(
                        <Select onChange={this.handleSpefeaChange} className={"P-" + nvram["spefea"][curAccount]}>
-                           <Option value="100">{callTr("a_std")}</Option>
+                           <Option value="100">{callTr("a_16109")}</Option>
                            <Option value="102">BroadSoft</Option>
                            <Option value="113">China Mobile</Option>
                            <Option value="114">ZTE IMS</Option>
                            <Option value="115">Mobotix</Option>
                            <Option value="116">ZTE NGN</Option>
-                           <Option value="117">{callTr("a_huaweiims")}</Option>
+                           <Option value="117">{callTr("a_16163")}</Option>
                            <Option value="123">NEC</Option>
                            <Option value="125">WorldStone</Option>
                        </Select>
@@ -341,7 +341,7 @@ class AdvancedForm extends React.Component {
                </FormItem>
 
                <FormItem>
-                   <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                   <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                </FormItem>
         </Form>;
 

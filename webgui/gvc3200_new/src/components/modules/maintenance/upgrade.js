@@ -41,7 +41,7 @@ class Upgrade extends Component {
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style={{'minHeight':this.props.mainHeight}}>
-                <TabPane tab={this.tr("a_firmwaretitle")} key={0}>
+                <TabPane tab={this.tr("a_19179")} key={0}>
                     <UpgradeFirmwareForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
@@ -53,7 +53,7 @@ class Upgrade extends Component {
                     <UpgradeDeployForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
-                <TabPane tab={this.tr("advanced_menu")} key={3}>
+                <TabPane tab={this.tr("a_4101")} key={3}>
                     <UpgradeMoreForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>

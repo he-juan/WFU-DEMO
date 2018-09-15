@@ -38,7 +38,7 @@ class General extends Component {
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{'min-height': this.props.mainHeight}}>
-                <TabPane tab={this.tr("a_conventionset")} key={0}>
+                <TabPane tab={this.tr("a_16597")} key={0}>
                     <CallsetGeneralForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
                         hideItem={hideItem} tabOrder="" ref={this.saveFormRef} />
                 </TabPane>
@@ -71,7 +71,7 @@ class General extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("account_general")}</div>
+                <div className="subpagetitle">{this.tr("a_16023")}</div>
                 {tabList}
             </Content>
         );

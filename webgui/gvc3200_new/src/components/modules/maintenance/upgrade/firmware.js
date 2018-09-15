@@ -16,7 +16,7 @@ class FirmwareForm extends Component {
         super(props)
 
         this.state = {
-            upfirmfile_Aupload:"a_upload",
+            upfirmfile_Aupload:"a_16197",
             type:"password"
         }
 
@@ -99,7 +99,7 @@ class FirmwareForm extends Component {
 
     setupfirmfile_Aupload = () => {
         this.setState({
-            upfirmfile_Aupload:"a_done"
+            upfirmfile_Aupload:"a_23522"
         })
     }
 
@@ -133,13 +133,13 @@ class FirmwareForm extends Component {
                     information = callTr("a_notcomp");
                     break;
                 case 8:
-                    information = callTr("a_lowmem");
+                    information = callTr("a_16460");
                     break;
                 case 9:
                     information = callTr("a_brokenfile");
                     break;
                 case 10:
-                    information = callTr("a_lowspace");
+                    information = callTr("a_12172");
                     break;
                 case 11:
                     information = callTr("a_oemidnotcompatiable");
@@ -258,7 +258,7 @@ class FirmwareForm extends Component {
                     }else if( info.file.response.indexOf("Message=Not enough space") != -1 ){
                         //button.text(a_7404);
                         Modal.info({
-                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail") + callTr("a_lowspace")}}></span>,
+                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail") + callTr("a_12172")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
@@ -287,7 +287,7 @@ class FirmwareForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={< span > { callTr("a_upgradeall") } < Tooltip title = {callTipsTr("Complete Upgrade")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_16648") } < Tooltip title = {callTipsTr("Complete Upgrade")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("upgradeall", {
                         rules: [],
                         valuePropName: 'checked',
@@ -296,8 +296,8 @@ class FirmwareForm extends Component {
                         <Checkbox  className="P-upgradeall"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_upfirmfile")}&nbsp;<Tooltip title={callTipsTr("Upload Firmware File to Update")}><Icon type="question-circle-o"/></Tooltip></span>)}>
-                    {getFieldDecorator('a_upfirmfile', {
+                <FormItem label={(<span>{callTr("a_16328")}&nbsp;<Tooltip title={callTipsTr("Upload Firmware File to Update")}><Icon type="question-circle-o"/></Tooltip></span>)}>
+                    {getFieldDecorator('a_16328', {
                         valuePropName: 'fileList',
                         normalize: this._normFile
                     })(
@@ -311,7 +311,7 @@ class FirmwareForm extends Component {
                         </div>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={< span > { callTr("a_upvia") } < Tooltip title={callTipsTr("Firmware Upgrade Via")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className="select-item" label={< span > { callTr("a_19175") } < Tooltip title={callTipsTr("Firmware Upgrade Via")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('updatevia', {
                         rules: [],
                         initialValue: this.props.itemValues["updatevia"] ? this.props.itemValues["updatevia"] : "1"
@@ -324,7 +324,7 @@ class FirmwareForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={< span > {callTr("a_firserpath")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Firmware Server Path")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4113")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Firmware Server Path")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("firpath", {
                         rules: [{
                             max: 256, message: this.tr("a_lengthlimit") + "256"
@@ -339,14 +339,14 @@ class FirmwareForm extends Component {
                         initialValue: this.props.itemValues.httpuser
                     })(<Input name = "httpuser" className="P-6768"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_httppass")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4112")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type={this.state.type} name = "httppass" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("httppass", {
                         rules: [],
                         initialValue: this.props.itemValues.httppass
                     })(<Input type={this.state.type} name = "httppass" suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible}/>} className="P-6769" />)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_firfipre")} < Tooltip title = {callTipsTr("Firmware File Prefix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16330")} < Tooltip title = {callTipsTr("Firmware File Prefix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("firpre", {
                         rules: [
                             {
@@ -357,7 +357,7 @@ class FirmwareForm extends Component {
                         initialValue: this.props.itemValues.firpre
                     })(<Input className="P-232"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_firfipost")} < Tooltip title = {callTipsTr("Firmware File Postfix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16331")} < Tooltip title = {callTipsTr("Firmware File Postfix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("firpost", {
                         rules: [
                             {
@@ -372,11 +372,11 @@ class FirmwareForm extends Component {
                     <Icon type="question-circle-o"/> </Tooltip></span>
                 )}>
                     {(
-                        <Button className="button" type="primary" onClick={this.clickUpgrade.bind(this)}>{this.tr("a_upgrade")}</Button>
+                        <Button className="button" type="primary" onClick={this.clickUpgrade.bind(this)}>{this.tr("a_4103")}</Button>
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
 

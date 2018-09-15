@@ -370,7 +370,7 @@ class GroupTab extends Component {
             data.push({
                 key: i,
                 row0: groupInformation[i].Name,
-                row1: groupInformation[i].numbers.length + " " + callTr("a_groupmember"),
+                row1: groupInformation[i].numbers.length + " " + callTr("a_16647"),
                 row2: groupInformation[i]
             })
         }
@@ -397,7 +397,7 @@ class GroupTab extends Component {
         let contactsInformation = this.props.contactsInformation;
         const curDataList = this.state.curContactList
         const columns = [{
-            title: callTr("a_concatgroup"),
+            title: callTr("a_4779"),
             key: 'row0',
             dataIndex: 'row0',
             width: '40%',
@@ -405,7 +405,7 @@ class GroupTab extends Component {
                 this._createName(text, record, index)
             )
         } ,{
-            title: callTr("a_groupmembers"),
+            title: callTr("a_16046"),
             key: 'row1',
             dataIndex: 'row1',
             width: '30%',
@@ -434,14 +434,14 @@ class GroupTab extends Component {
                     <div style={{'float':'left'}}>
                         <Button className="select-delete" type="primary" disabled={!hasSelected} style={{marginRight:'10px'}} onClick={this.showDelGroupModal}>
                             <i className={!hasSelected ? "select-delete-icon" : ""} />
-                            {this.tr("a_delete")}
+                            {this.tr("a_19067")}
                         </Button>
                         <Modal visible={this.state.displayDelGroupModal} title={this.tr("a_deletegrouptitle")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelGroupCancel}>
                             <p className="confirm-content">{this.tr("a_deletetgroup")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} onClick={this.showGroupModal}>
-                            {this.tr("a_newgroup")}
+                            {this.tr("a_4838")}
                         </Button>
                     </div>
                     <div style={{'float':'right'}}>

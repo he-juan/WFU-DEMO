@@ -75,7 +75,7 @@ class ScaForm extends Component {
 
         let itemList = 
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_enablesca")}<Tooltip title={callTipsTr("Enable SCA (Shared Call Appearance)")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16081")}<Tooltip title={callTipsTr("Enable SCA (Shared Call Appearance)")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("enablesca", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['enablesca'])
@@ -83,7 +83,7 @@ class ScaForm extends Component {
                         <Checkbox className={"P-" + pvaluearray["enablesca"][curacct]}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_enbargein")}<Tooltip title={callTipsTr("Enable BargeIn")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16082")}<Tooltip title={callTipsTr("Enable BargeIn")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("enbargein", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['enbargein'])
@@ -91,7 +91,7 @@ class ScaForm extends Component {
                         <Checkbox className={"P-" + pvaluearray["enbargein"][curacct]}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_audofillcode")}<Tooltip title={callTipsTr("Auto-filling Pickup Feature Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16083")}<Tooltip title={callTipsTr("Auto-filling Pickup Feature Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("audofillcode", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['audofillcode'])
@@ -99,14 +99,14 @@ class ScaForm extends Component {
                         <Checkbox className={"P-" + pvaluearray["audofillcode"][curacct]}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_callcode")}<Tooltip title={callTipsTr("Pickup Feature Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16084")}<Tooltip title={callTipsTr("Pickup Feature Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("callcode", {
                         initialValue: itemvalue['callcode']
                     })(
                         <Input className={"P-" + pvaluearray["callcode"][curacct]}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_lineseize")}<Tooltip title={callTipsTr("Line-seize Timeout")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16574")}<Tooltip title={callTipsTr("Line-seize Timeout")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("lineseizetime", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -123,7 +123,7 @@ class ScaForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

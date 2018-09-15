@@ -164,7 +164,7 @@ class ContactEditDiv extends Component {
                     <div id = "contacteditdiv" className='addContact-select'>
                         <div id = "itemdetaildiv">
                             <div className = "titlediv">
-                                <span>{callTr("a_select")}</span>
+                                <span>{callTr("a_23018")}</span>
                                 <div style = {{'float':'right'}} >
                                     <button type = "Button" onClick={this.handleClose}/>
                                 </div>
@@ -632,7 +632,7 @@ class Call extends Component {
                 this._createRow0(text, record, index)
             )
         }, {
-            title: callTr("a_date"),
+            title: callTr("a_4304"),
             key: 'row1',
             dataIndex: 'row1',
             width: '30%',
@@ -671,7 +671,7 @@ class Call extends Component {
                         <Checkbox className='call-checkall' checked={this.state.checkedAll} defaultChecked={false} onChange={this.onSelectAllContacts}></Checkbox>
                         <Button className="select-delete" type="primary" disabled={!hasSelected} style={{marginRight:'10px'}} onClick={this.showDelHistCallsModal}>
                             <i className={!hasSelected ? "select-delete-icon" : ""} />
-                            {this.tr("a_delete")}
+                            {this.tr("a_19067")}
                         </Button>
                         <Modal visible={this.state.displayDelHistCallsModal} title={this.tr("a_deletehiscalls")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelHistCallsCancel}>

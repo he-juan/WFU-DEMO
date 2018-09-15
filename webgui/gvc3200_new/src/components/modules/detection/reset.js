@@ -105,7 +105,7 @@ class Reset extends Component {
                         <p className="resettip">{resetkeytestmode == "on" ? this.tr("reset_testip") : ""}</p>
                         <div className="reset-pic">
                             <div className="tip-dot-line"></div>
-                            <div className="reset-text">{this.tr("a_resetkey")}</div>
+                            <div className="reset-text">{this.tr("a_16348")}</div>
                         </div>
                         <div className="reset-btn">
                             <p>{resettestcontent}</p>

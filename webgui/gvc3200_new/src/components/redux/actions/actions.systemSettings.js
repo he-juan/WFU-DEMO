@@ -13,11 +13,11 @@ export const getTimeoutOpt = (callback) => (dispatch) => {
         if(_data['res'] === "success") {
             callback(_data['policy']);
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -31,11 +31,11 @@ export const getSleepMode = (callback) => (dispatch) => {
         if(_data['res'] === "success") {
             callback(_data['sleepmode']);
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -51,7 +51,7 @@ export const setTimeoutOpt = (value) => (dispatch)  => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -67,7 +67,7 @@ export const setSleepMode = (value) => (dispatch)  => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -97,7 +97,7 @@ export const checkUpgradingOrCalling = (callback) => (dispatch) => {
 
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -124,7 +124,7 @@ export const sysReboot = (type, cb) => (dispatch) => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -140,7 +140,7 @@ export const getTimezone = (callback) => (dispatch) => {
         callback(data);
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -160,7 +160,7 @@ export const saveTimeset = (value) => (dispatch) => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -174,7 +174,7 @@ export const getDateInfo = (callback) => (dispatch) => {
         callback(data)
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -185,7 +185,7 @@ export const setDateInfo = (values) => (dispatch) => {
     actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 
 }
@@ -202,7 +202,7 @@ export const getLanguagesValues = (callback) => (dispatch) => {
         callback(msgs);
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -223,7 +223,7 @@ export const putLanguage = (value) => (dispatch) => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -241,7 +241,7 @@ export const cb_check_current_pwd = (username, inputpwd, callback) => (dispatch)
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -259,7 +259,7 @@ export const cb_check_password = (value, callback) => (dispatch) => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -282,7 +282,7 @@ export const saveLockPwd = (value, callback) => (dispatch) => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -303,7 +303,7 @@ export const delLockPwd = () => (dispatch) => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -316,7 +316,7 @@ export const getVeriCert = () => (dispatch) => {
         dispatch({type: 'REQUEST_GET_VERI_CERT', certInfo: tObj})
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -331,7 +331,7 @@ export const checkVeriCert = (info, callback) => (dispatch) => {
         callback(data);
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -345,7 +345,7 @@ export const uploadAndInstallCert = (values, file, callback) => (dispatch) => {
         }
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -357,7 +357,7 @@ const cb_install_cert = (values, callback) => {
         callback(tObj);
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 
@@ -368,7 +368,7 @@ export const cb_delete_cert = (name, use, callback) => (dispatch) => {
         callback(tObj);
     }).catch(function(error) {
         console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }
 

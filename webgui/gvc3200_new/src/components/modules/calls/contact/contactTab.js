@@ -469,13 +469,13 @@ class ContactTab extends Component {
         const moreMenu = (
             <Menu>
                 <Menu.Item>
-                    <a onClick={this.handleImport.bind(this)}>{callTr("a_importcontacts")}</a>
+                    <a onClick={this.handleImport.bind(this)}>{callTr("a_4806")}</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a onClick={this.handleExport.bind(this)}>{callTr("a_exportcontacts")}</a>
+                    <a onClick={this.handleExport.bind(this)}>{callTr("a_4807")}</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a onClick={this.handleDownload.bind(this)}>{callTr("a_downloadcontacts")}</a>
+                    <a onClick={this.handleDownload.bind(this)}>{callTr("a_4808")}</a>
                 </Menu.Item>
             </Menu>
         );
@@ -490,7 +490,7 @@ class ContactTab extends Component {
                 this._createName(text, record, index)
             )
         }, {
-            title: callTr("a_number"),
+            title: callTr("a_10006"),
             // title: '',
             key: 'row1',
             dataIndex: 'row1',
@@ -499,7 +499,7 @@ class ContactTab extends Component {
                 this._createNumber(text)
             )
         }, {
-            title: callTr("a_concatgroup"),
+            title: callTr("a_4779"),
             // title: '',
             key: 'row2',
             dataIndex: 'row2',
@@ -530,17 +530,17 @@ class ContactTab extends Component {
                     <div style={{'float':'left'}}>
                         <Button className="select-delete" type="primary" disabled={!hasSelected} style={{marginRight:'10px'}} onClick={this.showDelContactsModal}>
                             <i className={!hasSelected ? "select-delete-icon" : ""} />
-                            {this.tr("a_delete")}
+                            {this.tr("a_19067")}
                         </Button>
                         <Modal visible={this.state.displayDelContactsModal} title={this.tr("a_deletecontactstitle")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelContactsCancel}>
                             <p className="confirm-content">{this.tr("a_deletecontacts")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} onClick={this.showContactModal}>
-                            {this.tr("a_newcontact")}
+                            {this.tr("a_4840")}
                         </Button>
                         <Dropdown overlay={moreMenu} placement="bottomCenter">
-                            <Button type="primary">{this.tr("a_more")}</Button>
+                            <Button type="primary">{this.tr("a_19070")}</Button>
                         </Dropdown>
                     </div>
                     <div style={{'float':'right'}}>

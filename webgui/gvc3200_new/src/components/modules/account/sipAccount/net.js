@@ -85,7 +85,7 @@ class NetForm extends React.Component {
 
         let itemList =
            <Form onSubmit={this.handleSubmit}>
-               <FormItem label={(<span>{callTr("a_outbp")}&nbsp;<Tooltip title={this.tips_tr("Outbound Proxy")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_16057")}&nbsp;<Tooltip title={this.tips_tr("Outbound Proxy")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                   {getFieldDecorator('outbp', {
                       rules: [{
                           validator: (data, value, callback) => {
@@ -97,7 +97,7 @@ class NetForm extends React.Component {
                           <Input type="text" id="outbp" className={"P-" + nvram["outbp"]}/>
                   )}
               </FormItem>
-              <FormItem label={(<span>{callTr("a_secoutbp")}&nbsp;<Tooltip title={this.tips_tr("Secondary Outbound Proxy")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+              <FormItem label={(<span>{callTr("a_16058")}&nbsp;<Tooltip title={this.tips_tr("Secondary Outbound Proxy")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                   {getFieldDecorator('secoutbp', {
                       rules: [{
                           max:64,message: callTr("max_length64"),
@@ -111,7 +111,7 @@ class NetForm extends React.Component {
                           <Input type="text" id="secoutbp" className={"P-" + nvram["secoutbp"]}/>
                   )}
               </FormItem>
-              <FormItem className = "select-item"  label={(<span>{callTr("a_usedns")}&nbsp;<Tooltip title={this.tips_tr("DNS Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+              <FormItem className = "select-item"  label={(<span>{callTr("a_16059")}&nbsp;<Tooltip title={this.tips_tr("DNS Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                   {getFieldDecorator('usednssrv', {
                        initialValue: this.props.itemValues['usednssrv'] ? this.props.itemValues['usednssrv'] : "0"
                        })(
@@ -123,21 +123,21 @@ class NetForm extends React.Component {
                   )}
          　　　</FormItem>
               
-              <FormItem className = "select-item"  label={(<span>{callTr("a_natstun")}&nbsp;<Tooltip title={this.isWP8xx() ? this.tips_tr("NAT Traversal for WP800") : this.tips_tr("NAT Traversal")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+              <FormItem className = "select-item"  label={(<span>{callTr("a_16060")}&nbsp;<Tooltip title={this.isWP8xx() ? this.tips_tr("NAT Traversal for WP800") : this.tips_tr("NAT Traversal")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                   {getFieldDecorator('natstun', {
                        initialValue: this.props.itemValues['natstun'] ? this.props.itemValues['natstun'] : "0"
                        })(
                            <Select className={"P-" + nvram["natstun"]}>
                                <Option value="0">NAT NO</Option>
                                <Option value="1">STUN</Option>
-                               <Option value="2">{callTr("a_keepalive")}</Option>
+                               <Option value="2">{callTr("a_16064")}</Option>
                                <Option style={{display:this.isWP8xx() ? 'none' : 'block' }} value="3">UPnP</Option>
-                               <Option value="4">{callTr("a_auto")}</Option>
+                               <Option value="4">{callTr("a_9047")}</Option>
                                <Option value="5">OpenVPN</Option>
                            </Select>
                   )}
         　　 　</FormItem>
-              <FormItem  label={(<span>{callTr("a_proxy")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Proxy-Require")} />}><Icon type="question-circle-o" /></Tooltip></span>)} >
+              <FormItem  label={(<span>{callTr("a_16061")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Proxy-Require")} />}><Icon type="question-circle-o" /></Tooltip></span>)} >
                   {getFieldDecorator('proxy', {
                       rules: [{
                           max:64,message: callTr("max_length64"),
@@ -148,7 +148,7 @@ class NetForm extends React.Component {
                   )}
               </FormItem>
               <FormItem>
-                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>
         </Form>;
         let hideItem = this.props.hideItem;

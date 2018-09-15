@@ -24,8 +24,8 @@ class Storage extends Component {
     }
 
     showChart = (storageInfo) => {
-        let internalPartitionMsg = this.tr("a_storage"),
-            sdPartitionMsg = this.tr("a_sd");
+        let internalPartitionMsg = this.tr("a_4298"),
+            sdPartitionMsg = this.tr("a_12036");
 
         let internalData = [
             {value: storageInfo.InternalFree, name: this.tr("a_available")},
@@ -54,7 +54,7 @@ class Storage extends Component {
             color: ['#5093e1', '#9ec1eb'],
             series: [
                 {
-                    name:this.tr("a_storage"),
+                    name:this.tr("a_4298"),
                     type:'pie',
                     radius: ['40%', '80%'],
                     avoidLabelOverlap: false,
@@ -98,7 +98,7 @@ class Storage extends Component {
             color: ['#5093e1', '#9ec1eb'],
             series: [
                 {
-                    name:this.tr("a_sd"),
+                    name:this.tr("a_12036"),
                     type:'pie',
                     radius: ['40%', '80%'],
                     avoidLabelOverlap: false,

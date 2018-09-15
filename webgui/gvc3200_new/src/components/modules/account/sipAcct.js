@@ -103,22 +103,22 @@ class SlidingTabsDemo extends React.Component {
       let hideItem = [];
       let tabList =
           <Tabs className="config-tab accountTab" activeKey={tab2} size="middle" onChange={this.onChange.bind(this,"2")} style={{"minHeight":this.props.mainHeight-30}}>
-              <TabPane tab={callTr("account_general")} key={0}>
+              <TabPane tab={callTr("a_16023")} key={0}>
                   <AccountGeneralForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("account_net")} key={1}>
+              <TabPane tab={callTr("a_16024")} key={1}>
                   <AccountNetForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("account_sip")} key={2}>
+              <TabPane tab={callTr("a_16025")} key={2}>
                   <AccountSipForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("account_codec")} key={3}>
+              <TabPane tab={callTr("a_16026")} key={3}>
                   <AccountCodecForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder="" hideItem={hideItem} />
               </TabPane>
-              <TabPane tab={callTr("account_call")} key={4}>
+              <TabPane tab={callTr("a_16027")} key={4}>
                   <AccountCallForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane>
-              {/* <TabPane tab={callTr("advanced_menu")} key={5}>
+              {/* <TabPane tab={callTr("a_4101")} key={5}>
                   <AccountAdvancedForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
               </TabPane> */}
           </Tabs>

@@ -63,9 +63,9 @@ class NetListForm extends Component {
         return(
             <Form className="netlistform" style={{"width":"800px", "marginLeft":"100px", "fontSize":"0.875rem"}} hideRequiredMark>
                 <Row type="flex" justify="space-around" style={{"margin-bottom":"40px"}}>
-					<Col span={4} style={{"font-weight":"bold"}}>{callTr("a_type")}</Col>
+					<Col span={4} style={{"font-weight":"bold"}}>{callTr("a_2059")}</Col>
 					<Col span={10}></Col>
-					<Col span={10} style={{"font-weight":"bold"}}>{callTr("a_name1")}</Col>
+					<Col span={10} style={{"font-weight":"bold"}}>{callTr("a_23541")}</Col>
 				</Row>
 				{
 					netlistarray.map((netitem, i) => {
@@ -98,7 +98,7 @@ class NetListForm extends Component {
 					})
 				}
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
         );

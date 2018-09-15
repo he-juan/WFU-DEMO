@@ -97,7 +97,7 @@ class VoiceForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_headsettx")}<Tooltip title={callTipsTr("RJ9 Headset TX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16389")}<Tooltip title={callTipsTr("RJ9 Headset TX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("headsettx", {
                         initialValue: itemvalue['headsettx']
                     })(
@@ -110,7 +110,7 @@ class VoiceForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_headsetrx")}<Tooltip title={callTipsTr("RJ9 Headset RX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16390")}<Tooltip title={callTipsTr("RJ9 Headset RX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("headsetrx", {
                         initialValue: itemvalue['headsetrx']
                     })(
@@ -123,7 +123,7 @@ class VoiceForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_earphonetx")}<Tooltip title={callTipsTr("3.5mm Earphone TX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16391")}<Tooltip title={callTipsTr("3.5mm Earphone TX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("earphonetx", {
                         initialValue: itemvalue['earphonetx']
                     })(
@@ -136,7 +136,7 @@ class VoiceForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_earphonerx")}<Tooltip title={callTipsTr("3.5mm Earphone RX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16392")}<Tooltip title={callTipsTr("3.5mm Earphone RX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("earphonerx", {
                         initialValue: itemvalue['earphonerx']
                     })(
@@ -149,13 +149,13 @@ class VoiceForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_ehsheadset")}<Tooltip title={callTipsTr("Headset Type")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16396")}<Tooltip title={callTipsTr("Headset Type")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("ehsheadset", {
                         initialValue: itemvalue['ehsheadset'] ? itemvalue['ehsheadset'] : "0"
                     })(
                         <Select className="P-1487">
-                            <Option value="0">{callTr("a_normalheadset")}</Option>
-                            <Option value="1">{callTr("a_plantehs")}</Option>
+                            <Option value="0">{callTr("a_16397")}</Option>
+                            <Option value="1">{callTr("a_16398")}</Option>
                         </Select>
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
@@ -225,7 +225,7 @@ class VoiceForm extends Component {
                         initialValue: itemvalue['handseteqrx'] ? itemvalue['handseteqrx'] : "0"
                     })(
                         <Select className="P-handsetequrx">
-                            <Option value="0">{callTr("a_default")}</Option>
+                            <Option value="0">{callTr("a_12")}</Option>
                             <Option value="1">{callTr("a_eqgentle")}</Option>
                             <Option value="2">{callTr("a_eqfidelity")}</Option>
                         </Select>
@@ -238,7 +238,7 @@ class VoiceForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

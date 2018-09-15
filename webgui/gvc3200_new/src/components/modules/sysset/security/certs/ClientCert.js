@@ -104,7 +104,7 @@ class AddCert extends Component {
                         }]
                     })(
                         <Upload {...cilentCertProps}>
-                            <Button type="primary" disabled={this.state.selbtndisable} style={{width: 100}}>{callTr("a_select")}</Button>
+                            <Button type="primary" disabled={this.state.selbtndisable} style={{width: 100}}>{callTr("a_23018")}</Button>
                         </Upload>
                     )}
                 </FormItem>
@@ -266,7 +266,7 @@ class ClientCert extends Component {
                     </Button>
                 </div>
                 <Table className="list-table" style={{maxWidth: "950px", paddingRight: "40px"}} dataSource={this.state.certdata} pagination={false} >
-                    <Column title={callTr("a_snumber")} dataIndex="certorder" key="certorder" />
+                    <Column title={callTr("a_19218")} dataIndex="certorder" key="certorder" />
                     <Column title={callTr("a_certname")} dataIndex="certname" key="certname" />
                     <Column title={callTr("a_certuse")} dataIndex="certuse" key="certuse" render={(text) => (<span>{callTr(text)}</span>)}/>
                     <Column title={callTr("a_operate")} key="delete" render={(text, record, index) => (

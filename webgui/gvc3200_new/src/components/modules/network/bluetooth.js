@@ -53,7 +53,7 @@ class RenameModal extends Component {
         const {getFieldDecorator} = this.props.form;
         const callTr = this.props.callTr;
         return (
-            <Modal className="blueth-raname-modal" title={callTr("a_rename")} visible={renamemodalvisible}
+            <Modal className="blueth-raname-modal" title={callTr("a_69")} visible={renamemodalvisible}
                    onOk={this.handelRename} onCancel={this.handleCancel}
                    footer={[
                        <Button key="back" onClick={this.handleCancel}>{callTr("a_3")}</Button>,
@@ -340,7 +340,7 @@ class Bluetooth extends Component {
                                                     <Col span={18} className="ellips" title={paireddevices[index].name}>{paireddevices[index].name}</Col>
                                                     <Col span={2}></Col>
                                                     <Col span={4}>
-                                                        {/*<div>{this.tr("a_connected")}</div>*/}
+                                                        {/*<div>{this.tr("a_23529")}</div>*/}
                                                         <Button className="blth-unpairbtn"
                                                                 onClick={this.handleUnpair.bind(this, paireddevices[index].address)}>{this.tr("a_blthunpair")}</Button>
                                                     </Col>

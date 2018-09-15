@@ -37,7 +37,7 @@ class Wifi extends Component {
                 <TabPane tab={this.tr("a_wifiauth")} key={1}>
                     <WifiSecurityForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
                 </TabPane>
-                <TabPane tab={this.tr("advanced_menu")} key={2}>
+                <TabPane tab={this.tr("a_4101")} key={2}>
                     <WifiMoreForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
                 </TabPane>
                 <TabPane tab={this.tr("a_wifiroaming")} key={3}>
@@ -59,7 +59,7 @@ class Wifi extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("a_wifiset")}</div>
+                <div className="subpagetitle">{this.tr("a_4314")}</div>
                 {tabList}
             </Content>
         );

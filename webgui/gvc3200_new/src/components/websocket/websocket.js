@@ -68,13 +68,13 @@ class HandleWebsocket extends React.Component {
                             errorMsg = 'a_notcomp';
                             break;
                         case '8':
-                            errorMsg = 'a_lowmem';
+                            errorMsg = 'a_16460';
                             break;
                         case '9':
                             errorMsg = 'a_brokenfile';
                             break;
                         case '10':
-                            errorMsg = 'a_lowspace';
+                            errorMsg = 'a_12172';
                             break;
                         case '11':
                             errorMsg = 'a_oemidnotcompatiable';
@@ -87,7 +87,7 @@ class HandleWebsocket extends React.Component {
                             errorMsg = 'a_unknownfail';
                     }
 
-                    errorMsg = this.tr('a_install_fail') + ',' + this.tr(errorMsg) + '!';
+                    errorMsg = this.tr('a_3316') + ',' + this.tr(errorMsg) + '!';
                     Modal.info({
                         content: <span dangerouslySetInnerHTML={{__html: errorMsg}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: a_2}}></span>,

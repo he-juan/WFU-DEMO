@@ -43,7 +43,7 @@ class Peripherals extends Component {
                     <PeriInterfaceForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder=""  />
                 </TabPane>
-                <TabPane tab={this.tr("a_voicectrl")} key={2}>
+                <TabPane tab={this.tr("a_16589")} key={2}>
                     <PeriVoiceForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>

@@ -37,7 +37,7 @@ class Led extends Component {
         let checkLights = ['show_green', 'show_red', 'show_blue', 'show_white'];
         return (
             <Content className="content-container">
-                <div className="subpagetitle">{this.tr("led_test")}</div>
+                <div className="subpagetitle">{this.tr("a_18520")}</div>
                 <div className="detect-area" style={{'min-height':this.props.mainHeight}}>
                     <div className="ab-center detect-led">
                         <p className="ledtip">{this.tr("led_testtip")}</p>

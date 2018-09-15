@@ -109,7 +109,7 @@ class ImexportForm extends Component {
                 let errorCode = phbkprogress;
                 let errorMessage = 'a_exportfail';
                 if(errorCode == 3) {
-                    errorMessage = 'a_nocontactexport';
+                    errorMessage = 'a_4786';
                 } else if (errorCode == 22) {
                     errorMessage = 'a_taskinprogress';
                 }
@@ -167,7 +167,7 @@ class ImexportForm extends Component {
                 break;
             case '4':
                 let errorCode = phbkprogress;
-                let errorMessage = 'a_importfail';
+                let errorMessage = 'a_16474';
                 if(errorCode == 4) {
                     errorMessage = 'a_nospaceleft';
                 } else if (errorCode == 12) {
@@ -318,8 +318,8 @@ class ImexportForm extends Component {
 
         let itemList =
             <Form>
-                <p className="blocktitle"><s></s>{this.tr("a_import")}</p>
-                <FormItem label={(<span>{callTr("a_clearoldlist")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <p className="blocktitle"><s></s>{this.tr("a_45")}</p>
+                <FormItem label={(<span>{callTr("a_16485")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('clearoldlist0', {
                         valuePropName: 'checked',
                         initialValue: 0
@@ -355,7 +355,7 @@ class ImexportForm extends Component {
                         </RadioGroup>
                     )}
                 </FormItem>
-                <FormItem className = "select-item" label={(<span>{callTr("a_fileencode")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className = "select-item" label={(<span>{callTr("a_4755")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('importfileencode', {
                         initialValue: "UTF-8"
                     })(
@@ -374,7 +374,7 @@ class ImexportForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className = "select-item" label={(<span>{callTr("a_exporttype")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className = "select-item" label={(<span>{callTr("a_4756")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('importtype', {
                         initialValue: "1"
                     })(
@@ -393,8 +393,8 @@ class ImexportForm extends Component {
                     </Upload>
                 </FormItem>
 
-                <p className="blocktitle"><s></s>{this.tr("a_export")}</p>
-                <FormItem className = "select-item" label={(<span>{callTr("a_fileencode")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <p className="blocktitle"><s></s>{this.tr("a_34")}</p>
+                <FormItem className = "select-item" label={(<span>{callTr("a_4755")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('fileencode', {
                         initialValue: "UTF-8"
                     })(
@@ -413,7 +413,7 @@ class ImexportForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className = "select-item" label={(<span>{callTr("a_exporttype")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className = "select-item" label={(<span>{callTr("a_4756")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('exporttype', {
                         initialValue: "1"
                     })(
@@ -436,7 +436,7 @@ class ImexportForm extends Component {
                 </FormItem>
 
                 <FormItem label={(<span style={{visibility:'hidden'}}>g</span>)}>
-                    <Button onClick = {this.hanleExportContacts}  size="large"><Icon type="download" />{callTr("a_export")}</Button>
+                    <Button onClick = {this.hanleExportContacts}  size="large"><Icon type="download" />{callTr("a_34")}</Button>
                 </FormItem>
             </Form>;
 

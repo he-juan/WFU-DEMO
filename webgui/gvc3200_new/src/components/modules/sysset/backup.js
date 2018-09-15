@@ -97,19 +97,19 @@ class BackupModal extends Component {
         if (this.props.oemId != "54") {
             contactsDisplay = "block";
         } else {
-            contactsinfo = "a_backup_contacts";
+            contactsinfo = "a_9603";
             connectIcon = ", ";
         }
 
         return (
             <Modal
-                title = {callTr("a_backup")}
+                title = {callTr("a_9092")}
                 className="backup-modal"
                 visible = {backupModalvisible}
                 onOk={this.handleAddOk}
                 onCancel={this.handleCancel}
                 footer = {[
-                    <Button type="primary" disabled={this.state.backupbtndisable} onClick={this.handleAddOk}>{callTr("a_backup")}</Button>,
+                    <Button type="primary" disabled={this.state.backupbtndisable} onClick={this.handleAddOk}>{callTr("a_9092")}</Button>,
                     <Button type="primary" onClick={this.handleCancel}>
                       {callTr("a_3")}
                     </Button>,
@@ -132,7 +132,7 @@ class BackupModal extends Component {
                             })(
                                 <Checkbox onChange={this.checkItem.bind(this, 'callrecord')} />
                             )}
-                            <span> {callTr("call_history") + connectIcon + callTr(contactsinfo)}</span>
+                            <span> {callTr("a_3536") + connectIcon + callTr(contactsinfo)}</span>
                         </div>
                         <div className="ellips" style={{display:contactsDisplay}}>
                             {getFieldDecorator("contacts", {
@@ -140,7 +140,7 @@ class BackupModal extends Component {
                             })(
                                 <Checkbox onChange={this.checkItem.bind(this, 'contacts')} />
                             )}
-                            <span> {callTr("a_backup_contacts")}</span>
+                            <span> {callTr("a_9603")}</span>
                         </div>
                     </FormItem>
                 </Form>
@@ -170,7 +170,7 @@ class RestoreModal extends Component {
         if (this.props.oemId != "54") {
             contactsDisplay = "block";
         } else {
-            contactsinfo = "a_backup_contacts";
+            contactsinfo = "a_9603";
             connectIcon = ", ";
         }
 
@@ -198,7 +198,7 @@ class RestoreModal extends Component {
                         <div className="ProcessItem">
                             <div className="icon iconCall"></div>
                             <div className="infor">
-                                <p style={{color:'#0d1017', "fontWeight":'bold'}}>{callTr("call_history") + connectIcon + callTr(contactsinfo)}</p>
+                                <p style={{color:'#0d1017', "fontWeight":'bold'}}>{callTr("a_3536") + connectIcon + callTr(contactsinfo)}</p>
                                 <p style={{color:'#55627b'}}>{callTr("a_inbackup")}</p>
                             </div>
                         </div>
@@ -210,8 +210,8 @@ class RestoreModal extends Component {
                         <div className="ProcessItem">
                             <div className="icon iconContacts"></div>
                             <div className="infor">
-                                <p style={{color:'#0d1017', "fontWeight":'bold'}}>{callTr("a_backup_contacts")}</p>
-                                <p style={{color:'#55627b'}}>{callTr("a_waitbkp")}</p>
+                                <p style={{color:'#0d1017', "fontWeight":'bold'}}>{callTr("a_9603")}</p>
+                                <p style={{color:'#55627b'}}>{callTr("a_9063")}</p>
                             </div>
                         </div>
                         <div className="prosessbar">
@@ -274,8 +274,8 @@ class Backup extends Component {
         var isDivided1;
         var isDivided2;
         var isConfig = backInfoArr[1] == "1" ? "a_backup_cfg" : "";
-        //var isCallhistory = backInfoArr[2] == "1" ? "call_history" : "";
-        //var isContacts = backInfoArr[3] == "1" ? "a_backup_contacts" : "";
+        //var isCallhistory = backInfoArr[2] == "1" ? "a_3536" : "";
+        //var isContacts = backInfoArr[3] == "1" ? "a_9603" : "";
         var isContacts;
         var isCallhistory;
         if (this.props.oemId == "54") {
@@ -284,9 +284,9 @@ class Backup extends Component {
             isDivided1 = (backInfoArr[2] == "1" && backInfoArr[1] == "1") ? ", " : "";
             isDivided2 = '';
         } else {
-            isContacts = backInfoArr[3] == "1" ? "a_backup_contacts" : "";
+            isContacts = backInfoArr[3] == "1" ? "a_9603" : "";
             isDivided1 = ((backInfoArr[1] == "1" && backInfoArr[2] == "1") || (backInfoArr[1] == "1" && backInfoArr[3] == "1")) ? ", " : "";
-            isCallhistory = backInfoArr[2] == "1" ? "call_history" : "";
+            isCallhistory = backInfoArr[2] == "1" ? "a_3536" : "";
             isDivided2 = ((backInfoArr[2] == "1" && backInfoArr[3] == "1") || (backInfoArr[1] == "1" && backInfoArr[3] == "1") && (isDivided1 == "")) ? ", " : "";
         }
         var backupSize = backInfoArr[4];
@@ -357,7 +357,7 @@ class Backup extends Component {
                     onCancel() {}
                 });
             } else {
-                promptMsg('ERROR', "a_restorefail");
+                promptMsg('ERROR', "a_9120");
             }
             this.handleHideRecoryModal();
         });
@@ -403,7 +403,7 @@ class Backup extends Component {
 
         return (
             <Content className="content-container">
-                <div className="subpagetitle">{this.tr("a_backup")}</div>
+                <div className="subpagetitle">{this.tr("a_9092")}</div>
                 <div className="backup-content" style={{'min-height':this.props.mainHeight}}>
                     <div className="unbackupdiv" style={{display:this.state.unbackupdisplay}}>
                         <div className="unbackuppng">
@@ -422,17 +422,17 @@ class Backup extends Component {
                                 <p><span className="backuptitle">{this.tr("a_backupsize")}</span><span className="backupdetail">{this.state.backupSize}</span></p>
                             </div>
                             <div className="operationDiv" style={{'text-align':'right'}}>
-                                <Modal visible={this.state.restoreCofirmModalVisible} title={this.tr("a_restore")} className="confirm-modal"
+                                <Modal visible={this.state.restoreCofirmModalVisible} title={this.tr("a_9093")} className="confirm-modal"
                                        okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.showRestoryModal} onCancel={this.hideRestoryConfirmModal}>
                                     <p className="confirm-content">{this.tr("a_isBackup")}</p>
                                 </Modal>
-                                <Button className="select-restory" type="primary" onClick={this.showRestoryConfirmModal}><i></i>{this.tr("a_restore")}</Button>
-                                <Modal visible={this.state.deleteCofirmModalVisible} title={this.tr("a_delete")} className="confirm-modal"
+                                <Button className="select-restory" type="primary" onClick={this.showRestoryConfirmModal}><i></i>{this.tr("a_9093")}</Button>
+                                <Modal visible={this.state.deleteCofirmModalVisible} title={this.tr("a_19067")} className="confirm-modal"
                                        okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handledeleteBackup} onCancel={this.hideDeleteConfirmModal}>
                                     <p className="confirm-content">{this.tr("a_isdeleteBackup")}</p>
                                 </Modal>
-                                <Button className="select-delete" type="primary" onClick = {this.showDeleteConfirmModal}><i></i>{this.tr("a_delete")}</Button>
-                                <Button type="primary" onClick={this.showBackupModal}>{this.tr("a_backup")}</Button>
+                                <Button className="select-delete" type="primary" onClick = {this.showDeleteConfirmModal}><i></i>{this.tr("a_19067")}</Button>
+                                <Button type="primary" onClick={this.showBackupModal}>{this.tr("a_9092")}</Button>
                             </div>
                         </div>
                     </div>

@@ -83,7 +83,7 @@ class GeneralForm extends Component {
         const itemvalue = this.props.itemValues;
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_rtpport")}<Tooltip placement="bottom" title={<FormattedHTMLMessage id={this.isWP8xx() ? callTipsTr("Local RTP Port for WP800") : callTipsTr("Local RTP Port")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16280")}<Tooltip placement="bottom" title={<FormattedHTMLMessage id={this.isWP8xx() ? callTipsTr("Local RTP Port for WP800") : callTipsTr("Local RTP Port")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("rtpport", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -101,7 +101,7 @@ class GeneralForm extends Component {
                         <Input className={"P-39"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_useranport")}<Tooltip title={callTipsTr("Use Random Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16281")}<Tooltip title={callTipsTr("Use Random Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("randomport", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['randomport'])
@@ -109,7 +109,7 @@ class GeneralForm extends Component {
                         <Checkbox className={"P-78"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_disdtmf")}<Tooltip title={callTipsTr("Disable in-call DTMF display")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16279")}<Tooltip title={callTipsTr("Disable in-call DTMF display")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("disableincalldtmf", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['disableincalldtmf'])
@@ -125,14 +125,14 @@ class GeneralForm extends Component {
                         <Checkbox className={"P-22128"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_hidecalllog")}<Tooltip title={callTipsTr("Hide Local Call History")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16624")}<Tooltip title={callTipsTr("Hide Local Call History")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("hidecalllog", {
                         valuePropName: 'checked',
                     })(
                         <Checkbox />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_keepa")}<Tooltip title={callTipsTr("Keep-alive Interval")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16282")}<Tooltip title={callTipsTr("Keep-alive Interval")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("keepalive", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -162,7 +162,7 @@ class GeneralForm extends Component {
                         <Input className={"P-76"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_stunservername")}<Tooltip title={callTipsTr("TURN Server Username")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_19026")}<Tooltip title={callTipsTr("TURN Server Username")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("stunservername", {
                         rules: [{
                             max: 32, message: callTr("a_lengthlimit") + "32!"
@@ -172,7 +172,7 @@ class GeneralForm extends Component {
                         <Input autocomplete="off" className={"P-22042"}/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_stunserverpwd")}<Tooltip title={callTipsTr("TURN Server Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_19027")}<Tooltip title={callTipsTr("TURN Server Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("stunserverpwd", {
                         rules: [{
                             max: 128, message: callTr("a_lengthlimit") + "128!"
@@ -183,7 +183,7 @@ class GeneralForm extends Component {
                                suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_usenatip")}<Tooltip title={callTipsTr("Use NAT IP")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16284")}<Tooltip title={callTipsTr("Use NAT IP")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("natip", {
                         rules: [{
                             max: 32, message: callTr("a_lengthlimit") + "32!"
@@ -194,7 +194,7 @@ class GeneralForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
         let hideItem = this.props.hideItem;

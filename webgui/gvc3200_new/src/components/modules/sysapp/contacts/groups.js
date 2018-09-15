@@ -181,16 +181,16 @@ class GroupsAddEditBox extends Component {
                             initialValue: itemValues['ringtone'] ? itemValues['ringtone'] : 'content://settings/system/ringtone'
                         })(
                             <Select style={{width:'100%'}}>
-                                <Option value="content://settings/system/ringtone">{callTr("a_sysdefault")}</Option>
+                                <Option value="content://settings/system/ringtone">{callTr("a_8421")}</Option>
                                 <Option value="ringtone_silence">Silent</Option>
                                 {children}
                             </Select>
                         )}
                     </FormItem>
 
-                    <Badge style={{margin:'0.5rem 0',fontWeight:'bold'}} status="processing" text={callTr("a_groupmembers")} />
+                    <Badge style={{margin:'0.5rem 0',fontWeight:'bold'}} status="processing" text={callTr("a_16046")} />
                     <FormItem>
-                        <Search style={{margin:'0.5rem 1rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                        <Search style={{margin:'0.5rem 1rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_9603')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                     </FormItem>
                     {
                         (this.state.searchContacts.length>0 ? this.state.searchContacts : this.props.items).map((item,index)=>{
@@ -218,7 +218,7 @@ class GroupsAddEditBox extends Component {
                         })
                     }
                     <Row style={{ margin:'1.5rem 1rem',height: '20px', fontSize: '0.875rem'}}>
-                        <Checkbox onChange={this.handleSelectAll}>{callTr('a_selectall')}</Checkbox>&nbsp;
+                        <Checkbox onChange={this.handleSelectAll}>{callTr('a_23017')}</Checkbox>&nbsp;
                     </Row>
                 </Form>
             </Modal>
@@ -356,7 +356,7 @@ class GroupsForm extends Component {
                 <Row type="flex" justify="around" align="middle" style={{ height: '60px', fontSize: '0.875rem'}}>
                     <Col span={2}>
                         <Checkbox data-classname='select-all-checkbox' onChange={this.selectAllCheckbox.bind(this,'multi')}></Checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="primary" size='large' disabled={this.state.deleteBtn} onClick={this.handleDeleteMultiple}>{callTr('a_delete')}</Button>
+                        <Button type="primary" size='large' disabled={this.state.deleteBtn} onClick={this.handleDeleteMultiple}>{callTr('a_19067')}</Button>
                     </Col>
 
                     <Col span={2}>

@@ -169,7 +169,7 @@ class ContactEditDiv extends Component {
                     <div id = "contacteditdiv" className='addContact-select'>
                         <div id = "itemdetaildiv">
                             <div className = "titlediv">
-                                <span>{callTr("a_select")}</span>
+                                <span>{callTr("a_23018")}</span>
                                 <div style = {{'float':'right'}} >
                                     <button type = "Button" onClick={this.handleClose}/>
                                 </div>
@@ -471,7 +471,7 @@ class Call extends Component {
                             return (
                                 <div className={'confbox'} onClick={(e)=>this.handleEdit(e,item,true)}>
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('a_switchTime')}：</Col>
+                                        <Col className='conf-label' span={3}>{callTr('a_10056')}：</Col>
                                         <Col span={12}>{item.confinfo.Starttime}</Col>
                                         <Col className='conf-status' span={9}>{item.status.statusname}</Col>
                                     </Row>
@@ -482,7 +482,7 @@ class Call extends Component {
                                     </Row>
                                     <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_confDuration')}：</Col>
-                                        <Col className='' span={12}>{item.confinfo.Duration / 60}{callTr('a_hours')}</Col>
+                                        <Col className='' span={12}>{item.confinfo.Duration / 60}{callTr('a_15008')}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
                                     <Row>
@@ -517,7 +517,7 @@ class Call extends Component {
                                             )}
 
 
-                                            {/*<Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_save")}</Button>*/}
+                                            {/*<Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>*/}
 
                                         </Col>
                                     </Row>

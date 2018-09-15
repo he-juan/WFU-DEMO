@@ -741,7 +741,7 @@ class DialUpForm extends Component {
                 this._renderName(text, record, index)
             )
         }, {
-            title: this.tr("a_number"),
+            title: this.tr("a_10006"),
             key: 'row1',
             dataIndex: 'row1',
             width: '25%',
@@ -749,7 +749,7 @@ class DialUpForm extends Component {
                 this._renderNumber(text)
             )
         },{
-            title: this.tr("a_time"),
+            title: this.tr("a_6289"),
             key: 'row2',
             dataIndex: 'row2',
             width: '25%',
@@ -768,7 +768,7 @@ class DialUpForm extends Component {
 
         return (
             <Content className="content-container">
-                <div className="subpagetitle">{this.tr("a_dialup")}</div>
+                <div className="subpagetitle">{this.tr("a_16695")}</div>
                 <Form className="call-area" >
                     <div className="dial-up-top">
                         <div className="acctselbox">

@@ -110,7 +110,7 @@ export const setResetKeyTestStatus = (status) => (dispatch) => {
 
 
 const promptForRequestFailed = () => (dispatch) => {
-    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
 }
 
 //################## global #################//
@@ -1989,7 +1989,7 @@ export const get_downRecord = (requestdown) => (dispatch) => {
             if (msg == "Playing") {
                 dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_downloaderror'}});
             } else {
-                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_downfail'}});
+                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_3315'}});
             }
         } else {
             window.location.href = "/records?time=" + new Date().getTime();
@@ -2063,7 +2063,7 @@ export const setContacts = (infostr,callback) => (dispatch) => {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_saved'}});
             callback();
         } else if (msgs['res'] == 'error') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_errorname'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
         }
     }).catch(function(error) {
         promptForRequestFailed();
@@ -2237,7 +2237,7 @@ export const addNewBlackMember = (numbers, names,callback) => (dispatch) => {
         if (tObj.res == "success"){
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_backlistsuc'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_add_failed'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_7363'}});
         }
         callback(tObj);
     }).catch(function(error) {
@@ -2353,7 +2353,7 @@ export const addNewWhiteMember = (numbers, names,callback) => (dispatch) => {
         if (tObj.res == "success"){
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_whitelistsuc'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_add_failed'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_7363'}});
         }
         callback(tObj);
     }).catch(function(error) {
@@ -2466,7 +2466,7 @@ export const setschedule = (infostr,type,callback) => (dispatch) => {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_saved'}});
             callback();
         } else if (msgs['res'] == 'error') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_errorname'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
         }
     }).catch(function(error) {
         promptForRequestFailed();
@@ -2480,7 +2480,7 @@ export const setschedule = (infostr,type,callback) => (dispatch) => {
 //             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_saved'}});
 //             callback();
 //         } else if (msgs['res'] == 'error') {
-//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_errorname'}});
+//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
 //         }
 //     }).catch(function(error) {
 //         promptForRequestFailed();
@@ -2520,8 +2520,8 @@ export const audioloopTest =(mode, micIndex, callback) => (dispatch) => {
         let tObj = JSON.parse(data);
         callback(tObj);
     }).catch(function(error) {
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
-        dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: "a_process"}})
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+        dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: "a_9348"}})
     });
 }
 
@@ -2531,8 +2531,8 @@ export const speakertest =(mode, callback) => (dispatch) => {
         let tObj = JSON.parse(data);
         callback(tObj);
     }).catch(function(error) {
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
-        dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: "a_process"}})
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+        dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: "a_9348"}})
     });
 }
 

@@ -76,11 +76,11 @@ class CallForm extends React.Component {
                     Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_uploading'}});
                 }
                 if (info.file.status === 'done') {
-                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_process'}});
+                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_9348'}});
                     window.localStorage.setItem("fileList",JSON.stringify(fileList))
                     let fileext = info.file.name.slice(name.lastIndexOf(".")+1)
                     self.props.cb_audio_upload(fileext,3,(label,type)=>{
-                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_process'}});
+                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_9348'}});
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: self.tr(label)}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_2')}}></span>,
@@ -100,31 +100,31 @@ class CallForm extends React.Component {
         };
         let itemList =
             <Form>
-                <FormItem className="select-item" label={(<span>{callTr("a_calllog")}&nbsp;<Tooltip title={this.tips_tr("Call Log")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16157")}&nbsp;<Tooltip title={this.tips_tr("Call Log")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('calllog', {
                         initialValue: this.props.itemValues['calllog'] ? this.props.itemValues['calllog'] : "0"
                     })(
                         <Select className={"P-542"}>
-                            <Option value="0">{callTr("a_logall")}</Option>
+                            <Option value="0">{callTr("a_16158")}</Option>
                             <Option value="2">{callTr("a_lognone")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem  label={(<span>{callTr("a_usepound")}&nbsp;<Tooltip title={this.tips_tr("Use # as Dial Key")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem  label={(<span>{callTr("a_16171")}&nbsp;<Tooltip title={this.tips_tr("Use # as Dial Key")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('dialkey', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['dialkey'])
                     })(<Checkbox className="592"/>)
                    }
                 </FormItem>
-                <FormItem  label={(<span>{callTr("a_uploadaudio")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Upload Local MOH Audio File")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Upload Local MOH Audio File")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Upload {...UploadMOHfileProps} fileList={this.state.fileList}>
                         <Button>
-                            <Icon type="upload" /> {this.tr("a_browse")}
+                            <Icon type="upload" /> {this.tr("a_16486")}
                         </Button>
                     </Upload>
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_enablemoh")}&nbsp;<Tooltip title={this.tips_tr("Enable Local MOH")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16181")}&nbsp;<Tooltip title={this.tips_tr("Enable Local MOH")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('enablemoh', {
                        valuePropName: 'checked',
                        initialValue: parseInt(itemValues['enablemoh'])
@@ -133,7 +133,7 @@ class CallForm extends React.Component {
                    )}
                </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>;
 

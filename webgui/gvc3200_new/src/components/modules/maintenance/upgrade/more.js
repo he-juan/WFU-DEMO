@@ -86,7 +86,7 @@ class MoreForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={< span > {callTr("a_sipnotify")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19013")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("sipnotify", {
                         rules: [],
                         valuePropName: 'checked',
@@ -95,7 +95,7 @@ class MoreForm extends Component {
                         <Checkbox className="P-4428"/>
                     )}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_validatecert")} < Tooltip title = {callTipsTr("Validate Server Certificate")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19336")} < Tooltip title = {callTipsTr("Validate Server Certificate")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("validatecert", {
                         rules: [],
                         valuePropName: 'checked',
@@ -104,25 +104,25 @@ class MoreForm extends Component {
                         <Checkbox className="P-22030"/>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={< span > {callTr("a_mdns")} < Tooltip title = {callTipsTr("mDNS Override Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className="select-item" label={< span > {callTr("a_16334")} < Tooltip title = {callTipsTr("mDNS Override Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('mdns', {
                         rules: [],
                         initialValue: this.props.itemValues["mdns"] ? this.props.itemValues["mdns"] : "0"
                     })(
                         <Select className="P-1407">
-                            <Option value="0">{callTr("a_disable")}</Option>
-                            <Option value="1">{callTr("a_typea")}</Option>
-                            <Option value="2">{callTr("a_typesrv")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="1">{callTr("a_16335")}</Option>
+                            <Option value="2">{callTr("a_16336")}</Option>
                         </Select>
                     )
                     }
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_factreset")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_reset")}</Button>
+                <FormItem label={< span > {callTr("a_12156")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                    <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_16348")}</Button>
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>;
 

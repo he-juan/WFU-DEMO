@@ -17,8 +17,8 @@ class DebugForm extends Component {
         super(props)
 
         this.state = {
-            aStart:"a_start",
-            recordStart:"a_start",
+            aStart:"a_10273",
+            recordStart:"a_10273",
             debugbtndisable: false,
             ckbdisabled: false
         }
@@ -43,10 +43,10 @@ class DebugForm extends Component {
         let aStart;
         if( values.headers['mode'] == "on" ) {
             mode = 0;
-            aStart = "a_stop";
+            aStart = "a_10";
             this.setState({
                 ckbdisabled: true,
-                aStart: "a_stop"
+                aStart: "a_10"
             });
         }
     }
@@ -56,7 +56,7 @@ class DebugForm extends Component {
         if (record_state == 1) {
             rec_mode = 1;
             this.setState({
-                recordStart:"a_stop"
+                recordStart:"a_10"
             })
         }
     }
@@ -111,7 +111,7 @@ class DebugForm extends Component {
         } else {
             if(count1 != checklogitems.length &&  values['capture'] != "1"){
                 if( values['acce'] == undefined || values['acce'] != "1" ){
-                    this.setState({aStart: "a_capture"});
+                    this.setState({aStart: "a_19281"});
                 }
             }
         }
@@ -122,16 +122,16 @@ class DebugForm extends Component {
         let items = form.getFieldsValue(checklogitems);
         let aStart;
 
-        if(this.state.aStart == "a_capture") {
+        if(this.state.aStart == "a_19281") {
             items.mode = "none";
         } else {
             if (mode == 1) {
                 mode = 0;
-                aStart = "a_stop";
+                aStart = "a_10";
                 items.mode = "on";
             } else {
                 mode = 1;
-                aStart = "a_start"
+                aStart = "a_10273"
                 items.mode = "off";
             }
 
@@ -158,13 +158,13 @@ class DebugForm extends Component {
         if (rec_mode == 1) {
             rec_mode = 0;
             this.setState({
-                recordStart:"a_stop"
+                recordStart:"a_10"
             });
             this.props.getRecording("stoprecording" ,(res) => {
                 if (res === "Success") {
                     rec_mode = 0;
                     this.setState({
-                        recordStart:"a_start"
+                        recordStart:"a_10273"
                     });
                     this.props.getRecordList( (data) => {
                         const { setFieldsValue } = this.props.form;
@@ -177,13 +177,13 @@ class DebugForm extends Component {
         } else {
             rec_mode = 1;
             this.setState({
-                recordStart:"a_start"
+                recordStart:"a_10273"
             });
             this.props.getRecording("startrecording" ,(res) => {
                 if (res === "Success") {
                     rec_mode = 1;
                     this.setState({
-                        recordStart:"a_stop"
+                        recordStart:"a_10"
                     });
                 }
             });
@@ -311,25 +311,25 @@ class DebugForm extends Component {
                         logitems[checklogitems[i]] = true;
                     }
                     form.setFieldsValue(logitems);
-                    this.setState({aStart: "a_start", debugbtndisable: false});
+                    this.setState({aStart: "a_10273", debugbtndisable: false});
                 }else{
                     let logitems = {};
                     for(let i in checklogitems){
                         logitems[checklogitems[i]] = false;
                     }
                     form.setFieldsValue(logitems);
-                    this.setState({aStart: "a_capture", debugbtndisable: true});
+                    this.setState({aStart: "a_19281", debugbtndisable: true});
                 }
                 break;
             case 'capture':
             case 'acce':
                 if(checked){
-                    this.setState({aStart: "a_start"});
+                    this.setState({aStart: "a_10273"});
                 }else {
                     if ((id == "acce" && form.getFieldValue("capture")) || (id == "capture" && form.getFieldValue("acce")) ) {
-                        this.setState({aStart: "a_start"});
+                        this.setState({aStart: "a_10273"});
                     } else {
-                        this.setState({aStart: "a_capture"});
+                        this.setState({aStart: "a_19281"});
                     }
                 }
             case 'syslog':
@@ -412,22 +412,22 @@ class DebugForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <p className="blocktitle"><s></s>{this.tr("a_oneclick")}</p>
-                <FormItem label={( <span> {callTr("a_oneclick")} <Tooltip title={callTipsTr("One-click Debugging")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
+                <p className="blocktitle"><s></s>{this.tr("a_19277")}</p>
+                <FormItem label={( <span> {callTr("a_19277")} <Tooltip title={callTipsTr("One-click Debugging")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
                         <Button type="primary" onClick={this.handleDebug.bind(this)}
                             disabled={this.state.debugbtndisable}>{this.tr(aStart)}</Button>
                     )}
                 </FormItem>
 
-                <FormItem className="one-click-debug" label={( <span> {callTr("a_debuginfomenu")} <Tooltip title={callTipsTr(debugInfoMenuTooltipTitle)}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem className="one-click-debug" label={( <span> {callTr("a_19280")} <Tooltip title={callTipsTr(debugInfoMenuTooltipTitle)}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     <div>
                         {getFieldDecorator("debugselectall", {
                             valuePropName: 'checked'
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'selectall')} disabled={this.state.ckbdisabled} />
                         )}
-                        <span> {callTr("a_selectall")}</span>
+                        <span> {callTr("a_23017")}</span>
                     </div>
                     <div className="dot-line"></div>
                     <div>
@@ -437,7 +437,7 @@ class DebugForm extends Component {
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'syslog')} disabled={this.state.ckbdisabled} />
                         )}
-                        <span> {callTr("maintenance_syslog")}</span>
+                        <span> {callTr("a_4144")}</span>
                     </div>
                     <div>
                         {getFieldDecorator("logcat", {
@@ -446,7 +446,7 @@ class DebugForm extends Component {
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'logcat')} disabled={this.state.ckbdisabled} />
                         )}
-                        <span> {callTr("maintenance_logcat")}</span>
+                        <span> {callTr("a_16030")}</span>
                     </div>
                     <div>
                         {getFieldDecorator("capture", {
@@ -455,7 +455,7 @@ class DebugForm extends Component {
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'capture')} disabled={this.state.ckbdisabled} />
                         )}
-                        <span> {callTr("a_operation")}</span>
+                        <span> {callTr("a_16357")}</span>
                     </div>
                     <div>
                         {getFieldDecorator("tombstone", {
@@ -484,12 +484,12 @@ class DebugForm extends Component {
                                 })(
                                     <Checkbox onChange={this.checkDebugItem.bind(this, 'acce')} disabled={this.state.ckbdisabled} />
                                 )}
-                                <span> {callTr("a_acce")}</span>
+                                <span> {callTr("a_4340")}</span>
                             </div>
                     }
                 </FormItem>
 
-                <FormItem  className="select-item" label={( <span> {callTr("a_debuglist")} <Tooltip title={callTipsTr("Debug Info List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem  className="select-item" label={( <span> {callTr("a_16359")} <Tooltip title={callTipsTr("Debug Info List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
                         <Row>
                             {getFieldDecorator('tracelist', {
@@ -499,17 +499,17 @@ class DebugForm extends Component {
                                 {children_tracelist}
                             </Select>
                             )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteTrace.bind(this)}>{this.tr("a_delete")}</Button>
+                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteTrace.bind(this)}>{this.tr("a_19067")}</Button>
                         </Row>
                     )}
                 </FormItem>
-                <FormItem label={( <span> {callTr("a_viewdebug")} <Tooltip title={callTipsTr("View Debug Info")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
+                <FormItem label={( <span> {callTr("a_16358")} <Tooltip title={callTipsTr("View Debug Info")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
                         <Button className="debug" type="primary" onClick = {this.checkoutList.bind(this)} >{this.tr("a_list")}</Button>
                     )}
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_coredump")}</p>
-                <FormItem label={( <span> {callTr("a_enablecoredump")} <Tooltip title={callTipsTr("Enable Core Dump Generation")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem label={( <span> {callTr("a_19262")} <Tooltip title={callTipsTr("Enable Core Dump Generation")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {getFieldDecorator("enabcoredump", {
                         rules: [],
                         valuePropName: 'checked',
@@ -519,7 +519,7 @@ class DebugForm extends Component {
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem className="select-item" label={( <span> {callTr("a_coredumplist")} <Tooltip title={callTipsTr("Core Dump List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem className="select-item" label={( <span> {callTr("a_19263")} <Tooltip title={callTipsTr("Core Dump List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
                         <Row>
                             {getFieldDecorator('coredumplist', {
@@ -529,22 +529,22 @@ class DebugForm extends Component {
                                 {children_coredumplist}
                             </Select>
                             )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteCoredumplist.bind(this)}>{this.tr("a_delete")}</Button>
+                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteCoredumplist.bind(this)}>{this.tr("a_19067")}</Button>
                         </Row>
                     )}
                 </FormItem>
-                <FormItem label={( <span> {callTr("a_view_coredump")} <Tooltip title={callTipsTr("View Core Dump")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
+                <FormItem label={( <span> {callTr("a_19264")} <Tooltip title={callTipsTr("View Core Dump")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
                         <Button className="debug" type="primary" onClick = {this.checkoutCoredump.bind(this)}>{this.tr("a_list")}</Button>
                     )}
                 </FormItem>
-                <p className="blocktitle"><s></s>{this.tr("a_record")}</p>
-                <FormItem label={( <span> {callTr("a_record")} <Tooltip title={callTipsTr("Record")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <p className="blocktitle"><s></s>{this.tr("a_410")}</p>
+                <FormItem label={( <span> {callTr("a_410")} <Tooltip title={callTipsTr("Record")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
                         <Button className="debug" type="primary" onClick={this.startRecord.bind(this)}>{this.tr(recordStart)}</Button>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={( <span> {callTr("a_reclist")} <Tooltip title={callTipsTr("Recording List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem className="select-item" label={( <span> {callTr("a_19260")} <Tooltip title={callTipsTr("Recording List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
                         <Row>
                             {getFieldDecorator('recordlist', {
@@ -554,11 +554,11 @@ class DebugForm extends Component {
                                 {children_recordlist}
                             </Select>
                             )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteRecordlist.bind(this)}>{this.tr("a_delete")}</Button>
+                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteRecordlist.bind(this)}>{this.tr("a_19067")}</Button>
                         </Row>
                     )}
                 </FormItem>
-                <FormItem label={( <span> {callTr("a_viewrec")} <Tooltip title={callTipsTr("View Recording")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
+                <FormItem label={( <span> {callTr("a_19261")} <Tooltip title={callTipsTr("View Recording")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
                         <Button className="debug" type="primary" onClick = {this.checkoutRecfiles.bind(this)}>{this.tr("a_list")}</Button>
                     )}
@@ -566,7 +566,7 @@ class DebugForm extends Component {
                 <p className="blocktitle"><s></s>{this.tr("a_screenshort")}</p>
                 <FormItem label={( <span> {callTr("a_screenshort")} <Tooltip title={callTipsTr("Screenshot")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
-                        <Button className="debug" type="primary" onClick={this.startScreenShot.bind(this)}>{this.tr("a_screen")}</Button>
+                        <Button className="debug" type="primary" onClick={this.startScreenShot.bind(this)}>{this.tr("a_19281")}</Button>
                     )}
                 </FormItem>
                 <FormItem className="select-item" label={( <span> {callTr("a_screenlist")} <Tooltip title={callTipsTr("Screenshot List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
@@ -579,7 +579,7 @@ class DebugForm extends Component {
                                 {children_screenList}
                             </Select>
                             )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteScreenlist.bind(this)}>{this.tr("a_delete")}</Button>
+                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteScreenlist.bind(this)}>{this.tr("a_19067")}</Button>
                         </Row>
                     )}
                 </FormItem>
@@ -589,7 +589,7 @@ class DebugForm extends Component {
                     )}
                 </FormItem>
                 <FormItem >
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>
                 </FormItem>
             </Form>
 

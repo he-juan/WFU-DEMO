@@ -183,7 +183,7 @@ class channel extends Component {
                           <Button key="back" type="ghost" size="large"
                                   onClick={this.handleCancel}>{this.tr("a_3")}</Button>,
                           <Button key="submit" type="primary" onClick={this.handleOk}>
-                              {this.tr("a_save")}
+                              {this.tr("a_17")}
                           </Button>,
                       ]}>
             <Form className="configform pttModal">
@@ -205,7 +205,7 @@ class channel extends Component {
                         <Input maxLength="32" placeholder={callTr("a_pttmodal2")}/>
                     )}
                 </FormItem>
-                <FormItem {...formItemLayout} label={<span>{callTr("a_ptt_multiPort")}</span>}
+                <FormItem {...formItemLayout} label={<span>{callTr("a_1173")}</span>}
                           style={{width: '450px'}}>
                     {getFieldDecorator("addr2", {
                         initialValue: itemvalue[`listenaddr${this.state.whichModal}`] ? itemvalue[`listenaddr${this.state.whichModal}`].split(":")[1] : "",

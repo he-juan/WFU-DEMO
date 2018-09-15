@@ -36,27 +36,27 @@ class System extends Component {
     view_status_uptime_write(data) {
     var dayhtml = "";
     if (parseInt(data['day']) > 1) {
-        dayhtml += data['day'] + " " + this.tr("a_Days") + ", ";
+        dayhtml += data['day'] + " " + this.tr("a_106") + ", ";
     } else if (parseInt(data['day']) > 0) {
-        dayhtml += data['day'] + " " + this.tr("a_Day") + ", ";
+        dayhtml += data['day'] + " " + this.tr("a_131") + ", ";
     }
 
     if (parseInt(data['hour']) > 1) {
-        dayhtml += data['hour'] + " "+ this.tr("a_Hours") + ", ";
+        dayhtml += data['hour'] + " "+ this.tr("a_15008") + ", ";
     } else if ((parseInt(data['hour']) > 0) || (dayhtml.length > 1)) {
-        dayhtml += data['hour'] + " " + this.tr("a_Hour") + ", ";
+        dayhtml += data['hour'] + " " + this.tr("a_15007") + ", ";
     }
 
     if (parseInt(data['min']) > 1) {
-        dayhtml += data['min'] + " " + this.tr("a_Mins") + ", ";
+        dayhtml += data['min'] + " " + this.tr("a_110") + ", ";
     } else if ((parseInt(data['min']) > 0) || (dayhtml.length > 1)) {
-        dayhtml += data['min'] + " " + this.tr("a_Min") + ", ";
+        dayhtml += data['min'] + " " + this.tr("a_109") + ", ";
     }
 
     if (parseInt(data['sec']) > 1) {
-        dayhtml += data['sec'] + " " + this.tr("a_Secs") + " ";
+        dayhtml += data['sec'] + " " + this.tr("a_114") + " ";
     } else {
-        dayhtml += data['sec'] + " " + this.tr("a_Sec");
+        dayhtml += data['sec'] + " " + this.tr("a_19163");
     }
         return dayhtml;
     }
@@ -90,31 +90,31 @@ class System extends Component {
 
         let itemList =
             <Form className="configform" style={{'min-height': this.props.mainHeight}}>
-                <FormItem label={<span>{this.tr("a_promodel")}<Tooltip title={this.tips_tr("Product Model")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_16404")}<Tooltip title={this.tips_tr("Product Model")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="product-model">{ productModelItem["product"] }</span>
                 </FormItem>
                 <FormItem label={<span>{this.tr("a_hardwarerev")}<Tooltip title={this.tips_tr("Hardware Revision")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="hardware-revision">{ this.props.itemValues['hardware-revision'] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_pn")}<Tooltip title={this.tips_tr("Part Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_16406")}<Tooltip title={this.tips_tr("Part Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="part-number">{ pnValueItem["pn"] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_systemver")}<Tooltip title={this.tips_tr("System Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_4130")}<Tooltip title={this.tips_tr("System Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="system-version">{ this.props.itemValues['system-version'] }</span>
                 </FormItem>
                 <FormItem label={<span>{this.tr("a_recover")}<Tooltip title={this.tips_tr("Recovery Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="recovery-version">{ this.props.itemValues['recovery-version'] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_bootver")}<Tooltip title={this.tips_tr("Boot Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_16408")}<Tooltip title={this.tips_tr("Boot Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="boot-version">{ this.props.itemValues['boot-version'] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_kernel")}<Tooltip title={this.tips_tr("Kernel Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_16416")}<Tooltip title={this.tips_tr("Kernel Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="kernel-version">{ this.props.itemValues['kernel-version'] }</span>
                 </FormItem>
-                <FormItem style={this.isWP8xx() ? {display:'block'} : {display:'none'}} label={<span>{this.tr("a_android")}<Tooltip title={this.tips_tr("Android Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem style={this.isWP8xx() ? {display:'block'} : {display:'none'}} label={<span>{this.tr("a_16415")}<Tooltip title={this.tips_tr("Android Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="android-version">{ this.props.itemValues['android-version'] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_sysuptime")}<Tooltip title={this.tips_tr("System Up Time")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_16417")}<Tooltip title={this.tips_tr("System Up Time")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="system-uptime">{ this.view_status_uptime_write(systemUptimeItem) }</span>
                 </FormItem>
                 <FormItem label={<span>{this.tr("a_lcdsn")}<Tooltip title={this.tips_tr("LCD Serial Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -133,7 +133,7 @@ class System extends Component {
         }
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("status_info")}</div>
+                <div className="subpagetitle">{this.tr("a_4148")}</div>
                 {itemList}
             </Content>
         )

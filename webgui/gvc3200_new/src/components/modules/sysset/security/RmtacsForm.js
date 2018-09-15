@@ -97,7 +97,7 @@ class RmtacsForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_distelnet")}<Tooltip title={callTipsTr("Disable SSH")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16316")}<Tooltip title={callTipsTr("Disable SSH")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("distelnet", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['distelnet'])
@@ -106,7 +106,7 @@ class RmtacsForm extends Component {
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={<span>{callTr("a_httpena")}<Tooltip title={callTipsTr("Access Methode")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_12057")}<Tooltip title={callTipsTr("Access Methode")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("accessmethod", {
                         initialValue: itemvalue['accessmethod'] ? itemvalue['accessmethod'] : "0"
                     })(
@@ -116,7 +116,7 @@ class RmtacsForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_port")}<Tooltip title={callTipsTr("Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_1173")}<Tooltip title={callTipsTr("Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             required: true, message: callTr("tip_require")
@@ -139,10 +139,10 @@ class RmtacsForm extends Component {
                         initialValue: itemvalue['confmenu'] ? itemvalue['confmenu'] : "0"
                     })(
                         <Select className="P-1357">
-                            <Option value="0">{callTr("a_unrestricted")}</Option>
-                            <Option value="1">{callTr("a_basicsetonly")}</Option>
+                            <Option value="0">{callTr("a_16323")}</Option>
+                            <Option value="1">{callTr("a_16324")}</Option>
                             <Option value="3">{callTr("a_basicset_netset")}</Option>
-                            <Option value="2">{callTr("a_constmode")}</Option>
+                            <Option value="2">{callTr("a_16325")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -159,7 +159,7 @@ class RmtacsForm extends Component {
                     )}
                 </FormItem> */}
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

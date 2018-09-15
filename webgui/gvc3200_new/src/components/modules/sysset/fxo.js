@@ -181,7 +181,7 @@ class Fxo extends Component {
                         <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem>
-                        <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_save")}</Button>
+                        <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>
                     </FormItem>
                 </Form>
             </Content>

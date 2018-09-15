@@ -16,21 +16,21 @@
  */
 
 export const options = [
-    {"name": "calls", "lang": "a_calls", "sub": [
+    {"name": "calls", "lang": "a_609", "sub": [
         {"name": "contact", "lang": "a_contact", "sub": [
             {"name": "contact", "lang": "a_contact", "sub": [
-                {"name": "File Encoding", "lang": "a_fileencode"},
-                {"name": "File Type", "lang": "a_exporttype"},
+                {"name": "File Encoding", "lang": "a_4755"},
+                {"name": "File Type", "lang": "a_4756"},
                 {"name": "Save Phonebook to PC", "lang": "a_savephone"},
-                {"name": "Clear The Old List", "lang": "a_clearoldlist"},
+                {"name": "Clear The Old List", "lang": "a_16485"},
                 {"name": "Replace Duplicate Items", "lang": "a_downdup"},
-                {"name": "Local File", "lang": "a_localfile"},
-                {"name": "Download Mode", "lang": "a_downmode"},
-                {"name": "Download Server", "lang": "a_downserver"},
-                {"name": "Download Now", "lang": "a_downinterval"}
+                {"name": "Local File", "lang": "a_16484"},
+                {"name": "Download Mode", "lang": "a_4765"},
+                {"name": "Download Server", "lang": "a_4766"},
+                {"name": "Download Now", "lang": "a_16488"}
             ]}
         ]},
-        {"name": "schedule", "lang": "meeting_schedule", "sub": [
+        {"name": "schedule", "lang": "a_10011", "sub": [
             {"name": "preschedule", "lang": "a_preschedule", "sub": [
 
                 ]},
@@ -38,607 +38,607 @@ export const options = [
 
                 ]}
         ]},
-        {"name": "history", "lang": "call_history", "sub": [
+        {"name": "history", "lang": "a_3536", "sub": [
             {"name": "all", "lang": "history_all", "sub": [
 
                 ]},
-            {"name": "missed-call", "lang": "missed_call", "sub": [
+            {"name": "missed-call", "lang": "a_3524", "sub": [
 
                 ]}
         ]},
     ]},
     {"name": "account", "lang": "a_account", "sub": [
         {"name": "sipAcct", "lang": "SIP", "sub": [
-            {"name": "general", "lang": "account_general", "acl": "1", "sub": [
+            {"name": "general", "lang": "a_16023", "acl": "1", "sub": [
                 {"type": "p", "lang": "a_accountregister"},
-                {"name": "Account Active", "lang": "a_accountactive"},
-                {"name": "Account Name", "lang": "a_accountname"},
-                {"name": "SIP Server", "lang": "a_sipserver"},
-                {"name": "Secondary SIP Server", "lang": "a_secsipserver"},
-                {"name": "Tertiary SIP Server", "lang": "a_tertsipserver"},
+                {"name": "Account Active", "lang": "a_23532"},
+                {"name": "Account Name", "lang": "a_23535"},
+                {"name": "SIP Server", "lang": "a_23536"},
+                {"name": "Secondary SIP Server", "lang": "a_16055"},
+                {"name": "Tertiary SIP Server", "lang": "a_19168"},
                 {"name": "SIP User ID", "lang": "a_sipuid"},
                 {"name": "SIP Authentication ID", "lang": "a_authid"},
                 {"name": "SIP Authentication Password", "lang": "a_authpwd"},
                 {"name": "Voice Mail Access Number", "lang": "a_voicemailuid", "acl": "1"},
                 {"name": "Name", "lang": "a_name"},
-                {"name": "Tel URI", "lang": "a_teluri"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Tel URI", "lang": "a_16056"},
+                {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "network", "lang": "network_setting", "acl": "1", "sub": [
-                {"name": "Outbound Proxy", "lang": "a_outbp"},
-                {"name": "Secondary Outbound Proxy", "lang": "a_secoutbp"},
-                {"name": "DNS Mode", "lang": "a_usedns"},
-                {"name": "NAT Traversal", "lang": "a_natstun"},
-                {"name": "Proxy-Require", "lang": "a_proxy"}
+            {"name": "network", "lang": "a_16024", "acl": "1", "sub": [
+                {"name": "Outbound Proxy", "lang": "a_16057"},
+                {"name": "Secondary Outbound Proxy", "lang": "a_16058"},
+                {"name": "DNS Mode", "lang": "a_16059"},
+                {"name": "NAT Traversal", "lang": "a_16060"},
+                {"name": "Proxy-Require", "lang": "a_16061"}
 
             ]},
-            {"name": "sip", "lang": "account_sip", "acl": "1", "sub": [
+            {"name": "sip", "lang": "a_16025", "acl": "1", "sub": [
                 {"type": "p", "lang": "a_sipbasic"},
-                {"name": "SIP Registration", "lang": "a_sipreg"},
-                {"name": "Unregister Before New Registration", "lang": "a_unregor"},
+                {"name": "SIP Registration", "lang": "a_16066"},
+                {"name": "Unregister Before New Registration", "lang": "a_16067"},
                 {"name": "Register Expitation", "lang": "a_regexp"},
                 {"name": "Reregister before Expiration", "lang": "a_regbeforeexp"},
                 {"name": "Registration Retry Wait Time", "lang": "a_retrytime"},
-                {"name": "Local SIP Port", "lang": "a_sipport"},
-                {"name": "SUBSCRIBE for MWI", "lang": "a_s4mwi", "acl": "1"},
+                {"name": "Local SIP Port", "lang": "a_16071"},
+                {"name": "SUBSCRIBE for MWI", "lang": "a_16072", "acl": "1"},
                 {"name": "Enable Session Timer", "lang": "a_opensession"},
-                {"name": "Session Expiration", "lang": "a_seexp"},
-                {"name": "Min-SE", "lang": "a_minse"},
-                {"name": "UAC Specify Refresher", "lang": "a_uacsr"},
-                {"name": "UAS Specify Refresher", "lang": "a_uassr"},
-                {"name": "Force INVITE", "lang": "a_forceinv"},
-                {"name": "Caller Request Timer", "lang": "a_callerreq"},
-                {"name": "Callee Request Timer", "lang": "a_calleereq"},
-                {"name": "Force Timer", "lang": "a_fortimer"},
-                {"name": "Enable 100rel", "lang": "a_en10rel"},
-                {"name": "Caller ID Display", "lang": "a_callerdisplay"},
-                {"name": "Use Privacy Header", "lang": "a_usepheader", "acl": "1"},
-                {"name": "Use P-Preferred-Identity Header", "lang": "a_useppiheader", "acl": "1"},
-                {"name": "SIP Transport", "lang": "a_siptranport"},
-                {"name": "SIP URI Scheme When Using TLS", "lang": "a_sipschema"},
-                {"name": "Use Actual Ephemeral Port in Contact with TCP/TLS", "lang": "a_useepport"},
-                {"name": "Symmetric RTP", "lang": "a_symrtp"},
-                {"name": "Support SIP Instance ID", "lang": "a_suptsipintid"},
-                {"name": "Validate Incoming SIP Messages", "lang": "a_validincommsg"},
-                {"name": "Check SIP User ID for Incoming INVITE", "lang": "a_checkinvite"},
+                {"name": "Session Expiration", "lang": "a_16073"},
+                {"name": "Min-SE", "lang": "a_16074"},
+                {"name": "UAC Specify Refresher", "lang": "a_16075"},
+                {"name": "UAS Specify Refresher", "lang": "a_16076"},
+                {"name": "Force INVITE", "lang": "a_16077"},
+                {"name": "Caller Request Timer", "lang": "a_16090"},
+                {"name": "Callee Request Timer", "lang": "a_16091"},
+                {"name": "Force Timer", "lang": "a_16092"},
+                {"name": "Enable 100rel", "lang": "a_16085"},
+                {"name": "Caller ID Display", "lang": "a_16086"},
+                {"name": "Use Privacy Header", "lang": "a_16088", "acl": "1"},
+                {"name": "Use P-Preferred-Identity Header", "lang": "a_16089", "acl": "1"},
+                {"name": "SIP Transport", "lang": "a_16093"},
+                {"name": "SIP URI Scheme When Using TLS", "lang": "a_16094"},
+                {"name": "Use Actual Ephemeral Port in Contact with TCP/TLS", "lang": "a_16095"},
+                {"name": "Symmetric RTP", "lang": "a_16096"},
+                {"name": "Support SIP Instance ID", "lang": "a_16097"},
+                {"name": "Validate Incoming SIP Messages", "lang": "a_16098"},
+                {"name": "Check SIP User ID for Incoming INVITE", "lang": "a_16078"},
                 {"name": "Authenticate Incoming INVITE", "lang": "a_authinvite"},
                 {"name": "SIP realm used for challenge INVITE & NOTIFY", "lang": "a_challenge"},
-                {"name": "Only Accept SIP Requests from Known Servers", "lang": "a_accpsip"},
-                {"name": "SIP T1 Timeout", "lang": "a_sipt1to"},
-                {"name": "SIP T2 Interval", "lang": "a_sipt2int"},
+                {"name": "Only Accept SIP Requests from Known Servers", "lang": "a_16080"},
+                {"name": "SIP T1 Timeout", "lang": "a_16099"},
+                {"name": "SIP T2 Interval", "lang": "a_16100"},
                 {"name": "SIP Timer D Interval", "lang": "a_siptdint"},
-                {"name": "Remove OBP from Route", "lang": "a_removeobp"},
-                {"name": "Check Domain Certificates", "lang": "a_checkdomain"},
-                {"name": "Validate Certification Chain", "lang": "a_validatecert"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Remove OBP from Route", "lang": "a_16101"},
+                {"name": "Check Domain Certificates", "lang": "a_16102"},
+                {"name": "Validate Certification Chain", "lang": "a_19336"},
+                {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "codec", "lang": "account_codec", "acl": "1", "sub": [
+            {"name": "codec", "lang": "a_16026", "acl": "1", "sub": [
                 {"name": "DTMF", "lang": ""},
-                {"name": "DTMF Payload Type", "lang": "a_dtmfpayload"},
-                {"name": "Preferred Vocoder", "lang": "a_prevocoder"},
-                {"name": "Codec Negotiation Priority", "lang": "a_codecpri"},
-                {"name": "Silence Suppression", "lang": "a_silsup"},
-                {"name": "Voice Frames Per TX", "lang": "a_vocfp"},
+                {"name": "DTMF Payload Type", "lang": "a_16113"},
+                {"name": "Preferred Vocoder", "lang": "a_16114"},
+                {"name": "Codec Negotiation Priority", "lang": "a_19181"},
+                {"name": "Silence Suppression", "lang": "a_16132"},
+                {"name": "Voice Frames Per TX", "lang": "a_16133"},
                 {"name": "G.722.1 Rate", "lang": "a_g7221rate"},
-                {"name": "G.722.1 Payload Type", "lang": "a_g7221payload"},
-                {"name": "G.722.1C Payload Type", "lang": "a_g7221cpayload"},
-                {"name": "Opus Payload Type", "lang": "a_opuspayload"},
+                {"name": "G.722.1 Payload Type", "lang": "a_18563"},
+                {"name": "G.722.1C Payload Type", "lang": "a_19109"},
+                {"name": "Opus Payload Type", "lang": "a_19125"},
                 {"name": "iLBC Frame Size", "lang": "a_ilibcfs"},
-                {"name": "Use First Matching Vocoder in 200OK SDP", "lang": "a_usefvcode"},
-                {"name": "Enable Audio RED with FEC", "lang": "a_audioredfec"},
-                {"name": "Audio FEC Payload Type", "lang": "a_audiofecpayload"},
-                {"name": "Audio RED Payload Type", "lang": "a_audioredpayload"},
-                {"name": "Enable RFC5168 Support", "lang": "a_enablerfc"},
-                {"name": "Enable Video FEC", "lang": "a_enablefec"},
-                {"name": "Video FEC Mode", "lang": "a_fecmode"},
-                {"name": "FEC Payload Type", "lang": "a_fecpayload"},
-                {"name": "Enable FECC", "lang": "a_enablefecc"},
-                {"name": "FECC H.224 Payload Type", "lang": "a_fecch244payload"},
-                {"name": "H.264 Payload Type", "lang": "a_h264payload"},
-                {"name": "Packetization-mode", "lang": "a_packetmodel"},
+                {"name": "Use First Matching Vocoder in 200OK SDP", "lang": "a_19170"},
+                {"name": "Enable Audio RED with FEC", "lang": "a_19387"},
+                {"name": "Audio FEC Payload Type", "lang": "a_19388"},
+                {"name": "Audio RED Payload Type", "lang": "a_19389"},
+                {"name": "Enable RFC5168 Support", "lang": "a_16105"},
+                {"name": "Enable Video FEC", "lang": "a_16658"},
+                {"name": "Video FEC Mode", "lang": "a_19111"},
+                {"name": "FEC Payload Type", "lang": "a_16657"},
+                {"name": "Enable FECC", "lang": "a_19020"},
+                {"name": "FECC H.224 Payload Type", "lang": "a_19022"},
+                {"name": "H.264 Payload Type", "lang": "a_16124"},
+                {"name": "Packetization-mode", "lang": "a_16584"},
                 {"name": "H.264 Image Size", "lang": "a_h264imgsize"},
                 {"name": "H.264 Profile Type", "lang": "a_h264protype"},
-                {"name": "Video Bit Rate", "lang": "a_vidbr"},
-                {"name": "SDP Bandwidth Attribute", "lang": "a_sdpattr"},
-                {"name": "Video Frame Rate", "lang": "a_vidfr"},
+                {"name": "Video Bit Rate", "lang": "a_10020"},
+                {"name": "SDP Bandwidth Attribute", "lang": "a_16108"},
+                {"name": "Video Frame Rate", "lang": "a_16274"},
                 {"name": "Video Jitter Buffer Maximum (ms)", "lang": "a_videojittermax"},
                 {"name": "Enable Video Gradual Decoder Refresh", "lang": "a_enablevideorefresh"},
                 {"name": "Disable Presentation", "lang": "a_disablepres"},
-                {"name": "Presentation H.264 Image Size", "lang": "a_presentimagesize"},
-                {"name": "Presentation H.264 Profile", "lang": "a_presentprofile"},
-                {"name": "Presentation Video Bit Rate(Kbps)", "lang": "a_presentvideobitrate"},
-                {"name": "Presentation Video Frame Rate", "lang": "a_presentvideoframebate"},
-                {"name": "BFCP Transport Protocol", "lang": "a_bfcptranspro"},
-                {"name": "SRTP Mode", "lang": "a_srtp"},
-                {"name": "SRTP Key Length", "lang": "a_encryptdigit"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Presentation H.264 Image Size", "lang": "a_16214"},
+                {"name": "Presentation H.264 Profile", "lang": "a_16215"},
+                {"name": "Presentation Video Bit Rate(Kbps)", "lang": "a_16203"},
+                {"name": "Presentation Video Frame Rate", "lang": "a_16205"},
+                {"name": "BFCP Transport Protocol", "lang": "a_19134"},
+                {"name": "SRTP Mode", "lang": "a_16128"},
+                {"name": "SRTP Key Length", "lang": "a_16131"},
+                {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "call", "lang": "account_call", "sub": [
-                {"name": "Remote Video Request", "lang": "a_remotevideo", "acl": "1"},
+            {"name": "call", "lang": "a_16027", "sub": [
+                {"name": "Remote Video Request", "lang": "a_16106", "acl": "1"},
                 {"name": "Dial Plan Prefix", "lang": "a_dialplanpr"},
-                {"name": "Disable DialPlan", "lang": "a_disdialplan"},
-                {"name": "DialPlan", "lang": "a_dialplan"},
-                {"name": "Refer-To Use Target Contact", "lang": "a_referto", "acl": "1"},
+                {"name": "Disable DialPlan", "lang": "a_16291"},
+                {"name": "DialPlan", "lang": "a_16150"},
+                {"name": "Refer-To Use Target Contact", "lang": "a_16154", "acl": "1"},
                 {"name": "Auto Answer", "lang": "a_autoans", "acl": "1"},
-                {"name": "Send Anonymous", "lang": "a_sendanoy", "acl": "1"},
+                {"name": "Send Anonymous", "lang": "a_16155", "acl": "1"},
                 {"name": "Anonymous Call Rejection", "lang": "a_anonycallrej", "acl": "1"},
-                {"name": "Call Log", "lang": "a_calllog", "acl": "1"},
-                {"name": "Special Feature", "lang": "a_spefea"},
-                {"name": "Feature Key Synchronization", "lang": "a_feakey"},
-                {"name": "Enable Call Features", "lang": "a_encallfea", "acl": "1"},
+                {"name": "Call Log", "lang": "a_16157", "acl": "1"},
+                {"name": "Special Feature", "lang": "a_16161"},
+                {"name": "Feature Key Synchronization", "lang": "a_16164"},
+                {"name": "Enable Call Features", "lang": "a_16165", "acl": "1"},
                 {"name": "Ring Timeout", "lang": "a_ringto"},
-                {"name": "Use # as Dial Key", "lang": "a_usepound"},
-                {"name": "Upload Local MOH Audio File", "lang": "a_uploadaudio"},
-                {"name": "Enable Local MOH", "lang": "a_enablemoh"},
-                {"name": "Account Ring Tone", "lang": "a_defaultringtone"},
+                {"name": "Use # as Dial Key", "lang": "a_16171"},
+                {"name": "Upload Local MOH Audio File", "lang": "a_16180"},
+                {"name": "Enable Local MOH", "lang": "a_16181"},
+                {"name": "Account Ring Tone", "lang": "a_16177"},
                 {"name": "Call Forward Type", "lang": "a_cftype"},
-                {"name": "Match Incoming Caller ID", "lang": "a_matchincad"},
-                {"name": "Distinctive Ring Tone", "lang": "a_cusrtone"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Match Incoming Caller ID", "lang": "a_16178"},
+                {"name": "Distinctive Ring Tone", "lang": "a_16179"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
         {"name": "ipvtAcct", "lang": "IPVideoTalk", "sub": [
-            {"name": "general", "lang": "advanced_general", "sub": [
-                {"name": "Account Active", "lang": "a_accountactive"},
+            {"name": "general", "lang": "a_16023", "sub": [
+                {"name": "Account Active", "lang": "a_23532"},
                 {"name": "Name", "lang": "a_name"},
-                {"name": "SIP Transport", "lang": "a_siptranport"},
-                // {"name": "Current plans", "lang": "a_curplans"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "SIP Transport", "lang": "a_16093"},
+                // {"name": "Current plans", "lang": "a_9623"},
+                {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "codec", "lang": "account_codec", "acl": "1", "sub": [
-                {"name": "Preferred Video Codec", "lang": "a_prevcoder"},
-                {"type": "button", "lang": "a_save"}
+            {"name": "codec", "lang": "a_16026", "acl": "1", "sub": [
+                {"name": "Preferred Video Codec", "lang": "a_16115"},
+                {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "call", "lang": "advanced_call", "sub": [
-                {"name": "Auto Answer When Idle", "lang": "a_autoansidle"},
-                {"type": "button", "lang": "a_save"}
+            {"name": "call", "lang": "a_16008", "sub": [
+                {"name": "Auto Answer When Idle", "lang": "a_19141"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
         {"name": "bluejeansAcct", "lang": "BlueJeans", "sub": [
-            {"name": "general", "lang": "advanced_general", "sub": [
-                {"name": "Account Active", "lang": "a_accountactive"},
+            {"name": "general", "lang": "a_16023", "sub": [
+                {"name": "Account Active", "lang": "a_23532"},
                 {"name": "Name", "lang": "a_name"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "codec", "lang": "account_codec", "acl": "1", "sub": [
+            {"name": "codec", "lang": "a_16026", "acl": "1", "sub": [
                 {"name": "DTMF", "lang": ""},
-                {"name": "DTMF Payload Type", "lang": "a_dtmfpayload"},
-                {"name": "Preferred Vocoder", "lang": "a_prevocoder"},
-                {"name": "Codec Negotiation Priority", "lang": "a_codecpri"},
-                {"name": "Silence Suppression", "lang": "a_silsup"},
-                {"name": "Voice Frames Per TX", "lang": "a_vocfp"},
+                {"name": "DTMF Payload Type", "lang": "a_16113"},
+                {"name": "Preferred Vocoder", "lang": "a_16114"},
+                {"name": "Codec Negotiation Priority", "lang": "a_19181"},
+                {"name": "Silence Suppression", "lang": "a_16132"},
+                {"name": "Voice Frames Per TX", "lang": "a_16133"},
                 {"name": "G.722.1 Rate", "lang": "a_g7221rate"},
-                {"name": "G.722.1 Payload Type", "lang": "a_g7221payload"},
-                {"name": "Use First Matching Vocoder in 200OK SDP", "lang": "a_usefvcode"},
-                {"name": "Enable Audio RED with FEC", "lang": "a_audioredfec"},
-                {"name": "Audio FEC Payload Type", "lang": "a_audiofecpayload"},
-                {"name": "Audio RED Payload Type", "lang": "a_audioredpayload"},
-                {"name": "Enable Video FEC", "lang": "a_enablefec"},
-                {"name": "FEC Payload Type", "lang": "a_fecpayload"},
-                {"name": "H.264 Payload Type", "lang": "a_h264payload"},
-                {"name": "Packetization-mode", "lang": "a_packetmodel"},
+                {"name": "G.722.1 Payload Type", "lang": "a_18563"},
+                {"name": "Use First Matching Vocoder in 200OK SDP", "lang": "a_19170"},
+                {"name": "Enable Audio RED with FEC", "lang": "a_19387"},
+                {"name": "Audio FEC Payload Type", "lang": "a_19388"},
+                {"name": "Audio RED Payload Type", "lang": "a_19389"},
+                {"name": "Enable Video FEC", "lang": "a_16658"},
+                {"name": "FEC Payload Type", "lang": "a_16657"},
+                {"name": "H.264 Payload Type", "lang": "a_16124"},
+                {"name": "Packetization-mode", "lang": "a_16584"},
                 {"name": "H.264 Image Size", "lang": "a_h264imgsize"},
                 {"name": "H.264 Profile Type", "lang": "a_h264protype"},
-                {"name": "Video Bit Rate", "lang": "a_vidbr"},
-                {"name": "SDP Bandwidth Attribute", "lang": "a_sdpattr"},
-                {"name": "Video Frame Rate", "lang": "a_vidfr"},
+                {"name": "Video Bit Rate", "lang": "a_10020"},
+                {"name": "SDP Bandwidth Attribute", "lang": "a_16108"},
+                {"name": "Video Frame Rate", "lang": "a_16274"},
                 {"name": "Video Jitter Buffer Maximum (ms)", "lang": "a_videojittermax"},
-                {"name": "Use H.264 Constrained Profiles", "lang": "a_useh264profile"},
+                {"name": "Use H.264 Constrained Profiles", "lang": "a_19253"},
                 {"name": "Disable Presentation", "lang": "a_disablepres"},
-                {"name": "Initial INVITE with Media Info", "lang": "a_initialinvite"},
-                {"name": "Presentation H.264 Image Size", "lang": "a_presentimagesize"},
-                {"name": "Presentation H.264 Profile", "lang": "a_presentprofile"},
-                {"name": "Presentation Video Bit Rate(Kbps)", "lang": "a_presentvideobitrate"},
-                {"name": "Presentation Video Frame Rate", "lang": "a_presentvideoframebate"},
+                {"name": "Initial INVITE with Media Info", "lang": "a_19240"},
+                {"name": "Presentation H.264 Image Size", "lang": "a_16214"},
+                {"name": "Presentation H.264 Profile", "lang": "a_16215"},
+                {"name": "Presentation Video Bit Rate(Kbps)", "lang": "a_16203"},
+                {"name": "Presentation Video Frame Rate", "lang": "a_16205"},
             ]},
-            {"name": "call", "lang": "advanced_call", "sub": [
-                {"name": "Call Log", "lang": "a_calllog", "acl": "1"},
-                {"name": "Use # as Dial Key", "lang": "a_usepound"},
-                {"name": "Upload Local MOH Audio File", "lang": "a_uploadaudio"},
-                {"name": "Enable Local MOH", "lang": "a_enablemoh"}
+            {"name": "call", "lang": "a_16008", "sub": [
+                {"name": "Call Log", "lang": "a_16157", "acl": "1"},
+                {"name": "Use # as Dial Key", "lang": "a_16171"},
+                {"name": "Upload Local MOH Audio File", "lang": "a_16180"},
+                {"name": "Enable Local MOH", "lang": "a_16181"}
             ]}
         ]},
 
 
         {"name": "h323mode", "lang": "H.323", "sub": [
-            {"name": "general", "lang": "advanced_general", "sub": [
-                {"name": "Account Active", "lang": "a_accountactive"},
-                {"name": "Enable GK", "lang": "a_enablegk"},
-                {"name": "Enable H.460", "lang": "a_enableh460"},
-                {"name": "GK Discover Mode", "lang": "a_gkdiscovermode"},
-                {"name": "Site Number", "lang": "a_sitenumber"},
-                {"name": "GK Authentication Username", "lang": "a_gkauthusername"},
-                {"name": "GK Authentication Password", "lang": "a_gkauthpwd"},
+            {"name": "general", "lang": "a_16023", "sub": [
+                {"name": "Account Active", "lang": "a_23532"},
+                {"name": "Enable GK", "lang": "a_19120"},
+                {"name": "Enable H.460", "lang": "a_19204"},
+                {"name": "GK Discover Mode", "lang": "a_19122"},
+                {"name": "Site Number", "lang": "a_19117"},
+                {"name": "GK Authentication Username", "lang": "a_19118"},
+                {"name": "GK Authentication Password", "lang": "a_19119"},
                 {"name": "Register Expiration (m)", "lang": "a_regexp"},
-                {"name": "H.323 Local Port", "lang": "a_h323localport"},
-                {"name": "Symmetric RTP", "lang": "a_symrtp"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "H.323 Local Port", "lang": "a_19210"},
+                {"name": "Symmetric RTP", "lang": "a_16096"},
+                {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "codec", "lang": "account_codec", "acl": "1", "sub": [
+            {"name": "codec", "lang": "a_16026", "acl": "1", "sub": [
                 {"name": "DTMF", "lang": ""},
-                {"name": "Preferred Vocoder", "lang": "a_prevocoder"},
-                {"name": "H.264 Payload Type", "lang": "a_h264payload"},
+                {"name": "Preferred Vocoder", "lang": "a_16114"},
+                {"name": "H.264 Payload Type", "lang": "a_16124"},
                 {"name": "H.264 Image Size", "lang": "a_h264imgsize"},
-                {"name": "Video Bit Rate", "lang": "a_vidbr"},
-                {"name": "Video Frame Rate", "lang": "a_vidfr"},
-                {"name": "Packetization-mode", "lang": "a_packetmodel"},
+                {"name": "Video Bit Rate", "lang": "a_10020"},
+                {"name": "Video Frame Rate", "lang": "a_16274"},
+                {"name": "Packetization-mode", "lang": "a_16584"},
             ]},
-            {"name": "call", "lang": "advanced_call", "sub": [
+            {"name": "call", "lang": "a_16008", "sub": [
                 {"name": "Auto Answer", "lang": "a_autoans", "acl": "1"},
-                {"name": "Enable H225 Keep-Alive", "lang": "a_enableh225keepalive", "acl": "1"},
-                {"name": "Enable H245 Keep-Alive", "lang": "a_enableh245keepalive"},
-                {"name": "Enable RTDR", "lang": "a_enableRTDR"},
+                {"name": "Enable H225 Keep-Alive", "lang": "a_19160", "acl": "1"},
+                {"name": "Enable H245 Keep-Alive", "lang": "a_19161"},
+                {"name": "Enable RTDR", "lang": "a_19192"},
             ]}
         ]}
     ]},
     {"name": "callset", "lang": "call_setting", "sub": [
-        {"name": "general", "lang": "account_general", "sub": [
-            {"name": "conventional", "lang": "a_conventionset", "sub": [
-                {"name": "Local RTP Port", "lang": "a_rtpport"},
-                {"name": "Use Random Port", "lang": "a_useranport", "oem": "54"},
-                {"name": "Keep-alive Interval", "lang": "a_keepa"},
+        {"name": "general", "lang": "a_16023", "sub": [
+            {"name": "conventional", "lang": "a_16597", "sub": [
+                {"name": "Local RTP Port", "lang": "a_16280"},
+                {"name": "Use Random Port", "lang": "a_16281", "oem": "54"},
+                {"name": "Keep-alive Interval", "lang": "a_16282"},
                 {"name": "STUN Server", "lang": "a_stunserver"},
-                {"name": "TURN Server Username", "lang": "a_stunservername"},
-                {"name": "TURN Server Password", "lang": "a_stunserverpwd"},
-                {"name": "Use NAT IP", "lang": "a_usenatip"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "TURN Server Username", "lang": "a_19026"},
+                {"name": "TURN Server Password", "lang": "a_19027"},
+                {"name": "Use NAT IP", "lang": "a_16284"},
+                {"type": "button", "lang": "a_17"}
             ]},
             {"name": "guest", "lang": "a_guestset", "sub": [
                 {"name": "Guest Login", "lang": "a_publicmode"},
                 {"name": "Guest Login Timeout", "lang": "a_publicmodeint"},
                 {"name": "Guest Login PIN Code", "lang": "a_logoutpin"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
-        {"name": "callfeatures", "lang": "account_call", "sub": [
-            {"name": "callfeatures", "lang": "account_call", "sub": [
-                {"name": "Disable Call-Waiting Tone", "lang": "a_discallwaittone"},
+        {"name": "callfeatures", "lang": "a_16027", "sub": [
+            {"name": "callfeatures", "lang": "a_16027", "sub": [
+                {"name": "Disable Call-Waiting Tone", "lang": "a_16290"},
                 {"name": "Disable DND Reminder Ring", "lang": "a_disdndring"},
-                {"name": "Auto Mute on Entry", "lang": "a_entrymute"},
+                {"name": "Auto Mute on Entry", "lang": "a_19328"},
                 {"name": "Noise Shield", "lang": "a_noiseshield"},
-                {"name": "Filter Characters", "lang": "a_filterchars"},
+                {"name": "Filter Characters", "lang": "a_19112"},
                 {"name": "Escape '#' as %23 in SIP URI", "lang": "a_escapeuri"},
-                {"name": "Disable in-call DTMF display", "lang": "a_disdtmf"},
+                {"name": "Disable in-call DTMF display", "lang": "a_16279"},
                 {"name": "Disable Call-Waiting", "lang": "a_callwait"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]},
         ]},
-        {"name": "sitename", "lang": "a_sitename", "sub": [
-            {"name": "sitenameset", "lang": "a_sitenameset", "sub": [
-                {"name": "Background Transparency", "lang": "a_backopacity"},
-                {"name": "sitename", "lang": "a_sitename"},
-                {"name": "Display Position", "lang": "a_displaypos"},
-                {"name": "Display Duration", "lang": "a_displaytime"},
-                {"name": "Font Color", "lang": "a_fontcolor"},
-                {"name": "Font Size", "lang": "a_fontsize"},
-                {"name": "Bold", "lang": "a_bold"},
+        {"name": "sitename", "lang": "a_20073", "sub": [
+            {"name": "sitenameset", "lang": "a_16013", "sub": [
+                {"name": "Background Transparency", "lang": "a_16221"},
+                {"name": "sitename", "lang": "a_20073"},
+                {"name": "Display Position", "lang": "a_16226"},
+                {"name": "Display Duration", "lang": "a_16231"},
+                {"name": "Font Color", "lang": "a_16234"},
+                {"name": "Font Size", "lang": "a_16235"},
+                {"name": "Bold", "lang": "a_16237"},
                 {"name": "Horizontal Offset", "lang": "a_horizonoffset"},
                 {"name": "Vertical Offset", "lang": "a_vericaloffset"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
         {"name": "audio", "lang": "advanced_ring", "sub": [
             {"name": "audio", "lang": "advanced_ring", "sub": [
-                {"name": "Echo Delay", "lang": "a_echo_delay"},
+                {"name": "Echo Delay", "lang": "a_19246"},
                 {"name": "Volume：Ringtone + Media + Notification", "lang": "a_ringtonevol"},
                 {"name": "Ringtone：System Ringtone + Alert Tone", "lang": "a_ringtoneset"},
-                {"name": "Audio Device", "lang": "a_audiodevice"},
-                {"name": "Ring Back Tone", "lang": "a_ringbt"},
-                {"name": "Busy Tone", "lang": "a_busytone"},
-                {"name": "Reorder Tone", "lang": "a_reordertone"},
-                {"name": "Confirmation Tone", "lang": "a_confmtone"},
-                {"name": "Default Ring Cadence", "lang": "a_defringcad2"},
+                {"name": "Audio Device", "lang": "a_19127"},
+                {"name": "Ring Back Tone", "lang": "a_16306"},
+                {"name": "Busy Tone", "lang": "a_16307"},
+                {"name": "Reorder Tone", "lang": "a_16308"},
+                {"name": "Confirmation Tone", "lang": "a_16309"},
+                {"name": "Default Ring Cadence", "lang": "a_16314"},
                 {"name": "AEC Level", "lang": "a_aeclevel"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
-        {"name": "video", "lang": "advanced_video", "sub": [
-            {"name": "video", "lang": "advanced_video", "sub": [
+        {"name": "video", "lang": "a_16009", "sub": [
+            {"name": "video", "lang": "a_16009", "sub": [
                 {"name": "Always Ring Speaker", "lang": "a_alring"},
-                {"name": "Video Display Mode", "lang": "a_avspipmode"},
-                {"name": "Enable Frame Skipping in Video Decoder", "lang": "a_viddecodefs"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Video Display Mode", "lang": "a_19365"},
+                {"name": "Enable Frame Skipping in Video Decoder", "lang": "a_16276"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]}
     ]},
-    {"name": "network", "lang": "network_setting", "sub": [
-        {"name": "ethernet", "lang": "ethernet_set",  "sub": [
-                {"name": "ethernet", "lang": "ethernet_set",  "sub": [
-                    {"name": "Preferred Internet Protocol", "lang": "a_protocoltype"},
+    {"name": "network", "lang": "a_16024", "sub": [
+        {"name": "ethernet", "lang": "a_4120",  "sub": [
+                {"name": "ethernet", "lang": "a_4120",  "sub": [
+                    {"name": "Preferred Internet Protocol", "lang": "a_19225"},
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": ""},
                     {"name": "Address Type", "lang": "a_addresstypeipv4"}, //
-                    {"name": "DHCP VLAN Override", "lang": "a_dhcpvlan"}, //
-                    {"name": "Host name", "lang": "a_dhcpop12"}, //
-                    {"name": "Vendor Class ID", "lang": "a_dhcpop60"}, //
-                    {"name": "IP Address", "lang": "a_ipaddr"}, //
-                    {"name": "Subnet Mask", "lang": "a_subnetmask"},//
-                    {"name": "Default Gateway", "lang": "a_gateway"},//
-                    {"name": "DNS Server 1", "lang": "a_prednsser"},//
-                    {"name": "DNS Server 2", "lang": "a_alerdnsser"},//
+                    {"name": "DHCP VLAN Override", "lang": "a_19335"}, //
+                    {"name": "Host name", "lang": "a_16187"}, //
+                    {"name": "Vendor Class ID", "lang": "a_16189"}, //
+                    {"name": "IP Address", "lang": "a_23531"}, //
+                    {"name": "Subnet Mask", "lang": "a_4127"},//
+                    {"name": "Default Gateway", "lang": "a_16191"},//
+                    {"name": "DNS Server 1", "lang": "a_19227"},//
+                    {"name": "DNS Server 2", "lang": "a_19228"},//
                     {"name": "PPPoE Account ID", "lang": "a_pppacc"},//
-                    {"name": "PPPoE Password", "lang": "a_pppoepwd"},//
+                    {"name": "PPPoE Password", "lang": "a_4157"},//
                     {"name": "Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)", "lang": "a_layer2qosdata"}, //
                     {"name": "Layer 2 QoS 802.1p Priority Value (Ethernet)", "lang": "a_layer2qospvdata"}, //
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": ""},
-                    {"name": "IPv6 Address", "lang": "a_ipv6addr"},
-                    {"name": "Static IPv6 Address", "lang": "a_staticipv6addr"},
-                    {"name": "IPv6 Prefix length", "lang": "a_ipv6prefixlen"},
-                    {"name": "IPv6 DNS Server 1", "lang": "a_ipv6dns1"},
-                    {"name": "IPv6 DNS Server 2", "lang": "a_ipv6dns2"},
+                    {"name": "IPv6 Address", "lang": "a_19226"},
+                    {"name": "Static IPv6 Address", "lang": "a_19309"},
+                    {"name": "IPv6 Prefix length", "lang": "a_19310"},
+                    {"name": "IPv6 DNS Server 1", "lang": "a_19227"},
+                    {"name": "IPv6 DNS Server 2", "lang": "a_19228"},
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": "a_802mode"},
                     {"name": "802.1X mode", "lang": "a_802mode"},//
                     {"name": "802.1X Identity", "lang": "a_identity"},//
                     {"name": "802.1X Secret", "lang": "a_md5pas"},//
                     {"name": "CA Certificate", "lang": "a_802ca"},//
-                    {"name": "Client Certificate", "lang": "a_802client"},//
-                    {"name": "Private Key", "lang": "a_privatekey"},//
-                    {"type": "button", "lang": "a_save"}
+                    {"name": "Client Certificate", "lang": "a_4392"},//
+                    {"name": "Private Key", "lang": "a_4394"},//
+                    {"type": "button", "lang": "a_17"}
                 ]}
         ]},
-        {"name": "openvpn", "lang": "openvpn_set", "sub": [
-            {"name": "openvpn", "lang": "openvpn_set", "sub": [
-                {"name": "OpenVPN Enable", "lang": "enable_openvpn"},
-                {"name": "OpenVPN Server Address", "lang": "openvpn_server"},
-                {"name": "OpenVPN Port", "lang": "openvpn_port"},
-                {"name": "OpenVPN Transport", "lang": "openvpn_trans"},
+        {"name": "openvpn", "lang": "a_19274", "sub": [
+            {"name": "openvpn", "lang": "a_19274", "sub": [
+                {"name": "OpenVPN Enable", "lang": "a_19265"},
+                {"name": "OpenVPN Server Address", "lang": "a_19266"},
+                {"name": "OpenVPN Port", "lang": "a_19267"},
+                {"name": "OpenVPN Transport", "lang": "a_19268"},
                 {"name": "OpenVPN CA", "lang": "openvpn_ca"},
-                {"name": "OpenVPN Client Certificate", "lang": "openvpn_cert"},
-                {"name": "OpenVPN Client Key", "lang": "openvpn_key"},
-                {"name": "OpenVPN Cipher Method", "lang": "openvpn_cipher"},
-                {"name": "OpenVPN Username", "lang": "openvpn_username"},
-                {"name": "OpenVPN Password", "lang": "openvpn_pwd"}
+                {"name": "OpenVPN Client Certificate", "lang": "a_19269"},
+                {"name": "OpenVPN Client Key", "lang": "a_19270"},
+                {"name": "OpenVPN Cipher Method", "lang": "a_19271"},
+                {"name": "OpenVPN Username", "lang": "a_19272"},
+                {"name": "OpenVPN Password", "lang": "a_19273"}
             ]}
         ]},
         {"name": "common", "lang": "common_net", "sub": [
             {"name": "advanced", "lang": "common_net", "sub": [
                 {"type": "p", "lang": "common_net"},
-                {"name": "Alternate DNS Server", "lang": "a_relprednsser"},
+                {"name": "Alternate DNS Server", "lang": "a_16652"},
                 {"name": "Second Alternate DNS Server", "lang": "a_2relprednsser"},
-                {"name": "Enable LLDP", "lang": "a_enablelldp"},
-                {"name": "Layer 3 QoS for SIP", "lang": "a_layer3qossip"},
-                {"name": "Layer 3 QoS for Audio", "lang": "a_layer3qosaudio"},
-                {"name": "Layer 3 QoS for Video", "lang": "a_layer3qosvideo"},
-                {"name": "HTTP/HTTPS User-Agent", "lang": "a_useragent"},
-                {"name": "SIP User-Agent", "lang": "a_sipuseragent"},
-                {"type": "p", "acl": "1", "lang": "a_proxyset"},
-                {"name": "HTTP/HTTPS Proxy Hostname", "lang": "a_proxyhttp"},
-                {"name": "HTTP/HTTPS Proxy Port", "lang": "a_proxyport"},
-                {"name": "Bypass Proxy For", "lang": "a_noproxy"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Enable LLDP", "lang": "a_16193"},
+                {"name": "Layer 3 QoS for SIP", "lang": "a_4275"},
+                {"name": "Layer 3 QoS for Audio", "lang": "a_4276"},
+                {"name": "Layer 3 QoS for Video", "lang": "a_4277"},
+                {"name": "HTTP/HTTPS User-Agent", "lang": "a_16194"},
+                {"name": "SIP User-Agent", "lang": "a_19128"},
+                {"type": "p", "acl": "1", "lang": "a_16651"},
+                {"name": "HTTP/HTTPS Proxy Hostname", "lang": "a_16198"},
+                {"name": "HTTP/HTTPS Proxy Port", "lang": "a_16199"},
+                {"name": "Bypass Proxy For", "lang": "a_16200"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]}
     ]},
-    {"name": "sysset", "lang": "system_setting", "sub": [
-        {"name": "power", "lang": "sys_power", "sub": [
-            {"name": "power", "lang": "sys_power", "sub": [
-                {"name": "Timeout Options", "lang": "a_timeoutoptions"},
-                {"name": "Timeout Setup", "lang": "a_timeoutsetup"},
-                {"name": "Reboot", "lang": "reboot"},
-                {"name": "Sleep", "lang": "a_sleep"},
-                {"name": "Shutdown", "lang": "a_shutdown"},
+    {"name": "sysset", "lang": "a_411", "sub": [
+        {"name": "power", "lang": "a_12020", "sub": [
+            {"name": "power", "lang": "a_12020", "sub": [
+                {"name": "Timeout Options", "lang": "a_19321"},
+                {"name": "Timeout Setup", "lang": "a_19322"},
+                {"name": "Reboot", "lang": "a_20008"},
+                {"name": "Sleep", "lang": "a_20009"},
+                {"name": "Shutdown", "lang": "a_19325"},
             ]}
         ]},
         {"name": "timeandlang", "lang": "time_lang", "sub": [
             {"name": "timeandlang", "lang": "time_lang", "sub": [
                 {"name": "Assign NTP Server Address 1", "lang": "a_ntpserver1"},
                 {"name": "Assign NTP Server Address 2", "lang": "a_ntpserver2"},
-                {"name": "DHCP Option 42 Override NTP Server", "lang": "a_dhcpoption"},
-                {"name": "DHCP Option 2 to override Time Zone setting", "lang": "a_allowdhcpset"},
-                {"name": "Time Zone", "lang": "a_timezone"},
+                {"name": "DHCP Option 42 Override NTP Server", "lang": "a_16206"},
+                {"name": "DHCP Option 2 to override Time Zone setting", "lang": "a_16207"},
+                {"name": "Time Zone", "lang": "a_23527"},
                 {"name": "Time Display Format", "lang": "a_timefmt"},
-                {"name": "Date Display Format", "lang": "a_datefmt"},
-                {"name": "Set Date", "lang": "a_setdate"},
-                {"name": "Set Time", "lang": "a_settime"},
-                {"name": "Language", "lang": "a_lang"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Date Display Format", "lang": "a_16209"},
+                {"name": "Set Date", "lang": "a_16202"},
+                {"name": "Set Time", "lang": "a_9067"},
+                {"name": "Language", "lang": "a_23526"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
         {"name": "tr069", "lang": "a_tr069", "sub": [
             {"name": "tr069", "lang": "a_tr069", "sub": [
-                {"name": "Enable TR-069", "lang": "a_openacs"},
+                {"name": "Enable TR-069", "lang": "a_16360"},
                 {"name": "ACS URL", "lang": "a_acsurl"},
                 {"name": "ACS Username", "lang": "a_acsusername"},
                 {"name": "ACS Password", "lang": "a_acspwd"},
                 {"name": "Periodic Inform Enable", "lang": "a_perialenable"},
-                {"name": "Periodic Inform Interval", "lang": "a_perialinterval"},
+                {"name": "Periodic Inform Interval", "lang": "a_16369"},
                 {"name": "Connection Request Username", "lang": "a_conusername"},
                 {"name": "Connection Request Password", "lang": "a_conpwd"},
                 {"name": "Connection Request Port", "lang": "a_conport"},
-                {"name": "CPE Cert File", "lang": "a_cpecert"},
-                {"name": "CPE Cert Key", "lang": "a_cpekey"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "CPE Cert File", "lang": "a_16373"},
+                {"name": "CPE Cert Key", "lang": "a_16374"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
-        {"name": "security", "lang": "security_set", "sub": [
-            {"name": "security", "acl": "1", "lang": "security_set", "sub": [
-                {"name": "Disable SSH", "lang": "a_distelnet"},
-                {"name": "Access Method", "lang": "a_httpena"},
-                {"name": "Port", "lang": "a_port"},
-                {"name": "Current Admin Password", "lang": "a_curuserpwd"},
-                {"name": "Admin Password", "lang": "a_adminpwd", "acl": "1"},
-                {"name": "Confirm Admin Password", "lang": "a_conadminpwd", "acl": "1"},
-                {"name": "User Password", "lang": "a_userpwd"},
-                {"name": "Confirm User Password", "lang": "a_conuserpwd"},
-                {"name": "Delete Screen Lock Password", "lang": "a_delscreenlockpwd"},
-                {"name": "Screen Lock Password", "lang": "a_screenlockpwd"},
-                {"name": "Confirm Screen Lock Password", "lang": "a_conscreenlockpwd"},
+        {"name": "security", "lang": "a_4221", "sub": [
+            {"name": "security", "acl": "1", "lang": "a_4221", "sub": [
+                {"name": "Disable SSH", "lang": "a_16316"},
+                {"name": "Access Method", "lang": "a_12057"},
+                {"name": "Port", "lang": "a_1173"},
+                {"name": "Current Admin Password", "lang": "a_19008"},
+                {"name": "Admin Password", "lang": "a_16317", "acl": "1"},
+                {"name": "Confirm Admin Password", "lang": "a_16318", "acl": "1"},
+                {"name": "User Password", "lang": "a_16319"},
+                {"name": "Confirm User Password", "lang": "a_16320"},
+                {"name": "Delete Screen Lock Password", "lang": "a_9690"},
+                {"name": "Screen Lock Password", "lang": "a_9688"},
+                {"name": "Confirm Screen Lock Password", "lang": "a_9689"},
                 {"name": "SIP TLS Certificate", "lang": "a_sslcer"},
                 {"name": "SIP TLS Private Key", "lang": "a_sslpkey"},
-                {"name": "SIP TLS Private Key Password", "lang": "a_sslpkpwd"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "SIP TLS Private Key Password", "lang": "a_16287"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]}
     ]},
     {"name":"devicecontrol","lang":"a_device_control","sub":[
-        {"name":"cameracontrol","lang":"a_camera_control", "sub":[
-            {"name":"cameracontrol","lang":"a_camera_control", "sub":[
-                {"name": "Move Speed", "lang": "a_movespeed"},
+        {"name":"cameracontrol","lang":"a_10121", "sub":[
+            {"name":"cameracontrol","lang":"a_10121", "sub":[
+                {"name": "Move Speed", "lang": "a_16606"},
                 {"name": "The Initial Position", "lang": "a_initial_position"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
         {"name":"ptz","lang":"a_ptz", "sub":[
             {"name":"ptz","lang":"a_ptz", "sub":[
-                {"name": "Camera Preset", "lang": "a_preset"},
-                {"name": "PTZ Control", "lang": "a_ptz_control"},
+                {"name": "Camera Preset", "lang": "a_10024"},
+                {"name": "PTZ Control", "lang": "a_16592"},
                 {"name": "Adjusting Local Video Effects", "lang": "a_image_setting"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
-        {"name":"peripheral","lang":"a_peripheral", "sub":[
-            {"name":"peripheral","lang":"a_peripheral", "sub":[
-                {"name": "HDMI 1 Out Resolution", "lang": "a_HDMI1_out_resolution"},
-                {"name": "HDMI 2 Out Resolution", "lang": "a_HDMI2_out_resolution"},
+        {"name":"peripheral","lang":"a_16590", "sub":[
+            {"name":"peripheral","lang":"a_16590", "sub":[
+                {"name": "HDMI 1 Out Resolution", "lang": "a_19341"},
+                {"name": "HDMI 2 Out Resolution", "lang": "a_19342"},
                 {"name": "Enable Auto Presentation When HDMI Plugged", "lang": "a_enablepreauto"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
-        {"name":"remotecontrol","lang":"a_remote_control", "sub":[
-            {"name":"remotecontrol","lang":"a_remote_control", "sub":[
+        {"name":"remotecontrol","lang":"a_19043", "sub":[
+            {"name":"remotecontrol","lang":"a_19043", "sub":[
                 {"name": "Disable Remote Control App Connection", "lang": "a_remoteappconnect"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]}
     ]},
-    {"name": "sysapp", "lang": "system_app", "sub": [
-        {"name": "ldap", "lang": "appset_ldap", "sub": [
-            {"name": "ldap", "lang": "appset_ldap", "sub": [
-                {"name": "Connection Mode", "lang": "a_connectmode"},
-                {"name": "Server Address", "lang": "a_serveraddr"},
-                {"name": "Port", "lang": "a_port"},
-                {"name": "Base DN", "lang": "a_basedn"},
+    {"name": "sysapp", "lang": "a_308", "sub": [
+        {"name": "ldap", "lang": "a_8409", "sub": [
+            {"name": "ldap", "lang": "a_8409", "sub": [
+                {"name": "Connection Mode", "lang": "a_15022"},
+                {"name": "Server Address", "lang": "a_6755"},
+                {"name": "Port", "lang": "a_1173"},
+                {"name": "Base DN", "lang": "a_6757"},
                 {"name": "LDAP User Name", "lang": "a_username"},
                 {"name": "LDAP Password", "lang": "a_password"},
-                {"name": "LDAP Name Attributes", "lang": "a_nameattr"},
-                {"name": "LDAP Number Attributes", "lang": "a_numattr"},
-                {"name": "LDAP Mail Attributes", "lang": "a_mailattr"},
-                {"name": "LDAP Name Filter", "lang": "a_namefilter"},
-                {"name": "LDAP Number Filter", "lang": "a_numberfilter"},
+                {"name": "LDAP Name Attributes", "lang": "a_6764"},
+                {"name": "LDAP Number Attributes", "lang": "a_6765"},
+                {"name": "LDAP Mail Attributes", "lang": "a_6766"},
+                {"name": "LDAP Name Filter", "lang": "a_6774"},
+                {"name": "LDAP Number Filter", "lang": "a_6775"},
                 {"name": "LDAP Mail Filter", "lang": "a_mailfilter"},
                 // {"name": "Search Field Filter", "lang": "a_searchfieldfilter"},
-                {"name": "LDAP Displaying Name Attributes", "lang": "a_disnameattr"},
-                {"name": "Max Hits", "lang": "a_maxhits"},
+                {"name": "LDAP Displaying Name Attributes", "lang": "a_6767"},
+                {"name": "Max Hits", "lang": "a_6760"},
                 {"name": "Search Timeout", "lang": "a_searchtimeout"},
                 {"name": "LDAP Lookup For Dial", "lang": "a_lookupdial"},
                 {"name": "LDAP Lookup For Incoming Call", "lang": "a_lookupcall"},
                 {"name": "LDAP Dialing Default Account", "lang": "a_ldapdftacct"},
-                {"type": "button", "lang": "a_save"}
+                {"type": "button", "lang": "a_17"}
             ]}
         ]}
     ]},
     {"name": "maintenance", "lang": "maintenance_menu", "sub": [
         {"name": "upgrade", "lang": "maintenance_upgrade", "sub": [
             {"name": "upgrade", "lang": "maintenance_upgrade", "sub": [
-                {"name": "Complete Upgrade", "lang": "a_upgradeall"},
-                {"name": "Upload Firmware File to Update", "lang": "a_upfirmfile"},
-                {"name": "Firmware Upgrade Via", "lang": "a_upvia"},
-                {"name": "Firmware Server Path", "lang": "a_firserpath"},
-                {"name": "Config Server Path", "lang": "a_configserpath"},
+                {"name": "Complete Upgrade", "lang": "a_16648"},
+                {"name": "Upload Firmware File to Update", "lang": "a_16328"},
+                {"name": "Firmware Upgrade Via", "lang": "a_19175"},
+                {"name": "Firmware Server Path", "lang": "a_4113"},
+                {"name": "Config Server Path", "lang": "a_4114"},
                 {"name": "Firmware HTTP/HTTPS User Name", "lang": "a_httpuser"},
-                {"name": "Firmware HTTP/HTTPS Password", "lang": "a_httppass"},
-                {"name": "Firmware File Prefix", "lang": "a_firfipre"},
-                {"name": "Firmware File Postfix", "lang": "a_firfipost"},
-                {"name": "Use Grandstream GAPS", "lang": "a_usegsgap", "oem": "70"},
+                {"name": "Firmware HTTP/HTTPS Password", "lang": "a_4112"},
+                {"name": "Firmware File Prefix", "lang": "a_16330"},
+                {"name": "Firmware File Postfix", "lang": "a_16331"},
+                {"name": "Use Grandstream GAPS", "lang": "a_19213", "oem": "70"},
                 {"name": "Config HTTP/HTTPS User Name", "lang": "a_confighttpuser"},
-                {"name": "Config HTTP/HTTPS Password", "lang": "a_confighttppass"},
-                {"name": "Config File Prefix", "lang": "a_conffipre"},
-                {"name": "Config File Postfix", "lang": "a_conffipost"},
-                {"name": "XML Config File Password", "lang": "a_xmlpass"},
-                {"name": "Authenticate Conf File", "lang": "a_authconffile"},
-                {"name": "Download Device Configuration", "lang": "a_saveconf"},
-                {"name": "Upload Device Configuration", "lang": "a_importconf"},
-                {"name": "Always send HTTP Basic Authentication Information", "lang": "a_httpauth"},
-                {"name": "GUI customization file download via", "lang": "a_custvia"},
-                {"name": "GUI customization file URL", "lang": "a_custurl"},
-                {"name": "GUI customization file HTTP/HTTPS username", "lang": "a_custusername"},
-                {"name": "GUI customization file HTTP/HTTPS password", "lang": "a_custpassword"},
-                {"name": "Use Configurations of Config File Server", "lang": "a_copyfromconfig"},
-                {"name": "Automatic Upgrade", "lang": "a_autoup"},
+                {"name": "Config HTTP/HTTPS Password", "lang": "a_4112"},
+                {"name": "Config File Prefix", "lang": "a_16332"},
+                {"name": "Config File Postfix", "lang": "a_16333"},
+                {"name": "XML Config File Password", "lang": "a_16327"},
+                {"name": "Authenticate Conf File", "lang": "a_16347"},
+                {"name": "Download Device Configuration", "lang": "a_16351"},
+                {"name": "Upload Device Configuration", "lang": "a_19184"},
+                {"name": "Always send HTTP Basic Authentication Information", "lang": "a_16352"},
+                {"name": "GUI customization file download via", "lang": "a_19200"},
+                {"name": "GUI customization file URL", "lang": "a_19199"},
+                {"name": "GUI customization file HTTP/HTTPS username", "lang": "a_19201"},
+                {"name": "GUI customization file HTTP/HTTPS password", "lang": "a_19202"},
+                {"name": "Use Configurations of Config File Server", "lang": "a_19224"},
+                {"name": "Automatic Upgrade", "lang": "a_16340"},
                 {"name": "Hour of the Day(0-23)", "lang": "a_hourofday"},
                 {"name": "Firmware Upgrade and Provisioning", "lang": "a_autouprule"},
-                {"name": "Auto Reboot to Upgrade Without Prompt", "lang": "a_autoreboot"},
-                {"name": "Allow DHCP Option 43 and Option 66 to Override Server", "lang": "a_dhcp66"},
-                {"name": "Validate Server Certificate", "lang": "a_validatecert"},
-                {"name": "mDNS Override Server", "lang": "a_mdns"},
-                {"name": "Factory Reset", "lang": "a_factreset"},
-                {"name": "3CX Auto Provision", "lang": "a_3cxautoprovis"},
-                {"name": "Disable SIP NOTIFY Authentication", "lang": "a_sipnotify"},
-                {"type": "button", "lang": "a_save"}
+                {"name": "Auto Reboot to Upgrade Without Prompt", "lang": "a_16329"},
+                {"name": "Allow DHCP Option 43 and Option 66 to Override Server", "lang": "a_16337"},
+                {"name": "Validate Server Certificate", "lang": "a_19336"},
+                {"name": "mDNS Override Server", "lang": "a_16334"},
+                {"name": "Factory Reset", "lang": "a_12156"},
+                {"name": "3CX Auto Provision", "lang": "a_16339"},
+                {"name": "Disable SIP NOTIFY Authentication", "lang": "a_19013"},
+                {"type": "button", "lang": "a_17"}
             ]}
         ]},
         {"name": "diagnosis", "lang": "system_diagnosis", "sub": [
-            {"name": "logcat", "lang": "maintenance_logcat", "sub": [
-                {"name": "Clear Log", "lang": "a_clearlog"},
-                {"name": "Log Tag", "lang": "a_logtag"},
-                {"name": "Log Priority", "lang": "a_logpriority"}
-                // {"name": "Get Log", "lang": "a_getlog"}
+            {"name": "logcat", "lang": "a_16030", "sub": [
+                {"name": "Clear Log", "lang": "a_16353"},
+                {"name": "Log Tag", "lang": "a_16354"},
+                {"name": "Log Priority", "lang": "a_16355"}
+                // {"name": "Get Log", "lang": "a_16356"}
             ]},
-            {"name": "debug", "lang": "maintenance_debug", "sub": [
-                {"name": "Capture Trace", "lang": "a_operation"},
+            {"name": "debug", "lang": "a_16031", "sub": [
+                {"name": "Capture Trace", "lang": "a_16357"},
                 {"name": "Trace List", "lang": "a_tracelist"},
                 {"name": "View Trace", "lang": "a_view"},
             ]},
-            {"name": "syslog", "acl": "1", "lang": "maintenance_syslog", "sub": [
+            {"name": "syslog", "acl": "1", "lang": "a_4144", "sub": [
                 {"name": "Syslog Server", "lang": "a_syslogser"},
-                {"name": "Syslog Level", "lang": "a_sysloglev"},
+                {"name": "Syslog Level", "lang": "a_4136"},
             ]},
             {"name": "ping", "acl": "1", "lang": "maintenance_ping", "sub": [
-                {"name": "Target Host", "lang": "a_targethost"}
+                {"name": "Target Host", "lang": "a_16629"}
             ]},
-            {"name": "traceroute", "lang": "a_traceroute", "sub": [
-                {"name": "Target Host", "lang": "a_targethost"}
+            {"name": "traceroute", "lang": "a_16628", "sub": [
+                {"name": "Target Host", "lang": "a_16629"}
             ]},
-            {"name": "devmode", "lang": "maintenance_devmode", "sub": [
-                {"name": "Developer Mode", "lang": "maintenance_devmode"}
+            {"name": "devmode", "lang": "a_4347", "sub": [
+                {"name": "Developer Mode", "lang": "a_4347"}
             ]}
         ]}
     ]},
-    {"name": "status", "lang": "status_menu", "sub": [
-        {"name": "acct", "lang": "status_acc", "sub": [
+    {"name": "status", "lang": "a_10060", "sub": [
+        {"name": "acct", "lang": "a_4306", "sub": [
             {"name": "Account", "lang": "a_account"},
-            {"name": "Number", "lang": "a_number"},
-            {"name": "SIP Server", "lang": "a_sipserver"},
-            {"name": "Status", "lang": "a_status"}
+            {"name": "Number", "lang": "a_10006"},
+            {"name": "SIP Server", "lang": "a_23536"},
+            {"name": "Status", "lang": "a_10060"}
         ]},
-        {"name":"peripheral","lang":"a_peripheral", "sub":[
+        {"name":"peripheral","lang":"a_16590", "sub":[
             {"name": "HDMI In", "lang": "HDMI In"},
             {"name": "HDMI 1", "lang": "HDMI 1"},
             {"name": "HDMI 2", "lang": "HDMI 2"},
             {"name": "USB Port", "lang": "a_usbport"},
             {"name": "External Speakerphone", "lang": "a_extspeakerph"},
-            {"name": "SD Card", "lang": "a_sd"}
+            {"name": "SD Card", "lang": "a_12036"}
         ]},
-        {"name": "network", "lang": "status_net", "sub": [
-            {"name": "MAC Address", "lang": "a_mac"},
-            {"name": "NAT Type", "lang": "a_nat"},
-            {"name": "Address Type", "lang": "a_networktype"},
-            {"name": "IP Address", "lang": "a_ipv4addr"},
-            {"name": "Subnet Mask", "lang": "a_mask"},
-            {"name": "Default Gateway", "lang": "a_gateway"},
-            {"name": "DNS Server 1", "lang": "a_prednsser"},
-            {"name": "DNS Server 2", "lang": "a_alerdnsser"},
+        {"name": "network", "lang": "a_4147", "sub": [
+            {"name": "MAC Address", "lang": "a_16403"},
+            {"name": "NAT Type", "lang": "a_4155"},
+            {"name": "Address Type", "lang": "a_4150"},
+            {"name": "IP Address", "lang": "a_4313"},
+            {"name": "Subnet Mask", "lang": "a_4127"},
+            {"name": "Default Gateway", "lang": "a_16191"},
+            {"name": "DNS Server 1", "lang": "a_19227"},
+            {"name": "DNS Server 2", "lang": "a_19228"},
         ]},
-        {"name": "system", "lang": "status_info", "sub": [
-            {"name": "system", "lang": "status_info",  "sub": [
-                {"name": "Product Model", "lang": "a_promodel"},
+        {"name": "system", "lang": "a_4148", "sub": [
+            {"name": "system", "lang": "a_4148",  "sub": [
+                {"name": "Product Model", "lang": "a_16404"},
                 {"name": "Hardware Revision", "lang": "a_hardwarerev"},
-                {"name": "Part Number", "lang": "a_pn"},
-                {"name": "System Version", "lang": "a_systemver"},
+                {"name": "Part Number", "lang": "a_16406"},
+                {"name": "System Version", "lang": "a_4130"},
                 {"name": "Recovery Version", "lang": "a_recover"},
-                {"name": "Boot Version", "lang": "a_bootver"},
-                {"name": "Kernel Version", "lang": "a_kernel"},
-                {"name": "Android Version", "lang": "a_android"},
-                {"name": "System Up Time", "lang": "a_sysuptime"},
+                {"name": "Boot Version", "lang": "a_16408"},
+                {"name": "Kernel Version", "lang": "a_16416"},
+                {"name": "Android Version", "lang": "a_16415"},
+                {"name": "System Up Time", "lang": "a_16417"},
             ]}
         ]},
-        {"name": "remotecontrolstatus", "lang": "status_remotecontrol", "sub": [
-            {"name": "remotecontrolstatus", "lang": "status_remotecontrol",  "sub": [
-                {"name": "Hardware Version", "lang": "a_hardwarever"},
-                {"name": "Software Version", "lang": "a_softwarever"},
-                {"name": "Patch Version", "lang": "a_patchver"},
+        {"name": "remotecontrolstatus", "lang": "a_16631", "sub": [
+            {"name": "remotecontrolstatus", "lang": "a_16631",  "sub": [
+                {"name": "Hardware Version", "lang": "a_4134"},
+                {"name": "Software Version", "lang": "a_16633"},
+                {"name": "Patch Version", "lang": "a_12215"},
                 {"name": "Remote Battery", "lang": "a_remotebatt"},
             ]}
         ]}

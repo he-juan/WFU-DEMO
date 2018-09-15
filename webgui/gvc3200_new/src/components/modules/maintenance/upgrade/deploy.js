@@ -293,17 +293,17 @@ class DeployForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <p className="blocktitle"><s></s>{this.tr("a_autoup")}</p>
-                <FormItem className="select-item" label={< span > {callTr("a_autoup")} < Tooltip title = {callTipsTr("Automatic Upgrade")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <p className="blocktitle"><s></s>{this.tr("a_16340")}</p>
+                <FormItem className="select-item" label={< span > {callTr("a_16340")} < Tooltip title = {callTipsTr("Automatic Upgrade")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('autoup', {
                         rules: [],
                         initialValue: this.props.itemValues["autoup"] ? this.props.itemValues["autoup"] : "0"
                     })(
                         <Select onChange={ this.onChangeAutoup.bind(this) } className="P-194">
-                            <Option value="0">{callTr("a_no")}</Option>
-                            <Option value="1">{callTr("a_checkday")}</Option>
-                            <Option value="2">{callTr("a_checkweek")}</Option>
-                            <Option value="3">{callTr("a_checkatperiod")}</Option>
+                            <Option value="0">{callTr("a_22005")}</Option>
+                            <Option value="1">{callTr("a_16341")}</Option>
+                            <Option value="2">{callTr("a_16342")}</Option>
+                            <Option value="3">{callTr("a_16343")}</Option>
                         </Select>
                     )
                     }
@@ -357,7 +357,7 @@ class DeployForm extends Component {
                         </Row>
                     </FormItem>
                 </Row>
-                <FormItem className={ this.state.lan_autoup_class.dayofweek + " " + "mutilCheckbox" } label={< span > { callTr("a_dayofweek") } < Tooltip title = {callTipsTr("Day of the Week")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className={ this.state.lan_autoup_class.dayofweek + " " + "mutilCheckbox" } label={< span > { callTr("a_16346") } < Tooltip title = {callTipsTr("Day of the Week")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('dayofweek', {
                         rules: [],
                         initialValue: this.props.itemValues['dayofweek']
@@ -372,37 +372,37 @@ class DeployForm extends Component {
                         valuePropName: 'checked',
                         initialValue: parseInt(dayofweekArrvalue[1])
                         })(
-                            <Checkbox>{callTr("a_monday")}</Checkbox>
+                            <Checkbox>{callTr("a_124")}</Checkbox>
                     )}
                     {getFieldDecorator('dayofweek2', {
                         valuePropName: 'checked',
                         initialValue: parseInt(dayofweekArrvalue[2])
                         })(
-                            <Checkbox>{callTr("a_tuesday")}</Checkbox>
+                            <Checkbox>{callTr("a_125")}</Checkbox>
                     )}
                     {getFieldDecorator('dayofweek3', {
                         valuePropName: 'checked',
                         initialValue: parseInt(dayofweekArrvalue[3])
                         })(
-                            <Checkbox>{callTr("a_wednesday")}</Checkbox>
+                            <Checkbox>{callTr("a_126")}</Checkbox>
                     )}
                     {getFieldDecorator('dayofweek4', {
                         valuePropName: 'checked',
                         initialValue: parseInt(dayofweekArrvalue[4])
                         })(
-                            <Checkbox>{callTr("a_thursday")}</Checkbox>
+                            <Checkbox>{callTr("a_127")}</Checkbox>
                     )}
                     {getFieldDecorator('dayofweek5', {
                         valuePropName: 'checked',
                         initialValue: parseInt(dayofweekArrvalue[5])
                         })(
-                            <Checkbox>{callTr("a_friday")}</Checkbox>
+                            <Checkbox>{callTr("a_128")}</Checkbox>
                     )}
                     {getFieldDecorator('dayofweek6', {
                         valuePropName: 'checked',
                         initialValue: parseInt(dayofweekArrvalue[6])
                         })(
-                            <Checkbox>{callTr("a_saturday")}</Checkbox>
+                            <Checkbox>{callTr("a_129")}</Checkbox>
                     )}
                 </FormItem>
                 <FormItem className="select-item" label={< span > { callTr("a_autouprule") } < Tooltip title = {callTipsTr("Firmware Upgrade and Provisioning")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
@@ -417,7 +417,7 @@ class DeployForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_autoreboot")} < Tooltip title = {callTipsTr("Auto Reboot to Upgrade Without Prompt")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16329")} < Tooltip title = {callTipsTr("Auto Reboot to Upgrade Without Prompt")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("autoreboot", {
                         rules: [],
                         valuePropName: 'checked',
@@ -427,7 +427,7 @@ class DeployForm extends Component {
                     )}
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_dhcptitle")}</p>
-                <FormItem label={< span > {callTr("a_dhcp66")} < Tooltip title = {callTipsTr("Allow DHCP Option 43 and Option 66 to Override Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16337")} < Tooltip title = {callTipsTr("Allow DHCP Option 43 and Option 66 to Override Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcp66", {
                         rules: [],
                         valuePropName: 'checked',
@@ -437,7 +437,7 @@ class DeployForm extends Component {
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_dhcp120")} < Tooltip title = {callTipsTr("DHCP Option 120 Override SIP Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16338")} < Tooltip title = {callTipsTr("DHCP Option 120 Override SIP Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcp120", {
                         rules: [],
                         valuePropName: 'checked',
@@ -460,7 +460,7 @@ class DeployForm extends Component {
                 <p className="blocktitle"><s></s>{this.tr("a_cfgProvision")}</p>
                 <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_CFG_Provision")} < Tooltip title = {callTipsTr("CFG Provision")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <div style={{width:"600px"}}>
-                        <Transfer className="vocodertrans" dataSource={data} sorter={ true } titles = {[callTr("a_notallowed"),callTr("a_allowed")]} listStyle={{ width: 230, height: 206,}} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange}  render={item => `${item.key}`} />
+                        <Transfer className="vocodertrans" dataSource={data} sorter={ true } titles = {[callTr("a_notallowed"),callTr("a_23010")]} listStyle={{ width: 230, height: 206,}} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange}  render={item => `${item.key}`} />
                     </div>
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_pnptitle")}</p>
@@ -498,7 +498,7 @@ class DeployForm extends Component {
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('sipport1', {

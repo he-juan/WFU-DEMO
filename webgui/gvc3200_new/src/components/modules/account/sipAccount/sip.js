@@ -157,20 +157,20 @@ class SipForm extends React.Component {
         const callTr = this.props.callTr;
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={(<span>{callTr("a_sipreg")}&nbsp;<Tooltip title={this.tips_tr("SIP Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16066")}&nbsp;<Tooltip title={this.tips_tr("SIP Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipreg', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["sipreg"])
                     })(<Checkbox className={"P-" + nvram["sipreg"]} />)
                     }
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_unregor")}&nbsp;<Tooltip title={this.tips_tr("Unregister Before New Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16067")}&nbsp;<Tooltip title={this.tips_tr("Unregister Before New Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('unreg', {
                         initialValue: this.props.itemValues['unreg'] ? this.props.itemValues['unreg'] : "0"
                     })(
                         <Select className={"P-" + nvram["unreg"]}>
-                            <Option value="0">{callTr("a_no")}</Option>
-                            <Option value="1">{callTr("a_all")}</Option>
+                            <Option value="0">{callTr("a_22005")}</Option>
+                            <Option value="1">{callTr("a_10009")}</Option>
                             <Option value="2">{callTr("a_instance")}</Option>
                         </Select>
                     )}
@@ -223,7 +223,7 @@ class SipForm extends React.Component {
                         <Input type="text" className={"P-" + nvram["retrytime"]} />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_sipport")}&nbsp;<Tooltip title={this.tips_tr("Local SIP Port")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_16071")}&nbsp;<Tooltip title={this.tips_tr("Local SIP Port")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('sipport', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -239,7 +239,7 @@ class SipForm extends React.Component {
                         <Input type="text" className={"P-" + nvram["sipport"]} />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_s4mwi")}&nbsp;<Tooltip title={this.tips_tr("SUBSCRIBE for MWI")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16072")}&nbsp;<Tooltip title={this.tips_tr("SUBSCRIBE for MWI")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('mwi', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["mwi"])
@@ -253,7 +253,7 @@ class SipForm extends React.Component {
                     })(<Checkbox onChange={this.handleOpenSession} className={"P-" + nvram["opensession"]} />)
                     }
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_seexp")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Session Expiration")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16073")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Session Expiration")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('seexp', {
                         rules: [{
                             required: true,
@@ -272,7 +272,7 @@ class SipForm extends React.Component {
                         <Input type="text" className={"P-" + nvram["seexp"]} />
                     )}
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_minse")}&nbsp;<Tooltip title={this.tips_tr("Min-SE")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16074")}&nbsp;<Tooltip title={this.tips_tr("Min-SE")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('minse', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -288,7 +288,7 @@ class SipForm extends React.Component {
                         <Input type="text" className={"P-" + nvram["minse"]} />
                     )}
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} className="select-item" label={(<span>{callTr("a_uacsr")}&nbsp;<Tooltip title={this.tips_tr("UAC Specify Refresher")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} className="select-item" label={(<span>{callTr("a_16075")}&nbsp;<Tooltip title={this.tips_tr("UAC Specify Refresher")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('uacref', {
                         initialValue: this.props.itemValues['uacref'] ? this.props.itemValues['uacref'] : "0"
                     })(
@@ -299,7 +299,7 @@ class SipForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} className="select-item" label={(<span>{callTr("a_uassr")}&nbsp;<Tooltip title={this.tips_tr("UAS Specify Refresher")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} className="select-item" label={(<span>{callTr("a_16076")}&nbsp;<Tooltip title={this.tips_tr("UAS Specify Refresher")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('uasref', {
                         initialValue: this.props.itemValues['uasref'] ? this.props.itemValues['uasref'] : "1"
                     })(
@@ -309,76 +309,76 @@ class SipForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_forceinv")}&nbsp;<Tooltip title={this.tips_tr("Force INVITE")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16077")}&nbsp;<Tooltip title={this.tips_tr("Force INVITE")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('forinvite', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["forinvite"])
                     })(<Checkbox className={"P-" + nvram["forinvite"]} />)
                     }
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_callerreq")}&nbsp;<Tooltip title={this.tips_tr("Caller Request Timer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16090")}&nbsp;<Tooltip title={this.tips_tr("Caller Request Timer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('callert', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["callert"])
                     })(<Checkbox className={"P-" + nvram["callert"]} />)
                     }
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_calleereq")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Callee Request Timer")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16091")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Callee Request Timer")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('calleet', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["calleet"])
                     })(<Checkbox className={"P-" + nvram["calleet"]} />)
                     }
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_fortimer")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Force Timer")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16092")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Force Timer")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('forcet', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["forcet"])
                     })(<Checkbox className={"P-" + nvram["forcet"]} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_en10rel")}&nbsp;<Tooltip title={this.tips_tr("Enable 100rel")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16085")}&nbsp;<Tooltip title={this.tips_tr("Enable 100rel")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('100rel', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["100rel"])
                     })(<Checkbox className={"P-" + nvram["100rel"]} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_callerdisplay")}&nbsp;<Tooltip title={this.tips_tr("Caller ID Display")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16086")}&nbsp;<Tooltip title={this.tips_tr("Caller ID Display")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 来电ID显示 */}
                     {getFieldDecorator('callerdisplay', {
                         initialValue: this.props.itemValues['callerdisplay'] ? this.props.itemValues['callerdisplay'] : "0"
                     })(
                         <Select>
-                            <Option value="0">{callTr("a_automatic")}</Option>
-                            <Option value="1">{callTr("a_pttNone")}</Option>
-                            <Option value="2">{callTr("a_fromheader")}</Option>
+                            <Option value="0">{callTr("a_1015")}</Option>
+                            <Option value="1">{callTr("a_39")}</Option>
+                            <Option value="2">{callTr("a_16087")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_usepheader")}&nbsp;<Tooltip title={this.tips_tr("Use Privacy Header")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16088")}&nbsp;<Tooltip title={this.tips_tr("Use Privacy Header")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('usepheader', {
                         initialValue: this.props.itemValues['usepheader'] ? this.props.itemValues['usepheader'] : "0"
                     })(
                         <Select>
-                            <Option value="0">{callTr("a_default")}</Option>
-                            <Option value="1">{callTr("a_no")}</Option>
-                            <Option value="2">{callTr("a_yes")}</Option>
+                            <Option value="0">{callTr("a_12")}</Option>
+                            <Option value="1">{callTr("a_22005")}</Option>
+                            <Option value="2">{callTr("a_22004")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_useppiheader")}&nbsp;<Tooltip title={this.tips_tr("Use P-Preferred-Identity Header")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16089")}&nbsp;<Tooltip title={this.tips_tr("Use P-Preferred-Identity Header")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('useppiheader', {
                         initialValue: this.props.itemValues['useppiheader'] ? this.props.itemValues['useppiheader'] : "0"
                     })(
                         <Select>
-                            <Option value="0">{callTr("a_default")}</Option>
-                            <Option value="1">{callTr("a_no")}</Option>
-                            <Option value="2">{callTr("a_yes")}</Option>
+                            <Option value="0">{callTr("a_12")}</Option>
+                            <Option value="1">{callTr("a_22005")}</Option>
+                            <Option value="2">{callTr("a_22004")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_siptranport")}&nbsp;<Tooltip title={this.tips_tr("SIP Transport")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16093")}&nbsp;<Tooltip title={this.tips_tr("SIP Transport")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('siptranport', {
                         initialValue: this.props.itemValues['siptranport'] ? this.props.itemValues['siptranport'] : "0"
                     })(
@@ -389,7 +389,7 @@ class SipForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_sipschema")}&nbsp;<Tooltip title={this.tips_tr("SIP URI Scheme When Using TLS")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16094")}&nbsp;<Tooltip title={this.tips_tr("SIP URI Scheme When Using TLS")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipschema', {
                         initialValue: this.props.itemValues['sipschema']
                     })(
@@ -400,14 +400,14 @@ class SipForm extends React.Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_useepport")}&nbsp;<Tooltip title={this.tips_tr("Use Actual Ephemeral Port in Contact with TCP/TLS")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16095")}&nbsp;<Tooltip title={this.tips_tr("Use Actual Ephemeral Port in Contact with TCP/TLS")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('useepport', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["useepport"])
                     })(<Checkbox className={"P-" + nvram["useepport"]} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_symrtp")}&nbsp;<Tooltip title={this.tips_tr("Symmetric RTP")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16096")}&nbsp;<Tooltip title={this.tips_tr("Symmetric RTP")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 对称RTP */}
                     {getFieldDecorator('symrtp', {
                         valuePropName: 'checked',
@@ -415,14 +415,14 @@ class SipForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["symrtp"]} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_suptsipintid")}&nbsp;<Tooltip title={this.tips_tr("Support SIP Instance ID")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16097")}&nbsp;<Tooltip title={this.tips_tr("Support SIP Instance ID")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('suptsipintid', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["suptsipintid"])
                     })(<Checkbox className={"P-" + nvram["suptsipintid"]} />)
                     }
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_validincommsg")}&nbsp;<Tooltip title={this.tips_tr("Validate Incoming SIP Messages")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16098")}&nbsp;<Tooltip title={this.tips_tr("Validate Incoming SIP Messages")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 验证入局SIP消息 */}
                     {getFieldDecorator('validincommsg', {
                         valuePropName: 'checked',
@@ -431,7 +431,7 @@ class SipForm extends React.Component {
                     }
                 </FormItem>
 
-                <FormItem label={(<span>{callTr("a_checkinvite")}&nbsp;<Tooltip title={this.tips_tr("Check SIP User ID for Incoming INVITE")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16078")}&nbsp;<Tooltip title={this.tips_tr("Check SIP User ID for Incoming INVITE")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 检查来电INVITE的SIP用户ID  */}
                     {getFieldDecorator('checkinvite', {
                         valuePropName: 'checked',
@@ -455,7 +455,7 @@ class SipForm extends React.Component {
                         <Input type="text" className={"P-" + nvram["siprealm"]} />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_accpsip")}&nbsp;<Tooltip title={this.tips_tr("Only Accept SIP Requests from Known Servers")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16080")}&nbsp;<Tooltip title={this.tips_tr("Only Accept SIP Requests from Known Servers")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 仅接受已知服务器的SIP请求  */}
                     {getFieldDecorator('accpsip', {
                         valuePropName: 'checked',
@@ -463,7 +463,7 @@ class SipForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["accpsip"]} />)
                     }
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_sipt1to")}&nbsp;<Tooltip title={this.tips_tr("SIP T1 Timeout")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16099")}&nbsp;<Tooltip title={this.tips_tr("SIP T1 Timeout")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipt1to', {
                         initialValue: this.props.itemValues['sipt1to'] ? this.props.itemValues['sipt1to'] : "50"
                     })(
@@ -474,7 +474,7 @@ class SipForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_sipt2int")}&nbsp;<Tooltip title={this.tips_tr("SIP T2 Interval")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16100")}&nbsp;<Tooltip title={this.tips_tr("SIP T2 Interval")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipt2int', {
                         initialValue: this.props.itemValues['sipt2int'] ? this.props.itemValues['sipt2int'] : "200"
                     })(
@@ -501,19 +501,19 @@ class SipForm extends React.Component {
                         <Input type="text" className={"P-" + nvram["siptdint"]} />
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_removeobp")}&nbsp;<Tooltip title={this.tips_tr("Remove OBP from Route")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16101")}&nbsp;<Tooltip title={this.tips_tr("Remove OBP from Route")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('removeobp', {
                         initialValue: this.props.itemValues['removeobp'] ? this.props.itemValues['removeobp'] : "0"
                     })(
                         <Select className={"P-" + nvram["removeobp"]}>
-                            <Option value="0">{callTr("a_disable")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
                             <Option value="1">{callTr("a_active")}</Option>
                             <Option value="2">{callTr("a_always")}</Option>
                         </Select>
                     )}
                 </FormItem>
 
-                <FormItem label={(<span>{callTr("a_checkdomain")}&nbsp;<Tooltip title={this.tips_tr("Check Domain Certificates")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16102")}&nbsp;<Tooltip title={this.tips_tr("Check Domain Certificates")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 检查域名证书 */}
                     {getFieldDecorator('checkdomain', {
                         valuePropName: 'checked',
@@ -522,7 +522,7 @@ class SipForm extends React.Component {
                     }
                 </FormItem>
 
-                <FormItem label={(<span>{callTr("a_validatecert")}&nbsp;<Tooltip title={this.tips_tr("Validate Certification Chain")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19336")}&nbsp;<Tooltip title={this.tips_tr("Validate Certification Chain")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 验证证书链 */}
                     {getFieldDecorator('validatecert', {
                         valuePropName: 'checked',
@@ -532,7 +532,7 @@ class SipForm extends React.Component {
                 </FormItem>
 
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('opensession', {

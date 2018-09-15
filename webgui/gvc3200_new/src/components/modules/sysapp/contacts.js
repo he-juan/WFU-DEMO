@@ -53,13 +53,13 @@ class SlidingTabsDemo extends Component {
         let hideItem = [];
         let tabList =
                 <Tabs className="config-tab" activeKey={this.props.activeKey} style={{'minHeight': this.props.mainHeight}} onChange={this.onChange}>
-                    <TabPane tab={this.props.callTr("account_general")} key={0}>
+                    <TabPane tab={this.props.callTr("a_16023")} key={0}>
                         <ContactsGeneralForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
                     </TabPane>
                     <TabPane tab={this.props.callTr("a_imexportcontacts")} key={1}>
                         <ContactsImexportForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
                     </TabPane>
-                    <TabPane tab={this.props.callTr("a_downloadcontacts")} key={2}>
+                    <TabPane tab={this.props.callTr("a_4808")} key={2}>
                         <ContactsDownloadForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
                     </TabPane>
                     <TabPane tab={this.props.callTr("a_contact")} key={3}>

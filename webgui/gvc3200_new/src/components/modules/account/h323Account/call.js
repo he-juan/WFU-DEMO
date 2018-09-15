@@ -70,26 +70,26 @@ class CallForm extends React.Component {
                         initialValue: this.props.itemValues['autoanswer'] ? this.props.itemValues['autoanswer'] : "0"
                     })(
                         <Select className={"P-25048"}>
-                            <Option value="0">{callTr("a_no")}</Option>
-                            <Option value="1">{callTr("a_yes")}</Option>
+                            <Option value="0">{callTr("a_22005")}</Option>
+                            <Option value="1">{callTr("a_22004")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_enableh225keepalive")}&nbsp;<Tooltip title={this.tips_tr("？？")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19160")}&nbsp;<Tooltip title={this.tips_tr("？？")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('h225alive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['h225alive'])
                     })(<Checkbox className={"P-25058"} />)
                     }
                 </FormItem>     
-                <FormItem label={(<span>{callTr("a_enableh245keepalive")}&nbsp;<Tooltip title={this.tips_tr("？？")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19161")}&nbsp;<Tooltip title={this.tips_tr("？？")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('h245alive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['h245alive'])
                     })(<Checkbox className={"P-25057"} />)
                     }
                 </FormItem>  
-                <FormItem label={(<span>{callTr("a_enableRTDR")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19192")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('enablertdr', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['enablertdr'])
@@ -97,7 +97,7 @@ class CallForm extends React.Component {
                     }
                 </FormItem> 
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>;
 

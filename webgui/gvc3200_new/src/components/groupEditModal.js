@@ -146,7 +146,7 @@ class GroupEditModal extends Component {
         const selectItems = this.props.selectItems;
         const obj = this.props.obj;
         return (
-             <Modal title={callTr('a_groupedit')} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='groups-modal' visible={this.props.displayGroupModal}>
+             <Modal title={callTr('a_4837')} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='groups-modal' visible={this.props.displayGroupModal}>
                 <Form hideRequiredMark>
                     <FormItem label={(<span>{callTr("a_groupname")}</span>)}>
                         {getFieldDecorator('groupname', {
@@ -160,7 +160,7 @@ class GroupEditModal extends Component {
                             initialValue:obj.ringtone
                         })(
                             <Select style={{width:'89%'}}>
-                                <Option value="content://settings/system/ringtone">{callTr("a_sysdefault")}</Option>
+                                <Option value="content://settings/system/ringtone">{callTr("a_8421")}</Option>
                                 <Option value="ringtone_silence">Silent</Option>
                                 {children}
                             </Select>
@@ -181,7 +181,7 @@ class GroupEditModal extends Component {
                                         )}
                                     </Col>
                                     <Col span={6}>
-                                        <span>{callTr('a_selectall')}</span>
+                                        <span>{callTr('a_23017')}</span>
                                     </Col>
                                 </Row>
                                 {

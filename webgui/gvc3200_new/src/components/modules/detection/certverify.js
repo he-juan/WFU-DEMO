@@ -15,9 +15,9 @@ class CertVerify extends Component {
     }
 
     componentDidMount = () => {
-        this.props.promptSpinMsg('display-block', "a_process");
+        this.props.promptSpinMsg('display-block', "a_9348");
         this.props.diagnosePem((data) => {
-            this.props.promptSpinMsg('display-hidden', "a_process");
+            this.props.promptSpinMsg('display-hidden', "a_9348");
             if (data.response == "true") {
                 this.setState({validtype: 1});
             } else {

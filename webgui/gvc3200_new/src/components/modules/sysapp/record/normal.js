@@ -83,19 +83,19 @@ class Normal extends Component {
         const _createActions = this.props._createActions;
         const callTr = this.props.callTr;
         const columnsNor = [{
-            title: callTr("a_file"),
+            title: callTr("a_2040"),
             key: 'row0',
             dataIndex: 'row0',
             className: 'filename'
         }, {
-            title: callTr("a_time"),
+            title: callTr("a_6289"),
             key: 'row1',
             dataIndex: 'row1',
             render: (text, record, index) => (
                 _createDuration(text, record, index)
             )
         },{
-            title: callTr("a_date"),
+            title: callTr("a_4304"),
             key: 'row2',
             dataIndex: 'row2',
             render: (text, record, index) => (
@@ -136,13 +136,13 @@ class Normal extends Component {
                         <Popconfirm placement="right" title={this.tr("a_deleteall")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDeleteMultiNor}>
                             <Button className="select-delete" type="primary" disabled={!hasSelected}>
                                 <i className={!hasSelected ? "select-delete-icon" : ""} />
-                                {this.tr("a_delete")}
+                                {this.tr("a_19067")}
                             </Button>
                         </Popconfirm>
                     </div>
                     <div style={{'float':'right'}}>
                         <div className = 'search_div'>
-                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleChangeNor.bind(this)} placeholder = {callTr("a_searchfile")}></Input>
+                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleChangeNor.bind(this)} placeholder = {callTr("a_2036")}></Input>
                         </div>
                     </div>
                 </div>

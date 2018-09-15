@@ -80,11 +80,11 @@ class GuestForm extends Component {
                             initialValue: itemvalue['publicmodeint'] ? itemvalue['publicmodeint'] : "0"
                         })(
                             <Select className={"P-22016"}>
-    							<Option value="0">{callTr("a_never")}</Option>
-    							<Option value="60">{"1 " + callTr("a_hour")}</Option>
-    							<Option value="120">{"2 " + callTr("a_hours")}</Option>
-    							<Option value="240">{"4 " + callTr("a_hours")}</Option>
-    							<Option value="480">{"8 " + callTr("a_hours")}</Option>
+    							<Option value="0">{callTr("a_42")}</Option>
+    							<Option value="60">{"1 " + callTr("a_15007")}</Option>
+    							<Option value="120">{"2 " + callTr("a_15008")}</Option>
+    							<Option value="240">{"4 " + callTr("a_15008")}</Option>
+    							<Option value="480">{"8 " + callTr("a_15008")}</Option>
     						</Select>
                         )}
                     </FormItem>
@@ -97,7 +97,7 @@ class GuestForm extends Component {
                         )}
                     </FormItem>
                     <FormItem>
-                        <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                        <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                     </FormItem>
                 </Form>
             </div>;

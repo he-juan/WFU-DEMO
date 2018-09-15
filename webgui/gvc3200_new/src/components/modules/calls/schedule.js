@@ -105,7 +105,7 @@ class History extends Component {
         return (
             <div>
                 <Content className="content-container config-container">
-                    <div className="subpagetitle">{this.tr("meeting_schedule")}</div>
+                    <div className="subpagetitle">{this.tr("a_10011")}</div>
                     <Button className='btn_addschedule' onClick={this.handleNewConf} type="primary" >
                         {callTr('a_10035')}
                     </Button>

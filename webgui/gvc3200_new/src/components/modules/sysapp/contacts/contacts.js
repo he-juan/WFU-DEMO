@@ -193,19 +193,19 @@ class ContactsForm extends Component {
                 <Row type="flex" justify="around" align="middle" style={{ height: '60px', fontSize: '0.875rem'}}>
                     <Col span={2}>
                         <Checkbox onChange={this.selectAllCheckbox.bind(this,'multi')} data-classname='select-all-checkbox' ></Checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="primary" size='large' disabled={this.state.deleteBtn} onClick={this.handleDeleteMultiple}>{callTr('a_delete')}</Button>
+                        <Button type="primary" size='large' disabled={this.state.deleteBtn} onClick={this.handleDeleteMultiple}>{callTr('a_19067')}</Button>
                     </Col>
                     <Col span={2}>
-                        <Button type="primary" size='large' onClick={this.handleImport}>{callTr('a_import')}</Button>
+                        <Button type="primary" size='large' onClick={this.handleImport}>{callTr('a_45')}</Button>
                     </Col>
                     <Col span={2}>
-                        <Button type="primary" size='large' onClick={this.handleExport}>{callTr('a_export')}</Button>
+                        <Button type="primary" size='large' onClick={this.handleExport}>{callTr('a_34')}</Button>
                     </Col>
                     <Col span={2}>
                         <Button type="primary" size='large' onClick={this.handleAddContact}>{callTr('a_23')}</Button>
                     </Col>
                     <Col span={6}>
-                        <Search style={{marginTop:'-0.5rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                        <Search style={{marginTop:'-0.5rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_9603')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                     </Col>
                 </Row>
                 {
@@ -236,8 +236,8 @@ class ContactsForm extends Component {
                                 <Col span={4} data-className='divcallbtn' data-contactid={item['Id']}>
                                     {/*<Button type="button" id='itemcallbtn' className='itemoperbtn'></Button>*/}
                                     {/*<Button type="button" id='itemdetailbtn' className='itemoperbtn'></Button>*/}
-                                    <Button type="button" id='itemeditbtn' className='itemoperbtn' onClick={this.handleEditContact.bind(this,item)} style={{marginRight:'10px'}}>{callTr('a_edit')}</Button>
-                                    <Button type="button" id='itemdelbtn' className='itemoperbtn' onClick={this.handleRemoveContact.bind(this,item['Id'])}>{callTr('a_delete')}</Button>
+                                    <Button type="button" id='itemeditbtn' className='itemoperbtn' onClick={this.handleEditContact.bind(this,item)} style={{marginRight:'10px'}}>{callTr('a_22')}</Button>
+                                    <Button type="button" id='itemdelbtn' className='itemoperbtn' onClick={this.handleRemoveContact.bind(this,item['Id'])}>{callTr('a_19067')}</Button>
                                 </Col>
                             </Row>
                         )

@@ -211,7 +211,7 @@ class Call extends Component {
         const _createActions = this.props._createActions;
         let curDataList = this.state.curDataList;
         const columns = [{
-            title: callTr("a_file"),
+            title: callTr("a_2040"),
             key: 'row0',
             dataIndex: 'row0',
             className: 'filename',
@@ -220,7 +220,7 @@ class Call extends Component {
                 _createName(text, record, index)
             )
         }, {
-            title: callTr("a_time"),
+            title: callTr("a_6289"),
             key: 'row1',
             dataIndex: 'row1',
             width: '40%',
@@ -228,7 +228,7 @@ class Call extends Component {
                 _createDuration(text, record, index)
             )
         },{
-            title: callTr("a_date"),
+            title: callTr("a_4304"),
             key: 'row2',
             dataIndex: 'row2',
             width: '20%',
@@ -268,13 +268,13 @@ class Call extends Component {
                         <Popconfirm placement="right" title={this.tr("a_deleteall")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDeleteMulti}>
                             <Button className="select-delete" type="primary" disabled={!hasSelected}>
                                 <i className={!hasSelected ? "select-delete-icon" : ""} />
-                                {this.tr("a_delete")}
+                                {this.tr("a_19067")}
                             </Button>
                         </Popconfirm>
                     </div>
                     <div style={{'float':'right'}}>
                         <div className = 'search_div'>
-                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_searchfile")}></Input>
+                            <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_2036")}></Input>
                         </div>
                     </div>
                 </div>

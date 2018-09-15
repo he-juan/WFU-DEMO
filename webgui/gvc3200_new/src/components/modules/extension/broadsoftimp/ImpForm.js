@@ -62,13 +62,13 @@ class ImpForm extends Component {
                         <Select className="P-2965">
                         {
                             [...Array(this.props.maxAcctNum)].map((item, i) => {
-                                return <Option value={i + ""}>{callTr("a_acct") + (i+1)}</Option>
+                                return <Option value={i + ""}>{callTr("a_7476") + (i+1)}</Option>
                             })
                         }
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_autologin")}<Tooltip title={callTipsTr("Auto Login")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16364")}<Tooltip title={callTipsTr("Auto Login")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("autologin", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['autologin'])
@@ -85,7 +85,7 @@ class ImpForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
         

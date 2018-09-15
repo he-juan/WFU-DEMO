@@ -24,10 +24,10 @@ class LoginMain extends React.Component {
 			pwdstatus3: "password",
 			userType: "admin",
 			identifyingCode: "a_identifyingCode",
-			changeAdmin: "a_newPassword",
-			changeAdmin2: "a_confirmPassword",
-			changeUser: "a_newPassword",
-			changeUser2: "a_confirmPassword",
+			changeAdmin: "a_6157",
+			changeAdmin2: "a_6159",
+			changeUser: "a_6157",
+			changeUser2: "a_6159",
 			idCodeValue: "",
 			submitDisabled: false,
 			isChangePwdPage: false,
@@ -315,7 +315,7 @@ class LoginMain extends React.Component {
 	}
 
 	onBlurchangeAdmin = () => {
-		this.setState({changeAdmin: "a_newPassword"})
+		this.setState({changeAdmin: "a_6157"})
 	}
 
 	onFocuschangeAdmin2 = () => {
@@ -323,7 +323,7 @@ class LoginMain extends React.Component {
 	}
 
 	onBlurchangeAdmin2 = () => {
-		this.setState({changeAdmin2: "a_confirmPassword"})
+		this.setState({changeAdmin2: "a_6159"})
 	}
 
 	onFocuschangeUser = () => {
@@ -331,7 +331,7 @@ class LoginMain extends React.Component {
 	}
 
 	onBlurchangeUser = () => {
-		this.setState({changeUser: "a_newPassword"})
+		this.setState({changeUser: "a_6157"})
 	}
 
 	onFocuschangeUser2 = () => {
@@ -339,7 +339,7 @@ class LoginMain extends React.Component {
 	}
 
 	onBlurchangeUser2 = () => {
-		this.setState({changeUser2: "a_confirmPassword"})
+		this.setState({changeUser2: "a_6159"})
 	}
 
 	handleSubmit2 = (e) => {
@@ -664,7 +664,7 @@ class LoginMain extends React.Component {
 					</div>
 					<div className={this.state.isChangePwdPage ? "" : "hide"} id="changePwdBox">
 						<div className="titleDiv">
-							<span className="titleSpan">{this.tr("a_loginChangePassword")}</span>
+							<span className="titleSpan">{this.tr("a_6295")}</span>
 						</div>
 						<div className="loginDiv">
 							<Form onSubmit={this.handleSubmit2}>
@@ -746,7 +746,7 @@ class LoginMain extends React.Component {
 									}
 									<Button id="loginbtn2" key="submit" type="primary" htmlType="submit"
 									        disabled={this.state.submitDisabled}>
-										{this.tr("a_save")}
+										{this.tr("a_17")}
 									</Button>
 
 								</div>

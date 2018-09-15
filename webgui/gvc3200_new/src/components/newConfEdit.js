@@ -28,7 +28,7 @@ class NewContactsEdit extends Component {
             selectedCallRowKeys:[],
             value:"",
             cycle_group_class:{
-                str_interval: 'a_everyFixedDays',
+                str_interval: 'a_15028',
                 customRepeat:'display-hidden',
                 everyFixedDays: 'display-hidden',
                 dayofweek: 'display-hidden',
@@ -107,7 +107,7 @@ class NewContactsEdit extends Component {
         }
         let memberData = this.state.curMember
         if(memberData.length == 0) {
-            this.props.promptMsg('ERROR','a_memberempty');
+            this.props.promptMsg('ERROR','a_16436');
             return
         }
         let host = 1
@@ -320,7 +320,7 @@ class NewContactsEdit extends Component {
             everyFixedYear: 'display-hidden',
             customClass:'display-hidden',
             interval:'display-hidden',
-            str_interval:'a_everyFixedDays'
+            str_interval:'a_15028'
         };
         if (value == '7') {
             mode.customRepeat = 'display-block'
@@ -343,7 +343,7 @@ class NewContactsEdit extends Component {
             everyFixedYear: 'display-hidden',
             customClass:'display-block',
             interval:'display-block',
-            str_interval:'a_everyFixedDays'
+            str_interval:'a_15028'
         };
         if (value == '0') {
             mode.everyFixedDays = 'display-block'
@@ -1134,7 +1134,7 @@ class NewContactsEdit extends Component {
                                 </Select>
                             )}
                             &nbsp;&nbsp;
-                            <span>{callTr("a_Hour")}</span>
+                            <span>{callTr("a_15007")}</span>
                         </FormItem>
                         <FormItem label={(<span>{callTr("a_10024")}</span>)}>
                             {getFieldDecorator('confpreset', {
@@ -1181,7 +1181,7 @@ class NewContactsEdit extends Component {
                                 <Input disabled={allDisabled} style={{width:'40%'}}/>
                             )}
                         </FormItem>
-                        <FormItem className={ classObj.dayofweek + " " + "mutilCheckbox" } label={< span > { callTr("a_dayofweek") }</span >}>
+                        <FormItem className={ classObj.dayofweek + " " + "mutilCheckbox" } label={< span > { callTr("a_16346") }</span >}>
                             {getFieldDecorator('dayofweek', {
                                 rules: [],
                                 // initialValue: this.props.itemValues['dayofweek']
@@ -1196,37 +1196,37 @@ class NewContactsEdit extends Component {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[1])
                             })(
-                                <Checkbox disabled={allDisabled}>{callTr("a_monday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_124")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek2', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[2])
                             })(
-                                <Checkbox disabled={allDisabled}>{callTr("a_tuesday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_125")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek3', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[3])
                             })(
-                                <Checkbox disabled={allDisabled}>{callTr("a_wednesday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_126")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek4', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[4])
                             })(
-                                <Checkbox disabled={allDisabled}>{callTr("a_thursday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_127")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek5', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[5])
                             })(
-                                <Checkbox disabled={allDisabled}>{callTr("a_friday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_128")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek6', {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[6])
                             })(
-                                <Checkbox disabled={allDisabled}>{callTr("a_saturday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_129")}</Checkbox>
                             )}
                         </FormItem>
                         <FormItem className={ classObj.monthByDay } label={(<span>{callTr("a_15032")}</span>)}>
@@ -1349,7 +1349,7 @@ class NewContactsEdit extends Component {
                                 />
                             </div>
                         </TabPane>
-                        <TabPane tab = {this.tr("call_history")} key='1'>
+                        <TabPane tab = {this.tr("a_3536")} key='1'>
                             <div className="scrollbox">
                                 <div style={{marginBottom:'15px'}}>
                                     <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchCall.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_65")}></Input>

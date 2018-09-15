@@ -13,25 +13,25 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 let req_items;
-var city_names = [ "a_gmt0", "a_Midway","a_Honolulu","a_Anchorage",
-"a_Los_Angeles","a_Tijuana","a_Phoenix","a_Chihuahua","a_Denver",
-"a_Costa_Rica", "a_Chicago","a_Mexico_City","a_Regina","a_Bogota",
-"a_New_York","a_Caracas","a_Barbados","a_Halifax","a_Manaus",
-"a_Santiago","a_St_Johns", "a_Recife", "a_Sao_Paulo", "a_Buenos_Aires",
-"a_Godthab","a_Montevideo","a_South_Georgia","a_Azores","a_Cape_Verde",
-"a_Casablanca", "a_London", "a_Amsterdam",
-"a_Belgrade", "a_Brussels", "a_Madrid", "a_Sarajevo", "a_Windhoek", "a_Brazzaville",
-"a_Amman", "a_Athens", "a_Istanbul", "a_Beirut", "a_Cairo", "a_Helsinki",
-"a_Jerusalem", "a_Minsk", "a_Harare","a_Baghdad",
-"a_Moscow", "a_Kuwait", "a_Nairobi", "a_Tehran", "a_Baku",
-"a_Tbilisi", "a_Yerevan", "a_Dubai", "a_Kabul", "a_Karachi",
-"a_Oral", "a_Yekaterinburg", "a_Calcutta", "a_Colombo", "a_Katmandu",
-"a_Almaty", "a_Rangoon","a_Krasnoyarsk","a_Bangkok", "a_Jakarta",
-"a_Shanghai", "a_Hong_Kong", "a_Irkutsk",
-"a_Kuala_Lumpur", "a_Perth", "a_Taipei", "a_Seoul", "a_Tokyo",
-"a_Yakutsk", "a_Adelaide", "a_Darwin", "a_Brisbane", "a_Hobart",
-"a_Sydney","a_Vladivostok","a_Guam","a_Magadan", "a_Noumea", "a_Majuro", "a_Auckland",
-"a_Fiji","a_Tongatapu"];
+var city_names = [ "a_16489", "a_16491","a_16492","a_16493",
+"a_16494","a_16495","a_16496","a_16497","a_16498",
+"a_16499", "a_16500","a_16501","a_16502","a_16503",
+"a_16504","a_16505","a_16506","a_16507","a_16508",
+"a_16509","a_16510", "a_16711", "a_16511", "a_16512",
+"a_16513","a_16514","a_16515","a_16516","a_16517",
+"a_16518", "a_London", "a_Amsterdam",
+"a_16521", "a_16522", "a_16712", "a_16523", "a_16524", "a_16525",
+"a_Amman", "a_Athens", "a_16713", "a_Beirut", "a_16529", "a_16530",
+"a_16531", "a_16532", "a_16533","a_16534",
+"a_16535", "a_16536", "a_16537", "a_16538", "a_16539",
+"a_16540", "a_16541", "a_16542", "a_16543", "a_Karachi",
+"a_16545", "a_16546", "a_16547", "a_16548", "a_16549",
+"a_16550", "a_16551","a_16552","a_16553", "a_16714",
+"a_16554", "a_16555", "a_16556",
+"a_16557", "a_16558", "a_16559", "a_16560", "a_Tokyo",
+"a_16562", "a_16563", "a_16564", "a_16565", "a_16566",
+"a_Sydney","a_16568","a_16569","a_16570", "a_Noumea", "a_Majuro", "a_16571",
+"a_16572","a_16573"];
 
 const childrenValue = ["GMT","Pacific/Midway","Pacific/Honolulu","America/Anchorage","America/Los_Angeles","America/Tijuana",
         "America/Phoenix","America/Chihuahua","America/Denver","America/Costa_Rica","America/Chicago","America/Mexico_City",
@@ -287,19 +287,19 @@ class TimezoneForm extends Component {
                     })(<Input className="30"/>)}
                 </FormItem>
                 {/* 设置日期 */}
-                <FormItem label={<span>{callTr("a_setdate")}<Tooltip title={callTipsTr("??")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                <FormItem label={<span>{callTr("a_16202")}<Tooltip title={callTipsTr("??")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator("date", {
                         initialValue: initialDate
                     })(<DatePicker format={this.datefmtMap[this.state.datefmt]} allowClear={false} showToday={false} onChange={this.dateChangeHandler} />)}
                 </FormItem>
                 {/* 设置时间 */}
-                <FormItem label={<span>{callTr("a_settime")}<Tooltip title={callTipsTr("??")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                <FormItem label={<span>{callTr("a_9067")}<Tooltip title={callTipsTr("??")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator("time", {
                         initialValue: initialTime
                     })(<TimePicker use12Hours={this.state.timefmt == '0'} format={this.timefmtMap[this.state.timefmt]} allowEmpty={false} onChange={this.timeChangeHandler}/> )}
                 </FormItem>
 
-                <FormItem className="select-item" label={<span>{callTr("a_timezone")} <Tooltip title={callTipsTr("Time Zone")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                <FormItem className="select-item" label={<span>{callTr("a_23527")} <Tooltip title={callTipsTr("Time Zone")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator('timezone', {
                         rules: [],
                         initialValue: timezone
@@ -310,7 +310,7 @@ class TimezoneForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={<span>{callTr("a_dhcpoption")} <Tooltip title={callTipsTr("DHCP Option 42 Override NTP Server")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                <FormItem label={<span>{callTr("a_16206")} <Tooltip title={callTipsTr("DHCP Option 42 Override NTP Server")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator("overridentp", {
                         rules: [],
                         valuePropName: 'checked',
@@ -320,7 +320,7 @@ class TimezoneForm extends Component {
                     )}
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={<span>{callTr("a_allowdhcpset")} <Tooltip title={callTipsTr("DHCP Option 2 to override Time Zone setting")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                <FormItem label={<span>{callTr("a_16207")} <Tooltip title={callTipsTr("DHCP Option 2 to override Time Zone setting")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator("overrideset", {
                         rules: [],
                         valuePropName: 'checked',
@@ -342,22 +342,22 @@ class TimezoneForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem className="select-item" label={<span>{callTr("a_datefmt")} <Tooltip title={callTipsTr("Date Display Format")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
+                <FormItem className="select-item" label={<span>{callTr("a_16209")} <Tooltip title={callTipsTr("Date Display Format")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator('datefmt', {
                         rules: [],
                         initialValue: this.props.itemValues["datefmt"] ? this.props.itemValues["datefmt"] : "0"
                     })(
                         <Select className="P-102" onChange={(v) => {this.handleDatefmt(v)}}>
                             <Option value="3">{callTr("a_normalymd")}</Option>
-                            <Option value="0">{callTr("a_ymd")}</Option>
-                            <Option value="1">{callTr("a_mdy")}</Option>
-                            <Option value="2">{callTr("a_dmy")}</Option>
+                            <Option value="0">{callTr("a_16211")}</Option>
+                            <Option value="1">{callTr("a_16212")}</Option>
+                            <Option value="2">{callTr("a_16213")}</Option>
                         </Select>
                     )
                     }
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
             </LocaleProvider>;

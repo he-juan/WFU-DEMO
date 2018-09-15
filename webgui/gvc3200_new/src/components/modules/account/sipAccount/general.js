@@ -105,21 +105,21 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form onSubmit={this.handleSubmit}>
-               <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem label={(<span>{callTr("a_23532")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
                     })(<Checkbox className={"P-" + nvram["accountactive"]} />)
                     }
                </FormItem>
-               <FormItem label={(<span>{callTr("a_accountname")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_23535")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('accountname', {
                         rules: [{ max:64, message: callTr("max_length64"), whitespace: true }],
                         initialValue: this.props.itemValues['accountname'] ? this.props.itemValues['accountname'] : ""
                     })(<Input className={"P-" + nvram["accountname"]} />)
                     }
                </FormItem>
-               <FormItem label={(<span>{callTr("a_sipserver")}&nbsp;<Tooltip title={this.tips_tr("SIP Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_23536")}&nbsp;<Tooltip title={this.tips_tr("SIP Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('sipserver', {
                        rules: [{
                          max:64,message: callTr("max_length64"),
@@ -133,7 +133,7 @@ class GeneralForm extends React.Component {
                        <Input type="text" id="sipserver" className={"P-" + nvram["sipserver"]} />
                  )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_secsipserver")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16055")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('secsipserver', {
                             rules: [{
                                 max:64,message: callTr("max_length64"),
@@ -147,7 +147,7 @@ class GeneralForm extends React.Component {
                             <Input type="text" id="secsipserver" className={"P-" + nvram["secsipserver"]} />
                     )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_tertsipserver")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_19168")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('thirdsipserver', {
                             rules: [{
                                 max:64,message: callTr("max_length64"),
@@ -193,7 +193,7 @@ class GeneralForm extends React.Component {
                        <Input type={this.state.pwdstatus} id = "authpwd" name = "authpwd" className={"P-" + nvram["authpwd"]} suffix={<Icon type="eye" className={this.state.pwdstatus} onClick={this.handlePwdVisible} />}/>
                    )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_displayname")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_1126")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('name', {
                        rules: [{
                           max:64,message: callTr("max_length64"),
@@ -215,7 +215,7 @@ class GeneralForm extends React.Component {
                    )}
                </FormItem>
               <FormItem>
-                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>
         </Form>;
         let hideItem = this.props.hideItem;

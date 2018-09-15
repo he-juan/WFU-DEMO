@@ -122,13 +122,13 @@ class SipCert extends Component {
                                 maxnum --;
                                 break;
                             case "2":
-                                message.error(callTr("a_invalidcerttype"));
+                                message.error(callTr("a_19215"));
                                 break;
                             case "3":
-                                message.error(callTr("a_samecert"));
+                                message.error(callTr("a_19216"));
                                 break;
                             default:
-                                message.error(callTr("a_invalidcert"));
+                                message.error(callTr("a_19214"));
                         }
                     });
                 }else if(status === "error"){
@@ -140,22 +140,22 @@ class SipCert extends Component {
         return(
             <div className="ca-cert-block">
                 <div style={{"fontSize":"0.875rem", "margin-bottom":"40px"}}>
-                    <div>{callTr("a_importcert")}</div>
+                    <div>{callTr("a_19222")}</div>
                     <Upload {...caCertProps}>
                         <Button className="upload-btn" disabled={!maxnum}>
                             <span className="upload-icon" />
-                            <span style={{marginLeft: "5px"}}>{callTr("a_upload")}</span>
+                            <span style={{marginLeft: "5px"}}>{callTr("a_16197")}</span>
                         </Button>
                     </Upload>
                 </div>
                 <div style={{"fontSize":"0.875rem", "margin-bottom":"10px"}}>
-                    {callTr("a_vericert")}
+                    {callTr("a_19223")}
                 </div>
                 <Table className="list-table" style={{maxWidth: "950px", paddingRight: "40px"}} dataSource={certdata} pagination={false} >
-                    <Column title={callTr("a_snumber")} dataIndex="certorder" key="certorder" />
-                    <Column title={callTr("a_issuedto")} dataIndex="issuedto" key="issuedto" />
-                    <Column title={callTr("a_issuedby")} dataIndex="issuedby" key="issuedby" />
-                    <Column title={callTr("a_validdate")} dataIndex="validate" key="validate" />
+                    <Column title={callTr("a_19218")} dataIndex="certorder" key="certorder" />
+                    <Column title={callTr("a_19219")} dataIndex="issuedto" key="issuedto" />
+                    <Column title={callTr("a_19220")} dataIndex="issuedby" key="issuedby" />
+                    <Column title={callTr("a_19221")} dataIndex="validate" key="validate" />
                     <Column title={callTr("a_operate")} key="delete" render={(text, record, index) => (
                         <span>
                             <Popconfirm placement="top" title={callTr("a_promptdelete")} okText={callTr("a_2")} cancelText={callTr("a_3")}

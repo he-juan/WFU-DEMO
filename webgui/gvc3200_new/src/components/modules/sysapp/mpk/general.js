@@ -78,7 +78,7 @@ class GeneralForm extends Component {
                 <Row type="flex" justify="around" className="mpk-general" align="middle" style={{backgroundColor:'#f7fafc',borderTop:'1px solid #eceff2',borderBottom:'1px solid #eceff2',height:'40px',fontSize:'0.875rem'}}>
                     <Col span={1}></Col>
                     <Col span={3}>{callTr("a_account")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" style={{marginLeft: '5px', color: '#08c' }} /></Tooltip></Col>
-                    <Col span={6}>{callTr("a_callpre")}&nbsp;<Tooltip title={this.tips_tr("BLF Call-pickup Prefix")}><Icon type="question-circle-o" style={{marginLeft: '5px', color: '#08c' }} /></Tooltip></Col>
+                    <Col span={6}>{callTr("a_7419")}&nbsp;<Tooltip title={this.tips_tr("BLF Call-pickup Prefix")}><Icon type="question-circle-o" style={{marginLeft: '5px', color: '#08c' }} /></Tooltip></Col>
                     <Col span={6}>{callTr("a_eventuri")}&nbsp;<Tooltip title={this.tips_tr("Eventlist BLF URI")}><Icon type="question-circle-o" style={{marginLeft: '5px', color: '#08c' }} /></Tooltip></Col>
                     <Col span={6}>{callTr("a_forceblf")}&nbsp;<Tooltip title={this.tips_tr("Force BLF Call-pickup by Prefix")}><Icon type="question-circle-o" style={{marginLeft: '5px', color: '#08c' }} /></Tooltip></Col>
                 </Row>
@@ -88,7 +88,7 @@ class GeneralForm extends Component {
                         return (
                             <Row type="flex" align="middle" justify="around" className="mpk-general" style={style}>
                                 <Col span={1}></Col>
-                                <Col span={3}>{(itemValues["name"+i] != undefined && itemValues["name"+i] != "" && itemValues["accountactive"+i])==1  ? itemValues["name"+i] : `${this.tr("a_acct")} ${i+1}`}</Col>
+                                <Col span={3}>{(itemValues["name"+i] != undefined && itemValues["name"+i] != "" && itemValues["accountactive"+i])==1  ? itemValues["name"+i] : `${this.tr("a_7476")} ${i+1}`}</Col>
                                 <Col span={6}>
                                     {getFieldDecorator('callpre'+i, {
                                         rules: [{
@@ -123,7 +123,7 @@ class GeneralForm extends Component {
                     })
                 }
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
         )

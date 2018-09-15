@@ -57,7 +57,7 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form>
-               <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem label={(<span>{callTr("a_23532")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
@@ -75,7 +75,7 @@ class GeneralForm extends React.Component {
                    )}
                </FormItem>
               <FormItem>
-                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                  <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>
         </Form>;
         let hideItem = this.props.hideItem;

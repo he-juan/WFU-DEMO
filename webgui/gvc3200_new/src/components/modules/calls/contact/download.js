@@ -153,7 +153,7 @@ class DownloadContactsForm extends Component {
     			break;
     		case '4':
                 let errorCode = phbkprogress;
-                let errorMessage = 'a_downfail';
+                let errorMessage = 'a_3315';
                 if(errorCode == 4) {
                     errorMessage = 'a_nospaceleft';
                 } else if (errorCode == 15) {
@@ -239,7 +239,7 @@ class DownloadContactsForm extends Component {
         return (
             <Modal title={callTr('a_savephone')} className="downloadModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayDwonloadModal}>
                 <Form>
-                    <FormItem label={(<span>{callTr("a_clearoldlist")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem label={(<span>{callTr("a_16485")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('clearold', {
                             valuePropName: 'checked',
                             initialValue: parseInt(itemValues.clearold)
@@ -275,12 +275,12 @@ class DownloadContactsForm extends Component {
                             </RadioGroup>
                     )}
                     </FormItem>
-                    <FormItem label={(<span>{callTr("a_downmode")}&nbsp;<Tooltip title={this.tips_tr("Download Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem label={(<span>{callTr("a_4765")}&nbsp;<Tooltip title={this.tips_tr("Download Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('downmode', {
                             initialValue: itemValues['downmode'] ? itemValues['downmode'] : "0"
                         })(
                             <RadioGroup onChange={this.handleDownModeChange} className="P-330">
-                                <Radio value = "0">{callTr("a_downoff")}</Radio>
+                                <Radio value = "0">{callTr("a_8")}</Radio>
                                 <Radio value = "1">TFTP</Radio>
                                 <Radio value = "2">HTTP</Radio>
                                 <Radio value = "3">HTTPS</Radio>
@@ -288,7 +288,7 @@ class DownloadContactsForm extends Component {
                         )
                         }
                     </FormItem>
-                    <FormItem className = "select-item" label={(<span>{callTr("a_fileencode")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <FormItem className = "select-item" label={(<span>{callTr("a_4755")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('downencodetype', {
                             initialValue: itemValues['downencodetype'] ? itemValues['downencodetype'] : "UTF-8"
                              })(
@@ -307,7 +307,7 @@ class DownloadContactsForm extends Component {
                                  </Select>
                         )}
                　　　</FormItem>
-                    <FormItem label={(<span>{callTr("a_downserver")}&nbsp;<Tooltip title={this.tips_tr("Download Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                    <FormItem label={(<span>{callTr("a_4766")}&nbsp;<Tooltip title={this.tips_tr("Download Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                        {getFieldDecorator('downserver', {
                            rules: [{
                                max:64,message: callTr("max_length64"),
@@ -332,7 +332,7 @@ class DownloadContactsForm extends Component {
                              <Input type="text" name="httpsusername1" className="P-6713"/>
                      )}
                  </FormItem>
-                    <FormItem className={this.state.httpuservisible} label={(<span>{callTr("a_httppass")}&nbsp;<Tooltip title={this.tips_tr("Config HTTP/HTTPS Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                    <FormItem className={this.state.httpuservisible} label={(<span>{callTr("a_4112")}&nbsp;<Tooltip title={this.tips_tr("Config HTTP/HTTPS Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Input type={this.state.pwdstatus1} name = "httpspass1" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator('httpspass', {
                         rules: [{
@@ -357,11 +357,11 @@ class DownloadContactsForm extends Component {
                              </Select>
                     )}
            　　　</FormItem>
-               <FormItem label={(<span>{callTr("a_downnow")}&nbsp;<Tooltip title={this.tips_tr("Download Now")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                   <Button type="primary" onClick={this.handleDownloadContacts} disabled = {this.state.disabled3}>{callTr("a_download")}</Button>
+               <FormItem label={(<span>{callTr("a_20029")}&nbsp;<Tooltip title={this.tips_tr("Download Now")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                   <Button type="primary" onClick={this.handleDownloadContacts} disabled = {this.state.disabled3}>{callTr("a_28")}</Button>
                </FormItem>
                <FormItem className="downloadsave">
-                   <Button type="primary" className="submit" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                   <Button type="primary" className="submit" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                </FormItem>
             </Form>
             </Modal>

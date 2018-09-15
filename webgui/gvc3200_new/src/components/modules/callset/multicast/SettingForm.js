@@ -60,7 +60,7 @@ class SettingForm extends Component {
                         initialValue: itemvalue['pagingbarge'] ? itemvalue['pagingbarge'] : "0"
                     })(
                         <Select className="P-1566">
-                            <Option value="0">{callTr("a_disable")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
                             <Option value="1">1</Option>
                             <Option value="2">2</Option>
                             <Option value="3">3</Option>
@@ -162,9 +162,9 @@ class SettingForm extends Component {
                         initialValue: itemvalue['protype'] ? itemvalue['protype'] : "0"
                     })(
                         <Select className="P-22028">
-                            <Option value="0">{callTr("a_baseline")}</Option>
-                            <Option value="1">{callTr("a_mainp")}</Option>
-                            <Option value="2">{callTr("a_highp")}</Option>
+                            <Option value="0">{callTr("a_16120")}</Option>
+                            <Option value="1">{callTr("a_16121")}</Option>
+                            <Option value="2">{callTr("a_16122")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -185,7 +185,7 @@ class SettingForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
 

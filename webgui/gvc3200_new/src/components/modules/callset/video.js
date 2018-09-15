@@ -40,7 +40,7 @@ class VideoForm extends Component {
 
         return(
             <Form className="configform" hideRequiredMark style={{'min-height':this.props.mainHeight}}>
-                <FormItem label={<span>{callTr("a_vidfr")}<Tooltip placement="bottom" title={callTipsTr("Video Frame Rate")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16274")}<Tooltip placement="bottom" title={callTipsTr("Video Frame Rate")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vfperrate", {
                         initialValue: itemvalue['vfperrate'] ? itemvalue['vfperrate'] : "15"
                     })(
@@ -52,18 +52,18 @@ class VideoForm extends Component {
 						</Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_avspipmode")}<Tooltip placement="bottom" title={callTipsTr("Video Display Mode")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_19365")}<Tooltip placement="bottom" title={callTipsTr("Video Display Mode")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("avspipmode", {
                         initialValue: itemvalue['avspipmode'] ? itemvalue['avspipmode'] : "1"
                     })(
                         <Select className="P-921">
-							<Option value="0">{callTr("a_modeoriginal")}</Option>
-                            <Option value="1">{callTr("a_modecut")}</Option>
-                            <Option value="2">{callTr("a_modeblack")}</Option>
+							<Option value="0">{callTr("a_19366")}</Option>
+                            <Option value="1">{callTr("a_19367")}</Option>
+                            <Option value="2">{callTr("a_19368")}</Option>
 						</Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_viddecodefs")}<Tooltip title={callTipsTr("Enable Frame Skipping in Video Decoder")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16276")}<Tooltip title={callTipsTr("Enable Frame Skipping in Video Decoder")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("viddecodefs", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['viddecodefs'])
@@ -72,7 +72,7 @@ class VideoForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_save")}</Button>
+                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
         );
@@ -97,7 +97,7 @@ class Video extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("advanced_video")}</div>
+                <div className="subpagetitle">{this.tr("a_16009")}</div>
                 <VideoSettingForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} itemValues={this.props.itemValues} />
             </Content>
         );
