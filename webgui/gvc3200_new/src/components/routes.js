@@ -70,12 +70,6 @@ const Dnd  = (location, cb) => {
         cb(null, require('./modules/calls/dnd').default);
     }, 'calls');
 };
-const Blackwhite  = (location, cb) => {
-    require.ensure([], require => {
-        cb(null, require('./modules/calls/blackwhite').default);
-    }, 'calls');
-};
-
 const General  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/callset/general').default);
@@ -366,7 +360,6 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="schedule" getComponent={Schedule}/>
                 <Route onEnter={ requireAuth } path="contact" getComponent={Contact}/>
                 <Route onEnter={ requireAuth } path="dnd" getComponent={Dnd}/>
-                <Route onEnter={ requireAuth } path="blackwhite" getComponent={Blackwhite}/>
             </Route>
             <Route path="callset">
                 <IndexRoute getComponent={ General } />
