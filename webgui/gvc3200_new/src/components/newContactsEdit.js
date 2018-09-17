@@ -51,7 +51,7 @@ class NewContactsEdit extends Component {
         this.props.getItemValues(this.handlePvalue(), (values) => {
             acctnames = values;
         })
-        this.props.getContactCount();
+        // this.props.getContactCount();
     }
 
     connectInputValue = (e) => {
@@ -150,7 +150,6 @@ class NewContactsEdit extends Component {
     handleAddEditContacts = (displayname) => {
         let addoredit = this.props.addNewContact ? 'add' : 'edit';
         let numberstr = "";
-        // let emailstr = "";
         let groupstr = "";
         let numValues = this.props.numValues;
         let addNewContact = this.props.addNewContact;
@@ -160,13 +159,6 @@ class NewContactsEdit extends Component {
         } else {
             numValuesinnr = numValues;
         }
-        // let emailValues = this.props.emailValues;
-        // let emailValuesinnr;
-        // if (emailValues.length === 1 && emailValues[0] === "" && addNewContact == true) {
-        //     emailValuesinnr = this.state.emailValuesinnr;
-        // } else {
-        //     emailValuesinnr = emailValues;
-        // }
         for (var i = 0; i < numValuesinnr.length; i++ ) {
             if (this.props.form.getFieldsValue(['accountnumber' + i])['accountnumber'+i] == "") {
                 continue;
@@ -185,12 +177,6 @@ class NewContactsEdit extends Component {
             }
 
         }
-        // for (var i = 0; i < emailValuesinnr.length; i++) {
-        //     if( emailstr != "" )
-        //         emailstr += ',';
-        //     emailstr += '{"type":"1","address":"' + this.props.form.getFieldsValue(['accountemail' + i])['accountemail'+i]
-        //     emailstr += '"}';
-        // }
         for (var i = 0; i < this.props.groups.length; i++) {
             if( groupstr != "" )
                 groupstr += ',';
@@ -203,8 +189,6 @@ class NewContactsEdit extends Component {
             rawcontact = `{"contactid":"${this.props.editContact['Id']}"}`;
         }
         let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${displayname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[]}`;
-
-        // contactInfo: {"rawcontact":{},"structuredname":{"displayname":"asd"},"groupmembership":[],"phone":[{"type":"1","account":"0","number":"1233331"}],"email":[]}
         this.props.setContacts(infostr,()=>{
             this.props.updateContact()
         })
@@ -239,27 +223,13 @@ class NewContactsEdit extends Component {
         } else {
             numValuesmap = numValues;
         }
-        let emailValues = this.props.emailValues;
-        let emailValuesmap = [];
-        if (emailValues.length === 1 && emailValues[0] === "" && addNewContact == true ) {
-            emailValuesmap = this.state.emailValuesinnr;
-        } else {
-            emailValuesmap = emailValues;
-        }
         let title = this.props.addNewContact ? 'a_4840' : 'a_editContacts';
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
         var acctnumber = new Array;
-        // const children_acctnames = [];
         for (var item in acctnames) {
             acctnumber.push(acctnames[item]);
         }
-        // children_acctnames.push(<Option value = '-1'>{callTr("a_accountdy")}</Option>)
-        // for ( var i = 0; i < acctnumber.length; i++ ) {
-        //     if (acctnumber[i] !== ''){
-        //         children_acctnames.push(<Option value = {i.toString()}>{acctnumber[i]}</Option>)
-        //     }
-        // }
 
         let GroupDisplay = (this.props.groups.length == 0) ? 'none' : 'block';
         return (
@@ -274,11 +244,6 @@ class NewContactsEdit extends Component {
                         })(
                             <Input style={{width:'89%'}}/>
                         )}
-                        {/*&nbsp;&nbsp;*/}
-                        {/*{getFieldDecorator('firstname', {*/}
-                        {/*})(*/}
-                        {/*<Input style={{width:'44%'}} placeholder={callTr('a_208')} />*/}
-                        {/*)}*/}
                     </FormItem>
                     {
                         (numValuesmap != "" || numValuesmap.length > 0) && numValuesmap.map((val,idx,arr) => {

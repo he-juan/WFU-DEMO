@@ -41,7 +41,7 @@ class ContactEditDiv extends Component {
     }
 
     updateContact = () => {
-        this.props.getContactCount();
+        // this.props.getContactCount();
         this.props.getContacts((items)=>{this.setState({items:items})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
         // this.props.getContactsinfo((infos)=>{this.setState({contactsinfo:infos})});

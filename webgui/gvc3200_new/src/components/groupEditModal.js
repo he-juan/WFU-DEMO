@@ -24,9 +24,6 @@ class GroupEditModal extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getTonelist("tonelist", (data)=> {
-            this.getTonelistDone(data);
-        });
         let contactsInformation = this.props.contactsInformation
         this.contactList = contactsInformation;
         this.setState({
@@ -38,19 +35,6 @@ class GroupEditModal extends Component {
         if (this.props.displayGroupModal !== nextProps.displayGroupModal) {
             this.handleSearch('')
             this.props.form.resetFields();
-        }
-    }
-
-    getTonelistDone = (data) => {
-        if( data.substring(0,1) == '{' ) {
-            var json = eval("(" + data + ")");
-            var ringtone = json.Ringtone;
-            ringtone = ringtone.sort((a,b) => {
-                return a['title'].toLowerCase() > b['title'].toLowerCase() ? 1 : -1;
-            });
-            for (var i = 0; ringtone[i] != undefined; i++) {
-                children.push(<Option value = {ringtone[i].data}>{this.props.htmlEncode(ringtone[i].title)}</Option>);
-            }
         }
     }
 
@@ -91,13 +75,13 @@ class GroupEditModal extends Component {
             }
         }
         if (addoredit == 'add') {
-            this.props.setGroups(groupname,ringtone,'',(data) => {
+            this.props.setGroups(groupname,'','',(data) => {
                 this.props.updateGroupMembers(0,data['msg'],contactids);
                 this.props.updateGroups();
             })
         } else {
             if(setGroupsFlag) {
-                this.props.setGroups(groupname,ringtone,editGroup['Id'],()=>{
+                this.props.setGroups(groupname,'',editGroup['Id'],()=>{
 
                 })
             }
@@ -155,17 +139,6 @@ class GroupEditModal extends Component {
                             <Input style={{width: '89%'}} placeholder={callTr('a_groupname')} />
                         )}
                     </FormItem>
-                    {/*<FormItem label={(<span>{callTr("a_groupringtone")}</span>)}>
-                        {getFieldDecorator('ringtone', {
-                            initialValue:obj.ringtone
-                        })(
-                            <Select style={{width:'89%'}}>
-                                <Option value="content://settings/system/ringtone">{callTr("a_8421")}</Option>
-                                <Option value="ringtone_silence">Silent</Option>
-                                {children}
-                            </Select>
-                        )}
-                    </FormItem>*/}
                     <div className = "contactsSelect">
                         <div className = "contactsDiv">
                             <p>{callTr("a_contact")}</p>

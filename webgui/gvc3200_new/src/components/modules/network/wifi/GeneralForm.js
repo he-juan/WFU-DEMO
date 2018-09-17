@@ -21,7 +21,7 @@ class DetailForm extends Component {
             ipaddrdisplay: "display-block",
             ipv4addrdisplay: "display-hidden",
             ipv6addrdisplay: "display-hidden",
-            phase2arr: ["0:a_none", "3:MSCHAPV2", "4:GTC"],
+            phase2arr: ["0:a_20", "3:MSCHAPV2", "4:GTC"],
             cert_iden_visible: ["display-block", "display-hidden", "display-block", "display-block", "display-block"],
         }
     }
@@ -129,7 +129,7 @@ class DetailForm extends Component {
         switch (value) {
             case "0":
                 this.setState({
-                    phase2arr: ["0:a_none", "3:MSCHAPV2", "4:GTC"],
+                    phase2arr: ["0:a_20", "3:MSCHAPV2", "4:GTC"],
                     cert_iden_visible: ["display-block", "display-hidden", "display-block", "display-block", "display-block"],
                 });
                 break;
@@ -141,7 +141,7 @@ class DetailForm extends Component {
                 break;
             case "2":
                 this.setState({
-                    phase2arr: ["0:a_none", "1:PAP", "2:MSCHAP", "3:MSCHAPV2", "4:GTC"],
+                    phase2arr: ["0:a_20", "1:PAP", "2:MSCHAP", "3:MSCHAPV2", "4:GTC"],
                     cert_iden_visible: ["display-block", "display-hidden", "display-block", "display-block", "display-block"],
                 });
                 break;

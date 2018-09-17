@@ -39,7 +39,7 @@ class GroupsAddEditBox extends Component {
 
     componentDidMount = () => {
         this.props.getItemValues(this.handlePvalue())
-        this.props.getContactCount();
+        // this.props.getContactCount();
         this.props.getTonelist("tonelist", (data)=> {
             this.getTonelistDone(data);
         });
@@ -246,7 +246,7 @@ class GroupsForm extends Component {
     }
 
     updateGroups = () => {
-        this.props.getContactCount();
+        // this.props.getContactCount();
         this.props.getContacts((items)=>{this.setState({items:items})});
         this.props.getGroups((groups)=>{
             this.setState({groups:groups})

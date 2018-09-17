@@ -48,19 +48,22 @@ class GroupTab extends Component {
     }
 
     updateGroups = () => {
-        this.props.getContactCount();
+        // this.props.getContactCount();
         this.props.getGroups();
         this.props.getContacts();
+        let self = this
+        setTimeout(function () {
+            self._createData()
+        },500)
     }
 
     handleOkDeleteAll = () => {
         let datasource = this.selectedDataList
         let seletedArr = [];
         for (let i = 0; i <datasource.length ; i++) {
+            this.props.removeGroup(datasource[i].id);
             seletedArr = seletedArr.concat(datasource[i].id)
         }
-        var deleteId = seletedArr.join(',');
-        this.props.removeGroup(deleteId);
         let searchInput = $(".search_div #search")[1]
         if (searchInput.value) {
             searchInput.value = ""

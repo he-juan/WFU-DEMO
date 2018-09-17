@@ -38,7 +38,7 @@ class ContactsEdit extends Component {
 
     componentDidMount = () => {
         this.props.getItemValues(this.handlePvalue())
-        this.props.getContactCount();
+        // this.props.getContactCount();
         this.props.getTonelist("tonelist", (data)=> {
             this.getTonelistDone(data);
         });

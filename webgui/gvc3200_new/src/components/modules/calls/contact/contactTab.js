@@ -45,7 +45,6 @@ class ContactTab extends Component {
     }
 
     componentDidMount = () => {
-        console.log('componentDidMount')
         this.updateContact();
     }
 
@@ -65,7 +64,6 @@ class ContactTab extends Component {
         if($.isArray(nextProps.contactsInformation)
             && $.isArray(nextProps.contactsInformation)
             && this.props.contactsInformation.length !== nextProps.contactsInformation.length) {
-            console.log('componentWillReceiveProps')
             this.updateContact();
             this._createData();
         }
@@ -73,11 +71,10 @@ class ContactTab extends Component {
 
 
     updateContact = () => {
-        this.props.getContactCount();
+        // this.props.getContactCount();
         this.props.getContacts((items)=>{this.setState({items:items})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
         this.props.getContactsinfo();
-        console.log('updateContact')
         if(!this.isEmptyObject(this.props.acctStatus)){
             this.setState({
                 existActiveAccount: this.checkActiveAcct(this.props.acctStatus)
@@ -245,7 +242,6 @@ class ContactTab extends Component {
     handleEditItem = (text, index) => {
         // var firstname = text.firstname;
         var name = text.Name;
-        console.log(text,text.Name)
         this.props.form.resetFields();
         let emailValues = this.state.emailValues;
         let numValues = this.state.numValues;
@@ -260,7 +256,6 @@ class ContactTab extends Component {
         };
         for (var i = 0; i < text.AcctIndex.length; i++) {
             let acctstatus = this.props.acctStatus.headers;
-            console.log('head',this.props.acctStatus.headers)
             var Index = text.AcctIndex[i];
             if(acctstatus[`account_${Index}_no`] == ""){
                 text.AcctIndex[i] = '-1'
@@ -287,11 +282,9 @@ class ContactTab extends Component {
 
     checkRepeatName = (name) => {
         let data = this.props.contactsInformation
-        console.log(this.props.contactsInformation)
         name = name ? name : ""
         // lastname = lastname ? lastname : ""
         for(var i = 0; data[i] != undefined; i++) {
-            // console.log(data[i])
             if(data[i].Name == name)
                 return true;
         }
