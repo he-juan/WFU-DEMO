@@ -966,35 +966,35 @@ export const cb_disconnect_wifi = (callback) => (dispatch) => {
     });
 }
 
-export const cb_sqlite_sitename = (callback) => (dispatch) => {
-    let request = "action=sqlitedisplay&type=sitesetting&affect=read";
+// export const cb_sqlite_sitename = (callback) => (dispatch) => {
+//     let request = "action=sqlitedisplay&type=sitesetting&affect=read";
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = eval("(" + data + ")")
-        callback(tObj.Data);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let tObj = eval("(" + data + ")")
+//         callback(tObj.Data);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
-export const setSitenameInfo = (paramurl, type) => (dispatch) => {
-    let request = "";
-    if(type == 1)
-        request = "action=setsitenameinfo&" + paramurl;
-    else
-        request = "action=setsitenameoffset&" + paramurl;
+// export const setSitenameInfo = (paramurl, type) => (dispatch) => {
+//     let request = "";
+//     if(type == 1)
+//         request = "action=setsitenameinfo&" + paramurl;
+//     else
+//         request = "action=setsitenameoffset&" + paramurl;
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = eval("(" + data + ")")
-        if (tObj.res != "success") {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
-        } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
-        }
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let tObj = eval("(" + data + ")")
+//         if (tObj.res != "success") {
+//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
+//         } else {
+//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+//         }
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
 export const updateLights = () => (dispatch) => {
     let request = "action=updatelights";
@@ -2635,6 +2635,7 @@ export * from './actions.common'
 export * from './actions.account'
 export * from './actions.applications'
 export * from './actions.calls'
+export * from './actions.callset'
 export * from './actions.deviceControl'
 export * from './actions.maintenance'
 export * from './actions.networkSettings'

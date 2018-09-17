@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import * as common from './reducers.common'
 import * as account from './reducers.account'
 import * as calls from './reducers.calls'
+import * as callset from './reducers.callset'
 import * as phoneSetting from './reducers.phoneSettings'
 import * as networkSetting from './reducers.networkSettings'
 import * as systemSettings from './reducers.systemSettings'
@@ -678,14 +679,6 @@ const discoverable = (state={}, action) => {
     }
 }
 
-const thirdapplist = (state={}, action) => {
-    switch (action.type) {
-        case Actions.REQUEST_GET_THIRDAPPLIST:
-            return action.thirdapplist
-        default:
-            return state
-    }
-}
 
 const speakerteststatus = (state=-1,action) => {
     switch (action.type) {
@@ -779,7 +772,6 @@ const rootReducer = combineReducers({
     preconfdata,
     confinfodata,
     presetinfo,
-    thirdapplist,
     bluetooth,
     discoverable,
     speakerteststatus,
@@ -791,6 +783,7 @@ const rootReducer = combineReducers({
     ...account,
     ...applications,
     ...calls,
+    ...callset,
     ...phoneSetting,
     ...networkSetting,
     ...systemSettings,

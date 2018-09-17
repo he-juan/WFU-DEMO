@@ -5,44 +5,44 @@ import { Route, IndexRoute, browserHistory } from 'react-router'
 const SipAcct  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/account/sipAcct').default);
-    }, 'status');
+    }, 'account');
 };
 const IpvtAcct  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/account/ipvtAcct').default);
-    }, 'status');
+    }, 'account');
 };
 
 const BlueJeansAcct = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/account/blueJeansAcct').default);
-    }, 'status');
+    }, 'account');
 }
 
 const H323Acct = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/account/h323Acct').default)
-    }, 'status')
+    }, 'account')
 }
 const Account  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/status/account').default);
-    }, 'account');
+    }, 'status');
 };
 const Network  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/status/network').default);
-    }, 'account');
+    }, 'status');
 };
 const System  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/status/system').default);
-    }, 'account');
+    }, 'status');
 };
 const Storage  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/status/storage').default);
-    }, 'account');
+    }, 'status');
 };
 
 const DialUp  = (location, cb) => {
@@ -100,6 +100,11 @@ const Ptt  = (location, cb) => {
         cb(null, require('./modules/callset/ptt').default);
     }, 'callset');
 };
+const Sitename= (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/callset/sitename').default)
+    }, 'callset')
+}
 
 const Ethernet  = (location, cb) => {
     require.ensure([], require => {
@@ -157,11 +162,7 @@ const Fxo  = (location, cb) => {
         cb(null, require('./modules/sysset/fxo').default);
     }, 'sysset');
 };
-const Sitename  = (location, cb) => {
-    require.ensure([], require => {
-        cb(null, require('./modules/sysset/sitename').default);
-    }, 'sysset');
-};
+
 const BackupForm  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/sysset/backup').default);
@@ -375,6 +376,7 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="video" getComponent={Video}/>
                 <Route onEnter={ requireAuth } path="multicast" getComponent={Multicast}/>
                 <Route onEnter={ requireAuth } path="pagingPtt" getComponent={Ptt}/>
+                <Route onEnter={ requireAuth } path="sitename" getComponent={Sitename}/>
             </Route>
             <Route path="network">
                 <IndexRoute getComponent={ Ethernet } />
@@ -391,7 +393,6 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="peripherals" getComponent={Peripherals}/>
                 <Route onEnter={ requireAuth } path="tr069" getComponent={Tr069}/>
                 <Route onEnter={ requireAuth } path="fxo" getComponent={Fxo}/>
-                <Route onEnter={ requireAuth } path="sitename" getComponent={Sitename}/>
                 <Route onEnter={ requireAuth } path="switch" getComponent={Switch}/>
                 <Route onEnter={ requireAuth } path="backup" getComponent={BackupForm} />
                 <Route onEnter={ requireAuth } path="power" getComponent={Power} />
