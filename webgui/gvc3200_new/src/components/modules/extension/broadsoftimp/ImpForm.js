@@ -62,7 +62,7 @@ class ImpForm extends Component {
                         <Select className="P-2965">
                         {
                             [...Array(this.props.maxAcctNum)].map((item, i) => {
-                                return <Option value={i + ""}>{callTr("a_acct") + (i+1)}</Option>
+                                return <Option value={i + ""}>{callTr("a_301") + (i+1)}</Option>
                             })
                         }
                         </Select>

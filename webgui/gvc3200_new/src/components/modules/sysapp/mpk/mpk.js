@@ -48,7 +48,7 @@ class Child extends Component {
                          initialValue: itemValues.nametype ? itemValues.nametype : "3"
                          })(
                              <Select>
-                                 <Option value="0">{callTr("a_gdsname")}</Option>
+                                 <Option value="0">{callTr("a_7474")}</Option>
                                  <Option value="1">{callTr("a_userid")}</Option>
                                  <Option value="2">{callTr("a_name_userid")}</Option>
                                  <Option value="3">{callTr("a_name_userid_keymode")}</Option>
@@ -736,7 +736,7 @@ class MpkForm extends Component {
                                                     return <Option value={`${i}`}>{checkAcctRig["name"+i] ? checkAcctRig["name"+i] : checkAcctRig["userid"+i]}</Option>
                                                 }
                                             } else {
-                                                return <Option value={`${i}`}>{`${this.tr("a_acct")} ${i+1}`}</Option>
+                                                return <Option value={`${i}`}>{`${this.tr("a_301")} ${i+1}`}</Option>
                                             }
                                         })
                                     }
@@ -796,7 +796,7 @@ class MpkForm extends Component {
                    return <Option value={`${i}`}>{checkAcctRig["name"+i] ? checkAcctRig["name"+i] : checkAcctRig["userid"+i]}</Option>
                                                         }
                                                     } else {
-                                                        return <Option value={`${i}`}>{`${this.tr("a_acct")} ${i+1}`}</Option>
+                                                        return <Option value={`${i}`}>{`${this.tr("a_301")} ${i+1}`}</Option>
                                                     }
                                                 })
                                             }
@@ -818,7 +818,7 @@ class MpkForm extends Component {
                                                 <Input type="text" value={text} onChange={this.changeConfNumber.bind(this,index)}/>
                                             )}
                                     />
-                                    <Column title={this.tr("a_gdsname")} dataIndex="name" key="name" render={(text, record, index) => (
+                                    <Column title={this.tr("a_7474")} dataIndex="name" key="name" render={(text, record, index) => (
                                         <Input type="text" value={text} onChange={this.changeConfName.bind(this,index)}/>
                                     )}/>
                                     <Column title={this.tr("a_account")} dataIndex="account" key="account"
@@ -833,7 +833,7 @@ class MpkForm extends Component {
                                                                 return <Option value={`${i}`}>{checkAcctRig["name"+i] ? checkAcctRig["name"+i] : checkAcctRig["userid"+i]}</Option>
                                                             }
                                                         } else {
-                                                            return <Option value={`${i}`}>{`${this.tr("a_acct")} ${i+1}`}</Option>
+                                                            return <Option value={`${i}`}>{`${this.tr("a_301")} ${i+1}`}</Option>
                                                         }
                                                     })
                                                 }
@@ -895,7 +895,7 @@ class MpkForm extends Component {
                                 }else if (typeof checkAcctRig === 'object' && checkAcctRig['accountactive'+text] == "1" && checkAcctRig['sipserver'+text] != "" && checkAcctRig['userid'+text] != "") {
                                     return checkAcctRig["name"+text] ? checkAcctRig["name"+text] : checkAcctRig["userid"+text]
                                 }else {
-                                    return `${this.tr("a_acct")} ${parseInt(text)+1}`
+                                    return `${this.tr("a_301")} ${parseInt(text)+1}`
                                 }
                             }}/>
                         <Column title={this.tr("a_value")} dataIndex="userId" key="userId"  render={

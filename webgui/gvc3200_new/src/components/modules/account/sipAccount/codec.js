@@ -333,7 +333,7 @@ class CodecForm extends React.Component {
 
     // checkPacketModelAndImgsize = (packetmodel, imgsize) => {
     //     if (packetmodel == 0 && (imgsize == '1' || imgsize == '4' || imgsize == '9' || imgsize == '10')) {
-    //         let a_ok = this.tr('a_ok'), a_cancel = this.tr('a_3'), self = this;
+    //         let a_ok = this.tr('a_2'), a_cancel = this.tr('a_3'), self = this;
     //         let packetmodetip = this.tr('a_packetmodetip');
     //         Modal.confirm({
     //             content: <div><span dangerouslySetInnerHTML={{ __html: packetmodetip }}></span></div>,

@@ -446,7 +446,7 @@ class CallForm extends React.Component {
                        })(
                            <Select onChange={this.handleAutoAnswer} className={"P-" + nvram["autoanswer"]}>
                                <Option value="0">{callTr("a_groupnum")}</Option>
-                               <Option value="1">{callTr("a_yes")}</Option>
+                               <Option value="1">{callTr("a_5")}</Option>
                            </Select>
                    )}
                </FormItem>

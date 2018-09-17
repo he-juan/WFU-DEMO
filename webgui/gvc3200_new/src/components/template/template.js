@@ -52,7 +52,7 @@ export const options = [
             {"name": "general", "lang": "a_16023", "acl": "1", "sub": [
                 {"type": "p", "lang": "a_accountregister"},
                 {"name": "Account Active", "lang": "a_accountactive"},
-                {"name": "Account Name", "lang": "a_accountname"},
+                {"name": "Account Name", "lang": "a_1120"},
                 {"name": "SIP Server", "lang": "a_23536"},
                 {"name": "Secondary SIP Server", "lang": "a_16055"},
                 {"name": "Tertiary SIP Server", "lang": "a_19168"},
@@ -303,10 +303,10 @@ export const options = [
                 {"type": "button", "lang": "a_17"}
             ]},
         ]},
-        {"name": "sitename", "lang": "a_sitename", "sub": [
+        {"name": "sitename", "lang": "a_16225", "sub": [
             {"name": "sitenameset", "lang": "a_16013", "sub": [
                 {"name": "Background Transparency", "lang": "a_16221"},
-                {"name": "sitename", "lang": "a_sitename"},
+                {"name": "sitename", "lang": "a_16225"},
                 {"name": "Display Position", "lang": "a_16226"},
                 {"name": "Display Duration", "lang": "a_16231"},
                 {"name": "Font Color", "lang": "a_16234"},
@@ -416,8 +416,8 @@ export const options = [
             {"name": "power", "lang": "a_12020", "sub": [
                 {"name": "Timeout Options", "lang": "a_19321"},
                 {"name": "Timeout Setup", "lang": "a_19322"},
-                {"name": "Reboot", "lang": "reboot"},
-                {"name": "Sleep", "lang": "a_sleep"},
+                {"name": "Reboot", "lang": "a_19324"},
+                {"name": "Sleep", "lang": "a_16375"},
                 {"name": "Shutdown", "lang": "a_19325"},
             ]}
         ]},
@@ -563,7 +563,7 @@ export const options = [
                 {"name": "Allow DHCP Option 43 and Option 66 to Override Server", "lang": "a_16337"},
                 {"name": "Validate Server Certificate", "lang": "a_19336"},
                 {"name": "mDNS Override Server", "lang": "a_16334"},
-                {"name": "Factory Reset", "lang": "a_factreset"},
+                {"name": "Factory Reset", "lang": "a_4105"},
                 {"name": "3CX Auto Provision", "lang": "a_16339"},
                 {"name": "Disable SIP NOTIFY Authentication", "lang": "a_19013"},
                 {"type": "button", "lang": "a_17"}

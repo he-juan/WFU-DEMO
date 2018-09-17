@@ -88,7 +88,7 @@ class GeneralForm extends Component {
                         return (
                             <Row type="flex" align="middle" justify="around" className="mpk-general" style={style}>
                                 <Col span={1}></Col>
-                                <Col span={3}>{(itemValues["name"+i] != undefined && itemValues["name"+i] != "" && itemValues["accountactive"+i])==1  ? itemValues["name"+i] : `${this.tr("a_acct")} ${i+1}`}</Col>
+                                <Col span={3}>{(itemValues["name"+i] != undefined && itemValues["name"+i] != "" && itemValues["accountactive"+i])==1  ? itemValues["name"+i] : `${this.tr("a_301")} ${i+1}`}</Col>
                                 <Col span={6}>
                                     {getFieldDecorator('callpre'+i, {
                                         rules: [{

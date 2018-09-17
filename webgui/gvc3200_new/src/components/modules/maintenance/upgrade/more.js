@@ -118,7 +118,7 @@ class MoreForm extends Component {
                     }
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_factreset")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4105")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_resetkey")}</Button>
                 </FormItem>
                 <FormItem>

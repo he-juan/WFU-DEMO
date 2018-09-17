@@ -17,8 +17,8 @@ class DebugForm extends Component {
         super(props)
 
         this.state = {
-            aStart:"a_start",
-            recordStart:"a_start",
+            aStart:"a_9",
+            recordStart:"a_9",
             debugbtndisable: false,
             ckbdisabled: false
         }
@@ -131,7 +131,7 @@ class DebugForm extends Component {
                 items.mode = "on";
             } else {
                 mode = 1;
-                aStart = "a_start"
+                aStart = "a_9"
                 items.mode = "off";
             }
 
@@ -164,7 +164,7 @@ class DebugForm extends Component {
                 if (res === "Success") {
                     rec_mode = 0;
                     this.setState({
-                        recordStart:"a_start"
+                        recordStart:"a_9"
                     });
                     this.props.getRecordList( (data) => {
                         const { setFieldsValue } = this.props.form;
@@ -177,7 +177,7 @@ class DebugForm extends Component {
         } else {
             rec_mode = 1;
             this.setState({
-                recordStart:"a_start"
+                recordStart:"a_9"
             });
             this.props.getRecording("startrecording" ,(res) => {
                 if (res === "Success") {
@@ -311,7 +311,7 @@ class DebugForm extends Component {
                         logitems[checklogitems[i]] = true;
                     }
                     form.setFieldsValue(logitems);
-                    this.setState({aStart: "a_start", debugbtndisable: false});
+                    this.setState({aStart: "a_9", debugbtndisable: false});
                 }else{
                     let logitems = {};
                     for(let i in checklogitems){
@@ -324,10 +324,10 @@ class DebugForm extends Component {
             case 'capture':
             case 'acce':
                 if(checked){
-                    this.setState({aStart: "a_start"});
+                    this.setState({aStart: "a_9"});
                 }else {
                     if ((id == "acce" && form.getFieldValue("capture")) || (id == "capture" && form.getFieldValue("acce")) ) {
-                        this.setState({aStart: "a_start"});
+                        this.setState({aStart: "a_9"});
                     } else {
                         this.setState({aStart: "a_screen"});
                     }
@@ -427,7 +427,7 @@ class DebugForm extends Component {
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'selectall')} disabled={this.state.ckbdisabled} />
                         )}
-                        <span> {callTr("a_selectall")}</span>
+                        <span> {callTr("a_405")}</span>
                     </div>
                     <div className="dot-line"></div>
                     <div>

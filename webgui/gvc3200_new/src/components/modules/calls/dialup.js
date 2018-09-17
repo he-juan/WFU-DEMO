@@ -768,7 +768,7 @@ class DialUpForm extends Component {
 
         return (
             <Content className="content-container">
-                <div className="subpagetitle">{this.tr("a_dialup")}</div>
+                <div className="subpagetitle">{this.tr("a_9400")}</div>
                 <Form className="call-area" >
                     <div className="dial-up-top">
                         <div className="acctselbox">

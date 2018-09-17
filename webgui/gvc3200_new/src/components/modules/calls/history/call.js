@@ -164,7 +164,7 @@ class ContactEditDiv extends Component {
                     <div id = "contacteditdiv" className='addContact-select'>
                         <div id = "itemdetaildiv">
                             <div className = "titlediv">
-                                <span>{callTr("a_select")}</span>
+                                <span>{callTr("a_73")}</span>
                                 <div style = {{'float':'right'}} >
                                     <button type = "Button" onClick={this.handleClose}/>
                                 </div>

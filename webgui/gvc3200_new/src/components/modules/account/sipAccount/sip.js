@@ -363,7 +363,7 @@ class SipForm extends React.Component {
                         <Select>
                             <Option value="0">{callTr("a_12")}</Option>
                             <Option value="1">{callTr("a_groupnum")}</Option>
-                            <Option value="2">{callTr("a_yes")}</Option>
+                            <Option value="2">{callTr("a_5")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -374,7 +374,7 @@ class SipForm extends React.Component {
                         <Select>
                             <Option value="0">{callTr("a_12")}</Option>
                             <Option value="1">{callTr("a_groupnum")}</Option>
-                            <Option value="2">{callTr("a_yes")}</Option>
+                            <Option value="2">{callTr("a_5")}</Option>
                         </Select>
                     )}
                 </FormItem>

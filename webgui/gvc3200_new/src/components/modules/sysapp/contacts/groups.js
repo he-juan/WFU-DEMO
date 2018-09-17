@@ -190,7 +190,7 @@ class GroupsAddEditBox extends Component {
 
                     <Badge style={{margin:'0.5rem 0',fontWeight:'bold'}} status="processing" text={callTr("a_16046")} />
                     <FormItem>
-                        <Search style={{margin:'0.5rem 1rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_backup_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                        <Search style={{margin:'0.5rem 1rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_310')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                     </FormItem>
                     {
                         (this.state.searchContacts.length>0 ? this.state.searchContacts : this.props.items).map((item,index)=>{
@@ -218,7 +218,7 @@ class GroupsAddEditBox extends Component {
                         })
                     }
                     <Row style={{ margin:'1.5rem 1rem',height: '20px', fontSize: '0.875rem'}}>
-                        <Checkbox onChange={this.handleSelectAll}>{callTr('a_selectall')}</Checkbox>&nbsp;
+                        <Checkbox onChange={this.handleSelectAll}>{callTr('a_405')}</Checkbox>&nbsp;
                     </Row>
                 </Form>
             </Modal>

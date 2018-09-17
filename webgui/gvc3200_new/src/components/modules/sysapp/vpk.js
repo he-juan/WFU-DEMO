@@ -359,7 +359,7 @@ class VpkForm extends Component {
                         initialValue: this.props.itemValues['vpkmode'] ? this.props.itemValues['vpkmode'] : "0"
                         })(
                             <Select onChange = {this.handleKeyModeChange.bind(this,'selChange')} disabled={!this.props.disableAddBtn}>
-                                <Option value="17">{callTr("a_acct")}</Option>
+                                <Option value="17">{callTr("a_301")}</Option>
                                 <Option value="0">{callTr("a_speeddial")}</Option>
                                 <Option value="1">{callTr("a_busy")}</Option>
                                 <Option value="8">{callTr("a_callredir")}</Option>
@@ -500,7 +500,7 @@ class Vpk extends Component {
         let name = ""
         switch (key) {
             case "17":
-                name = "a_acct"
+                name = "a_301"
                 break;
             case "0":
                 name = "a_speeddial"
@@ -795,7 +795,7 @@ class Vpk extends Component {
 
                             <Column title={this.tr("a_groupnum")} dataIndex="key" key="groupnum" />
                             <Column title={this.tr("a_keymode")} dataIndex="vpkmode" key="mode" render={(text, record, index) => ( this.tr(text) )}/>
-                            <Column title={this.tr("a_acct")} dataIndex="vpkacct" key="acct" />
+                            <Column title={this.tr("a_301")} dataIndex="vpkacct" key="acct" />
                             <Column title={this.tr("a_name")} dataIndex="vpkname" key="name" />
                             <Column title={this.tr("a_userid")} dataIndex="vpkuserid" key="userid" />
                             <Column title={this.tr("a_address")} dataIndex="vpkAddress" key="address" />

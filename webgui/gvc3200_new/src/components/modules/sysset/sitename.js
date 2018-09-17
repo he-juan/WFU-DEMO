@@ -95,7 +95,7 @@ class SitenameForm extends Component {
 						</Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_sitename")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Site Name")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16225")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Site Name")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("sitename", {
                         initialValue: itemvalues["Sitename"] ? itemvalues["Sitename"] : ""
                     })(

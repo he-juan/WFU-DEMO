@@ -2,6 +2,7 @@
 The strings matched between Web and LCD, and all have been replaced to LCD key.
 */
 
+a_yes,a_5
 a_memberempty,a_16436
 a_preset,a_10024
 a_expired,a_10174
@@ -14,6 +15,7 @@ a_third,a_19164
 a_second,a_19163
 a_first,a_19162
 a_repeatDate,a_15032
+a_custom,a_10151
 a_yearly,a_10150
 a_monthly1,a_10148
 a_monthly,a_10149
@@ -43,8 +45,11 @@ a_pttNone,a_39
 a_blackexit,a_4026
 a_endTime,a_4034
 a_switchTime,a_10056
+a_answercall,a_522
 a_setpwd,a_6152
 a_waitbkp,a_9063
+a_restore,a_9006
+a_backup_contacts,a_310
 a_groupedit,a_4837
 a_groupmember,a_16647
 a_newgroup,a_4838
@@ -61,12 +66,15 @@ a_blackset,a_305
 missed_call,a_3524
 meeting_schedule,a_10011
 call_history,a_3536
+a_dialup,a_9400
 a_test,a_4370
 led_test,a_18520
 builtin_speaker,a_18540
+a_selectall,a_405
 a_groupmembers,a_16046
 a_name_last,a_208
 a_name_first,a_207
+a_contacts,a_4832
 openvpn_pwd,a_19273
 openvpn_username,a_19272
 openvpn_cipher,a_19271
@@ -93,6 +101,7 @@ a_lowerleft,a_16229
 a_upperright,a_16228
 a_upperleft,a_16227
 a_displaypos,a_16226
+a_sitename,a_16225
 a_opaque,a_16223
 a_backopacity,a_16221
 a_sitenameset,a_16013
@@ -125,21 +134,27 @@ a_stunserverpwd,a_19027
 a_stunservername,a_19026
 security_set,a_4221
 a_shutdown,a_19325
+a_sleep,a_16375
 a_timeoutsetup,a_19322
 a_timeoutoptions,a_19321
 sys_power,a_12020
 ethernet_set,a_4120
 system_setting,a_411
 network_setting,a_16024
+a_gdsname,a_7474
+a_reject,a_523
 a_connected,a_23529
 a_callvideo,a_10016
 a_callaudio,a_10017
+a_callout,a_504
 a_missedcall,a_3524
 a_incomingcall,a_670
 a_name1,a_23541
 a_type,a_2059
 a_server,a_19191
+a_add,a_23
 a_delete,a_19067
+a_select,a_73
 a_auto,a_9047
 a_wifidisable,a_8
 a_wifienable,a_7
@@ -152,8 +167,11 @@ a_disformat,a_7423
 a_edit,a_22
 a_selected,a_43
 a_dtmftype,a_7477
+a_acct,a_301
 a_curplans,a_9623
+a_ok,a_2
 a_delete,a_19067
+a_add,a_23
 a_connectmode,a_15022
 a_numberfilter,a_6775
 a_namefilter,a_6774
@@ -300,6 +318,7 @@ a_targethost,a_16629
 a_traceroute,a_16628
 a_record,a_410
 a_stop,a_10
+a_start,a_9
 a_capture,a_19281
 a_viewdebug,a_16358
 a_debuglist,a_16359
@@ -312,6 +331,7 @@ a_operation,a_16357
 a_getlog,a_16356
 a_logpriority,a_16355
 a_logtag,a_16354
+a_clear,a_31
 a_clearlog,a_16353
 a_sendlog,a_19126
 a_sysloglev,a_4136
@@ -330,6 +350,7 @@ a_checkweek,a_16342
 a_checkday,a_16341
 a_dayofweek,a_16346
 a_reset,a_16348
+a_factreset,a_4105
 a_sipnotify,a_19013
 a_authconffile,a_16347
 a_autoup,a_16340
@@ -355,6 +376,8 @@ a_firmwaretitle,a_19179
 a_upvia,a_19175
 a_upgradeall,a_16648
 a_restorefail,a_9120
+a_restore,a_9006
+a_backup,a_306
 a_importconf,a_19184
 a_saveconf,a_16351
 a_distelnet,a_16316
@@ -596,7 +619,10 @@ a_teluri,a_16056
 a_tertsipserver,a_19168
 a_secsipserver,a_16055
 a_sipserver,a_23536
+a_accountname,a_1120
 a_Secs,a_114
+a_Sec,a_116
+a_sec,a_116
 a_secs,a_114
 a_Mins,a_110
 a_Min,a_109
@@ -607,6 +633,8 @@ a_Hour,a_15007
 a_hour,a_15007
 a_hours,a_15008
 a_Days,a_106
+a_Day,a_105
+a_day,a_105
 a_sysuptime,a_16417
 a_kernel,a_16416
 a_android,a_16415
@@ -629,6 +657,7 @@ a_unregister,a_1139
 a_status,a_10060
 a_sipserver,a_23536
 a_number,a_10006
+reboot,a_19324
 maintenance_devmode,a_4347
 maintenance_debug,a_16031
 maintenance_logcat,a_16030
@@ -672,3 +701,4 @@ a_none,a_4771
 a_default,a_12
 a_never,a_42
 a_all,a_10009
+a_no,a_6

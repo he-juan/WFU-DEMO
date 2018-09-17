@@ -296,7 +296,7 @@ class LdapForm extends Component {
                                     if(i==16 && this.props.ipvtExist == '1') {
                                        return <Option value={`${i-1}`} style={{display:'none'}}></Option>
                                     } else {
-                                        return <Option value={`${i-1}`}>{this.props.itemValues["name" + i] ? this.props.itemValues["name" + i] : i == 0 ? callTr("a_12") : callTr("a_acct") + ` ${i}`}</Option>
+                                        return <Option value={`${i-1}`}>{this.props.itemValues["name" + i] ? this.props.itemValues["name" + i] : i == 0 ? callTr("a_12") : callTr("a_301") + ` ${i}`}</Option>
                                     }
                                 })
                             }

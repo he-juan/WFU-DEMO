@@ -184,7 +184,7 @@ class ContactsEdit extends Component {
                             <Select style={{width:'50%'}}>
                                 {
                                     acctname_item.map((acct,index)=> {
-                                        return <Option value={`${index}`}>{itemValues['name'+index] ? itemValues['name'+index] : `${callTr('a_acct')} ${index+1}` }</Option>
+                                        return <Option value={`${index}`}>{itemValues['name'+index] ? itemValues['name'+index] : `${callTr('a_301')} ${index+1}` }</Option>
                                     })
                                 }
                             </Select>

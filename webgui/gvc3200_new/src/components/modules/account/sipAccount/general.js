@@ -112,7 +112,7 @@ class GeneralForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["accountactive"]} />)
                     }
                </FormItem>
-               <FormItem label={(<span>{callTr("a_accountname")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_1120")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('accountname', {
                         rules: [{ max:64, message: callTr("max_length64"), whitespace: true }],
                         initialValue: this.props.itemValues['accountname'] ? this.props.itemValues['accountname'] : ""
