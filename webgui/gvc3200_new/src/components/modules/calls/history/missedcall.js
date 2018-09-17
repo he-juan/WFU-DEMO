@@ -37,15 +37,13 @@ class ContactEditDiv extends Component {
     }
 
     componentDidMount = () => {
-        this.updateContact();
+        // this.updateContact();
     }
 
     updateContact = () => {
-        this.props.getContactCount();
+        // this.props.getContactCount();
         this.props.getContacts((items)=>{this.setState({items:items})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        // this.props.getContactsinfo((infos)=>{this.setState({contactsinfo:infos})});
-        // this.props.getAllConfMember((memberinfo)=>{this.setState({confMember:memberinfo})})
         this.props.getContactsinfo();
         this.props.getAllConfMember()
     }
@@ -109,55 +107,13 @@ class ContactEditDiv extends Component {
 
     render() {
         const callTr = this.props.callTr;
-        const convertTime = this.props.convertTime;
         var number;
         var account;
-        var nameAccount;
-        var numberaccount;
         if ( !$.isEmptyObject(this.props.detailDiv)) {
             number = this.props.detailDiv.Number;
             account = this.props.detailDiv.Account;
         }
-        let contactsInformation = this.props.contactsInformation;
         let buttonDisplay = '';
-        // if (contactsInformation.length > 0) {
-        //     for ( var i = 0; i <  contactsInformation.length; i++) {
-        //         var a = contactsInformation[i].Number.indexOf(number);
-        //         if ( a !== -1 && this.props.detailDiv.row6 === true) {
-        //             buttonDisplay = 'none';
-        //             break;
-        //         } else {
-        //             buttonDisplay = 'inline-block';
-        //         }
-        //     }
-        // }
-        // var detailItems = this.props.detailDiv.row3;
-        var detailItemsToday = new Array;
-        var detailItemsYestday = new Array;
-        var detailItemsBefore = new Array;
-        // for (var i = 0; i < (detailItems && detailItems.length); i++) {
-        //     var value = this.props.isToday(parseInt(detailItems[i]['Date']));
-        //     if (value == "Today") {
-        //         detailItemsToday.push(detailItems[i])
-        //     } else if (value == "Yestday") {
-        //         detailItemsYestday.push(detailItems[i])
-        //     } else if (value == "Before") {
-        //         detailItemsBefore.push(detailItems[i])
-        //     }
-        // }
-        const acctStatus = this.props.acctStatus;
-        var accountItems = [];
-        // for(var item in acctStatus.headers){
-        //     accountItems[item]=acctStatus.headers[item]
-        // }
-        var accountNumber;
-        // if (accountItems.response) {
-        //     if (accountItems["account_"+ account + "_name"]) {
-        //         accountNumber = accountItems["account_"+ account + "_name"]
-        //     } else {
-        //         accountNumber = accountItems["account_"+ account + "_no"]
-        //     }
-        // }
         return (
             <div className = {"containermask " + this.props.displayDiv}>
                 <div id = "containerdiv ">
@@ -206,8 +162,6 @@ class Call extends Component {
     }
 
     componentDidMount = () => {
-        this.props.get_calllog(0);
-        this.props.getNormalCalllogNames()
         this.props.getAcctStatus((result)=>{
             if(!this.isEmptyObject(result)) {
                 let acctstatus = result.headers;
@@ -225,7 +179,7 @@ class Call extends Component {
     }
 
     componentWillReceiveProps = () => {
-        this._createData();
+        // this._createData();
     }
 
     onSelectChange = (selectedRowKeys) => {
@@ -234,12 +188,8 @@ class Call extends Component {
 
     onSelectItem = (record, selected, selectedRows) => {
         let self = this;
-        console.log('onSelectItem',record)
         let key = record.key
         let id = record.row0.logItem.Id
-        // let name = record.row0.row0;
-        // let number = record.row0.row1;
-        // let id = record.row0.row4;
         if (selected) {
             self.selectedContactList.push({key: key, id: id});
         } else {
@@ -277,41 +227,66 @@ class Call extends Component {
 
 
     handleOkDeleteAll = () => {
-        let selectedRowKeys = this.state.selectedRowKeys
         let datasource = this.selectedContactList
-        // let datasource = this.state.selectedRowKeys
-
-        console.log(datasource)
-
-        let seletedArr = [];
-
+        let seletedConfArr = [];
+        let seletedCallArr = [];
         for (let i = 0; i <datasource.length ; i++) {
-            seletedArr = seletedArr.concat(datasource[i].id)
+            if(datasource[i].IsConf == '1') {
+                seletedConfArr = seletedConfArr.concat(datasource[i].id)
+            } else {
+                seletedCallArr = seletedCallArr.concat(datasource[i].id)
+            }
         }
-        var deleteId = seletedArr.join(',');
-        var flag = 2;
-        this.get_deleteCallConf(deleteId,(result) => {
-            if (result == 'success') {
-                this.props.get_calllog(0);
-                this.props.promptMsg('SUCCESS',"a_del_ok");
-                this._createData();
-                this.selectedContactList = [];
+        let self = this
+        var delconf = new Promise(function(resolve, reject) {
+            if (seletedConfArr.length) {
+                let deleteId = seletedConfArr.join(',');
+                self.props.get_deleteCallConf(deleteId,(result) => {
+                    if (result == 'success') {
+                        resolve('success')
+                    } else {
+                        reject()
+                    }
+                })
             }
         })
+        var delcall = new Promise(function(resolve, reject) {
+            if(seletedCallArr.length) {
+                let deleteId = seletedCallArr.join(',');
+                let flag = 2;
+                self.props.get_deleteCall(deleteId,flag, (result) => {
+                    if (result == 'success') {
+                        resolve('success')
+                    } else {
+                        reject()
+                    }
+                });
+            }
+        })
+        var promiseAll
+        if(seletedConfArr.length > 0 && seletedCallArr.length > 0) {
+            promiseAll = Promise.all([delconf,delcall])
+        } else if (seletedConfArr.length > 0) {
+            promiseAll = Promise.all([delconf])
+        } else {
+            promiseAll = Promise.all([delcall])
+        }
 
-        // this.props.get_deleteCall(deleteId,flag, (result) => {
-        //     if (result == 'success') {
-        //         this.props.get_calllog(0);
-        //         this.props.promptMsg('SUCCESS',"a_del_ok");
-        //         this._createData();
-        //         this.selectedContactList = [];
-        //     }
-        // });
+        promiseAll.then(function (res) {
+            self.props.get_calllog(0);
+            setTimeout(function () {
+                self.props.promptMsg('SUCCESS', "a_del_ok");
+                // self._createData();
+            }, 500);
+            self.selectedContactList = [];
+        })
+        this.selectedContactList = []
         this.setState({
             selectedRowKeys: [],
             displayDelHistCallsModal: false
         });
     }
+
 
     _createRow0 = (text, record , index) => {
         let logItem = text.logItem
@@ -337,7 +312,6 @@ class Call extends Component {
 
 
     handleAddContact = (event,text) => {
-        console.log('e',event,'text',text)
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
@@ -432,14 +406,13 @@ class Call extends Component {
     _createData = () => {
         let dataResult = [];
         let logItemdata = this.props.logItemdata
-        if (logItemdata.length == 0) {
-            this.setState({showtips:'block'})
-        } else {
-            this.setState({showtips:'none'})
-        }
         let confmember = this.props.confmemberinfodata
         let contactList = this.props.contactsInformation
         let callnameinfo = this.props.callnameinfo
+
+        if (!confmember.length || !contactList.length || !logItemdata.length || !callnameinfo.length) {
+            return dataResult
+        }
         for ( let i = 0; i < logItemdata.length; i++ ) {
             let data = {};
             let memberArr = []
@@ -482,10 +455,6 @@ class Call extends Component {
             }
 
         }
-        this.historyList = dataResult;
-        this.setState({
-            curContactList: dataResult
-        });
         return dataResult
     }
 
@@ -532,7 +501,6 @@ class Call extends Component {
         $('.ant-table-row').removeClass('line-hoverbg')
         $('.ant-table-row:eq('+ num +')').addClass('line-hoverbg')
         let expandedRows = this.state.expandedRows
-        console.log(expandedRows,record.key)
         if(expandedRows.length > 0 && expandedRows[0] == record.key ) {
             this.setState({
                 expandedRows: []
@@ -545,10 +513,7 @@ class Call extends Component {
     }
 
     _createInlineName(text) {
-        // text = this.changerow0(text);
         var nameValue = text.recordName ? text.recordName : text.Name
-
-        // var nameValue = name + ((text.row1.length > 1) ? " (" + text.row1.length + ")": "");
         var className;
         if(text.IsVideo=='1') {
             className = 'typeVideo'
@@ -591,7 +556,6 @@ class Call extends Component {
 
 
     handleNewConf = (event,text) => {
-        console.log('e',event,'text',text)
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
@@ -616,13 +580,8 @@ class Call extends Component {
     }
 
     render() {
-        const [contactsInformation, callTr, _createTime, isToday, convertTime, logItemdata, view_status_Duration,curContactList] =
-            [this.props.contactsInformation, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime, this.props.logItemdata, this.props.view_status_Duration, this.state.curContactList];
-        // console.log(contactsInformation,logItemdata,this.props.confmemberinfodata)
-        // const confmember = this.props.confmemberinfodata
-        const {getFieldDecorator} = this.props.form;
-        // console.log('contactsInformation',contactsInformation)
-
+        const [contactsInformation, callTr, _createTime, isToday, convertTime, view_status_Duration] =
+            [this.props.contactsInformation, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime,  this.props.view_status_Duration];
         const columns = [{
             title: callTr("a_name"),
             key: 'row0',
@@ -648,12 +607,8 @@ class Call extends Component {
                 this._createActions(text, record, index)
             )
         }];
-        let data = [];
-        if (curContactList.length > 0) {
-            data = curContactList;
-        } else {
-            data = this._createData();
-        }
+        let data = this._createData()
+        let isloading = this.props.loading
         const {selectedRowKeys} = this.state;
         const rowSelection = {
             selectedRowKeys,
@@ -662,8 +617,6 @@ class Call extends Component {
             onSelectAll: this.onSelectAllContacts
         }
         const hasSelected = selectedRowKeys.length > 0;
-
-        let checkall = false
         return (
             <div style={{margin:"0px 10px"}}>
                 <div className='btnbox'>
@@ -678,11 +631,6 @@ class Call extends Component {
                             <p className="confirm-content">{this.tr("a_deletecalls")}</p>
                         </Modal>
                     </div>
-                    {/*<div style={{'float':'right'}}>*/}
-                    {/*<div className = 'search_div'>*/}
-                    {/*<Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} id="search" onChange={this.handleChange.bind(this)} placeholder = {callTr("a_65")}></Input>*/}
-                    {/*</div>*/}
-                    {/*</div>*/}
                 </div>
                 <div className = 'CallDiv Callhistory'>
                     <Table
@@ -698,18 +646,22 @@ class Call extends Component {
                         // expandedRowKeys={this.state.expandedRows}		//添加 回设置 展开的数组
                         expandIconColumnIndex={-1}
                     />
-                    <div className = "nodatooltips" style={{display: this.state.showtips}}>
+                    <div className = "nodatooltips" style={{display: (!data.length && !isloading) ? 'block':'none'}}>
                         <div></div>
                         <p>{this.tr("no_data")}</p>
                     </div>
                 </div>
-                <ContactEditDiv {...this.props} contactsInformation={contactsInformation} view_status_Duration={view_status_Duration} isToday={isToday} convertTime = {convertTime} displayDiv={this.state.displayDiv}
-                                detailDiv = {this.state.detailDiv} callTr={callTr} handleHide={this.handleHide} handleAddContact={this.handleAddContact} />
-                <NewConEditForm {...this.props} callTr={this.props.callTr}
-                                handleHideNewConfModal= {this.handleHideNewConfModal}
-                                displayNewConfModal={this.state.displayNewConfModal}
-                                confMemberData={this.state.confMemberData}
-                                addNewConf={this.state.addNewConf}/>
+                { !isloading ? <ContactEditDiv {...this.props} contactsInformation={contactsInformation} view_status_Duration={view_status_Duration} isToday={isToday} convertTime = {convertTime} displayDiv={this.state.displayDiv}
+                                               detailDiv = {this.state.detailDiv} callTr={callTr} handleHide={this.handleHide} handleAddContact={this.handleAddContact} />
+                    : null
+                }
+                { !isloading ? <NewConEditForm {...this.props} callTr={this.props.callTr}
+                                               handleHideNewConfModal= {this.handleHideNewConfModal}
+                                               displayNewConfModal={this.state.displayNewConfModal}
+                                               confMemberData={this.state.confMemberData}
+                                               addNewConf={this.state.addNewConf}/>
+                    : null
+                }
 
             </div>
         )

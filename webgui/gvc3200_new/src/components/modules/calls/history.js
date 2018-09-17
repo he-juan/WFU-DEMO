@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../mixins/Enhance";
-import {Layout, Tabs, Popconfirm, Modal, Input, message, Form} from "antd";
+import {Layout, Tabs, Popconfirm, Modal, Input, message, Form,Spin} from "antd";
 import * as Actions from '../../redux/actions/index';
 import { bindActionCreators } from 'redux';
 import {  connect } from 'react-redux';
 import * as optionsFilter from "../../template/optionsFilter";
 import Call from "./history/call";
 import MissedCall from "./history/missedcall";
+
 const Content = Layout;
 const TabPane = Tabs.TabPane;
 const CallForm = Form.create()(Call);
@@ -24,7 +25,17 @@ class History extends Component {
     }
 
     componentDidMount = () => {
-
+        if(!this.props.contactsInformation.length) {
+            this.props.getContacts()
+        }
+        if(!this.props.callnameinfo.length) {
+            this.props.getNormalCalllogNames()
+        }
+        if(!this.props.confmemberinfodata.length) {
+            this.props.getAllConfMember()
+        }
+        this.props.get_calllog(0);
+        this.props.getContactsinfo();
     }
 
     isYestday = (theDate) => {
@@ -51,14 +62,25 @@ class History extends Component {
     }
 
     render() {
+        let logItemdata = this.props.logItemdata
+        let confmember = this.props.confmemberinfodata
+        let contactList = this.props.contactsInformation
+        let callnameinfo = this.props.callnameinfo
+        let loading = true
+        if (!confmember.length || !contactList.length || !callnameinfo.length) {
+            loading = true
+        }
+        if(logItemdata.length > 0) {
+            loading = false
+        }
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
                 <TabPane tab = {this.tr("history_all")} key={0}>
-                    <CallForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                    <CallForm {...this.props} hideItem={hideItem} loading = {loading} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
                 <TabPane tab = {this.tr("a_3524")} key={1}>
-                    <MissedCallForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                    <MissedCallForm {...this.props} hideItem={hideItem} loading = {loading} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
             </Tabs>
 
@@ -77,10 +99,15 @@ class History extends Component {
         }
 
         return (
-            <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("a_3536")}</div>
-                {tabList}
-            </Content>
+            <div>
+                <Content className="content-container config-container">
+                    <div className="subpagetitle">{this.tr("a_3536")}</div>
+                    {tabList}
+                </Content>
+                <div className='load-modal' style={{display: loading ? 'block':'none'}}>
+                    <Spin className='spin-style' size="large" />
+                </div>
+            </div>
         );
     }
 }
@@ -89,14 +116,25 @@ const mapStateToProps = (state) => ({
     curLocale: state.curLocale,
     mainHeight: state.mainHeight,
     activeKey: state.TabactiveKey,
-    userType: state.userType
+    userType: state.userType,
+    logItemdata: state.logItemdata,
+    contactinfodata: state.contactinfodata,
+    confmemberinfodata: state.confmemberinfodata,
+    contactsInformation: state.contactsInformation,
+    callnameinfo:state.callnameinfo
 })
 
 function mapDispatchToProps(dispatch) {
     var actions = {
         jumptoTab: Actions.jumptoTab,
         getItemValues:Actions.getItemValues,
-        promptMsg:Actions.promptMsg
+        promptMsg:Actions.promptMsg,
+        get_calllog: Actions.get_calllog,
+        getContacts:Actions.getContacts,
+        getContactsinfo:Actions.getContactsinfo,
+        getAllConfMember:Actions.getAllConfMember,
+        getNormalCalllogNames:Actions.getNormalCalllogNames
+
     }
     return bindActionCreators(actions, dispatch)
 }
