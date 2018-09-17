@@ -4,8 +4,8 @@ function TipsDef(id, content) {
 }
 
 
-var tip_item = new Array;
-tip_item.push (
+var tip_item_en = new Array;
+tip_item_en.push (
 
     /*account status*/
     /*new TipsDef("Accounts' name",
