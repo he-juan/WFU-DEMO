@@ -139,7 +139,7 @@ class FirmwareForm extends Component {
                     information = callTr("a_brokenfile");
                     break;
                 case 10:
-                    information = callTr("a_12172");
+                    information = callTr("a_lowspace");
                     break;
                 case 11:
                     information = callTr("a_oemidnotcompatiable");
@@ -258,7 +258,7 @@ class FirmwareForm extends Component {
                     }else if( info.file.response.indexOf("Message=Not enough space") != -1 ){
                         //button.text(a_7404);
                         Modal.info({
-                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail") + callTr("a_12172")}}></span>,
+                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail") + callTr("a_lowspace")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
@@ -372,7 +372,7 @@ class FirmwareForm extends Component {
                     <Icon type="question-circle-o"/> </Tooltip></span>
                 )}>
                     {(
-                        <Button className="button" type="primary" onClick={this.clickUpgrade.bind(this)}>{this.tr("a_4103")}</Button>
+                        <Button className="button" type="primary" onClick={this.clickUpgrade.bind(this)}>{this.tr("a_upgrade")}</Button>
                     )}
                 </FormItem>
                 <FormItem>

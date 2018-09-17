@@ -445,8 +445,8 @@ class CallForm extends React.Component {
                        initialValue: this.props.itemValues['autoanswer'] ? this.props.itemValues['autoanswer'] : "0"
                        })(
                            <Select onChange={this.handleAutoAnswer} className={"P-" + nvram["autoanswer"]}>
-                               <Option value="0">{callTr("a_22005")}</Option>
-                               <Option value="1">{callTr("a_22004")}</Option>
+                               <Option value="0">{callTr("a_groupnum")}</Option>
+                               <Option value="1">{callTr("a_yes")}</Option>
                            </Select>
                    )}
                </FormItem>
@@ -499,7 +499,7 @@ class CallForm extends React.Component {
                        initialValue: parseInt(itemValues['feakey']) ? itemValues['feakey'] : "0"
                    })(
                        <Select className={"P-" + nvram["feakey"]}>
-                           <Option value="0">{callTr("a_39")}</Option>
+                           <Option value="0">{callTr("a_disable")}</Option>
                            <Option value="1">Broadsoft</Option>
                        </Select>
                    )}
@@ -571,7 +571,7 @@ class CallForm extends React.Component {
                                <Option value="None">{callTr("a_20")}</Option>
                                <Option value="allTo">{callTr("a_1106")}</Option>
                                <Option value="TimeRule">{callTr("a_1112")}</Option>
-                               <Option value="WorkRule">{callTr("a_1108")}</Option>
+                               <Option value="WorkRule">{callTr("a_workcf")}</Option>
                            </Select>
                    )}
                </FormItem>

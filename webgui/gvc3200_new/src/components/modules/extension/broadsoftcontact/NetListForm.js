@@ -65,7 +65,7 @@ class NetListForm extends Component {
                 <Row type="flex" justify="space-around" style={{"margin-bottom":"40px"}}>
 					<Col span={4} style={{"font-weight":"bold"}}>{callTr("a_2059")}</Col>
 					<Col span={10}></Col>
-					<Col span={10} style={{"font-weight":"bold"}}>{callTr("a_23541")}</Col>
+					<Col span={10} style={{"font-weight":"bold"}}>{callTr("a_gdsname")}</Col>
 				</Row>
 				{
 					netlistarray.map((netitem, i) => {

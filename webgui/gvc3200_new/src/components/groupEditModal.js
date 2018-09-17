@@ -181,7 +181,7 @@ class GroupEditModal extends Component {
                                         )}
                                     </Col>
                                     <Col span={6}>
-                                        <span>{callTr('a_23017')}</span>
+                                        <span>{callTr('a_selectall')}</span>
                                     </Col>
                                 </Row>
                                 {

@@ -217,7 +217,7 @@ class LanguageForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem className = "select-item" label={<span>{callTr("a_23526")} <Tooltip title={callTipsTr("Language")}> <Icon type="question-circle-o"/> </Tooltip> </span> } >
+                <FormItem className = "select-item" label={<span>{callTr("a_lang")} <Tooltip title={callTipsTr("Language")}> <Icon type="question-circle-o"/> </Tooltip> </span> } >
                     { getFieldDecorator('lang', {
                         rules: [],
                         initialValue: lang

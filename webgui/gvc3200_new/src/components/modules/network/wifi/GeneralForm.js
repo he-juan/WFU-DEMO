@@ -341,7 +341,7 @@ class DetailForm extends Component {
                                         <Input />
                                     )}
                                 </FormItem>
-                                <FormItem label={<span>{callTr("a_16191")}</span>}>
+                                <FormItem label={<span>{callTr("a_gateway")}</span>}>
                                     {getFieldDecorator("gateway", {
                                         rules: [{
                                             validator: (data, value, callback) => {
@@ -856,7 +856,7 @@ class GeneralForm extends Component {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['wififunc'])
                     })(
-                        <Switch checkedChildren={callTr("a_7")} unCheckedChildren={callTr("a_8")}
+                        <Switch checkedChildren={callTr("a_7")} unCheckedChildren={callTr("a_downoff")}
 							onChange={this.handleWifiChange}/>
                     )}
                 </FormItem>

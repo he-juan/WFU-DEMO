@@ -70,8 +70,8 @@ class CallForm extends React.Component {
                         initialValue: this.props.itemValues['autoanswer'] ? this.props.itemValues['autoanswer'] : "0"
                     })(
                         <Select className={"P-25048"}>
-                            <Option value="0">{callTr("a_22005")}</Option>
-                            <Option value="1">{callTr("a_22004")}</Option>
+                            <Option value="0">{callTr("a_groupnum")}</Option>
+                            <Option value="1">{callTr("a_yes")}</Option>
                         </Select>
                     )}
                 </FormItem>

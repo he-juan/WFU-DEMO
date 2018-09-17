@@ -105,14 +105,14 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form onSubmit={this.handleSubmit}>
-               <FormItem label={(<span>{callTr("a_23532")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
                     })(<Checkbox className={"P-" + nvram["accountactive"]} />)
                     }
                </FormItem>
-               <FormItem label={(<span>{callTr("a_23535")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_accountname")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('accountname', {
                         rules: [{ max:64, message: callTr("max_length64"), whitespace: true }],
                         initialValue: this.props.itemValues['accountname'] ? this.props.itemValues['accountname'] : ""
@@ -193,7 +193,7 @@ class GeneralForm extends React.Component {
                        <Input type={this.state.pwdstatus} id = "authpwd" name = "authpwd" className={"P-" + nvram["authpwd"]} suffix={<Icon type="eye" className={this.state.pwdstatus} onClick={this.handlePwdVisible} />}/>
                    )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_1126")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_displayName")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('name', {
                        rules: [{
                           max:64,message: callTr("max_length64"),

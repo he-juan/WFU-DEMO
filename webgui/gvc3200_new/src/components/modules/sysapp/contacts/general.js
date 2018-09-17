@@ -152,7 +152,7 @@ class GeneralForm extends Component {
                     {
                         (this.state.iceValues != "" || this.state.iceValues.length > 0) && this.state.iceValues.map((val,idx,arr) => {
                             return (
-                                <FormItem className="icecontact" label={idx == 0 ? (<span>{callTr("a_19255")}&nbsp;<Tooltip title={this.tips_tr("Emergency Call Numbers")}><Icon type="question-circle-o" /></Tooltip></span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)}>
+                                <FormItem className="icecontact" label={idx == 0 ? (<span>{callTr("a_icecontacts")}&nbsp;<Tooltip title={this.tips_tr("Emergency Call Numbers")}><Icon type="question-circle-o" /></Tooltip></span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)}>
                                     {getFieldDecorator('addicecontacts'+idx, {
                                         rules: [{
                                             max:64,message: callTr("max_length64"),

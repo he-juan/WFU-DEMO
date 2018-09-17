@@ -300,7 +300,7 @@ class DeployForm extends Component {
                         initialValue: this.props.itemValues["autoup"] ? this.props.itemValues["autoup"] : "0"
                     })(
                         <Select onChange={ this.onChangeAutoup.bind(this) } className="P-194">
-                            <Option value="0">{callTr("a_22005")}</Option>
+                            <Option value="0">{callTr("a_groupnum")}</Option>
                             <Option value="1">{callTr("a_16341")}</Option>
                             <Option value="2">{callTr("a_16342")}</Option>
                             <Option value="3">{callTr("a_16343")}</Option>

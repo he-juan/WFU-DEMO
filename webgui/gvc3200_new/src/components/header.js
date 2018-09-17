@@ -331,8 +331,8 @@ class MainHeader extends Component {
                 <Menu.Item><div className = "triangleIcon triangleIconAdmin"></div></Menu.Item>
                 <Menu.Item className="headermenuitem" key="2">
                     <a onClick={this.handleClickLogout.bind(this)}>
-                        <Icon className="a_23009" style={{"margin-right":"7px"}} />
-                        {this.tr("a_23009")}
+                        <Icon className="logout" style={{"margin-right":"7px"}} />
+                        {this.tr("logout")}
                     </a>
                 </Menu.Item>
             </Menu>

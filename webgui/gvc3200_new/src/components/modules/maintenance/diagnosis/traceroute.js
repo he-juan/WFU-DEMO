@@ -179,7 +179,7 @@ class TracerouteForm extends Component {
                 </FormItem>
                 <Row style = {{"paddingLeft":"435px"}}>
                     <Button style = {{"marginRight":"20px"}} type="primary" disabled = {disabled_start} onClick = {this.clickStartping.bind(this)}>
-                        {this.tr("a_10273")}
+                        {this.tr("a_start")}
                     </Button>
                     <Button type="danger" disabled = {disabled_stop} onClick = {this.clickStopping.bind(this)}>
                         {this.tr("a_10")}

@@ -606,7 +606,7 @@ class Record extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("a_12098")}</div>
+                <div className="subpagetitle">{this.tr("sysapp_record")}</div>
                 {
                 this.state.showRecordSet ?
                 <div  style={{height:'1px',position:'relative',background:'transparent'}}>

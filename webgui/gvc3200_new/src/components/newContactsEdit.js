@@ -266,7 +266,7 @@ class NewContactsEdit extends Component {
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
 
-                    <FormItem label={(<span>{callTr("a_1126")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_displayName")}</span>)}>
                         {getFieldDecorator('name', {
                             rules: [{
                                 required: true

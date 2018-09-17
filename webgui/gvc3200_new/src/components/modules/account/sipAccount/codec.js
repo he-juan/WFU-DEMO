@@ -333,7 +333,7 @@ class CodecForm extends React.Component {
 
     // checkPacketModelAndImgsize = (packetmodel, imgsize) => {
     //     if (packetmodel == 0 && (imgsize == '1' || imgsize == '4' || imgsize == '9' || imgsize == '10')) {
-    //         let a_ok = this.tr('a_9709'), a_cancel = this.tr('a_3'), self = this;
+    //         let a_ok = this.tr('a_ok'), a_cancel = this.tr('a_3'), self = this;
     //         let packetmodetip = this.tr('a_packetmodetip');
     //         Modal.confirm({
     //             content: <div><span dangerouslySetInnerHTML={{ __html: packetmodetip }}></span></div>,
@@ -651,7 +651,7 @@ class CodecForm extends React.Component {
                         <Select className={"P-" + nvram["enablertx"]}>
                             <Option value="0">NACK</Option>
                             <Option value="1">NACK+RTX(SSRC-GROUP)</Option>
-                            <Option value="2">{callTr('a_8')}</Option>
+                            <Option value="2">{callTr('a_downoff')}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -967,7 +967,7 @@ class CodecForm extends React.Component {
                         initialValue: this.props.itemValues['srtp'] ? this.props.itemValues['srtp'] : "0"
                     })(
                         <Select className={"P-" + nvram["srtp"]}>
-                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="0">{callTr("a_disable")}</Option>
                             <Option value="1">{callTr("a_16129")}</Option>
                             <Option value="2">{callTr("a_16130")}</Option>
                         </Select>

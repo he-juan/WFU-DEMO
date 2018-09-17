@@ -350,7 +350,7 @@ class CodecForm extends React.Component {
                         <Select className="P-26285">
                             <Option value="0">NACK</Option>
                             <Option value="1">NACK+RTX(SSRC-GROUP)</Option>
-                            <Option value="2">{callTr('a_8')}</Option>
+                            <Option value="2">{callTr('a_downoff')}</Option>
                         </Select>
                     )}
                 </FormItem>

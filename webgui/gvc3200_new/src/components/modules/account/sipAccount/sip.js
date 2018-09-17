@@ -157,7 +157,7 @@ class SipForm extends React.Component {
         const callTr = this.props.callTr;
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={(<span>{callTr("a_16066")}&nbsp;<Tooltip title={this.tips_tr("SIP Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_reg")}&nbsp;<Tooltip title={this.tips_tr("SIP Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipreg', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["sipreg"])
@@ -169,7 +169,7 @@ class SipForm extends React.Component {
                         initialValue: this.props.itemValues['unreg'] ? this.props.itemValues['unreg'] : "0"
                     })(
                         <Select className={"P-" + nvram["unreg"]}>
-                            <Option value="0">{callTr("a_22005")}</Option>
+                            <Option value="0">{callTr("a_groupnum")}</Option>
                             <Option value="1">{callTr("a_10009")}</Option>
                             <Option value="2">{callTr("a_instance")}</Option>
                         </Select>
@@ -351,7 +351,7 @@ class SipForm extends React.Component {
                     })(
                         <Select>
                             <Option value="0">{callTr("a_1015")}</Option>
-                            <Option value="1">{callTr("a_39")}</Option>
+                            <Option value="1">{callTr("a_disable")}</Option>
                             <Option value="2">{callTr("a_16087")}</Option>
                         </Select>
                     )}
@@ -362,8 +362,8 @@ class SipForm extends React.Component {
                     })(
                         <Select>
                             <Option value="0">{callTr("a_12")}</Option>
-                            <Option value="1">{callTr("a_22005")}</Option>
-                            <Option value="2">{callTr("a_22004")}</Option>
+                            <Option value="1">{callTr("a_groupnum")}</Option>
+                            <Option value="2">{callTr("a_yes")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -373,8 +373,8 @@ class SipForm extends React.Component {
                     })(
                         <Select>
                             <Option value="0">{callTr("a_12")}</Option>
-                            <Option value="1">{callTr("a_22005")}</Option>
-                            <Option value="2">{callTr("a_22004")}</Option>
+                            <Option value="1">{callTr("a_groupnum")}</Option>
+                            <Option value="2">{callTr("a_yes")}</Option>
                         </Select>
                     )}
                 </FormItem>
@@ -506,7 +506,7 @@ class SipForm extends React.Component {
                         initialValue: this.props.itemValues['removeobp'] ? this.props.itemValues['removeobp'] : "0"
                     })(
                         <Select className={"P-" + nvram["removeobp"]}>
-                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="0">{callTr("a_disable")}</Option>
                             <Option value="1">{callTr("a_active")}</Option>
                             <Option value="2">{callTr("a_always")}</Option>
                         </Select>

@@ -1244,7 +1244,7 @@ class NewContactsEdit extends Component {
                             })(
                                 <Select disabled={allDisabled} style={{width:'40%'}} >
                                     <option value="1">{callTr("a_19162")}</option>
-                                    <option value="2">{callTr("a_19163")}</option>
+                                    <option value="2">{callTr("a_Sec")}</option>
                                     <option value="3">{callTr("a_19164")}</option>
                                     <option value="4">{callTr("a_19165")}</option>
                                     <option value="5">{callTr("a_19166")}</option>

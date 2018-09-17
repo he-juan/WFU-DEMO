@@ -48,7 +48,7 @@ class Child extends Component {
                          initialValue: itemValues.nametype ? itemValues.nametype : "3"
                          })(
                              <Select>
-                                 <Option value="0">{callTr("a_23541")}</Option>
+                                 <Option value="0">{callTr("a_gdsname")}</Option>
                                  <Option value="1">{callTr("a_userid")}</Option>
                                  <Option value="2">{callTr("a_name_userid")}</Option>
                                  <Option value="3">{callTr("a_name_userid_keymode")}</Option>
@@ -736,14 +736,14 @@ class MpkForm extends Component {
                                                     return <Option value={`${i}`}>{checkAcctRig["name"+i] ? checkAcctRig["name"+i] : checkAcctRig["userid"+i]}</Option>
                                                 }
                                             } else {
-                                                return <Option value={`${i}`}>{`${this.tr("a_7476")} ${i+1}`}</Option>
+                                                return <Option value={`${i}`}>{`${this.tr("a_acct")} ${i+1}`}</Option>
                                             }
                                         })
                                     }
                                 </Select>
                             )}
                         </FormItem>}
-                        {this.state.keymodeIsMetting?null:<FormItem label={(<span>{callTr("a_1126")}&nbsp;<Tooltip title={this.tips_tr("Name  ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                        {this.state.keymodeIsMetting?null:<FormItem label={(<span>{callTr("a_displayName")}&nbsp;<Tooltip title={this.tips_tr("Name  ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                             {getFieldDecorator('addname', {
                                 rules: [{
                                     required:true,max:64,message: callTr("max_length64"),
@@ -796,7 +796,7 @@ class MpkForm extends Component {
                    return <Option value={`${i}`}>{checkAcctRig["name"+i] ? checkAcctRig["name"+i] : checkAcctRig["userid"+i]}</Option>
                                                         }
                                                     } else {
-                                                        return <Option value={`${i}`}>{`${this.tr("a_7476")} ${i+1}`}</Option>
+                                                        return <Option value={`${i}`}>{`${this.tr("a_acct")} ${i+1}`}</Option>
                                                     }
                                                 })
                                             }
@@ -818,7 +818,7 @@ class MpkForm extends Component {
                                                 <Input type="text" value={text} onChange={this.changeConfNumber.bind(this,index)}/>
                                             )}
                                     />
-                                    <Column title={this.tr("a_23541")} dataIndex="name" key="name" render={(text, record, index) => (
+                                    <Column title={this.tr("a_gdsname")} dataIndex="name" key="name" render={(text, record, index) => (
                                         <Input type="text" value={text} onChange={this.changeConfName.bind(this,index)}/>
                                     )}/>
                                     <Column title={this.tr("a_account")} dataIndex="account" key="account"
@@ -833,7 +833,7 @@ class MpkForm extends Component {
                                                                 return <Option value={`${i}`}>{checkAcctRig["name"+i] ? checkAcctRig["name"+i] : checkAcctRig["userid"+i]}</Option>
                                                             }
                                                         } else {
-                                                            return <Option value={`${i}`}>{`${this.tr("a_7476")} ${i+1}`}</Option>
+                                                            return <Option value={`${i}`}>{`${this.tr("a_acct")} ${i+1}`}</Option>
                                                         }
                                                     })
                                                 }
@@ -873,7 +873,7 @@ class MpkForm extends Component {
                         </Popconfirm>
                     </div>
                     <Table className="mpk_table" style={{"max-width":"1180px"}} rowSelection={rowSelection} dataSource={this.state.data} pagination={false} >
-                        <Column title={this.tr("a_1126")} dataIndex="name" key="name" render={
+                        <Column title={this.tr("a_displayName")} dataIndex="name" key="name" render={
                             (text,record,index)=>{
                                 if(typeof checkAcctRig === 'object'&&this.state.data[index].mode=="15" ){
                                     return text.split(";")[0]
@@ -895,7 +895,7 @@ class MpkForm extends Component {
                                 }else if (typeof checkAcctRig === 'object' && checkAcctRig['accountactive'+text] == "1" && checkAcctRig['sipserver'+text] != "" && checkAcctRig['userid'+text] != "") {
                                     return checkAcctRig["name"+text] ? checkAcctRig["name"+text] : checkAcctRig["userid"+text]
                                 }else {
-                                    return `${this.tr("a_7476")} ${parseInt(text)+1}`
+                                    return `${this.tr("a_acct")} ${parseInt(text)+1}`
                                 }
                             }}/>
                         <Column title={this.tr("a_value")} dataIndex="userId" key="userId"  render={

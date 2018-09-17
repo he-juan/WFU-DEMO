@@ -17,8 +17,8 @@ class DebugForm extends Component {
         super(props)
 
         this.state = {
-            aStart:"a_10273",
-            recordStart:"a_10273",
+            aStart:"a_start",
+            recordStart:"a_start",
             debugbtndisable: false,
             ckbdisabled: false
         }
@@ -111,7 +111,7 @@ class DebugForm extends Component {
         } else {
             if(count1 != checklogitems.length &&  values['capture'] != "1"){
                 if( values['acce'] == undefined || values['acce'] != "1" ){
-                    this.setState({aStart: "a_19281"});
+                    this.setState({aStart: "a_screen"});
                 }
             }
         }
@@ -122,7 +122,7 @@ class DebugForm extends Component {
         let items = form.getFieldsValue(checklogitems);
         let aStart;
 
-        if(this.state.aStart == "a_19281") {
+        if(this.state.aStart == "a_screen") {
             items.mode = "none";
         } else {
             if (mode == 1) {
@@ -131,7 +131,7 @@ class DebugForm extends Component {
                 items.mode = "on";
             } else {
                 mode = 1;
-                aStart = "a_10273"
+                aStart = "a_start"
                 items.mode = "off";
             }
 
@@ -164,7 +164,7 @@ class DebugForm extends Component {
                 if (res === "Success") {
                     rec_mode = 0;
                     this.setState({
-                        recordStart:"a_10273"
+                        recordStart:"a_start"
                     });
                     this.props.getRecordList( (data) => {
                         const { setFieldsValue } = this.props.form;
@@ -177,7 +177,7 @@ class DebugForm extends Component {
         } else {
             rec_mode = 1;
             this.setState({
-                recordStart:"a_10273"
+                recordStart:"a_start"
             });
             this.props.getRecording("startrecording" ,(res) => {
                 if (res === "Success") {
@@ -311,25 +311,25 @@ class DebugForm extends Component {
                         logitems[checklogitems[i]] = true;
                     }
                     form.setFieldsValue(logitems);
-                    this.setState({aStart: "a_10273", debugbtndisable: false});
+                    this.setState({aStart: "a_start", debugbtndisable: false});
                 }else{
                     let logitems = {};
                     for(let i in checklogitems){
                         logitems[checklogitems[i]] = false;
                     }
                     form.setFieldsValue(logitems);
-                    this.setState({aStart: "a_19281", debugbtndisable: true});
+                    this.setState({aStart: "a_screen", debugbtndisable: true});
                 }
                 break;
             case 'capture':
             case 'acce':
                 if(checked){
-                    this.setState({aStart: "a_10273"});
+                    this.setState({aStart: "a_start"});
                 }else {
                     if ((id == "acce" && form.getFieldValue("capture")) || (id == "capture" && form.getFieldValue("acce")) ) {
-                        this.setState({aStart: "a_10273"});
+                        this.setState({aStart: "a_start"});
                     } else {
-                        this.setState({aStart: "a_19281"});
+                        this.setState({aStart: "a_screen"});
                     }
                 }
             case 'syslog':
@@ -427,7 +427,7 @@ class DebugForm extends Component {
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'selectall')} disabled={this.state.ckbdisabled} />
                         )}
-                        <span> {callTr("a_23017")}</span>
+                        <span> {callTr("a_selectall")}</span>
                     </div>
                     <div className="dot-line"></div>
                     <div>
@@ -566,7 +566,7 @@ class DebugForm extends Component {
                 <p className="blocktitle"><s></s>{this.tr("a_screenshort")}</p>
                 <FormItem label={( <span> {callTr("a_screenshort")} <Tooltip title={callTipsTr("Screenshot")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
-                        <Button className="debug" type="primary" onClick={this.startScreenShot.bind(this)}>{this.tr("a_19281")}</Button>
+                        <Button className="debug" type="primary" onClick={this.startScreenShot.bind(this)}>{this.tr("a_screen")}</Button>
                     )}
                 </FormItem>
                 <FormItem className="select-item" label={( <span> {callTr("a_screenlist")} <Tooltip title={callTipsTr("Screenshot List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>

@@ -104,7 +104,7 @@ class AddCert extends Component {
                         }]
                     })(
                         <Upload {...cilentCertProps}>
-                            <Button type="primary" disabled={this.state.selbtndisable} style={{width: 100}}>{callTr("a_23018")}</Button>
+                            <Button type="primary" disabled={this.state.selbtndisable} style={{width: 100}}>{callTr("a_select")}</Button>
                         </Upload>
                     )}
                 </FormItem>

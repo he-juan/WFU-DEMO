@@ -681,7 +681,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues["dhcpvlan"] ? this.props.itemValues["dhcpvlan"] : "0"
                     })(
                         <Select className="P-8300">
-                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="0">{callTr("a_disable")}</Option>
                             <Option value="1">{callTr("a_19333")}</Option>
                             <Option value="2">{callTr("a_19334")}</Option>
                         </Select>
@@ -863,7 +863,7 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ "ip-address" + " " + this.state.networktype_mode_type.staip } label={< span > {this.tr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ "ip-address" + " " + this.state.networktype_mode_type.staip } label={< span > {this.tr("a_gateway")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -1244,7 +1244,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipmask
                     })(<Input maxLength="40" className="P-22107"/>)}
                 </FormItem>
-                <FormItem className = {this.state.twovlanType + " " + this.state.networktypevoip_mode_type} label={< span > {callTr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {this.state.twovlanType + " " + this.state.networktypevoip_mode_type} label={< span > {callTr("a_gateway")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('networkvoipgateway', {
                         rules: [
                             {
@@ -1360,7 +1360,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues["xmode"] ? this.props.itemValues["xmode"] : "0"
                     })(
                         <Select onChange={ this.onChangeMode.bind(this) } className="P-7901">
-                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="0">{callTr("a_disable")}</Option>
                             <Option value="1">EAP-MD5</Option>
                             <Option value="2">EAP-TLS</Option>
                             <Option value="3">EAP-PEAP</Option>

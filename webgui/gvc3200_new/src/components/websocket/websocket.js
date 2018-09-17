@@ -74,7 +74,7 @@ class HandleWebsocket extends React.Component {
                             errorMsg = 'a_brokenfile';
                             break;
                         case '10':
-                            errorMsg = 'a_12172';
+                            errorMsg = 'a_lowspace';
                             break;
                         case '11':
                             errorMsg = 'a_oemidnotcompatiable';

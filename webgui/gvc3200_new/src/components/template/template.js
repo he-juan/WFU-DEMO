@@ -16,7 +16,7 @@
  */
 
 export const options = [
-    {"name": "calls", "lang": "a_609", "sub": [
+    {"name": "calls", "lang": "a_calls", "sub": [
         {"name": "contact", "lang": "a_contact", "sub": [
             {"name": "contact", "lang": "a_contact", "sub": [
                 {"name": "File Encoding", "lang": "a_4755"},
@@ -51,8 +51,8 @@ export const options = [
         {"name": "sipAcct", "lang": "SIP", "sub": [
             {"name": "general", "lang": "a_16023", "acl": "1", "sub": [
                 {"type": "p", "lang": "a_accountregister"},
-                {"name": "Account Active", "lang": "a_23532"},
-                {"name": "Account Name", "lang": "a_23535"},
+                {"name": "Account Active", "lang": "a_accountactive"},
+                {"name": "Account Name", "lang": "a_accountname"},
                 {"name": "SIP Server", "lang": "a_23536"},
                 {"name": "Secondary SIP Server", "lang": "a_16055"},
                 {"name": "Tertiary SIP Server", "lang": "a_19168"},
@@ -74,7 +74,7 @@ export const options = [
             ]},
             {"name": "sip", "lang": "a_16025", "acl": "1", "sub": [
                 {"type": "p", "lang": "a_sipbasic"},
-                {"name": "SIP Registration", "lang": "a_16066"},
+                {"name": "SIP Registration", "lang": "a_reg"},
                 {"name": "Unregister Before New Registration", "lang": "a_16067"},
                 {"name": "Register Expitation", "lang": "a_regexp"},
                 {"name": "Reregister before Expiration", "lang": "a_regbeforeexp"},
@@ -179,7 +179,7 @@ export const options = [
         ]},
         {"name": "ipvtAcct", "lang": "IPVideoTalk", "sub": [
             {"name": "general", "lang": "a_16023", "sub": [
-                {"name": "Account Active", "lang": "a_23532"},
+                {"name": "Account Active", "lang": "a_accountactive"},
                 {"name": "Name", "lang": "a_name"},
                 {"name": "SIP Transport", "lang": "a_16093"},
                 // {"name": "Current plans", "lang": "a_9623"},
@@ -196,7 +196,7 @@ export const options = [
         ]},
         {"name": "bluejeansAcct", "lang": "BlueJeans", "sub": [
             {"name": "general", "lang": "a_16023", "sub": [
-                {"name": "Account Active", "lang": "a_23532"},
+                {"name": "Account Active", "lang": "a_accountactive"},
                 {"name": "Name", "lang": "a_name"},
                 {"type": "button", "lang": "a_17"}
             ]},
@@ -242,7 +242,7 @@ export const options = [
 
         {"name": "h323mode", "lang": "H.323", "sub": [
             {"name": "general", "lang": "a_16023", "sub": [
-                {"name": "Account Active", "lang": "a_23532"},
+                {"name": "Account Active", "lang": "a_accountactive"},
                 {"name": "Enable GK", "lang": "a_19120"},
                 {"name": "Enable H.460", "lang": "a_19204"},
                 {"name": "GK Discover Mode", "lang": "a_19122"},
@@ -273,7 +273,7 @@ export const options = [
     ]},
     {"name": "callset", "lang": "call_setting", "sub": [
         {"name": "general", "lang": "a_16023", "sub": [
-            {"name": "conventional", "lang": "a_16597", "sub": [
+            {"name": "conventional", "lang": "a_conventionset", "sub": [
                 {"name": "Local RTP Port", "lang": "a_16280"},
                 {"name": "Use Random Port", "lang": "a_16281", "oem": "54"},
                 {"name": "Keep-alive Interval", "lang": "a_16282"},
@@ -303,10 +303,10 @@ export const options = [
                 {"type": "button", "lang": "a_17"}
             ]},
         ]},
-        {"name": "sitename", "lang": "a_20073", "sub": [
+        {"name": "sitename", "lang": "a_sitename", "sub": [
             {"name": "sitenameset", "lang": "a_16013", "sub": [
                 {"name": "Background Transparency", "lang": "a_16221"},
-                {"name": "sitename", "lang": "a_20073"},
+                {"name": "sitename", "lang": "a_sitename"},
                 {"name": "Display Position", "lang": "a_16226"},
                 {"name": "Display Duration", "lang": "a_16231"},
                 {"name": "Font Color", "lang": "a_16234"},
@@ -353,7 +353,7 @@ export const options = [
                     {"name": "Vendor Class ID", "lang": "a_16189"}, //
                     {"name": "IP Address", "lang": "a_23531"}, //
                     {"name": "Subnet Mask", "lang": "a_4127"},//
-                    {"name": "Default Gateway", "lang": "a_16191"},//
+                    {"name": "Default Gateway", "lang": "a_gateway"},//
                     {"name": "DNS Server 1", "lang": "a_19227"},//
                     {"name": "DNS Server 2", "lang": "a_19228"},//
                     {"name": "PPPoE Account ID", "lang": "a_pppacc"},//
@@ -416,8 +416,8 @@ export const options = [
             {"name": "power", "lang": "a_12020", "sub": [
                 {"name": "Timeout Options", "lang": "a_19321"},
                 {"name": "Timeout Setup", "lang": "a_19322"},
-                {"name": "Reboot", "lang": "a_20008"},
-                {"name": "Sleep", "lang": "a_20009"},
+                {"name": "Reboot", "lang": "reboot"},
+                {"name": "Sleep", "lang": "a_sleep"},
                 {"name": "Shutdown", "lang": "a_19325"},
             ]}
         ]},
@@ -432,7 +432,7 @@ export const options = [
                 {"name": "Date Display Format", "lang": "a_16209"},
                 {"name": "Set Date", "lang": "a_16202"},
                 {"name": "Set Time", "lang": "a_9067"},
-                {"name": "Language", "lang": "a_23526"},
+                {"name": "Language", "lang": "a_lang"},
                 {"type": "button", "lang": "a_17"}
             ]}
         ]},
@@ -456,7 +456,7 @@ export const options = [
             {"name": "security", "acl": "1", "lang": "a_4221", "sub": [
                 {"name": "Disable SSH", "lang": "a_16316"},
                 {"name": "Access Method", "lang": "a_12057"},
-                {"name": "Port", "lang": "a_1173"},
+                {"name": "Port", "lang": "a_ptt_multiPort"},
                 {"name": "Current Admin Password", "lang": "a_19008"},
                 {"name": "Admin Password", "lang": "a_16317", "acl": "1"},
                 {"name": "Confirm Admin Password", "lang": "a_16318", "acl": "1"},
@@ -503,12 +503,12 @@ export const options = [
             ]}
         ]}
     ]},
-    {"name": "sysapp", "lang": "a_308", "sub": [
-        {"name": "ldap", "lang": "a_8409", "sub": [
-            {"name": "ldap", "lang": "a_8409", "sub": [
+    {"name": "sysapp", "lang": "system_app", "sub": [
+        {"name": "ldap", "lang": "appset_ldap", "sub": [
+            {"name": "ldap", "lang": "appset_ldap", "sub": [
                 {"name": "Connection Mode", "lang": "a_15022"},
                 {"name": "Server Address", "lang": "a_6755"},
-                {"name": "Port", "lang": "a_1173"},
+                {"name": "Port", "lang": "a_ptt_multiPort"},
                 {"name": "Base DN", "lang": "a_6757"},
                 {"name": "LDAP User Name", "lang": "a_username"},
                 {"name": "LDAP Password", "lang": "a_password"},
@@ -563,7 +563,7 @@ export const options = [
                 {"name": "Allow DHCP Option 43 and Option 66 to Override Server", "lang": "a_16337"},
                 {"name": "Validate Server Certificate", "lang": "a_19336"},
                 {"name": "mDNS Override Server", "lang": "a_16334"},
-                {"name": "Factory Reset", "lang": "a_12156"},
+                {"name": "Factory Reset", "lang": "a_factreset"},
                 {"name": "3CX Auto Provision", "lang": "a_16339"},
                 {"name": "Disable SIP NOTIFY Authentication", "lang": "a_19013"},
                 {"type": "button", "lang": "a_17"}
@@ -609,7 +609,7 @@ export const options = [
             {"name": "HDMI 2", "lang": "HDMI 2"},
             {"name": "USB Port", "lang": "a_usbport"},
             {"name": "External Speakerphone", "lang": "a_extspeakerph"},
-            {"name": "SD Card", "lang": "a_12036"}
+            {"name": "SD Card", "lang": "a_sd"}
         ]},
         {"name": "network", "lang": "a_4147", "sub": [
             {"name": "MAC Address", "lang": "a_16403"},
@@ -617,7 +617,7 @@ export const options = [
             {"name": "Address Type", "lang": "a_4150"},
             {"name": "IP Address", "lang": "a_4313"},
             {"name": "Subnet Mask", "lang": "a_4127"},
-            {"name": "Default Gateway", "lang": "a_16191"},
+            {"name": "Default Gateway", "lang": "a_gateway"},
             {"name": "DNS Server 1", "lang": "a_19227"},
             {"name": "DNS Server 2", "lang": "a_19228"},
         ]},

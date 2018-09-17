@@ -112,7 +112,7 @@ class CallForm extends Component {
                         initialValue: itemvalue['feakey'] ? itemvalue['feakey'] : "0"
                     })(
                         <Select className={"P-" + pvaluearray["feakey"][curacct]}>
-                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="0">{callTr("a_disable")}</Option>
                             <Option value="1">BroadSoft</Option>
                         </Select>
                     )}

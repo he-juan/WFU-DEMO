@@ -492,7 +492,7 @@ class Common extends Component {
                     })(
                         <Select onChange={ this.onChangeMode.bind(this) } className="P-1348">
                             <Option value="0">{this.tr("a_enabled")}</Option>
-                            <Option value="1">{this.tr("a_39")}</Option>
+                            <Option value="1">{this.tr("a_disable")}</Option>
                             <Option value="2">{this.tr("a_16601")}</Option>
                         </Select>
                     )}

@@ -280,7 +280,7 @@ class DownloadContactsForm extends Component {
                             initialValue: itemValues['downmode'] ? itemValues['downmode'] : "0"
                         })(
                             <RadioGroup onChange={this.handleDownModeChange} className="P-330">
-                                <Radio value = "0">{callTr("a_8")}</Radio>
+                                <Radio value = "0">{callTr("a_downoff")}</Radio>
                                 <Radio value = "1">TFTP</Radio>
                                 <Radio value = "2">HTTP</Radio>
                                 <Radio value = "3">HTTPS</Radio>

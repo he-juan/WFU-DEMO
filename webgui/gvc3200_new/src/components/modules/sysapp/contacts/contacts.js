@@ -205,7 +205,7 @@ class ContactsForm extends Component {
                         <Button type="primary" size='large' onClick={this.handleAddContact}>{callTr('a_23')}</Button>
                     </Col>
                     <Col span={6}>
-                        <Search style={{marginTop:'-0.5rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_9603')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                        <Search style={{marginTop:'-0.5rem',height:'32px'}} placeholder={ `${callTr('a_65')} ${mContactNum} ${callTr('a_backup_contacts')}` } onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                     </Col>
                 </Row>
                 {

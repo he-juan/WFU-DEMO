@@ -54,7 +54,7 @@ class LogactForm extends Component {
         let itemList =
             <Form hideRequiredMark>
                 <FormItem label={( <span> {callTr("a_16353")} <Tooltip title={callTipsTr("Clear Log")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} hasFeedback>
-                    <Button style = {{"border":"1px solid #3d77ff", "height":"30px","width":"80px"}} onClick={this.onClickClearLogcat}>{callTr("a_6332")}</Button>
+                    <Button style = {{"border":"1px solid #3d77ff", "height":"30px","width":"80px"}} onClick={this.onClickClearLogcat}>{callTr("a_clear")}</Button>
                 </FormItem>
                 <FormItem label={( <span> {callTr("a_16354")} <Tooltip title={callTipsTr("Log Tag")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {getFieldDecorator('logtag', {

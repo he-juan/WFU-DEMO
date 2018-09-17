@@ -136,7 +136,7 @@ class GdsForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={<span>{callTr("a_23541")}<Tooltip title={callTipsTr("GDS Name")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_gdsname")}<Tooltip title={callTipsTr("GDS Name")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("gdsname", {
                         rules: [{
                             required: true, message: callTr("a_gdsnameempty")
@@ -437,9 +437,9 @@ class Gds extends Component {
                             </Popconfirm>
                         </div>
                         <Table style={{"max-width":"1100px"}} rowSelection={rowSelection} dataSource={this.state.gdsdata} pagination={false} >
-                            <Column title={this.tr("a_22005")} dataIndex="gdsorder" key="order" />
+                            <Column title={this.tr("a_groupnum")} dataIndex="gdsorder" key="order" />
                             <Column title={this.tr("a_servicetype")} dataIndex="serviceType" key="type" />
-                            <Column title={this.tr("a_23541")} dataIndex="gdsname" key="name" />
+                            <Column title={this.tr("a_gdsname")} dataIndex="gdsname" key="name" />
                             <Column title={this.tr("a_gdsnumber")} dataIndex="gdsnumber" key="number" />
                             <Column title={this.tr("a_dtmfcontent")} className="display-hidden" dataIndex="gdspwd" key="pwd" />
                             <Column title={this.tr("a_operate")} key="operate" render={(text, record, index) => (

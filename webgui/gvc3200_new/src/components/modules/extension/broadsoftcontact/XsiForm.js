@@ -230,7 +230,7 @@ class XsiForm extends Component {
                         <Input className="P-1591"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_1173")}<Tooltip title={callTipsTr("Port ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_ptt_multiPort")}<Tooltip title={callTipsTr("Port ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             validator: (data, value, callback) => {

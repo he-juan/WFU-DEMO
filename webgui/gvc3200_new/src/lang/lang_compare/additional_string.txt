@@ -2,6 +2,7 @@
 The string not found in LCD language file, need to be added manually.
 */
 
+a_yes,Yes,是
 a_addMember,Add Member,添加参会成员
 a_timeWarn,The appointment must be later than the current time,预约的时间必须晚于当前时间
 a_delreponceconf,Cancel this event only,仅取消此次活动
@@ -14,6 +15,7 @@ a_notstart,Is not started,未开始
 a_waithost,Waiting for hosting,待主持
 a_nummember,Number of participants,参会人数
 a_cycle,Cycle Time,循环周期
+a_custom,Custom,自定义
 a_confMember,Member,参会成员
 a_cycleType,Cycle Type,循环类型
 a_confDuration,Conference Duration,会议时长
@@ -96,6 +98,7 @@ a_ptt_channelSetting,Channel Config,频道配置
 a_ptt_multicastAddress2,Multicast Address,多播地址
 a_label,Label,标签
 a_ptt_channel,Channel,频道
+a_ptt_multiPort,Port,端口号
 a_ptt_multicastAddress,PTT multicast address,PTT多播地址
 a_multicast,Multicast Paging,多播对讲
 a_ptt, PTT/Multicast Setting,PTT/组播设置
@@ -132,6 +135,7 @@ a_deletewhitesuc,Remove from whitelist successfully,已移出白名单
 a_deletewhite,Are you sure to remove from the whitelist,是否确定移出白名单
 a_whitelistsuc,Add to whitelist successfully,添加到白名单成功
 a_callpwd,Call password,来电密码
+a_answercall,Answer,接听
 a_blockcall,Block,拦截
 a_callpwd32,Password length can't more than 32,密码不能超过32位
 a_callpwdfill,Please fill the call password,请填写来电密码
@@ -141,6 +145,8 @@ a_Synced,Synced,同步完成
 a_bkstore,In Recovery,恢复中
 a_backupsize,Backup size,备份大小
 a_backuptime,Backup time,备份时间
+a_restore,Restore,恢复
+a_backup_contacts,Contacts,通讯录
 a_backup_cfg,Configuration information,配置信息
 a_backupcontent,Backup content,备份内容
 a_backupwarm,After backup, the original backup data will be overwrite,备份完成后, 原始备份数据将会被覆盖
@@ -202,6 +208,8 @@ history_all,Call history,历史记录
 a_dndset,DND,免打扰设置
 call_historycontact,Call History, Contacts,通话记录, 通讯录
 a_acctunregistered,Account is not registered,帐号未注册
+a_dialup,Call,拨打
+a_calls,Calls,通话
 show_white,Display White,显示白色
 show_blue,Display Blue,显示蓝色
 show_red,Display Red,显示红色
@@ -214,6 +222,7 @@ reset_shortpress,Short pressed,短按
 reset_unpressed,Unpressed,未按下
 a_resetkeystatus,Reset key status: ,复位键状态：
 tip_resetkeytest,The reset key is triggered only for testing during detection, and after clicking \"Stop testing\", it will return to normal,开始检测后，触发复位键仅进行测试，点击“停止检测”后复位键功能恢复正常
+a_resetkey,Reset,复位键
 reset_testip,Please press the reset button on the device and check the status of it,请按下设备上的复位键并检查复位键的状态
 mic3looptesting,The microphone 3 audio loop is under testing,正在测试麦克风3音频回环
 mic2looptesting,The microphone 2 audio loop is under testing,正在测试麦克风2音频回环
@@ -232,6 +241,7 @@ a_paireddevices,Paired devices,已配对的设备
 a_discoverable,Visible to Nearby Bluetooth Devices,对附近设备可见
 a_bluetooth,Bluetooth Settings,蓝牙设置
 a_devicename,Device Name,设备名称
+a_selectall,Select All,全部选中
 a_groupringtone,Group Ringtone,群组铃声
 a_contacttitle,Titel,职位
 a_department,Department,部门
@@ -244,9 +254,11 @@ a_contactgroups,Group,联系人组
 a_mobilephone,Mobile Phone,移动电话
 a_familyphone,Home Phone,家庭电话
 a_workphone,Work Phone,工作电话
+a_displayName,Display Name,显示名
 a_numberexceed,This contact already had three numbers, please select another contact,该联系人已有三个号码,请另选联系人
 a_addLocalcontact,Save to local contacts,保存至已有联系人
 a_addcontact,Add to local contacts,添加联系人
+a_contacts,contacts,个联系人
 a_contact,Contacts,联系人
 openvpn_ca,OpenVPN® CA,OpenVPN® CA
 a_protocalchanged,Modify the connection method or port, web will lead to log out and jump to the new address: ,修改连接方式或端口，页面将登出并跳转到新地址: 
@@ -259,6 +271,7 @@ a_searchtip,Please enter the name of the configuration,请输入配置项名称
 a_noresult,Sorry, no matching results,对不起,没有匹配结果
 a_vericaloffset,Veritcal Offset,垂直位移
 a_horizonoffset,Horizontal Offset,水平位移
+a_sitename,Site Name,会场名称
 a_remotebatt,Remote Battery,遥控器电量
 a_extspeakerph,External Speakerphone,外置麦克风
 a_usbport,USB Port,USB 口
@@ -294,6 +307,7 @@ a_fair,Fair,一般
 a_poor,Poor,弱
 a_used,Used,已使用
 a_available,Available,可用空间
+a_sd,SD card,内置存储空间
 a_rebooteffect,Reboot to take effect,重启生效
 a_wifiautoscan,The Wi-Fi list refreshes automatically every 15 seconds, you can also click the \"Scan\" button to refresh,Wi-Fi列表每15秒会进行自动刷新，您也可以通过点击“扫描”按钮进行刷新。
 a_anonyiden,Anonymous identity,匿名身份
@@ -333,12 +347,15 @@ a_userinfo,User Info Management,用户信息管理
 a_callset,Call Features,通话功能
 a_guestsetting,Guest Settings,游客设置
 a_guestset,Guest Features,游客功能
+a_conventionset,Basic Settings,基本设置
 max_length64,Please enter no more than 64 characters,请输入不超过64位字符！
 ext_broadsoft,BroadSoft Settings,BroadSoft功能
+system_app,Applications,应用
 system_diagnosis,System Diagnosis,系统诊断
 a_tr069,TR069,网管设置
 cpnt_peripheral,Preferences,偏好设置
 time_lang,Time and Language,时间和语言
+a_sleep,Sleep,睡眠
 common_net,Advanced Network Settings,高级网络设置
 call_setting,Phone Settings,电话设置
 status_store,Storage Info,存储信息
@@ -354,6 +371,8 @@ a_promptdelete,Are you sure to delete the item(s),是否确定删除选中条目
 a_gdspwd,Access Password,门禁开门密码
 a_dtmfcontent,DTMF Content,DTMF内容
 a_gdsnumber,System Number,门禁号码
+a_gdsname,Name,显示名
+a_groupnum,No,序号
 a_outdoor,Outdoor,室外
 a_indoor,Indoor,室内
 a_environment,Environment,使用环境
@@ -370,8 +389,11 @@ a_serveraliasrepeat,The server alias name is already exists,该服务器别名�
 a_serveraliaslength,The length of server alias is over 64,服务器别名不能超过64位字符
 a_serveraliasempty,Server alias can't be empty,服务器别名不能为空
 a_numempty,Number can not be empty,号码不能为空！
+a_reject,Reject,拒接
 a_endcall,End Call,结束通话
 a_onhold,On Hold,保持
+a_dial,Dial,拨打
+a_callout,Call,呼叫
 a_onboot,On Boot Completed,启动完成
 a_onunregister,On Unregister,注销帐号
 a_onregister,On Register,注册帐号
@@ -431,7 +453,9 @@ a_typeop1,Group Directory,群组目录
 a_bsauthsip,SIP Credentials,SIP认证
 a_bsauthtype,Authentication Type,认证类型
 a_hiddenauthmode,Security Mode for Hidden SSID,隐藏SSID的安全模式
+a_add,Add,添加
 a_scan,Scan,扫描
+a_select,Select,选择
 a_roamingpoorinterval,Poor Signal Scanning Interval (s),信号差扫描间隔 (秒)
 a_roaminggoodinterval,Good Signal Scanning Interval (s),信号优扫描间隔 (秒)
 a_wifirebooteffect,Please restart Wi-Fi to take effect,请重启Wi-Fi使更改生效
@@ -459,6 +483,7 @@ a_down,Down,下移
 a_up,Up,上移
 a_eventuri,EventList BLF URI,BLF号码组
 a_nomoreext,There is already 40 keys, no more can be added,已有40个联系人，不能再添加
+a_phname,Name,用户名
 a_disfmtfromser,Show Display Name from Server,显示服务器上名称
 a_formatting,Formatting,格式
 a_dtmfcontent,DTMF Content,DTMF内容
@@ -483,6 +508,7 @@ a_busy,Busy Lamp Field (BLF),Asterisk忙灯检测
 a_speeddial,Speed Dial,快速拨号
 a_keymode,Key Mode,按键模式
 a_value,Value,用户ID
+a_acct,Account,帐号
 a_blf,BLF,BLF
 a_avail,Available,所有铃声
 a_detail,Detail,详细信息
@@ -492,9 +518,11 @@ tip_url,Please enter a valid URL,请输入正确格式的网址
 tip_maxhits,Please input a digit between 0-4000,请输入0-4000之间的整数
 setdefault,Set as default,设为默认
 a_accempty,The account is empty,帐号不能为空
+a_ok,OK,确定
 a_alias,Local Alias,显示名称
 a_password,Password, 密码 
 a_account,Account, 帐号 
+a_add,Add,添加
 a_active,Enable,开启
 a_mailfilter2,Mail Filter,根据邮件过滤
 a_numberfilter2,Number Filter,根据号码过滤
@@ -521,6 +549,7 @@ a_sortmethod,Sort Phonebook by,联系人排序
 a_numberexist,The contact number already existed,该联系人号码已存在！
 a_icecontactsempty,\"Emergency Call Numbers can't be empty!\",紧急联系人不能为空
 a_nocomma,Emergency call number can't include \",\" character,紧急联系人不能包含\",\"字符！
+a_icecontacts,Emergency Call Numbers,紧急联系人
 a_12hours,12 Hours,12 小时
 a_8hour,8 Hours,8 小时
 a_6hour,6 Hours,6 小时
@@ -531,6 +560,7 @@ a_imexportcontacts,Import/Export Contacts,导入/导出联系人
 a_autodowninterval,Automatic Download Interval,自动下载周期
 a_savephone,Save Phonebook to PC,保存电话薄到电脑
 a_downserverempty,Download server can't be empty,下载服务器不能为空！
+a_downoff,OFF,关闭
 a_keeplocalcontacts,Keep Local Contacts,保留本地联系人
 a_replacebynumber,Replace by number,根据号码替换
 a_replacebyname,Replace by name,根据名字替换
@@ -607,11 +637,14 @@ a_dismissindtor,Disable Missed Call Indicator,关闭未接来电指示灯
 a_backmatch,Enable Enterprise Contacts Timeout Auto Search,企业联系人超时匹配
 a_importing,Importing, please wait..,正在导入,请稍候..
 a_processing,Language reload is processing,操作正在处理
+a_lang,Language,语言选择
+a_screen,Capture,截图
 a_screenshort,Screenshot,屏幕截图
 a_coredump,Core Dump,核心转储
 a_nospace,No enough storage space left, capture failed,剩余存储空间不足，抓包失败
 a_deploy,Provision,部署
 a_list,List,列表
+a_start,Start,开始
 a_anr,ANR Log,ANR日志
 a_tombstone,Tombstones,墓碑日志
 a_view,View Trace,查看已有包
@@ -619,14 +652,17 @@ a_viewscreen,View Screenshot,查看已有截图
 a_screenlist,Screenshot List,已有截图列表
 a_tracelist,Trace List,已有包列表
 a_clearsuc,Clear Successful,清除成功
+a_clear,Clear,清除
 a_syslogser,Syslog Server,系统日志服务器地址
 a_confsysupgrade,Are you sure to upgrade now,确认立即更新固件
+a_upgrade,Upgrade,更新
 a_upgrading,Upgrading,更新中
 a_firmwareupgrade,Firmware Upgrade,固件更新
 a_rebootcheck,Restore successful!Do you want to reboot to take effect immediately,恢复成功！是否立即重启以生效？
 a_installpathchange,Firmware server path changed,固件服务器路径已修改
 a_unknownfail,Unknown mistake,未知错误
 a_oemidnotcompatiable,OEM id is not compatiable,固件中OEM ID不匹配
+a_lowspace,There is not enough space on the disk,磁盘空间不足
 a_brokenfile,The file is damaged,固件已损坏
 a_notcomp,File incompatible,固件不兼容
 a_imagenotcomp,Image id not compatiable,固件中image ID不匹配
@@ -643,6 +679,7 @@ a_whenchange,When Firmware/Config file pre/suffix changes,当固件/配置文件
 a_alawaycheck,Always Check at bootup,启动时总是检查
 a_hourofday,Hour of the Day(0-23),每天的第几小时(0-23)
 a_autouprule,Firmware Upgrade and Provisioning,固件升级和配置文件检测
+a_factreset,Factory Reset,恢复出厂设置
 a_resetconfirm,Factory reset will erase all your settings and will reboot the device, are you sure to continue,恢复出厂设置将清除所有配置,你确认要执行该项操作
 a_pnp5060port,The local SIP port is 5060 in your account, save the operation will change the port to the random one, sure to change,您帐号中存在本地SIP端口为5060,保存该操作会将其改为随机端口，是否更改？
 a_autopro,PnP(3CX) Auto Provision,PnP(3CX)自动设定
@@ -666,7 +703,9 @@ a_backupsuc,Backup success,备份成功
 a_backuping,Backuping, please wait..,正在备份，请稍候..
 a_isdeleteBackup,Are you sure to delete the restore,确定删除该备份
 a_isBackup,Are you sure to restore,确定恢复该备份
+a_restore,Restore,恢复
 a_backuplimit,Please at least select backup content,请至少选择一种备份内容
+a_backup,Backup,备份
 a_pwdnotsame,The password is inconsistent with current one,您输入的密码与当前密码不一致！
 a_userpwdempty,Please input new user password,请输入用户新密码
 a_adminoruserpwdempty,Please input new administration's or user's password,请输入管理员/用户新密码
@@ -707,6 +746,7 @@ a_autocptbyregion,Auto Config CPT by Region,根据地区自动配置CPT
 a_attendtrnfonly,Attended Transfer Only,仅指定转接
 a_attendtrnf,Attended Transfer,指定转接
 a_blindtrnf,Blind Transfer,盲转
+a_defringcad,Ring Cadence,回铃音
 a_secdialtone,Second Dial Tone,备选拨号音
 a_packetmodetip,The H.264 image size is not supported when packetization-mode is Single NAL Unit Mode, it will change to CIF. Are you sure to continue,此H.264 视频大小在打包模式为单包模式时不支持，将修改为CIF，是否继续
 a_variable,Variable frames rate,可变帧率
@@ -722,6 +762,7 @@ a_dtmfcolorgrey,Grey,灰色
 a_dtmfcoloryellow,Yellow,黄色
 a_dtmfcolorred,Red,红色
 a_dtmfbtncolor,Dial DTMF Button Color,DTMF按钮颜色
+a_dtmfbtnmiddle,Middle,中
 a_dtmfbtnsize,Dial DTMF Button Size,DTMF按钮大小
 a_ldapdftacct,LDAP Dialing Default Account,LDAP拨号默认帐号
 a_enforward,Call Forward,转接
@@ -775,6 +816,7 @@ a_ringto,Ring Timeout (s),振铃超时时间 (秒)
 a_ring,Ring Tone ,铃声 
 a_ringtone,Ring Tones,铃声
 a_bcallcenter,BroadSoft Call Center,BroadSoft呼叫中心
+a_workcf,Others,其它
 a_cftype,Call Forward Type,呼叫转移类型
 a_callforward,Call Forward,呼叫转移
 a_bscallpark,Enable BroadSoft Call Park,激活BroadSoft Call Park
@@ -809,13 +851,22 @@ a_retrytime,Registration Retry Wait Time (s),重试注册间隔时间 (秒)
 a_regbeforeexp,Re-register before Expiration (s),注册期限内重新注册等待时间 (秒)
 a_regexp,Register Expiration (m),注册超时 (分钟)
 a_sipbasic,SIP Basic Settings,SIP基本设置
+a_reg,SIP Registration,注册
 a_disabled,Disabled,不使用
 a_enabled1,Enabled,使用
+a_disable,Disable,关闭
 a_enabled,Enabled,开启
+a_displayname,Display Name,显示名
 a_voicemailuid,Voice Mail Access Number,语音信箱接入号
 a_authpwd,SIP Authentication Password,验证密码
 a_authid,SIP Authentication ID,验证ID
 a_sipuid,SIP User ID,用户ID
+a_accountname,Account Name,帐号名称
+a_accountactive,Account Active,激活帐号
+a_Sec,Second,秒
+a_sec,second,秒
+a_Day,Day,天
+a_day,day,天
 a_fctsn,Factory Serial Number,工厂序列号
 a_ddrsn,DDR Serial Number,DDR序列号
 a_lcdsn,LCD Serial Number,LCD序列号
@@ -824,16 +875,21 @@ a_hardwarerev,Hardware Revision,硬件版本
 a_ipv6dnsser2,IPv6 DNS Server 2,IPv6 DNS服务器 2
 a_ipv6dnsser1,IPv6 DNS Server 1,IPv6 DNS服务器 1
 a_dhcp,DHCP,动态分配
+a_gateway,Gateway,默认网关
 a_talkingwait,During the call, please try again later,正在通话中，请稍后再拨
 a_talking,Talking,通话中
 a_ring,Ring,铃声 
 a_dialing,Dialing,拨号中
 a_registering,Registering,注册中
 a_account,Account, 帐号 
+logout,Logout,退出
+reboot,Reboot,重启
 theme,Theme,主题
 lang,Language :,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;语&nbsp;&nbsp;&nbsp;言&nbsp;:
 normal_record,Normal Record,普通录音
 call_record,Call Record,通话录音
+sysapp_record,Recording,录音
+appset_ldap,LDAP Book,LDAP联系人
 appset_phonebook,Contacts,本地联系人
 maintenance_actionurl,Event Notification,事件通知
 maintenance_broadsoft,BroadSoft Directories,BroadSoft联系人
@@ -890,3 +946,4 @@ tip_error,Invalid character exists,含有不合法字符
 a_saveapplying,Save Failed,applying data, please wait..,保存失败，正在更新数据，请稍等.....
 a_savesuc,Save Successfully,保存成功
 a_instance,Instance,Instance
+a_no,No,否

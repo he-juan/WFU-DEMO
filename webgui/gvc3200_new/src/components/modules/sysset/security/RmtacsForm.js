@@ -116,7 +116,7 @@ class RmtacsForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_1173")}<Tooltip title={callTipsTr("Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_ptt_multiPort")}<Tooltip title={callTipsTr("Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             required: true, message: callTr("tip_require")

@@ -110,7 +110,7 @@ class MoreForm extends Component {
                         initialValue: this.props.itemValues["mdns"] ? this.props.itemValues["mdns"] : "0"
                     })(
                         <Select className="P-1407">
-                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="0">{callTr("a_disable")}</Option>
                             <Option value="1">{callTr("a_16335")}</Option>
                             <Option value="2">{callTr("a_16336")}</Option>
                         </Select>
@@ -118,8 +118,8 @@ class MoreForm extends Component {
                     }
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_12156")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_16348")}</Button>
+                <FormItem label={< span > {callTr("a_factreset")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                    <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_resetkey")}</Button>
                 </FormItem>
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>

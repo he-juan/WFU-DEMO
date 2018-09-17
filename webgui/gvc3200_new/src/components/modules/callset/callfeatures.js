@@ -315,7 +315,7 @@ class CallfeaturesForm extends Component {
                         initialValue: itemvalue['entrymute'] ? itemvalue['entrymute'] : "0"
                     })(
                         <Select className={"P-29607"}>
-                            <Option value="0">{callTr("a_39")}</Option>
+                            <Option value="0">{callTr("a_disable")}</Option>
                             <Option value="1">{callTr("a_19329")}</Option>
                             <Option value="2">{callTr("a_19330")}</Option>
                             <Option value="3">{callTr("a_19331")}</Option>
@@ -408,7 +408,7 @@ class CallfeaturesForm extends Component {
                     })(
                         <Select className={"P-dial_dtmf_btn_size"}>
                             <Option value="0">{callTr("a_16249")}</Option>
-                            <Option value="1">{callTr("a_10090")}</Option>
+                            <Option value="1">{callTr("a_dtmfbtnmiddle")}</Option>
                             <Option value="2">{callTr("a_16248")}</Option>
                         </Select>
                     )}

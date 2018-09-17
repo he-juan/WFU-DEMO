@@ -38,7 +38,7 @@ class System extends Component {
     if (parseInt(data['day']) > 1) {
         dayhtml += data['day'] + " " + this.tr("a_106") + ", ";
     } else if (parseInt(data['day']) > 0) {
-        dayhtml += data['day'] + " " + this.tr("a_131") + ", ";
+        dayhtml += data['day'] + " " + this.tr("a_Day") + ", ";
     }
 
     if (parseInt(data['hour']) > 1) {
@@ -56,7 +56,7 @@ class System extends Component {
     if (parseInt(data['sec']) > 1) {
         dayhtml += data['sec'] + " " + this.tr("a_114") + " ";
     } else {
-        dayhtml += data['sec'] + " " + this.tr("a_19163");
+        dayhtml += data['sec'] + " " + this.tr("a_Sec");
     }
         return dayhtml;
     }

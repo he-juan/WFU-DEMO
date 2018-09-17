@@ -18,7 +18,7 @@ class Power extends Component {
             dialog1: false,
             dialog1Tips: '',
             dialog2: false,
-            dialog2BtnText: ['a_20008', 'a_20004', 'a_3'],
+            dialog2BtnText: ['reboot', 'a_20004', 'a_3'],
             excuteType: ''  //Reboot; Sleep; Shutdown
         }
         this.dialog1Tips = {
@@ -27,8 +27,8 @@ class Power extends Component {
             'Shutdown': 'a_19171'
         }
         this.dialog2BtnText = {
-            'Reboot': ['a_20008', 'a_20004', 'a_3'],
-            'Sleep': ['a_20009', 'a_20005', 'a_3'],
+            'Reboot': ['reboot', 'a_20004', 'a_3'],
+            'Sleep': ['a_sleep', 'a_20005', 'a_3'],
             'Shutdown': ['a_20006', 'a_20007', 'a_3']
         }
 

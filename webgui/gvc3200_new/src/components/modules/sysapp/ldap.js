@@ -114,7 +114,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8020"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_1173")}<Tooltip title={tips_tr("Port  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_ptt_multiPort")}<Tooltip title={tips_tr("Port  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -296,7 +296,7 @@ class LdapForm extends Component {
                                     if(i==16 && this.props.ipvtExist == '1') {
                                        return <Option value={`${i-1}`} style={{display:'none'}}></Option>
                                     } else {
-                                        return <Option value={`${i-1}`}>{this.props.itemValues["name" + i] ? this.props.itemValues["name" + i] : i == 0 ? callTr("a_12") : callTr("a_7476") + ` ${i}`}</Option>
+                                        return <Option value={`${i-1}`}>{this.props.itemValues["name" + i] ? this.props.itemValues["name" + i] : i == 0 ? callTr("a_12") : callTr("a_acct") + ` ${i}`}</Option>
                                     }
                                 })
                             }
@@ -345,7 +345,7 @@ class Ldap extends Component {
     render(){
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("a_8409")}</div>
+                <div className="subpagetitle">{this.tr("appset_ldap")}</div>
                 <div className="config-tab" style={{'minHeight': this.props.mainHeight,'paddingTop': '20px'}}>
                     <SysappLdapForm {...this.props} callTr={this.tr} tips_tr={this.tips_tr} checkUrlPath={this.checkUrlPath} digits={this.digits} range={this.range} getReqItem={this.getReqItem}/>
                 </div>

@@ -187,7 +187,7 @@ class Network extends Component {
                         <FormItem label={<span>{this.tr("a_4127")}<Tooltip title={this.tips_tr("Subnet Mask ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="subnet-mask">{ networkStatus["mask"] }</span>
                         </FormItem>
-                        <FormItem label={<span>{this.tr("a_16191")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                        <FormItem label={<span>{this.tr("a_gateway")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="default-gateway">{ networkStatus["gateway"] }</span>
                         </FormItem>
                         <FormItem label={<span>{this.tr("a_19227")}<Tooltip title={this.tips_tr("DNS Server 1 ")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -219,7 +219,7 @@ class Network extends Component {
                         <FormItem className = {this.state.voipset} label={<span>{this.tr("a_4127")}<Tooltip title={this.tips_tr("Subnet Mask ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="vmask">{ this.state.vmask }</span>
                         </FormItem>
-                        <FormItem className = {this.state.voipset} label={<span>{this.tr("a_16191")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                        <FormItem className = {this.state.voipset} label={<span>{this.tr("a_gateway")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="vgateway">{ this.state.vgateway }</span>
                         </FormItem>
                         <FormItem className = {this.state.voipset} label={<span>{this.tr("a_19227")}<Tooltip title={this.tips_tr("DNS Server 1 ")}><Icon type="question-circle-o"/></Tooltip></span>}>

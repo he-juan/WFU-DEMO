@@ -176,7 +176,7 @@ class RecordSet extends Component {
                                     initialValue: itemValues.ftpurl ? itemValues.ftpurl : ""
                                 })(<Input className=""/>)}
                             </FormItem>
-                            <FormItem label={< span > {callTr("a_1173")} </span >}>
+                            <FormItem label={< span > {callTr("a_ptt_multiPort")} </span >}>
                                 {getFieldDecorator("ftpport", {
                                     rules: [{
                                         validator: (data, value, callback) => {
