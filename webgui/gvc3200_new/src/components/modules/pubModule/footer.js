@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import * as Actions from './redux/actions/index'
+import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {Layout} from 'antd';

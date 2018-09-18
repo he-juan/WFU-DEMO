@@ -7,7 +7,7 @@ import {  connect } from 'react-redux';
 import * as optionsFilter from "../../template/optionsFilter";
 import PreShedule from "./schedule/preschedule";
 import Schdule_History from "./schedule/schedule_history";
-import NewConEdit from "../../newConfEdit"
+import NewConEdit from "./callsPubModule/newConfEdit"
 
 const Content = Layout;
 const TabPane = Tabs.TabPane;

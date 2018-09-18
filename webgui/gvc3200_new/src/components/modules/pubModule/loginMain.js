@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import Enhance from "./mixins/Enhance";
-import * as Actions from './redux/actions/index'
+import Enhance from "../../mixins/Enhance";
+import * as Actions from '../../redux/actions/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Form, Input, message, Button, Menu, Dropdown, Icon, Tooltip, Alert} from "antd";

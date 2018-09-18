@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import { FormattedHTMLMessage } from 'react-intl';
 import Enhance from "../../../mixins/Enhance";
-import NewContactsEdit from "../../../newContactsEdit";
-import AddLocalcontacts from "../../../addLocalcontacts";
-import NewConEdit from "../../../newConfEdit"
+import NewContactsEdit from "../callsPubModule/newContactsEdit";
+import AddLocalcontacts from "../callsPubModule/addLocalcontacts";
+import NewConEdit from "../callsPubModule/newConfEdit"
 import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form , Popover} from "antd";
 import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';

@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import ReactDOM from "react-dom";
-import Enhance from './mixins/Enhance';
-import * as Actions from './redux/actions/index'
+import Enhance from '../../mixins/Enhance';
+import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -22,7 +22,7 @@ class RebootMain extends Component {
             $('.loginDiv').fadeIn(1000);
         });
         let reboottype = $.cookie('reboottype') || '0';
-        
+
         setTimeout(() => this.props.sysReboot(reboottype), 1000);
         // if( $.cookie("resetreboot") != "1" ){
         //     setTimeout(() => this.props.reboot(), 1000);
@@ -74,9 +74,9 @@ class RebootMain extends Component {
                 <div className="rebootContent">
                     <div className="rebootContent_title">{subtitle}</div>
                     <div className="rebootContent_content">{tips}</div>
-                   
+
                     <a href="index.html"><span id="clicklogin">{this.tr("clicklogin")}</span></a>
-                    
+
                     <span style={{color:"#bac0ca",fontSize:"12px"}} id="vendor">
                         {this.state.vendorMsg}
                     </span>

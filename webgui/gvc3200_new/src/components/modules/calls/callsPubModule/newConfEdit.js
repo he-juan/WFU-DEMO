@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Enhance from './mixins/Enhance'
-import * as Actions from './redux/actions/index'
+import Enhance from '../../../mixins/Enhance'
+import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Form,Checkbox, Modal, Tooltip, Icon, Row,Col, Input, Button, Select, Radio,DatePicker,Table,Cascader,Tabs } from "antd"
@@ -10,12 +10,7 @@ const Option = Select.Option
 const TabPane = Tabs.TabPane;
 
 const weekstrArr = ['SU','MO','TU','WE','TH','FR','SA']
-// const TypeArr = [{type}]
 
-const config = {
-    rules: [{ type: 'object', required: true, message: 'Please select time!' }],
-};
-let curMember = []
 class NewContactsEdit extends Component {
     // selectedContactRowKeys = [];
     // selectedCallRowKeys = [];
@@ -1092,7 +1087,7 @@ class NewContactsEdit extends Component {
                         </FormItem>
                         <FormItem label={(<span>{callTr("a_15054")}</span>)}>
                             {getFieldDecorator('confSubject', {
-                                rules: [{required: true}]
+                                rules: [{required: true, message: callTr("tip_require")}]
                             })(
                                 <Input disabled={allDisabled} style={{width:'93%'}}/>
                             )}
@@ -1106,7 +1101,7 @@ class NewContactsEdit extends Component {
                             )}
                             &nbsp;&nbsp;
                             {getFieldDecorator('confhours', {
-                                rules: [{required: true}],
+                                rules: [{required: true, message: callTr("tip_require")}],
                                 initialValue: curHour.toString()
                             })(
                                 <Select disabled={allDisabled} defaultValue="a1" style={{width:'25%'}} >
@@ -1115,7 +1110,7 @@ class NewContactsEdit extends Component {
                             )}
                             &nbsp;<span>:</span>&nbsp;
                             {getFieldDecorator('confminutes', {
-                                rules: [{required: true}],
+                                rules: [{required: true, message: callTr("tip_require")}],
                                 initialValue: curMinutes.toString()
 
                             })(
@@ -1126,7 +1121,7 @@ class NewContactsEdit extends Component {
                         </FormItem>
                         <FormItem label={(<span>{callTr("a_3501")}</span>)}>
                             {getFieldDecorator('duration', {
-                                rules: [{required: true}],
+                                rules: [{required: true, message: callTr("tip_require")}],
                                 initialValue: '1'
                             })(
                                 <Select disabled={allDisabled} style={{width:'25%'}}>

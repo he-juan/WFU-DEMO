@@ -4,16 +4,16 @@ import * as Actions from './redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Index from "./index";
-import LoginMain from "./loginMain";
-import RebootMain from "./rebootMain";
-import { productInit } from "./productInit";
+import LoginMain from "./modules/pubModule/loginMain";
+import RebootMain from "./modules/pubModule/rebootMain";
+import { productInit } from "./modules/pubModule/productInit";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.cb_getloginstate();
     }
-    
+
     componentWillMount = () => {
         this.props.getProduct();
         this.props.getColorExit();

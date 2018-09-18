@@ -3,14 +3,14 @@ import { Router, hashHistory } from 'react-router'
 import { IntlProvider } from 'react-intl'
 import Routes from "./routes"
 import MainNav from './nav/main_nav'
-import Footer from "./footer"
+import Footer from "./modules/pubModule/footer"
 import Enhance from "./mixins/Enhance"
 import {Layout,BackTop,LocaleProvider} from "antd"
 import * as Actions from './redux/actions/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import CallDialog from './call/callDialog'
-import CallTip from './call/callTip'
+import CallDialog from './modules/pubModule/callDialog'
+import CallTip from './modules/pubModule/callTip'
 import en_US from "antd/lib/locale-provider/en_US";
 import ja_JP from "antd/lib/locale-provider/ja_JP";
 import es_ES from "antd/lib/locale-provider/es_ES";
@@ -52,7 +52,7 @@ class Main extends React.Component {
         });
 
         this.props.getMaxlineCount();
-        
+
         this.props.getUserType();
         this.props.getFxoexit();
     }
@@ -64,7 +64,7 @@ class Main extends React.Component {
                 this.props.enterPageSaving(savingtimes++);
             }
         }.bind(this);
-        
+
         /*get dial line status to init the call page*/
         if (this.props.product == "GAC2510") {
             this.props.getAllLineStatus((data) => {

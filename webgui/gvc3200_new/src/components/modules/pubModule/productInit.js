@@ -1,4 +1,4 @@
-import * as Store from './entry'
+import * as Store from '../../entry'
 
 export const productInit = () => {
     let states = Store.store.getState();

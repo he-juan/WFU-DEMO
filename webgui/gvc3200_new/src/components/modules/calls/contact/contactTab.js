@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { FormattedHTMLMessage } from 'react-intl';
 import Enhance from "../../../mixins/Enhance";
-import NewContactsEdit from "../../../newContactsEdit";
+import NewContactsEdit from "../callsPubModule/newContactsEdit";
 import ImportEdit from './import'
 import ExportEdit from './export'
 import CallSelectNum from './selectNum'
@@ -517,6 +517,12 @@ class ContactTab extends Component {
         }
         const hasSelected = selectedRowKeys.length > 0;
 
+        let loading = false
+        if(this.props.contactsInformation.length > 0) {
+            loading = true
+        }
+
+        console.log('loading',loading)
         return (
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>
@@ -556,7 +562,10 @@ class ContactTab extends Component {
                         <p>{this.tr("no_data")}</p>
                     </div>
                 </div>
-                <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                {loading?
+                    <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                    : null
+                }
                 <ImportEditForm {...this.props} displayImportModal={this.state.displayImportModal}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                 <ExportEditForm {...this.props} displayExportModal={this.state.displayExportModal}  handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                 <ContactsDownloadForm {...this.props} displayDwonloadModal={this.state.displayDwonloadModal} handleHideDownloadModal={this.handleHideDownloadModal} />

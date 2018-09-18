@@ -1,13 +1,13 @@
 import React,{Component} from 'react';
 import { hashHistory } from 'react-router';
-import Enhance from './mixins/Enhance';
-import * as Actions from './redux/actions/index'
+import Enhance from '../../mixins/Enhance';
+import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {Layout, Menu, Button, Select, Input, Dropdown, Icon, Popconfirm,Modal} from "antd";
 const Header = Layout;
 const Search = Input.Search;
-import { matchSearchResult } from './template/optionsFilter'
+import { matchSearchResult } from '../../template/optionsFilter'
 
 const confirm = Modal.confirm;
 

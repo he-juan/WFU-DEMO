@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Enhance from './mixins/Enhance'
+import Enhance from '../../../mixins/Enhance'
 import NewContactsEdit from "./newContactsEdit";
-import * as Actions from './redux/actions/index'
+import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Form, Modal, Table, Input, Icon, Button, Select } from "antd"

@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import { FormattedHTMLMessage } from 'react-intl';
 import Enhance from "../../../mixins/Enhance";
-import ContactsEdit from "../../../ContactsEdit";
-import GroupEditModal from "../../../groupEditModal"
+import ContactsEdit from "../callsPubModule/ContactsEdit";
+import GroupEditModal from "../callsPubModule/groupEditModal"
 import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form } from "antd";
 import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';

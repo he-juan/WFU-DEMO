@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
-import Enhance from "../mixins/Enhance"
+import Enhance from "../../mixins/Enhance"
 import { Layout, Button, Icon, Slider } from "antd"
-import * as Actions from '../redux/actions/index'
+import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {globalObj} from "../redux/actions/actionUtil"
+import {globalObj} from "../../redux/actions/actionUtil"
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "", ctrlbtnvisible = "", maskvisible = "", curvol = "", contactItems;
 let dialogLeaveTimeout;
@@ -181,7 +181,7 @@ class CallDialog extends Component {
     }
 
     render(){
-        //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy 
+        //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let dialogstatus = this.props.status;
         switch (dialogstatus) {
             case 3:

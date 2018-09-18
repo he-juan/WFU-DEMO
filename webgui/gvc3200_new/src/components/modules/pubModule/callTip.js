@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import Enhance from "../mixins/Enhance"
+import Enhance from "../../mixins/Enhance"
 import { Layout } from "antd"
-import * as Actions from '../redux/actions/index'
+import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 const Content = Layout
@@ -9,19 +9,19 @@ const Content = Layout
 class CallTip extends Component {
     constructor(props){
         super(props);
-        
+
         this.state = {
             tipwidth: 0
         }
     }
-	
+
     componentDidMount = () =>{
         let width = document.body.offsetWidth - 230
         this.setState({
             tipwidth: width
         })
     }
-    
+
 	handleCallDialog = () => {
 		this.props.showCallDialog(9);
 	}

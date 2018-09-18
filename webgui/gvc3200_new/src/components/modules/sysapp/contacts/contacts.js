@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Enhance from '../../../mixins/Enhance'
-import ContactsEdit from "../../../ContactsEdit"
+import ContactsEdit from "../../calls/callsPubModule/ContactsEdit"
 import ImportEdit from './import'
 import ExportEdit from './export'
 import * as Actions from '../../../redux/actions/index'

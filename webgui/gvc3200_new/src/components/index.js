@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import MainHeader from "./header";
+import MainHeader from "./modules/pubModule/header";
 import Main from "./main";
 import {Layout} from "antd";
-import SpinBlock from "./spinblock";
-import ProgressMessage from "./progressTip";
-import NotifyBox from "./notifybox";
+import SpinBlock from "./modules/pubModule/spinblock";
+import ProgressMessage from "./modules/pubModule/progressTip";
+import NotifyBox from "./modules/pubModule/notifybox";
 import HandleWebsocket from './websocket/websocket.js';
 import * as Actions from './redux/actions/index';
 import { bindActionCreators } from 'redux';
