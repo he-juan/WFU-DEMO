@@ -7,13 +7,13 @@ import {  connect } from 'react-redux';
 import * as optionsFilter from "../../template/optionsFilter";
 import PreShedule from "./schedule/preschedule";
 import Schdule_History from "./schedule/schedule_history";
-import NewConEdit from "./callsPubModule/newConfEdit"
+import NewConfEdit from "./callsPubModule/newConfEdit"
 
 const Content = Layout;
 const TabPane = Tabs.TabPane;
 const ScheduleForm = Form.create()(PreShedule);
 const HistoryForm = Form.create()(Schdule_History);
-const NewConEditForm = Form.create()(NewConEdit)
+const NewConfEditForm = Form.create()(NewConfEdit)
 
 class History extends Component {
     constructor(props) {
@@ -111,7 +111,7 @@ class History extends Component {
                     </Button>
                     {tabList}
                 </Content>
-                <NewConEditForm {...this.props} callTr={callTr}
+                <NewConfEditForm {...this.props} callTr={callTr}
                                 handleHideNewConfModal= {this.handleHideNewConfModal}
                                 updateDate = {this.updateDate}
                                 displayNewConfModal={this.state.displayNewConfModal}

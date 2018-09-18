@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Form,Checkbox, Modal, Tooltip, Icon, Row,Col, Input, Button, Select, Radio,DatePicker,Table,Cascader,Tabs } from "antd"
 import moment from 'moment';
+import {setTimeoutOpt} from "../../../redux/actions";
 const FormItem = Form.Item
 const Option = Select.Option
 const TabPane = Tabs.TabPane;
@@ -201,7 +202,11 @@ class NewContactsEdit extends Component {
             })
         }
         if(typeof this.props.updateDate == "function") {
-            this.props.updateDate();
+            let self = this
+            setTimeout(function () {
+                self.props.updateDate()
+            }, 500);
+            // this.props.updateDate();
         }
         // console.log(infostr)
     }
@@ -1002,8 +1007,11 @@ class NewContactsEdit extends Component {
     render() {
         let title = this.props.addNewConf ? 'a_10035' : 'a_10051'; // add : edit
         let allDisabled = false
+        let modalclass = 'importModal confModal '
+
         if(this.props.confdetail) { // show detail
             title = 'a_12160'
+            modalclass += 'hidden-modal-btn'
             allDisabled = true
         }
         let values = this.props.form.getFieldsValue();
@@ -1077,7 +1085,7 @@ class NewContactsEdit extends Component {
         }
         return(
             <div>
-                <Modal className='importModal confModal' visible={this.props.displayNewConfModal}
+                <Modal  className={modalclass} visible={this.props.displayNewConfModal}
                        title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} >
                     <Form onSubmit={this.handleSubmit} hideRequiredMark >
                         <FormItem className='display-hidden'>

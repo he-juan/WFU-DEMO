@@ -6214,7 +6214,9 @@ ol.mp_list li.mp_error {}
     margin-left: -28px;
     margin-top: -30px;
 }
-
+.hidden-modal-btn .ant-modal-footer{
+    display: none;
+}
 
 
 

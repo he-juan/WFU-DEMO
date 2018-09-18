@@ -1,194 +1,16 @@
 import React, {Component, PropTypes} from 'react';
-import { FormattedHTMLMessage } from 'react-intl';
+// import { FormattedHTMLMessage } from 'react-intl';
 import Enhance from "../../../mixins/Enhance";
-import NewContactsEdit from "../callsPubModule/newContactsEdit";
-import AddLocalcontacts from "../callsPubModule/addLocalcontacts";
-import NewConEdit from "../callsPubModule/newConfEdit"
+import NewConfEdit from "../callsPubModule/newConfEdit"
 import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form ,Popover,Row,Col} from "antd";
 import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
-
-const NewContactsEditForm = Form.create()(NewContactsEdit);
-const AddLocalcontactsForm = Form.create()(AddLocalcontacts);
-const NewConEditForm = Form.create()(NewConEdit)
 const rowKey = function(record) {
     return record.key;
 };
-class ContactEditDiv extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            editContact:{},
-            displayModal:false,
-            addNewContact:false,
-            items:[],
-            groups:[],
-            handleSaveContactGroupId:new Function(),
-            emailValues:[],
-            numValues:[],
-            displayLocalContactsModal:false,
-            addnumber:'',
-            addaccount:'',
-            showtips: 'none',
-            contactsinfo:[],
-            confMember:[],
-            confSubject:''
-        }
-    }
-
-    componentDidMount = () => {
-        this.updateContact();
-    }
-
-    updateContact = () => {
-        // this.props.getContactCount();
-        this.props.getContacts((items)=>{this.setState({items:items})});
-        this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        // this.props.getContactsinfo((infos)=>{this.setState({contactsinfo:infos})});
-        // this.props.getAllConfMember((memberinfo)=>{this.setState({confMember:memberinfo})})
-        this.props.getContactsinfo();
-        this.props.getAllConfMember();
-        this.props.getPreConf();
-        this.props.getConfInfo()
-    }
-
-    handleClose = () => {
-        this.props.handleHide();
-    }
-
-    handleHideModal = () => {
-        this.setState({displayModal:false,addNewContact:false})
-    }
-
-    handleEditContacts = (number, account) => {
-        var containermask = document.getElementsByClassName("containermask")[0];
-        containermask.style.display="none";
-        let numValues = this.state.numValues;
-        numValues.length = 0;
-        this.setState({displayModal:true,addNewContact:true,emailValues:[""]});
-        numValues.push(number + " " + account);
-        this.setState({numValues:numValues})
-    }
-
-    handleaddLocalContacts = (number, account) => {
-        this.setState({
-            displayLocalContactsModal: true,
-            addnumber: number,
-            addaccount: account
-        })
-    }
-
-    handleHideLocalContactsModal = () => {
-        this.setState({displayLocalContactsModal: false})
-    }
-
-    handleOkDelete = ( item ) => {
-        var divId = "logitemdiv" + item.Id;
-        var div = document.getElementById(divId);
-        var parentDiv = document.getElementById("logitemsdiv");
-        var containerdiv = document.getElementById("containerdiv");
-        this.props.get_deleteCall(item.Id, (result) => {
-            if (result == 'success') {
-                this.props.get_calllog(0);
-                div.parentNode.removeChild(div);
-                if (parentDiv.children.length == 0) {
-                    containerdiv.style.display="none";
-                }
-            }
-        });
-    }
-
-    checkRepeatName = (firstname,lastname) => {
-        let data = this.props.contactinfodata
-        firstname = firstname ? firstname : ""
-        lastname = lastname ? lastname : ""
-        for(var i = 0; data[i] != undefined; i++) {
-            if(data[i].FirstName == firstname && data[i].LastName == lastname)
-                return true;
-        }
-        return false
-    }
-
-    render() {
-        const callTr = this.props.callTr;
-        const convertTime = this.props.convertTime;
-        var number;
-        var account;
-        var nameAccount;
-        var numberaccount;
-        if ( !$.isEmptyObject(this.props.detailDiv)) {
-            number = this.props.detailDiv.Number;
-            account = this.props.detailDiv.Account;
-        }
-        let contactsInformation = this.props.contactsInformation;
-        let buttonDisplay = '';
-        // if (contactsInformation.length > 0) {
-        //     for ( var i = 0; i <  contactsInformation.length; i++) {
-        //         var a = contactsInformation[i].Number.indexOf(number);
-        //         if ( a !== -1 && this.props.detailDiv.row6 === true) {
-        //             buttonDisplay = 'none';
-        //             break;
-        //         } else {
-        //             buttonDisplay = 'inline-block';
-        //         }
-        //     }
-        // }
-        // var detailItems = this.props.detailDiv.row3;
-        var detailItemsToday = new Array;
-        var detailItemsYestday = new Array;
-        var detailItemsBefore = new Array;
-        // for (var i = 0; i < (detailItems && detailItems.length); i++) {
-        //     var value = this.props.isToday(parseInt(detailItems[i]['Date']));
-        //     if (value == "Today") {
-        //         detailItemsToday.push(detailItems[i])
-        //     } else if (value == "Yestday") {
-        //         detailItemsYestday.push(detailItems[i])
-        //     } else if (value == "Before") {
-        //         detailItemsBefore.push(detailItems[i])
-        //     }
-        // }
-        const acctStatus = this.props.acctStatus;
-        var accountItems = [];
-        // for(var item in acctStatus.headers){
-        //     accountItems[item]=acctStatus.headers[item]
-        // }
-        var accountNumber;
-        // if (accountItems.response) {
-        //     if (accountItems["account_"+ account + "_name"]) {
-        //         accountNumber = accountItems["account_"+ account + "_name"]
-        //     } else {
-        //         accountNumber = accountItems["account_"+ account + "_no"]
-        //     }
-        // }
-        return (
-            <div className = {"containermask " + this.props.displayDiv}>
-                <div id = "containerdiv ">
-                    <div id = "contacteditdiv" className='addContact-select'>
-                        <div id = "itemdetaildiv">
-                            <div className = "titlediv">
-                                <span>{callTr("a_73")}</span>
-                                <div style = {{'float':'right'}} >
-                                    <button type = "Button" onClick={this.handleClose}/>
-                                </div>
-                            </div>
-                            <div className = "appsbtn">
-                                <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("a_addLocalcontact")}</Button>
-                                <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_addcontact")}</Button>
-                            </div>
-                        </div>
-                        <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} detailItems={this.state.detailItems} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
-                        <AddLocalcontactsForm {...this.props} callTr={this.props.callTr} handleHideLocalContactsModal= {this.handleHideLocalContactsModal} displayLocalContactsModal={this.state.displayLocalContactsModal} addnumber={this.state.addnumber} addaccount={this.state.addaccount} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-
+const NewConfEditForm = Form.create()(NewConfEdit)
 class Call extends Component {
     historyList = [];
     selectedContactList = [];
@@ -223,7 +45,6 @@ class Call extends Component {
                 let acctstatus = result.headers;
                 let max = 16;
                 if(this.isWP8xx()) max = 2;
-
                 for(let i = 0; i < max; i++){
                     if(acctstatus[`account_${i}_status`] == "1"){
                         this.setState({existActiveAccount: true});
@@ -275,7 +96,7 @@ class Call extends Component {
 
     handleOkDelete = (event,deleteId,option) => {
         // event.cancelBubble = true;
-        console.log(event)
+       // console.log(event)
         event.stopPropagation( );
         // console.log('text',deleteId,option)
         if(option==1) {
@@ -331,7 +152,7 @@ class Call extends Component {
             confpreset : Preset,
             cycle : Recyle
         }
-        console.log(this.tojson(repetRule))
+      //  console.log(this.tojson(repetRule))
         if(confinfo.Schedulepsw) {
             obj.pincode = confinfo.Schedulepsw
         }
@@ -393,7 +214,7 @@ class Call extends Component {
                 obj.customRepeat = '4'
             }
         }
-        console.log(obj)
+      //  console.log(obj)
 
         this.props.form.setFieldsValue(obj);
 
@@ -436,10 +257,9 @@ class Call extends Component {
         const [confinfodata, callTr, _createTime, isToday, convertTime, logItemdata, view_status_Duration,curContactList] =
             [this.props.confinfodata, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime, this.props.logItemdata, this.props.view_status_Duration, this.state.curContactList];
         // console.log(contactsInformation,logItemdata,this.props.confmemberinfodata)
-
         let preconfdata = this.props.preconfdata;
         let status = [
-            {type:0,statusname:callTr('a_waithost')},
+            {type:0,statusname:callTr('a_10155')},
             {type:1,statusname:callTr('a_9348')},
             {type:2,statusname:callTr('a_notstart')},
             {type:3,statusname:callTr('a_10174')},
@@ -463,6 +283,10 @@ class Call extends Component {
             data.push(obj)
         }
         // console.log(data)
+        let loading = true
+        if(data.length > 0) {
+            loading = false
+        }
         return (
             <div>
                 <div className = 'preconflist'>
@@ -476,12 +300,12 @@ class Call extends Component {
                                         <Col className='conf-status' span={9}>{item.status.statusname}</Col>
                                     </Row>
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('theme')}：</Col>
+                                        <Col className='conf-label' span={3}>{callTr('a_15054')}：</Col>
                                         <Col className='ellips' span={12}>{item.confinfo.Displayname}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('a_confDuration')}：</Col>
+                                        <Col className='conf-label' span={3}>{callTr('a_3501')}：</Col>
                                         <Col className='' span={12}>{item.confinfo.Duration / 60}{callTr('a_15008')}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
@@ -500,16 +324,16 @@ class Call extends Component {
                                                 onClick={(e)=>this.handleEdit(e,item)} type="primary">{this.tr("a_editMeet")}</Button>
                                             {/*<Button type="primary">{this.tr("a_cancelMeet")}</Button>*/}
 
-                                            {item.confinfo['Recycle'] != '7' ? (
+                                            {item.confinfo['Recycle'] == '0' ? (
                                                 <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
                                                     {/*<button className='allow-delete'></button>*/}
                                                     <Button onClick={(e)=>this.cancelPop(e)} type="primary">{this.tr("a_cancelMeet")}</Button>
                                                 </Popconfirm>
                                             ) : (
-                                                <Popover content={
+                                                <Popover title={callTr('a_19169')} content={
                                                     <div>
-                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id)} >{callTr('a_delrepconf')}</p>
-                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id,1)} >{callTr('a_delreponceconf')}</p>
+                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id)} >{callTr('a_15042')}</p>
+                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id,1)} >{callTr('a_15041')}</p>
                                                     </div>
                                                 } trigger="click">
                                                     <Button onClick={(e)=>this.cancelPop(e)} type="primary">{this.tr("a_cancelMeet")}</Button>
@@ -538,16 +362,20 @@ class Call extends Component {
                         <p>{this.tr("no_data")}</p>
                     </div>
                 </div>
-                <NewConEditForm {...this.props} callTr={this.props.callTr}
-                                handleHideNewConfModal= {this.handleHideNewConfModal}
-                                updateDate = {this.updateDate}
-                                displayNewConfModal={this.state.displayNewConfModal}
-                                confMemberData={this.state.confMemberData}
-                                addNewConf={this.state.addNewConf}
-                                editConfData = {this.state.editConfData}
-                                confSubject = {this.state.confSubject}
-                                confdetail = {this.state.confdetail}
-                />
+                {
+                    !loading ? <NewConfEditForm {...this.props} callTr={this.props.callTr}
+                                              handleHideNewConfModal= {this.handleHideNewConfModal}
+                                              updateDate = {this.updateDate}
+                                              displayNewConfModal={this.state.displayNewConfModal}
+                                              confMemberData={this.state.confMemberData}
+                                              addNewConf={this.state.addNewConf}
+                                              editConfData = {this.state.editConfData}
+                                              confSubject = {this.state.confSubject}
+                                              confdetail = {this.state.confdetail}/>
+                        : null
+                }
+
+
             </div>
         )
     }
