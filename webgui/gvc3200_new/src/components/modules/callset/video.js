@@ -9,9 +9,11 @@ const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const req_items = [{"name":"vfperrate", "pvalue":"904", "value":""},
+const req_items = [
                     {"name":"avspipmode", "pvalue":"921", "value":""},
-                    {"name":"viddecodefs", "pvalue":"22008", "value":""}];
+                    {"name":"viddecodefs", "pvalue":"22008", "value":""},
+                    {"name": "autovideo", "pvalue": "25023", "value": ""}
+                ];
 
 class VideoForm extends Component {
     constructor(props){
@@ -40,16 +42,12 @@ class VideoForm extends Component {
 
         return(
             <Form className="configform" hideRequiredMark style={{'min-height':this.props.mainHeight}}>
-                <FormItem label={<span>{callTr("a_16274")}<Tooltip placement="bottom" title={callTipsTr("Video Frame Rate")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    {getFieldDecorator("vfperrate", {
-                        initialValue: itemvalue['vfperrate'] ? itemvalue['vfperrate'] : "15"
+                 <FormItem label={<span>{callTr("a_16151")}<Tooltip title={callTipsTr("Start Video Automatically")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                    {getFieldDecorator("autovideo", {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(itemvalue['autovideo'])
                     })(
-                        <Select className="P-904">
-							<Option value="5">{"5 " + callTr("a_frame")}</Option>
-							<Option value="15">{"15 " + callTr("a_frame")}</Option>
-							<Option value="25">{"25 " + callTr("a_frame")}</Option>
-                            <Option value="30">{"30 " + callTr("a_frame")}</Option>
-						</Select>
+                        <Checkbox className="P-25023"/>
                     )}
                 </FormItem>
                 <FormItem label={<span>{callTr("a_19365")}<Tooltip placement="bottom" title={callTipsTr("Video Display Mode")}><Icon type="question-circle-o"/></Tooltip></span>}>

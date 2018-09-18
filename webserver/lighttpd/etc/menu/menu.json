@@ -1,54 +1,54 @@
 {
     "menu": [
-        {"name": "calls", "lang": "a_calls", "icon": "", "acl": "0","sub": [
-            {"name": "dialup", "lang": "a_dialup", "acl": "0"},
-            {"name": "contact", "lang": "a_contact", "acl": "0"},
-            {"name": "schedule", "lang": "meeting_schedule", "acl": "0"},
-            {"name": "history", "lang": "call_history", "acl": "0"}
+        {"name": "calls", "lang": "a_16695", "icon": "", "acl": "0","sub": [
+            {"name": "dialup", "lang": "a_7462", "acl": "0"},
+            {"name": "contact", "lang": "a_310", "acl": "0"},
+            {"name": "schedule", "lang": "a_10011", "acl": "0"},
+            {"name": "history", "lang": "a_307", "acl": "0"}
         ]},
-        {"name": "account", "lang": "a_account", "icon": "user", "acl": 1, "sub":[
+        {"name": "account", "lang": "a_301", "icon": "user", "acl": 1, "sub":[
             {"name": "sipAcct", "lang": "SIP", "acl": 0},
             {"name": "ipvtAcct", "lang": "IPVideoTalk", "acl": 1},
             {"name":"BlueJeansAcct", "lang": "BlueJeans", "acl": 0},
             {"name":"H323Acct", "lang": "H.323", "acl": 0}
         ]},
-        {"name": "callset", "lang": "call_setting", "icon":"phone", "acl": 0, "sub": [
-            {"name": "general", "lang": "account_general", "acl": 1},
-            {"name": "callfeatures", "lang": "account_call", "acl": 0},
-            {"name": "sitename", "lang": "a_sitename", "acl": 1,"product":"1"},
-            {"name": "audio", "lang": "advanced_ring", "acl": 1},
-            {"name": "video", "lang": "advanced_video", "acl": 1, "product": "1,4"}
+        {"name": "callset", "lang": "a_16008", "icon":"phone", "acl": 0, "sub": [
+            {"name": "general", "lang": "a_16023", "acl": 1},
+            {"name": "callfeatures", "lang": "a_16008", "acl": 0},
+            {"name": "sitename", "lang": "a_20073", "acl": 1,"product":"1"},
+            {"name": "audio", "lang": "a_16589", "acl": 1},
+            {"name": "video", "lang": "a_16009", "acl": 1, "product": "1,4"}
         ]},
-        {"name": "network", "lang": "network_setting", "icon":"network", "acl": 0, "sub": [
-            {"name": "ethernet", "lang": "ethernet_set", "acl": 0, "product": "1"},
-            {"name": "openvpn", "lang": "openvpn_set", "acl": 0},
-            {"name": "common", "lang": "common_net", "acl": 1}
+        {"name": "network", "lang": "a_16024", "icon":"network", "acl": 0, "sub": [
+            {"name": "ethernet", "lang": "a_4120", "acl": 0, "product": "1"},
+            {"name": "openvpn", "lang": "a_19274", "acl": 0},
+            {"name": "common", "lang": "a_4101", "acl": 1}
         ]},
-        {"name": "sysset", "lang": "system_setting", "icon": "bars", "acl": 0, "sub": [
-            {"name": "power", "lang": "sys_power", "acl": 0},
-            {"name": "timeandlang", "lang": "time_lang", "acl": 0},
-            {"name": "tr069", "lang": "a_tr069", "acl": 1},
-            {"name": "security", "lang": "security_set", "acl": 0}
+        {"name": "sysset", "lang": "a_411", "icon": "bars", "acl": 0, "sub": [
+            {"name": "power", "lang": "a_12020", "acl": 0},
+            {"name": "timeandlang", "lang": "a_16626", "acl": 0},
+            {"name": "tr069", "lang": "a_16034", "acl": 1},
+            {"name": "security", "lang": "a_4221", "acl": 0}
         ]},
-        {"name": "devicecontrol", "lang": "a_device_control", "icon": "", "acl": 0, "product": "1,2,3", "sub": [
-            {"name": "cameracontrol", "lang": "a_camera_control", "acl": 0},
-            {"name": "ptz", "lang":"a_ptz","acl":0},
-            {"name": "peripheral", "lang": "a_peripheral", "acl": 0},
-            {"name": "remotecontrol", "lang": "a_remote_control", "acl": 0}
+        {"name": "devicecontrol", "lang": "a_16594", "icon": "", "acl": 0, "product": "1,2,3", "sub": [
+            {"name": "cameracontrol", "lang": "a_10121", "acl": 0},
+            {"name": "ptz", "lang":"a_16592","acl":0},
+            {"name": "peripheral", "lang": "a_16590", "acl": 0},
+            {"name": "remotecontrol", "lang": "a_16635", "acl": 0}
         ]},
-        {"name": "sysapp", "lang": "system_app", "icon":"appstore-o", "acl": 0, "sub": [
-            {"name": "ldap", "lang": "appset_ldap", "acl": 0, "product": "1"}
+        {"name": "sysapp", "lang": "a_3364", "icon":"appstore-o", "acl": 0, "sub": [
+            {"name": "ldap", "lang": "a_8411", "acl": 0, "product": "1"}
         ]},
-        {"name": "maintenance", "lang": "maintenance_menu", "icon":"tool", "acl": 0, "sub": [
-            {"name": "upgrade", "lang": "maintenance_upgrade", "acl": 1},
-            {"name": "diagnosis", "lang": "maintenance_troubleshoot", "acl": 0}
+        {"name": "maintenance", "lang": "a_16028", "icon":"tool", "acl": 0, "sub": [
+            {"name": "upgrade", "lang": "a_1605", "acl": 1},
+            {"name": "diagnosis", "lang": "a_16627", "acl": 0}
         ]},
-        {"name": "status", "lang": "status_menu", "icon": "info-circle-o", "acl": 0, "sub": [
-            {"name": "acct", "lang": "status_acc", "acl": 0},
-            {"name": "peripheral", "lang": "status_peripheral", "acl": 0},
-            {"name": "network", "lang": "status_net", "acl": 0},
-            {"name": "system", "lang": "status_info", "acl": 0},
-            {"name": "remotecontrol", "lang": " status_remotecontrol", "acl": 0}
+        {"name": "status", "lang": "a_600", "icon": "info-circle-o", "acl": 0, "sub": [
+            {"name": "acct", "lang": "a_4146", "acl": 0},
+            {"name": "peripheral", "lang": "a_16630", "acl": 0},
+            {"name": "network", "lang": "a_4147", "acl": 0},
+            {"name": "system", "lang": "a_4148", "acl": 0},
+            {"name": "remotecontrol", "lang": "a_12001", "acl": 0}
         ]}
     ]
 }
