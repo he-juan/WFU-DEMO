@@ -89,7 +89,7 @@ class CallfeaturesForm extends Component {
                     )}
                 </FormItem>
                 {/* 禁用DND提示音 */}
-                <FormItem label={<span>{callTr("a_disdndring")}<Tooltip title={callTipsTr("Disable DND Reminder Ring")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16292")}<Tooltip title={callTipsTr("Disable DND Reminder Ring")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("disdndring", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['disdndring'])
@@ -120,7 +120,7 @@ class CallfeaturesForm extends Component {
                     )}
                 </FormItem>
 
-                <p className="blocktitle"><s></s>{callTr("规则")}</p>
+                <p className="blocktitle"><s></s>{callTr("a_19804")}</p>
                 {/* 将SIP URI中的'#'转义成%23 */}
                 <FormItem label={<span>{callTr("a_16300")}<Tooltip title={callTipsTr("Escape '#' as %23 in SIP URI")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("escapeuri", {

@@ -1345,8 +1345,26 @@ tip_item_en.push (
         "If enabled, then send RTDP (roundTripDelayRequest) package as H245 keep-alive package per 10s. The timeout interval is 30s and will hang up the call once timed out. The default setting is \"No\". Note: if enabled, it may cause incompatibility with some devices."),
         
     new TipsDef("DTMF ",
-        "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal.")
-    /*useless*/
+        "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal."),
+    
+    
+    /** new tips */    
+    new TipsDef("Reregister before Expiration",
+        "Specifies the time frequency (in seconds) that the phone sends re-registration request before the Register Expiration. The range is from 0 to 64, 800."),
+    new TipsDef("SIP Timer D Interval",
+		"Defines the time interval when the INVITE client receives 3xx ~ 6xx and then replys back till the whole transaction is over. The valid value is 0-64 seconds."),
+	new TipsDef("Remove OBP from route",
+	    "Configures to remove outbound proxy from route. This is used for the SIP Extension to notify the SIP server that the device is behind a NAT/Firewall."),
+	
+    
+    
+    
+    
+    
+    
+    
+    
+        /*useless*/
     /*
     new TipsDef("Enable SCA (Shared Call Appearance)",
         "If set to \"Yes\", the Shared Call Appearance (Broadsoft Standard) will be used for the registered account. The default setting is \"No\"."),

@@ -170,9 +170,9 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={this.tips_tr("Preferred Vocoder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                    <Transfer dataSource={this.vocoderDataSource} targetKeys={this.state.vocoderTargetKeys} render={item => item.title} onChange={this.handleChange} sorter={true} titles={[callTr("a_notallowed"), callTr("a_23010")]} listStyle={{ width: 135, height: 206, }}/>
+                    <Transfer dataSource={this.vocoderDataSource} targetKeys={this.state.vocoderTargetKeys} render={item => item.title} onChange={this.handleChange} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 135, height: 206, }}/>
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_16118")}&nbsp;<Tooltip title={this.tips_tr("H.264 Image Size ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16118")}&nbsp;<Tooltip title={this.tips_tr("H.264 Image Size")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('imgsize', {
                         initialValue: this.props.itemValues['imgsize'] ? this.props.itemValues['imgsize'] : "10"
                     })(
@@ -205,11 +205,11 @@ class CodecForm extends React.Component {
                         initialValue: this.props.itemValues['vidframerate'] ? this.props.itemValues['vidframerate'] : "5"
                     })(
                         <Select className="P-25062">
-                            <Option value="5">5{callTr("a_frame")}</Option>
-                            <Option value="15">15{callTr("a_frame")}</Option>
-                            <Option value="25">25{callTr("a_frame")}</Option>
-                            <Option value="30">30{callTr("a_frame")}</Option>
-                            <Option value="29">{callTr("a_variable")}</Option>
+                            <Option value="5">5{callTr("a_16277")}</Option>
+                            <Option value="15">15{callTr("a_16277")}</Option>
+                            <Option value="25">25{callTr("a_16277")}</Option>
+                            <Option value="30">30{callTr("a_16277")}</Option>
+                            <Option value="29">{callTr("a_16278")}</Option>
                         </Select>
                     )}
                 </FormItem>

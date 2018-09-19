@@ -167,7 +167,7 @@ class Power extends Component {
 
         let itemList =
             <Form className="configform" hideRequiredMark style={{ 'min-height': this.props.mainHeight }}>
-                <FormItem label={<span>{this.tr('a_19321')} < Tooltip title={this.tips_tr("??")} > <Icon type="question-circle-o" /> </Tooltip></span>} >
+                <FormItem label={<span>{this.tr('a_19321')} < Tooltip title={this.tips_tr("Timeout Operation")} > <Icon type="question-circle-o" /> </Tooltip></span>} >
                     {getFieldDecorator("timeoutopt", {
                         initialValue: this.state.timeoutoptValue
                     })(
@@ -178,7 +178,7 @@ class Power extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={<span>{this.tr('a_19322')} < Tooltip title={this.tips_tr("??")} > <Icon type="question-circle-o" /> </Tooltip></span>} >
+                <FormItem label={<span>{this.tr('a_19322')} < Tooltip title={this.tips_tr("Enter Sleep Mode")} > <Icon type="question-circle-o" /> </Tooltip></span>} >
                     {getFieldDecorator("sleepmode", {
                         initialValue: this.state.sleepModeValue
                     })(
@@ -195,15 +195,15 @@ class Power extends Component {
                     }
                 </FormItem>
 
-                <FormItem label={<span>{this.tr('a_4251')} < Tooltip title={this.tips_tr("??")} > <Icon type="question-circle-o" /> </Tooltip></span>}>
+                <FormItem label={<span>{this.tr('a_4251')}</span>}>
                     <Button type="default" size="default" onClick={() => { this.handleOpration('Reboot') }}>{this.tr("a_4251")}</Button>
                 </FormItem>
 
-                <FormItem label={<span>{this.tr('a_16375')} < Tooltip title={this.tips_tr("??")} > <Icon type="question-circle-o" /> </Tooltip></span>}>
+                <FormItem label={<span>{this.tr('a_16375')}</span>}>
                     <Button type="default" size="default" onClick={() => { this.handleOpration('Sleep') }}>{this.tr("a_16375")}</Button>
                 </FormItem>
 
-                <FormItem label={<span>{this.tr('a_17020')} < Tooltip title={this.tips_tr("??")} > <Icon type="question-circle-o" /> </Tooltip></span>}>
+                <FormItem label={<span>{this.tr('a_17020')}</span>}>
                     <Button type="default" size="default" onClick={() => { this.handleOpration('Shutdown') }}>{this.tr("a_17020")}</Button>
                 </FormItem>
 

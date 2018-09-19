@@ -23,7 +23,7 @@ class SiptlsForm extends Component {
     }
     checkPwd1 = (rules, value, callback) => {
         if(value && value !== this.props.form.getFieldValue('newlock')){
-            callback(this.props.callTr("a_samepwd"))
+            callback(this.props.callTr("a_16448"))
         }else {
             callback()
         }
@@ -67,10 +67,10 @@ class SiptlsForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_9690")}<Tooltip title={callTipsTr("？？")}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9690")}<Tooltip title={callTipsTr("Delete Screen Lock Password")}><Icon type="question-circle-o" /></Tooltip></span>}>
                     <Button type="default" size="default" onClick={() => this.handleDelete()}>{callTr("a_21")}</Button>
                 </FormItem>
-                <FormItem label={<span>{callTr("a_9688")}<Tooltip title={callTipsTr("？？")}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9688")}<Tooltip title={callTipsTr("Screen Lock Password")}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("newlock", {
                         initialValue: '',
                         rules: [
@@ -91,7 +91,7 @@ class SiptlsForm extends Component {
                             suffix={<Icon type="eye" className={this.state.type1} onClick={() => {this.handlePwdVisible(1)}} />} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_9689")}<Tooltip title={callTipsTr("？？")}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9689")}<Tooltip title={callTipsTr("Confirm Screen Lock Password")}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("renewlock", {
                         initialValue: '',
                         rules: [

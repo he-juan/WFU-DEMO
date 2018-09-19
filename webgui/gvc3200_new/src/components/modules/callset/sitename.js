@@ -166,14 +166,14 @@ class SitenameForm extends Component {
                         <Checkbox />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_horizonoffset")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Horizontal Offset")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16610")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Horizontal Offset")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("horizonoffset", {
                         initialValue: itemvalues["horizont"]
                     })(
                         <Slider min={0} max={96} marks={{ 0: "0", 96: "96" }} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_vericaloffset")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Vertical Offset")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16611")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Vertical Offset")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("vericaloffset", {
                         initialValue: itemvalues["vertical"]
                     })(

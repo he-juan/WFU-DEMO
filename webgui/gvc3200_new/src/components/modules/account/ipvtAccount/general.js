@@ -59,14 +59,14 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form>
-               <FormItem style={{display:'none'}} label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem style={{display:'none'}} label={(<span>{callTr("a_615")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
                     })(<Checkbox className={"P-7059"}/>)
                     }
                </FormItem>
-               <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem label={(<span>{callTr("a_615")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('enableiptalkpro', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['enableiptalkpro'])
@@ -74,7 +74,7 @@ class GeneralForm extends React.Component {
                     }
                </FormItem>
 
-               <FormItem label={(<span>{callTr("a_alias")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_1126")}&nbsp;<Tooltip title={this.tips_tr("Display Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('name', {
                        rules: [{
                           max:64,message: callTr("max_length64"),
@@ -84,13 +84,8 @@ class GeneralForm extends React.Component {
                        <Input type="text" className={"P-407"}/>
                    )}
                </FormItem>
-               {/* <FormItem label={(<span>{callTr("a_9623")}&nbsp;<Tooltip title={this.tips_tr("Current plans")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                   {getFieldDecorator('curpackage', {
-                       })(
-                           <span id = "curpackagehtml">IPVideoTalk Pro<a href="http://www.ipvideotalk.com/pricing.html" id="viewpackage" target="_blank" style={{marginLeft:'20px'}}>{callTr("a_detail")}</a></span>
-                   )}
-               </FormItem> */}
-               <FormItem className = "select-item"　 label={(<span>{callTr("a_16093")}&nbsp;<Tooltip title={this.tips_tr("SIP Transport ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               
+               <FormItem className = "select-item"　 label={(<span>{callTr("a_16093")}&nbsp;<Tooltip title={this.tips_tr("SIP Transport")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('siptranport', {
                         initialValue: Number(this.props.itemValues['siptranport']) ? this.props.itemValues['siptranport'] : "1"
                         })(

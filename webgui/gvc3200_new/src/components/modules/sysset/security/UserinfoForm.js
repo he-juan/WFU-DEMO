@@ -26,7 +26,7 @@ class PasswordRank extends Component {
                         <div className="pwdrankchild red"></div>
                         <div className="pwdrankchild"></div>
                         <div className="pwdrankchild"></div>
-                        <div className="pwdranklabel">{callTr("a_weak")}</div>
+                        <div className="pwdranklabel">{callTr("a_19810")}</div>
                     </div>
                 )
                 break;
@@ -46,7 +46,7 @@ class PasswordRank extends Component {
                         <div className="pwdrankchild green"></div>
                         <div className="pwdrankchild green"></div>
                         <div className="pwdrankchild green"></div>
-                        <div className="pwdranklabel">{callTr("a_strong")}</div>
+                        <div className="pwdranklabel">{callTr("a_19811")}</div>
                     </div>
                 )
                 break;
@@ -87,7 +87,7 @@ class UserinfoForm extends Component {
                         this.props.form.setFields({
                             curadmipwd: {
                                 value: value,
-                                errors: [new Error(this.props.callTr("a_pwdnotsame"))],
+                                errors: [new Error(this.props.callTr("a_19009"))],
                             }
                         })
                     }
@@ -127,7 +127,7 @@ class UserinfoForm extends Component {
                 })
             }
             if(value !== form.getFieldValue('adminpasswd'))
-                callback(this.props.callTr("a_samepwd"));
+                callback(this.props.callTr("a_16448"));
             else
                 callback();
         }
@@ -138,7 +138,7 @@ class UserinfoForm extends Component {
                 })
             }
             if(value !== form.getFieldValue('userpasswd'))
-                callback(this.props.callTr("a_samepwd"));
+                callback(this.props.callTr("a_16448"));
             else
                 callback();
         }
@@ -205,7 +205,7 @@ class UserinfoForm extends Component {
                 const userpwd_input = form.getFieldValue("userpasswd");
                 if(username == "admin"){
                     if(adminpwd_input == "" && userpwd_input == ""){
-                        this.props.promptMsg("ERROR", "a_adminoruserpwdempty");
+                        this.props.promptMsg("ERROR", "a_19808");
                         return;
                     }
                     else{
@@ -217,7 +217,7 @@ class UserinfoForm extends Component {
                     }
                 }else{
                     if(userpwd_input == ""){
-                        this.props.promptMsg("ERROR", "a_userpwdempty");
+                        this.props.promptMsg("ERROR", "a_19809");
                         return;
                     }
                     else{

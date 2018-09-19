@@ -1335,7 +1335,26 @@ tip_item_zh.push (
     new TipsDef("Enable RTDR", "开启RTDR",
         "若开启,会定时向对端发送RTDP（roundTripDelayRequest）包作为H245保活包，发送周期为10s，超时时间为30s，超时后会挂断呼叫，默认不勾选。说明：若开启，可能导致与部分设备出现不兼容。"),
     new TipsDef("DTMF ", "DTMF",
-        "该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。")
+        "该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。"),
+    
+
+
+    /**new tips */
+    new TipsDef("Reregister before Expiration", "注册期限内重新注册等待时间",
+        "设置话机在注册期限内，重新发送注册请求的等待时间。有效值范围0至64800秒。"),
+    new TipsDef("SIP Timer D Interval", "SIP Timer D间隔时间",
+		"SIP定时器D，用于INVITE客户端事务收到3xx ~ 6xx回复后到这个事务结束状态的时间间隔。有效值为0-64秒。"),
+	new TipsDef("Remove OBP from route", "从路由移除OBP",
+    	"若设置为“关闭”，话机使用的路由中将移除代理。若设置为“开启”，话机在NAT/防火墙环境下，SIP帐号通知服务器将代理设置移除。若设置为“总是”，话机会无条件使SIP帐号通知服务器将代理设置移除。"),
+	
+
+
+
+
+
+
+
+
     /*useless*/
     /*
     new TipsDef("Enable SCA (Shared Call Appearance)", "开启SCA功能",

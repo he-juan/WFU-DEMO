@@ -198,7 +198,7 @@ class LanguageForm extends Component {
 
                 if (info.file.status === 'done') {
                     Modal.info({
-                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadsuctips")}}></span>,
+                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_16669")}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
@@ -207,7 +207,7 @@ class LanguageForm extends Component {
                     });
                 } else if (info.file.status === 'error') {
                     Modal.error({
-                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail")}}></span>,
+                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_16477")}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
@@ -217,7 +217,7 @@ class LanguageForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem className = "select-item" label={<span>{callTr("a_lang")} <Tooltip title={callTipsTr("Language")}> <Icon type="question-circle-o"/> </Tooltip> </span> } >
+                <FormItem className = "select-item" label={<span>{callTr("a_8113")} <Tooltip title={callTipsTr("Language")}> <Icon type="question-circle-o"/> </Tooltip> </span> } >
                     { getFieldDecorator('lang', {
                         rules: [],
                         initialValue: lang

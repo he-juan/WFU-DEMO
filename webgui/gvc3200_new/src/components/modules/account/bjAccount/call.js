@@ -73,7 +73,7 @@ class CallForm extends React.Component {
                 let fileList = info.fileList.slice(-1)
                 self.setState({fileList:fileList})
                 if (info.file.status == 'uploading') {
-                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_uploading'}});
+                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_16431'}});
                 }
                 if (info.file.status === 'done') {
                     Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_9348'}});
@@ -88,7 +88,7 @@ class CallForm extends React.Component {
                         });
                     })
                 } else if (info.file.status === 'error') {
-                    message.error(callTr('a_uploadfail'));
+                    message.error(callTr('a_16477'));
                 }
             },
             beforeUpload: self.beforeUploadhandle,
@@ -106,7 +106,7 @@ class CallForm extends React.Component {
                     })(
                         <Select className={"P-542"}>
                             <Option value="0">{callTr("a_16158")}</Option>
-                            <Option value="2">{callTr("a_lognone")}</Option>
+                            <Option value="2">{callTr("a_16160")}</Option>
                         </Select>
                     )}
                 </FormItem>

@@ -342,7 +342,7 @@ class CallForm extends React.Component {
                 let fileList = info.fileList.slice(-1)
                 self.setState({fileList:fileList})
                 if (info.file.status == 'uploading') {
-                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_uploading'}});
+                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_16431'}});
                 }
                 if (info.file.status === 'done') {
                     Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_9348'}});
@@ -357,7 +357,7 @@ class CallForm extends React.Component {
                         });
                     })
                 } else if (info.file.status === 'error') {
-                    message.error(callTr('a_uploadfail'));
+                    message.error(callTr('a_16477'));
                 }
             },
             beforeUpload: self.beforeUploadhandle,
@@ -381,7 +381,7 @@ class CallForm extends React.Component {
                    )}
          　　　 </FormItem>
          
-               <FormItem  label={(<span>{callTr("a_dialplanpr")}&nbsp;<Tooltip title={this.tips_tr("Dial Plan Prefix")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16149")}&nbsp;<Tooltip title={this.tips_tr("Dial Plan Prefix")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('prefix', {
                        rules: [{
                            max:64,message: callTr("max_length64"),
@@ -420,7 +420,7 @@ class CallForm extends React.Component {
                        valuePropName: 'checked',
                        initialValue: parseInt(dialplancheck[0])
                    })(
-                       <Checkbox>{callTr("a_dismpkclick")}</Checkbox>
+                       <Checkbox>{callTr("a_321")} ＆ {callTr("a_19373")}</Checkbox>
                    )}
 
                </FormItem>
@@ -440,12 +440,12 @@ class CallForm extends React.Component {
                        <Checkbox />
                    )}
                </FormItem>
-               <FormItem className = "select-item"　　label={(<span>{callTr("a_autoans")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem className = "select-item"　　label={(<span>{callTr("a_1102")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('autoanswer', {
                        initialValue: this.props.itemValues['autoanswer'] ? this.props.itemValues['autoanswer'] : "0"
                        })(
                            <Select onChange={this.handleAutoAnswer} className={"P-" + nvram["autoanswer"]}>
-                               <Option value="0">{callTr("a_groupnum")}</Option>
+                               <Option value="0">{callTr("a_6")}</Option>
                                <Option value="1">{callTr("a_5")}</Option>
                            </Select>
                    )}
@@ -457,7 +457,7 @@ class CallForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["sendanony"]}/>)
                    }
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_anonycallrej")}&nbsp;<Tooltip title={this.tips_tr("Anonymous Call Rejection")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16156")}&nbsp;<Tooltip title={this.tips_tr("Anonymous Call Rejection")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('anonyrej', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['anonyrej'])
@@ -470,9 +470,8 @@ class CallForm extends React.Component {
                        })(
                            <Select className={"P-" + nvram["calllog"]}>
                                <Option value="0">{callTr("a_16158")}</Option>
-                               <Option value="1">{callTr("a_logmiss")}</Option>
-                               <Option value="2">{callTr("a_lognone")}</Option>
-                               <Option value="3">{callTr("a_lognomissed")}</Option>
+                               <Option value="1">{callTr("a_16159")}</Option>
+                               <Option value="2">{callTr("a_16160")}</Option>
                            </Select>
                    )}
                </FormItem>
@@ -499,7 +498,7 @@ class CallForm extends React.Component {
                        initialValue: parseInt(itemValues['feakey']) ? itemValues['feakey'] : "0"
                    })(
                        <Select className={"P-" + nvram["feakey"]}>
-                           <Option value="0">{callTr("a_disable")}</Option>
+                           <Option value="0">{callTr("a_32")}</Option>
                            <Option value="1">Broadsoft</Option>
                        </Select>
                    )}
@@ -512,7 +511,7 @@ class CallForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["enablefea"]}/>)
                    }
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_ringto")}&nbsp;<Tooltip title={this.tips_tr("Ring Timeout")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16169")}&nbsp;<Tooltip title={this.tips_tr("Ring Timeout")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('ringto', {
                        rules: [{
                            validator: (data, value, callback) => {
@@ -562,8 +561,8 @@ class CallForm extends React.Component {
                    )}
                </FormItem>
                
-               <p className="blocktitle"><s></s>{callTr("a_callforward")}</p>
-               <FormItem className = "select-item"  label={(<span>{callTr("a_cftype")}&nbsp;<Tooltip title={this.tips_tr("Call Forward Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <p className="blocktitle"><s></s>{callTr("a_16166")}</p>
+               <FormItem className = "select-item"  label={(<span>{callTr("a_1104")}&nbsp;<Tooltip title={this.tips_tr("Call Forward Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('cftype', {
                        initialValue: this.props.itemValues['cftype'] ? this.props.itemValues['cftype'] : "None"
                        })(
@@ -571,7 +570,7 @@ class CallForm extends React.Component {
                                <Option value="None">{callTr("a_20")}</Option>
                                <Option value="allTo">{callTr("a_1106")}</Option>
                                <Option value="TimeRule">{callTr("a_1112")}</Option>
-                               <Option value="WorkRule">{callTr("a_workcf")}</Option>
+                               <Option value="WorkRule">{callTr("a_4369")}</Option>
                            </Select>
                    )}
                </FormItem>
@@ -705,7 +704,7 @@ class CallForm extends React.Component {
 
 
                
-               <p className="blocktitle"><s></s>{callTr("a_ringtone")}</p>
+               <p className="blocktitle"><s></s>{callTr("a_4752")}</p>
                <Row gutter={30} style={{width:'1500px',marginLeft:'17px'}}>
                    <Col span={2}></Col>
                    <Col className="ring-capture" span={4} style={{marginLeft:'13px',marginRight:'14px',paddingLeft:'0'}}>

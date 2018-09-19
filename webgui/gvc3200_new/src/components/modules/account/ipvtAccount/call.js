@@ -56,12 +56,12 @@ class CallForm extends React.Component {
 
         let itemList =
            <Form>
-               <FormItem className = "select-item"　 label={(<span>{callTr("a_19141")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem className = "select-item"　 label={(<span>{callTr("a_19141")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('autoansidle', {
                         initialValue: this.props.itemValues['autoansidle'] ? this.props.itemValues['autoansidle'] : "0"
                         })(
                             <Select className={"P-425"}>
-                                <Option value="0">{callTr("a_groupnum")}</Option>
+                                <Option value="0">{callTr("a_6")}</Option>
                                 <Option value="1">{callTr("a_5")}</Option>
                             </Select>
                    )}

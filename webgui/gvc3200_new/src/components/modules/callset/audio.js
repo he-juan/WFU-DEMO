@@ -249,7 +249,7 @@ class Audio extends Component {
                     <FormItem label={<span>{callTr("a_16306")}<Tooltip title={callTipsTr("Ring Back Tone")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("ringbt", {
                             rules: [{
-                                max: 108, message: callTr("a_lengthlimit") + "108!"
+                                max: 108, message: callTr("a_19805") + "108!"
                             }],
                             initialValue: itemvalue['ringbt']
                         })(
@@ -260,7 +260,7 @@ class Audio extends Component {
                     <FormItem label={<span>{callTr("a_16307")}<Tooltip title={callTipsTr("Busy Tone")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("busytone", {
                             rules: [{
-                                max: 108, message: callTr("a_lengthlimit") + "108!"
+                                max: 108, message: callTr("a_19805") + "108!"
                             }],
                             initialValue: itemvalue['busytone']
                         })(
@@ -271,7 +271,7 @@ class Audio extends Component {
                     <FormItem label={<span>{callTr("a_16308")}<Tooltip title={callTipsTr("Reorder Tone")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("reordertone", {
                             rules: [{
-                                max: 108, message: callTr("a_lengthlimit") + "108!"
+                                max: 108, message: callTr("a_19805") + "108!"
                             }],
                             initialValue: itemvalue['reordertone']
                         })(
@@ -282,7 +282,7 @@ class Audio extends Component {
                     <FormItem label={<span>{callTr("a_16309")}<Tooltip title={callTipsTr("Confirmation Tone")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("confmtone", {
                             rules: [{
-                                max: 108, message: callTr("a_lengthlimit") + "108!"
+                                max: 108, message: callTr("a_19805") + "108!"
                             }],
                             initialValue: itemvalue['confmtone']
                         })(
@@ -292,7 +292,7 @@ class Audio extends Component {
                     {/* <FormItem label={<span>{callTr("a_16310")}<Tooltip title={callTipsTr("Call-Waiting Tone")}><Icon type="question-circle-o"/></Tooltip></span>}>
                         {getFieldDecorator("callwaittone", {
                             rules: [{
-                                max: 108, message: callTr("a_lengthlimit") + "108!"
+                                max: 108, message: callTr("a_19805") + "108!"
                             }],
                             initialValue: itemvalue['callwaittone']
                         })(
@@ -303,7 +303,7 @@ class Audio extends Component {
                     <FormItem label={<span>{callTr("a_16313")}<Tooltip title={callTipsTr("Default Ring Cadence")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("defringcad2", {
                             rules: [{
-                                max: 108, message: callTr("a_lengthlimit") + "108!"
+                                max: 108, message: callTr("a_19805") + "108!"
                             }],
                             initialValue: itemvalue['defringcad2']
                         })(

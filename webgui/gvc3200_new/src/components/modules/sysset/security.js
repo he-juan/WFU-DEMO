@@ -38,7 +38,7 @@ class Security extends Component {
                     <SecurityRmtacsForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
-                <TabPane tab={this.tr("a_userinfo")} key={1} tabName="userinfo">
+                <TabPane tab={this.tr("a_19806")} key={1} tabName="userinfo">
                     <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
@@ -50,7 +50,7 @@ class Security extends Component {
                     <SecuritySiptlsForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                         hideItem={hideItem} tabOrder="" />
                 </TabPane>
-                <TabPane tab={this.tr("a_certmanage")} key={3} tabName="certificate">
+                <TabPane tab={this.tr("a_19807")} key={3} tabName="certificate">
                     <SecurityCertificateForm {...this.props} callTr={this.tr} hideItem={hideItem} tabOrder="" />
                 </TabPane>
             </Tabs> ;

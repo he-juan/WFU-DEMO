@@ -105,7 +105,7 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form onSubmit={this.handleSubmit}>
-               <FormItem label={(<span>{callTr("a_accountactive")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem label={(<span>{callTr("a_615")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
@@ -161,7 +161,7 @@ class GeneralForm extends React.Component {
                             <Input type="text" id="thirdsipserver" className={"P-" + nvram["thirdsipserver"]} />
                     )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_sipuid")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_1122")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('userid', {
                        rules: [{
                           max:64,message: callTr("max_length64"),
@@ -171,7 +171,7 @@ class GeneralForm extends React.Component {
                           <Input type="text" id="userid" className={"P-" + nvram["userid"]} />
                     )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_authid")}&nbsp;<Tooltip title={this.tips_tr("SIP Authentication ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_1123")}&nbsp;<Tooltip title={this.tips_tr("SIP Authentication ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    <Input type="text" name = "authid" style= {{display:"none"}} disabled autocomplete = "off"/>
                    {getFieldDecorator('authid', {
                        rules: [{
@@ -182,7 +182,7 @@ class GeneralForm extends React.Component {
                        <Input type="text" name="authid" className={"P-" + nvram["authid"]} />
                    )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_authpwd")}&nbsp;<Tooltip title={this.tips_tr("SIP Authentication Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_1124")}&nbsp;<Tooltip title={this.tips_tr("SIP Authentication Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Input type={this.state.pwdstatus} name = "authpwd" style= {{display:"none"}} disabled autocomplete = "off"/>
                    {getFieldDecorator('authpwd', {
                        rules: [{
@@ -193,7 +193,7 @@ class GeneralForm extends React.Component {
                        <Input type={this.state.pwdstatus} id = "authpwd" name = "authpwd" className={"P-" + nvram["authpwd"]} suffix={<Icon type="eye" className={this.state.pwdstatus} onClick={this.handlePwdVisible} />}/>
                    )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_displayName")}&nbsp;<Tooltip title={this.tips_tr("Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem label={(<span>{callTr("a_1126")}&nbsp;<Tooltip title={this.tips_tr("Display Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('name', {
                        rules: [{
                           max:64,message: callTr("max_length64"),
@@ -204,7 +204,7 @@ class GeneralForm extends React.Component {
                    )}
                </FormItem>
               
-              <FormItem label={(<span>{callTr("a_voicemailuid")}&nbsp;<Tooltip title={this.tips_tr("Voice Mail Access Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+              <FormItem label={(<span>{callTr("a_1125")}&nbsp;<Tooltip title={this.tips_tr("Voice Mail Access Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('vmuserid', {
                        rules: [{
                            max:64,message: callTr("max_length64"),

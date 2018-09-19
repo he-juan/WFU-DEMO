@@ -65,31 +65,31 @@ class CallForm extends React.Component {
        
         let itemList =
             <Form>
-                <FormItem className="select-item" label={(<span>{callTr("a_autoans")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_1102")}&nbsp;<Tooltip title={this.tips_tr("Auto Answer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('autoanswer', {
                         initialValue: this.props.itemValues['autoanswer'] ? this.props.itemValues['autoanswer'] : "0"
                     })(
                         <Select className={"P-25048"}>
-                            <Option value="0">{callTr("a_groupnum")}</Option>
+                            <Option value="0">{callTr("a_6")}</Option>
                             <Option value="1">{callTr("a_5")}</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_19160")}&nbsp;<Tooltip title={this.tips_tr("？？")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19160")}&nbsp;<Tooltip title={this.tips_tr("Enable H225 Keep-alive")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('h225alive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['h225alive'])
                     })(<Checkbox className={"P-25058"} />)
                     }
                 </FormItem>     
-                <FormItem label={(<span>{callTr("a_19161")}&nbsp;<Tooltip title={this.tips_tr("？？")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19161")}&nbsp;<Tooltip title={this.tips_tr("Enable H245 Keep-alive")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('h245alive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['h245alive'])
                     })(<Checkbox className={"P-25057"} />)
                     }
                 </FormItem>  
-                <FormItem label={(<span>{callTr("a_19192")}&nbsp;<Tooltip title={this.tips_tr("??")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19192")}&nbsp;<Tooltip title={this.tips_tr("Enable RTDR")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('enablertdr', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['enablertdr'])

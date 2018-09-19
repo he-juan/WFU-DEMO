@@ -60,14 +60,14 @@ class SiptlsForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_sslcer")}<Tooltip title={callTipsTr("SIP TLS Certificate")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16285")}<Tooltip title={callTipsTr("SIP TLS Certificate")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("sslcer", {
                         initialValue: ""
                     })(
                         <Input type="textarea" autosize={{minRows: 2, maxRows: 6}} className="P-280"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_sslpkey")}<Tooltip title={callTipsTr("SIP TLS Private Key")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16286")}<Tooltip title={callTipsTr("SIP TLS Private Key")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("sslpkey", {
                         initialValue: ""
                     })(

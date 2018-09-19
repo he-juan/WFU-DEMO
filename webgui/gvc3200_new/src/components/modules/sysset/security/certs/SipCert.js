@@ -55,7 +55,7 @@ class SipCert extends Component {
         let item = [], value = [];
         item.push(nvram);
         value.push("");
-        this.props.putNvrams(item, value, "a_del_ok", () => {
+        this.props.putNvrams(item, value, "a_57", () => {
             maxnum ++;
             getVeriCert();
         });
@@ -110,7 +110,7 @@ class SipCert extends Component {
                 }
                 if(status === "done"){
                     if(maxnum < 1){
-                        message.error(callTr("a_certmaxmum"));
+                        message.error(callTr("a_12222"));
                         return false;
                     }
                     let pvalue = certpvalue[16 - maxnum];
@@ -118,7 +118,7 @@ class SipCert extends Component {
                         switch (data) {
                             case "1":
                                 getVeriCert();
-                                message.success(`${info.file.name} ` + callTr("a_uploadsuc"));
+                                message.success(`${info.file.name} ` + callTr("a_16476"));
                                 maxnum --;
                                 break;
                             case "2":
@@ -132,7 +132,7 @@ class SipCert extends Component {
                         }
                     });
                 }else if(status === "error"){
-                    message.error(`${info.file.name} ` + callTr("a_uploadfail"));
+                    message.error(`${info.file.name} ` + callTr("a_16477"));
                 }
             },
         };
@@ -156,9 +156,9 @@ class SipCert extends Component {
                     <Column title={callTr("a_19219")} dataIndex="issuedto" key="issuedto" />
                     <Column title={callTr("a_19220")} dataIndex="issuedby" key="issuedby" />
                     <Column title={callTr("a_19221")} dataIndex="validate" key="validate" />
-                    <Column title={callTr("a_operate")} key="delete" render={(text, record, index) => (
+                    <Column title={callTr("a_44")} key="delete" render={(text, record, index) => (
                         <span>
-                            <Popconfirm placement="top" title={callTr("a_promptdelete")} okText={callTr("a_2")} cancelText={callTr("a_3")}
+                            <Popconfirm placement="top" title={callTr("a_9334")} okText={callTr("a_2")} cancelText={callTr("a_3")}
 								onConfirm={this.deleteCert.bind(this, text.pvalue)}>
                                 <a className="delete-icon"></a>
                             </Popconfirm>

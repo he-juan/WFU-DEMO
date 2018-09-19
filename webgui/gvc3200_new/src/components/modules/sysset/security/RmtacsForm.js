@@ -78,7 +78,7 @@ class RmtacsForm extends Component {
                     let newUrl = protocal + ip + ":" + curPort;
 
                     Modal.info({
-                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_protocalchanged") + newUrl}}></span>,
+                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_19812") + newUrl}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {
                             window.parent.location.href = newUrl;
@@ -104,7 +104,7 @@ class RmtacsForm extends Component {
                     })(
                         <Checkbox className="P-276"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_12057")}<Tooltip title={callTipsTr("Access Methode")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("accessmethod", {
@@ -116,7 +116,7 @@ class RmtacsForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_ptt_multiPort")}<Tooltip title={callTipsTr("Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9207")}<Tooltip title={callTipsTr("Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             required: true, message: callTr("tip_require")
@@ -134,30 +134,7 @@ class RmtacsForm extends Component {
                         <Input className="P-901"/>
                     )}
                 </FormItem>
-                {/* <FormItem label={<span>{callTr("a_confmenu")}<Tooltip title={callTipsTr("Configuration via Keypad Menu")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    {getFieldDecorator("confmenu", {
-                        initialValue: itemvalue['confmenu'] ? itemvalue['confmenu'] : "0"
-                    })(
-                        <Select className="P-1357">
-                            <Option value="0">{callTr("a_16323")}</Option>
-                            <Option value="1">{callTr("a_16324")}</Option>
-                            <Option value="3">{callTr("a_basicset_netset")}</Option>
-                            <Option value="2">{callTr("a_16325")}</Option>
-                        </Select>
-                    )}
-                </FormItem>
-                <FormItem label={<span>{callTr("a_apppermission")}<Tooltip title={callTipsTr("Permission to Install/Uninstall Apps")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    {getFieldDecorator("apppermission", {
-                        initialValue: itemvalue['apppermission'] ? itemvalue['apppermission'] : "0"
-                    })(
-                        <Select className="P-29604">
-                            <Option value="0">{callTr("a_allow")}</Option>
-                            <Option value="1">{callTr("a_needpwd")}</Option>
-                            <Option value="2">{callTr("a_needpwd2")}</Option>
-                            <Option value="3">{callTr("a_notallow")}</Option>
-                        </Select>
-                    )}
-                </FormItem> */}
+                
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
