@@ -1188,9 +1188,8 @@ function cb_start_single_call(dialnum, dialacct, ispaging, isdialplan, isipcall,
 			$.prompt(a_19374);
 			return false;
 		}
-		
-		if(!checkIpv4Address(dialnum) && !checkDialIPv6(dialnum)){
-			if(mAcctStatus[tempacct].activate == 1 && mAcctStatus[tempacct].status == 0){
+		if(!checkIpv4Address(dialnum) && !checkDialIPv6(dialnum) && tempacct != 6){
+		    if(mAcctStatus[tempacct].activate == 1 && mAcctStatus[tempacct].status == 0){
 				if(tempacct < acctname.length)
 					$.prompt(acctname[tempacct] + a_19375);
 				else
