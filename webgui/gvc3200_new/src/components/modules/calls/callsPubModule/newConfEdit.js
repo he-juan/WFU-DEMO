@@ -454,6 +454,12 @@ class NewContactsEdit extends Component {
         return current && current.valueOf() < Date.now();
     }
 
+    disabledStartDate =(current) => {
+        let values = this.props.form.getFieldsValue();
+        let date = moment(values.confStatedate)
+        return current && moment(current.valueOf()).isBefore(moment(date));
+    }
+
     onStartChange = () => {
     }
 
@@ -1289,7 +1295,7 @@ class NewContactsEdit extends Component {
                             {getFieldDecorator('customEndDate', {
 
                             })(
-                                <DatePicker disabled={allDisabled} placeholder="为空则无结束日期"
+                                <DatePicker disabled={allDisabled} disabledDate={this.disabledStartDate} placeholder="为空则无结束日期"
                                     format="YYYY-MM-DD"
                                     style={{width:'40%'}}
                                 />

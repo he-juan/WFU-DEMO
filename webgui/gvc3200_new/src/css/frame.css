@@ -6213,3 +6213,6 @@ ol.mp_list li.mp_error {}
 .hidden-modal-btn .ant-modal-footer{
     display: none;
 }
+.confModal .is-validating.has-feedback:after {
+    display: none;
+}
