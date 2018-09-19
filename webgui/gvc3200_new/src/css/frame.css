@@ -20,10 +20,6 @@ a, a:hover{text-decoration: none;}
     background-position: center center;
 }
 
-.ant-modal-wrap{
-    z-index: 1200;
-}
-
 .mainDiv {
     background: transparent;
     color: #EBEBEB;
@@ -6217,8 +6213,3 @@ ol.mp_list li.mp_error {}
 .hidden-modal-btn .ant-modal-footer{
     display: none;
 }
-
-
-
-
-

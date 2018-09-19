@@ -228,6 +228,7 @@ class MainHeader extends Component {
     }
 
     handleSetDndMode = () => {
+        $('.header-container').css('z-index','1000')
         var dndtype;
         var dndstyle;
         this.props.getItemValues(req_items,(values)=>{
@@ -242,9 +243,10 @@ class MainHeader extends Component {
                         self.props.setDndMode("0",()=>{
                             self.setState({dndstyle: "dndoff"})
                         })
+                        $('.header-container').css('z-index','1112')
                     },
                     onCancel() {
-                        console.log('Cancel');
+                        $('.header-container').css('z-index','1112')
                     },
                 });
             }else{
@@ -257,12 +259,14 @@ class MainHeader extends Component {
                         self.props.setDndMode("1",()=>{
                             self.setState({dndstyle: "dndon"})
                         })
+                        $('.header-container').css('z-index','1112')
                     },
                     onCancel() {
-                        console.log('Cancel');
+                        $('.header-container').css('z-index','1112')
                     },
                 });
             }
+
            /* dndtype = (result.dndinfo == 'dndon' ? '0' : '1');
             this.props.setDndMode(dndtype, (result) => {
                 this.props.getDndMode( (result) => {
