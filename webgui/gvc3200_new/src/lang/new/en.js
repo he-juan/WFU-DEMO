@@ -3772,3 +3772,6 @@ var a_23543_en="Screen Lock";
 var a_23544_en="Set";
 var a_23545_en="Unset";
 var a_23546_en="miss required permission";
+var a_23547_en="Screen lock password has been set";
+var a_23548_en="If needed change please click";
+var a_23549_en="reset password";
