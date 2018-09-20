@@ -421,8 +421,8 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 语音编码 */}
-                <FormItem 　className="precodeSet" label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={this.tips_tr("Preferred Vocoder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                    <Transfer className="vocodertrans" dataSource={this.state.VocoderData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 135, height: 206, }} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange} render={this.renderItem} />
+                <FormItem className="transfer-control"　 label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={this.tips_tr("Preferred Vocoder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <Transfer className="vocodertrans" dataSource={this.state.VocoderData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange} render={this.renderItem} />
                 </FormItem>
                 {/* 编码协商优先级 */}
                 <FormItem className="select-item" 　label={(<span>{callTr("a_19181")}&nbsp;<Tooltip title={this.tips_tr("Codec Negotiation Priority")}><Icon type="question-circle-o" /></Tooltip></span>)}>
@@ -721,8 +721,8 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 视频编码 */}
-                <FormItem label={(<span>{callTr("a_16115")}&nbsp;<Tooltip title={this.tips_tr("Preferred Video Coder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                    <Transfer dataSource={this.state.VideoData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 135, height: 206, }} targetKeys={this.state.VideoTargetKeys} onChange={this.handleVideoChange} render={item => item.title} />
+                <FormItem className="transfer-control" label={(<span>{callTr("a_16115")}&nbsp;<Tooltip title={this.tips_tr("Preferred Video Coder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <Transfer dataSource={this.state.VideoData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }} targetKeys={this.state.VideoTargetKeys} onChange={this.handleVideoChange} render={item => item.title} />
                 </FormItem>
                 {/* H.264 视频大小 */}
                 <FormItem className="select-item" label={(<span>{callTr("a_16118")}&nbsp;<Tooltip title={this.tips_tr("H.264 Image Size")}><Icon type="question-circle-o" /></Tooltip></span>)}>

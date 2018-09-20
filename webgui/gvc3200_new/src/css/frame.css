@@ -6216,3 +6216,10 @@ ol.mp_list li.mp_error {}
 .confModal .is-validating.has-feedback:after {
     display: none;
 }
+
+.transfer-control .ant-form-item-control-wrapper {
+    width: auto;
+}
+.transfer-control .ant-form-item-control {
+    width: 100%;
+}

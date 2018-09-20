@@ -99,8 +99,8 @@ class CodecForm extends React.Component {
 
         let itemList =
            <Form>
-                <FormItem label={(<span>{callTr("a_16115")}&nbsp;<Tooltip title={this.tips_tr("Preferred Video Coder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                    <Transfer dataSource={this.videoDataSource} targetKeys={this.state.videoTargetKeys} render={item => item.title} onChange={this.handleChange} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 135, height: 206, }}/>
+                <FormItem className="transfer-control" label={(<span>{callTr("a_16115")}&nbsp;<Tooltip title={this.tips_tr("Preferred Video Coder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    <Transfer dataSource={this.videoDataSource} targetKeys={this.state.videoTargetKeys} render={item => item.title} onChange={this.handleChange} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }}/>
                 </FormItem>
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
