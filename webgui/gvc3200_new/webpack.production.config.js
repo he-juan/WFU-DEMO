@@ -71,6 +71,10 @@ module.exports = {
             {
                 from: path.resolve(ROOT_PATH, './src/img/favicon.ico'),
                 to: path.resolve(BUILD_PATH, './img/favicon.ico')
+            },
+            {
+                from: path.resolve(ROOT_PATH, './src/iconfont'),
+                to: path.resolve(BUILD_PATH, './iconfont')
             }
         ]),
         new HtmlWebpackPlugin({

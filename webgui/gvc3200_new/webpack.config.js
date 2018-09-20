@@ -23,7 +23,7 @@ module.exports = {
             '/manager*': {
                 contentBase: path.resolve(__dirname, './build'),
                 changeOrigin: true,
-                target: 'http://192.168.132.131',  //replace with the ip of device
+                target: 'http://192.168.124.154',  //replace with the ip of device
                 secure: false
             }
         }
@@ -91,6 +91,10 @@ module.exports = {
             {
                 from: path.resolve(ROOT_PATH, './src/img/favicon.ico'),
                 to: path.resolve(BUILD_PATH, './img/favicon.ico')
+            },
+            {
+                from: path.resolve(ROOT_PATH, './src/iconfont'),
+                to: path.resolve(BUILD_PATH, './iconfont')
             }
         ]),
         new HtmlWebpackPlugin({
