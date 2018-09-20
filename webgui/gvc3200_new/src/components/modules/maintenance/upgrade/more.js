@@ -25,7 +25,9 @@ class MoreForm extends Component {
          req_items.push(
              this.getReqItem("sipnotify", "4428", ""),
              this.getReqItem("validatecert", "22030", ""),
-             this.getReqItem("mdns", "1407", "")
+             this.getReqItem("mdns", "1407", ""),
+             this.getReqItem("dhcp66", "145", ""),
+             this.getReqItem("autopro", "1414", ""),
          )
          return req_items;
     }
@@ -117,6 +119,24 @@ class MoreForm extends Component {
                     )
                     }
                     <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                </FormItem>
+                <FormItem label={< span > {callTr("a_sipnotify")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                    {getFieldDecorator("dhcp66", {
+                        rules: [],
+                        valuePropName: 'checked',
+                        initialValue: parseInt(this.props.itemValues.sipnotify)
+                    })(
+                        <Checkbox className="P-4428"/>
+                    )}
+                </FormItem>
+                <FormItem label={< span > {callTr("a_sipnotify")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                    {getFieldDecorator("autopro", {
+                        rules: [],
+                        valuePropName: 'checked',
+                        initialValue: parseInt(this.props.itemValues.sipnotify)
+                    })(
+                        <Checkbox className="P-4428"/>
+                    )}
                 </FormItem>
                 <FormItem label={< span > {callTr("a_4105")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_resetkey")}</Button>

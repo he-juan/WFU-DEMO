@@ -368,13 +368,13 @@ class FirmwareForm extends Component {
                         initialValue: this.props.itemValues.firpost
                     })(<Input className="P-233"/>)}
                 </FormItem>
-                <FormItem label={( <span>{callTr("a_firmwareupgrade")}&nbsp; <Tooltip title={callTipsTr("Firmware Upgrade")}>
+              {/*  <FormItem label={( <span>{callTr("a_firmwareupgrade")}&nbsp; <Tooltip title={callTipsTr("Firmware Upgrade")}>
                     <Icon type="question-circle-o"/> </Tooltip></span>
                 )}>
                     {(
                         <Button className="button" type="primary" onClick={this.clickUpgrade.bind(this)}>{this.tr("a_upgrade")}</Button>
                     )}
-                </FormItem>
+                </FormItem>*/}
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>

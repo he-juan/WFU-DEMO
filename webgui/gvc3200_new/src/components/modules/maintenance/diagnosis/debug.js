@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 const FormItem = Form.Item;
 const Content = Layout;
 const Option = Select.Option;
-let checklogitems = ['syslog', 'logcat', 'capture', 'tombstone', 'anr'];
+let checklogitems = ['syslog', 'logcat', 'capture',];
 let req_items;
 let mode = 1;
 let rec_mode = 0;
@@ -33,8 +33,6 @@ class DebugForm extends Component {
              this.getReqItem("syslog", "syslog", ""),
              this.getReqItem("logcat", "logcat", ""),
              this.getReqItem("capture", "capture", ""),
-             this.getReqItem("tombstone", "tombstone", ""),
-             this.getReqItem("anr", "anr", "")
          )
          return req_items;
     }
@@ -457,7 +455,7 @@ class DebugForm extends Component {
                         )}
                         <span> {callTr("a_16357")}</span>
                     </div>
-                    <div>
+                    {/*<div>
                         {getFieldDecorator("tombstone", {
                             valuePropName: 'checked',
                             initialValue: Number(this.props.itemValues.tombstone)
@@ -486,7 +484,7 @@ class DebugForm extends Component {
                                 )}
                                 <span> {callTr("a_4340")}</span>
                             </div>
-                    }
+                    }*/}
                 </FormItem>
 
                 <FormItem  className="select-item" label={( <span> {callTr("a_16359")} <Tooltip title={callTipsTr("Debug Info List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
@@ -563,7 +561,7 @@ class DebugForm extends Component {
                         <Button className="debug" type="primary" onClick = {this.checkoutRecfiles.bind(this)}>{this.tr("a_list")}</Button>
                     )}
                 </FormItem>
-                <p className="blocktitle"><s></s>{this.tr("a_screenshort")}</p>
+               {/* <p className="blocktitle"><s></s>{this.tr("a_screenshort")}</p>
                 <FormItem label={( <span> {callTr("a_screenshort")} <Tooltip title={callTipsTr("Screenshot")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
                         <Button className="debug" type="primary" onClick={this.startScreenShot.bind(this)}>{this.tr("a_screen")}</Button>
@@ -590,7 +588,7 @@ class DebugForm extends Component {
                 </FormItem>
                 <FormItem >
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>
-                </FormItem>
+                </FormItem>*/}
             </Form>
 
         let hideItem = this.props.hideItem;

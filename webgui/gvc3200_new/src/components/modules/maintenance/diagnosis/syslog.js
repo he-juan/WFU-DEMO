@@ -27,7 +27,8 @@ class SyslogForm extends Component {
             this.getReqItem("syslogser", "207", ""),
             this.getReqItem("sysloglev", "208", ""),
             this.getReqItem("syslogfilter", "22129", ""),
-            this.getReqItem("sendlog", "1387", "")
+            this.getReqItem("sendlog", "1387", ""),
+            this.getReqItem("h323sysloglevel", "25055", ""),
         )
         return req_items;
     }
@@ -153,6 +154,29 @@ class SyslogForm extends Component {
                         rules: [],
                         initialValue: this.props.itemValues['syslogfilter']
                     })(<Input className="P-22129"/>)}
+                </FormItem>
+                <FormItem className="select-item" label={(<span>{callTr("a_19139")}
+                        <Tooltip title={callTipsTr("Syslog Level")}><Icon type="question-circle-o"/></Tooltip>
+                    </span>
+                )}>
+                    {getFieldDecorator('h323sysloglevel', {
+                        rules: [],
+                        initialValue: this.props.itemValues['h323sysloglevel'] ? this.props.itemValues['h323sysloglevel'] : "0"
+                    })(
+                        <Select className="P-25055">
+                            <option value="0">{callTr("a_8")}</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </Select>
+                    )}
                 </FormItem>
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>

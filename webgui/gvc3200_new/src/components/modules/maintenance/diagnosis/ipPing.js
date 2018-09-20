@@ -12,7 +12,7 @@ var cur_offset = 0;
 var old_offset = 0;
 var old_pingmsg;
 
-class TracerouteForm extends Component {
+class ipForm extends Component {
     constructor(props) {
         super(props)
 
@@ -26,7 +26,7 @@ class TracerouteForm extends Component {
     }
 
     componentDidMount() {
-        this.props.clearTraceroute(this.clearTraceroute)
+        this.props.clearPing(this.clearPing)
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -37,7 +37,7 @@ class TracerouteForm extends Component {
         }
     }
 
-    clearTraceroute = () => {
+    clearPing = () => {
         this.setState({
             pingresValue:""
         })
@@ -45,13 +45,13 @@ class TracerouteForm extends Component {
 
     onChangeTargethost = () => {
         this.setState({
-            disabzed_start:""
+            disabled_start:""
         })
     }
 
     get_ping_msg_suc = (values) => {
         let res = values.headers['response'];
-        let pingresValue = this.state.pingresValue;
+        let pingresVue = this.state.pingresValue;
         this.setState({
             disabled_stop : ""
         })
@@ -204,12 +204,12 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => {
-  const actions = {
-      start_ping:Actions.start_ping,
-      get_ping_msg:Actions.get_ping_msg,
-      stop_ping:Actions.stop_ping
-  }
-  return bindActionCreators(actions, dispatch)
+    const actions = {
+        start_ping:Actions.start_ping,
+        get_ping_msg:Actions.get_ping_msg,
+        stop_ping:Actions.stop_ping
+    }
+    return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Enhance(TracerouteForm));
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(ipForm));

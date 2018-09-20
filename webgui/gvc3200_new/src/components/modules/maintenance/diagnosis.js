@@ -4,6 +4,8 @@ import LogactForm from "./diagnosis/logcat";
 import SyslogForm from "./diagnosis/syslog";
 import TracerouteForm from "./diagnosis/traceroute";
 import DebugForm from "./diagnosis/debug"
+import DevForm from "./diagnosis/developerMode"
+import IpForm from "./diagnosis/ipPing"
 import * as Actions from '../../redux/actions/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -17,12 +19,15 @@ const DiagnosisSyslogForm = Form.create()(SyslogForm);
 const DiagnosisLogactForm = Form.create()(LogactForm);
 const DiagnosisDebugForm = Form.create()(DebugForm);
 const DiagnosisTracerouteForm = Form.create()(TracerouteForm);
+const DiagnosisDevForm = Form.create()(DevForm);
+const DiagnosisIpForm = Form.create()(IpForm);
 
 class Diagnosis extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            clearTraceroute:new Function()
+            clearTraceroute:new Function(),
+            clearPing:new Function(),
         }
     }
 
@@ -31,12 +36,19 @@ class Diagnosis extends Component {
         this.props.jumptoTab(key);
         this.props.setLogcat('');
         this.state.clearTraceroute();
+        this.state.clearPing();
         this.props.stop_ping();
     }
 
     clearTraceroute = (clearTraceroute) => {
          this.setState({clearTraceroute:clearTraceroute})
     }
+
+    clearPing = (clearPing) => {
+        this.setState({clearPing:clearPing})
+    }
+
+
 
     render() {
         let hideItem = [];
@@ -57,6 +69,14 @@ class Diagnosis extends Component {
                 <TabPane tab={this.tr("a_16628")} key={3}>
                     <DiagnosisTracerouteForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
                         clearTraceroute = {this.clearTraceroute} hideItem={hideItem} tabOrder=""/>
+                </TabPane>
+                <TabPane tab={this.tr("a_4347")} key={4}>
+                    <DiagnosisDevForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
+                                    hideItem={hideItem} tabOrder="" />
+                </TabPane>
+                <TabPane tab={"Ping"} key={4}>
+                    <DiagnosisIpForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
+                                     clearPing = {this.clearPing} hideItem={hideItem} tabOrder="" />
                 </TabPane>
             </Tabs>
 
