@@ -76,24 +76,13 @@ export const setMaxAcctNum = (value) => (dispatch) => {
 
 export const showCallDialog = (value) => (dispatch) => {
     //value: "end"/"minimize"-not render  9-enter  10-leave
-    dispatch({type: 'SHOW_CALL_DIALOG', callDialog: value})
+    // GVC3210 多路通话  需要保存线路信息
+    dispatch({type: 'SHOW_CALL_DIALOG', callDialogStatus: value})
 }
 
 export const setDialineInfo = (line, acctindex, acct, isvideo, name, num) => (dispatch) => {
     //0~8 - represent the status of line
     dispatch({type: 'DIAL_LINE_INFO', lineInfo: {line: line, acctindex: acctindex, acct: acct, isvideo: isvideo, name: name, num: num}})
-}
-
-export const setMuteStatus = (line, status) => (dispatch) => {
-    dispatch({ type: 'MUTE_STATUS', muteStatus: {line: line, status: status} })
-}
-
-export const setRecordStatus = (status) => (dispatch) => {
-    dispatch({ type: 'RECORD_STATUS', recordStatus:  status})
-}
-
-export const setHeldStatus = (status) => (dispatch) => {
-    dispatch({ type: 'HELD_STATUS', heldStatus:  status})
 }
 
 export const setSpeakerTestStatus = (status) => (dispatch) => {
@@ -614,16 +603,6 @@ export const endCall = (line) => (dispatch) => {
     let request = 'action=endcall&line=' + line;
 
     actionUtil.handleGetRequest(request).then(function(data) {
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
-
-export const getAllLineStatus = (callback) => (dispatch) => {
-    let request = 'action=getalllinestatus';
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-        callback(data);
     }).catch(function(error) {
         promptForRequestFailed();
     });

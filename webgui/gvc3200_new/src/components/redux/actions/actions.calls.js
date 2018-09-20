@@ -31,6 +31,27 @@ export const cb_originate_call = (action, numbers,accounts) => (dispatch) =>{
 
 }
 
+export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isquickstart, pingcode, isdialplan, confname) => (dispatch) => {
+    let request = 'action=addconfmemeber&region=confctrl&numbers=' + encodeURIComponent(numbers) + "&accounts=" +
+        encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo +
+        "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan + "&confname=" + confname;
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if (msgs.headers['response'].toLowerCase() == "error") {
+            if (msgs.headers['message'] && msgs.headers['message'].toLowerCase() == "authentication required") {
+                dispatch({type: 'PAGE_STATUS', pageStatus: 0})
+            } else {
+                if (msgs.headers['message'] == "0")
+                    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_534'}});
+                else
+                    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_533'}});
+            }
+        }
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
 export const quickStartIPVConf = (isvideo) => (dispatch) => {
     let request = 'action=quickStartIPVConf&region=confctrl&isvideo=' + isvideo;
     actionUtil.handleGetRequest(request).then(function(data){
@@ -358,6 +379,126 @@ export const setschedule = (infostr,type,callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+export const setDialineInfo1= (linesinfo) => (dispatch) => {
+    //0~8 - represent the status of line
+    dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo})
+}
+
+/**
+ * mute or unmute local line
+ * @param ismute
+ */
+export const ctrlLocalMute = (ismute, callback) => (dispatch) => {
+    let request = "action=ctrllocalmute&region=confctrl&setmute=" + ismute;
+    actionUtil.handleGetRequest(request).then(function(data){
+        let tObj = JSON.parse(data);
+    }).catch(function(error) {
+        console.log("ctrllocalmute Exception:",error);
+    });
+}
+
+export const gethdmi1state = (callback) => (dispatch) => {
+    let request = "action=gethdmi1state&region=status";
+    actionUtil.handleGetRequest(request).then(function(data){
+        let tObj = JSON.parse(data);
+        callback(tObj)
+    }).catch(function(error) {
+        console.log("ctrllocalmute Exception:",error);
+    });
+}
+
+export const isFECCEnable = (line, callback) => (dispatch) =>{
+    let request = "region=confctrl&action=isFECCEnable&line=" + line;
+    actionUtil.handleGetRequest(request).then(function (data) {
+        data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+        let tObj = eval("(" + data + ")");
+        callback(tObj)
+    }).catch(function (error) {
+        console.log("isFECCEnable Exception:", error);
+    });
+}
+
+export const ctrlFECC = (line, flag, callback) => (dispatch) =>{
+    let request = "";
+    if(flag == 1){
+        request = "region=confctrl&action=startFECC&line=" + line;
+    }else{
+        request = "region=confctrl&action=stopFECC&line=" + line;
+    }
+    actionUtil.handleGetRequest(request).then(function (data) {
+        data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+        let tObj = eval("(" + data + ")");
+        callback(tObj)
+    }).catch(function (error) {
+        console.log("ctrlFECC Exception:", error);
+    });
+}
+
+export const getHDMI1Resolution = (async, callback) => (dispatch) =>{
+    let request = "action=get&var-0000=25104";
+    if(async == true){
+        actionUtil.handleGetRequest(request).then(function (data) {
+            let msgs = actionUtil.res_parse_rawtext(data);
+            callback(msgs);
+        }).catch(function (error) {
+            console.log("getHDMI1Resolution Exception:", error);
+        });
+    }else{
+        actionUtil.handleSyncRequest(request).then(function (data) {
+            let msgs = actionUtil.res_parse_rawtext(data);
+            callback(msgs);
+        }).catch(function (error) {
+            console.log("getHDMI1Resolution Exception:", error);
+        });
+    }
+}
+
+export const getAllLineStatus = (callback) => (dispatch) => {
+    let request = 'region=confctrl&action=getallLineInfo';
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let lineinfoArr = eval("([" + data + "])");
+        for(let i = 0 ; i < lineinfoArr.length ; i++ ){
+            let item = lineinfoArr[i];
+            item.state = item.type + item.state;  // for example "init4"
+        }
+        dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
+        callback(lineinfoArr);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const setMuteStatus = (line, status) => (dispatch) => {
+    dispatch({ type: 'MUTE_STATUS', muteStatus: {line: line, status: status} })
+}
+
+export const setRecordStatus = (status) => (dispatch) => {
+    dispatch({ type: 'RECORD_STATUS', recordStatus:  status})
+}
+
+export const setHeldStatus = (status) => (dispatch) => {
+    dispatch({ type: 'HELD_STATUS', heldStatus:  status})
+}
+
+export const isConfOnHold = (callback) => (dispatch) =>{
+    let request = "action=isConfOnHold&region=confctrl";
+    actionUtil.handleGetRequest(request).then(function(data) {
+        var result = eval("("+data+")");
+        if(result.res == "success" || result == 0){
+            if(result.flag == "true"){
+                dispatch({ type: 'HELD_STATUS', heldStatus: "1"})
+            }else{
+                dispatch({ type: 'HELD_STATUS', heldStatus: "0"})
+            }
+        }
+        callback(result);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+
+}
+
+
 
 // export const updateschedule = (infostr,callback) => (dispatch) => {
 //     let request="action=updateschedule&region=webservice&id=" + encodeURIComponent(infostr) + "&format=json";

@@ -22,12 +22,69 @@ class HandleWebsocket extends React.Component {
         clearTimeout(endcalltimeout);
     }
 
-    handlemessage = (message) => {
-        console.log("--message--", message);
-        let type = message['type'];
-        if(type!="install" && this.props.product != "GAC2510"){
-            return;
+    changelinesstatus = (message) =>{
+        let linesinfo = [];
+        let i = 0;
+        if(this.props.linesinfo.length == 0){
+            linesinfo.push(message);
+        }else{
+            for(  i = 0; i < this.props.linesinfo.length; i++ ){
+                if(this.props.linesinfo[i].line == message.line){
+                    if(message.state == "4"){
+                        //get the call type - begin
+                        let isvideo = this.props.linesinfo[i].isvideo;
+                        let calltype = message.msg;
+                        let calltypeint = parseInt(calltype);
+                        if(calltypeint < 16 || isvideo == 0){ //audio call
+                            message.isvideo = 0;
+                        }else if(calltypeint < parseInt("0xfc", 16) || isvideo == 1){
+                            message.isvideo = 1;
+                        }
+                    }
+                    if(message.state == "3" || message.state == "4"){
+                        //get the name and num --begin
+                        let name = this.props.linesinfo[i].name;
+                        let number = this.props.linesinfo[i].num;
+                        message.name = message.name || name;
+                        message.num = message.number || number;
+                    }
+                    linesinfo.push(message);
+                }else{
+                    linesinfo.push(this.props.linesinfo[i]);
+                }
+
+            }
         }
+        this.props.setDialineInfo1(linesinfo);
+    }
+
+    updatename = (message) =>{
+        let linesinfo = [];
+        for( let i = 0; i < this.props.linesinfo.length; i++ ){
+            if(this.props.linesinfo[i].line == message.line) {
+                this.props.linesinfo[i].name = message.name;
+            }
+            linesinfo.push(this.props.linesinfo[i]);
+        }
+        this.props.setDialineInfo1(linesinfo);
+    }
+
+    handlemuteline = (message) => {
+        let linesinfo = [];
+        for( let i = 0; i < this.props.linesinfo.length; i++ ){
+            if(this.props.linesinfo[i].line == message.line) {
+                if(message['flag'].indexOf("MuteMic") != -1){
+                    this.props.linesinfo[i].islocalmute = message['flag'].split("=")[1];
+                }
+            }
+            linesinfo.push(this.props.linesinfo[i]);
+        }
+        this.props.setDialineInfo1(linesinfo);
+    }
+
+    handlemessage = (message) => {
+        let type = message['type'];
+
         switch (type) {
             case 'install':
                 let a_2 = this.tr('a_2')
@@ -96,9 +153,6 @@ class HandleWebsocket extends React.Component {
                     });
                 }
             case 'call':
-                if(this.props.product != "GAC2510"){
-                    break;
-                }
                 switch (message['state']) {
                     case "0":
                         // dile/end the call
@@ -116,15 +170,11 @@ class HandleWebsocket extends React.Component {
                         if(endcalltimeout){
                             clearTimeout(endcalltimeout);
                         }
-                        let pacct = this.returnAcctNum(message['acct']);
-                        this.props.getNvrams(new Array(pacct), (value) => {
-                            this.props.showCallDialog(3);
-                            this.props.setDialineInfo(message['line'], message['acct'], value.headers[pacct], 0, message['name'], message['num']);
-                        });
+                        this.changelinesstatus(message);
                         break;
                     case "4":
                         // accept the call
-                        this.props.showCallDialog(4);
+                        this.changelinesstatus(message);
                         break;
                     case "8":
                         //failed
@@ -144,6 +194,12 @@ class HandleWebsocket extends React.Component {
                         }
                         break;
                 }
+                break;
+            case "local_mute":
+                this.handlemuteline(message);
+                break;
+            case 'updatename':
+                this.updatename(message);
                 break;
             case 'auto_answer':
                 if(this.props.product != "GAC2510"){
@@ -221,7 +277,8 @@ class HandleWebsocket extends React.Component {
 
 const mapStateToProps = (state) => ({
     pageStatus: state.pageStatus,
-    product: state.product
+    product: state.product,
+    linesinfo: state.linesInfo
 })
 
 function mapDispatchToProps(dispatch) {
@@ -232,6 +289,7 @@ function mapDispatchToProps(dispatch) {
         progressMessage:Actions.progressMessage,
         showCallDialog: Actions.showCallDialog,
         setDialineInfo: Actions.setDialineInfo,
+        setDialineInfo1: Actions.setDialineInfo1,
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,

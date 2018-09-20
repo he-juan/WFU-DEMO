@@ -59,32 +59,22 @@ class Main extends React.Component {
 
     componentDidMount() {
         this.props.updateMainHeight(document.body.offsetHeight - 150);
-        window.onkeypress = function(e) {
+        window.onkeypress = function (e) {
             if (e.key == 'Enter' && e.target.id !== 'searchconfig') {
                 this.props.enterPageSaving(savingtimes++);
             }
         }.bind(this);
 
         /*get dial line status to init the call page*/
-        if (this.props.product == "GAC2510") {
-            this.props.getAllLineStatus((data) => {
-                var tObj = JSON.parse(data);
-                if(tObj.state != 0 || tObj.state != 8){
-                    const acctPvalue = ["35", "404", "504", "604", "1704",  "1804", "50604", "50704", "50804", "50904", "51004", "51104", "51204", "51304", "51404", "51504"];
-                    let pacct = acctPvalue[Number(tObj.acct)];
-                    this.props.getNvrams(new Array(pacct), (value) => {
-                        this.props.showCallDialog(Number(tObj.state));
-                        this.props.setDialineInfo(tObj['line'], tObj.acct, value.headers[pacct], tObj['isvideo'], tObj['name'], tObj['num']);
-                    });
-                    this.props.setMuteStatus(tObj['line'], tObj['ismute']);
-                    this.props.setRecordStatus(tObj['isrecording']);
-                    this.props.setHeldStatus(tObj['isremotehold']);
-                }
-            })
-        }
 
-        window.onbeforeunload = function() {
-            window.scrollTo(0,0);
+        this.props.getAllLineStatus((result)=>{
+            if(result.length > 0){
+                this.props.isConfOnHold();
+            }
+        });
+
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
         }
 
         window.onscroll = function () {
@@ -104,7 +94,7 @@ class Main extends React.Component {
                     top_div2.style.position = "fixed";
                     top_div2.style.top = "105px";
                     top_div2.style.left = "242px";
-                    top_div2.style.width = $("body").width()-254 +'px';
+                    top_div2.style.width = $("body").width() - 254 + 'px';
                     top_div2.style.background = "#fff";
                     top_div2.style.zIndex = "1000";
                 } else {
@@ -138,13 +128,13 @@ class Main extends React.Component {
                 <MainNav />
                 <div className='main-content'>
                     {
-                        this.props.callDialog == "minimize"
-                        ? <CallTip status={this.props.callDialog} />
+                        this.props.callDialogStatus == "minimize"
+                        ? <CallTip status={this.props.callDialogStatus} />
                         : null
                     }
                     {
-                        !isNaN(this.props.callDialog)
-                        ? <CallDialog status={this.props.callDialog} />
+                        this.props.linesinfo.length > 0 && this.props.callDialogStatus != "minimize"
+                        ? <CallDialog linestatus={this.props.linesinfo} />
                         : null
                     }
                     <IntlProvider>
@@ -165,8 +155,9 @@ class Main extends React.Component {
 
 const mapStateToProps = (state) => ({
     product: state.product,
-	callDialog: state.callDialog,
-    curLocale:state.curLocale
+    callDialogStatus: state.callDialogStatus,
+    curLocale:state.curLocale,
+    linesinfo: state.linesInfo
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -185,7 +176,8 @@ const mapDispatchToProps = (dispatch) => {
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,
         setHeldStatus: Actions.setHeldStatus,
-        getMaxlineCount: Actions.getMaxlineCount
+        getMaxlineCount: Actions.getMaxlineCount,
+        isConfOnHold: Actions.isConfOnHold
     }
     return bindActionCreators(actions, dispatch)
 }

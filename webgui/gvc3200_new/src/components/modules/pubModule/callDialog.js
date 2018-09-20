@@ -6,8 +6,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {globalObj} from "../../redux/actions/actionUtil"
 const Content = Layout
-let tmpclass = "", disacct = "", linestatustip = "", ctrlbtnvisible = "", maskvisible = "", curvol = "", contactItems;
+let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
+let mClicktimes = 0;
+let mPreClickTime, mCurrentClickTime;
 
 class CallDialog extends Component {
     constructor(props){
@@ -20,64 +22,90 @@ class CallDialog extends Component {
             currectime: 0,
             displayrec: "00:00:00",
             callstatus: "callee-status",
-            holdtype: ""
+            holdtype: "",
+            acctstatus: []
 		}
     }
 
     componentWillMount = () => {
-        this.props.getMaxVolume();
 
-        /*the request has modified to sync since the defaultValue of Slider won't change once rendered*/
-        this.props.getCurVolume((vol) => {
-            curvol = Number(vol);
-        });
     }
 
     componentDidMount = () => {
         globalObj.isCallStatus = true;
-        this.props.getAllLineStatus((data) => {
-            let tObj = JSON.parse(data);
-            let calltime = Number(tObj['callduration']);
-            let rectime = Number(tObj['recordduration']);
-
-            if(calltime){
-                let curtime = Math.round(calltime / 1000);  //unit: ms -> s
-                let displayContent = this.timeConvert(curtime);
-                let callholdstatus = "callee-status";
-                let holdtype = "";
-                if(this.props.heldStatus == "1") {
-                    displayContent += ' (' + this.tr("a_inheld") + ')';
-                    callholdstatus = "callee-status-hold";
-                    holdtype = "call-type-hold";
-                }
-                this.setState({
-                    curtime: curtime,
-                    displaytime: displayContent,
-                    callstatus: callholdstatus,
-                    holdtype: holdtype
-                });
-
-                if(rectime){
-                    let currectime = Math.round(rectime / 1000)
-                    this.setState({
-                        currectime: currectime,
-                        displayrec: this.timeConvert(currectime)
-                    });
-                }
-                if(!this.callTick){
-                    this.callTick = setInterval(() => {
-                        this.callTimeTick();
-                    }, 1000);
-                }
-            }
-        });
         if(this.props.msgsContacts.length == undefined){
             this.props.getContacts();
         }
+        this.props.getAcctStatus((acctstatus) => {
+            if (!this.isEmptyObject(acctstatus)) {
+                this.getAcctStatusData(acctstatus);
+            }
+        });
     }
 
     componentWillUnmount = () => {
         clearTimeout(dialogLeaveTimeout);
+    }
+
+    countClickedTimes =()=>{
+        if(mClicktimes == 0){
+            mPreClickTime = new Date().getTime();
+            mClicktimes ++;
+            return true;
+        }
+        mCurrentClickTime = new Date().getTime();
+        if((mCurrentClickTime - mPreClickTime) < 1000) {
+            this.props.promptMsg("WARNING","a_552");
+            mPreClickTime = mCurrentClickTime;
+            return false;
+        }
+        mClicktimes ++ ;
+        mPreClickTime = mCurrentClickTime;
+        return true;
+    }
+
+    getAcctStatusData = (acctstatus) => {
+        let curAcct = [];
+        const acctStatus = acctstatus.headers;
+        let max = 4;
+        for (let i = 0; i < max; i++) {
+            let accountname = acctStatus[`account_${i}_name`];
+            if (i == 3) {
+
+                if(acctStatus[`account_${6}_name`].length > 0){
+                    accountname = acctStatus[`account_${6}_name`]
+                }else if( acctStatus[`account_${6}_no`].length > 0 ){
+                    accountname = acctStatus[`account_${6}_no`]
+                }else{
+                    accountname = "H.323";
+                }
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${6}_status`],
+                        "activate": acctStatus[`account_${6}_activate`],
+                        "name": accountname
+                    });
+            } else {
+                if (i == 0) {
+                    if (acctStatus[`account_${i}_name`].length > 0) {
+                        accountname = acctStatus[`account_${i}_name`];
+                    } else if (acctStatus[`account_${i}_no`].length > 0) {
+                        accountname = acctStatus[`account_${i}_no`];
+                    } else {
+                        accountname = "SIP";
+                    }
+                }
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${i}_status`],
+                        "activate": acctStatus[`account_${i}_activate`],
+                        "name": accountname
+                    });
+            }
+        }
+        this.setState({acctstatus: curAcct});
     }
 
     callTimeTick = () => {
@@ -144,6 +172,71 @@ class CallDialog extends Component {
 		}, 1000);
 	}
 
+    handlelocalmute =(ismute) => {
+        if(!this.countClickedTimes())
+        {
+            return false;
+        }
+        this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
+    }
+
+    handleStartFECC = () =>{
+        if(!this.countClickedTimes()){
+            return false;
+        }
+        this.props.gethdmi1state((result) => {
+            if(result.state == "1"){  //HDMI 1 has connected
+                let req_items = new Array;
+                req_items.push(
+                    this.getReqItem("hdmi2", "hdmi2", ""),
+                    this.getReqItem("hdmi3", "hdmi3", "")
+                );
+                this.props.getItemValues(req_items, (values) => {
+                    let hdmi2state = values["hdmi2"];
+                    let hdmi3state = values["hdmi3"];
+                    let hdmi23state = 0;
+                    if(hdmi3state == "1" && hdmi2state == "1")
+                        hdmi23state = 4;
+                    else if(hdmi3state != "1" && hdmi2state == "1")
+                        hdmi23state = 5;
+                    else if(hdmi3state != "1" && hdmi2state != "1")
+                        hdmi23state = 6;
+
+                    if(hdmi23state == 4 || hdmi23state == 5 || hdmi23state == 6)
+                    {
+                        /**
+                         open FECC
+                         1. HDMI1
+                         2. HDMI1, HDMI2
+                         3. HDMI1, HDMI2, HDMI3
+                         **/
+                        this.props.isFECCEnable("-1", (result) => {
+                            if (result.res.toLowerCase() == "success" && result.flag == "true") {
+                                //start FECC
+                                this.props.ctrlFECC("-1", 1, (result) =>{
+                                    if(result.res == "success" || result == 0 ){
+                                    }else{
+                                        this.props.promptMsg("WARNING", this.tr("a_63"));
+                                    }
+                                });
+                            } else {
+                                //not enable FECC
+                                this.props.promptMsg("WARNING", this.tr("a_63"));
+                            }
+
+                        });
+                    }
+                    else
+                    {
+                        this.props.promptMsg("WARNING", this.tr("a_16707") + " " + this.tr("a_63"));
+                    }
+                })
+            }else{
+                this.props.promptMsg("WARNING", this.tr("a_16707") + " " + this.tr("a_63"));
+            }
+        });
+    }
+
 	showSoundSlider = (tag) => {
 	    if(tag)
 			this.setState({ soundvisible: "display-block" });
@@ -182,102 +275,102 @@ class CallDialog extends Component {
 
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let dialogstatus = this.props.status;
-        switch (dialogstatus) {
-            case 3:
-                if(dialogLeaveTimeout){
-                    clearTimeout(dialogLeaveTimeout);
-                }
-                ctrlbtnvisible = "display-hidden";
-                linestatustip = "a_dialing_up";
-                //no need break here
-            case 9:
-                if(tmpclass != "call-dialog-in call-dialog-in-active"){
-                    tmpclass = "call-dialog-in call-dialog-in-active";
-                    maskvisible = "display-block";
-                }
-                if(linestatustip == "a_intalk") dialogstatus = 4;  //to keep call type icon same after minisize the call dialog
-                break;
-            case 10:
-                tmpclass = "call-dialog-out call-dialog-out-active";
-                dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
-                break;
-            case 4:
-                if(tmpclass != "call-dialog-in call-dialog-in-active"){
-                    tmpclass = "call-dialog-in call-dialog-in-active";
-                    maskvisible = "display-block";
-                }
-                ctrlbtnvisible = "display-block";
-                linestatustip = "a_intalk";
-                if(!this.callTick){
-                    this.callTick = setInterval(() => {
-                        this.callTimeTick();
-                    }, 1000);
-                }
-                break;
-            case 8:
-                ctrlbtnvisible = "display-hidden";
-                linestatustip = "a_643" ;
-                break;
-            case 86:
-                ctrlbtnvisible = "display-hidden";
-                linestatustip = "call_notfound" ;
-                break;
-            case 87:
-                ctrlbtnvisible = "display-hidden";
-                linestatustip = "call_timeout" ;
-                break;
-            case 88:
-                ctrlbtnvisible = "display-hidden";
-                linestatustip = "call_busy" ;
-                break;
-        }
-
-        let disname = "";
-        if(!this.isEmptyObject(this.props.lineInfo)) {
-            let tmp = this.props.lineInfo;
-            const msgsContacts = this.props.msgsContacts;
-            if (tmp['name'] != "") {
-                disname = `${tmp['name']} (${tmp['num']}) `;
-            }
-            let contactslen = msgsContacts.length;
-            for (var i = 0; i < contactslen; i++) {
-                if (tmp['num'] == msgsContacts[i].Number && (msgsContacts[i].AcctIndex == tmp['acctindex'] || msgsContacts[i].AcctIndex == '-1')) {
-                    disname = `${msgsContacts[i].Name} (${tmp['num']})`;
+        let linestatustip = [];
+        let linestatus = this.props.linestatus;
+        for(let i = 0 ; i < linestatus.length; i++){
+            let lineitem = linestatus[i];
+            let  state= lineitem.state;
+            let account = lineitem.acct;
+            linestatustip[i] = "";
+            switch (state) {
+                case "3":
+                    if (tmpclass != "call-dialog-in call-dialog-in-active") {
+                        tmpclass = "call-dialog-in call-dialog-in-active";
+                        maskvisible = "display-block";
+                    }
+                    if (dialogLeaveTimeout) {
+                        clearTimeout(dialogLeaveTimeout);
+                    }
+                    linestatustip[i] = this.tr("a_509");
                     break;
-                }
+                case "4":
+                    if (tmpclass != "call-dialog-in call-dialog-in-active") {
+                        tmpclass = "call-dialog-in call-dialog-in-active";
+                        maskvisible = "display-block";
+                    }
+                    ctrlbtnvisible = "display-block";
+                    if (lineitem.isvideo == 1) {
+                        linestatustip[i] = this.tr("a_669");
+                    } else {
+                        linestatustip[i] = this.tr("a_668");
+                    }
+                    break;
+                case "init4":
+                case "init5":
+                    if (tmpclass != "call-dialog-in call-dialog-in-active") {
+                        tmpclass = "call-dialog-in call-dialog-in-active";
+                        maskvisible = "display-block";
+                    }
+                    ctrlbtnvisible = "display-block";
+                    if (lineitem.isvideo == 1) {
+                        linestatustip[i] = this.tr("a_669");
+                    } else {
+                        linestatustip[i] = this.tr("a_668");
+                    }
+                    if(account == 8) account = 3;
+                    if(this.state.acctstatus.length > 0){
+                        linestatustip[i] += " (" + this.state.acctstatus[account]["name"]+")";
+                    }
+                    break;
             }
-            if (!disname) disname = tmp['num'];
-            disacct = tmp['acct'];
+
         }
+        let ismute = linestatus[0].islocalmute == "1" ? "1" : "0";
+        let localmuteclass = ismute == "1" ? "mute" : "unmute";
+        let heldclass = this.props.heldStatus == "1" ? "hold-icon" : "unhold-icon";
+
 
         return (
             <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
 				<div className={`call-ctrl ${tmpclass}`}>
-                    <div className={`rec-sign ${this.props.recordStatus == "1" ? "display-block" : "display-hidden"}`} ><span></span>　<span> {this.state.displayrec}</span></div>
-                    <div className="shrink-icon" onClick={this.minimizeDialog}></div>
-                    <div className="local-num"><div></div><div>{disacct}</div></div>
-					<div className="callee-icon"><div className={`mute-tip-icon ${this.props.muteStatus.status == "1" ? "display-block" : "display-hidden"}`}><span></span></div></div>
-                    <p className="callee-name-num" title={disname}>{disname}</p>
-                    <p className="line-status-tip"><div className={`${this.state.callstatus}`}><div className={`call-type-${dialogstatus} ${this.state.holdtype}`}></div>
-                        <span>{dialogstatus == "4" ? this.state.displaytime : this.tr(linestatustip)}</span></div></p>
-                    <div className="call-ctrl-btn">
-    					<Button  title={this.props.muteStatus.status == "1" ? this.tr("a_659"): this.tr("a_649")} className={`${ctrlbtnvisible} mute-btn`} onClick={this.handleLineMute}>
-                            <Icon className={this.props.muteStatus.status == "1" ? "unmute-icon": "mute-icon"} />
-                        </Button>
-    					<Button title={this.props.recordStatus == "1" ? this.tr("a_recordstop"): this.tr("a_callrecord")} className={`${ctrlbtnvisible} rcd-btn`} onClick={this.handleLineRecord}>
-                            <Icon className={this.props.recordStatus == "1" ? "stop-rcd-icon" : "rcd-icon"} />
-                        </Button>
-    					<Button title={this.tr("a_endcall")}  className="end-btn" onClick={this.handleEndCall}>
-                            <Icon className="end-icon" />
-                        </Button>
-                        <div className={`sound-slider ${this.state.soundvisible}`} onMouseOver={this.showSoundSlider.bind(this, true)}  onMouseOut={this.showSoundSlider.bind(this, false)}>
-    						<Slider style={{height: 180, bottom: -10}} min={1} max={this.props.maxVolume} vertical defaultValue={curvol} onAfterChange={this.handleVolChange} />
-    					</div>
-                        <div title={this.tr("a_adjustvol")} className={`sound-icon`} onMouseOver={this.showSoundSlider.bind(this, true)}>
-                            <div className="icon-pic">
+
+                    {/*<div className={`rec-sign ${this.props.recordStatus == "1" ? "display-block" : "display-hidden"}`} ><span></span>　<span> {this.state.displayrec}</span></div>*/}
+                    <div style={{height:'50px',background:'#eceef3'}}>
+                        <div className="ctrl-title">{this.tr("a_callconf")}</div>
+                        <div className="shrink-icon" onClick={this.minimizeDialog}></div>
+                    </div>
+                    <div className="ctrl-line">
+                        <div className="local-line">
+                            <div className="confname">{this.tr("a_10032")}</div>
+                            <div className="confnum"></div>
+                            <div className="conftype"></div>
+                            <div className="confbtn">
+                                <Button id="startFECC" title={this.tr("a_19241")}  className="startFECC" onClick={this.handleStartFECC}/>
+                                <Button id="closecamera" title={this.tr("a_628")}  className="unclosecamera" />
+                                <Button id="localmute" title={this.tr("a_413")}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                             </div>
                         </div>
+                        {
+                            linestatus.map((item, i) => {
+                                return <div className={`remote-line remote-line-${i}`}>
+                                    <div className="confname">{item.name || item.num}</div>
+                                    <div className="confnum">{item.acct == 1 ? (item.name || item.num) : item.num}</div>
+                                    <div className="conftype">{linestatustip[i]}</div>
+                                    <div className="confbtn">
+                                        <Button id="end" title={this.tr("a_1")} className="endconf"/>
+                                        <Button id="isvideoupdating" title={this.tr("a_19241")} className="uploading"/>
+                                    </div>
+                                </div>
+                            })
+                        }
+                    </div>
+                    <div className="call-ctrl-btn">
+                        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} />
+                        <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
+                        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} />
+                        <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} />
+                        <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon`} />
+                        <Button title={this.tr("a_1")}  className="end-btn" />
 					</div>
 				</div>
             </div>
@@ -308,7 +401,13 @@ function mapDispatchToProps(dispatch) {
       ctrlLineRecord: Actions.ctrlLineRecord,
       getAllLineStatus: Actions.getAllLineStatus,
       getContacts:Actions.getContacts,
-      promptMsg: Actions.promptMsg
+      promptMsg: Actions.promptMsg,
+      getAcctStatus: Actions.getAcctStatus,
+      ctrlLocalMute: Actions.ctrlLocalMute,
+      gethdmi1state: Actions.gethdmi1state,
+      getItemValues:Actions.getItemValues,
+      isFECCEnable: Actions.isFECCEnable,
+      ctrlFECC: Actions.ctrlFECC
   }
   return bindActionCreators(actions, dispatch)
 }

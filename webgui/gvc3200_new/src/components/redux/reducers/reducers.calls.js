@@ -31,3 +31,12 @@ export const busylinenum = (state = 0, action) =>{
             return state
     }
 }
+
+export const linesInfo = (state = [], action) => {
+    switch (action.type) {
+        case Actions.DIAL_LINE_INFO1:
+            return action.linesInfo
+        default:
+            return state
+    }
+}

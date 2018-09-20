@@ -73,8 +73,8 @@ class DialUpForm extends Component {
         });
 
         this.props.getAcctStatus((acctstatus) => {
-            if (!this.isEmptyObject(this.props.acctStatus)) {
-                this.getAcctStatusData(this.props.acctStatus);
+            if (!this.isEmptyObject(acctstatus)) {
+                this.getAcctStatusData(acctstatus);
             }
         });
         this.props.getCalllog(0, (logitems) => {
@@ -408,7 +408,7 @@ class DialUpForm extends Component {
                 if (bjpwd != "") {
                     dialnum += "." + bjpwd;
                 }
-                this.cb_start_addmemberconf(dialnum, selacct, "call", "", "", "", isvideo);
+                this.cb_start_addmemberconf(dialnum, selacct+"", "call", "", "", "", isvideo);
                 setTimeout(function () {
                     mCalling = false;
                 }, 1000);
@@ -474,9 +474,6 @@ class DialUpForm extends Component {
             this.props.promptMsg('WARNING', 'a_19374');
             return false;
         }
-
-
-
         // let tempnumbers = numbers.split(":::");
         if (isquickstart == undefined)
             isquickstart = 0;
@@ -490,9 +487,7 @@ class DialUpForm extends Component {
         var urihead;
         if (callmode == undefined || callmode == "")
             callmode = "call";
-
-        urihead = "addconfmemeber&region=confctrl&numbers=" + encodeURIComponent(numbers) + "&accounts=" + encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo + "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan + "&confname=" + confname;
-        this.props.cb_originatecall(urihead, numbers, accounts);
+        this.props.addconfmemeber(numbers, accounts, confid,callmode,isvideo,isquickstart,pingcode,isdialplan,confname);
     }
 
     cb_start_single_call = (dialnum, dialacct, ispaging, isdialplan, isipcall, isvideo) => {
@@ -637,11 +632,16 @@ class DialUpForm extends Component {
     _renderActions =(text, record, index) =>{
         return <div className="callRecord">
             <div className="item-call-btn display-icon" style={{float:'right'}}></div>
-            <div className="allow-detail" style={{top:'0px', float:'right'}} onClick={this.addtoinputbox.bind(this,record)}></div>
+            <div className="allow-detail" style={{top:'0px', float:'right'}} onClick={this.addtoinputbox.bind(this,record,0)}></div>
         </div>
     }
 
-    addtoinputbox = (record, e) =>{
+    /**
+     *
+     * @param type
+     * @param e event
+     */
+    addtoinputbox = (record, type, e) =>{
         e.stopPropagation();
         if( mNeedRemove == 1 ){
             $('#inputnum').manifest('remove', ':last');
@@ -650,27 +650,38 @@ class DialUpForm extends Component {
         mClickAdd = 1;
         var values = $('#inputnum').manifest('values');
         if( values.length >= mCurMaxlineNum ) return;
-        let names = record.row0.split(',');
-        let numbers = record.row1.split(',');
-        let accounts = record.row3.Account.split(",");
-        let hasdisipv = false;
-        let newmembernum = 0;
-        for(let i = 0; i < numbers.length; i++) {
-            if (mDisableIPVT && accounts[i] == 1) {
-                hasdisipv = true;
-                continue;
-            }
-            newmembernum++;
+        if(type == 1){
             $('#inputnum').manifest('add', {
-                name: this.htmlEncode(names[i]),
-                number: this.htmlEncode(numbers[i]) + ":::" + accounts[i]
+                name: this.htmlEncode(record.Name),
+                number: this.htmlEncode(record.Number) + ":::" + record.Account
             });
+        } else if(type == 0){
+            let names = record.row0.split(',');
+            let numbers = record.row1.split(',');
+            let accounts = [];
+            if(record.row3.Type == "0"){
+                accounts = record.row3.AcctIndex.split(",") ;
+            }else{
+                accounts = record.row3.Account.split(",") ;
+            }
+            let hasdisipv = false;
+            let newmembernum = 0;
+            for(let i = 0; i < numbers.length; i++) {
+                if (mDisableIPVT && accounts[i] == 1) {
+                    hasdisipv = true;
+                    continue;
+                }
+                newmembernum++;
+                $('#inputnum').manifest('add', {
+                    name: this.htmlEncode(names[i]),
+                    number: this.htmlEncode(numbers[i]) + ":::" + accounts[i]
+                });
+            }
+            mClickAdd = 0;
+            if( hasdisipv && newmembernum == 0 ){
+                this.props.promptMsg('WARNING', 'a_15051');
+            }
         }
-        mClickAdd = 0;
-        if( hasdisipv && newmembernum == 0 ){
-            this.props.promptMsg('WARNING', 'a_15051');
-        }
-
     }
 
     expandedRowRender = (record) =>{
@@ -687,7 +698,7 @@ class DialUpForm extends Component {
                         <Col span={6} style={{paddingLeft:'8px'}}>{this.convertTime(confmemberinfodata[i].Date)}</Col>
                         <Col span={6}><div className="callRecord">
                             <div className="item-call-btn display-icon" style={{float:'right'}}></div>
-                            <div className="allow-detail" style={{top:'0px', float:'right'}} ></div></div>
+                            <div className="allow-detail" style={{top:'0px', float:'right'}} onClick={this.addtoinputbox.bind(this,confmemberinfodata[i],1)}></div></div>
                         </Col>
                     </Row>
                 )
@@ -716,10 +727,11 @@ class DialUpForm extends Component {
         let displayitems = this.state.displayitems;
         let displaydataslen = displayitems.length;
         let displaydatas = [];
+        let j = 0;
         for(let i = 0 ; i < displaydataslen  ; i++){  //去除正在通话的记录
             if(displayitems[i].Number){
                 displaydatas.push({
-                    key: i,
+                    key:  j++,
                     row0: displayitems[i].Name || displayitems[i].NameOrNumber || displayitems[i].Number,
                     row1: displayitems[i].Number,
                     row2: displayitems[i].Date || "",
@@ -769,7 +781,7 @@ class DialUpForm extends Component {
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("a_9400")}</div>
-                <Form className="call-area" >
+                <Form className="call-area" style={{'min-height': this.props.mainHeight, 'height': this.props.mainHeight}}>
                     <div className="dial-up-top">
                         <div className="acctselbox">
                             {
@@ -891,8 +903,8 @@ function mapDispatchToProps(dispatch) {
       getLeftcalllogname: Actions.get_leftcalllogname,
       setDefaultAcct: Actions.set_defaultacct,
       cb_originatecall: Actions.cb_originate_call,
-      quickStartIPVConf: Actions.quickStartIPVConf
-
+      quickStartIPVConf: Actions.quickStartIPVConf,
+      addconfmemeber: Actions.addconfmemeber
   }
   return bindActionCreators(actions, dispatch)
 }

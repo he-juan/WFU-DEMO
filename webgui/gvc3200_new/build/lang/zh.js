@@ -624,7 +624,7 @@ var a_vocfp_zh = "语音帧/TX";
 var a_g7221rate_zh = "G722.1、G722.1C编码速率";
 var a_vidfr_zh = "视频帧率";
 var a_dispvdoinfo_zh = "显示视频信息";
-var a_vidbr_zh = "视频速率";
+var a_vidbr_zh = "视频比特率";
 var a_sdpattr_zh = "SDP带宽属性";
 var a_medialev_zh = "媒体流级";
 var a_sessionlev_zh = "会话级";
@@ -1877,7 +1877,8 @@ var turnoff_led_zh = "关闭LED";
 
 /******************** Call *******************/
 var a_calls_zh = "通话";
-var a_dialup_zh = "呼叫";
+var a_dialup_zh = "拨打";
+var a_acctunregistered_zh = "帐号未注册";
 var call_history_zh = "通话记录";
 var call_historycontact_zh = "通话记录, 通讯录";
 var meeting_schedule_zh = "会议预约";

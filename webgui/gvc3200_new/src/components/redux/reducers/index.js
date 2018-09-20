@@ -196,10 +196,13 @@ const maxAcctNum = (state = {}, action) => {
     }
 }
 
-const callDialog = (state = {}, action) => {
+/*
+  minimize : 最小化
+ */
+const callDialogStatus = (state = {}, action) => {
     switch (action.type) {
         case Actions.SHOW_CALL_DIALOG:
-            return action.callDialog
+            return action.callDialogStatus
         default:
             return state
     }
@@ -714,7 +717,7 @@ const rootReducer = combineReducers({
     progressMsg,
     uploadStatus,
     maxAcctNum,
-    callDialog,
+    callDialogStatus,
     lineInfo,
     muteStatus,
     recordStatus,
