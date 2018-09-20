@@ -159,7 +159,6 @@ class Network extends Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         let networkStatus = this.props.networkStatus;
-
       return (
           <Content className="content-container config-container">
               <div className="subpagetitle">{this.tr("a_4147")}</div>

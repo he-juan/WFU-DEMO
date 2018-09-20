@@ -117,6 +117,18 @@ export const getUserType = (callback) => (dispatch) => {
     });
 }
 
+export const getdevicestatus = (callback) => (dispatch) => {
+    let request = 'action=devicestatus';
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        let usertype = msgs.headers['status'];
+        callback(usertype);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
 export const getMenuList = (callback) => (dispatch) => {
     let request = 'action=getmenu';
 
@@ -476,7 +488,7 @@ const getAcctStatusApply  = (dispatch, callback) => {
 }
 
 export const getNetworkStatus = () => (dispatch) => {
-    let request = 'action=network&format=json';
+    let request = 'action=network&region=status';
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = JSON.parse(data);

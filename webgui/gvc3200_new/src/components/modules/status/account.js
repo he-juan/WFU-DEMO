@@ -108,32 +108,55 @@ class Account extends Component {
             )
       }];
 
-      let accstatus = this.tr("a_account");
       const data = [];
       const codeArr = [];
-      let accountItemsNum = this.props.maxAcctNum;
-      for (let i = 0; i< accountItemsNum; i++) {
-          var code = accountItems["account_"+ `${i}`+"_status"];
-          codeArr[i] = this.view_status_code_to_text(code);
-          data.push({
-              key: i,
-              row0: accstatus + ` ${i+1}`,
-              row1: accountItems["account_"+ `${i}`+"_no"] || "_",
-              row2: accountItems["account_"+ `${i}`+"_server"] || "_",
-              row3: codeArr[i],
-          });
-      }
-      if (accountItemsNum == 15) {
-          var codeItem = accountItems["account_"+ `${15}`+"_status"];
-          var codeArrItem = this.view_status_code_to_text(codeItem)
-          data.push({
-              key: 15,
-              row0: "IPVideoTalk",
-              row1: accountItems["account_"+ `${15}`+"_no"],
-              row2: accountItems["account_"+ `${15}`+"_server"],
-              row3: codeArrItem,
-          })
-      }
+        if(accountItems['account_3_status']!=0){
+            data.push({
+                key: 0,
+                row0: accountItems["account_0_name"] || "SIP",
+                row1: accountItems["account_0_no"] || "_",
+                row2: accountItems["account_3_server"] || "_",
+                row3: this.view_status_code_to_text(accountItems["account_3_status"]),
+            });
+        }else if(accountItems['account_4_status']!=0){
+            data.push({
+                key: 0,
+                row0: accountItems["account_0_name"] || "SIP",
+                row1: accountItems["account_0_no"] || "_",
+                row2: accountItems["account_4_server"] || "_",
+                row3: this.view_status_code_to_text(accountItems["account_4_status"]),
+            });
+        }else{
+            data.push({
+                key: 0,
+                row0: accountItems["account_0_name"] || "SIP",
+                row1: accountItems["account_0_no"] || "_",
+                row2: accountItems["account_0_server"] || "_",
+                row3: this.view_status_code_to_text(accountItems["account_0_status"]),
+            });
+        }
+        data.push({
+            key: 1,
+            row0: "IPVideoTalk",
+            row1: accountItems["account_1_no"] || "_",
+            row2: accountItems["account_1_server"] || "_",
+            row3: this.view_status_code_to_text(accountItems["account_1_status"]),
+        });
+        data.push({
+            key: 2,
+            row0: "BlueJeans",
+            row1: accountItems["account_2_no"] || "_",
+            row2: accountItems["account_2_server"] || "_",
+            row3: this.view_status_code_to_text(accountItems["account_2_status"]),
+        });
+        data.push({
+            key: 6,
+            row0: "H.323",
+            row1: accountItems["account_6_no"] || "_",
+            row2: accountItems["account_6_server"] || "_",
+            row3: this.view_status_code_to_text(accountItems["account_6_status"]),
+        });
+
 
       return (
           <Content className="content-container">

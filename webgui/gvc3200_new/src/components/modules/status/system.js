@@ -111,20 +111,11 @@ class System extends Component {
                 <FormItem label={<span>{this.tr("a_16416")}<Tooltip title={this.tips_tr("Kernel Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="kernel-version">{ this.props.itemValues['kernel-version'] }</span>
                 </FormItem>
-                <FormItem style={this.isWP8xx() ? {display:'block'} : {display:'none'}} label={<span>{this.tr("a_16415")}<Tooltip title={this.tips_tr("Android Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_android")}<Tooltip title={this.tips_tr("a_16415")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="android-version">{ this.props.itemValues['android-version'] }</span>
                 </FormItem>
                 <FormItem label={<span>{this.tr("a_16417")}<Tooltip title={this.tips_tr("System Up Time")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="system-uptime">{ this.view_status_uptime_write(systemUptimeItem) }</span>
-                </FormItem>
-                <FormItem label={<span>{this.tr("a_lcdsn")}<Tooltip title={this.tips_tr("LCD Serial Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    <span ref="lcd-serialNum">{ this.props.itemValues['lcd-serialNum'] }</span>
-                </FormItem>
-                <FormItem label={<span>{this.tr("a_ddrsn")}<Tooltip title={this.tips_tr("DDR Serial Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    <span ref="ddr-serialNum">{ this.props.itemValues['ddr-serialNum'] }</span>
-                </FormItem>
-                <FormItem label={<span>{this.tr("a_fctsn")}<Tooltip title={this.tips_tr("Factory Serial Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    <span ref="fct-serialNum">{ this.props.itemValues['fct-serialNum'] }</span>
                 </FormItem>
             </Form>;
         let hiddenOptions = optionsFilter.getHiddenOptions(0);
