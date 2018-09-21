@@ -3494,6 +3494,7 @@ var a_19809="Please input new user password!";
 var a_19810="Weak";
 var a_19811="Strong";
 var a_19812="Modify the connection method or port, web will lead to log out and jump to the new address:";
+var a_19813="AEC Level";
 var a_19901="";
 var a_20001="その他の開始";
 var a_20002="リモート・コントロールがペアリング解除されました";
