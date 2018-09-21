@@ -83,6 +83,8 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define WEB_FACEBOOK_AUTH      "http://www.facebook.com/login.php?api_key=09aacbfa33cf484fd2f2a9b898c0f6b4&v=1.0&auth_token="
 #define WEB_FACEBOOK_PRO       "http://www.facebook.com/connect/prompt_permissions.php?api_key=09aacbfa33cf484fd2f2a9b898c0f6b4&v=1.0&ext_perm=offline_access,read_stream,publish_stream"
 
+#define CONF_CONFIG_PATH               "/data/config"
+#define CONF_CONFIG               CONF_CONFIG_PATH"/tpg_config.xml"
 #define APP_CONF_PATH                    PREFIX"/app/config"
 #define APP_DATA_PATH                    PREFIX"/app/data"
 #define APP_DATAFAV_PATH              PREFIX"/app/data/favorites"
@@ -14469,6 +14471,204 @@ static int handle_check_vericert(buffer *b, const struct message *m)
     }*/
 }
 
+static int create_default_config()
+{
+    xmlDocPtr cfg = NULL;
+    xmlNodePtr root_node = NULL;
+
+    cfg = xmlNewDoc( BAD_CAST "1.0" );
+    root_node = xmlNewNode( NULL, BAD_CAST "config" );
+
+    xmlDocSetRootElement(cfg, root_node);
+    xmlNewChild(root_node, NULL, BAD_CAST "bsinterval", BAD_CAST "1800");
+    xmlNewChild(root_node, NULL, BAD_CAST "ldapvisible", BAD_CAST "1");
+    xmlNewChild(root_node, NULL, BAD_CAST "calllogvisible", BAD_CAST "1");
+
+    xmlSaveFormatFileEnc( CONF_CONFIG, cfg, "UTF-8", 1 );
+    xmlFreeDoc(cfg);
+    sync();
+
+    char *cmd = NULL;
+    cmd = malloc(128);
+    memset(cmd, 0, 128);
+    snprintf(cmd, 128, "chmod 777 %s", CONF_CONFIG);
+    system(cmd);
+    free(cmd);
+}
+
+static int handle_readconfig(buffer *b)
+{
+    xmlDoc *doc = NULL;
+    xmlNode *root_element = NULL;
+    xmlNode *cur_node = NULL;
+    const char *temp = NULL;
+    char res[64] = "";
+    xmlChar *key = NULL;
+
+    doc = xmlReadFile(CONF_CONFIG, NULL, 0);
+
+    if (doc == NULL)
+    {
+        printf("error: could not parse file %s\n", CONF_CONFIG);
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=Configuration File Not Found\r\n");
+        if( access(CONF_CONFIG_PATH, 0) ) {
+            mkdir(CONF_CONFIG_PATH, 0777);
+        }
+        create_default_config(b);
+        return -1;
+    }
+
+    buffer_append_string (b, "Response=Success\r\n");
+
+    /*Get the root element node */
+    root_element = xmlDocGetRootElement(doc);
+
+    for (cur_node = root_element->xmlChildrenNode; cur_node; cur_node = cur_node->next)
+    {
+        if (cur_node->type == XML_ELEMENT_NODE)
+        {
+            if ((!xmlStrcmp(cur_node->name, BAD_CAST "bsinterval")))
+            {
+                key = xmlNodeListGetString(doc, cur_node->xmlChildrenNode, 1);
+                if (key == NULL)
+                {
+                    buffer_append_string(b, "bsinterval=\r\n");
+                }
+                else
+                {
+                    snprintf(res, sizeof(res), "bsinterval=%s\r\n", (char *) key);
+                    buffer_append_string(b, res);
+                    xmlFree(key);
+                }
+            }
+            else if ((!xmlStrcmp(cur_node->name, BAD_CAST "ldapvisible")))
+            {
+                key = xmlNodeListGetString(doc, cur_node->xmlChildrenNode, 1);
+                if (key == NULL)
+                {
+                    buffer_append_string(b, "ldapvisible=1\r\n");
+                }
+                else
+                {
+                    snprintf(res, sizeof(res), "ldapvisible=%s\r\n", (char *) key);
+                    buffer_append_string(b, res);
+                    xmlFree(key);
+                }
+            }
+            else if ((!xmlStrcmp(cur_node->name, BAD_CAST "calllogvisible")))
+            {
+                key = xmlNodeListGetString(doc, cur_node->xmlChildrenNode, 1);
+                if (key == NULL)
+                {
+                    buffer_append_string(b, "calllogvisible=1\r\n");
+                }
+                else
+                {
+                    snprintf(res, sizeof(res), "calllogvisible=%s\r\n", (char *) key);
+                    buffer_append_string(b, res);
+                    xmlFree(key);
+                }
+            }
+        }
+    }
+
+    xmlFreeDoc(doc);
+    return 1;
+
+}
+
+static int handle_writeconfig (buffer *b, const struct message *m)
+{
+    xmlDocPtr doc = NULL;
+    xmlNode *root_element = NULL;
+    xmlNode *cur_node = NULL;
+    const char *temp = NULL;
+    char val[256] = "";
+    char tempbuf[16] = "";
+    int tempint;
+    int tempid;
+
+    doc = xmlReadFile(CONF_CONFIG, NULL, 0);
+
+    if (doc == NULL)
+    {
+        printf("error: could not parse file %s\n", CONF_CONFIG);
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=Configuration File Not Found\r\n");
+        return -1;
+    }
+
+    /*Get the root element node */
+    root_element = xmlDocGetRootElement(doc);
+
+    for (cur_node = root_element->xmlChildrenNode; cur_node; cur_node = cur_node->next)
+    {
+        if (cur_node->type == XML_ELEMENT_NODE)
+        {
+            if ((!xmlStrcmp(cur_node->name, BAD_CAST "bsinterval")))
+            {
+                temp = msg_get_header(m, "bsinterval");
+                if ( temp != NULL )
+                {
+                    memset(val, 0, sizeof(val));
+                    strncpy(val, temp, sizeof(val) - 1);
+                    uri_decode(val);
+                    tempint = atoi(val);
+                    snprintf(tempbuf, sizeof(tempbuf), "%d", tempint);
+                    xmlNodeSetContent(cur_node, (xmlChar *) tempbuf);
+                }
+            }
+            else if ((!xmlStrcmp(cur_node->name, BAD_CAST "ldapvisible")))
+            {
+                temp = msg_get_header(m, "ldapvisible");
+                if ( temp != NULL )
+                {
+                    memset(val, 0, sizeof(val));
+                    strncpy(val, temp, sizeof(val) - 1);
+                    uri_decode(val);
+                    tempint = atoi(val);
+                    snprintf(tempbuf, sizeof(tempbuf), "%d", tempint);
+                    xmlNodeSetContent(cur_node, (xmlChar *) tempbuf);
+                }
+            }
+            else if ((!xmlStrcmp(cur_node->name, BAD_CAST "calllogvisible")))
+            {
+                temp = msg_get_header(m, "calllogvisible");
+                if ( temp != NULL )
+                {
+                    memset(val, 0, sizeof(val));
+                    strncpy(val, temp, sizeof(val) - 1);
+                    uri_decode(val);
+                    tempint = atoi(val);
+                    snprintf(tempbuf, sizeof(tempbuf), "%d", tempint);
+                    xmlNodeSetContent(cur_node, (xmlChar *) tempbuf);
+                }
+            }
+        }
+    }
+
+    xmlSaveFormatFileEnc(CONF_CONFIG, doc, "UTF-8", 1);
+    xmlFreeDoc(doc);
+    xmlCleanupParser();
+    xmlMemoryDump();
+    sync();
+
+    buffer_append_string (b, "Response=Success\r\n");
+    //dbus_send_weather_updated( tempid );
+
+    return 1;
+}
+
+static int handle_broadsoft(buffer *b)
+{
+    int result = system("am broadcast -a com.base.module.xsicalls.AUTHORIZE_CHANGED &");
+    if( result == 0 )
+        buffer_append_string(b, "Response=Success\r\n");
+    else
+        buffer_append_string(b, "Response=Error\r\n");
+}
+
 static int handle_openvpn_cert (buffer *b, const struct message *m)
 {
     char *buf = NULL;
@@ -22278,6 +22478,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_custom_cert(b, m);
                 } else if (!strcasecmp(action, "checkvericert")) {
                     handle_check_vericert(b, m);
+                } else if (!strcasecmp(action, "readconfig")) {
+                    handle_readconfig(b);
+                } else if (!strcasecmp(action, "writeconfig")) {
+                    handle_writeconfig(b, m);
+                } else if (!strcasecmp(action, "broadsoft")) {
+                    handle_broadsoft(b);
                 } else if (!strcasecmp(action, "getptz")) {
                     handle_getptz(b);
                 } else if (!strcasecmp(action, "setptz")) {
