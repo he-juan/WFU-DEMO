@@ -9,8 +9,8 @@ import {Layout,BackTop,LocaleProvider} from "antd"
 import * as Actions from './redux/actions/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import CallDialog from './modules/pubModule/callDialog'
-import CallTip from './modules/pubModule/callTip'
+import CallDialog from './modules/calls/call/callDialog'
+import CallTip from './modules/calls/call/callTip'
 import en_US from "antd/lib/locale-provider/en_US";
 import ja_JP from "antd/lib/locale-provider/ja_JP";
 import es_ES from "antd/lib/locale-provider/es_ES";

@@ -47,7 +47,7 @@ const Storage  = (location, cb) => {
 
 const DialUp  = (location, cb) => {
     require.ensure([], require => {
-        cb(null, require('./modules/calls/dialup').default);
+        cb(null, require('./modules/calls/call/dialup').default);
     }, 'calls');
 };
 const CallHistory  = (location, cb) => {
@@ -284,7 +284,7 @@ import Network from "./modules/status/network";
 import System from "./modules/status/system";
 import Storage from "./modules/status/storage";
 
-import DialUp from "./modules/calls/dialup";
+import DialUp from "./modules/calls/call/dialup";
 import CallHistory from "./modules/calls/history";
 import Contact from "./modules/calls/contact";
 import Dnd from "./modules/calls/dnd";

@@ -6266,13 +6266,13 @@ ol.mp_list li.mp_error {}
 }
 
 #direction.normal{background:url("../img/control_all.png") -652px -28px  no-repeat;}
-#direction.uphover{background:url("../img/control_all.png") -0px -28px  no-repeat;}
+#direction.uphover, .ctrldiv .direction.uphover{background:url("../img/control_all.png") -0px -28px  no-repeat;}
 #direction.upactive{background:url("../img/control_all.png") -0px -191px  no-repeat;}
-#direction.downhover{background:url("../img/control_all.png") -326px -28px  no-repeat;}
+#direction.downhover,.ctrldiv .direction.downhover{background:url("../img/control_all.png") -326px -28px  no-repeat;}
 #direction.downactive{background:url("../img/control_all.png") -326px -191px  no-repeat;}
-#direction.righthover{background:url("../img/control_all.png") -163px -28px  no-repeat;}
+#direction.righthover, .ctrldiv .direction.righthover{background:url("../img/control_all.png") -163px -28px  no-repeat;}
 #direction.rightactive{background:url("../img/control_all.png") -163px -191px  no-repeat;}
-#direction.lefthover{background:url("../img/control_all.png") -489px -28px  no-repeat;}
+#direction.lefthover,.ctrldiv .direction.lefthover{background:url("../img/control_all.png") -489px -28px  no-repeat;}
 #direction.leftactive{background:url("../img/control_all.png") -489px -191px  no-repeat;}
 
 
@@ -6281,13 +6281,13 @@ ol.mp_list li.mp_error {}
     width:40px;
     height:40px;
 }
-#up{background:url("../img/control_all.png") -80px -354px  no-repeat;top:7px;left:62px;}
+#up, .direction .up{background:url("../img/control_all.png") -80px -354px  no-repeat;top:7px;left:62px;}
 #up:hover{background:url("../img/control_all.png") -120px -354px  no-repeat;}
-#down{background:url("../img/control_all.png") -160px -354px  no-repeat;top:114px;left:62px;}
+#down, .direction .down{background:url("../img/control_all.png") -160px -354px  no-repeat;top:114px;left:62px;}
 #down:hover{background:url("../img/control_all.png") -200px -354px  no-repeat;}
-#left{background:url("../img/control_all.png") -0px -354px  no-repeat;left:7px;top:62px;}
+#left, .direction .left{background:url("../img/control_all.png") -0px -354px  no-repeat;left:7px;top:62px;}
 #left:hover{background:url("../img/control_all.png") -40px -354px  no-repeat;}
-#right{background:url("../img/control_all.png") -240px -354px  no-repeat;left:117px;top:62px;}
+#right, .direction .right{background:url("../img/control_all.png") -240px -354px  no-repeat;left:117px;top:62px;}
 #right:hover{background:url("../img/control_all.png") -280px -354px  no-repeat;}
 #zoomwide{background:url("../img/control_all.png") 0px 0px  no-repeat;margin-left:13px;margin-top:6px;width:28px;height:28px;min-width:0px;}
 #zoomtele{background:url("../img/control_all.png") -56px 0px  no-repeat;margin-left:13px;margin-top:6px;width:28px;height:28px;min-width:0px;}
@@ -6344,3 +6344,106 @@ ol.mp_list li.mp_error {}
 .transfer-control .ant-form-item-control {
     width: 100%;
 }
+
+/*fecc control  --begin*/
+.fecc-modal{
+    width: 780px !important;
+    height: 500px !important;
+}
+.fecc-modal .ant-modal-body {
+    height: 450px;
+    overflow: auto;
+}
+.fecc-modal .fecc-modal-content{
+    position: absolute;
+    top: 65px;
+    left: 45px;
+    text-align: center;
+}
+.fecc-modal .feccleft{
+    width: 414px;
+    display: block;
+    float: left;
+}
+.feccleft .presetdiv{
+    display: block;
+    float: left;
+    border: 1px solid #BEC6CC;
+    background: #F4F4F4;
+    border-width: 0 0 0 1px;
+}
+#presetbtndiv{
+    display: none;
+    position: absolute;
+    left: 295px;
+    top: 29px;
+    z-index: 2;
+    width: 129px;
+    height: 81px;
+    font-size: 14px;
+    background: url(../img/call/fecc_background.png) no-repeat;
+    padding: 5px 0px;
+}
+.presetdiv .presetitem{
+    width: 101px;
+    height: 58px;
+    margin: 0 !important;
+    padding: 0;
+    margin-top: 0px !important;
+    border: 1px solid #BEC6CC;
+    position: relative;
+    border-width: 0 1px 1px 0;
+    display: block;
+    float: left;
+}
+.presetdiv .topitem{
+    border-top: 1px solid rgb(190, 198, 204) !important;
+}
+.presetdiv .presetitem{
+    position: relative;
+    display: block;
+    float: left;
+    width: 101px;
+    height: 58px;
+    margin: 0 !important;
+    padding: 0;
+    margin-top: 0px !important;
+    border: 1px solid #BEC6CC;
+    border-width: 0 1px 1px 0;
+}
+.presetdiv .presetnumitem{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: -15px;
+    float: left;
+    line-height: 30px;
+    border-radius: 50px;
+    border: 1px solid #666666;
+    color: #666666;
+    background-color: #FFFFFF;
+}
+.fecc-modal-content .ctrldiv{
+    display: block;
+    float: right;
+    width: 300px;
+    margin-left: 20px;
+}
+.ctrldiv .direction{
+    position: relative;
+    width: 163px;
+    height: 163px;
+    top: 70px;
+    left: 50%;
+    margin-left: -80px;
+    background: transparent;
+}
+.ctrldiv .normal{
+    background: url(../img/control_all.png) -652px -28px no-repeat;
+}
+
+
+/*fecc control  --end*/

@@ -22,10 +22,23 @@ class HandleWebsocket extends React.Component {
         clearTimeout(endcalltimeout);
     }
 
+    getCallType = (message, isvideo) =>{
+        let calltype = message.msg;
+        let calltypeint = parseInt(calltype);
+        if(calltypeint < 16 || isvideo == "0"){ //audio call
+            message.isvideo = "0";
+        }else if(calltypeint < parseInt("0xfc", 16) || isvideo == "1"){
+            message.isvideo = "1";
+        }
+    }
+
     changelinesstatus = (message) =>{
         let linesinfo = [];
         let i = 0;
         if(this.props.linesinfo.length == 0){
+            if(message.state == "4"){
+                this.getCallType(message);
+            }
             linesinfo.push(message);
         }else{
             for(  i = 0; i < this.props.linesinfo.length; i++ ){
@@ -33,13 +46,7 @@ class HandleWebsocket extends React.Component {
                     if(message.state == "4"){
                         //get the call type - begin
                         let isvideo = this.props.linesinfo[i].isvideo;
-                        let calltype = message.msg;
-                        let calltypeint = parseInt(calltype);
-                        if(calltypeint < 16 || isvideo == 0){ //audio call
-                            message.isvideo = 0;
-                        }else if(calltypeint < parseInt("0xfc", 16) || isvideo == 1){
-                            message.isvideo = 1;
-                        }
+                        this.getCallType(message, isvideo);
                     }
                     if(message.state == "3" || message.state == "4"){
                         //get the name and num --begin
@@ -159,7 +166,7 @@ class HandleWebsocket extends React.Component {
                         globalObj.isCallStatus = false;
                         this.props.getConnectState();
                         this.props.setMuteStatus(message['line'],0);
-                        this.props.setHeldStatus(0);
+                        this.props.setHeldStatus("0");
                         this.props.showCallDialog(10);
                         endcalltimeout = setTimeout(() => {
                 			this.props.showCallDialog("end");

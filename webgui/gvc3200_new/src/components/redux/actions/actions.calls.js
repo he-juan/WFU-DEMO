@@ -495,10 +495,23 @@ export const isConfOnHold = (callback) => (dispatch) =>{
     }).catch(function(error) {
         promptForRequestFailed();
     });
-
 }
 
+export const gotoFECCpreset = (line, presetid) => (dispatch) =>{
+    let request = "action=FECCpreset&region=confctrl&type=goto&line=" + line + "&presetid=" + presetid;
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
 
+export const saveFECCpreset = (line, presetid) => (dispatch) =>{
+    let request = "action=FECCpreset&region=confctrl&type=save&line=" + line + "&presetid=" + presetid;
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
 
 // export const updateschedule = (infostr,callback) => (dispatch) => {
 //     let request="action=updateschedule&region=webservice&id=" + encodeURIComponent(infostr) + "&format=json";

@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import Enhance from "../../mixins/Enhance"
+import Enhance from "../../../mixins/Enhance"
 import { Layout, Button, Icon, Slider } from "antd"
-import * as Actions from '../../redux/actions/index'
+import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {globalObj} from "../../redux/actions/actionUtil"
+import {globalObj} from "../../../redux/actions/actionUtil"
+import FECCModal from "./FECCModal";
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -23,7 +24,9 @@ class CallDialog extends Component {
             displayrec: "00:00:00",
             callstatus: "callee-status",
             holdtype: "",
-            acctstatus: []
+            acctstatus: [],
+            displayFECCModal:false,
+            FECCline: "-1"
 		}
     }
 
@@ -180,7 +183,7 @@ class CallDialog extends Component {
         this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
     }
 
-    handleStartFECC = () =>{
+    handleStartFECC = (line) =>{
         if(!this.countClickedTimes()){
             return false;
         }
@@ -215,6 +218,9 @@ class CallDialog extends Component {
                                 //start FECC
                                 this.props.ctrlFECC("-1", 1, (result) =>{
                                     if(result.res == "success" || result == 0 ){
+                                        this.setState({
+                                            FECCline: line,
+                                            displayFECCModal: true});
                                     }else{
                                         this.props.promptMsg("WARNING", this.tr("a_63"));
                                     }
@@ -299,10 +305,14 @@ class CallDialog extends Component {
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-block";
-                    if (lineitem.isvideo == 1) {
+                    if (lineitem.isvideo == "1") {
                         linestatustip[i] = this.tr("a_669");
                     } else {
                         linestatustip[i] = this.tr("a_668");
+                    }
+                    if(account == 8) account = 3;
+                    if(this.state.acctstatus.length > 0){
+                        linestatustip[i] += " (" + this.state.acctstatus[account]["name"]+")";
                     }
                     break;
                 case "init4":
@@ -312,7 +322,7 @@ class CallDialog extends Component {
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-block";
-                    if (lineitem.isvideo == 1) {
+                    if (lineitem.isvideo == "1") {
                         linestatustip[i] = this.tr("a_669");
                     } else {
                         linestatustip[i] = this.tr("a_668");
@@ -345,7 +355,7 @@ class CallDialog extends Component {
                             <div className="confnum"></div>
                             <div className="conftype"></div>
                             <div className="confbtn">
-                                <Button id="startFECC" title={this.tr("a_19241")}  className="startFECC" onClick={this.handleStartFECC}/>
+                                <Button id="startFECC" title={this.tr("a_19241")}  className="startFECC" onClick={this.handleStartFECC.bind(this, "-1")}/>
                                 <Button id="closecamera" title={this.tr("a_628")}  className="unclosecamera" />
                                 <Button id="localmute" title={this.tr("a_413")}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                             </div>
@@ -373,6 +383,7 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_1")}  className="end-btn" />
 					</div>
 				</div>
+                <FECCModal line={this.state.FECCline} display={this.state.displayFECCModal}/>
             </div>
         );
     }

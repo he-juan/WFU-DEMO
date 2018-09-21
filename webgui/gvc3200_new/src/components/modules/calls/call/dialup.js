@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { hashHistory } from 'react-router';
-import Enhance from "../../mixins/Enhance"
+import Enhance from "../../../mixins/Enhance"
 import { Layout, Select, Input, Button, Icon, Row, Col, Form, Popover, Table } from "antd"
-import * as Actions from '../../redux/actions/index'
+import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import CallSelectNum from './contact/selectNum'
+import CallSelectNum from '../contact/selectNum'
 const Content = Layout
 const Option = Select.Option
 const FormItem = Form.Item

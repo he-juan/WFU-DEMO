@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import Enhance from "../../mixins/Enhance"
+import Enhance from "../../../mixins/Enhance"
 import { Layout } from "antd"
-import * as Actions from '../../redux/actions/index'
+import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 const Content = Layout

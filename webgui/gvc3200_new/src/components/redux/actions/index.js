@@ -2065,19 +2065,6 @@ export const getDndMode = (callback) => (dispatch) => {
     })
 }
 
-export const setKeyCode = (action,keycode,repeattimes,callback) => (dispatch) => {
-    var request = "action=remotekeypress&region=remotekey&keyaction=" + action + "&keycode=" + keycode + "&repeattimes=" + repeattimes;
-    request += "&time=" + new Date().getTime();
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let tObj = JSON.parse(data);
-        callback(tObj);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    })
-}
-
-
 
 export const setDndMode = (value, callback) => (dispatch) => {
     let request ="action=setdndonoroff&region=confctrl&setdnd="+value+"&account=0";

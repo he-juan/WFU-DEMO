@@ -1,5 +1,10 @@
 import * as actionUtil from "./actionUtil";
 
+
+const promptForRequestFailed = () => (dispatch) => {
+    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+}
+
 export const getPresetInfoVedio = (callback) => (dispatch) => {
     var request = "action=getpresetinfo&region=control"
     request += "&time=" + new Date().getTime();
@@ -84,3 +89,17 @@ export const deletepreset = (preset,callback) => (dispatch) => {
         promptForRequestFailed();
     })
 }
+
+// for fecc
+export const setKeyCode = (action,keycode,repeattimes,callback) => (dispatch) => {
+    var request = "action=remotekeypress&region=remotekey&keyaction=" + action + "&keycode=" + keycode + "&repeattimes=" + repeattimes;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        callback(tObj);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
