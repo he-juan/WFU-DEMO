@@ -1,0 +1,351 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href='../css/pageframe.css' type='text/css' rel='stylesheet'>
+<!--<link href='../css/black_frame.css' type='text/css' rel='stylesheet' id="framecssfile">-->
+<script type='text/javascript' src='../js/jquery.tools.min.js'></script>
+<script type="text/javascript" src='../js/jquery.cookie.js'></script>
+<script type="text/javascript" src='../js/jquery.validate.min.js'></script>
+<script type="text/javascript" src='../js/jquery.stylish-select.min.js'></script>
+<script type="text/javascript" src='../js/jquery.reverse.js'></script>
+<script type="text/javascript" src='../js/jquery.prompt.js'></script>
+<script type="text/javascript" src='../js/jquery-ui.min.js'></script>
+<style>
+    body{height:900px;}
+    select{display:inline;}
+    #netdirdiv{width:750px;}
+    #netdirdiv .itemdiv {width:750px;}
+    #netdirdiv .noreboot{width:150px;padding-right:0px;}
+    #netdirdiv input{margin-left:10px;}
+    #netdirdiv .newListSelected{margin-top: 5px!important;}
+</style>
+
+<body id="framebody" class="maintenancebody">
+<div id="mainbody" class="maindiv">
+    <div class="navi"><span id="a_broadsoft">Broadsoft</span></div><br/>
+    <div id="statusdiv"></div>
+    <form action="" method="get" id="Formvalidate">
+        <fieldset style="width:70%; margin-right:20px;">
+            <div webtip="" class="noreboot"><span id="a_xsi" class="legendspan">XSI</span></div>
+            <div webtip="Authentication Type">
+                <div class="noreboot"><span id="a_bsauthtype">Authentication Type</span> :</div>
+                <select id="bsauthtype" name="bsauthtype">
+                    <option value="0">SIP Credentials</option>
+                    <option value="1">LogIn Credentials</option>
+                </select>
+            </div>
+            <div webtip="Server">
+                <div class="noreboot"><span id="a_server">Server</span> :</div>
+                <input id="server" name="server" type="text" />
+            </div>
+            <div webtip="Port ">
+                <div class="noreboot"><span id="a_port">Port</span> :</div>
+                <input id="port" name="port" type="text" />
+            </div>
+            <div webtip="Action Path">
+                <div class="noreboot"><span id="a_actionpath">Action Path</span> :</div>
+                <input id="actionpath" name="actionpath" type="text" />
+            </div>
+            <div webtip="User ID">
+                <div class="noreboot"><span id="a_userid">BroadWorks UserID</span> :</div>
+                <input id="userid" name="userid" type="text" />
+            </div>
+            <div webtip="Username" class="authsipdiv">
+                <div class="noreboot"><span id="a_uname">SIP Authentication ID</span> :</div>
+                <input id="uname" name="uname" type="text" />
+            </div>
+            <div webtip="Password " class="authsipdiv">
+                <div class="noreboot"><span id="a_password">SIP Authentication Password</span> :</div>
+                <input id="pwd" name="pwd" type="password" />
+            </div>
+            <div webtip="Password " class="authlogindiv">
+                <div class="noreboot"><span id="a_loginpassword">Login Password</span> :</div>
+                <input id="loginpwd" name="loginpwd" type="password" />
+            </div>
+            <br/><br/>
+            <div class="dotline"></div>
+            <br/><br/>
+            <div webtip="" class="noreboot"><span id="a_netdir" class="legendspan">Network Directories</span></div>
+
+            <div id="netdirdiv">
+                <div class="itemdiv">
+                    <div class="noreboot" style="margin-right:0px;"><span id="a_type">Type</span></div>
+                    <div style="width:200px;"></div>
+                    <div class="noreboot" style="margin-left:10px;margin-right:0px;width:200px;text-align:left;"><span id="a_name">Name</span></div>
+                </div>
+                <div webtip="" class="itemdiv">
+                    <div class="noreboot"><span id="a_typeop1">Group Directory</span> :</div>
+                    <select id="typeenable1" name="typeenable1">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop1" name="typeop1" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typeop3">Enterprise Directory</span> :</div>
+                    <select id="typeenable3" name="typeenable3">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop3" name="typeop3" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typegroupcm">Group Common</span> :</div>
+                    <select id="typeenable7" name="typeenable7">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop7" name="typeop7" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typeentercm">Enterprise Common</span> :</div>
+                    <select id="typeenable8" name="typeenable8">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop8" name="typeop8" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typeop2">Personal Directory</span> :</div>
+                    <select id="typeenable2" name="typeenable2">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop2" name="typeop2" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typeop9">Polycom Phonebook</span> :</div>
+                    <select id="typeenable9" name="typeenable9">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop9" name="typeop9" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typeop4">Missed Call Log</span> :</div>
+                    <select id="typeenable4" name="typeenable4">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop4" name="typeop4" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typeop5">Placed Call Log</span> :</div>
+                    <select id="typeenable5" name="typeenable5">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop5" name="typeop5" type="text" />
+                </div>
+                <div class="itemdiv">
+                    <div class="noreboot"><span id="a_typeop6">Received Call Log</span> :</div>
+                    <select id="typeenable6" name="typeenable6">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                    </select>
+                    <input id="typeop6" name="typeop6" type="text" />
+                </div>
+            </div>
+            <div class="dotline"></div>
+            <div webtip="BroadSoft Directory & Call Logs Update Interval" class="wankediv">
+                <div class="noreboot"><span id="a_bsupdateinterval">BroadSoft Directory & Call Logs Update Interval (s)</span> :</div>
+                <input name="bsupdateinterval" type="text" id="bsupdateinterval" value='1800' />
+            </div>
+            <div webtip="BroadSoft Directory Hits">
+                <div class="noreboot"><span id="a_bsmaxhits">BroadSoft Directory Hits</span> :</div>
+                <input id="bsmaxhits" name="bsmaxhits" type="text" />
+            </div>
+            <div webtip="BroadSoft Directory Order">
+                <div class="noreboot"><span id="a_bsorders">BroadSoft Directory Order</span> :</div>
+                <div style="width:180px;padding-left:0;">
+                    <select multiple="multiple" style="width:180px;height:120px;" id="bsorders">
+                        <option value="0">Personal Directory</option>
+                        <option value="1">Group Common</option>
+                        <option value="2">Group Directory</option>
+                        <option value="3">Enterprise Common</option>
+                        <option value="4">Enterprise Directory</option>
+                        <option value="5">Polycom Phonebook</option>
+                    </select>
+                </div>
+                <div style="width:20px;padding-left:0;"><br/><br/>
+                    <span id="up" style="cursor:pointer"><img src="../img/up.gif"/></span><br/><br/>
+                    <span id="down" style="cursor:pointer"><img src="../img/down2.gif"/></span>
+                </div>
+            </div>
+        </fieldset>
+        <div class="savediv">
+            <button id="a_save" type="button" class="savebtn">Save</button>
+            <button id="a_cancel" type="reset">Cancel</button>
+        </div>
+    </form>
+</div>
+<input id="bscontactsorder" type="text" style="display:none;" />
+<script type="text/javascript">
+    var cookie_lang = $.cookie( "MyLanguage");
+    if ( !cookie_lang ){
+        cookie_lang = 'en';
+    }
+    if ( cookie_lang == 'zh' ){
+        document.write("<script src='../js/jquery.validate.messages_cn.js'><\/script>");
+    }
+    document.write("<script src='../lang/" + cookie_lang + ".js?" + window.parent.mVersion + "'><\/script>");
+    document.write("<script src='../lang/" + cookie_lang + "_32xx.js?time=" + new Date().getTime() + "'><\/script>");
+    document.write("<script src='../js/public.js?" + window.parent.mVersion + "'><\/script>");
+
+</script>
+<script type="text/javascript">
+
+    var req_items = new Array;
+    req_items.push(
+        new ReqItem("bsauthtype", "22054", ""),
+        new ReqItem("server", "1591", ""),
+        new ReqItem("port", "1592", ""),
+        new ReqItem("actionpath", "2937", ""),
+        new ReqItem("uname", "1593", ""),
+        new ReqItem("userid", "22034", ""),
+        new ReqItem("pwd", "1594", ""),
+        new ReqItem("loginpwd", "22103", ""),
+        new ReqItem("bsmaxhits", "22014", ""),
+        new ReqItem("bscontactsorder", "bs_contacts_order", ""),
+        new ReqItem("typeenable1", "2971", ""),
+        new ReqItem("typeop1", "2972", ""),
+        new ReqItem("typeenable3", "2973", ""),
+        new ReqItem("typeop3", "2974", ""),
+        new ReqItem("typeenable7", "2975", ""),
+        new ReqItem("typeop7", "2976", ""),
+        new ReqItem("typeenable8", "2977", ""),
+        new ReqItem("typeop8", "2978", ""),
+        new ReqItem("typeenable9", "8343", ""),
+        new ReqItem("typeop9", "8344", ""),
+        new ReqItem("typeenable2", "2979", ""),
+        new ReqItem("typeop2", "2980", ""),
+        new ReqItem("typeenable4", "2981", ""),
+        new ReqItem("typeop4", "2982", ""),
+        new ReqItem("typeenable5", "2983", ""),
+        new ReqItem("typeop5", "2984", ""),
+        new ReqItem("typeenable6", "2985", ""),
+        new ReqItem("typeop6", "2986", "")
+    );
+    $(function(){
+        translate_debug();
+        $("#Formvalidate").validate({
+            rules: { server:{ url:true },
+                port: { digits:true },
+                bsupdateinterval: { digits:true, range:[60,2147483647] },
+                bsmaxhits: { digits:true, range:[1,1000] }
+            },
+            errorElement: "em",
+            success: function(label) { label.text(" ").addClass("success"); }
+        });
+        cb_get(req_items);
+        cb_get_action("readconfig&region=advanset");
+        pageEventActions();
+        modify_sSelect();
+    });
+
+    function modify_sSelect() {
+        var bsorder = $("#bscontactsorder").val();
+        if( bsorder != "" ){
+            bsorders = bsorder.split(",");
+            var orderi;
+            for(var i = bsorders.length-1; i >= 0; i--){
+                orderi = parseInt(bsorders[i]);
+                if( orderi < 6 ){
+                    $("#bsorders option[value="+orderi+"]").prependTo($("#bsorders"));
+                }
+            }
+        }
+        $("#bsauthtype, #typeenable1, #typeenable2, #typeenable3, #typeenable4, #typeenable5, #typeenable6, #typeenable7, #typeenable8, #typeenable9").sSelect();
+        update_auth_type();
+    }
+    function translate_debug(){
+        $("#a_bsauthtype").text(a_19602);
+        $("#bsauthtype option:eq(0)").text(a_19603);
+        $("#bsauthtype option:eq(1)").text(a_19604);
+        $("#a_server").text(a_19191);
+        $("#a_port").text(a_1173);
+        $("#a_actionpath").text(a_19605);
+        $("#a_uname").text(a_1123);
+        $("#a_userid").text(a_19606);
+        $("#a_password").text(a_1124);
+        $("#a_loginpassword").text(a_19607);
+        $("#a_netdir").text(a_19608);
+        $("#a_name").text(a_19);
+        $("#a_type").text(a_2059);
+        $("#a_bsorders").text(a_19609);
+        $("#a_typeop1, #bsorders option:eq(2)").text(a_19610);
+        $("#a_typeop3, #bsorders option:eq(4)").text(a_19612);
+        $("#a_typegroupcm, #bsorders option:eq(1)").text(a_19617);
+        $("#a_typeentercm, #bsorders option:eq(3)").text(a_19618);
+        $("#a_typeop2, #bsorders option:eq(0)").text(a_19611);
+        $("#a_typeop9, #bsorders option:eq(5)").text(a_19616);
+        $("#a_typeop4").text(a_19613);
+        $("#a_typeop5").text(a_19614);
+        $("#a_typeop6").text(a_19615);
+        $("#typeenable1 option:eq(0), #typeenable2 option:eq(0), #typeenable3 option:eq(0), #typeenable4 option:eq(0), #typeenable5 option:eq(0), #typeenable6 option:eq(0), #typeenable7 option:eq(0), #typeenable8 option:eq(0), #typeenable9 option:eq(0)").text(a_41);
+        $("#typeenable1 option:eq(1), #typeenable2 option:eq(1), #typeenable3 option:eq(1), #typeenable4 option:eq(1), #typeenable5 option:eq(1), #typeenable6 option:eq(1), #typeenable7 option:eq(1), #typeenable8 option:eq(1), #typeenable9 option:eq(1)").text(a_40);
+        $("#a_bsmaxhits").text(a_19619);
+        $("#a_bsupdateinterval").text(a_19620);
+        $("#a_save").text(a_17);
+        $("#a_cancel").text(a_3);
+    }
+    function cb_get_action_done(data, action){
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if (cb_is_fail(msgs)){
+        }else {
+            if(action == 'readconfig')
+            {
+                var bsinterval = parseInt(msgs.headers['bsinterval']);
+                $("#bsupdateinterval").val(bsinterval);
+            }
+        }
+    }
+    function update_auth_type(){
+        if( $("#bsauthtype").val() == "0" ) {
+            $(".authlogindiv").hide();
+            $(".authsipdiv").show();
+        }else{
+            $(".authsipdiv").hide();
+            $(".authlogindiv").show();
+        }
+    }
+
+    function pageEventActions(){
+        $("#bsauthtype").change(function(){
+            update_auth_type();
+        });
+
+        $('#up, #down').click(function() {
+            var $opt = $("#bsorders option:selected");
+            if (!$opt.length) return;
+            var bGoUp = (this.id == "up");
+            if (!bGoUp) $opt.reverse();
+            $opt.each(function(i) {
+                var $src = $(this);
+                var $dst = $src[bGoUp ? "prev" : "next"]();
+                if ($dst.length && $dst[0].selected) return;
+                $dst[bGoUp ? "before" : "after"]($src);
+            });
+        });
+
+        $("#a_save").click(function(){
+            if( !$("#Formvalidate").valid() ){
+                view_message(a_16442,MSG_FAIL);
+                return false;
+            }
+            var action = "writeconfig&region=advanset&bsinterval=" + $("#bsupdateinterval").val();
+            cb_get_action(action);
+            var bsorders = $('#bsorders option:eq(0)').val() + "," + $('#bsorders option:eq(1)').val() + "," + $('#bsorders option:eq(2)').val() + "," + $('#bsorders option:eq(3)').val() + "," + $('#bsorders option:eq(4)').val() + "," + $('#bsorders option:eq(5)').val();
+            $("#bscontactsorder").val(bsorders);
+            cb_put(req_items, "", 0);
+        });
+    }
+    function get_item_suc_callback(msgs) {
+    }
+</script>
+
+</body>
+
+</html>

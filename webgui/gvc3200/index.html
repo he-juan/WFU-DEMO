@@ -335,6 +335,9 @@ body{background-color:#EFF0F1;}
                     <li class="apps/caption.html#0"><span class="m_caption_banner">Banner</span></li>
                 </ul>-->
             </li>
+            <li class="apps/broadsoft.html mobilemenu" id="bs_broadsoft">
+                <div class="leftsecmenuliimg"><div class="iconimg" id="iconbs"></div></div><span class="m_apps_broadsoft">BroadSoft</span>
+            </li>
             <!--<li class="apps/ldap.html"><span class="m_ldap">LDAP Book</span></li>-->
         </ul>
         <ul class="main_navi" id="control_li" style="display:none;">
@@ -545,7 +548,8 @@ body{background-color:#EFF0F1;}
 	}
     $('#languagepage').val(cookie_lang);
     document.write("<script src='lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
-    
+    document.write("<script src='js/public.js?" + window.parent.mVersion + "'><\/script>");
+
     var oemid = $.cookie("coloreExist");
     if(oemid == "54"){
         document.write("<script src='lang/tips_" + cookie_lang + "_oem.js?ver=" + version + "'><\/script>");
@@ -581,6 +585,8 @@ var linestatus0 = 0, linestatus1 = 0;
 var mDisableconf = false;
 var mAutovideo = false;
 var mInterval;
+var req_items = new Array;
+
 
 $(function(){
     if (window.PIE) {
@@ -591,7 +597,10 @@ $(function(){
             PIE.attach(this);
         });
     }
-	$(".main_navi").hide();
+    req_items.push(new ReqItem("spefea", "198", ""))
+    cb_get(req_items);
+
+    $(".main_navi").hide();
     translate_li_menu();
     translate_menu();
     $(".callaccept.h323mode").hide();
@@ -976,7 +985,11 @@ $(function(){
 	});
    
 })
-
+function get_item_suc_callback(msgs) {
+    if (msgs.headers['198'] != '102') {
+        $('#bs_broadsoft').hide();
+    }
+}
 function cb_setdnd_action(urihead){
     window.parent.block_download_func(a_7480);
     urihead += "&time=" + new Date().getTime();
