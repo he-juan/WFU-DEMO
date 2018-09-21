@@ -57,7 +57,7 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form>
-               <FormItem label={(<span>{callTr("a_615")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem label={(<span>{callTr("a_1119")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])

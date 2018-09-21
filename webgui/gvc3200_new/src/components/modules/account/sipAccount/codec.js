@@ -491,7 +491,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 新增 G.722.1C 速率 */}
-                <FormItem label={(<span>{callTr("G.722.1C 速率")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("G.722.1C Rate")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19005")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("G.722.1C Rate")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('g7221crate', {
                         initialValue: this.props.itemValues['g7221crate'] ? this.props.itemValues['g7221crate'] : "0"
                     })(

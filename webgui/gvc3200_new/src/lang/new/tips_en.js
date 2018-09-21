@@ -1356,7 +1356,8 @@ tip_item_en.push (
 	new TipsDef("Remove OBP from route",
 	    "Configures to remove outbound proxy from route. This is used for the SIP Extension to notify the SIP server that the device is behind a NAT/Firewall."),
 	
-    
+    new TipsDef("AEC level",
+    "When selecting the audio device to gooseneck mode, it can be set up audio echo from 1 to 5 grades, adjust audio effects when the voice of the GVC equipment and equipment such as TV set size, the different distance of gooseneck  sound source and GVC equipment, at the same time “off” by default.")
     
     
     

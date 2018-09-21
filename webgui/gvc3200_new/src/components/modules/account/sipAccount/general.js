@@ -105,7 +105,7 @@ class GeneralForm extends React.Component {
 
         let itemList =
            <Form onSubmit={this.handleSubmit}>
-               <FormItem label={(<span>{callTr("a_615")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem label={(<span>{callTr("a_1119")}&nbsp;<Tooltip title= {this.tips_tr("Account Active")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
@@ -212,6 +212,17 @@ class GeneralForm extends React.Component {
                        initialValue: this.props.itemValues['vmuserid']
                    })(
                        <Input type="text" id="vmuserid" className={"P-" + nvram["vmuserid"]} />
+                   )}
+               </FormItem>
+               <FormItem label={(<span>{callTr("a_16056")}&nbsp;<Tooltip title={this.tips_tr("Tel URI")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                   {getFieldDecorator('teluri', {
+                       initialValue: this.props.itemValues['teluri'] || "0"
+                   })(
+                       <Select>
+                           <Option value="0">{callTr("a_39")}</Option>
+                           <Option value="1">{callTr("a_16065")}</Option>
+                           <Option value="2">{callTr("a_40")}</Option>
+                       </Select>
                    )}
                </FormItem>
               <FormItem>

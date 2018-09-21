@@ -17,6 +17,7 @@ const req_items = [
     { "name": "confmtone", "pvalue": "4004", "value": "" },
     { "name": "defringcad2", "pvalue": "4040", "value": "" },
     { "name": "audiodevice", "pvalue": "22050", "value": "" },
+    { "name": "aeclevel", "pvalue": "echolevel", "value": "" },
 ];
 
 
@@ -39,7 +40,8 @@ class Audio extends Component {
                 sysRingtone: ''
             },
             tonedblist: [],
-            notificationdblist: []
+            notificationdblist: [],
+            showAEC: false
         }
 
         this.echodelayMap = {
@@ -61,6 +63,7 @@ class Audio extends Component {
     componentDidMount = () => {
         this.props.getItemValues(req_items, (data) => {
             console.log(data)
+            this.audiodeviceChange(data['audiodevice'])
         });
         this.props.getAudioinfo((data) => {
             this.setState({
@@ -100,6 +103,17 @@ class Audio extends Component {
         }
     }
 
+    audiodeviceChange = (v) => {
+        if( v == 5) {
+            this.setState({
+                showAEC: true
+            })
+        } else {
+            this.setState({
+                showAEC: false
+            })
+        }
+    }
     handleSubmit = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -112,6 +126,7 @@ class Audio extends Component {
                 // 移除 echodelay
                 delete values['echodelay'];
                 req_items.shift();
+                if(values["audiodevice"] != '5') { values['aeclevel'] = '0'}
                 this.props.setItemValues(req_items, values, 1);
 
                 // 针对ringTone, notifyTone 特殊处理
@@ -235,13 +250,28 @@ class Audio extends Component {
                         {getFieldDecorator("audiodevice", {
                             initialValue: itemvalue['audiodevice']
                         })(
-                            <Select>
+                            <Select onSelect={(v) => {this.audiodeviceChange(v)}}>
                                 <Option value="0">{callTr("a_1015")}</Option>
                                 <Option value="1">{callTr("a_304")}</Option>
                                 <Option value="2">USB</Option>
                                 <Option value="3">HDMI</Option>
                                 <Option value="4">{callTr("a_12181")}</Option>
                                 <Option value="5">{callTr("a_12199")}</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    {/* 回音抑制等级 */}
+                    <FormItem style={{display: this.state.showAEC ? 'block': 'none'}} label={<span>{callTr("a_19813")}<Tooltip title={callTipsTr("AEC Level")}><Icon type="question-circle-o" /></Tooltip></span>}>
+                        {getFieldDecorator("aeclevel", {
+                            initialValue: itemvalue['aeclevel'] || "0"
+                        })(
+                            <Select>
+                                <Option value="0">{callTr("a_32")}</Option>
+                                <Option value="1">1</Option>
+                                <Option value="2">2</Option>
+                                <Option value="3">3</Option>
+                                <Option value="4">4</Option>
+                                <Option value="5">5</Option>
                             </Select>
                         )}
                     </FormItem>

@@ -25,7 +25,7 @@ class GeneralForm extends React.Component {
             this.getReqItem("userid", "25034", ""),
             this.getReqItem("authid", "25035", ""),
             this.getReqItem("authpwd", "25036", ""),
-            this.getReqItem("vmuserid", "626", ""),   // 语音信箱接入号 
+            // this.getReqItem("vmuserid", "626", ""),   // 语音信箱接入号 
             this.getReqItem("regexp", "25054", ""),   // 注册期限
             this.getReqItem("localport", "25068", ""),　// H323本地端口
             this.getReqItem("symrtp", "25067", ""),　　　// 对称ＲＴＰ
@@ -75,7 +75,7 @@ class GeneralForm extends React.Component {
 
         let itemList =
             <Form>
-                <FormItem label={(<span>{callTr("a_615")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_1119")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('accountactive', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['accountactive'])
@@ -132,14 +132,14 @@ class GeneralForm extends React.Component {
                        <Input type={this.state.pwdstatus} id = "authpwd" name = "authpwd" className="P-25036" suffix={<Icon type="eye" className={this.state.pwdstatus} onClick={this.handlePwdVisible} />}/>
                    )}
                </FormItem>
-               <FormItem label={(<span>{callTr("a_1125")}&nbsp;<Tooltip title={this.tips_tr("Voice Mail Access Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               {/* <FormItem label={(<span>{callTr("a_1125")}&nbsp;<Tooltip title={this.tips_tr("Voice Mail Access Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vmuserid', {
                         
                         initialValue: this.props.itemValues['vmuserid']
                     })(
                         <Input type="text" className="P-626" />
                     )}
-                </FormItem>
+                </FormItem> */}
                <FormItem label={(<span>{callTr("a_16069")}&nbsp;<Tooltip title={this.tips_tr("Register Expiration")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('regexp', {
                         
