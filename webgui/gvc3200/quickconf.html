@@ -5,8 +5,8 @@
 <head>
     <title id="a_title">Quick setup</title>
     <script type="text/javascript" src='js/jquery.tools.min.js'></script>
-    <script type="text/javascript" src='/js/jquery.cookie.js'></script>
-    <script type="text/javascript" src='/js/jquery.stylish-select.min.js'></script>
+    <script type="text/javascript" src='js/jquery.cookie.js'></script>
+    <script type="text/javascript" src='js/jquery.stylish-select.min.js'></script>
     <style>
         * {margin: 0;  padding: 0;  }
         html{  font-size:16px;  }
@@ -59,15 +59,15 @@
         .step-btn button:last-child {margin-left: 10px; background-color: #007aff;color: white; }
         .step-btn button:disabled{background-color: #9B9B9B;cursor: not-allowed;}
         #ethernet-pic, #wifi-pic{ position: absolute;top: 6px;width:29px;height: 29px;}
-        .ethconnect{background: url("/img/quickconf/ethernet_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
-        .ethdisconnect{background: url("/img/quickconf/ethernet_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
-        .wificonnect{background: url("/img/quickconf/wifi_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
-        .wifidisconnect{background: url("/img/quickconf/wifi_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .ethconnect{background: url("./img/quickconf/ethernet_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .ethdisconnect{background: url("./img/quickconf/ethernet_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .wificonnect{background: url("./img/quickconf/wifi_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .wifidisconnect{background: url("./img/quickconf/wifi_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
         #selectproto ul li, #selectaddrtype ul li, #selectip6addrtype ul li{height: 44px;line-height: 44px;padding-left:20px;border-bottom: 1px solid #eceff2;position: relative; }
         #selectproto ul li span,#selectaddrtype ul li span, #selectip6addrtype ul li span{position: absolute;  right: 40px;  left: 20px;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden;}
         #selectproto ul li input + div,#selectaddrtype ul li input + div, #selectip6addrtype ul li input + div{position:absolute;right: 20px;top: 10px;}
         #selectproto ul li input[checked="checked"] + div,#selectaddrtype ul li input[checked="checked"] + div,#selectip6addrtype ul li input[checked="checked"] + div
-        {width: 20px;height: 20px;background:url("/img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
+        {width: 20px;height: 20px;background:url("./img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
         /*#selectproto ul li input[checked="checked"] + div,#selectaddrtype ul li input[checked="checked"] + div{width: 10px;height: 10px;background-color: white;}*/
         .modal-title{height: 40px;line-height:40px;font-size:16px;padding-left:20px;background-color:#155bff;border-radius: 8px 8px 0 0; color: white;}
         #protocol-cancel, #sel-addrtype-cancel, #sel-addr6type-cancel{height: 44px;  line-height: 44px; text-align: center;color:#155bff}
@@ -77,19 +77,19 @@
         .config-box .g_conf input{position: absolute;  width:160px;top:10px;right:12px;border:none;color:#8e8e93; text-align:right;background-color:transparent;}
 
         #acctactive{position: absolute;top:11px; right:20px;width:22px;height: 22px;}
-        .accountactive{background: url("/img/quickconf/checked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
-        .accountinactive{background: url("/img/quickconf/unchecked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .accountactive{background: url("./img/quickconf/checked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .accountinactive{background: url("./img/quickconf/unchecked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
         input[type="radio"]{display: none;}
-        div .active{ position: absolute; top: 10px; right: 10px; width: 20px;  height: 20px; background:url("/img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
+        div .active{ position: absolute; top: 10px; right: 10px; width: 20px;  height: 20px; background:url("./img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
         .qr-pic{ width: 300px; height: 206px; margin: 45px auto;}
-        .qrinvalid-pic{background: url("/img/quickconf/qr_code_invalid_image.png");  -webkit-background-size: cover;  background-size: cover;}
-        .qrrefreshed-pic{background: url("/img/quickconf/qr_code_refreshed_image.png");  -webkit-background-size: cover;  background-size: cover;}
+        .qrinvalid-pic{background: url("./img/quickconf/qr_code_invalid_image.png");  -webkit-background-size: cover;  background-size: cover;}
+        .qrrefreshed-pic{background: url("./img/quickconf/qr_code_refreshed_image.png");  -webkit-background-size: cover;  background-size: cover;}
         #setpwd{  position: relative;  }
         #setpwd input{  width: 45px;height:45px; font-size: 30px;text-align: center; border: 1px solid #c8c7cc;}
         #pwdmask1, #pwdmask2{ position:absolute; top:0; left:0; right:0; bottom: 0; }
         .content{position: absolute;left: 5px;right: 5px;bottom: 15px;background: white;font-size: 16px;border-radius: 8px;}
-        .suc-pic{display:inline-block;width:22px;height:22px;margin-bottom:10px;background: url("/img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
-        .qr-refreshsuc{position:relative;display:inline-block;width:22px;height:22px;top:3px;margin-right:6px;background: url("/img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .suc-pic{display:inline-block;width:22px;height:22px;margin-bottom:10px;background: url("./img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .qr-refreshsuc{position:relative;display:inline-block;width:22px;height:22px;top:3px;margin-right:6px;background: url("./img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
         #modal-mask-prompt{ position: fixed;top:0;bottom:0;left: 0;right: 0;background-color:rgba(55, 55, 55, 0.6);z-index: 1000;}
         #modal-mask-prompt div{margin: 150px auto;text-align:center;width: 200px;height: 50px;line-height: 50px; background: white;border-radius: 6px;}
     </style>
@@ -290,7 +290,7 @@
     <div class="config-box" style="margin-top: 0;">
         <div class="g_conf"><span id="a_ipaddr">IP Address</span><span id="ipaddress" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
         <div class="g_conf"><div id="ethernet-pic"></div><span style="left: 45px;" id="a_ethernet">以太网</span><span id="ethernetstatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
-        <div class="g_conf" style="border-bottom: none;"><div id="wifi-pic"></div><span style="left: 45px;">Wi-FI</span><span id="wifistatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
+        <div class="g_conf" style="border-bottom: none;"><div id="wifi-pic"></div><span style="left: 45px;">Wi-Fi</span><span id="wifistatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
     </div>
     <div class="selectDiv2" style="margin-top: 30px;"><div id="a_advnetworkconf">高级网络设置</div><div class="arrow"></div></div>
     <div class="step-btn"><button id="network-back-btn" name="a_laststep">上一步</button><button id="network-next-step" name="a_nextstep">下一步</button></div>
@@ -453,7 +453,7 @@
     <div id="result"></div>
 </div>
 
-<script id="language" src='/lang/en.js'></script>
+<script id="language" src='lang/en.js'></script>
 <!--<script type="text/javascript" src='/js/public.js'></script>-->
 <script type='text/javascript'>
 
@@ -1019,7 +1019,7 @@
             $("#accountconf").fadeIn(1000);
             $("#accountname").focus();
             $("#pwddiv input").val("");
-            $("#a_setlockpwd").text(a_20205);
+            $("#a_setlockpwd").text(a_6759);
         });
 
         $("#pwdmask1,#pwdmask2").click(function () {
@@ -1154,7 +1154,7 @@
         $("#first input").first().focus();
         $("#first").show();
         $("#second").hide();
-        $("#a_setlockpwd").text(a_20205);
+        $("#a_setlockpwd").text(a_6759);
         $("#setpwd input").css("-webkit-text-security","");
         $("#setpwd input").css("text-security","");
         $("#pwd-next-step").removeAttr("disabled");
@@ -1173,7 +1173,7 @@
         if(pwdobj.haspwd){
             $("#existpwd").show();
             $("#noexistpwd").hide();
-            $("#a_setlockpwd").text(a_20205);
+            $("#a_setlockpwd").text(a_6759);
         }else{
             $("#existpwd").hide();
             $("#noexistpwd").show();
@@ -1566,10 +1566,10 @@
             return {type:"err", message: a_528};
         }
         if(!(checkdigits(parseInt($("#ipv6prefixlen").val())))){
-            return {type:"err", message: a_20211};
+            return {type:"err", message: a_19332};
         }
         if(!range(parseInt($("#ipv6prefixlen").val().trim()), 1, 128)){
-            return {type:"err", message: a_20212};
+            return {type:"err", message: a_19332};
         }
         if($("#ipv6dns1").val().trim() != "" &&!checkDialIPv6($("#ipv6dns1").val())){
             return {type:"err", message: a_4249};
@@ -1802,19 +1802,19 @@
     }
 
     function translate_page(){
-        $("#a_title").text(a_20203);
-        document.title = a_20203;
-        $("#a_sellang").text(a_20200);
+        $("#a_title").text(a_23500);
+        document.title = a_23500;
+        $("#a_sellang").text(a_16216);
         $("#a_lang").text(a_16216);
         $("button[name=a_nextstep]").text(a_19041);
         $("button[name=a_laststep]").text(a_19085);
         $("button[name=a_cancel], div[name=a_cancel]").text(a_3);
         $("button[name=a_done]").text(a_15012);
-        $("#a_seltimezone").text(a_12066);
-        $("#a_timezone").text(a_6657);
+        $("#a_seltimezone").text(a_23527);
+        $("#a_timezone").text(a_23527);
         $("#lang-confirm, #timezone-confirm").text(a_2);
-        $("#a_networkconf").text(a_20201);
-        $("#a_advnetworkconf").text(a_20202);
+        $("#a_networkconf").text(a_4115);
+        $("#a_advnetworkconf").text(a_19071);
         $("#a_ethernet").text(a_206);
         $("#a_ipaddr,#a_ipaddr2").text(a_6650);
         $("#a_submask").text(a_4127);
@@ -1836,7 +1836,7 @@
         $("#a_onlyipv6").text(a_19393);
         $("#a_staticipv6addr").text(a_19232);
         $("#a_ipv6prefixlen").text(a_19233);
-        $("#a_acctconf").text(a_20204);
+        $("#a_acctconf").text(a_301);
         $("#a_accountname").text(a_1120);
         $("#a_sipserver").text(a_1121);
         $("#a_userid").text(a_1122);
@@ -1846,12 +1846,12 @@
         $("#a_sbcaddr").text(a_20050);
         $("#a_sitename").text(a_16225);
         $("#a_acctactive").text(a_1119);
-        $("#a_setlockpwd").text(a_20205);
-        $("#a_hassetpwd").text(a_20206);
-        $("#a_clickhint").text(a_20207);
-        $("#resetpwd").text(a_20208);
-        $("#a_inputpwd").text(a_20209);
-        $("#a_confdone").text(a_20210);
+        $("#a_setlockpwd").text(a_6759);
+        $("#a_hassetpwd").text(a_23547);
+        $("#a_clickhint").text(a_23548);
+        $("#resetpwd").text(a_23549 );
+        $("#a_inputpwd").text(a_9655);
+        $("#a_confdone").text(a_23503);
         networktypeArr = [a_4124, a_4125, "PPPoE"];
         ipv6networktypeArr = [a_4124, a_4125];
         protocoltypeArr = [a_19390,a_19391,a_19392,a_19393];
