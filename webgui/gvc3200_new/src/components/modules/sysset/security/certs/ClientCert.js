@@ -269,7 +269,7 @@ class ClientCert extends Component {
                     <Column title={callTr("a_19218")} dataIndex="certorder" key="certorder" />
                     <Column title={callTr("a_certname")} dataIndex="certname" key="certname" />
                     <Column title={callTr("a_certuse")} dataIndex="certuse" key="certuse" render={(text) => (<span>{callTr(text)}</span>)}/>
-                    <Column title={callTr("a_operate")} key="delete" render={(text, record, index) => (
+                    <Column title={callTr("a_44")} key="delete" render={(text, record, index) => (
                         <span>
                             <Popconfirm placement="top" title={callTr("a_promptdelete")} okText={callTr("a_2")} cancelText={callTr("a_3")}
 								onConfirm={this.handleDeleteCert.bind(this, text)}>

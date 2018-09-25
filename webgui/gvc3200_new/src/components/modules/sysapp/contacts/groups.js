@@ -170,10 +170,10 @@ class GroupsAddEditBox extends Component {
         return (
             <Modal title={callTr('a_addcontactgroups')} onOk={this.handleOk} onCancel={this.handleCancel} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
-                    <FormItem label={(<span>{callTr("a_name")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_19626")}</span>)}>
                         {getFieldDecorator('groupname', {
                         })(
-                            <Input style={{width:'80%'}} placeholder={callTr('a_name')}/>
+                            <Input style={{width:'80%'}} placeholder={callTr('a_19626')}/>
                         )}
                     </FormItem>
                     <FormItem className = "select-item"  label={(<span>{callTr("a_groupringtone")}</span>)}>

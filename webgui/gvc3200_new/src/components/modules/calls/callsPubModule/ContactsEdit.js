@@ -122,9 +122,9 @@ class ContactsEdit extends Component {
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
         return (
-            <Modal title={callTr('a_addcontact')} onOk={this.handleOk} onCancel={this.handleCancel} className='contacts-modal' visible={this.props.displayModal}>
+            <Modal title={callTr('a_15003')} onOk={this.handleOk} onCancel={this.handleCancel} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
-                    <FormItem label={(<span>{callTr("a_name")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_19626")}</span>)}>
                         {getFieldDecorator('firstname', {
                         })(
                             <Input style={{width:'40%'}} placeholder={callTr('a_207')}/>

@@ -413,7 +413,7 @@ class GroupTab extends Component {
             dataIndex: 'row1',
             width: '30%',
         }, {
-            title: callTr("a_operate"),
+            title: callTr("a_44"),
             key: 'row2',
             dataIndex: 'row2',
             width: '30%',
@@ -439,9 +439,9 @@ class GroupTab extends Component {
                             <i className={!hasSelected ? "select-delete-icon" : ""} />
                             {this.tr("a_19067")}
                         </Button>
-                        <Modal visible={this.state.displayDelGroupModal} title={this.tr("a_deletegrouptitle")} className="confirm-modal"
+                        <Modal visible={this.state.displayDelGroupModal} title={this.tr("a_19627")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelGroupCancel}>
-                            <p className="confirm-content">{this.tr("a_deletetgroup")}</p>
+                            <p className="confirm-content">{this.tr("a_19628")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} onClick={this.showGroupModal}>
                             {this.tr("a_4838")}
@@ -464,7 +464,7 @@ class GroupTab extends Component {
                     />
                     <div className = "nodatooltips" style={{display: this.state.showtips}}>
                         <div></div>
-                        <p>{this.tr("no_data")}</p>
+                        <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
                 <GroupEditModalForm {...this.props} handleHideGroupModal={this.handleHideGroupModal}  displayGroupModal={this.state.displayGroupModal} callTr={this.props.callTr}

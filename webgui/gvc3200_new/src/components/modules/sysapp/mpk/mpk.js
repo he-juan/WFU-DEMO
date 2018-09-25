@@ -839,7 +839,7 @@ class MpkForm extends Component {
                                                 }
                                                 </Select>
                                             )}/>
-                                    <Column title={this.tr("a_operate")} render={(text, record, index) => (
+                                    <Column title={this.tr("a_44")} render={(text, record, index) => (
                                              <i className={`${this.state.confmaxLength == this.state.confSet.length ? 'del-btn' : this.state.confSet.length == index + 1 ? 'add-btn' : 'del-btn'}`}
                                                 onClick={this.hanleIceContacts.bind(this,index)}
                                             style={{
@@ -908,7 +908,7 @@ class MpkForm extends Component {
                             }}/>/>
                         <Column title={this.tr("a_address")} dataIndex="address" key="address" />
                         <Column title={this.tr("a_dtmfcontent")} dataIndex="dtmf" key="dtmf" />
-                        <Column title={this.tr("a_operate")} key="option" render={(text, record, index) => (
+                        <Column title={this.tr("a_44")} key="option" render={(text, record, index) => (
                             <pre>
                                 <i className='allow-up' onClick={this.hanldeMoveUp.bind(this, text, index)} style={{ backgroundPosition: index != 0 ? '-104px -66px' : '-84px -66px' }}/>
                                 <span className="ant-divider" />

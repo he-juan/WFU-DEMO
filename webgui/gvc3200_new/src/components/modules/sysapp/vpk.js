@@ -396,7 +396,7 @@ class VpkForm extends Component {
                             </Select>
                     )}
                 </FormItem>
-                <FormItem  className = "vpkItem acctModeHide showDtmf"　label={(<span>{callTr("a_name")}&nbsp;<Tooltip title={tips_tr("Name VPK")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem  className = "vpkItem acctModeHide showDtmf"　label={(<span>{callTr("a_19626")}&nbsp;<Tooltip title={tips_tr("Name VPK")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vpkname', {
                         rules: [{
                             required:this.state.keyMode == "17" ? false : true,max:64,message: callTr("max_length64"),
@@ -796,13 +796,13 @@ class Vpk extends Component {
                             <Column title={this.tr("a_groupnum")} dataIndex="key" key="groupnum" />
                             <Column title={this.tr("a_keymode")} dataIndex="vpkmode" key="mode" render={(text, record, index) => ( this.tr(text) )}/>
                             <Column title={this.tr("a_301")} dataIndex="vpkacct" key="acct" />
-                            <Column title={this.tr("a_name")} dataIndex="vpkname" key="name" />
+                            <Column title={this.tr("a_19626")} dataIndex="vpkname" key="name" />
                             <Column title={this.tr("a_userid")} dataIndex="vpkuserid" key="userid" />
                             <Column title={this.tr("a_address")} dataIndex="vpkAddress" key="address" />
                             <Column title={this.tr("a_dtmfcontent")} dataIndex="vpkdtmfContent" key="dtmfContent" />
                             <Column title={this.tr("a_dtmfcond")} dataIndex="vpkdtmf" key="dtmfcond" render={(text, record, index) => ( this.tr(text) )} />
                             <Column title={this.tr("a_dtmfcondcid")} dataIndex="matchCallNumIp" key="dtmfcondcid" />
-                            <Column title={this.tr("a_operate")} key="operate" render={(text, record, index) => (
+                            <Column title={this.tr("a_44")} key="operate" render={(text, record, index) => (
                                 <pre>
                                     <i className='allow-up' onClick={this.hanldeMoveUp.bind(this, text, index)}/>
                                     <span className="ant-divider" />

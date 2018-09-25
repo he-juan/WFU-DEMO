@@ -141,7 +141,7 @@ class GroupEditModal extends Component {
                     </FormItem>
                     <div className = "contactsSelect">
                         <div className = "contactsDiv">
-                            <p>{callTr("a_contact")}</p>
+                            <p>{callTr("a_19631")}</p>
                             <div>
                                 <Search placeholder={callTr("a_65")} onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                                 <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>

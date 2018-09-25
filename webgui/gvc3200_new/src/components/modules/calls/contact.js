@@ -32,7 +32,7 @@ class Contact extends Component {
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
-                <TabPane tab = {this.tr("a_contactlist")} key={0}>
+                <TabPane tab = {this.tr("a_19630")} key={0}>
                     <ContactTabForm {...this.props} hideItem={hideItem} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
                 <TabPane tab = {this.tr("a_4779")} key={1}>
@@ -56,7 +56,7 @@ class Contact extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("a_contact")}</div>
+                <div className="subpagetitle">{this.tr("a_19631")}</div>
                 {tabList}
             </Content>
         );

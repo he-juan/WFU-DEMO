@@ -98,7 +98,7 @@ class NewContactsEdit extends Component {
         values.confStatedate = values.confStatedate.format('YYYY-MM-DD')
         let start_time = values.confStatedate + ' ' + values.confhours + ':' +values.confminutes
         if(moment(start_time).isBefore(moment())) {
-            this.props.promptMsg('ERROR','a_timeWarn');
+            this.props.promptMsg('ERROR','a_16708');
             return
         }
         let memberData = this.state.curMember
@@ -735,7 +735,7 @@ class NewContactsEdit extends Component {
         if((member[0] && (member[0].Acctid == '1' || member[0].Account == '1' ) && newMemberAcct == '1') || !member[0]){
             ismax = false
         } else {
-            this.props.promptMsg('ERROR','a_maxmemberwarn');
+            this.props.promptMsg('ERROR','a_10097');
         }
         return ismax
     }
@@ -1282,7 +1282,7 @@ class NewContactsEdit extends Component {
                                 <Cascader disabled={allDisabled} options={DateOptions}  placeholder="Please select" style={{width:'40%'}} />
                             )}
                         </FormItem>
-                        <FormItem className={ classObj.customClass } label={(<span>{callTr("a_cycle")}</span>)}>
+                        <FormItem className={ classObj.customClass } label={(<span>{callTr("a_19621")}</span>)}>
                             {getFieldDecorator('confStatedate', {
                             })(
                                 <DatePicker
@@ -1339,7 +1339,7 @@ class NewContactsEdit extends Component {
                 <Modal className='importModal confModal' style={{'minHeight':'540px'}} title={callTr('a_517')} onOk={this.handleAddModalOk} onCancel={this.handleAddModalCancel}
                        okText={callTr("a_2")} cancelText={callTr("a_3")}  visible={this.state.displayAddModal}>
                     <Tabs className="config-tab" defaultActiveKey={this.state.activeKey} onChange={this.changeTab}>
-                        <TabPane tab = {this.tr("a_contact")} key='0'>
+                        <TabPane tab = {this.tr("a_19631")} key='0'>
                             <div className="scrollbox">
                                 <div style={{marginBottom:'15px'}}>
                                     <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchContact.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_65")}></Input>

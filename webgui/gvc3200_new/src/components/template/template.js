@@ -17,8 +17,8 @@
 
 export const options = [
     {"name": "calls", "lang": "a_calls", "sub": [
-        {"name": "contact", "lang": "a_contact", "sub": [
-            {"name": "contact", "lang": "a_contact", "sub": [
+        {"name": "contact", "lang": "a_19631", "sub": [
+            {"name": "contact", "lang": "a_19631", "sub": [
                 {"name": "File Encoding", "lang": "a_4755"},
                 {"name": "File Type", "lang": "a_4756"},
                 {"name": "Save Phonebook to PC", "lang": "a_savephone"},

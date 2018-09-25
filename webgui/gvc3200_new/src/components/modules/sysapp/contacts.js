@@ -62,7 +62,7 @@ class SlidingTabsDemo extends Component {
                     <TabPane tab={this.props.callTr("a_4808")} key={2}>
                         <ContactsDownloadForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
                     </TabPane>
-                    <TabPane tab={this.props.callTr("a_contact")} key={3}>
+                    <TabPane tab={this.props.callTr("a_19631")} key={3}>
                         <ContactsContactsForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
                     </TabPane>
                     <TabPane tab={this.props.callTr("a_contactgroups")} key={4}>

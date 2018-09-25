@@ -499,7 +499,7 @@ class ContactTab extends Component {
         );
         const curContactList = this.state.curContactList
         const columns = [{
-            title: callTr("a_name"),
+            title: callTr("a_19626"),
             // title: '',
             key: 'row0',
             dataIndex: 'row0',
@@ -523,7 +523,7 @@ class ContactTab extends Component {
             dataIndex: 'row2',
             width: '25%'
         }, {
-            // title: callTr("a_operate"),
+            // title: callTr("a_44"),
             title: '',
             key: 'row3',
             dataIndex: 'row3',
@@ -553,9 +553,9 @@ class ContactTab extends Component {
                             <i className={!hasSelected ? "select-delete-icon" : ""} />
                             {this.tr("a_19067")}
                         </Button>
-                        <Modal visible={this.state.displayDelContactsModal} title={this.tr("a_deletecontactstitle")} className="confirm-modal"
+                        <Modal visible={this.state.displayDelContactsModal} title={this.tr("a_4795")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelContactsCancel}>
-                            <p className="confirm-content">{this.tr("a_deletecontacts")}</p>
+                            <p className="confirm-content">{this.tr("a_4798")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} onClick={this.showContactModal}>
                             {this.tr("a_4840")}
@@ -581,7 +581,7 @@ class ContactTab extends Component {
                     />
                     <div className = "nodatooltips" style={{display: this.state.showtips}}>
                         <div></div>
-                        <p>{this.tr("no_data")}</p>
+                        <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
                 {loading?

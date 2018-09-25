@@ -442,7 +442,7 @@ class Gds extends Component {
                             <Column title={this.tr("a_7474")} dataIndex="gdsname" key="name" />
                             <Column title={this.tr("a_gdsnumber")} dataIndex="gdsnumber" key="number" />
                             <Column title={this.tr("a_dtmfcontent")} className="display-hidden" dataIndex="gdspwd" key="pwd" />
-                            <Column title={this.tr("a_operate")} key="operate" render={(text, record, index) => (
+                            <Column title={this.tr("a_44")} key="operate" render={(text, record, index) => (
                                 <span>
                                     <a className="edit-icon" onClick={this.handleEditItem.bind(this, text)}></a>
                                     <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>

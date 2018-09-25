@@ -236,7 +236,7 @@ class Call extends Component {
                 _createTime(text, record, index)
             )
         },{
-            title: callTr("a_operate"),
+            title: callTr("a_44"),
             key: 'row3',
             dataIndex: 'row3',
             width: '20%',
@@ -289,7 +289,7 @@ class Call extends Component {
                     />
                     <div className = "nodatooltips" style={{display: showtips}}>
                         <div></div>
-                        <p>{this.tr("no_data")}</p>
+                        <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
             </div>

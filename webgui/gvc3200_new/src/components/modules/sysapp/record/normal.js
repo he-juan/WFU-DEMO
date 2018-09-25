@@ -102,7 +102,7 @@ class Normal extends Component {
                 _createTime(text, record, index)
             )
         },{
-            title: callTr("a_operate"),
+            title: callTr("a_44"),
             key: 'row3',
             dataIndex: 'row3',
             render: (text, record, index) => (

@@ -115,16 +115,16 @@ class Call extends Component {
             this.props.get_deleteOnceConf(deleteId, (result) => {
                 if (result == 'success') {
                     this.updateDate()
-                    this.props.promptMsg('SUCCESS',"a_del_ok");
+                    this.props.promptMsg('SUCCESS',"a_64");
                 } else {
-                    this.props.promptMsg('SUCCESS',"a_cancelerr");
+                    this.props.promptMsg('SUCCESS',"a_63");
                 }
             });
         } else {
             this.props.get_deleteConf(deleteId, (result) => {
                 if (result == 'success') {
                     this.updateDate()
-                    this.props.promptMsg('SUCCESS',"a_del_ok");
+                    this.props.promptMsg('SUCCESS',"a_64");
                 }
             });
         }
@@ -326,19 +326,19 @@ class Call extends Component {
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('a_nummember')}：</Col>
+                                        <Col className='conf-label' span={3}>{callTr('a_19622')}：</Col>
                                         <Col className='' span={3}>{item.memberArr.length}</Col>
                                         <Col className='conf-status' span={18}>
-                                            <Button type="primary">{this.tr("a_startMeet")}</Button>
+                                            <Button type="primary">{callTr("a_19623")}</Button>
                                             <Button
                                                 // onClick={this.handleEdit.bind(this, item)}
-                                                onClick={(e)=>this.handleEdit(e,item)} type="primary">{this.tr("a_editMeet")}</Button>
-                                            {/*<Button type="primary">{this.tr("a_cancelMeet")}</Button>*/}
+                                                onClick={(e)=>this.handleEdit(e,item)} type="primary">{callTr("a_19624")}</Button>
+                                            {/*<Button type="primary">{callTr("a_cancelMeet")}</Button>*/}
 
                                             {item.confinfo['Recycle'] == '0' ? (
-                                                <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
+                                                <Popconfirm placement="top" title={callTr("a_9334")} okText={callTr("a_2")} cancelText={callTr("a_3")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
                                                     {/*<button className='allow-delete'></button>*/}
-                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{this.tr("a_cancelMeet")}</Button>
+                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
                                                 </Popconfirm>
                                             ) : (
                                                 <Popover title={callTr('a_19169')} content={
@@ -347,12 +347,12 @@ class Call extends Component {
                                                         <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id,1)} >{callTr('a_15041')}</p>
                                                     </div>
                                                 } trigger="click">
-                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{this.tr("a_cancelMeet")}</Button>
+                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
                                                 </Popover>
                                             )}
 
 
-                                            {/*<Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>*/}
+                                            {/*<Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>*/}
 
                                         </Col>
                                     </Row>
@@ -370,7 +370,7 @@ class Call extends Component {
                 <div className = 'CallDiv Callhistory'>
                     <div className = "nodatooltips" style={{display: data.length > 0 ? 'none':'block'}}>
                         <div></div>
-                        <p>{this.tr("no_data")}</p>
+                        <p>{callTr("a_10082")}</p>
                     </div>
                 </div>
                 {

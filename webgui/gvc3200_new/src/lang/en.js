@@ -2172,56 +2172,5 @@ var a_audiodevice_en = "Audio Device";
 var a_aeclevel_en = "AEC Level";
 
 /****************conference schedule ****************/
-var a_confSubject_en = "Conference Subject"
-var a_confPreset_en = "Conference Preset"
-var a_confDuration_en = "Conference Duration"
-var a_cycleType_en = "Cycle Type"
-var a_pinCode_en = "PIN Code"
-var a_confMember_en = "Member"
-var a_month_en = "Month"
-var a_everyFixedDays_en = "Every Fixed Days"
-var a_customRepeat_en = "Custom Repeat"
-
-
-
-var a_oneTimeEvent_en = "One-time event"
-var a_daily_en = "Daily"
-var a_weekday_en = "Every weekday (Mon-Fri)"
-var a_weekly_en = "Weekly"
-var a_monthly_en = "Monthly (by day)"
-var a_monthly1_en = "Monthly (by week)"
-var a_yearly_en = "Yearly"
-var a_custom_en = "Custom"
-var a_repeatDate_en = "Repeat on"
-var a_cycle_en = "Cycle Time"
-
-var a_first_en = "First"
-var a_second_en = "Second"
-var a_third_en = "Third"
-var a_fourth_en = "Fourth"
-var a_last_en = "Last"
-var a_organizer_en = "Organizer"
-var a_me_en = "Me"
-var a_nummember_en = "Number of participants"
-var a_waithost_en = "Waiting for hosting"
-var a_process_en = "Processing"
 var a_notstart_en = "Is not started"
-var a_expired_en = "Expired"
 var a_over_en = "Over"
-var a_startMeet_en = "Start Meeting"
-var a_editMeet_en = "Editing Meeting"
-var a_cancelMeet_en = "Cancel Meeting"
-var a_delrepconf_en = "Cancel all events in this series"
-var a_delreponceconf_en = "Cancel this event only"
-var a_preset_en = "Preset"
-var a_timeWarn_en = "The appointment must be later than the current time"
-var a_memberempty_en = "Please select at least one member!"
-var a_addMember_en = "Add Member"
-
-
-
-
-
-
-
-

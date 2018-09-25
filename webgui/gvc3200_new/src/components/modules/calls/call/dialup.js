@@ -745,7 +745,7 @@ class DialUpForm extends Component {
         }
 
         const columns = [{
-            title: this.tr("a_name"),
+            title: this.tr("a_19626"),
             key: 'row0',
             dataIndex: 'row0',
             width: '25%',
@@ -769,7 +769,7 @@ class DialUpForm extends Component {
                 this._renderDate(text)
             )
         }, {
-            title: this.tr("a_operate"),
+            title: this.tr("a_44"),
             key: 'row3',
             dataIndex: 'row3',
             width: '25%',
@@ -860,7 +860,7 @@ class DialUpForm extends Component {
                         />
                         <div className = "nodatooltips" style={{display: nodatatipdisplay}}>
                             <div></div>
-                            <p>{this.tr("no_data")}</p>
+                            <p>{this.tr("a_10082")}</p>
                         </div>
                     </div>
                 </Form>

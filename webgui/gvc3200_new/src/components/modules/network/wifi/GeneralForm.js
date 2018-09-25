@@ -872,7 +872,7 @@ class GeneralForm extends Component {
                             </div>
                             <div className="wifilist">
                                 {
-                                    !this.state.wifiresult.length ? <div className="nowifi"><div></div><p>{callTr("no_data")}</p></div> :
+                                    !this.state.wifiresult.length ? <div className="nowifi"><div></div><p>{callTr("a_10082")}</p></div> :
                                     <div>
                                         {
                                             this.state.wifiresult[0].isConnected == "CONNECTED" ?

@@ -170,8 +170,8 @@ class ContactEditDiv extends Component {
                                 </div>
                             </div>
                             <div className = "appsbtn">
-                                <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("a_addLocalcontact")}</Button>
-                                <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_addcontact")}</Button>
+                                <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("19629")}</Button>
+                                <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_15003")}</Button>
                             </div>
                         </div>
                         <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} detailItems={this.state.detailItems} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
@@ -633,7 +633,7 @@ class Call extends Component {
         // console.log('contactsInformation',contactsInformation)
 
         const columns = [{
-            title: callTr("a_name"),
+            title: callTr("a_19626"),
             key: 'row0',
             dataIndex: 'row0',
             width: '55%',
@@ -649,7 +649,7 @@ class Call extends Component {
                 _createTime(text, record, index)
             )
         },{
-            title: callTr("a_operate"),
+            title: callTr("a_44"),
             key: 'row2',
             dataIndex: 'row2',
             width: '15%',
@@ -682,9 +682,9 @@ class Call extends Component {
                             <i className={!hasSelected ? "select-delete-icon" : ""} />
                             {this.tr("a_19067")}
                         </Button>
-                        <Modal visible={this.state.displayDelHistCallsModal} title={this.tr("a_deletehiscalls")} className="confirm-modal"
+                        <Modal visible={this.state.displayDelHistCallsModal} title={this.tr("a_3342")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelHistCallsCancel}>
-                            <p className="confirm-content">{this.tr("a_deletecalls")}</p>
+                            <p className="confirm-content">{this.tr("a_3531")}</p>
                         </Modal>
                     </div>
                     {/*<div style={{'float':'right'}}>*/}
@@ -709,7 +709,7 @@ class Call extends Component {
                     />
                     <div className = "nodatooltips" style={{display: this.state.showtips}}>
                         <div></div>
-                        <p>{this.tr("no_data")}</p>
+                        <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
                 <ContactEditDiv {...this.props} contactsInformation={contactsInformation} view_status_Duration={view_status_Duration} isToday={isToday} convertTime = {convertTime} displayDiv={this.state.displayDiv}

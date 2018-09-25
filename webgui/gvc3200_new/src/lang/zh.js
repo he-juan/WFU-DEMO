@@ -2177,25 +2177,5 @@ var a_audiodevice_zh = "音频设备";
 var a_aeclevel_zh = "音频回声抑制等级";
 
 /****************conference schedule ****************/
-var a_cycle_zh = "循环周期"
-
-var a_nummember_zh = "参会人数"
-var a_waithost_zh = "待主持"
 var a_notstart_zh = "未开始"
-var a_expired_zh = "已过期"
 var a_over_zh = "已结束"
-var a_startMeet_zh = "立即启会"
-var a_editMeet_zh = "编辑会议"
-var a_cancelMeet_zh = "取消会议"
-var a_cancelMeetWarn_zh = "是否取消会议"
-var a_delrepconf_zh = "取消此系列中的所有的活动"
-var a_delreponceconf_zh = "仅取消此次活动"
-var a_cancelsuc_zh = "取消成功"
-var a_cancelerr_zh = "取消失败"
-var a_preset_zh = "预置位"
-var a_timeWarn_zh = "预约的时间必须晚于当前时间"
-var a_memberempty_zh = "请至少选择一个成员!"
-var a_addMember_zh = "添加参会成员"
-
-
-

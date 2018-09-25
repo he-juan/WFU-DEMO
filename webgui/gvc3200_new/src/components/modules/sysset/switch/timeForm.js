@@ -483,7 +483,7 @@ class TimeForm extends Component {
                                 }
                                 return array.join(",")
                             }}/>
-                    <Column title={this.tr("a_operate")} width={110} key="option" render={(text, record, index) => (
+                    <Column title={this.tr("a_44")} width={110} key="option" render={(text, record, index) => (
                         <span>
                     <a className="edit-icon" onClick={this.handleEditItem.bind(this, text, index)}></a>
                     <Popconfirm placement="top" title={this.tr("a_promptdelete")} okText={this.tr("a_2")}
@@ -496,7 +496,7 @@ class TimeForm extends Component {
                 </Table>
                 <div className = "nodatooltips" style={{display: showtips}}>
                     <div></div>
-                    <p>{this.tr("no_data")}</p>
+                    <p>{this.tr("a_10082")}</p>
                 </div>
             </div>
         </div>

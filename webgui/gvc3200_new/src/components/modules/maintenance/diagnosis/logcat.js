@@ -92,7 +92,7 @@ class LogactForm extends Component {
                 <Row id='mainlogcat'>
                     <div style={logcatFile == "" ? {display:'block'} : {display:'none'}} className = "tooltips">
                         <div></div>
-                        <p>{this.tr("no_data")}</p>
+                        <p>{this.tr("a_10082")}</p>
                     </div>
                     <pre style={{wordWrap: "break-word", whiteSpace: "pre-wrap"}}>{logcatFile}</pre>
                 </Row>
