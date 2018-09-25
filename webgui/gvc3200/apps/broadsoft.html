@@ -12,7 +12,6 @@
 <script type="text/javascript" src='../js/jquery.prompt.js'></script>
 <script type="text/javascript" src='../js/jquery-ui.min.js'></script>
 <style>
-    body{height:900px;}
     select{display:inline;}
     #netdirdiv{width:750px;}
     #netdirdiv .itemdiv {width:750px;}
@@ -295,7 +294,7 @@
         cb_if_auth_fail(msgs);
         if (cb_is_fail(msgs)){
         }else {
-            if(action == 'readconfig')
+            if(action == 'readconfig&region=advanset')
             {
                 var bsinterval = parseInt(msgs.headers['bsinterval']);
                 $("#bsupdateinterval").val(bsinterval);
