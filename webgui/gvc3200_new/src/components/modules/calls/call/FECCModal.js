@@ -79,6 +79,16 @@ class FECCModal extends Component {
         }
     }
 
+    handleCancel = () =>{
+        let line = this.props.line;
+        this.props.ctrlFECC(line, 0, (result) =>{
+            if(result.res == "success" || result == 0 ){
+                // this.props.handleHideModal();
+            }else{
+                this.props.promptMsg("WARNING", this.tr("a_63"));
+            }
+        });
+    }
 
 
     render() {
@@ -87,7 +97,7 @@ class FECCModal extends Component {
         var presetArray = (new Array(24)).fill(0);
         return (
             <Modal className="fecc-modal" title={title} keyboard="false" maskClosable="false" footer={null}
-                   visible={this.props.display}>
+                   visible={this.props.display} onCancel={this.handleCancel}>
                 <div className="fecc-modal-content">
                     <div className="feccleft">
                         <div>{tr("a_10024")}</div>
@@ -141,6 +151,7 @@ const mapDispatchToProps = (dispatch) => {
         gotoFECCpreset: Actions.gotoFECCpreset,
         saveFECCpreset: Actions.saveFECCpreset,
         promptMsg: Actions.promptMsg,
+        ctrlFECC: Actions.ctrlFECC
     }
     return bindActionCreators(actions, dispatch)
 }

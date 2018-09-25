@@ -213,14 +213,11 @@ class CallDialog extends Component {
                          2. HDMI1, HDMI2
                          3. HDMI1, HDMI2, HDMI3
                          **/
-                        this.props.isFECCEnable("-1", (result) => {
+                        this.props.isFECCEnable(line, (result) => {
                             if (result.res.toLowerCase() == "success" && result.flag == "true") {
                                 //start FECC
-                                this.props.ctrlFECC("-1", 1, (result) =>{
+                                this.props.ctrlFECC(line, 1, (result) =>{
                                     if(result.res == "success" || result == 0 ){
-                                        this.setState({
-                                            FECCline: line,
-                                            displayFECCModal: true});
                                     }else{
                                         this.props.promptMsg("WARNING", this.tr("a_63"));
                                     }
@@ -241,6 +238,9 @@ class CallDialog extends Component {
                 this.props.promptMsg("WARNING", this.tr("a_16707") + " " + this.tr("a_63"));
             }
         });
+    }
+
+    handleHideFECC = () =>{
     }
 
 	showSoundSlider = (tag) => {
@@ -331,19 +331,35 @@ class CallDialog extends Component {
                     if(this.state.acctstatus.length > 0){
                         linestatustip[i] += " (" + this.state.acctstatus[account]["name"]+")";
                     }
+                    if(lineitem.feccline != "-2"){
+                        if(!this.setfeccstateTimer){
+                            this.setfeccstateTimer = setTimeout(()=>{
+                                this.props.ctrlFECC(lineitem.feccline, 1, (result) =>{
+                                    if(result.res == "success" || result == 0 ){
+                                    }else{
+                                        this.props.promptMsg("WARNING", this.tr("a_63"));
+                                    }
+                                });
+                            },500);
+                        }
+                    }
                     break;
             }
-
         }
-        let ismute = linestatus[0].islocalmute == "1" ? "1" : "0";
+        let ismute = linestatus[0].isLocalMuted == "1" ? "1" : "0";
         let localmuteclass = ismute == "1" ? "mute" : "unmute";
         let heldclass = this.props.heldStatus == "1" ? "hold-icon" : "unhold-icon";
-
+        let feccInfo = this.props.FECCStatus;
+        let feccline = "";
+        let feccdisplay = false;
+        if(feccInfo){
+            feccline = feccInfo.line;
+            feccdisplay = feccInfo.status == "1" ? true : false
+        }
 
         return (
             <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
 				<div className={`call-ctrl ${tmpclass}`}>
-
                     {/*<div className={`rec-sign ${this.props.recordStatus == "1" ? "display-block" : "display-hidden"}`} ><span></span>　<span> {this.state.displayrec}</span></div>*/}
                     <div style={{height:'50px',background:'#eceef3'}}>
                         <div className="ctrl-title">{this.tr("a_callconf")}</div>
@@ -383,7 +399,7 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_1")}  className="end-btn" />
 					</div>
 				</div>
-                <FECCModal line={this.state.FECCline} display={this.state.displayFECCModal}/>
+                <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
             </div>
         );
     }
@@ -398,7 +414,8 @@ const mapStateToProps = (state) => ({
     muteStatus: state.muteStatus,
     recordStatus: state.recordStatus,
     msgsContacts: state.msgsContacts,
-    heldStatus: state.heldStatus
+    heldStatus: state.heldStatus,
+    FECCStatus: state.FECCStatus
 })
 
 function mapDispatchToProps(dispatch) {

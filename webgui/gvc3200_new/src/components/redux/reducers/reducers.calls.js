@@ -40,3 +40,21 @@ export const linesInfo = (state = [], action) => {
             return state
     }
 }
+
+export const heldStatus = (state = {}, action) => {
+    switch (action.type) {
+        case Actions.HELD_STATUS:
+            return action.heldStatus
+        default:
+            return state
+    }
+}
+
+export const FECCStatus = (state = {}, action) => {
+    switch (action.type) {
+        case Actions.FECC_STATUS:
+            return action.FECCStatus
+        default:
+            return state
+    }
+}

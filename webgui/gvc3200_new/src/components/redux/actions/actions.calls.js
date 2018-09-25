@@ -461,6 +461,7 @@ export const getAllLineStatus = (callback) => (dispatch) => {
             let item = lineinfoArr[i];
             item.state = item.type + item.state;  // for example "init4"
         }
+        console.log("-lineinfoArr---",lineinfoArr);
         dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
         callback(lineinfoArr);
     }).catch(function(error) {
@@ -478,6 +479,10 @@ export const setRecordStatus = (status) => (dispatch) => {
 
 export const setHeldStatus = (status) => (dispatch) => {
     dispatch({ type: 'HELD_STATUS', heldStatus:  status})
+}
+
+export const setFECCStatus = (line, status) => (dispatch) =>{
+    dispatch({ type: 'FECC_STATUS', FECCStatus: {line: line, status: status}});
 }
 
 export const isConfOnHold = (callback) => (dispatch) =>{

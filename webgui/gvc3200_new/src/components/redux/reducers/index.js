@@ -235,15 +235,6 @@ const recordStatus = (state = {}, action) => {
     }
 }
 
-const heldStatus = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.HELD_STATUS:
-            return action.heldStatus
-        default:
-            return state
-    }
-}
-
 const applyButtonStatus = (state={}, action) => {
     switch (action.type) {
         case Actions.UPDATE_APPLY_BUTTON:
@@ -721,7 +712,7 @@ const rootReducer = combineReducers({
     lineInfo,
     muteStatus,
     recordStatus,
-    heldStatus,
+    // heldStatus,
     applyButtonStatus,
     mainHeight,
     // enterSave,

@@ -81,7 +81,7 @@ class HandleWebsocket extends React.Component {
         for( let i = 0; i < this.props.linesinfo.length; i++ ){
             if(this.props.linesinfo[i].line == message.line) {
                 if(message['flag'].indexOf("MuteMic") != -1){
-                    this.props.linesinfo[i].islocalmute = message['flag'].split("=")[1];
+                    this.props.linesinfo[i].isLocalMuted = message['flag'].split("=")[1];
                 }
             }
             linesinfo.push(this.props.linesinfo[i]);
@@ -89,9 +89,12 @@ class HandleWebsocket extends React.Component {
         this.props.setDialineInfo1(linesinfo);
     }
 
+    handleFECC = (message) => {
+        this.props.setFECCStatus(message.line, message.state);
+    }
+
     handlemessage = (message) => {
         let type = message['type'];
-
         switch (type) {
             case 'install':
                 let a_2 = this.tr('a_2')
@@ -208,6 +211,8 @@ class HandleWebsocket extends React.Component {
             case 'updatename':
                 this.updatename(message);
                 break;
+            case 'feccstate':
+                this.handleFECC(message);
             case 'auto_answer':
                 if(this.props.product != "GAC2510"){
                     break;
@@ -301,6 +306,7 @@ function mapDispatchToProps(dispatch) {
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,
         setHeldStatus: Actions.setHeldStatus,
+        setFECCStatus: Actions.setFECCStatus,
         setSpeakerTestStatus: Actions.setSpeakerTestStatus,
         setResetKeyTestStatus: Actions.setResetKeyTestStatus
     }
