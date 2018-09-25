@@ -27,9 +27,16 @@ class AddLocalcontacts extends Component {
     }
 
     updateContact = () => {
-        this.props.getContacts((items)=>{this.setState({items:items})});
-        this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        this.props.getContactsinfo();
+        if(!this.props.groupInformation.length) {
+            this.props.getGroups((groups)=>{this.setState({groups:groups})});
+        }
+        if(!this.props.contactsInformation.length) {
+            this.props.getContacts((items)=>{this.setState({items:items})});
+        }
+        if(!this.props.contactinfodata.length) {
+            this.props.getContactsinfo();
+        }
+
     }
 
     handleOk = () => {

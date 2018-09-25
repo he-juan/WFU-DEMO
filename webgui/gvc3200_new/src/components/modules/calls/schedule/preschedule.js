@@ -37,22 +37,34 @@ class Call extends Component {
 
     componentDidMount = () => {
         this.props.get_calllog(0);
-        this.props.getAllConfMember();
-        this.props.getPreConf();
-        this.props.getConfInfo()
-        this.props.getAcctStatus((result)=>{
-            if(!this.isEmptyObject(result)) {
-                let acctstatus = result.headers;
-                let max = 16;
-                if(this.isWP8xx()) max = 2;
-                for(let i = 0; i < max; i++){
-                    if(acctstatus[`account_${i}_status`] == "1"){
-                        this.setState({existActiveAccount: true});
-                        break;
+        if(!this.props.confmemberinfodata.length) {
+            this.props.getAllConfMember()
+        }
+        if(!this.props.preconfdata.length) {
+            this.props.getPreConf();
+        }
+        if(!this.props.confinfodata.length) {
+            this.props.getConfInfo()
+        }
+        if(!this.props.contactsAcct.length) {
+            this.props.getAcctStatus((result)=>{
+                if(!this.isEmptyObject(result)) {
+                    let acctstatus = result.headers;
+                    let max = 16;
+                    if(this.isWP8xx()) max = 2;
+                    for(let i = 0; i < max; i++){
+                        if(acctstatus[`account_${i}_status`] == "1"){
+                            this.setState({existActiveAccount: true});
+                            break;
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+        // if(!this.props.presetinfo.length) {
+        //     this.props.getPresetInfo()
+        // }
+
     }
 
     updateDate = () => {
@@ -154,7 +166,7 @@ class Call extends Component {
         }
       //  console.log(this.tojson(repetRule))
         if(confinfo.Schedulepsw) {
-            obj.pincode = confinfo.Schedulepsw
+            obj.pinCode = confinfo.Schedulepsw
         }
         if(Recyle == '7') {
             // interval = confinfo
@@ -256,7 +268,6 @@ class Call extends Component {
     render() {
         const [confinfodata, callTr, _createTime, isToday, convertTime, logItemdata, view_status_Duration,curContactList] =
             [this.props.confinfodata, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime, this.props.logItemdata, this.props.view_status_Duration, this.state.curContactList];
-        // console.log(contactsInformation,logItemdata,this.props.confmemberinfodata)
         let preconfdata = this.props.preconfdata;
         let status = [
             {type:0,statusname:callTr('a_10155')},
@@ -276,13 +287,13 @@ class Call extends Component {
             let obj ={
                 confinfo:confinfodata[i],
                 memberArr:memberArr,
-                status:status[2]
+                status:status[2],
+                key:i
             }
 
 
             data.push(obj)
         }
-        // console.log(data)
         let loading = true
         if(data.length > 0) {
             loading = false
@@ -293,7 +304,7 @@ class Call extends Component {
                     {
                         (data != "" || data.length > 0) && data.map((item) => {
                             return (
-                                <div className={'confbox'} onClick={(e)=>this.handleEdit(e,item,true)}>
+                                <div key={item.key} className={'confbox'} onClick={(e)=>this.handleEdit(e,item,true)}>
                                     <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_10056')}：</Col>
                                         <Col span={12}>{item.confinfo.Starttime}</Col>
@@ -392,6 +403,7 @@ const mapStateToProps = (state) => ({
     contactinfodata: state.contactinfodata,
     confmemberinfodata: state.confmemberinfodata,
     preconfdata:state.preconfdata,
+    contactsAcct: state.contactsAcct,
     confinfodata:state.confinfodata
 
 })

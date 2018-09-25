@@ -84,9 +84,9 @@ class NewContactsEdit extends Component {
         if(!this.props.contactsAcct.length) {
             this.props.getAcctStatus()
         }
-        this.props.getPresetInfo()
-
-
+        if(!this.props.presetinfo.length) {
+            this.props.getPresetInfo()
+        }
     }
 
     handleOk = () => {
@@ -413,6 +413,7 @@ class NewContactsEdit extends Component {
         let hoursArr = []
         let minutesArr = []
         let durationArr = []
+        extraMinutes = parseInt(extraMinutes)
         let presetArr = [
             <Option value = '-1'>{callTr('a_20')}</Option>
         ]
@@ -420,18 +421,17 @@ class NewContactsEdit extends Component {
         for (let i = 0; i < 31; i++) {
             if(i<12) {
                 let minutes = i * 5
-                minutes = minutes < 10 ? 0 + minutes.toString() : minutes.toString()
+                minutes = this.transStr(minutes)
                 minutesArr.push(<Option value = {minutes.toString()}>{minutes}</Option>)
-                // console.log()
                 if(extraMinutes < ((i+1) * 5) && (parseInt(extraMinutes/5) != extraMinutes/5)
                 ) {
-                    extraMinutes = extraMinutes < 10 ? 0 + extraMinutes.toString() : extraMinutes.toString()
-                    minutesArr.push(<Option value = {extraMinutes.toString()}>{extraMinutes}</Option>)
+                    extraMinutes = this.transStr(extraMinutes)
+                    minutesArr.push(<Option value = {this.transStr(extraMinutes)}>{extraMinutes}</Option>)
                 }
             }
             if(i<24) {
                 let hours = i
-                hours = hours < 10 ? 0 + hours.toString() : hours.toString()
+                hours = this.transStr(hours)
                 hoursArr.push(<Option value = {hours}>{hours}</Option>)
             }
             if(i>1 && i<7) {
@@ -464,7 +464,8 @@ class NewContactsEdit extends Component {
     }
 
     transStr = (num) => {
-        return num < 10 ? '0' + num : num
+        num = parseInt(num)
+        return num < 10 ? '0' + num : num.toString()
     }
 
 
@@ -728,9 +729,10 @@ class NewContactsEdit extends Component {
         if (this.state.tempMember.length > 0) {
             member = this.state.tempMember
         }
+
         // let existMember = this.state.curMember.length > 0 || this.state.tempMember.length > 0
         let ismax = true
-        if((member[0] && member[0].Account == '1' && newMemberAcct == '1') || !member[0]){
+        if((member[0] && (member[0].Acctid == '1' || member[0].Account == '1' ) && newMemberAcct == '1') || !member[0]){
             ismax = false
         } else {
             this.props.promptMsg('ERROR','a_maxmemberwarn');

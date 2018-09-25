@@ -45,7 +45,32 @@ class ContactTab extends Component {
     }
 
     componentDidMount = () => {
-        this.updateContact();
+        let self = this
+        if(!this.props.groupInformation.length) {
+            this.props.getGroups((groups)=>{this.setState({groups:groups})});
+        }
+        if(!this.props.contactsInformation.length) {
+            this.props.getContacts((items)=>{this.setState({items:items})});
+        }
+        if(!this.props.contactinfodata.length) {
+            this.props.getContactsinfo();
+            setTimeout(function () {
+                self._createData();
+            },500)
+        }
+
+        if(!this.isEmptyObject(this.props.acctStatus)){
+            this.setState({
+                existActiveAccount: this.checkActiveAcct(this.props.acctStatus)
+            });
+        }else{
+            this.props.getAcctStatus((result)=>{
+                this.setState({
+                    existActiveAccount: this.checkActiveAcct(result)
+                });
+            })
+        }
+        this._createData();
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -516,13 +541,10 @@ class ContactTab extends Component {
             onSelectAll: this.onSelectAllContacts
         }
         const hasSelected = selectedRowKeys.length > 0;
-
         let loading = false
         if(this.props.contactsInformation.length > 0) {
             loading = true
         }
-
-        console.log('loading',loading)
         return (
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>

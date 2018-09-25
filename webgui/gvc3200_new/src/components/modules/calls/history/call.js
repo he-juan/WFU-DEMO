@@ -293,6 +293,8 @@ class Call extends Component {
         let memberArr = text.memberArr
         let type = logItem.Type
         if (type == '-1') {
+            // console.log(memberArr)
+            // console.log(text)
             type = memberArr[0].Type
         }
         let nameStr = ''
@@ -413,6 +415,10 @@ class Call extends Component {
         if(!logItemdata.length) {
             return dataResult
         }
+        if(!this.props.callnameinfo.length) {
+            this.props.getNormalCalllogNames()
+        }
+        // console.log(confmember,contactList,callnameinfo)
         for ( let i = 0; i < logItemdata.length; i++ ) {
             let data = {};
             let memberArr = []
@@ -441,16 +447,19 @@ class Call extends Component {
                     }
                 }
             }
-            data = {
-                logItem : logItemdata[i],
-                memberArr: memberArr
+            if(memberArr.length) {
+                data = {
+                    logItem : logItemdata[i],
+                    memberArr: memberArr
+                }
+                dataResult.push({
+                    key: i,
+                    row0: data,
+                    row1: parseInt(logItemdata[i].Date),
+                    row2: data
+                })
             }
-            dataResult.push({
-                key: i,
-                row0: data,
-                row1: parseInt(logItemdata[i].Date),
-                row2: data
-            })
+
         }
         return dataResult
     }
@@ -592,7 +601,6 @@ class Call extends Component {
         }];
         let data = this._createData()
         let isloading = this.props.loading
-
         const {selectedRowKeys} = this.state;
         const rowSelection = {
             selectedRowKeys,

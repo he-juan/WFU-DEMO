@@ -35,7 +35,9 @@ class History extends Component {
             this.props.getAllConfMember()
         }
         this.props.get_calllog(0);
-        this.props.getContactsinfo();
+        if(!this.props.contactinfodata.length) {
+            this.props.getContactsinfo();
+        }
     }
 
     isYestday = (theDate) => {
@@ -67,6 +69,7 @@ class History extends Component {
         let contactList = this.props.contactsInformation
         let callnameinfo = this.props.callnameinfo
         let loading = true
+        // console.log(confmember,contactList,callnameinfo)
         if (!confmember.length || !contactList.length || !callnameinfo.length) {
             loading = true
         }
