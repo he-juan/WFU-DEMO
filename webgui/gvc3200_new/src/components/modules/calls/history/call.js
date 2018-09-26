@@ -37,7 +37,11 @@ class ContactEditDiv extends Component {
     }
 
     componentDidMount = () => {
-        // this.updateContact();
+        if(!this.props.groupInformation.length) {
+            this.props.getGroups((groups)=>{this.setState({groups:groups})});
+        } else {
+            this.setState({groups:this.props.groupInformation})
+        }
     }
 
     updateContact = () => {
@@ -126,7 +130,7 @@ class ContactEditDiv extends Component {
                                 </div>
                             </div>
                             <div className = "appsbtn">
-                                <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("19629")}</Button>
+                                <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("a_19629")}</Button>
                                 <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_15003")}</Button>
                             </div>
                         </div>
@@ -396,6 +400,7 @@ class Call extends Component {
                 </Popover>
             </div>;
         } else {
+
             statue =
                 <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
                     <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
@@ -443,6 +448,10 @@ class Call extends Component {
                         let obj = logItemdata[i]
                         obj.Name = callnameinfo[j].Name
                         obj.Number = logItemdata[i].NameOrNumber
+                        obj.recordName = ''
+                        if(obj.Name != obj.Number) {
+                            obj.recordName = obj.Name
+                        }
                         memberArr.push(obj)
                     }
                 }
@@ -670,8 +679,8 @@ const mapStateToProps = (state) => ({
     msgsContacts: state.msgsContacts,
     contactinfodata: state.contactinfodata,
     confmemberinfodata: state.confmemberinfodata,
-    callnameinfo:state.callnameinfo
-
+    callnameinfo:state.callnameinfo,
+    groupInformation: state.groupInformation
 })
 
 const mapDispatchToProps = (dispatch) => {
