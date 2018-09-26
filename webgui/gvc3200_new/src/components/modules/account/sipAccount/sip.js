@@ -169,7 +169,7 @@ class SipForm extends React.Component {
                         initialValue: this.props.itemValues['unreg'] ? this.props.itemValues['unreg'] : "0"
                     })(
                         <Select className={"P-" + nvram["unreg"]}>
-                            <Option value="0">{callTr("a_19218")}</Option>
+                            <Option value="0">{callTr("a_6")}</Option>
                             <Option value="1">{callTr("a_10009")}</Option>
                             <Option value="2">Instance</Option>
                         </Select>
@@ -351,7 +351,7 @@ class SipForm extends React.Component {
                     })(
                         <Select>
                             <Option value="0">{callTr("a_1015")}</Option>
-                            <Option value="1">{callTr("a_32")}</Option>
+                            <Option value="1">{callTr("a_39")}</Option>
                             <Option value="2">{callTr("a_16087")}</Option>
                         </Select>
                     )}
@@ -362,7 +362,7 @@ class SipForm extends React.Component {
                     })(
                         <Select>
                             <Option value="0">{callTr("a_12")}</Option>
-                            <Option value="1">{callTr("a_19218")}</Option>
+                            <Option value="1">{callTr("a_6")}</Option>
                             <Option value="2">{callTr("a_5")}</Option>
                         </Select>
                     )}
@@ -373,7 +373,7 @@ class SipForm extends React.Component {
                     })(
                         <Select>
                             <Option value="0">{callTr("a_12")}</Option>
-                            <Option value="1">{callTr("a_19218")}</Option>
+                            <Option value="1">{callTr("a_6")}</Option>
                             <Option value="2">{callTr("a_5")}</Option>
                         </Select>
                     )}

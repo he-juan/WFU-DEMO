@@ -86,6 +86,7 @@ class CodecForm extends React.Component {
         this.handlePvalue();
         
         this.state = {
+            prevbrateAvailable: [], //演示可用比特率
             vbrateAvailable: [],
             VocoderData: [],
             VocoderTargetKeys: [],
@@ -104,6 +105,12 @@ class CodecForm extends React.Component {
             '4' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
             '7' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
             '1' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
+        }
+
+        // 演示视频大小对应的视频比特率
+        this.preSizeToPrevbrate = {
+            '10': ['512','768', '1024', '1280', '1536', '1792', '2048'],
+            '9': ['512', '640', '768', '896', '1024', '1280', '1536','1792', '2048']
         }
     }
 
@@ -179,6 +186,7 @@ class CodecForm extends React.Component {
         this.props.getItemValues(this.handlePvalue(), (values) => {
             this.setCodecTransfer(values);
             this.setVbrateOptions(values['imgsize']);
+            this.setPreVbrateOptions(values['presentimagesize']);
             this.setState({
                 beforeImgsize: values['imgsize'],
                 beforePacketModel: values['packetmodel'],
@@ -335,6 +343,22 @@ class CodecForm extends React.Component {
         let vbrateAvailable = this.imgsizeToVbrate[v];
         this.setState({
             vbrateAvailable
+        })
+    }
+    handlePreImgSizeChange = (v) => {
+        this.setPreVbrateOptions(v);
+        let preVbrate = v == this.props.itemValues['presentimagesize'] ? this.props.itemValues['presentvideobitrate'] : this.preSizeToPrevbrate[v][0]
+        this.props.form.setFieldsValue({
+            presentvideobitrate: preVbrate
+        })
+    }
+    setPreVbrateOptions = (v) => {
+        if(v == '' || !v) {
+            v = '10'
+        }
+        let prevbrateAvailable = this.preSizeToPrevbrate[v];
+        this.setState({
+            prevbrateAvailable
         })
     }
     handleSubmit = () => {
@@ -690,7 +714,7 @@ class CodecForm extends React.Component {
                         <Select className={"P-" + nvram["sdpattr"]}>
                             <Option value="0">{callTr("a_16109")}</Option>
                             <Option value="1">{callTr("a_16110")}</Option>
-                            <Option value="2">{callTr("a_16111")}</Option>
+                            {/* <Option value="2">{callTr("a_16111")}</Option> */}
                             <Option value="3">{callTr("a_4771")}</Option>
                         </Select>
                     )}
@@ -866,7 +890,7 @@ class CodecForm extends React.Component {
                     {getFieldDecorator('presentimagesize', {
                         initialValue: this.props.itemValues['presentimagesize'] ? this.props.itemValues['presentimagesize'] : "10"
                     })(
-                        <Select className={"P-" + nvram["presentimagesize"]} disabled={this.state.disablePresentStatus}>
+                        <Select className={"P-" + nvram["presentimagesize"]} onChange={(v) => {this.handlePreImgSizeChange(v)}} disabled={this.state.disablePresentStatus}>
                             <Option value="10">1080P</Option>
                             <Option value="9">720P</Option>
                         </Select>
@@ -891,13 +915,13 @@ class CodecForm extends React.Component {
                         initialValue: this.props.itemValues['presentvideobitrate'] ? this.props.itemValues['presentvideobitrate'] : "2048"
                     })(
                         <Select className={"P-" + nvram["presentvideobitrate"]} disabled={this.state.disablePresentStatus}>
-                            <Option value="512">512Kbps</Option>
-                            <Option value="768">768Kbps</Option>
-                            <Option value="1024">1024Kbps</Option>
-                            <Option value="1280">1280Kbps</Option>
-                            <Option value="1536">1536Kbps</Option>
-                            <Option value="1792">1792Kbps</Option>
-                            <Option value="2048">2048Kbps</Option>
+                            {
+                                this.state.prevbrateAvailable.map((v) => {
+                                    return (
+                                        <Option value={v}>{v}Kbps</Option>
+                                    )
+                                })
+                            }
                         </Select>
                     )}
                 </FormItem>

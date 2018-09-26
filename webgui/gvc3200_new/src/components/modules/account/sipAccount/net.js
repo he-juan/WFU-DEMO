@@ -134,6 +134,7 @@ class NetForm extends React.Component {
                                <Option style={{display:this.isWP8xx() ? 'none' : 'block' }} value="3">UPnP</Option>
                                <Option value="4">{callTr("a_9047")}</Option>
                                <Option value="5">OpenVPN</Option>
+                               <Option value="6">TURN</Option>
                            </Select>
                   )}
         　　 　</FormItem>

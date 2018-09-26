@@ -140,7 +140,6 @@ class SlidingTabsDemo extends React.Component {
 
       return (
             <div style = {{background:"#f3f7fa"}}>
-                <div className="subpagetitle">SIP</div>
                 {/* <Tabs defaultActiveKey= "0" onTabClick={this.onTabClick.bind(this)} className = "AcctTabs" onChange={this.onChange.bind(this,"1")} type="card" size="large">
                     {
                         [...Array(maxacctnum)].map((tabpane,index) => {
@@ -166,6 +165,7 @@ class SipAccount extends Component {
     render(){
         return (
             <Content className="content-container config-container">
+                <div className="subpagetitle">SIP</div>
                 <SlidingTabsDemo {...this.props} callTr = {this.tr} callIsEmptyObject = {this.isEmptyObject} getReqItem = {this.getReqItem}/>
             </Content>
         );
