@@ -280,7 +280,7 @@ class Call extends Component {
         promiseAll.then(function (res) {
             self.props.get_calllog(0);
             setTimeout(function () {
-                self.props.promptMsg('SUCCESS', "a_del_ok");
+                self.props.promptMsg('SUCCESS', "a_57");
                 // self._createData();
             }, 500);
             self.selectedContactList = [];
@@ -344,17 +344,17 @@ class Call extends Component {
             text = event
         }
         if(!this.state.existActiveAccount){
-            this.props.promptMsg('WARNING','no_existActiveAcct');
+            this.props.promptMsg('WARNING','a_19374');
             return false;
         }
         if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_talkingwait');
+            this.props.promptMsg('WARNING','a_19639');
             return;
         }
         let curnum = text.Number;
 
         if(curnum == "anonymous"){
-            this.props.promptMsg('WARNING','a_tip_dialanonymous');
+            this.props.promptMsg('WARNING','a_10083');
             return false;
         }
 

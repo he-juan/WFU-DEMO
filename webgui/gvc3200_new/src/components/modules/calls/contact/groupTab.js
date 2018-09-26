@@ -388,7 +388,7 @@ class GroupTab extends Component {
         let statue;
         statue = <div className = {"callRecord " + text.Id}>
             <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
-            <Popconfirm placement="top" title={this.tr("a_deletetgroup")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
+            <Popconfirm placement="top" title={this.tr("a_19628")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
                 <button className='allow-delete' id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;

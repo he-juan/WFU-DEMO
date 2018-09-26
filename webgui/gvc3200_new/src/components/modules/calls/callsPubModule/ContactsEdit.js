@@ -55,7 +55,7 @@ class ContactsEdit extends Component {
         let name = this.props.form.getFieldsValue(['firstname','lastname'])
         let [firstname,lastname] = [name.firstname,name.lastname]
         if((firstname == undefined || firstname.replace(/(^\s*)|(\s*$)/g,"") == "") && (lastname == undefined || lastname.replace(/(^\s*)|(\s*$)/g,"") == "")) {
-            this.props.promptMsg('ERROR','a_nameempty');
+            this.props.promptMsg('ERROR','a_7442');
             return false;
         }
 
@@ -152,7 +152,7 @@ class ContactsEdit extends Component {
                             <Input style={{width:'80%'}} placeholder={callTr('a_mobilephone')} />
                         )}
                     </FormItem>
-                    <FormItem label={<span>{callTr("a_contactgroups")}</span>}>
+                    <FormItem label={<span>{callTr("a_4779")}</span>}>
                         {getFieldDecorator("contactgroups", {
                             initialValue: this.props.groups.length>0 ? this.props.groups[0]['Name'] : null
                         })(

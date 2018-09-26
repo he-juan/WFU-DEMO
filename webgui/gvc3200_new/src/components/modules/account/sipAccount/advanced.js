@@ -279,7 +279,7 @@ class AdvancedForm extends React.Component {
                <FormItem  label={(<span>{callTr("a_challenge")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("SIP realm used for challenge INVITE & NOTIFY")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('challenge'+curAccount, {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        }],
                        initialValue: itemValues['challenge'+curAccount]
                    })(

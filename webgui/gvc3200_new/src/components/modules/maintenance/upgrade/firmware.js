@@ -332,7 +332,7 @@ class FirmwareForm extends Component {
                         initialValue: this.props.itemValues.firpath
                     })(<Input className="P-192"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_httpuser")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4111")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type="text" name = "httpuser" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("httpuser", {
                         rules: [],

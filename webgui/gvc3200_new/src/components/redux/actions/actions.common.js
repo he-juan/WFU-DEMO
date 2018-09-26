@@ -226,7 +226,7 @@ export const cb_put_download_param = (action, flag, data, downserver, downConfig
                     checkIsApplyNeed();
                 }
             } else if(flag == 1) {
-                dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_downloading'}});
+                dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_3325'}});
                 var urihead = "action=phbkresponse";
                 urihead += "&time=" + new Date().getTime();
                 actionUtil.handleGetRequest(urihead).then(function(data) {

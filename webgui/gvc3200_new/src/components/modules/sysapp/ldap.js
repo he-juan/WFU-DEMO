@@ -103,7 +103,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6755")}&nbsp;<Tooltip title={tips_tr("Server Address")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('serveraddr', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         },{
                             validator: (data, value, callback) => {
                                 checkUrlPath(data, value, callback)
@@ -133,7 +133,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6757")}&nbsp;<Tooltip title={tips_tr("Base DN")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('basedn', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['basedn']
                         })(
@@ -144,7 +144,7 @@ class LdapForm extends Component {
                     <Input type="text" name = "ldapusername" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator('ldapusername', {
                         rules: [{
-                            max:64,message: callTr("max_length64")
+                            max:64,message: callTr("a_19632")
                         }],
                         initialValue: this.props.itemValues['ldapusername']
                         })(
@@ -155,7 +155,7 @@ class LdapForm extends Component {
                     <Input type={this.state.pwdstatus1} name = "ldappassword" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator('ldappassword', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['ldappassword']
                         })(
@@ -165,7 +165,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6764")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Name Attributes")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('nameattr', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['nameattr']
                         })(
@@ -175,7 +175,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6765")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Number Attributes")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('numattr', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['numattr']
                         })(
@@ -185,7 +185,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6766")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Mail Attributes")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('mailattr', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['mailattr']
                         })(
@@ -195,7 +195,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6774")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Name Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('namefilter', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['namefilter']
                         })(
@@ -205,7 +205,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6775")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Number Filter")} />}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('numberfilter', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['numberfilter']
                         })(
@@ -215,7 +215,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_mailfilter")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Mail Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('mailfilter', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['mailfilter']
                         })(
@@ -237,7 +237,7 @@ class LdapForm extends Component {
                 <FormItem label={(<span>{callTr("a_6767")}&nbsp;<Tooltip title={tips_tr("LDAP Displaying Name Attributes")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('disnameattr', {
                         rules: [{
-                            max:64,message: callTr("max_length64"),
+                            max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['disnameattr']
                         })(

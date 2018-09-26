@@ -29,14 +29,14 @@ const nvram = {
     '100rel': "272", // 开启 100rel
     'callerdisplay': "2324", // 来电ID显示
     'usepheader': "2338", //使用Privacy头域
-    'useppiheader': "2339", //使用P-Preferred-Identity头域 
+    'useppiheader': "2339", //使用P-Preferred-Identity头域
     'siptranport': "130", // sip传输
     'sipschema': "2329", // TLS使用的SIP URI格式
     'useepport': "2331", // TCP/TLS Contact使用实际临时端口
     'symrtp': "1860", //对称RTP
     'suptsipintid': "288", // 支持SIP实例ID
     'validincommsg': "2306",  // 验证入局SIP消息
-    'checkinvite': "258",     // 检查来电INVITE的SIP用户ID 
+    'checkinvite': "258",     // 检查来电INVITE的SIP用户ID
     'authinvite': "2346",      // 验证来电INVITE
     'siprealm': "26021",      // 用于Challenge INVITE ＆ NOTIFY的SIP Realm
     'accpsip': "2347",        // 仅接受已知服务器的SIP请求
@@ -257,7 +257,7 @@ class SipForm extends React.Component {
                     {getFieldDecorator('seexp', {
                         rules: [{
                             required: true,
-                            message: this.tr("tip_require")
+                            message: this.tr("a_19637")
                         }, {
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)

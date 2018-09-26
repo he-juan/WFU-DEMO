@@ -66,8 +66,8 @@ class ImexportForm extends Component {
         let value = Math.floor((phbkprogress/max).toFixed(2) * 100);
 
         if(response>2 && portnum > 0) {
-            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_patient'}});
-            this.props.progressMessage(value,'none',this.tr('a_exporting'));
+            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
+            this.props.progressMessage(value,'none',this.tr('a_16427'));
             portnum = 0;
         }
         switch( response ) {
@@ -86,13 +86,13 @@ class ImexportForm extends Component {
                         setTimeout(() => {this.cb_get_csvresponse()},3000);
                     }
                     if( portnum == 0 ){
-                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_exporting'}});
+                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_16427'}});
                     }
-                    this.props.progressMessage(value,'block',this.tr('a_exporting'));
+                    this.props.progressMessage(value,'block',this.tr('a_16427'));
                     portnum ++;
                 }　else {
-                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_patient'}});
-                    this.props.promptMsg("ERROR", "a_exportfail");
+                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
+                    this.props.promptMsg("ERROR", "a_6171");
                     portnum = 0;
                 }
                 break;
@@ -103,15 +103,15 @@ class ImexportForm extends Component {
                     parent.window.location.href = "/phonebook/phonebook.vcf?time=" + new Date().getTime();
                 else if( mode == 3 )
                     parent.window.location.href = "/phonebook/phonebook.csv?time=" + new Date().getTime();
-                this.props.promptMsg("SUCCESS", "a_exportsuccess");
+                this.props.promptMsg("SUCCESS", "a_4781");
                 break;
             case '4':
                 let errorCode = phbkprogress;
-                let errorMessage = 'a_exportfail';
+                let errorMessage = 'a_6171';
                 if(errorCode == 3) {
                     errorMessage = 'a_4786';
                 } else if (errorCode == 22) {
-                    errorMessage = 'a_taskinprogress';
+                    errorMessage = 'a_19643';
                 }
                 this.props.promptMsg("ERROR", errorMessage);
                 break;
@@ -150,8 +150,8 @@ class ImexportForm extends Component {
         let value = Math.floor((phbkprogress/max).toFixed(2) * 100);
 
         if (response>2) {
-            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_patient'}});
-            this.props.progressMessage(value,'none',this.tr('a_importing'));
+            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
+            this.props.progressMessage(value,'none',this.tr('a_16430'));
         }
         switch( response ) {
             case '0':
@@ -159,21 +159,21 @@ class ImexportForm extends Component {
                 value = 0;
             case '2':
                 setTimeout(() => {this.props.cb_get_portresponse(0,this.cb_import_reponse)},3000);
-                Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_importing'}});
-                this.props.progressMessage(value,'block',this.tr('a_importing'));
+                Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_16430'}});
+                this.props.progressMessage(value,'block',this.tr('a_16430'));
                 break;
             case '3':
-                this.props.promptMsg("SUCCESS", "a_importsuccess");
+                this.props.promptMsg("SUCCESS", "a_4780");
                 break;
             case '4':
                 let errorCode = phbkprogress;
                 let errorMessage = 'a_16474';
                 if(errorCode == 4) {
-                    errorMessage = 'a_nospaceleft';
+                    errorMessage = 'a_19641';
                 } else if (errorCode == 12) {
-                    errorMessage = this.tr('a_contactsfull') + this.props.itemValues['maxImportCount'] + "!";
+                    errorMessage = this.tr('a_19653') + this.props.itemValues['maxImportCount'] + "!";
                 } else if (errorCode == 22) {
-                    errorMessage = 'a_taskinprogress';
+                    errorMessage = 'a_19643';
                 }
                 this.props.promptMsg("ERROR", errorMessage);
                 break;
@@ -327,17 +327,17 @@ class ImexportForm extends Component {
                         <Checkbox onClick = {this.hanleClick.bind(this,"clearoldlist0")} />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_clearoldlistmode")}&nbsp;<Tooltip title={this.tips_tr("Clear Old History Mode")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19645")}&nbsp;<Tooltip title={this.tips_tr("Clear Old History Mode")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('clearoldlistmode0', {
                         initialValue: "0"
                     })(
                         <RadioGroup disabled = {this.state.disabled1} >
-                            <Radio value="0">{callTr("a_clearall")}</Radio>
-                            <Radio value="1">{callTr("a_keeplocalcontacts")}</Radio>
+                            <Radio value="0">{callTr("a_19646")}</Radio>
+                            <Radio value="1">{callTr("a_19647")}</Radio>
                         </RadioGroup>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_downdup")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Items")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19648")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Items")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('downdup0', {
                         valuePropName: 'checked',
                         initialValue: 0
@@ -345,13 +345,13 @@ class ImexportForm extends Component {
                         <Checkbox onClick = {this.hanleClick.bind(this,"downdup0")} />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_downdupmode")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Entries Mode")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19649")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Entries Mode")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('downdupmode0', {
                         initialValue: "0"
                     })(
                         <RadioGroup disabled = {this.state.disabled2}>
-                            <Radio value="0">{callTr("a_replacebyname")}</Radio>
-                            <Radio value="1">{callTr("a_replacebynumber")}</Radio>
+                            <Radio value="0">{callTr("a_19650")}</Radio>
+                            <Radio value="1">{callTr("a_19651")}</Radio>
                         </RadioGroup>
                     )}
                 </FormItem>

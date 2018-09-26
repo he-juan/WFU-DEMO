@@ -25,7 +25,7 @@ class GeneralForm extends React.Component {
             this.getReqItem("userid", "25034", ""),
             this.getReqItem("authid", "25035", ""),
             this.getReqItem("authpwd", "25036", ""),
-            // this.getReqItem("vmuserid", "626", ""),   // 语音信箱接入号 
+            // this.getReqItem("vmuserid", "626", ""),   // 语音信箱接入号
             this.getReqItem("regexp", "25054", ""),   // 注册期限
             this.getReqItem("localport", "25068", ""),　// H323本地端口
             this.getReqItem("symrtp", "25067", ""),　　　// 对称ＲＴＰ
@@ -108,7 +108,7 @@ class GeneralForm extends React.Component {
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_19117")}&nbsp;<Tooltip title={this.tips_tr("GK Site Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('userid', {
-                        
+
                         initialValue: this.props.itemValues['userid']
                     })(
                         <Input type="text" className="P-25034" />
@@ -116,16 +116,16 @@ class GeneralForm extends React.Component {
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_19118")}&nbsp;<Tooltip title={this.tips_tr("GK Authentication Username")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('authid', {
-                        
+
                         initialValue: this.props.itemValues['authid']
                     })(
                         <Input type="text" className="P-25035" />
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_19119")}&nbsp;<Tooltip title={this.tips_tr("GK Authentication Password")}><Icon type="question-circle-o" /></Tooltip></span>)} > 
+                <FormItem label={(<span>{callTr("a_19119")}&nbsp;<Tooltip title={this.tips_tr("GK Authentication Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('authpwd', {
                        rules: [{
-                          max:64,message: callTr("max_length64"),
+                          max:64,message: callTr("a_19632"),
                        }],
                        initialValue: this.props.itemValues['authpwd']
                        })(
@@ -134,7 +134,7 @@ class GeneralForm extends React.Component {
                </FormItem>
                {/* <FormItem label={(<span>{callTr("a_1125")}&nbsp;<Tooltip title={this.tips_tr("Voice Mail Access Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vmuserid', {
-                        
+
                         initialValue: this.props.itemValues['vmuserid']
                     })(
                         <Input type="text" className="P-626" />
@@ -142,7 +142,7 @@ class GeneralForm extends React.Component {
                 </FormItem> */}
                <FormItem label={(<span>{callTr("a_16069")}&nbsp;<Tooltip title={this.tips_tr("Register Expiration")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('regexp', {
-                        
+
                         initialValue: this.props.itemValues['regexp']
                     })(
                         <Input type="text" className="P-25054" />
@@ -150,7 +150,7 @@ class GeneralForm extends React.Component {
                 </FormItem>
                <FormItem label={(<span>{callTr("a_19210")}&nbsp;<Tooltip title={this.tips_tr("H.323 Local Port")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('localport', {
-                        
+
                         initialValue: this.props.itemValues['localport']
                     })(
                         <Input type="text" className="P-25068" />

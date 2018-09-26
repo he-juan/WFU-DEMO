@@ -36,8 +36,8 @@ class ExportEdit extends Component {
         let value = Math.floor((phbkprogress/max).toFixed(2) * 100);
 
         if(response>2 && portnum > 0) {
-            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_patient'}});
-            this.props.progressMessage(value,'none',this.tr('a_exporting'));
+            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
+            this.props.progressMessage(value,'none',this.tr('a_16427'));
             portnum = 0;
         }
         switch( response ) {
@@ -53,13 +53,13 @@ class ExportEdit extends Component {
                         setTimeout(() => {this.cb_get_vcardresponse()},3000);
                     }
                     if( portnum == 0 ){
-                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_exporting'}});
+                        Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_16427'}});
                     }
-                    this.props.progressMessage(value,'block',this.tr('a_exporting'));
+                    this.props.progressMessage(value,'block',this.tr('a_16427'));
                     portnum ++;
                 }　else {
-                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_patient'}});
-                    this.props.promptMsg("ERROR", "a_exportfail");
+                    Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
+                    this.props.promptMsg("ERROR", "a_6171");
                     portnum = 0;
                 }
                 break;
@@ -68,15 +68,15 @@ class ExportEdit extends Component {
                     parent.window.location.href = "/phonebook/phonebook.xml?time=" + new Date().getTime();
                 else if( mode == 2 )
                     parent.window.location.href = "/phonebook/phonebook.vcf?time=" + new Date().getTime();
-                this.props.promptMsg("SUCCESS", "a_exportsuccess");
+                this.props.promptMsg("SUCCESS", "a_4781");
                 break;
             case '4':
                 let errorCode = phbkprogress;
-                let errorMessage = 'a_exportfail';
+                let errorMessage = 'a_6171';
                 if(errorCode == 3) {
                     errorMessage = 'a_4786';
                 } else if (errorCode == 22) {
-                    errorMessage = 'a_taskinprogress';
+                    errorMessage = 'a_19643';
                 }
                 this.props.promptMsg("ERROR", errorMessage);
                 break;

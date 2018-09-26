@@ -59,7 +59,7 @@ class RoamingForm extends Component{
                 <FormItem label={<span>{callTr("a_signalthreshold")}<Tooltip title={callTipsTr("Signal Threshold")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("roaminggoodrssi", {
                         rules: [{
-                            required:true, message: callTr("tip_require")
+                            required:true, message: callTr("a_19637")
                         }, {
                             validator: (data, value, callback) => {
                                 this.checkdigits(data, value, callback)
@@ -77,7 +77,7 @@ class RoamingForm extends Component{
                 <FormItem label={<span>{callTr("a_roaminggoodinterval")}<Tooltip title={callTipsTr("Good Signal Scanning Interval")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("roaminggoodinterval", {
                         rules: [{
-                             required:true, message: callTr("tip_require")
+                             required:true, message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -95,7 +95,7 @@ class RoamingForm extends Component{
                 <FormItem label={<span>{callTr("a_roamingpoorinterval")}<Tooltip title={callTipsTr("Poor Signal Scanning Interval")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("roamingpoorinterval", {
                         rules: [{
-                            required:true, message: callTr("tip_require")
+                            required:true, message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)

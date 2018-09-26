@@ -91,7 +91,7 @@ class DetailForm extends Component {
         /*for 802.1X password is not required*/
         if(securitystr.indexOf("802.1X") == -1){
             if(value == ""){
-                callback(this.props.callTr("tip_require"));
+                callback(this.props.callTr("a_19637"));
             }else if(securitystr.indexOf("WEP") != -1){
                 /* WEP password only allowed the length of 5,10,13,26,16,32 */
                 let allowedLength = [5, 10, 13, 26, 16, 32];
@@ -334,7 +334,7 @@ class DetailForm extends Component {
                                                 this.ipAddress(data, value, callback);
                                             }
                                         }, {
-                                            required: true, message: callTr("tip_require")
+                                            required: true, message: callTr("a_19637")
                                         }],
                                         initialValue: wifidata.staticip ? wifidata.staticip : ""
                                     })(
@@ -348,7 +348,7 @@ class DetailForm extends Component {
                                                 this.ipAddress(data, value, callback);
                                             }
                                         }, {
-                                            required: true, message: callTr("tip_require")
+                                            required: true, message: callTr("a_19637")
                                         }],
                                         initialValue: wifidata.staticgateway ? wifidata.staticgateway : ""
                                     })(
@@ -366,7 +366,7 @@ class DetailForm extends Component {
                                                 this.range(data, value, callback, 0, 32);
                                             }
                                         },{
-                                            required: true, message: callTr("tip_require")
+                                            required: true, message: callTr("a_19637")
                                         }],
                                         initialValue: wifidata.staticprefixlength ? wifidata.staticprefixlength : ""
                                     })(
@@ -380,7 +380,7 @@ class DetailForm extends Component {
                                                 this.ipAddress(data, value, callback);
                                             }
                                         }, {
-                                            required: true, message: callTr("tip_require")
+                                            required: true, message: callTr("a_19637")
                                         }],
                                         initialValue: wifidata.staticprefixdnsone ? wifidata.staticprefixdnsone : ""
                                     })(
@@ -410,7 +410,7 @@ class DetailForm extends Component {
                                     {getFieldDecorator('staticipv6addr', {
                                         rules: [{
                                             required: true,
-                                            message: callTr("tip_require")
+                                            message: callTr("a_19637")
                                         },{
                                                 validator: (data, value, callback) => {
                                                     this.checkIpv6(data, value, callback)
@@ -424,7 +424,7 @@ class DetailForm extends Component {
                                     {getFieldDecorator('ipv6prefixlen', {
                                         rules: [{
                                             required: true,
-                                            message: callTr("tip_require")
+                                            message: callTr("a_19637")
                                         },{
                                             validator: (data, value, callback) => {
                                                 this.digits(data, value, callback)
@@ -442,7 +442,7 @@ class DetailForm extends Component {
                                     {getFieldDecorator('ipv6dns1', {
                                         rules: [{
                                             required: true,
-                                            message: callTr("tip_require")
+                                            message: callTr("a_19637")
                                         }, {
                                                 validator: (data, value, callback) => {
                                                     this.checkIpv6(data, value, callback)

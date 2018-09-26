@@ -311,7 +311,7 @@ class Ethernet extends Component {
                             $("#prednsser"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"tip_require");
+                    this.props.promptMsg('ERROR',"a_19637");
                     return false;
                 }
                 set = new Set([values['alerdnsser1'],values["alerdnsser2"],values["alerdnsser3"],values["alerdnsser4"]]);
@@ -1111,7 +1111,7 @@ class Ethernet extends Component {
                     {getFieldDecorator("layer2qos", {
                         rules: [{
                             required: true,
-                            message: callTr("tip_require")
+                            message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -1128,7 +1128,7 @@ class Ethernet extends Component {
                     {getFieldDecorator("layer2qospv", {
                         rules: [{
                             required: true,
-                            message: callTr("tip_require")
+                            message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -1170,7 +1170,7 @@ class Ethernet extends Component {
                     {getFieldDecorator('ipv6prefixlen', {
                         rules: [{
                             required: true,
-                            message: callTr("tip_require")
+                            message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -1284,7 +1284,7 @@ class Ethernet extends Component {
                     {getFieldDecorator("layer2qosvoip", {
                         rules: [{
                             required: true,
-                            message: callTr("tip_require")
+                            message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -1301,7 +1301,7 @@ class Ethernet extends Component {
                     {getFieldDecorator("layer2qospvvoip", {
                         rules: [{
                             required: true,
-                            message: callTr("tip_require")
+                            message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)

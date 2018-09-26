@@ -16,7 +16,7 @@ const nvram = {
     'remotevideo' : "2326",  // 远程视频请求
     'prefix' : "66",                 // 拨号前缀
     'dialplancheck' : "2382",        //  禁用拨号规则
-    'dialplan' : "290",              // 拨号规则 
+    'dialplan' : "290",              // 拨号规则
     'autoanswer' : "90",     // 自动应答
     'sendanony' : "65",      // 发送匿名
     'anonyrej' : "129",      // 拒绝匿名呼叫
@@ -93,7 +93,6 @@ class CallForm extends React.Component {
              this.getReqItem("forwardwt", nvram["forwardwt"], ""),
              this.getReqItem("enabledndforward", nvram["enabledndforward"], ""),
              this.getReqItem("dndto", nvram["dndto"], ""),
-             this.getReqItem("dialkey", nvram["dialkey"], ""),
              this.getReqItem("prefix", nvram["prefix"], ""),
              this.getReqItem("dialplancheck", nvram["dialplancheck"], ""),
              this.getReqItem("dialplan", nvram["dialplan"], ""),
@@ -109,7 +108,7 @@ class CallForm extends React.Component {
             req_items = req_items.slice(-13)
             return req_items;
         }
-         
+
          if (this.props.oemId != "54") {
              req_items.push(this.getReqItem("autoanswer", nvram["autoanswer"], ""));
          }
@@ -260,7 +259,7 @@ class CallForm extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
             //   let curAccount = this.props.curAccount;
-              let curAccount = 1; 
+              let curAccount = 1;
               this.props.cb_set_autoanswer(curAccount,values['autoanswer']);
               switch (values['cftype']) {
                   case 'allTo':
@@ -380,11 +379,11 @@ class CallForm extends React.Component {
                            </Select>
                    )}
          　　　 </FormItem>
-         
+
                <FormItem  label={(<span>{callTr("a_16149")}&nbsp;<Tooltip title={this.tips_tr("Dial Plan Prefix")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('prefix', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        }],
                        initialValue: itemValues['prefix']
                    })(
@@ -560,7 +559,7 @@ class CallForm extends React.Component {
                        </Select>
                    )}
                </FormItem>
-               
+
                <p className="blocktitle"><s></s>{callTr("a_16166")}</p>
                <FormItem className = "select-item"  label={(<span>{callTr("a_1104")}&nbsp;<Tooltip title={this.tips_tr("Call Forward Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('cftype', {
@@ -577,7 +576,7 @@ class CallForm extends React.Component {
                <FormItem  className = "alltoTtem None AllTo" label={(<span>{callTr("a_1107")}&nbsp;<Tooltip title={this.tips_tr("All To")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('uccf', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        }],
                        initialValue: this.props.itemValues['uccf']
                        })(
@@ -614,7 +613,7 @@ class CallForm extends React.Component {
                <FormItem  className = "intimetoItem None TimeRule" label={(<span>{callTr("a_1115")}&nbsp;<Tooltip title={this.tips_tr("In Time Forward To")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('intimeto', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        }],
                        initialValue: this.props.itemValues['intimeto']
                        })(
@@ -624,7 +623,7 @@ class CallForm extends React.Component {
                <FormItem  className = "outtimetoItem None TimeRule" label={(<span>{callTr("a_1116")}&nbsp;<Tooltip title={this.tips_tr("Out Time Forward To")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('outtimeto', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['outtimeto']
                         })(
@@ -641,7 +640,7 @@ class CallForm extends React.Component {
                <FormItem  className = "busytoItem None WorkRule" label={(<span>{callTr("a_1109")}&nbsp;<Tooltip title={this.tips_tr("Busy To")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('busyto', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        }],
                        initialValue: this.props.itemValues['busyto']
                        })(
@@ -658,7 +657,7 @@ class CallForm extends React.Component {
                <FormItem  className = "noanswertoItem None WorkRule" label={(<span>{callTr("a_1110")}&nbsp;<Tooltip title={this.tips_tr("No Answer To")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('noanswerto', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        }],
                        initialValue: this.props.itemValues['noanswerto']
                        })(
@@ -668,7 +667,8 @@ class CallForm extends React.Component {
                <FormItem  className = "forwardwtItem None WorkRule" label={(<span>{callTr("a_1111")}&nbsp;<Tooltip title={this.tips_tr("No Answer Timeout")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('forwardwt', {
                        rules: [{
-                           message: callTr("tip_require")
+                           required: true,
+                           message: callTr("a_19637")
                        },{
                            validator: (data, value, callback) => {
                                this.digits(data, value, callback)
@@ -693,7 +693,7 @@ class CallForm extends React.Component {
                <FormItem  className = "dndtoItem None WorkRule" label={(<span>{callTr("a_19245")}&nbsp;<Tooltip title={this.tips_tr("DND To")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('dndto', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        }],
                        initialValue: this.props.itemValues['dndto']
                    })(
@@ -703,7 +703,7 @@ class CallForm extends React.Component {
 
 
 
-               
+
                <p className="blocktitle"><s></s>{callTr("a_4752")}</p>
                <Row gutter={30} style={{width:'1500px',marginLeft:'17px'}}>
                    <Col span={2}></Col>
@@ -720,7 +720,7 @@ class CallForm extends React.Component {
                    <Col span={4} style={{marginLeft:'13px',marginRight:'14px',paddingLeft:'0'}}>
                        {getFieldDecorator('callerid1', {
                            rules: [{
-                               max:64,message: callTr("max_length64"),
+                               max:64,message: callTr("a_19632"),
                            }],
                            initialValue: itemValues['callerid1']
                        })(
@@ -745,7 +745,7 @@ class CallForm extends React.Component {
                    <Col span={4} style={{marginLeft:'13px',marginRight:'14px',paddingLeft:'0'}}>
                        {getFieldDecorator('callerid2', {
                            rules: [{
-                               max:64,message: callTr("max_length64"),
+                               max:64,message: callTr("a_19632"),
                            }],
                            initialValue: itemValues['callerid2']
                        })(
@@ -770,7 +770,7 @@ class CallForm extends React.Component {
                    <Col span={4} style={{marginLeft:'13px',marginRight:'14px',paddingLeft:'0'}}>
                        {getFieldDecorator('callerid3', {
                            rules: [{
-                               max:64,message: callTr("max_length64"),
+                               max:64,message: callTr("a_19632"),
                            }],
                            initialValue: itemValues['callerid3']
                        })(

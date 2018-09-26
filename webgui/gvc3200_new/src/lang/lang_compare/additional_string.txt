@@ -2,22 +2,9 @@
 The string not found in LCD language file, need to be added manually.
 */
 
-a_addMember,Add Member,添加参会成员
-a_timeWarn,The appointment must be later than the current time,预约的时间必须晚于当前时间
-a_delreponceconf,Cancel this event only,仅取消此次活动
-a_delrepconf,Cancel all events in this series,取消此系列中的所有的活动
-a_cancelMeet,Cancel Meeting,取消会议
-a_editMeet,Editing Meeting,编辑会议
-a_startMeet,Start Meeting,立即启会
+
 a_over,Over,已结束
 a_notstart,Is not started,未开始
-a_waithost,Waiting for hosting,待主持
-a_nummember,Number of participants,参会人数
-a_cycle,Cycle Time,循环周期
-a_confMember,Member,参会成员
-a_cycleType,Cycle Type,循环类型
-a_confDuration,Conference Duration,会议时长
-a_confSubject,Conference Subject,会议主题
 a_aeclevel,AEC Level,音频回声抑制等级
 a_ringtoneset,Ringtone：System Ringtone + Alert Tone,铃声设置
 a_ringtonevol,Volume：Ringtone + Media + Notification,音量设置
@@ -148,11 +135,8 @@ a_backupwarm,After backup, the original backup data will be overwrite,备份完�
 start_backup,\"Start Backup\",“开始备份”
 a_try,try,试试
 backup_tip,Backup the data of the device(Such as Configuration information, Contacts, Call History),备份设备上的数据(如配置信息,通话记录,通讯录)
-a_groupnamesame,The group name already exists. Please input again,组名已存在，请重新输入！
-a_groupnameempty,Group name can't be empty,群组名不能为空
 a_pm,PM,下午
 a_am,AM,上午
-a_groupname,Group name,群组名
 a_del_locked,The locked file can\'t be deleted,上锁文件无法被删除！
 a_locksuccess,Operate successfull,操作成功
 a_numbererror,The number must be a digit,号码必须为数字
@@ -160,15 +144,10 @@ a_editContacts,Edit contacts,编辑联系人
 a_deletecalls,Do you really want to delete the selected calls,是否确认删除选中的通话？
 a_deletecontacts,Do you really want to delete the selected contacts,是否确认删除选中的联系人？
 a_deletecontactstitle,Delete contacts,删除联系人
-a_contactselect,Select contacts,已选联系人
-a_deletetgroup,Do you want to delete the group,是否确认删除该群组
 a_deletegrouptitle,Delete groups,删除群组
-a_namerepeat,The name already exists, are you sure to continue: to create the same name contacts,该名字已存在，确定要继续创建相同名字的联系人吗？
-a_numberlimit,The number can't exceed three,号码个数不能超过三个
 speaker_tip,After clicking the \"Play\" button, a piece of music will be played from the built-in speaker,点击“播放”按钮后将会从内置扬声器中播放一段音乐
 valid_fail,Validation failed,校验失败
 valid_suc,Validation success,校验成功
-a_selectcontact,Select contacts,选择联系人
 call_timeout,Call Failed! Timeout exception,呼叫失败! 超时异常
 call_busy,Call Failed! 486 busy,呼叫失败! 486对方忙
 call_notfound,Call Failed! 404 not found,呼叫失败! 404找不到
@@ -176,12 +155,10 @@ a_inheld,Being held..,被保持..
 a_intalk,In talking..,通话中..
 a_dialing_up,Calling..,呼叫中..
 return_call,Click to return to call interface,点击返回通话界面
-no_existActiveAcct,Account is not activated, unable to complete the call,无可用帐号，呼叫失败
 a_contactlist,Contacts List,联系人列表
 a_selectcall,Select calls,选择通话
 a_deleteblksuc,Remove from blacklist successfully,已移出黑名单
 a_deleteblack,Are you sure to remove from the blacklist,是否确定移出黑名单
-a_tip_dialanonymous,Anonymous numbers can't be reached,无法拨打匿名号码
 a_numberempty,Number can't be empty,号码不能为空
 a_remarksinput,Please enter name,请输入名称
 a_nameinput,Please enter number,请输入号码
@@ -243,17 +220,14 @@ a_company,Company,公司
 a_contactaddress,Address,住址
 a_bindaccount,Bind Account,绑定帐号
 a_addcontactgroups,Add Group,添加联系人组
-a_contactgroups,Group,联系人组
 a_mobilephone,Mobile Phone,移动电话
 a_familyphone,Home Phone,家庭电话
 a_workphone,Work Phone,工作电话
-a_displayName,Display Name,显示名
 a_numberexceed,This contact already had three numbers, please select another contact,该联系人已有三个号码,请另选联系人
 a_addLocalcontact,Save to local contacts,保存至已有联系人
-a_addcontact,Add to local contacts,添加联系人
 a_contact,Contacts,联系人
 openvpn_ca,OpenVPN® CA,OpenVPN® CA
-a_protocalchanged,Modify the connection method or port, web will lead to log out and jump to the new address: ,修改连接方式或端口，页面将登出并跳转到新地址: 
+a_protocalchanged,Modify the connection method or port, web will lead to log out and jump to the new address: ,修改连接方式或端口，页面将登出并跳转到新地址:
 no_chinese,Can not include chinese characters,不能包含中文
 a_adjustvol,Adjust Volume,调节音量
 a_searchaborttip,Search all content for ,搜索全部内容关于
@@ -319,7 +293,6 @@ a_forget,Forget,取消保存
 a_connect,Connect,连接
 tip_requiredigit2,Must be numbers,只能输入数字
 tip_requiredigit,Valid: integer,有效值：整数
-tip_require,This field is required,必填字段
 a_lengthlimit,The length can't exceed ,长度不能超过
 a_custvialerror,Please fill in correct GUI customization file server path,请填写正确的自定义文件服务器路径
 a_configurlerror,Please fill in correct config server path,请填写正确的配置文件服务器路径
@@ -377,7 +350,6 @@ a_repeatserveraddr,The server address is repeated,重复的服务器地址
 a_serveraliasrepeat,The server alias name is already exists,该服务器别名已存在
 a_serveraliaslength,The length of server alias is over 64,服务器别名不能超过64位字符
 a_serveraliasempty,Server alias can't be empty,服务器别名不能为空
-a_numempty,Number can not be empty,号码不能为空！
 a_endcall,End Call,结束通话
 a_onhold,On Hold,保持
 a_dial,Dial,拨打
@@ -503,8 +475,8 @@ tip_maxhits,Please input a digit between 0-4000,请输入0-4000之间的整数
 setdefault,Set as default,设为默认
 a_accempty,The account is empty,帐号不能为空
 a_alias,Local Alias,显示名称
-a_password,Password, 密码 
-a_account,Account, 帐号 
+a_password,Password, 密码
+a_account,Account, 帐号
 a_active,Enable,开启
 a_mailfilter2,Mail Filter,根据邮件过滤
 a_numberfilter2,Number Filter,根据号码过滤
@@ -517,7 +489,7 @@ a_lookupdial,LDAP Lookup For Dial,拨号时进行LDAP查找
 a_searchtimeout,Search Timeout (s),搜索超时（秒）
 a_erroridentifyingCode,Error Verification code,验证码错误
 a_identifyingCode,Verification code,验证码
-a_password,Password, 密码 
+a_password,Password, 密码
 a_username,User Name(Binding DN),用户名
 a_keep,Favorites,收藏
 a_bsphbk,BroadSoft Phonebook,BroadSoft电话簿
@@ -539,17 +511,7 @@ a_4hour,4 Hours,4 小时
 a_2hour,2 Hours,2 小时
 a_exportfiletype,Export Type,导出类型
 a_imexportcontacts,Import/Export Contacts,导入/导出联系人
-a_autodowninterval,Automatic Download Interval,自动下载周期
-a_savephone,Save Phonebook to PC,保存电话薄到电脑
-a_downserverempty,Download server can't be empty,下载服务器不能为空！
 a_downoff,OFF,关闭
-a_keeplocalcontacts,Keep Local Contacts,保留本地联系人
-a_replacebynumber,Replace by number,根据号码替换
-a_replacebyname,Replace by name,根据名字替换
-a_downdupmode,Replace Duplicate Entries Mode,替换重复条目模式
-a_downdup,Replace Duplicate Items,替换重复的条目
-a_clearall,Clear all,清除所有
-a_clearoldlistmode,Clear Old History Mode,清除旧记录模式
 a_templatefile,Template File,模板文件
 a_processing,The operation is processing,操作正在处理
 a_importsuc,Import succeed,导入成功
@@ -617,7 +579,6 @@ a_disnewmsgindtor,Disable New Message Indicator,关闭新消息指示灯
 a_dismwiindtor,Disable MWI Indicator,关闭语音邮箱指示灯
 a_dismissindtor,Disable Missed Call Indicator,关闭未接来电指示灯
 a_backmatch,Enable Enterprise Contacts Timeout Auto Search,企业联系人超时匹配
-a_importing,Importing, please wait..,正在导入,请稍候..
 a_processing,Language reload is processing,操作正在处理
 a_lang,Language,语言选择
 a_screen,Capture,截图
@@ -672,7 +633,6 @@ tip_timer,Error:Starting Hour time should be less than Ending Hour time,错误:�
 start_endhour,Starting - Ending Hour of the Day(0-23),开始 - 结束小时(0-23)
 a_dhcp242,Allow DHCP Option 242 (Avaya IP Phones),启动DHCP选项242 (Avaya IP话机)
 a_dhcptitle,DHCP Option,DHCP选项
-a_httpuser,HTTP/HTTPS User Name,HTTP/HTTPS用户名
 a_confighttpuser,HTTP/HTTPS User Name,HTTP/HTTPS用户名
 a_configupvia,Config Upgrade Via,配置文件更新方式
 a_configtitle,Config File,配置文件
@@ -786,11 +746,10 @@ a_accountprogkeys,Account Programmable Keys,帐号可编程按键
 a_group,Virtual Account Group,虚拟帐号分组
 a_advancedcallfun,Advanced Features,高级功能
 a_dismpkclick,MPK & Click2Dial,MPK & Click2Dial
-a_patient,The file is a little big.Please wait for a while,文件有点大，请耐心等待
 ext_wrong2,Please upload the correct format file(.wav/.mp3/.ogg),请上传正确格式的文件(.wav/.mp3/.ogg)
 ext_wrong,Please upload the correct format file(.wav/.mp3),请上传正确格式的文件(.wav/.mp3)
 a_ringto,Ring Timeout (s),振铃超时时间 (秒)
-a_ring,Ring Tone ,铃声 
+a_ring,Ring Tone ,铃声
 a_ringtone,Ring Tones,铃声
 a_bcallcenter,BroadSoft Call Center,BroadSoft呼叫中心
 a_workcf,Others,其它
@@ -848,12 +807,11 @@ a_ipv6dnsser2,IPv6 DNS Server 2,IPv6 DNS服务器 2
 a_ipv6dnsser1,IPv6 DNS Server 1,IPv6 DNS服务器 1
 a_dhcp,DHCP,动态分配
 a_gateway,Gateway,默认网关
-a_talkingwait,During the call, please try again later,正在通话中，请稍后再拨
 a_talking,Talking,通话中
-a_ring,Ring,铃声 
+a_ring,Ring,铃声
 a_dialing,Dialing,拨号中
 a_registering,Registering,注册中
-a_account,Account, 帐号 
+a_account,Account, 帐号
 logout,Logout,退出
 theme,Theme,主题
 lang,Language :,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;语&nbsp;&nbsp;&nbsp;言&nbsp;:
@@ -878,16 +836,7 @@ a_samepwd,The password is not the same,两次输入密码不一致
 a_checkwifi,Operate successfully, you may need to use new IP address to login if network environment has changed,操作成功。若IP地址变更请使用新的网络地址登录。
 a_applysuc,Apply successfully,应用成功
 a_applying,Applying, please wait..,正在应用，请稍候...
-a_taskinprogress,Contacts importing/exporting/downloading is already in progress, please do not operate again,联系人导入/导出/下载操作已在进行中，请勿再次操作！
-a_unauthorized,Authentication fails, can not download contacts, please check your user name and password,认证失败，无法下载联系人资源文件，请检查您的用户名和密码。
-a_contactsfull,Import is not processed.Import will cause the number of contacts over ,未进行该导入操作,该操作将致使总联系人数超过
-a_nospaceleft,The device has no storage space, import/download failed,设备已没有多余存储空间，导入(下载)失败！
-a_downloading,Downloading, please wait..,正在下载，请稍候...
-a_importing,Importing, please wait..,正在导入,请稍候..
-a_exporting,Exporting, please wait..,正在导出，请稍候...
 a_importlocal,Imort Local File,导入本地文件
-a_importsuccess,Import Succeed,导入成功
-a_exportsuccess,Export Succeed,导出成功
 a_importfail,Import Fail,导入失败
 a_exportfail,Export Fail,导出失败
 a_always,Always,总是

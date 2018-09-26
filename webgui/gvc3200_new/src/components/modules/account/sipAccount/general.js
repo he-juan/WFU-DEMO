@@ -10,8 +10,8 @@ let req_items = new Array;
 const nvram = {
     // 常规
     'accountactive' : "271",       // 账号激活
-    'accountname' : "270",         // 账号名称  
-    'sipserver' : "47",           // SIP服务器 
+    'accountname' : "270",         // 账号名称
+    'sipserver' : "47",           // SIP服务器
     'secsipserver': "602",        // 备用SIP服务器
     'thirdsipserver': "1702",     // 第三SIP服务器
     'userid' : "35",              // 用户ID
@@ -50,9 +50,9 @@ class GeneralForm extends React.Component {
 
     componentDidMount = () => {
         this.props.getItemValues(this.handlePvalue(), (values) => {
-            
+
         });
-    }   
+    }
 
 
     handlePwdVisible = () => {
@@ -67,7 +67,7 @@ class GeneralForm extends React.Component {
             if (this.props.activeKey != nextProps.activeKey) {
 
                 this.props.getItemValues(this.handlePvalue(), (values) => {
-                    
+
                 });
                 this.props.form.resetFields();
             }
@@ -114,7 +114,7 @@ class GeneralForm extends React.Component {
                </FormItem>
                <FormItem label={(<span>{callTr("a_1120")}&nbsp;<Tooltip title={this.tips_tr("Account Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('accountname', {
-                        rules: [{ max:64, message: callTr("max_length64"), whitespace: true }],
+                        rules: [{ max:64, message: callTr("a_19632"), whitespace: true }],
                         initialValue: this.props.itemValues['accountname'] ? this.props.itemValues['accountname'] : ""
                     })(<Input className={"P-" + nvram["accountname"]} />)
                     }
@@ -203,7 +203,7 @@ class GeneralForm extends React.Component {
                        <Input type="text" id="name" className={"P-" + nvram["name"]} />
                    )}
                </FormItem>
-              
+
               <FormItem label={(<span>{callTr("a_1125")}&nbsp;<Tooltip title={this.tips_tr("Voice Mail Access Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('vmuserid', {
                        rules: [{

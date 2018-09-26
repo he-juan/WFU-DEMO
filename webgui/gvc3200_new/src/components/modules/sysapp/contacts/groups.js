@@ -55,7 +55,7 @@ class GroupsAddEditBox extends Component {
         let editGroup = this.props.editGroup;
         let contactids='',setGroupsFlag=true;
         if((groupname == undefined || groupname.replace(/(^\s*)|(\s*$)/g,"") == "")) {
-            this.props.promptMsg('ERROR','a_nameempty');
+            this.props.promptMsg('ERROR','a_7435');
             return false;
         }
 

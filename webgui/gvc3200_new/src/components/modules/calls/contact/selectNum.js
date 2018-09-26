@@ -11,16 +11,16 @@ class CallSelectNum extends Component {
 
     handleCallNum = (item, idx, index) => {
         if(!this.props.existActiveAccount){
-            this.props.promptMsg('WARNING','no_existActiveAcct');
+            this.props.promptMsg('WARNING','a_19374');
             return;
         }
         // request won't be sent when there is a call exists
         if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_talkingwait');
+            this.props.promptMsg('WARNING','a_19639');
             return;
         }
         let calltip = document.getElementsByClassName('on-call-tip')[0];
-        
+
         if(!calltip){
             let curnum = item.split(' ')[0].trim();
             let acct = item.split(' ')[1];

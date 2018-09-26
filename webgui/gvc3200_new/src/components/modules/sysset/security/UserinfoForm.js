@@ -78,7 +78,7 @@ class UserinfoForm extends Component {
     }
 
     checkCurPwd = (curpwd_input, cb) => {
-        let value = curpwd_input; 
+        let value = curpwd_input;
         if(value != ""){
             const username = this.props.userType;
             this.props.cb_check_current_pwd(username, value, (msgs) => {
@@ -243,7 +243,7 @@ class UserinfoForm extends Component {
                         })
                     });
                 })
-                
+
             }
         });
     }
@@ -259,7 +259,7 @@ class UserinfoForm extends Component {
                 <FormItem label={<span>{logintype == "admin" ? callTr("a_19007") : callTr("a_19008")}<Tooltip title={callTipsTr("Current Admin Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("curadmipwd", {
                         rules: [{
-                            required: true, message: callTr("tip_require")
+                            required: true, message: callTr("a_19637")
                         }],
                         initialValue: ""
                     })(

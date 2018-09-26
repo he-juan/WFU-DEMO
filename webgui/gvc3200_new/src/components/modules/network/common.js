@@ -394,7 +394,7 @@ class Common extends Component {
                     {getFieldDecorator("lldpinterval", {
                         rules: [{
                             required: true,
-                            message: this.tr("tip_require")
+                            message: this.tr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -502,7 +502,7 @@ class Common extends Component {
                     {getFieldDecorator("pcporttag", {
                         rules: [{
                             required: true,
-                            message: this.tr("tip_require")
+                            message: this.tr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -519,7 +519,7 @@ class Common extends Component {
                     {getFieldDecorator("pcporttagpv", {
                         rules: [{
                             required: true,
-                            message: this.tr("tip_require")
+                            message: this.tr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)

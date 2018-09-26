@@ -1103,7 +1103,7 @@ class NewContactsEdit extends Component {
                         </FormItem>
                         <FormItem label={(<span>{callTr("a_15054")}</span>)}>
                             {getFieldDecorator('confSubject', {
-                                rules: [{required: true, message: callTr("tip_require")}]
+                                rules: [{required: true, message: callTr("a_19637")}]
                             })(
                                 <Input disabled={allDisabled} style={{width:'93%'}}/>
                             )}
@@ -1117,7 +1117,7 @@ class NewContactsEdit extends Component {
                             )}
                             &nbsp;&nbsp;
                             {getFieldDecorator('confhours', {
-                                rules: [{required: true, message: callTr("tip_require")}],
+                                rules: [{required: true, message: callTr("a_19637")}],
                                 initialValue: curHour.toString()
                             })(
                                 <Select disabled={allDisabled} defaultValue="a1" style={{width:'25%'}} >
@@ -1126,7 +1126,7 @@ class NewContactsEdit extends Component {
                             )}
                             &nbsp;<span>:</span>&nbsp;
                             {getFieldDecorator('confminutes', {
-                                rules: [{required: true, message: callTr("tip_require")}],
+                                rules: [{required: true, message: callTr("a_19637")}],
                                 initialValue: curMinutes.toString()
 
                             })(
@@ -1137,7 +1137,7 @@ class NewContactsEdit extends Component {
                         </FormItem>
                         <FormItem label={(<span>{callTr("a_3501")}</span>)}>
                             {getFieldDecorator('duration', {
-                                rules: [{required: true, message: callTr("tip_require")}],
+                                rules: [{required: true, message: callTr("a_19637")}],
                                 initialValue: '1'
                             })(
                                 <Select disabled={allDisabled} style={{width:'25%'}}>
@@ -1201,7 +1201,7 @@ class NewContactsEdit extends Component {
                                 valuePropName: 'checked',
                                 initialValue: parseInt(dayofweekArrvalue[0])
                             })(
-                                <Checkbox disabled={allDisabled}>{callTr("a_sunday")}</Checkbox>
+                                <Checkbox disabled={allDisabled}>{callTr("a_130")}</Checkbox>
                             )}
                             {getFieldDecorator('dayofweek1', {
                                 valuePropName: 'checked',

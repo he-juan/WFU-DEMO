@@ -4271,7 +4271,7 @@ table thead tr th{
     0%{
         opacity: 0;
         -webkit-transform: scale(0.2);
-        transform: (0.2);
+        transform: scale(0.2);
     }
     100%{
         opacity: 1;
@@ -4284,7 +4284,7 @@ table thead tr th{
     0%{
         opacity: 0;
         -webkit-transform: scale(0.2);
-        transform: (0.2);
+        transform: scale(0.2);
     }
     100%{
         opacity: 1;
@@ -4301,7 +4301,7 @@ table thead tr th{
     100% {
         opacity: 0;
         -webkit-transform: scale(0.2);
-        transform: (0.2);
+        transform: scale(0.2);
     };
 }
 
@@ -4313,7 +4313,7 @@ table thead tr th{
     100% {
         opacity: 0;
         -webkit-transform: scale(0.2);
-        transform: (0.2);
+        transform: scale(0.2);
     };
 }
 

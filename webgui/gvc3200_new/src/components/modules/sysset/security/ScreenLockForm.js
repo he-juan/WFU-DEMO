@@ -18,7 +18,7 @@ class SiptlsForm extends Component {
         }
     }
     handlePwdVisible = (i) => {
-        
+
         this.setState({ [`type${i}`]: this.state[`type${i}`] == "password" ? "text" : "password" });
     }
     checkPwd1 = (rules, value, callback) => {
@@ -75,8 +75,8 @@ class SiptlsForm extends Component {
                         initialValue: '',
                         rules: [
                             {
-                                required: true, 
-                                message: callTr("tip_require")
+                                required: true,
+                                message: callTr("a_19637")
                             },
                             {
                                 pattern: /^\d{6}$/,
@@ -87,7 +87,7 @@ class SiptlsForm extends Component {
                             }
                         ]
                     })(
-                        <Input type={this.state.type1} 
+                        <Input type={this.state.type1}
                             suffix={<Icon type="eye" className={this.state.type1} onClick={() => {this.handlePwdVisible(1)}} />} />
                     )}
                 </FormItem>
@@ -96,15 +96,15 @@ class SiptlsForm extends Component {
                         initialValue: '',
                         rules: [
                             {
-                                required: true, 
-                                message: callTr("tip_require")
+                                required: true,
+                                message: callTr("a_19637")
                             },
                             {
                                 validator: this.checkPwd1
                             }
                         ]
                     })(
-                        <Input type={this.state.type2} 
+                        <Input type={this.state.type2}
                             suffix={<Icon type="eye" className={this.state.type2} onClick={() => {this.handlePwdVisible(2)}} />} />
                     )}
                 </FormItem>

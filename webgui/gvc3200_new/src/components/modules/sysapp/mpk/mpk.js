@@ -518,7 +518,7 @@ class MpkForm extends Component {
     	}
         let newname = this.state.addname;
         if( newname.indexOf("'") != -1 || newname.indexOf("\\") != -1 ) {
-            this.props.promptMsg("ERROR", "a_nameempty");
+            this.props.promptMsg("ERROR", "a_7435");
             return false;
         }
         let newacct = this.state.addacct;
@@ -743,10 +743,10 @@ class MpkForm extends Component {
                                 </Select>
                             )}
                         </FormItem>}
-                        {this.state.keymodeIsMetting?null:<FormItem label={(<span>{callTr("a_displayName")}&nbsp;<Tooltip title={this.tips_tr("Name  ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                        {this.state.keymodeIsMetting?null:<FormItem label={(<span>{callTr("a_7474")}&nbsp;<Tooltip title={this.tips_tr("Name  ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                             {getFieldDecorator('addname', {
                                 rules: [{
-                                    required:true,max:64,message: callTr("max_length64"),
+                                    required:true,max:64,message: callTr("a_19632"),
                                 }],
                                 initialValue: this.state.addname
                             })(
@@ -756,7 +756,7 @@ class MpkForm extends Component {
                         {this.state.keymodeIsMetting?null:<FormItem label={(<span>{callTr(`${this.state.addkeymode == '5' ? 'a_dtmfcontent' : this.state.addkeymode == '13' ? 'a_address' : 'a_userid' }`)}&nbsp;<Tooltip title={this.tips_tr(`${this.state.addkeymode == '5' ? 'DTMF Content' : this.state.addkeymode == '13' ? 'Multicast Paging Address' : 'UserID ' }`)}><Icon type="question-circle-o" /></Tooltip></span>)} >
                             {getFieldDecorator('adduserid', {
                                 rules: [{
-                                    required:true,max:64,message: callTr("max_length64"),
+                                    required:true,max:64,message: callTr("a_19632"),
                                 }],
                                 initialValue: this.state.adduserid
                             })(
@@ -766,7 +766,7 @@ class MpkForm extends Component {
                         {this.state.keymodeIsMetting?<FormItem label={(<span>{callTr("a_conferenceName")}&nbsp;<Tooltip title={this.tips_tr("conferenceName")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                             {getFieldDecorator('confName', {
                                 rules: [{
-                                    required:true,max:64,message: callTr("max_length64"),
+                                    required:true,max:64,message: callTr("a_19632"),
                                 }],
                             })(
                                 <Input type="text" onChange = {this.handleMpkConfigChange.bind(this,'name')} disabled={!this.state.disableAddBtn} />
@@ -873,7 +873,7 @@ class MpkForm extends Component {
                         </Popconfirm>
                     </div>
                     <Table className="mpk_table" style={{"max-width":"1180px"}} rowSelection={rowSelection} dataSource={this.state.data} pagination={false} >
-                        <Column title={this.tr("a_displayName")} dataIndex="name" key="name" render={
+                        <Column title={this.tr("a_7474")} dataIndex="name" key="name" render={
                             (text,record,index)=>{
                                 if(typeof checkAcctRig === 'object'&&this.state.data[index].mode=="15" ){
                                     return text.split(";")[0]

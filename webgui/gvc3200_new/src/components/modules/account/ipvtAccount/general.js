@@ -77,14 +77,14 @@ class GeneralForm extends React.Component {
                <FormItem label={(<span>{callTr("a_1126")}&nbsp;<Tooltip title={this.tips_tr("Display Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('name', {
                        rules: [{
-                          max:64,message: callTr("max_length64"),
+                          max:64,message: callTr("a_19632"),
                        }],
                        initialValue: this.props.itemValues['name']
                        })(
                        <Input type="text" className={"P-407"}/>
                    )}
                </FormItem>
-               
+
                <FormItem className = "select-item"　 label={(<span>{callTr("a_16093")}&nbsp;<Tooltip title={this.tips_tr("SIP Transport")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('siptranport', {
                         initialValue: Number(this.props.itemValues['siptranport']) ? this.props.itemValues['siptranport'] : "1"

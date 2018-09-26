@@ -112,7 +112,7 @@ class AddCert extends Component {
                     {getFieldDecorator("certname", {
                         initialValue: "",
                         rules: [{
-                            required: true, message: callTr("tip_require") + "!"
+                            required: true, message: callTr("a_19637") + "!"
                         }]
                     })(
                         <Input />
@@ -122,8 +122,8 @@ class AddCert extends Component {
                     {getFieldDecorator("certpwd", {
                         initialValue: "",
                         rules: [{
-							required: this.state.pwdvisible == "display-block" ? true : false, message: callTr("tip_require") + "!"
-							//required: true, message: callTr("tip_require") + "!"
+							required: this.state.pwdvisible == "display-block" ? true : false, message: callTr("a_19637") + "!"
+							//required: true, message: callTr("a_19637") + "!"
                         }]
                     })(
 						<Input type={this.state.type}

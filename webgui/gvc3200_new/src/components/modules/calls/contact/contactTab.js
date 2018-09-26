@@ -48,6 +48,8 @@ class ContactTab extends Component {
         let self = this
         if(!this.props.groupInformation.length) {
             this.props.getGroups((groups)=>{this.setState({groups:groups})});
+        } else {
+            this.setState({groups:this.props.groupInformation})
         }
         if(!this.props.contactsInformation.length) {
             this.props.getContacts((items)=>{this.setState({items:items})});
@@ -251,11 +253,11 @@ class ContactTab extends Component {
 
     handleCall = (text, index) => {
         if(!this.state.existActiveAccount){
-            this.props.promptMsg('WARNING','no_existActiveAcct');
+            this.props.promptMsg('WARNING','a_19374');
             return;
         }
         if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_talkingwait');
+            this.props.promptMsg('WARNING','a_19639');
             return;
         }
         let source = 1;

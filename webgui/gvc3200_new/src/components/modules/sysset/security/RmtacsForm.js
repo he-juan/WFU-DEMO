@@ -119,7 +119,7 @@ class RmtacsForm extends Component {
                 <FormItem label={<span>{callTr("a_9207")}<Tooltip title={callTipsTr("Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
-                            required: true, message: callTr("tip_require")
+                            required: true, message: callTr("a_19637")
                         },{
                             validator: (data, value, callback) => {
                                 this.digits(data, value, callback)
@@ -134,7 +134,7 @@ class RmtacsForm extends Component {
                         <Input className="P-901"/>
                     )}
                 </FormItem>
-                
+
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>

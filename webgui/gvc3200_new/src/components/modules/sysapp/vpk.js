@@ -399,7 +399,7 @@ class VpkForm extends Component {
                 <FormItem  className = "vpkItem acctModeHide showDtmf"　label={(<span>{callTr("a_19626")}&nbsp;<Tooltip title={tips_tr("Name VPK")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vpkname', {
                         rules: [{
-                            required:this.state.keyMode == "17" ? false : true,max:64,message: callTr("max_length64"),
+                            required:this.state.keyMode == "17" ? false : true,max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['vpkname']
                         })(
@@ -409,7 +409,7 @@ class VpkForm extends Component {
                 <FormItem  className = "vpkItem acctModeHide showDtmf" label={(<span>{callTr(`${this.state.dtmf == true ? "a_dtmfcontent" : this.state.keyMode == "13" ? "a_address" : "a_userid" }`)}&nbsp;<Tooltip title={tips_tr(`${this.state.keyMode == '5' ? 'DTMF Content' : this.state.keyMode == '13' ? 'Multicast Paging Address' : 'UserID VPK' }`)}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vpkuserid', {
                         rules: [{
-                            required:this.state.keyMode == "17" ? false : true,max:64,message: callTr("max_length64"),
+                            required:this.state.keyMode == "17" ? false : true,max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['vpkuserid']
                         })(
@@ -431,7 +431,7 @@ class VpkForm extends Component {
                 <FormItem  className = "vpkItem vpkdtmf matchCallNumIp"　label={(<span>{callTr("a_dtmfcondcid")}&nbsp;<Tooltip title={tips_tr("Dial DTMF Condition Matched Caller Number Or IP")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('matchCallNumIp', {
                         rules: [{
-                            required: (this.state.keyMode == "5" && this.state.dtmfMode == "3") ? true : false,max:64,message: callTr("max_length64"),
+                            required: (this.state.keyMode == "5" && this.state.dtmfMode == "3") ? true : false,max:64,message: callTr("a_19632"),
                         }],
                         initialValue: this.props.itemValues['matchCallNumIp']
                         })(

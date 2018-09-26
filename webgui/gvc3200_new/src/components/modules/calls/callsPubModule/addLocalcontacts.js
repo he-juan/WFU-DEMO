@@ -78,7 +78,7 @@ class AddLocalcontacts extends Component {
         let emailValues = this.state.emailValues;
         let numValues = this.state.numValues;
         if (text.Number.length >= 3) {
-            this.props.promptMsg('ERROR','a_numberexceed');
+            this.props.promptMsg('ERROR','a_19654');
             return false;
         }
         emailValues.length = 0;
@@ -182,7 +182,7 @@ class AddLocalcontacts extends Component {
         }
 
         return (
-            <Modal title = {callTr('a_selectcontact')} onOk={this.handleOk} onCancel={this.handleCancel}
+            <Modal title = {callTr('a_19634')} onOk={this.handleOk} onCancel={this.handleCancel}
                     className='selectcontact-modal addlocalcontacts' visible={this.props.displayLocalContactsModal}
                     okText={callTr("a_2")} cancelText={callTr("a_3")} >
                 <div className='search_call'>

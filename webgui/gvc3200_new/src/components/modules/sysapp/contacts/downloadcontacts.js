@@ -145,7 +145,7 @@ class DownloadContactsForm extends Component {
 
      handleDownloadContacts = () => {
          if( document.all.downserver.value == "" ){
-            this.props.promptMsg("ERROR", "a_downserverempty");
+            this.props.promptMsg("ERROR", "a_19640");
             return false;
          }
          let values = this.props.form.getFieldsValue();
@@ -168,8 +168,8 @@ class DownloadContactsForm extends Component {
         let value = Math.floor((phbkprogress/max).toFixed(2) * 100);
 
         if(Number(response) > 2 && flag == 1){
-            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_downloading'}});
-            this.props.progressMessage(value,'none',this.tr('a_downloading'));
+            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_3325'}});
+            this.props.progressMessage(value,'none',this.tr('a_3325'));
         }
         switch(response) {
             case '0':
@@ -177,7 +177,7 @@ class DownloadContactsForm extends Component {
     		    value = 0;
             case '2':
     		    setTimeout(()=>{this.props.cb_get_down_response(flag,this.cb_alert_response)},3000);
-                this.props.progressMessage(value,'block',this.tr('a_downloading'));
+                this.props.progressMessage(value,'block',this.tr('a_3325'));
     		    break;
             case '3':
                 this.props.promptMsg("SUCCESS", "a_downsuc");
@@ -186,11 +186,11 @@ class DownloadContactsForm extends Component {
                 let errorCode = phbkprogress;
                 let errorMessage = 'a_3315';
                 if(errorCode == 4) {
-                    errorMessage = 'a_nospaceleft';
+                    errorMessage = 'a_19641';
                 } else if (errorCode == 15) {
-                    errorMessage = 'a_unauthorized';
+                    errorMessage = 'a_19642';
                 } else if (errorCode == 22) {
-                    errorMessage = 'a_taskinprogress';
+                    errorMessage = 'a_19643';
                 }
                 this.props.promptMsg("ERROR", errorMessage);
                 break;
@@ -271,17 +271,17 @@ class DownloadContactsForm extends Component {
                             <Checkbox onClick={this.handleVisibleType.bind(this,"clearold")} className="P-1435"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_clearoldlistmode")}&nbsp;<Tooltip title={this.tips_tr("Clear Old History Mode ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19645")}&nbsp;<Tooltip title={this.tips_tr("Clear Old History Mode ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('clearoldlistmode', {
                         initialValue: "0"
                         })(
                             <RadioGroup disabled = {this.state.disabled1}>
-                                <Radio value="0">{callTr("a_clearall")}</Radio>
-                                <Radio value="1">{callTr("a_keeplocalcontacts")}</Radio>
+                                <Radio value="0">{callTr("a_19646")}</Radio>
+                                <Radio value="1">{callTr("a_19647")}</Radio>
                             </RadioGroup>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_downdup")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Items ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_19648")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Items ")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('downdup', {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemValues.downdup)
@@ -289,13 +289,13 @@ class DownloadContactsForm extends Component {
                             <Checkbox onClick={this.handleVisibleType.bind(this,"downdup")} className="P-1436"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_downdupmode")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Entries Mode ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19649")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Entries Mode ")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                 {getFieldDecorator('downdupmode', {
                     initialValue: "0"
                     })(
                         <RadioGroup disabled = {this.state.disabled2}>
-                            <Radio value="0">{callTr("a_replacebyname")}</Radio>
-                            <Radio value="1">{callTr("a_replacebynumber")}</Radio>
+                            <Radio value="0">{callTr("a_19650")}</Radio>
+                            <Radio value="1">{callTr("a_19651")}</Radio>
                         </RadioGroup>
                 )}
                 </FormItem>
@@ -334,7 +334,7 @@ class DownloadContactsForm extends Component {
                 <FormItem label={(<span>{callTr("a_4766")}&nbsp;<Tooltip title={this.tips_tr("Download Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('downserver', {
                        rules: [{
-                           max:64,message: callTr("max_length64"),
+                           max:64,message: callTr("a_19632"),
                        },{
                            validator: (data, value, callback) => {
                                this.checkaddressPath(data, value, callback)
@@ -345,11 +345,11 @@ class DownloadContactsForm extends Component {
                            <Input type="text" className="P-331"/>
                    )}
                </FormItem>
-              <FormItem className='httpuser' label={(<span>{callTr("a_httpuser")}&nbsp;<Tooltip title={this.tips_tr("Config HTTP/HTTPS User Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+              <FormItem className='httpuser' label={(<span>{callTr("a_4111")}&nbsp;<Tooltip title={this.tips_tr("Config HTTP/HTTPS User Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                  <Input type="text" name = "httpsusername1" style= {{display:"none"}} disabled autocomplete = "off"/>
                  {getFieldDecorator('httpsusername', {
                      rules: [{
-                         max:64,message: callTr("max_length64"),
+                         max:64,message: callTr("a_19632"),
                      }],
                      initialValue: this.props.itemValues['httpsusername']
                      })(
@@ -360,14 +360,14 @@ class DownloadContactsForm extends Component {
                 <Input type={this.state.pwdstatus1} name = "httpspass1" style= {{display:"none"}} disabled autocomplete = "off"/>
                 {getFieldDecorator('httpspass', {
                     rules: [{
-                        max:64,message: callTr("max_length64"),
+                        max:64,message: callTr("a_19632"),
                     }],
                     initialValue: this.props.itemValues['httpspass']
                     })(
                         <Input type={this.state.pwdstatus1} name="httpspass1" className="P-6714" suffix={<Icon type="eye" className={this.state.pwdstatus1} onClick={this.handlePwdVisible1} />}/>
                 )}
             </FormItem>
-            <FormItem className = "select-item" label={(<span>{callTr("a_autodowninterval")}&nbsp;<Tooltip title={this.tips_tr("Download Interval")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+            <FormItem className = "select-item" label={(<span>{callTr("a_19652")}&nbsp;<Tooltip title={this.tips_tr("Download Interval")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                 {getFieldDecorator('phbkdowninterval', {
                      initialValue: this.props.itemValues['phbkdowninterval'] ? this.props.itemValues['phbkdowninterval'] : "0"
                      })(

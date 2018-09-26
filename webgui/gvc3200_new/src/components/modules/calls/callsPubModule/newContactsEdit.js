@@ -79,7 +79,7 @@ class NewContactsEdit extends Component {
             for (let i = 0; i < 3 ; i++) {
                 let value = $('#accountnumber'+i).val()
                 if(value==='' && typeof value){
-                    this.props.promptMsg('ERROR','a_numempty');
+                    this.props.promptMsg('ERROR','a_7483');
                     return false;
                 }
             }
@@ -87,7 +87,7 @@ class NewContactsEdit extends Component {
                 numValuesinnr.pop()
             }
             if (numValuesinnr.length >= 3) {
-                this.props.promptMsg('ERROR','a_numberlimit');
+                this.props.promptMsg('ERROR','a_19638');
                 return false;
             } else {
                 numValuesinnr.push("");
@@ -103,7 +103,7 @@ class NewContactsEdit extends Component {
             }
             this.setState({numValuesinnr:numValuesinnr})
         } else {
-            this.props.promptMsg('ERROR','a_numempty');
+            this.props.promptMsg('ERROR','a_7483');
             return false;
         }
     }
@@ -114,15 +114,15 @@ class NewContactsEdit extends Component {
         console.log(displayname,addoredit)
         let values = this.props.form.getFieldsValue();
         if(displayname == undefined || displayname.replace(/(^\s*)|(\s*$)/g,"") == "") {
-            this.props.promptMsg('ERROR','a_nameempty');
+            this.props.promptMsg('ERROR','a_4835');
             return false;
         }
-        console.log(this.props.checkRepeatName(displayname))
+        // console.log(this.props.checkRepeatName(displayname))
         if(typeof this.props.checkRepeatName == "function" && this.props.checkRepeatName(displayname) && (addoredit == "add")){
             const {callTr} = this.props;
             let self = this
             Modal.confirm({
-                content: <span dangerouslySetInnerHTML={{__html: callTr("a_namerepeat")}}></span>,
+                content: <span dangerouslySetInnerHTML={{__html: callTr("a_19633")}}></span>,
                 okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                 cancelText: <span dangerouslySetInnerHTML={{__html: callTr("a_3")}}></span>,
                 onCancel() {
@@ -223,7 +223,7 @@ class NewContactsEdit extends Component {
         } else {
             numValuesmap = numValues;
         }
-        let title = this.props.addNewContact ? 'a_4840' : 'a_editContacts';
+        let title = this.props.addNewContact ? 'a_4840' : 'a_4839';
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
         var acctnumber = new Array;
@@ -236,7 +236,7 @@ class NewContactsEdit extends Component {
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
 
-                    <FormItem label={(<span>{callTr("a_displayName")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_7474")}</span>)}>
                         {getFieldDecorator('name', {
                             rules: [{
                                 required: true
@@ -258,7 +258,7 @@ class NewContactsEdit extends Component {
                                     )}&nbsp;&nbsp;
                                     {getFieldDecorator('accountnumber'+idx, {
                                         rules: [{
-                                            max:64,message: callTr("max_length64"),
+                                            max:64,message: callTr("a_19632"),
                                         }],
                                         initialValue: val.split(' ')[0]
                                     })(
@@ -270,7 +270,7 @@ class NewContactsEdit extends Component {
                         })
                     }
                     <div className = "contactGroupselect" style={{display:GroupDisplay}}>
-                        <FormItem className="one-click-debug" label={<span>{callTr("a_contactgroups")}</span>}>
+                        <FormItem className="one-click-debug" label={<span>{callTr("a_4779")}</span>}>
                             {
                                 this.props.groups.map((item, index) => {
                                     return (

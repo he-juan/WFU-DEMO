@@ -293,7 +293,7 @@ class Call extends Component {
         this.get_deleteCallConf(deleteId,(result) => {
             if (result == 'success') {
                 this.props.get_calllog(0);
-                this.props.promptMsg('SUCCESS',"a_del_ok");
+                this.props.promptMsg('SUCCESS',"a_57");
                 this._createData();
                 this.selectedContactList = [];
             }
@@ -302,7 +302,7 @@ class Call extends Component {
         // this.props.get_deleteCall(deleteId,flag, (result) => {
         //     if (result == 'success') {
         //         this.props.get_calllog(0);
-        //         this.props.promptMsg('SUCCESS',"a_del_ok");
+        //         this.props.promptMsg('SUCCESS',"a_57");
         //         this._createData();
         //         this.selectedContactList = [];
         //     }
@@ -389,17 +389,17 @@ class Call extends Component {
 
     handleCall = (text, index) => {
         if(!this.state.existActiveAccount){
-            this.props.promptMsg('WARNING','no_existActiveAcct');
+            this.props.promptMsg('WARNING','a_19374');
             return false;
         }
         if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_talkingwait');
+            this.props.promptMsg('WARNING','a_19639');
             return;
         }
         let curnum = text.Number;
 
         if(curnum == "anonymous"){
-            this.props.promptMsg('WARNING','a_tip_dialanonymous');
+            this.props.promptMsg('WARNING','a_10083');
             return false;
         }
 

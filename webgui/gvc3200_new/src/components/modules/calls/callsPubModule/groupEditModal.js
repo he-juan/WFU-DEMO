@@ -45,13 +45,13 @@ class GroupEditModal extends Component {
         let contactids='',setGroupsFlag=true;
         let obj = this.props.obj;
         if((groupname == undefined || groupname.replace(/(^\s*)|(\s*$)/g,"") == "")) {
-            this.props.promptMsg('ERROR','a_groupnameempty');
+            this.props.promptMsg('ERROR','a_19635');
             return false;
         }
         let groupInformation = this.props.groupInformation;
         for (var i = 0; i < groupInformation.length; i++) {
             if ((groupname == groupInformation[i].Name) && ((addoredit == 'add'))) {
-                this.props.promptMsg('ERROR','a_groupnamesame');
+                this.props.promptMsg('ERROR','a_4834');
                 return false;
             }
         }
@@ -132,11 +132,11 @@ class GroupEditModal extends Component {
         return (
              <Modal title={callTr('a_4837')} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='groups-modal' visible={this.props.displayGroupModal}>
                 <Form hideRequiredMark>
-                    <FormItem label={(<span>{callTr("a_groupname")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_4791")}</span>)}>
                         {getFieldDecorator('groupname', {
                             initialValue:obj.groupname
                         })(
-                            <Input style={{width: '89%'}} placeholder={callTr('a_groupname')} />
+                            <Input style={{width: '89%'}} placeholder={callTr('a_4791')} />
                         )}
                     </FormItem>
                     <div className = "contactsSelect">
@@ -186,7 +186,7 @@ class GroupEditModal extends Component {
                             </div>
                         </div>
                         <div className = "selectcontacts">
-                            <p>{callTr("a_contactselect")}</p>
+                            <p>{callTr("a_19636")}</p>
                             <div>
                                 {
                                     selectItems.map((item, index) => {

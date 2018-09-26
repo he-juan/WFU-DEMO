@@ -92,7 +92,7 @@ class GeneralForm extends Component {
                                 <Col span={6}>
                                     {getFieldDecorator('callpre'+i, {
                                         rules: [{
-                                            max:64,message: callTr("max_length64"),
+                                            max:64,message: callTr("a_19632"),
                                         }],
                                         initialValue: itemValues["callpre"+i]
                                         })(
@@ -102,7 +102,7 @@ class GeneralForm extends Component {
                                 <Col span={6}>
                                     {getFieldDecorator('eventuri'+i, {
                                         rules: [{
-                                            max:64,message: callTr("max_length64"),
+                                            max:64,message: callTr("a_19632"),
                                         }],
                                         initialValue: itemValues["eventuri"+i]
                                         })(
