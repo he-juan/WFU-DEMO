@@ -532,3 +532,25 @@ export const saveFECCpreset = (line, presetid) => (dispatch) =>{
 //         promptForRequestFailed();
 //     });
 // }
+
+export const getipvrole = (line, type) => (dispatch) => {
+    let request = "action=getipvrole&region=confctrl&line=" + line + "&type" + type;
+    actionUtil.handleGetRequest(request).then(function(data) {
+        var result = eval("("+data+")");
+        dispatch({ type: 'REQUEST_GET_IPVTROLE', ipvrole: result.role+""});
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const endlinecall = (line, flag) => (dispatch) =>{
+    let request = "action=endcall&region=webservice&line=" + line + "&flag=" + flag ;
+    actionUtil.handleGetRequest(request).then(function(data) {
+        var result = eval("("+data+")");
+        if(result != 0){
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
+        }
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}

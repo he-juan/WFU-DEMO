@@ -119,3 +119,12 @@ export const getNotificationdblist = (callback) => (dispatch) => {
     });
 }
 
+/**
+ * 设置全局的设备通话特性，主要是在会控中用到
+ * @param data
+ * @param callback
+ */
+export const setDeviceCallFeature = (data, callback) => (dispatch) => {
+    dispatch({type: 'SET_CALLFEATURE_INFO', callFeatureInfo: data});
+}
+

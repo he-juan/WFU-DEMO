@@ -58,3 +58,12 @@ export const FECCStatus = (state = {}, action) => {
             return state
     }
 }
+
+export const ipvrole = (state = "-1", action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_IPVTROLE:
+            return action.ipvrole
+        default:
+            return state
+    }
+}

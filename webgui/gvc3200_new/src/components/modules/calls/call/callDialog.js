@@ -243,6 +243,21 @@ class CallDialog extends Component {
     handleHideFECC = () =>{
     }
 
+    handleEndline = (line, account) =>{
+        if(this.props.callFeatureInfo.disconfstate == "0"){
+            //check the line if pause
+            if(this.props.heldStatus == "1"){
+                this.props.promptMsg("WARNING", this.tr("a_10126"));
+                return;
+            }
+        }
+        let flag = "0";
+        if(account == 1 && this.props.ipvrole == "2"){
+            flag = "1";
+        }
+        this.props.endlinecall(line, flag);
+    }
+
 	showSoundSlider = (tag) => {
 	    if(tag)
 			this.setState({ soundvisible: "display-block" });
@@ -281,15 +296,40 @@ class CallDialog extends Component {
 
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
+        let status = this.props.status;
+        if(status == 10){  //当所有线路均取消时 显示消失动画
+            tmpclass = "call-dialog-out call-dialog-out-active";
+            dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
+        }
         let linestatustip = [];
+        let linevideouploadclass = [];
         let linestatus = this.props.linestatus;
+        let lineuploadingclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
+        let lineuploadingdisable = [], linesuspenddisable = [], lineconfvideodisable = [], lineblockdisable = [], linemutedisable = [];
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
             let account = lineitem.acct;
+            lineuploadingdisable[i] = false;
+            linesuspenddisable[i] = false;
+            lineconfvideodisable[i] = false;
+            lineblockdisable[i] = false;
+            linemutedisable[i] = false
             linestatustip[i] = "";
+            // if(account == 1){
+            //     linesuspendclass[i] = "unconfsuspenddisable";
+            //     lineconfvideoclass[i] = "confvideodisable";
+            //     lineblockclass[i] = "unconfblockdisable";
+            //     linemuteclass[i] = "unmutedisable";
+            // }else{
+            //     linesuspendclass[i] = "unconfsuspend";
+            //     lineconfvideoclass[i] = "confvideo";
+            //     lineblockclass[i] = "unconfblock";
+            //     linemuteclass[i] = "unmute";
+            // }
             switch (state) {
                 case "3":
+                case "init3":
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
@@ -298,6 +338,9 @@ class CallDialog extends Component {
                         clearTimeout(dialogLeaveTimeout);
                     }
                     linestatustip[i] = this.tr("a_509");
+                    linevideouploadclass[i] = "display-hidden";
+                    ctrlbtnvisible = "display-hidden";
+                    lineuploadingclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
                     break;
                 case "4":
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
@@ -305,18 +348,75 @@ class CallDialog extends Component {
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-block";
-                    if (lineitem.isvideo == "1") {
+                    if (lineitem.isvideo == "1") { //视频通话
                         linestatustip[i] = this.tr("a_669");
-                    } else {
+                        lineconfvideoclass[i] = "confvideo";
+                    } else {  //语音通话
                         linestatustip[i] = this.tr("a_668");
+                        lineconfvideoclass[i] = "confaudio";
+                    }
+                    lineuploadingclass[i] = "unuploading";
+                    linesuspendclass[i]="unconfsuspend";
+                    lineblockclass[i] = "unconfblock";
+                    linemuteclass[i] = "unmute";
+
+                    if(lineitem.issuspend == "1"){
+                        linesuspendclass[i]="confsuspend";
+                    }
+                    if(lineitem.isblock == "1"){
+                        lineblockclass[i] = "confblock";
+                    }
+                    if(lineitem.ismute == "1"){
+                        lineblockclass[i] = "mute";
+                    }
+
+                    if(lineitem.isremotehold == "1") {
+                        linesuspendclass[i] += " btndisable";
+                        lineconfvideoclass[i] += " btndisable";
+                        lineblockclass[i] += " btndisable";
+                        linemuteclass[i] += " btndisable";
                     }
                     if(account == 8) account = 3;
                     if(this.state.acctstatus.length > 0){
                         linestatustip[i] += " (" + this.state.acctstatus[account]["name"]+")";
                     }
+                    linevideouploadclass[i] = "display-block" + " uploading";
+                    break;
+                case "init8":
+                case "8":
+                    if (tmpclass != "call-dialog-in call-dialog-in-active") {
+                        tmpclass = "call-dialog-in call-dialog-in-active";
+                        maskvisible = "display-block";
+                    }
+                    ctrlbtnvisible = "display-hidden";
+                    lineuploadingclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
+                    switch(lineitem.msg){
+                        case "3":
+                            linestatustip[i] = this.tr("a_539");
+                            break;
+                        case "4":
+                            linestatustip[i] = this.tr("a_540");
+                            break;
+                        case "5":
+                            linestatustip[i] = this.tr("a_541");
+                            break;
+                        case "6":
+                            linestatustip[i] = this.tr("a_542");
+                            break;
+                        case "7":
+                            linestatustip[i] = this.tr("a_543");
+                            break;
+                        case "8":
+                            linestatustip[i] = this.tr("a_544");
+                            break;
+                        case "9":
+                            linestatustip[i] = this.tr("a_545");
+                            break;
+                    }
                     break;
                 case "init4":
                 case "init5":
+                    linevideouploadclass[i] = "display-block" + " uploading";
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
@@ -324,8 +424,31 @@ class CallDialog extends Component {
                     ctrlbtnvisible = "display-block";
                     if (lineitem.isvideo == "1") {
                         linestatustip[i] = this.tr("a_669");
+                        lineconfvideoclass[i] = "confvideo";
                     } else {
                         linestatustip[i] = this.tr("a_668");
+                        lineconfvideoclass[i] = "confaudio";
+                    }
+                    lineuploadingclass[i] = "unuploading";
+                    linesuspendclass[i]="unconfsuspend";
+                    lineblockclass[i] = "unconfblock";
+                    linemuteclass[i] = "unmute";
+
+                    if(lineitem.issuspend == "1"){
+                        linesuspendclass[i]="confsuspend";
+                    }
+                    if(lineitem.isblock == "1"){
+                        lineblockclass[i] = "confblock";
+                    }
+                    if(lineitem.ismute == "1"){
+                        lineblockclass[i] = "mute";
+                    }
+
+                    if(lineitem.isremotehold == "1") {
+                        linesuspendclass[i] += " btndisable";
+                        lineconfvideoclass[i] += " btndisable";
+                        lineblockclass[i] += " btndisable";
+                        linemuteclass[i] += " btndisable";
                     }
                     if(account == 8) account = 3;
                     if(this.state.acctstatus.length > 0){
@@ -346,7 +469,7 @@ class CallDialog extends Component {
                     break;
             }
         }
-        let ismute = linestatus[0].isLocalMuted == "1" ? "1" : "0";
+        let ismute = linestatus[0] && linestatus[0].isLocalMuted == "1" ? "1" : "0";
         let localmuteclass = ismute == "1" ? "mute" : "unmute";
         let heldclass = this.props.heldStatus == "1" ? "hold-icon" : "unhold-icon";
         let feccInfo = this.props.FECCStatus;
@@ -371,7 +494,7 @@ class CallDialog extends Component {
                             <div className="confnum"></div>
                             <div className="conftype"></div>
                             <div className="confbtn">
-                                <Button id="startFECC" title={this.tr("a_19241")}  className="startFECC" onClick={this.handleStartFECC.bind(this, "-1")}/>
+                                <Button id="startFECC" title={this.tr("a_19241")} className="startFECC" onClick={this.handleStartFECC.bind(this, "-1")}/>
                                 <Button id="closecamera" title={this.tr("a_628")}  className="unclosecamera" />
                                 <Button id="localmute" title={this.tr("a_413")}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                             </div>
@@ -383,8 +506,12 @@ class CallDialog extends Component {
                                     <div className="confnum">{item.acct == 1 ? (item.name || item.num) : item.num}</div>
                                     <div className="conftype">{linestatustip[i]}</div>
                                     <div className="confbtn">
-                                        <Button id="end" title={this.tr("a_1")} className="endconf"/>
-                                        <Button id="isvideoupdating" title={this.tr("a_19241")} className="uploading"/>
+                                        <Button title={this.tr("a_1")} className="endconf" onClick={this.handleEndline.bind(this, i, item.acct)} />
+                                        <Button title={this.tr("a_19241")} className={lineuploadingclass[i]}/>
+                                        <Button title={this.tr("a_16700")} disabled={item.acct == 1 ? "true" : linesuspenddisable[i]} className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]} />
+                                        <Button title={this.tr("a_623")} disabled={item.acct == 1 ? "true" : lineconfvideodisable[i]} className={item.acct == 1 ? "confvideobtn disable" : lineconfvideoclass[i]} />
+                                        <Button title={this.tr("a_16701")} disabled={item.acct == 1 ? "true" : lineblockdisable[i]} className={item.acct == 1 ? "unconfblock btndisable" : lineblockclass[i]} />
+                                        <Button title={this.tr("a_649")} disabled={item.acct == 1 ? "true" : linemutedisable[i]} className={item.acct == 1 ? "unmute btndisable" : linemuteclass[i]} />
                                     </div>
                                 </div>
                             })
@@ -415,7 +542,9 @@ const mapStateToProps = (state) => ({
     recordStatus: state.recordStatus,
     msgsContacts: state.msgsContacts,
     heldStatus: state.heldStatus,
-    FECCStatus: state.FECCStatus
+    FECCStatus: state.FECCStatus,
+    callFeatureInfo: state.callFeatureInfo,
+    ipvrole: state.ipvrole
 })
 
 function mapDispatchToProps(dispatch) {
@@ -435,7 +564,9 @@ function mapDispatchToProps(dispatch) {
       gethdmi1state: Actions.gethdmi1state,
       getItemValues:Actions.getItemValues,
       isFECCEnable: Actions.isFECCEnable,
-      ctrlFECC: Actions.ctrlFECC
+      ctrlFECC: Actions.ctrlFECC,
+      getipvrole: Actions.getipvrole,
+      endlinecall: Actions.endlinecall
   }
   return bindActionCreators(actions, dispatch)
 }

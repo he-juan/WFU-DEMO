@@ -22,12 +22,12 @@ class HandleWebsocket extends React.Component {
         clearTimeout(endcalltimeout);
     }
 
-    getCallType = (message, isvideo) =>{
+    getCallType = (message, isvideo) => {
         let calltype = message.msg;
         let calltypeint = parseInt(calltype);
-        if(calltypeint < 16 || isvideo == "0"){ //audio call
+        if(calltypeint < 16 ){ //audio call
             message.isvideo = "0";
-        }else if(calltypeint < parseInt("0xfc", 16) || isvideo == "1"){
+        }else if(calltypeint < parseInt("0xfc", 16)){
             message.isvideo = "1";
         }
     }
@@ -41,25 +41,29 @@ class HandleWebsocket extends React.Component {
             }
             linesinfo.push(message);
         }else{
-            for(  i = 0; i < this.props.linesinfo.length; i++ ){
-                if(this.props.linesinfo[i].line == message.line){
-                    if(message.state == "4"){
+            for(  i = 0; i < this.props.linesinfo.length; i++ ) {
+                if (this.props.linesinfo[i].line == message.line) {
+                    if (message.state == "4") {
                         //get the call type - begin
-                        let isvideo = this.props.linesinfo[i].isvideo;
-                        this.getCallType(message, isvideo);
+                        this.getCallType(message);
+                        if(message.isvideo){
+                            this.props.linesinfo[i].isvideo = message.isvideo;
+                        }
                     }
-                    if(message.state == "3" || message.state == "4"){
+                    if (message.state == "3" || message.state == "4" || message.state == "8") {
                         //get the name and num --begin
                         let name = this.props.linesinfo[i].name;
                         let number = this.props.linesinfo[i].num;
-                        message.name = message.name || name;
-                        message.num = message.number || number;
+                        this.props.linesinfo[i].name = message.name || name;
+                        this.props.linesinfo[i].num = message.number || number;
+                        this.props.linesinfo[i].msg =  message.msg;
                     }
-                    linesinfo.push(message);
-                }else{
-                    linesinfo.push(this.props.linesinfo[i]);
+                    else if (message.state == "0") {
+                        continue;
+                    }
+                    this.props.linesinfo[i].state = message.state;
                 }
-
+                linesinfo.push(this.props.linesinfo[i]);
             }
         }
         this.props.setDialineInfo1(linesinfo);
@@ -78,15 +82,36 @@ class HandleWebsocket extends React.Component {
 
     handlemuteline = (message) => {
         let linesinfo = [];
+        let flag = false;
         for( let i = 0; i < this.props.linesinfo.length; i++ ){
             if(this.props.linesinfo[i].line == message.line) {
                 if(message['flag'].indexOf("MuteMic") != -1){
                     this.props.linesinfo[i].isLocalMuted = message['flag'].split("=")[1];
+                    flag = true;
+                    break;
                 }
             }
-            linesinfo.push(this.props.linesinfo[i]);
         }
-        this.props.setDialineInfo1(linesinfo);
+        if(flag){
+            linesinfo = [...this.props.linesinfo];
+            this.props.setDialineInfo1(linesinfo);
+        }
+    }
+    //message.state == 1 : remote hold ; 0 : unhold
+    handleremotehold = (message) => {
+        let linesinfo = [];
+        let flag = false;
+        for( let i = 0; i < this.props.linesinfo.length; i++ ){
+            if(this.props.linesinfo[i].line == message.line) {
+                this.props.linesinfo[i].isremotehold = message.state;
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            linesinfo = [...this.props.linesinfo];
+            this.props.setDialineInfo1(linesinfo);
+        }
     }
 
     handleFECC = (message) => {
@@ -166,14 +191,18 @@ class HandleWebsocket extends React.Component {
                 switch (message['state']) {
                     case "0":
                         // dile/end the call
-                        globalObj.isCallStatus = false;
+
                         this.props.getConnectState();
-                        this.props.setMuteStatus(message['line'],0);
-                        this.props.setHeldStatus("0");
-                        this.props.showCallDialog(10);
-                        endcalltimeout = setTimeout(() => {
-                			this.props.showCallDialog("end");
-                		}, 1000);
+                        // this.props.showCallDialog(10);
+                        this.changelinesstatus(message);
+                        if( this.props.linesinfo.length <= 0 ){ // 所有线路都取消时
+                            globalObj.isCallStatus = false;
+                            this.props.showCallDialog(10);
+                            this.props.setHeldStatus("0");
+                            endcalltimeout = setTimeout(() => {
+                                this.props.showCallDialog("end");
+                            }, 1000);
+                        }
                         break;
                     case "1":
                     case "3":
@@ -184,24 +213,17 @@ class HandleWebsocket extends React.Component {
                         break;
                     case "4":
                         // accept the call
+                        // if is ipvt conf , get the ipvtrole
+                        if( this.props.ipvrole == "-1" && message.acct == "1"){
+
+                            this.props.getipvrole(message.line, "init");
+                        }
                         this.changelinesstatus(message);
                         break;
                     case "8":
-                        //failed
-                        switch (message['msg']){
-                            case "6":
-                                this.props.showCallDialog(86);
-                                break;
-                            case "7":
-                                this.props.showCallDialog(87);
-                                break;
-                            case "8":
-                                this.props.showCallDialog(88);
-                                break;
-                            default:
-                                this.props.showCallDialog(8);
-                                break;
-                        }
+                        // call failed
+                        this.changelinesstatus(message);
+                        break;
                         break;
                 }
                 break;
@@ -213,6 +235,9 @@ class HandleWebsocket extends React.Component {
                 break;
             case 'feccstate':
                 this.handleFECC(message);
+                break;
+            case 'remote_hold':
+                this.handleremotehold(message);
             case 'auto_answer':
                 if(this.props.product != "GAC2510"){
                     break;
@@ -290,7 +315,8 @@ class HandleWebsocket extends React.Component {
 const mapStateToProps = (state) => ({
     pageStatus: state.pageStatus,
     product: state.product,
-    linesinfo: state.linesInfo
+    linesinfo: state.linesInfo,
+    ipvrole: state.ipvrole
 })
 
 function mapDispatchToProps(dispatch) {
@@ -308,7 +334,8 @@ function mapDispatchToProps(dispatch) {
         setHeldStatus: Actions.setHeldStatus,
         setFECCStatus: Actions.setFECCStatus,
         setSpeakerTestStatus: Actions.setSpeakerTestStatus,
-        setResetKeyTestStatus: Actions.setResetKeyTestStatus
+        setResetKeyTestStatus: Actions.setResetKeyTestStatus,
+        getipvrole: Actions.getipvrole
     }
     return bindActionCreators(actions, dispatch)
 }

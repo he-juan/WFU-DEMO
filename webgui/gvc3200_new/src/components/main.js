@@ -18,10 +18,27 @@ import pt_BR from "antd/lib/locale-provider/pt_BR";
 import ru_RU from "antd/lib/locale-provider/ru_RU";
 const Content  = Layout;
 let savingtimes = 0;
+let req_items;
 
 class Main extends React.Component {
     constructor(props) {
         super(props);
+        req_items = new Array;
+        req_items.push(
+            this.getReqItem("disconfstate", "1311", ""),
+            this.getReqItem("autovideostate", "25023", ""),
+            this.getReqItem("incalldtmf", "338", ""),
+            this.getReqItem("remotevideo", "2326", ""),
+            this.getReqItem("disipcall", "277", ""),
+            this.getReqItem("distranfer", "1341", ""),
+            this.getReqItem("tranfermode", "1685", ""),
+            this.getReqItem("usequickipcall", "184", ""),
+            this.getReqItem("disablepresent", "26001", ""),
+            this.getReqItem("enablefecc", "26004", ""),
+            this.getReqItem("prefix", "66", ""),
+            this.getReqItem("disdialplan", "1687", ""),
+            this.getReqItem("autovideostate", "25023", "")
+        )
     }
 
     componentWillMount = () => {
@@ -66,11 +83,21 @@ class Main extends React.Component {
         }.bind(this);
 
         /*get dial line status to init the call page*/
-
         this.props.getAllLineStatus((result)=>{
             if(result.length > 0){
                 this.props.isConfOnHold();
             }
+        });
+
+        //get the device call feature
+        this.props.getItemValues(req_items, (data) => {
+            let callfeatures = new Object();
+            let item;
+            for(let i in req_items){
+                item = req_items[i];
+                callfeatures[item.name] = data[item.name];
+            }
+            this.props.setDeviceCallFeature(callfeatures);
         });
 
         window.onbeforeunload = function () {
@@ -133,8 +160,8 @@ class Main extends React.Component {
                         : null
                     }
                     {
-                        this.props.linesinfo.length > 0 && this.props.callDialogStatus != "minimize"
-                        ? <CallDialog linestatus={this.props.linesinfo} />
+                        (this.props.linesinfo.length > 0 && this.props.callDialogStatus != "minimize") || this.props.callDialogStatus == "10"
+                        ? <CallDialog linestatus={this.props.linesinfo} status={this.props.callDialogStatus} />
                         : null
                     }
                     <IntlProvider>
@@ -177,7 +204,8 @@ const mapDispatchToProps = (dispatch) => {
         setRecordStatus: Actions.setRecordStatus,
         setHeldStatus: Actions.setHeldStatus,
         getMaxlineCount: Actions.getMaxlineCount,
-        isConfOnHold: Actions.isConfOnHold
+        isConfOnHold: Actions.isConfOnHold,
+        setDeviceCallFeature: Actions.setDeviceCallFeature
     }
     return bindActionCreators(actions, dispatch)
 }
