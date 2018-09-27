@@ -151,7 +151,7 @@ class GeneralForm extends Component {
                 <FormItem label={<span>{callTr("a_stunserver")}<Tooltip title={callTipsTr("STUN Server")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("stunserver", {
                         rules: [{
-                            max: 32, message: callTr("a_lengthlimit") + "32!"
+                            max: 32, message: callTr("a_19805") + "32!"
                         },{
                             validator: (data, value, callback) => {
                                 this.checkUrlPath(data, value, callback)
@@ -165,7 +165,7 @@ class GeneralForm extends Component {
                 <FormItem label={<span>{callTr("a_19026")}<Tooltip title={callTipsTr("TURN Server Username")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("stunservername", {
                         rules: [{
-                            max: 32, message: callTr("a_lengthlimit") + "32!"
+                            max: 32, message: callTr("a_19805") + "32!"
                         }],
                         initialValue: itemvalue['stunservername']
                     })(
@@ -175,7 +175,7 @@ class GeneralForm extends Component {
                 <FormItem label={<span>{callTr("a_19027")}<Tooltip title={callTipsTr("TURN Server Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("stunserverpwd", {
                         rules: [{
-                            max: 128, message: callTr("a_lengthlimit") + "128!"
+                            max: 128, message: callTr("a_19805") + "128!"
                         }],
                         initialValue: itemvalue['stunserverpwd']
                     })(
@@ -186,7 +186,7 @@ class GeneralForm extends Component {
                 <FormItem label={<span>{callTr("a_16284")}<Tooltip title={callTipsTr("Use NAT IP")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("natip", {
                         rules: [{
-                            max: 32, message: callTr("a_lengthlimit") + "32!"
+                            max: 32, message: callTr("a_19805") + "32!"
                         }],
                         initialValue: itemvalue['natip']
                     })(

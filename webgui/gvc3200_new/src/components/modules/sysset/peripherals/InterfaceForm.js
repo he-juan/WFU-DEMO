@@ -67,7 +67,7 @@ class InterfaceForm extends Component {
                             <Option value="1">{callTr("a_16388")}</Option>
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_hdmimode")}<Tooltip title={callTipsTr("HDMI Control")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("hdmimode", {
@@ -95,7 +95,7 @@ class InterfaceForm extends Component {
                         })(
                             <Checkbox className="P-22036"/>
                         )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>:null}
                 {this.props.oemId==70?<FormItem label={<span>{callTr("SD")}<Tooltip title={callTipsTr("SD")}><Icon type="question-circle-o"/></Tooltip></span>}>
                 {getFieldDecorator("SD", {
@@ -104,7 +104,7 @@ class InterfaceForm extends Component {
                 })(
                     <Checkbox className="P-22035"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>:null}
                 {this.props.oemId==70?<FormItem label={<span>{callTr("a_10102")}<Tooltip title={callTipsTr("a_10102")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("a_10102", {
@@ -113,7 +113,7 @@ class InterfaceForm extends Component {
                     })(
                         <Checkbox className="P-22236"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>:null}
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>

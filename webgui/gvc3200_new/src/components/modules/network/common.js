@@ -126,7 +126,7 @@ class Common extends Component {
                             $("#relprednsser"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"a_wrong");
+                    this.props.promptMsg('ERROR',"a_16442");
                     return false;
                 }
                 set = new Set([values['secrelprednsser1'],values["secrelprednsser2"],values["secrelprednsser3"],values["secrelprednsser4"]]);
@@ -139,7 +139,7 @@ class Common extends Component {
                             $("#secrelprednsser"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"a_wrong");
+                    this.props.promptMsg('ERROR',"a_16442");
                     return false;
                 }
                 var showip = 1;
@@ -163,7 +163,7 @@ class Common extends Component {
                 }
                 if (tmpproxy.indexOf(":") != -1 && tmpproxy.split(":").length == 2 || tmpproxy.toUpperCase().indexOf("HTTP") != -1) {
                     Modal.info({
-                        content: <span dangerouslySetInnerHTML={{__html: callTr("warn_proxyurl")}}></span>,
+                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_16444")}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
@@ -171,7 +171,7 @@ class Common extends Component {
                 }
                 if( (tmpproxy == "" && tmpport != "") || (tmpproxy != "" && tmpport == "") || (tmpnoproxy != "" && tmpproxy == "" && tmpport == "") ) {
                     Modal.info({
-                        content: <span dangerouslySetInnerHTML={{__html: callTr("warn_proxy")}}></span>,
+                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_16445")}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
@@ -224,7 +224,7 @@ class Common extends Component {
 
         let itemList =
             <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
-                <p className="blocktitle"><s></s>{this.tr("common_net")}</p>
+                <p className="blocktitle"><s></s>{this.tr("a_19655")}</p>
                 <FormItem className = "ip-address" label={< span > {this.tr("a_16652")} < Tooltip title = {this.tips_tr("Alternate DNS Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
@@ -298,7 +298,7 @@ class Common extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className = "ip-address" label={< span > {this.tr("a_2relprednsser")} < Tooltip title = {this.tips_tr("Second Alternate DNS Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = "ip-address" label={< span > {this.tr("a_19656")} < Tooltip title = {this.tips_tr("Second Alternate DNS Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -408,7 +408,7 @@ class Common extends Component {
                     })(
                         <Input min={1} max={3600} className="P-22122"/>
                     )}
-                    <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {this.tr("a_enablecdp")} < Tooltip title = {this.tips_tr("Enable CDP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("enablecdp", {
@@ -419,7 +419,7 @@ class Common extends Component {
                     })(
                         <Checkbox className="P-22119"/>
                     )}
-                    <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>*/}
                 <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer3qossip", {
@@ -470,7 +470,7 @@ class Common extends Component {
                         rules: [ ],
                         initialValue: this.props.itemValues.useragent
                     })(<Input className="P-1541"/>)}
-                    <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {this.tr("a_19128")} < Tooltip title = {this.tips_tr("SIP User Agent")} > <Icon type="question-circle-o"/> < /Tooltip>< /span>}>
                     {getFieldDecorator("sipuseragent", {
@@ -491,12 +491,12 @@ class Common extends Component {
                         initialValue: this.props.itemValues["pcportmode"] ? this.props.itemValues["pcportmode"] : "0"
                     })(
                         <Select onChange={ this.onChangeMode.bind(this) } className="P-1348">
-                            <Option value="0">{this.tr("a_enabled")}</Option>
-                            <Option value="1">{this.tr("a_disable")}</Option>
+                            <Option value="0">{this.tr("a_38")}</Option>
+                            <Option value="1">{this.tr("a_39")}</Option>
                             <Option value="2">{this.tr("a_16601")}</Option>
                         </Select>
                     )}
-                    <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem className={ this.state.pcportmode } label={< span > {this.tr("a_16598")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("PC Port VLAN Tag")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("pcporttag", {
@@ -584,7 +584,7 @@ class Common extends Component {
 
         return (
             <Content className="content-container  config-container">
-                <div className="subpagetitle">{this.tr("common_net")}</div>
+                <div className="subpagetitle">{this.tr("a_19655")}</div>
                 {itemList}
             </Content>
         )

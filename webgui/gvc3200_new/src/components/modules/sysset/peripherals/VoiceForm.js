@@ -158,7 +158,7 @@ class VoiceForm extends Component {
                             <Option value="1">{callTr("a_16398")}</Option>
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_headsetctrl")}<Tooltip title={callTipsTr("Enable 3.5mm Headset Control")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("headsetctrl", {
@@ -178,7 +178,7 @@ class VoiceForm extends Component {
                             <Option value="2">+6</Option>
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_handsetrx")}<Tooltip title={callTipsTr("Handset RX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("handsetrx", {
@@ -190,7 +190,7 @@ class VoiceForm extends Component {
                             <Option value="2">+6</Option>
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_vcardtx")}<Tooltip title={callTipsTr("Virtual Sound Card TX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vcardtx", {
@@ -204,7 +204,7 @@ class VoiceForm extends Component {
                             }
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_vcardrx")}<Tooltip title={callTipsTr("Virtual Sound Card RX Gain")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vcardrx", {
@@ -218,7 +218,7 @@ class VoiceForm extends Component {
                             }
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_handseteqrx")}<Tooltip title={callTipsTr("Handset Equalizer RX")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("handseteqrx", {
@@ -230,7 +230,7 @@ class VoiceForm extends Component {
                             <Option value="2">{callTr("a_eqfidelity")}</Option>
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_adjustvol")}</span>}>
                     {getFieldDecorator("volslider")(

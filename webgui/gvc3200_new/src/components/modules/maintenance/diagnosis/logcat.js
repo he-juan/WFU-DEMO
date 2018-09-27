@@ -61,7 +61,7 @@ class LogactForm extends Component {
                         rules: [
                             {
                                 max:32,
-                                message: callTr("a_lengthlimit") + "32",
+                                message: callTr("a_19805") + "32",
                             }
                         ]
                     })(<Input/>)

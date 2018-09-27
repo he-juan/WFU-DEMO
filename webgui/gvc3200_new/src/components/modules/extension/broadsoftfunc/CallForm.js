@@ -105,14 +105,14 @@ class CallForm extends Component {
         const callTipsTr = this.props.callTipsTr;
         const itemvalue = this.props.itemValues;
         let curacct = parseInt(this.props.curAcct) - 1;
-        let itemList = 
+        let itemList =
             <Form hideRequiredMark>
                 <FormItem label={<span>{callTr("a_16164")}<Tooltip title={callTipsTr("Feature Key Synchronization")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("feakey", {
                         initialValue: itemvalue['feakey'] ? itemvalue['feakey'] : "0"
                     })(
                         <Select className={"P-" + pvaluearray["feakey"][curacct]}>
-                            <Option value="0">{callTr("a_disable")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
                             <Option value="1">BroadSoft</Option>
                         </Select>
                     )}
@@ -160,7 +160,7 @@ class CallForm extends Component {
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form> ;
-            
+
         let hideItem = this.props.hideItem;
         for (let i = hideItem.length-1; hideItem[i] != undefined && i >= 0; i--) {
             itemList.props.children.splice(hideItem[i], 1);

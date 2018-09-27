@@ -348,19 +348,19 @@ export const options = [
                     {"name": "Preferred Internet Protocol", "lang": "a_19225"},
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": ""},
-                    {"name": "Address Type", "lang": "a_addresstypeipv4"}, //
+                    {"name": "Address Type", "lang": "a_19659"}, //
                     {"name": "DHCP VLAN Override", "lang": "a_19335"}, //
                     {"name": "Host name", "lang": "a_16187"}, //
                     {"name": "Vendor Class ID", "lang": "a_16189"}, //
                     {"name": "IP Address", "lang": "a_23531"}, //
                     {"name": "Subnet Mask", "lang": "a_4127"},//
-                    {"name": "Default Gateway", "lang": "a_gateway"},//
+                    {"name": "Default Gateway", "lang": "a_16191"},//
                     {"name": "DNS Server 1", "lang": "a_19227"},//
                     {"name": "DNS Server 2", "lang": "a_19228"},//
-                    {"name": "PPPoE Account ID", "lang": "a_pppacc"},//
+                    {"name": "PPPoE Account ID", "lang": "a_4156"},//
                     {"name": "PPPoE Password", "lang": "a_4157"},//
-                    {"name": "Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)", "lang": "a_layer2qosdata"}, //
-                    {"name": "Layer 2 QoS 802.1p Priority Value (Ethernet)", "lang": "a_layer2qospvdata"}, //
+                    {"name": "Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)", "lang": "a_19660"}, //
+                    {"name": "Layer 2 QoS 802.1p Priority Value (Ethernet)", "lang": "a_19661"}, //
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": ""},
                     {"name": "IPv6 Address", "lang": "a_19226"},
@@ -369,11 +369,11 @@ export const options = [
                     {"name": "IPv6 DNS Server 1", "lang": "a_19227"},
                     {"name": "IPv6 DNS Server 2", "lang": "a_19228"},
                     {"type": "p", "lang": ""},
-                    {"type": "p", "lang": "a_802mode"},
-                    {"name": "802.1X mode", "lang": "a_802mode"},//
-                    {"name": "802.1X Identity", "lang": "a_identity"},//
-                    {"name": "802.1X Secret", "lang": "a_md5pas"},//
-                    {"name": "CA Certificate", "lang": "a_802ca"},//
+                    {"type": "p", "lang": "a_4140"},
+                    {"name": "802.1X mode", "lang": "a_4140"},//
+                    {"name": "802.1X Identity", "lang": "a_16195"},//
+                    {"name": "802.1X Secret", "lang": "a_16196"},//
+                    {"name": "CA Certificate", "lang": "a_19667"},//
                     {"name": "Client Certificate", "lang": "a_4392"},//
                     {"name": "Private Key", "lang": "a_4394"},//
                     {"type": "button", "lang": "a_17"}
@@ -385,7 +385,7 @@ export const options = [
                 {"name": "OpenVPN Server Address", "lang": "a_19266"},
                 {"name": "OpenVPN Port", "lang": "a_19267"},
                 {"name": "OpenVPN Transport", "lang": "a_19268"},
-                {"name": "OpenVPN CA", "lang": "openvpn_ca"},
+                {"name": "OpenVPN CA", "lang": "a_19668"},
                 {"name": "OpenVPN Client Certificate", "lang": "a_19269"},
                 {"name": "OpenVPN Client Key", "lang": "a_19270"},
                 {"name": "OpenVPN Cipher Method", "lang": "a_19271"},
@@ -393,11 +393,11 @@ export const options = [
                 {"name": "OpenVPN Password", "lang": "a_19273"}
             ]}
         ]},
-        {"name": "common", "lang": "common_net", "sub": [
-            {"name": "advanced", "lang": "common_net", "sub": [
-                {"type": "p", "lang": "common_net"},
+        {"name": "common", "lang": "a_19655", "sub": [
+            {"name": "advanced", "lang": "a_19655", "sub": [
+                {"type": "p", "lang": "a_19655"},
                 {"name": "Alternate DNS Server", "lang": "a_16652"},
-                {"name": "Second Alternate DNS Server", "lang": "a_2relprednsser"},
+                {"name": "Second Alternate DNS Server", "lang": "a_19656"},
                 {"name": "Enable LLDP", "lang": "a_16193"},
                 {"name": "Layer 3 QoS for SIP", "lang": "a_4275"},
                 {"name": "Layer 3 QoS for Audio", "lang": "a_4276"},
@@ -618,7 +618,7 @@ export const options = [
             {"name": "Address Type", "lang": "a_4150"},
             {"name": "IP Address", "lang": "a_4313"},
             {"name": "Subnet Mask", "lang": "a_4127"},
-            {"name": "Default Gateway", "lang": "a_gateway"},
+            {"name": "Default Gateway", "lang": "a_16191"},
             {"name": "DNS Server 1", "lang": "a_19227"},
             {"name": "DNS Server 2", "lang": "a_19228"},
         ]},

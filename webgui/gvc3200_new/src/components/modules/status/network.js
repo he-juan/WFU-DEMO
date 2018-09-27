@@ -175,7 +175,7 @@ class Network extends Component {
                         <FormItem className = {this.state.vpnipdiv} label={<span>{"VPN IP"}</span>}>
                             <span ref="vpnip">{ this.props.itemValues['vpnip'] }</span>
                         </FormItem>
-                        <p className={"blocktitle"+" "+ this.state.voipset}><s></s>{this.tr("a_netfordata")}</p>
+                        <p className={"blocktitle"+" "+ this.state.voipset}><s></s>{this.tr("a_19658")}</p>
                         <p className={"blocktitle"+" " + this.state.voipsetipv4}><s></s>IPV4</p>
                         <FormItem label={<span>{this.tr("a_4150")}<Tooltip title={this.tips_tr("Address Type ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="address-type">{ this.get_ipv4addtype(networkStatus["ipv4Type"]) }</span>
@@ -186,7 +186,7 @@ class Network extends Component {
                         <FormItem label={<span>{this.tr("a_4127")}<Tooltip title={this.tips_tr("Subnet Mask ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="subnet-mask">{ networkStatus["mask"] }</span>
                         </FormItem>
-                        <FormItem label={<span>{this.tr("a_gateway")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                        <FormItem label={<span>{this.tr("a_16191")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="default-gateway">{ networkStatus["gateway"] }</span>
                         </FormItem>
                         <FormItem label={<span>{this.tr("a_19227")}<Tooltip title={this.tips_tr("DNS Server 1 ")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -208,7 +208,7 @@ class Network extends Component {
                         <FormItem label={<span>{this.tr("a_ipv6dnsser2")}<Tooltip title={this.tips_tr("IPv6 DNS Server 2 ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="ipv6dns-server2">{ networkStatus["ipv6Dns2"]||"0:0:0:0:0:0:0:0"  }</span>
                         </FormItem>
-                        <p className={"blocktitle" + " " + this.state.voipset}><s></s>{this.tr("a_netforvoip")}</p>
+                        <p className={"blocktitle" + " " + this.state.voipset}><s></s>{this.tr("a_19664")}</p>
                         <FormItem className = {this.state.voipset} label={<span>{this.tr("a_4150")}<Tooltip title={this.tips_tr("Address Type ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="vnetwork">{ this.state.vnetwork }</span>
                         </FormItem>
@@ -218,7 +218,7 @@ class Network extends Component {
                         <FormItem className = {this.state.voipset} label={<span>{this.tr("a_4127")}<Tooltip title={this.tips_tr("Subnet Mask ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="vmask">{ this.state.vmask }</span>
                         </FormItem>
-                        <FormItem className = {this.state.voipset} label={<span>{this.tr("a_gateway")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                        <FormItem className = {this.state.voipset} label={<span>{this.tr("a_16191")}<Tooltip title={this.tips_tr("Default Gateway ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="vgateway">{ this.state.vgateway }</span>
                         </FormItem>
                         <FormItem className = {this.state.voipset} label={<span>{this.tr("a_19227")}<Tooltip title={this.tips_tr("DNS Server 1 ")}><Icon type="question-circle-o"/></Tooltip></span>}>

@@ -273,14 +273,14 @@ class SwitchForm extends Component {
                 }
                 if (info.file.status === 'done') {
                     Modal.info({
-                        content: <span dangerouslySetInnerHTML={{__html: self.tr("a_uploadsuc")}}></span>,
+                        content: <span dangerouslySetInnerHTML={{__html: self.tr("a_16669")}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: self.tr('a_2')}}></span>,
                         onOk() {
                         },
                     });
                     self.props.getTonelistAll(this.getAllTonelist)
                 } else if (info.file.status === 'error') {
-                    self.props.promptMsg("ERROR", "a_uploadfail");
+                    self.props.promptMsg("ERROR", "a_16477");
                 }
             },
             beforeUpload: self.beforeUploadhandle,

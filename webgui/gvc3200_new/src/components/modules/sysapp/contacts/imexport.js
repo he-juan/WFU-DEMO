@@ -304,10 +304,10 @@ class ImexportForm extends Component {
 
                 }
                 if (info.file.status === 'done') {
-                    //message.success(callTr('a_uploadsuc'));
+                    //message.success(callTr('a_16669'));
                     self.cb_put_importphbk(1,0)
                 } else if (info.file.status === 'error') {
-                    message.error(callTr('a_uploadfail'));
+                    message.error(callTr('a_16477'));
                 }
             },
             beforeUpload: self.beforeUploadhandle,

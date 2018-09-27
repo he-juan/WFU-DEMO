@@ -125,7 +125,7 @@ class GestureForm extends Component {
                     {getFieldDecorator("msgcustom", {
                         rules: [{
                             max: 60,
-                            message: callTr("a_lengthlimit") + "60"
+                            message: callTr("a_19805") + "60"
                         }],
                         initialValue: itemvalue.msgcustom
                     })(<Input className="P-gsensor_flip_reply_sms_customer"/>)}

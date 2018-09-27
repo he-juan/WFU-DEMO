@@ -569,9 +569,9 @@ export const cb_audio_upload = (fileext,acctIndex,callback) => (dispatch) => {
         var response = msgs.headers['response'];
 
         if(response == "Success") {
-            callback("a_uploadsuc","SUCCESS")
+            callback("a_16669","SUCCESS")
         } else {
-            callback("a_uploadfail","ERROR")
+            callback("a_16477","ERROR")
         }
     }).catch(function(error) {
         promptForRequestFailed();

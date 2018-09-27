@@ -225,7 +225,7 @@ class Ethernet extends Component {
     checkIpv6  = (data, value, callback) => {
         const reg = /^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:)|(\[([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){1,7}:\](:[1-9]([0-9]){0,4}){0,1}))$/
         if (value && !reg.test(value)) {
-            callback(this.tr("tip_ipv6"));
+            callback(this.tr("a_19657"));
         } else {
             callback()
         }
@@ -261,7 +261,7 @@ class Ethernet extends Component {
                             $("#ipaddr"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"a_wrong");
+                    this.props.promptMsg('ERROR',"a_16442");
                     return false;
                 }
                 set = new Set([values['mask1'],values["mask2"],values["mask3"],values["mask4"]]);
@@ -274,7 +274,7 @@ class Ethernet extends Component {
                             $("#mask"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"a_wrong");
+                    this.props.promptMsg('ERROR',"a_16442");
                     return false;
                 }
                 set = new Set([values['gateway1'],values["gateway2"],values["gateway3"],values["gateway4"]]);
@@ -287,7 +287,7 @@ class Ethernet extends Component {
                             $("#gateway"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"a_wrong");
+                    this.props.promptMsg('ERROR',"a_16442");
                     return false;
                 }
                 set = new Set([values['prednsser1'],values["prednsser2"],values["prednsser3"],values["prednsser4"]]);
@@ -300,7 +300,7 @@ class Ethernet extends Component {
                             $("#prednsser"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"a_wrong");
+                    this.props.promptMsg('ERROR',"a_16442");
                     return false;
                 } else if ([...set].length = 1 && set.has('')) {
                     for(var i = 1; i <= 4; i++) {
@@ -324,7 +324,7 @@ class Ethernet extends Component {
                             $("#alerdnsser"+i).parent().attr("class","ant-form-item-control has-success");
                         }
                     }, 2000);
-                    this.props.promptMsg('ERROR',"a_wrong");
+                    this.props.promptMsg('ERROR',"a_16442");
                     return false;
                 } else if ([...set].length = 1 && set.has('')) {
                     for (var i = 1; i <= 4; i++) {
@@ -344,7 +344,7 @@ class Ethernet extends Component {
                 if (values.networktype == "2") {
                     if (values.ppoeaccount == "" || values.ppoepassword == "") {
                         Modal.info({
-                            content: <span dangerouslySetInnerHTML={{__html: callTr("warn_pppoe")}}></span>,
+                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_16446")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
@@ -358,7 +358,7 @@ class Ethernet extends Component {
                     if( pos0 >= 0 && pos0 < submaskbinarystr.lastIndexOf("1") )
                     {
                         Modal.info({
-                            content: <span dangerouslySetInnerHTML={{__html: callTr("error_mask")}}></span>,
+                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_4247")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
@@ -520,15 +520,15 @@ class Ethernet extends Component {
             twovlanType = "display-block";
             voipsetType = "display-block";
             layerStyle = "display-hidden";
-            a_layer2qos = "a_layer2qosdata";
-            a_layer2qospv = "a_layer2qospvdata";
+            a_layer2qos = "a_19660";
+            a_layer2qospv = "a_19661";
         } else {
             IPv4Type = "display-block";
             twovlanType = "display-hidden";
             voipsetType = "display-hidden";
             layerStyle = "display-block";
-            a_layer2qos = "a_layer2qos";
-            a_layer2qospv = "a_layer2qospv";
+            a_layer2qos = "a_19662";
+            a_layer2qospv = "a_19663";
         }
         this.setState({
             IPv4Type: IPv4Type,
@@ -579,10 +579,10 @@ class Ethernet extends Component {
                     cb_ping();
                 }
                 if (info.file.status === 'done') {
-                    message.success(callTr('a_uploadsuc'));
+                    message.success(callTr('a_16669'));
                     self.setca_Aupload();
                 } else if (info.file.status === 'error') {
-                    message.error(callTr('a_uploadfail'));
+                    message.error(callTr('a_16477'));
                 }
             },
             onRemove() {
@@ -602,10 +602,10 @@ class Ethernet extends Component {
                     cb_ping();
                 }
                 if (info.file.status === 'done') {
-                    message.success(callTr('a_uploadsuc'));
+                    message.success(callTr('a_16669'));
                     self.setclient_Aupload();
                 } else if (info.file.status === 'error') {
-                    message.error(callTr('a_uploadfail'));
+                    message.error(callTr('a_16477'));
                 }
             },
             onRemove() {
@@ -625,10 +625,10 @@ class Ethernet extends Component {
                     cb_ping();
                 }
                 if (info.file.status === 'done') {
-                    message.success(callTr('a_uploadsuc'));
+                    message.success(callTr('a_16669'));
                     self.setprivatekey_Aupload();
                 } else if (info.file.status === 'error') {
-                    message.error(callTr('a_uploadfail'));
+                    message.error(callTr('a_16477'));
                 }
             },
             onRemove() {
@@ -643,13 +643,13 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues["protocoltype"]
                     })(
                         <Select className="P-1415">
-                            <Option value="0">{callTr("a_preipv4")}</Option>
-                            <Option value="1">{callTr("a_preipv6")}</Option>
+                            <Option value="0">{callTr("a_19390")}</Option>
+                            <Option value="1">{callTr("a_19391")}</Option>
                             <Option value="2">{callTr("a_19392")}</Option>
                             <Option value="3">{callTr("a_19393")}</Option>
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 {/*<FormItem label={< span > {callTr("a_twovlan")} < Tooltip title={callTipsTr("Different Networks for Data and VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("twovlan", {
@@ -659,12 +659,12 @@ class Ethernet extends Component {
                     })(
                         <Checkbox onChange={this.onChangeTwovlan.bind(this)} className="P-22104"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>*/}
                 <p className={"blocktitle"+" "+ this.state.IPv4Type}><s></s>IPv4</p>
-                <p className={"blocktitle"+" "+ this.state.twovlanType}><s></s>{callTr("a_netfordata")}</p>
+                <p className={"blocktitle"+" "+ this.state.twovlanType}><s></s>{callTr("a_19658")}</p>
                 <p className={"threetitle"+" "+ this.state.twovlanType}>IPv4</p>
-                <FormItem label={< span > {callTr("a_addresstypeipv4")} < Tooltip  title={ <FormattedHTMLMessage  id={this.tips_tr("Address Type")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19659")} < Tooltip  title={ <FormattedHTMLMessage  id={this.tips_tr("Address Type")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('networktype', {
                         rules: [],
                         initialValue: this.props.itemValues.networktype
@@ -681,7 +681,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues["dhcpvlan"] ? this.props.itemValues["dhcpvlan"] : "0"
                     })(
                         <Select className="P-8300">
-                            <Option value="0">{callTr("a_disable")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
                             <Option value="1">{callTr("a_19333")}</Option>
                             <Option value="2">{callTr("a_19334")}</Option>
                         </Select>
@@ -692,7 +692,7 @@ class Ethernet extends Component {
                         rules: [
                             {
                                 max: 40,
-                                message: callTr("a_lengthlimit") + "40"
+                                message: callTr("a_19805") + "40"
                             },{
                                 validator: (data, value, callback) => {
                                     this.checkNoCHString(data, value, callback)
@@ -707,7 +707,7 @@ class Ethernet extends Component {
                         rules: [
                             {
                                 max: 40,
-                                message: callTr("a_lengthlimit") + "40"
+                                message: callTr("a_19805") + "40"
                             },{
                                 validator: (data, value, callback) => {
                                     this.checkNoCHString(data, value, callback)
@@ -863,7 +863,7 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ "ip-address" + " " + this.state.networktype_mode_type.staip } label={< span > {this.tr("a_gateway")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ "ip-address" + " " + this.state.networktype_mode_type.staip } label={< span > {this.tr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -1082,13 +1082,13 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ this.state.networktype_mode_type.PPPoE } label={< span > {callTr("a_pppacc")} < Tooltip title={callTipsTr("PPPoE Account ID")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ this.state.networktype_mode_type.PPPoE } label={< span > {callTr("a_4156")} < Tooltip title={callTipsTr("PPPoE Account ID")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input className="P-82" style = {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("ppoeaccount", {
                         rules: [
                             {
                                 max: 32,
-                                message: callTr("a_lengthlimit") + "32"
+                                message: callTr("a_19805") + "32"
                             }
                         ],
                         initialValue: this.props.itemValues.ppoeaccount
@@ -1100,7 +1100,7 @@ class Ethernet extends Component {
                         rules: [
                             {
                                 max: 32,
-                                message: callTr("a_lengthlimit") + "40"
+                                message: callTr("a_19805") + "40"
                             }
                         ],
                         initialValue: this.props.itemValues.ppoepassword
@@ -1140,7 +1140,7 @@ class Ethernet extends Component {
                         }],
                         initialValue: this.props.itemValues.layer2qospv
                     })(<Input min={0} max={7} className="P-87" />)}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <p className={"blocktitle"+" "+ this.state.IPv4Type}><s></s>IPv6</p>
                 <p className={"threetitle"+" "+ this.state.twovlanType}>IPv6</p>
@@ -1208,9 +1208,9 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.ipv6dns2
                     })(<Input maxLength="40" className="P-1425"/>)}
                 </FormItem>
-                <p className={"blocktitle"+" "+ this.state.twovlanType}><s></s>{callTr("a_netforvoip")}</p>
+                <p className={"blocktitle"+" "+ this.state.twovlanType}><s></s>{callTr("a_19664")}</p>
                 <p className={"threetitle"+" "+ this.state.twovlanType}>IPv4</p>
-                <FormItem className = { this.state.twovlanType } label={< span > {callTr("a_addresstypeipv4")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Voip Address Type")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = { this.state.twovlanType } label={< span > {callTr("a_19659")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Voip Address Type")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('networktypevoip', {
                         rules: [],
                         initialValue: this.props.itemValues["networktypevoip"] ? this.props.itemValues["networktypevoip"] : "0"
@@ -1244,7 +1244,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipmask
                     })(<Input maxLength="40" className="P-22107"/>)}
                 </FormItem>
-                <FormItem className = {this.state.twovlanType + " " + this.state.networktypevoip_mode_type} label={< span > {callTr("a_gateway")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {this.state.twovlanType + " " + this.state.networktypevoip_mode_type} label={< span > {callTr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('networkvoipgateway', {
                         rules: [
                             {
@@ -1280,7 +1280,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipdns2
                     })(<Input maxLength="40" className="P-22110"/>)}
                 </FormItem>
-                <FormItem className = {this.state.voipsetType} label={< span > {callTr("a_layer2qosvoip")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {this.state.voipsetType} label={< span > {callTr("a_19665")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer2qosvoip", {
                         rules: [{
                             required: true,
@@ -1297,7 +1297,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.layer2qosvoip
                     })(<Input min={0} max={4094} className="P-22111"/>)}
                 </FormItem>
-                <FormItem className = {this.state.voipsetType} label={< span > {callTr("a_layer2qospvvoip")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {this.state.voipsetType} label={< span > {callTr("a_19666")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer2qospvvoip", {
                         rules: [{
                             required: true,
@@ -1313,7 +1313,7 @@ class Ethernet extends Component {
                         }],
                         initialValue: this.props.itemValues.layer2qospvvoip
                     })(<Input min={0} max={7} className="P-22112"/>)}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <p className={"threetitle"+" "+ this.state.twovlanType}>IPv6</p>
                 <FormItem className={"select-item" + " " + this.state.twovlanType} label={< span > {callTr("a_19226")} < Tooltip title = {callTipsTr("IPv6 Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
@@ -1353,35 +1353,35 @@ class Ethernet extends Component {
                     })(<Input maxLength="40" className="P-22116"/>)
                     }
                 </FormItem>
-                <p className="blocktitle"><s></s>{callTr("a_802mode")}</p>
-                <FormItem className="select-item"  label={< span > { callTr("a_802mode") } < Tooltip title={callTipsTr("802.1X mode")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <p className="blocktitle"><s></s>{callTr("a_4140")}</p>
+                <FormItem className="select-item"  label={< span > { callTr("a_4140") } < Tooltip title={callTipsTr("802.1X mode")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('xmode', {
                         rules: [],
                         initialValue: this.props.itemValues["xmode"] ? this.props.itemValues["xmode"] : "0"
                     })(
                         <Select onChange={ this.onChangeMode.bind(this) } className="P-7901">
-                            <Option value="0">{callTr("a_disable")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
                             <Option value="1">EAP-MD5</Option>
                             <Option value="2">EAP-TLS</Option>
                             <Option value="3">EAP-PEAP</Option>
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className={ this.state.lan_mode_class.identity } label={< span > { callTr("a_identity") } < Tooltip title={callTipsTr("802.1X Identity")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ this.state.lan_mode_class.identity } label={< span > { callTr("a_16195") } < Tooltip title={callTipsTr("802.1X Identity")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type="text" name = "identity" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator('identity', {
                         rules: [],
                         initialValue: this.props.itemValues.identity
                     })(<Input name = "identity" className="P-7902"/>)}
                 </FormItem>
-                <FormItem className={ this.state.lan_mode_class.md5pas } label={< span > { callTr("a_md5pas") } < Tooltip title = {callTipsTr("802.1X Secret")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ this.state.lan_mode_class.md5pas } label={< span > { callTr("a_16196") } < Tooltip title = {callTipsTr("802.1X Secret")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type={this.state.type802} name = "md5pas" style = {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("md5pas", {
                         rules: [],
                         initialValue: this.props.itemValues.md5pas
                     })(<Input type={this.state.type802} name = "md5pas" suffix={<Icon type="eye" className={this.state.type802 + " P-7903"} onClick={this.handleMd5PWDVisible}/>}/>)}
                 </FormItem>
-                <FormItem className={ this.state.lan_mode_class.a_802ca } label={<span>{callTr("a_802ca")} <Tooltip title={callTipsTr("CA Certificate")}> <Icon type="question-circle-o"/> </Tooltip> </span> } hasFeedback>
+                <FormItem className={ this.state.lan_mode_class.a_802ca } label={<span>{callTr("a_19667")} <Tooltip title={callTipsTr("CA Certificate")}> <Icon type="question-circle-o"/> </Tooltip> </span> } hasFeedback>
                     {getFieldDecorator('a_802ca', {
                         valuePropName: 'fileList',
                         normalize: this._normFile

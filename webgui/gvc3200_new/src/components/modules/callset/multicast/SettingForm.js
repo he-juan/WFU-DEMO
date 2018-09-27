@@ -60,7 +60,7 @@ class SettingForm extends Component {
                         initialValue: itemvalue['pagingbarge'] ? itemvalue['pagingbarge'] : "0"
                     })(
                         <Select className="P-1566">
-                            <Option value="0">{callTr("a_disable")}</Option>
+                            <Option value="0">{callTr("a_39")}</Option>
                             <Option value="1">1</Option>
                             <Option value="2">2</Option>
                             <Option value="3">3</Option>

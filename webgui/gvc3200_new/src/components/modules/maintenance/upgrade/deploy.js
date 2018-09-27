@@ -435,7 +435,7 @@ class DeployForm extends Component {
                     })(
                         <Checkbox className="P-145"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {callTr("a_16338")} < Tooltip title = {callTipsTr("DHCP Option 120 Override SIP Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcp120", {
@@ -445,7 +445,7 @@ class DeployForm extends Component {
                     })(
                         <Checkbox className="P-1411"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {callTr("a_dhcp242")} < Tooltip title = {callTipsTr("Allow DHCP Option 242 (Avaya IP Phones)")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcp242", {
@@ -455,7 +455,7 @@ class DeployForm extends Component {
                     })(
                         <Checkbox className="P-22053"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>*/}
                 <p className="blocktitle"><s></s>{this.tr("a_cfgProvision")}</p>
                 <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_CFG_Provision")} < Tooltip title = {callTipsTr("CFG Provision")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
@@ -472,13 +472,13 @@ class DeployForm extends Component {
                     })(
                         <Checkbox className="P-22032"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {callTr("a_pnpurl")} < Tooltip title = {callTipsTr("PNP URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("pnpurl", {
                         rules: [{
                             max: 128,
-                            message: callTr("a_lengthlimit") + "128"
+                            message: callTr("a_19805") + "128"
                         }, {
                             validator: (data, value, callback) => {
                                 this.checkUrlPath(data, value, callback)
@@ -495,7 +495,7 @@ class DeployForm extends Component {
                     })(
                         <Checkbox className="P-1414"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>*/}
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>

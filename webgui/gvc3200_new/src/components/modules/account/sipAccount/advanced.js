@@ -195,7 +195,7 @@ class AdvancedForm extends React.Component {
                         });
                     })
                 } else if (info.file.status === 'error') {
-                    message.error(callTr('a_uploadfail'));
+                    message.error(callTr('a_16477'));
                 }
             },
             beforeUpload: self.beforeUploadhandle,

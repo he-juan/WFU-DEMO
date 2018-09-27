@@ -63,7 +63,7 @@ class Fxo extends Component {
                                 <Radio value="1">{this.tr("a_impedance")}</Radio>
                             </RadioGroup>
                         )}
-                        <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                        <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem className="select-item" label={<span>{this.tr("a_countrybased")}<Tooltip title={this.tips_tr("Country based")}><Icon type="question-circle-o"/></Tooltip></span>}>
                         {getFieldDecorator('country_based', {
@@ -88,7 +88,7 @@ class Fxo extends Component {
                                 <Option value="12">UK</Option>
                             </Select>
                         )}
-                        <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                        <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem className="select-item" label={<span>{this.tr("a_impedancebased")}<Tooltip title={this.tips_tr("Impedance based")}><Icon type="question-circle-o"/></Tooltip></span>}>
                         {getFieldDecorator('impedance_based', {
@@ -112,7 +112,7 @@ class Fxo extends Component {
                                 <Option value="43">COMPLEX10 -- 120 ohms + (820 ohms || 110nF)</Option>
                             </Select>
                         )}
-                        <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                        <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem className="select-item" label={<span>{this.tr("a_calleridscheme")}<Tooltip title={this.tips_tr("Caller ID Scheme")}><Icon type="question-circle-o"/></Tooltip></span>}>
                         {getFieldDecorator('calleridscheme', {
@@ -148,7 +148,7 @@ class Fxo extends Component {
                         })(
                             <Checkbox />
                         )}
-                        <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                        <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem label={< span > {
                         this.tr("a_cudisthreshold")
@@ -167,7 +167,7 @@ class Fxo extends Component {
                         })(
                             <Input />
                         )}
-                        <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                        <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem label={< span > {
                         this.tr("a_enablepstn")
@@ -178,7 +178,7 @@ class Fxo extends Component {
                         })(
                             <Checkbox />
                         )}
-                        <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                        <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem>
                         <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>

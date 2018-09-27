@@ -15,7 +15,7 @@ class CertificateForm extends Component {
         const { callTr } = this.props;
         return(
             <Form hideRequiredMark>
-                <div className="blocktitle"><s></s>{callTr("a_802ca")}</div>
+                <div className="blocktitle"><s></s>{callTr("a_19667")}</div>
                 <SipCert {...this.props} />
                 <div className="blocktitle"><s></s>{callTr("a_19282")}</div>
                 <CustomCert {...this.props} />

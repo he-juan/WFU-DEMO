@@ -134,7 +134,7 @@ class LcdLedForm extends Component {
                     })(
                         <Checkbox className="P-351"/>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={<span>{callTr("a_dismissindtor")}<Tooltip title={callTipsTr("Disable Missed Call Indicator")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("dismissindtor", {

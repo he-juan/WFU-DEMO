@@ -270,7 +270,7 @@ class ConfigForm extends Component {
                 <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_4114")} < Tooltip title = {callTipsTr("Config Server Path")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("confpath", {
                         rules: [{
-                            max: 256, message: callTr("a_lengthlimit") + "256"
+                            max: 256, message: callTr("a_19805") + "256"
                         }],
                         initialValue: this.props.itemValues.confpath
                     })(<Input className="P-237"/>)}
@@ -303,7 +303,7 @@ class ConfigForm extends Component {
                         rules: [
                             {
                                 max: 128,
-                                message: callTr("a_lengthlimit") + "128"
+                                message: callTr("a_19805") + "128"
                             }
                         ],
                         initialValue: this.props.itemValues.confpre
@@ -314,7 +314,7 @@ class ConfigForm extends Component {
                         rules: [
                             {
                                 max: 128,
-                                message: callTr("a_lengthlimit") + "128"
+                                message: callTr("a_19805") + "128"
                             }
                         ],
                         initialValue: this.props.itemValues.confpost
@@ -352,7 +352,7 @@ class ConfigForm extends Component {
                                     <Icon type="upload" /> {this.tr("a_16486")}
                                 </Button>
                             </Upload>
-                            <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                            <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                         </div>
                     )}
                 </FormItem>

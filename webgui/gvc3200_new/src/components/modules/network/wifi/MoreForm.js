@@ -220,7 +220,7 @@ class MoreForm extends Component {
                             })}
                         </Select>
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 : "" }
                 <FormItem label={< span > {callTr("a_16187")} < Tooltip title={callTipsTr("Host name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
@@ -228,7 +228,7 @@ class MoreForm extends Component {
                         rules: [
                             {
                                 max: 40,
-                                message: callTr("a_lengthlimit") + "40"
+                                message: callTr("a_19805") + "40"
                             },{
                                 validator: (data, value, callback) => {
                                     this.checkNoCHString(data, value, callback)
@@ -245,7 +245,7 @@ class MoreForm extends Component {
                         rules: [
                             {
                                 max: 40,
-                                message: callTr("a_lengthlimit") + "40"
+                                message: callTr("a_19805") + "40"
                             }, {
                                 validator: (data, value, callback) => {
                                     this.checkNoCHString(data, value, callback)

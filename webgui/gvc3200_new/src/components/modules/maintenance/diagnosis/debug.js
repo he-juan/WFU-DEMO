@@ -515,7 +515,7 @@ class DebugForm extends Component {
                     })(
                         <Checkbox />
                     )}
-                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem className="select-item" label={( <span> {callTr("a_19263")} <Tooltip title={callTipsTr("Core Dump List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(

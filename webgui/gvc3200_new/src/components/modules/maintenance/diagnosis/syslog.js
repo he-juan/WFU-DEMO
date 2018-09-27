@@ -104,7 +104,7 @@ class SyslogForm extends Component {
                         rules: [
                             {
                                 max: 128,
-                                message: callTr("a_lengthlimit") + "128"
+                                message: callTr("a_19805") + "128"
                             },{
                                 validator: (data, value, callback) => {
                                     this.checkaddressPath(data, $.trim(value), callback)

@@ -258,7 +258,7 @@ class FirmwareForm extends Component {
                     }else if( info.file.response.indexOf("Message=Not enough space") != -1 ){
                         //button.text(a_7404);
                         Modal.info({
-                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail") + callTr("a_lowspace")}}></span>,
+                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_16477") + callTr("a_lowspace")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
@@ -266,7 +266,7 @@ class FirmwareForm extends Component {
                     }else{
                         //button.text(a_7404);
                         Modal.info({
-                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_uploadfail")}}></span>,
+                            content: <span dangerouslySetInnerHTML={{__html: callTr("a_16477")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
@@ -274,7 +274,7 @@ class FirmwareForm extends Component {
                     }
                     changeMuploading(0);
                 } else if (info.file.status === 'error') {
-                    promptMsg('ERROR', "a_uploadfail");
+                    promptMsg('ERROR', "a_16477");
                     promptSpinMsg('display-hidden', "a_uploadwait");
                 }
             },
@@ -307,7 +307,7 @@ class FirmwareForm extends Component {
                                     <Icon type="upload" /> {this.tr(this.state.upfirmfile_Aupload)}
                                 </Button>
                             </Upload>
-                            <Icon title={callTr("a_rebooteffect")} style={{left:'100px'}} className="rebooticon" type="exclamation-circle-o" />
+                            <Icon title={callTr("a_4278")} style={{left:'100px'}} className="rebooticon" type="exclamation-circle-o" />
                         </div>
                     )}
                 </FormItem>
@@ -327,7 +327,7 @@ class FirmwareForm extends Component {
                 <FormItem label={< span > {callTr("a_4113")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Firmware Server Path")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("firpath", {
                         rules: [{
-                            max: 256, message: this.tr("a_lengthlimit") + "256"
+                            max: 256, message: this.tr("a_19805") + "256"
                         }],
                         initialValue: this.props.itemValues.firpath
                     })(<Input className="P-192"/>)}
@@ -351,7 +351,7 @@ class FirmwareForm extends Component {
                         rules: [
                             {
                                 max: 128,
-                                message: this.tr("a_lengthlimit") + "128"
+                                message: this.tr("a_19805") + "128"
                             }
                         ],
                         initialValue: this.props.itemValues.firpre
@@ -362,7 +362,7 @@ class FirmwareForm extends Component {
                         rules: [
                             {
                                 max: 128,
-                                message: this.tr("a_lengthlimit") + "128"
+                                message: this.tr("a_19805") + "128"
                             }
                         ],
                         initialValue: this.props.itemValues.firpost

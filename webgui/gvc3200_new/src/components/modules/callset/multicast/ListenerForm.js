@@ -47,7 +47,7 @@ class ListenerForm extends Component {
     checkListenAddr = (rule, value, callback) => {
         const form = this.props.form;
         if(value.length > 128)
-            callback(rule.method("a_lengthlimit") + "128!");
+            callback(rule.method("a_19805") + "128!");
 
         let valid = false;
         if(value != ""){
@@ -128,7 +128,7 @@ class ListenerForm extends Component {
                                         })(
                                             <Input className="listenaddr" />
                                         )}
-                                        <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                                        <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                                     </FormItem>
                                 </Col>
                                 <Col span={11}>

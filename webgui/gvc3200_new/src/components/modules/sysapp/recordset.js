@@ -171,7 +171,7 @@ class RecordSet extends Component {
                             <FormItem label={< span > {callTr("a_6755")} </span >}>
                                 {getFieldDecorator("ftpurl", {
                                     rules: [{
-                                        max: 256, message: this.tr("a_lengthlimit") + "256"
+                                        max: 256, message: this.tr("a_19805") + "256"
                                     }],
                                     initialValue: itemValues.ftpurl ? itemValues.ftpurl : ""
                                 })(<Input className=""/>)}

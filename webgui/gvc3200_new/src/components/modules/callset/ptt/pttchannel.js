@@ -44,7 +44,7 @@ class channel extends Component {
 
     checkListenAddr = (rule, value, callback) => {
         if (value.length > 128)
-            callback(this.tr("a_lengthlimit") + "128!");
+            callback(this.tr("a_19805") + "128!");
 
         let valid = false;
         if (value != "") {

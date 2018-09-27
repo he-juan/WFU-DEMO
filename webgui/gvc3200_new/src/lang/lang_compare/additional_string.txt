@@ -226,7 +226,6 @@ a_workphone,Work Phone,工作电话
 a_numberexceed,This contact already had three numbers, please select another contact,该联系人已有三个号码,请另选联系人
 a_addLocalcontact,Save to local contacts,保存至已有联系人
 a_contact,Contacts,联系人
-openvpn_ca,OpenVPN® CA,OpenVPN® CA
 a_protocalchanged,Modify the connection method or port, web will lead to log out and jump to the new address: ,修改连接方式或端口，页面将登出并跳转到新地址:
 no_chinese,Can not include chinese characters,不能包含中文
 a_adjustvol,Adjust Volume,调节音量
@@ -262,7 +261,6 @@ a_uploadinstall,Upload & Install,上传并安装
 a_selectcert,Select Certificate,选择证书
 a_addcert,Add Certificate,添加证书
 a_usercert,User Certificate,用户证书
-a_wrong,Error: Some data is invalid, please check first,错误: 表单中有不合法的数据
 no_data,Sorry, there is currently no data,对不起, 暂无数据
 a_pwdlengthallowed,WEP Wi-Fi only allows entering password with 5, 10, 13, 26, 16 or 32 digits,WEP类型Wi-Fi密码只能为5/10/13/26/16/32位字符
 a_pwdlengthlimit,Password length can't less than 8,密码不能少于8位字符
@@ -273,7 +271,6 @@ a_poor,Poor,弱
 a_used,Used,已使用
 a_available,Available,可用空间
 a_sd,SD card,内置存储空间
-a_rebooteffect,Reboot to take effect,重启生效
 a_wifiautoscan,The Wi-Fi list refreshes automatically every 15 seconds, you can also click the \"Scan\" button to refresh,Wi-Fi列表每15秒会进行自动刷新，您也可以通过点击“扫描”按钮进行刷新。
 a_anonyiden,Anonymous identity,匿名身份
 a_iden802,Identity,身份
@@ -293,7 +290,6 @@ a_forget,Forget,取消保存
 a_connect,Connect,连接
 tip_requiredigit2,Must be numbers,只能输入数字
 tip_requiredigit,Valid: integer,有效值：整数
-a_lengthlimit,The length can't exceed ,长度不能超过
 a_custvialerror,Please fill in correct GUI customization file server path,请填写正确的自定义文件服务器路径
 a_configurlerror,Please fill in correct config server path,请填写正确的配置文件服务器路径
 a_urlerror,Please fill in correct firmware server path,请填写正确的固件服务器路径
@@ -319,7 +315,6 @@ system_diagnosis,System Diagnosis,系统诊断
 a_tr069,TR069,网管设置
 cpnt_peripheral,Preferences,偏好设置
 time_lang,Time and Language,时间和语言
-common_net,Advanced Network Settings,高级网络设置
 call_setting,Phone Settings,电话设置
 status_store,Storage Info,存储信息
 a_gdspwdlimit,The length of GDS Password is over 32,门禁密码不能超过32位字符！
@@ -646,24 +641,13 @@ a_backuplimit,Please at least select backup content,请至少选择一种备份�
 a_pwdnotsame,The password is inconsistent with current one,您输入的密码与当前密码不一致！
 a_userpwdempty,Please input new user password,请输入用户新密码
 a_adminoruserpwdempty,Please input new administration's or user's password,请输入管理员/用户新密码
-a_preipv6,Both, prefer IPv6,首选IPv6
-a_preipv4,Both, prefer IPv4,首选IPv4
+
 a_enablecdp,Enable CDP,开启CDP
-a_layer2qospvvoip,Layer 2 QoS 802.1p Priority Value (Ethernet) for VoIP Calls,应用于VoIP通话的第二层QoS 802.1p优先级(以太网)
-a_layer2qosvoip,Layer 2 QoS 802.1Q/VLAN Tag (Ethernet) for VoIP Calls,应用于VOIP通话的第二层QoS 802.1Q/VLAN标记(以太网)
-a_layer2qospvdata,Layer 2 QoS 802.1p Priority Value (Ethernet) for Data,应用于数据的第二层QoS 802.1p优先级(以太网)
-a_layer2qosdata,Layer 2 QoS 802.1Q/VLAN Tag (Ethernet) for Data,应用于数据的第二层QoS 802.1Q/VLAN标记(以太网)
-a_netforvoip,Network Configuration of VoIP Calls,VoIP通话使用的网络配置
-a_netfordata,Network Configuration of Data,数据使用的网络配置
 a_twovlan,Different Networks for Data and VoIP Calls,数据和VoIP通话使用不同网络
 a_showwidgetip,Show IP Address on Account Widget,显示帐号工具IP地址
-error_mask,Invalid Subnet Mask,子网掩码不合法！
 warn_ftppath,Server save path format is wrong,服务器保存路径格式错误
 warn_ftpurl,Server address format is wrong,服务器地址格式错误
 warn_ftp,Server address and port cannot be empty！,服务器地址和端口不能为空！
-warn_pppoe,PPPoE Account ID and Password can't be empty,PPPoE帐号和密码不能为空
-warn_proxyurl,The hostname format is wrong,主机名格式错误
-warn_proxy,The hostname and port can't be empty,主机名和端口不能为空！
 a_proxystatus,HTTP/HTTPS Proxy,HTTP/HTTPS代理服务器
 a_802ca,CA Certificate,CA证书
 a_md5pas,802.1X Secret,802.1X密码
@@ -672,13 +656,10 @@ a_802mode,802.1X Mode,802.1X模式
 a_layer2qospvwifi,Layer 2 QoS 802.1p Priority Value (Wi-Fi),第二层QoS 802.1p优先级 (Wi-Fi)
 a_layer2qoswifi,Layer 2 QoS 802.1Q/VLAN Tag (Wi-Fi),第二层QoS 802.1Q/VLAN标记 (Wi-Fi)
 a_layer2qospv,Layer 2 QoS 802.1p Priority Value (Ethernet),第二层QoS 802.1p优先级 (以太网)
-a_layer2qos,Layer 2 QoS 802.1Q/VLAN Tag (Ethernet),第二层QoS 802.1Q/VLAN标记 (以太网)
 a_layer3qos,Layer 3 QoS,第三层QoS
 a_lldpinterval,LLDP TX Interval (s),LLDP TX间隔 (秒)
-a_2relprednsser,Second Alternate DNS Server,次选备用DNS服务器
 a_gateway,Default Gateway,默认网关
 a_pppacc,PPPoE Account ID,PPPoE帐号
-a_addresstypeipv4,IPv4 Address Type,IPv4地址类型
 a_autocptbyregion,Auto Config CPT by Region,根据地区自动配置CPT
 a_attendtrnfonly,Attended Transfer Only,仅指定转接
 a_attendtrnf,Attended Transfer,指定转接
@@ -790,7 +771,6 @@ a_sipbasic,SIP Basic Settings,SIP基本设置
 a_reg,SIP Registration,注册
 a_disabled,Disabled,不使用
 a_enabled1,Enabled,使用
-a_disable,Disable,关闭
 a_enabled,Enabled,开启
 a_displayname,Display Name,显示名
 a_voicemailuid,Voice Mail Access Number,语音信箱接入号
@@ -858,7 +838,6 @@ a_process,Processing..,进行中
 a_uploading,Uploading,正在上传
 a_error,Error,错误
 error,Error:,错误:
-tip_ipv6,Please enter a valid IPv6 address,请输入一個有效的IPV6地址
 tip_iperror,IP Format Error,IP地址格式错误
 tip_range_between, - ,-
 tip_range,Valid:,有效值：

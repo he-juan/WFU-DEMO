@@ -22,7 +22,7 @@ const req_items = [{"name":"vpnenable", "pvalue":"7050", "value":""},
 class OpenVPN extends Component {
     constructor(props){
         super(props);
-		
+
 		this.state = {
 			curpvalue: "",
 			disableDelBtn1: true,
@@ -52,29 +52,29 @@ class OpenVPN extends Component {
             this.handleSubmit();
         }
     }
-	
+
 	handlePwdVisible = () => {
         this.setState({type: this.state.type == "password" ? "text" : "password"});
     }
-	
+
 	handleUploadCert = (tag, info) => {
 		if(info.file.status == "done"){
 			if(info.file.response.indexOf("Response") != -1){
 				let pvalue = certPvalue[tag];
-				
+
 				/* set the content of certificate into pvalue */
 				this.props.setOpenVPNCert(pvalue, (value) => {
 					if(value.headers.response == "Success"){
-						message.success(this.tr("a_uploadsuc"));
+						message.success(this.tr("a_16669"));
 						this.setState({[`disableDelBtn${tag + 1}`]: false});
 					}else{
-						message.success(this.tr("a_uploadfail"));
+						message.success(this.tr("a_16477"));
 					}
 				});
 			}
 		}
 	}
-	
+
 	/* set corresponding pvalue as empty to delete the certificate */
 	deleteCert = (tag) => {
 		this.props.putNvrams(new Array(certPvalue[tag]), new Array(""), "a_del_ok", () => {
@@ -95,7 +95,7 @@ class OpenVPN extends Component {
         const callTr = this.tr;
         const callTipsTr = this.tips_tr;
         const itemvalue = this.props.itemValues;
-		
+
         let itemList =
             <Form hideRequiredMark className="configform" style={{'min-height': this.props.mainHeight}}>
 				<FormItem label={<span>{callTr("a_19265")}<Tooltip title={callTipsTr("OpenVPN Enable")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -144,28 +144,28 @@ class OpenVPN extends Component {
 						</RadioGroup>
                     )}
                 </FormItem>
-				
-				<FormItem label={<span>{callTr("openvpn_ca")}<Tooltip title={callTipsTr("OpenVPN CA")}><Icon type="question-circle-o"/></Tooltip></span>}>
+
+				<FormItem label={<span>{callTr("a_19668")}<Tooltip title={callTipsTr("OpenVPN CA")}><Icon type="question-circle-o"/></Tooltip></span>}>
 					<Upload name="file" multiple={false} showUploadList={false} action="../upload?type=vericert" accept=".crt" onChange={this.handleUploadCert.bind(this, 0)}>
 						<Button className="openvpn-upload-btn" type="primary">{callTr("a_16197")}</Button>
 					</Upload>
 					<Button type="primary" disabled={this.state.disableDelBtn1} onClick={this.deleteCert.bind(this, 0)}>{callTr("a_19067")}</Button>
                 </FormItem>
-				
+
 				<FormItem label={<span>{callTr("a_19269")}<Tooltip title={callTipsTr("OpenVPN Client Certificate")}><Icon type="question-circle-o"/></Tooltip></span>}>
 					<Upload name="file" multiple={false} showUploadList={false} action="../upload?type=vericert" accept=".crt" onChange={this.handleUploadCert.bind(this, 1)}>
 						<Button className="openvpn-upload-btn" type="primary">{callTr("a_16197")}</Button>
 					</Upload>
 					<Button type="primary" disabled={this.state.disableDelBtn2} onClick={this.deleteCert.bind(this, 1)}>{callTr("a_19067")}</Button>
                 </FormItem>
-				
+
 				<FormItem label={<span>{callTr("a_19270")}<Tooltip title={callTipsTr("OpenVPN Client Key")}><Icon type="question-circle-o"/></Tooltip></span>}>
 					<Upload name="file" multiple={false} showUploadList={false} action="../upload?type=vericert" accept=".key" onChange={this.handleUploadCert.bind(this, 2)}>
 						<Button className="openvpn-upload-btn" type="primary">{callTr("a_16197")}</Button>
 					</Upload>
 					<Button type="primary" disabled={this.state.disableDelBtn3} onClick={this.deleteCert.bind(this, 2)}>{callTr("a_19067")}</Button>
                 </FormItem>
-				
+
                 <FormItem label={<span>{callTr("a_19271")}<Tooltip title={callTipsTr("OpenVPN Cipher Method")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpncipher", {
                         initialValue: itemvalue['vpncipher'] ? itemvalue['vpncipher'] : "0"

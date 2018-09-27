@@ -73,7 +73,7 @@ class GuestForm extends Component {
                         })(
                             <Checkbox className={"P-22015"}/>
                         )}
-                        <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                        <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                     </FormItem>
                     <FormItem label={<span>{callTr("a_publicmodeint")}<Tooltip title={callTipsTr("Guest Login Timeout")}><Icon type="question-circle-o"/></Tooltip></span>}>
                         {getFieldDecorator("publicmodeint", {
