@@ -13,6 +13,7 @@ class CodecForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            prevbrateAvailable: [], //演示可用比特率
             vbrateAvailable: [],
             videoTargetKeys: [],
             beforeImgsize: "",
@@ -48,6 +49,11 @@ class CodecForm extends React.Component {
             '1' : ['384', '400', '416', '448', '512', '640', '768', '896', '1024'],
         }
 
+        // 演示视频大小对应的视频比特率
+        this.preSizeToPrevbrate = {
+            '10': ['512','768', '1024', '1280', '1536', '1792', '2048'],
+            '9': ['512', '640', '768', '896', '1024', '1280', '1536','1792', '2048']
+        }
 
     }
 
@@ -111,6 +117,7 @@ class CodecForm extends React.Component {
         this.props.getItemValues(this.handlePvalue(), (values) => {
             this.getVideoData(values);
             this.setVbrateOptions(values['imgsize']);
+            this.setPreVbrateOptions(values['presentimagesize']);
         });
     }
 
@@ -158,7 +165,7 @@ class CodecForm extends React.Component {
     }
     handleImgSizeChange = (v) => {
         this.setVbrateOptions(v);
-        let vbrate = v == this.props.itemValues['imgsize'] ? this.props.itemValues['vbrate'] : this.imgsizeToVbrate[v][4]
+        let vbrate = v == this.props.itemValues['imgsize'] ? this.props.itemValues['vbrate'] : this.imgsizeToVbrate[v][0]
         this.props.form.setFieldsValue({
             vbrate
         })
@@ -171,6 +178,23 @@ class CodecForm extends React.Component {
         let vbrateAvailable = this.imgsizeToVbrate[v];
         this.setState({
             vbrateAvailable
+        })
+    }
+
+    handlePreImgSizeChange = (v) => {
+        this.setPreVbrateOptions(v);
+        let preVbrate = v == this.props.itemValues['presentimagesize'] ? this.props.itemValues['presentvideobitrate'] : this.preSizeToPrevbrate[v][0]
+        this.props.form.setFieldsValue({
+            presentvideobitrate: preVbrate
+        })
+    }
+    setPreVbrateOptions = (v) => {
+        if(v == '' || !v) {
+            v = '10'
+        }
+        let prevbrateAvailable = this.preSizeToPrevbrate[v];
+        this.setState({
+            prevbrateAvailable
         })
     }
     toggleDisablePresent() {
@@ -515,7 +539,7 @@ class CodecForm extends React.Component {
                     {getFieldDecorator('presentimagesize', {
                         initialValue: this.props.itemValues['presentimagesize'] ? this.props.itemValues['presentimagesize'] : "10"
                     })(
-                        <Select className="P-2576" disabled={this.state.disablePresentStatus}>
+                        <Select className="P-2576" disabled={this.state.disablePresentStatus} onChange={(v) => {this.handlePreImgSizeChange(v)}}>
                             <Option value="10">1080P</Option>
                             <Option value="9">720P</Option>
                         </Select>
@@ -540,13 +564,13 @@ class CodecForm extends React.Component {
                         initialValue: this.props.itemValues['presentvideobitrate'] ? this.props.itemValues['presentvideobitrate'] : "2048"
                     })(
                         <Select className="P-2578" disabled={this.state.disablePresentStatus}>
-                            <Option value="512">512Kbps</Option>
-                            <Option value="768">768Kbps</Option>
-                            <Option value="1024">1024Kbps</Option>
-                            <Option value="1280">1280Kbps</Option>
-                            <Option value="1536">1536Kbps</Option>
-                            <Option value="1792">1792Kbps</Option>
-                            <Option value="2048">2048Kbps</Option>
+                            {
+                                this.state.prevbrateAvailable.map((v) => {
+                                    return (
+                                        <Option value={v}>{v}Kbps</Option>
+                                    )
+                                })
+                            }
                         </Select>
                     )}
                 </FormItem>
