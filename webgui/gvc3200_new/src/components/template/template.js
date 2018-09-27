@@ -283,7 +283,7 @@ export const options = [
                 {"name": "TURN Server Username", "lang": "a_19026"},
                 {"name": "TURN Server Password", "lang": "a_19027"},
                 {"name": "Use NAT IP", "lang": "a_16284"},
-                {"name": "Disable remote control app connect", "lang": "a_16283"},
+                // {"name": "Disable remote control app connect", "lang": "a_16283"},
                 {"type": "button", "lang": "a_17"}
             ]}
         ]},

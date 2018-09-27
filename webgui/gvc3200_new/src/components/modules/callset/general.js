@@ -15,7 +15,8 @@ const req_items = [{"name":"rtpport", "pvalue":"39", "value":""},
                     {"name":"stunservername", "pvalue":"22042", "value":""},
                     {"name":"stunserverpwd", "pvalue":"22043", "value":""},
                     {"name":"natip", "pvalue":"101", "value":""},
-                    {"name":"remoteappconnect", "pvalue":"25022", "value":""}];
+                    // {"name":"remoteappconnect", "pvalue":"25022", "value":""}
+                ];
 
 class General extends Component {
     constructor(props) {
@@ -165,14 +166,14 @@ class General extends Component {
                     )}
                 </FormItem>
 
-                <FormItem label={<span>{callTr("a_16616")}<Tooltip title={callTipsTr("Use Random Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                {/* <FormItem label={<span>{callTr("a_16616")}<Tooltip title={callTipsTr("Use Random Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("remoteappconnect", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['remoteappconnect'])
                     })(
                         <Checkbox className={"P-25022"}/>
                     )}
-                </FormItem>
+                </FormItem> */}
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
