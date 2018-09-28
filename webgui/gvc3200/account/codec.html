@@ -250,7 +250,7 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_decoderefresh">Enable video Gradual decoder refresh</span> :</div>
                 <input name="decoderefresh" type="checkbox" id="decoderefresh"><span id="a_decoderefreshyes">Yes</span>
             </div>
-            <div style="width:700px;height:145px;" webtip="Preferred Video Coder">
+            <div style="width:700px;height:145px;display:none;" webtip="Preferred Video Coder">
                 <div class="noreboot"><span id="a_prevcoder">Preferred Video Coder</span> :</div>
                 <div>
                     <div style="width:110px;margin-left:0x;"><span id="a_notallowed2">Not Allowed</span>
@@ -530,10 +530,6 @@ $(function(){
 	}
     
     accountindex = $('#accountindex',parent.document.body).val();
-    if( accountindex == "2" ){
-        $("fieldset > div").hide();
-        $("#a_prevcoder").parent().parent().show();
-    }
 
     if( accountindex == "4" ){
         $("fieldset > div").hide();

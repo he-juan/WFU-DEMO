@@ -183,8 +183,8 @@ function pageEventActions(){
                     $(".account\\/sip\\.html, .account\\/network\\.html, .account\\/codec\\.html").show();
                 }
                 else if( acctIndex == "2" ){
-                    $("#account_1_name, .account\\/codec\\.html").show();
-                    $(".account\\/sip\\.html, .account\\/network\\.html").hide();
+                    $("#account_1_name").show();
+                    $(".account\\/sip\\.html, .account\\/network\\.html, .account\\/codec\\.html").hide();
                 }else{
                     $("#account_1_name").show();
                     $(".account\\/codec\\.html").show();
@@ -205,6 +205,8 @@ function pageEventActions(){
                 if( subpage != "" ){
                     if( acctIndex != "1" ){
                         if( subpage == "network" || subpage == "sip" )
+                            subpage = "general";
+                        else if( subpage == "codec" && acctIndex == "2" )
                             subpage = "general";
                     }
                     framesrc = "account/" + subpage + ".html";
