@@ -57,9 +57,9 @@ var Enhance = myComponent => {
             timestr += minutes;
             if (mUse24Hour == 0) {
                 if (hours < 12)
-                    timestr += " " + this.tr("a_am");
+                    timestr += " " + this.tr("a_19673");
                 else
-                    timestr += " " + this.tr("a_pm");
+                    timestr += " " + this.tr("a_19674");
             }
 
             return timestr;
@@ -122,13 +122,13 @@ var Enhance = myComponent => {
               ((value.indexOf("[") !== -1 && value.indexOf("]")) !== -1 || (!(value.indexOf("[") !== -1) && !(value.indexOf("]") !== -1))))) {
               callback()
           } else {
-              callback(this.tr("tip_iperror"))
+              callback(this.tr("a_528"))
           }
         }
 
         range = (data, value, callback, min, max) => {
             if (value && (value > max || value < min)) {
-                callback(this.tr("tip_range") +  min  + this.tr("tip_range_between") +  max)
+                callback(this.tr("a_19674") +  min  + this.tr("a_19675") +  max)
             } else {
                 callback()
             }
@@ -139,7 +139,7 @@ var Enhance = myComponent => {
             if (!value || (value && /^(0|[1-9][0-9]*)$/i.test(value))) {
                 callback()
             } else {
-                callback(this.tr("tip_requiredigit"))
+                callback(this.tr("a_19676"))
             }
         }
 
@@ -148,7 +148,7 @@ var Enhance = myComponent => {
             if (!value || (value && /^(0|\-?[1-9][0-9]*)$/i.test(value))) {
                 callback()
             } else {
-                callback(this.tr("tip_requiredigit"))
+                callback(this.tr("a_19676"))
             }
         }
 
@@ -156,7 +156,7 @@ var Enhance = myComponent => {
             if (value.match(/^[^\u4e00-\u9fa5]{0,}$/)) {
                 callback()
             } else {
-                callback(this.tr("no_chinese"))
+                callback(this.tr("a_19677"))
             }
         }
 
@@ -164,7 +164,7 @@ var Enhance = myComponent => {
             if (!value || (value && /^(0|[1-9][0-9]*)$/i.test(value))) {
                 callback()
             } else {
-                callback(this.tr("tip_requiredigit2"))
+                callback(this.tr("a_19678"))
             }
         }
 
@@ -182,7 +182,7 @@ var Enhance = myComponent => {
             if (!value || expression.test(value)) {
                 callback();
             } else {
-                callback(this.tr("tip_url"));
+                callback(this.tr("a_19679"));
             }
         }
 
@@ -191,7 +191,7 @@ var Enhance = myComponent => {
             if (!value || expression.test(value)) {
                 callback();
             } else {
-                callback(this.tr("tip_url"));
+                callback(this.tr("a_19679"));
             }
         }
 
@@ -201,7 +201,7 @@ var Enhance = myComponent => {
             if (!value || expression.test(value) || expression1.test(value)) {
                 callback();
             } else {
-                callback(this.tr("tip_url"));
+                callback(this.tr("a_19679"));
             }
         }
         isWP8xx = () =>{

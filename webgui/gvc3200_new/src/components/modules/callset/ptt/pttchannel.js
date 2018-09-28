@@ -205,7 +205,7 @@ class channel extends Component {
                         <Input maxLength="32" placeholder={callTr("a_pttmodal2")}/>
                     )}
                 </FormItem>
-                <FormItem {...formItemLayout} label={<span>{callTr("a_ptt_multiPort")}</span>}
+                <FormItem {...formItemLayout} label={<span>{callTr("a_9207")}</span>}
                           style={{width: '450px'}}>
                     {getFieldDecorator("addr2", {
                         initialValue: itemvalue[`listenaddr${this.state.whichModal}`] ? itemvalue[`listenaddr${this.state.whichModal}`].split(":")[1] : "",

@@ -206,7 +206,7 @@ class XsiForm extends Component {
             }
         }
 
-        let itemList = 
+        let itemList =
             <Form hideRequiredMark>
                 <FormItem label={<span>{callTr("a_bsauthtype")}<Tooltip title={callTipsTr("Authentication Type")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("bsauthtype", {
@@ -230,7 +230,7 @@ class XsiForm extends Component {
                         <Input className="P-1591"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_ptt_multiPort")}<Tooltip title={callTipsTr("Port ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9207")}<Tooltip title={callTipsTr("Port ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             validator: (data, value, callback) => {

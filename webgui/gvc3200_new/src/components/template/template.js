@@ -505,27 +505,27 @@ export const options = [
         ]}
     ]},
     {"name": "sysapp", "lang": "system_app", "sub": [
-        {"name": "ldap", "lang": "appset_ldap", "sub": [
-            {"name": "ldap", "lang": "appset_ldap", "sub": [
+        {"name": "ldap", "lang": "a_8409", "sub": [
+            {"name": "ldap", "lang": "a_8409", "sub": [
                 {"name": "Connection Mode", "lang": "a_15022"},
                 {"name": "Server Address", "lang": "a_6755"},
-                {"name": "Port", "lang": "a_ptt_multiPort"},
+                {"name": "Port", "lang": "a_9207"},
                 {"name": "Base DN", "lang": "a_6757"},
-                {"name": "LDAP User Name", "lang": "a_username"},
-                {"name": "LDAP Password", "lang": "a_password"},
+                {"name": "LDAP User Name", "lang": "a_19670"},
+                {"name": "LDAP Password", "lang": "a_6759"},
                 {"name": "LDAP Name Attributes", "lang": "a_6764"},
                 {"name": "LDAP Number Attributes", "lang": "a_6765"},
                 {"name": "LDAP Mail Attributes", "lang": "a_6766"},
                 {"name": "LDAP Name Filter", "lang": "a_6774"},
                 {"name": "LDAP Number Filter", "lang": "a_6775"},
-                {"name": "LDAP Mail Filter", "lang": "a_mailfilter"},
+                {"name": "LDAP Mail Filter", "lang": "a_6776"},
                 // {"name": "Search Field Filter", "lang": "a_searchfieldfilter"},
                 {"name": "LDAP Displaying Name Attributes", "lang": "a_6767"},
                 {"name": "Max Hits", "lang": "a_6760"},
-                {"name": "Search Timeout", "lang": "a_searchtimeout"},
-                {"name": "LDAP Lookup For Dial", "lang": "a_lookupdial"},
-                {"name": "LDAP Lookup For Incoming Call", "lang": "a_lookupcall"},
-                {"name": "LDAP Dialing Default Account", "lang": "a_ldapdftacct"},
+                {"name": "Search Timeout", "lang": "a_6763"},
+                {"name": "LDAP Lookup For Dial", "lang": "a_6769"},
+                {"name": "LDAP Lookup For Incoming Call", "lang": "a_6770"},
+                {"name": "LDAP Dialing Default Account", "lang": "a_19671"},
                 {"type": "button", "lang": "a_17"}
             ]}
         ]}

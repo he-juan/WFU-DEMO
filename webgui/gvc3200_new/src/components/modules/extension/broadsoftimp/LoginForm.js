@@ -53,7 +53,7 @@ class LoginForm extends Component {
         const callTipsTr = this.props.callTipsTr;
         const itemvalue = this.props.itemValues;
 
-        let itemList = 
+        let itemList =
             <Form hideRequiredMark>
                 <FormItem label={<span>{callTr("a_19191")}<Tooltip title={callTipsTr("Server ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("server", {
@@ -62,7 +62,7 @@ class LoginForm extends Component {
                         <Input className="P-6006"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_ptt_multiPort")}<Tooltip title={callTipsTr("Port   ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9207")}<Tooltip title={callTipsTr("Port   ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -78,14 +78,14 @@ class LoginForm extends Component {
                         <Input className="P-6005"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_username")}<Tooltip title={callTipsTr("Username ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9206")}<Tooltip title={callTipsTr("Username ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("username", {
                         initialValue: itemvalue['username']
                     })(
                         <Input className="P-2966"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_password")}<Tooltip title={callTipsTr("Password   ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_6759")}<Tooltip title={callTipsTr("Password   ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("password", {
                         initialValue: itemvalue['password']
                     })(

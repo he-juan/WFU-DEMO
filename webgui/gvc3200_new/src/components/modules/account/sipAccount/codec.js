@@ -84,7 +84,7 @@ class CodecForm extends React.Component {
     constructor(props) {
         super(props);
         this.handlePvalue();
-        
+
         this.state = {
             prevbrateAvailable: [], //演示可用比特率
             vbrateAvailable: [],
@@ -115,7 +115,7 @@ class CodecForm extends React.Component {
     }
 
     handlePvalue = (activeAccount) => {
-        
+
         req_items = [];
         req_items.push(
             this.getReqItem("inaudio", nvram["inaudio"], ""),
@@ -223,7 +223,7 @@ class CodecForm extends React.Component {
         if (!value || expression.test(value)) {
             callback();
         } else {
-            callback(this.tr("tip_url"));
+            callback(this.tr("a_19679"));
         }
     }
 
@@ -378,9 +378,9 @@ class CodecForm extends React.Component {
                         ['fecpayload']: "120"
                     })
                 }
-                
+
                 let set = new Set([values['dtmfpayload'], values["h264payload"], values["opuspayload"],  values["fecpayload"], values["audiofecpayload"], values["audioredpayload"]])
-                
+
                 if (set.has('97')) {
                     this.props.promptMsg('ERROR', "payload_error2")
                     return false;
@@ -623,7 +623,7 @@ class CodecForm extends React.Component {
                 </FormItem>
 
                 <p className="blocktitle"><s></s>{callTr("a_10016")}</p>
-                
+
                 {/* 支持RFC5168 */}
                 <FormItem label={(<span>{callTr("a_16105")}&nbsp;<Tooltip title={this.tips_tr("Enable RFC5168 Support")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('enablerfc', {
@@ -823,7 +823,7 @@ class CodecForm extends React.Component {
                     )
                     }
                 </FormItem>
-                
+
                 {/* H.264 Profile 类型 */}
                 <FormItem className="select-item" label={(<span>{callTr("a_16119")}&nbsp;<Tooltip title={this.tips_tr("H.264 Profile Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('protype', {
@@ -862,10 +862,10 @@ class CodecForm extends React.Component {
                         <Input type="text" className={"P-" + nvram["h265payload"]} />
                     )}
                 </FormItem>
-                
-                
-                
-                
+
+
+
+
 
 
                 <p className="blocktitle"><s></s>{callTr("a_16640")}</p>

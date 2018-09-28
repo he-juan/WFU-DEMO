@@ -118,7 +118,7 @@ class AddCert extends Component {
                         <Input />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_password")}</span>} className={this.state.pwdvisible}>
+                <FormItem label={<span>{callTr("a_6759")}</span>} className={this.state.pwdvisible}>
                     {getFieldDecorator("certpwd", {
                         initialValue: "",
                         rules: [{

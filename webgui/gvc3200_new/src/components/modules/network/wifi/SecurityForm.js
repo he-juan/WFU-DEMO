@@ -48,7 +48,7 @@ class SecurityForm extends Component {
     checkPwdLength = (e) => {
         let value = e.target.value;
         let hiddenauthmode = this.props.form.getFieldValue("hiddenauthmode");
-        
+
         if(hiddenauthmode == "2" && value.length < 8){
             this.setState({
                 validstatus: "error",
@@ -61,7 +61,7 @@ class SecurityForm extends Component {
             });
         }
     }
-    
+
     checkEssidPwd = (value) => {
         let essidpwd = this.props.form.getFieldValue("essidpwd");
         if(value == "0"){
@@ -69,7 +69,7 @@ class SecurityForm extends Component {
         }else{
             this.setState({pwdisplay: "display-block"})
         }
-        
+
         if(value == "2" && essidpwd.length < 8){
             this.setState({
                 validstatus: "error",
@@ -107,7 +107,7 @@ class SecurityForm extends Component {
                     )}
                 </FormItem>
                 <FormItem validateStatus={this.state.validstatus} help={callTr(this.state.help)} className={this.state.pwdisplay}
-                    label={<span>{callTr("a_password")}<Tooltip title={callTipsTr("Password  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                    label={<span>{callTr("a_6759")}<Tooltip title={callTipsTr("Password  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("essidpwd", {
                         initialValue: itemvalue['essidpwd'],
                     })(

@@ -83,7 +83,6 @@ a_ptt_channelSetting,Channel Config,频道配置
 a_ptt_multicastAddress2,Multicast Address,多播地址
 a_label,Label,标签
 a_ptt_channel,Channel,频道
-a_ptt_multiPort,Port,端口号
 a_ptt_multicastAddress,PTT multicast address,PTT多播地址
 a_multicast,Multicast Paging,多播对讲
 a_ptt, PTT/Multicast Setting,PTT/组播设置
@@ -227,7 +226,6 @@ a_numberexceed,This contact already had three numbers, please select another con
 a_addLocalcontact,Save to local contacts,保存至已有联系人
 a_contact,Contacts,联系人
 a_protocalchanged,Modify the connection method or port, web will lead to log out and jump to the new address: ,修改连接方式或端口，页面将登出并跳转到新地址:
-no_chinese,Can not include chinese characters,不能包含中文
 a_adjustvol,Adjust Volume,调节音量
 a_searchaborttip,Search all content for ,搜索全部内容关于
 a_transfertip,\"Call Forword\" won't take effect when transfer is disabled,禁止转移时，选择\"转接\"将不会生效
@@ -288,8 +286,6 @@ a_saved,Saved,已保存
 a_disconnect,Disconnect,断开
 a_forget,Forget,取消保存
 a_connect,Connect,连接
-tip_requiredigit2,Must be numbers,只能输入数字
-tip_requiredigit,Valid: integer,有效值：整数
 a_custvialerror,Please fill in correct GUI customization file server path,请填写正确的自定义文件服务器路径
 a_configurlerror,Please fill in correct config server path,请填写正确的配置文件服务器路径
 a_urlerror,Please fill in correct firmware server path,请填写正确的固件服务器路径
@@ -463,14 +459,10 @@ a_value,Value,用户ID
 a_blf,BLF,BLF
 a_avail,Available,所有铃声
 a_detail,Detail,详细信息
-a_username,User Name,用户名
 a_wait,Waiting..,请稍候
-tip_url,Please enter a valid URL,请输入正确格式的网址
-tip_maxhits,Please input a digit between 0-4000,请输入0-4000之间的整数
 setdefault,Set as default,设为默认
 a_accempty,The account is empty,帐号不能为空
 a_alias,Local Alias,显示名称
-a_password,Password, 密码
 a_account,Account, 帐号
 a_active,Enable,开启
 a_mailfilter2,Mail Filter,根据邮件过滤
@@ -478,14 +470,8 @@ a_numberfilter2,Number Filter,根据号码过滤
 a_namefilter2,Name Filter,根据名字过滤
 a_allfilter,All Filter,全部过滤
 a_searchfieldfilter,Search Field Filter,搜索字段过滤
-a_mailfilter,LDAP Mail Filter,LDAP邮件筛选规则
-a_lookupcall,LDAP Lookup For Incoming Call,来电时进行LDAP查找
-a_lookupdial,LDAP Lookup For Dial,拨号时进行LDAP查找
-a_searchtimeout,Search Timeout (s),搜索超时（秒）
 a_erroridentifyingCode,Error Verification code,验证码错误
 a_identifyingCode,Verification code,验证码
-a_password,Password, 密码
-a_username,User Name(Binding DN),用户名
 a_keep,Favorites,收藏
 a_bsphbk,BroadSoft Phonebook,BroadSoft电话簿
 a_localgroup,Local Group,本地群组
@@ -798,7 +784,6 @@ lang,Language :,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;语&nbsp;&nbsp;&nbsp;言&nbsp;:
 normal_record,Normal Record,普通录音
 call_record,Call Record,通话录音
 sysapp_record,Recording,录音
-appset_ldap,LDAP Book,LDAP联系人
 appset_phonebook,Contacts,本地联系人
 maintenance_actionurl,Event Notification,事件通知
 maintenance_broadsoft,BroadSoft Directories,BroadSoft联系人

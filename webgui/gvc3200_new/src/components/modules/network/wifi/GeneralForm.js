@@ -292,7 +292,7 @@ class DetailForm extends Component {
                 : ""}
                 <div className={wifidata.isSaved == "true" && !needmodify ? "display-hidden" : "display-block"}>
 
-                    <FormItem label={<span>{callTr("a_password")}</span>} className={this.state.cert_iden_visible[4]}>
+                    <FormItem label={<span>{callTr("a_6759")}</span>} className={this.state.cert_iden_visible[4]}>
                         {getFieldDecorator("wifipwd", {
                             rules: [{
                                 validator: this.checkPwdLength

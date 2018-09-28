@@ -176,7 +176,7 @@ class RecordSet extends Component {
                                     initialValue: itemValues.ftpurl ? itemValues.ftpurl : ""
                                 })(<Input className=""/>)}
                             </FormItem>
-                            <FormItem label={< span > {callTr("a_ptt_multiPort")} </span >}>
+                            <FormItem label={< span > {callTr("a_9207")} </span >}>
                                 {getFieldDecorator("ftpport", {
                                     rules: [{
                                         validator: (data, value, callback) => {
@@ -200,7 +200,7 @@ class RecordSet extends Component {
                                     initialValue: itemValues.ftpusername ? itemValues.ftpusername : ""
                                 })(<Input className=""/>)}
                             </FormItem>
-                            <FormItem label={< span > {callTr("a_password")} </span >}>
+                            <FormItem label={< span > {callTr("a_6759")} </span >}>
                                 {getFieldDecorator("ftppwd", {
                                     initialValue: itemValues.ftppwd ? itemValues.ftppwd : ""
                                 })(<Input type={this.state.type} name = "httppass" suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible}/>} />)}

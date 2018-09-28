@@ -59,7 +59,7 @@ class LdapForm extends Component {
     checkMixhits = (rule, value, callback) => {
         const form = this.props.form;
         if(value < 0 || value > 4000){
-            callback(this.props.callTr("tip_maxhits"));
+            callback(this.props.callTr("a_19669"));
         }
         callback()
     }
@@ -114,7 +114,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8020"/>
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_ptt_multiPort")}<Tooltip title={tips_tr("Port  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_9207")}<Tooltip title={tips_tr("Port  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("port", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -140,7 +140,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8022"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_username")}&nbsp;<Tooltip title={tips_tr("LDAP User Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19670")}&nbsp;<Tooltip title={tips_tr("LDAP User Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Input type="text" name = "ldapusername" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator('ldapusername', {
                         rules: [{
@@ -151,7 +151,7 @@ class LdapForm extends Component {
                             <Input type="text" name = "ldapusername" className="P-8023"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_password")}&nbsp;<Tooltip title={tips_tr("LDAP Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6759")}&nbsp;<Tooltip title={tips_tr("LDAP Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Input type={this.state.pwdstatus1} name = "ldappassword" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator('ldappassword', {
                         rules: [{
@@ -212,7 +212,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8025"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_mailfilter")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Mail Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6776")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Mail Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('mailfilter', {
                         rules: [{
                             max:64,message: callTr("a_19632"),
@@ -254,7 +254,7 @@ class LdapForm extends Component {
                         <Input type="text" className="P-8031"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_searchtimeout")}&nbsp;<Tooltip title={tips_tr("Search Timeout")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6763")}&nbsp;<Tooltip title={tips_tr("Search Timeout")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('timeout', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -270,7 +270,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8032"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_lookupdial")}&nbsp;<Tooltip title={tips_tr("LDAP Lookup For Dial")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6769")}&nbsp;<Tooltip title={tips_tr("LDAP Lookup For Dial")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('lookupdial', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['lookupdial'])
@@ -278,7 +278,7 @@ class LdapForm extends Component {
                             <Checkbox className="P-8034"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_lookupcall")}&nbsp;<Tooltip title={tips_tr("LDAP Lookup For Incoming Call")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6770")}&nbsp;<Tooltip title={tips_tr("LDAP Lookup For Incoming Call")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('lookupcall', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['lookupcall'])
@@ -286,7 +286,7 @@ class LdapForm extends Component {
                             <Checkbox className="P-8035"/>
                     )}
                 </FormItem>
-                <FormItem className = "select-item" label={(<span>{callTr("a_ldapdftacct")}&nbsp;<Tooltip title={tips_tr("LDAP Dialing Default Account")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className = "select-item" label={(<span>{callTr("a_19671")}&nbsp;<Tooltip title={tips_tr("LDAP Dialing Default Account")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('ldapdftacct', {
                         initialValue: this.props.itemValues['ldapdftacct'] ? this.props.itemValues['ldapdftacct'] : "-1"
                         })(
@@ -345,7 +345,7 @@ class Ldap extends Component {
     render(){
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("appset_ldap")}</div>
+                <div className="subpagetitle">{this.tr("a_8409")}</div>
                 <div className="config-tab" style={{'minHeight': this.props.mainHeight,'paddingTop': '20px'}}>
                     <SysappLdapForm {...this.props} callTr={this.tr} tips_tr={this.tips_tr} checkUrlPath={this.checkUrlPath} digits={this.digits} range={this.range} getReqItem={this.getReqItem}/>
                 </div>
