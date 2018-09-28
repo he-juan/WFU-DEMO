@@ -93,6 +93,10 @@ export const setResetKeyTestStatus = (status) => (dispatch) => {
     dispatch({ type: 'RESETKEY_TEST_STATUS', resetkeyteststatus:  status})
 }
 
+export const setDndModeStatus = (status) => (dispatch) => {
+    dispatch({ type: 'DND_MODE_STATUS', dndstatus:  status})
+}
+
 /**********************************************************************/
 /***************************** requests *******************************/
 /**********************************************************************/

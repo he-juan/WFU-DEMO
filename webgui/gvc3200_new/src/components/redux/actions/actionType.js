@@ -27,6 +27,7 @@ export const RESETKEY_TEST_STATUS = 'RESETKEY_TEST_STATUS'
 export const BUSYLINE_STATUS = 'BUSYLINE_STATUS'
 export const FECC_STATUS = 'FECC_STATUS'
 export const SET_CALLFEATURE_INFO = 'SET_CALLFEATURE_INFO'
+export const DND_MODE_STATUS = 'DND_MODE_STATUS'
 
 /****** requests ******/
 

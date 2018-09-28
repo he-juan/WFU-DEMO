@@ -692,6 +692,15 @@ const resetkeyteststatus = (state=-1,action) => {
     }
 }
 
+const dndstatus = (state = "0", action) =>{
+    switch (action.type) {
+        case Actions.DND_MODE_STATUS:
+            return action.dndstatus
+        default:
+            return state
+    }
+}
+
 
 
 const rootReducer = combineReducers({
@@ -770,6 +779,7 @@ const rootReducer = combineReducers({
     discoverable,
     speakerteststatus,
     resetkeyteststatus,
+    dndstatus,
 
 
 // 拆分后处理

@@ -191,6 +191,7 @@ class MainHeader extends Component {
         this.props.getItemValues(req_items,(values) => {
             dndstyle = (values.dnd == '1' ? 'dndon' : 'dndoff');
             this.setState({dndstyle: dndstyle})
+            this.props.setDndModeStatus(values.dnd);
         })
     }
 
@@ -241,7 +242,8 @@ class MainHeader extends Component {
                     cancelText: 'No',
                     onOk() {
                         self.props.setDndMode("0",()=>{
-                            self.setState({dndstyle: "dndoff"})
+                            self.setState({dndstyle: "dndoff"});
+                            self.props.setDndModeStatus("0");
                         })
                         $('.header-container').css('z-index','1112')
                     },
@@ -258,6 +260,7 @@ class MainHeader extends Component {
                     onOk() {
                         self.props.setDndMode("1",()=>{
                             self.setState({dndstyle: "dndon"})
+                            self.props.setDndModeStatus("1");
                         })
                         $('.header-container').css('z-index','1112')
                     },
@@ -513,6 +516,7 @@ function mapDispatchToProps(dispatch) {
       getDndMode: Actions.getDndMode,
       setKeyCode:Actions.setKeyCode,
       getItemValues:Actions.getItemValues,
+      setDndModeStatus: Actions.setDndModeStatus
   }
   return bindActionCreators(actions, dispatch)
 }

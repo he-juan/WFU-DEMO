@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../../mixins/Enhance"
-import { Layout, Button, Icon, Slider } from "antd"
+import { Layout, Button, Icon, Slider, Popover } from "antd"
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -258,6 +258,10 @@ class CallDialog extends Component {
         this.props.endlinecall(line, flag);
     }
 
+    handlednd = () =>{
+
+    }
+
 	showSoundSlider = (tag) => {
 	    if(tag)
 			this.setState({ soundvisible: "display-block" });
@@ -509,7 +513,7 @@ class CallDialog extends Component {
                                         <Button title={this.tr("a_1")} className="endconf" onClick={this.handleEndline.bind(this, i, item.acct)} />
                                         <Button title={this.tr("a_19241")} className={lineuploadingclass[i]}/>
                                         <Button title={this.tr("a_16700")} disabled={item.acct == 1 ? "true" : linesuspenddisable[i]} className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]} />
-                                        <Button title={this.tr("a_623")} disabled={item.acct == 1 ? "true" : lineconfvideodisable[i]} className={item.acct == 1 ? "confvideobtn disable" : lineconfvideoclass[i]} />
+                                        <Button title={this.tr("a_623")} disabled={item.acct == 1 ? "true" : lineconfvideodisable[i]} className={item.acct == 1 ? "confvideo btndisable" : lineconfvideoclass[i]} />
                                         <Button title={this.tr("a_16701")} disabled={item.acct == 1 ? "true" : lineblockdisable[i]} className={item.acct == 1 ? "unconfblock btndisable" : lineblockclass[i]} />
                                         <Button title={this.tr("a_649")} disabled={item.acct == 1 ? "true" : linemutedisable[i]} className={item.acct == 1 ? "unmute btndisable" : linemuteclass[i]} />
                                     </div>
@@ -524,8 +528,20 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon`} />
                         <Button title={this.tr("a_1")}  className="end-btn" />
+                        <div className="left-actions" style={{position: "absolute", right: "10px"}}>
+                            <Popover
+                                content={<div>
+                                    <div onClick={this.handlednd}>{this.props.dndstatus == "1" ? this.tr("a_10254") : this.tr("a_10253")}</div>
+                                    <div>{this.tr("a_10256")}</div>
+                                    <div>{this.tr("a_10015")}</div>
+                                    <div>{this.tr("a_19133")}</div>
+                                </div>} trigger="click">
+                                <Button type="primary" style={{width: "100px"}}>Other</Button>
+                            </Popover>
+                        </div>
 					</div>
 				</div>
+
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
             </div>
         );
@@ -544,7 +560,8 @@ const mapStateToProps = (state) => ({
     heldStatus: state.heldStatus,
     FECCStatus: state.FECCStatus,
     callFeatureInfo: state.callFeatureInfo,
-    ipvrole: state.ipvrole
+    ipvrole: state.ipvrole,
+    dndstatus: state.dndstatus
 })
 
 function mapDispatchToProps(dispatch) {
