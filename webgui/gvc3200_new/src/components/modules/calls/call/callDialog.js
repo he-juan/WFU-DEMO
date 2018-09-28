@@ -163,6 +163,16 @@ class CallDialog extends Component {
         return `${hour} : ${min} : ${sec}`;
     }
 
+    hasipvtline = () => {
+        let lineinfo = this.props.lineInfo;
+        for(let i = 0; i< lineinfo.length;i++){
+            if(lineinfo[i].acct == "1"){
+                return true;
+            }
+        }
+        return false;
+    }
+
 	handleEndCall = () => {
         globalObj.isCallStatus = false;
         this.props.endCall(0);
@@ -181,6 +191,26 @@ class CallDialog extends Component {
             return false;
         }
         this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
+    }
+
+    handlelinemute = (lineitem) =>{
+        if(lineitem.islinemute == "1"){
+            this.props.ctrlLineMute(lineitem.line, "0");
+        }else{
+            this.props.ctrlLineMute(lineitem.line, "1");
+        }
+    }
+
+    handlelineblock = (line) =>{
+        if(!this.countClickedTimes())
+        {
+            return false;
+        }
+        // check ispause
+        {
+
+        }
+        this.props.blockLineOrNot(line);
     }
 
     handleStartFECC = (line) =>{
@@ -259,7 +289,18 @@ class CallDialog extends Component {
     }
 
     handlednd = () =>{
-
+        if(this.hasipvtline()){
+            if(this.props.dndstatus == "0"){
+                this.props.promptMsg("WARNING", this.tr("a_16710"));
+            }else{
+                this.props.promptMsg("WARNING", this.tr("a_16716"));
+            }
+        }
+        if(this.props.dndstatus == "0"){
+            this.props.setDndMode("1","1");
+        }else{
+            this.props.setDndMode("0","1");
+        }
     }
 
 	showSoundSlider = (tag) => {
@@ -271,10 +312,6 @@ class CallDialog extends Component {
 
     handleVolChange = (value) => {
         this.props.setVolume(value);
-    }
-
-    handleLineMute = () => {
-        this.props.ctrlLineMute(0);
     }
 
     handleLineRecord = () => {
@@ -309,16 +346,12 @@ class CallDialog extends Component {
         let linevideouploadclass = [];
         let linestatus = this.props.linestatus;
         let lineuploadingclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
-        let lineuploadingdisable = [], linesuspenddisable = [], lineconfvideodisable = [], lineblockdisable = [], linemutedisable = [];
+        let lineuploadingdisable = [];
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
             let account = lineitem.acct;
             lineuploadingdisable[i] = false;
-            linesuspenddisable[i] = false;
-            lineconfvideodisable[i] = false;
-            lineblockdisable[i] = false;
-            linemutedisable[i] = false
             linestatustip[i] = "";
             // if(account == 1){
             //     linesuspendclass[i] = "unconfsuspenddisable";
@@ -370,8 +403,8 @@ class CallDialog extends Component {
                     if(lineitem.isblock == "1"){
                         lineblockclass[i] = "confblock";
                     }
-                    if(lineitem.ismute == "1"){
-                        lineblockclass[i] = "mute";
+                    if(lineitem.islinemute == "1"){
+                        linemuteclass[i] = "mute";
                     }
 
                     if(lineitem.isremotehold == "1") {
@@ -444,8 +477,8 @@ class CallDialog extends Component {
                     if(lineitem.isblock == "1"){
                         lineblockclass[i] = "confblock";
                     }
-                    if(lineitem.ismute == "1"){
-                        lineblockclass[i] = "mute";
+                    if(lineitem.islinemute == "1"){
+                        linemuteclass[i] = "mute";
                     }
 
                     if(lineitem.isremotehold == "1") {
@@ -505,17 +538,30 @@ class CallDialog extends Component {
                         </div>
                         {
                             linestatus.map((item, i) => {
+                                let disabledflag = item.acct == 1 || item.isremotehold == "1";
                                 return <div className={`remote-line remote-line-${i}`}>
                                     <div className="confname">{item.name || item.num}</div>
                                     <div className="confnum">{item.acct == 1 ? (item.name || item.num) : item.num}</div>
                                     <div className="conftype">{linestatustip[i]}</div>
                                     <div className="confbtn">
-                                        <Button title={this.tr("a_1")} className="endconf" onClick={this.handleEndline.bind(this, i, item.acct)} />
+                                        <Button title={this.tr("a_1")} className="endconf"
+                                                onClick={this.handleEndline.bind(this, i, item.acct)}/>
                                         <Button title={this.tr("a_19241")} className={lineuploadingclass[i]}/>
-                                        <Button title={this.tr("a_16700")} disabled={item.acct == 1 ? "true" : linesuspenddisable[i]} className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]} />
-                                        <Button title={this.tr("a_623")} disabled={item.acct == 1 ? "true" : lineconfvideodisable[i]} className={item.acct == 1 ? "confvideo btndisable" : lineconfvideoclass[i]} />
-                                        <Button title={this.tr("a_16701")} disabled={item.acct == 1 ? "true" : lineblockdisable[i]} className={item.acct == 1 ? "unconfblock btndisable" : lineblockclass[i]} />
-                                        <Button title={this.tr("a_649")} disabled={item.acct == 1 ? "true" : linemutedisable[i]} className={item.acct == 1 ? "unmute btndisable" : linemuteclass[i]} />
+                                        <Button title={this.tr("a_16700")}
+                                                disabled={disabledflag ? true : false}
+                                                className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]}/>
+                                        <Button title={this.tr("a_623")}
+                                                disabled={disabledflag ? true : false}
+                                                className={item.acct == 1 ? "confvideo btndisable" : lineconfvideoclass[i]}/>
+                                        <Button title={this.tr("a_16701")}
+                                                disabled={disabledflag ? true : false}
+                                                className={item.acct == 1 ? "unconfblock btndisable" : lineblockclass[i]}
+                                                onClick={this.handlelineblock.bind(this, item.line)}
+                                        />
+                                        <Button title={item.islinemute == "1" ? this.tr("a_659") : this.tr("a_649")}
+                                                disabled={disabledflag ? true : false}
+                                                className={item.acct == 1 ? "unmute btndisable" : linemuteclass[i]}
+                                                onClick={this.handlelinemute.bind(this, item)}/>
                                     </div>
                                 </div>
                             })
@@ -583,7 +629,10 @@ function mapDispatchToProps(dispatch) {
       isFECCEnable: Actions.isFECCEnable,
       ctrlFECC: Actions.ctrlFECC,
       getipvrole: Actions.getipvrole,
-      endlinecall: Actions.endlinecall
+      endlinecall: Actions.endlinecall,
+      setDndMode: Actions.setDndMode,
+      ctrlLineMute: Actions.ctrlLineMute,
+      blockLineOrNot: Actions.blockLineOrNot
   }
   return bindActionCreators(actions, dispatch)
 }

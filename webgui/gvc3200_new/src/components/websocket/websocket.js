@@ -118,6 +118,47 @@ class HandleWebsocket extends React.Component {
         this.props.setFECCStatus(message.line, message.state);
     }
 
+    handleupdatednd = (message) => {
+        if(message.dndmode == "dnd"){
+            this.props.setDndModeStatus(message.state);
+        }
+    }
+
+    handlemicblock = (message) =>{
+        let linesinfo = [];
+        let flag = false;
+        for( let i = 0; i < this.props.linesinfo.length; i++ ){
+            if(this.props.linesinfo[i].line == message.line) {
+                this.props.linesinfo[i].islinemute = message.flag;
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            linesinfo = [...this.props.linesinfo];
+            this.props.setDialineInfo1(linesinfo);
+        }
+    }
+
+    handleblock = (message) =>{
+        if(message.state.split("=")[0] != "BlockHP"){
+            return;
+        }
+        let linesinfo = [];
+        let flag = false;
+        for( let i = 0; i < this.props.linesinfo.length; i++ ){
+            if(this.props.linesinfo[i].line == message.line) {
+                this.props.linesinfo[i].isblock = message.state.split("=")[1];
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            linesinfo = [...this.props.linesinfo];
+            this.props.setDialineInfo1(linesinfo);
+        }
+    }
+
     handlemessage = (message) => {
         let type = message['type'];
         switch (type) {
@@ -258,13 +299,15 @@ class HandleWebsocket extends React.Component {
             case 'callrecord':
                 this.props.setRecordStatus(message['state']);
                 break;
-            case 'speaker_test':
-                this.props.setSpeakerTestStatus(message['status']);
+            case 'mic_block':
+                this.handlemicblock(message);
                 break;
-            case 'resetkey_test':
-                this.props.setResetKeyTestStatus(message['status']);
+            case 'blockstate':
+                this.handleblock(message);
                 break;
-
+            case 'updateDND':
+                this.handleupdatednd(message);
+                break;
         }
     }
 
@@ -333,9 +376,8 @@ function mapDispatchToProps(dispatch) {
         setRecordStatus: Actions.setRecordStatus,
         setHeldStatus: Actions.setHeldStatus,
         setFECCStatus: Actions.setFECCStatus,
-        setSpeakerTestStatus: Actions.setSpeakerTestStatus,
-        setResetKeyTestStatus: Actions.setResetKeyTestStatus,
-        getipvrole: Actions.getipvrole
+        getipvrole: Actions.getipvrole,
+        setDndModeStatus: Actions.setDndModeStatus
     }
     return bindActionCreators(actions, dispatch)
 }

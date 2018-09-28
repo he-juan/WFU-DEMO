@@ -624,14 +624,14 @@ export const endCall = (line) => (dispatch) => {
     });
 }
 
-export const ctrlLineMute = (line) => (dispatch) => {
-    let request = "action=ctrllinemute&line=" + line;
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+// export const ctrlLineMute = (line) => (dispatch) => {
+//     let request = "action=ctrllinemute&line=" + line;
+//
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
 export const ctrlLineRecord = (line, setrecord) => (dispatch) => {
     let request = "action=ctrllinerecord&line=" + line + "&setrecord=" + setrecord;
@@ -2069,13 +2069,22 @@ export const getDndMode = (callback) => (dispatch) => {
     })
 }
 
-
-export const setDndMode = (value, callback) => (dispatch) => {
-    let request ="action=setdndonoroff&region=confctrl&setdnd="+value+"&account=0";
-    actionUtil.handleGetRequest(request).then(function(data) {
+/**
+ * @param value 1:open dnd  2:close dnd
+ * @param mode  1:dnd  2.lock
+ * @param callback
+ */
+export const setDndMode = (value, mode, callback) => (dispatch) => {
+    let request;
+    if (mode == "0") {
+        request = "action=setdndonoroff&region=confctrl&setdnd=" + value + "&account=0";
+    }else{
+        request = "action=setdndonoroff&region=confctrl&setdnd=" + value + "&account=0&dndtype=" + mode;
+    }
+    actionUtil.handleGetRequest(request).then(function (data) {
         let tObj = JSON.parse(data);
         callback(data)
-    }).catch(function(error) {
+    }).catch(function (error) {
         promptForRequestFailed();
     });
 }

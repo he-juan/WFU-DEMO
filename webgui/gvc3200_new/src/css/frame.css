@@ -4539,16 +4539,15 @@ table thead tr th{
 .confbtn .mute{
     background: url(../img/call/conf_control.png) 0px -245px no-repeat;
 }
-
 .confbtn .mute:hover{
     background: url(../img/call/conf_control.png) 0px -297px no-repeat;
 }
-
-
+.confbtn .mute.btndisable{
+    background: url(../img/call/conf_control.png) 0px -271px no-repeat;
+}
 .confbtn .unclosecamera{
     background: url(../img/call/conf_control.png) -154px -245px no-repeat;
 }
-
 .confbtn .unclosecamera:hover{
     background: url(../img/call/conf_control.png) -154px -297px no-repeat;
 }
@@ -4621,6 +4620,9 @@ table thead tr th{
 }
 .confbtn .confblock{
     background: url(../img/call/conf_control.png) -26px -297px no-repeat;
+}
+.confbtn .confblock.btndisable{
+    background: url(../img/call/conf_control.png) -26px -271px no-repeat;
 }
 
 .call-ctrl .callee-name-num{

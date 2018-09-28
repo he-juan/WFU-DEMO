@@ -241,7 +241,7 @@ class MainHeader extends Component {
                     okText: 'Yes',
                     cancelText: 'No',
                     onOk() {
-                        self.props.setDndMode("0",()=>{
+                        self.props.setDndMode("0","0",()=>{
                             self.setState({dndstyle: "dndoff"});
                             self.props.setDndModeStatus("0");
                         })
@@ -258,7 +258,7 @@ class MainHeader extends Component {
                     okText: 'Yes',
                     cancelText: 'No',
                     onOk() {
-                        self.props.setDndMode("1",()=>{
+                        self.props.setDndMode("1","0",()=>{
                             self.setState({dndstyle: "dndon"})
                             self.props.setDndModeStatus("1");
                         })

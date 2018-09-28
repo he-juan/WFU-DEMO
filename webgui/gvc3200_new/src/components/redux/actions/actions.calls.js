@@ -397,13 +397,23 @@ export const ctrlLocalMute = (ismute, callback) => (dispatch) => {
     });
 }
 
+export const ctrlLineMute = (line, ismute) => (dispatch) => {
+    let request = "action=ctrllinemute&region=confctrl&line="+line+"&setmute="+ismute;
+    actionUtil.handleGetRequest(request).then(function(data){
+        let tObj = JSON.parse(data);
+    }).catch(function(error) {
+        console.log("ctrlLineMute Exception:",error);
+    });
+}
+
+
 export const gethdmi1state = (callback) => (dispatch) => {
     let request = "action=gethdmi1state&region=status";
     actionUtil.handleGetRequest(request).then(function(data){
         let tObj = JSON.parse(data);
         callback(tObj)
     }).catch(function(error) {
-        console.log("ctrllocalmute Exception:",error);
+        console.log("gethdmi1state Exception:",error);
     });
 }
 
@@ -550,6 +560,14 @@ export const endlinecall = (line, flag) => (dispatch) =>{
         if(result != 0){
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
         }
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const blockLineOrNot = (line) =>(dispatch) => {
+    let request = "action=blockLineOrNot&region=confctrl&line="+line;
+    actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
         promptForRequestFailed();
     });
