@@ -6,186 +6,161 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 const FormItem = Form.Item;
 const Content = Layout;
-var misstart = 0;
-var pingtimeout;
-var cur_offset = 0;
-var old_offset = 0;
-var old_pingmsg;
 
-class ipForm extends Component {
+
+let pingtimeout = null;
+let curOffset = 0;
+let isStop = false;
+
+class PingForm extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            disabled_targethost:"",
-            disabled_start:"disabled",
-            disabled_stop:"disabled",
-            pingresValue:"",
-            content:""
+            startDisable: true,
+            stopDisable: true,
+            inputDisable: false,
+            pingresValue:'',
+            className:''
         }
     }
-
-    componentDidMount() {
-        this.props.clearPing(this.clearPing)
-    }
-
     componentWillReceiveProps = (nextProps) => {
-        if (nextProps.activeKey == this.props.tabOrder) {
-            if (this.props.activeKey != nextProps.activeKey) {
-                this.props.form.resetFields();
-            }
+        if (this.props.activeKey != nextProps.activeKey) {
+            this.props.form.resetFields();
+            clearTimeout(pingtimeout);
+            this.handleStopPing();
+            this.setState({
+                startDisable: true,
+                stopDisable: true,
+                inputDisable: false,
+                pingresValue:'',
+                className:''
+            })
         }
     }
-
-    clearPing = () => {
-        this.setState({
-            pingresValue:""
+    doRequest = (urihead) => new Promise((resolve, reject) => {
+        let _urihead = urihead + "&time=" + new Date().getTime();
+        let _this = this;
+        $.ajax({
+            type: 'get',
+            url: '/manager',
+            data: _urihead,
+            dataType: 'text',
+            success: function(data){
+                resolve(_this.res_parse_rawtext(data));
+            },
+            error: function(){
+                _this.props.promptMsg("ERROR", "a_neterror");
+            }
         })
-    }
-
-    onChangeTargethost = () => {
-        this.setState({
-            disabled_start:""
-        })
-    }
-
-    get_ping_msg_suc = (values) => {
-        let res = values.headers['response'];
-        let pingresVue = this.state.pingresValue;
-        this.setState({
-            disabled_stop : ""
-        })
-        if (res === 'Success') {
-            var pingmsg = values.headers['pingmsg'];
-            if (pingmsg != "") {
-                cur_offset = values.headers['offset'];
-                let text = pingresValue;
-                pingresValue = text + pingmsg;
+    })
+    handleStartPing = () => {
+        this.props.form.validateFields((err,values) => {
+            if(!err) {
                 this.setState({
-                    pingresValue:pingresValue,
-                    content:"content"
+                    pingresValue:'',
+                    startDisable: true,
+                    inputDisable: true
+                })
+                let targethost = values['targethost'];
+                this.doRequest(`action=startping&addr=${targethost}`).then((msgs) => {
+                    let res = msgs.headers['response'];
+                    if( res == 'Success'){
+                        pingtimeout = setTimeout(() => {
+                            isStop = false;
+                            this.getPingMsg(0);
+                            this.setState({
+                                stopDisable : false,
+                                className: 'content'
+                            })
+                        }, 2000)
+                    } else {
+                        this.props.promptMsg("ERROR", "a_neterror");
+                    }
+                })
+            }
+        })
+    }
+    getPingMsg = (offset) => {
+        this.doRequest(`action=getpingmsg&offset=${offset}`).then( msgs => {
+            let res = msgs.headers['response'];
+            if(res == 'Success')　{
+                let pingmsg = msgs.headers['pingmsg'];
+                if (pingmsg != "continue") {
+                    curOffset = msgs.headers['offset'];
+                    let _pingresValue = this.state.pingresValue  + pingmsg + '\n';
+                    this.setState({
+                        pingresValue : _pingresValue
+                    })
+                    pingtimeout = setTimeout(() => {this.getPingMsg(curOffset)}, 1000);
+                } else {
+                    if(isStop) {
+                        clearTimeout(pingtimeout);
+                        this.setState({
+                            startDisable: false,
+                            stopDisable: true,
+                            inputDisable: false
+                        })
+                    } else {
+                        pingtimeout = setTimeout(() => {this.getPingMsg(curOffset)}, 1000);  
+                    }
+                }
+                
+            }else {
+                let errmsg = msgs.headers['message'];
+                if(errmsg == 'unknown host') {
+                    let _pingresValue = this.state.pingresValue  + errmsg + '\n';
+                    this.setState({
+                        pingresValue : _pingresValue
+                    })
+                }
+                clearTimeout(pingtimeout);
+            }
+        })
+    }
+    handleStopPing = () => {
+        this.doRequest(`action=stopping`).then((msgs) => {
+            let res = msgs.headers['response'];
+            if(res == 'Success')　{
+                isStop = true;
+                this.setState({
+                    stopDisable : true
                 })
             } else {
-                if (cur_offset == old_offset && old_offset != 0 && old_pingmsg == pingmsg)
-                {
-                    this.clickStopping();
-                    old_offset = 0;
-                    return false;
-                }
+                this.props.promptMsg("ERROR", "a_neterror")
             }
-            old_pingmsg = pingmsg;
-            old_offset = cur_offset;
-            if (misstart == 1) {
-                pingtimeout = setTimeout(() => {this.props.get_ping_msg(cur_offset,(values) => {
-                    this.get_ping_msg_suc(values);
-                });}, 3000);
-            }
-        } else {
-            var errmsg = values.headers['message'];
-            if(errmsg == "unknown host") {
-                misstart = 0;
-                this.setState({
-                    content:"content",
-                    pingresValue:errmsg
-                })
-            } else if (errmsg == "can not open file") {
-                setTimeout(() => {this.clickStartping();},2000);
-            }
-        }
-
-    }
-
-    start_ping_suc = (value) => {
-        const self = this;
-        let res = value.headers['response'];
-        let disabled_targethost;
-        let disabled_start;
-        if (res === "Success") {
-            disabled_targethost = "disabled";
-            disabled_start = "disabled";
-            pingtimeout = setTimeout(() => {this.props.get_ping_msg(0,(values) => {
-                this.get_ping_msg_suc(values);
-            });}, 3000);
-        } else {
-            var errmsg = value.headers['message'];
-            alert(errmsg);
-        }
-        this.setState({
-            disabled_targethost:disabled_targethost,
-            disabled_start:disabled_start
         })
     }
-
-    clickStartping = () => {
-        misstart = 1;
-        this.setState({
-            pingresValue:""
-        })
-        cur_offset = 0;
-        this.props.form.validateFieldsAndScroll({force: true}, (err, values) => {
-            this.props.start_ping(values.targethost, (value) => {
-                this.start_ping_suc(value);
-            });
-        })
-        return false;
-    }
-
-    stop_ping_suc = (msgs) => {
-        let res = msgs.headers['response'];
-        if (res == "Success") {
-            this.setState({
-                disabled_stop:"disabled"
-            })
-            clearTimeout(pingtimeout);
-            setTimeout(()=> {
-                this.setState({
-                    disabled_start:"",
-                    disabled_targethost:""
-                })
-            },2000)
-            misstart = 0;
-        }
-    }
-
-    clickStopping = () => {
-        this.props.stop_ping( (msgs) => {
-            this.stop_ping_suc(msgs)
-        });
-        return false;
-    }
-
+    
     render() {
-        const callTr = this.props.callTr;
-        const callTipsTr = this.props.callTipsTr;
+        const {callTr, callTipsTr} = this.props;
         const {getFieldDecorator} = this.props.form;
-        let disabled_targethost = this.state.disabled_targethost;
-        let disabled_start = this.state.disabled_start;
-        let disabled_stop = this.state.disabled_stop;
-        let pingresValue = this.state.pingresValue;
-        let content = this.state.content;
-
+        
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={( <span> {callTr("a_16629")} <Tooltip title={callTipsTr("Target Host")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
+              <FormItem label={( <span> {callTr("a_16629")} <Tooltip title={callTipsTr("Ping Target Host")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {getFieldDecorator('targethost', {
                         rules: [
                             {
                                 validator: (data, value, callback) => {
+                                    this.setState({
+                                        startDisable: value != '' ? false : true
+                                    })
                                     this.checkUrlPath(data, value, callback)
                                 }
                             }
                         ],
-                    })(<Input disabled = {disabled_targethost} onChange={this.onChangeTargethost.bind(this)} />) }
+                    })(<Input disabled={this.state.inputDisable}/>)}
                 </FormItem>
                 <Row style = {{"paddingLeft":"435px"}}>
-                    <Button style = {{"marginRight":"20px"}} type="primary" disabled = {disabled_start} onClick = {this.clickStartping.bind(this)}>
+                    <Button style = {{"marginRight":"20px"}} type="primary" onClick={() => {this.handleStartPing()}} disabled={this.state.startDisable}>
                         {this.tr("a_9")}
                     </Button>
-                    <Button type="danger" disabled = {disabled_stop} onClick = {this.clickStopping.bind(this)}>
+                    <Button type="danger" onClick={() => {this.handleStopPing()}} disabled={this.state.stopDisable}>
                         {this.tr("a_10")}
                     </Button>
                 </Row>
-                <Row style = {{"marginTop":"15px"}}><Input type="textarea" id="pingres" value={pingresValue} className = {content} style={{fontSize:"0.875rem"}} /></Row>
+                <Row style = {{"marginTop":"15px"}}><Input  type="textarea" id="pingres" value={this.state.pingresValue} className={this.state.className} style={{fontSize:"0.875rem"}} /></Row>
             </Form>
 
         let hideItem = this.props.hideItem;
@@ -198,18 +173,13 @@ class ipForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    itemValues: state.itemValues,
-    changeNotice: state.changeNotice,
-    activeKey: state.TabactiveKey
 })
 
 const mapDispatchToProps = (dispatch) => {
-    const actions = {
-        start_ping:Actions.start_ping,
-        get_ping_msg:Actions.get_ping_msg,
-        stop_ping:Actions.stop_ping
-    }
-    return bindActionCreators(actions, dispatch)
+  const actions = {
+    promptMsg: Actions.promptMsg
+  }
+  return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Enhance(ipForm));
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(PingForm));

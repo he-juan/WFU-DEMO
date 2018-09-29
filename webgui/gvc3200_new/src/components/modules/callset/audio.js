@@ -156,7 +156,15 @@ class Audio extends Component {
 
     render() {
         if (!this.props.itemValues || this.state.audioInfo.curMedia == '' || !this.state.tonedblist.length || !this.state.notificationdblist.length) {
-            return null;
+            // 解决闪烁问题
+            return (  
+                <Content className="content-container config-container">
+                    <div className="subpagetitle">{this.tr("a_16589")}</div>
+                    <Form className="configform" hideRequiredMark style={{ 'min-height': this.props.mainHeight }}>
+                    </Form>
+                </Content>
+            )
+            
         }
         const { getFieldDecorator } = this.props.form;
         const callTr = this.tr;

@@ -6,6 +6,7 @@ import TracerouteForm from "./diagnosis/traceroute";
 import DebugForm from "./diagnosis/debug"
 import DevForm from "./diagnosis/developerMode"
 import IpForm from "./diagnosis/ipPing"
+import nslookupForm from "./diagnosis/nslookup"
 import * as Actions from '../../redux/actions/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -21,6 +22,7 @@ const DiagnosisDebugForm = Form.create()(DebugForm);
 const DiagnosisTracerouteForm = Form.create()(TracerouteForm);
 const DiagnosisDevForm = Form.create()(DevForm);
 const DiagnosisIpForm = Form.create()(IpForm);
+const DiagnosisnsLookupForm = Form.create()(nslookupForm);
 
 class Diagnosis extends Component {
     constructor(props) {
@@ -74,9 +76,13 @@ class Diagnosis extends Component {
                     <DiagnosisDevForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
                                     hideItem={hideItem} tabOrder="" />
                 </TabPane>
-                <TabPane tab={"Ping"} key={4}>
+                <TabPane tab={"Ping"} key={5}>
                     <DiagnosisIpForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
                                      clearPing = {this.clearPing} hideItem={hideItem} tabOrder="" />
+                </TabPane>
+                <TabPane tab={this.tr("a_19814")} key={6}>
+                    <DiagnosisnsLookupForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
+                        hideItem={hideItem} tabOrder=""/>
                 </TabPane>
             </Tabs>
 

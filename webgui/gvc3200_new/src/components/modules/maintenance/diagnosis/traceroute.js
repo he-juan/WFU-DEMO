@@ -45,7 +45,7 @@ class TracerouteForm extends Component {
 
     onChangeTargethost = () => {
         this.setState({
-            disabzed_start:""
+            disabled_start:""
         })
     }
 

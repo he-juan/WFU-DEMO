@@ -594,7 +594,11 @@ export const options = [
             ]},
             {"name": "devmode", "lang": "a_4347", "sub": [
                 {"name": "Developer Mode", "lang": "a_4347"}
-            ]}
+            ]},
+            {"name": "NSLookup", "acl": "1", "lang": "a_19814", "sub": [
+                {"name": "Host Name", "lang": "a_19815"},
+                {"name": "DNS server", "lang": "a_4128"}
+            ]},
         ]}
     ]},
     {"name": "status", "lang": "a_10060", "sub": [
