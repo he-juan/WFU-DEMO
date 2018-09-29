@@ -1239,6 +1239,8 @@ tip_item.push (
         "Versión del teclado del control remoto."),
     new TipsDef("Touchpad Version",
         "Versión del panel táctil del control remoto."),
+    new TipsDef("Patch Version",
+        "Patch version of remote control."),
     new TipsDef("Hardware Version",
         "Versión de Hardware del control remoto."),
     new TipsDef("Software Version",

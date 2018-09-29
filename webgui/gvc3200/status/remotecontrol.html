@@ -30,10 +30,10 @@ fieldset div div{ padding-left:0px; }
                 <div class="noreboot"><span id="a_softversion">Software Version</span> :</div>
                 <div><span id="softversion"></span></div>
             </div>
-            <!--div webtip="Touchpad Version">
-                <div class="noreboot"><span id="a_touchpadversion">Touchpad Version</span> :</div>
-                <div><span id="touchpadversion"></span></div>
-            </div-->
+            <div webtip="Patch Version">
+                <div class="noreboot"><span id="a_patchversion">Patch Version</span> :</div>
+                <div><span id="patchversion"></span></div>
+            </div>
             <div id="Remote Battery" webtip="Remote Battery">
                 <div class="noreboot"><span id="a_remotebattery">Remote Battery</span> :</div>
                 <div><span id="remotebattery"></span></div>
@@ -58,7 +58,7 @@ fieldset div div{ padding-left:0px; }
 <script type="text/javascript">
 var req_items = new Array;
 req_items.push(
-    new ReqItem("touchpadversion", "25027", ""),
+    new ReqItem("patchversion", "remote_patch_ver", ""),
     new ReqItem("hardwareversion", "25028", ""),
     new ReqItem("softversion", "25026", ""),
     new ReqItem("remotebattery", "remote_battery", "")
@@ -69,8 +69,8 @@ $(function(){
 });
 
 function get_item_suc_callback(msgs){
-    if(msgs.headers["25027"] == "")
-        $("#touchpadversion").text(a_2085);
+    if(msgs.headers["remote_patch_ver"] == "")
+        $("#patchversion").text(a_2085);
     if(msgs.headers["25028"] == "")
         $("#hardwareversion").text(a_2085);
     if(msgs.headers["25026"] == "")
@@ -83,7 +83,7 @@ function get_item_suc_callback(msgs){
     }
 }
 function translate_sysinfo(){
-    $("#a_touchpadversion").text(a_16632);
+    $("#a_patchversion").text(a_12224);
     $("#a_hardwareversion").text(a_4134);
     $("#a_softversion").text(a_16633);
     //$("#a_sn").text(a_sn);

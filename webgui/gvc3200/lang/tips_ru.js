@@ -1231,6 +1231,8 @@ tip_item.push (
         "Версия беспроводной клавиатуры."),
     new TipsDef("Touchpad Version",
         "Версия беспроводного тачпада."),
+    new TipsDef("Patch Version",
+        "Patch version of remote control."),
     new TipsDef("Hardware Version",
         "Аппаратная версия пульта ДУ."),
     new TipsDef("Software Version",
