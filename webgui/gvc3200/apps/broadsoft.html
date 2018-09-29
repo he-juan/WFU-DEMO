@@ -62,6 +62,17 @@
                 <div class="noreboot"><span id="a_loginpassword">Login Password</span> :</div>
                 <input id="loginpwd" name="loginpwd" type="password" />
             </div>
+            <div webtip="Associated BroadSoft Account">
+                <div class="noreboot"><span id="a_bsacct">Associated Broadsoft Account</span></div>
+                <select id="bsacct" name="bsacct">
+                    <option value="0">Account 1</option>
+                    <option value="1">Account 2</option>
+                    <option value="2">Account 3</option>
+                    <option value="3">Account 4</option>
+                    <option value="4">Account 5</option>
+                    <option value="5">Account 6</option>
+                </select>
+            </div>
             <br/><br/>
             <div class="dotline"></div>
             <br/><br/>
@@ -224,7 +235,8 @@
         new ReqItem("typeenable5", "2983", ""),
         new ReqItem("typeop5", "2984", ""),
         new ReqItem("typeenable6", "2985", ""),
-        new ReqItem("typeop6", "2986", "")
+        new ReqItem("typeop6", "2986", ""),
+        new ReqItem("bsacct", "2965", "")
     );
     $(function(){
         translate_debug();
@@ -255,7 +267,7 @@
                 }
             }
         }
-        $("#bsauthtype, #typeenable1, #typeenable2, #typeenable3, #typeenable4, #typeenable5, #typeenable6, #typeenable7, #typeenable8, #typeenable9").sSelect();
+        $("#bsauthtype, #bsacct, #typeenable1, #typeenable2, #typeenable3, #typeenable4, #typeenable5, #typeenable6, #typeenable7, #typeenable8, #typeenable9").sSelect();
         update_auth_type();
     }
     function translate_debug(){
@@ -269,6 +281,13 @@
         $("#a_userid").text(a_19606);
         $("#a_password").text(a_1124);
         $("#a_loginpassword").text(a_19607);
+        $("#a_bsacct").text(a_19680);
+        $("#bsacct option:eq(0)").text(a_16035);
+        $("#bsacct option:eq(1)").text(a_16036);
+        $("#bsacct option:eq(2)").text(a_16037);
+        $("#bsacct option:eq(3)").text(a_16038);
+        $("#bsacct option:eq(4)").text(a_16039);
+        $("#bsacct option:eq(5)").text(a_16040);
         $("#a_netdir").text(a_19608);
         $("#a_name").text(a_19);
         $("#a_type").text(a_2059);

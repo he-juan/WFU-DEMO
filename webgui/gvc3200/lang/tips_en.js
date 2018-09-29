@@ -1347,8 +1347,31 @@ tip_item.push (
         "If enabled, then send RTDP (roundTripDelayRequest) package as H245 keep-alive package per 10s. The timeout interval is 30s and will hang up the call once timed out. The default setting is \"No\". Note: if enabled, it may cause incompatibility with some devices."),
         
     new TipsDef("DTMF ",
-        "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal.")
-    /*useless*/
+        "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal."),
+
+	/*app BroadSoft*/
+	new TipsDef("Authentication Type",
+		"Defines the authentication type in way of logIn or use SIP. If set to \"LogIn Credentials\", please fill in Username and Password in the following options; if set to \"SIP Credentials\", please fill in Username, User ID, and Password. The default setting is \"SIP Credentials\"."),
+    new TipsDef("Server",
+        "BroadSoft XSI server address with protocol."),
+    new TipsDef("Port ",
+        "Port of the BroadSoft XSI server."),
+    new TipsDef("Username",
+        "Username for BroadSoft XSI server."),
+    new TipsDef("User ID",
+        "User ID for BroadSoft XSI server."),
+    new TipsDef("Password ",
+        "Password for BroadSoft XSI server."),
+    new TipsDef("BroadSoft Directory Hits",
+        "The maximum hits return from the BroadSoft XSI server directory. The valid range is from 1 to 1000. The default setting is blank, which means to use the server's default value."),
+    new TipsDef("BroadSoft Directory Order",
+        "Defines the order the BroadSoft directory displayed on LCD. Select one item and click the Up/Down arrow on the right to adjust the order."),
+    new TipsDef("Action Path",
+        "Action Path for BroadSoft XSI server."),
+    new TipsDef("Associated BroadSoft Account",
+        "IM&P contacts can be selected to dial out with if they have an extension number entry. This chooses the BroadSoft account to dial out with.")
+
+	/*useless*/
     /*
     new TipsDef("Enable SCA (Shared Call Appearance)",
         "If set to \"Yes\", the Shared Call Appearance (Broadsoft Standard) will be used for the registered account. The default setting is \"No\"."),
