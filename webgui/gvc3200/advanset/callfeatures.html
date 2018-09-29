@@ -125,6 +125,15 @@
                 <div class="noreboot"><span id="a_ofhtimeout">Offhook Timeout (s)</span> :</div>
                 <input id="ofhtimeout" name="ofhtimeout" type="text" />
             </div>
+            <div webtip="Personal Common Layout">
+                <div class="noreboot"><span id="a_commonlayout">Personal Common Layout</span> :</div>
+                <select id="commonlayout">
+                    <option value="0">System Recommendations</option>
+                    <option value="1">Average mode</option>
+                    <option value="2">POP mode</option>
+                    <option value="3">PIP mode</option>
+                </select>
+            </div>
         </fieldset>
         <div class="savediv">
             <div id="statusdiv"></div>
@@ -172,7 +181,8 @@ req_items.push(
     new ReqItem("ofhtimeout", "1485", ""),
     new ReqItem("entrymute", "29607", ""),
     new ReqItem("avspipmode", "921", ""),
-    new ReqItem("noiseblock", "25110", "")
+    new ReqItem("noiseblock", "25110", ""),
+    new ReqItem("commonlayout", "default_layout_mode", "")
     //new ReqItem("enablefncall", "preview", ""),
 );
 $(function(){
@@ -195,7 +205,7 @@ $(function(){
 });
 function setInitState(){
     translate_callfea();
-    $("#dfttrnfmode,#enablefncall, #entrymute, #avspipmode").sSelect();  
+    $("#dfttrnfmode,#enablefncall, #entrymute, #avspipmode,#commonlayout").sSelect();
     $("#Formvalidate").validate({
 		rules: { 
 		        confpincode: { digits:true },
@@ -248,6 +258,11 @@ function translate_callfea(){
     $("#avspipmode option:eq(0)").text(a_19366);
     $("#avspipmode option:eq(1)").text(a_19367);
     $("#avspipmode option:eq(2)").text(a_19368);
+    $("#a_commonlayout").text(a_12233);
+    $("#commonlayout option:eq(0)").text(a_19383);
+    $("#commonlayout option:eq(1)").text(a_19384);
+    $("#commonlayout option:eq(2)").text(a_19385);
+    $("#commonlayout option:eq(3)").text(a_19386);
 }
 function cb_put_suc(data, mode)
 {

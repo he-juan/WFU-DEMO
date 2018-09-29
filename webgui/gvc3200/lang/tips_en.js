@@ -413,6 +413,8 @@ tip_item.push (
         "Configures whether to mute the call on entry automatically. If set to \"Disable\", then do not use auto mute function; If set to \"Auto Mute on Outgoing Call\", then mute automatically when the other party answers the outgoing call; If set to \"Auto Mute on Incoming Call\", then mute automatically when answers the incoming call; If set to \"Mute on Incoming & Outgoing Call\", then mute automatically when the call gets through.Note: this function only take effect when the phone is from the idle status to call status. Users could click the Mute button on call interface to cancel the current mute status. The default setting is \"Disable\"."),
 	new TipsDef("Noise Shield",
 		"If set to \"Yes\", the voice of knocking table and turning over papers will be eliminated in call clearance (no one is speaking), the default setting is \"No\"."),
+    new TipsDef("Personal Common Layout",
+        "Set common meeting layout mode, after a mode is selected, the system will start the meeting in that mode by default. The default value is System Recommends"),
     
     /*Advanced Settings Tone Zone*/
     new TipsDef("Custom ring tone 1",
