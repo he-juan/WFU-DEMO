@@ -55,6 +55,7 @@ class PingForm extends Component {
         })
     })
     handleStartPing = () => {
+        curOffset = 0;
         this.props.form.validateFields((err,values) => {
             if(!err) {
                 this.setState({
@@ -95,6 +96,7 @@ class PingForm extends Component {
                     pingtimeout = setTimeout(() => {this.getPingMsg(curOffset)}, 1000);
                 } else {
                     if(isStop) {
+                        curOffset = 0;
                         clearTimeout(pingtimeout);
                         this.setState({
                             startDisable: false,
