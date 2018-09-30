@@ -375,7 +375,7 @@ fieldset div{margin-left:10px;}
                 <div class="noreboot"><span id="a_useh264profile">Use H.264 Constrained Profiles</span> :</div>
                 <input name="useh264profile" type="checkbox" id="useh264profile"><span id="a_useh264profileyes">Yes</span>
             </div>
-            <div webtip="H.265 Payload Type">
+            <div webtip="H.265 Payload Type" style="display: none;">
                 <div class="noreboot"><span id="a_h265payload">H.265 Payload Type</span> :</div>
                 <input id="h265payload" name="h265payload" type="text" value='114' />
             </div>
@@ -649,7 +649,7 @@ function setInitState(){
             opuspayload: { digits:true, range:[96,126] },
             h263payload: { digits:true, range:[96,127] },
             h264payload: { digits:true, range:[96,127] },
-            h265payload: { digits:true, range:[96,127] },
+//            h265payload: { digits:true, range:[96,127] },
             L16_256payload: { digits:true, range:[96,127] },
             fecpayload: { digits:true, range:[96,127] },
             audiofecpayload: {digits:true, range:[96,127]},
@@ -813,7 +813,7 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("imgsize", "2307", ""),
 				new ReqItem("protype", "2362", ""),
                 new ReqItem("useh264profile", "26045", ""),
-                new ReqItem("h265payload", "26086", ""),
+//                new ReqItem("h265payload", "26086", ""),
 				new ReqItem("h264payload", "293", ""),
 				new ReqItem("h263payload", "350", ""),
                 new ReqItem("L16-256payload", "2300", ""),
@@ -1547,8 +1547,6 @@ function pageEventActions(){
         
         if( $("#h264payload").val() == "" )
             $("#h264payload").val("99");
-        if( $("#h265payload").val() == "" )
-            $("#h265payload").val("114");
         if( $("#fecpayload").val() == "" )
             $("#fecpayload").val("120");
         if( $("#audiofecpayload").val() == "" )
@@ -1559,7 +1557,6 @@ function pageEventActions(){
             $("#feccpayload").val("125");
         
         var h264payload = $("#h264payload").val();
-        var h265payload = $("#h265payload").val();
         var fecpayload = $("#fecpayload").val();
         var audiofecpayload = $("#audiofecpayload").val();
         //var fecredpayload = $("#fecredpayload").val();
@@ -1569,7 +1566,6 @@ function pageEventActions(){
         var cmppayload = new Array();
         cmppayload.push(dtmfpayload);
         cmppayload.push(h264payload);
-        cmppayload.push(h265payload);
         cmppayload.push(g722payload);
         cmppayload.push(g7221cpayload);
         cmppayload.push(fecpayload);
