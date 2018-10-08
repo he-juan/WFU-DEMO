@@ -120,7 +120,7 @@ class MoreForm extends Component {
                     }
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_sipnotify")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16337")} < Tooltip title = {callTipsTr("Allow DHCP Option 43, 160 and 66 Override Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("dhcp66", {
                         rules: [],
                         valuePropName: 'checked',
@@ -128,8 +128,9 @@ class MoreForm extends Component {
                     })(
                         <Checkbox className="P-4428"/>
                     )}
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_sipnotify")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16339")} < Tooltip title = {callTipsTr("3CX Auto Provision")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("autopro", {
                         rules: [],
                         valuePropName: 'checked',
@@ -137,6 +138,7 @@ class MoreForm extends Component {
                     })(
                         <Checkbox className="P-4428"/>
                     )}
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {callTr("a_4105")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_resetkey")}</Button>

@@ -93,7 +93,7 @@ class System extends Component {
                 <FormItem label={<span>{this.tr("a_16404")}<Tooltip title={this.tips_tr("Product Model")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="product-model">{ productModelItem["product"] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_hardwarerev")}<Tooltip title={this.tips_tr("Hardware Revision")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_4134")}<Tooltip title={this.tips_tr("Hardware Revision")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="hardware-revision">{ this.props.itemValues['hardware-revision'] }</span>
                 </FormItem>
                 <FormItem label={<span>{this.tr("a_16406")}<Tooltip title={this.tips_tr("Part Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -102,7 +102,7 @@ class System extends Component {
                 <FormItem label={<span>{this.tr("a_4130")}<Tooltip title={this.tips_tr("System Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="system-version">{ this.props.itemValues['system-version'] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_recover")}<Tooltip title={this.tips_tr("Recovery Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_4131")}<Tooltip title={this.tips_tr("Recovery Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="recovery-version">{ this.props.itemValues['recovery-version'] }</span>
                 </FormItem>
                 <FormItem label={<span>{this.tr("a_16408")}<Tooltip title={this.tips_tr("Boot Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -111,7 +111,7 @@ class System extends Component {
                 <FormItem label={<span>{this.tr("a_16416")}<Tooltip title={this.tips_tr("Kernel Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="kernel-version">{ this.props.itemValues['kernel-version'] }</span>
                 </FormItem>
-                <FormItem label={<span>{this.tr("a_android")}<Tooltip title={this.tips_tr("a_16415")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{this.tr("a_16415")}<Tooltip title={this.tips_tr("Android Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="android-version">{ this.props.itemValues['android-version'] }</span>
                 </FormItem>
                 <FormItem label={<span>{this.tr("a_16417")}<Tooltip title={this.tips_tr("System Up Time")}><Icon type="question-circle-o"/></Tooltip></span>}>

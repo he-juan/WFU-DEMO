@@ -98,7 +98,7 @@ class SyslogForm extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_syslogser")}
+                <FormItem label={(<span>{callTr("a_4135")}
                     <Tooltip title={callTipsTr("Syslog Server")}><Icon type="question-circle-o"/></Tooltip></span>)}>
                     {getFieldDecorator('syslogser', {
                         rules: [

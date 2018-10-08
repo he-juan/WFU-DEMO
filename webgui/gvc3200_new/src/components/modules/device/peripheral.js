@@ -123,7 +123,7 @@ class peripheral extends Component {
         const itemvalue = this.props.itemValues;
         return (
             <Content className="content-container config-container" id="preset">
-                <div className="subpagetitle">外围设备</div>
+                <div className="subpagetitle">{callTr("a_16590")}</div>
                 <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
                     <p className="blocktitle"><s></s>{callTr("HDMI")}</p>
                     <FormItem label={<span>{callTr("a_19341")}<Tooltip title={callTipsTr("HDMI 1 Out Resolution")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -152,16 +152,16 @@ class peripheral extends Component {
                             <Checkbox className={"P-25109"}/>
                         )}
                     </FormItem>
-                    <p className="blocktitle"><s></s>{callTr("摄像头")}</p>
+                    <p className="blocktitle"><s></s>{callTr("a_10007")}</p>
                     <FormItem label={<span>{callTr("a_16606")}<Tooltip title={callTipsTr("Move Speed")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                        <Col span={3}><span style={{color: "#3d77ff"}}>1慢</span></Col>
+                        <Col span={3}><span style={{color: "#3d77ff"}}>{"1("+callTr("a_16242")+") "} </span></Col>
                         <Col span={18}> {getFieldDecorator("movespeed", {
                             valuePropName: 'value',
                             initialValue: itemvalue['movespeed'] ? itemvalue['movespeed'] : "8"
                         })(
                             <Slider min={1} max={16} className="P-25029"/>
                         )}</Col>
-                        <Col span={3}><span style={{color: "#3d77ff"}}>16快</span></Col>
+                        <Col span={3}><span style={{color: "#3d77ff"}}>{" 16("+callTr("a_16241")+")"}</span></Col>
                     </FormItem>
                     <FormItem label={<span>{callTr("a_16607")}<Tooltip title={callTipsTr("Initial Position")}><Icon type="question-circle-o"/></Tooltip></span>}>
                         {getFieldDecorator("initposition", {

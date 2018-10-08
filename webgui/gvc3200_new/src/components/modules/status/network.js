@@ -202,10 +202,10 @@ class Network extends Component {
                         <FormItem label={<span>{this.tr("a_19226")}<Tooltip title={this.tips_tr("IPv6 Address ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="ipv6address">{ networkStatus["ipv6Addr"]||"0:0:0:0:0:0:0:0" }</span>
                         </FormItem>
-                        <FormItem label={<span>{this.tr("a_ipv6dnsser1")}<Tooltip title={this.tips_tr("IPv6 DNS Server 1 ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                        <FormItem label={<span>{"IPv6 "+this.tr("a_19227")}<Tooltip title={this.tips_tr("IPv6 DNS Server 1 ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="ipv6dns-server1">{ networkStatus["ipv6Dns1"]||"0:0:0:0:0:0:0:0" }</span>
                         </FormItem>
-                        <FormItem label={<span>{this.tr("a_ipv6dnsser2")}<Tooltip title={this.tips_tr("IPv6 DNS Server 2 ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                        <FormItem label={<span>{"IPv6 "+this.tr("a_19228")}<Tooltip title={this.tips_tr("IPv6 DNS Server 2 ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="ipv6dns-server2">{ networkStatus["ipv6Dns2"]||"0:0:0:0:0:0:0:0"  }</span>
                         </FormItem>
                         <p className={"blocktitle" + " " + this.state.voipset}><s></s>{this.tr("a_19664")}</p>

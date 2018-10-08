@@ -267,7 +267,7 @@ class DeployForm extends Component {
 
         let networkStatus = this.props.networkStatus;
         let data=[];
-        if(this.props.itemValues["CFG-Provision"]!==undefined){
+        if(this.props.itemValues["CFG-Provision"]!==undefined&&!this.isEmptyObject(networkStatus)){
             data=[{
                 key:"cfg.xml",
             },
@@ -281,13 +281,6 @@ class DeployForm extends Component {
                 key:"cfg"+this.props.product+".xml",
             }
           ]
-            /*  for(let i=0;i<this.state.VocoderTargetKeys.length;i++){
-                 for(let j=0;j<data.length;j++) {
-                     if(this.state.VocoderTargetKeys[i]==data[j].key){
-                         data.splice(j,1)
-                     }
-                 }
-              }*/
         }
 
 
@@ -308,22 +301,8 @@ class DeployForm extends Component {
                     )
                     }
                 </FormItem>
-               {/* <FormItem className={ this.state.lan_autoup_class.peroid } label={< span > { callTr("a_period") } < Tooltip title = {callTipsTr("Automatic Upgrade Check Interval")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("peroid", {
-                        rules: [{
-                            validator: (data, value, callback) => {
-                            this.digits(data, value, callback)
-                            }
-                        },{
-                            validator: (data, value, callback) => {
-                            this.range(data, value, callback, 60, 5256000)
-                            }
-                        }],
-                        initialValue: this.props.itemValues.peroid
-                    })(<Input onChange ={this.connectInputValue}  className="P-193"/>)}
-                </FormItem>*/}
                 <Row className = "start-endhour">
-                    <FormItem className={ this.state.lan_autoup_class.start_endhour } label={< span > { callTr("start_endhour") } < Tooltip title = {callTipsTr("Starting/Ending Hour of the Day")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                    <FormItem className={ this.state.lan_autoup_class.start_endhour } label={< span > {callTr("a_16345")+ "(0-23)" } < Tooltip title = {callTipsTr("Hour of the Day")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                         <Row className="div-startendhour">
                             <FormItem>
                                 {getFieldDecorator('hourofday', {
@@ -357,55 +336,7 @@ class DeployForm extends Component {
                         </Row>
                     </FormItem>
                 </Row>
-               {/* <FormItem className={ this.state.lan_autoup_class.dayofweek + " " + "mutilCheckbox" } label={< span > { callTr("a_16346") } < Tooltip title = {callTipsTr("Day of the Week")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator('dayofweek', {
-                        rules: [],
-                        initialValue: this.props.itemValues['dayofweek']
-                    })(<Input className="P-286" style={{"display": "none"}}/>)}
-                    {getFieldDecorator('dayofweek0', {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(dayofweekArrvalue[0])
-                        })(
-                            <Checkbox>{callTr("a_sunday")}</Checkbox>
-                    )}
-                    {getFieldDecorator('dayofweek1', {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(dayofweekArrvalue[1])
-                        })(
-                            <Checkbox>{callTr("a_124")}</Checkbox>
-                    )}
-                    {getFieldDecorator('dayofweek2', {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(dayofweekArrvalue[2])
-                        })(
-                            <Checkbox>{callTr("a_125")}</Checkbox>
-                    )}
-                    {getFieldDecorator('dayofweek3', {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(dayofweekArrvalue[3])
-                        })(
-                            <Checkbox>{callTr("a_126")}</Checkbox>
-                    )}
-                    {getFieldDecorator('dayofweek4', {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(dayofweekArrvalue[4])
-                        })(
-                            <Checkbox>{callTr("a_127")}</Checkbox>
-                    )}
-                    {getFieldDecorator('dayofweek5', {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(dayofweekArrvalue[5])
-                        })(
-                            <Checkbox>{callTr("a_128")}</Checkbox>
-                    )}
-                    {getFieldDecorator('dayofweek6', {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(dayofweekArrvalue[6])
-                        })(
-                            <Checkbox>{callTr("a_129")}</Checkbox>
-                    )}
-                </FormItem>*/}
-                <FormItem className="select-item" label={< span > { callTr("a_autouprule") } < Tooltip title = {callTipsTr("Firmware Upgrade and Provisioning")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className="select-item" label={< span > { callTr("a_4107") } < Tooltip title = {callTipsTr("Firmware Upgrade and Provisioning")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('updaterule', {
                         rules: [],
                         initialValue: this.props.itemValues["updaterule"] ? this.props.itemValues["updaterule"] : "0"
@@ -426,122 +357,15 @@ class DeployForm extends Component {
                         <Checkbox className="P-1549"/>
                     )}
                 </FormItem>
-              {/*  <p className="blocktitle"><s></s>{this.tr("a_dhcptitle")}</p>
-                <FormItem label={< span > {callTr("a_16337")} < Tooltip title = {callTipsTr("Allow DHCP Option 43 and Option 66 to Override Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("dhcp66", {
-                        rules: [],
-                        valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.dhcp66)
-                    })(
-                        <Checkbox className="P-145"/>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
-                <FormItem label={< span > {callTr("a_16338")} < Tooltip title = {callTipsTr("DHCP Option 120 Override SIP Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("dhcp120", {
-                        rules: [],
-                        valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.dhcp120)
-                    })(
-                        <Checkbox className="P-1411"/>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
-                <FormItem label={< span > {callTr("a_dhcp242")} < Tooltip title = {callTipsTr("Allow DHCP Option 242 (Avaya IP Phones)")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("dhcp242", {
-                        rules: [],
-                        valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.dhcp242)
-                    })(
-                        <Checkbox className="P-22053"/>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>*/}
-                <p className="blocktitle"><s></s>{this.tr("a_cfgProvision")}</p>
-                <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_CFG_Provision")} < Tooltip title = {callTipsTr("CFG Provision")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <p className="blocktitle"><s></s>{this.tr("a_19702")}</p>
+                <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_19702")} < Tooltip title = {callTipsTr("CFG Provision")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <div style={{width:"600px"}}>
                         <Transfer className="vocodertrans" dataSource={data} sorter={ true } titles = {[callTr("a_notallowed"),callTr("a_23010")]} listStyle={{ width: 230, height: 206,}} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange}  render={item => `${item.key}`} />
                     </div>
                 </FormItem>
-                {/*<p className="blocktitle"><s></s>{this.tr("a_pnptitle")}</p>
-                <FormItem label={< span > {callTr("a_enablepnp")} < Tooltip title = {callTipsTr("Enable PNP Feature")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("enablepnp", {
-                        rules: [],
-                        valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.enablepnp)
-                    })(
-                        <Checkbox className="P-22032"/>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
-                <FormItem label={< span > {callTr("a_pnpurl")} < Tooltip title = {callTipsTr("PNP URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("pnpurl", {
-                        rules: [{
-                            max: 128,
-                            message: callTr("a_19805") + "128"
-                        }, {
-                            validator: (data, value, callback) => {
-                                this.checkUrlPath(data, value, callback)
-                            }
-                        }],
-                        initialValue: this.props.itemValues.pnpurl
-                    })(<Input className="P-22033"/>)}
-                </FormItem>
-                <FormItem className = {this.state.a_autopro} label={< span > {callTr("a_autopro")} < Tooltip title = {callTipsTr("PnP(3CX) Auto Provision")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("autopro", {
-                        rules: [],
-                        valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.autopro)
-                    })(
-                        <Checkbox className="P-1414"/>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>*/}
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
-              {/*  <FormItem>
-                    {getFieldDecorator('sipport1', {
-                        rules: [],
-                        initialValue: this.props.itemValues.sipport1
-                    })(<Input style = {{display:"none"}} className="P-40"/>)
-                    }
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('sipport2', {
-                        rules: [],
-                        initialValue: this.props.itemValues.sipport2
-                    })(<Input style = {{display:"none"}} className="P-413"/>)
-                    }
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('sipport3', {
-                        rules: [],
-                        initialValue: this.props.itemValues.sipport3
-                    })(<Input style = {{display:"none"}} className="P-513"/>)
-                    }
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('sipport4', {
-                        rules: [],
-                        initialValue: this.props.itemValues.sipport4
-                    })(<Input style = {{display:"none"}} className="P-613"/>)
-                    }
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('sipport5', {
-                        rules: [],
-                        initialValue: this.props.itemValues.sipport5
-                    })(<Input style = {{display:"none"}} className="P-1713"/>)
-                    }
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('sipport6', {
-                        rules: [],
-                        initialValue: this.props.itemValues.sipport6
-                    })(<Input style = {{display:"none"}} className="P-1813"/>)
-                    }
-                </FormItem>*/}
             </Form>;
 
         let hideItem = this.props.hideItem;

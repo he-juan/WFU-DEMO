@@ -254,35 +254,14 @@ class ConfigForm extends Component {
                         <Checkbox onChange={this.onChangeGapsitem.bind(this)} />
                     )}
                 </FormItem>
-              {/*  <FormItem className = {"select-item" + " " +this.state.gapsitem} label={< span > {callTr("a_configupvia")} < Tooltip title = {callTipsTr("Config Upgrade Via")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator('updateconfigvia', {
-                        rules: [],
-                        initialValue: this.props.itemValues["updateconfigvia"] ? this.props.itemValues["updateconfigvia"] : "0"
-                    })(
-                        <Select className="P-212">
-                            <Option value="0">TFTP</Option>
-                            <Option value="1">HTTP</Option>
-                            <Option value="2">HTTPS</Option>
-                        </Select>
-                    )
-                    }
-                </FormItem>
-                <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_4114")} < Tooltip title = {callTipsTr("Config Server Path")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator("confpath", {
-                        rules: [{
-                            max: 256, message: callTr("a_19805") + "256"
-                        }],
-                        initialValue: this.props.itemValues.confpath
-                    })(<Input className="P-237"/>)}
-                </FormItem>*/}
-                <FormItem label={< span > {callTr("a_confighttpuser")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19177")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type="text" name = "confighttpuser" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("confighttpuser", {
                         rules: [],
                         initialValue: this.props.itemValues.confighttpuser
                     })(<Input className="P-1360"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_4112")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19178")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     <Input type={this.state.password1} name = "confighttppass" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("confighttppass", {
                         rules: [],

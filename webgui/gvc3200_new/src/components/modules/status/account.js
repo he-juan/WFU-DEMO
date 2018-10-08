@@ -160,7 +160,7 @@ class Account extends Component {
 
       return (
           <Content className="content-container">
-              <div className="subpagetitle">{this.tr("a_4306")}</div>
+              <div className="subpagetitle">{this.tr("a_4146")}</div>
                 <div style={{"margin": "10px 16px 0 16px","borderRadius":"4px 4px 0px 0px","minHeight":this.props.mainHeight}} >
                     <Table className = "accountTable"
                       rowKey=""

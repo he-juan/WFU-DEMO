@@ -62,7 +62,7 @@ class eptz extends Component {
 
         return (
             <Content className="content-container config-container" id="preset">
-                <div className="subpagetitle">遥控器设置</div>
+                <div className="subpagetitle">{callTr("a_16635")}</div>
                 <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
                     <FormItem label={<span>{callTr("a_16616")}<Tooltip title={callTipsTr("Disable Remote Control App Connection")}><Icon
                         type="question-circle-o"/></Tooltip></span>}>

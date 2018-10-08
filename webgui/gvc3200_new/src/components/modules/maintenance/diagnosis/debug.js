@@ -403,10 +403,6 @@ class DebugForm extends Component {
             children_screenList.push(<Option value = {screenList[i]}>{this.htmlEncode(screenList[i])}</Option>);
         }
 
-        let debugInfoMenuTooltipTitle = "Debug Info Menu";
-        if(this.props.oemId == "54"){
-            debugInfoMenuTooltipTitle = "Debug Info Menu For D13&D3X";
-        }
 
         let itemList =
             <Form hideRequiredMark>
@@ -418,7 +414,7 @@ class DebugForm extends Component {
                     )}
                 </FormItem>
 
-                <FormItem className="one-click-debug" label={( <span> {callTr("a_19280")} <Tooltip title={callTipsTr(debugInfoMenuTooltipTitle)}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem className="one-click-debug" label={( <span> {callTr("a_19280")} <Tooltip title={callTipsTr("Debug Information List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     <div>
                         {getFieldDecorator("debugselectall", {
                             valuePropName: 'checked'
@@ -455,39 +451,9 @@ class DebugForm extends Component {
                         )}
                         <span> {callTr("a_16357")}</span>
                     </div>
-                    {/*<div>
-                        {getFieldDecorator("tombstone", {
-                            valuePropName: 'checked',
-                            initialValue: Number(this.props.itemValues.tombstone)
-                        })(
-                            <Checkbox onChange={this.checkDebugItem.bind(this, 'tombstone')} disabled={this.state.ckbdisabled} />
-                        )}
-                        <span> {callTr("a_tombstone")}</span>
-                    </div>
-                    <div>
-                        {getFieldDecorator("anr", {
-                            valuePropName: 'checked',
-                            initialValue: Number(this.props.itemValues.anr)
-                        })(
-                            <Checkbox onChange={this.checkDebugItem.bind(this, 'anr')} disabled={this.state.ckbdisabled} />
-                        )}
-                        <span> {callTr("a_anr")}</span>
-                    </div>
-                    {
-                        this.props.oemId != "54" ? "" :
-                            <div>
-                                {getFieldDecorator("acce", {
-                                    valuePropName: 'checked',
-                                    initialValue: Number(this.props.itemValues.acce)
-                                })(
-                                    <Checkbox onChange={this.checkDebugItem.bind(this, 'acce')} disabled={this.state.ckbdisabled} />
-                                )}
-                                <span> {callTr("a_4340")}</span>
-                            </div>
-                    }*/}
                 </FormItem>
 
-                <FormItem  className="select-item" label={( <span> {callTr("a_16359")} <Tooltip title={callTipsTr("Debug Info List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
+                <FormItem  className="select-item" label={( <span> {callTr("a_16359")} <Tooltip title={callTipsTr("Package List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
                         <Row>
                             {getFieldDecorator('tracelist', {
@@ -501,7 +467,7 @@ class DebugForm extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem label={( <span> {callTr("a_16358")} <Tooltip title={callTipsTr("View Debug Info")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
+                <FormItem label={( <span> {callTr("a_16358")} <Tooltip title={callTipsTr("View Package")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
                         <Button className="debug" type="primary" onClick = {this.checkoutList.bind(this)} >{this.tr("a_list")}</Button>
                     )}
