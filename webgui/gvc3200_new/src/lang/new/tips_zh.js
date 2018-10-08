@@ -1241,6 +1241,8 @@ tip_item_zh.push (
         "显示遥控器的键盘版本号。"),
     new TipsDef("Touchpad Version", "触控板版本",
         "显示遥控器的触控板版本号。"),
+    new TipsDef("Patch Version","补丁版本",
+        "显示遥控器的补丁版本号。"),
     new TipsDef("Hardware Version", "硬件版本",
         "显示遥控器的硬件版本号。"),
     new TipsDef("Software Version", "软件版本",

@@ -45,10 +45,10 @@
         ]},
         {"name": "status", "lang": "a_600", "icon": "info-circle-o", "acl": 0, "sub": [
             {"name": "acct", "lang": "a_4146", "acl": 0},
-            {"name": "peripheral", "lang": "a_16630", "acl": 0},
+            {"name": "peripheralState", "lang": "a_16630", "acl": 0},
             {"name": "network", "lang": "a_4147", "acl": 0},
             {"name": "system", "lang": "a_4148", "acl": 0},
-            {"name": "remotecontrol", "lang": "a_12001", "acl": 0}
+            {"name": "remotecontrolState", "lang": "a_12001", "acl": 0}
         ]}
     ]
 }

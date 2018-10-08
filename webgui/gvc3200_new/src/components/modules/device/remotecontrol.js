@@ -7,7 +7,9 @@ import {
     Select,
     Input,
     Tooltip,
-    Checkbox
+    Checkbox,
+    Icon,
+    Button
 } from "antd";
 
 import * as Actions from '../../redux/actions/index'
@@ -21,17 +23,14 @@ const RadioGroup = Radio.Group;
 
 
 const req_items = [
-
+    {"name": "remoteappconnect", "pvalue": "25022", "value": ""},
 ];
-
 
 
 class eptz extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     componentDidMount = () => {
@@ -47,15 +46,36 @@ class eptz extends Component {
     }
 
     handleSubmit = () => {
-
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if(!err){
+                console.log(values)
+                this.props.setItemValues(req_items, values, 0);
+            }
+        })
     }
 
     render() {
+        const {getFieldDecorator} = this.props.form;
+        const callTr = this.tr;
+        const callTipsTr = this.tips_tr;
+        const itemvalue = this.props.itemValues;
+
         return (
             <Content className="content-container config-container" id="preset">
-                <div className="subpagetitle">PTZ控制</div>
+                <div className="subpagetitle">遥控器设置</div>
                 <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
-
+                    <FormItem label={<span>{callTr("a_16616")}<Tooltip title={callTipsTr("Disable Remote Control App Connection")}><Icon
+                        type="question-circle-o"/></Tooltip></span>}>
+                        {getFieldDecorator("remoteappconnect", {
+                            valuePropName: 'checked',
+                            initialValue: parseInt(itemvalue['remoteappconnect'])
+                        })(
+                            <Checkbox className={"P-25022"}/>
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
+                    </FormItem>
                 </Form>
             </Content>
         );
@@ -67,11 +87,14 @@ const eptzForm = Form.create()(Enhance(eptz));
 
 const mapStateToProps = (state) => ({
     enterSave: state.enterSave,
+    itemValues:state.itemValues,
+    mainHeight:state.mainHeight
 })
 
 function mapDispatchToProps(dispatch) {
     var actions = {
         getItemValues: Actions.getItemValues,
+        setItemValues: Actions.setItemValues,
     }
     return bindActionCreators(actions, dispatch)
 }

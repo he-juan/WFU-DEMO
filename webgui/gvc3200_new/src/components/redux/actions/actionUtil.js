@@ -108,7 +108,6 @@ export const handleGetLogcat = (request) => {
         });
     });
 }
-
 export const handleUploadCert = (url, data) => {
     return new Promise(function(resolve, reject) {
         $.ajax ({

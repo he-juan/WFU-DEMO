@@ -103,3 +103,40 @@ export const setKeyCode = (action,keycode,repeattimes,callback) => (dispatch) =>
     })
 }
 
+export const gethdmiconnectstatus = (callback) => (dispatch) => {
+    var request = "action=gethdmiconnectstatus&region=advanset"
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        callback(tObj);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
+export const gethdmimode = (hdmimode,callback) => (dispatch) => {
+    var request = "action=gethdmimodes&region=advanset&hdmi="+hdmimode
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        callback(tObj);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
+export const getcurhdmimode = (hdmimode,callback) => (dispatch) => {
+    var request = "action=getcurhdmimode&region=advanset&hdmi="+hdmimode
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        callback(tObj);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
+

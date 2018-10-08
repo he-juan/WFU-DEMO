@@ -39,9 +39,14 @@ const System  = (location, cb) => {
         cb(null, require('./modules/status/system').default);
     }, 'status');
 };
-const Storage  = (location, cb) => {
+const remotecontrolState  = (location, cb) => {
     require.ensure([], require => {
-        cb(null, require('./modules/status/storage').default);
+        cb(null, require('./modules/status/remotecontrolState').default);
+    }, 'status');
+};
+const peripheralState  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/status/peripheralState').default);
     }, 'status');
 };
 
@@ -180,10 +185,20 @@ const Preset  = (location, cb) => {
         cb(null, require('./modules/device/Preset').default);
     }, 'devicecontrol');
 };
-
 const eptz  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/device/eptz').default);
+    }, 'devicecontrol');
+};
+const remotecontrol  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/device/remotecontrol').default);
+    }, 'devicecontrol');
+};
+
+const peripheral  = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./modules/device/peripheral').default);
     }, 'devicecontrol');
 };
 
@@ -351,7 +366,8 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="acct" getComponent={Account}/>
                 <Route onEnter={ requireAuth } path="network" getComponent={Network}/>
                 <Route onEnter={ requireAuth } path="system" getComponent={System}/>
-                <Route onEnter={ requireAuth } path="storage" getComponent={Storage}/>
+                <Route onEnter={ requireAuth } path="remotecontrolState" getComponent={remotecontrolState}/>
+                <Route onEnter={ requireAuth } path="peripheralState" getComponent={peripheralState}/>
             </Route>
             <Route path="account">
                 <IndexRoute getComponent={ SipAcct } />
@@ -401,6 +417,8 @@ const routes = () => {
                 <IndexRoute getComponent={ Preset } />
                 <Route onEnter={ requireAuth } path="cameracontrol" getComponent={Preset}/>
                 <Route onEnter={ requireAuth } path="ptz" getComponent={eptz}/>
+                <Route onEnter={ requireAuth } path="peripheral" getComponent={peripheral}/>
+                <Route onEnter={ requireAuth } path="remotecontrol" getComponent={remotecontrol}/>
             </Route>
             <Route path="maintenance">
                 <IndexRoute getComponent={ Upgrade } />
