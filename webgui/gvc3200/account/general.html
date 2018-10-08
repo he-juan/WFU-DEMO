@@ -107,6 +107,10 @@
                     <option value="2">TLS</option>
                 </select>
             </div>
+            <div webtip="Force Reset Remote SRTP" class="iptalkmode">
+                <div class="noreboot"><span id="a_forcesrtp">Force Reset Remote SRTP</span> :</div>
+                <input name="forcesrtp" type="checkbox" id="forcesrtp"><span id="a_forcesrtpyes">Yes</span>
+            </div>
             <div webtip="Register Expiration (H323)" style="display:none;" class="h323mode">
                 <div class="noreboot"><span id="a_regexp">Register Expitation (m)</span> :</div>
                 <input id="regexp" name="regexp" type="text" value="60" />
@@ -198,7 +202,7 @@ $(function(){
         $("#a_regexp").text(a_16069);
         $("#a_localport").text(a_19210);
         $("#a_symrtp").text(a_16096);
-        $("#a_symrtpyes").text(a_5);
+        $("#a_symrtpyes, #a_forcesrtpyes").text(a_5);
         $(".h323mode").show();
         $("#gkdiscovermode").sSelect();
         $("#gkdiscovermode").change(function(){
@@ -395,7 +399,8 @@ function cb_get_pvalue(acctindex){
                 new ReqItem("enableiptalkpro", "7059", ""),
                 new ReqItem("accountacctive", "401", ""),
                 new ReqItem("siptranport", "448", ""),
-                new ReqItem("name", "407", "")
+                new ReqItem("name", "407", ""),
+                new ReqItem("forcesrtp", "22238", "")
             );
 			req_items.push(
 				/*new ReqItem("accountacctive", "401", ""),
@@ -409,7 +414,8 @@ function cb_get_pvalue(acctindex){
 				new ReqItem("ipvtoken", "ipv_token", ""),
                 new ReqItem("name", "407", ""),
 				//new ReqItem("teluri", "409", "")
-				new ReqItem("siptranport", "448", "")
+				new ReqItem("siptranport", "448", ""),
+                new ReqItem("forcesrtp", "22238", "")
 			);
 			break;
 		case '3':
@@ -528,6 +534,7 @@ function translate_general(){
     $("#a_voicemailuid").text(a_1125);
     $("#a_name").text(a_1126);
     $("#a_siptranport").text(a_16093);
+    $("#a_forcesrtp").text(a_12244);
     $("#a_teluri").text(a_16056);
     $("#teluri option:eq(0)").text(a_39);
     $("#teluri option:eq(1)").text(a_16065);
