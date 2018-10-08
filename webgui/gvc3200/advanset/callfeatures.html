@@ -158,6 +158,7 @@
 
 </script>
 <script type="text/javascript">
+var ishdmione4K = false;
 var req_items = new Array;
 req_items.push(
     new ReqItem("autovideo", "25023", ""),
@@ -188,6 +189,7 @@ req_items.push(
 $(function(){
     //translate_callfea();
     cb_get(req_items);
+    cb_get_action("gethdmione4K&region=confctrl");
     setInitState();
     pageEventActions();
     var colore = $('#existcolore',parent.document.body).val();
@@ -263,6 +265,20 @@ function translate_callfea(){
     $("#commonlayout option:eq(1)").text(a_19384);
     $("#commonlayout option:eq(2)").text(a_19385);
     $("#commonlayout option:eq(3)").text(a_19386);
+}
+
+function cb_get_action_done(data, action){
+    if( data.substring(0, 1) == "{" )
+    {
+        data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+        if (action.indexOf("gethdmione4K") != -1) {
+            var tObj = eval("(" + data + ")");
+            ishdmione4K = eval(tObj.isHdmiOne4K);
+            if(ishdmione4K){
+                $("#commonlayout").parent().hide();
+            }
+        }
+    }
 }
 function cb_put_suc(data, mode)
 {
