@@ -379,7 +379,7 @@ export const setschedule = (infostr,type,callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
-export const setDialineInfo1= (linesinfo) => (dispatch) => {
+export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
     //0~8 - represent the status of line
     dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo})
 }
@@ -467,11 +467,6 @@ export const getAllLineStatus = (callback) => (dispatch) => {
     let request = 'region=confctrl&action=getallLineInfo';
     actionUtil.handleGetRequest(request).then(function(data) {
         let lineinfoArr = eval("([" + data + "])");
-        for(let i = 0 ; i < lineinfoArr.length ; i++ ){
-            let item = lineinfoArr[i];
-            item.state = item.type + item.state;  // for example "init4"
-        }
-        console.log("-lineinfoArr---",lineinfoArr);
         dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
         callback(lineinfoArr);
     }).catch(function(error) {
@@ -569,6 +564,22 @@ export const blockLineOrNot = (line) =>(dispatch) => {
     let request = "action=blockLineOrNot&region=confctrl&line="+line;
     actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const ctrlvideostate = (line, mode) =>(dispatch) => {
+    let request = "action=ctrlvideostate&region=confctrl&isflag="+ mode + "&line=" + line;
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const acceptringline = (line, isaccept, isvideo, callback) => (dispatch) => {
+    let request = "action=acceptringline&region=confctrl&isaccept=" + isaccept + "&line=" + line + "&isvideo=" + isvideo;
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
         promptForRequestFailed();
     });
 }

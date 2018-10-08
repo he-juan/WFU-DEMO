@@ -11,6 +11,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import CallDialog from './modules/calls/call/callDialog'
 import CallTip from './modules/calls/call/callTip'
+import IncomingcallDialog from './modules/calls/call/incomingcallDialog'
 import en_US from "antd/lib/locale-provider/en_US";
 import ja_JP from "antd/lib/locale-provider/ja_JP";
 import es_ES from "antd/lib/locale-provider/es_ES";
@@ -149,6 +150,16 @@ class Main extends React.Component {
         } else if(this.props.curLocale == 'zh'){
             locale = null;
         }
+        let linesinfo = [...this.props.linesinfo];
+        let incomingcallsinfo = [];
+        for(let i = linesinfo.length -1 ; i >= 0; i--){
+            //check if is incomming call
+            if(linesinfo[i].state == "2") {
+                incomingcallsinfo.push(linesinfo[i]);
+                linesinfo.splice(i, 1);
+            }
+        }
+
         return (
             <LocaleProvider locale={locale}>
             <Content className='main-container'>
@@ -160,9 +171,13 @@ class Main extends React.Component {
                         : null
                     }
                     {
-                        (this.props.linesinfo.length > 0 && this.props.callDialogStatus != "minimize") || this.props.callDialogStatus == "10"
-                        ? <CallDialog linestatus={this.props.linesinfo} status={this.props.callDialogStatus} />
+                        (linesinfo.length > 0 && this.props.callDialogStatus != "minimize") || this.props.callDialogStatus == "10"
+                        ? <CallDialog linestatus={linesinfo} status={this.props.callDialogStatus} />
                         : null
+                    }
+                    {
+                         incomingcallsinfo.length > 0 ?
+                             <IncomingcallDialog incominglinestatus={incomingcallsinfo}/> : null
                     }
                     <IntlProvider>
                         <Router history={ hashHistory }>

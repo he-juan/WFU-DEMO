@@ -34,39 +34,39 @@ class HandleWebsocket extends React.Component {
 
     changelinesstatus = (message) =>{
         let linesinfo = [];
-        let i = 0;
         if(this.props.linesinfo.length == 0){
             if(message.state == "4"){
                 this.getCallType(message);
             }
-            linesinfo.push(message);
+            this.props.setDialineInfo1(linesinfo);
         }else{
-            for(  i = 0; i < this.props.linesinfo.length; i++ ) {
+            for(let  i = 0; i < this.props.linesinfo.length; i++ ) {
+                let lineitem = this.props.linesinfo[i];
                 if (this.props.linesinfo[i].line == message.line) {
                     if (message.state == "4") {
                         //get the call type - begin
                         this.getCallType(message);
                         if(message.isvideo){
-                            this.props.linesinfo[i].isvideo = message.isvideo;
+                            lineitem.isvideo = message.isvideo;
                         }
                     }
-                    if (message.state == "3" || message.state == "4" || message.state == "8") {
+                    if (message.state == "0") {
+                        continue;
+                    }else {
                         //get the name and num --begin
                         let name = this.props.linesinfo[i].name;
                         let number = this.props.linesinfo[i].num;
-                        this.props.linesinfo[i].name = message.name || name;
-                        this.props.linesinfo[i].num = message.number || number;
-                        this.props.linesinfo[i].msg =  message.msg;
+                        lineitem.name = message.name || name;
+                        lineitem.num = message.number || number;
+                        lineitem.msg = message.msg;
                     }
-                    else if (message.state == "0") {
-                        continue;
-                    }
-                    this.props.linesinfo[i].state = message.state;
+                    lineitem.state = message.state;
                 }
-                linesinfo.push(this.props.linesinfo[i]);
+                linesinfo.push(lineitem);
             }
+            this.props.setDialineInfo1(linesinfo);
         }
-        this.props.setDialineInfo1(linesinfo);
+
     }
 
     updatename = (message) =>{
@@ -238,7 +238,7 @@ class HandleWebsocket extends React.Component {
                         this.changelinesstatus(message);
                         if( this.props.linesinfo.length <= 0 ){ // 所有线路都取消时
                             globalObj.isCallStatus = false;
-                            this.props.showCallDialog(10);
+                            this.props.showCallDialog("10");
                             this.props.setHeldStatus("0");
                             endcalltimeout = setTimeout(() => {
                                 this.props.showCallDialog("end");
@@ -252,11 +252,15 @@ class HandleWebsocket extends React.Component {
                         }
                         this.changelinesstatus(message);
                         break;
+                    case "2": // incoming call
+                        let linesinfo = [...this.props.linesinfo];
+                        linesinfo[linesinfo.length] = message;
+                        this.props.setDialineInfo1(linesinfo);
+                        break;
                     case "4":
                         // accept the call
                         // if is ipvt conf , get the ipvtrole
                         if( this.props.ipvrole == "-1" && message.acct == "1"){
-
                             this.props.getipvrole(message.line, "init");
                         }
                         this.changelinesstatus(message);
@@ -362,8 +366,8 @@ const mapStateToProps = (state) => ({
     ipvrole: state.ipvrole
 })
 
-function mapDispatchToProps(dispatch) {
-    var actions = {
+const mapDispatchToProps = (dispatch) => {
+    const actions = {
         promptMsg:Actions.promptMsg,
         setPageStatus:Actions.setPageStatus,
         getConnectState:Actions.getConnectState,

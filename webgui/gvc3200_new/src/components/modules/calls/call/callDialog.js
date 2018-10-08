@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import {globalObj} from "../../../redux/actions/actionUtil"
 import FECCModal from "./FECCModal";
 const Content = Layout
-let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "", obj_incominginfo = new Object(), contactItems;
+let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
 let mClicktimes = 0;
 let mPreClickTime, mCurrentClickTime;
@@ -213,6 +213,22 @@ class CallDialog extends Component {
         this.props.blockLineOrNot(line);
     }
 
+    handlelinevideoswitch =(lineitem) =>{
+        if(!this.countClickedTimes())
+        {
+            return false;
+        }
+        // check ispause
+        {
+
+        }
+        let mode = "1"
+        if(lineitem.isvideo == "1"){
+            mode = "0";
+        }
+        this.props.ctrlvideostate(lineitem.line, mode);
+    }
+
     handleStartFECC = (line) =>{
         if(!this.countClickedTimes()){
             return false;
@@ -339,8 +355,10 @@ class CallDialog extends Component {
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let status = this.props.status;
         if(status == 10){  //当所有线路均取消时 显示消失动画
-            tmpclass = "call-dialog-out call-dialog-out-active";
-            dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
+            if(maskvisible == "display-block"){
+                tmpclass = "call-dialog-out call-dialog-out-active";
+                dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
+            }
         }
         let linestatustip = [];
         let linevideouploadclass = [];
@@ -380,25 +398,27 @@ class CallDialog extends Component {
                     lineuploadingclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
                     break;
                 case "4":
+                case "5":
+                    linevideouploadclass[i] = "display-block" + " uploading";
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-block";
-                    if (lineitem.isvideo == "1") { //视频通话
-                        linestatustip[i] = this.tr("a_669");
-                        lineconfvideoclass[i] = "confvideo";
-                    } else {  //语音通话
-                        linestatustip[i] = this.tr("a_668");
-                        lineconfvideoclass[i] = "confaudio";
-                    }
                     lineuploadingclass[i] = "unuploading";
                     linesuspendclass[i]="unconfsuspend";
                     lineblockclass[i] = "unconfblock";
                     linemuteclass[i] = "unmute";
-
                     if(lineitem.issuspend == "1"){
                         linesuspendclass[i]="confsuspend";
+                    }
+                    if (lineitem.isvideo == "1") {
+                        linestatustip[i] = this.tr("a_669");
+                        lineconfvideoclass[i] = "confvideo";
+                    } else {
+                        linestatustip[i] = this.tr("a_668");
+                        lineconfvideoclass[i] = "confaudio";
+                        linesuspendclass[i] += " btndisable";
                     }
                     if(lineitem.isblock == "1"){
                         lineblockclass[i] = "confblock";
@@ -417,7 +437,18 @@ class CallDialog extends Component {
                     if(this.state.acctstatus.length > 0){
                         linestatustip[i] += " (" + this.state.acctstatus[account]["name"]+")";
                     }
-                    linevideouploadclass[i] = "display-block" + " uploading";
+                    if(lineitem.feccline && lineitem.feccline != "-2"){
+                        if(!this.setfeccstateTimer){
+                            this.setfeccstateTimer = setTimeout(()=>{
+                                this.props.ctrlFECC(lineitem.feccline, 1, (result) =>{
+                                    if(result.res == "success" || result == 0 ){
+                                    }else{
+                                        this.props.promptMsg("WARNING", this.tr("a_63"));
+                                    }
+                                });
+                            },500);
+                        }
+                    }
                     break;
                 case "init8":
                 case "8":
@@ -449,59 +480,6 @@ class CallDialog extends Component {
                         case "9":
                             linestatustip[i] = this.tr("a_545");
                             break;
-                    }
-                    break;
-                case "init4":
-                case "init5":
-                    linevideouploadclass[i] = "display-block" + " uploading";
-                    if (tmpclass != "call-dialog-in call-dialog-in-active") {
-                        tmpclass = "call-dialog-in call-dialog-in-active";
-                        maskvisible = "display-block";
-                    }
-                    ctrlbtnvisible = "display-block";
-                    if (lineitem.isvideo == "1") {
-                        linestatustip[i] = this.tr("a_669");
-                        lineconfvideoclass[i] = "confvideo";
-                    } else {
-                        linestatustip[i] = this.tr("a_668");
-                        lineconfvideoclass[i] = "confaudio";
-                    }
-                    lineuploadingclass[i] = "unuploading";
-                    linesuspendclass[i]="unconfsuspend";
-                    lineblockclass[i] = "unconfblock";
-                    linemuteclass[i] = "unmute";
-
-                    if(lineitem.issuspend == "1"){
-                        linesuspendclass[i]="confsuspend";
-                    }
-                    if(lineitem.isblock == "1"){
-                        lineblockclass[i] = "confblock";
-                    }
-                    if(lineitem.islinemute == "1"){
-                        linemuteclass[i] = "mute";
-                    }
-
-                    if(lineitem.isremotehold == "1") {
-                        linesuspendclass[i] += " btndisable";
-                        lineconfvideoclass[i] += " btndisable";
-                        lineblockclass[i] += " btndisable";
-                        linemuteclass[i] += " btndisable";
-                    }
-                    if(account == 8) account = 3;
-                    if(this.state.acctstatus.length > 0){
-                        linestatustip[i] += " (" + this.state.acctstatus[account]["name"]+")";
-                    }
-                    if(lineitem.feccline != "-2"){
-                        if(!this.setfeccstateTimer){
-                            this.setfeccstateTimer = setTimeout(()=>{
-                                this.props.ctrlFECC(lineitem.feccline, 1, (result) =>{
-                                    if(result.res == "success" || result == 0 ){
-                                    }else{
-                                        this.props.promptMsg("WARNING", this.tr("a_63"));
-                                    }
-                                });
-                            },500);
-                        }
                     }
                     break;
             }
@@ -552,7 +530,9 @@ class CallDialog extends Component {
                                                 className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]}/>
                                         <Button title={this.tr("a_623")}
                                                 disabled={disabledflag ? true : false}
-                                                className={item.acct == 1 ? "confvideo btndisable" : lineconfvideoclass[i]}/>
+                                                className={item.acct == 1 ? "confvideo btndisable" : lineconfvideoclass[i]}
+                                                onClick={this.handlelinevideoswitch.bind(this, item)}
+                                        />
                                         <Button title={this.tr("a_16701")}
                                                 disabled={disabledflag ? true : false}
                                                 className={item.acct == 1 ? "unconfblock btndisable" : lineblockclass[i]}
@@ -632,7 +612,8 @@ function mapDispatchToProps(dispatch) {
       endlinecall: Actions.endlinecall,
       setDndMode: Actions.setDndMode,
       ctrlLineMute: Actions.ctrlLineMute,
-      blockLineOrNot: Actions.blockLineOrNot
+      blockLineOrNot: Actions.blockLineOrNot,
+      ctrlvideostate: Actions.ctrlvideostate
   }
   return bindActionCreators(actions, dispatch)
 }
