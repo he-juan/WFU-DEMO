@@ -23,7 +23,7 @@ class CallTip extends Component {
     }
 
 	handleCallDialog = () => {
-		this.props.showCallDialog(9);
+		this.props.showCallDialog("9");
 	}
 
     render(){

@@ -7,6 +7,8 @@ const promptForRequestFailed = () => (dispatch) => {
 }
 export const get_leftcalllogname = (callback) => (dispatch) =>{
     let request = 'action=sqlitecontacts&region=apps&type=leftcalllogname';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var missedcallsname = [];
         var json;
@@ -35,6 +37,8 @@ export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isq
     let request = 'action=addconfmemeber&region=confctrl&numbers=' + encodeURIComponent(numbers) + "&accounts=" +
         encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo +
         "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan + "&confname=" + confname;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function (data) {
         let msgs = actionUtil.res_parse_rawtext(data);
         if (msgs.headers['response'].toLowerCase() == "error") {
@@ -54,6 +58,8 @@ export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isq
 
 export const quickStartIPVConf = (isvideo) => (dispatch) => {
     let request = 'action=quickStartIPVConf&region=confctrl&isvideo=' + isvideo;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
     }).catch(function(error) {
         promptForRequestFailed();
@@ -65,6 +71,8 @@ export const quickStartIPVConf = (isvideo) => (dispatch) => {
  */
 export const getMaxlineCount =() => (dispatch) =>{
     let request = "action=getmaxlinecount";
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let tObj = JSON.parse(data);
         dispatch({type: 'REQUEST_GET_MAXLINECOUNT', maxlinecount: tObj.count});
@@ -84,6 +92,7 @@ export const getContacts = (callback) => (dispatch) => {
     // let request = 'action=sqlitecontacts&type=contacts';
     // let request = 'action=sqlitecontacts&region=apps&type=contacts';
     let request = "action=sqlitecontacts&region=apps&type=contacts&sqlstr=select contacts._id as contacts_id,raw_contacts._id as raw_contacts_id,raw_contacts.display_name as contact_display_name,data.phone,data.accountid,data._id from contacts left join raw_contacts on contacts.name_raw_contact_id=raw_contacts._id left join (select _id, raw_contact_id,data1 as phone,data11 as accountid from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on raw_contacts._id=data.raw_contact_id;"
+    request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
@@ -105,6 +114,8 @@ export const getContacts = (callback) => (dispatch) => {
 
 export const setContacts = (infostr,callback) => (dispatch) => {
     let request="action=setcontact&region=webservice&contactInfo=" + encodeURIComponent(infostr) + "&format=json";
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
@@ -120,6 +131,8 @@ export const setContacts = (infostr,callback) => (dispatch) => {
 
 export const removeContact = (contactid, callback) => (dispatch) => {
     let request = 'action=removecontact&region=webservice&contactid='+contactid;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         var tObj = eval("(" + data + ")");
         if (tObj.res == "success"){
@@ -134,6 +147,8 @@ export const removeContact = (contactid, callback) => (dispatch) => {
 export const getGroups = (callback) => (dispatch) => {
     // let request = 'action=sqlitecontacts&type=groups';
     let request = 'action=sqlitecontacts&region=apps&type=groups';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['Response'] == 'Success') {
@@ -177,6 +192,8 @@ const formatContactAndGroupsData = function(data,type){
 
 export const setGroups = (groupname,ringtone,editGroupId,callback) => (dispatch) => {
     let request = 'action=setgroup&region=webservice&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname)+'&format=json';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
@@ -199,6 +216,8 @@ export const updateGroupMembers = (mEditMode,id,contactids) => (dispatch) => {
     }else if(mEditMode == 1) {
         request = "cleargroup&groupID=" + id;
     }
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
@@ -213,6 +232,7 @@ export const updateGroupMembers = (mEditMode,id,contactids) => (dispatch) => {
 
 export const removeGroup = (groupid) => (dispatch) => {
     let request = 'action=removegroup&region=webservice&groupID='+groupid;
+    request += "&time=" + new Date().getTime();
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data);
         if (msgs.res == "success") {
@@ -232,6 +252,8 @@ export const get_calllog = (type, callback) => (dispatch) => {
     }else{
         request = "action=sqlitecontacts&region=apps&type=leftcalllogtype&logtype=" + type;
     }
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var logItemdata = [];
         var json;
@@ -252,6 +274,8 @@ export const get_calllog = (type, callback) => (dispatch) => {
 
 export const get_clear = (callback) => (dispatch) => {
     let request = 'action=clearallcallhistory&region=webservice';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
         promptForRequestFailed();
@@ -260,6 +284,8 @@ export const get_clear = (callback) => (dispatch) => {
 
 export const get_deleteCall = (deleteId,flag, callback) => (dispatch) => {
     let request = 'action=removecall&region=webservice&flag='+ flag +'&id=' + deleteId;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var tObj = eval("(" + data + ")");
         callback(tObj.res);
@@ -271,6 +297,8 @@ export const get_deleteCall = (deleteId,flag, callback) => (dispatch) => {
 export const get_deleteCallConf = (deleteId,callback) => (dispatch) => {
     let request = 'action=removecallconf&region=webservice&confId=' + deleteId;
     // let request = 'action=removecallconf&region=webservice&confId=' + deleteId
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var tObj = eval("(" + data + ")");
         callback(tObj.res);
@@ -281,6 +309,8 @@ export const get_deleteCallConf = (deleteId,callback) => (dispatch) => {
 
 export const getContactsinfo = () => (dispatch) => {
     let request = 'action=sqlitecontacts&region=apps&type=contactinfo';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = JSON.parse(data);
         let contactinfodata = msgs['Data'];
@@ -292,6 +322,7 @@ export const getContactsinfo = () => (dispatch) => {
 
 export const getAllConfMember = (callback) => (dispatch) => {
     let request = 'action=sqlitecontacts&region=apps&type=confmember&flag=1';
+    request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = JSON.parse(data);
@@ -305,6 +336,7 @@ export const getAllConfMember = (callback) => (dispatch) => {
 
 export const getNormalCalllogNames = () => (dispatch) => {
     let request = 'action=sqlitecontacts&region=apps&type=leftcalllogname';
+    request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(res) {
         let msgs = JSON.parse(res);
@@ -317,6 +349,8 @@ export const getNormalCalllogNames = () => (dispatch) => {
 
 export const getPreConf = (callback) => (dispatch) => {
     let request = 'action=sqliteconf&region=apps&type=preconf';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(res) {
         let msgs = JSON.parse(res);
         let data = msgs['Data'];
@@ -328,6 +362,8 @@ export const getPreConf = (callback) => (dispatch) => {
 
 export const getConfInfo = (callback) => (dispatch) => {
     let request = 'action=sqliteconf&region=apps&type=schedule';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(res) {
         let msgs = JSON.parse(res);
         let data = msgs['Data'];
@@ -339,6 +375,8 @@ export const getConfInfo = (callback) => (dispatch) => {
 
 export const get_deleteConf = (deleteId, callback) => (dispatch) => {
     let request = 'action=deleteschedule&region=webservice&id=' + deleteId;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var tObj = eval("(" + data + ")");
         callback(tObj.res);
@@ -349,6 +387,8 @@ export const get_deleteConf = (deleteId, callback) => (dispatch) => {
 
 export const get_deleteOnceConf = (deleteId, callback) => (dispatch) => {
     let request = 'action=notifyschedule&region=webservice&type=5&scheduleId=' + deleteId;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
         var response = msgs.headers['response'];
@@ -367,6 +407,8 @@ export const setschedule = (infostr,type,callback) => (dispatch) => {
     if(type == 1) {
         request="action=updateschedule&region=webservice&id=" + infostr;
     }
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
@@ -390,6 +432,8 @@ export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
  */
 export const ctrlLocalMute = (ismute, callback) => (dispatch) => {
     let request = "action=ctrllocalmute&region=confctrl&setmute=" + ismute;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let tObj = JSON.parse(data);
     }).catch(function(error) {
@@ -399,6 +443,8 @@ export const ctrlLocalMute = (ismute, callback) => (dispatch) => {
 
 export const ctrlLineMute = (line, ismute) => (dispatch) => {
     let request = "action=ctrllinemute&region=confctrl&line="+line+"&setmute="+ismute;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let tObj = JSON.parse(data);
     }).catch(function(error) {
@@ -409,6 +455,8 @@ export const ctrlLineMute = (line, ismute) => (dispatch) => {
 
 export const gethdmi1state = (callback) => (dispatch) => {
     let request = "action=gethdmi1state&region=status";
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
         let tObj = JSON.parse(data);
         callback(tObj)
@@ -419,6 +467,8 @@ export const gethdmi1state = (callback) => (dispatch) => {
 
 export const isFECCEnable = (line, callback) => (dispatch) =>{
     let request = "region=confctrl&action=isFECCEnable&line=" + line;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function (data) {
         data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
         let tObj = eval("(" + data + ")");
@@ -435,6 +485,8 @@ export const ctrlFECC = (line, flag, callback) => (dispatch) =>{
     }else{
         request = "region=confctrl&action=stopFECC&line=" + line;
     }
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function (data) {
         data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
         let tObj = eval("(" + data + ")");
@@ -446,6 +498,8 @@ export const ctrlFECC = (line, flag, callback) => (dispatch) =>{
 
 export const getHDMI1Resolution = (async, callback) => (dispatch) =>{
     let request = "action=get&var-0000=25104";
+    request += "&time=" + new Date().getTime();
+
     if(async == true){
         actionUtil.handleGetRequest(request).then(function (data) {
             let msgs = actionUtil.res_parse_rawtext(data);
@@ -465,6 +519,8 @@ export const getHDMI1Resolution = (async, callback) => (dispatch) =>{
 
 export const getAllLineStatus = (callback) => (dispatch) => {
     let request = 'region=confctrl&action=getallLineInfo';
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         let lineinfoArr = eval("([" + data + "])");
         dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
@@ -492,6 +548,8 @@ export const setFECCStatus = (line, status) => (dispatch) =>{
 
 export const isConfOnHold = (callback) => (dispatch) =>{
     let request = "action=isConfOnHold&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var result = eval("("+data+")");
         if(result.res == "success" || result == 0){
@@ -509,6 +567,8 @@ export const isConfOnHold = (callback) => (dispatch) =>{
 
 export const gotoFECCpreset = (line, presetid) => (dispatch) =>{
     let request = "action=FECCpreset&region=confctrl&type=goto&line=" + line + "&presetid=" + presetid;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
         promptForRequestFailed();
@@ -517,6 +577,8 @@ export const gotoFECCpreset = (line, presetid) => (dispatch) =>{
 
 export const saveFECCpreset = (line, presetid) => (dispatch) =>{
     let request = "action=FECCpreset&region=confctrl&type=save&line=" + line + "&presetid=" + presetid;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
         promptForRequestFailed();
@@ -540,6 +602,8 @@ export const saveFECCpreset = (line, presetid) => (dispatch) =>{
 
 export const getipvrole = (line, type) => (dispatch) => {
     let request = "action=getipvrole&region=confctrl&line=" + line + "&type" + type;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var result = eval("("+data+")");
         dispatch({ type: 'REQUEST_GET_IPVTROLE', ipvrole: result.role+""});
@@ -550,6 +614,8 @@ export const getipvrole = (line, type) => (dispatch) => {
 
 export const endlinecall = (line, flag) => (dispatch) =>{
     let request = "action=endcall&region=webservice&line=" + line + "&flag=" + flag ;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
         var result = eval("("+data+")");
         if(result != 0){
@@ -562,6 +628,8 @@ export const endlinecall = (line, flag) => (dispatch) =>{
 
 export const blockLineOrNot = (line) =>(dispatch) => {
     let request = "action=blockLineOrNot&region=confctrl&line="+line;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
         promptForRequestFailed();
@@ -570,6 +638,8 @@ export const blockLineOrNot = (line) =>(dispatch) => {
 
 export const ctrlvideostate = (line, mode) =>(dispatch) => {
     let request = "action=ctrlvideostate&region=confctrl&isflag="+ mode + "&line=" + line;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data) {
     }).catch(function(error) {
         promptForRequestFailed();
@@ -578,6 +648,18 @@ export const ctrlvideostate = (line, mode) =>(dispatch) => {
 
 export const acceptringline = (line, isaccept, isvideo, callback) => (dispatch) => {
     let request = "action=acceptringline&region=confctrl&isaccept=" + isaccept + "&line=" + line + "&isvideo=" + isvideo;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const conflinevideoedstate = (line, isvideoed) => ( dispatch ) => {
+    let request = "action=conflinevideoedstate&region=confctrl&isvideoed="+ isvideoed + "&line="+ line;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function (data) {
     }).catch(function (error) {
         promptForRequestFailed();

@@ -263,3 +263,15 @@ export const getContactCount = () => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+export const getremoteupgradestate = (callback) => (dispatch) => {
+    let request =  "action=get&var-0000=:remote_update";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleSyncRequest(request).then(function(data){
+        let msgs = actionUtil.res_parse_rawtext(data);
+        callback(msgs);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}

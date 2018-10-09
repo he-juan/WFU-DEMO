@@ -43,7 +43,7 @@ class Main extends React.Component {
     }
 
     componentWillMount = () => {
-        if(this.props.callDialog != "end") {
+        if(this.props.callDialogStatus != "end") {
             this.props.showCallDialog("end");
         }
         let isipvtexist = false;
@@ -171,7 +171,8 @@ class Main extends React.Component {
                         : null
                     }
                     {
-                        (linesinfo.length > 0 && this.props.callDialogStatus != "minimize") || this.props.callDialogStatus == "10"
+                        (linesinfo.length > 0 && this.props.callDialogStatus != "minimize")
+                        || this.props.callDialogStatus == "10" || this.props.callDialogStatus == "9"
                         ? <CallDialog linestatus={linesinfo} status={this.props.callDialogStatus} />
                         : null
                     }

@@ -38,6 +38,9 @@ class HandleWebsocket extends React.Component {
             if(message.state == "4"){
                 this.getCallType(message);
             }
+            if(message.state != "0"){
+                linesinfo.push(message);
+            }
             this.props.setDialineInfo1(linesinfo);
         }else{
             for(let  i = 0; i < this.props.linesinfo.length; i++ ) {
@@ -149,6 +152,35 @@ class HandleWebsocket extends React.Component {
         for( let i = 0; i < this.props.linesinfo.length; i++ ){
             if(this.props.linesinfo[i].line == message.line) {
                 this.props.linesinfo[i].isblock = message.state.split("=")[1];
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            linesinfo = [...this.props.linesinfo];
+            this.props.setDialineInfo1(linesinfo);
+        }
+    }
+
+    updatevideoedstate = (message) => {
+        let line = message.line;
+        let type = message.type;
+        let isvideoed = "0";
+        // flag:  0-the operation failed   1-the operation successed
+        if(message.flag == "1"){
+            if(type.indexOf("open") == -1){
+                isvideoed = "1";
+            }
+        }else {
+            if(type.indexOf("open") != -1){
+                isvideoed = "1";
+            }
+        }
+        let linesinfo = [];
+        let flag = false;
+        for( let i = 0; i < this.props.linesinfo.length; i++ ){
+            if(this.props.linesinfo[i].line == message.line) {
+                this.props.linesinfo[i].isvideoed = isvideoed;
                 flag = true;
                 break;
             }
@@ -308,6 +340,12 @@ class HandleWebsocket extends React.Component {
                 break;
             case 'blockstate':
                 this.handleblock(message);
+                break;
+            case 'open_camera_status':
+                this.updatevideoedstate(message);
+                break;
+            case 'close_camera_status':
+                this.updatevideoedstate(message);
                 break;
             case 'updateDND':
                 this.handleupdatednd(message);

@@ -4567,18 +4567,22 @@ table thead tr th{
 .confbtn .endconf:hover{
     background: url(../img/call/conf_control.png) -104px -297px no-repeat;
 }
-.confbtn .unuploading{
+.confbtn .uploading{
     background: url(../img/call/conf_control.png) -364px -245px no-repeat;
 }
-.confbtn .unuploading:hover{
+.confbtn .uploading:hover{
     background: url(../img/call/conf_control.png) -416px -245px no-repeat;
 }
-.confbtn .uploading{
+.confbtn .uploading.btndisable{
+    background: url(../img/call/conf_control.png) -390px -245px no-repeat;
+}
+.confbtn .unuploading{
     background: url("../img/call/conf_control.png") -364px -271px no-repeat;
 }
-.confbtn .uploading:hover{
+.confbtn .unuploading:hover{
     background: url("../img/call/conf_control.png") -416px -271px no-repeat;
 }
+
 .confbtn .unconfsuspend{
     background: url(../img/call/conf_control.png) -52px -245px no-repeat;
 }

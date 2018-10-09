@@ -304,6 +304,21 @@ class CallDialog extends Component {
         this.props.endlinecall(line, flag);
     }
 
+    handleuploading = (line, isvideoed) => {
+        if(!this.countClickedTimes()) {
+            return false;
+        }
+        // check ispause
+        {
+
+        }
+        let flag = 1 ;
+        if(isvideoed == "1"){
+            flag = 0;
+        }
+        this.props.conflinevideoedstate(line,flag);
+    }
+
     handlednd = () =>{
         if(this.hasipvtline()){
             if(this.props.dndstatus == "0"){
@@ -354,16 +369,10 @@ class CallDialog extends Component {
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let status = this.props.status;
-        if(status == 10){  //当所有线路均取消时 显示消失动画
-            if(maskvisible == "display-block"){
-                tmpclass = "call-dialog-out call-dialog-out-active";
-                dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
-            }
-        }
         let linestatustip = [];
         let linevideouploadclass = [];
         let linestatus = this.props.linestatus;
-        let lineuploadingclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
+        let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
         let lineuploadingdisable = [];
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
@@ -395,7 +404,7 @@ class CallDialog extends Component {
                     linestatustip[i] = this.tr("a_509");
                     linevideouploadclass[i] = "display-hidden";
                     ctrlbtnvisible = "display-hidden";
-                    lineuploadingclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
+                    lineisvideoedclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
                     break;
                 case "4":
                 case "5":
@@ -405,7 +414,7 @@ class CallDialog extends Component {
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-block";
-                    lineuploadingclass[i] = "unuploading";
+                    lineisvideoedclass[i] = "uploading";
                     linesuspendclass[i]="unconfsuspend";
                     lineblockclass[i] = "unconfblock";
                     linemuteclass[i] = "unmute";
@@ -426,12 +435,20 @@ class CallDialog extends Component {
                     if(lineitem.islinemute == "1"){
                         linemuteclass[i] = "mute";
                     }
+                    if(lineitem.isvideoed == "1"){
+                        lineisvideoedclass[i] = "unuploading"
+                    }else{
+                        lineisvideoedclass[i] = "uploading"
+                    }
 
                     if(lineitem.isremotehold == "1") {
                         linesuspendclass[i] += " btndisable";
                         lineconfvideoclass[i] += " btndisable";
                         lineblockclass[i] += " btndisable";
                         linemuteclass[i] += " btndisable";
+                    }
+                    if(account != 1){
+                        lineisvideoedclass[i] += " btndisable";
                     }
                     if(account == 8) account = 3;
                     if(this.state.acctstatus.length > 0){
@@ -457,7 +474,7 @@ class CallDialog extends Component {
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-hidden";
-                    lineuploadingclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
+                    lineisvideoedclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
                     switch(lineitem.msg){
                         case "3":
                             linestatustip[i] = this.tr("a_539");
@@ -494,6 +511,17 @@ class CallDialog extends Component {
             feccline = feccInfo.line;
             feccdisplay = feccInfo.status == "1" ? true : false
         }
+        if(status == 10){  //当所有线路均取消时 显示消失动画
+            if(maskvisible == "display-block"){
+                tmpclass = "call-dialog-out call-dialog-out-active";
+                dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
+            }
+        }else if(status == "9"){
+            if(tmpclass != "call-dialog-in call-dialog-in-active"){
+                tmpclass = "call-dialog-in call-dialog-in-active";
+                maskvisible = "display-block";
+            }
+        }
 
         return (
             <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
@@ -523,8 +551,10 @@ class CallDialog extends Component {
                                     <div className="conftype">{linestatustip[i]}</div>
                                     <div className="confbtn">
                                         <Button title={this.tr("a_1")} className="endconf"
-                                                onClick={this.handleEndline.bind(this, i, item.acct)}/>
-                                        <Button title={this.tr("a_19241")} className={lineuploadingclass[i]}/>
+                                                onClick={this.handleEndline.bind(this, item.line, item.acct)}/>
+                                        <Button title={this.tr("a_19241")} className={lineisvideoedclass[i]}
+                                                disabled={item.acct == 1 ? false : true}
+                                                onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/>
                                         <Button title={this.tr("a_16700")}
                                                 disabled={disabledflag ? true : false}
                                                 className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]}/>
@@ -613,7 +643,8 @@ function mapDispatchToProps(dispatch) {
       setDndMode: Actions.setDndMode,
       ctrlLineMute: Actions.ctrlLineMute,
       blockLineOrNot: Actions.blockLineOrNot,
-      ctrlvideostate: Actions.ctrlvideostate
+      ctrlvideostate: Actions.ctrlvideostate,
+      conflinevideoedstate: Actions.conflinevideoedstate
   }
   return bindActionCreators(actions, dispatch)
 }
