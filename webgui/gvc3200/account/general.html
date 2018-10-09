@@ -241,7 +241,7 @@ function change_h323_mode(){
         $("#sipserverdiv").show();
     }
 }
-function get_item_suc_callback() {
+function get_item_suc_callback(msgs) {
     mDisName = $("#accountname").val();
     if( $("#accountacctive").attr("checked") )
         mSIPChecked = 1;
@@ -264,6 +264,9 @@ function get_item_suc_callback() {
                     cb_get_ipvinfo();          
             }else{
                 mSIPChecked = 0;
+            }
+            if(msgs.headers["22238"] == undefined || msgs.headers["22238"] == "" ){
+                $('#forcesrtp').attr('checked', true);
             }
         }
         $(".serverside").hide();
@@ -534,7 +537,7 @@ function translate_general(){
     $("#a_voicemailuid").text(a_1125);
     $("#a_name").text(a_1126);
     $("#a_siptranport").text(a_16093);
-    $("#a_forcesrtp").text(a_12244);
+    $("#a_forcesrtp").text(a_12234);
     $("#a_teluri").text(a_16056);
     $("#teluri option:eq(0)").text(a_39);
     $("#teluri option:eq(1)").text(a_16065);
