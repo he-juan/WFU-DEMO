@@ -192,6 +192,13 @@ class CallDialog extends Component {
         }
         this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
     }
+    handlelocalcamera = () =>{
+        if(!this.countClickedTimes())
+        {
+            return false;
+        }
+        this.props.ctrlCameraBlockState();
+    }
 
     handlelinemute = (lineitem) =>{
         if(lineitem.islinemute == "1"){
@@ -374,26 +381,17 @@ class CallDialog extends Component {
         let linestatus = this.props.linestatus;
         let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
         let lineuploadingdisable = [];
+        let state3num = 0, state8num = 0;
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
             let account = lineitem.acct;
             lineuploadingdisable[i] = false;
             linestatustip[i] = "";
-            // if(account == 1){
-            //     linesuspendclass[i] = "unconfsuspenddisable";
-            //     lineconfvideoclass[i] = "confvideodisable";
-            //     lineblockclass[i] = "unconfblockdisable";
-            //     linemuteclass[i] = "unmutedisable";
-            // }else{
-            //     linesuspendclass[i] = "unconfsuspend";
-            //     lineconfvideoclass[i] = "confvideo";
-            //     lineblockclass[i] = "unconfblock";
-            //     linemuteclass[i] = "unmute";
-            // }
             switch (state) {
                 case "3":
                 case "init3":
+                    state3num ++;
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
@@ -466,9 +464,17 @@ class CallDialog extends Component {
                             },500);
                         }
                     }
+                    if(state == "4" && state != "5"){
+                        if(!this.getcamerablockedTimmer){
+                            this.getcamerablockedTimmer = setTimeout(()=>{
+                                this.props.getCameraBlocked();
+                            });
+                        }
+                    }
                     break;
                 case "init8":
                 case "8":
+                    state8num ++;
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
@@ -497,12 +503,32 @@ class CallDialog extends Component {
                         case "9":
                             linestatustip[i] = this.tr("a_545");
                             break;
+                        default:
+                            linestatustip[i] = this.tr("a_643");
+                            break;
                     }
                     break;
             }
         }
+
         let ismute = linestatus[0] && linestatus[0].isLocalMuted == "1" ? "1" : "0";
-        let localmuteclass = ismute == "1" ? "mute" : "unmute";
+        let localmuteclass = "unmute";
+        let localcamerablockedclass = "confvideo";
+        let startFECCClass = "startFECC";
+        let localbtndisabled = false;
+        if((state3num + state8num) == linestatus.length){  //there has no line in talking
+            localmuteclass += " btndisable";
+            startFECCClass += " btndisable";
+            localcamerablockedclass += " btndisable";
+            localbtndisabled = true;
+        }else{
+            localmuteclass = ismute == "1" ? "mute" : "unmute";
+            if(this.props.localcamerablocked == "0"){
+                localcamerablockedclass = "confvideo";
+            }else{
+                localcamerablockedclass = "confaudio";
+            }
+        }
         let heldclass = this.props.heldStatus == "1" ? "hold-icon" : "unhold-icon";
         let feccInfo = this.props.FECCStatus;
         let feccline = "";
@@ -537,9 +563,9 @@ class CallDialog extends Component {
                             <div className="confnum"></div>
                             <div className="conftype"></div>
                             <div className="confbtn">
-                                <Button id="startFECC" title={this.tr("a_19241")} className="startFECC" onClick={this.handleStartFECC.bind(this, "-1")}/>
-                                <Button id="closecamera" title={this.tr("a_628")}  className="unclosecamera" />
-                                <Button id="localmute" title={this.tr("a_413")}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
+                                <Button id="startFECC" title={this.tr("a_19241")} disabled={localbtndisabled} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/>
+                                <Button id="closecamera" title={this.tr("a_628")} disabled={localbtndisabled}  className={localcamerablockedclass} onClick={this.handlelocalcamera}/>
+                                <Button id="localmute" title={this.tr("a_413")} disabled={localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                             </div>
                         </div>
                         {
@@ -617,15 +643,16 @@ const mapStateToProps = (state) => ({
     FECCStatus: state.FECCStatus,
     callFeatureInfo: state.callFeatureInfo,
     ipvrole: state.ipvrole,
-    dndstatus: state.dndstatus
+    dndstatus: state.dndstatus,
+    localcamerablocked: state.localcamerablocked
 })
 
 function mapDispatchToProps(dispatch) {
   var actions = {
 	  showCallDialog: Actions.showCallDialog,
-      getMaxVolume: Actions.getMaxVolume,
-      getCurVolume: Actions.getCurVolume,
-      setVolume: Actions.setVolume,
+      // getMaxVolume: Actions.getMaxVolume,
+      // getCurVolume: Actions.getCurVolume,
+      // setVolume: Actions.setVolume,
       endCall: Actions.endCall,
       ctrlLineMute: Actions.ctrlLineMute,
       ctrlLineRecord: Actions.ctrlLineRecord,
@@ -644,7 +671,9 @@ function mapDispatchToProps(dispatch) {
       ctrlLineMute: Actions.ctrlLineMute,
       blockLineOrNot: Actions.blockLineOrNot,
       ctrlvideostate: Actions.ctrlvideostate,
-      conflinevideoedstate: Actions.conflinevideoedstate
+      conflinevideoedstate: Actions.conflinevideoedstate,
+      getCameraBlocked: Actions.getCameraBlocked,
+      ctrlCameraBlockState: Actions.ctrlCameraBlockState
   }
   return bindActionCreators(actions, dispatch)
 }

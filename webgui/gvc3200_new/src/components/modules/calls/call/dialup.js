@@ -394,6 +394,7 @@ class DialUpForm extends Component {
     }
 
     handleDialUp = (isbyinputnum, isvideo) => {
+        let acctstatus = this.state.acctstatus;
         if (isbyinputnum == 1) {
             const form = this.props.form;
             if (mCalling) return;
@@ -408,7 +409,7 @@ class DialUpForm extends Component {
                 if (bjpwd != "") {
                     dialnum += "." + bjpwd;
                 }
-                this.cb_start_addmemberconf(dialnum, selacct+"", "call", "", "", "", isvideo);
+                this.props.cb_start_addmemberconf(acctstatus, dialnum, selacct+"", "call", "", "", "", isvideo);
                 setTimeout(function () {
                     mCalling = false;
                 }, 1000);
@@ -449,9 +450,9 @@ class DialUpForm extends Component {
                         isdialplan += ":::" + mDisDialrule[6];
                 }
                 if (values.length == 1) {
-                    this.cb_start_single_call(dialnum, dialacct, 0, isdialplan, 0, isvideo);
+                    this.props.cb_start_single_call(acctstatus, dialnum, dialacct, 0, isdialplan, 0, isvideo);
                 } else {
-                    this.cb_start_addmemberconf(dialnum, dialacct, "call", "", isdialplan, "", isvideo);
+                    this.props.cb_start_addmemberconf(acctstatus, dialnum, dialacct, "call", "", isdialplan, "", isvideo);
                 }
                 $('#inputnum').manifest('remove');
             }
@@ -459,61 +460,6 @@ class DialUpForm extends Component {
                 mCalling = false;
             }, 1000);
         }
-    }
-
-    cb_start_addmemberconf = (numbers, accounts, callmode, confid, isdialplan, confname, isvideo, isquickstart, pingcode) => {
-        let acctstates = this.state.acctstatus;
-        let accountArr =  accounts.split(":::");
-        let unactive = 0;
-        for(let i = 0 ; i< accountArr.length; i++){
-            if (acctstates[accountArr[i]].activate == "0") {
-                unactive ++;
-            }
-        }
-        if(unactive == accountArr.length){
-            this.props.promptMsg('WARNING', 'a_19374');
-            return false;
-        }
-        // let tempnumbers = numbers.split(":::");
-        if (isquickstart == undefined)
-            isquickstart = 0;
-        if (pingcode == undefined)
-            pingcode = "";
-        if (isdialplan == undefined || isdialplan === "")
-            isdialplan = 1;
-
-        if (confname == undefined)
-            confname = "";
-        var urihead;
-        if (callmode == undefined || callmode == "")
-            callmode = "call";
-        this.props.addconfmemeber(numbers, accounts, confid,callmode,isvideo,isquickstart,pingcode,isdialplan,confname);
-    }
-
-    cb_start_single_call = (dialnum, dialacct, ispaging, isdialplan, isipcall, isvideo) => {
-        let self = this;
-        if (dialnum == "") {
-            return false;
-        }
-        let acctstates = this.state.acctstatus;
-        if (acctstates[dialacct].activate == "0") {
-            this.props.promptMsg('WARNING', 'a_19374');
-            return false;
-        }
-        if (acctstates[dialacct].register == "0") {
-            this.props.promptMsg('WARNING', 'a_19375');
-            return false;
-        }
-        if (dialnum == "anonymous") {
-            this.props.promptMsg('WARNING', 'a_10083');
-            return false;
-        }
-        if (isipcall == undefined) {
-            isipcall = 0;
-        }
-        setTimeout(function () {
-            self.props.cb_originatecall("originatecall&region=webservice&destnum=" + encodeURIComponent(dialnum) + "&account=" + dialacct + "&isvideo=" + isvideo + "&ispaging=" + ispaging + "&isipcall=" + isipcall + "&isdialplan=" + isdialplan + "&headerstring=&format=json", dialnum, dialacct);
-        }, 100);
     }
 
     showAccounts = () => {
@@ -883,7 +829,6 @@ const mapStateToProps = (state) => ({
     callDialog: state.callDialog,
     confmemberinfodata: state.confmemberinfodata,
     maxlinecount: state.maxlinecount
-
 })
 
 function mapDispatchToProps(dispatch) {
@@ -902,9 +847,11 @@ function mapDispatchToProps(dispatch) {
       getAllConfMember: Actions.getAllConfMember,
       getLeftcalllogname: Actions.get_leftcalllogname,
       setDefaultAcct: Actions.set_defaultacct,
-      cb_originatecall: Actions.cb_originate_call,
+      // cb_originatecall: Actions.cb_originate_call,
       quickStartIPVConf: Actions.quickStartIPVConf,
-      addconfmemeber: Actions.addconfmemeber
+      // addconfmemeber: Actions.addconfmemeber,
+      cb_start_addmemberconf: Actions.cb_start_addmemberconf,
+      cb_start_single_call:Actions.cb_start_single_call
   }
   return bindActionCreators(actions, dispatch)
 }

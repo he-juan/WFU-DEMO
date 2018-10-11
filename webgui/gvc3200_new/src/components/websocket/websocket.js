@@ -191,6 +191,10 @@ class HandleWebsocket extends React.Component {
         }
     }
 
+    handlelocalcamerablocked = (message) =>{
+        this.props.setLocalcameraStatus(message.flag);
+    }
+
     handlemessage = (message) => {
         let type = message['type'];
         switch (type) {
@@ -347,6 +351,9 @@ class HandleWebsocket extends React.Component {
             case 'close_camera_status':
                 this.updatevideoedstate(message);
                 break;
+            case 'camera_block':
+                this.handlelocalcamerablocked(message);
+                break;
             case 'updateDND':
                 this.handleupdatednd(message);
                 break;
@@ -419,7 +426,8 @@ const mapDispatchToProps = (dispatch) => {
         setHeldStatus: Actions.setHeldStatus,
         setFECCStatus: Actions.setFECCStatus,
         getipvrole: Actions.getipvrole,
-        setDndModeStatus: Actions.setDndModeStatus
+        setDndModeStatus: Actions.setDndModeStatus,
+        setLocalcameraStatus: Actions.setLocalcameraStatus
     }
     return bindActionCreators(actions, dispatch)
 }

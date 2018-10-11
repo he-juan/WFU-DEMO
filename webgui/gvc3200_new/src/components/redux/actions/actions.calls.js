@@ -24,13 +24,28 @@ export const get_leftcalllogname = (callback) => (dispatch) =>{
     });
 }
 
-export const cb_originate_call = (action, numbers,accounts) => (dispatch) =>{
+export const getremoteupgradestate = (callback) => {
+    let isrmtctrlupgrade = false;
+    let request =  "action=get&var-0000=:remote_update";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleSyncRequest(request, (data)=>{
+        let msgs = actionUtil.res_parse_rawtext(data);
+        if(msgs.headers[':remote_update'] == "1"){
+            isrmtctrlupgrade = true;
+        }
+    });
+    return isrmtctrlupgrade;
+}
+
+export const cb_originate_call = (action, numbers, accounts) => (dispatch) => {
     let request = 'action='+ action ;
+    request += "&time=" + new Date().getTime();
+
     actionUtil.handleGetRequest(request).then(function(data){
     }).catch(function(error) {
         promptForRequestFailed()
     });
-
 }
 
 export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isquickstart, pingcode, isdialplan, confname) => (dispatch) => {
@@ -64,6 +79,72 @@ export const quickStartIPVConf = (isvideo) => (dispatch) => {
     }).catch(function(error) {
         promptForRequestFailed();
     });
+}
+
+export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, confid, isdialplan, confname, isvideo, isquickstart, pingcode) => (dispatch) => {
+    //check if all the lines are busy
+    {
+
+    }
+    //check remote upgrading
+    if(getremoteupgradestate()){
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19236'}});
+        return false;
+    }
+    let accountArr =  accounts.split(":::");
+    let unactive = 0;
+    for(let i = 0 ; i< accountArr.length; i++){
+        if (acctstates[accountArr[i]].activate == "0") {
+            unactive ++;
+        }
+    }
+    if(unactive == accountArr.length){
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19374'}})
+        return false;
+    }
+    // let tempnumbers = numbers.split(":::");
+    if (isquickstart == undefined)
+        isquickstart = 0;
+    if (pingcode == undefined)
+        pingcode = "";
+    if (isdialplan == undefined || isdialplan === "")
+        isdialplan = 1;
+
+    if (confname == undefined)
+        confname = "";
+    var urihead;
+    if (callmode == undefined || callmode == "")
+        callmode = "call";
+    addconfmemeber(numbers, accounts, confid,callmode,isvideo,isquickstart,pingcode,isdialplan,confname)(dispatch);
+}
+
+export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, isdialplan, isipcall, isvideo) => (dispatch) => {
+    if (dialnum == "") {
+        return false;
+    }
+    //check remote upgrading
+    if(getremoteupgradestate()){
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19236'}});
+        return false;
+    }
+    if (acctstates[dialacct].activate == "0") {
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19374'}});
+        return false;
+    }
+    if (acctstates[dialacct].register == "0") {
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19375'}});
+        return false;
+    }
+    if (dialnum == "anonymous") {
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10083'}});
+        return false;
+    }
+    if (isipcall == undefined) {
+        isipcall = 0;
+    }
+    setTimeout(()=>{
+        cb_originate_call("originatecall&region=webservice&destnum=" + encodeURIComponent(dialnum) + "&account=" + dialacct + "&isvideo=" + isvideo + "&ispaging=" + ispaging + "&isipcall=" + isipcall + "&isdialplan=" + isdialplan + "&headerstring=&format=json", dialnum, dialacct)(dispatch);
+    }, 100);
 }
 
 /**
@@ -658,6 +739,38 @@ export const acceptringline = (line, isaccept, isvideo, callback) => (dispatch) 
 
 export const conflinevideoedstate = (line, isvideoed) => ( dispatch ) => {
     let request = "action=conflinevideoedstate&region=confctrl&isvideoed="+ isvideoed + "&line="+ line;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getCameraBlocked = () => ( dispatch ) => {
+    let request = "action=isCameraBlocked&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let result = eval("("+data+")");
+        let flag = "0";
+        if(result.flag == "true" || result.flag == "0"){
+            flag = "0";
+        } else if(result.flag == "false" || result.flag == "1"){
+            flag = "1";
+        }
+        setLocalcameraStatus(flag)(dispatch);
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const setLocalcameraStatus = (flag) => (dispatch) =>{
+    dispatch({ type: 'REQUEST_GET_CAMERABLOCKEDSTATUS', localcamerablocked: flag});
+}
+
+export const ctrlCameraBlockState = () => (dispatch) => {
+    let request = "action=ctrlCameraBlockState&region=confctrl";
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function (data) {

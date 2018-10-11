@@ -4551,6 +4551,9 @@ table thead tr th{
 .confbtn .unclosecamera:hover{
     background: url(../img/call/conf_control.png) -154px -297px no-repeat;
 }
+.confbtn .unclosecamera.btndisable{
+    background: url(../img/call/conf_control.png) -154px -245px no-repeat;
+}
 
 .confbtn .startFECC{
     background: url(../img/call/conf_control.png) -78px -245px no-repeat;
@@ -4558,6 +4561,10 @@ table thead tr th{
 
 .confbtn .startFECC:hover{
     background: url(../img/call/conf_control.png) -78px -297px no-repeat;
+}
+
+.confbtn .startFECC.btndisable {
+    background: url(../img/call/conf_control.png) -78px -271px no-repeat;
 }
 
 .confbtn .endconf{
