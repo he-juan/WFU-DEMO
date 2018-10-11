@@ -548,7 +548,6 @@ body{background-color:#EFF0F1;}
 	}
     $('#languagepage').val(cookie_lang);
     document.write("<script src='lang/" + cookie_lang + ".js?ver=" + version + "'><\/script>");
-    document.write("<script src='js/public.js?" + window.parent.mVersion + "'><\/script>");
 
     var oemid = $.cookie("coloreExist");
     if(oemid == "54"){
@@ -585,7 +584,6 @@ var linestatus0 = 0, linestatus1 = 0;
 var mDisableconf = false;
 var mAutovideo = false;
 var mInterval;
-var req_items = new Array;
 
 
 $(function(){
@@ -597,9 +595,6 @@ $(function(){
             PIE.attach(this);
         });
     }
-    req_items.push(new ReqItem("spefea", "198", ""))
-    cb_get(req_items);
-
     $(".main_navi").hide();
     translate_li_menu();
     translate_menu();
@@ -644,7 +639,7 @@ $(function(){
     //cb_get_colore_exist();
     cb_get_action("get&var-0000=1357&var-0001=68&var-0002=1561&var-0003=1311&var-0004=25023&var-0005=338&var-0006=2326&var-0007=277&var-0008=1341&var-0009=1685&var-0010=dnd&var-0011=184&var-0012=26001&var-0013=66&var-0014=1687&var-0015=270&var-0016=26004&var-0017=417");
     cb_get_action("get&var-0000=:firmware_install");
-    //cb_get_action("get&var-0000=198"); // if special mode is broadsoft, emergency contacts menu would show
+    cb_get_action("get&var-0000=198"); // if special mode is broadsoft, emergency contacts menu would show
 	cb_get_action("get&var-0000=25104"); // to check if hdmi1 out is saved as 4K
     cb_get_action("isbtsupport&region=status");
     
@@ -985,11 +980,6 @@ $(function(){
 	});
    
 })
-function get_item_suc_callback(msgs) {
-    if (msgs.headers['198'] != '102') {
-        $('#bs_broadsoft').hide();
-    }
-}
 function cb_setdnd_action(urihead){
     window.parent.block_download_func(a_7480);
     urihead += "&time=" + new Date().getTime();
@@ -1299,16 +1289,18 @@ function cb_get_action_done(data, action)
 					return;
 				}
 
-                /*if(action == "get&var-0000=198"){
+                if(action == "get&var-0000=198"){
                     var specialmode = msgs.headers['198'];
                     if(specialmode != "102"){
-                        $(".apps\\/emergency\\.html").hide();
+                        $('#bs_broadsoft').hide();
+                        // $(".apps\\/emergency\\.html").hide();
                     }
                     else{
-                        $(".apps\\/emergency\\.html").show();
+                        $('#bs_broadsoft').show();
+                        // $(".apps\\/emergency\\.html").show();
                     }
                     return;
-                }*/
+                }
                 
                 var confmenumode = msgs.headers['1357'];
                 if( confmenumode == "" || confmenumode == undefined )
