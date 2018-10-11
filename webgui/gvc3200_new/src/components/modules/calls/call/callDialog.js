@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {globalObj} from "../../../redux/actions/actionUtil"
 import FECCModal from "./FECCModal";
+import LayoutModal from './LayoutModal/index';
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -26,7 +27,8 @@ class CallDialog extends Component {
             holdtype: "",
             acctstatus: [],
             displayFECCModal:false,
-            FECCline: "-1"
+            FECCline: "-1",
+            LayoutModalVisible: false
 		}
     }
 
@@ -372,7 +374,11 @@ class CallDialog extends Component {
     componentWillUnmount = () => {
         clearInterval(this.callTick);
     }
-
+    toogleLayoutModal = () => {
+        this.setState({
+            LayoutModalVisible: !this.state.LayoutModalVisible
+        })
+    }
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let status = this.props.status;
@@ -606,7 +612,7 @@ class CallDialog extends Component {
                     <div className="call-ctrl-btn">
                         <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} />
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
-                        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} />
+                        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal()}/>
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon`} />
                         <Button title={this.tr("a_1")}  className="end-btn" />
@@ -625,6 +631,7 @@ class CallDialog extends Component {
 				</div>
 
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
+                <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
             </div>
         );
     }

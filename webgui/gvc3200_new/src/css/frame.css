@@ -6582,3 +6582,250 @@ ol.mp_list li.mp_error {}
 
 
 /*fecc control  --end*/
+
+
+
+/* layoutmodal */
+.layout-mode-list {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    width: auto;
+    height: 38px;
+    border: 1px solid #D8D6D6;
+    border-radius: 4px;
+    display: inline-block;
+}
+.layout-mode-list li {
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    width: 45px;
+    height: 100%;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    border-right: 1px solid #cccccc;
+}
+.layout-mode-list li .modediv {
+    width: 26px;
+    height: 26px;
+    margin: 5px 0 0 9px;
+}
+.layout-mode-list li.active {
+    background-color: #219BF2;
+    color: #FFFFFF;
+}
+.modediv.sysrcmd {
+    background: url("../img/call/conf_control.png") -260px -323px no-repeat;
+}
+.layout-mode-list li.active .modediv.sysrcmd {
+    background: url("../img/call/conf_control.png") -286px -323px no-repeat;
+}
+.modediv.overlap {
+    background: url("../img/call/conf_control.png") -78px -323px no-repeat;
+}
+.layout-mode-list li.active .modediv.overlap {
+    background: url("../img/call/conf_control.png") -104px -323px no-repeat;
+}
+.modediv.childmother {
+    background: url("../img/call/conf_control.png") -130px -323px no-repeat;
+}
+.layout-mode-list li.active .modediv.childmother {
+    background: url("../img/call/conf_control.png") -156px -323px no-repeat;
+}
+.modediv.pop {
+    background: url("../img/call/conf_control.png") -526px -323px no-repeat;
+}
+.layout-mode-list li.active .modediv.pop {
+    background: url("../img/call/conf_control.png") -553px -323px no-repeat;
+}
+.modediv.custom {
+    background: url("../img/call/conf_control.png") -312px -323px no-repeat;
+}
+.layout-mode-list li.active .modediv.custom {
+    background: url("../img/call/conf_control.png") -338px -323px no-repeat;
+}
+
+.layout-mode-preview .preview-box, .custom-preview {
+    height: 500px;
+    margin: 20px 0;
+    background: #6b6b6b;
+    border-radius: 5px;    
+    box-shadow: 0 0 3px 3px #cccccc;
+    position: relative;
+    overflow: hidden;
+}
+.preview-box.semi {
+    width: 48.5%;
+    margin-top: 60px;
+    height: 460px ;
+    position: relative;
+    overflow: visible;
+}
+.preview-box.semi::before {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    text-align: center;
+    bottom: 100%;
+}
+.preview-box.semi:first-child {
+    float: left;
+}
+.preview-box.semi:first-child::before {
+    content: 'HDMI 1';
+}
+.preview-box.semi:last-child {
+    float: right;
+}
+.preview-box.semi:last-child::before {
+    content: 'HDMI 2';
+}
+.custom-preview {
+    background: #fff;
+    box-shadow: none;
+}
+.preview-item{
+    border-radius: 5px;
+    background: #cccccc;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.preview-item  p {
+    text-align: center;
+}
+.preview-item strong {
+    font-size: 16px;
+}
+.preview-item span, .preview-item strong {
+    display: block;
+}
+
+
+.custom-control {
+    overflow: hidden;
+}
+.custom-control-list {
+    float: left;
+    width: 30%;
+}
+.custom-control-list p {
+    height: 30px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    background: #dddddd;
+    line-height: 30px;
+    font-size: 14px;
+    padding: 0 15px 0 15px;
+    margin-bottom: 10px;
+}
+.custom-control-list .linename {
+    max-width: 99px;
+    min-width: 45px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    float: left;
+}
+.custom-control-list .screendiv {
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    float: right;
+    margin-top: 1px;
+    cursor: pointer;
+}
+.custom-control-list .hidescreen {
+    background: url(../img/call/conf_control.png) -452px -297px no-repeat;
+}
+.custom-control-list .hidescreen.active {
+    background: url(../img/call/conf_control.png) -368px -297px no-repeat;
+}
+.custom-control-list .normalscreen {
+    background: url(../img/call/conf_control.png) -426px -297px no-repeat;
+}
+.custom-control-list .normalscreen.active {
+    background: url(../img/call/conf_control.png) -342px -297px no-repeat;
+}
+.custom-control-list .fullscreen.active {
+    background: url(../img/call/conf_control.png) -316px -297px no-repeat;
+}
+.custom-control-list .fullscreen {
+    background: url(../img/call/conf_control.png) -400px -297px no-repeat;
+}
+.custom-control-list .layoutlocalicon {
+    background: url(../img/call/conf_control.png) -546px -297px no-repeat;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    float: left;
+    margin: 1px 0 0 3px;
+}
+.custom-control-preview {
+    float:right;
+    width: 68%;
+    background:#6b6b6b;
+    height: 500px;
+    border-radius: 5px;
+    position: relative;
+}
+.custom-control-preview .custom-main {
+    width: 100%;
+    position: absolute;
+    left:0;
+    right:0;
+    bottom: 40px;
+    top: 0;
+    height:460px;
+}
+.custom-control-preview .cusmodecls {
+    width: 100%;
+    height: 40px;
+    background: black;
+    opacity: 0.5;
+    float: left;
+    border-radius: 5px;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0px;
+}
+.custom-control-preview .cusmodecls ul {
+    width: 150px;
+    height: 30px;
+    margin-left: 36.5%;
+    margin-top: 8px;
+    padding: 0;
+}
+.custom-control-preview .cusmodecls li {
+    width: 26px;
+    float: left;
+    list-style-type: none;
+    height: 26px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.cusoverlap.active {
+    background: url(../img/call/conf_control.png) -470px -323px no-repeat;
+}
+.cusoverlap {
+    background: url(../img/call/conf_control.png) -78px -323px no-repeat;
+}
+.cuschildmother.active {
+    background: url(../img/call/conf_control.png) -440px -323px no-repeat;
+}
+.cuschildmother {
+    background: url(../img/call/conf_control.png) -130px -323px no-repeat;
+}
+.cuspop.active {
+    background: url(../img/call/conf_control.png) -498px -323px no-repeat;
+}
+.cuspop {
+    background: url(../img/call/conf_control.png) -526px -323px no-repeat;
+}
