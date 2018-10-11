@@ -142,7 +142,7 @@ tip_item.push (
         "若选择为“是”，则即使远端不支持会话计时，设备也会使用会话计时。若选择为“否”，则仅当远端支持会话计时时才允许设备启用会话计时。<br>主叫请求计时、被叫请求计时和强制计时这几项全部选择为“否”可关闭会话计时。"),
     new TipsDef("SIP Transport", "SIP传输",
         "设置SIP消息传输使用的网络协议，IPVideoTalk支持TCP/TLS两种，其它帐号支持TCP/UDP/TLS三种。"),
-    new TipsDef("Force Reset Remote SRTP", "Force Reset Remote SRTP",
+    new TipsDef("Force Reset Remote SRTP", "强制重置远程SRTP",
         "默认值为“是”，兼容旧版本; “否”代表不会重置, 即新版本行为。"),
 	new TipsDef("Symmetric RTP", "对称RTP",
 		   "设置是否支持对称RTP。默认为否。"),
