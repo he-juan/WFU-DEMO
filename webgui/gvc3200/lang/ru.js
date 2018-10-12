@@ -3542,7 +3542,6 @@ var a_19676="Valid: integer";
 var a_19677="Can not include chinese characters";
 var a_19678="Must be numbers";
 var a_19679="Please enter a valid URL.";
-var a_19680="Associated BroadSoft Account";
 var a_19701="";
 var a_19702="Config Provision";
 var a_19801="";
