@@ -12,10 +12,7 @@ class IncomingcallDialog extends Component {
         let checkedinfo = [];
         checkedinfo[0] = true;
         this.state = {
-            checkedstate: checkedinfo,
-            h323acceptvisible: "display-hidden",
-            audioacceptvisible: "display-hidden",
-            videoacceptvisible: "display-hidden"
+            checkedstate: checkedinfo
         }
     }
 
@@ -57,9 +54,9 @@ class IncomingcallDialog extends Component {
         let incominglines = this.props.incominglinestatus;
         let length = incominglines.length;
         let checkboxvisible = "display-hidden";
-        let h323acceptvisible = this.state.h323acceptvisible;
-        let audioacceptvisible = this.state.audioacceptvisible;
-        let videoacceptvisible = this.state.videoacceptvisible;
+        let h323acceptvisible = "display-hidden";
+        let audioacceptvisible = "display-hidden";
+        let videoacceptvisible = "display-hidden";
         if (length > 1) {
             checkboxvisible = "display-block";
         } else {

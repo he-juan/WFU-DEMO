@@ -76,3 +76,12 @@ export const localcamerablocked = (state = "0", action) => {
             return state
     }
 }
+
+export const videoinvitelines = (state = "", action) =>{
+    switch (action.type) {
+        case Actions.VIDEO_INVITE_INFO:
+            return action.videoinvitelines
+        default:
+            return state
+    }
+}

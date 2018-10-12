@@ -5,6 +5,26 @@ import * as Store from '../../entry'
 const promptForRequestFailed = () => (dispatch) => {
     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
 }
+
+/**
+ * @param linesinfo 所有通话线路的信息
+ * @param callback
+ */
+export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
+    //0~8 - represent the status of line
+    dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo})
+}
+/**
+ * set the number of current lines
+ */
+export const setbusylinenum = (busylinenum) => (dispatch) => {
+    dispatch({ type: 'BUSYLINE_STATUS', busylinenum:  busylinenum})
+}
+
+export const setVideoInvitesInfo = (videoinvitelines) => (dispatch) => {
+    dispatch({type: 'VIDEO_INVITE_INFO', videoinvitelines: videoinvitelines})
+}
+
 export const get_leftcalllogname = (callback) => (dispatch) =>{
     let request = 'action=sqlitecontacts&region=apps&type=leftcalllogname';
     request += "&time=" + new Date().getTime();
@@ -160,13 +180,6 @@ export const getMaxlineCount =() => (dispatch) =>{
     }).catch(function(error) {
         console.log("getMaxlineCount Exception:",error);
     });
-}
-
-/**
- * set the number of current lines
- */
-export const setbusylinenum = (busylinenum) => (dispatch) => {
-    dispatch({ type: 'BUSYLINE_STATUS', busylinenum:  busylinenum})
 }
 
 export const getContacts = (callback) => (dispatch) => {
@@ -502,10 +515,6 @@ export const setschedule = (infostr,type,callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
-export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
-    //0~8 - represent the status of line
-    dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo})
-}
 
 /**
  * mute or unmute local line
@@ -778,3 +787,14 @@ export const ctrlCameraBlockState = () => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+export const acceptOrRejectvideo = (isaccept, line) => (dispatch) => {
+    let request = "action=isacceptvideo&region=confctrl&isflag=" + isaccept + "&line=" + line;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+

@@ -127,6 +127,30 @@ class HandleWebsocket extends React.Component {
         }
     }
 
+    handlevideoinvite = (message) => {
+        let lines = ""
+        if(this.props.videoinvitelines == ""){
+            lines = message.line;
+        }else{
+            lines = this.props.videoinvitelines + "," + message.line;
+        }
+        this.props.setVideoInvitesInfo(lines);
+        if(this.props.callDialogStatus == "minimize"){
+            this.props.showCallDialog("9");
+        }
+    }
+
+    handlevideoinvres = (message) => {
+        let lines = this.props.videoinvitelines.split(",");
+        for(let j = lines.length; j >= 0; j-- ){
+            if(lines[j] == message.line){
+                lines.splice(j,1);
+                break;
+            }
+        }
+        this.props.setVideoInvitesInfo(lines.join(","));
+    }
+
     handlemicblock = (message) =>{
         let linesinfo = [];
         let flag = false;
@@ -357,6 +381,12 @@ class HandleWebsocket extends React.Component {
             case 'updateDND':
                 this.handleupdatednd(message);
                 break;
+            case 'video_invite':
+                this.handlevideoinvite(message);
+                break;
+            case 'video_invite_res':
+                this.handlevideoinvres(message);
+                break;
         }
     }
 
@@ -408,7 +438,9 @@ const mapStateToProps = (state) => ({
     pageStatus: state.pageStatus,
     product: state.product,
     linesinfo: state.linesInfo,
-    ipvrole: state.ipvrole
+    ipvrole: state.ipvrole,
+    videoinvitelines: state.videoinvitelines,
+    callDialogStatus: state.callDialogStatus
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -427,7 +459,8 @@ const mapDispatchToProps = (dispatch) => {
         setFECCStatus: Actions.setFECCStatus,
         getipvrole: Actions.getipvrole,
         setDndModeStatus: Actions.setDndModeStatus,
-        setLocalcameraStatus: Actions.setLocalcameraStatus
+        setLocalcameraStatus: Actions.setLocalcameraStatus,
+        setVideoInvitesInfo: Actions.setVideoInvitesInfo
     }
     return bindActionCreators(actions, dispatch)
 }

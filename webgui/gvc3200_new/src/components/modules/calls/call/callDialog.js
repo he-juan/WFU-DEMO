@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {globalObj} from "../../../redux/actions/actionUtil"
 import FECCModal from "./FECCModal";
+import VideoinviteDialog from "./VideoinviteDialog"
 import LayoutModal from './LayoutModal/index';
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
@@ -382,6 +383,10 @@ class CallDialog extends Component {
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let status = this.props.status;
+        let videoinvitelines = "";
+        if(this.props.videoinvitelines){
+            videoinvitelines = this.props.videoinvitelines.split(",");
+        }
         let linestatustip = [];
         let linevideouploadclass = [];
         let linestatus = this.props.linestatus;
@@ -628,6 +633,10 @@ class CallDialog extends Component {
                             </Popover>
                         </div>
 					</div>
+                    {
+                        videoinvitelines.length > 0 ?
+                            <VideoinviteDialog linestatus={this.props.linestatus}></VideoinviteDialog> : null
+                    }
 				</div>
 
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
@@ -651,7 +660,8 @@ const mapStateToProps = (state) => ({
     callFeatureInfo: state.callFeatureInfo,
     ipvrole: state.ipvrole,
     dndstatus: state.dndstatus,
-    localcamerablocked: state.localcamerablocked
+    localcamerablocked: state.localcamerablocked,
+    videoinvitelines: state.videoinvitelines
 })
 
 function mapDispatchToProps(dispatch) {
