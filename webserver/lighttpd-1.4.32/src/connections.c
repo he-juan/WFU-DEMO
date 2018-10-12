@@ -22077,7 +22077,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             }
         }
         int authres = authenticate(m);
-        if (authres == -1) {
+        if (authres == -1 || authres == -2) {
             if (isadmin){
                 if( passwrongtimes >= 5 )
                     passwrongtimes = passwrongtimes % 5;
@@ -22128,8 +22128,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 free(temp);
             }
             return -1;
+        /*
         } else if( authres == -2 ){
             buffer_append_string(b, "Response=Error\r\nMessage=Invalid Username\r\n");
+        */
         } else {
             if( isadmin ){
                 passwrongtimes = 0;
