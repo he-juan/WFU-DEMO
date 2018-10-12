@@ -1342,7 +1342,28 @@ tip_item.push (
         "若开启,会定时向对端发送RTDP（roundTripDelayRequest）包作为H245保活包，发送周期为10s，超时时间为30s，超时后会挂断呼叫，默认不勾选。说明：若开启，可能导致与部分设备出现不兼容。"),
     new TipsDef("DTMF ", "DTMF",
         "该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。")
-    /*useless*/
+
+	/*apps BroadSoft*/
+	new TipsDef("Authentication Type", "认证类型",
+		"设置使用登录方式进行认证还是使用SIP方式进行认证。若设置为“登录认证”，需要填写服务器登录用户名及密码；若设置为“SIP认证”，需要分别在用户名、用户ID、密码处填写SIP用户名、SIP用户ID及密码。默认设置为”SIP认证”。"),
+    new TipsDef("Server", "服务器",
+        "设置BroadSoft XSI服务器地址。"),
+    new TipsDef("Port ", "端口",
+        "设置BroadSoft XSI服务器的端口。"),
+    new TipsDef("Username", "用户名",
+        "设置BroadSoft XSI服务器的用户名。"),
+    new TipsDef("User ID", "用户名",
+        "设置BroadSoft XSI服务器的用户ID。"),
+    new TipsDef("Password ", "密码",
+        "设置BroadSoft XSI服务器的密码。"),
+    new TipsDef("BroadSoft Directory Hits", "BroadSoft联系人返回条数",
+        "设置BroadSoft XSI服务器联系人返回的最大条数。有效值为1-1000。默认为空，即使用服务器的默认值。"),
+    new TipsDef("BroadSoft Directory Order", "BroadSoft联系人顺序",
+        "设置BroadSoft联系人在LCD显示屏上的显示顺序。选择某条目录后点击右方的上/下箭头即可进行顺序调整。"),
+    new TipsDef("Action Path", "请求路径",
+        "设置BroadSoft XSI服务器的请求路径名。")
+
+	/*useless*/
     /*
     new TipsDef("Enable SCA (Shared Call Appearance)", "开启SCA功能",
         "若选择“是”，SCA（Broadsoft标准）将作用于该注册的帐号。默认为“否”。"),
