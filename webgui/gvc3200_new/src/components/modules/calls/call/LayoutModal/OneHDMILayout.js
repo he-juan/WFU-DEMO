@@ -130,7 +130,7 @@ const OneHDMILayout = ({ activeIndex, confname, conftype, presentation }) => {
             </div>
             <div className="preview-item" style={{ bottom: '0px', right: '0px', border: '2px solid rgb(107, 107, 107)', width: '30%', height: '30%', position: 'absolute' }}>
               <p>
-                <strong>({confname})</strong>
+                <strong>{confname}</strong>
                 <span>({confname})</span>
               </p>
             </div>

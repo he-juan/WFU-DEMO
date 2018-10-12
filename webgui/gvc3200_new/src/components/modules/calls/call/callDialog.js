@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {globalObj} from "../../../redux/actions/actionUtil"
 import FECCModal from "./FECCModal";
-import VideoinviteDialog from "./VideoinviteDialog"
+import VideoinviteDialog from "./videoinviteDialog"
 import LayoutModal from './LayoutModal/index';
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;

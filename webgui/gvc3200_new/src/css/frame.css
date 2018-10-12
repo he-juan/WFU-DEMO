@@ -6769,6 +6769,14 @@ ol.mp_list li.mp_error {}
     float: left;
     margin: 1px 0 0 3px;
 }
+.custom-control-list .layoutpresenticon {
+    background: url(../img/call/conf_control.png) -572px -297px no-repeat;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    float: left;
+    margin: 1px 0 0 5px;
+}
 .custom-control-preview {
     float:right;
     width: 68%;

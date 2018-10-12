@@ -197,6 +197,7 @@ class LayoutModal extends Component {
               onToggleContent={(content) => this.handletoggleContent(content)} 
               confname={confname}
               conftype={_conftype}
+              presentation={presentation}
             />
           </div>
         </div>
