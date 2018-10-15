@@ -42,7 +42,7 @@ const ScreenItems = (mode, content, confname, conftype) => {
       return (
         <div className="custom-main">
           <ScreenItem style={{ height: '53%', width: '64%', margin: '18% 0 0 5px' }} screenContent={contentMap[0]} />
-          <ScreenItem style={{ height: '27%', width: '34%', margin: '30% 5px 0 0', float: 'right' }} screenContent={contentMap[1]} />
+          <ScreenItem style={{ height: '27%', width: '34%', margin: '28% 5px 0 0', float: 'right' }} screenContent={contentMap[1]} />
         </div>
       )
     } else if (mode == 3) {
@@ -57,9 +57,9 @@ const ScreenItems = (mode, content, confname, conftype) => {
     if (mode == 1) {
       return (
         <div className="custom-main">
-          <ScreenItem style={{ height: '44%', width: '47%', margin: '3% 0 0 26.5%', float: 'left' }} screenContent={contentMap[0]} />
-          <ScreenItem style={{ height: '44%', width: '47%', margin: '2% 0 0 2%', float: 'left' }} screenContent={contentMap[1]} />
-          <ScreenItem style={{ height: '44%', width: '47%', margin: '2% 2% 0 0', float: 'right' }} screenContent={contentMap[2]} />
+          <ScreenItem style={{ height: '48.2%', width: '48.8%', margin: '5px 0 0 26.5%', float: 'left' }} screenContent={contentMap[0]} />
+          <ScreenItem style={{ height: '48.2%', width: '48.8%', margin: '5px 0 0 5px', float: 'left' }} screenContent={contentMap[1]} />
+          <ScreenItem style={{ height: '48.2%', width: '48.8%', margin: '5px 5px 0 0', float: 'right' }} screenContent={contentMap[2]} />
         </div>
       ) 
     } else if( mode == 2) {

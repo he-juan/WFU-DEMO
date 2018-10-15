@@ -5,9 +5,11 @@ import { Modal } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import CustomControl from './CustomControl'
+import OneHDMICustomControl from './OneHDMICustomControl'
+import TwoHDMICustomControl from './TwoHDMICustomControl'
 import OneHDMILayout from './OneHDMILayout'
 import TwoHDMILayout from './TwoHDMILayout'
+
 
 
 
@@ -19,6 +21,7 @@ class LayoutModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hdmi1state: 0,
       activeIndex: 1,   // 1. 系统推荐;  2.等分模式; 3. 子母模式; 4. 画中画模式 5. 自定义模式
       hdmi1mode: 4,     // 4: 系统推荐, 等分模式; 5: 字母模式; 6: 画中画模式;  小于3的是自定义模式
       hdmi1content: '0', // 可能的值: '0,13' , '13, 0' , '0', '13',  (15, 12?) 
@@ -34,7 +37,7 @@ class LayoutModal extends Component {
       right: '0',
       margin: 'auto',
       height: '700px',
-      paddingBottom: '0'
+      paddingBottom: '0',
     }
     this.action = 'setsysrcmdmode'
   }
@@ -72,6 +75,9 @@ class LayoutModal extends Component {
     // 第一步 检查已接入HDMI1
     this.doRequest('gethdmi1state', 'status')
       .then((data) => {
+        this.setState({
+          hdmi1state : data.state 
+        })
         if (data.state != '1') {
           this.props.promptMsg("ERROR", "您必须接入HDMI1");
           return false;
@@ -84,6 +90,7 @@ class LayoutModal extends Component {
         ])
       })
       .then(data => {
+        if(!data) return false;
         let mIsSysrcmd = data[0].state;  // 是否系统推荐 
         let hdmi2state = data[1].state;  // hdmi2
         let hdmi1mode = parseInt(data[2].mode);    // 4: 系统推荐, 等分模式; 5: 字母模式; 6: 画中画模式;  小于3的是自定义模式
@@ -97,7 +104,17 @@ class LayoutModal extends Component {
 
         // hdmi2state == 1 的情况
         if (hdmi2state == 1) { 
-          
+          Promise.all([
+            this.doRequest('gethdmi2displaymode', 'confctrl'),
+            this.doRequest('gethdmi2displaycontent', 'confctrl')
+          ]).then(data => {
+            let hdmi2mode = parseInt(data[0].mode);
+            let hdmi2content = data[1].lines;
+            this.setState({
+              hdmi2mode,
+              hdmi2content
+            })
+          })
         }
 
         // 开始初始化...
@@ -141,20 +158,20 @@ class LayoutModal extends Component {
       this.props.onHide();
     })
   }
-  handleToggleCustomMode = (i) => {
+  handleToggleCustomMode = (name, i) => {
     this.setState({
-      hdmi1mode: i
+      [name + 'mode']: i
     })
   }
-  handletoggleContent = (content) => {
+  handleToggleContent = (name, content) => {
     this.setState({
-      hdmi1content:content
+      [name + 'content']: content
     })
   }
   render() {
     let { visible, onHide, confname, conftype, presentation } = this.props;
-    const { activeIndex, hdmi1mode, hdmi1content, hdmi2state } = this.state;
-    if (!visible) {
+    const {hdmi1state, activeIndex, hdmi1mode, hdmi1content, hdmi2state, hdmi2content, hdmi2mode } = this.state;
+    if (!visible || hdmi1state != '1') {
       return null;
     }
     let _conftype = conftype.match(/\(.*\)/)[0];
@@ -166,6 +183,7 @@ class LayoutModal extends Component {
         width="990"
         title="布局"
         style={this.modalStyle}
+        className="layout-modal"
       >
         <div className="layout-modal-main" style={{ height: '598.5px' }}>
           <ul className="layout-mode-list">
@@ -186,19 +204,34 @@ class LayoutModal extends Component {
             </li>
           </ul>
           { 
-            hdmi2state == 0 ? <OneHDMILayout  activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation}/>
+            hdmi2state == 0 ? 
+            <OneHDMILayout  activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation}/>
             : <TwoHDMILayout activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation}/>
           }
           <div className='preview-box custom-preview' style={{ display: activeIndex == 5 ? 'block' : 'none' }}>
-            <CustomControl 
-              hdmi1mode={hdmi1mode} 
-              hdmi1content={hdmi1content} 
-              onToggleCustomMode={(i) => { this.handleToggleCustomMode(i) }} 
-              onToggleContent={(content) => this.handletoggleContent(content)} 
-              confname={confname}
-              conftype={_conftype}
-              presentation={presentation}
-            />
+            {
+              hdmi2state == 0 ? 
+              <OneHDMICustomControl 
+                hdmi1mode={hdmi1mode} 
+                hdmi1content={hdmi1content}
+                onToggleCustomMode={(name,i) => { this.handleToggleCustomMode(name,i) }} 
+                onToggleContent={(name,content) => this.handleToggleContent(name,content)} 
+                confname={confname}
+                conftype={_conftype}
+                presentation={presentation}
+              /> :
+              <TwoHDMICustomControl 
+                hdmi1mode={hdmi1mode} 
+                hdmi1content={hdmi1content}
+                hdmi2mode={hdmi2mode}
+                hdmi2content={hdmi2content}
+                onToggleCustomMode={(name, i) => { this.handleToggleCustomMode(name, i) }} 
+                onToggleContent={(name, content) => this.handleToggleContent(name, content)} 
+                confname={confname}
+                conftype={_conftype}
+                presentation={presentation}
+              />
+            }
           </div>
         </div>
       </Modal>

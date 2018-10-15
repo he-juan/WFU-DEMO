@@ -37,13 +37,10 @@ class CustomControl extends Component {
       hdmiary = hdmiary.concat(_hdmiary)
     }
 
-    this.props.onToggleContent(hdmiary.join(','));
+    this.props.onToggleContent('hdmi1', hdmiary.join(','));
   }
   toggleCustomMode = (i) => {
-    if (i == 1 && this.props.hdmi1content == '13,0') {
-      this.props.onToggleContent('0,13');
-    }
-    this.props.onToggleCustomMode(i);
+    this.props.onToggleCustomMode('hdmi1',i);
   }
   // 隐藏按钮行为
   deleteContent = (c) => {
@@ -99,10 +96,11 @@ class CustomControl extends Component {
     this.toggleContent(_HDMIARY_);
   }
   render() {
+    console.log("one one")
     let { hdmi1mode, hdmi1content, onToggleCustomMode, confname, conftype, presentation } = this.props;
     if (hdmi1mode >= 4) {
       hdmi1mode = hdmi1mode - 3;
-      onToggleCustomMode(hdmi1mode);
+      onToggleCustomMode("hdmi1", hdmi1mode);
       return null;
       // hdmi1content = '0';
     }

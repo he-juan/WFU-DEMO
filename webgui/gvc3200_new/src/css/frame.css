@@ -6655,7 +6655,12 @@ ol.mp_list li.mp_error {}
     border-radius: 5px;    
     box-shadow: 0 0 3px 3px #cccccc;
     position: relative;
-    overflow: hidden;
+}
+.layout-mode-preview .preview-box::after, .custom-preview::after {
+    clear:both;
+    display: block;
+    content: '';
+    visibility: hidden;
 }
 .preview-box.semi {
     width: 48.5%;
@@ -6710,12 +6715,15 @@ ol.mp_list li.mp_error {}
 }
 
 
-.custom-control {
-    overflow: hidden;
+.custom-control::after {
+    clear:both;
+    display: block;
+    content: '';
+    visibility: hidden;
 }
 .custom-control-list {
     float: left;
-    width: 30%;
+    width: 25%;
 }
 .custom-control-list p {
     height: 30px;
@@ -6779,7 +6787,7 @@ ol.mp_list li.mp_error {}
 }
 .custom-control-preview {
     float:right;
-    width: 68%;
+    width: 72%;
     background:#6b6b6b;
     height: 500px;
     border-radius: 5px;
@@ -6838,6 +6846,51 @@ ol.mp_list li.mp_error {}
 }
 .cuspop {
     background: url(../img/call/conf_control.png) -526px -323px no-repeat;
+}
+@media (max-width: 768px){
+    .layout-modal {
+        width: 990px !important;
+        margin: 10px;
+    }
+    
+}
+.custom-control-preview.sechdmi {
+    margin-top: 20px;
+}
+.custom-control-preview .hdmi-tab {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    height: 40px;
+    width: 100%;
+}
+.hdmi-tab span {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+}
+.hdmi-tab span strong {
+    cursor: pointer;
+    display: inline-block;
+    width: 60px;
+    height: 40px;
+    font-weight: normal;
+    position: relative;
+}
+.hdmi-tab span strong.active::after{
+    position: absolute;
+    height: 0;
+    width: 0;
+    border-bottom: 10px solid #6b6b6b;
+    border-left:10px solid transparent;
+	border-right: 10px solid transparent;
+    bottom:0;
+    left: 0;
+    right:0;
+    margin: auto;
+    content:'';
 }
 
 /* video invite --begin*/
