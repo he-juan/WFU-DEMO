@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../../mixins/Enhance"
-import { Layout, Button, Icon, Slider, Popover } from "antd"
+import { Layout, Button, Icon, Slider, Popover,Modal } from "antd"
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -29,7 +29,10 @@ class CallDialog extends Component {
             acctstatus: [],
             displayFECCModal:false,
             FECCline: "-1",
-            LayoutModalVisible: false
+            LayoutModalVisible: false,
+            endallConfirm1Visible: false,
+            endallConfirm2Visible: false,
+            endallConfirm2Title: ""
 		}
     }
 
@@ -380,6 +383,79 @@ class CallDialog extends Component {
             LayoutModalVisible: !this.state.LayoutModalVisible
         })
     }
+    handleEndAll = () => {
+        let linestatus = this.props.linestatus;
+        let ipvtline;
+        for(let i = 0 ; i < linestatus.length; i++) {
+            let lineitem = linestatus[i];
+            if (lineitem.acct == 1) {
+                ipvtline = lineitem.line;
+                break;
+            }
+        }
+        if(ipvtline){
+            this.props.getipvrole(ipvtline, "closeprompt", (result)=>{
+                if(result == "2"){
+                    this.setState({
+                        endallConfirm1Visible: true
+                    })
+                }else{
+                    let endall2title = this.tr("a_10103");
+                    if(result == "1" || result == "3"){
+                        endall2title = this.tr("a_19357");
+                        for(let i = 0 ; i < linestatus.length; i++) {
+                            let lineitem = linestatus[i];
+                            if (lineitem.acct == 0) {
+                                endall2title = this.tr("a_19354");
+                                break;
+                            }
+                        }
+                    }
+                    this.setState({
+                        endallConfirm2Visible: true,
+                        endallConfirm2Title: endall2title
+                    });
+                }
+            });
+        }else{
+            this.setState({
+                endallConfirm2Visible: true,
+                endallConfirm2Title: this.tr("a_10103")
+            });
+        }
+    }
+
+    handleEndall1Cancel = () =>{
+        this.setState({
+            endallConfirm1Visible: false
+        })
+
+    }
+    endConf =()=>{
+        this.props.endconf("0");
+        this.setState({
+            endallConfirm1Visible: false
+        })
+    }
+    exitConf =() => {
+        this.props.endconf("1");
+        this.setState({
+            endallConfirm1Visible: false
+        })
+    }
+    endAllCall =() =>{
+        this.props.endconf("1");
+        this.setState({
+            endallConfirm2Visible: false
+        })
+
+    }
+    handleEndall2Cancel = () => {
+        this.setState({
+            endallConfirm2Visible: false
+        })
+    }
+
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let status = this.props.status;
@@ -475,10 +551,17 @@ class CallDialog extends Component {
                             },500);
                         }
                     }
-                    if(state == "4" && state != "5"){
-                        if(!this.getcamerablockedTimmer){
-                            this.getcamerablockedTimmer = setTimeout(()=>{
+                    if(!this.getcamerablockedTimmer){
+                        this.getcamerablockedTimmer = setTimeout(()=>{
                                 this.props.getCameraBlocked();
+                        });
+                    }
+
+                    //handle ipvt line
+                    if(account == 1){
+                        if(!this.getipvroleTimer){
+                            this.getipvroleTimer = setTimeout(()=>{
+                                this.props.getipvrole(lineitem.line,"init");
                             });
                         }
                     }
@@ -548,12 +631,13 @@ class CallDialog extends Component {
             feccline = feccInfo.line;
             feccdisplay = feccInfo.status == "1" ? true : false
         }
-        if(status == 10){  //当所有线路均取消时 显示消失动画
+        if(linestatus.length == 0 && status == 10){  //当所有线路均取消时 显示消失动画
             if(maskvisible == "display-block"){
                 tmpclass = "call-dialog-out call-dialog-out-active";
                 dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
             }
-        }else if(status == "9"){
+        }
+        if(status == "9"){
             if(tmpclass != "call-dialog-in call-dialog-in-active"){
                 tmpclass = "call-dialog-in call-dialog-in-active";
                 maskvisible = "display-block";
@@ -620,7 +704,7 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal()}/>
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon`} />
-                        <Button title={this.tr("a_1")}  className="end-btn" />
+                        <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll} />
                         <div className="left-actions" style={{position: "absolute", right: "10px"}}>
                             <Popover
                                 content={<div>
@@ -640,7 +724,26 @@ class CallDialog extends Component {
 				</div>
 
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
-                <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
+                {
+                    linestatus.length >0 ?
+                    <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
+                        : null
+                }
+                <Modal visible={this.state.endallConfirm1Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall1Cancel}>
+                    <p className="confirm-content">{this.tr("a_10224")}</p>
+                    <div className="modal-footer">
+                        <Button type="primary" onClick={this.endConf}>{this.tr("a_10067")}</Button>
+                        <Button type="primary" onClick={this.exitConf}>{this.tr("a_10225")}</Button>
+                        <Button onClick={this.handleEndall1Cancel}>{this.tr("a_3")}</Button>
+                    </div>
+                </Modal>
+                <Modal visible={this.state.endallConfirm2Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall2Cancel}>
+                    <p className="confirm-content">{this.state.endallConfirm2Title}</p>
+                    <div className="modal-footer">
+                        <Button type="primary" onClick={this.endAllCall}>{this.tr("a_2")}</Button>
+                        <Button onClick={this.handleEndall2Cancel}>{this.tr("a_3")}</Button>
+                    </div>
+                </Modal>
             </div>
         );
     }
@@ -690,7 +793,8 @@ function mapDispatchToProps(dispatch) {
       ctrlvideostate: Actions.ctrlvideostate,
       conflinevideoedstate: Actions.conflinevideoedstate,
       getCameraBlocked: Actions.getCameraBlocked,
-      ctrlCameraBlockState: Actions.ctrlCameraBlockState
+      ctrlCameraBlockState: Actions.ctrlCameraBlockState,
+      endconf: Actions.endconf
   }
   return bindActionCreators(actions, dispatch)
 }

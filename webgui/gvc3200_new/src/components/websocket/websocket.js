@@ -151,6 +151,21 @@ class HandleWebsocket extends React.Component {
         this.props.setVideoInvitesInfo(lines.join(","));
     }
 
+    handleipvtchangehost = (message) => {
+        let state = message.state;  //0-change to host  1-change to guest  2-change to panelists
+        switch (state) {
+            case "0":
+                this.props.setipvrolestatus("2");
+                break;
+            case "1":
+                this.props.setipvrolestatus("1");
+                break;
+            case "2":
+                this.props.setipvrolestatus("3");
+                break;
+        }
+    }
+
     handlemicblock = (message) =>{
         let linesinfo = [];
         let flag = false;
@@ -319,10 +334,6 @@ class HandleWebsocket extends React.Component {
                         break;
                     case "4":
                         // accept the call
-                        // if is ipvt conf , get the ipvtrole
-                        if( this.props.ipvrole == "-1" && message.acct == "1"){
-                            this.props.getipvrole(message.line, "init");
-                        }
                         this.changelinesstatus(message);
                         break;
                     case "8":
@@ -386,6 +397,9 @@ class HandleWebsocket extends React.Component {
                 break;
             case 'video_invite_res':
                 this.handlevideoinvres(message);
+                break;
+            case 'IPVT_change_host':
+                this.handleipvtchangehost(message);
                 break;
         }
     }
@@ -457,10 +471,10 @@ const mapDispatchToProps = (dispatch) => {
         setRecordStatus: Actions.setRecordStatus,
         setHeldStatus: Actions.setHeldStatus,
         setFECCStatus: Actions.setFECCStatus,
-        getipvrole: Actions.getipvrole,
         setDndModeStatus: Actions.setDndModeStatus,
         setLocalcameraStatus: Actions.setLocalcameraStatus,
-        setVideoInvitesInfo: Actions.setVideoInvitesInfo
+        setVideoInvitesInfo: Actions.setVideoInvitesInfo,
+        setipvrolestatus: Actions.setipvrolestatus
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -6890,3 +6890,32 @@ ol.mp_list li.mp_error {}
     padding: 0 8px;
 }
 /* video invite --end*/
+
+.call-ctrl .endall-confirm{
+
+}
+.endall-confirml{
+    width: 420px !important;
+}
+.endall-confirm .modal-footer{
+    text-align: center;
+    margin-bottom: 27px;
+}
+.endall-confirm .modal-footer button {
+    width: 80px;
+    height: 30px;
+}
+
+.endall-confirm button + button {
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+
+.endall-confirm .confirm-content{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #10131a;
+}

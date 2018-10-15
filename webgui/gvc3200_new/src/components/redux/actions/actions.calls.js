@@ -25,6 +25,10 @@ export const setVideoInvitesInfo = (videoinvitelines) => (dispatch) => {
     dispatch({type: 'VIDEO_INVITE_INFO', videoinvitelines: videoinvitelines})
 }
 
+export const setipvrolestatus = (role) => (dispatch) => {
+    dispatch({ type: 'IPVT_ROLE_STATUS', ipvrole: role});
+}
+
 export const get_leftcalllogname = (callback) => (dispatch) =>{
     let request = 'action=sqlitecontacts&region=apps&type=leftcalllogname';
     request += "&time=" + new Date().getTime();
@@ -690,13 +694,14 @@ export const saveFECCpreset = (line, presetid) => (dispatch) =>{
 //     });
 // }
 
-export const getipvrole = (line, type) => (dispatch) => {
-    let request = "action=getipvrole&region=confctrl&line=" + line + "&type" + type;
+export const getipvrole = (line, type, callback) => (dispatch) => {
+    let request = "action=getipvrole&region=confctrl&line=" + line + "&type=" + type;
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(data) {
         var result = eval("("+data+")");
-        dispatch({ type: 'REQUEST_GET_IPVTROLE', ipvrole: result.role+""});
+        setipvrolestatus(result.role+"");
+        callback(result.role+"");
     }).catch(function(error) {
         promptForRequestFailed();
     });
@@ -714,6 +719,16 @@ export const endlinecall = (line, flag) => (dispatch) =>{
     }).catch(function(error) {
         promptForRequestFailed();
     });
+}
+
+export const endconf = (flag) => (dispatch) =>{
+    let request = "action=endconf&region=confctrl&flag=" + flag ;
+    request += "&time=" + new Date().getTime();
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+
 }
 
 export const blockLineOrNot = (line) =>(dispatch) => {
