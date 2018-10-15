@@ -1,5 +1,5 @@
 //english
-var en_authfail = "Auth Failed";
+var en_authfail = "Wrong username or password";
 var en_inputname = "Please input your username";
 var en_multiphone = "Video Conferencing System";
 var en_username = "Username";
@@ -63,7 +63,7 @@ var pl_lockedrebootuser = "The user has locked out until next reboot.";
 var pl_invaliduser = "The username is not exist.";
 var pl_waiting = "Czekaj ...";
 //chinese
-var zh_authfail = "验证失败";
+var zh_authfail = "用户名或密码错误";
 var zh_inputname = "请输入用户名";
 var zh_multiphone = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;视&nbsp;频&nbsp;会&nbsp;议&nbsp;系&nbsp;统&nbsp;";
 var zh_username = "用户名";
@@ -72,8 +72,8 @@ var zh_language = "语言";
 var zh_login = "登录";
 var zh_wakeup = "唤醒";
 var zh_lefttimes = "剩余尝试次数:";
-var zh_lockout = "密码输入错误太多次，请5分钟后再访问页面。";
-var zh_lockreboot = "密码输入错误太多次，请重启后再访问页面。";
+var zh_lockout = "用户名/密码输入错误太多次，请5分钟后再访问页面。";
+var zh_lockreboot = "用户名/密码输入错误太多次，请重启后再访问页面。";
 var zh_lockeduser = "该用户已被锁定。";
 var zh_lockedrebootuser = "直到下次重启前该用户已被锁定。";
 var zh_invaliduser = "该用户不存在。";

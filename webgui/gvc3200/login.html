@@ -645,8 +645,6 @@ function cb_login_done(data){
                 setTimeout('unlockout();', 301000);
             } 
         }
-        else if( msgs.headers["message"] == "Invalid Username" )
-            display_error_tip(lan_invaliduser, 1);
         else
         {
             var times = 5 - parseInt(msgs.headers["times"]);
