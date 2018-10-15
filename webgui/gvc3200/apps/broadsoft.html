@@ -301,6 +301,20 @@
             }
         }
     }
+    function cb_put_suc(data, mode){
+        var msgs = res_parse_rawtext(data);
+        cb_if_auth_fail(msgs);
+        if( cb_if_is_fail(msgs) )
+            view_message(a_16419, MSG_FAIL);
+        else {
+            cb_get_action("broadsoft");
+            view_message(a_7479, MSG_OK);
+        }
+        checkIsApplyNeed();
+        /*if (mode == "cfupdated") {
+             dbussend_cfupdated();
+        }*/
+    }
     function update_auth_type(){
         if( $("#bsauthtype").val() == "0" ) {
             $(".authlogindiv").hide();
