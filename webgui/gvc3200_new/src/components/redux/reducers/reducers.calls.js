@@ -85,3 +85,12 @@ export const videoinvitelines = (state = "", action) =>{
             return state
     }
 }
+
+export const presentation = (state = false, action) => {
+    switch (action.type){
+        case Actions.SET_PRESENT:
+            return action.isPresent;
+        default:
+            return state
+    }
+}

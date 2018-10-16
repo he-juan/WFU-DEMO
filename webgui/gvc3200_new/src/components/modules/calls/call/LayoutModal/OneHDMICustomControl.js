@@ -96,7 +96,6 @@ class CustomControl extends Component {
     this.toggleContent(_HDMIARY_);
   }
   render() {
-    console.log("one one")
     let { hdmi1mode, hdmi1content, onToggleCustomMode, confname, conftype, presentation } = this.props;
     if (hdmi1mode >= 4) {
       hdmi1mode = hdmi1mode - 3;

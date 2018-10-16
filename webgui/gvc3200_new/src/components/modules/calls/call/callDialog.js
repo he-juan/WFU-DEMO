@@ -8,6 +8,7 @@ import {globalObj} from "../../../redux/actions/actionUtil"
 import FECCModal from "./FECCModal";
 import VideoinviteDialog from "./videoinviteDialog"
 import LayoutModal from './LayoutModal/index';
+import PresentationModal from './presentationModal'
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -32,7 +33,8 @@ class CallDialog extends Component {
             LayoutModalVisible: false,
             endallConfirm1Visible: false,
             endallConfirm2Visible: false,
-            endallConfirm2Title: ""
+            endallConfirm2Title: "",
+            PresentModalVisible: false
 		}
     }
 
@@ -50,6 +52,7 @@ class CallDialog extends Component {
                 this.getAcctStatusData(acctstatus);
             }
         });
+        this.props.getBFCPMode()
     }
 
     componentWillUnmount = () => {
@@ -456,6 +459,11 @@ class CallDialog extends Component {
         })
     }
 
+    tooglePresentModal = () => {
+        this.setState({
+            PresentModalVisible: !this.state.PresentModalVisible
+        })
+    }
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let status = this.props.status;
@@ -703,8 +711,8 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
                         <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal()}/>
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} />
-                        <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon`} />
-                        <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll} />
+                        <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal()}/>
+                        <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
                         <div className="left-actions" style={{position: "absolute", right: "10px"}}>
                             <Popover
                                 content={<div>
@@ -744,6 +752,8 @@ class CallDialog extends Component {
                         <Button onClick={this.handleEndall2Cancel}>{this.tr("a_3")}</Button>
                     </div>
                 </Modal>
+                <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
+                <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal()} />
             </div>
         );
     }
@@ -764,7 +774,8 @@ const mapStateToProps = (state) => ({
     ipvrole: state.ipvrole,
     dndstatus: state.dndstatus,
     localcamerablocked: state.localcamerablocked,
-    videoinvitelines: state.videoinvitelines
+    videoinvitelines: state.videoinvitelines,
+    presentation: state.presentation
 })
 
 function mapDispatchToProps(dispatch) {
@@ -794,7 +805,8 @@ function mapDispatchToProps(dispatch) {
       conflinevideoedstate: Actions.conflinevideoedstate,
       getCameraBlocked: Actions.getCameraBlocked,
       ctrlCameraBlockState: Actions.ctrlCameraBlockState,
-      endconf: Actions.endconf
+      endconf: Actions.endconf,
+      getBFCPMode: Actions.getBFCPMode
   }
   return bindActionCreators(actions, dispatch)
 }

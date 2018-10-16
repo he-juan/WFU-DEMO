@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Enhance from "../../../../mixins/Enhance";
-import { promptMsg } from '../../../../redux/actions';
+import { promptMsg,getBFCPMode } from '../../../../redux/actions';
 import { Modal } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -68,6 +68,7 @@ class LayoutModal extends Component {
   }
   componentWillUpdate = (nextProps) => {
     if (this.props.visible != nextProps.visible && nextProps.visible == true) {
+      this.props.getBFCPMode();
       this.initModal();
     }
   }
@@ -244,13 +245,14 @@ class LayoutModal extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    presentation: true   // 是否在演示中  功能暂未开发, 暂时写死
+    presentation: state.presentation   
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   var actions = {
-    promptMsg: promptMsg
+    promptMsg: promptMsg,
+    getBFCPMode: getBFCPMode
   }
   return bindActionCreators(actions, dispatch)
 }

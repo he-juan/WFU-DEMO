@@ -813,3 +813,23 @@ export const acceptOrRejectvideo = (isaccept, line) => (dispatch) => {
     });
 }
 
+export const setPresentation = (isPresent) => (dispatch) => {
+    dispatch({
+        type: 'SET_PRESENT',
+        isPresent: isPresent
+    })
+}
+
+export const getBFCPMode = (cb) => (dispatch) => {
+    let request = "action=getBFCPMode&region=confctrl&time=" + new Date().getTime();
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let _data = JSON.parse(data)
+        if(parseInt(_data.mode) > 0 ){
+            dispatch(setPresentation(true))
+        } else {
+            dispatch(setPresentation(false))
+        }
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}

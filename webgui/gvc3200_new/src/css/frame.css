@@ -4747,7 +4747,7 @@ table thead tr th{
     background: url(../img/call/conf_control.png) 0px -147px no-repeat;
 }
 
-.call-ctrl-btn .presen-icon, .call-ctrl-btn .unpresen-icon:hover{
+.call-ctrl-btn .presen-icon, .call-ctrl-btn .unpresen-icon:hover, .call-ctrl-btn .presen-icon, .call-ctrl-btn .unpresen-icon.active{
     background: url(../img/call/conf_control.png)  -96px -196px no-repeat;
 }
 
