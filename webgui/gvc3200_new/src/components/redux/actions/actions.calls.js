@@ -833,3 +833,17 @@ export const getBFCPMode = (cb) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+export const setPresentSource = (switchto) => (dispatch) => {
+    dispatch({
+        type: 'SET_PRESENT_SOURCE',
+        presentSource: switchto
+    })
+}
+export const setPresentLineMsg = (line, msg) => dispatch =>{
+    dispatch({
+        type: 'SET_PRESENT_LINE_MSG',
+        line: line,
+        msg: msg
+    })
+}

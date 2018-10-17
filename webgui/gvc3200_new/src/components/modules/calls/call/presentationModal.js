@@ -55,6 +55,7 @@ class PresentationModal extends Component {
     if (this.props.visible != nextProps.visible && nextProps.visible == true) {
       this.initModal();
     }
+    
   }
   initModal() {
     Promise.all([
@@ -95,8 +96,6 @@ class PresentationModal extends Component {
   handleSubmit = () => {
     let ison = this.state.bfcpMode
     let source;
-    // 先判断是否在通话中
-    // ...
     
     // 判断是否连接HDMI1
     this.doRequest('gethdmi1state', 'status').then(data => {

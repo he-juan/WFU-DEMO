@@ -377,7 +377,6 @@ class CallDialog extends Component {
             this.props.promptMsg('SUCCESS', "a_recoresave");
         }
     }
-
     componentWillUnmount = () => {
         clearInterval(this.callTick);
     }
@@ -459,10 +458,18 @@ class CallDialog extends Component {
         })
     }
 
-    tooglePresentModal = () => {
+    tooglePresentModal = (visible) => {
         this.setState({
-            PresentModalVisible: !this.state.PresentModalVisible
+            PresentModalVisible: typeof visible == 'boolean' ? visible : !this.state.PresentModalVisible
         })
+    }
+    componentWillUpdate = (nextProps) => {
+        if (this.props.presentation != nextProps.presentation || this.props.presentSource != nextProps.presentSource || this.props.presentLineMsg != nextProps.presentLineMsg) {
+            this.setState({
+                PresentModalVisible: false,
+                LayoutModalVisible:false,
+            })
+        }
     }
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
@@ -753,7 +760,7 @@ class CallDialog extends Component {
                     </div>
                 </Modal>
                 <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
-                <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal()} />
+                <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
             </div>
         );
     }
@@ -775,7 +782,10 @@ const mapStateToProps = (state) => ({
     dndstatus: state.dndstatus,
     localcamerablocked: state.localcamerablocked,
     videoinvitelines: state.videoinvitelines,
-    presentation: state.presentation
+
+    presentation: state.presentation,
+    presentSource: state.presentSource,
+    presentLineMsg: state.presentLineMsg
 })
 
 function mapDispatchToProps(dispatch) {

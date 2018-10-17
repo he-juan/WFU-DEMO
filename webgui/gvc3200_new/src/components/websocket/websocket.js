@@ -401,6 +401,16 @@ class HandleWebsocket extends React.Component {
             case 'IPVT_change_host':
                 this.handleipvtchangehost(message);
                 break;
+            case 'switchhvideosource':
+                this.props.setPresentation(message['state'] == 1);
+                break;
+            case 'select_presentation_source':
+            case 'switch_presentation_source':
+                this.props.setPresentSource(message['switchto']);
+                break;
+            case 'presentation_status':
+                this.props.setPresentLineMsg(message['line'], message['msg']);
+                break;
         }
     }
 
@@ -474,7 +484,10 @@ const mapDispatchToProps = (dispatch) => {
         setDndModeStatus: Actions.setDndModeStatus,
         setLocalcameraStatus: Actions.setLocalcameraStatus,
         setVideoInvitesInfo: Actions.setVideoInvitesInfo,
-        setipvrolestatus: Actions.setipvrolestatus
+        setipvrolestatus: Actions.setipvrolestatus,
+        setPresentation: Actions.setPresentation,
+        setPresentSource: Actions.setPresentSource,
+        setPresentLineMsg: Actions.setPresentLineMsg
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -94,3 +94,24 @@ export const presentation = (state = false, action) => {
             return state
     }
 }
+
+export const presentSource = (state = 'hdmi', action) => {
+    switch (action.type) {
+        case Actions.SET_PRESENT_SOURCE:
+            return action.presentSource;
+        default:
+            return state;
+    }
+}
+
+export const presentLineMsg = (state = {line:'', msg: ''}, action) => {
+    switch (action.type) {
+        case Actions.SET_PRESENT_LINE_MSG:
+            return {
+                line: action.line,
+                msg: action.msg
+            }
+        default:
+            return state
+    }
+}
