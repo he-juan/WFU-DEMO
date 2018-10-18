@@ -6,11 +6,11 @@
  * videocodec
  */
 import React, { Component } from 'react'
-import { Modal, Form, Select } from 'antd';
+import { Modal, Form, Select} from 'antd';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { promptMsg, setPresentation } from '../../../redux/actions';
+import { promptMsg, setPresentation, getHDMI1Resolution } from '../../../redux/actions';
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -21,7 +21,8 @@ class PresentationModal extends Component {
       hdmiInOn: 0,
       wifiDisplayOn: 0,
       bfcpMode: 0,
-      bfcpSource: 0
+      bfcpSource: 0,
+      is4kon: true
     }
   }
   doRequest = (action, region, params) => {
@@ -54,8 +55,22 @@ class PresentationModal extends Component {
   componentWillUpdate = (nextProps) => {
     if (this.props.visible != nextProps.visible && nextProps.visible == true) {
       this.initModal();
+      this.props.getHDMI1Resolution(true, (msgs) => {
+        var hdmi1out = msgs.headers['25104'];
+        hdmi1out = hdmi1out.split("P")[0];
+        hdmi1out = hdmi1out.split("x");
+        if (hdmi1out[0] >= 3840 && hdmi1out[1] >= 2160) {
+         this.setState({
+           is4kon: true
+         })
+        }
+        else {
+          this.setState({
+            is4kon: false
+          })
+        }
+      })
     }
-    
   }
   initModal() {
     Promise.all([
@@ -135,8 +150,9 @@ class PresentationModal extends Component {
     })
   }
   render() {
-    const { hdmiInOn, wifiDisplayOn, bfcpMode, bfcpSource } = this.state;
-    const { visible, onHide, is4kon, videocodec} = this.props;
+    const { hdmiInOn, wifiDisplayOn, bfcpMode, bfcpSource, is4kon } = this.state;
+    const { visible, onHide, linesInfo} = this.props;
+    let videocodec = linesInfo[0] ? parseInt(linesInfo[0].videocodec) : 0;
     const ItemStyleProps = {
       style: {display:'block'},
       labelCol: {span: 6},
@@ -191,15 +207,15 @@ class PresentationModal extends Component {
 
 const mapState = (state) => {
   return {
-    is4kon: false,  // 取值?
-    videocodec: 0,  // 取值?
+    linesInfo: state.linesInfo
   }
 }
 
 const mapDispatch = (dispatch) => {
   var actions = {
     promptMsg: promptMsg,
-    setPresentation:setPresentation
+    setPresentation:setPresentation,
+    getHDMI1Resolution: getHDMI1Resolution
   }
   return bindActionCreators(actions, dispatch)
 }

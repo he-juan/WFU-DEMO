@@ -2743,10 +2743,10 @@ table thead tr th{
     background-position: -500px 0;
 }
 
-/*.anticon-cross-circle {*/
-    /*background-image: url(../img/icon.png);*/
-    /*background-position: -525px 0;*/
-/*}*/
+.anticon-cross-circle {
+    background-image: url(../img/icon.png);
+    background-position: -525px 0;
+}
 
 .anticon-check-circle:before {
     content: "";
