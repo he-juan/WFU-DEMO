@@ -2800,6 +2800,10 @@ function handle_ipvtrcdoperate(data){
     }
 }
 
+
+/**
+ * 与会者可以举手 ， 主持人不能举手
+ **/
 function showhandsup(){
     if($(".remoteline[account=1]").length > 0 && (mConfrole == "1" || mConfrole == "3")){
         var callstate = $(".remoteline[account=1]").attr("state");
@@ -5094,11 +5098,13 @@ function setconfpause_callback(data)
            else
                mContinueRecording = 0;
         }
-        else{
-           if($("#record").attr("isrecord") == "0")
-               mContinueRecording = 1;
-           else
-               mContinueRecording = 0;
+        else {
+            if (!$("#ipvtswitch").hasClass("rcdstop")) {
+                if ($("#record").attr("isrecord") == "0")
+                    mContinueRecording = 1;
+                else
+                    mContinueRecording = 0;
+            }
         }
         if($("#dtmfDiv").is(":visible"))
         {
@@ -5812,8 +5818,7 @@ function judge_ispause()
         else
             return true;
     }
-    else
-    if(mDisableconf == "1")
+    else if(mDisableconf == "1")
     {
         var isallhold = true;
         $("#onewaycall .confdiv").each(function(){
@@ -8494,10 +8499,12 @@ function pageEventActions()
                     mContinueRecording = 0;
             }
             else{
-                if($("#record").attr("isrecord") == "0")
-                    mContinueRecording = 1;
-                else
-                    mContinueRecording = 0;
+                if (!$("#ipvtswitch").hasClass("rcdstop")) {
+                    if($("#record").attr("isrecord") == "0")
+                        mContinueRecording = 1;
+                    else
+                        mContinueRecording = 0;
+                }
             }
         }
         delayshowtip(a_7355);
