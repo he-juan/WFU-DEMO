@@ -57,11 +57,11 @@ class LayoutModal extends Component {
           if (data.res == 'success') {
             resolve(data);
           } else {
-            this.props.promptMsg("ERROR", "a_neterror");
+            this.props.promptMsg("ERROR", "a_16418");
           }
         },
         error: (err) => {
-          this.props.promptMsg("ERROR", "a_neterror");
+          this.props.promptMsg("ERROR", "a_16418");
         }
       })
     })
@@ -80,7 +80,7 @@ class LayoutModal extends Component {
           hdmi1state : data.state 
         })
         if (data.state != '1') {
-          this.props.promptMsg("ERROR", "您必须接入HDMI1");
+          this.props.promptMsg("ERROR", this.tr('a_10081') + ' HDMI1!');
           return false;
         }
         return Promise.all([
@@ -170,8 +170,9 @@ class LayoutModal extends Component {
     })
   }
   render() {
-    let { visible, onHide, confname, conftype, presentation } = this.props;
-    const {hdmi1state, activeIndex, hdmi1mode, hdmi1content, hdmi2state, hdmi2content, hdmi2mode } = this.state;
+    const { visible, onHide, confname, conftype, presentation } = this.props;
+    const { hdmi1state, activeIndex, hdmi1mode, hdmi1content, hdmi2state, hdmi2content, hdmi2mode } = this.state;
+    const callTr = this.tr;
     if (!visible || hdmi1state != '1') {
       return null;
     }
@@ -182,32 +183,32 @@ class LayoutModal extends Component {
         onCancel={onHide}
         onOk={() => { this.handleSubmit() }}
         width="990"
-        title="布局"
+        title={callTr('a_16703')}
         style={this.modalStyle}
         className="layout-modal"
       >
         <div className="layout-modal-main" style={{ height: '598.5px' }}>
           <ul className="layout-mode-list">
-            <li title="系统推荐" className={activeIndex == '1' ? 'active' : ''} onClick={() => { this.handleSwitch('setsysrcmdmode', 1) }}>
+            <li title={callTr('a_19383')} className={activeIndex == '1' ? 'active' : ''} onClick={() => { this.handleSwitch('setsysrcmdmode', 1) }}>
               <div className="sysrcmd modediv"></div>
             </li>
-            <li title="等分模式" className={activeIndex == 2 ? 'active' : ''} onClick={() => { this.handleSwitch('setdefaultaverage', 2) }}>
+            <li title={callTr('a_19384')} className={activeIndex == 2 ? 'active' : ''} onClick={() => { this.handleSwitch('setdefaultaverage', 2) }}>
               <div className="overlap modediv"></div>
             </li>
-            <li title="子母模式" className={activeIndex == 3 ? 'active' : ''} onClick={() => { this.handleSwitch('setdefaultpop', 3) }}>
+            <li title={callTr('a_19385')} className={activeIndex == 3 ? 'active' : ''} onClick={() => { this.handleSwitch('setdefaultpop', 3) }}>
               <div className="childmother modediv"></div>
             </li>
-            <li title="画中画模式" className={activeIndex == 4 ? 'active' : ''} onClick={() => { this.handleSwitch('setdefaultpip', 4) }}>
+            <li title={callTr('a_19386')} className={activeIndex == 4 ? 'active' : ''} onClick={() => { this.handleSwitch('setdefaultpip', 4) }}>
               <div className="pop modediv"></div>
             </li>
-            <li title="自定义"  className={activeIndex == 5 ? 'active' : ''} onClick={() => { this.handleSwitch('setcustommode', 5) }} style={{ border: "none" }}>
+            <li title={callTr('a_10151')}  className={activeIndex == 5 ? 'active' : ''} onClick={() => { this.handleSwitch('setcustommode', 5) }} style={{ border: "none" }}>
               <div className="custom modediv"></div>
             </li>
           </ul>
           { 
             hdmi2state == 0 ? 
-            <OneHDMILayout  activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation}/>
-            : <TwoHDMILayout activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation}/>
+            <OneHDMILayout  activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation} callTr={callTr}/>
+            : <TwoHDMILayout activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation} callTr={callTr}/>
           }
           <div className='preview-box custom-preview' style={{ display: activeIndex == 5 ? 'block' : 'none' }}>
             {
@@ -220,6 +221,7 @@ class LayoutModal extends Component {
                 confname={confname}
                 conftype={_conftype}
                 presentation={presentation}
+                callTr={callTr}
               /> :
               <TwoHDMICustomControl 
                 hdmi1mode={hdmi1mode} 
@@ -231,6 +233,7 @@ class LayoutModal extends Component {
                 confname={confname}
                 conftype={_conftype}
                 presentation={presentation}
+                callTr={callTr}
               />
             }
           </div>

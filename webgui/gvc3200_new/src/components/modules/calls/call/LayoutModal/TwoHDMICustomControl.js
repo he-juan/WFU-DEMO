@@ -109,7 +109,7 @@ class CustomControl extends Component {
     this.toggleContent(_HDMIARY_);
   }
   render() {
-    let { hdmi1mode, hdmi1content, hdmi2mode, hdmi2content, onToggleCustomMode, confname, conftype, presentation } = this.props;
+    let { hdmi1mode, hdmi1content, hdmi2mode, hdmi2content, onToggleCustomMode, confname, conftype, presentation, callTr } = this.props;
     let {tab} = this.state;
     
     let hdmimode, hdmicontent;
@@ -141,16 +141,16 @@ class CustomControl extends Component {
             // 演示中
             presentation ?
               <p>
-                <span className="linename" title={'演示'}>演示</span>
-                <span className="layoutpresenticon" title="演示"></span>
+                <span className="linename" title={callTr('a_10004')}>{callTr('a_10004')}</span>
+                <span className="layoutpresenticon" title={callTr('a_10004')}></span>
                 <span
                   className={`hidescreen screendiv ${hdmicontent.indexOf('12') < 0 ? 'active' : ''}`}
-                  title="隐藏"
+                  title={callTr('a_19339')}
                   onClick={() => this.deleteContent('12')}>
                 </span>
                 <span
                   className={`normalscreen screendiv ${(hdmicontent.indexOf('12') > 0 || (hdmimode == 1 && hdmicontent.indexOf('12') == 0)) ? 'active' : ''}`}
-                  title="子屏"
+                  title={callTr('a_12168')}
                   onClick={() => {this.pushContent('12')}}>
                 </span>
                 {
@@ -158,7 +158,7 @@ class CustomControl extends Component {
                     ? ''
                     : (<span
                       className={`fullscreen screendiv ${hdmicontent.indexOf('12') == 0 ? 'active' : ''}`}
-                      title="母屏"
+                      title={callTr('a_12167')}
                       onClick={() => {this.unshiftContent('12')}}>
                     </span>)
                 }
@@ -169,12 +169,12 @@ class CustomControl extends Component {
             <span className="linename" title={confname}>{confname}</span>
             <span
               className={`hidescreen screendiv ${hdmicontent.indexOf('0') < 0 ? 'active' : ''}`}
-              title="隐藏"
+              title={callTr('a_19339')}
               onClick={() => this.deleteContent('0')}>
             </span>
             <span
               className={`normalscreen screendiv ${(hdmicontent.indexOf('0') > 0 || (hdmimode == 1 && hdmicontent.indexOf('0') == 0)) ? 'active' : ''}`}
-              title="子屏"
+              title={callTr('a_12168')}
               onClick={() => {this.pushContent('0')}}>
             </span>
             {
@@ -182,22 +182,22 @@ class CustomControl extends Component {
                 ? ''
                 : (<span
                   className={`fullscreen screendiv ${hdmicontent.indexOf('0') == 0 ? 'active' : ''}`}
-                  title="母屏"
+                  title={callTr('a_12167')}
                   onClick={() => {this.unshiftContent('0')}}>
                 </span>)
             }
           </p>
           <p>
             <span className="linename" title={conftype}>{conftype}</span>
-            <span className="layoutlocalicon" title="本地"></span>
+            <span className="layoutlocalicon" title={callTr('a_10032')}></span>
             <span
               className={`hidescreen screendiv ${hdmicontent.indexOf('13') < 0 ? 'active' : ''}`}
-              title="隐藏"
+              title={callTr('a_19339')}
               onClick={() => this.deleteContent('13')}>
             </span>
             <span
               className={`normalscreen screendiv ${(hdmicontent.indexOf('13') > 0 || (hdmimode == 1 && hdmicontent.indexOf('13') == 0)) ? 'active' : ''}`}
-              title="子屏"
+              title={callTr('a_12168')}
               onClick={() => {this.pushContent('13')}}>
             </span>
             {
@@ -205,7 +205,7 @@ class CustomControl extends Component {
                 ? ''
                 : <span
                   className={`fullscreen screendiv ${hdmicontent.indexOf('13') == 0 ? 'active' : ''}`}
-                  title="母屏"
+                  title={callTr('a_12167')}
                   onClick={() => {this.unshiftContent('13')}}>
                 </span>
             }

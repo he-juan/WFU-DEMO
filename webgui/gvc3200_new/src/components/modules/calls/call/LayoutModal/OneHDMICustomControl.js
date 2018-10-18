@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ScreenItems from './ScreenItems'
+import ScreenItems from './ScreenItems';
 
 let _HDMIARY_ = ['0'];
 let _CONTENTPOOL_ = ['0', '13'];
@@ -96,7 +96,7 @@ class CustomControl extends Component {
     this.toggleContent(_HDMIARY_);
   }
   render() {
-    let { hdmi1mode, hdmi1content, onToggleCustomMode, confname, conftype, presentation } = this.props;
+    let { hdmi1mode, hdmi1content, onToggleCustomMode, confname, conftype, presentation, callTr } = this.props;
     if (hdmi1mode >= 4) {
       hdmi1mode = hdmi1mode - 3;
       onToggleCustomMode("hdmi1", hdmi1mode);
@@ -118,16 +118,16 @@ class CustomControl extends Component {
             // 演示中
             presentation ?
               <p>
-                <span className="linename" title={'演示'}>演示</span>
-                <span className="layoutpresenticon" title="演示"></span>
+                <span className="linename" title={callTr('a_10004')}>{callTr('a_10004')}</span>
+                <span className="layoutpresenticon" title={callTr('a_10004')}></span>
                 <span
                   className={`hidescreen screendiv ${hdmi1content.indexOf('12') < 0 ? 'active' : ''}`}
-                  title="隐藏"
+                  title={callTr('a_19339')}
                   onClick={() => this.deleteContent('12')}>
                 </span>
                 <span
                   className={`normalscreen screendiv ${(hdmi1content.indexOf('12') > 0 || (hdmi1mode == 1 && hdmi1content.indexOf('12') == 0)) ? 'active' : ''}`}
-                  title="子屏"
+                  title={callTr('a_12168')}
                   onClick={() => this.pushContent('12')}>
                 </span>
                 {
@@ -135,7 +135,7 @@ class CustomControl extends Component {
                     ? ''
                     : (<span
                       className={`fullscreen screendiv ${hdmi1content.indexOf('12') == 0 ? 'active' : ''}`}
-                      title="母屏"
+                      title={callTr('a_12167')}
                       onClick={() => this.unshiftContent('12')}>
                     </span>)
                 }
@@ -146,12 +146,12 @@ class CustomControl extends Component {
             <span className="linename" title={confname}>{confname}</span>
             <span
               className={`hidescreen screendiv ${hdmi1content.indexOf('0') < 0 ? 'active' : ''}`}
-              title="隐藏"
+              title={callTr('a_19339')}
               onClick={() => this.deleteContent('0')}>
             </span>
             <span
               className={`normalscreen screendiv ${(hdmi1content.indexOf('0') > 0 || (hdmi1mode == 1 && hdmi1content.indexOf('0') == 0)) ? 'active' : ''}`}
-              title="子屏"
+              title={callTr('a_12168')}
               onClick={() => this.pushContent('0')}>
             </span>
             {
@@ -159,22 +159,22 @@ class CustomControl extends Component {
                 ? ''
                 : (<span
                   className={`fullscreen screendiv ${hdmi1content.indexOf('0') == 0 ? 'active' : ''}`}
-                  title="母屏"
+                  title={callTr('a_12167')}
                   onClick={() => this.unshiftContent('0')}>
                 </span>)
             }
           </p>
           <p>
             <span className="linename" title={conftype}>{conftype}</span>
-            <span className="layoutlocalicon" title="本地"></span>
+            <span className="layoutlocalicon" title={callTr('a_10032')}></span>
             <span
               className={`hidescreen screendiv ${hdmi1content.indexOf('13') < 0 ? 'active' : ''}`}
-              title="隐藏"
+              title={callTr('a_19339')}
               onClick={() => this.deleteContent('13')}>
             </span>
             <span
               className={`normalscreen screendiv ${(hdmi1content.indexOf('13') > 0 || (hdmi1mode == 1 && hdmi1content.indexOf('13') == 0)) ? 'active' : ''}`}
-              title="子屏"
+              title={callTr('a_12168')}
               onClick={() => this.pushContent('13')}>
             </span>
             {
@@ -182,14 +182,14 @@ class CustomControl extends Component {
                 ? ''
                 : <span
                   className={`fullscreen screendiv ${hdmi1content.indexOf('13') == 0 ? 'active' : ''}`}
-                  title="母屏"
+                  title={callTr('a_12167')}
                   onClick={() => this.unshiftContent('13')}>
                 </span>
             }
           </p>
         </div>
         <div className="custom-control-preview">
-          {ScreenItems(hdmi1mode, hdmi1content, confname, conftype)}
+          {ScreenItems(hdmi1mode, hdmi1content, confname, conftype, callTr)}
           <div className="cusmodecls">
             <ul>
               <li className={`cusmode cusoverlap ${hdmi1mode == 1 ? 'active' : ''}`} mode="1" onClick={() => this.toggleCustomMode(1)}></li>
