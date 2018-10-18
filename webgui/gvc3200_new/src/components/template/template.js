@@ -9,10 +9,8 @@
 
  product - used for setting the options hidden for special products.
  [sample] product: "1, 2, ..."
- 1: WP800 hidden
- 2: GXV3380 hidden
- 3: GXV3370 hidden
- 4: GAC2510 hidden
+ 1: GVC3200 hidden
+ 2: GVC3210 hidden
  */
 
 export const options = [
@@ -187,7 +185,7 @@ export const options = [
                 // {"name": "Current plans", "lang": "a_9623"},
                 {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "codec", "lang": "a_16026", "acl": "1", "sub": [
+            {"name": "codec", "lang": "a_16026", "acl": "1","product":"1,2", "sub": [
                 {"name": "Preferred Video Codec", "lang": "a_16115"},
                 {"type": "button", "lang": "a_17"}
             ]},

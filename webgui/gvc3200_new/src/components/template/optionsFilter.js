@@ -23,20 +23,11 @@ const hiddenConfigName = (data) => {
     var oem = data['oem'];
     let pId = "";
     switch(states.product) {
-        case "WP800":
+        case "GVC3200":
             pId = '1';
             break;
-        case "WP820":
-            pId = '1';
-            break;
-        case "GXV3380":
+        case "GVC3210":
             pId = '2';
-            break;
-        case "GXV3370":
-            pId = '3';
-            break;
-        case "GAC2510":
-            pId = '4';
             break;
     }
     if(states.oemId != "54"){
