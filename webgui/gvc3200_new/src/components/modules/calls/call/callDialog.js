@@ -13,7 +13,7 @@ const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
 let mClicktimes = 0;
-let mPreClickTime, mCurrentClickTime;
+let mPreClickTime, mCurrentClickTime, mTipTimeout;
 
 class CallDialog extends Component {
     constructor(props){
@@ -385,6 +385,36 @@ class CallDialog extends Component {
             LayoutModalVisible: !this.state.LayoutModalVisible
         })
     }
+    handleHoldall = () =>{
+        if(!this.countClickedTimes()) {
+            return false;
+        }
+        let linestatus = this.props.linestatus;
+        for(let i = 0 ; i < linestatus.length; i++) {
+            let lineitem = linestatus[i];
+            let state = lineitem.state;
+            if(state == "3" || state == "8" || state == "12")
+            {
+                // conference can not be held
+                this.props.promptMsg('WARNING', "a_548");
+                return false;
+            }
+        }
+        //当在web端的会控界面上请求开启远端视频时，保持功能被禁用，直到远端设备弹窗消失
+        if(this.props.videoonlines){
+            this.props.promptMsg('WARNING', "a_10129");
+            return false;
+        }
+        clearTimeout(mTipTimeout);
+        mTipTimeout = setTimeout(()=>{
+            this.props.promptMsg('WARNING', "a_7355");
+        },500);
+        let ishold = "1";
+        if(linestatus[0].state == "5" ){
+            ishold = "0"
+        }
+        this.props.confholdstate(ishold);
+    }
     handleEndAll = () => {
         let linestatus = this.props.linestatus;
         let ipvtline;
@@ -484,6 +514,7 @@ class CallDialog extends Component {
         let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
         let lineuploadingdisable = [];
         let state3num = 0, state8num = 0;
+        let heldclass = "unhold-icon";
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
@@ -549,6 +580,11 @@ class CallDialog extends Component {
                     }
                     if(account != 1){
                         lineisvideoedclass[i] += " btndisable";
+                    }
+                    if(state == "5"){  //global hold
+                        heldclass = "hold-icon";
+                    }else if(state == "4"){  //global unhold
+                        heldclass = "unhold-icon";
                     }
                     if(account == 8) account = 3;
                     if(this.state.acctstatus.length > 0){
@@ -638,7 +674,7 @@ class CallDialog extends Component {
                 localcamerablockedclass = "confaudio";
             }
         }
-        let heldclass = this.props.heldStatus == "1" ? "hold-icon" : "unhold-icon";
+
         let feccInfo = this.props.FECCStatus;
         let feccline = "";
         let feccdisplay = false;
@@ -717,7 +753,7 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} />
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
                         <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal()}/>
-                        <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} />
+                        <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal()}/>
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
                         <div className="left-actions" style={{position: "absolute", right: "10px"}}>
@@ -759,7 +795,6 @@ class CallDialog extends Component {
                         <Button onClick={this.handleEndall2Cancel}>{this.tr("a_3")}</Button>
                     </div>
                 </Modal>
-                <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
                 <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
             </div>
         );
@@ -785,7 +820,8 @@ const mapStateToProps = (state) => ({
 
     presentation: state.presentation,
     presentSource: state.presentSource,
-    presentLineMsg: state.presentLineMsg
+    presentLineMsg: state.presentLineMsg,
+    videoonlines: state.videoonlines
 })
 
 function mapDispatchToProps(dispatch) {
@@ -816,7 +852,8 @@ function mapDispatchToProps(dispatch) {
       getCameraBlocked: Actions.getCameraBlocked,
       ctrlCameraBlockState: Actions.ctrlCameraBlockState,
       endconf: Actions.endconf,
-      getBFCPMode: Actions.getBFCPMode
+      getBFCPMode: Actions.getBFCPMode,
+      confholdstate: Actions.confholdstate
   }
   return bindActionCreators(actions, dispatch)
 }

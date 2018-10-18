@@ -32,11 +32,22 @@ class HandleWebsocket extends React.Component {
         }
     }
 
+    // 0-video codec is not H.265  1-video codec is H.265
+    getvideocodec = (message) => {
+        let msgint = parseInt(message.msg);
+        if (msgint >= 16 && msgint < 64) {
+            message.videocodec = "0";
+        } else if (msgint >= 64 && msgint < 253) {
+            message.videocodec = "1";
+        }
+    }
+
     changelinesstatus = (message) =>{
         let linesinfo = [];
         if(this.props.linesinfo.length == 0){
             if(message.state == "4"){
                 this.getCallType(message);
+                this.getvideocodec(message);
             }
             if(message.state != "0"){
                 linesinfo.push(message);
@@ -51,6 +62,10 @@ class HandleWebsocket extends React.Component {
                         this.getCallType(message);
                         if(message.isvideo){
                             lineitem.isvideo = message.isvideo;
+                        }
+                        this.getvideocodec(message);
+                        if(message.videocodec){
+                            lineitem.videocodec = message.videocodec;
                         }
                     }
                     if (message.state == "0") {
@@ -139,7 +154,25 @@ class HandleWebsocket extends React.Component {
             this.props.showCallDialog("9");
         }
     }
-
+    handlevideoon = (message) => {
+        let lines = "";
+        if(this.props.videoonlines == ""){
+            lines = message.line;
+        }else{
+            lines = this.props.videoonlines + "," + message.line;
+        }
+        this.props.setvideoonlines(lines);
+    }
+    handlevideoinviteack = (message) => {
+        let lines = this.props.videoonlines.split(",");
+        for(let j = lines.length; j >= 0; j-- ){
+            if(lines[j] == message.line){
+                lines.splice(j,1);
+                break;
+            }
+        }
+        this.props.setvideoonlines(lines.join(","));
+    }
     handlevideoinvres = (message) => {
         let lines = this.props.videoinvitelines.split(",");
         for(let j = lines.length; j >= 0; j-- ){
@@ -334,8 +367,7 @@ class HandleWebsocket extends React.Component {
                         break;
                     case "4":
                         // accept the call
-                        this.changelinesstatus(message);
-                        break;
+                    case "5": //hold all line
                     case "8":
                         // call failed
                         this.changelinesstatus(message);
@@ -394,6 +426,12 @@ class HandleWebsocket extends React.Component {
                 break;
             case 'video_invite':
                 this.handlevideoinvite(message);
+                break;
+            case 'videoon':
+                this.handlevideoon(message);
+                break;
+            case 'video_invite_ack':
+                this.handlevideoinviteack(message);
                 break;
             case 'video_invite_res':
                 this.handlevideoinvres(message);
@@ -464,7 +502,8 @@ const mapStateToProps = (state) => ({
     linesinfo: state.linesInfo,
     ipvrole: state.ipvrole,
     videoinvitelines: state.videoinvitelines,
-    callDialogStatus: state.callDialogStatus
+    callDialogStatus: state.callDialogStatus,
+    videoonlines: state.videoonlines
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -487,7 +526,8 @@ const mapDispatchToProps = (dispatch) => {
         setipvrolestatus: Actions.setipvrolestatus,
         setPresentation: Actions.setPresentation,
         setPresentSource: Actions.setPresentSource,
-        setPresentLineMsg: Actions.setPresentLineMsg
+        setPresentLineMsg: Actions.setPresentLineMsg,
+        setvideoonlines: Actions.setvideoonlines
     }
     return bindActionCreators(actions, dispatch)
 }

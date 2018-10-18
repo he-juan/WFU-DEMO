@@ -62,38 +62,42 @@ class VideoinviteDialog extends Component {
         let videoinvitelines = this.props.videoinvitelines.split(","); //["0", "1"]
 
         return (
-            <div className="selectvideodiv" >
-                <div className="title">{this.tr("a_607")}</div>
-                <div className="selectlist">
-                    {
-                        videoinvitelines.map((item, i) => {
-                            let num, name, defaultchecked = false;
-                            for(let j = 0 ; j < linestatus.length; j++){
-                                if(linestatus[j].line == item ){
-                                    num = linestatus[j].num;
-                                    name = linestatus[j].name || linestatus[j].num;
-                                    break;
+            <div>
+                <div className="ant-modal-mask"></div>
+                <div className="selectvideodiv" >
+                    <div className="title">{this.tr("a_607")}</div>
+                    <div className="selectlist">
+                        {
+                            videoinvitelines.map((item, i) => {
+                                let num, name, defaultchecked = false;
+                                for(let j = 0 ; j < linestatus.length; j++){
+                                    if(linestatus[j].line == item ){
+                                        num = linestatus[j].num;
+                                        name = linestatus[j].name || linestatus[j].num;
+                                        break;
+                                    }
                                 }
-                            }
-                            if(i == 0){
-                                defaultchecked = true;
-                            }
-                            return <div className="itemdiv">
-                                <div className="itemcheck">
-                                    <Checkbox defaultChecked={defaultchecked}  onChange={this.onChange.bind(this,item)}></Checkbox></div>
-                                <div className="itemname"><span title={name}>{name}</span></div>
-                                <div className="itemnum"><span title={num}>{num}</span></div>
-                            </div>
-                        })
-                    }
-                </div>
-                <div className="ctrlbtn">
-                <div className="selectbtn">
-                    <Button type="primary" className="accpvideo" onClick={this.handleInvite.bind(this, 1)}>{this.tr("a_10000")}</Button>
-                    <Button type="primary" className="rejectvideo" onClick={this.handleInvite.bind(this, 0)}>{this.tr("a_523")}</Button>
-                </div>
+                                if(i == 0){
+                                    defaultchecked = true;
+                                }
+                                return <div className="itemdiv">
+                                    <div className="itemcheck">
+                                        <Checkbox defaultChecked={defaultchecked}  onChange={this.onChange.bind(this,item)}></Checkbox></div>
+                                    <div className="itemname"><span title={name}>{name}</span></div>
+                                    <div className="itemnum"><span title={num}>{num}</span></div>
+                                </div>
+                            })
+                        }
+                    </div>
+                    <div className="ctrlbtn">
+                        <div className="selectbtn">
+                            <Button type="primary" className="accpvideo" onClick={this.handleInvite.bind(this, 1)}>{this.tr("a_10000")}</Button>
+                            <Button type="primary" className="rejectvideo" onClick={this.handleInvite.bind(this, 0)}>{this.tr("a_523")}</Button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         );
     }}
 

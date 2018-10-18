@@ -28,6 +28,9 @@ export const setVideoInvitesInfo = (videoinvitelines) => (dispatch) => {
 export const setipvrolestatus = (role) => (dispatch) => {
     dispatch({ type: 'IPVT_ROLE_STATUS', ipvrole: role});
 }
+export const setvideoonlines = (videoonlines) => (dispatch) => {
+    dispatch({ type: 'VIDEO_ON_LINES', videoonlines: videoonlines});
+}
 
 export const get_leftcalllogname = (callback) => (dispatch) =>{
     let request = 'action=sqlitecontacts&region=apps&type=leftcalllogname';
@@ -611,12 +614,27 @@ export const getHDMI1Resolution = (async, callback) => (dispatch) =>{
     }
 }
 
+const getvideocodec = (message) => {
+    if(message.state != "4"){
+        return;
+    }
+    let msgint = parseInt(message.videomsg);
+    if (msgint >= 16 && msgint < 64) {
+        message.videocodec = "0";
+    } else if (msgint >= 64 && msgint < 253) {
+        message.videocodec = "1";
+    }
+}
+
 export const getAllLineStatus = (callback) => (dispatch) => {
     let request = 'region=confctrl&action=getallLineInfo';
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let lineinfoArr = eval("([" + data + "])");
+        if(lineinfoArr.length>0){
+            getvideocodec(lineinfoArr[0])
+        }
         dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
         callback(lineinfoArr);
     }).catch(function(error) {
@@ -846,4 +864,14 @@ export const setPresentLineMsg = (line, msg) => dispatch =>{
         line: line,
         msg: msg
     })
+}
+
+export const confholdstate = (ishold) => (dispatch) => {
+    let request = "action=confholdstate&region=confctrl&sethold=" + ishold;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
 }

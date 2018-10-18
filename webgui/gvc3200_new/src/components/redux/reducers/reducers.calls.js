@@ -115,3 +115,12 @@ export const presentLineMsg = (state = {line:'', msg: ''}, action) => {
             return state
     }
 }
+
+export const videoonlines = (state = "", action) =>{
+    switch (action.type) {
+        case Actions.VIDEO_ON_LINES:
+            return action.videoonlines
+        default:
+            return state
+    }
+}
