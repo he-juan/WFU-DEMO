@@ -719,10 +719,10 @@ var a_layer2qoswifi_zh = "第二层QoS 802.1Q/VLAN标记 (Wi-Fi)";
 var a_layer2qospvwifi_zh = "第二层QoS 802.1p优先级 (Wi-Fi)";
 var a_pcporttag_zh = "PC端口VLAN标记";
 var a_pcporttagpv_zh = "PC端口优先级";
-var a_802mode_zh = "802.1x模式";
-var a_identity_zh = "802.1x认证信息";
-var a_md5pas_zh = "802.1x密码";
-var a_peappas_zh = "802.1x私钥密码";
+var a_802mode_zh = "802.1X模式";
+var a_identity_zh = "802.1X认证信息";
+var a_md5pas_zh = "802.1X密码";
+var a_peappas_zh = "802.1X私钥密码";
 var a_802ca_zh = "CA证书";
 var a_802client_zh = "客户证书";
 var a_privatekey_zh = "私钥";
@@ -2177,58 +2177,5 @@ var a_audiodevice_zh = "音频设备";
 var a_aeclevel_zh = "音频回声抑制等级";
 
 /****************conference schedule ****************/
-var a_newConf_zh = "新增会议"
-var a_editConf_zh = "编辑会议"
-var a_confdetail_zh = "会议详情"
-var a_confSubject_zh = "会议主题"
-var a_confPreset_zh = "会议预置位"
-var a_confDuration_zh = "会议时长"
-var a_cycleType_zh = "循环类型"
-var a_pinCode_zh = "PIN码"
-var a_confMember_zh = "参会成员"
-var a_everyFixedDays_zh = "每固定天数"
-var a_customRepeat_zh = "自定义重复"
-var a_everyFixedWeeks_zh = "每固定周数"
-var a_everyFixedMonth_zh = "每固定月数"
-var a_everyFixedYear_zh = "每固定年数"
-
-var a_oneTimeEvent_zh = "一次性活动"
-var a_daily_zh = "每天"
-var a_weekday_zh = "每个工作日 (周一至周五)"
-var a_weekly_zh = "每周"
-var a_monthly_zh = "每月 (按日期)"
-var a_monthly1_zh = "每月 (按星期)"
-var a_yearly_zh = "每年"
-var a_custom_zh = "自定义"
-var a_repeatDate_zh = "重复日期"
-var a_cycle_zh = "循环周期"
-
-var a_first_zh = "第一个"
-var a_second_zh = "第二个"
-var a_third_zh = "第三个"
-var a_fourth_zh = "第四个"
-var a_last_zh = "最后一个"
-
-var a_organizer_zh = "组织者"
-var a_me_zh = "我"
-var a_nummember_zh = "参会人数"
-var a_waithost_zh = "待主持"
-var a_process_zh = "进行中"
 var a_notstart_zh = "未开始"
-var a_expired_zh = "已过期"
 var a_over_zh = "已结束"
-var a_startMeet_zh = "立即启会"
-var a_editMeet_zh = "编辑会议"
-var a_cancelMeet_zh = "取消会议"
-var a_cancelMeetWarn_zh = "是否取消会议"
-var a_delrepconf_zh = "取消此系列中的所有的活动"
-var a_delreponceconf_zh = "仅取消此次活动"
-var a_cancelsuc_zh = "取消成功"
-var a_cancelerr_zh = "取消失败"
-var a_preset_zh = "预置位"
-var a_timeWarn_zh = "预约的时间必须晚于当前时间"
-var a_memberempty_zh = "请至少选择一个成员!"
-var a_addMember_zh = "添加参会成员"
-
-
-

@@ -1,0 +1,832 @@
+/*
+The string not found in LCD language file, need to be added manually.
+*/
+
+
+a_over,Over,已结束
+a_notstart,Is not started,未开始
+a_aeclevel,AEC Level,音频回声抑制等级
+a_ringtoneset,Ringtone：System Ringtone + Alert Tone,铃声设置
+a_ringtonevol,Volume：Ringtone + Media + Notification,音量设置
+a_noiseshield,Noise Shield,Noise Shield
+a_remoteappconnect,Disable Remote Control App Connection,禁止手机遥控器连接
+a_image_setting,Adjusting Local Video Effects,图像设置
+a_preset,Camera Preset,预置位
+a_ptz,PTZ,PTZ
+a_initial_position,The initial position,初始位置
+a_device_control,Devcie Control,设备控制
+SD,Disable SD Card,禁用SD卡接口
+USB,Disable USB Port,禁用USB接口
+a_conferenceError2,The configuration number can not be empty,配置号码不能为空
+a_conferenceError,The configuration name can not be empty,配置名称不能为空
+a_stringError2,Conference name can’t contain ; character,会议名称不能含有;字符
+a_stringError,Can’t contain ; character,不能含有;字符
+a_conferenceName,Conference name,会议名称
+a_conferenceMute,All members of the mute,所有成员静音
+a_conferenceList,Number list,号码列表
+a_callslience,Mute/unmute during a call,通话中静音/取消静音
+dounleTap_phone,Double-tap on the screen,双击屏幕
+a_weakalarm,Alarm volume down,闹钟铃声
+a_weakvolume,Lower Ring tone volume,来电铃声
+pick_phone,Pick up the phone,拿起话机
+a_msgcustom,Customize,自定义
+a_msginfo3,I am answering other calls and will call you back later,我正在接听其他电话，稍后给您回复电话
+a_msginfo2,Sorry, I'm in a meeting,抱歉，我正在开会
+a_msginfo1,It's not convenient now, I'll call you later,现在不方便，稍后给您电话
+a_msginfo0,Sorry, it it not convenient to answer the phone now,抱歉，现在不方便接电话
+a_msginfo,Reply content,短信回复内容
+a_ringoncall,Reject incoming call,来电拒接
+flip_phone,Flip phone,翻转话机
+a_gesture,Gesture control,手势控制
+a_rejectwithmsg,Reject with SMS,拒接并短信回复
+a_passwordRule,6 to 32 characters, contain at least 1 number, and 1 letter/special character,6-32位，数字+字母/特殊字符组合
+a_welcome,Welcome to,欢迎登录
+loginError7,Password format incorrect,密码格式错误
+loginError6,Password does not match,密码不匹配
+loginError5,New password cannot be the same as default password,新密码不可为默认密码
+loginError4,Please confirm password,请输入确认密码
+loginError3,Please input new password,请输入新密码
+loginError12,Please input password,请输入密码
+loginError11,Please input user name,请输入用户名
+a_changepwdPrompt,The device is currently using default password. Please change the password,正在使用默认密码，为了安全，请修改密码
+enableftpupload,Upload record to FTP server,上传录音到FTP服务器
+serversavepath,Server save path,服务器保存路径
+ftpuploadinterval,Time interval(hours),时间间隔(小时)
+recordstop,Stop and save the record,停止录音并保存文件
+recordreplace,Replace old record,替换旧录音文件
+recordstroageshort,Record memory is insufficient,当录音空间不足时
+recordset,Record settings,录音设置
+a_callchecked,Please select call Record,请选择通话记录
+a_calliptchecked,Please select intercept record,请选择拦截记录
+a_contactschecked,Please select contacts,请选择联系人
+a_pttAdressError3,The address can not be the same as other multicast addresses,设置的地址不可与其他多播对讲地址相同。
+a_pttAdressError2,The address can not be the same as PTT multicast address,设置的地址不可与PTT组播地址相同。
+a_pttmodal44,setting group name,设置群组名称
+a_SpectralinkSetting,Multicast settings,群组配置
+a_channelmodal44,Join group,加入群组
+a_ipError2,The port No. should between 1 and 65535,端口号在1~65535之间
+a_ipError,Please enter the correct IP address,请输入正确ip
+a_modeError,The label can’t contain ^ character,标签不能含有^字符
+a_pttError,No permission,没有权限
+a_modalemergencyChannel,(Emergency call),(紧急呼叫)
+a_modalpriorityChannel,(Priority call),(优先呼叫)
+a_channelmodal5,Label,标签
+a_channelmodal4,Join channel,加入频道
+a_channelmodal3,Subscribe,可接收
+a_channelmodal2,Transmit,可传输
+a_channelmodal1,Available,可使用
+a_pttmodal4,Set Channel Name,设置频道名称
+a_pttmodal3,Set Port,设置端口
+a_pttmodal2,Set Multicast address,设置多播地址
+a_pttmodal1,Set Channel Name,设置频道名称
+a_ptt_channelSetting,Channel Config,频道配置
+a_ptt_multicastAddress2,Multicast Address,多播地址
+a_label,Label,标签
+a_ptt_channel,Channel,频道
+a_ptt_multicastAddress,PTT multicast address,PTT多播地址
+a_multicast,Multicast Paging,多播对讲
+a_ptt, PTT/Multicast Setting,PTT/组播设置
+a_medarrwrong,Please fill in Media Address,请填写媒体通讯地址
+a_whiteexit,The whitelist already exists,该白名单已存在
+pwdRule1,Alphanumeric password must contain at least one number and at least one lowercase letter, uppercase letter or special character,字母数字密码必须包含数字以及至少一个小写字母，一个大写字母或特殊字符。
+pwdRule0,Please enter at least 6 characters,请输入至少6个字符。
+a_switch_number,The number that is dialed can not be empty,拨打的号码不能为空
+a_switch_time_error,The termination time should not be earlier than the start time. Please choose another time,终止时间不能早于起始时间，请选择其他时间
+a_switchTimeMax,The number of triggers has reached the upper limit and can not be added,触发条数已达到上限，无法添加
+a_switchDefalut,(default),(默认)
+a_switchName,Sensor name,开关量名称
+a_preTime,Start time,起始时间
+a_switchFrequency,Frequency,频率
+a_switchNumber1,Dial out extension,拨打的号码
+a_promptTone,Prompt tone,提示音
+a_callRecordingFunction,recording,调用录音功能
+a_callToDeal,Make call,调用拨打
+a_soundPrompt,Play audio,声音提示
+a_trigger2,Edge Triggered,边缘触发
+a_trigger1,Level Triggered,水平触发
+a_triggertype,Trigger type,触发类型
+a_switchClose,Normally close,常闭
+a_switchOpen,Normally open,常开
+a_switchtype,Sensor type ,开关量类型
+switch_linkage,Linkage function,联动功能
+switch_basic,Basic setting,基本设置
+advanced_switchTime,Trigger time,触发时间
+advanced_switchSetting,Basic setting,基本设置
+a_switch,Sensor setting ,开关量设置
+tip_timeformat,Correct format hh:mm,正确的格式hh:mm
+a_blockhistorycall,Select blocked calls,拦截记录
+a_deletewhitesuc,Remove from whitelist successfully,已移出白名单
+a_deletewhite,Are you sure to remove from the whitelist,是否确定移出白名单
+a_whitelistsuc,Add to whitelist successfully,添加到白名单成功
+a_callpwd,Call password,来电密码
+a_blockcall,Block,拦截
+a_callpwd32,Password length can't more than 32,密码不能超过32位
+a_callpwdfill,Please fill the call password,请填写来电密码
+a_unwhitecall,Non-white list calls,非白名单来电
+a_inbackup,In backup..,正在备份..
+a_Synced,Synced,同步完成
+a_bkstore,In Recovery,恢复中
+a_backupsize,Backup size,备份大小
+a_backuptime,Backup time,备份时间
+a_backup_cfg,Configuration information,配置信息
+a_backupcontent,Backup content,备份内容
+a_backupwarm,After backup, the original backup data will be overwrite,备份完成后, 原始备份数据将会被覆盖
+start_backup,\"Start Backup\",“开始备份”
+a_try,try,试试
+backup_tip,Backup the data of the device(Such as Configuration information, Contacts, Call History),备份设备上的数据(如配置信息,通话记录,通讯录)
+a_pm,PM,下午
+a_am,AM,上午
+a_del_locked,The locked file can\'t be deleted,上锁文件无法被删除！
+a_locksuccess,Operate successfull,操作成功
+a_numbererror,The number must be a digit,号码必须为数字
+a_editContacts,Edit contacts,编辑联系人
+a_deletecalls,Do you really want to delete the selected calls,是否确认删除选中的通话？
+a_deletecontacts,Do you really want to delete the selected contacts,是否确认删除选中的联系人？
+a_deletecontactstitle,Delete contacts,删除联系人
+a_deletegrouptitle,Delete groups,删除群组
+speaker_tip,After clicking the \"Play\" button, a piece of music will be played from the built-in speaker,点击“播放”按钮后将会从内置扬声器中播放一段音乐
+valid_fail,Validation failed,校验失败
+valid_suc,Validation success,校验成功
+call_timeout,Call Failed! Timeout exception,呼叫失败! 超时异常
+call_busy,Call Failed! 486 busy,呼叫失败! 486对方忙
+call_notfound,Call Failed! 404 not found,呼叫失败! 404找不到
+a_inheld,Being held..,被保持..
+a_intalk,In talking..,通话中..
+a_dialing_up,Calling..,呼叫中..
+return_call,Click to return to call interface,点击返回通话界面
+a_contactlist,Contacts List,联系人列表
+a_selectcall,Select calls,选择通话
+a_deleteblksuc,Remove from blacklist successfully,已移出黑名单
+a_deleteblack,Are you sure to remove from the blacklist,是否确定移出黑名单
+a_numberempty,Number can't be empty,号码不能为空
+a_remarksinput,Please enter name,请输入名称
+a_nameinput,Please enter number,请输入号码
+a_addblock,Add from blocked calls,从拦截记录添加
+a_removewhite,Remove whitelist,移出白名单
+a_addmanul,Add manually,手动添加
+a_removeblack,Remove blacklist,移出黑名单
+a_blockrule,Blocking Rules,拦截规则
+a_whiteset,Whitelist,白名单
+a_blackwhite,Black/White List Settings,黑白名单设置
+a_block,Call block,电话拦截
+a_whitelist,Add to whitelist,加入白名单
+a_accountdy,Use active account,使用动态帐号
+a_backlistsuc,Add to blacklist successfully,添加到黑名单成功
+a_name,Name,姓名
+a_preschedule,PreSchedule,待开会议
+a_deletehiscalls,Delete history calls,删除历史记录
+history_all,Call history,历史记录
+a_dndset,DND,免打扰设置
+call_historycontact,Call History, Contacts,通话记录, 通讯录
+a_acctunregistered,Account is not registered,帐号未注册
+a_calls,Calls,通话
+show_white,Display White,显示白色
+show_blue,Display Blue,显示蓝色
+show_red,Display Red,显示红色
+show_green,Display Green,显示绿色
+micro_phone,Microphone,麦克风
+reset_test,Reset Button Test,复位键测试
+cert_check,Certificate Verify,证书校验
+reset_longpress,Long pressed,长按
+reset_shortpress,Short pressed,短按
+reset_unpressed,Unpressed,未按下
+a_resetkeystatus,Reset key status: ,复位键状态：
+tip_resetkeytest,The reset key is triggered only for testing during detection, and after clicking \"Stop testing\", it will return to normal,开始检测后，触发复位键仅进行测试，点击“停止检测”后复位键功能恢复正常
+a_resetkey,Reset,复位键
+reset_testip,Please press the reset button on the device and check the status of it,请按下设备上的复位键并检查复位键的状态
+mic3looptesting,The microphone 3 audio loop is under testing,正在测试麦克风3音频回环
+mic2looptesting,The microphone 2 audio loop is under testing,正在测试麦克风2音频回环
+mic1looptesting,The microphone 1 audio loop is under testing,正在测试麦克风1音频回环
+collection_fail,Failed to collect sound, please try again later,采集失败，请稍候再试
+a_sound_collection,Start sound collection (recording),开始声音采集（录音）
+tip_audioloopstart,The call and audio functions will be affected during testing, and after clicking \"Stop testing\", it will return to normal,开始检测后，通话和音频功能会受影响，点击“停止检测”后可恢复正常
+a_stoptest,Stop testing,停止检测
+a_starttest,Start testing,开始检测
+audio_looptip,select the item you want to test and input audio to the MIC,选择测试项后，对麦克风输入音频
+led_testtip,Select test color and check LED status,选择测试颜色并查看LED灯状态
+audio_loopback,Audio Loop Test,音频回环测试
+a_nodevice,Sorry, no device is available,对不起，暂无可用设备
+a_blthunpair,Unpair,取消配对
+a_paireddevices,Paired devices,已配对的设备
+a_discoverable,Visible to Nearby Bluetooth Devices,对附近设备可见
+a_bluetooth,Bluetooth Settings,蓝牙设置
+a_devicename,Device Name,设备名称
+a_groupringtone,Group Ringtone,群组铃声
+a_contacttitle,Titel,职位
+a_department,Department,部门
+a_contactrank,Rank,头衔
+a_company,Company,公司
+a_contactaddress,Address,住址
+a_bindaccount,Bind Account,绑定帐号
+a_addcontactgroups,Add Group,添加联系人组
+a_mobilephone,Mobile Phone,移动电话
+a_familyphone,Home Phone,家庭电话
+a_workphone,Work Phone,工作电话
+a_numberexceed,This contact already had three numbers, please select another contact,该联系人已有三个号码,请另选联系人
+a_addLocalcontact,Save to local contacts,保存至已有联系人
+a_contact,Contacts,联系人
+a_protocalchanged,Modify the connection method or port, web will lead to log out and jump to the new address: ,修改连接方式或端口，页面将登出并跳转到新地址:
+a_adjustvol,Adjust Volume,调节音量
+a_searchaborttip,Search all content for ,搜索全部内容关于
+a_transfertip,\"Call Forword\" won't take effect when transfer is disabled,禁止转移时，选择\"转接\"将不会生效
+a_incomingtip,\"Preview\" won't take effect when video call feature is disabled,禁用视频通话功能时，选择\"预览\"将不会生效
+a_searchtip,Please enter the name of the configuration,请输入配置项名称
+a_noresult,Sorry, no matching results,对不起,没有匹配结果
+a_vericaloffset,Veritcal Offset,垂直位移
+a_horizonoffset,Horizontal Offset,水平位移
+a_remotebatt,Remote Battery,遥控器电量
+a_extspeakerph,External Speakerphone,外置麦克风
+a_usbport,USB Port,USB 口
+a_delpart,Partially deleted successfully,部分成功删除
+a_nameexist,The file already exists！,文件已存在！
+a_playerror,The file is playing error,文件播放出错！
+a_recordlen,Must be at most 64 characters, please rename again,最多只能有64个字符,请重新命名
+a_deleteall,Are you sure to delete the selected files,是否确定删除已选中的文件
+a_delerr,Some deletion failed,部分删除失败
+a_downloaderror,The file is playing. Download failed,该文件正在播放，下载失败！
+a_playinglimit,You should play one file at the same time,同时只能播放一个文件！
+a_playing,The file is playing. Rename failed,该文件正在播放，重命名失败！
+a_renameerr,Rename failed. Invalid characters,重命名失败, 存在无效字符
+a_sunday,Sunday,星期天
+a_installfail,Install Failed,安装失败！
+a_canotinclude,CA certificates won't shown in user certificate list,CA证书将不会被显示在用户证书列表中。
+a_installtip,The operation succeeds! Please make sure the certificate is correct, otherwise it won't take effect,操作成功！请务必上传正确的证书文件，否则将无法应用生效。
+a_unselect_cert,Please select legal certificate,请选择有效证书！
+a_userforvpn,VPN and other applications,VPN和其他应用
+a_certname,Certificate Name,证书名称
+a_certuse,Certificate Application,证书用途
+a_uploadinstall,Upload & Install,上传并安装
+a_selectcert,Select Certificate,选择证书
+a_addcert,Add Certificate,添加证书
+a_usercert,User Certificate,用户证书
+no_data,Sorry, there is currently no data,对不起, 暂无数据
+a_pwdlengthallowed,WEP Wi-Fi only allows entering password with 5, 10, 13, 26, 16 or 32 digits,WEP类型Wi-Fi密码只能为5/10/13/26/16/32位字符
+a_pwdlengthlimit,Password length can't less than 8,密码不能少于8位字符
+a_exclt,Excellent,极好
+a_good,Good,较强
+a_fair,Fair,一般
+a_poor,Poor,弱
+a_used,Used,已使用
+a_available,Available,可用空间
+a_sd,SD card,内置存储空间
+a_wifiautoscan,The Wi-Fi list refreshes automatically every 15 seconds, you can also click the \"Scan\" button to refresh,Wi-Fi列表每15秒会进行自动刷新，您也可以通过点击“扫描”按钮进行刷新。
+a_anonyiden,Anonymous identity,匿名身份
+a_iden802,Identity,身份
+a_usercert,User Certificate,用户证书
+a_unspec,unspecified,未指定
+a_phase2,Phase 2 Authentication,阶段2身份验证
+a_eapmethod,EAP Method,EAP方法
+a_netprefix,Network Prefix Length,网络前缀长度
+a_advancedoption,Show Advanced Options,显示高级选项
+a_wifistrength,Wi-Fi Strength,信号强度
+a_avaiwifi,Available Wi-Fi,可用Wi-Fi
+a_frequency,Frequency,频率
+a_linkspeed,Link Speed,连接速度
+a_saved,Saved,已保存
+a_disconnect,Disconnect,断开
+a_forget,Forget,取消保存
+a_connect,Connect,连接
+a_custvialerror,Please fill in correct GUI customization file server path,请填写正确的自定义文件服务器路径
+a_configurlerror,Please fill in correct config server path,请填写正确的配置文件服务器路径
+a_urlerror,Please fill in correct firmware server path,请填写正确的固件服务器路径
+a_strong,Strong,强
+a_weak,Weak,弱
+a_autoans,Auto Answer,自动应答
+a_xsiset,XSI Service Settings,XSI服务设置
+a_operate,Operation,操作
+a_enablepreauto,Enable Auto Presentation When HDMI Plugged,当接入HDMI时自动开启演示
+a_perinterface,Peripherals Interface Management,外设接口管理
+a_ledmanage,LED Management,LED管理
+a_lcdledmanage,LCD & LED Management,LCD&LED管理
+a_certmanage,Certificate Management,证书管理
+a_userinfo,User Info Management,用户信息管理
+a_callset,Call Features,通话功能
+a_guestsetting,Guest Settings,游客设置
+a_guestset,Guest Features,游客功能
+a_conventionset,Basic Settings,基本设置
+max_length64,Please enter no more than 64 characters,请输入不超过64位字符！
+ext_broadsoft,BroadSoft Settings,BroadSoft功能
+system_app,Applications,应用
+system_diagnosis,System Diagnosis,系统诊断
+a_tr069,TR069,网管设置
+cpnt_peripheral,Preferences,偏好设置
+time_lang,Time and Language,时间和语言
+call_setting,Phone Settings,电话设置
+status_store,Storage Info,存储信息
+a_gdspwdlimit,The length of GDS Password is over 32,门禁密码不能超过32位字符！
+a_gdsnumberlimit,The length of GDS Number is over 64,门禁号码不能超过64位字符！
+a_gdsnamelimit,The length of GDS Name is over 64,门禁标识名不能超过64位字符！
+a_sameuseriderror,Same GDS Number exists already,已存在相同的门禁号码！
+a_gdsnumbererror,GDS Number contains illegal character(s),门禁号码含有非法字符！
+a_gdspwdempty,GDS Password can't be empty,门禁开门密码不能为空！
+a_gdsnumempty,GDS Number can't be empty,门禁号码不能为空！
+a_gdsnameempty,GDS Name can't be empty,门禁标识名不能为空！
+a_promptdelete,Are you sure to delete the item(s),是否确定删除选中条目？
+a_gdspwd,Access Password,门禁开门密码
+a_dtmfcontent,DTMF Content,DTMF内容
+a_gdsnumber,System Number,门禁号码
+a_groupnum,No,序号
+a_outdoor,Outdoor,室外
+a_indoor,Indoor,室内
+a_environment,Environment,使用环境
+a_recordbs,Record on BroadSoft,BroadSoft服务器录音
+a_recorducm,Record on UCM,UCM服务器录音
+a_recordportaone,Record on PortaOne,PortaOne服务器录音
+a_recordlocally,Record Locally,本地录音
+a_recordmode,Record Mode,录音模式
+a_vacctregister,Number Of Accounts The Virtual Account Group Register,虚拟帐号组主备服务器注册帐号个数
+a_vgregisternum,Virtual Account Group Concurrence Register,虚拟帐号组主服务器注册帐号个数
+a_servernumberlimit,The number of servers can't exceed ,服务器个数不能超过
+a_repeatserveraddr,The server address is repeated,重复的服务器地址
+a_serveraliasrepeat,The server alias name is already exists,该服务器别名已存在
+a_serveraliaslength,The length of server alias is over 64,服务器别名不能超过64位字符
+a_serveraliasempty,Server alias can't be empty,服务器别名不能为空
+a_endcall,End Call,结束通话
+a_onhold,On Hold,保持
+a_dial,Dial,拨打
+a_onboot,On Boot Completed,启动完成
+a_onunregister,On Unregister,注销帐号
+a_onregister,On Register,注册帐号
+a_logoff,Log Off,关闭日志
+a_logon,Log On,开启日志
+a_onunhold,On Unhold,取消保持
+a_onhold,On Hold,保持
+a_attendtransfer,On Attended Transfer,指定转
+a_blindtransfer,On Blind Transfer,盲转
+a_forwardoff,Forward Off,关闭转移
+a_forwardon,Forward On,开启转移
+a_dndoff,DND Off,关闭DND
+a_dndon,DND On,开启DND
+a_ondisconnected,On Disconnected,通话结束
+a_onconnected,On Connected,通话建立
+a_ononhook,On Onhook,挂机
+a_onoffhook,On Offhook,摘机
+a_outgoingcall,Outgoing Call,去电
+a_address,Address,多播对讲地址
+a_multicastipporterror,Multicast Paging Address format must be IP:Port.The port range is 1-65535,多播对讲地址必须为组播IP:端口的形式，端口范围为1-65535
+a_ipporterror,Listening Address format must be IP:Port.The port range is 1-65535,监听地址必须为组播IP:端口的形式，端口范围为1-65535
+a_priority,Priority,优先级
+a_label,Label,标签
+a_listenaddr,Listening Address,监听地址
+a_multicastlisten,Multicast Listening,多播对讲监听
+a_mch264payload,Multicast Paging H.264 Payload Type,多播对讲H.264有效荷载类型
+a_mch264protype,Multicast Paging H.264 Profile Type,多播对讲Profile类型
+a_mcvidfr,Multicast Paging Video Frame Rate,多播对讲视频帧率
+a_mcvidbr,Multicast Paging Video Bit Rate,多播对讲视频速率
+a_mcimgsize,Multicast Paging Image Size,多播对讲视频大小
+a_pagingvideocodec,Multicast Paging Video Codec,多播对讲视频编码
+a_mpenablevideo,Enable Multicast Paging Video,开启多播对讲视频
+a_pagingcodec,Multicast Paging Codec,多播对讲语音编码
+a_pagingpri,Paging Priority Active,开启优先级开关
+a_pagingbarge,Paging Barge,接收阈值
+a_actionpath,Action Path,请求路径
+a_bspassword,Login Password,登录密码
+a_bsuserid,BroadWorks UserID,BroadWorks用户ID
+a_disnonxmpp,Display Non XMPP Contacts,显示非XMPP联系人
+a_bsacct,Associated BroadSoft Account,关联BroadSoft帐号
+a_bsimp,Enable BroadSoft IM&P,开启BroadSoft IM&P
+a_impsettings,IM&P Settings,IM&P设置
+a_logincre,LogIn Credentials,登录认证
+a_bsorders,BroadSoft Directory Order,BroadSoft联系人顺序
+a_bsmaxhits,BroadSoft Directory Hits,BroadSoft联系人返回条数
+a_bsupdateinterval,BroadSoft Directory & Call Logs Update Interval (s),BroadSoft联系人及通话记录更新间隔(秒)
+a_netdir,Network Directories,网络目录
+a_typeentercm,Enterprise Common,企业常用
+a_typegroupcm,Group Common,群组常用
+a_typeop9,Polycom Phonebook,Polycom电话簿
+a_typeop6,Received Call Log,接听记录
+a_typeop5,Placed Call Log,拨打记录
+a_typeop4,Missed Call Log,未接来电记录
+a_typeop3,Enterprise Directory,企业目录
+a_typeop2,Personal Directory,个人目录
+a_typeop1,Group Directory,群组目录
+a_bsauthsip,SIP Credentials,SIP认证
+a_bsauthtype,Authentication Type,认证类型
+a_hiddenauthmode,Security Mode for Hidden SSID,隐藏SSID的安全模式
+a_scan,Scan,扫描
+a_roamingpoorinterval,Poor Signal Scanning Interval (s),信号差扫描间隔 (秒)
+a_roaminggoodinterval,Good Signal Scanning Interval (s),信号优扫描间隔 (秒)
+a_wifirebooteffect,Please restart Wi-Fi to take effect,请重启Wi-Fi使更改生效
+tip_signalthrholdrange,The range is -30 ~ -90,范围为-30 ~ -90
+a_signalthreshold,Signal Threshold,信号阈值
+a_wifiroaming,Wi-Fi Roaming,Wi-Fi漫游
+a_authmode,Security Mode,安全性
+a_wifiauth,Wi-Fi Security,Wi-Fi安全
+a_channel,Channel,频道
+a_wififunc,Wi-Fi Function,Wi-Fi功能
+a_wifinormal,Wi-Fi Basics,Wi-Fi基本
+a_callvideo,Start Video,视频
+a_recoresave,The record file have been saved to Application->Recording,录音文件已保存至应用—>录音
+a_recordstop,Stop Record,停止录音
+a_callrecord,Start Record,开始录音
+a_invalidid,User ID must be IP:Port.The port range is 0-65535,用户ID必须为组播IP:端口的形式，端口范围为0-65535
+a_forceblf,Force BLF Call-pickup by Prefix,强制使用代接前缀
+a_mpkblacklist,The MPK is in the blacklist,此MPK存在黑名单中
+a_selectall,Check All,全部选中
+a_dtmfwrong,The DTMF Content is illegal,DTMF内容不合法
+a_nameempty,Name can't be empty,显示名不能为空
+a_acctblfexist,Same user for programmable keys existed in other account. Please check,已经有一个相同的可编程键联系人存在
+a_blfexist,Same user existed in the account. Please check,已经有一个相同的联系人存在
+a_down,Down,下移
+a_up,Up,上移
+a_eventuri,EventList BLF URI,BLF号码组
+a_nomoreext,There is already 40 keys, no more can be added,已有40个联系人，不能再添加
+a_phname,Name,用户名
+a_disfmtfromser,Show Display Name from Server,显示服务器上名称
+a_formatting,Formatting,格式
+a_dtmfcontent,DTMF Content,DTMF内容
+a_name_userid_keymode,Name,User ID,Key mode,用户名、用户ID、模式
+a_name_userid,Name,User ID,用户名、用户ID
+a_userid,User ID,用户ID
+a_callintercom,Call Intercom,对讲
+a_callredir,Call Transfer,呼叫转移
+a_dialprefix,Dial Prefix,拨号前缀
+a_conference,Speed Conference,快速会议
+a_gds,Value-added Service,增值服务
+a_dstype,Door System,门禁系统
+a_dtmfsystem,Others,其他门禁
+a_gdssystem,GDS,GDS门禁
+a_doorsysytemtype,Door System Type,门禁系统类型
+a_servicetype,Service Type,服务类型
+a_multipaging,Multicast Paging,多播对讲
+a_callpark,Call Park,停靠
+a_dtmfdial,Dial DTMF,拨打DTMF
+a_dialvia,Speed Dial via active account,使用激活帐号快速拨号
+a_busy,Busy Lamp Field (BLF),Asterisk忙灯检测
+a_speeddial,Speed Dial,快速拨号
+a_keymode,Key Mode,按键模式
+a_value,Value,用户ID
+a_blf,BLF,BLF
+a_avail,Available,所有铃声
+a_detail,Detail,详细信息
+a_wait,Waiting..,请稍候
+setdefault,Set as default,设为默认
+a_accempty,The account is empty,帐号不能为空
+a_alias,Local Alias,显示名称
+a_account,Account, 帐号
+a_active,Enable,开启
+a_mailfilter2,Mail Filter,根据邮件过滤
+a_numberfilter2,Number Filter,根据号码过滤
+a_namefilter2,Name Filter,根据名字过滤
+a_allfilter,All Filter,全部过滤
+a_searchfieldfilter,Search Field Filter,搜索字段过滤
+a_erroridentifyingCode,Error Verification code,验证码错误
+a_identifyingCode,Verification code,验证码
+a_keep,Favorites,收藏
+a_bsphbk,BroadSoft Phonebook,BroadSoft电话簿
+a_localgroup,Local Group,本地群组
+a_localphbk,Local Phonebook,本地电话簿
+a_ldapsearch,LDAP Search,LDAP搜索
+a_phbkkeyfunc,Default Contacts Tab,默认通讯录显示项
+a_lastname,Last Name,姓氏
+a_firstname,First Name,名字
+a_sortmethod,Sort Phonebook by,联系人排序
+a_numberexist,The contact number already existed,该联系人号码已存在！
+a_icecontactsempty,\"Emergency Call Numbers can't be empty!\",紧急联系人不能为空
+a_nocomma,Emergency call number can't include \",\" character,紧急联系人不能包含\",\"字符！
+a_icecontacts,Emergency Call Numbers,紧急联系人
+a_12hours,12 Hours,12 小时
+a_8hour,8 Hours,8 小时
+a_6hour,6 Hours,6 小时
+a_4hour,4 Hours,4 小时
+a_2hour,2 Hours,2 小时
+a_exportfiletype,Export Type,导出类型
+a_imexportcontacts,Import/Export Contacts,导入/导出联系人
+a_downoff,OFF,关闭
+a_templatefile,Template File,模板文件
+a_processing,The operation is processing,操作正在处理
+a_importsuc,Import succeed,导入成功
+a_downsuc,Download succeed,下载成功
+ext_vcard,Please select a '.vcf' file,请选择.vcf文件。
+ext_csv,Please select a '.csv' file,请选择.csv文件。
+ext_xml_csv_etc,Please select a '.xml' or '.vcf'  or '.csv' file,请选择'.xml'或'.vcf''或'.csv'文件
+ext_xml_etc,Please select a '.xml' or '.vcf' file,请选择'.xml'或'.vcf'文件
+ext_xml,Please select a '.xml' file,请选择.xml文件。
+a_enablepstn,Enable PSTN Disconnect Tone Detection,PSTN拆线音检测
+a_cudisthreshold,Current Disconnect Threshold(ms),电流拆线阀值(毫秒)
+a_enablecudis,Enable Current Disconnect,检测电流拆线
+a_calleridscheme,Caller ID Scheme,来电显示机制
+a_callerids,Caller IDs,来电显示
+a_impedancebased,Impedance based,基于阻抗
+a_countrybased,Country based,基于国家
+a_country,Country-based,基于国家
+a_impedance,Impedance-based,基于阻抗
+a_acmodel,AC termination model,AC Termination模型
+a_Noumea,Noumea, New Caledonia,努美阿
+a_Sydney,Sydney, Canberra,悉尼
+a_Tokyo,Tokyo, Osaka,日本时间 (东京)
+a_Karachi,Islamabad, Karachi,卡拉奇
+a_Beirut,Beirut, Lebanon,东欧标准时间 (贝鲁特)
+a_Athens,Athens, Istanbul,东欧标准时间 (雅典)
+a_Amman,Amman, Jordan,东欧标准时间 (安曼)
+a_Amsterdam,Amsterdam, Berlin,中欧标准时间 (阿姆斯特丹)
+a_London,London, Dublin,格林尼治标准时间 (伦敦)
+a_Majuro,Majuro,马朱罗
+a_24hour,24 hour,24小时制
+a_12hour,12 hour,12小时制
+a_normalymd,Normal(M/D/YYYY),普通（年/月/日）
+a_timefmt,Time Display Format,时间显示格式
+a_ntpserver2,Assign NTP Server Address 2,指定NTP服务地址2
+a_ntpserver1,Assign NTP Server Address 1,指定NTP服务地址1
+a_ntpserver,Assign NTP Server Address,指定NTP服务地址
+a_conport,Connection Request Port,ACS 连接请求端口
+a_conpwd,Connection Request Password,ACS 连接请求密码
+a_conusername,Connection Request Username,ACS 连接请求用户名
+a_perialenable,Periodic Inform Enable,开启定时连接
+a_acspwd,ACS Password,ACS 密码
+a_acsusername,ACS Username,ACS 用户名
+a_acsurl,ACS URL,ACS 源
+a_disrj9autodtc,Disable RJ9 Headset Auto Detect,关闭RJ9耳机自动检测
+a_handsetrxtip,Handset TX(RX) Gain is set to +6dB, the increasing handset volume may cause irreversible damage to the hearing, are you sure to continue,手柄传输(接收)增益设置为+6dB，手柄音量会增加较大，可能会对听力造成不可逆的损伤，是否继续？
+a_eqfidelity,Fidelity,高保真
+a_eqgentle,Gentle,轻柔
+a_handseteqrx,Handset Equalizer RX,手柄均衡模式
+a_handsetrx,Handset RX Gain (dB),手柄接收增益 (分贝)
+a_handsettx,Handset TX Gain (dB),手柄传输增益 (分贝)
+a_vcardtx,Virtual Sound Card TX Gain(dB),虚拟声卡TX增益设置(分贝)
+a_vcardrx,Virtual Sound Card RX Gain(dB),虚拟声卡RX增益设置(分贝)
+a_disoppo,Show Opposite Screen,界面显示同步，通话使用远端画面
+a_disori,HDMI Display Synchronization with LCD,HDMI显示和LCD同步
+a_close,Close HDMI Output,关闭HDMI输出
+a_hdmimode,HDMI Output Control,HDMI输出控制
+a_aemode,Camera AE Mode,摄像头AE模式
+a_adjustgreen,Green Light,绿灯
+a_adjustblue,Blue Light,蓝灯
+a_adjustred,Red Light,红灯
+a_adjustlight,Brightness Control,亮度调节
+a_keybacklight,Enable Key Backlight,开启按键背光灯
+a_disfullindtor,Disable Contact Full Indicator,关闭联系人满时指示灯
+a_disnewmsgindtor,Disable New Message Indicator,关闭新消息指示灯
+a_dismwiindtor,Disable MWI Indicator,关闭语音邮箱指示灯
+a_dismissindtor,Disable Missed Call Indicator,关闭未接来电指示灯
+a_backmatch,Enable Enterprise Contacts Timeout Auto Search,企业联系人超时匹配
+a_processing,Language reload is processing,操作正在处理
+a_lang,Language,语言选择
+a_screen,Capture,截图
+a_screenshort,Screenshot,屏幕截图
+a_coredump,Core Dump,核心转储
+a_nospace,No enough storage space left, capture failed,剩余存储空间不足，抓包失败
+a_deploy,Provision,部署
+a_list,List,列表
+a_anr,ANR Log,ANR日志
+a_tombstone,Tombstones,墓碑日志
+a_view,View Trace,查看已有包
+a_viewscreen,View Screenshot,查看已有截图
+a_screenlist,Screenshot List,已有截图列表
+a_tracelist,Trace List,已有包列表
+a_clearsuc,Clear Successful,清除成功
+a_syslogser,Syslog Server,系统日志服务器地址
+a_confsysupgrade,Are you sure to upgrade now,确认立即更新固件
+a_upgrade,Upgrade,更新
+a_upgrading,Upgrading,更新中
+a_firmwareupgrade,Firmware Upgrade,固件更新
+a_rebootcheck,Restore successful!Do you want to reboot to take effect immediately,恢复成功！是否立即重启以生效？
+a_installpathchange,Firmware server path changed,固件服务器路径已修改
+a_unknownfail,Unknown mistake,未知错误
+a_oemidnotcompatiable,OEM id is not compatiable,固件中OEM ID不匹配
+a_lowspace,There is not enough space on the disk,磁盘空间不足
+a_brokenfile,The file is damaged,固件已损坏
+a_notcomp,File incompatible,固件不兼容
+a_imagenotcomp,Image id not compatiable,固件中image ID不匹配
+a_hwnotcomp,The file is not compatiable for the hardware,固件不适用于此硬件
+a_noversion,can't get current version,读取当前系统版本出错
+a_wrongsig,File signature wrong,固件签名出错
+a_readwrong,Read file wrong,读取固件出错
+a_samever,Same version, do not need update,版本一样，不需要更新
+a_succheck,Provision succeed, please check the device,升级成功，请检查设备
+a_provisioning,Provision init error,升级初始化失败
+a_period,Automatic Upgrade Check Interval (m),自动升级检查间隔(分)
+a_skip,Skip the Firmware Check,跳过固件检查
+a_whenchange,When Firmware/Config file pre/suffix changes,当固件/配置文件的前缀/后缀改变时
+a_alawaycheck,Always Check at bootup,启动时总是检查
+a_hourofday,Hour of the Day(0-23),每天的第几小时(0-23)
+a_autouprule,Firmware Upgrade and Provisioning,固件升级和配置文件检测
+a_resetconfirm,Factory reset will erase all your settings and will reboot the device, are you sure to continue,恢复出厂设置将清除所有配置,你确认要执行该项操作
+a_pnp5060port,The local SIP port is 5060 in your account, save the operation will change the port to the random one, sure to change,您帐号中存在本地SIP端口为5060,保存该操作会将其改为随机端口，是否更改？
+a_autopro,PnP(3CX) Auto Provision,PnP(3CX)自动设定
+a_pnpurl,PNP URL,PNP地址
+a_enablepnp,Enable PNP Feature,开启PNP功能
+a_pnptitle,PNP Feature,PNP功能
+a_CFG_Provision,Config Provision,配置文件
+a_cfgProvision,Config Provision,配置文件部署
+tip_timeempty,Error:The start time and the end time must be empty or not empty at the same time,错误:开始时间与结束时间需同时为空或不为空
+tip_timer,Error:Starting Hour time should be less than Ending Hour time,错误:开始时间不得大于结束时间
+start_endhour,Starting - Ending Hour of the Day(0-23),开始 - 结束小时(0-23)
+a_dhcp242,Allow DHCP Option 242 (Avaya IP Phones),启动DHCP选项242 (Avaya IP话机)
+a_dhcptitle,DHCP Option,DHCP选项
+a_confighttpuser,HTTP/HTTPS User Name,HTTP/HTTPS用户名
+a_configupvia,Config Upgrade Via,配置文件更新方式
+a_configtitle,Config File,配置文件
+a_restorecall,During the call, please try restore after the call is ending,当前正在通话中，请在通话结束后进行恢复操作
+a_backupfail,Backup failed,备份失败
+a_backupsuc,Backup success,备份成功
+a_backuping,Backuping, please wait..,正在备份，请稍候..
+a_isdeleteBackup,Are you sure to delete the restore,确定删除该备份
+a_isBackup,Are you sure to restore,确定恢复该备份
+a_backuplimit,Please at least select backup content,请至少选择一种备份内容
+a_pwdnotsame,The password is inconsistent with current one,您输入的密码与当前密码不一致！
+a_userpwdempty,Please input new user password,请输入用户新密码
+a_adminoruserpwdempty,Please input new administration's or user's password,请输入管理员/用户新密码
+
+a_enablecdp,Enable CDP,开启CDP
+a_twovlan,Different Networks for Data and VoIP Calls,数据和VoIP通话使用不同网络
+a_showwidgetip,Show IP Address on Account Widget,显示帐号工具IP地址
+warn_ftppath,Server save path format is wrong,服务器保存路径格式错误
+warn_ftpurl,Server address format is wrong,服务器地址格式错误
+warn_ftp,Server address and port cannot be empty！,服务器地址和端口不能为空！
+a_proxystatus,HTTP/HTTPS Proxy,HTTP/HTTPS代理服务器
+a_802ca,CA Certificate,CA证书
+a_md5pas,802.1X Secret,802.1X密码
+a_identity,802.1X Identity,802.1X认证信息
+a_802mode,802.1X Mode,802.1X模式
+a_layer2qospvwifi,Layer 2 QoS 802.1p Priority Value (Wi-Fi),第二层QoS 802.1p优先级 (Wi-Fi)
+a_layer2qoswifi,Layer 2 QoS 802.1Q/VLAN Tag (Wi-Fi),第二层QoS 802.1Q/VLAN标记 (Wi-Fi)
+a_layer2qospv,Layer 2 QoS 802.1p Priority Value (Ethernet),第二层QoS 802.1p优先级 (以太网)
+a_layer3qos,Layer 3 QoS,第三层QoS
+a_lldpinterval,LLDP TX Interval (s),LLDP TX间隔 (秒)
+a_gateway,Default Gateway,默认网关
+a_pppacc,PPPoE Account ID,PPPoE帐号
+a_autocptbyregion,Auto Config CPT by Region,根据地区自动配置CPT
+a_attendtrnfonly,Attended Transfer Only,仅指定转接
+a_attendtrnf,Attended Transfer,指定转接
+a_blindtrnf,Blind Transfer,盲转
+a_defringcad,Ring Cadence,回铃音
+a_secdialtone,Second Dial Tone,备选拨号音
+a_packetmodetip,The H.264 image size is not supported when packetization-mode is Single NAL Unit Mode, it will change to CIF. Are you sure to continue,此H.264 视频大小在打包模式为单包模式时不支持，将修改为CIF，是否继续
+a_variable,Variable frames rate,可变帧率
+a_15f,15 frames/second,15帧/秒
+a_10f,10 frames/second,10帧/秒
+a_5f,5 frames/second,5帧/秒
+a_frame, frames/second, 帧/秒
+a_g7221rate,G722.1 Rate,G722.1、G722.1C编码速率
+a_autounhold,Auto Unhold When Press the Line Key,切换线路自动取消保持
+a_use3rdapppkt,3rd Party App Package Name,第三方应用包名
+a_use3rdapp,Use 3rd Party App as Basic Phone,使用第三方电话应用
+a_dtmfcolorgrey,Grey,灰色
+a_dtmfcoloryellow,Yellow,黄色
+a_dtmfcolorred,Red,红色
+a_dtmfbtncolor,Dial DTMF Button Color,DTMF按钮颜色
+a_dtmfbtnmiddle,Middle,中
+a_dtmfbtnsize,Dial DTMF Button Size,DTMF按钮大小
+a_ldapdftacct,LDAP Dialing Default Account,LDAP拨号默认帐号
+a_enforward,Call Forward,转接
+a_disablevideo,Disable Video Call Feature,禁用视频通话功能
+a_disablebefortrnf,Hold Call Before Completing Transfer,完成转移前保持通话
+a_ofautodialdelay,Offhook Auto Dial Delay (s),摘机自动拨号延时(秒)
+a_oncradlehangup,On-cradle Hangup,充电自动挂断
+a_offcradlepickup,Off-cradle Pickup,离电自动接听
+a_ofhtimeout,Offhook/Onhook Timeout (s),摘机/挂机超时(秒)
+a_headsetctrl,Enable 3.5mm Headset Control,开启3.5mm耳机控制
+a_escapeuri,Escape '#' as %23 in SIP URI,将SIP URI中的'#'转义成%23
+a_disdndring,Disable DND Reminder Ring,禁用DND提醒音
+a_callwait,Disable Call-Waiting,禁用呼叫等待
+a_avayamode,Virtual Account Group Avaya Mode,虚拟帐号分组Avaya模式
+a_alring,Always Ring Speaker,总以扬声器振铃
+a_serverlist,Server List,服务器列表
+a_serveralias,Server Alias,服务器别名
+a_sipdomain,SIP Domain,SIP域名
+a_rtpporterror,Local RTP Port can be even numbers only,本地RTP端口只能为偶数！
+a_basicset_netset,Basic settings & Network settings,基本设置&网络设置
+a_confmenu,Configuration via Keypad Menu,话机键盘菜单配置
+a_logout,Logout,登出
+a_logoutpin,Guest Login PIN Code,游客登录PIN码
+a_publicmodeint,Guest Login Timeout,游客登录超时时间
+a_publicmode,Guest Login,游客登录
+a_stunserver,STUN Server,STUN服务器
+a_sslpkey,SIP TLS Private Key ,SIP TLS私钥
+a_sslcer,SIP TLS Certificate ,SIP TLS验证
+a_notallow,Not allow,不允许
+a_needpwd2,Require admin password if the app source is unknown,未知来源应用需要管理员密码
+a_needpwd,Require admin password,需要管理员密码
+a_allow,Allow,允许
+a_apppermission,Permission to Install/Uninstall Apps,安装/卸载应用权限
+a_dtmfcontentlimit,DTMF content can't contain special character execpt \"0123456789abcdABCD,;#*\",DTMF内容不能包含0123456789abcdABCD,;#*以外的特殊字符！
+a_dtmfcondcid,Dial DTMF Condition Matched Caller Number Or IP,匹配来电号码或IP显示DTMF按钮
+a_matchedcall,Matched Incoming Information,匹配来电信息
+a_outcallonly,Outgoing Call Only,去电通话界面
+a_incallonly,Incoming Call Only,来电通话界面
+a_inandoutcall,Incoming/Outgoing Call,来/去电通话界面
+a_dtmfcond,Dial DTMF Condition,DTMF按钮显示条件
+a_challenge,SIP Realm Used for Challenge INVITE & NOTIFY ,用于Challenge INVITE ＆ NOTIFY的SIP Realm
+a_sipreset,Allow SIP Reset,允许SIP恢复出厂
+a_accountprogkeys,Account Programmable Keys,帐号可编程按键
+a_group,Virtual Account Group,虚拟帐号分组
+a_advancedcallfun,Advanced Features,高级功能
+a_dismpkclick,MPK & Click2Dial,MPK & Click2Dial
+ext_wrong2,Please upload the correct format file(.wav/.mp3/.ogg),请上传正确格式的文件(.wav/.mp3/.ogg)
+ext_wrong,Please upload the correct format file(.wav/.mp3),请上传正确格式的文件(.wav/.mp3)
+a_ringto,Ring Timeout (s),振铃超时时间 (秒)
+a_ring,Ring Tone ,铃声
+a_ringtone,Ring Tones,铃声
+a_bcallcenter,BroadSoft Call Center,BroadSoft呼叫中心
+a_workcf,Others,其它
+a_cftype,Call Forward Type,呼叫转移类型
+a_callforward,Call Forward,呼叫转移
+a_bscallpark,Enable BroadSoft Call Park,激活BroadSoft Call Park
+a_config,Configure,配置
+a_lognomissed,Don't Prompt Missed Call,不弹出未接来电框
+a_lognone,Disable Call All,关闭呼叫日志
+a_logmiss,Log Incoming/Outgoing only(Missed Calls Not Recorded),仅限于呼入/呼出的记录（未接来电不记录）
+a_anonycallrej,Anonymous Call Rejection,拒绝匿名呼叫
+a_autoans,Auto Answer,自动应答
+a_dialplanpr,Dial Plan Prefix,拨号前缀
+payload_error2,Payload type can't be 97,各有效荷载类型不能为97
+payload_error,Payload types can't be the same,各有效荷载类型值不能相同
+a_disablepres,Disable Presentation,禁止演示
+a_enablevideorefresh,Enable Video Gradual Decoder Refresh,开启视频渐进刷新
+a_videojittermax,Video Jitter Buffer Maximum (ms),视频抖动缓冲区最大值
+a_h264protype,H.264 Profile Type,H.264 Profile 类型
+a_h264imgsize,H.264 Image Size,H.264 视频大小
+a_notallowed,Available,可选
+a_ilibcfs,iLBC Frame Size,iLBC 帧大小
+a_enableandforce,Enabled/Force Auth,使用/强制认证
+a_allowrefer,Allow Unsolicited REFER,允许未鉴权的REFER消息
+a_wrongse,The value of Session Expiration shouldn't be smaller than Min-SE,会话超时时间值不能小于最小超时时间
+a_eigsec,8 sec,8 秒
+a_foursec,4 sec,4 秒
+a_twosec,2 sec,2 秒
+a_onesec,1 sec,1 秒
+a_halfsec,0.5 sec,0.5 秒
+a_siptdint,SIP Timer D Interval,SIP Timer D间隔时间
+a_authinvite,Authenticate Incoming INVITE,入局INVITE会话邀请验证
+a_opensession,Enable Session Timer,使用会话超时
+a_retrytime,Registration Retry Wait Time (s),重试注册间隔时间 (秒)
+a_regbeforeexp,Re-register before Expiration (s),注册期限内重新注册等待时间 (秒)
+a_regexp,Register Expiration (m),注册超时 (分钟)
+a_sipbasic,SIP Basic Settings,SIP基本设置
+a_reg,SIP Registration,注册
+a_disabled,Disabled,不使用
+a_enabled1,Enabled,使用
+a_enabled,Enabled,开启
+a_displayname,Display Name,显示名
+a_voicemailuid,Voice Mail Access Number,语音信箱接入号
+a_authpwd,SIP Authentication Password,验证密码
+a_authid,SIP Authentication ID,验证ID
+a_sipuid,SIP User ID,用户ID
+a_accountactive,Account Active,激活帐号
+a_fctsn,Factory Serial Number,工厂序列号
+a_ddrsn,DDR Serial Number,DDR序列号
+a_lcdsn,LCD Serial Number,LCD序列号
+a_recover,Recovery Version,恢复版本
+a_hardwarerev,Hardware Revision,硬件版本
+a_ipv6dnsser2,IPv6 DNS Server 2,IPv6 DNS服务器 2
+a_ipv6dnsser1,IPv6 DNS Server 1,IPv6 DNS服务器 1
+a_dhcp,DHCP,动态分配
+a_gateway,Gateway,默认网关
+a_talking,Talking,通话中
+a_ring,Ring,铃声
+a_dialing,Dialing,拨号中
+a_registering,Registering,注册中
+a_account,Account, 帐号
+logout,Logout,退出
+theme,Theme,主题
+lang,Language :,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;语&nbsp;&nbsp;&nbsp;言&nbsp;:
+normal_record,Normal Record,普通录音
+call_record,Call Record,通话录音
+sysapp_record,Recording,录音
+appset_phonebook,Contacts,本地联系人
+maintenance_actionurl,Event Notification,事件通知
+maintenance_broadsoft,BroadSoft Directories,BroadSoft联系人
+maintenance_lang,Language,语言设置
+maintenance_ping,Ping,Ping
+maintenance_upgrade,Upgrade,更新升级
+maintenance_time,Time Settings,区域时间设置
+advanced_eventlist,MPK General Settings,MPK通用设置
+advanced_mpkset,MPK LCD Settings,MPK设置
+sysapp_mpk,MPK Settings,MPK设置
+advanced_ring,Ring Tone,铃声音调
+account_rtp,RTP Settings,RTP 设置
+maintenance_menu,Maintenance,系统维护
+a_samepwd,The password is not the same,两次输入密码不一致
+a_checkwifi,Operate successfully, you may need to use new IP address to login if network environment has changed,操作成功。若IP地址变更请使用新的网络地址登录。
+a_applysuc,Apply successfully,应用成功
+a_applying,Applying, please wait..,正在应用，请稍候...
+a_importlocal,Imort Local File,导入本地文件
+a_importfail,Import Fail,导入失败
+a_exportfail,Export Fail,导出失败
+a_always,Always,总是
+a_customcertmaxmum,The number of custom certificates already reached maximum,自定义证书已达最大数量！
+a_certmaxmum,The number of CA certificates already reached maximum,CA证书已达最大数量！
+a_changedftpwd,Using default password now, please change it for security concerns,正在使用默认密码. 为了安全, 请修改密码
+a_moreone,Please leave at least one option,请至少保留一个选项
+a_confirmrbt,Do you want to reboot your phone,是否确定重新启动话机
+a_edit_failed,Modify failed,修改失败
+a_edit_ok,Modify successfully,修改成功
+a_add_ok,Add successfully,添加成功
+a_del_ok,Delete successfully,删除成功
+a_del_failed,Delete falied,删除失败
+a_uploadfail,Upload Fail,上传失败
+a_uploadsuctips,Uploaded successfully, please make sure the file format is correct, if wrong, it will not take effect,上传成功，请确保上传的文件格式正确， 如果格式错误， 将无法应用生效
+a_uploadsuc,Upload successful,上传成功
+a_uploadwait,Uploading, please wait..,上传中,请稍候
+a_process,Processing..,进行中
+a_uploading,Uploading,正在上传
+a_error,Error,错误
+error,Error:,错误:
+tip_iperror,IP Format Error,IP地址格式错误
+tip_range_between, - ,-
+tip_range,Valid:,有效值：
+tip_error,Invalid character exists,含有不合法字符
+a_saveapplying,Save Failed,applying data, please wait..,保存失败，正在更新数据，请稍等.....
+a_savesuc,Save Successfully,保存成功
+a_instance,Instance,Instance

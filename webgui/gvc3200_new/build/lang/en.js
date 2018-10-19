@@ -37,10 +37,10 @@ var a_noringtone_en = "There is no ringtone selected.";
 var a_deletetone_en = "Do you want to delete the ring tones?";
 var a_del_failed_en = "Delete falied.";
 var a_del_ok_en = "Delete successfully";
-var a_add_ok_en = "Add successfully";
+var a_23_ok_en = "Add successfully";
 var a_edit_ok_en = "Modify successfully";
 var a_edit_failed_en = "Modify failed";
-var a_add_failed_en = "Add failed";
+var a_23_failed_en = "Add failed";
 var a_dfttitle_en = "Tooltips";
 var a_dftcontent_en = "Tooltips appears as you drag your mouse over the configuration parameters to provide a more detailed description.The exclamation mark after the parameters indicates that you have to reboot the phone for the changes to take place.";
 var a_confirmrbt_en = "Do you want to reboot your phone?";
@@ -689,8 +689,8 @@ var a_blindtrnf_en = "Blind Transfer";
 var a_attendtrnf_en = "Attended Transfer";
 var a_attendtrnfonly_en = "Attended Transfer Only";
 var a_autocptbyregion_en = "Auto Config CPT by Region";
-var a_addresstypeipv4_en = "IPv4 Address Type";
-var a_addresstypeipv6_en = "IPv6 Address Type";
+var a_23resstypeipv4_en = "IPv4 Address Type";
+var a_23resstypeipv6_en = "IPv6 Address Type";
 var a_pppacc_en = "PPPoE Account ID";
 var a_pppoepwd_en = "PPPoE Password";
 var a_pppoesn_en = "PPPoE Service Name";
@@ -725,10 +725,10 @@ var a_layer2qoswifi_en = "Layer 2 QoS 802.1Q/VLAN Tag (Wi-Fi)";
 var a_layer2qospvwifi_en = "Layer 2 QoS 802.1p Priority Value (Wi-Fi)";
 var a_pcporttag_en = "PC Port VLAN Tag";
 var a_pcporttagpv_en = "PC Port Priority Value";
-var a_802mode_en = "802.1x Mode";
-var a_identity_en = "802.1x Identity";
-var a_md5pas_en = "802.1x Secret";
-var a_peappas_en = "802.1x Private Key Password";
+var a_802mode_en = "802.1X Mode";
+var a_identity_en = "802.1X Identity";
+var a_md5pas_en = "802.1X Secret";
+var a_peappas_en = "802.1X Private Key Password";
 var a_802ca_en = "CA Certificate";
 var a_802client_en = "Client Certificate";
 var a_privatekey_en = "Private Key";
@@ -2172,59 +2172,5 @@ var a_audiodevice_en = "Audio Device";
 var a_aeclevel_en = "AEC Level";
 
 /****************conference schedule ****************/
-var a_newConf_en = "New Conference"
-var a_editConf_en = "Edit Conference"
-var a_confdetail_en = "Conference Details"
-var a_confSubject_en = "Conference Subject"
-var a_confPreset_en = "Conference Preset"
-var a_confDuration_en = "Conference Duration"
-var a_cycleType_en = "Cycle Type"
-var a_pinCode_en = "PIN Code"
-var a_confMember_en = "Member"
-var a_month_en = "Month"
-var a_everyFixedDays_en = "Every Fixed Days"
-var a_customRepeat_en = "Custom Repeat"
-
-
-
-var a_oneTimeEvent_en = "One-time event"
-var a_daily_en = "Daily"
-var a_weekday_en = "Every weekday (Mon-Fri)"
-var a_weekly_en = "Weekly"
-var a_monthly_en = "Monthly (by day)"
-var a_monthly1_en = "Monthly (by week)"
-var a_yearly_en = "Yearly"
-var a_custom_en = "Custom"
-var a_repeatDate_en = "Repeat on"
-var a_cycle_en = "Cycle Time"
-
-var a_first_en = "First"
-var a_second_en = "Second"
-var a_third_en = "Third"
-var a_fourth_en = "Fourth"
-var a_last_en = "Last"
-var a_organizer_en = "Organizer"
-var a_me_en = "Me"
-var a_nummember_en = "Number of participants"
-var a_waithost_en = "Waiting for hosting"
-var a_process_en = "Processing"
 var a_notstart_en = "Is not started"
-var a_expired_en = "Expired"
 var a_over_en = "Over"
-var a_startMeet_en = "Start Meeting"
-var a_editMeet_en = "Editing Meeting"
-var a_cancelMeet_en = "Cancel Meeting"
-var a_delrepconf_en = "Cancel all events in this series"
-var a_delreponceconf_en = "Cancel this event only"
-var a_preset_en = "Preset"
-var a_timeWarn_en = "The appointment must be later than the current time"
-var a_memberempty_en = "Please select at least one member!"
-var a_addMember_en = "Add Member"
-
-
-
-
-
-
-
-
