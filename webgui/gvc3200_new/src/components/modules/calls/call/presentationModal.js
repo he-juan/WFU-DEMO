@@ -145,7 +145,7 @@ class PresentationModal extends Component {
         this.props.setPresentation(isPresent);
         this.props.onHide();
       } else {
-        this.props.promptMsg("ERROR", "操作失败!");
+        // this.props.promptMsg("ERROR", "操作失败!");
       }
     })
   }

@@ -8,7 +8,8 @@ import {globalObj} from "../../../redux/actions/actionUtil"
 import FECCModal from "./FECCModal";
 import VideoinviteDialog from "./videoinviteDialog"
 import LayoutModal from './LayoutModal/index';
-import PresentationModal from './presentationModal'
+import PresentationModal from './presentationModal';
+import InviteMemberModal from './InviteMemberModal';
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -34,7 +35,8 @@ class CallDialog extends Component {
             endallConfirm1Visible: false,
             endallConfirm2Visible: false,
             endallConfirm2Title: "",
-            PresentModalVisible: false
+            PresentModalVisible: false,
+            InviteMemberModalVisible: false
 		}
     }
 
@@ -493,6 +495,11 @@ class CallDialog extends Component {
             PresentModalVisible: typeof visible == 'boolean' ? visible : !this.state.PresentModalVisible
         })
     }
+    toogleInviteMemberModal = (visible) => {
+        this.setState({
+            InviteMemberModalVisible: typeof visible == 'boolean' ? visible : !this.state.InviteMemberModalVisible
+        })
+    }
     componentWillUpdate = (nextProps) => {
         if (this.props.presentation != nextProps.presentation || this.props.presentSource != nextProps.presentSource || this.props.presentLineMsg != nextProps.presentLineMsg) {
             this.setState({
@@ -694,7 +701,6 @@ class CallDialog extends Component {
                 maskvisible = "display-block";
             }
         }
-
         return (
             <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
 				<div className={`call-ctrl ${tmpclass}`}>
@@ -750,9 +756,12 @@ class CallDialog extends Component {
                         }
                     </div>
                     <div className="call-ctrl-btn">
-                        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} />
+                        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} onClick={() => {this.toogleInviteMemberModal()}} />
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
-                        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal()}/>
+                        {
+                            linestatus.length >0 && linestatus[0].isvideo == '1'? <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal()}/> : null
+                        }
+                        
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal()}/>
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
@@ -776,7 +785,7 @@ class CallDialog extends Component {
 
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
                 {
-                    linestatus.length >0 ?
+                    linestatus.length >0 && linestatus[0].isvideo == '1'?
                     <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
                         : null
                 }
@@ -796,6 +805,7 @@ class CallDialog extends Component {
                     </div>
                 </Modal>
                 <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
+                <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)} />
             </div>
         );
     }

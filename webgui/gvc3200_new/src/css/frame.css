@@ -6972,3 +6972,43 @@ ol.mp_list li.mp_error {}
     font-weight: bold;
     color: #10131a;
 }
+
+
+/* invitemodal */
+
+.invite-modal .invite-list {
+    overflow: auto;
+    height: 538px;
+  }
+.invite-modal .invite-list li {
+    height: 40px;
+    line-height: 40px;
+    overflow: hidden;
+}
+.invite-modal .invite-list li em {
+    float: right;
+    height: 40px;
+    line-height:  40px;
+}
+.invite-modal .contact-icon,
+.invite-modal .callout-icon,
+.invite-modal .miss-icon,
+.invite-modal .incomming-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+.contact-icon {
+  background: url('../img/call_status_icons.png') 0px -107px no-repeat;
+}
+.callout-icon {
+  background: url('../img/call_status_icons.png') -36px -54px no-repeat;
+}
+.incomming-icon {
+  background: url('../img/call_status_icons.png') -18px -54px no-repeat;
+}
+.miss-icon {
+  background: url('../img/call_status_icons.png') 0px -54px no-repeat;
+}
