@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Enhance from "../../../mixins/Enhance";
 import * as Actions from '../../../redux/actions/index';
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Form,Checkbox, Modal, Tooltip, Table, Icon, Row,Col, Input, Button, Select, Radio } from "antd"
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {Modal} from "antd"
 
 let mPressTimer = "";
 let mSaveingPreset = false;

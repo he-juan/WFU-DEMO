@@ -31,6 +31,9 @@ export const setipvrolestatus = (role) => (dispatch) => {
 export const setvideoonlines = (videoonlines) => (dispatch) => {
     dispatch({ type: 'VIDEO_ON_LINES', videoonlines: videoonlines});
 }
+export const setlinedetailinfo = (detailinfo) => (dispatch) => {
+    dispatch({ type: 'LINE_DETAIL_INFO', detailinfo: detailinfo});
+}
 
 export const get_leftcalllogname = (callback) => (dispatch) =>{
     let request = 'action=sqlitecontacts&region=apps&type=leftcalllogname';
@@ -871,6 +874,40 @@ export const confholdstate = (ishold) => (dispatch) => {
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const callstatusreport = (open) => (dispatch) => {
+    let request = "action=callstatusReport&region=confctrl&ctrlopen=" + open;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getguicalldetailstatus = (callback) => (disptach) =>{
+    let request = "action=get&var-0000=:gui_calldetail";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        callback(msgs)
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getIPVConfInfo = (ipvline, callback) => (dispatch) => {
+    let request = "action=getIPVConfInfo&region=confctrl&line=" + ipvline;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let result = eval("(" + data + ")");
+        callback(result);
     }).catch(function (error) {
         promptForRequestFailed();
     });

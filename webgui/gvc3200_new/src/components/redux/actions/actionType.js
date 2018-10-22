@@ -30,6 +30,7 @@ export const SET_CALLFEATURE_INFO = 'SET_CALLFEATURE_INFO'
 export const DND_MODE_STATUS = 'DND_MODE_STATUS'
 export const VIDEO_INVITE_INFO = 'VIDEO_INVITE_INFO'
 export const VIDEO_ON_LINES = 'VIDEO_ON_LINES'
+export const LINE_DETAIL_INFO = 'LINE_DETAIL_INFO'
 
 /****** requests ******/
 

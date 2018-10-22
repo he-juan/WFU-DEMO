@@ -10,6 +10,7 @@ import VideoinviteDialog from "./videoinviteDialog"
 import LayoutModal from './LayoutModal/index';
 import PresentationModal from './presentationModal';
 import InviteMemberModal from './InviteMemberModal';
+import DetailsModal from './DetailsModal'
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -36,12 +37,13 @@ class CallDialog extends Component {
             endallConfirm2Visible: false,
             endallConfirm2Title: "",
             PresentModalVisible: false,
-            InviteMemberModalVisible: false
+            InviteMemberModalVisible: false,
+            detailsModalVisible:false
 		}
     }
 
     componentWillMount = () => {
-
+        this.props.callstatusreport("0");  //页面刚进来时，停止detail message.
     }
 
     componentDidMount = () => {
@@ -352,6 +354,12 @@ class CallDialog extends Component {
         }
     }
 
+    showDetails = () =>{
+        this.props.callstatusreport("1");
+        this.setState({detailsModalVisible:true});
+    }
+
+
 	showSoundSlider = (tag) => {
 	    if(tag)
 			this.setState({ soundvisible: "display-block" });
@@ -499,6 +507,18 @@ class CallDialog extends Component {
         this.setState({
             InviteMemberModalVisible: typeof visible == 'boolean' ? visible : !this.state.InviteMemberModalVisible
         })
+    }
+    handlehidedetails = () =>{
+        this.props.getguicalldetailstatus((data)=>{
+            let state = data.headers[':gui_calldetail'];
+            if(state == "" || state == undefined ){
+                state = "0";
+            }
+            if(state == "0"){
+                this.props.callstatusreport("0");
+            }
+        });
+        this.setState({detailsModalVisible:false});
     }
     componentWillUpdate = (nextProps) => {
         if (this.props.presentation != nextProps.presentation || this.props.presentSource != nextProps.presentSource || this.props.presentLineMsg != nextProps.presentLineMsg) {
@@ -765,12 +785,12 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal()}/>
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
-                        <div className="left-actions" style={{position: "absolute", right: "10px"}}>
+                        <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
                             <Popover
                                 content={<div>
                                     <div onClick={this.handlednd}>{this.props.dndstatus == "1" ? this.tr("a_10254") : this.tr("a_10253")}</div>
                                     <div>{this.tr("a_10256")}</div>
-                                    <div>{this.tr("a_10015")}</div>
+                                    <div onClick={this.showDetails}>{this.tr("a_10015")}</div>
                                     <div>{this.tr("a_19133")}</div>
                                 </div>} trigger="click">
                                 <Button type="primary" style={{width: "100px"}}>Other</Button>
@@ -788,6 +808,10 @@ class CallDialog extends Component {
                     linestatus.length >0 && linestatus[0].isvideo == '1'?
                     <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
                         : null
+                }
+                {
+                    linestatus.length >0 && this.state.detailsModalVisible?
+                        <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} onHide={this.handlehidedetails} /> : ""
                 }
                 <Modal visible={this.state.endallConfirm1Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall1Cancel}>
                     <p className="confirm-content">{this.tr("a_10224")}</p>
@@ -863,7 +887,9 @@ function mapDispatchToProps(dispatch) {
       ctrlCameraBlockState: Actions.ctrlCameraBlockState,
       endconf: Actions.endconf,
       getBFCPMode: Actions.getBFCPMode,
-      confholdstate: Actions.confholdstate
+      confholdstate: Actions.confholdstate,
+      callstatusreport: Actions.callstatusreport,
+      getguicalldetailstatus: Actions.getguicalldetailstatus
   }
   return bindActionCreators(actions, dispatch)
 }

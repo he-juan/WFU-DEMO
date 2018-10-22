@@ -2743,10 +2743,10 @@ table thead tr th{
     background-position: -500px 0;
 }
 
-.anticon-cross-circle {
-    background-image: url(../img/icon.png);
-    background-position: -525px 0;
-}
+/*.anticon-cross-circle {*/
+    /*background-image: url(../img/icon.png);*/
+    /*background-position: -525px 0;*/
+/*}*/
 
 .anticon-check-circle:before {
     content: "";
@@ -4114,6 +4114,7 @@ table thead tr th{
     width: 800px;
     float: left;
     margin-bottom: 0;
+    margin-top: 10px;
 }
 
 .dial-up-top .call-input-num{
@@ -4135,6 +4136,7 @@ table thead tr th{
     border: 0;
     color: #fff;
     padding-top: 4px;
+    margin-top: 10px;
 }
 
 .dial-up-top .call-out:hover, .dial-up-top .call-out:active, .dial-up-top .call-out:focus{
@@ -6197,8 +6199,10 @@ ol.mp_list li.mp_error {}
 .acctselbox{
     width: 800px;
     height: 33px;
-    /*margin-bottom: 10px;*/
+    line-height: 33px;
     padding-left: 8px;
+    cursor: pointer;
+    border: 1px solid #A5A8A6;
 }
 .dial-up-top .account-info{
     position: absolute;
@@ -7011,4 +7015,226 @@ ol.mp_list li.mp_error {}
 }
 .miss-icon {
   background: url('../img/call_status_icons.png') 0px -54px no-repeat;
+}
+
+
+/*call details  begin--*/
+
+.call-details-modal{
+    width: 920px !important;
+}
+
+.ipvconfdetails{
+    margin-top: 10px;
+    border-bottom: 1px solid rgb(225, 225, 225);
+}
+.ipvconfdivs {
+    display: block;
+    height: 30px;
+}
+#ipvconfurl {
+    max-width: 420px;
+    line-height: 14px;
+    display: table-cell;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+#a_ipvconftitle, #a_ipvconftitle + span, #a_ipvconfurl, #a_ipvconfurl + span, #a_ipvconfpstn, #a_ipvconfpstn + span {
+    display: block;
+    float: left;
+    line-height: 30px;
+}
+
+.ipvconfdes, .ipvconfcontent {
+    display: inline-block;
+    margin-left: 25px;
+    line-height: 30px;
+}
+.ipvconfdes {
+    width: 150px;
+}
+
+.call-details-modal .detailscontent {
+    width: 805px;
+    /*height: 375px;*/
+    background-color: transparent;
+    margin-left: 45px;
+    margin-top: 20px;
+    border: 1px solid #CECECE;
+    margin-bottom: 20px;
+    overflow-y: auto;
+}
+.lineinfo {
+    float: left;
+    width: 140px;
+    height: 100%;
+    background: #DFDFDF;
+    font-size: 16px;
+    color: #444444;
+    border-right: 1px solid #CECECE;
+}
+.linedetails {
+    float: right;
+    width: 630px;
+    height: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: #666666;
+}
+
+#detailsarrow{display:none;}
+.linelist {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    margin-top: 5px;
+    color: #222222;
+}
+.linelist span {
+    margin-left: 22px;
+    width: 80px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+}
+.linelist img {
+    float: right;
+    position: relative;
+    right: 15px;
+    top: 14px;
+}
+.linelist:hover {
+    color: #1D6EA8;
+    cursor: pointer;
+}
+.linelist.active {
+    color: #1D6EA8;
+    font-weight: bold;
+}
+.detailstitle {
+    width: 100%;
+    height: 50px;
+    font-weight: bold;
+}
+.detailstitle div {
+    float: left;
+    text-align: center;
+}
+#detailsend {
+    width: 260px;
+    padding-left: 110px;
+    text-align: left;
+    height: 50px;
+    line-height: 50px;
+}
+#detailreceive {
+    width: 260px;
+    text-align: left;
+    height: 50px;
+    line-height: 50px;
+}
+.detailscontent .titlediv,.detailscontent .sendinfo,.detailscontent .receinfo {
+    float: left;
+    text-align: left;
+    font-size: 12px;
+}
+.presentdetail .receinfo{
+    float: right;
+    margin-right: 19px;
+}
+.detailscontent .titlediv {
+    width: 100px;
+    font-weight: normal;
+    text-align: center;
+    padding: 0;
+    margin-right: 10px;
+    margin-top: 0px;
+}
+.videodetail,.presentdetail {
+    width: 100%;
+    height: 200px;
+    border-top: 1px solid #E1E1E1;
+}
+.detailscontent .videodetail .titlediv,.detailscontent .presentdetail .titlediv {
+    height: 200px;
+    line-height: 200px;
+}
+.detailscontent .videodetail .titlediv span,.detailscontent .presentdetail .titlediv span,.detailscontent .audiodetail .titlediv span {
+    background: #C8C8C8;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 5px;
+    font-size: 14px;
+}
+.audiodetail {
+    width: 100%;
+    height: 120px;
+    border-top: 1px solid #E1E1E1;
+}
+.detailscontent .audiodetail .titlediv {
+    height: 120px;
+    line-height: 120px;
+}
+.detailscontent .sendinfo,.detailscontent .receinfo {
+    width: 260px;
+}
+.detailscontent .spantitle,.detailscontent .spansign,.detailscontent .spancontent {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.detailscontent .spantitle {
+    width: 120px;
+}
+.ipvconftitle {
+    max-width: 440px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.detailscontent .spansign {
+    width: 10px;
+}
+.detailscontent .spancontent {
+    width: 120px;
+    font-weight: bold;
+    color: #444444;
+}
+.sendinfo div, .receinfo div {
+    margin-top: 5px;
+}
+#callingtips {
+    width: auto;
+    color: #ffffff;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    z-index: 1001;
+    margin-left: -240px;
+    font-size: 16px;
+    height: 32px;
+    display: none;
+    bottom: 0;
+    margin-bottom: 15px;
+}
+#callingtips span.callingcontent {
+    padding: 0 15px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+    background: #555555;
+    display: block;
+    max-width: 315px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

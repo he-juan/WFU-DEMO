@@ -449,6 +449,9 @@ class HandleWebsocket extends React.Component {
             case 'presentation_status':
                 this.props.setPresentLineMsg(message['line'], message['msg']);
                 break;
+            case 'detail':
+                this.props.setlinedetailinfo(message);
+                break;
         }
     }
 
@@ -527,7 +530,8 @@ const mapDispatchToProps = (dispatch) => {
         setPresentation: Actions.setPresentation,
         setPresentSource: Actions.setPresentSource,
         setPresentLineMsg: Actions.setPresentLineMsg,
-        setvideoonlines: Actions.setvideoonlines
+        setvideoonlines: Actions.setvideoonlines,
+        setlinedetailinfo: Actions.setlinedetailinfo
     }
     return bindActionCreators(actions, dispatch)
 }

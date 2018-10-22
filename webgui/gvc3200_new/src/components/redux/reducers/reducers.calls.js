@@ -124,3 +124,12 @@ export const videoonlines = (state = "", action) =>{
             return state
     }
 }
+
+export const detailinfo = (state = {}, action) =>{
+    switch (action.type) {
+        case Actions.LINE_DETAIL_INFO:
+            return action.detailinfo
+        default:
+            return state
+    }
+}
