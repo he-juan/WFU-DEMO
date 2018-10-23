@@ -10,7 +10,7 @@ import VideoinviteDialog from "./videoinviteDialog"
 import LayoutModal from './LayoutModal/index';
 import PresentationModal from './presentationModal';
 import InviteMemberModal from './InviteMemberModal';
-import DetailsModal from './DetailsModal'
+import DetailsModal from './detailsModal'
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -829,7 +829,7 @@ class CallDialog extends Component {
                     </div>
                 </Modal>
                 <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
-                <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)} />
+                <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)}  linestatus={linestatus}/>
             </div>
         );
     }

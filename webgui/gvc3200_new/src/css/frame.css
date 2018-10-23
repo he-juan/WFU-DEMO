@@ -6982,27 +6982,36 @@ ol.mp_list li.mp_error {}
 
 .invite-modal .invite-list {
     overflow: auto;
-    height: 538px;
+    height: 525px;
   }
 .invite-modal .invite-list li {
-    height: 40px;
-    line-height: 40px;
+    height: 36px;
+    line-height: 36px;
     overflow: hidden;
 }
 .invite-modal .invite-list li em {
     float: right;
-    height: 40px;
-    line-height:  40px;
+    height: 36px;
+    line-height:  36px;
+    font-style: normal;
+    margin-right: 10px;
 }
 .invite-modal .contact-icon,
 .invite-modal .callout-icon,
 .invite-modal .miss-icon,
-.invite-modal .incomming-icon {
+.invite-modal .incomming-icon,
+.invite-modal .head-icon  {
     width: 18px;
     height: 18px;
     display: inline-block;
     vertical-align: middle;
     margin: 0 10px;
+}
+.invite-modal .error-tips {
+    line-height: 24px;
+    height: 24px;
+    color: red;
+    font-size: 12px;
 }
 .contact-icon {
   background: url('../img/call_status_icons.png') 0px -107px no-repeat;
