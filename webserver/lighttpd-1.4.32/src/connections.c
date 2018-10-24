@@ -361,6 +361,7 @@ int m_uploading = 0;
 int m_upgradeall = 0;
 const char *mRealm = NULL;
 struct sockaddr_un provision_destaddr;
+int tempOpenSyslog = 0;
 //pthread_cond_t changeinput_cond = PTHREAD_COND_INITIALIZER;
 
 //void (*get_timezone_offset)(const char *ids[], const int n, long *result);
@@ -13225,10 +13226,17 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
         system(cmd);
         
         if(syslog){
-            memset(cmd, 0, 128);
-            sprintf(cmd, "cp /data/debug/syslog/* %s -rf", DEBUG_TMP_PATH);
-            system(cmd);
-            
+            char *syslog_p = nvram_get("208");
+            if (syslog_p == NULL || !strcmp(syslog_p, "") || !strcmp(syslog_p, "0")) {
+                tempOpenSyslog = 1;
+                nvram_set("208", "1");
+                nvram_commit();
+            } else {
+                memset(cmd, 0, 128);
+                sprintf(cmd, "cp /data/debug/syslog/* %s -rf", DEBUG_TMP_PATH);
+                system(cmd);
+            }
+
             memset(cmd, 0, 128);
             sprintf(cmd, "dmesg > %s/dmesg.txt", DEBUG_TMP_PATH);
             system(cmd);
@@ -13310,7 +13318,18 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
                 }
             }
         }
-        
+       
+        if (syslog && tempOpenSyslog == 1) {
+            nvram_set("208", "0");
+            nvram_commit();
+
+            memset(tmpcmd, 0, 128);
+            sprintf(tmpcmd, "cp /data/debug/syslog/* %s -rf", DEBUG_TMP_PATH);
+            system(tmpcmd);
+
+            tempOpenSyslog = 0;
+        }
+
         memset(tmpcmd, 0, 64);
         sprintf(tmpcmd, "cd /tmp && tar -cvf debugInfo.tar debuginfo/ && mv debugInfo.tar %s", DEBUG_TMP_PATH);
         system(tmpcmd);
