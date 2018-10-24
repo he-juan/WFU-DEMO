@@ -10,7 +10,8 @@ import VideoinviteDialog from "./videoinviteDialog"
 import LayoutModal from './LayoutModal/index';
 import PresentationModal from './presentationModal';
 import InviteMemberModal from './InviteMemberModal';
-import DetailsModal from './detailsModal'
+import DetailsModal from './detailsModal';
+import DTMFModal from './DTMFModal'
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -38,8 +39,14 @@ class CallDialog extends Component {
             endallConfirm2Title: "",
             PresentModalVisible: false,
             InviteMemberModalVisible: false,
-            detailsModalVisible:false
+            detailsModalVisible:false,
+            otherCtrlVisible: false,
+            DTMFVisible: false,
+            DTMFDisplay: true,
+            DTFMString: ""
 		}
+		this.req_items = new Array();
+		this.req_items.push(this.getReqItem("incalldtmf", "338", ""));
     }
 
     componentWillMount = () => {
@@ -56,7 +63,14 @@ class CallDialog extends Component {
                 this.getAcctStatusData(acctstatus);
             }
         });
-        this.props.getBFCPMode()
+        this.props.getBFCPMode();
+        this.props.getItemValues(this.req_items, (data)=>{
+            if(data["incalldtmf"] == "1"){
+                this.setState({DTMFDisplay: false});
+            }else{
+                this.setState({DTMFDisplay: true});
+            }
+        });
     }
 
     componentWillUnmount = () => {
@@ -186,6 +200,17 @@ class CallDialog extends Component {
         return false;
     }
 
+    ispause = () => {
+        let linestatus = this.props.linestatus;
+        for(let i = 0 ; i < linestatus.length; i++){
+            if(linestatus[i].state != "5" ){
+                return false;
+            }
+        }
+        this.props.promptMsg("WARNING", "a_10126");
+        return true;
+    }
+
 	handleEndCall = () => {
         globalObj.isCallStatus = false;
         this.props.endCall(0);
@@ -226,9 +251,8 @@ class CallDialog extends Component {
         {
             return false;
         }
-        // check ispause
-        {
-
+        if(this.ispause()){
+            return false;
         }
         this.props.blockLineOrNot(line);
     }
@@ -238,9 +262,8 @@ class CallDialog extends Component {
         {
             return false;
         }
-        // check ispause
-        {
-
+        if(this.ispause()){
+            return false;
         }
         let mode = "1"
         if(lineitem.isvideo == "1"){
@@ -328,9 +351,8 @@ class CallDialog extends Component {
         if(!this.countClickedTimes()) {
             return false;
         }
-        // check ispause
-        {
-
+        if(this.ispause()){
+            return false;
         }
         let flag = 1 ;
         if(isvideoed == "1"){
@@ -356,9 +378,33 @@ class CallDialog extends Component {
 
     showDetails = () =>{
         this.props.callstatusreport("1");
-        this.setState({detailsModalVisible:true});
+        this.setState({
+            detailsModalVisible:true,
+            otherCtrlVisible: false
+        });
     }
 
+    showDTMF = () => {
+        if(this.ispause()){
+            return false;
+        }
+        this.props.getconfdtmf((data)=>{
+            this.setState({DTMFString:data.dtmfstr});
+        });
+        this.setState({
+            DTMFVisible: true,
+            otherCtrlVisible: false
+        });
+
+    }
+
+    hideDTMFModal = () =>{
+        this.setState({DTMFVisible: false});
+    }
+
+    handleOtherCtrlChange = (visible) => {
+        this.setState({ otherCtrlVisible: visible });
+    }
 
 	showSoundSlider = (tag) => {
 	    if(tag)
@@ -787,12 +833,12 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
                         <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
                             <Popover
-                                content={<div>
+                                content={<div style={{lineHeight:'30px', cursor:'pointer'}}>
                                     <div onClick={this.handlednd}>{this.props.dndstatus == "1" ? this.tr("a_10254") : this.tr("a_10253")}</div>
-                                    <div>{this.tr("a_10256")}</div>
+                                    <div onClick={this.showDTMF}>{this.tr("a_10256")}</div>
                                     <div onClick={this.showDetails}>{this.tr("a_10015")}</div>
-                                    <div>{this.tr("a_19133")}</div>
-                                </div>} trigger="click">
+                                </div>}
+                                trigger="click" visible={this.state.otherCtrlVisible} onVisibleChange={this.handleOtherCtrlChange}>
                                 <Button type="primary" style={{width: "100px"}}>Other</Button>
                             </Popover>
                         </div>
@@ -830,6 +876,7 @@ class CallDialog extends Component {
                 </Modal>
                 <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
                 <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)}  linestatus={linestatus}/>
+                <DTMFModal visible={this.state.DTMFVisible} textdisplay={this.state.DTMFDisplay} DTMFString={this.state.DTMFString} onHide={this.hideDTMFModal}/>
             </div>
         );
     }
@@ -889,7 +936,8 @@ function mapDispatchToProps(dispatch) {
       getBFCPMode: Actions.getBFCPMode,
       confholdstate: Actions.confholdstate,
       callstatusreport: Actions.callstatusreport,
-      getguicalldetailstatus: Actions.getguicalldetailstatus
+      getguicalldetailstatus: Actions.getguicalldetailstatus,
+      getconfdtmf: Actions.getconfdtmf
   }
   return bindActionCreators(actions, dispatch)
 }

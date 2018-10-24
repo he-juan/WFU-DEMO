@@ -7071,7 +7071,6 @@ ol.mp_list li.mp_error {}
     margin-top: 20px;
     border: 1px solid #CECECE;
     margin-bottom: 20px;
-    overflow-y: auto;
 }
 .lineinfo {
     float: left;
@@ -7084,11 +7083,12 @@ ol.mp_list li.mp_error {}
 }
 .linedetails {
     float: right;
-    width: 630px;
+    width: 650px;
     height: 100%;
     background: transparent;
     font-size: 14px;
     color: #666666;
+    overflow-y: auto;
 }
 
 #detailsarrow{display:none;}
@@ -7246,4 +7246,98 @@ ol.mp_list li.mp_error {}
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+/* call detail --end*/
+
+/*dtmf dial -- begin*/
+.dtmf-modal {
+    background: #FFFFFF;
+    width: 302px !important;
+    /*height: 410px;*/
+    /*position: absolute;*/
+    /*left: 50%;*/
+    /*top: 50%;*/
+    /*margin-left: -150px;*/
+    /*margin-top: -205px;*/
+    z-index: 1001;
+    border-radius: 4px;
+}
+.dtmf-modal .ant-modal-body{
+    padding:50px 0 0 0;
+}
+
+.dtmf-modal.ant-modal{
+    padding-bottom: 0px;
+    margin-top: 100px;
+}
+.dtmfinput {
+    font-size: 36px;
+    color: #222222;
+    height: 40px;
+    clear: both;
+    margin: 30px 0 30px 0;
+    padding: 0;
+}
+.dtmfdial {
+    width: 100%;
+    height: 260px;
+    font-size: 28px;
+    color: #666666;
+    background: #FFFFFF;
+    margin: 0px;
+    /*position: absolute;*/
+    bottom: 0px;
+}
+.dtmfkeypad {
+    float: left;
+    width: 100px;
+    height: 65px;
+    background: #FFFFFF;
+    cursor: pointer;
+    text-align: center;
+    border-top: 1px solid #E1E1E1;
+    line-height: 65px;
+}
+.dtmfkeypad:hover {
+    background: #219BF2;
+    color: #FFFFFF;
+}
+.dtmfinput p {
+    overflow: hidden;
+    padding: 0 0 0 5px;
+    margin: 0px;
+    width: 265px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+}
+.dtmfinput input {
+    width: 185px;
+    background: transparent;
+    border: 0px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 26px;
+    color: #222222;
+    padding-left: 10px;
+    margin: 0px;
+}
+.dtmfcursor {
+    width: 4px;
+    border-right: 1px solid #CAC9C9;
+    height: auto;
+    top: 6px;
+    position: relative;
+    left: 1px;
+    display: none;
+}
+.midkeypad {
+    border: 1px solid #E1E1E1;
+    border-bottom: 0px;
+}
+.dtmfspchar {
+    font-size: 46px;
+    top: 8px;
+    display: inline-block;
+    position: relative;
 }

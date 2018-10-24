@@ -912,3 +912,27 @@ export const getIPVConfInfo = (ipvline, callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+export const getconfdtmf = (callback) =>(dispatch) =>{
+    let request = "action=getconfdtmf&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let result = eval("(" + data + ")");
+        callback(result);
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const sendDTMFchar = (number, callback) =>(dispatch) => {
+    let request = "action=sendDTMFchar&region=confctrl&dtmfvalue="+ encodeURIComponent(number);
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let result = eval("(" + data + ")");
+        callback(result);
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
