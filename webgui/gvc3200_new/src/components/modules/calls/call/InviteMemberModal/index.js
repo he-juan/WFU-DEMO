@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Enhance from "../../../../mixins/Enhance";
-import { promptMsg, getContacts, promptSpinMsg, getAcctStatus } from '../../../../redux/actions';
+import { promptMsg, getContacts, promptSpinMsg, getAcctStatus, cb_start_addmemberconf, cb_start_single_call } from '../../../../redux/actions';
 import { Modal, Select, Input, Checkbox } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,13 +11,14 @@ class InviteMemberModal extends Component {
     super();
     this.state = {
       activeAcc: '0',
-      callType: '0',
+      callmode: 'call',
       mediaType: '1',
       contactList: [],
       acctstatus: [],
       errmsg: '',
       isBjAccount: false,
-      contactFilter: ''
+      contactFilter: '',
+      bjPassword: ''
     }
     this.modalStyle = {
       position: 'absolute',
@@ -163,7 +164,8 @@ class InviteMemberModal extends Component {
       delete _contactList[i].checked
     }
     this.setState({
-      contactList: _contactList
+      contactList: _contactList,
+      contactFilter: ''
     });
   }
   showError = (msg) => {
@@ -189,10 +191,14 @@ class InviteMemberModal extends Component {
   }
   handleFilter = (e) => {
     let v = e.target.value;
-    let reg = new RegExp("^[0-9]|/.*$");
     this.setState({
       contactFilter: v
     });
+  }
+  handleBjPassword = (e) => {
+    this.setState({
+      bjPassword: e.target.value
+    })
   }
   addNewContacts = (v) => {
     const {maxlinecount, linestatus} = this.props;
@@ -209,7 +215,7 @@ class InviteMemberModal extends Component {
     let existIpvt = this.hasExistIpvt(linestatus);  // 线路中是否存在ipvt
     if((!existIpvt && itemAcc == 1) || itemAcc != 1){
       let allow = maxlinecount - linestatus.length;   // 非IPVT 最大允许个数 
-      let checkedItem = contactList.filter(item => {
+      let checkedItem = _contactList.filter(item => {
         return item.AcctIndex != '1' && item.checked
       });
       if(checkedItem.length >= allow) {
@@ -225,34 +231,58 @@ class InviteMemberModal extends Component {
       contactFilter: ''
     })
   }
-
+  
   handleSubmit = () => {
     /**
      * 提交参数: numbers, accounts, confid, callmode, isvideo, isquickstart, pingcode, isdialplan, confname
      */
-    let _numbers_, _accounts_, _confid, _callmode_, _isvideo_, _isquickstart_, _pingcode_, _isdialplan_, _confname_;
-    let {contactFilter} = this.state
+    let _numbers_, _accounts_, _confid_, _callmode_, _isvideo_, _isquickstart_, _pingcode_, _isdialplan_, _confname_;
+    let {contactFilter, callmode, mediaType, acctstatus, bjPassword, activeAcc} = this.state
     let checkedContacts = this.state.contactList.filter(item => item.checked);
     // 将输入框中的值插入数组
     if(contactFilter.length > 0) {
+      let tempValue = contactFilter
+      // 如果是bluejeans帐号
+      if(activeAcc == '2' && bjPassword.length > 0) {
+        tempValue += '.' + bjPassword
+      }
       checkedContacts.unshift({
         AcctIndex: this.state.activeAcc,
-        Name: contactFilter,
-        ContactName: contactFilter,
-        Number: contactFilter,
+        Name: tempValue,
+        ContactName: tempValue,
+        Number: tempValue,
         checked: true
       })
     }
-    _numbers_ = checkedContacts.map(item => item.Number).join(':::');
-    _accounts_ = checkedContacts.map(item => item.AcctIndex).join(':::');
-    console.log(_numbers_, _accounts_)
+    if(checkedContacts.length == 0) {
+      this.showError('请至少选择一个成员!');
+    }
+    let disconfstate = this.props.callFeatureInfo.disconfstate;
+    if(disconfstate == '1'){
+      if(checkedContacts.length > 1) {
+        this.showError('只能选择一个号码呼叫.')
+        return false;
+      }
+      this.props.cb_start_single_call(acctstatus, checkedContacts[0].Number, checkedContacts[0].AcctIndex,0,"");
+      this.props.onHide();
+      return false;
+    }
 
-
-    
+    _numbers_ = checkedContacts.map(item => item.Number).join(':::');   // 添加的成员号码
+    _accounts_ = checkedContacts.map(item => item.AcctIndex).join(':::'); // 添加的帐号类型
+    _isdialplan_ = checkedContacts.map(item => '0').join(':::');
+    _callmode_ = callmode;
+    _isvideo_ = mediaType;
+    _isquickstart_ = 0;
+    _confid_ = '';
+    _confname_ = '';
+    _pingcode_ = '';
+    this.props.cb_start_addmemberconf(acctstatus,  _numbers_, _accounts_, _callmode_, _confid_, _isdialplan_, _confname_, _isvideo_, _isquickstart_, _pingcode_);
+    this.props.onHide();
   }
   render() {
     const { visible, onHide } = this.props;
-    const { activeAcc, callType, mediaType, contactList, acctstatus, errmsg, isBjAccount, contactFilter } = this.state;
+    const { activeAcc, callmode, mediaType, contactList, acctstatus, errmsg, isBjAccount, contactFilter, bjPassword } = this.state;
     if (contactList.length == 0) {
       return null
     }
@@ -277,10 +307,10 @@ class InviteMemberModal extends Component {
               }
             </Select>
             &nbsp;&nbsp;&nbsp;
-            <Select value={callType} style={{ width: 120 }} onSelect={(v) => this.setState({ callType: v })}>
-              <Option value="0" key="0">呼叫</Option>
-              {/* <Option value="1" key="1">Paging</Option> */}
-              <Option value="2" key="2">IP呼叫</Option>
+            <Select value={callmode} style={{ width: 120 }} onSelect={(v) => this.setState({ callmode: v })}>
+              <Option value="call" key="0">呼叫</Option>
+              {/* <Option value="paging" key="1">Paging</Option> */}
+              <Option value="ipcall" key="2">IP呼叫</Option>
             </Select>
             &nbsp;&nbsp;&nbsp;
             <Select value={mediaType} style={{ width: 120 }} onSelect={(v) => this.setState({ mediaType: v })}>
@@ -294,7 +324,7 @@ class InviteMemberModal extends Component {
               isBjAccount ? 
               <div >
                 <Input placeholder="输入号码" value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '220px', marginRight: '20px'}}/> 
-                <Input placeholder="密码" style={{width: '220px'}}/>
+                <Input placeholder="密码" value={bjPassword} onChange = {(e) => this.handleBjPassword(e)} style={{width: '220px'}}/>
               </div> 
               : < Input placeholder="输入号码" value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '460px'}} />
             }
@@ -340,7 +370,7 @@ const mapState = (state) => {
   return {
     msgsContacts: state.msgsContacts,
     maxlinecount: state.maxlinecount, // 最大连接数
-    linesinfo: state.linesinfo // 当前连接状态
+    callFeatureInfo: state.callFeatureInfo
   }
 }
 const mapDispatch = (dispatch) => {
@@ -348,7 +378,9 @@ const mapDispatch = (dispatch) => {
     promptMsg: promptMsg,
     getContacts: getContacts,
     promptSpinMsg: promptSpinMsg,
-    getAcctStatus: getAcctStatus
+    getAcctStatus: getAcctStatus,
+    cb_start_addmemberconf: cb_start_addmemberconf,
+    cb_start_single_call: cb_start_single_call
   }
   return bindActionCreators(actions, dispatch)
 }
