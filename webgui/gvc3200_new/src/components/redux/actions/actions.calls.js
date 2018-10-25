@@ -1,5 +1,5 @@
 import * as actionUtil from './actionUtil'
-import * as Store from '../../entry'
+import {store} from '../../entry'
 
 // it should be got missed calls data
 const promptForRequestFailed = () => (dispatch) => {
@@ -12,6 +12,15 @@ const promptForRequestFailed = () => (dispatch) => {
  */
 export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
     //0~8 - represent the status of line
+    let unHoldlines = linesinfo.filter((v) => {
+        return v.state == '4';
+    });
+    if (unHoldlines.length > 0) {
+        dispatch({ type: 'HELD_STATUS', heldStatus: "0"})
+    } else {
+        dispatch({ type: 'HELD_STATUS', heldStatus: "1"})
+    }
+    
     dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo})
 }
 /**

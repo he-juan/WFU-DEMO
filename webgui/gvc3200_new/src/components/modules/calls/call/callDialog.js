@@ -201,14 +201,11 @@ class CallDialog extends Component {
     }
 
     ispause = () => {
-        let linestatus = this.props.linestatus;
-        for(let i = 0 ; i < linestatus.length; i++){
-            if(linestatus[i].state != "5" ){
-                return false;
-            }
+        if(this.props.heldStatus == '1') {
+            this.props.promptMsg("WARNING", "a_10126");
+            return true;
         }
-        this.props.promptMsg("WARNING", "a_10126");
-        return true;
+        return false;
     }
 
 	handleEndCall = () => {
@@ -436,11 +433,6 @@ class CallDialog extends Component {
     componentWillUnmount = () => {
         clearInterval(this.callTick);
     }
-    toogleLayoutModal = () => {
-        this.setState({
-            LayoutModalVisible: !this.state.LayoutModalVisible
-        })
-    }
     handleHoldall = () =>{
         if(!this.countClickedTimes()) {
             return false;
@@ -544,14 +536,28 @@ class CallDialog extends Component {
         })
     }
 
-    tooglePresentModal = (visible) => {
+    toogleLayoutModal = (visible) => {
+        if(visible == true && this.ispause()) {
+            return;
+        }
         this.setState({
-            PresentModalVisible: typeof visible == 'boolean' ? visible : !this.state.PresentModalVisible
+            LayoutModalVisible: visible
+        })
+    }
+    tooglePresentModal = (visible) => {
+        if(visible == true && this.ispause()) {
+            return;
+        }
+        this.setState({
+            PresentModalVisible: visible
         })
     }
     toogleInviteMemberModal = (visible) => {
+        if(visible == true && this.ispause()) {
+            return;
+        }
         this.setState({
-            InviteMemberModalVisible: typeof visible == 'boolean' ? visible : !this.state.InviteMemberModalVisible
+            InviteMemberModalVisible: visible
         })
     }
     handlehidedetails = () =>{
@@ -587,7 +593,7 @@ class CallDialog extends Component {
         let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
         let lineuploadingdisable = [];
         let state3num = 0, state8num = 0;
-        let heldclass = "unhold-icon";
+        let heldclass = this.props.heldStatus == '0' ? "unhold-icon" : 'hold-icon';
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
@@ -653,11 +659,6 @@ class CallDialog extends Component {
                     }
                     if(account != 1){
                         lineisvideoedclass[i] += " btndisable";
-                    }
-                    if(state == "5"){  //global hold
-                        heldclass = "hold-icon";
-                    }else if(state == "4"){  //global unhold
-                        heldclass = "unhold-icon";
                     }
                     if(account == 8) account = 3;
                     if(this.state.acctstatus.length > 0){
@@ -822,14 +823,11 @@ class CallDialog extends Component {
                         }
                     </div>
                     <div className="call-ctrl-btn">
-                        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} onClick={() => {this.toogleInviteMemberModal()}} />
+                        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} onClick={() => {this.toogleInviteMemberModal(true)}} />
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
-                        {
-                            linestatus.length >0 && linestatus[0].isvideo == '1'? <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal()}/> : null
-                        }
-                        
+                        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal(true)}/>
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
-                        <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal()}/>
+                        <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal(true)}/>
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
                         <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
                             <Popover
@@ -852,7 +850,7 @@ class CallDialog extends Component {
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
                 {
                     linestatus.length >0 && linestatus[0].isvideo == '1'?
-                    <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal()} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
+                    <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
                         : null
                 }
                 {
@@ -898,6 +896,7 @@ const mapStateToProps = (state) => ({
     dndstatus: state.dndstatus,
     localcamerablocked: state.localcamerablocked,
     videoinvitelines: state.videoinvitelines,
+    heldStatus: state.heldStatus,
 
     presentation: state.presentation,
     presentSource: state.presentSource,

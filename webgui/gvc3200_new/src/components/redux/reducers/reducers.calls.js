@@ -41,6 +41,9 @@ export const linesInfo = (state = [], action) => {
     }
 }
 
+/**
+ * 是否处于保持状态
+ */
 export const heldStatus = (state = {}, action) => {
     switch (action.type) {
         case Actions.HELD_STATUS:
