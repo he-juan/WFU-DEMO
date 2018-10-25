@@ -54,8 +54,8 @@ class DialUpForm extends Component {
         let maxlinenum = this.props.maxlinecount;
         mCurMaxlineNum = this.props.maxlinecount;
         this.props.getItemValues(req_items, (values) => {
-            let isbjacct = values["defaultAcct"] == 2 ? true : false
-            let defaultacct = values["defaultAcct"] == 8 ? 3 : values["defaultAcct"]
+            let isbjacct = values["defaultAcct"] == "2" ? true : false
+            let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
             this.setState({
                 defaultacct: defaultacct,
                 selacct: defaultacct,
@@ -305,6 +305,7 @@ class DialUpForm extends Component {
 
     getAcctStatusData = (acctstatus) => {
         let curAcct = [];
+        let selacct = this.state.selacct;
         const acctStatus = acctstatus.headers;
         let max = 4;
         for (let i = 0; i < max; i++) {
@@ -317,7 +318,13 @@ class DialUpForm extends Component {
                         "num": acctStatus[`account_${6}_name`],
                         "name": "H.323"
                     });
+                if(acctStatus[`account_${6}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: 3});
+                }
             } else {
+                if(acctStatus[`account_${i}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: i});
+                }
                 let accountname = acctStatus[`account_${i}_name`];
                 if (i == 0) {
                     if (acctStatus[`account_${i}_name`].length > 0) {
@@ -736,7 +743,8 @@ class DialUpForm extends Component {
                         <div className="acctselbox">
                             {
                                 acctstatus.length ?
-                                <div onClick={this.handleAcctSelectDiv.bind(this)}> <span style={{display:'inline-block', width: '300px'}}>{acctstatus[selacct].name}</span> <span>{acctstatus[selacct].num}</span> </div>
+                                <div onClick={this.handleAcctSelectDiv.bind(this)}> <span style={{display:'inline-block', width: '300px'}}>
+                                    {selacct != -1 ? acctstatus[selacct].name : this.tr("a_9684").substring(0, this.tr("a_9684").length-1)}</span> <span>{selacct != -1 ? acctstatus[selacct].num: ""}</span> </div>
                                 : ""
                             }
                         </div>
