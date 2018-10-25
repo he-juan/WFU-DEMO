@@ -25,6 +25,7 @@ export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
     dispatch({type: 'HELD_STATUS', heldStatus: unHoldlines.length > 0 ? '0' : '1'});
     dispatch({type: 'SET_IS_VIDEO', isvideo: isVideoLines.length > 0 ? '1' : '0' });
     dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo});
+    setbusylinenum(linesinfo.length)(dispatch);
 }
 /**
  * set the number of current lines
@@ -125,8 +126,24 @@ export const quickStartIPVConf = (isvideo) => (dispatch) => {
 
 export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, confid, isdialplan, confname, isvideo, isquickstart, pingcode) => (dispatch) => {
     //check if all the lines are busy
-    {
+    let { busylinenum, maxlinecount, linesInfo, heldStatus } = store.getState();
+    if(heldStatus == "1"){
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10080'}});
+        return;
+    }
+    let alllinebusyflag = false;
+    if( busylinenum >= maxlinecount ){
+        alllinebusyflag = true;
+    }
+    if(linesInfo.length > 0){
+        if(linesInfo[0].acct == "1" && maxlinecount == 1){
+            alllinebusyflag = false;
+        }
+    }
 
+    if(alllinebusyflag){
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_16683'}});
+        return;
     }
     //check remote upgrading
     if(getremoteupgradestate()){
@@ -164,6 +181,20 @@ export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, is
     if (dialnum == "") {
         return false;
     }
+    let { busylinenum, maxlinecount, linesInfo, heldStatus } = store.getState();
+    if(heldStatus == "1"){
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10080'}});
+        return;
+    }
+    let alllinebusyflag = false;
+    if( busylinenum >= maxlinecount ){
+        alllinebusyflag = true;
+    }
+    if(alllinebusyflag){
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_16683'}});
+        return;
+    }
+
     //check remote upgrading
     if(getremoteupgradestate()){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19236'}});

@@ -892,7 +892,6 @@ const mapStateToProps = (state) => ({
     muteStatus: state.muteStatus,
     recordStatus: state.recordStatus,
     msgsContacts: state.msgsContacts,
-    heldStatus: state.heldStatus,
     FECCStatus: state.FECCStatus,
     callFeatureInfo: state.callFeatureInfo,
     ipvrole: state.ipvrole,

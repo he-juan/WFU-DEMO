@@ -57,7 +57,7 @@ class HandleWebsocket extends React.Component {
             for(let  i = 0; i < this.props.linesinfo.length; i++ ) {
                 let lineitem = this.props.linesinfo[i];
                 if (this.props.linesinfo[i].line == message.line) {
-                    if (message.state == "4") {
+                    if (message.state == "4" || message.state == "5") {
                         //get the call type - begin
                         this.getCallType(message);
                         if(message.isvideo){

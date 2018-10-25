@@ -394,13 +394,17 @@ class DialUpForm extends Component {
     }
 
     handleDialUp = (isbyinputnum, isvideo) => {
-        let acctstatus = this.state.acctstatus;
+        let {acctstatus} = this.state;
+        let {busylinenum, maxlinecount} = this.props;
         if (isbyinputnum == 1) {
             const form = this.props.form;
             if (mCalling) return;
             mCalling = true;
             let selacct = this.state.selacct;
             if (selacct == "2") {
+                if(busylinenum >= maxlinecount){
+                    this.props.promptMsg('WARNING', 'a_16683');
+                }
                 let dialnum = form.getFieldValue("bjnumber").trim();
                 if (dialnum == "") {
                     return false;
@@ -828,7 +832,8 @@ const mapStateToProps = (state) => ({
     product: state.product,
     callDialog: state.callDialog,
     confmemberinfodata: state.confmemberinfodata,
-    maxlinecount: state.maxlinecount
+    maxlinecount: state.maxlinecount,
+    busylinenum: state.busylinenum
 })
 
 function mapDispatchToProps(dispatch) {
