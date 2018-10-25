@@ -537,6 +537,9 @@ class CallDialog extends Component {
     }
 
     toogleLayoutModal = (visible) => {
+        if(this.props.isvideo == '0') {
+            this.props.promptMsg('WARNING', "a_10109");
+        }
         if(visible == true && this.ispause()) {
             return;
         }
@@ -897,7 +900,7 @@ const mapStateToProps = (state) => ({
     localcamerablocked: state.localcamerablocked,
     videoinvitelines: state.videoinvitelines,
     heldStatus: state.heldStatus,
-
+    isvideo: state.isvideo,
     presentation: state.presentation,
     presentSource: state.presentSource,
     presentLineMsg: state.presentLineMsg,

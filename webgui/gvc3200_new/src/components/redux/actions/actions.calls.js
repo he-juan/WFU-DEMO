@@ -12,16 +12,19 @@ const promptForRequestFailed = () => (dispatch) => {
  */
 export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
     //0~8 - represent the status of line
+
+    // 保持的线路
     let unHoldlines = linesinfo.filter((v) => {
         return v.state == '4';
     });
-    if (unHoldlines.length > 0) {
-        dispatch({ type: 'HELD_STATUS', heldStatus: "0"})
-    } else {
-        dispatch({ type: 'HELD_STATUS', heldStatus: "1"})
-    }
-    
-    dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo})
+    // 为视频通话的线路
+    let isVideoLines = linesinfo.filter((v) => {
+        return v.isvideo == '1';
+    })
+
+    dispatch({type: 'HELD_STATUS', heldStatus: unHoldlines.length > 0 ? '0' : '1'});
+    dispatch({type: 'SET_IS_VIDEO', isvideo: isVideoLines.length > 0 ? '1' : '0' });
+    dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo});
 }
 /**
  * set the number of current lines
@@ -647,7 +650,7 @@ export const getAllLineStatus = (callback) => (dispatch) => {
         if(lineinfoArr.length>0){
             getvideocodec(lineinfoArr[0])
         }
-        dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
+        dispatch(setDialineInfo1(lineinfoArr))// dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
         callback(lineinfoArr);
     }).catch(function(error) {
         promptForRequestFailed();

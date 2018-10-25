@@ -136,3 +136,12 @@ export const detailinfo = (state = {}, action) =>{
             return state
     }
 }
+
+export const isvideo = (state = "1", action) => {
+    switch (action.type) {
+        case Actions.SET_IS_VIDEO:
+            return action.isvideo;
+        default:
+            return state
+    }
+}
