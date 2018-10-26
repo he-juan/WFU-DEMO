@@ -108,4 +108,5 @@ export const SET_PRESENT = 'SET_PRESENT'
 export const SET_PRESENT_SOURCE = 'SET_PRESENT_SOURCE'
 export const SET_PRESENT_LINE_MSG = 'SET_PRESENT_LINE_MSG'
 export const SET_IS_VIDEO = 'SET_IS_VIDEO'
+export const SET_HDMI_STATUS = 'SET_HDMI_STATUS'
 // extension

@@ -21,7 +21,6 @@ export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
     let isVideoLines = linesinfo.filter((v) => {
         return v.isvideo == '1';
     })
-
     dispatch({type: 'HELD_STATUS', heldStatus: unHoldlines.length > 0 ? '0' : '1'});
     dispatch({type: 'SET_IS_VIDEO', isvideo: isVideoLines.length > 0 ? '1' : '0' });
     dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo});
@@ -978,4 +977,11 @@ export const sendDTMFchar = (number, callback) =>(dispatch) => {
     }).catch(function (error) {
         promptForRequestFailed();
     });
+}
+
+/**
+ * 三个根hdmi线 插拔状态 websocket同步
+ */
+export const setHDMIstatus = (hdmi, status) => (dispatch) => {
+    dispatch({type: 'SET_HDMI_STATUS', payload: {[hdmi]: status}})
 }

@@ -145,3 +145,12 @@ export const isvideo = (state = "1", action) => {
             return state
     }
 }
+
+export const hdmiStatus = (state = {'hdmi1': '0','hdmi2': '0','hdmiIn': '0'}, action) => {
+    switch(action.type) {
+        case Actions.SET_HDMI_STATUS:
+            return Object.assign({}, state, action.payload)
+        default: 
+            return state;
+    }
+}

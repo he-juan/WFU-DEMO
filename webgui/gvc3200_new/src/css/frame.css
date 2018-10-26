@@ -6681,6 +6681,7 @@ ol.mp_list li.mp_error {}
     font-size: 18px;
     text-align: center;
     bottom: 100%;
+    left:0;
 }
 .preview-box.semi:first-child {
     float: left;

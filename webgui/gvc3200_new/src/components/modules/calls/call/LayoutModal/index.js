@@ -71,6 +71,9 @@ class LayoutModal extends Component {
       this.props.getBFCPMode();
       this.initModal();
     }
+    if (this.props.hdmiStatus != nextProps.hdmiStatus) {    // hdmi线插拔时修改
+      this.props.onHide();
+    }
   }
   initModal = () => {
     // 第一步 检查已接入HDMI1
@@ -207,7 +210,7 @@ class LayoutModal extends Component {
           </ul>
           { 
             hdmi2state == 0 ? 
-            <OneHDMILayout  activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation} callTr={callTr}/>
+            <OneHDMILayout  activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation} callTr={callTr} hdmi1content={hdmi1content}/>
             : <TwoHDMILayout activeIndex={activeIndex} confname={confname} conftype={_conftype} presentation={presentation} callTr={callTr}/>
           }
           <div className='preview-box custom-preview' style={{ display: activeIndex == 5 ? 'block' : 'none' }}>
@@ -248,7 +251,8 @@ class LayoutModal extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    presentation: state.presentation   
+    presentation: state.presentation,
+    hdmiStatus: state.hdmiStatus  //hdmi线连接状态  有 hdmi1 hdmi2 hdmiIn  
   }
 }
 

@@ -539,6 +539,7 @@ class CallDialog extends Component {
     toogleLayoutModal = (visible) => {
         if(this.props.isvideo == '0') {
             this.props.promptMsg('WARNING', "a_10109");
+            return;
         }
         if(visible == true && this.ispause()) {
             return;
@@ -852,10 +853,12 @@ class CallDialog extends Component {
 
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
                 {
-                    linestatus.length >0 && linestatus[0].isvideo == '1'?
-                    <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/>
-                        : null
+                    this.props.isvideo == 1 ? 
+                    <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/> 
+                    : null
                 }
+                
+                    
                 {
                     linestatus.length >0 && this.state.detailsModalVisible?
                         <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} onHide={this.handlehidedetails} /> : ""

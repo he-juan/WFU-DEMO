@@ -452,6 +452,9 @@ class HandleWebsocket extends React.Component {
             case 'detail':
                 this.props.setlinedetailinfo(message);
                 break;
+            case 'hdmi_status':
+                this.props.setHDMIstatus(message['hdmi'], message['status']);
+                break;
         }
     }
 
@@ -531,7 +534,8 @@ const mapDispatchToProps = (dispatch) => {
         setPresentSource: Actions.setPresentSource,
         setPresentLineMsg: Actions.setPresentLineMsg,
         setvideoonlines: Actions.setvideoonlines,
-        setlinedetailinfo: Actions.setlinedetailinfo
+        setlinedetailinfo: Actions.setlinedetailinfo,
+        setHDMIstatus: Actions.setHDMIstatus
     }
     return bindActionCreators(actions, dispatch)
 }

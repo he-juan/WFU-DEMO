@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const OneHDMILayout = ({ activeIndex, confname, conftype, presentation, callTr }) => {
+const OneHDMILayout = ({ activeIndex, confname, conftype, presentation, callTr, hdmi1content }) => {
   // presentation 标注是否在演示 
   if (!presentation) {
     //  未开演示
@@ -8,22 +8,41 @@ const OneHDMILayout = ({ activeIndex, confname, conftype, presentation, callTr }
       <div className="layout-mode-preview">
         {/* mode = 4 推荐模式 */}
         <div className='preview-box sysrcmd-preview' style={{ display: activeIndex == 1 ? 'block' : 'none' }}>
-          <div className="preview-item" style={{ width: '97%', height: '95%', margin: '12px' }}>
-            <p>
-              <strong>{confname}</strong>
-              <span>({confname})</span>
-            </p>
-          </div>
+          {
+            hdmi1content.length == 1 ? 
+            <div className="preview-item" style={{ width: '97%', height: '95%', margin: '12px' }}>
+              <p>
+                <strong>{confname}</strong>
+                <span>({confname})</span>
+              </p>
+            </div>
+            :
+            <div style={{height: '100%'}}>
+              <div className="preview-item " style={{ height: '50%', width: '47.5%', margin: '14% 0 0 1.7%' }}>
+                <p>
+                  <strong>{confname}</strong>
+                  <span>({confname})</span>
+                </p>
+              </div>
+              <div className="preview-item" style={{ height: '50%', width: '47.5%', margin: '14% 0 0 1.7%' }}>
+                <p>
+                  <strong>{callTr('a_10032')}</strong>
+                  <span>{conftype}</span>
+                </p>
+              </div>
+            </div>
+          }
+         
         </div>
         {/* mode = 4 等分模式 */}
         <div className='preview-box overlap-preview' style={{ display: activeIndex == 2 ? 'block' : 'none' }}>
-          <div className="preview-item " style={{ height: '50%', width: '47.5%', margin: '17% 0 0 1.7%' }}>
+          <div className="preview-item " style={{ height: '50%', width: '47.5%', margin: '14% 0 0 1.7%' }}>
             <p>
               <strong>{confname}</strong>
               <span>({confname})</span>
             </p>
           </div>
-          <div className="preview-item" style={{ height: '50%', width: '47.5%', margin: '17% 0 0 1.7%' }}>
+          <div className="preview-item" style={{ height: '50%', width: '47.5%', margin: '14% 0 0 1.7%' }}>
             <p>
               <strong>{callTr('a_10032')}</strong>
               <span>{conftype}</span>
