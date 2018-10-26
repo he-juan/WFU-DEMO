@@ -4710,8 +4710,13 @@ table thead tr th{
 .call-ctrl-btn .addmember-btn {
     background: url(../img/call/conf_control.png) -96px 0px no-repeat;
 }
-
-.call-ctrl-btn .addmember-btn:hover, .call-ctrl-btn .addmember-btn:active{
+.call-ctrl-btn .addmember-btn[disabled] {
+    opacity: 0.4;
+}
+.call-ctrl-btn .addmember-btn[disabled]:hover {
+    background-color: #fff;
+}
+.call-ctrl-btn .addmember-btn:not(:disabled):hover, .call-ctrl-btn .addmember-btn:active{
     background: url(../img/call/conf_control.png) -96px -98px no-repeat;
 }
 

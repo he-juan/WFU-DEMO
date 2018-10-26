@@ -191,9 +191,9 @@ class CallDialog extends Component {
     }
 
     hasipvtline = () => {
-        let lineinfo = this.props.lineInfo;
-        for(let i = 0; i< lineinfo.length;i++){
-            if(lineinfo[i].acct == "1"){
+        let linestatus = this.props.linestatus;
+        for(let i = 0; i< linestatus.length;i++){
+            if(linestatus[i].acct == "1"){
                 return true;
             }
         }
@@ -576,6 +576,7 @@ class CallDialog extends Component {
         });
         this.setState({detailsModalVisible:false});
     }
+    
     componentWillUpdate = (nextProps) => {
         if (this.props.presentation != nextProps.presentation || this.props.presentSource != nextProps.presentSource || this.props.presentLineMsg != nextProps.presentLineMsg) {
             this.setState({
@@ -827,7 +828,7 @@ class CallDialog extends Component {
                         }
                     </div>
                     <div className="call-ctrl-btn">
-                        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} onClick={() => {this.toogleInviteMemberModal(true)}} />
+                        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} disabled={!this.hasipvtline()} onClick={() => {this.toogleInviteMemberModal(true)}} /> 
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
                         <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal(true)}/>
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
@@ -889,7 +890,6 @@ class CallDialog extends Component {
 const mapStateToProps = (state) => ({
     curLocale: state.curLocale,
     mainHeight: state.mainHeight + 50,
-    lineInfo: state.lineInfo,
     maxVolume: state.maxVolume,
     curVolume: state.curVolume,
     muteStatus: state.muteStatus,
