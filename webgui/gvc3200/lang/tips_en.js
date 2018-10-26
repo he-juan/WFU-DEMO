@@ -1351,7 +1351,7 @@ tip_item.push (
         "If enabled, then send RTDP (roundTripDelayRequest) package as H245 keep-alive package per 10s. The timeout interval is 30s and will hang up the call once timed out. The default setting is \"No\". Note: if enabled, it may cause incompatibility with some devices."),
         
     new TipsDef("DTMF ",
-        "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal.")
+        "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal."),
 
 	/*app BroadSoft*/
 	new TipsDef("Authentication Type",

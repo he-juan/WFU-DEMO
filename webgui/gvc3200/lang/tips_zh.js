@@ -1341,7 +1341,7 @@ tip_item.push (
     new TipsDef("Enable RTDR", "开启RTDR",
         "若开启,会定时向对端发送RTDP（roundTripDelayRequest）包作为H245保活包，发送周期为10s，超时时间为30s，超时后会挂断呼叫，默认不勾选。说明：若开启，可能导致与部分设备出现不兼容。"),
     new TipsDef("DTMF ", "DTMF",
-        "该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。")
+        "该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。"),
 
 	/*apps BroadSoft*/
 	new TipsDef("Authentication Type", "认证类型",

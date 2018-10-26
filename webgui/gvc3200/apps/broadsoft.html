@@ -113,14 +113,14 @@
                     </select>
                     <input id="typeop2" name="typeop2" type="text" />
                 </div>
-                <div class="itemdiv">
-                    <div class="noreboot"><span id="a_typeop9">Polycom Phonebook</span> :</div>
-                    <select id="typeenable9" name="typeenable9">
-                        <option value="0">Disabled</option>
-                        <option value="1">Enabled</option>
-                    </select>
-                    <input id="typeop9" name="typeop9" type="text" />
-                </div>
+                <!--<div class="itemdiv">-->
+                    <!--<div class="noreboot"><span id="a_typeop9">Polycom Phonebook</span> :</div>-->
+                    <!--<select id="typeenable9" name="typeenable9">-->
+                        <!--<option value="0">Disabled</option>-->
+                        <!--<option value="1">Enabled</option>-->
+                    <!--</select>-->
+                    <!--<input id="typeop9" name="typeop9" type="text" />-->
+                <!--</div>-->
                 <div class="itemdiv">
                     <div class="noreboot"><span id="a_typeop4">Missed Call Log</span> :</div>
                     <select id="typeenable4" name="typeenable4">
@@ -164,7 +164,7 @@
                         <option value="2">Group Directory</option>
                         <option value="3">Enterprise Common</option>
                         <option value="4">Enterprise Directory</option>
-                        <option value="5">Polycom Phonebook</option>
+                        <!--<option value="5">Polycom Phonebook</option>-->
                     </select>
                 </div>
                 <div style="width:20px;padding-left:0;"><br/><br/>
@@ -215,7 +215,7 @@
         new ReqItem("typeop7", "2976", ""),
         new ReqItem("typeenable8", "2977", ""),
         new ReqItem("typeop8", "2978", ""),
-        new ReqItem("typeenable9", "8343", ""),
+        // new ReqItem("typeenable9", "8343", ""),
         new ReqItem("typeop9", "8344", ""),
         new ReqItem("typeenable2", "2979", ""),
         new ReqItem("typeop2", "2980", ""),
@@ -230,7 +230,7 @@
         translate_debug();
         $("#Formvalidate").validate({
             rules: { server:{ url:true },
-                port: { digits:true },
+                port: { digits:true, range:[0,65535]},
                 bsupdateinterval: { digits:true, range:[60,2147483647] },
                 bsmaxhits: { digits:true, range:[1,1000] }
             },
@@ -239,12 +239,13 @@
         });
         cb_get(req_items);
         cb_get_action("readconfig&region=advanset");
+        cb_get_action("get&var-0000=bs_contacts_order");
         pageEventActions();
-        modify_sSelect();
+        // modify_sSelect();
     });
 
     function modify_sSelect() {
-        var bsorder = $("#bscontactsorder").val();
+        var bsorder = bsorder ? bsorder : $("#bscontactsorder").val();
         if( bsorder != "" ){
             bsorders = bsorder.split(",");
             var orderi;
@@ -255,7 +256,7 @@
                 }
             }
         }
-        $("#bsauthtype, #typeenable1, #typeenable2, #typeenable3, #typeenable4, #typeenable5, #typeenable6, #typeenable7, #typeenable8, #typeenable9").sSelect();
+        $("#bsauthtype, #typeenable1, #typeenable2, #typeenable3, #typeenable4, #typeenable5, #typeenable6, #typeenable7, #typeenable8").sSelect();
         update_auth_type();
     }
     function translate_debug(){
@@ -278,12 +279,12 @@
         $("#a_typegroupcm, #bsorders option:eq(1)").text(a_19617);
         $("#a_typeentercm, #bsorders option:eq(3)").text(a_19618);
         $("#a_typeop2, #bsorders option:eq(0)").text(a_19611);
-        $("#a_typeop9, #bsorders option:eq(5)").text(a_19616);
+        // $("#a_typeop9, #bsorders option:eq(5)").text(a_19616);
         $("#a_typeop4").text(a_19613);
         $("#a_typeop5").text(a_19614);
         $("#a_typeop6").text(a_19615);
-        $("#typeenable1 option:eq(0), #typeenable2 option:eq(0), #typeenable3 option:eq(0), #typeenable4 option:eq(0), #typeenable5 option:eq(0), #typeenable6 option:eq(0), #typeenable7 option:eq(0), #typeenable8 option:eq(0), #typeenable9 option:eq(0)").text(a_41);
-        $("#typeenable1 option:eq(1), #typeenable2 option:eq(1), #typeenable3 option:eq(1), #typeenable4 option:eq(1), #typeenable5 option:eq(1), #typeenable6 option:eq(1), #typeenable7 option:eq(1), #typeenable8 option:eq(1), #typeenable9 option:eq(1)").text(a_40);
+        $("#typeenable1 option:eq(0), #typeenable2 option:eq(0), #typeenable3 option:eq(0), #typeenable4 option:eq(0), #typeenable5 option:eq(0), #typeenable6 option:eq(0), #typeenable7 option:eq(0), #typeenable8 option:eq(0)").text(a_41);
+        $("#typeenable1 option:eq(1), #typeenable2 option:eq(1), #typeenable3 option:eq(1), #typeenable4 option:eq(1), #typeenable5 option:eq(1), #typeenable6 option:eq(1), #typeenable7 option:eq(1), #typeenable8 option:eq(1)").text(a_40);
         $("#a_bsmaxhits").text(a_19619);
         $("#a_bsupdateinterval").text(a_19620);
         $("#a_save").text(a_17);
@@ -298,6 +299,9 @@
             {
                 var bsinterval = parseInt(msgs.headers['bsinterval']);
                 $("#bsupdateinterval").val(bsinterval);
+            } else if(action == "get&var-0000=bs_contacts_order"){
+                var value = msgs.headers['bs_contacts_order'];
+                modify_sSelect(value)
             }
         }
     }
@@ -307,7 +311,7 @@
         if( cb_if_is_fail(msgs) )
             view_message(a_16419, MSG_FAIL);
         else {
-            cb_get_action("broadsoft");
+            cb_get_action("broadsoft&region=advanset");
             view_message(a_7479, MSG_OK);
         }
         checkIsApplyNeed();
