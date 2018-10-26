@@ -72,19 +72,27 @@ class CustomControl extends Component {
     if(cIndex == 0) {  // 目前是首个
       let cPoolIndex = _CONTENTPOOL_.indexOf(c);
       let x = _CONTENTPOOL_[(cPoolIndex + 1) % (_CONTENTPOOL_.length)];
-        
       _HDMIARY_.splice(cIndex, 1);
+      if(_HDMIARY_.indexOf(x) >=0 ) {
+        _HDMIARY_.splice(_HDMIARY_.indexOf(x), 1)
+      }
       _HDMIARY_.unshift(x);
       _HDMIARY_.push(c);
       
     }
-    if(_HDMIARY_.length > 2) {
-      if(this.props[this.state.tab + 'mode'] == 1) {
-        let cPoolIndex = _CONTENTPOOL_.indexOf(c);
-        let x = _CONTENTPOOL_[(cPoolIndex + 1) % (_CONTENTPOOL_.length)];
-        _HDMIARY_.splice(_HDMIARY_.indexOf(x), 1)
-      } else {
-        _HDMIARY_.splice(1,1);
+    if(this.anotherContentLen() == 2) {
+      if(_HDMIARY_.length > 2) {
+        if(this.props[this.state.tab + 'mode'] == 1) {
+          let cPoolIndex = _CONTENTPOOL_.indexOf(c);
+          let x = _CONTENTPOOL_[(cPoolIndex + 1) % (_CONTENTPOOL_.length)];
+          _HDMIARY_.splice(_HDMIARY_.indexOf(x), 1)
+        } else {
+          _HDMIARY_.splice(1,1);
+        }
+      }
+    } else if(this.anotherContentLen() == 3) {
+      if(_HDMIARY_.length > 1) {
+        _HDMIARY_.splice(0,1);
       }
     }
     this.toggleContent(_HDMIARY_);
@@ -101,12 +109,23 @@ class CustomControl extends Component {
       _HDMIARY_.splice(cIndex, 1);
       _HDMIARY_.unshift(c);
     }
-    if(_HDMIARY_.length > 2) {
-      let cPoolIndex = _CONTENTPOOL_.indexOf(c);
-      let x = _CONTENTPOOL_[(cPoolIndex + 1) % (_CONTENTPOOL_.length)];
-      _HDMIARY_.splice(_HDMIARY_.indexOf(x), 1)
+    if(this.anotherContentLen() == 2) {
+      if(_HDMIARY_.length > 2) {
+        let cPoolIndex = _CONTENTPOOL_.indexOf(c);
+        let x = _CONTENTPOOL_[(cPoolIndex + 1) % (_CONTENTPOOL_.length)];
+        _HDMIARY_.splice(_HDMIARY_.indexOf(x), 1)
+      }
+    } else if(this.anotherContentLen() == 3) {
+      if(_HDMIARY_.length > 1) {
+        _HDMIARY_.splice(1,1)
+      }
     }
     this.toggleContent(_HDMIARY_);
+  }
+  anotherContentLen = () => {
+    let anotherContent = this.state.tab == 'hdmi1' ? 'hdmi2content' : 'hdmi1content'
+    let len = this.props[anotherContent].split(',').length;
+    return len
   }
   render() {
     let { hdmi1mode, hdmi1content, hdmi2mode, hdmi2content, onToggleCustomMode, confname, conftype, presentation, callTr } = this.props;
@@ -148,11 +167,15 @@ class CustomControl extends Component {
                   title={callTr('a_19339')}
                   onClick={() => this.deleteContent('12')}>
                 </span>
-                <span
-                  className={`normalscreen screendiv ${(hdmicontent.indexOf('12') > 0 || (hdmimode == 1 && hdmicontent.indexOf('12') == 0)) ? 'active' : ''}`}
-                  title={callTr('a_12168')}
-                  onClick={() => {this.pushContent('12')}}>
-                </span>
+                {
+                  this.anotherContentLen() < 3 || hdmimode == 1? 
+                  <span
+                    className={`normalscreen screendiv ${(hdmicontent.indexOf('12') > 0 || (hdmimode == 1 && hdmicontent.indexOf('12') == 0)) ? 'active' : ''}`}
+                    title={callTr('a_12168')}
+                    onClick={() => {this.pushContent('12')}}>
+                  </span> :
+                  null
+                }
                 {
                   hdmimode == 1
                     ? ''
@@ -172,11 +195,15 @@ class CustomControl extends Component {
               title={callTr('a_19339')}
               onClick={() => this.deleteContent('0')}>
             </span>
-            <span
-              className={`normalscreen screendiv ${(hdmicontent.indexOf('0') > 0 || (hdmimode == 1 && hdmicontent.indexOf('0') == 0)) ? 'active' : ''}`}
-              title={callTr('a_12168')}
-              onClick={() => {this.pushContent('0')}}>
-            </span>
+            {
+              this.anotherContentLen() < 3 || hdmimode == 1?
+                <span
+                  className={`normalscreen screendiv ${(hdmicontent.indexOf('0') > 0 || (hdmimode == 1 && hdmicontent.indexOf('0') == 0)) ? 'active' : ''}`}
+                  title={callTr('a_12168')}
+                  onClick={() => {this.pushContent('0')}}>
+                </span>
+              : null
+            }
             {
               hdmimode == 1
                 ? ''
@@ -195,11 +222,15 @@ class CustomControl extends Component {
               title={callTr('a_19339')}
               onClick={() => this.deleteContent('13')}>
             </span>
-            <span
-              className={`normalscreen screendiv ${(hdmicontent.indexOf('13') > 0 || (hdmimode == 1 && hdmicontent.indexOf('13') == 0)) ? 'active' : ''}`}
-              title={callTr('a_12168')}
-              onClick={() => {this.pushContent('13')}}>
-            </span>
+            {
+              this.anotherContentLen() < 3 || hdmimode == 1?
+              <span
+                className={`normalscreen screendiv ${(hdmicontent.indexOf('13') > 0 || (hdmimode == 1 && hdmicontent.indexOf('13') == 0)) ? 'active' : ''}`}
+                title={callTr('a_12168')}
+                onClick={() => {this.pushContent('13')}}>
+              </span>
+              : null
+            }
             {
               hdmimode == 1
                 ? ''

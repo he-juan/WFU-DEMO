@@ -46,7 +46,7 @@ class LayoutModal extends Component {
     let url = `/manager?action=${action}&region=${region}&time=${new Date().getTime()}`
     if(action == 'setcustommode') {
       let {hdmi1mode, hdmi1content, hdmi2content, hdmi2mode} =  this.state
-      url += `${url}&hdmi1mode=${hdmi1mode}&hdmi1content=${hdmi1content.replace(',',':::')}&hdmi2content=${hdmi2content.replace(',',':::')}&hdmi2mode=${hdmi2mode}`
+      url += `${url}&hdmi1mode=${hdmi1mode}&hdmi1content=${hdmi1content.replace(/\,/g,':::')}&hdmi2content=${hdmi2content.replace(/\,/g,':::')}&hdmi2mode=${hdmi2mode}`
     }
     return new Promise((resolve, reject) => {
       $.ajax({
@@ -180,6 +180,7 @@ class LayoutModal extends Component {
       return null;
     }
     let _conftype = conftype.match(/\(.*\)/)[0];
+    // console.log(hdmi1content, hdmi2content)
     return (
       <Modal
         visible={visible}
