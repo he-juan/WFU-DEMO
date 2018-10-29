@@ -7,7 +7,7 @@
  */
 import React, { Component } from 'react'
 import { Modal, Form, Select} from 'antd';
-
+import Enhance from "../../../mixins/Enhance";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { promptMsg, setPresentation, getHDMI1Resolution } from '../../../redux/actions';
@@ -40,7 +40,7 @@ class PresentationModal extends Component {
             resolve(data);
           } else {
             if(action == 'ctrlBFCPState') {
-              this.props.promptMsg("ERROR", "操作失败!");
+              this.props.promptMsg("ERROR", "a_63");
             } else {
               this.props.promptMsg("ERROR", "a_neterror");
             }
@@ -115,7 +115,7 @@ class PresentationModal extends Component {
     // 判断是否连接HDMI1
     this.doRequest('gethdmi1state', 'status').then(data => {
       if(data.state != '1') {
-        this.props.promptMsg("ERROR", "您必须接入HDMI1!");
+        this.props.promptMsg("ERROR", this.tr('a_10081') + "HDMI1!");
         return false
       }
       return Promise.all([
@@ -127,7 +127,7 @@ class PresentationModal extends Component {
       let _hdmiInOn = parseInt(data[0].state);
       let _wifiDisplayOn = parseInt(data[1].state);
       if(!_hdmiInOn && !_wifiDisplayOn) {
-        this.props.promptMsg("ERROR", "请接入HDMI IN或WifiDisplay!");
+        this.props.promptMsg("ERROR", "a_10085");
         return false;
       }
       if(!_hdmiInOn && _wifiDisplayOn) {
@@ -140,7 +140,7 @@ class PresentationModal extends Component {
       return this.doRequest("ctrlBFCPState", "confctrl", `&source=${source}&ison=${ison}`)
     }).then(data => {
       if(data && data.msg == 'true') {
-        this.props.promptMsg("success",'请稍候...');
+        this.props.promptMsg("success",this.tr('a_52') + '...');
         let isPresent = this.state.bfcpMode > 0;
         this.props.setPresentation(isPresent);
         this.props.onHide();
@@ -155,43 +155,43 @@ class PresentationModal extends Component {
     let videocodec = linesInfo[0] ? parseInt(linesInfo[0].videocodec) : 0;
     const ItemStyleProps = {
       style: {display:'block'},
-      labelCol: {span: 6},
-      wrapperCol: {span: 16}
+      labelCol: {span: 10},
+      wrapperCol: {span: 10}
     };
     return (
       <Modal
         visible={visible}
-        title={"演示"}
-        width={400}
+        title={this.tr('a_10004')}
+        width={500}
         style={{ top: '350px' }}
         onCancel={onHide}
         onOk={() => {this.handleSubmit()}}
       >
         <FormItem
           {...ItemStyleProps}
-          label="演示流设置"
+          label={this.tr('a_19247')}
         >
           <Select
-            style={{ width: 240 }}
+            style={{ width: 160 }}
             value={bfcpMode}
             onSelect={(v) => this.handleSelectMode(v) }
           >
-            <Option value={1} key="1">自动</Option>
+            <Option value={1} key="1">{this.tr('a_1015')}</Option>
             {
               (!is4kon && !videocodec && (hdmiInOn || wifiDisplayOn))
               ? <Option value={3} key="3">PC</Option> : ''
             }
-            <Option value={0} key="0">关闭</Option>
+            <Option value={0} key="0">{this.tr('a_32')}</Option>
           </Select>
         </FormItem>
         {
           hdmiInOn && wifiDisplayOn ?
           <FormItem
           {...ItemStyleProps}
-          label="演示源"
+          label={this.tr("a_19248")}
         >
           <Select 
-            style={{width: 240}}
+            style={{width: 160}}
             value={bfcpSource}
             onSelect={(v) => this.handleSelectSource(v) }
           >
@@ -219,4 +219,4 @@ const mapDispatch = (dispatch) => {
   }
   return bindActionCreators(actions, dispatch)
 }
-export default connect(mapState, mapDispatch)(PresentationModal)
+export default connect(mapState, mapDispatch)(Enhance(PresentationModal))
