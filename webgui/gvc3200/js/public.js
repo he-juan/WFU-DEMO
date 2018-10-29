@@ -92,7 +92,9 @@ $(function(){
         if(e.keyCode == '13') {
 			if($("#jqibox").length != 0)
 				$("#jqibox").remove();
-		    if( $.cookie( "Mainpage") != "apps" || ($.cookie( "Mainpage") == "apps" && ($.cookie("Subpage") == "ldap" || $.cookie("Subpage") == "emergency" || $.cookie("Subpage") == "broadsoft")))){
+		    if( $.cookie( "Mainpage") != "apps"
+                || ($.cookie( "Mainpage") == "apps" 
+                   && ($.cookie("Subpage") == "ldap" || $.cookie("Subpage") == "emergency" || $.cookie("Subpage") == "broadsoft"))){
                 $("#a_save").click();
 			    return false;
 			}else{
