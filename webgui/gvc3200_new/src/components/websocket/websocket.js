@@ -384,8 +384,24 @@ class HandleWebsocket extends React.Component {
             case 'feccstate':
                 this.handleFECC(message);
                 break;
+            case 'enablefecc':
+                let linesinfo = [];
+                let flag = false;
+                for( let i = 0; i < this.props.linesinfo.length; i++ ){
+                    if(this.props.linesinfo[i].line == message.line) {
+                        this.props.linesinfo[i].enablefecc = message.state;
+                        flag = true;
+                        break;
+                    }
+                }
+                if(flag){
+                    linesinfo = [...this.props.linesinfo];
+                    this.props.setDialineInfo1(linesinfo);
+                }
+                break;
             case 'remote_hold':
                 this.handleremotehold(message);
+                break;
             case 'auto_answer':
                 if(this.props.product != "GAC2510"){
                     break;

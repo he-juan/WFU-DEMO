@@ -1,6 +1,9 @@
 import * as actionUtil from './actionUtil'
 import {store} from '../../entry'
 
+
+let mIPtest = /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/;
+let mRegnumber = new RegExp("^[0-9]*$");
 // it should be got missed calls data
 const promptForRequestFailed = () => (dispatch) => {
     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
@@ -15,13 +18,13 @@ export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
 
     // 保持的线路
     let unHoldlines = linesinfo.filter((v) => {
-        return v.state == '4';
+        return v.state != '5';
     });
     // 为视频通话的线路
     let isVideoLines = linesinfo.filter((v) => {
         return v.isvideo == '1';
     })
-    dispatch({type: 'HELD_STATUS', heldStatus: unHoldlines.length > 0 ? '0' : '1'});
+    dispatch({type: 'HELD_STATUS', heldStatus: linesinfo.length == 0 || unHoldlines.length > 0 ? '0' : '1'});
     dispatch({type: 'SET_IS_VIDEO', isvideo: isVideoLines.length > 0 ? '1' : '0' });
     dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo});
     setbusylinenum(linesinfo.length)(dispatch);
@@ -81,6 +84,12 @@ export const getremoteupgradestate = (callback) => {
 }
 
 export const cb_originate_call = (action, numbers, accounts) => (dispatch) => {
+    let { callFeatureInfo } = store.getState();
+    if( mIPtest.test( numbers.split(':')[0] ) && callFeatureInfo.disipcall == "1" )
+    {
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10084'}});
+        return false;
+    }
     let request = 'action='+ action ;
     request += "&time=" + new Date().getTime();
 
@@ -168,8 +177,6 @@ export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, 
         var invalidnum = 0;
         var newnumber = "";
         var newacct = "";
-        var mIPtest = /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/;
-        var mRegnumber = new RegExp("^[0-9]*$");
         for(var i = 0; i < numbersarray.length; i++ ){
             if (actionUtil.checkDialIPv6(numbersarray[i])) {   //IPv6
                 var port = 0;
@@ -239,7 +246,7 @@ export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, is
     if (dialnum == "") {
         return false;
     }
-    let { busylinenum, maxlinecount, linesInfo, heldStatus } = store.getState();
+    let { busylinenum, maxlinecount, linesInfo, heldStatus, callFeatureInfo } = store.getState();
     if(heldStatus == "1"){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10080'}});
         return;
@@ -272,6 +279,43 @@ export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, is
     }
     if (isipcall == undefined) {
         isipcall = 0;
+    }
+
+    dialnum = dialnum.split(":::")[0];
+    if(isipcall == 1)
+    {
+        if (actionUtil.checkDialIPv6(dialnum)) {   //IPv6
+            let port = 0;
+            if (dialnum.indexOf("#") != -1) {
+                port = parseInt(dialnum.split("#")[1], 10);
+            } else if (dialnum.indexOf(".") != -1) {
+                port = parseInt(dialnum.split(":")[1], 10);
+            } else if (dialnum.indexOf("]:") != -1) {
+                port = parseInt(dialnum.split("]:")[1], 10);
+            }
+
+            if (port < 0 || port > 65535) {
+                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_4246'}});
+                return false;
+            }
+        } else {
+            let ipnumber = dialnum.split(":");
+            if (!mIPtest.test(ipnumber[0])) {
+                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_4246'}});
+                return false;
+            }
+            if (ipnumber[1] != undefined) {
+                //port
+                if (!mRegnumber.test(ipnumber[1]) || parseInt(ipnumber[1], 10) < 0 || parseInt(ipnumber[1], 10) > 65535) {
+                    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_4246'}});
+                    return false;
+                }
+            }
+        }
+    }else{
+        let ipnumber = dialnum.split(":");
+        if( callFeatureInfo.disipcall != '1' && (mIPtest.test(ipnumber[0]) || actionUtil.checkDialIPv6(dialnum)))
+            isipcall = 1;
     }
     setTimeout(()=>{
         cb_originate_call("originatecall&region=webservice&destnum=" + encodeURIComponent(dialnum) + "&account=" + dialacct + "&isvideo=" + isvideo + "&ispaging=" + ispaging + "&isipcall=" + isipcall + "&isdialplan=" + isdialplan + "&headerstring=&format=json", dialnum, dialacct)(dispatch);

@@ -46,7 +46,8 @@ class DialUpForm extends Component {
         req_items.push(
             this.getReqItem("defaultAcct", "22046", ""),
             this.getReqItem("disdialplan", "2382", "")
-        )
+        );
+        this.callmode="0"; // "0": normal call;  "1": IP call
     }
 
     componentDidMount = () => {
@@ -400,6 +401,10 @@ class DialUpForm extends Component {
         }
     }
 
+    switchcallmode = (value) => {
+        this.callmode = value;
+    }
+
     handleDialUp = (isbyinputnum, isvideo) => {
         let {acctstatus} = this.state;
         let {busylinenum, maxlinecount} = this.props;
@@ -436,8 +441,8 @@ class DialUpForm extends Component {
                 return;
             }
 
-            var dialnum = "";
-            var dialacct = "";
+            let dialnum = "";
+            let dialacct = "";
             for (var i = 0; i < values.length; i++) {
                 if (dialnum != "") {
                     dialnum += ":::";
@@ -453,6 +458,11 @@ class DialUpForm extends Component {
                 return;
             }
 
+            let isipcall = 0, mode = "call";
+            if(this.callmode == "1"){
+                isipcall = 1;
+                mode = "ipcall";
+            }
             if (dialnum != "") {
                 //selacct may be 1 for bluejeans account when no account configured,so use 0 forever as only one account
                 var isdialplan = mDisDialrule[6];
@@ -461,9 +471,9 @@ class DialUpForm extends Component {
                         isdialplan += ":::" + mDisDialrule[6];
                 }
                 if (values.length == 1) {
-                    this.props.cb_start_single_call(acctstatus, dialnum, dialacct, 0, isdialplan, 0, isvideo);
+                    this.props.cb_start_single_call(acctstatus, dialnum, dialacct, 0, isdialplan, isipcall , isvideo);
                 } else {
-                    this.props.cb_start_addmemberconf(acctstatus, dialnum, dialacct, "call", "", isdialplan, "", isvideo);
+                    this.props.cb_start_addmemberconf(acctstatus, dialnum, dialacct, mode, "", isdialplan, "", isvideo);
                 }
                 $('#inputnum').manifest('remove');
             }
@@ -676,8 +686,8 @@ class DialUpForm extends Component {
     }
 
 
-    render(){
-        const { getFieldDecorator } = this.props.form;
+    render() {
+        const {getFieldDecorator} = this.props.form;
         const msgsContacts = this.props.msgsContacts;
         let acctstatus = this.state.acctstatus;
         let selacct = this.state.selacct != -1 ? this.state.selacct : this.state.defaultacct;
@@ -685,10 +695,10 @@ class DialUpForm extends Component {
         let displaydataslen = displayitems.length;
         let displaydatas = [];
         let j = 0;
-        for(let i = 0 ; i < displaydataslen  ; i++){  //去除正在通话的记录
-            if(displayitems[i].Number){
+        for (let i = 0; i < displaydataslen; i++) {  //去除正在通话的记录
+            if (displayitems[i].Number) {
                 displaydatas.push({
-                    key:  j++,
+                    key: j++,
                     row0: displayitems[i].Name || displayitems[i].NameOrNumber || displayitems[i].Number,
                     row1: displayitems[i].Number,
                     row2: displayitems[i].Date || "",
@@ -697,7 +707,7 @@ class DialUpForm extends Component {
             }
         }
         let nodatatipdisplay = "none";
-        if(displaydatas.length == 0){
+        if (displaydatas.length == 0) {
             nodatatipdisplay = "block";
         }
 
@@ -717,7 +727,7 @@ class DialUpForm extends Component {
             render: (text, record, index) => (
                 this._renderNumber(text)
             )
-        },{
+        }, {
             title: this.tr("a_6289"),
             key: 'row2',
             dataIndex: 'row2',
@@ -738,85 +748,130 @@ class DialUpForm extends Component {
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("a_9400")}</div>
-                <Form className="call-area" style={{'min-height': this.props.mainHeight, 'height': this.props.mainHeight}}>
+                <Form className="call-area"
+                      style={{'min-height': this.props.mainHeight, 'height': this.props.mainHeight}}>
                     <div className="dial-up-top">
                         <div className="acctselbox">
                             {
                                 acctstatus.length ?
-                                <div onClick={this.handleAcctSelectDiv.bind(this)}> <span style={{display:'inline-block', width: '300px'}}>
-                                    {selacct != -1 ? acctstatus[selacct].name : this.tr("a_9684").substring(0, this.tr("a_9684").length-1)}</span> <span>{selacct != -1 ? acctstatus[selacct].num: ""}</span> </div>
-                                : ""
+                                    <div onClick={this.handleAcctSelectDiv.bind(this)}> <span
+                                        style={{display: 'inline-block', width: '300px'}}>
+                                    {selacct != -1 ? acctstatus[selacct].name : this.tr("a_9684").substring(0, this.tr("a_9684").length - 1)}</span>
+                                        <span>{selacct != -1 ? acctstatus[selacct].num : ""}</span></div>
+                                    : ""
                             }
                         </div>
                         <div className={"account-info " + this.state.accountsdivdisplay}>
                             <ol>
                                 {acctstatus.map((item, i) => {
-                                    return <li className={`account-item ${item.activate == '0' || item.register == '0' ? 'acct-item-disable':''}`} onMouseOver={this.handleMouseOver.bind(this, item, i)}
-                                               onMouseLeave={this.handleMouseLeave.bind(this, item, i)} onClick={this.selectAcctitem.bind(this, item, i)}>
-                                        <span className="acct-item-name">{item.name}</span> <span className="acct-item-num">{item.num}</span>
-                                        {item.activate == "0" ? <span className={"acct_status " + this.state.accountdisplayarr[i]}>{this.tr("a_18564")}</span> :
-                                            item.register == "0" ? <span className={"acct_status " + this.state.accountdisplayarr[i]}>{this.tr("a_acctunregistered")}</span> :
-                                                i == this.state.defaultacct ? <span className={"acct_status " + this.state.accountdisplayarr[i]}>{this.tr("a_19113")}</span> :
-                                                    <Button type="primary" style={{marginTop:'4px'}} className={"acct_status " + this.state.accountdisplayarr[i]} onClick={this.setDefaultAcct.bind(this, i)}>
+                                    return <li
+                                        className={`account-item ${item.activate == '0' || item.register == '0' ? 'acct-item-disable' : ''}`}
+                                        onMouseOver={this.handleMouseOver.bind(this, item, i)}
+                                        onMouseLeave={this.handleMouseLeave.bind(this, item, i)}
+                                        onClick={this.selectAcctitem.bind(this, item, i)}>
+                                        <span className="acct-item-name">{item.name}</span> <span
+                                        className="acct-item-num">{item.num}</span>
+                                        {item.activate == "0" ? <span
+                                                className={"acct_status " + this.state.accountdisplayarr[i]}>{this.tr("a_18564")}</span> :
+                                            item.register == "0" ?
+                                                <span className={"acct_status " + this.state.accountdisplayarr[i]}>{this.tr("a_acctunregistered")}</span> :
+                                                i == this.state.defaultacct ? <span
+                                                        className={"acct_status " + this.state.accountdisplayarr[i]}>{this.tr("a_19113")}</span> :
+                                                    <Button type="primary" style={{marginTop: '4px'}}
+                                                            className={"acct_status " + this.state.accountdisplayarr[i]}
+                                                            onClick={this.setDefaultAcct.bind(this, i)}>
                                                         {this.tr("a_16697")} </Button>
                                         }
                                     </li>
                                 })}
                             </ol>
                         </div>
-                        <FormItem className={"call-inputnum-formitem " +  this.state.ipvttalkdialdisplay}>
+                        <FormItem className={"call-inputnum-formitem " + this.state.ipvttalkdialdisplay}>
                             <div className="dialdiv">
-                            {
-                                <input id="inputnum" className="" onChange={this.filterNumber} onPressEnter={this.handleDialUp.bind(this, 1, 0)} style={{width:"13px"}}
-                                           onFocus={this.inputnumberfocus.bind(this)} onBlur={this.inputnumberblur.bind(this)} />
-                            }
-                            <div id="membernumdiv" className={selacct == 1 ? 'display-hidden' : 'display-block'} style={{position:'absolute',top:'60px',right:'3px',fontSize:'16px',color:'#444',width:'30px'}}>
-                                    <span id="membernum">0</span>/<span id="membermaxnum">{this.state.maxinputnum}</span>
+                                {
+                                    <input id="inputnum" className="" onChange={this.filterNumber}
+                                           onPressEnter={this.handleDialUp.bind(this, 1, 0)} style={{width: "13px"}}
+                                           onFocus={this.inputnumberfocus.bind(this)}
+                                           onBlur={this.inputnumberblur.bind(this)}/>
+                                }
+                                <div id="membernumdiv" className={selacct == 1 ? 'display-hidden' : 'display-block'}
+                                     style={{
+                                         position: 'absolute',
+                                         top: '60px',
+                                         right: '3px',
+                                         fontSize: '16px',
+                                         color: '#444',
+                                         width: '30px'
+                                     }}>
+                                    <span id="membernum">0</span>/<span
+                                    id="membermaxnum">{this.state.maxinputnum}</span>
                                 </div>
-                            <div style={{position:"relative",top:"-102px",left:'10px',fontSize:'14px',color:'#444',width:'600px',color:'#999'}} id="numbertipdiv" onClick={this.focusinputnum.bind(this)}>
-                                    <span id="numbertip">{this.tr("a_16693")+" ("+this.tr("a_10158")+")"}</span>
+                                <div style={{
+                                    position: "relative",
+                                    top: "-102px",
+                                    left: '10px',
+                                    fontSize: '14px',
+                                    color: '#444',
+                                    width: '600px',
+                                    color: '#999'
+                                }} id="numbertipdiv" onClick={this.focusinputnum.bind(this)}>
+                                    <span id="numbertip">{this.tr("a_16693") + " (" + this.tr("a_10158") + ")"}</span>
                                 </div>
                             </div>
                         </FormItem>
                         <div className={"call-inputnum-formitem " + this.state.bjdialdisplay}>
-                            <FormItem >
-                               {
+                            <FormItem>
+                                {
                                     getFieldDecorator("bjnumber", {
-                                        initialValue : ""
+                                        initialValue: ""
                                     })(
-                                        <Input style={{width:"500px"}} placeholder={this.tr("a_15055")} />
+                                        <Input style={{width: "500px"}} placeholder={this.tr("a_15055")}/>
                                     )
                                 }
                             </FormItem>
-                            <FormItem >
+                            <FormItem>
                                 {
                                     getFieldDecorator("bjpwd", {
-                                        initialValue : ""
+                                        initialValue: ""
                                     })(
-                                        <Input style={{width:"500px"}} placeholder={this.tr("a_16705")} />
+                                        <Input style={{width: "500px"}} placeholder={this.tr("a_16705")}/>
                                     )
                                 }
                             </FormItem>
                         </div>
-                        <Button type="primary" className="call-out" onClick={this.handleDialUp.bind(this, 1, 1)}><span className="display-icon phone-icon" /> 视频</Button>
-                        <Button type="primary" className="call-out" onClick={this.handleDialUp.bind(this, 1, 0)}><span className="display-icon phone-icon" />语音</Button>
+                        <div style={{float: 'left', marginLeft: '10px'}}>
+                            <div>
+                                <Button type="primary" className="call-out"
+                                        onClick={this.handleDialUp.bind(this, 1, 1)}><span
+                                    className="display-icon phone-icon"/> 视频</Button>
+                                <Button type="primary" className="call-out" style={{marginLeft: '10px'}}
+                                        onClick={this.handleDialUp.bind(this, 1, 0)}><span
+                                    className="display-icon phone-icon"/>语音</Button>
+                            </div>
+                            <div style={{marginTop:'10px'}}>
+                                <Select defaultValue="0" onChange={this.switchcallmode}>
+                                    <Option value="0">{this.tr("a_504")}</Option>
+                                    <Option value="1">{this.tr("a_506")}</Option>
+                                </Select>
+                            </div>
+                        </div>
                     </div>
                     <div className="dial-up-bottom">
                         <Table
-                            rowKey = {rowkey}
-                            columns = { columns }
-                            pagination = { false }
-                            dataSource = { displaydatas }
-                            showHeader = { false }
+                            rowKey={rowkey}
+                            columns={columns}
+                            pagination={false}
+                            dataSource={displaydatas}
+                            showHeader={false}
                             // expandRowByClick = { true }
-                            expandedRowRender = {this.expandedRowRender.bind(this)}
-                            expandIconColumnIndex= { -1 }
+                            expandedRowRender={this.expandedRowRender.bind(this)}
+                            expandIconColumnIndex={-1}
                             expandIconAsCell={false}
-                            onRowClick={this.handelOnRowClick.bind(this)}	//添加单击方法
+                            onRowClick={this.handelOnRowClick.bind(this)}    //添加单击方法
                             expandedRowKeys={this.state.expandedRows}
                             // expandedRowKeys = {[]}
                         />
-                        <div className = "nodatooltips" style={{display: nodatatipdisplay}}>
+                        <div className="nodatooltips" style={{display: nodatatipdisplay}}>
                             <div></div>
                             <p>{this.tr("a_10082")}</p>
                         </div>

@@ -46,7 +46,21 @@ class CallDialog extends Component {
             DTFMString: ""
 		}
 		this.req_items = new Array();
-		this.req_items.push(this.getReqItem("incalldtmf", "338", ""));
+        this.req_items.push(
+            this.getReqItem("disconfstate", "1311", ""),
+            this.getReqItem("autovideostate", "25023", ""),
+            this.getReqItem("incalldtmf", "338", ""),
+            this.getReqItem("remotevideo", "2326", ""),
+            this.getReqItem("disipcall", "277", ""),
+            this.getReqItem("distranfer", "1341", ""),
+            this.getReqItem("tranfermode", "1685", ""),
+            this.getReqItem("usequickipcall", "184", ""),
+            this.getReqItem("disablepresent", "26001", ""),
+            this.getReqItem("enablefecc", "26004", ""),
+            this.getReqItem("prefix", "66", ""),
+            this.getReqItem("disdialplan", "1687", ""),
+            this.getReqItem("autovideostate", "25023", "")
+        )
     }
 
     componentWillMount = () => {
@@ -65,6 +79,14 @@ class CallDialog extends Component {
         });
         this.props.getBFCPMode();
         this.props.getItemValues(this.req_items, (data)=>{
+            let callfeatures = new Object();
+            let item;
+            for(let i in this.req_items){
+                item = this.req_items[i];
+                callfeatures[item.name] = data[item.name];
+            }
+            this.props.setDeviceCallFeature(callfeatures);
+
             if(data["incalldtmf"] == "1"){
                 this.setState({DTMFDisplay: false});
             }else{
@@ -330,8 +352,10 @@ class CallDialog extends Component {
     }
 
     handleEndline = (line, account) =>{
+        console.log("this.props.callFeatureInfo.disconfstate---",this.props.callFeatureInfo.disconfstate);
         if(this.props.callFeatureInfo.disconfstate == "0"){
             //check the line if pause
+            console.log("this.props.heldStatus---",this.props.heldStatus);
             if(this.props.heldStatus == "1"){
                 this.props.promptMsg("WARNING", this.tr("a_10126"));
                 return;
@@ -595,7 +619,7 @@ class CallDialog extends Component {
         let linestatustip = [];
         let linevideouploadclass = [];
         let linestatus = this.props.linestatus;
-        let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [];
+        let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [],linefeccclass = [] ;
         let lineuploadingdisable = [];
         let state3num = 0, state8num = 0;
         let heldclass = this.props.heldStatus == '0' ? "unhold-icon" : 'hold-icon';
@@ -619,7 +643,8 @@ class CallDialog extends Component {
                     linestatustip[i] = this.tr("a_509");
                     linevideouploadclass[i] = "display-hidden";
                     ctrlbtnvisible = "display-hidden";
-                    lineisvideoedclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
+                    lineisvideoedclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i]
+                        = linemuteclass[i] = linefeccclass[i] = "display-hidden";
                     break;
                 case "4":
                 case "5":
@@ -633,6 +658,10 @@ class CallDialog extends Component {
                     linesuspendclass[i]="unconfsuspend";
                     lineblockclass[i] = "unconfblock";
                     linemuteclass[i] = "unmute";
+                    linefeccclass[i] = "startFECC";
+                    if(lineitem.enablefecc != "1" && lineitem.feccstate != "1"){
+                        linefeccclass[i] += " btndisable";
+                    }
                     if(lineitem.issuspend == "1"){
                         linesuspendclass[i]="confsuspend";
                     }
@@ -802,11 +831,14 @@ class CallDialog extends Component {
                                     <div className="confbtn">
                                         <Button title={this.tr("a_1")} className="endconf"
                                                 onClick={this.handleEndline.bind(this, item.line, item.acct)}/>
+                                        <Button className={linefeccclass[i]}
+                                                onClick={this.handleStartFECC.bind(this, item.line)}
+                                                disabled={item.enablefecc != "1" && item.feccstate != "1"}/>
                                         <Button title={this.tr("a_19241")} className={lineisvideoedclass[i]}
                                                 disabled={item.acct == 1 ? false : true}
                                                 onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/>
                                         <Button title={this.tr("a_16700")}
-                                                disabled={disabledflag ? true : false}
+                                                disabled={disabledflag || item.isvideo == "0" ? true : false}
                                                 className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]}/>
                                         <Button title={this.tr("a_623")}
                                                 disabled={disabledflag ? true : false}
@@ -831,7 +863,7 @@ class CallDialog extends Component {
                         <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} disabled={!this.hasipvtline()} onClick={() => {this.toogleInviteMemberModal(true)}} /> 
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
                         <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal(true)}/>
-                        <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
+                        <Button title={this.tr("a_11")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal(true)}/>
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
                         <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
@@ -941,7 +973,8 @@ function mapDispatchToProps(dispatch) {
       confholdstate: Actions.confholdstate,
       callstatusreport: Actions.callstatusreport,
       getguicalldetailstatus: Actions.getguicalldetailstatus,
-      getconfdtmf: Actions.getconfdtmf
+      getconfdtmf: Actions.getconfdtmf,
+      setDeviceCallFeature: Actions.setDeviceCallFeature
   }
   return bindActionCreators(actions, dispatch)
 }
