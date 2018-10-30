@@ -216,7 +216,7 @@
         new ReqItem("typeenable8", "2977", ""),
         new ReqItem("typeop8", "2978", ""),
         // new ReqItem("typeenable9", "8343", ""),
-        new ReqItem("typeop9", "8344", ""),
+        // new ReqItem("typeop9", "8344", ""),
         new ReqItem("typeenable2", "2979", ""),
         new ReqItem("typeop2", "2980", ""),
         new ReqItem("typeenable4", "2981", ""),
@@ -354,7 +354,7 @@
             }
             var action = "writeconfig&region=advanset&bsinterval=" + $("#bsupdateinterval").val();
             cb_get_action(action);
-            var bsorders = $('#bsorders option:eq(0)').val() + "," + $('#bsorders option:eq(1)').val() + "," + $('#bsorders option:eq(2)').val() + "," + $('#bsorders option:eq(3)').val() + "," + $('#bsorders option:eq(4)').val() + "," + $('#bsorders option:eq(5)').val();
+            var bsorders = $('#bsorders option:eq(0)').val() + "," + $('#bsorders option:eq(1)').val() + "," + $('#bsorders option:eq(2)').val() + "," + $('#bsorders option:eq(3)').val() + "," + $('#bsorders option:eq(4)').val();
             $("#bscontactsorder").val(bsorders);
             cb_put(req_items, "", 0);
         });
