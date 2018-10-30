@@ -10037,6 +10037,25 @@ static int handle_sn (server *srv, connection *con,
     return 0;
 }
 
+static int handle_getisp_version (buffer *b)
+{
+    char res[128] = "";
+    char isp[128] = "";
+    FILE *sys_file = fopen ( "/proc/isp/corever", "r" );
+
+    if (sys_file != NULL)
+    {
+        fread (isp, 127, 1, sys_file);
+        fclose (sys_file);
+    }
+
+    buffer_append_string(b, "Response=Success\r\n");
+    snprintf(res, 128, "isp=%s\r\n", isp);
+    buffer_append_string(b, res);
+
+    return 0;
+}
+
 static int dbus_send_proxyupdated ( void )
 {
 #ifdef BUILD_ON_ARM
@@ -22406,6 +22425,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_no_param(srv, con, b, m, "getSDCardStatus");
                 } else if (!strcasecmp(action, "isbtsupport")) {
                     handle_callservice_by_no_param(srv, con, b, m, "isBtSupport");
+                } else if (!strcasecmp(action, "ispversion")) {
+                    handle_getisp_version(b);
                 } else{
                     findcmd = 0;
                 }
