@@ -160,6 +160,65 @@ export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, 
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19374'}})
         return false;
     }
+
+    // 如果是ip呼叫 需要检测ip格式
+    if( callmode == "ipcall" ){
+        var numbersarray = numbers.split(":::");
+        var acctarray = accounts.split(":::");
+        var invalidnum = 0;
+        var newnumber = "";
+        var newacct = "";
+        var mIPtest = /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/;
+        var mRegnumber = new RegExp("^[0-9]*$");
+        for(var i = 0; i < numbersarray.length; i++ ){
+            if (actionUtil.checkDialIPv6(numbersarray[i])) {   //IPv6
+                var port = 0;
+                if (numbersarray[i].indexOf("#") != -1) {
+                    port = parseInt(numbersarray[i].split("#")[1], 10);
+                } else if (numbersarray[i].indexOf(".") != -1) {
+                    port = parseInt(numbersarray[i].split(":")[1], 10);
+                } else if (numbersarray[i].indexOf("]:") != -1) {
+                    port = parseInt(numbersarray[i].split("]:")[1], 10);
+                }
+
+                if (port < 0 || port > 65535) {
+                    invalidnum++;
+                    continue;
+                }
+            } else {
+                var ipnumber = numbersarray[i].split(":");
+                if(!mIPtest.test(ipnumber[0]))
+                {
+                    invalidnum++;
+                    continue;
+                }
+                if(ipnumber[1] != undefined)
+                {
+                    //port
+                    if(!mRegnumber.test(ipnumber[1]) || parseInt(ipnumber[1], 10) < 0 || parseInt(ipnumber[1], 10) > 65535)
+                    {
+                        invalidnum ++;
+                        continue;
+                    }
+                }
+            }
+            if( newnumber != "" ) {
+                newnumber += ":::";
+                newacct += ":::";
+            }
+            newnumber += numbersarray[i];
+            newacct += acctarray[i];
+        }
+        if( invalidnum == numbersarray.length ){
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_4246'}})
+            return false;
+        }else if( invalidnum > 0 ){
+            numbers = newnumber;
+            accounts = newacct;
+        }
+    }    
+
+
     // let tempnumbers = numbers.split(":::");
     if (isquickstart == undefined)
         isquickstart = 0;
