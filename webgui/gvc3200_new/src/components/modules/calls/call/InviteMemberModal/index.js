@@ -46,6 +46,7 @@ class InviteMemberModal extends Component {
         url: uri,
         method: 'GET',
         success: (data) => {
+          
           resolve(data);
         },
         error: (err) => {
@@ -135,7 +136,7 @@ class InviteMemberModal extends Component {
   }
   selectContact = (item, i) => {
     if(item["Number"] == "anonymous") {
-      this.showError("无法拨打匿名号码!");
+      this.showError(this.tr('a_10083'));
       return false
     }
     let {maxlinecount, linestatus} = this.props;
@@ -145,7 +146,7 @@ class InviteMemberModal extends Component {
       let itemAcc = parseInt(item.AcctIndex);                   // 当前帐号
       if(itemAcc == 8) itemAcc = 3;
       if(acctstatus[itemAcc].activate == '0'){
-        this.showError('帐号未激活!');
+        this.showError(this.tr('a_18564'));
         return false;
       }
       let existIpvt = this.hasExistIpvt(linestatus);  // 线路中是否存在ipvt
@@ -155,7 +156,7 @@ class InviteMemberModal extends Component {
           return item.AcctIndex != '1' && item.checked
         });
         if(checkedItem.length >= allow) {
-          return this.showError('成员个数达到最大!');
+          return this.showError(this.tr('a_10097'));
         }
       };
       _contactList[i].checked = true;
@@ -222,7 +223,7 @@ class InviteMemberModal extends Component {
         this.setState({
           contactFilter: ''
         })
-        return this.showError('成员个数达到最大!');
+        return this.showError(this.tr('a_10097'));
       }
     };
     _contactList.unshift(newContact)
@@ -255,12 +256,12 @@ class InviteMemberModal extends Component {
       })
     }
     if(checkedContacts.length == 0) {
-      this.showError('请至少选择一个成员!');
+      this.showError(this.tr('a_16436'));
     }
     let disconfstate = this.props.callFeatureInfo.disconfstate;
     if(disconfstate == '1'){
       if(checkedContacts.length > 1) {
-        this.showError('只能选择一个号码呼叫.')
+        this.showError(this.tr('a_16659'));
         return false;
       }
       this.props.cb_start_single_call(acctstatus, checkedContacts[0].Number, checkedContacts[0].AcctIndex,0,"");
@@ -293,8 +294,8 @@ class InviteMemberModal extends Component {
         className="invite-modal"
         visible={visible}
         onCancel={onHide}
-        title={"添加成员"}
-        okText="添加"
+        title={this.tr('a_517')}
+        okText={this.tr('a_23')}
         onOk={() => this.handleSubmit()}
       >
         <div style={{ height: '612px' }}>
@@ -308,14 +309,14 @@ class InviteMemberModal extends Component {
             </Select>
             &nbsp;&nbsp;&nbsp;
             <Select value={callmode} style={{ width: 120 }} onSelect={(v) => this.setState({ callmode: v })}>
-              <Option value="call" key="0">呼叫</Option>
+              <Option value="call" key="0">{this.tr('a_504')}</Option>
               {/* <Option value="paging" key="1">Paging</Option> */}
-              <Option value="ipcall" key="2">IP呼叫</Option>
+              <Option value="ipcall" key="2">{this.tr('a_506')}</Option>
             </Select>
             &nbsp;&nbsp;&nbsp;
             <Select value={mediaType} style={{ width: 120 }} onSelect={(v) => this.setState({ mediaType: v })}>
-              <Option value="1" key="1">视频</Option>
-              <Option value="0" key="0">音频</Option>
+              <Option value="1" key="1">{this.tr("a_10016")}</Option>
+              <Option value="0" key="0">{this.tr("a_10017")}</Option>
             </Select>
           </div>
           <br />
@@ -323,10 +324,10 @@ class InviteMemberModal extends Component {
             {
               isBjAccount ? 
               <div >
-                <Input placeholder="输入号码" value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '220px', marginRight: '20px'}}/> 
-                <Input placeholder="密码" value={bjPassword} onChange = {(e) => this.handleBjPassword(e)} style={{width: '220px'}}/>
+                <Input placeholder={this.tr('a_549')} value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '220px', marginRight: '20px'}}/> 
+                <Input placeholder={this.tr('a_595')} value={bjPassword} onChange = {(e) => this.handleBjPassword(e)} style={{width: '220px'}}/>
               </div> 
-              : < Input placeholder="输入号码" value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '460px'}} />
+              : < Input placeholder={this.tr('a_549')} value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '460px'}} />
             }
           </div>
           <div className="error-tips">
