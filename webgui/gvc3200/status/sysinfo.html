@@ -87,6 +87,10 @@ fieldset div div{ padding-left:0px; }
             <div style="display: none">
                 <div><span id="showallversion"></span> :</div>
             </div>
+            <div webtip="ISP Version">
+                <div class="noreboot"><span id="a_ispversion">ISP Version</span> :</div>
+                <div><span id="ispversion"></span></div>
+            </div>
         </fieldset>
 	</form>
 
@@ -128,6 +132,7 @@ $(function(){
     //cb_get_action('pn');
     //cb_get_action('sn');   
     cb_get_action('product');
+    cb_get_action('ispversion');
     //cb_get_action('androidver');
     //cb_get_action('hardware'); 
 
@@ -188,6 +193,9 @@ function cb_get_action_done(data,action){
             $("#promodel").text( msgs.headers['product'] );
         else if(action == 'androidver')
             $("#android").text( msgs.headers['androidver'] );
+        else if(action == 'ispversion'){
+            $("#ispversion").text( msgs.headers['isp'] );
+        }
         //else if(action == 'hardware')
            // $("#hardwarerev").text( msgs.headers['hardware'] );  
 
