@@ -409,7 +409,7 @@ tip_item.push (
 	new TipsDef("Disable DialPlan",
 		"Se está configurado \"Sim\", então estará desativado o plano de discagem exceto contato. A configuração padrão é \"Não\"."),
     new TipsDef("Filter Characters",
-        "Define os caracteres que devem ser filtrados ao discar números. O usuário pode configurar vários caracteres. Por exemplo, se definido como "[()-]", ao discar (0571)-8800-8888, os caracteres "()-" serão eliminados automaticamente e o dispositivo discará 057188008888 diretamente. Observação: este recurso não funciona na página de chamadas locais do dispositivo."),
+        "Define os caracteres que devem ser filtrados ao discar números. O usuário pode configurar vários caracteres. Por exemplo, se definido como \"[()-]\", ao discar (0571)-8800-8888, os caracteres \"()-\" serão eliminados automaticamente e o dispositivo discará 057188008888 diretamente. Observação: este recurso não funciona na página de chamadas locais do dispositivo."),
 	new TipsDef("Auto Mute on Entry",
 	    "Configura se a chamada deve ser silenciada automaticamente ao entrar. Se definido como \"Desativar\", não usa a função de mudo automático. Se definido como \"Mudo Automático em Chamadas Realizadas\", silencia automaticamente quando a outra pessoa atende a chamada realizada. Se definido como \"Mudo Automático em Chamadas Recebidas\", silencia automaticamente ao atender a chamada recebida. Se definido como \"Mudo em Chamadas Recebidas e Realizadas\", silencia automaticamente qualquer chamada efetuada. Observação: esta função age somente quando o telefone passa do status desocupado para o status chamada. Para cancelar o status de mudo atual, o usuário deve clicar no botão Silenciar na interface da chamada. A configuração padrão é \"Desativar\"."),
 	new TipsDef("Noise Shield",
@@ -1256,7 +1256,7 @@ tip_item.push (
         "Versão do Boot."),
     new TipsDef("Codec Kernel Version",
         "Versão do Kernel."),
-    new TipsDef("ISP Version",
+    new TipsDef("ISP Kernel Version",
         "Versão ISP."),
 
     new TipsDef("Enable Video FEC",

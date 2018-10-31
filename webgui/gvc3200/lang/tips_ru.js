@@ -1245,7 +1245,7 @@ tip_item.push (
         "Версия загрузчика."),
     new TipsDef("Codec Kernel Version",
         "Версия ядра."),
-    new TipsDef("ISP Version",
+    new TipsDef("ISP Kernel Version",
         "Версия ISP."),
 
     new TipsDef("Enable Video FEC",

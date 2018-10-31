@@ -1179,8 +1179,8 @@ tip_item.push (
         "Codec Boot Version."),
     new TipsDef("Codec Kernel Version",
         "Codec Kernel Version."),
-    new TipsDef("ISP Version",
-        "ISP Version."),
+    new TipsDef("ISP Kernel Version",
+        "ISP Kernel Version."),
 
     new TipsDef("Enable Video FEC",
         "If set to \"Yes\", FEC will be enabled for video call. The default setting is \"Yes\"."),

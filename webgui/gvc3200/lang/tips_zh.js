@@ -1259,8 +1259,8 @@ tip_item.push (
         "显示设备的编解码引导程序版本号。"),
     new TipsDef("Codec Kernel Version", "编解码内核版本",
         "显示设备的编解码内核版本号。"),
-    new TipsDef("ISP Version", "ISP版本",
-        "显示设备的ISP版本号。"),
+    new TipsDef("ISP Kernel Version", "ISP内核版本",
+        "显示设备的ISP内核版本号。"),
 
     new TipsDef("Enable Video FEC", "开启视频前向纠错",
         "若勾选该项，视频电话将开启前向纠错。默认为不勾选。"),
