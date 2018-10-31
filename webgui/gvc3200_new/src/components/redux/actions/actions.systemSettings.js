@@ -47,7 +47,7 @@ export const setTimeoutOpt = (value) => (dispatch)  => {
     actionUtil.handleGetRequest(request).then(function(data) {
         let _data = JSON.parse(data)
         if(_data.res === 'success') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
         }
     }).catch(function(error) {
         console.error(error)
@@ -63,7 +63,7 @@ export const setSleepMode = (value) => (dispatch)  => {
     actionUtil.handleGetRequest(request).then(function(data) {
         let _data = JSON.parse(data)
         if(_data.res === 'success') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
         }
     }).catch(function(error) {
         console.error(error)
@@ -106,7 +106,7 @@ export const checkUpgradingOrCalling = (callback) => (dispatch) => {
 
 /**
  * 重启 关机 睡眠接口
- * @param {number} type 0: 重启； 1：关机； 2：睡眠；  4: 强制重启； 5： 强制关机； 6： 强制睡眠； 
+ * @param {number} type 0: 重启； 1：关机； 2：睡眠；  4: 强制重启； 5： 强制关机； 6： 强制睡眠；
  */
 export const sysReboot = (type, cb) => (dispatch) => {
     let request = "action=reboot&reboottype=" + type;
@@ -118,7 +118,7 @@ export const sysReboot = (type, cb) => (dispatch) => {
             dispatch({type: 'PAGE_STATUS', pageStatus: 0})
         } else {
             if(cb) {
-                
+
                 cb()
             }
         }
@@ -274,7 +274,7 @@ export const saveLockPwd = (value, callback) => (dispatch) => {
         if (actionUtil.cb_if_is_fail(msgs)) {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
             actionUtil.checkIsApplyNeed(dispatch);
             if (typeof callback === 'function') {
                 callback();

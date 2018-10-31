@@ -39,7 +39,7 @@ export const setSitenameInfo = (paramurl, type) => (dispatch) => {
         if (tObj.res != "success") {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
         }
     }).catch(function(error) {
         console.error(error)
@@ -65,7 +65,7 @@ export const setAudioVolume = (param) => (dispatch) => {
         if (tObj.res != "success") {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
         }
     }).catch(function(error) {
         console.error(error)
@@ -74,8 +74,8 @@ export const setAudioVolume = (param) => (dispatch) => {
 }
 
 /**
- * 获取 铃声音量,媒体音量,闹钟音量,设备铃声,通知铃声 
- * @param {*} callback 
+ * 获取 铃声音量,媒体音量,闹钟音量,设备铃声,通知铃声
+ * @param {*} callback
  */
 export const getAudioinfo = (callback) => (dispatch) => {
     let request = 'action=getaudioinfo&region=control';
@@ -91,7 +91,7 @@ export const getAudioinfo = (callback) => (dispatch) => {
 
 /**
  * 获取 设备铃声
- * @param {function} callback 
+ * @param {function} callback
  */
 export const getTonedblist = (callback) => (dispatch) => {
     let request = 'action=tonedblist&region=account';
@@ -106,7 +106,7 @@ export const getTonedblist = (callback) => (dispatch) => {
 
 /**
  * 获取 通知铃声
- * @param {function} callback 
+ * @param {function} callback
  */
 export const getNotificationdblist = (callback) => (dispatch) => {
     let request = 'action=notificationdblist&region=account';

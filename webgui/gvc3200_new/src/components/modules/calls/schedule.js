@@ -80,7 +80,7 @@ class History extends Component {
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
-                <TabPane tab = {this.tr("a_preschedule")} key={0}>
+                <TabPane tab = {this.tr("a_10011")} key={0}>
                     <ScheduleForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
                 <TabPane tab = {this.tr("history_all")} key={1}>

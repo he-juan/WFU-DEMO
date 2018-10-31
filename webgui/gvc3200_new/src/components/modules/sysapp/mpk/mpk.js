@@ -547,7 +547,7 @@ class MpkForm extends Component {
     }
 
     save_func = () => {
-        this.props.promptMsg("SUCCESS", "a_savesuc");
+        this.props.promptMsg("SUCCESS", "a_7479");
     }
 
     handleSubmit1 = (operatebtn,e) => {

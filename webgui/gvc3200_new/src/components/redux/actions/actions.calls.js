@@ -223,7 +223,7 @@ export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, 
             numbers = newnumber;
             accounts = newacct;
         }
-    }    
+    }
 
 
     // let tempnumbers = numbers.split(":::");
@@ -470,7 +470,7 @@ export const updateGroupMembers = (mEditMode,id,contactids) => (dispatch) => {
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
         } else {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         }

@@ -30,40 +30,20 @@ class Record extends Component {
 
     componentDidMount = () => {
         this.updateData();
-        if(this.isWP8xx() || (this.props.product == "GXV3380" && this.props.oemId == '54')){
-            this.setState({showRecordSet:true})
-        }
     }
 
     updateData = () => {
         this.props.get_recordinglist( (result) => {
             recordlistInfo = result;
         });
-        this.props.get_norrecordinglist( (result) => {
-            norrecordinglist = result;
-        });
+        // this.props.get_norrecordinglist( (result) => {
+        //     norrecordinglist = result;
+        // });
     }
 
     callback = (key) => {
         window.scrollTo(0,0);
         this.setState({activeKey:key})
-    }
-
-    convertUTCStrToLocal = (timeStr) => {
-        var year = timeStr.substring(0, 4);
-        var month = timeStr.substring(5, 7);
-        var day = timeStr.substring(8, 10);
-        var hour = timeStr.substring(11, 13);
-        var min = timeStr.substring(14, 16);
-        var sec = timeStr.substring(17, 19);
-
-        var dateObj = new Date(parseInt(year, 10), parseInt(month, 10)-1, parseInt(day, 10), parseInt(hour, 10), parseInt(min, 10), parseInt(sec, 10));
-        var timeValue = dateObj.getTime();
-
-        var d=new Date();
-        var gmtValue = -(d.getTimezoneOffset()/60);
-
-        return timeValue + gmtValue*60*60*1000;
     }
 
     view_status_Time = (Timevalue) => {
@@ -77,266 +57,76 @@ class Record extends Component {
         }
     }
 
-    handlePlaying = (text, index) => {
-        mOpid = text.Id;
-        var classname = document.getElementById(mOpid).className;
-        var lock = (classname && classname.split(' ')[1] && classname.split(' ')[1].substring(8));
-        var islock;
-        islock = lock == 0 ? islock = 0 : islock = 1;
-        var id = "playDiv" + index;
-        var PlayDiv = document.getElementById(id);
-        var Editdiv = document.getElementById(text.Id);
-        var downloadButtonId = "allow-download" + index;
-        var downloadButton = document.getElementById(downloadButtonId);
-        var editButtonId = "allow-edit" + index;
-        var editButton = document.getElementById(editButtonId);
-        var deleteButtonId = "allow-delete" + index;
-        var deleteButton = document.getElementById(deleteButtonId);
-        var lockedButtonId = "allow-lock" + index;
-        var lockedButton = document.getElementById(lockedButtonId);
-        var audio = PlayDiv.firstChild;
-        var timeLine = PlayDiv.firstChild.nextSibling;
-        var audioButton = PlayDiv.firstChild.nextSibling.nextSibling;
-        var progressBarBg = PlayDiv.lastChild.previousSibling;
-        var progressBar = PlayDiv.lastChild.previousSibling.firstChild;
-        var self = this;
-        for (let i = 0; i <recordlistInfo.length ; i++) {
-            let className = $('#playDiv'+i+' i').attr('class')
-            if( (className === 'Playing') && (i != index)) {
-                this.props.promptMsg("ERROR", "a_playinglimit");
-                return false;
-            }
-        }
-        audio.addEventListener('timeupdate', function () {
-            var value = audio.currentTime / audio.duration;
-            progressBar.style.width= value * 100 + '%';
-            $('#playDiv'+index+ ' #progressBarBg').hover(function(e){
-                var pgsWidth = progressBarBg.offsetWidth;
-                var timerate = (e.pageX - 658) / pgsWidth;
-                var timeValue = audio.duration * timerate;
-                var left = e.pageX - 658 +'px';
-                var timeFormat = self.view_status_Duration(timeValue*1000);
-                if (!audio.paused || audio.currentTime != 0) {
-                    timeLine.style.display= "inline-block";
-                }
-                timeLine.style.left= left;
-                timeLine.innerHTML = timeFormat;
-            }, function(){
-                timeLine.style.display= "none";
-            })
-        }, false);
-        audio.addEventListener('ended', function() {
-            Editdiv.className = 'callRecord';
-            progressBar.style.width= 0;
-            progressBarBg.style.cursor= "default";
-            audio.currentTime = 0;
-            audioButton.className = "initial";
-            editButton.disabled='';
-            downloadButton.disabled='';
-            deleteButton.disabled='';
-            lockedButton.disabled='';
-            var id = 'allow-lock'+index;
-            var spanId = 'locktype' + text.Id;
-            var name = islock == 0 ? 'allow-lock locktype0' : 'allow-lock locktype1';
-            var namediv = islock == 0 ? 'callRecord locktype0' : 'callRecord locktype1';
-            var namespan = islock == 0 ? 'lock locktype0' : 'lock locktype1';
-            document.getElementById(id).setAttribute("class", name);
-            document.getElementById(mOpid).setAttribute("class", namediv);
-            document.getElementById(spanId).setAttribute("class", namespan);
-        })
-        mEitdId = index;
-        mOpid = text.Id;
-        mType = text.Type;
-        var recordinglistInfo;
-        if (mType == "0") {
-            recordinglistInfo = recordlistInfo;
-        } else {
-            recordinglistInfo = norrecordinglist;
-        }
-        for (var i = 0; i < recordinglistInfo.length; i++) {
-            if (mOpid == recordinglistInfo[i]['Id']) {
-                path = recordinglistInfo[i]['Path'];
-                break;
-            }
-        }
-        var recNames = "";
-        var paths = path.split(",");
-        for (var i = 0; paths != undefined && paths[i] != undefined; i++) {
-            var pathName = paths[i].split("/");
-            var recName = pathName[pathName.length-1].split(".")[0];
-
-            if (recNames == "")
-                recNames = recName;
-            else
-                recNames += "," + recName;
-        }
-        var requestplay = "playrecord&region=maintenance&path=" + encodeURIComponent(recNames) +  "&recordtype=" + mType;
-        if (audioButton.className == "initial") {
-            this.props.getPlayRecord(requestplay, (result) => {
-                if (result.headers['response'] == "Success") {
-                    audio.src = "/records/"+recNames+".wav";
-                    var playPromise = audio.play();
-                    // In browsers that don’t yet support this functionality,
-                    // playPromise won’t be defined.
-                    if (playPromise !== undefined) {
-                      playPromise.then(function() {
-                        //play started!
-                        audioButton.className = "Playing";
-                        Editdiv.className = 'diabaledPlay';
-                        editButton.disabled='disabled';
-                        downloadButton.disabled='disabled';
-                        deleteButton.disabled='disabled';
-                        lockedButton.disabled='disabled';
-                        progressBarBg.style.cursor= "pointer";
-                      }).catch(function(error) {
-                        //play failed.
-                        this.props.promptMsg("ERROR", "a_playerror");
-                      });
-                    }
-                } else {
-                    this.props.promptMsg("ERROR", "a_playerror");
-                }
-            })
-        } else if (audioButton.className == "Playing"){
-            audioButton.className = "Pause";
-            Editdiv.className = 'diabaledPlay';
-            editButton.disabled='disabled';
-            downloadButton.disabled='disabled';
-            deleteButton.disabled='disabled';
-            lockedButton.disabled='disabled';
-            audio.pause();
-        } else if (audioButton.className == "Pause") {
-            audioButton.className = "Playing";
-            Editdiv.className = 'diabaledPlay';
-            editButton.disabled='disabled';
-            downloadButton.disabled='disabled';
-            deleteButton.disabled='disabled';
-            lockedButton.disabled='disabled';
-            audio.play();
-        }
-    }
-
-    handleGrag = (text, index, e) => {
-        var id = "playDiv" + index;
-        var PlayDiv = document.getElementById(id);
-        var audio = PlayDiv.firstChild;
-        var progressBarBg = PlayDiv.lastChild.previousSibling;
-        if (!audio.paused || audio.currentTime != 0) {
-            progressBarBg.style.cursor= "pointer";
-            var pgsWidth = progressBarBg.offsetWidth;
-            var rate = (e.pageX - 575) / pgsWidth;
-            audio.currentTime = audio.duration * rate;
-        } else {
-            progressBarBg.style.cursor= "default";
-        }
-    }
-
-    _createDuration = (text, record, index) => {
-        var duration = text.Duration;
-        var durationTimeArr = this.view_status_Duration(duration);
-        var pathArr = text.Path.split(',');
-        let statue;
-        if (pathArr.length > 1) {
-            statue = <span style={{"paddingLeft":"5px"}}>--</span>
-        } else {
-            statue = <div id={"playDiv" + index} style={{"height":"35px","line-height":"35px","position":"relative"}}>
-                <audio></audio>
-                <span className = "timeLine">00:00</span>
-                <i className='initial' onClick={this.handlePlaying.bind(this, text, index)}></i>
-                <div className="progress-bar-bg" id="progressBarBg" onClick = {this.handleGrag.bind(this, text, index)}>
-                    <div className="progress-bar" id="progressBar"></div>
-                </div>
-                <span>{this.tr(durationTimeArr)}</span>
-            </div>;
-        }
-        return statue;
-    }
-
     _createName = (text, record, index) => {
-        var name = text.Name;
-        var statue = <span id = {'locktype' + text.Id} className={'lock locktype' + text.Lock}>{name}<i style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}}></i></span>
+        let path = text.Path
+        let info = this.getRecordNameAndPath(path)
+        var name = info.name
+        var statue = <span id = {'locktype' + text.Id} className={'lock ellips locktype' + text.Lock}><i/>{name}</span>
         return statue;
     }
 
     _createTime = (text, record, index) => {
-        var Timevalue = this.convertUTCStrToLocal(text);
-        Timevalue = this.view_status_Time(Timevalue);
+        text = parseInt(text)
+        let Timevalue = this.view_status_Time(text);
         return Timevalue;
     }
 
     _createActions = (text, record, index) => {
         let statue;
         statue = <div id = {text.Id} className = {"callRecord locktype" + text.Lock}>
-            <button className='allow-download'  id = {'allow-download'+index}  onClick={this.handleDownload.bind(this,text,index)}></button>
+            <button className='allow-download'  id = {'allow-download'+index}  onClick={this.handleDownload.bind(this,text.Path,index)}></button>
             <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
             <button style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
-            <Popconfirm placement="top" title={this.tr("a_deleteall")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
+            <Popconfirm placement="top" title={this.tr("a_6174")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
                 <button className='allow-delete' id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;
         return statue;
     }
 
-    handleDownload = (text, index) => {
-        mEitdId = index;
-        mOpid = text.Id;
-        mType = text.Type;
-        var recordinglistInfo;
-        if (mType == "0") {
-            recordinglistInfo = recordlistInfo;
-        } else {
-            recordinglistInfo = norrecordinglist;
-        }
-        for (var i = 0; i < recordinglistInfo.length; i++) {
-            if (mOpid == recordinglistInfo[i]['Id']) {
-                path = recordinglistInfo[i]['Path'];
-                break;
-            }
-        }
-        var recNames = "";
-        var paths = path.split(",");
-        for (var i = 0; paths != undefined && paths[i] != undefined; i++) {
-            var pathName = paths[i].split("/");
-            var recName = pathName[pathName.length-1].split(".")[0];
+    getRecordNameAndPath = (path) => {
+        let mNameIndex = path.lastIndexOf("/") + 1;
+        let name = path.substring(mNameIndex);
+        let pathOnly = path.substring(0,mNameIndex-1)
+        return {name:name,pathOnly:pathOnly}
+    }
 
-            if (recNames == "")
-                recNames = recName;
+    handleDownload = (path, index) => {
+        let record = this.getRecordNameAndPath(path)
+        let recordingpath = record.pathOnly
+        let recordingName = record.name
+
+        if( recordingpath.indexOf("sdcard") != -1 ) {
+            parent.window.location.href = "/sdcard/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
+        } else if( recordingpath.indexOf("usbhost") != -1 ){
+            if( recordingpath.indexOf("usbhost0") != -1 )
+                parent.window.location.href = "/usbhost0/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
+            else if( recordingpath.indexOf("usbhost2") != -1 )
+                parent.window.location.href = "/usbhost2/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
+            else if( recordingpath.indexOf("usbhost3") != -1 )
+                parent.window.location.href = "/usbhost3/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
             else
-                recNames += "," + recName;
+                parent.window.location.href = "/usbhost1/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
+        } else {
+            parent.window.location.href = "/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
         }
-        path = path.replace(/ogg/g, "rgs").replace(/wav/g, "rgs").replace(/rgs/g, "");
-        var requestdown = "downrecord&region=maintenance&path=" + encodeURIComponent(recNames) + "&id=" + mOpid + "&recordtype=" + mType;
-        this.props.get_downRecord(requestdown);
     }
 
     handleLockItem = (text, index,e) => {
         mEitdId = index;
         mOpid = text.Id;
-        mType = text.Type;
-        var recordinglistInfo;
-        var self = this;
         var islock;
         var classname = e.target.className;
         var locktype = classname.split(" ")[1].substring(8);
         islock = locktype == 0 ? islock = 1 : islock = 0;
-        if (mType == "0") {
-            recordinglistInfo = recordlistInfo;
-        } else {
-            recordinglistInfo = norrecordinglist;
-        }
-        for (var i = 0; i < recordinglistInfo.length; i++) {
-            if (mOpid == recordinglistInfo[i]['Id']) {
-                break;
-            }
-        }
-        var requestlock = "recording&region=maintenance&type=lockrecord&id=" + mOpid + "&lockstate=" + islock + "&recordtype=" + mType;
+        var requestlock = "recording&region=maintenance&type=lockrecord&id=" + mOpid + "&lockstate=" + islock;
         this.props.get_lockRecord(requestlock, (result) => {
-            if (result == 'success') {
+            if (result == 'Success') {
                 var id = 'allow-lock'+index;
                 var spanId = 'locktype' + text.Id;
                 var name = islock == 0 ? 'allow-lock locktype0' : 'allow-lock locktype1';
                 var namediv = islock == 0 ? 'callRecord locktype0' : 'callRecord locktype1';
-                var namespan = islock == 0 ? 'lock locktype0' : 'lock locktype1';
+                var namespan = islock == 0 ? 'lock ellips locktype0' : 'lock ellips locktype1';
                 document.getElementById(id).setAttribute("class", name);
                 document.getElementById(mOpid).setAttribute("class", namediv);
                 document.getElementById(spanId).setAttribute("class", namespan);
@@ -345,69 +135,55 @@ class Record extends Component {
     }
 
     handleEditItem = (text, index) => {
-        mEitdId = index;
-        mOpid = text.Id;
-        mType = text.Type;
-        var recordinglistInfo;
+        let id = text.Id
+        let dom = 'locktype' + id;
+        let className = document.getElementById(dom).className;
+        var lock = className.split('locktype')[1]
+        if(lock == '1') {
+            this.props.promptMsg('ERROR',"a_18567");
+            return false
+        }
         var self = this;
-        if (mType == "0") {
-            recordinglistInfo = recordlistInfo;
-        } else {
-            recordinglistInfo = norrecordinglist;
-        }
-        for (var i = 0; i < recordinglistInfo.length; i++) {
-            if (mOpid == recordinglistInfo[i]['Id']) {
-                path = recordinglistInfo[i]['Path'];
-                break;
-            }
-        }
         Modal.info({
             title: <span dangerouslySetInnerHTML={{__html: self.tr("a_69")}}></span>,
             content: (
                 <div>
-                    <Input id="renameinput" name="renameinput" type="text" ></Input>
+                    <Input id="renameinput" name="renameinput" type="text"></Input>
                 </div>
             ),
             okText: <span dangerouslySetInnerHTML={{__html: self.tr("a_2")}}></span>,
             cancelText: <span dangerouslySetInnerHTML={{__html: self.tr("a_3")}}></span>,
-            onOk() {self.handleOk(mOpid,mType,path)},
+            onOk() {self.handleOk(text)},
             onCancel() {}
         });
     }
 
-    handleOk = (mOpid,mType,path) => {
+    handleOk = (text) => {
         var value  = document.getElementById("renameinput").value;
-        var oldname;
-        var recordinglistInfo;
-        if (mType == "0") {
-            recordinglistInfo = recordlistInfo;
-        } else {
-            recordinglistInfo = norrecordinglist;
-        }
-        for (var i = 0; i < recordinglistInfo.length; i++) {
-            if (mOpid == recordinglistInfo[i]['Id']) {
-                oldname = recordinglistInfo[i]['Name'];
-                break;
-            }
-        }
         var newname = $.trim(value);
         if (newname.length > 64) {
-            this.props.promptMsg('ERROR',"a_recordlen");
+            this.props.promptMsg('ERROR',"a_15073");
             return false;
         }
-
+        let path = text.Path
+        let info = this.getRecordNameAndPath(path)
+        var oldname = info.name
+        let pathOnly = info.pathOnly
+        var recordinglistInfo = [];
+        let mOpid = text.Id
         var spcharlength = mSpChar.length;
         var illegalflag = false;
         if (newname == '') {
             return false;
         } else {
-            this.props.get_recordinglist( (result) => {
-                recordinglistInfo = result;
-            });
-            for (let i = 0; i <recordinglistInfo.length ; i++) {
-                if(newname === recordinglistInfo[i].Name) {
-                    if(recordinglistInfo[i]['Id'] !== mOpid){
-                        this.props.promptMsg('ERROR',"a_nameexist");
+            recordinglistInfo = this.props.recordinglist
+            for (let i = 0; recordinglistInfo[i] != undefined ; i++) {
+                let item = recordinglistInfo[i]
+                let name = this.getRecordNameAndPath(item.Path).name
+                let str = newname + '.mkv'
+                if(str === name) {
+                    if(item['Id'] !== mOpid){
+                        this.props.promptMsg('ERROR',"a_18568");
                         return false;
                     }
                 }
@@ -425,138 +201,36 @@ class Record extends Component {
             illegalflag = true;
         }
         if (illegalflag) {
-            this.props.promptMsg('ERROR',"a_renameerr");
+            this.props.promptMsg('ERROR',"a_2096");
             return false;
         }
+        newname += '.mkv'
         if (newname == oldname) {
             return false;
         }
-        this.props.promptSpinMsg('display-block', "a_processing");
-        var hassame = false;
-        var requestUri = "recording&region=maintenance&type=renamerecord&id=" + mOpid + "&newname=" + encodeURIComponent(newname) + "&recordtype=" + mType;
-        var pathNum = 0;
-        if (path.split(",").length > 1) {
-            var tmpPaths = path.split(",");
-            var newPath = "";
-            for (var i = 0; tmpPaths[i] != undefined; i++) {
-                var pathSplit = tmpPaths[i].split("/");
-                var nameStr = pathSplit[pathSplit.length-1].split("_");
-                nameStr = nameStr[nameStr.length-1];
-                var realNameStr = pathSplit[pathSplit.length-1].substring(0, pathSplit[pathSplit.length-1].length - nameStr.length - 1);
-                var oldNameStr = realNameStr;
-                var newNameStr = newname;
-                var tmpPathsName = tmpPaths[i].split("/");
-                var newpathName = tmpPathsName[3].replace(new RegExp(oldNameStr, 'g'), newNameStr);
-                tmpPaths[i] = tmpPaths[i].replace(new RegExp(tmpPathsName[3], 'g'), newpathName);
-                if (newPath == ""){
-                    newPath = tmpPaths[i];
-                } else {
-                    newPath += "," + tmpPaths[i];
-                }
-            }
-        } else {
-            var pathSplit = path.split("/");
-            var nameStr = pathSplit[pathSplit.length -1].split(".")[0];
-
-            if (mType == "2") {
-                var oldNameStr = nameStr + ".wav";
-                var newNameStr = newname + ".wav";
-            } else {
-                var oldNameStr = nameStr + ".ogg";
-                var newNameStr = newname + ".ogg";
-            }
-            var newPath = path.replace(new RegExp(oldNameStr, 'g'), newNameStr);
-        }
-        requestUri += "&newpath=" + encodeURIComponent(newPath);
-        var paths = path.split(",");
-        for (var i = 0; paths[i] != undefined; i++) {
-            paths[i] = paths[i].replace(/ogg/g, "rgs").replace(/wav/g, "rgs");
-            if (paths.length > 1) {
-                var pathSplit = paths[i].split("/");
-                var nameStr = pathSplit[pathSplit.length - 1].split("_");
-                nameStr = nameStr[nameStr.length-1];
-                var realNameStr = pathSplit[pathSplit.length-1].substring(0, pathSplit[pathSplit.length-1].length - nameStr.length - 1);
-                var oldNameStr = realNameStr;
-                var newNameStr = newname;
-
-                var newpathName = pathSplit[3].replace(new RegExp(oldNameStr, 'g'), newNameStr);
-                var newpath = paths[i].replace(new RegExp(pathSplit[3], 'g'), newpathName);
-            } else {
-                var pathSplit = paths[i].split("/");
-                var nameStr = pathSplit[pathSplit.length-1].split(".")[0];
-
-                var oldNameStr = nameStr + ".rgs";
-                var newNameStr = newname + ".rgs";
-
-                var newpath = paths[i].replace(new RegExp(oldNameStr, 'g'), newNameStr);
-            }
-            paths[i] = paths[i].replace(/rgs/g, "*");
-            requestUri += "&path" + pathNum + "=" + encodeURIComponent(paths[i]);
-            requestUri += "&newpath" + pathNum + "=" + encodeURIComponent(newpath);
-
-            pathNum++;
-        }
-        requestUri += "&pathnum=" + pathNum;
-        this.props.get_renameRecord(requestUri, (data) => {
-            if (data.response == "success") {
-
-                this.props.promptSpinMsg('display-hidden', "a_processing");
-                var newpath = requestUri.split("newpath=")[1].split("&")[0];
-                newpath = decodeURIComponent(newpath);
-                for (var i = 0; i < recordinglistInfo.length; i++) {
-                   if (mOpid == recordinglistInfo[i]['Id']) {
-                       recordinglistInfo[i]['Path'] = newpath;
-                   }
-                }
-                this.updateData();
-                this.props.promptMsg('SUCCESS',"a_edit_ok");
-                var requesturi = "recordingnotify&region=maintenance&type=rename&id=" + mOpid;
-                this.props.get_recordingNotify(requesturi);
-           } else {
-               var msg = data.Msg;
-                this.props.promptSpinMsg('display-hidden', "a_processing");
-                if (msg == "Playing") {
-                    this.props.promptMsg('ERROR',"a_playing");
-                } else {
-                    this.props.promptMsg('ERROR',"a_63");
-                }
-           }
-        });
+        // this.props.promptSpinMsg('display-block', "a_processing");
+        var requestUri = "recording&region=maintenance&type=renamerecord&id=" + mOpid + "&name=" + encodeURIComponent(oldname) + "&newname=" + encodeURIComponent(newname) + "&pathonly=" + encodeURIComponent(pathOnly);
+        this.props.resetVideoName(requestUri,()=>{
+            this.updateData()
+        })
     }
 
     handleOkDelete = (text, index) => {
-        mEitdId = index;
-        mOpid = text.Id;
-        mType = text.Type;
-        var classname = document.getElementById(mOpid).className;
-        var lock = classname.split(' ')[1].substring(8);
-        if( lock == "1" ){
-            this.props.promptMsg('ERROR',"a_del_locked");
-            return false;
+        if (text.Lock == '1') {
+            this.props.promptMsg('ERROR',"a_6162");
         }
-        var recordinglistInfo;
-        if (mType == "0") {
-            recordinglistInfo = recordlistInfo;
-        } else {
-            recordinglistInfo = norrecordinglist;
-        }
-        for (var i = 0; i < recordinglistInfo.length; i++) {
-            if (mOpid == recordinglistInfo[i]['Id']) {
-                path = recordinglistInfo[i]['Path'];
-                break;
-            }
-        }
-        var number = 1;
+        let mOpid = text.Id;
+        let path = text.Path
         var delteId = [mOpid];
         path = path.replace(/ogg/g, "rgs").replace(/wav/g, "rgs").replace(/rgs/g, "*").replace(/,/g, " ");
-        var requestDelete = "recording&region=maintenance&type=deleterecord&id0=" + mOpid + "&filename0=" + encodeURIComponent(path) + "&recordtype0=" + mType + "&num=" + number;
+        var requestDelete = "recording&region=maintenance&type=deleterecord&id=" + mOpid + "&filename=" + encodeURIComponent(path);
         this.props.get_deleteRecord(requestDelete, (data) => {
-            if (data.id == '') {
-                this.props.promptMsg('ERROR',"a_del_failed");
-            } else if (data.id === delteId.join(',')) {
-                this.props.promptMsg('SUCCESS',"a_del_ok");
+            if (data.Id == '') {
+                this.props.promptMsg('ERROR',"a_58");
+            } else if (data.Id === delteId.join(',')) {
+                this.props.promptMsg('SUCCESS',"a_57");
             } else {
-                this.props.promptMsg('ERROR',"a_delerr");
+                this.props.promptMsg('ERROR',"a_20157");
             }
             $(".CallDiv #allow-download"+mEitdId).parent().parent().parent().remove();
             for (var i = recordinglistInfo.length; i > 0; i--) {
@@ -564,25 +238,19 @@ class Record extends Component {
                     recordinglistInfo.splice(i,1);
                 }
             }
+            this.updateData()
             var requesturi = "recordingnotify&region=maintenance&type=rename&id=" + data.id;
             this.props.get_recordingNotify(requesturi);
         });
-    }
-
-    handleRecordSet = () => {
-        this.setState({displaySetModal: true});
-    }
-    handleHideSetModal = () => {
-        this.setState({displaySetModal: false});
     }
 
     render() {
         let hideItem = [];
         let tabList =
             <Tabs className="config-tab" activeKey={this.state.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
-                <TabPane tab = {this.tr("call_record")} key={0}>
+                <TabPane tab = {this.tr("a_12098")} key={0}>
                     <Call {...this.props} hideItem={hideItem} callTr={this.tr} activeKey={this.state.activeKey}
-                        _createName = {this._createName} _createDuration = {this._createDuration} _createTime = {this._createTime} _createActions = {this._createActions} />
+                        _createName = {this._createName}  _createTime = {this._createTime} _createActions = {this._createActions} getRecordNameAndPath={this.getRecordNameAndPath} updateData={this.updateData}/>
                 </TabPane>
                 <TabPane tab = {this.tr("normal_record")} key={1}>
                     <Normal {...this.props} hideItem={hideItem} callTr={this.tr} activeKey={this.state.activeKey}
@@ -606,15 +274,8 @@ class Record extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("sysapp_record")}</div>
-                {
-                this.state.showRecordSet ?
-                <div  style={{height:'1px',position:'relative',background:'transparent'}}>
-                    <i className='recordSetIcon' onClick={this.handleRecordSet.bind(this)}></i>
-                </div>:null
-                }
+                <div className="subpagetitle">{this.tr("a_12098")}</div>
                 {tabList}
-                <RecordSetForm {...this.props} displaySetModal={this.state.displaySetModal} handleHideSetModal={this.handleHideSetModal}  callTr={this.tr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
             </Content>
         );
     }
@@ -624,7 +285,7 @@ const mapStateToProps = (state) => ({
     curLocale: state.curLocale,
     mainHeight: state.mainHeight,
     userType: state.userType,
-    recordinglist:state.recordinglist,
+    recordinglist:state.videorecordinglist,
     norrecordinglist:state.norrecordinglist,
     product: state.product,
     oemId:state.oemId,
@@ -634,7 +295,7 @@ function mapDispatchToProps(dispatch) {
     var actions = {
         getItemValues: Actions.getItemValues,
         setItemValues: Actions.setItemValues,
-        get_recordinglist: Actions.get_recordinglist,
+        get_recordinglist: Actions.getVideoRecording,
         get_norrecordinglist: Actions.get_norrecordinglist,
         get_downRecord: Actions.get_downRecord,
         get_lockRecord: Actions.get_lockRecord,
@@ -643,7 +304,8 @@ function mapDispatchToProps(dispatch) {
         promptSpinMsg:Actions.promptSpinMsg,
         get_renameRecord: Actions.get_renameRecord,
         get_deleteRecord: Actions.get_deleteRecord,
-        get_recordingNotify: Actions.get_recordingNotify
+        get_recordingNotify: Actions.get_recordingNotify,
+        resetVideoName:Actions.resetVideoName
     }
     return bindActionCreators(actions, dispatch)
 }

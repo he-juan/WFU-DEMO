@@ -1125,7 +1125,7 @@ export const setEventItems = (values) => (dispatch) => {
         if (actionUtil.cb_if_is_fail(msgs)) {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
             checkIsApplyNeed();
         }
     }).catch(function(error) {
@@ -1708,7 +1708,7 @@ export const setVpkValues = (items, values, flag, key,keyMode, getVpkValues,vpkO
         if (actionUtil.cb_if_is_fail(msgs)) {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
             checkIsApplyNeed(dispatch);
             getVpkValues(vpkOrder);
             keyMode == "17" && ModeChange("17");
@@ -1797,25 +1797,25 @@ export const get_norrecordinglist = (callback) => (dispatch) => {
     });
 }
 
-export const get_recordinglist = (callback) => (dispatch) => {
-    let request = 'action=recording&region=maintenance&type=getrecordinglist';
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let recordinglist = [];
-        var Use24Hour;
-        if( data.substring(0, 1) == "{" )
-        {
-            var json = eval("(" + data + ")");
-            recordinglist = json.Data;
-            Use24Hour = json.Use24Hour;
-        }
-        callback(recordinglist);
-        dispatch({type: 'REQUEST_GET_RECORDINGLIST', recordinglist: recordinglist});
-        dispatch({type: 'REQUEST_GET_USE24HOUR', Use24Hour: Use24Hour});
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+// export const get_recordinglist = (callback) => (dispatch) => {
+//     let request = 'action=recording&region=maintenance&type=getrecordinglist';
+//
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let recordinglist = [];
+//         var Use24Hour;
+//         if( data.substring(0, 1) == "{" )
+//         {
+//             var json = eval("(" + data + ")");
+//             recordinglist = json.Data;
+//             Use24Hour = json.Use24Hour;
+//         }
+//         callback(recordinglist);
+//         dispatch({type: 'REQUEST_GET_RECORDINGLIST', recordinglist: recordinglist});
+//         dispatch({type: 'REQUEST_GET_USE24HOUR', Use24Hour: Use24Hour});
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
 export const get_renameRecord = (requestUri, callback) => (dispatch) => {
     let request = 'action='+requestUri;
@@ -1838,19 +1838,7 @@ export const get_recordingNotify = (requesturi) => {
     });
 }
 
-export const get_deleteRecord = (requestDelete, callback) => (dispatch) => {
-    let request = 'action='+requestDelete;
-    actionUtil.handleGetRequest(request).then(function(data) {
-        if( data.substring(0, 1) == "{" )
-        {
-            var json = eval("(" + data + ")");
-        }
-        callback(json);
 
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 export const getPlayRecord = (requestplay, callback) => (dispatch) => {
     let request = 'action='+requestplay;
@@ -1881,18 +1869,7 @@ export const get_downRecord = (requestdown) => (dispatch) => {
     });
 }
 
-export const get_lockRecord = (requestlock, callback) => (dispatch) => {
-    let request = 'action=' + requestlock;
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = JSON.parse(data);
-        if (msgs['response'] == 'success') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'SUCCESS', content: 'a_locksuccess'}});
-        }
-        callback(msgs['response']);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    })
-}
+
 
 export const ftprecordingupdate = () => (dispatch) => {
     let request = "action=ftprecordingupdate";

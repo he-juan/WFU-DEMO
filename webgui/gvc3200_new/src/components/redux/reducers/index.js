@@ -448,6 +448,17 @@ const recordinglist = (state={}, action) => {
     }
 }
 
+const videorecordinglist = (state={}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_VIDEORECORDINGLIST:
+            return action.videorecordinglist
+        // case Actions.CHANGE_RECORDINGLIST:
+        //     return action.recordinglist
+        default:
+            return state
+    }
+}
+
 const blf = (state={}, action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_BLF:
@@ -751,6 +762,7 @@ const rootReducer = combineReducers({
     screenList,
     norrecordinglist,
     recordinglist,
+    videorecordinglist,
     blf,
     logItemdata,
     Use24Hour,

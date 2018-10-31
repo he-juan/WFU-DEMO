@@ -641,7 +641,7 @@ class Call extends Component {
                 this._createRow0(text, record, index)
             )
         }, {
-            title: callTr("a_4304"),
+            title: callTr("a_12225"),
             key: 'row1',
             dataIndex: 'row1',
             width: '30%',

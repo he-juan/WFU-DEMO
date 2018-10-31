@@ -62,7 +62,7 @@ export const setItemValues = (items, values, flag, callback) => (dispatch) => {
         if (actionUtil.cb_if_is_fail(msgs)) {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
             actionUtil.checkIsApplyNeed(dispatch);
             if (typeof callback === 'function') {
                 callback();
@@ -222,7 +222,7 @@ export const cb_put_download_param = (action, flag, data, downserver, downConfig
                 if( actionUtil.cb_if_is_fail(msgs) ) {
                     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
                 } else {
-                    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+                    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
                     checkIsApplyNeed();
                 }
             } else if(flag == 1) {

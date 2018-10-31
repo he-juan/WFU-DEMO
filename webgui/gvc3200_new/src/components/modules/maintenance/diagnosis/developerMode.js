@@ -46,7 +46,7 @@ class DevForm extends Component {
                 let devemode
                 devemode=(values.devestate?"1":"0")
                 this.props.setdevelopmode(devemode,()=>{
-                    this.props.promptMsg("SUCCESS", "a_savesuc");
+                    this.props.promptMsg("SUCCESS", "a_7479");
                 });
             }
         });

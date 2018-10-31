@@ -5066,12 +5066,14 @@ table thead tr th{
 .CallDiv span.lock {
     display: inline-block;
     vertical-align: middle;
+    padding-right: 20px;
 }
 .CallDiv span.lock i {
     width: 20px;
     height: 20px;
     top: 6px;
     margin-left: 8px;
+    margin-right: 3px;
 }
 .CallDiv span.locktype1 i {
     background: url(../img/icon.png) -422px -192px no-repeat;
@@ -6660,7 +6662,7 @@ ol.mp_list li.mp_error {}
     height: 500px;
     margin: 20px 0;
     background: #6b6b6b;
-    border-radius: 5px;    
+    border-radius: 5px;
     box-shadow: 0 0 3px 3px #cccccc;
     position: relative;
 }
@@ -6861,7 +6863,7 @@ ol.mp_list li.mp_error {}
         width: 990px !important;
         margin: 10px;
     }
-    
+
 }
 .custom-control-preview.sechdmi {
     margin-top: 20px;

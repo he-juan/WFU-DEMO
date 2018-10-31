@@ -32,7 +32,7 @@ export const options = [
             {"name": "preschedule", "lang": "a_preschedule", "sub": [
 
                 ]},
-            {"name": "conf_history", "lang": "history_all", "sub": [
+            {"name": "conf_history", "lang": "history_all", "product":"1,2", "sub": [
 
                 ]}
         ]},
@@ -525,6 +525,14 @@ export const options = [
                 {"name": "LDAP Lookup For Incoming Call", "lang": "a_6770"},
                 {"name": "LDAP Dialing Default Account", "lang": "a_19671"},
                 {"type": "button", "lang": "a_17"}
+            ]}
+        ]},
+        {"name": "record", "lang": "a_12098", "sub": [
+            {"name": "call", "lang": "a_12098", "sub": [
+                {"type": "button", "lang": "a_21"}
+            ]},
+            {"name": "normal", "product": "1,2", "lang": "a_12098", "sub": [
+                {"type": "button", "lang": "a_21"}
             ]}
         ]}
     ]},

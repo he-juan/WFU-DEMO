@@ -28,16 +28,21 @@ class History extends Component {
         if(!this.props.contactsInformation.length) {
             this.props.getContacts()
         }
-        if(!this.props.callnameinfo.length) {
-            this.props.getNormalCalllogNames()
-        }
-        if(!this.props.confmemberinfodata.length) {
-            this.props.getAllConfMember()
-        }
-        this.props.get_calllog(0);
         if(!this.props.contactinfodata.length) {
             this.props.getContactsinfo();
         }
+        // if(!this.props.callnameinfo.length) {
+        //     this.props.getNormalCalllogNames()
+        // }
+        // if(!this.props.confmemberinfodata.length) {
+        //     this.props.getAllConfMember()
+        // }
+        console.log('hehe')
+        this.props.get_calllog(0);
+        this.props.getNormalCalllogNames()
+        this.props.getAllConfMember()
+
+
     }
 
     isYestday = (theDate) => {

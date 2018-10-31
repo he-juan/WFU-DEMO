@@ -57,9 +57,9 @@ var Enhance = myComponent => {
             timestr += minutes;
             if (mUse24Hour == 0) {
                 if (hours < 12)
-                    timestr += " " + this.tr("a_19673");
+                    timestr += " " + this.tr("a_19672");
                 else
-                    timestr += " " + this.tr("a_19674");
+                    timestr += " " + this.tr("a_19673");
             }
 
             return timestr;
