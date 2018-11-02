@@ -9,7 +9,8 @@ LOCAL_POST_PROCESS_COMMAND := $(shell mkdir -p $(TARGET_OUT)/lighttpd)
 LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/webserver/etc $(TARGET_OUT)/lighttpd/.)
 LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/webserver/lighttpd/sbin $(TARGET_OUT)/lighttpd/.)
 LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/webserver/lighttpd/lib $(TARGET_OUT)/lighttpd/.)
-LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/webgui $(TARGET_OUT)/.)
+LOCAL_POST_PROCESS_COMMAND += $(shell mkdir -p $(TARGET_OUT)/webgui/gvc3200)
+LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/webgui/gvc3200_new/* $(TARGET_OUT)/webgui/gvc3200/)
 LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/webserver/pem/gxe50xx.pem $(TARGET_OUT)/etc/.)
 
 LOCAL_POST_PROCESS_COMMAND := $(shell mkdir -p $(TARGET_OUT)/lib)
@@ -19,6 +20,6 @@ LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/sox/lib/libsox
 LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/libmad/lib/libmad.so $(TARGET_OUT)/lib/.)
 LOCAL_POST_PROCESS_COMMAND += $(shell cp -r $(LOCAL_PATH)/sox/lib/lame/lib/libmp3lame.so $(TARGET_OUT)/lib/.)
 
-include $(BUILD_MULTI_PREBUILT)
+#include $(BUILD_MULTI_PREBUILT)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))

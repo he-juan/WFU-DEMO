@@ -23,4 +23,5 @@ LOCAL_SRC_FILES := ./libmp3lame/bitstream.c \
     ./libmp3lame/VbrTag.c \
     ./libmp3lame/version.c
 LOCAL_LDLIBS := -llog
+LOCAL_CFLAGS += -Wno-error=return-type -Wno-error=non-virtual-dtor -Wno-error=address -Wno-error=sequence-point -Wno-error=implicit-function-declaration -DHAVE_MEMCPY -DHAVE_STRCHR
 include $(BUILD_SHARED_LIBRARY)

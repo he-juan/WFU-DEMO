@@ -14229,7 +14229,7 @@ static int handle_getvericert(buffer *b)
 
 static int handle_check_custom_cert()
 {
-    SSL_CTX *ctx;
+    /*SSL_CTX *ctx;
 
     SSL_load_error_strings();
     SSL_library_init();
@@ -14257,7 +14257,7 @@ static int handle_check_custom_cert()
     {
         printf("SSL Error: %s\n", ERR_error_string(ERR_get_error(), NULL));
         return -1;
-    }
+    }*/
 
     return 0;
 }

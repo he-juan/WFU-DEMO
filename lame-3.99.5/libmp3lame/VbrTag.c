@@ -427,7 +427,7 @@ GetVbrTag(VBRTAGDATA * pTagData, const unsigned char *buf)
     }
 
     if (head_flags & TOC_FLAG) {
-        if (pTagData->toc != NULL) {
+        if (pTagData->toc != "") {
             for (i = 0; i < NUMTOCENTRIES; i++)
                 pTagData->toc[i] = buf[i];
         }
