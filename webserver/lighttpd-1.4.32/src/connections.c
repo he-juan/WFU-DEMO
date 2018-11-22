@@ -9561,7 +9561,7 @@ static int handle_vendor (server *srv, connection *con,
     char *temp = NULL;
     int ret = -1;
     
-    sys_file = fopen ("/proc/gxvboard/dev_info/vendor_fullname", "r");
+    sys_file = fopen ("/proc/gsboard/dev_info/vendor_fullname", "r");
     
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
@@ -9616,14 +9616,14 @@ static int handle_productinfo (server *srv, connection *con,
     FILE *sys_file;
     char * temp = NULL;
 
-    sys_file = fopen ("/proc/gxvboard/dev_info/vendor_fullname", "r");
+    sys_file = fopen ("/proc/gsboard/dev_info/vendor_fullname", "r");
     
     if (sys_file != NULL) {
         fread (vendorBuf, 127, 1, sys_file);
         fclose (sys_file);
     }
 
-    sys_file = fopen ("/proc/gxvboard/dev_info/dev_alias", "r");
+    sys_file = fopen ("/proc/gsboard/dev_info/dev_alias", "r");
 
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
@@ -9675,7 +9675,7 @@ static int handle_product (server *srv, connection *con,
     FILE *sys_file;
     char * temp = NULL;
 
-    sys_file = fopen ("/proc/gxvboard/dev_info/dev_alias", "r");
+    sys_file = fopen ("/proc/gsboard/dev_info/dev_alias", "r");
 
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
@@ -9727,7 +9727,7 @@ static int handle_hardware (server *srv, connection *con,
     FILE *sys_file;
     char *temp = NULL;
     
-    sys_file = fopen ("/proc/gxvboard/dev_info/dev_rev", "r");
+    sys_file = fopen ("/proc/gsboard/dev_info/dev_rev", "r");
     
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
@@ -9902,7 +9902,7 @@ static int handle_pn (server *srv, connection *con,
     char buf[128] = "";
     FILE *sys_file;
 
-    sys_file = fopen ( "/proc/gxvboard/dev_info/PN", "r" );
+    sys_file = fopen ( "/proc/gsboard/dev_info/PN", "r" );
     
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
@@ -9951,7 +9951,7 @@ static int handle_sn (server *srv, connection *con,
     char res[128] = "";
 
     char pn[128] = "";
-    FILE *sys_file = fopen ( "/proc/gxvboard/dev_info/PN", "r" );
+    FILE *sys_file = fopen ( "/proc/gsboard/dev_info/PN", "r" );
     
     if (sys_file != NULL) 
     {
@@ -10687,7 +10687,7 @@ static int handle_fxoexist(buffer *b)
     int fxoexist;
     FILE *sys_file;
     
-    sys_file = fopen ("/proc/gxvboard/dev_info/have_FXO", "r");
+    sys_file = fopen ("/proc/gsboard/dev_info/have_FXO", "r");
     
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
@@ -14754,7 +14754,7 @@ static int handle_get_len_type(buffer *b)
     char buf[128] = "";
     FILE *fproc = NULL;
 
-    fproc = fopen ("/proc/gxvboard/dev_info/len_type", "r");
+    fproc = fopen ("/proc/gsboard/dev_info/len_type", "r");
     if (fproc != NULL) {
         fread (buf, 127, 1, fproc);
         fclose (fproc);
@@ -20141,7 +20141,7 @@ static int handle_swipeScreen(server *srv, connection *con,
 
      FILE *sys_file;
      char buf[128] = "";
-     sys_file = fopen ("/proc/gxvboard/dev_info/dev_alias", "r");
+     sys_file = fopen ("/proc/gsboard/dev_info/dev_alias", "r");
      int  max_width = 480;
      int  max_height =272;
      if (sys_file != NULL) {
@@ -20219,7 +20219,7 @@ static int handle_touchscreen(server *srv, connection *con,
         }
      FILE *sys_file;
     char buf[128] = "";
-    sys_file = fopen ("/proc/gxvboard/dev_info/dev_alias", "r");
+    sys_file = fopen ("/proc/gsboard/dev_info/dev_alias", "r");
     int  max_width = 480;
     int  max_height =272;
     if (sys_file != NULL) {
