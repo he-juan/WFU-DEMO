@@ -106,7 +106,7 @@ const menuList = (state = {}, action) => {
     }
 }
 
-const vendor = (state = {}, action) => {
+const vendor = (state = "", action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_VENDOR:
             return action.vendor
@@ -115,7 +115,7 @@ const vendor = (state = {}, action) => {
     }
 }
 
-const product = (state = {}, action) => {
+const product = (state = "", action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_PRODUCT:
             return action.product
@@ -124,7 +124,7 @@ const product = (state = {}, action) => {
     }
 }
 
-const productStr = (state = {}, action) => {
+const productStr = (state = "", action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_PRODUCTSTR:
             return action.productStr

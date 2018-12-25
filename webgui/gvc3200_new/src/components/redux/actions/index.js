@@ -178,9 +178,12 @@ export const getProduct = () => (dispatch) => {
     let request = 'action=productinfo&time=' + new Date().getTime();
     actionUtil.handleSyncRequest(request, (data) => {
         let msgs = actionUtil.res_parse_rawtext(data);
-        dispatch({type: 'REQUEST_GET_PRODUCT', product: msgs.headers['product']});
-        dispatch({type: 'REQUEST_GET_PRODUCTSTR', productStr: msgs.headers['product']});
-        dispatch({type: 'REQUEST_GET_VENDOR', vendor: msgs.headers['vendor']});
+
+        if(msgs.headers['product']) {
+            dispatch({type: 'REQUEST_GET_PRODUCT', product: msgs.headers['product']});
+            dispatch({type: 'REQUEST_GET_PRODUCTSTR', productStr: msgs.headers['product']});
+            dispatch({type: 'REQUEST_GET_VENDOR', vendor: msgs.headers['vendor']});
+        }
     })
 }
 
