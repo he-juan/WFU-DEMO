@@ -361,6 +361,7 @@ int m_uploading = 0;
 int m_upgradeall = 0;
 const char *mRealm = NULL;
 struct sockaddr_un provision_destaddr;
+int pwdNeedChange = 0;
 int tempOpenSyslog = 0;
 //pthread_cond_t changeinput_cond = PTHREAD_COND_INITIALIZER;
 
@@ -8691,6 +8692,97 @@ static int handle_getUSB2state(buffer *b)
     closedir(dir);
     return 1;
 
+}
+
+static int handle_changedefaultpwd(server *srv, connection *con, buffer *b, const struct message *m)
+{
+    if (pwdNeedChange == 0) {
+        buffer_append_string(b, "Response=Error\r\nErrorCode=0");
+        return -1;
+    }
+
+    char *adminpwd = msg_get_header(m, "adminpwd");
+    char *userpwd = msg_get_header(m, "userpwd");
+    if (adminpwd != NULL) {
+        uri_decode((char*)adminpwd);
+    }
+    if (userpwd != NULL) {
+        uri_decode((char*)userpwd);
+    }
+    int ret = 0;
+
+    if (!strcmp(usertype, "admin")) {
+        if (adminpwd == NULL && !strcmp(adminpwd, "")) {
+            ret = 1;
+        } else if (!strcmp(adminpwd, "admin")) {
+            ret = 2;
+        } else if (userpwd != NULL && !strcmp(userpwd, "123")) {
+            ret = 4;
+        } else {
+            nvram_set("2", adminpwd);
+            if (userpwd != NULL && strcmp(userpwd, "")) {
+                nvram_set("196", userpwd);
+            }
+        }
+    } else if (!strcmp(usertype, "user")) {
+        if (userpwd == NULL && !strcmp(userpwd, "")) {
+            ret = 3;
+        } else if (!strcmp(userpwd, "123")) {
+            ret = 4;
+        } else {
+            nvram_set("196", userpwd);
+        }
+    }
+
+    if (ret != 0) {
+        char *temp = malloc(64);
+        memset(temp, 0, 64);
+        snprintf(temp, 64, "Response=Error\r\nErrorCode=%d\r\n", ret);
+        buffer_append_string(b, temp);
+        free(temp);
+    } else {
+        nvram_commit();
+
+        long unsigned int cookie;
+        char *tmp = NULL;
+
+        time_t now;
+        cookie = rand();
+        tmp = malloc(128);
+        time(&now);
+
+        if( (!strcasecmp("admin", newloginuser)) || (!strcasecmp("user", newloginuser))) {
+            sprintf(usercookie, "%08lx", cookie);
+            snprintf(tmp, 128, "phonecookie=\"%s\";HttpOnly", usercookie);
+            sessiontimeout = now + WEB_TIMEOUT;
+        }
+
+        response_header_overwrite(srv, con, CONST_STR_LEN("Set-Cookie"),
+            CONST_GCHAR_LEN(tmp));
+
+        free(tmp);
+
+        tmp = malloc(strlen(usertype)+16);
+        snprintf(tmp, strlen(usertype)+16, "type=%s;", newloginuser);
+        response_header_insert(srv, con, CONST_STR_LEN("Set-Cookie"),
+            CONST_GCHAR_LEN(tmp));
+
+        free(tmp);
+
+        response_header_insert(srv, con, CONST_STR_LEN("Set-Cookie"),
+            CONST_STR_LEN("Version=\"1\";"));
+        tmp = malloc(16);
+        snprintf(tmp, 16, "Max-Age=%d", WEB_TIMEOUT);
+        response_header_insert(srv, con, CONST_STR_LEN("Set-Cookie"),
+            CONST_GCHAR_LEN(tmp));
+
+        free(tmp);
+
+        buffer_append_string(b, "Response=Success\r\nMessage=Change success\r\n");
+        pwdNeedChange = 0;
+    }
+
+    return 0;
 }
 
 static int handle_getconnectstate(server *srv, connection *con, buffer *b, const struct message *m)
@@ -22114,7 +22206,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 return -1;
             }
         }
+
+        const char *src = msg_get_header(m, "src");
         int authres = authenticate(m);
+
         if (authres == -1 || authres == -2) {
             if (isadmin){
                 if( passwrongtimes >= 5 )
@@ -22179,7 +22274,15 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 userpasswrongtimes = 0;
                 userlockoutime = 0;
             }
-            authenticate_success_response(srv, con, b, m, authres );
+
+            if (authres == 1 && src != NULL && !strcasecmp(src, "web")) {
+                pwdNeedChange = 1;
+                buffer_append_string(b, "Response=Success\r\nMessage=Authentication accepted\r\nNeedchange=1\r\nVer=\r\n");
+            } else {
+                authenticate_success_response(srv, con, b, m, authres );
+            }
+
+            //authenticate_success_response(srv, con, b, m, authres );
         }
     } else if (!strcasecmp(action, "checklockout")) {
         handle_checklockout( b );
@@ -22203,6 +22306,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
 #endif
     }else if(!strcasecmp(action,"getconnectstate")){
         handle_getconnectstate( srv, con, b, m );
+    } else if (!strcasecmp(action, "changedefaultpwd")) {
+        handle_changedefaultpwd(srv, con, b, m);
     } else if (region != NULL && !strcmp(region, "quickconf")) {
         if (!strcasecmp(action, "checkqrtoken")) {
             int res = handle_check_qr_token(srv, con, b, m);
