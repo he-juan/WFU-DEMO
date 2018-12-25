@@ -11,7 +11,8 @@ class GeneralForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pwdstatus: 'password'
+            pwdstatus: 'password',
+            isGKAddress: false
         }
     }
 
@@ -29,20 +30,24 @@ class GeneralForm extends React.Component {
             this.getReqItem("regexp", "25054", ""),   // 注册期限
             this.getReqItem("localport", "25068", ""),　// H323本地端口
             this.getReqItem("symrtp", "25067", ""),　　　// 对称ＲＴＰ
-            this.getReqItem("sipserver", "25033", ""),
+            this.getReqItem("gkaddress", "25033", ""),
         );
         return req_items;
     }
 
     componentDidMount = () => {
-        this.props.getItemValues(this.handlePvalue());
+        this.props.getItemValues(this.handlePvalue(), (data) => {
+            this.handleGKmode(data.gkdiscovermode)
+        });
     }
 
     componentWillReceiveProps = (nextProps) => {
         if (nextProps.activeKey == this.props.tabOrder) {
             // selected tab changed
             if (this.props.activeKey != nextProps.activeKey) {
-                this.props.getItemValues(this.handlePvalue());
+                this.props.getItemValues(this.handlePvalue(), (data) => {
+                    this.handleGKmode(data.gkdiscovermode)
+                });
                 this.props.form.resetFields();
             }
 
@@ -65,7 +70,11 @@ class GeneralForm extends React.Component {
             }
         });
     }
-
+    handleGKmode = (v) => {
+        this.setState({
+            isGKAddress: v == 1 ? true : false
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const callTr = this.props.callTr;
@@ -100,10 +109,17 @@ class GeneralForm extends React.Component {
                     {getFieldDecorator('gkdiscovermode', {
                         initialValue: this.props.itemValues['gkdiscovermode'] ? this.props.itemValues['gkdiscovermode'] : "0"
                     })(
-                        <Select className="P-25051">
+                        <Select className="P-25051" onChange={this.handleGKmode.bind(this)}>
                             <Option value="0">{callTr("a_9047")}</Option>
                             <Option value="1">{callTr("a_1016")}</Option>
                         </Select>
+                    )}
+                </FormItem>
+                <FormItem style={{display: this.state.isGKAddress ? 'block' : 'none'}} label={(<span>{callTr("a_19116")}&nbsp;<Tooltip title={this.tips_tr("GK Address")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    {getFieldDecorator('gkaddress', {
+                        initialValue: this.props.itemValues['gkaddress'] ? this.props.itemValues['gkaddress'] : ""
+                    })(
+                        <Input type="text" className="P-25033" />
                     )}
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_19117")}&nbsp;<Tooltip title={this.tips_tr("GK Site Number")}><Icon type="question-circle-o" /></Tooltip></span>)} >

@@ -42,7 +42,7 @@ class Network extends Component {
     get_ipv6addtype(data) {
         var ipv6addtype = "";
         if (data == "0" || data == "") {
-            ipv6addtype = this.tr("a_dhcp")
+            ipv6addtype = this.tr("a_4124")
         } else {
             ipv6addtype = this.tr("a_4125")
         }
@@ -52,7 +52,7 @@ class Network extends Component {
     get_ipv4addtype(data) {
         var ipv4addtype = "";
         if (data == "0" || data == "") {
-            ipv4addtype = this.tr("a_dhcp")
+            ipv4addtype = this.tr("a_4124")
         } else if (data == "1") {
             ipv4addtype = this.tr("a_4125")
         } else if (data == "2") {
@@ -162,7 +162,7 @@ class Network extends Component {
       return (
           <Content className="content-container config-container">
               <div className="subpagetitle">{this.tr("a_4147")}</div>
-                    <Form  className="configform" style={{'min-height': this.props.mainHeight}}>
+                    <Form  className="configform" style={{minHeight: this.props.mainHeight}}>
                         <FormItem label={<span>{this.tr("a_16403")}<Tooltip title={this.tips_tr("MAC Address ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                             <span ref="mac-address">{networkStatus["mac"] && networkStatus["mac"].toUpperCase() }</span>
                         </FormItem>

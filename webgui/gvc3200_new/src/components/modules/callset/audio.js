@@ -160,7 +160,7 @@ class Audio extends Component {
             return (  
                 <Content className="content-container config-container">
                     <div className="subpagetitle">{this.tr("a_16589")}</div>
-                    <Form className="configform" hideRequiredMark style={{ 'min-height': this.props.mainHeight }}>
+                    <Form className="configform" hideRequiredMark style={{ minHeight: this.props.mainHeight }}>
                     </Form>
                 </Content>
             )
@@ -174,7 +174,7 @@ class Audio extends Component {
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_16589")}</div>
-                <Form className="configform" hideRequiredMark style={{ 'min-height': this.props.mainHeight }}>
+                <Form className="configform" hideRequiredMark style={{ minHeight: this.props.mainHeight }}>
                     {/* 回声延迟 */}
                     <FormItem label={<span>{callTr("a_19246")}<Tooltip title={callTipsTr("Echo Delay")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("echodelay", {

@@ -139,4 +139,14 @@ export const getcurhdmimode = (hdmimode,callback) => (dispatch) => {
     })
 }
 
+export const sethdmimode = (hdmitype,hdmimode,callback) => (dispatch) => {
+    var request = "action=sethdmioutputmode&region=advanset&hdmi="+hdmitype+"&mode="+hdmimode
+    request += "&time=" + new Date().getTime();
 
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        callback(tObj);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}

@@ -107,7 +107,7 @@ class ListenerForm extends Component {
         const itemvalue = this.props.itemValues;
 
         return(
-            <Form hideRequiredMark style={{"width":"800px", "margin-left":"100px"}}>
+            <Form hideRequiredMark style={{"width":"800px", "marginLeft":"100px"}}>
                 <Row className="pagingtitle" type="flex" justify="space-around">
                     <Col span={2}>{callTr("a_priority")}</Col>
                     <Col span={11}>{callTr("a_listenaddr")}</Col>

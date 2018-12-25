@@ -95,7 +95,7 @@ class Reset extends Component {
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("reset_test")}</div>
-                <div className="detect-area" style={{'min-height':this.props.mainHeight, paddingTop: "0px"}}>
+                <div className="detect-area" style={{minHeight:this.props.mainHeight, paddingTop: "0px"}}>
                     <div className="resetkeytest-tip">
                         <div className={`${tipDisplay} tip-content`}>
                             {this.tr("tip_resetkeytest")}

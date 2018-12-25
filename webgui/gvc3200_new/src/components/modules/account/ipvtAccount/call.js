@@ -15,7 +15,8 @@ class CallForm extends React.Component {
     handlePvalue = () => {
         req_items = [];
         req_items.push(
-            this.getReqItem("autoansidle", "425", "")
+            this.getReqItem("autoansidle", "425", ""),
+            this.getReqItem("default_layout_mode_1","default_layout_mode_1","")
         );
         return req_items;
     }
@@ -66,6 +67,18 @@ class CallForm extends React.Component {
                             </Select>
                    )}
           　　　</FormItem>
+                <FormItem className = "select-item"　 label={(<span>{callTr("a_12233")}&nbsp;<Tooltip title={this.tips_tr("Common Layout Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    {getFieldDecorator('default_layout_mode_1', {
+                        initialValue: this.props.itemValues['default_layout_mode_1'] ? this.props.itemValues['default_layout_mode_1'] : "0"
+                        })(
+                            <Select className={"P-default_layout_mode_1"}>
+                                <Option value="0">{callTr("a_10031")}</Option>
+                                <Option value="1">{callTr("a_10025")}</Option>
+                                <Option value="2">{callTr("a_10070")}</Option>
+                                <Option value="3">{callTr("a_10037")}</Option>
+                            </Select>
+                    )}
+            　　　</FormItem>
               <FormItem>
                   <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>

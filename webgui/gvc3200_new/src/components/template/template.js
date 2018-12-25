@@ -185,7 +185,7 @@ export const options = [
                 // {"name": "Current plans", "lang": "a_9623"},
                 {"type": "button", "lang": "a_17"}
             ]},
-            {"name": "codec", "lang": "a_16026", "acl": "1","product":"1,2", "sub": [
+            {"name": "codec", "lang": "a_16026", "acl": "1", "sub": [
                 {"name": "Preferred Video Codec", "lang": "a_16115"},
                 {"type": "button", "lang": "a_17"}
             ]},
@@ -246,6 +246,7 @@ export const options = [
                 {"name": "Enable GK", "lang": "a_19120"},
                 {"name": "Enable H.460", "lang": "a_19204"},
                 {"name": "GK Discover Mode", "lang": "a_19122"},
+                {"name": "GK address", "lang": "a_19116"},
                 {"name": "Site Number", "lang": "a_19117"},
                 {"name": "GK Authentication Username", "lang": "a_19118"},
                 {"name": "GK Authentication Password", "lang": "a_19119"},
@@ -609,7 +610,7 @@ export const options = [
     ]},
     {"name": "status", "lang": "a_10060", "sub": [
         {"name": "acct", "lang": "a_4306", "sub": [
-            {"name": "Account", "lang": "a_account"},
+            {"name": "Account", "lang": "a_301"},
             {"name": "Number", "lang": "a_10006"},
             {"name": "SIP Server", "lang": "a_23536"},
             {"name": "Status", "lang": "a_10060"}
@@ -635,14 +636,14 @@ export const options = [
         {"name": "system", "lang": "a_4148", "sub": [
             {"name": "system", "lang": "a_4148",  "sub": [
                 {"name": "Product Model", "lang": "a_16404"},
-                {"name": "Hardware Revision", "lang": "a_hardwarerev"},
+                {"name": "Hardware Revision", "lang": "a_4134"},
                 {"name": "Part Number", "lang": "a_16406"},
                 {"name": "System Version", "lang": "a_4130"},
-                {"name": "Recovery Version", "lang": "a_recover"},
+                {"name": "Recovery Version", "lang": "a_4131"},
                 {"name": "Boot Version", "lang": "a_16408"},
                 {"name": "Kernel Version", "lang": "a_16416"},
                 {"name": "Android Version", "lang": "a_16415"},
-                {"name": "System Up Time", "lang": "a_16417"},
+                {"name": "System Up Time", "lang": "a_16417"}
             ]}
         ]},
         {"name": "remotecontrolstatus", "lang": "a_16631", "sub": [
@@ -650,7 +651,7 @@ export const options = [
                 {"name": "Hardware Version", "lang": "a_4134"},
                 {"name": "Software Version", "lang": "a_16633"},
                 {"name": "Patch Version", "lang": "a_12215"},
-                {"name": "Remote Battery", "lang": "a_remotebatt"},
+                {"name": "Remote Battery", "lang": "a_16634"}
             ]}
         ]}
     ]}

@@ -46,33 +46,35 @@ class SlidingTabsDemo extends Component {
     }
 
     render() {
-        let hideItem = [];
-        let tabList =
-                <Tabs className="config-tab" activeKey={this.props.tab} size="middle" onChange = {this.handleTabChnage} style={{'minHeight': this.props.mainHeight}}>
-                    <TabPane tab={this.props.callTr("a_16023")} key={0}>
-                        <IpvtGeneralForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr} hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                    <TabPane tab={this.props.callTr("a_16026")} key={1}>
-                        <IpvtCodecFrom {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr}  hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                    <TabPane tab={this.props.callTr("a_16027")} key={2}>
-                        <IpvtSipForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr}  hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                </Tabs>
-
-        for (var i = 0; i < tabList.props.children.length; i++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(i);
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_16023")} key={i}>
+                    <IpvtGeneralForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr} hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_16026")} key={i}>
+                    <IpvtCodecFrom {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr}  hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_16027")} key={i}>
+                    <IpvtSipForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr}  hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
             }
-        }
-
-        return tabList;
+        ]
+        return  <Tabs className="config-tab" activeKey={this.props.tab} size="middle" onChange = {this.handleTabChnage} style={{'minHeight': this.props.mainHeight}}>
+            {
+                tabList.map((item,index)=>{
+                    let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                    if (hiddenOptions[0] == -1) {
+                        return null
+                    }else{
+                        return item(hiddenOptions,index.toString())
+                    }
+                })
+            }
+        </Tabs>;
     }
 }
 

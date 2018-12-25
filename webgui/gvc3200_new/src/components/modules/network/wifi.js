@@ -28,39 +28,43 @@ class Wifi extends Component {
     }
 
     render(){
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{"min-height": this.props.mainHeight}}>
-                <TabPane tab={this.tr("a_wifinormal")} key={0}>
-                    <WifiGeneralForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_wifinormal")} key={i}>
+                    <WifiGeneralForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_wifiauth")} key={1}>
-                    <WifiSecurityForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_wifiauth")} key={i}>
+                    <WifiSecurityForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_4101")} key={2}>
-                    <WifiMoreForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_4101")} key={i}>
+                    <WifiMoreForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_wifiroaming")} key={3}>
-                    <WifiRoamingForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_wifiroaming")} key={i}>
+                    <WifiRoamingForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            </Tabs>
-
-        for (var i = 0; i < tabList.props.children.length; i++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(i);
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
-
+        ]
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_4314")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{minHeight: this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

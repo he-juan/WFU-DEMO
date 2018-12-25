@@ -123,7 +123,7 @@ class NetForm extends React.Component {
                   )}
          　　　</FormItem>
               
-              <FormItem className = "select-item"  label={(<span>{callTr("a_16060")}&nbsp;<Tooltip title={this.isWP8xx() ? this.tips_tr("NAT Traversal for WP800") : this.tips_tr("NAT Traversal")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+              <FormItem className = "select-item"  label={(<span>{callTr("a_16060")}&nbsp;<Tooltip title={<FormattedHTMLMessage  id={this.isWP8xx() ? this.tips_tr("NAT Traversal for WP800") : this.tips_tr("NAT Traversal")} /> }><Icon type="question-circle-o" /></Tooltip></span>)}>
                   {getFieldDecorator('natstun', {
                        initialValue: this.props.itemValues['natstun'] ? this.props.itemValues['natstun'] : "0"
                        })(

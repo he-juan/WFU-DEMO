@@ -80,7 +80,7 @@ class FirmwareForm extends Component {
             {
                 values.firpath = values.firpath.substring(pre.length);
             } else if (values.firpath.indexOf("://") != -1) {
-                this.props.promptMsg('ERROR', "a_urlerror");
+                this.props.promptMsg('ERROR', "a_19703");
                 return false;
             }
             values.firpath = $.trim(values.firpath);
@@ -109,48 +109,45 @@ class FirmwareForm extends Component {
         switch(result)
             {
                 case 0:
-                    information = callTr("a_succheck");
+                    information = callTr("a_16452");
                     break;
                 case 1:
-                    information = callTr("a_samever");
+                    information = callTr("a_16453");
                     break;
                 case 2:
-                    information = callTr("a_readwrong");
+                    information = callTr("a_16454");
                     break;
                 case 3:
-                    information = callTr("a_wrongsig");
+                    information = callTr("a_16455");
                     break;
                 case 4:
-                    information = callTr("a_noversion");
+                    information = callTr("a_16456");
                     break;
                 case 5:
-                    information = callTr("a_hwnotcomp");
+                    information = callTr("a_16457");
                     break;
                 case 6:
-                    information = callTr("a_imagenotcomp");
+                    information = callTr("a_16458");
                     break;
                 case 7:
-                    information = callTr("a_notcomp");
+                    information = callTr("a_16459");
                     break;
                 case 8:
                     information = callTr("a_16460");
                     break;
                 case 9:
-                    information = callTr("a_brokenfile");
+                    information = callTr("a_16461");
                     break;
                 case 10:
-                    information = callTr("a_lowspace");
-                    break;
-                case 11:
-                    information = callTr("a_oemidnotcompatiable");
+                    information = callTr("a_16462");
                     break;
                 case 15:
                 default:
-                    information = callTr("a_unknownfail");
+                    information = callTr("a_16463");
                     break;
             }
         if(result != 0) {
-            this.props.promptSpinMsg('display-hidden', "a_uploadwait");
+            this.props.promptSpinMsg('display-hidden', "a_16431");
             Modal.info({
                 content: <span dangerouslySetInnerHTML={{__html: information}}></span>,
                 okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
@@ -158,7 +155,7 @@ class FirmwareForm extends Component {
                 },
             });
         } else {
-            this.props.promptSpinMsg('display-hidden', "a_uploadwait");
+            this.props.promptSpinMsg('display-hidden', "a_16431");
             this.props.setUploadStatus('done')
         }
             return false;
@@ -178,17 +175,17 @@ class FirmwareForm extends Component {
             if(values.upgradeall == true) {
                 upgradeall = 1;
             }
-            promptSpinMsg('display-block', "a_uploadwait");
+            promptSpinMsg('display-block', "a_16431");
             changeMuploading(1);
             cb_ping();
             cb_check_provision(upgradeall,(values) => {
                 if (values === "0") {
                     Modal.info({
-                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_provisioning")}}></span>,
+                        content: <span dangerouslySetInnerHTML={{__html: callTr("a_16451")}}></span>,
                         okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                         onOk() {},
                     });
-                    promptSpinMsg('display-hidden', "a_uploadwait");
+                    promptSpinMsg('display-hidden', "a_16431");
                     reject();
                 } else {
                     resolve(file);
@@ -210,18 +207,6 @@ class FirmwareForm extends Component {
                 onOk() {},
             });
             setTimeout(() => modal.destroy(), 2000);
-        });
-    }
-
-    clickUpgrade = () => {
-        const callTr = this.props.callTr;
-        let self = this;
-        Modal.confirm({
-            content: <span dangerouslySetInnerHTML={{__html: callTr("a_confsysupgrade")}}></span>,
-            okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
-            cancelText: <span dangerouslySetInnerHTML={{__html: callTr("a_3")}}></span>,
-            onOk() {self.handleUpgrade()},
-            onCancel() {}
         });
     }
 
@@ -256,26 +241,24 @@ class FirmwareForm extends Component {
                             self.prompt_upgrade_result(result);
                         });
                     }else if( info.file.response.indexOf("Message=Not enough space") != -1 ){
-                        //button.text(a_7404);
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("a_16477") + callTr("a_lowspace")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
-                        promptSpinMsg('display-hidden', "a_uploadwait");
+                        promptSpinMsg('display-hidden', "a_16431");
                     }else{
-                        //button.text(a_7404);
                         Modal.info({
                             content: <span dangerouslySetInnerHTML={{__html: callTr("a_16477")}}></span>,
                             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
                             onOk() {},
                         });
-                        promptSpinMsg('display-hidden', "a_uploadwait");
+                        promptSpinMsg('display-hidden', "a_16431");
                     }
                     changeMuploading(0);
                 } else if (info.file.status === 'error') {
                     promptMsg('ERROR', "a_16477");
-                    promptSpinMsg('display-hidden', "a_uploadwait");
+                    promptSpinMsg('display-hidden', "a_16431");
                 }
             },
             onRemove() {
@@ -287,7 +270,7 @@ class FirmwareForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={< span > { callTr("a_16648") } < Tooltip title = {callTipsTr("Complete Upgrade")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_16648") } < Tooltip title = {callTipsTr("Complete Upgrade")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("upgradeall", {
                         rules: [],
                         valuePropName: 'checked',
@@ -311,7 +294,7 @@ class FirmwareForm extends Component {
                         </div>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={< span > { callTr("a_19175") } < Tooltip title={callTipsTr("Firmware Upgrade Via")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className="select-item" label={< span > { callTr("a_19175") } < Tooltip title={callTipsTr("Firmware Upgrade Mode")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('updatevia', {
                         rules: [],
                         initialValue: this.props.itemValues["updatevia"] ? this.props.itemValues["updatevia"] : "1"
@@ -324,7 +307,7 @@ class FirmwareForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={< span > {callTr("a_4113")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Firmware Server Path")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4113")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Firmware Server Path")} />} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("firpath", {
                         rules: [{
                             max: 256, message: this.tr("a_19805") + "256"
@@ -332,21 +315,21 @@ class FirmwareForm extends Component {
                         initialValue: this.props.itemValues.firpath
                     })(<Input className="P-192"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_4111")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4111")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input type="text" name = "httpuser" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("httpuser", {
                         rules: [],
                         initialValue: this.props.itemValues.httpuser
                     })(<Input name = "httpuser" className="P-6768"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_4112")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4112")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input type={this.state.type} name = "httppass" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("httppass", {
                         rules: [],
                         initialValue: this.props.itemValues.httppass
                     })(<Input type={this.state.type} name = "httppass" suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible}/>} className="P-6769" />)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16330")} < Tooltip title = {callTipsTr("Firmware File Prefix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16330")} < Tooltip title = {callTipsTr("Firmware File Prefix")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("firpre", {
                         rules: [
                             {
@@ -357,7 +340,7 @@ class FirmwareForm extends Component {
                         initialValue: this.props.itemValues.firpre
                     })(<Input className="P-232"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16331")} < Tooltip title = {callTipsTr("Firmware File Postfix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16331")} < Tooltip title = {callTipsTr("Firmware File Postfix")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("firpost", {
                         rules: [
                             {
@@ -368,13 +351,6 @@ class FirmwareForm extends Component {
                         initialValue: this.props.itemValues.firpost
                     })(<Input className="P-233"/>)}
                 </FormItem>
-              {/*  <FormItem label={( <span>{callTr("a_firmwareupgrade")}&nbsp; <Tooltip title={callTipsTr("Firmware Upgrade")}>
-                    <Icon type="question-circle-o"/> </Tooltip></span>
-                )}>
-                    {(
-                        <Button className="button" type="primary" onClick={this.clickUpgrade.bind(this)}>{this.tr("a_upgrade")}</Button>
-                    )}
-                </FormItem>*/}
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>

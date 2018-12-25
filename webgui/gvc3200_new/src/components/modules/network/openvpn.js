@@ -97,7 +97,7 @@ class OpenVPN extends Component {
         const itemvalue = this.props.itemValues;
 
         let itemList =
-            <Form hideRequiredMark className="configform" style={{'min-height': this.props.mainHeight}}>
+            <Form hideRequiredMark className="configform" style={{minHeight: this.props.mainHeight}}>
 				<FormItem label={<span>{callTr("a_19265")}<Tooltip title={callTipsTr("OpenVPN Enable")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpnenable", {
                         valuePropName: 'checked',

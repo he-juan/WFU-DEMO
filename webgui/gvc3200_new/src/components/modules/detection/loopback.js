@@ -102,7 +102,7 @@ class Loopback extends Component {
         return (
             <Content className="content-container" >
                 <div className="subpagetitle">{this.tr("audio_loopback")}</div>
-                <div className="detect-area" style={{'min-height':this.props.mainHeight, paddingTop: "0px"}}>
+                <div className="detect-area" style={{minHeight:this.props.mainHeight, paddingTop: "0px"}}>
                     <div className="startaudioloop-tip">
                         <div className={`${this.state.stopMicTestVisible} tip-content`}>
                             {this.tr("tip_audioloopstart")}

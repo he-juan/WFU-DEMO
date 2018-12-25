@@ -110,8 +110,9 @@ class peripheral extends Component {
     handleSubmit = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if(!err){
-                console.log(values)
                 this.props.setItemValues(req_items, values, 0);
+                this.props.sethdmimode('hdmi1',values.HDMI)
+                this.props.sethdmimode('hdmi2',values.HDMI2)
             }
         })
     }
@@ -124,7 +125,7 @@ class peripheral extends Component {
         return (
             <Content className="content-container config-container" id="preset">
                 <div className="subpagetitle">{callTr("a_16590")}</div>
-                <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
+                <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}}>
                     <p className="blocktitle"><s></s>{callTr("HDMI")}</p>
                     <FormItem label={<span>{callTr("a_19341")}<Tooltip title={callTipsTr("HDMI 1 Out Resolution")}><Icon type="question-circle-o"/></Tooltip></span>}>
                         {getFieldDecorator("HDMI", {
@@ -199,9 +200,10 @@ function mapDispatchToProps(dispatch) {
         getPresetInfoVedio:Actions.getPresetInfoVedio,
         gethdmiconnectstatus:Actions.gethdmiconnectstatus,
         gethdmimode:Actions.gethdmimode,
-        getcurhdmimode:Actions.getcurhdmimode
+        getcurhdmimode:Actions.getcurhdmimode,
+        sethdmimode:Actions.sethdmimode
     }
     return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(peripheralForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(peripheralForm));

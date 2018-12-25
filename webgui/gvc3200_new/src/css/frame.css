@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../font/opensans-regular-webfont.woff');
+}
+
 .grayfont{ color:#a3a3a3; }
 select { display:block;width:150px; height:18px;text-decoration:none;line-height:24px;color:#000;}
 ul {list-style: none;}
@@ -23,7 +28,7 @@ a, a:hover{text-decoration: none;}
 .mainDiv {
     background: transparent;
     color: #EBEBEB;
-    font: 13px Arial;
+    font: 13px;
     height: 480px;
     margin-top: -240px;
     position: absolute;
@@ -400,7 +405,7 @@ a:hover {
 }
 
 .colorfultitleSpan {
-    font-family:Open Sans,Microsoft YaHei,sans-serif;
+    font-family:Open Sans,sans-serif;
     font-style: italic;
     text-shadow: 2px -2px 10px black;
     filter: Shadow(Color=#888888, Direction=45, Strength=5);
@@ -410,7 +415,7 @@ a:hover {
     font-weight: bolder;
 }
 .colorfulchildTitleSpan {
-    font-family:Open Sans,Microsoft YaHei,sans-serif;
+    font-family:Open Sans,sans-serif;
     font-style: italic;
     text-shadow: 2px -2px 10px black;
     filter: Shadow(Color=#888888, Direction=45, Strength=2);
@@ -420,7 +425,7 @@ a:hover {
     font-weight: bolder;
 }
 .blacktitleSpan {
-    font-family:Open Sans,Microsoft YaHei,sans-serif;
+    font-family:Open Sans,sans-serif;
     font-style: italic;
     text-shadow: 2px -2px 10px white;
     filter: Shadow(Color=white, Direction=45, Strength=2);
@@ -431,7 +436,7 @@ a:hover {
     font-weight: bolder;
 }
 .blackchildTitleSpan {
-    font-family:Open Sans,Microsoft YaHei,sans-serif;
+    font-family:Open Sans,sans-serif;
     font-style: italic;
     text-shadow: 2px -2px 10px white;
     filter: Shadow(Color=white, Direction=45, Strength=1);
@@ -472,7 +477,7 @@ body {
     font-size: 62.5%;
     color:black;
     overflow-x: hidden;
-    font-family: Open Sans,Microsoft YaHei,sans-serif;
+    font-family: Open Sans,sans-serif;
 }
 
 /* == Header ================================================================= */
@@ -1819,7 +1824,7 @@ table thead tr th{
     background-position: -652px -66px;
 }
 .allow-addContact {
-    background-position: -652px -66px;
+    background-position: -63px -25px;
 }
 .allow-delete {
     background-position:-209px -66px;
@@ -4258,14 +4263,16 @@ table thead tr th{
 }
 
 .call-area .item-call-btn{
-    height: 20px;
-    width: 20px;
-    background: url(../img/icon.png) -651px -68px no-repeat;
+    height: 30px;
+    width: 30px;
+    background: url(../img/call_status_icons.png) -60px 0px no-repeat;
 }
 
-.call-area .item-call-btn:hover{
-    cursor: pointer;
-    background: url(../img/icon.png) -630px -68px no-repeat;
+.call-area .item-add-btn{
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+    background: url(../img/call_status_icons.png) 0px 0px no-repeat;
 }
 
 @-webkit-keyframes zoomin{
@@ -4735,12 +4742,12 @@ table thead tr th{
     background: url(../img/icon.png) -58px -191px;
 }
 
-.call-ctrl-btn .unrcd-icon{
+.call-ctrl-btn .unrcd{
    background: url(../img/call/conf_control.png) -48px 0px no-repeat;
 }
 
 
-.call-ctrl-btn .rcd-icon, .call-ctrl-btn .unrcd-icon:hover{
+.call-ctrl-btn .rcd, .call-ctrl-btn .unrcd:hover{
     background: url(../img/call/conf_control.png) -48px -98px no-repeat;
 }
 
@@ -4764,7 +4771,12 @@ table thead tr th{
 .call-ctrl-btn .ant-btn, .confbtn .ant-btn{
     transition: none;
 }
-
+.call-ctrl-btn .unhandsup{
+    background: url(../img/call/conf_control.png) -386px 0px no-repeat;
+}
+.call-ctrl-btn .handsup{
+    background: url(../img/call/conf_control.png) -578px -98px no-repeat;
+}
 .call-ctrl-btn .end-btn{
     background: url(../img/call/conf_control.png) -288px 0px no-repeat;
 }
@@ -6633,6 +6645,12 @@ ol.mp_list li.mp_error {}
 .layout-mode-list li.active .modediv.sysrcmd {
     background: url("../img/call/conf_control.png") -286px -323px no-repeat;
 }
+.modediv.remote {
+    background:url("../img/call/conf_control.png") -77px -347px no-repeat;
+}
+.layout-mode-list li.active .modediv.remote {
+    background:url("../img/call/conf_control.png") -104px -347px no-repeat;
+}
 .modediv.overlap {
     background: url("../img/call/conf_control.png") -78px -323px no-repeat;
 }
@@ -6966,7 +6984,7 @@ ol.mp_list li.mp_error {}
     margin-bottom: 27px;
 }
 .endall-confirm .modal-footer button {
-    width: 80px;
+    width: 120px;
     height: 30px;
 }
 
@@ -7347,4 +7365,67 @@ ol.mp_list li.mp_error {}
     top: 8px;
     display: inline-block;
     position: relative;
+}
+
+.recordline {
+    width: 100%;
+    height: 39px;
+    border-top: none;
+    background: #fff;
+}
+.ipvtrcd {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.rcdicon {
+    float: left;
+    margin: 13px 0 0 15px;
+}
+.localrcd .rcdicon {
+    width: 18px;
+    height: 14px;
+    background: url("../img/call/conf_control.png") -564px -171px no-repeat;
+}
+.ipvtrcd .rcdicon {
+    width: 18px;
+    height: 12px;
+    background: url("../img/call/conf_control.png") -565px -213px no-repeat;
+    margin-top: 14px;
+}
+.rcdlinename {
+    float: left;
+    font-size: 15px;
+    margin-left: 10px;
+    line-height: 39px;
+}
+.rcdstart {
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 6px;
+    background: url("../img/call/conf_control.png") -528px -165px no-repeat;
+    margin: 8px;
+}
+.rcdstop {
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 6px;
+    background: url("../img/call/conf_control.png") -528px -205px no-repeat;
+    margin: 8px;
+}
+.recordList .ant-table-tbody > tr > td {
+    min-width: 120px;
+    box-sizing: border-box;
+}
+.recordList table  tr th:last-child, .recordList table  tr td:last-child {
+    text-align: right;
+    padding-right: 50px;
+    min-width: 200px;
+}
+
+.ant-transfer-list-body-not-found {
+    display: none !important;
 }

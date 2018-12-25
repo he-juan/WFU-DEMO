@@ -70,9 +70,7 @@ class ConfigForm extends Component {
         if (nextProps.activeKey == this.props.tabOrder) {
             if (this.props.activeKey != nextProps.activeKey) {
                 this.props.getItemValues(req_items, (values) => {
-                    if (this.props.oemId != "70") {
-                        this.checkoutGapsitem(values.confpath);
-                    }
+                    this.checkoutGapsitem(values.confpath);
                 });
                 this.props.form.resetFields();
             }
@@ -86,28 +84,6 @@ class ConfigForm extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
         if(!err) {
             let values = this.props.form.getFieldsValue();
-            var pre;
-            switch (values.updateconfigvia) {
-                case "0":
-                    pre = "TFTP://"
-                    break;
-                case "1":
-                    pre = "HTTP://"
-                    break;
-                case "2":
-                    pre = "HTTPS://"
-                    break;
-                default:
-            }
-            if( values.confpath.substring(0, pre.length).toUpperCase() == pre )
-            {
-                values.confpath = values.confpath.substring(pre.length);
-            } else if (values.confpath.indexOf("://") != -1) {
-                    this.props.promptMsg('ERROR', "a_configurlerror");
-                return false;
-            }
-            values.confpath = $.trim(values.confpath);
-
             var custviapre;
             switch (values.custvia) {
                 case "0":
@@ -125,7 +101,7 @@ class ConfigForm extends Component {
             {
                 values.custurl = values.custurl.substring(custviapre.length);
             } else if (values.custurl.indexOf("://") != -1) {
-                this.props.promptMsg('ERROR', "a_custvialerror");
+                this.props.promptMsg('ERROR', "a_19705");
                 return false;
             }
             values.custurl = $.trim(values.custurl);
@@ -198,7 +174,7 @@ class ConfigForm extends Component {
     tips_notice = (result) => {
         const callTr = this.props.callTr;
         let tips;
-        result == 1 ? tips = "a_uploadfail" : tips = "a_uploadsuctips";
+        result == 1 ? tips = "a_16477" : tips = "a_16476";
         Modal.info({
             content: <span dangerouslySetInnerHTML={{__html: callTr(tips)}}></span>,
             okText: <span dangerouslySetInnerHTML={{__html: callTr("a_2")}}></span>,
@@ -244,8 +220,8 @@ class ConfigForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <p className="blocktitle"><s></s>{this.tr("a_configtitle")}</p>
-                <FormItem label={< span > {callTr("a_19213")} < Tooltip title = {callTipsTr((oemId == "54") ? "Use Grandstream GAPS For D3X" : "Use Grandstream GAPS")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <p className="blocktitle"><s></s>{this.tr("a_19180")}</p>
+                <FormItem label={< span > {callTr("a_19213")} < Tooltip title = {callTipsTr("Use Grandstream GAPS")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("usegsgap", {
                         rules: [],
                         valuePropName: 'checked',
@@ -254,21 +230,42 @@ class ConfigForm extends Component {
                         <Checkbox onChange={this.onChangeGapsitem.bind(this)} />
                     )}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19177")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {"select-item" + " " +this.state.gapsitem} label={< span > {callTr("a_4113")} < Tooltip title = {callTipsTr("Config Upgrade Via")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                    {getFieldDecorator('updateconfigvia', {
+                        rules: [],
+                        initialValue: this.props.itemValues["updateconfigvia"] ? this.props.itemValues["updateconfigvia"] : "0"
+                    })(
+                        <Select className="P-212">
+                            <Option value="0">TFTP</Option>
+                            <Option value="1">HTTP</Option>
+                            <Option value="2">HTTPS</Option>
+                        </Select>
+                    )
+                    }
+                </FormItem>
+                <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_4114")} < Tooltip title = {callTipsTr("Config Server Path")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                    {getFieldDecorator("confpath", {
+                        rules: [{
+                            max: 256, message: callTr("a_lengthlimit") + "256"
+                        }],
+                        initialValue: this.props.itemValues.confpath
+                    })(<Input className="P-237"/>)}
+                </FormItem>
+                <FormItem label={< span > {callTr("a_19177")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input type="text" name = "confighttpuser" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("confighttpuser", {
                         rules: [],
                         initialValue: this.props.itemValues.confighttpuser
                     })(<Input className="P-1360"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19178")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19178")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input type={this.state.password1} name = "confighttppass" style= {{display:"none"}} disabled autocomplete = "off"/>
                     {getFieldDecorator("confighttppass", {
                         rules: [],
                         initialValue: this.props.itemValues.confighttppass
                     })(<Input type={this.state.password1} name = "confighttppass" className="P-1361" suffix={<Icon type="eye" className={this.state.password1} onClick={this.handlePwdVisible1}/>}/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16352")} < Tooltip title = {callTipsTr("Always send HTTP Basic Authentication Information")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16352")} < Tooltip title = {callTipsTr("Always send HTTP Basic Authentication Information")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("httpauth", {
                         rules: [],
                         valuePropName: 'checked',
@@ -277,7 +274,7 @@ class ConfigForm extends Component {
                         <Checkbox className="P-20713"/>
                     )}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16332")} < Tooltip title = {callTipsTr("Config File Prefix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16332")} < Tooltip title = {callTipsTr("Config File Prefix")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("confpre", {
                         rules: [
                             {
@@ -288,7 +285,7 @@ class ConfigForm extends Component {
                         initialValue: this.props.itemValues.confpre
                     })(<Input className="P-234"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16333")} < Tooltip title = {callTipsTr("Config File Postfix")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16333")} < Tooltip title = {callTipsTr("Config File Postfix")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("confpost", {
                         rules: [
                             {
@@ -299,7 +296,7 @@ class ConfigForm extends Component {
                         initialValue: this.props.itemValues.confpost
                     })(<Input className="P-235"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16347")} < Tooltip title = {callTipsTr("Authenticate Conf File")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16347")} < Tooltip title = {callTipsTr("Authenticate Conf File")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("authconffile", {
                         rules: [],
                         valuePropName: 'checked',
@@ -308,7 +305,7 @@ class ConfigForm extends Component {
                         <Checkbox className="P-240"/>
                     )}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16327")} < Tooltip title = {callTipsTr("XML Config File Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16327")} < Tooltip title = {callTipsTr("XML Config File Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("xmlpass", {
                         rules: [],
                         initialValue: this.props.itemValues.xmlpass
@@ -349,7 +346,7 @@ class ConfigForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19199")} < Tooltip title = {callTipsTr("GUI customization file URL")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19199")} < Tooltip title = {callTipsTr("GUI customization file URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("custurl", {
                         rules: [
                             {
@@ -359,7 +356,7 @@ class ConfigForm extends Component {
                         initialValue: this.props.itemValues.custurl
                     })(<Input className="P-6774"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19201")} < Tooltip title = {callTipsTr("GUI customization file HTTP/HTTPS username")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19201")} < Tooltip title = {callTipsTr("GUI customization file HTTP/HTTPS username")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("custusername", {
                         rules: [
                             {
@@ -370,7 +367,7 @@ class ConfigForm extends Component {
                         initialValue: this.props.itemValues.custusername
                     })(<Input className="P-6776"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19202")} < Tooltip title = {callTipsTr("GUI customization file HTTP/HTTPS password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19202")} < Tooltip title = {callTipsTr("GUI customization file HTTP/HTTPS password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("custpassword", {
                         rules: [
                             {
@@ -381,7 +378,7 @@ class ConfigForm extends Component {
                         initialValue: this.props.itemValues.custpassword
                     })(<Input type={this.state.password3} className="P-6777" suffix={<Icon type="eye" className={this.state.password3} onClick={this.handlePwdVisible3}/>} />)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19224")} < Tooltip title = {callTipsTr("Use Configurations of Config File Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19224")} < Tooltip title = {callTipsTr("Use Configurations of Config File Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("copyfromconfig", {
                         rules: [],
                         valuePropName: 'checked',

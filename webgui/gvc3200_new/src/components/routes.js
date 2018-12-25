@@ -100,11 +100,6 @@ const Multicast  = (location, cb) => {
         cb(null, require('./modules/callset/multicast').default);
     }, 'callset');
 };
-const Ptt  = (location, cb) => {
-    require.ensure([], require => {
-        cb(null, require('./modules/callset/ptt').default);
-    }, 'callset');
-};
 const Sitename= (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/callset/sitename').default)
@@ -155,11 +150,6 @@ const Peripherals  = (location, cb) => {
 const Tr069  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/sysset/tr069').default);
-    }, 'sysset');
-};
-const Switch  = (location, cb) => {
-    require.ensure([], require => {
-        cb(null, require('./modules/sysset/switch').default);
     }, 'sysset');
 };
 const Fxo  = (location, cb) => {
@@ -221,11 +211,6 @@ const Eventnotice  = (location, cb) => {
 const Vpk  = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('./modules/sysapp/vpk').default);
-    }, 'sysapp');
-};
-const Mpk  = (location, cb) => {
-    require.ensure([], require => {
-        cb(null, require('./modules/sysapp/mpk').default);
     }, 'sysapp');
 };
 const Contacts  = (location, cb) => {
@@ -291,66 +276,6 @@ const Reset  = (location, cb) => {
     }, 'detection');
 };
 
-/*import SipAcct from "./modules/account/sipAcct";
-import IpvtAcct from "./modules/account/ipvtAcct";
-
-import Account from "./modules/status/account";
-import Network from "./modules/status/network";
-import System from "./modules/status/system";
-import Storage from "./modules/status/storage";
-
-import DialUp from "./modules/calls/call/dialup";
-import CallHistory from "./modules/calls/history";
-import Contact from "./modules/calls/contact";
-import Dnd from "./modules/calls/dnd";
-import Blackwhite from "./modules/calls/blackwhite";*/
-
-/*import General from "./modules/callset/general";
-import Callfeatures from "./modules/callset/callfeatures";
-import Audio from "./modules/callset/audio";
-import Video from "./modules/callset/video";
-import Multicast from "./modules/callset/multicast";
-import Ptt from "./modules/callset/ptt"*/
-
-/*import Ethernet from "./modules/network/ethernet";
-import Bluetooth from "./modules/network/bluetooth";
-import Wifi from "./modules/network/wifi";
-import OpenVPN from "./modules/network/openvpn";
-import Common from "./modules/network/common";*/
-
-/*import Timeandlang from "./modules/sysset/timeandlang";
-import Security from "./modules/sysset/security";
-import Peripherals from "./modules/sysset/peripherals";
-import Tr069 from "./modules/sysset/tr069";
-import Switch from "./modules/sysset/switch";
-import Fxo from "./modules/sysset/fxo";
-import Sitename from "./modules/sysset/sitename";
-import BackupForm from "./modules/sysset/backup";*/
-
-/*import Upgrade from "./modules/maintenance/upgrade";
-import Diagnosis from "./modules/maintenance/diagnosis";
-import Eventnotice from "./modules/maintenance/eventnotice";*/
-
-/*import Vpk from "./modules/sysapp/vpk";
-import Mpk from "./modules/sysapp/mpk";
-import Contacts from "./modules/sysapp/contacts";
-import Record from "./modules/sysapp/record";
-import Ldap from "./modules/sysapp/ldap";*/
-
-/*import Gds from "./modules/extension/gds";
-import Broadsoftfunc from "./modules/extension/broadsoftfunc";
-import Broadsoftcontact from "./modules/extension/broadsoftcontact";
-import Broadsoftimp from "./modules/extension/broadsoftimp";*/
-
-/*import Loopback from "./modules/detection/loopback";
-import Speaker from "./modules/detection/speaker";
-import Led from "./modules/detection/led";
-import CertVerify from "./modules/detection/certverify";
-import Reset from "./modules/detection/reset";*/
-
-/*import Preset from "./modules/device/Preset";
-import eptz from "./modules/device/eptz";*/
-
 import * as Store from './entry'
 
 const routes = () => {
@@ -391,7 +316,6 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="audio" getComponent={Audio}/>
                 <Route onEnter={ requireAuth } path="video" getComponent={Video}/>
                 <Route onEnter={ requireAuth } path="multicast" getComponent={Multicast}/>
-                <Route onEnter={ requireAuth } path="pagingPtt" getComponent={Ptt}/>
                 <Route onEnter={ requireAuth } path="sitename" getComponent={Sitename}/>
             </Route>
             <Route path="network">
@@ -409,7 +333,6 @@ const routes = () => {
                 <Route onEnter={ requireAuth } path="peripherals" getComponent={Peripherals}/>
                 <Route onEnter={ requireAuth } path="tr069" getComponent={Tr069}/>
                 <Route onEnter={ requireAuth } path="fxo" getComponent={Fxo}/>
-                <Route onEnter={ requireAuth } path="switch" getComponent={Switch}/>
                 <Route onEnter={ requireAuth } path="backup" getComponent={BackupForm} />
                 <Route onEnter={ requireAuth } path="power" getComponent={Power} />
             </Route>
@@ -429,7 +352,6 @@ const routes = () => {
             <Route path="sysapp">
                 <IndexRoute getComponent={ Vpk } />
                 <Route onEnter={ requireAuth } path="vpk" getComponent={Vpk}/>
-                <Route onEnter={ requireAuth } path="mpk"  getComponent={Mpk}/>
                 <Route onEnter={ requireAuth } path="contacts" getComponent={Contacts}/>
                 <Route onEnter={ requireAuth } path="record" getComponent={Record}/>
                 <Route onEnter={ requireAuth } path="ldap" getComponent={Ldap}/>

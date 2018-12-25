@@ -59,13 +59,40 @@ class DeployForm extends Component {
 
     componentDidMount() {
         this.props.getItemValues(req_items,(values) => {
-            if(this.props.itemValues["CFG-Provision"]==""){
+            let networkStatus = this.props.networkStatus;
+            let data=[];
+            if(this.props.itemValues["CFG-Provision"]!==undefined){
+                data=[
+                    {
+                        key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase(),
+                    },
+                    {
+                        key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase()+".xml",
+                    },
+                    {
+                        key:"cfg"+this.props.product.toLocaleLowerCase()+".xml",
+                    },
+                    {
+                        key:"cfg.xml",
+                    }
+                ]
+            }
+            if(values["CFG-Provision"]==""){
+                let defalut=[]
+                for(let i=0;i<data.length;i++){
+                    defalut.push(data[i].key)
+                }
                 this.setState({
-                    VocoderTargetKeys:[]
+                    VocoderTargetKeys:defalut,
+                    data:data
                 })
             }else{
+                let VocoderTargetKeys=values["CFG-Provision"].split(";").map((item)=>{
+                    return item.replace(/\$product/g,this.props.product).replace(/\$mac/g,networkStatus["mac"]).replace(/:/g,"").toLocaleLowerCase()
+                })
                 this.setState({
-                    VocoderTargetKeys:this.props.itemValues["CFG-Provision"].split(";")
+                    VocoderTargetKeys:VocoderTargetKeys,
+                    data:data
                 })
             }
             this.checkoutAutoupmode(values.autoup);
@@ -78,6 +105,42 @@ class DeployForm extends Component {
         if (nextProps.activeKey == this.props.tabOrder) {
             if (this.props.activeKey != nextProps.activeKey) {
                 this.props.getItemValues(req_items,(values) => {
+                    let networkStatus = this.props.networkStatus;
+                    let data=[];
+                    if(this.props.itemValues["CFG-Provision"]!==undefined){
+                        data=[
+                            {
+                                key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase(),
+                            },
+                            {
+                                key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase()+".xml",
+                            },
+                            {
+                                key:"cfg"+this.props.product.toLocaleLowerCase()+".xml",
+                            },
+                            {
+                                key:"cfg.xml",
+                            }
+                        ]
+                    }
+                    if(values["CFG-Provision"]==""){
+                        let defalut=[]
+                        for(let i=0;i<data.length;i++){
+                            defalut.push(data[i].key)
+                        }
+                        this.setState({
+                            VocoderTargetKeys:defalut,
+                            data:data
+                        })
+                    }else{
+                        let VocoderTargetKeys=values["CFG-Provision"].split(";").map((item)=>{
+                            return item.replace(/\$product/g,this.props.product).replace(/\$mac/g,networkStatus["mac"]).replace(/:/g,"").toLocaleLowerCase()
+                        })
+                        this.setState({
+                            VocoderTargetKeys:VocoderTargetKeys,
+                            data:data
+                        })
+                    }
                     this.checkoutAutoupmode(values.autoup);
                     this.checkENablepnp(values.enablepnp);
                 });
@@ -98,17 +161,17 @@ class DeployForm extends Component {
                 var upvalue = values.autoup;
                 if (upvalue == "1") {
                     if ( (values.endhour) && (parseInt(values.hourofday) > parseInt(values.endhour))) {
-                        this.props.promptMsg('ERROR',"tip_timer");
+                        this.props.promptMsg('ERROR',"a_19259");
                         return false;
                     }
                 } else if (upvalue == "2" || upvalue == '3') {
                     if ((values.endhour) && (parseInt(values.hourofday) > parseInt(values.endhour)))  {
-                        this.props.promptMsg('ERROR',"tip_timer");
+                        this.props.promptMsg('ERROR',"a_19259");
                         return false;
                     }
                     if(upvalue == '3') {
                        if(!values.endhour && values.hourofday || values.endhour && !values.hourofday){
-                           this.props.promptMsg('ERROR',"tip_timeempty");
+                           this.props.promptMsg('ERROR',"a_19704");
                            return false;
                        }
                     }
@@ -152,6 +215,10 @@ class DeployForm extends Component {
         let values = this.props.form.getFieldsValue();
         values["dayofweek"] = this.dayofweekdata;
         values['CFG-Provision']=this.state.VocoderTargetKeys.join(";")
+        if(this.state.VocoderTargetKeys.length==0){
+            this.props.promptMsg("ERROR", "a_19707");
+            return false
+        }
         this.props.setItemValues(req_items, values);
         if (values.dhcp66 === true) {
             this.props.cb_set_property(3,1);
@@ -265,25 +332,6 @@ class DeployForm extends Component {
         const callTipsTr = this.props.callTipsTr;
         const {getFieldDecorator} = this.props.form;
 
-        let networkStatus = this.props.networkStatus;
-        let data=[];
-        if(this.props.itemValues["CFG-Provision"]!==undefined&&!this.isEmptyObject(networkStatus)){
-            data=[{
-                key:"cfg.xml",
-            },
-            {
-                key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase(),
-            },
-            {
-                key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase()+".xml",
-            },
-            {
-                key:"cfg"+this.props.product+".xml",
-            }
-          ]
-        }
-
-
         let itemList =
             <Form hideRequiredMark>
                 <p className="blocktitle"><s></s>{this.tr("a_16340")}</p>
@@ -300,6 +348,20 @@ class DeployForm extends Component {
                         </Select>
                     )
                     }
+                </FormItem>
+                <FormItem className={ this.state.lan_autoup_class.peroid } label={< span > { callTr("a_16344") } < Tooltip title = {callTipsTr("Automatic Upgrade Check Interval")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                    {getFieldDecorator("peroid", {
+                        rules: [{
+                            validator: (data, value, callback) => {
+                                this.digits(data, value, callback)
+                            }
+                        },{
+                            validator: (data, value, callback) => {
+                                this.range(data, value, callback, 60, 5256000)
+                            }
+                        }],
+                        initialValue: this.props.itemValues.peroid
+                    })(<Input onChange ={this.connectInputValue}  className="P-193"/>)}
                 </FormItem>
                 <Row className = "start-endhour">
                     <FormItem className={ this.state.lan_autoup_class.start_endhour } label={< span > {callTr("a_16345")+ "(0-23)" } < Tooltip title = {callTipsTr("Hour of the Day")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
@@ -336,6 +398,54 @@ class DeployForm extends Component {
                         </Row>
                     </FormItem>
                 </Row>
+                <FormItem className={ this.state.lan_autoup_class.dayofweek + " " + "mutilCheckbox" } label={< span > { callTr("a_16346") } < Tooltip title = {callTipsTr("Day of the Week")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                    {getFieldDecorator('dayofweek', {
+                        rules: [],
+                        initialValue: this.props.itemValues['dayofweek']
+                    })(<Input className="P-286" style={{"display": "none"}}/>)}
+                    {getFieldDecorator('dayofweek0', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(dayofweekArrvalue[0])
+                    })(
+                        <Checkbox>{callTr("a_sunday")}</Checkbox>
+                    )}
+                    {getFieldDecorator('dayofweek1', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(dayofweekArrvalue[1])
+                    })(
+                        <Checkbox>{callTr("a_monday")}</Checkbox>
+                    )}
+                    {getFieldDecorator('dayofweek2', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(dayofweekArrvalue[2])
+                    })(
+                        <Checkbox>{callTr("a_tuesday")}</Checkbox>
+                    )}
+                    {getFieldDecorator('dayofweek3', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(dayofweekArrvalue[3])
+                    })(
+                        <Checkbox>{callTr("a_wednesday")}</Checkbox>
+                    )}
+                    {getFieldDecorator('dayofweek4', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(dayofweekArrvalue[4])
+                    })(
+                        <Checkbox>{callTr("a_thursday")}</Checkbox>
+                    )}
+                    {getFieldDecorator('dayofweek5', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(dayofweekArrvalue[5])
+                    })(
+                        <Checkbox>{callTr("a_friday")}</Checkbox>
+                    )}
+                    {getFieldDecorator('dayofweek6', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(dayofweekArrvalue[6])
+                    })(
+                        <Checkbox>{callTr("a_saturday")}</Checkbox>
+                    )}
+                </FormItem>
                 <FormItem className="select-item" label={< span > { callTr("a_4107") } < Tooltip title = {callTipsTr("Firmware Upgrade and Provisioning")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('updaterule', {
                         rules: [],
@@ -360,7 +470,7 @@ class DeployForm extends Component {
                 <p className="blocktitle"><s></s>{this.tr("a_19702")}</p>
                 <FormItem className = {this.state.gapsitem} label={< span > {callTr("a_19702")} < Tooltip title = {callTipsTr("CFG Provision")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <div style={{width:"600px"}}>
-                        <Transfer className="vocodertrans" dataSource={data} sorter={ true } titles = {[callTr("a_notallowed"),callTr("a_23010")]} listStyle={{ width: 230, height: 206,}} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange}  render={item => `${item.key}`} />
+                        <Transfer className="vocodertrans" dataSource={this.state.data} sorter={ true } titles = {[callTr("a_notallowed"),callTr("a_23010")]} listStyle={{ width: 230, height: 206,}} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange}  render={item => `${item.key}`} />
                     </div>
                 </FormItem>
                 <FormItem>

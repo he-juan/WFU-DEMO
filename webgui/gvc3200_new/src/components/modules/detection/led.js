@@ -38,7 +38,7 @@ class Led extends Component {
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("a_18520")}</div>
-                <div className="detect-area" style={{'min-height':this.props.mainHeight}}>
+                <div className="detect-area" style={{minHeight:this.props.mainHeight}}>
                     <div className="ab-center detect-led">
                         <p className="ledtip">{this.tr("led_testtip")}</p>
                         <div className="led-pic">

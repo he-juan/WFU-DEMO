@@ -15,6 +15,7 @@ const NewContactsEditForm = Form.create()(NewContactsEdit);
 const ImportEditForm = Form.create()(ImportEdit);
 const ExportEditForm = Form.create()(ExportEdit);
 const ContactsDownloadForm = Form.create()(DownloadContactsForm);
+let req_items;
 
 class ContactTab extends Component {
     contactList = [];
@@ -39,9 +40,18 @@ class ContactTab extends Component {
             curContactList: [],
             groupInformation: [],
             existActiveAccount: false,
-            showtips: 'none'
+            showtips: 'none',
+            acctstatus: [],
+            selacct:-1,
+            curAcct:null
 
         }
+        req_items = new Array;
+        req_items.push(
+            this.getReqItem("defaultAcct", "22046", ""),
+            this.getReqItem("disdialplan", "2382", "")
+        );
+        this.callmode="0"; // "0": normal call;  "1": IP call
     }
 
     componentDidMount = () => {
@@ -60,19 +70,64 @@ class ContactTab extends Component {
                 self._createData();
             },500)
         }
-
-        if(!this.isEmptyObject(this.props.acctStatus)){
+        this.props.getAcctStatus((acctstatus) => {
+            if (!this.isEmptyObject(acctstatus)) {
+                this.getAcctStatusData(acctstatus);
+            }
+        });
+        this.props.getItemValues(req_items, (values) => {
+            let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
             this.setState({
-                existActiveAccount: this.checkActiveAcct(this.props.acctStatus)
+                defaultacct: defaultacct,
+                selacct: defaultacct
             });
-        }else{
-            this.props.getAcctStatus((result)=>{
-                this.setState({
-                    existActiveAccount: this.checkActiveAcct(result)
-                });
-            })
-        }
+        });
         this._createData();
+    }
+
+    getAcctStatusData = (acctstatus) => {
+        let curAcct = [];
+        let selacct = this.state.selacct;
+        const acctStatus = acctstatus.headers;
+        let max = 4;
+        for (let i = 0; i < max; i++) {
+            if (i == 3) {
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${6}_status`],
+                        "activate": acctStatus[`account_${6}_activate`],
+                        "num": acctStatus[`account_${6}_name`],
+                        "name": "H.323"
+                    });
+                if(acctStatus[`account_${6}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: 3});
+                }
+            } else {
+                if(acctStatus[`account_${i}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: i});
+                }
+                let accountname = acctStatus[`account_${i}_name`];
+                if (i == 0) {
+                    if (acctStatus[`account_${i}_name`].length > 0) {
+                        accountname = acctStatus[`account_${i}_name`];
+                    } else if (acctStatus[`account_${i}_no`].length > 0) {
+                        accountname = acctStatus[`account_${i}_no`];
+                    } else {
+                        accountname = "SIP";
+                    }
+                }
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${i}_status`],
+                        "activate": acctStatus[`account_${i}_activate`],
+                        "num": acctStatus[`account_${i}_no`],
+                        "name": accountname
+                    });
+            }
+        }
+        this.setState({acctstatus: curAcct});
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -252,18 +307,10 @@ class ContactTab extends Component {
     }
 
     handleCall = (text, index) => {
-        if(!this.state.existActiveAccount){
-            this.props.promptMsg('WARNING','a_19374');
-            return;
-        }
-        if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_19639');
-            return;
-        }
-        let source = 1;
+        let {acctstatus} = this.state;
         let curnum = text.Number[0].trim();
         let acct = text.AcctIndex[0];
-        this.props.sendSingleCall(curnum, acct, 0, 0, source, 0);
+        this.props.cb_start_single_call(acctstatus, curnum, acct, 0, 0, 0 , 0);
     }
 
     handleEditItem = (text, index) => {
@@ -330,6 +377,7 @@ class ContactTab extends Component {
 
     _createActions = (text, record, index) => {
         let statue;
+
         var number = this.bouncer(text.Number);
         if (number.length > 1) {
             return (
@@ -357,18 +405,20 @@ class ContactTab extends Component {
     }
 
     _createData = () => {
-        if(!$.isArray(this.props.contactsInformation) || !$.isArray(this.props.groupInformation)
-            || !$.isArray(this.props.contactsAcct) ) {
-            return;
-        }
-        if (!$.isArray(this.props.contactinfodata)) {
-            // this.props.getContactsinfo();
-            return;
-        }
+        // if(!$.isArray(this.props.contactsInformation) || !$.isArray(this.props.groupInformation)
+        //     || !$.isArray(this.props.contactsAcct) ) {
+        //     return;
+        // }
+        // if (!$.isArray(this.props.contactinfodata)) {
+        //     // this.props.getContactsinfo();
+        //     return;
+        // }
         let contactsInformation  = this.props.contactsInformation;
         let groupInformation = this.props.groupInformation;
         let contactinfodata = this.props.contactinfodata;
         let contactsAcct = this.props.contactsAcct;
+        // console.log('get data',contactsInformation,contactinfodata,contactsAcct)
+
         let data = [];
         let contactItems = [];
         if (contactsInformation.length == 0) {
@@ -427,6 +477,7 @@ class ContactTab extends Component {
                 row3: contactItems[i]
             })
         }
+
         this.contactList = data;
         this.setState({
             curContactList: data
@@ -543,10 +594,6 @@ class ContactTab extends Component {
             onSelectAll: this.onSelectAllContacts
         }
         const hasSelected = selectedRowKeys.length > 0;
-        let loading = false
-        if(this.props.contactsInformation.length > 0) {
-            loading = true
-        }
         return (
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>
@@ -586,10 +633,7 @@ class ContactTab extends Component {
                         <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
-                {loading?
-                    <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
-                    : null
-                }
+                <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                 <ImportEditForm {...this.props} displayImportModal={this.state.displayImportModal}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                 <ExportEditForm {...this.props} displayExportModal={this.state.displayExportModal}  handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                 <ContactsDownloadForm {...this.props} displayDwonloadModal={this.state.displayDwonloadModal} handleHideDownloadModal={this.handleHideDownloadModal} />
@@ -620,7 +664,8 @@ const mapDispatchToProps = (dispatch) => {
         getContactsinfo:Actions.getContactsinfo,
         sendSingleCall:Actions.sendSingleCall,
         addNewWhiteMember: Actions.addNewWhiteMember,
-        getAcctStatus: Actions.getAcctStatus
+        getAcctStatus: Actions.getAcctStatus,
+        cb_start_single_call:Actions.cb_start_single_call
     }
 
     return bindActionCreators(actios, dispatch)

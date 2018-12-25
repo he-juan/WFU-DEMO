@@ -229,12 +229,10 @@ class Call extends Component {
 
     onSelectChange = (selectedRowKeys) => {
         this.setState({selectedRowKeys});
-        console.log(this.state.selectedRowKeys)
     }
 
     onSelectItem = (record, selected, selectedRows) => {
         let self = this;
-        console.log('onSelectItem',record)
         let key = record.key
         let id = record.row0.logItem.Id
         // let name = record.row0.row0;
@@ -280,9 +278,6 @@ class Call extends Component {
         let selectedRowKeys = this.state.selectedRowKeys
         let datasource = this.selectedContactList
         // let datasource = this.state.selectedRowKeys
-
-        console.log(datasource)
-
         let seletedArr = [];
 
         for (let i = 0; i <datasource.length ; i++) {
@@ -542,7 +537,6 @@ class Call extends Component {
 
     handelOnRowClick(record) {
         //添加双击执行发那个法 获取自己维护的 数组，判断数组中是否包含 这行key，相应添加或者删除
-        console.log('click')
         $('.line-hoverbg').removeClass('line-hoverbg')
         $('.ant-table-row:eq('+record.key+')').addClass('line-hoverbg')
         // let nodeStr =
@@ -554,9 +548,7 @@ class Call extends Component {
         // console.log($('#call-line'+ record.key))
         // console.log($('#call-line'+ record.key).parent().parent())
         let expandedRows = this.state.expandedRows
-        console.log(expandedRows,record.key)
         if(expandedRows.length > 0 && expandedRows[0] == record.key ) {
-            console.log('here')
             this.setState({
                 expandedRows: []
             });

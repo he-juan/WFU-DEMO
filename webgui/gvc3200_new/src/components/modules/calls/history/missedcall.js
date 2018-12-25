@@ -15,6 +15,7 @@ const NewConEditForm = Form.create()(NewConEdit)
 const rowKey = function(record) {
     return record.key;
 };
+let req_items;
 class ContactEditDiv extends Component {
     constructor(props){
         super(props);
@@ -32,8 +33,12 @@ class ContactEditDiv extends Component {
             addaccount:'',
             showtips: 'none',
             contactsinfo:[],
-            confMember:[]
-        }
+            confMember:[],
+            acctstatus: [],
+            selacct:-1,
+            curAcct:null
+
+    }
     }
 
     componentDidMount = () => {
@@ -180,10 +185,67 @@ class Call extends Component {
                 }
             }
         });
+        this.props.getAcctStatus((acctstatus) => {
+            if (!this.isEmptyObject(acctstatus)) {
+                this.getAcctStatusData(acctstatus);
+            }
+        });
+        this.props.getItemValues(req_items, (values) => {
+            let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
+            this.setState({
+                defaultacct: defaultacct,
+                selacct: defaultacct
+            });
+        });
     }
 
     componentWillReceiveProps = () => {
         // this._createData();
+    }
+
+    getAcctStatusData = (acctstatus) => {
+        let curAcct = [];
+        let selacct = this.state.selacct;
+        const acctStatus = acctstatus.headers;
+        let max = 4;
+        for (let i = 0; i < max; i++) {
+            if (i == 3) {
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${6}_status`],
+                        "activate": acctStatus[`account_${6}_activate`],
+                        "num": acctStatus[`account_${6}_name`],
+                        "name": "H.323"
+                    });
+                if(acctStatus[`account_${6}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: 3});
+                }
+            } else {
+                if(acctStatus[`account_${i}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: i});
+                }
+                let accountname = acctStatus[`account_${i}_name`];
+                if (i == 0) {
+                    if (acctStatus[`account_${i}_name`].length > 0) {
+                        accountname = acctStatus[`account_${i}_name`];
+                    } else if (acctStatus[`account_${i}_no`].length > 0) {
+                        accountname = acctStatus[`account_${i}_no`];
+                    } else {
+                        accountname = "SIP";
+                    }
+                }
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${i}_status`],
+                        "activate": acctStatus[`account_${i}_activate`],
+                        "num": acctStatus[`account_${i}_no`],
+                        "name": accountname
+                    });
+            }
+        }
+        this.setState({acctstatus: curAcct});
     }
 
     onSelectChange = (selectedRowKeys) => {
@@ -334,40 +396,16 @@ class Call extends Component {
     }
 
     handleCall = (event,text, index) => {
+        let {acctstatus} = this.state;
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
         } else {
             text = event
         }
-        if(!this.state.existActiveAccount){
-            this.props.promptMsg('WARNING','a_19374');
-            return false;
-        }
-        if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_19639');
-            return;
-        }
         let curnum = text.Number;
-
-        if(curnum == "anonymous"){
-            this.props.promptMsg('WARNING','a_10083');
-            return false;
-        }
-
         let acct = text['Account'];
-        var source;
-        switch (text['Type']) {
-            case "1":
-                source = 3;
-                break;
-            case "2":
-                source = 4;
-                break;
-            default:
-                source = 0;
-        }
-        this.props.sendSingleCall(curnum, acct, 0, 0, source, 0)
+        this.props.cb_start_single_call(acctstatus, curnum, acct, 0, 0, 0 , 0);
     }
 
     handleHide = () => {
@@ -392,8 +430,8 @@ class Call extends Component {
             }
             statue = <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
                 <button className='allow-detail' id = {'allow-detail'+index}  onClick={(e)=>this.handleNewConf.bind(e, memberArr, index)}></button>
-                <Popover content={content} placement="leftTop" trigger="click">
-                    <button className='allow-call' id = {'allow-call'+index}></button>
+                <Popover content={content} placement="leftTop" trigger="hover">
+                    <button className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.hiddenRows.bind(e, memberArr, index)}></button>
                 </Popover>
             </div>;
         } else {
@@ -705,8 +743,8 @@ const mapDispatchToProps = (dispatch) => {
         getContactsinfo:Actions.getContactsinfo,
         getAllConfMember:Actions.getAllConfMember,
         get_deleteCallConf:Actions.get_deleteCallConf,
-        getNormalCalllogNames:Actions.getNormalCalllogNames
-
+        getNormalCalllogNames:Actions.getNormalCalllogNames,
+        cb_start_single_call:Actions.cb_start_single_call
     }
     return bindActionCreators(actions, dispatch)
 }

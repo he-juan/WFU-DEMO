@@ -77,7 +77,7 @@ class General extends Component {
         const itemvalue = this.props.itemValues;
 
         let itemList =
-            <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}} >
+            <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}} >
                 <FormItem label={<span>{callTr("a_16280")}<Tooltip placement="bottom" title={<FormattedHTMLMessage id={this.isWP8xx() ? callTipsTr("Local RTP Port for WP800") : callTipsTr("Local RTP Port")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("rtpport", {
                         rules: [{
@@ -86,7 +86,7 @@ class General extends Component {
                             }
                         },{
                             validator: (data, value, callback) => {
-                                this.range(data, value, callback, 50040, 65000)
+                                this.range(data, value, callback, 1024, 65400)
                             }
                         },{
                             validator: this.checkRtpPort, method: callTr

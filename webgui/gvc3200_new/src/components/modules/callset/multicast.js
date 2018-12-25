@@ -24,38 +24,35 @@ class Multicast extends Component {
     }
 
     render(){
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{'min-height': this.props.mainHeight}}>
-                <TabPane tab={this.tr("a_multipaging")} key={0}>
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_multipaging")} key={i}>
                     <MulticastSettingForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr}
-                        activeKey={this.props.activeKey} hideItem={hideItem} tabOrder="" />
+                                          activeKey={this.props.activeKey} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_multicastlisten")} key={1}>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_multicastlisten")} key={i}>
                     <MulticastListenerForm {...this.props} callTr={this.tr} activeKey={this.props.activeKey}
-                        hideItem={hideItem} tabOrder="" />
+                                           hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            </Tabs> ;
-
-        for (let i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                //handleReqItem.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
-
+        ]
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_multipaging")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{minHeight: this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

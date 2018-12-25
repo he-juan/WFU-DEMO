@@ -5,6 +5,8 @@ import * as Actions from '../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {Layout, Menu, Icon} from "antd";
+import {options} from "../template/template"
+import * as optionsFilter from "../template/optionsFilter";
 const Sider = Layout;
 const SubMenu = Menu.SubMenu;
 
@@ -49,19 +51,19 @@ class MainNav extends React.Component {
                 this.props.setCurMenu([this.state.openKeys[0], this.state.current]);
                 hashHistory.push('/' + this.state.openKeys[0] + "/" + this.state.current);
             }
-            this.props.setTabKey("1");
+
         }
+        this.props.jumptoTab(optionsFilter.getFirstTab())
     }
 
     handleClick(e){
         const keyPath = e.keyPath.reverse();
         this.props.setCurMenu(keyPath);
-        this.props.setTabKey("1");
         hashHistory.push('/' + keyPath.join('/'));
         this.setState({
             current: e.key
         });
-        this.props.jumptoTab(0);
+        this.props.jumptoTab(optionsFilter.getFirstTab());
     };
 
     handleSubMenuClick(firstKey, event) {
@@ -73,12 +75,12 @@ class MainNav extends React.Component {
         }
 
         this.props.setCurMenu([event.key, firstKey]);
-        this.props.setTabKey("1");
 
         hashHistory.push('/' + event.key + "/" + firstKey);
         this.setState({
             current: firstKey
         });
+        this.props.jumptoTab(optionsFilter.getFirstTab());
     }
 
     componentWillMount = () => {
@@ -148,7 +150,6 @@ class MainNav extends React.Component {
     }
 
     onOpenChange(openKeys) {
-        this.props.jumptoTab(0);
         const state = this.state;
         const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1));
         const latestCloseKey = state.openKeys.find(key => !(openKeys.indexOf(key) > -1));
@@ -200,7 +201,7 @@ class MainNav extends React.Component {
                     mode="inline"
                     openKeys={[openkey]}
                     selectedKeys={[current]}
-                    style={{"width":"240px", "min-height":"100%", "overflow-x":"hidden"}}
+                    style={{"width":"240px", minHeight:"100%", overflowX:"hidden"}}
                     onClick={this.handleClick.bind(this)}
                     onOpenChange={ this.onOpenChange.bind(this) }
                     >
@@ -247,7 +248,6 @@ const mapDispatchToProps = (dispatch) => {
         getItemValues:Actions.getItemValues,
         jumptoTab:Actions.jumptoTab,
         setPageStatus:Actions.setPageStatus,
-        setTabKey: Actions.setTabKey
     }
     return bindActionCreators(Actions, dispatch)
 }

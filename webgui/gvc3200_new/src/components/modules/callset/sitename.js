@@ -81,13 +81,25 @@ class SitenameForm extends Component {
         const itemvalues = this.state.itemValues;
 
         return (
-            <Form className="configform" hideRequiredMark style={{ 'min-height': this.props.mainHeight }}>
+            <Form className="configform" hideRequiredMark style={{ minHeight: this.props.mainHeight }}>
                 <FormItem label={<span>{callTr("a_16225")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Site Name")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("sitename", {
-                        initialValue: itemvalues["Sitename"] ? itemvalues["Sitename"] : ""
-                    })(
-                        <Input maxLength={16} />
-                    )}
+                        initialValue: itemvalues["Sitename"] ? itemvalues["Sitename"] : "",
+                        rules: [{
+                            validator: (data, value, callback) => {
+                                if(value.length > 16){
+                                    let language = $.cookie('MyLanguage') == null ? 'en' : $.cookie('MyLanguage');
+                                    let text = window.eval('a_4336'+"_" + language);
+                                    callback(text.replace(/%s/, '16'))
+                                } else {
+                                    callback()
+                                }
+                                
+                            }
+                        }]
+                        })(
+                            <Input />
+                        )}
                 </FormItem>
                 <FormItem label={<span>{callTr("a_16221")}<Tooltip title={callTipsTr("Background Transparency")}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("bgtp", {

@@ -54,10 +54,6 @@ export const setCurMenu = (value) => (dispatch) => {
     dispatch({type: 'CUR_MENU_CHANGE', curMenu: value})
 }
 
-export const setTabKey = (value) => (dispatch) => {
-    dispatch({type: 'TAB_KEY_CHANGE', curTabKey: value})
-}
-
 export const updateMainHeight = (value) => (dispatch) => {
     dispatch({type: 'HEIGHT_CHANGE', mainHeight: value})
 }
@@ -178,12 +174,9 @@ export const getProduct = () => (dispatch) => {
     let request = 'action=productinfo&time=' + new Date().getTime();
     actionUtil.handleSyncRequest(request, (data) => {
         let msgs = actionUtil.res_parse_rawtext(data);
-
-        if(msgs.headers['product']) {
-            dispatch({type: 'REQUEST_GET_PRODUCT', product: msgs.headers['product']});
-            dispatch({type: 'REQUEST_GET_PRODUCTSTR', productStr: msgs.headers['product']});
-            dispatch({type: 'REQUEST_GET_VENDOR', vendor: msgs.headers['vendor']});
-        }
+        dispatch({type: 'REQUEST_GET_PRODUCT', product: msgs.headers['product']});
+        dispatch({type: 'REQUEST_GET_PRODUCTSTR', productStr: msgs.headers['product']});
+        dispatch({type: 'REQUEST_GET_VENDOR', vendor: msgs.headers['vendor']});
     })
 }
 
@@ -332,7 +325,7 @@ export const applyValue = (applyfunc, callback) => (dispatch) => {
     dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_applying'}});
 
     actionUtil.handleGetRequest(request).then(function(data) {
-        setTimeout(() => getApplyResponse(dispatch, applyfunc), 3000);
+        setTimeout(() => getApplyResponse(dispatch, applyfunc), 500);
         callback();
     }).catch(function(error) {
         promptForRequestFailed();
@@ -357,9 +350,9 @@ const getApplyResponse = (dispatch, applyfunc) => {
                 dispatch({type: 'UPDATE_APPLY_BUTTON', applyButtonStatus: 0});
                 dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_applying'}});
                 dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_applysuc'}});
-           },3000);
+           },500);
         } else {
-            setTimeout(()=>getApplyResponse(dispatch), 3000);
+            setTimeout(()=>getApplyResponse(dispatch), 500);
         }
     }).catch(function(error) {
         promptForRequestFailed();
@@ -568,7 +561,7 @@ export const getIpvtExist = (data) => (dispatch) => {
 }
 
 export const cb_audio_upload = (fileext,acctIndex,callback) => (dispatch) => {
-	let request = "action=converaudio&ext=" + fileext + "&acct=" + acctIndex;
+	let request = "action=converaudio&region=account&ext=" + fileext + "&acct=" + acctIndex;
 	request += "&time=" + new Date().getTime();
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
@@ -1137,7 +1130,7 @@ export const setEventItems = (values) => (dispatch) => {
 }
 
 export const getLogcatDown = (values,callback) => (dispatch) => {
-    var request = "action=getlogcat&tag=" + ($.trim(values.logtag) || '') + "&priority=" + values.logpriority;
+    var request = "action=getlogcat&region=maintenance&tag=" + ($.trim(values.logtag) || '') + "&priority=" + values.logpriority;
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
@@ -1169,7 +1162,7 @@ const removeLogcat = () => (dispatch) => {
 }
 
 export const getClearLogcat = () => (dispatch) => {
-    let request = 'action=clearlogcat';
+    let request = 'action=clearlogcat&region=maintenance';
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
         if (msgs.headers['response'].toLowerCase() == "error" &&
@@ -1392,7 +1385,7 @@ export const cb_resetres_ok = (flag) => (dispatch) => {
 }
 
 export const cb_check_provision = (upgradeall,callback) => (dispatch) => {
-    let request = 'action=provisioninit&upgradeall=' + upgradeall;
+    let request = 'action=provisioninit&region=maintenance&upgradeall=' + upgradeall;
 
     actionUtil.handleGetRequest(request).then(function(data) {
         callback(data);
@@ -1422,7 +1415,7 @@ export const systemUpgrade = (callback) => (dispatch) => {
 }
 
 export const cb_upgrade_now = (upgradeall,callback) => (dispatch) => {
-    let request = 'action=upgradenow';
+    let request = 'action=upgradenow&region=maintenance';
 
     actionUtil.handleGetRequest(request).then(function(data) {
         var msgs = actionUtil.res_parse_rawtext(data);

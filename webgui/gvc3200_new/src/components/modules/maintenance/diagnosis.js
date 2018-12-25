@@ -53,58 +53,66 @@ class Diagnosis extends Component {
 
 
     render() {
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style={{'minHeight': this.props.mainHeight}}>
-                <TabPane tab={this.tr("a_4144")} key={0}>
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_4144")} key={i}>
                     <DiagnosisSyslogForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        hideItem={hideItem} tabOrder=""/>
+                                         hideItem={hiddenOptions} tabOrder={i}/>
                 </TabPane>
-                <TabPane tab={this.tr("a_16030")} key={1}>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_16030")} key={i}>
                     <DiagnosisLogactForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        hideItem={hideItem} tabOrder=""/>
+                                         hideItem={hiddenOptions} tabOrder={i}/>
                 </TabPane>
-                <TabPane tab={this.tr("a_16031")} key={2}>
+            },
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_16031")} key={i}>
                     <DiagnosisDebugForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        hideItem={hideItem} tabOrder=""/>
+                                        hideItem={hiddenOptions} tabOrder={i}/>
                 </TabPane>
-                <TabPane tab={this.tr("a_16628")} key={3}>
+            },
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_16628")} key={i}>
                     <DiagnosisTracerouteForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        clearTraceroute = {this.clearTraceroute} hideItem={hideItem} tabOrder=""/>
+                                             clearTraceroute = {this.clearTraceroute} hideItem={hiddenOptions} tabOrder={i}/>
                 </TabPane>
-                <TabPane tab={this.tr("a_4347")} key={4}>
+            },
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_4347")} key={i}>
                     <DiagnosisDevForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
-                                    hideItem={hideItem} tabOrder="" />
+                                      hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={"Ping"} key={5}>
+            },
+            (hiddenOptions,i) => {
+                return<TabPane tab={"Ping"} key={i}>
                     <DiagnosisIpForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey} m_uploading={ this.state.m_uploading } changeMuploading = {this.changeMuploading}
-                                     clearPing = {this.clearPing} hideItem={hideItem} tabOrder="" />
+                                     clearPing = {this.clearPing} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_19814")} key={6}>
+            },
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_19814")} key={i}>
                     <DiagnosisnsLookupForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        hideItem={hideItem} tabOrder=""/>
+                                           hideItem={hiddenOptions} tabOrder={i}/>
                 </TabPane>
-            </Tabs>
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                //handleReqItem.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
+        ]
 
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("system_diagnosis")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style={{'minHeight': this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }
@@ -122,7 +130,6 @@ function mapDispatchToProps(dispatch) {
         setChangeCurLocale: Actions.setChangeCurLocale,
         getItemValues:Actions.getItemValues,
         setItemValues:Actions.setItemValues,
-        setTabKey: Actions.setTabKey,
         setLogcat: Actions.setLogcat,
         stop_ping:Actions.stop_ping,
         jumptoTab: Actions.jumptoTab

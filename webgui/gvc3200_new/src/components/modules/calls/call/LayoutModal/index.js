@@ -138,6 +138,9 @@ class LayoutModal extends Component {
           case hdmi1mode == 6:
             this.handleSwitch('setdefaultpip', 4);
             break;
+          case hdmi1mode == 7:
+            this.handleSwitch('setdefaultpip', 6);
+            break;
           case hdmi1mode < 4:
             this.handleSwitch('setcustommode', 5);
             break;
@@ -195,6 +198,9 @@ class LayoutModal extends Component {
           <ul className="layout-mode-list">
             <li title={callTr('a_19383')} className={activeIndex == '1' ? 'active' : ''} onClick={() => { this.handleSwitch('setsysrcmdmode', 1) }}>
               <div className="sysrcmd modediv"></div>
+            </li>
+            <li title={callTr('a_10031')} className={activeIndex == 6 ? 'active' : ''} onClick={() => { this.handleSwitch('setdisplaydefaultremote', 6) }}>
+              <div className="remote modediv"></div>
             </li>
             <li title={callTr('a_19384')} className={activeIndex == 2 ? 'active' : ''} onClick={() => { this.handleSwitch('setdefaultaverage', 2) }}>
               <div className="overlap modediv"></div>

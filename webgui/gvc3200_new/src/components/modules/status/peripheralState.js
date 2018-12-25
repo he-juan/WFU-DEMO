@@ -36,7 +36,7 @@ class peripheral extends Component {
     render() {
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{"外围设备状态"}</div>
+                <div className="subpagetitle">{this.tr("a_16630")}</div>
             </Content>
         )
     }

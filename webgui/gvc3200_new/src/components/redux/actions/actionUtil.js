@@ -93,7 +93,7 @@ export const handleGetLogcat = (request) => {
     return new Promise(function(resolve, reject) {
         $.ajax ({
             type: 'get',
-            url: '../../logcat/logcat.text',
+            url: '/logcat/logcat.text?time=' + new Date().getTime(),
             data: request,
             dataType: 'text',
             cache: false,
@@ -232,7 +232,6 @@ export　const checkIsApplyNeed = (dispatch) => {
         }
         dispatch({type: 'UPDATE_APPLY_BUTTON', applyButtonStatus: str});
     }).catch(function(error) {
-        console.log(error)
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }

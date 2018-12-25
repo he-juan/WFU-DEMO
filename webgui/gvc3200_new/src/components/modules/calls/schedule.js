@@ -77,31 +77,18 @@ class History extends Component {
 
     render() {
         const callTr = this.tr;
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
-                <TabPane tab = {this.tr("a_10011")} key={0}>
-                    <ScheduleForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab = {this.tr("a_10011")} key={i}>
+                    <ScheduleForm {...this.props} hideItem={hiddenOptions} tabOrder={i} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
-                <TabPane tab = {this.tr("history_all")} key={1}>
-                    <HistoryForm {...this.props} hideItem={hideItem} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab = {this.tr("history_all")} key={i}>
+                    <HistoryForm {...this.props} hideItem={hiddenOptions} tabOrder={i} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
-            </Tabs>
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
-
+        ]
         return (
             <div>
                 <Content className="content-container config-container">
@@ -109,7 +96,18 @@ class History extends Component {
                     <Button className='btn_addschedule' onClick={this.handleNewConf} type="primary" >
                         {callTr('a_10035')}
                     </Button>
-                    {tabList}
+                    <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
+                        {
+                            tabList.map((item,index)=>{
+                                let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                                if (hiddenOptions[0] == -1) {
+                                    return null
+                                }else{
+                                    return item(hiddenOptions,index.toString())
+                                }
+                            })
+                        }
+                    </Tabs>
                 </Content>
                 <NewConfEditForm {...this.props} callTr={callTr}
                                 handleHideNewConfModal= {this.handleHideNewConfModal}

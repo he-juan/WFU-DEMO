@@ -24,16 +24,13 @@ class Account extends Component {
                 return codetext;
             case "3":
             case "5":
-                codetext = "a_dialing";
+                codetext = "a_503";
                 return codetext;
             case "4":
-                codetext = "a_ring";
+                codetext = "a_521";
                 return codetext;
             case "6":
-                codetext = "a_talking";
-                return codetext;
-            case "7":
-                codetext = "a_registering";
+                codetext = "a_510";
                 return codetext;
             case "0":
             default:
@@ -44,18 +41,6 @@ class Account extends Component {
 
     componentDidMount() {
         this.props.getAcctStatus();
-    }
-
-    _createStatue = (text, record, index) => {
-        let statue;
-        statue = <span className = {text}>{this.tr(text)}</span>;
-        return statue;
-    }
-
-    _createAccount = (text, record, index) => {
-        let Account;
-        Account = <span><i className = "accountIcon"></i>{text}</span>
-        return Account;
     }
 
     render() {
@@ -75,7 +60,7 @@ class Account extends Component {
                }
         }
 
-        let account = this.tr("a_account");
+        let account = this.tr("a_301");
         let number = this.tr("a_10006");
         let sipserver = this.tr("a_23536");
         let status = this.tr("a_10060");
@@ -86,7 +71,7 @@ class Account extends Component {
             dataIndex: 'row0',
             width: 150,
             render: (text, record, index) => (
-                this._createAccount(text, record, index)
+                <span><i className = "accountIcon"></i>{text}</span>
             ),
         }, {
             title: number,
@@ -103,9 +88,9 @@ class Account extends Component {
             key: 'row3',
             dataIndex: 'row3',
             width: 150,
-            render: (text, record, index) => (
-                this._createStatue(text, record, index)
-            )
+            render: (text, record, index) => {
+                return <span className={text}>{this.tr(text)}</span>;
+            }
       }];
 
       const data = [];

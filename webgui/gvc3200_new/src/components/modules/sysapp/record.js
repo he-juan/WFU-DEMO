@@ -245,37 +245,36 @@ class Record extends Component {
     }
 
     render() {
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.state.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
-                <TabPane tab = {this.tr("a_12098")} key={0}>
-                    <Call {...this.props} hideItem={hideItem} callTr={this.tr} activeKey={this.state.activeKey}
-                        _createName = {this._createName}  _createTime = {this._createTime} _createActions = {this._createActions} getRecordNameAndPath={this.getRecordNameAndPath} updateData={this.updateData}/>
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab = {this.tr("a_12098")} key={i}>
+                    <Call {...this.props} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
+                          _createName = {this._createName}  _createTime = {this._createTime} _createActions = {this._createActions} getRecordNameAndPath={this.getRecordNameAndPath} updateData={this.updateData}/>
                 </TabPane>
-                <TabPane tab = {this.tr("normal_record")} key={1}>
-                    <Normal {...this.props} hideItem={hideItem} callTr={this.tr} activeKey={this.state.activeKey}
-                        _createName = {this._createName} _createDuration = {this._createDuration} _createTime = {this._createTime} _createActions = {this._createActions} />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab = {this.tr("normal_record")} key={i}>
+                    <Normal {...this.props} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
+                            _createName = {this._createName} _createDuration = {this._createDuration} _createTime = {this._createTime} _createActions = {this._createActions} />
                 </TabPane>
-            </Tabs>
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i,1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
+        ]
 
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_12098")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.state.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

@@ -3,7 +3,9 @@ import { FormattedHTMLMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import * as Store from '../../../entry'
 import Enhance from "../../../mixins/Enhance";
-import { Form, Layout, Icon, Tooltip, Select, Button, Checkbox, Upload, message } from "antd";
+import * as Actions from '../../../redux/actions'
+import { bindActionCreators } from 'redux';
+import { Form, Layout, Icon, Tooltip, Select, Button, Checkbox, Upload, message, Modal } from "antd";
 const FormItem = Form.Item;
 const Content = Layout;
 const Option = Select.Option;
@@ -22,7 +24,8 @@ class CallForm extends React.Component {
         req_items.push(
             this.getReqItem("calllog", "542", ""),   //呼叫日志
             this.getReqItem("dialkey", "592", ""),    //＃键拨号
-            this.getReqItem("enablemoh", "2557", "")
+            this.getReqItem("enablemoh", "2557", ""),
+            this.getReqItem("default_layout_mode_2", "default_layout_mode_2", "")
         );
         return req_items;
     }
@@ -132,6 +135,18 @@ class CallForm extends React.Component {
                            <Checkbox className={"P-2557" }/>
                    )}
                </FormItem>
+               <FormItem className = "select-item"　 label={(<span>{callTr("a_12233")}&nbsp;<Tooltip title={this.tips_tr("Common Layout Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    {getFieldDecorator('default_layout_mode_2', {
+                        initialValue: this.props.itemValues['default_layout_mode_2'] ? this.props.itemValues['default_layout_mode_2'] : "1"
+                        })(
+                            <Select className={"P-default_layout_mode_2"}>
+                                <Option value="0">{callTr("a_10031")}</Option>
+                                <Option value="1">{callTr("a_10025")}</Option>
+                                <Option value="2">{callTr("a_10070")}</Option>
+                                <Option value="3">{callTr("a_10037")}</Option>
+                            </Select>
+                    )}
+            　　</FormItem>
                 <FormItem>
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
@@ -149,5 +164,11 @@ const mapStateToProps = (state) => ({
     enterSave: state.enterSave,
     activeKey: state.TabactiveKey
 })
+const mapDispatchToProps = (dispatch) => {
+    const actions = {
+        cb_audio_upload: Actions.cb_audio_upload
+    }
 
-export default connect(mapStateToProps)(Enhance(CallForm));
+    return bindActionCreators(actions, dispatch)
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(CallForm));

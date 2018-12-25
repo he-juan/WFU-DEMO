@@ -419,7 +419,7 @@ class Gds extends Component {
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_gds")}</div>
-                <div className="configform" style={{'min-height': this.props.mainHeight, padding: 0}}>
+                <div className="configform" style={{minHeight: this.props.mainHeight, padding: 0}}>
                     <div className="blocktitle"><s></s>{this.tr("a_gds") + " (" + this.state.gdsdata.length + "/10)"}</div>
                     <AddGdsForm {...this.props} ref={this.saveFormRef} callTr={this.tr} callTipsTr={this.tips_tr} operatename={this.state.operatename}
                         onChangeState={this.onChangeState} gdsdata={this.state.gdsdata} handleChangeType={this.handleChangeType} systemId={this.state.systemId} systemPwd={this.state.systemPwd} systemType={this.state.systemType} systemTypeDisplay={this.state.systemTypeDisplay} handleGdsEdit={this.handleGdsEdit} disableAppend={this.state.disableAppend}

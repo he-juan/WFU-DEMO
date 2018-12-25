@@ -323,9 +323,9 @@ export const getVeriCert = () => (dispatch) => {
 export const checkVeriCert = (info, callback) => (dispatch) => {
     let request ;
     if(info.type == "sipCert"){
-        request = 'action=checkvericert&maxnum=' + info.maxnum + "&pvalue0=" + info.pvalue;
+        request = 'action=checkvericert&region=advanset&maxnum=' + info.maxnum + "&pvalue0=" + info.pvalue;
     }else{
-        request = 'action=setcustomcert&pvalue='+info.pvalue;
+        request = 'action=setcustomcert&region=advanset&pvalue='+info.pvalue;
     }
     actionUtil.handleGetRequest(request).then(function(data) {
         callback(data);

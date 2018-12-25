@@ -52,15 +52,6 @@ const curMenu = (state = {}, action) => {
     }
 }
 
-const curTabKey = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.TAB_KEY_CHANGE:
-            return action.curTabKey
-        default:
-            return state
-    }
-}
-
 const TabactiveKey = (state = 0, action) => {
     switch (action.type) {
         case Actions.TAB_ACTIVE_KEY_CHANGE:
@@ -106,7 +97,7 @@ const menuList = (state = {}, action) => {
     }
 }
 
-const vendor = (state = "", action) => {
+const vendor = (state = {}, action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_VENDOR:
             return action.vendor
@@ -115,7 +106,7 @@ const vendor = (state = "", action) => {
     }
 }
 
-const product = (state = "", action) => {
+const product = (state = {}, action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_PRODUCT:
             return action.product
@@ -124,7 +115,7 @@ const product = (state = "", action) => {
     }
 }
 
-const productStr = (state = "", action) => {
+const productStr = (state = {}, action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_PRODUCTSTR:
             return action.productStr
@@ -226,14 +217,6 @@ const muteStatus = (state = {}, action) => {
     }
 }
 
-const recordStatus = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.RECORD_STATUS:
-            return action.recordStatus
-        default:
-            return state
-    }
-}
 
 const applyButtonStatus = (state={}, action) => {
     switch (action.type) {
@@ -731,7 +714,6 @@ const rootReducer = combineReducers({
     callDialogStatus,
     lineInfo,
     muteStatus,
-    recordStatus,
     // heldStatus,
     applyButtonStatus,
     mainHeight,
@@ -748,7 +730,6 @@ const rootReducer = combineReducers({
     // pageStatus,
     hashChange,
     curMenu,
-    curTabKey,
     TabactiveKey,
     passtipStyle,
     changetabKeys,

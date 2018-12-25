@@ -25,6 +25,25 @@ const TwoHDMILayout = ({activeIndex, confname, conftype, presentation, callTr}) 
             </div>
           </div>
         </div>
+        {/* mode = 7 remote模式 */}
+        <div style={{ display: activeIndex == 6 ? 'block' : 'none' }}>
+          <div className='preview-box semi'>
+            <div className="preview-item" style={{ width: '96%', height: '96%', margin: '9px 9px' }}>
+              <p>
+                <strong>{confname}</strong>
+                <span>({confname})</span>
+              </p>
+            </div>
+          </div>
+          <div className='preview-box semi'>
+            <div className="preview-item" style={{ width: '96%', height: '96%', margin: '9px 9px' }}>
+              <p>
+                <strong>{confname}</strong>
+                <span>{confname}</span>
+              </p>
+            </div>
+          </div>
+        </div>
         {/* mode = 4 等分模式 */}
         <div style={{ display: activeIndex == 2 ? 'block' : 'none' }}>
           <div className='preview-box semi'>
@@ -131,6 +150,25 @@ const TwoHDMILayout = ({activeIndex, confname, conftype, presentation, callTr}) 
         </div>
       </div>
     </div>
+    {/* mode = 7 remote模式 */}
+    <div style={{ display: activeIndex == 6 ? 'block' : 'none' }}>
+      <div className='preview-box semi'>
+        <div className="preview-item" style={{ width: '96%', height: '96%', margin: '9px 9px' }}>
+          <p>
+            <strong>{callTr('a_10004')}</strong>
+          </p>
+        </div>
+      </div>
+      <div className='preview-box semi'>
+        <div className="preview-item" style={{ width: '96%', height: '96%', margin: '9px 9px' }}>
+          <p>
+            <strong>{confname}</strong>
+            <span>{confname}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
     {/* mode = 4 等分模式 */}
     <div style={{ display: activeIndex == 2 ? 'block' : 'none' }}>
       <div className='preview-box semi'>

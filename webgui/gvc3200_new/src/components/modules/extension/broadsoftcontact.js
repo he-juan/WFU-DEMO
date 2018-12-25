@@ -24,38 +24,35 @@ class Broadsoftcontact extends Component {
     }
 
     render(){
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{'min-height': this.props.mainHeight}}>
-                <TabPane tab={this.tr("a_xsiset")} key={0}>
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_xsiset")} key={i}>
                     <BroadsoftXsiForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr}
-                        callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
+                                      callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_netdir")} key={1}>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_netdir")} key={i}>
                     <BroadsoftNetListForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr}
-                        callTipsTr={this.tips_tr} hideItem={hideItem} tabOrder="" />
+                                          callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            </Tabs>
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                //handleReqItem.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
-
+        ]
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("maintenance_broadsoft")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{minHeight: this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

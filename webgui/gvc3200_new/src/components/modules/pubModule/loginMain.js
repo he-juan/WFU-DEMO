@@ -608,10 +608,10 @@ class LoginMain extends React.Component {
 										<FormItem>
 											{getFieldDecorator("username", {
 												initialValue: ""
-											})(<Input id="username" autofocus="autofocus"
+											})(<Input id="username" autoFocus="autofocus"
 											          onBlur={this.onBlurUsername.bind(this)}
 											          onFocus={this.onFocusUsername.bind(this)}
-											          placeholder={this.tr(this.state.username)} autocomplete="off"
+											          placeholder={this.tr(this.state.username)} autoComplete="off"
 												/>
 											)}
 										</FormItem>
@@ -620,7 +620,7 @@ class LoginMain extends React.Component {
 									<div className="input-wrap">
 										<FormItem>
 											<Input id="password" type="password" style={{display: "none"}} disabled
-											       autocomplete="off"
+											       autoComplete="off"
 											/>
 											{getFieldDecorator("password", {
 												rules: [],
@@ -645,7 +645,7 @@ class LoginMain extends React.Component {
 											          onBlur={this.onBlurIdentifyingCode.bind(this)}
 											          onFocus={this.onFocusIdentifyingCode.bind(this)}
 											          placeholder={this.tr(this.state.identifyingCode)}
-											          autocomplete="off"/>)}
+											          autoComplete="off"/>)}
 										</FormItem> : ""}
 										{this.props.oemId == "54" && this.props.product == "GXV3380" ?
 											<canvas id="idCode" style={{

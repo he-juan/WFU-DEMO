@@ -50,40 +50,45 @@ class SlidingTabsDemo extends Component {
     }
 
     render(){
-        let hideItem = [];
-        let tabList =
-                <Tabs className="config-tab" activeKey={this.props.activeKey} style={{'minHeight': this.props.mainHeight}} onChange={this.onChange}>
-                    <TabPane tab={this.props.callTr("a_16023")} key={0}>
-                        <ContactsGeneralForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                    <TabPane tab={this.props.callTr("a_imexportcontacts")} key={1}>
-                        <ContactsImexportForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                    <TabPane tab={this.props.callTr("a_4808")} key={2}>
-                        <ContactsDownloadForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                    <TabPane tab={this.props.callTr("a_19631")} key={3}>
-                        <ContactsContactsForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                    <TabPane tab={this.props.callTr("a_4779")} key={4}>
-                        <ContactsGroupsForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hideItem} tabOrder="" />
-                    </TabPane>
-                </Tabs>;
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_16023")} key={i}>
+                    <ContactsGeneralForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_imexportcontacts")} key={i}>
+                    <ContactsImexportForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_4808")} key={i}>
+                    <ContactsDownloadForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_19631")} key={i}>
+                    <ContactsContactsForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_4779")} key={i}>
+                    <ContactsGroupsForm {...this.props} activeKey={this.props.activeKey} callTr={this.props.callTr} getReqItem = {this.props.getReqItem} isEmptyObject = {this.props.callIsEmptyObject} hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
             }
-        }
-        return tabList;
+        ]
+        return <Tabs className="config-tab" activeKey={this.props.activeKey} style={{'minHeight': this.props.mainHeight}} onChange={this.onChange}>
+            {
+                tabList.map((item,index)=>{
+                    let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                    if (hiddenOptions[0] == -1) {
+                        return null
+                    }else{
+                        return item(hiddenOptions,index.toString())
+                    }
+                })
+            }
+        </Tabs>;
     }
 }
 

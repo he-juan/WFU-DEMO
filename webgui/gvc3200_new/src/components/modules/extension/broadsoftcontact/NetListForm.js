@@ -71,7 +71,7 @@ class NetListForm extends Component {
 					netlistarray.map((netitem, i) => {
 						return (
 							<Row type="flex" justify="space-around">
-								<Col span={4} style={{"line-height":"36px"}}>{callTr(netitem)}</Col>
+								<Col span={4} style={{"lineHeight":"36px"}}>{callTr(netitem)}</Col>
 								<Col span={10}>
 									<FormItem className="colitem">
 					                    {getFieldDecorator(`typeenable${i}`, {

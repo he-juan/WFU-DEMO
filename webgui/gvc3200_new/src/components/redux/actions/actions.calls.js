@@ -40,6 +40,9 @@ export const setVideoInvitesInfo = (videoinvitelines) => (dispatch) => {
     dispatch({type: 'VIDEO_INVITE_INFO', videoinvitelines: videoinvitelines})
 }
 
+/**
+ * role: 0-normal 1-guest 2-host 3-panelists
+ */
 export const setipvrolestatus = (role) => (dispatch) => {
     dispatch({ type: 'IPVT_ROLE_STATUS', ipvrole: role});
 }
@@ -48,6 +51,47 @@ export const setvideoonlines = (videoonlines) => (dispatch) => {
 }
 export const setlinedetailinfo = (detailinfo) => (dispatch) => {
     dispatch({ type: 'LINE_DETAIL_INFO', detailinfo: detailinfo});
+}
+/**
+ * 三个根hdmi线 插拔状态 websocket同步
+ */
+export const setHDMIstatus = (hdmi, status) => (dispatch) => {
+    dispatch({type: 'SET_HDMI_STATUS', payload: {[hdmi]: status}})
+}
+
+export const setallowipvtrcdstatus = (isallow) => (dispatch) => {
+    dispatch({type: 'SET_IPVTRCD_ALLOWSTATUS', ipvtrcdallowstatus: isallow})
+}
+
+export const setMuteStatus = (line, status) => (dispatch) => {
+    dispatch({ type: 'MUTE_STATUS', muteStatus: {line: line, status: status} })
+}
+
+/**
+ * 录像或者本地录像的状态   区别于IPVT record 云端录像
+ */
+export const setRecordStatus = (status) => (dispatch) => {
+    dispatch({ type: 'RECORD_STATUS', recordStatus:  status})
+}
+
+export const setIPVTRecordStatus = (status) => (dispatch) => {
+    dispatch({ type: 'IPVT_RECORD_STATUS', ipvtRecordStatus:  status})
+}
+
+export const setHeldStatus = (status) => (dispatch) => {
+    dispatch({ type: 'HELD_STATUS', heldStatus:  status})
+}
+
+export const setFECCStatus = (line, status) => (dispatch) =>{
+    dispatch({ type: 'FECC_STATUS', FECCStatus: {line: line, status: status}});
+}
+
+export const setHandsupstatus = (status) => (dispatch) => {
+    dispatch({type: 'IPVT_HANDSUP_STATUS', handsupStatus: status});
+}
+
+export const setipvtcmrinviteinfo = (info) => (dispatch)=>{
+    dispatch({type: 'IPVT_CAMERA_INVITE', ipvtcmrinviteinfo: info});
 }
 
 export const get_leftcalllogname = (callback) => (dispatch) =>{
@@ -259,7 +303,6 @@ export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, is
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_16683'}});
         return;
     }
-
     //check remote upgrading
     if(getremoteupgradestate()){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19236'}});
@@ -360,6 +403,30 @@ export const getContacts = (callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+export const getContacts2 = (callback) => (dispatch) => {
+    let request = 'action=sqlitecontacts&region=apps&type=contacts';
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function(data){
+        let msgs = JSON.parse(data)
+        if (msgs['Response'] == 'Success') {
+            let msgsArr = formatContactAndGroupsData(msgs['Data'],'Number');
+            let msgsAcct = formatContactAndGroupsData(msgs['Data'],'AcctIndex');
+            let msgsContacts = msgs['Data'];
+            dispatch({type: 'GET_CONTACTS_MSGS', msgsContacts: msgsContacts});
+            dispatch({type: 'GET_CONTACTS_INFORMATION', contactsInformation: msgsArr});
+            dispatch({type: 'GET_CONTACTS_ACCT', contactsAcct: msgsAcct});
+            callback(msgsArr);
+        } else {
+            callback([]);
+        }
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+
 
 export const setContacts = (infostr,callback) => (dispatch) => {
     let request="action=setcontact&region=webservice&contactInfo=" + encodeURIComponent(infostr) + "&format=json";
@@ -707,7 +774,7 @@ export const gethdmi1state = (callback) => (dispatch) => {
         callback(tObj)
     }).catch(function(error) {
         console.log("gethdmi1state Exception:",error);
-    });
+     });
 }
 
 export const isFECCEnable = (line, callback) => (dispatch) =>{
@@ -740,24 +807,72 @@ export const ctrlFECC = (line, flag, callback) => (dispatch) =>{
         console.log("ctrlFECC Exception:", error);
     });
 }
-
-export const getHDMI1Resolution = (async, callback) => (dispatch) =>{
+/**
+ * 检查是否4kon
+ *
+ */
+export const getHDMI1Resolution = ( callback) => (dispatch) => {
     let request = "action=get&var-0000=25104";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let msgs = actionUtil.res_parse_rawtext(data);
+        let hdmi1out = msgs.headers['25104'];
+        hdmi1out = hdmi1out.split("P")[0];
+        hdmi1out = hdmi1out.split("x");
+        let is4kon = false;
+        if (hdmi1out[0] >= 3840 && hdmi1out[1] >= 2160) {
+            //hdmi out is 4k
+            is4kon = true;
+        }
+        else {
+            is4kon = false;
+        }
+        callback(is4kon);
+    }).catch(function (error) {
+        console.log("getHDMI1Resolution Exception:", error);
+    });
+
+}
+
+export const gethdmione4K = (async, callback) => (dispatch) =>{
+    let request = "action=gethdmione4K&region=confctrl";
     request += "&time=" + new Date().getTime();
 
     if(async == true){
         actionUtil.handleGetRequest(request).then(function (data) {
-            let msgs = actionUtil.res_parse_rawtext(data);
-            callback(msgs);
+            let tObj = eval("(" + data + ")");
+            let ishdmione4K = tObj.isHdmiOne4K;
+            callback(ishdmione4K);
         }).catch(function (error) {
-            console.log("getHDMI1Resolution Exception:", error);
+            console.log("gethdmione4K Exception:", error);
         });
     }else{
-        actionUtil.handleSyncRequest(request).then(function (data) {
-            let msgs = actionUtil.res_parse_rawtext(data);
-            callback(msgs);
+        actionUtil.handleSyncRequest (request, (data)=>{
+            let tObj = eval("(" + data + ")")
+            let ishdmione4K = tObj.isHdmiOne4K;
+            callback(ishdmione4K);
+        });
+    }
+}
+
+export const getline4Kvideo = (async, callback) => (dispatch) =>{
+    let request = "action=getline4Kvideo&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    if(async == true){
+        actionUtil.handleGetRequest(request).then(function (data) {
+            let tObj = eval("(" + data + ")");
+            let isline4Kvideo = tObj.hasLine4KVideo;
+            callback(isline4Kvideo);
         }).catch(function (error) {
-            console.log("getHDMI1Resolution Exception:", error);
+            console.log("getline4Kvideo Exception:", error);
+        });
+    }else{
+        actionUtil.handleSyncRequest (request, (data)=>{
+            let tObj = eval("(" + data + ")");
+            let isline4Kvideo = tObj.hasLine4KVideo;
+            callback(isline4Kvideo);
         });
     }
 }
@@ -788,22 +903,6 @@ export const getAllLineStatus = (callback) => (dispatch) => {
     }).catch(function(error) {
         promptForRequestFailed();
     });
-}
-
-export const setMuteStatus = (line, status) => (dispatch) => {
-    dispatch({ type: 'MUTE_STATUS', muteStatus: {line: line, status: status} })
-}
-
-export const setRecordStatus = (status) => (dispatch) => {
-    dispatch({ type: 'RECORD_STATUS', recordStatus:  status})
-}
-
-export const setHeldStatus = (status) => (dispatch) => {
-    dispatch({ type: 'HELD_STATUS', heldStatus:  status})
-}
-
-export const setFECCStatus = (line, status) => (dispatch) =>{
-    dispatch({ type: 'FECC_STATUS', FECCStatus: {line: line, status: status}});
 }
 
 export const isConfOnHold = (callback) => (dispatch) =>{
@@ -866,7 +965,7 @@ export const getipvrole = (line, type, callback) => (dispatch) => {
 
     actionUtil.handleGetRequest(request).then(function(data) {
         var result = eval("("+data+")");
-        setipvrolestatus(result.role+"");
+        setipvrolestatus(result.role+"")(dispatch);
         callback(result.role+"");
     }).catch(function(error) {
         promptForRequestFailed();
@@ -1082,9 +1181,148 @@ export const sendDTMFchar = (number, callback) =>(dispatch) => {
     });
 }
 
-/**
- * 三个根hdmi线 插拔状态 websocket同步
- */
-export const setHDMIstatus = (hdmi, status) => (dispatch) => {
-    dispatch({type: 'SET_HDMI_STATUS', payload: {[hdmi]: status}})
+export const isallowipvtrcd = (callback) => (dispatch) =>{
+    let request = "action=isallowipvtrcd&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let tObj = eval("(" + data + ")");
+        let isallowipvtrcd = eval(tObj.isAllow);
+        setallowipvtrcdstatus(isallowipvtrcd);
+        callback(isallowipvtrcd);
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const handlerecord = (recordstatus, callback) => (dispatch) =>{
+    let request;
+    if(recordstatus == "1"){ //目前正在处在录像状态， 需要关闭录像
+        request = "action=stoprecord&region=confctrl";
+    }else{
+        request = "action=startrecord&region=confctrl";
+    }
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+        let tObj = eval("(" + data + ")");
+        if(tObj.msg == "false"){
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_605'}});
+        }
+        callback(tObj);
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const handleipvtrecord = (ipvtrcdstatus, callback) => (dispatch) =>{
+    let request;
+    if(ipvtrcdstatus == "1"){ //目前正在处在录像状态， 需要关闭录像
+        request = "action=ipvtrecord&region=confctrl&state=0";
+    }else{
+        request = "action=ipvtrecord&region=confctrl&state=1";
+    }
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+        let tObj = eval("(" + data + ")");
+        callback(tObj.res.toLowerCase());
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+
+
+export const getlocalrcdstatus = () => (dispatch) => {
+    let request = "action=isrecording&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let tObj = eval("(" + data + ")");
+        if(tObj.state == "true"){
+            setRecordStatus("1")(dispatch);
+        }else{
+            setRecordStatus("0")(dispatch);
+        }
+
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getipvtrcdstatus = () => (dispatch) => {
+    let request = "action=ipvtrcdstate&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let tObj = eval("(" + data + ")");
+        if(tObj.isOn == "true"){
+            setIPVTRecordStatus("1")(dispatch);
+        }else{
+            setIPVTRecordStatus("0")(dispatch);
+        }
+
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const getipvthandsupstatus = () => (dispatch) => {
+    let request = "action=isipvthandup&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let tObj = eval("(" + data + ")");
+        if(tObj.isHandUp == "true"){
+            setHandsupstatus("1")(dispatch);
+        }else{
+            setHandsupstatus("0")(dispatch);
+        }
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const upordownhand = () => (dispatch) => {
+    let request = "action=upordownhand&region=confctrl";
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const acceptorejectipvtcmr = (line, accept) => (dispatch) => {
+    let request = "action=acceptorejectipvtcmr&region=confctrl&line=" + line + "&accept=" + accept;
+    request += "&time=" + new Date().getTime();
+    actionUtil.handleGetRequest(request).then(function (data) {
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+
+export const resumecamera = (callback) => (dispatch) => {
+    let request = "action=resumecamera&region=confctrl";
+    request += "&time=" + new Date().getTime();
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let tObj = eval("(" + data + ")");
+        callback(tObj.state);
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
+}
+//
+export const getcmrnameandnumber = (callback) => (dispatch) => {
+    let request = "action=getcmrnameandnumber&region=confctrl";
+    request += "&time=" + new Date().getTime();
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let tObj = eval("(" + data + ")");
+        callback(tObj);
+    }).catch(function (error) {
+        promptForRequestFailed();
+    });
 }

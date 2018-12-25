@@ -100,58 +100,47 @@ class SlidingTabsDemo extends React.Component {
              }
       }
 
-      let hideItem = [];
-      let tabList =
-          <Tabs className="config-tab accountTab" activeKey={tab2} size="middle" onChange={this.onChange.bind(this,"2")} style={{"minHeight":this.props.mainHeight-30}}>
-              <TabPane tab={callTr("a_16023")} key={0}>
-                  <AccountGeneralForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
+      let tabList =[
+          (hiddenOptions,i) => {
+              return<TabPane tab={callTr("a_16023")} key={i}>
+                  <AccountGeneralForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder={i}  hideItem={hiddenOptions} />
               </TabPane>
-              <TabPane tab={callTr("a_16024")} key={1}>
-                  <AccountNetForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
+          } ,
+          (hiddenOptions,i) => {
+              return<TabPane tab={callTr("a_16024")} key={i}>
+                  <AccountNetForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder={i}  hideItem={hiddenOptions} />
               </TabPane>
-              <TabPane tab={callTr("a_16025")} key={2}>
-                  <AccountSipForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
+          },
+          (hiddenOptions,i) => {
+              return<TabPane tab={callTr("a_16025")} key={i}>
+                  <AccountSipForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder={i}  hideItem={hiddenOptions} />
               </TabPane>
-              <TabPane tab={callTr("a_16026")} key={3}>
-                  <AccountCodecForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder="" hideItem={hideItem} />
+          },
+          (hiddenOptions,i) => {
+              return<TabPane tab={callTr("a_16026")} key={i}>
+                  <AccountCodecForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder={i} hideItem={hiddenOptions} />
               </TabPane>
-              <TabPane tab={callTr("a_16027")} key={4}>
-                  <AccountCallForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
+          },
+          (hiddenOptions,i) => {
+              return<TabPane tab={callTr("a_16027")} key={i}>
+                  <AccountCallForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder={i}  hideItem={hiddenOptions} />
               </TabPane>
-              {/* <TabPane tab={callTr("a_4101")} key={5}>
-                  <AccountAdvancedForm {...this.props} activeKey={tab2} ref = {this.saveFormRef} callTr = {this.props.callTr} tabOrder=""  hideItem={hideItem} />
-              </TabPane> */}
-          </Tabs>
-
-      for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-          let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-          if (hiddenOptions[0] == -1) {
-              tabList.props.children.splice(i, 1);
-              //handleReqItem.splice(i, 1);
-              i--;
-          } else {
-              tabList.props.children[i].key = i;
-              tabList.props.children[i].props.key = i;
-              tabList.props.children[i].props.children.props.tabOrder = i;
-              tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
-          }
-      }
-
+          },
+      ]
       return (
             <div style = {{background:"#f3f7fa"}}>
-                {/* <Tabs defaultActiveKey= "0" onTabClick={this.onTabClick.bind(this)} className = "AcctTabs" onChange={this.onChange.bind(this,"1")} type="card" size="large">
+                <Tabs className="config-tab accountTab" activeKey={tab2} size="middle" onChange={this.onChange.bind(this,"2")} style={{"minHeight":this.props.mainHeight-30}}>
                     {
-                        [...Array(maxacctnum)].map((tabpane,index) => {
-                            return (
-                                <TabPane tab={(<span><Icon className = "userIcon" />{callTr("a_account")+" "+(index+1)}</span>)} key={index}>
-
-                                </TabPane>
-                            )
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
                         })
                     }
-                </Tabs> */}
-                {tabList}
+                </Tabs>
             </div>
       )
   }

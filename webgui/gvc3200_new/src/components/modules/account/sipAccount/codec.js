@@ -78,6 +78,8 @@ const nvram = {
     'srtp': "183",                  // SRTP方式
     'encryptdigit': "2383",         // SRTP加密位数
 
+    'h265_enable': "h265_enable"
+
 }
 
 class CodecForm extends React.Component {
@@ -174,6 +176,7 @@ class CodecForm extends React.Component {
             this.getReqItem("enablertx", nvram["enablertx"], ""),
             this.getReqItem("h265payload", nvram["h265payload"], ""),
 
+            this.getReqItem("h265_enable", nvram["h265_enable"], "")
             // 待确认丢弃字段
             //this.getReqItem("P296", nvram["P296"], ""),
             //this.getReqItem("P8", nvram["P8"], ""),
@@ -366,10 +369,47 @@ class CodecForm extends React.Component {
         const { setFieldsValue } = this.props.form;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
+                if (values["dtmfpayload"] == "") {
+                    values["dtmfpayload"] = "101";
+                    setFieldsValue({
+                        ['dtmfpayload']: "101"
+                    })
+                }
+                if (values["g722payload"] == "") {
+                    values["g722payload"] == "104";
+                    setFieldsValue({
+                        ['g722payload']: "104"
+                    })
+                }
+                if (values["g7221cpayload"] == "") {
+                    values["g7221cpayload"] == "103";
+                    setFieldsValue({
+                        ['g7221cpayload']: "103"
+                    })
+                }
                 if (values["opuspayload"] == "") {
                     values["opuspayload"] = "123";
                     setFieldsValue({
                         ['opuspayload']: "123"
+                    })
+                }
+                if (values["audioredpayload"] == "") {
+                    values["audioredpayload"] = "124";
+                    setFieldsValue({
+                        ['audioredpayload']: "124"
+                    })
+                }
+                if (values["audiofecpayload"] == "") {
+                    values["audiofecpayload"] == "121";
+                    setFieldsValue({
+                        ['audiofecpayload']: "121"
+                    })
+                }
+                
+                if (values["feccpayload"] == "") {
+                    values["feccpayload"] == "125";
+                    setFieldsValue({
+                        ['feccpayload']: "125"
                     })
                 }
                 if (values["fecpayload"] == "") {
@@ -378,13 +418,41 @@ class CodecForm extends React.Component {
                         ['fecpayload']: "120"
                     })
                 }
-
-                let set = new Set([values['dtmfpayload'], values["h264payload"], values["opuspayload"],  values["fecpayload"], values["audiofecpayload"], values["audioredpayload"]])
-
-                if (set.has('97')) {
-                    this.props.promptMsg('ERROR', "payload_error2")
-                    return false;
+                if (values["h264payload"] == "") {
+                    values["h264payload"] == "99";
+                    setFieldsValue({
+                        ['h264payload']: "99"
+                    })
                 }
+                
+
+                let payloads = [
+                    values["dtmfpayload"], values["g722payload"], values["g7221cpayload"], values["opuspayload"],
+                    values["audioredpayload"], values["audiofecpayload"], values["feccpayload"], values["fecpayload"],values["h264payload"]
+                ]
+
+                // 存在H265时
+                if(this.props.itemValues['h265_enable'] != '0') {
+                    if (values["h265payload"] == "") {
+                        values["h265payload"] == "114";
+                        setFieldsValue({
+                            ['h265payload']: "114"
+                        })
+                    }
+                    payloads.push(values["h265payload"])
+                }
+
+                if(new Set(payloads).size < payloads.length) {
+                    this.props.promptMsg('ERROR', "a_16148")
+                    return false
+                }
+
+                // let set = new Set([values['dtmfpayload'], values["h264payload"], values["opuspayload"],  values["fecpayload"], values["audiofecpayload"], values["audioredpayload"]])
+
+                // if (set.has('97')) {
+                //     this.props.promptMsg('ERROR', "payload_error2")
+                //     return false;
+                // }
 
                 // save selectMultiple
                 let pvObj = this.savePreferredVocoder()
@@ -414,7 +482,8 @@ class CodecForm extends React.Component {
                 <FormItem label={(<span>{"DTMF"}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("DTMF")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('inaudio', {
                         valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues["inaudio"])
+                        initialValue: parseInt(this.props.itemValues["inaudio"]),
+
                     })(<Checkbox className={"P-" + nvram["inaudio"]}>In audio</Checkbox>)
                     }
                     {getFieldDecorator('RFC2833', {
@@ -439,13 +508,21 @@ class CodecForm extends React.Component {
                             validator: (data, value, callback) => {
                                 this.range(data, value, callback, 96, 126)
                             }
+                        }, {
+                            validator: (data, value, callback) => {
+                                if(value == 98 || value == 99) {
+                                    callback(callTr('a_19124'))
+                                } else {
+                                    callback()
+                                }
+                            }
                         }],
                         initialValue: this.props.itemValues['dtmfpayload']
                     })(<Input className={"P-" + nvram["dtmfpayload"]} />)
                     }
                 </FormItem>
                 {/* 语音编码 */}
-                <FormItem className="transfer-control"　 label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={this.tips_tr("Preferred Vocoder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="transfer-control"　 label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Preferred Vocoder")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     <Transfer className="vocodertrans" dataSource={this.state.VocoderData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange} render={this.renderItem} />
                 </FormItem>
                 {/* 编码协商优先级 */}
@@ -508,6 +585,14 @@ class CodecForm extends React.Component {
                             validator: (data, value, callback) => {
                                 this.range(data, value, callback, 96, 126)
                             }
+                        }, {
+                            validator: (data, value, callback) => {
+                                if(value == 98 || value == 99) {
+                                    callback(callTr('a_19124'))
+                                } else {
+                                    callback()
+                                }
+                            }
                         }],
                         initialValue: this.props.itemValues['g722payload']
                     })(
@@ -537,6 +622,14 @@ class CodecForm extends React.Component {
                             validator: (data, value, callback) => {
                                 this.range(data, value, callback, 96, 126)
                             }
+                        }, {
+                            validator: (data, value, callback) => {
+                                if(value == 98 || value == 99) {
+                                    callback(callTr('a_19124'))
+                                } else {
+                                    callback()
+                                }
+                            }
                         }],
                         initialValue: this.props.itemValues['g7221cpayload']
                     })(
@@ -553,6 +646,14 @@ class CodecForm extends React.Component {
                         }, {
                             validator: (data, value, callback) => {
                                 this.range(data, value, callback, 96, 126)
+                            }
+                        }, {
+                            validator: (data, value, callback) => {
+                                if(value == 98 || value == 99) {
+                                    callback(callTr('a_19124'))
+                                } else {
+                                    callback()
+                                }
                             }
                         }],
                         initialValue: this.props.itemValues['opuspayload']
@@ -615,6 +716,14 @@ class CodecForm extends React.Component {
                             validator: (data, value, callback) => {
                                 this.range(data, value, callback, 96, 126)
                             }
+                        }, {
+                            validator: (data, value, callback) => {
+                                if(value == 98 || value == 99) {
+                                    callback(callTr('a_19124'))
+                                } else {
+                                    callback()
+                                }
+                            }
                         }],
                         initialValue: this.props.itemValues['audioredpayload'] ? this.props.itemValues['audioredpayload'] : 124
                     })(
@@ -673,7 +782,7 @@ class CodecForm extends React.Component {
                             }
                         }, {
                             validator: (data, value, callback) => {
-                                this.range(data, value, callback, 96, 126)
+                                this.range(data, value, callback, 96, 127)
                             }
                         }],
                         initialValue: this.props.itemValues['fecpayload']
@@ -690,7 +799,7 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 新增 FECC H.224有效荷载类型 */}
-                <FormItem label={(<span>{callTr("a_19022")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Voice Frames Per TX")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19022")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("FECC H.224 Payload Type")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('feccpayload', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -698,7 +807,7 @@ class CodecForm extends React.Component {
                             }
                         }, {
                             validator: (data, value, callback) => {
-                                this.range(data, value, callback, 96, 126)
+                                this.range(data, value, callback, 96, 127)
                             }
                         }],
                         initialValue: this.props.itemValues['feccpayload']
@@ -745,9 +854,13 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 视频编码 */}
-                <FormItem className="transfer-control" label={(<span>{callTr("a_16115")}&nbsp;<Tooltip title={this.tips_tr("Preferred Video Coder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
-                    <Transfer dataSource={this.state.VideoData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }} targetKeys={this.state.VideoTargetKeys} onChange={this.handleVideoChange} render={item => item.title} />
-                </FormItem>
+                {
+                    this.props.itemValues['h265_enable'] != '0' ? 
+                    <FormItem className="transfer-control" label={(<span>{callTr("a_16115")}&nbsp;<Tooltip title={this.tips_tr("Preferred Video Coder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                        <Transfer dataSource={this.state.VideoData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }} targetKeys={this.state.VideoTargetKeys} onChange={this.handleVideoChange} render={item => item.title} />
+                    </FormItem>
+                    : null
+                }
                 {/* H.264 视频大小 */}
                 <FormItem className="select-item" label={(<span>{callTr("a_16118")}&nbsp;<Tooltip title={this.tips_tr("H.264 Image Size")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('imgsize', {
@@ -764,7 +877,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 视频比特率 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_10020")}&nbsp;<Tooltip title={this.tips_tr("Video Bit Rate")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_10020")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Video Bit Rate")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('vbrate', {
                         initialValue: this.props.itemValues['vbrate'] ? this.props.itemValues['vbrate'] : "2048"
                     })(
@@ -802,7 +915,7 @@ class CodecForm extends React.Component {
                             }
                         }, {
                             validator: (data, value, callback) => {
-                                this.range(data, value, callback, 96, 126)
+                                this.range(data, value, callback, 96, 127)
                             }
                         }],
                         initialValue: this.props.itemValues['h264payload']
@@ -846,26 +959,27 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* H.265有效荷载类型 */}
-                <FormItem label={(<span>{callTr("a_19258")}&nbsp;<Tooltip title={this.tips_tr("H.265 Payload Type")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                    {getFieldDecorator('h265payload', {
-                        rules: [{
-                            validator: (data, value, callback) => {
-                                this.digits(data, value, callback)
-                            }
-                        }, {
-                            validator: (data, value, callback) => {
-                                this.range(data, value, callback, 96, 126)
-                            }
-                        }],
-                        initialValue: this.props.itemValues['h265payload']
-                    })(
-                        <Input type="text" className={"P-" + nvram["h265payload"]} />
-                    )}
-                </FormItem>
-
-
-
-
+                {
+                    this.props.itemValues['h265_enable'] != '0' ? 
+                    <FormItem label={(<span>{callTr("a_19258")}&nbsp;<Tooltip title={this.tips_tr("H.265 Payload Type")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                        {getFieldDecorator('h265payload', {
+                            rules: [{
+                                validator: (data, value, callback) => {
+                                    this.digits(data, value, callback)
+                                }
+                            }, {
+                                validator: (data, value, callback) => {
+                                    this.range(data, value, callback, 96, 126)
+                                }
+                            }],
+                            initialValue: this.props.itemValues['h265payload']
+                        })(
+                            <Input type="text" className={"P-" + nvram["h265payload"]} />
+                        )}
+                    </FormItem>
+                    : null
+                }
+                
 
 
                 <p className="blocktitle"><s></s>{callTr("a_16640")}</p>

@@ -25,7 +25,6 @@ class Remote extends Component {
             this.getReqItem("softversion","25026", ""),
             this.getReqItem("hardwareversion","25028", ""),
             this.getReqItem("patchversion","remote_patch_ver", ""),
-            /*    this.getReqItem("touchpadversion","25027", ""),*/
         );
     }
 
@@ -35,7 +34,7 @@ class Remote extends Component {
 
     render() {
         let itemList =
-            <Form className="configform" style={{'min-height': this.props.mainHeight}}>
+            <Form className="configform" style={{minHeight: this.props.mainHeight}}>
                 <FormItem label={<span>{this.tr("a_4134")}<Tooltip title={this.tips_tr("Hardware Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="boot-version">{ this.props.itemValues['hardwareversion']?this.props.itemValues['hardwareversion']:this.tr("a_2085") }</span>
                 </FormItem>
@@ -48,7 +47,6 @@ class Remote extends Component {
                 <FormItem label={<span>{this.tr("a_16634")}<Tooltip title={this.tips_tr("Remote Battery")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="android-version">{ this.props.itemValues['remotebattery']?this.props.itemValues['remotebattery']:this.tr("a_2085") }</span>
                 </FormItem>
-
             </Form>;
         let hiddenOptions = optionsFilter.getHiddenOptions(0);
         for (var i = hiddenOptions.length-1; hiddenOptions[i] != undefined && i>=0; i--) {
@@ -56,7 +54,7 @@ class Remote extends Component {
         }
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{"遥控器状态"}</div>
+                <div className="subpagetitle">{this.tr("a_12001")}</div>
                 {itemList}
             </Content>
         )

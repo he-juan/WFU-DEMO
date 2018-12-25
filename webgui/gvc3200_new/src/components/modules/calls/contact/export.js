@@ -16,11 +16,16 @@ class ExportEdit extends Component {
         super(props);
         this.state = {
             fileencode:"UTF-8",
-            exporttype:"1"
+            exporttype:"0"
         }
     }
 
     hanleExportContacts = () => {
+        if (this.props.contactsInformation.length == 0) {
+            this.props.promptMsg("ERROR", "a_4786");
+            this.props.handleHideExportModal();
+            return
+        }
         let {exporttype,fileencode} = this.state;
         let importConfig = this.getImportConfig(0);
         let [portredup, portclearold] = [importConfig[0],importConfig[1]]
@@ -33,34 +38,24 @@ class ExportEdit extends Component {
         let msgs = this.res_parse_rawtext(data);
         this.cb_if_auth_fail(msgs);
         this.cb_if_is_fail(msgs);
-        let response = msgs.headers["phbkresponse"];
-        let phbkprogress = msgs.headers["phbkprogress"];
-        let max = msgs.headers["max"];
-        let value = Math.floor((phbkprogress/max).toFixed(2) * 100);
-
-        this.props.handleHideExportModal();
-
-        if(response>2 && portnum > 0) {
-            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
-            this.props.progressMessage(value,'none',this.tr('a_16427'));
-            portnum = 0;
-        }
+        let response = msgs.headers["portphbkresponse"]; //portphbkresponse
+        // this.props.handleHideExportModal();
         switch( response ) {
-            case '0':
             case '1':
-                value = 0;
-            case '2':
-                if(portnum < 60){
-                    if( mode == 1 ){
-                        setTimeout(() => {this.cb_get_xmlresponse()},3000);
+                if(portnum < 80){
+                    if( mode == 0 ){
+                        let self = this
+                        setTimeout(() => {self.cb_get_xmlresponse()},5000);
                     }
-                    else if( mode == 2 ) {
-                        setTimeout(() => {this.cb_get_vcardresponse()},3000);
+                    else if( mode == 1 ) {
+                        setTimeout(() => {this.cb_get_vcardresponse()},5000);
+                    } else {
+                        setTimeout(() => {this.cb_get_csvresponse()},5000);
                     }
                     if( portnum == 0 ){
                         Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_16427'}});
                     }
-                    this.props.progressMessage(value,'block',this.tr('a_16427'));
+                    // this.props.progressMessage('','block',this.tr('a_16427'));
                     portnum ++;
                 }　else {
                     Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
@@ -68,33 +63,46 @@ class ExportEdit extends Component {
                     portnum = 0;
                 }
                 break;
-            case '3':
-                if( mode == 1 )
+            case '0':
+                if( mode == 0 ) {
                     parent.window.location.href = "/phonebook/phonebook.xml?time=" + new Date().getTime();
-                else if( mode == 2 )
+                } else if( mode == 1 ) {
                     parent.window.location.href = "/phonebook/phonebook.vcf?time=" + new Date().getTime();
+                } else {
+                    parent.window.location.href = "/phonebook/phonebook.csv?time=" + new Date().getTime();
+                }
+                Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
                 this.props.promptMsg("SUCCESS", "a_4781");
+
+                break;
+            case '2':
+                this.props.promptMsg("ERROR", "a_16420");
+                break;
+            case '8':
+                this.props.promptMsg("ERROR", "a_16423");
+                break;
+            case '9':
+                this.props.promptMsg("ERROR", "a_16433");
                 break;
             case '4':
-                let errorCode = phbkprogress;
-                let errorMessage = 'a_6171';
-                if(errorCode == 3) {
-                    errorMessage = 'a_4786';
-                } else if (errorCode == 22) {
-                    errorMessage = 'a_19643';
-                }
-                this.props.promptMsg("ERROR", errorMessage);
+            case '10':
+                this.props.promptMsg("ERROR", "a_6171");
                 break;
             default:
+                break;
         }
 
     }
 
     cb_get_xmlresponse = () => {
-        this.props.cb_get_portresponse(1,this.cb_get_portresponse_done);
+        this.props.cb_get_portresponse(0,this.cb_get_portresponse_done);
     }
 
     cb_get_vcardresponse = () => {
+        this.props.cb_get_portresponse(1,this.cb_get_portresponse_done);
+    }
+
+    cb_get_csvresponse = () => {
         this.props.cb_get_portresponse(2,this.cb_get_portresponse_done);
     }
 
@@ -172,11 +180,13 @@ class ExportEdit extends Component {
                　　　</FormItem>
                     <FormItem className = "select-item" label={(<span>{callTr("a_4756")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                        {getFieldDecorator('exporttype', {
-                           initialValue: "1"
+                           initialValue: "0"
                            })(
                                <Select onChange = {this.handleFileTypeChange.bind(this,'exporttype')}>
-                                   <Option value="1">XML</Option>
-                                   <Option value="2">VCard</Option>
+                                   <Option value="0">XML</Option>
+                                   <Option value="1">VCard</Option>
+                                   <Option value="2">CSV</Option>
+
                                </Select>
                        )}
               　　　　</FormItem>
@@ -191,6 +201,7 @@ class ExportEdit extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    contactsInformation: state.contactsInformation,
     activeKey: state.TabactiveKey
 });
 function mapDispatchToProps(dispatch) {

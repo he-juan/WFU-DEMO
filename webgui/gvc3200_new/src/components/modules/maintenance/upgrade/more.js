@@ -28,6 +28,8 @@ class MoreForm extends Component {
              this.getReqItem("mdns", "1407", ""),
              this.getReqItem("dhcp66", "145", ""),
              this.getReqItem("autopro", "1414", ""),
+             this.getReqItem("Overridedhcp", "8337", ""),
+             this.getReqItem("dhcp120", "1411", ""),
          )
          return req_items;
     }
@@ -64,7 +66,7 @@ class MoreForm extends Component {
 
         if(!m_uploading) {
             confirm({
-                content: <span dangerouslySetInnerHTML={{__html: callTr("a_resetconfirm")}}></span>,
+                content: <span dangerouslySetInnerHTML={{__html: callTr("a_16472")}}></span>,
                 okText: callTr("a_2"),
                 cancelText: callTr("a_3"),
                 onOk() {
@@ -88,7 +90,7 @@ class MoreForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={< span > {callTr("a_19013")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19013")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("sipnotify", {
                         rules: [],
                         valuePropName: 'checked',
@@ -97,7 +99,7 @@ class MoreForm extends Component {
                         <Checkbox className="P-4428"/>
                     )}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19336")} < Tooltip title = {callTipsTr("Validate Server Certificate")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19025")} < Tooltip title = {callTipsTr("Validate Server Certificate")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("validatecert", {
                         rules: [],
                         valuePropName: 'checked',
@@ -106,7 +108,7 @@ class MoreForm extends Component {
                         <Checkbox className="P-22030"/>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={< span > {callTr("a_16334")} < Tooltip title = {callTipsTr("mDNS Override Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className="select-item" label={< span > {callTr("a_16334")} < Tooltip title = {callTipsTr("mDNS Override Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('mdns', {
                         rules: [],
                         initialValue: this.props.itemValues["mdns"] ? this.props.itemValues["mdns"] : "0"
@@ -120,7 +122,7 @@ class MoreForm extends Component {
                     }
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16337")} < Tooltip title = {callTipsTr("Allow DHCP Option 43, 160 and 66 Override Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16337")} < Tooltip title = {callTipsTr("Allow DHCP Option 43, 160 and 66 Override Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcp66", {
                         rules: [],
                         valuePropName: 'checked',
@@ -130,7 +132,29 @@ class MoreForm extends Component {
                     )}
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_16339")} < Tooltip title = {callTipsTr("3CX Auto Provision")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19706")} < Tooltip title = {callTipsTr("Additional Override DHCP Option")} > <Icon type="question-circle-o"/></Tooltip></span>}>
+                    {getFieldDecorator("Overridedhcp", {
+                        rules: [],
+                        initialValue: this.props.itemValues['Overridedhcp']?this.props.itemValues['Overridedhcp']:"0"
+                    })(
+                        <Select className="P-8337">
+                            <Option value="0">{callTr("a_20")}</Option>
+                            <Option value="2">{callTr("Option 160")}</Option>
+                        </Select>
+                    )}
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
+                </FormItem>
+                <FormItem label={< span > {callTr("a_16338")} < Tooltip title = {callTipsTr("DHCP Option 120 Override SIP Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                    {getFieldDecorator("dhcp120", {
+                        rules: [],
+                        valuePropName: 'checked',
+                        initialValue: parseInt(this.props.itemValues.dhcp120)
+                    })(
+                        <Checkbox className="P-1411"/>
+                    )}
+                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                </FormItem>
+                <FormItem label={< span > {callTr("a_16339")} < Tooltip title = {callTipsTr("3CX Auto Provision")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("autopro", {
                         rules: [],
                         valuePropName: 'checked',
@@ -140,7 +164,7 @@ class MoreForm extends Component {
                     )}
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {callTr("a_4105")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4105")} < Tooltip title = {callTipsTr("Factory Reset")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Button className="button" type="primary" onClick = {this.onClickReset.bind(this)}>{this.tr("a_resetkey")}</Button>
                 </FormItem>
                 <FormItem>

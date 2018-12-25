@@ -31,49 +31,53 @@ class Security extends Component {
     }
 
     render(){
-        let hideItem = [];
-        tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{'min-height': this.props.mainHeight}}>
-                <TabPane tab={this.tr("a_16029")} key={0} tabName="remoteaccess">
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_16029")} key={i} tabName="remoteaccess">
                     <SecurityRmtacsForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder="" />
+                                        hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_19806")} key={1} tabName="userinfo">
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
                     <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder="" />
+                                          hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_9688")} key={1} tabName="screenlockpwd">
-                    <SecurityScreenLockForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
+                    <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                                          hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab="SIP TLS" key={2} tabName="siptls">
-                    <SecuritySiptlsForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
+                    <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                                          hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_19807")} key={3} tabName="certificate">
-                    <SecurityCertificateForm {...this.props} callTr={this.tr} hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
+                    <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                                          hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            </Tabs> ;
-
-        for (let i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                //handleReqItem.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
-
+        ]
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_4221")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{minHeight: this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

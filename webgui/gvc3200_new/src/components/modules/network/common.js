@@ -223,9 +223,9 @@ class Common extends Component {
         }
 
         let itemList =
-            <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
+            <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}}>
                 <p className="blocktitle"><s></s>{this.tr("a_19655")}</p>
-                <FormItem className = "ip-address" label={< span > {this.tr("a_16652")} < Tooltip title = {this.tips_tr("Alternate DNS Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = "ip-address" label={< span > {this.tr("a_16652")} < Tooltip title = {this.tips_tr("Preferred DNS 1")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -298,7 +298,7 @@ class Common extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className = "ip-address" label={< span > {this.tr("a_19656")} < Tooltip title = {this.tips_tr("Second Alternate DNS Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = "ip-address" label={< span > {this.tr("a_19656")} < Tooltip title = {this.tips_tr("Preferred DNS 2")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -371,16 +371,7 @@ class Common extends Component {
                         </Row>
                     )}
                 </FormItem>
-                {/*<FormItem label={< span > {this.tr("a_showwidgetip")
-                } < Tooltip title = {this.tips_tr("Show IP Address On Account Widget")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator("showwidgetip", {
-                        rules: [],
-                        valuePropName: 'checked',
-                        initialValue: showwidgetip
-                    })(
-                        <Checkbox />
-                    )}
-                </FormItem>*/}
+
                 <FormItem label={< span > { this.tr("a_16193") } < Tooltip title = {this.tips_tr("Enable LLDP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("enablelldp", {
                         rules: [],
@@ -390,37 +381,6 @@ class Common extends Component {
                         <Checkbox className="P-1684"/>
                     )}
                 </FormItem>
-                {/*<FormItem label={< span > {this.tr("a_lldpinterval")} < Tooltip title = {this.tips_tr("LLDP TX Interval")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator("lldpinterval", {
-                        rules: [{
-                            required: true,
-                            message: this.tr("a_19637")
-                        },{
-                            validator: (data, value, callback) => {
-                                this.digits(data, value, callback)
-                            }
-                        }, {
-                            validator: (data, value, callback) => {
-                                this.range(data, value, callback, 1, 3600)
-                            }
-                        }],
-                        initialValue: this.props.itemValues.lldpinterval
-                    })(
-                        <Input min={1} max={3600} className="P-22122"/>
-                    )}
-                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
-                <FormItem label={< span > {this.tr("a_enablecdp")} < Tooltip title = {this.tips_tr("Enable CDP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator("enablecdp", {
-                        rules: [],
-                        valuePropName: 'checked',
-                        //initialValue: this.props.itemValues.enablecdp
-                        initialValue: Boolean(Number(this.props.itemValues.enablecdp))
-                    })(
-                        <Checkbox className="P-22119"/>
-                    )}
-                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>*/}
                 <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer3qossip", {
                         rules: [{
@@ -477,60 +437,6 @@ class Common extends Component {
                         rules: [ ],
                         initialValue: this.props.itemValues.sipuseragent
                     })(<Input className="P-26027"/>)}
-                </FormItem>
-                {/*<FormItem className={oemid == "54" ? 'display-block' : 'display-hidden'} label={< span > {this.tr("a_19317")} < Tooltip title = {this.tips_tr("Media Address")} > <Icon type="question-circle-o"/> < /Tooltip>< /span>}>
-                    {getFieldDecorator("mediaaddr", {
-                        rules: [],
-                        initialValue: this.props.itemValues.mediaaddr
-                    })(<Input className="P-media_address"/>)}
-                </FormItem>*/}
-                <p className="blocktitle"><s></s>{this.tr("a_16600")}</p>
-                <FormItem className="select-item" label={< span > {this.tr("a_16600")} < Tooltip title = {this.tips_tr("PC Port Mode")} > <Icon type="question-circle-o"/> < /Tooltip>< /span>}>
-                    {getFieldDecorator('pcportmode', {
-                        rules: [],
-                        initialValue: this.props.itemValues["pcportmode"] ? this.props.itemValues["pcportmode"] : "0"
-                    })(
-                        <Select onChange={ this.onChangeMode.bind(this) } className="P-1348">
-                            <Option value="0">{this.tr("a_38")}</Option>
-                            <Option value="1">{this.tr("a_39")}</Option>
-                            <Option value="2">{this.tr("a_16601")}</Option>
-                        </Select>
-                    )}
-                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
-                <FormItem className={ this.state.pcportmode } label={< span > {this.tr("a_16598")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("PC Port VLAN Tag")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator("pcporttag", {
-                        rules: [{
-                            required: true,
-                            message: this.tr("a_19637")
-                        },{
-                            validator: (data, value, callback) => {
-                                this.digits(data, value, callback)
-                            }
-                        }, {
-                            validator: (data, value, callback) => {
-                                this.range(data, value, callback, 0, 4094)
-                            }
-                        }],
-                        initialValue: this.props.itemValues.pcporttag
-                    })(<Input min={0} max={4094} className="P-229"/>)}
-                </FormItem>
-                <FormItem className={ this.state.pcportmode } label={< span > {this.tr("a_16599")} < Tooltip title = {this.tips_tr("PC Port Priority Value")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator("pcporttagpv", {
-                        rules: [{
-                            required: true,
-                            message: this.tr("a_19637")
-                        },{
-                            validator: (data, value, callback) => {
-                                this.digits(data, value, callback)
-                            }
-                        }, {
-                            validator: (data, value, callback) => {
-                                this.range(data, value, callback, 0, 7)
-                            }
-                        }],
-                        initialValue: this.props.itemValues.pcporttagpv
-                    })(<Input min={0} max={7} className="P-230"/>)}
                 </FormItem>
                 <p className="blocktitle"><s></s>{callTr("a_16651")}</p>
                 <FormItem label={<span>{callTr("a_16198")} <Tooltip title={callTipsTr("HTTP/HTTPS Proxy Hostname")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>

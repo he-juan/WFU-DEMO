@@ -34,6 +34,15 @@ const OneHDMILayout = ({ activeIndex, confname, conftype, presentation, callTr, 
           }
          
         </div>
+        {/* mode = 7 远端模式 */}
+        <div className='preview-box remote-preview' style={{ display: activeIndex == 6 ? 'block' : 'none' }}>
+            <div className="preview-item" style={{ width: '97%', height: '95%', margin: '12px' }}>
+              <p>
+                <strong>{confname}</strong>
+                <span>({confname})</span>
+              </p>
+            </div>
+        </div>
         {/* mode = 4 等分模式 */}
         <div className='preview-box overlap-preview' style={{ display: activeIndex == 2 ? 'block' : 'none' }}>
           <div className="preview-item " style={{ height: '50%', width: '47.5%', margin: '14% 0 0 1.7%' }}>
@@ -92,6 +101,15 @@ const OneHDMILayout = ({ activeIndex, confname, conftype, presentation, callTr, 
               <strong>{callTr('a_10004')}</strong>
             </p>
           </div>
+        </div>
+         {/* mode = 7 远端模式 */}
+        <div className='preview-box remote-preview' style={{ display: activeIndex == 6 ? 'block' : 'none' }}>
+            <div className="preview-item" style={{ width: '97%', height: '95%', margin: '12px' }}>
+              <p>
+                <strong>{confname}</strong>
+                <span>({confname})</span>
+              </p>
+            </div>
         </div>
         {/* mode = 4 等分模式 */}
         <div className='preview-box overlap-preview' style={{ display: activeIndex == 2 ? 'block' : 'none' }}>

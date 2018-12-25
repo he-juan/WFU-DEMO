@@ -734,7 +734,10 @@ tip_item_es.push (
         "Configure si validar el certificado del servidor cuando se descargue el firmware/archivo de configuración. Si se establece en \"Si\", el teléfono descargará el firmware/archivo de configuración solo desde el servidor legítimo. El ajuste por defecto es \"No\"."),
     new TipsDef("Allow DHCP Option 43, 160 and 66 Override Server",
         "If DHCP option 43, 160 and 66 is turned ON in the LAN, the device will reset the configuration CPE, upgrade, network vlan Tag, and Priority according to option 43 sent by the server. At the same time, the update mode and server path of the configuration upgrade module will be reset according to the option 160 and 66 sent by the server. The default setting is \"on\"."),
-    
+    new TipsDef("Additional Override DHCP Option",
+        "Opción DHCP adicional que se utilizará como un servidor de firmware en lugar de la configuración de uno o servidor de nombres de la opción 43 y 66. Sin embargo, esta opción sólo será efectiva cuando la opción 'Permitir Opción DHCP 43 y Opción 66 para Anular Servidor' esté habilitada\n"),
+
+
     new TipsDef("Automatic Upgrade",
         "Habilite la actualización y aprovisionamiento automática HTTP. El ajuste por defecto es \"Revisar todos los días\"."),
 	new TipsDef("Enable Randomized Automatic Upgrade",

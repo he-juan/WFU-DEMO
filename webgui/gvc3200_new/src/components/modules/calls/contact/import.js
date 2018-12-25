@@ -15,7 +15,7 @@ class ImportEdit extends Component {
         super(props);
         this.state = {
             importfileencode:"UTF-8",
-            importtype:"1",
+            importtype:"0",
             fileencode:"UTF-8",
             exporttype:"1",
             disabled1:true,
@@ -49,42 +49,58 @@ class ImportEdit extends Component {
         this.cb_if_auth_fail(msgs);
         this.cb_if_is_fail(msgs);
         let response = msgs.headers["phbkresponse"];
-        let phbkprogress = msgs.headers["phbkprogress"];
-        let max=msgs.headers["max"]
-        let value = Math.floor((phbkprogress/max).toFixed(2) * 100);
+        let portphbkresponse = msgs.headers["portphbkresponse"];
         this.props.handleHideImportModal();
-        if (response>2) {
+        if ( parseInt(response) > 2) {
             Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
-            this.props.progressMessage(value,'none',this.tr('a_16430'));
+            // this.props.progressMessage('','none',this.tr('a_16430'));
         }
-        switch( response ) {
-            case '0':
+        switch (response) {
             case '1':
-                value = 0;
-            case '2':
-                setTimeout(() => {this.props.cb_get_portresponse(0,this.cb_import_reponse)},3000);
+                // if(downnum < 80){
+                //     setTimeout("cb_get_upload_response()",5000);
+                setTimeout(() => {this.props.cb_get_portresponse(0,this.cb_import_reponse)},5000);
                 Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_16430'}});
-                this.props.progressMessage(value,'block',this.tr('a_16430'));
+                // this.props.progressMessage('','block',this.tr('a_16430'));
+                //     downnum ++;
+                //     break;
+                // }else{
+                //     $("#a_browse").text(a_7404).removeClass('widebtn');
+                // }
+                break;
+            case '2':
+                this.props.promptMsg("ERROR", 'a_16420');
                 break;
             case '3':
-                this.props.promptMsg("SUCCESS", "a_4780");
+                this.props.promptMsg("ERROR", 'a_4772');
                 break;
+            /*case '3':
+                if( $("#exporttype").val() == 2 )
+                    $.prompt(a_downparsefail+a_selcode);
+                else
+                    $.prompt(a_downparsefail);
+                break;*/
             case '4':
-                let errorCode = phbkprogress;
-                let errorMessage = 'a_16474';
-                if(errorCode == 4) {
-                    errorMessage = 'a_19641';
-                } else if (errorCode == 12) {
-                    errorMessage = this.tr('a_19653') + this.props.itemValues['maxImportCount'] + "!";
-
-                } else if (errorCode == 22) {
-                    errorMessage = 'a_19643';
-                }
-                this.props.promptMsg("ERROR", errorMessage);
+                this.props.promptMsg("ERROR", 'a_16474');
+                break;
+            case '9':
+                this.props.promptMsg("ERROR", 'a_16433');
+                break;
+            case '10':
+                this.props.promptMsg("ERROR", 'a_16434');
                 break;
             default:
+                break;
         }
-        this.props.getContacts();
+        if(portphbkresponse == 0) {
+            this.props.getContacts();
+            this.props.promptMsg("SUCCESS", 'a_4780');
+        }
+
+        if(response != 1) {
+            Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_16439'}});
+        }
+        // this.props.getContacts();
     }
 
     handleFileTypeChange = (type,val) => {
@@ -141,15 +157,7 @@ class ImportEdit extends Component {
            this.props.cb_ping();
            let name = file.name
            let ext = name.slice(name.lastIndexOf(".")+1)
-           if(ext == 'xml' && this.state.importtype == '2') {
-               Modal.info({
-                   content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_vcard")}}></span>,
-                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
-                   onOk() {},
-               });
-               reject();
-           }
-           if(ext == 'vcf' && this.state.importtype == '1') {
+           if( (ext && /^(xml|vcf|csv)$/.test(ext)) && ext != 'xml' && this.state.importtype == '1') {
                Modal.info({
                    content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_xml")}}></span>,
                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
@@ -157,17 +165,32 @@ class ImportEdit extends Component {
                });
                reject();
            }
-
-            if ( !(ext && /^(xml|vcf)$/.test(ext)) ){
-                Modal.info({
-                    content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_xml_etc")}}></span>,
-                    okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
-                    onOk() {},
-                });
-                reject();
-            } else {
-                resolve(file);
-            }
+           if( (ext && /^(xml|vcf|csv)$/.test(ext)) && ext != 'vcf' && this.state.importtype == '2') {
+               Modal.info({
+                   content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_vcard")}}></span>,
+                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
+                   onOk() {},
+               });
+               reject();
+           }
+           if((ext && /^(xml|vcf|csv)$/.test(ext)) && ext != 'csv' && this.state.importtype == '3') {
+               Modal.info({
+                   content: <span dangerouslySetInnerHTML={{__html: this.tr("ext_csv")}}></span>,
+                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
+                   onOk() {},
+               });
+               reject();
+           }
+           if ( !(ext && /^(xml|vcf|csv)$/.test(ext)) ){
+               Modal.info({
+                   content: <span dangerouslySetInnerHTML={{__html:hiddenConf ? this.tr("ext_xml_etc") : this.tr("ext_xml_csv_etc")}}></span>,
+                   okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
+                   onOk() {},
+               });
+               reject();
+           } else {
+               resolve(file);
+           }
        });
    }
 
@@ -187,17 +210,14 @@ class ImportEdit extends Component {
        const importContactsProps = {
            name: 'file',
            showUploadList: false,
-           action: '../upload?type=phonebook&t='+this.state.importtype,
+           action: '../upload?type=phonebook',
            headers: {
                authorization: 'authorization-text'
            },
            onChange(info) {
                let fileList = info.fileList.slice(-1)
                self.setState({fileList:fileList})
-
-               if (info.file.status !== 'uploading') {
-
-               }
+               if (info.file.status !== 'uploading') {}
                if (info.file.status === 'done') {
                    //message.success(callTr('a_16669'));
                    self.cb_put_importphbk(1,0)
@@ -222,32 +242,12 @@ class ImportEdit extends Component {
                                 <Checkbox onClick = {this.hanleClick.bind(this,"clearoldlist0")} />
                         )}
                     </FormItem>
-                    <FormItem label={(<span>{callTr("a_19645")}&nbsp;<Tooltip title={this.tips_tr("Clear Old History Mode")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                        {getFieldDecorator('clearoldlistmode0', {
-                            initialValue: "0"
-                            })(
-                                <RadioGroup disabled = {this.state.disabled1} >
-                                    <Radio value="0">{callTr("a_19646")}</Radio>
-                                    <Radio value="1">{callTr("a_19647")}</Radio>
-                                </RadioGroup>
-                        )}
-                    </FormItem>
                     <FormItem label={(<span>{callTr("a_19648")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Items")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('downdup0', {
                             valuePropName: 'checked',
                             initialValue: 0
                             })(
                                 <Checkbox onClick = {this.hanleClick.bind(this,"downdup0")} />
-                        )}
-                    </FormItem>
-                    <FormItem label={(<span>{callTr("a_19649")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Entries Mode")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                        {getFieldDecorator('downdupmode0', {
-                            initialValue: "0"
-                            })(
-                                <RadioGroup disabled = {this.state.disabled2}>
-                                    <Radio value="0">{callTr("a_19650")}</Radio>
-                                    <Radio value="1">{callTr("a_19651")}</Radio>
-                                </RadioGroup>
                         )}
                     </FormItem>
                     <FormItem className = "select-item" label={(<span>{callTr("a_4755")}&nbsp;<Tooltip title={this.tips_tr("File Encoding")}><Icon type="question-circle-o" /></Tooltip></span>)}>
@@ -271,18 +271,19 @@ class ImportEdit extends Component {
                     </FormItem>
                     <FormItem className = "select-item" label={(<span>{callTr("a_4756")}&nbsp;<Tooltip title={this.tips_tr("File Type")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('importtype', {
-                            initialValue: "1"
+                            initialValue: "0"
                         })(
                             <Select onChange = {this.handleFileTypeChange.bind(this,'importtype')}>
-                                <Option value="1">XML</Option>
-                                <Option value="2">VCard</Option>
+                                <Option value="0">XML</Option>
+                                <Option value="1">VCard</Option>
+                                <Option value="2">CSV</Option>
                             </Select>
                         )}
                     </FormItem>
                     <FormItem label={(<span style={{visibility:'hidden'}}>g</span>)}>
                         <Upload {...importContactsProps} fileList={this.state.fileList}>
                             <Button>
-                                <Icon type="upload" /> {this.tr("a_importlocal")}
+                                <Icon type="upload" /> {this.tr("a_45")}
                             </Button>
                         </Upload>
                     </FormItem>

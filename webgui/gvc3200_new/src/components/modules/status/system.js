@@ -89,7 +89,7 @@ class System extends Component {
         }
 
         let itemList =
-            <Form className="configform" style={{'min-height': this.props.mainHeight}}>
+            <Form className="configform" style={{minHeight: this.props.mainHeight}}>
                 <FormItem label={<span>{this.tr("a_16404")}<Tooltip title={this.tips_tr("Product Model")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="product-model">{ productModelItem["product"] }</span>
                 </FormItem>

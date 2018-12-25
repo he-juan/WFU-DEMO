@@ -103,7 +103,8 @@ class CallForm extends React.Component {
              this.getReqItem("tonename2", nvram["tonename2"], ""),
              this.getReqItem("callerid3", nvram["callerid3"], ""),
              this.getReqItem("tonename3", nvram["tonename3"], ""),
-             this.getReqItem("dialkey", nvram["dialkey"], "")
+             this.getReqItem("dialkey", nvram["dialkey"], ""),
+             this.getReqItem("default_layout_mode_0", "default_layout_mode_0", "")
          );
         if(this.props.userType == 'user') {
             req_items = req_items.slice(-13)
@@ -380,7 +381,18 @@ class CallForm extends React.Component {
                            </Select>
                    )}
          　　　 </FormItem>
-
+               <FormItem className = "select-item"　 label={(<span>{callTr("a_12233")}&nbsp;<Tooltip title={this.tips_tr("Common Layout Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    {getFieldDecorator('default_layout_mode_0', {
+                        initialValue: this.props.itemValues['default_layout_mode_0'] ? this.props.itemValues['default_layout_mode_0'] : "0"
+                        })(
+                            <Select className={"P-default_layout_mode_0"}>
+                                <Option value="0">{callTr("a_10031")}</Option>
+                                <Option value="1">{callTr("a_10025")}</Option>
+                                <Option value="2">{callTr("a_10070")}</Option>
+                                <Option value="3">{callTr("a_10037")}</Option>
+                            </Select>
+                    )}
+            　　　</FormItem>
                <FormItem  label={(<span>{callTr("a_16149")}&nbsp;<Tooltip title={this.tips_tr("Dial Plan Prefix")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('prefix', {
                        rules: [{
@@ -391,7 +403,7 @@ class CallForm extends React.Component {
                        <Input type="text" className={"P-" + nvram["prefix"]}/>
                    )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_16291")}&nbsp;<Tooltip title={this.tips_tr(this.isWP8xx() ? "Disable DialPlan For WP800" : "Disable DialPlan")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16291")}&nbsp;<Tooltip title={this.tips_tr("Disable Dial Plan")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('disdialpage', {
                        valuePropName: 'checked',
                        initialValue: parseInt(dialplancheck[4])
@@ -468,7 +480,7 @@ class CallForm extends React.Component {
                    {getFieldDecorator('calllog', {
                        initialValue: this.props.itemValues['calllog'] ? this.props.itemValues['calllog'] : "0"
                        })(
-                           <Select className={"P-" + nvram["calllog"]}>
+                           <Select className={"P-" + nvram["calllog"]} style={{width: 328}}>
                                <Option value="0">{callTr("a_16158")}</Option>
                                <Option value="1">{callTr("a_16159")}</Option>
                                <Option value="2">{callTr("a_16160")}</Option>
@@ -493,7 +505,7 @@ class CallForm extends React.Component {
                    )}
                </FormItem>
                {/* 功能键同步 */}
-               <FormItem className="select-item" label={(<span>{callTr("a_16164")}&nbsp;<Tooltip title={this.tips_tr("Special Feature")}><Icon type="question-circle-o"/></Tooltip></span>)}>
+               <FormItem className="select-item" label={(<span>{callTr("a_16164")}&nbsp;<Tooltip title={this.tips_tr("Feature Key Synchronization")}><Icon type="question-circle-o"/></Tooltip></span>)}>
                    {getFieldDecorator('feakey', {
                        initialValue: parseInt(itemValues['feakey']) ? itemValues['feakey'] : "0"
                    })(
@@ -597,7 +609,7 @@ class CallForm extends React.Component {
                                <Input type="text" className={"short-input"+" "+"P-" + nvram["timecffrom"]}/>
                        )}
                    </FormItem>
-                   <div style={{'float':'left', 'margin-right':'15px'}}>~</div>
+                   <div style={{'float':'left', 'marginRight':'15px'}}>~</div>
                    <FormItem>
                        {getFieldDecorator('timecfto', {
                            rules: [{

@@ -142,6 +142,7 @@ class ContactEditDiv extends Component {
         );
     }
 }
+let req_items;
 
 class Call extends Component {
     historyList = [];
@@ -161,25 +162,35 @@ class Call extends Component {
             checkedAll: false,
             displayNewConfModal: false,
             confMemberData:[],
-            addNewConf:false
+            addNewConf:false,
+            acctstatus: [],
+            selacct:-1,
+            curAcct:null
         }
+        req_items = new Array;
+        req_items.push(
+            this.getReqItem("defaultAcct", "22046", ""),
+            this.getReqItem("disdialplan", "2382", "")
+        );
+        this.callmode="0"; // "0": normal call;  "1": IP call
     }
 
     componentDidMount = () => {
-        this.props.getAcctStatus((result)=>{
-            if(!this.isEmptyObject(result)) {
-                let acctstatus = result.headers;
-                let max = 16;
-                if(this.isWP8xx()) max = 2;
-
-                for(let i = 0; i < max; i++){
-                    if(acctstatus[`account_${i}_status`] == "1"){
-                        this.setState({existActiveAccount: true});
-                        break;
-                    }
-                }
+        this.props.getAcctStatus((acctstatus) => {
+            if (!this.isEmptyObject(acctstatus)) {
+                this.getAcctStatusData(acctstatus);
             }
         });
+        this.props.getItemValues(req_items, (values) => {
+            let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
+            this.setState({
+                defaultacct: defaultacct,
+                selacct: defaultacct
+            });
+        });
+        if(!this.props.callnameinfo.length) {
+            this.props.getNormalCalllogNames()
+        }
     }
 
     componentWillReceiveProps = () => {
@@ -336,41 +347,62 @@ class Call extends Component {
         this.setState({displayDelHistCallsModal: false});
     }
 
+    getAcctStatusData = (acctstatus) => {
+        let curAcct = [];
+        let selacct = this.state.selacct;
+        const acctStatus = acctstatus.headers;
+        let max = 4;
+        for (let i = 0; i < max; i++) {
+            if (i == 3) {
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${6}_status`],
+                        "activate": acctStatus[`account_${6}_activate`],
+                        "num": acctStatus[`account_${6}_name`],
+                        "name": "H.323"
+                    });
+                if(acctStatus[`account_${6}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: 3});
+                }
+            } else {
+                if(acctStatus[`account_${i}_activate`] == "1" && selacct == -1){
+                    this.setState({selacct: i});
+                }
+                let accountname = acctStatus[`account_${i}_name`];
+                if (i == 0) {
+                    if (acctStatus[`account_${i}_name`].length > 0) {
+                        accountname = acctStatus[`account_${i}_name`];
+                    } else if (acctStatus[`account_${i}_no`].length > 0) {
+                        accountname = acctStatus[`account_${i}_no`];
+                    } else {
+                        accountname = "SIP";
+                    }
+                }
+                curAcct.push(
+                    {
+                        "acctindex": i,
+                        "register": acctStatus[`account_${i}_status`],
+                        "activate": acctStatus[`account_${i}_activate`],
+                        "num": acctStatus[`account_${i}_no`],
+                        "name": accountname
+                    });
+            }
+        }
+        this.setState({acctstatus: curAcct});
+    }
+
     handleCall = (event,text, index) => {
+        let {acctstatus} = this.state;
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
         } else {
             text = event
         }
-        if(!this.state.existActiveAccount){
-            this.props.promptMsg('WARNING','a_19374');
-            return false;
-        }
-        if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_19639');
-            return;
-        }
         let curnum = text.Number;
-
-        if(curnum == "anonymous"){
-            this.props.promptMsg('WARNING','a_10083');
-            return false;
-        }
-
         let acct = text['Account'];
-        var source;
-        switch (text['Type']) {
-            case "1":
-                source = 3;
-                break;
-            case "2":
-                source = 4;
-                break;
-            default:
-                source = 0;
-        }
-        this.props.sendSingleCall(curnum, acct, 0, 0, source, 0)
+        this.props.cb_start_single_call(acctstatus, curnum, acct, 0, 0, 0 , 0);
     }
 
     handleHide = () => {
@@ -395,8 +427,8 @@ class Call extends Component {
             }
             statue = <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
                 <button className='allow-detail' id = {'allow-detail'+index}  onClick={(e)=>this.handleNewConf.bind(e, memberArr, index)}></button>
-                <Popover content={content} placement="leftTop" trigger="click">
-                    <button className='allow-call' id = {'allow-call'+index}></button>
+                <Popover content={content} placement="leftTop" trigger="hover">
+                    <button className='allow-call ' id = {'allow-call'+index} ></button>
                 </Popover>
             </div>;
         } else {
@@ -420,9 +452,7 @@ class Call extends Component {
         if(!logItemdata.length) {
             return dataResult
         }
-        if(!this.props.callnameinfo.length) {
-            this.props.getNormalCalllogNames()
-        }
+
         // console.log(confmember,contactList,callnameinfo)
         for ( let i = 0; i < logItemdata.length; i++ ) {
             let data = {};
@@ -700,8 +730,8 @@ const mapDispatchToProps = (dispatch) => {
         getContactsinfo:Actions.getContactsinfo,
         getAllConfMember:Actions.getAllConfMember,
         get_deleteCallConf:Actions.get_deleteCallConf,
-        getNormalCalllogNames:Actions.getNormalCalllogNames
-
+        getNormalCalllogNames:Actions.getNormalCalllogNames,
+        cb_start_single_call:Actions.cb_start_single_call
     }
     return bindActionCreators(actions, dispatch)
 }

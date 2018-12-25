@@ -137,6 +137,24 @@ export const detailinfo = (state = {}, action) =>{
     }
 }
 
+export const handsupStatus = (state = "0", action) =>{
+    switch (action.type) {
+        case Actions.IPVT_HANDSUP_STATUS:
+            return action.handsupStatus
+        default:
+            return state
+    }
+}
+
+export const ipvtcmrinviteinfo = (state = null, action) => {
+    switch (action.type) {
+        case Actions.IPVT_CAMERA_INVITE:
+            return action.ipvtcmrinviteinfo
+        default:
+            return state
+    }
+}
+
 export const isvideo = (state = "1", action) => {
     switch (action.type) {
         case Actions.SET_IS_VIDEO:
@@ -150,7 +168,34 @@ export const hdmiStatus = (state = {'hdmi1': '0','hdmi2': '0','hdmiIn': '0'}, ac
     switch(action.type) {
         case Actions.SET_HDMI_STATUS:
             return Object.assign({}, state, action.payload)
-        default: 
+        default:
             return state;
+    }
+}
+
+export const ipvtrcdallowstatus = (state = false, action) => {
+    switch (action.type){
+        case Actions.SET_IPVTRCD_ALLOWSTATUS:
+            return action.ipvtrcdallowstatus;
+        default:
+            return state
+    }
+}
+
+export const recordStatus = (state = "0", action) => {
+    switch (action.type) {
+        case Actions.RECORD_STATUS:
+            return action.recordStatus
+        default:
+            return state
+    }
+}
+
+export const ipvtRecordStatus = (state = "0", action) => {
+    switch (action.type) {
+        case Actions.IPVT_RECORD_STATUS:
+            return action.ipvtRecordStatus
+        default:
+            return state
     }
 }

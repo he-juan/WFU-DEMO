@@ -29,35 +29,33 @@ class Contact extends Component {
     }
 
     render() {
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
-                <TabPane tab = {this.tr("a_19630")} key={0}>
-                    <ContactTabForm {...this.props} hideItem={hideItem} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
-                </TabPane>
-                <TabPane tab = {this.tr("a_4779")} key={1}>
-                    <GroupTabForm {...this.props} hideItem={hideItem} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
-                </TabPane>
-            </Tabs>
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
-            }
-        }
-
+        let tabList =[
+                (hiddenOptions,i) => {
+                    return<TabPane tab = {this.tr("a_19630")} key={i}>
+                        <ContactTabForm {...this.props} hideItem={hiddenOptions} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} tabOrder={i}/>
+                    </TabPane>
+                } ,
+                (hiddenOptions,i) => {
+                    return<TabPane tab = {this.tr("a_4779")} key={i}>
+                        <GroupTabForm {...this.props} hideItem={hiddenOptions} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} tabOrder={i}/>
+                    </TabPane>
+                }
+            ]
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_19631")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

@@ -56,7 +56,7 @@ class Speaker extends Component {
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("a_18540")}</div>
-                <div className="detect-area" style={{'min-height': this.props.mainHeight}}>
+                <div className="detect-area" style={{minHeight: this.props.mainHeight}}>
                     <div className="detect-speaker ab-center">
                         <p className="speakertip">{this.tr("speaker_tip")}</p>
                         <div className={`speaker-btn test-${speakerMode}`} onClick={this.handleTest}></div>

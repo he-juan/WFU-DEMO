@@ -32,48 +32,48 @@ class Peripherals extends Component {
         if(this.props.product == "GAC2510" || this.isWP8xx())
             tmptitle = "a_ledmanage";
 
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{'minHeight': this.props.mainHeight}}>
-                <TabPane tab={this.tr(tmptitle)} key={0}>
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr(tmptitle)} key={i}>
                     <PeriLcdLedForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder="" />
+                                    hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("a_perinterface")} key={1}>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_perinterface")} key={i}>
                     <PeriInterfaceForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder=""  />
+                                       hideItem={hiddenOptions} tabOrder={i}  />
                 </TabPane>
-                <TabPane tab={this.tr("a_16589")} key={2}>
-                    <PeriVoiceForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_perinterface")} key={i}>
+                    <PeriInterfaceForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                                       hideItem={hiddenOptions} tabOrder={i}  />
                 </TabPane>
-                <TabPane tab={this.tr("a_gesture")} key={3}>
-                    <PeriGestureForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
-                        hideItem={hideItem} tabOrder="" />
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("a_perinterface")} key={i}>
+                    <PeriInterfaceForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                                       hideItem={hiddenOptions} tabOrder={i}  />
                 </TabPane>
-            </Tabs>
-
-        /* i: the array index of tabList
-           j: the index in template.js */
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                //handleReqItem.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
+        ]
 
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("cpnt_peripheral")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange} style={{'minHeight': this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

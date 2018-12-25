@@ -72,6 +72,24 @@ class Main extends React.Component {
         this.props.getAllLineStatus((result)=>{
             if(result.length > 0){
                 this.props.isConfOnHold();
+                this.props.getlocalrcdstatus();
+                for(let i = 0; i< result.length; i++){
+                    if(result[i].acct == "1"){
+                        this.props.getipvtrcdstatus();
+                        this.props.getipvthandsupstatus();
+                        this.props.resumecamera((result)=>{
+                            if(result == "1"){
+                                this.props.getcmrnameandnumber((data)=>{
+                                    let ipvtcmrinviteinfo = {};
+                                    ipvtcmrinviteinfo.line = result[i].line;
+                                    ipvtcmrinviteinfo.name = data.cameraName;
+                                    ipvtcmrinviteinfo.number = data.cameraNumber;
+                                    this.props.setipvtcmrinviteinfo(ipvtcmrinviteinfo);
+                                });
+                            }
+                        });
+                    }
+                }
             }
         });
 
@@ -195,7 +213,13 @@ const mapDispatchToProps = (dispatch) => {
         setHeldStatus: Actions.setHeldStatus,
         getMaxlineCount: Actions.getMaxlineCount,
         isConfOnHold: Actions.isConfOnHold,
-        setDeviceCallFeature: Actions.setDeviceCallFeature
+        setDeviceCallFeature: Actions.setDeviceCallFeature,
+        getlocalrcdstatus: Actions.getlocalrcdstatus,
+        getipvtrcdstatus: Actions.getipvtrcdstatus,
+        getipvthandsupstatus: Actions.getipvthandsupstatus,
+        resumecamera: Actions.resumecamera,
+        getcmrnameandnumber: Actions.getcmrnameandnumber,
+        setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -53,8 +53,8 @@ class eptz extends Component {
     render() {
         return (
             <Content className="content-container config-container" id="preset">
-                <div className="subpagetitle">PTZ控制</div>
-                <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
+                <div className="subpagetitle">{this.tr("a_20043")}</div>
+                <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}}>
 
                 </Form>
             </Content>
@@ -76,4 +76,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(eptzForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(eptzForm));

@@ -24,38 +24,36 @@ class Timeandlang extends Component {
     }
 
     render() {
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style={{'minHeight': this.props.mainHeight}}>
-                <TabPane tab={this.tr("maintenance_time")} key={0}>
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("maintenance_time")} key={i}>
                     <TimeLangTimezoneForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        hideItem={hideItem} tabOrder="" />
+                                          hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-                <TabPane tab={this.tr("maintenance_lang")} key={1}>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.tr("maintenance_lang")} key={i}>
                     <TimeLangLanguageForm {...this.props} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        hideItem={hideItem} tabOrder="" />
+                                          hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            </Tabs>;
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                //handleReqItem.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
+        ]
 
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("time_lang")}</div>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style={{'minHeight': this.props.mainHeight}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>>
             </Content>
         );
     }
@@ -72,7 +70,6 @@ function mapDispatchToProps(dispatch) {
     var actions = {
         getItemValues:Actions.getItemValues,
         setItemValues:Actions.setItemValues,
-        setTabKey: Actions.setTabKey,
         jumptoTab: Actions.jumptoTab
     }
     return bindActionCreators(actions, dispatch)

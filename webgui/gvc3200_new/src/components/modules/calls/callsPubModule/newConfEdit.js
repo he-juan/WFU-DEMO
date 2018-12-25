@@ -1343,7 +1343,7 @@ class NewContactsEdit extends Component {
                             <div className="scrollbox">
                                 <div style={{marginBottom:'15px'}}>
                                     <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchContact.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_65")}></Input>
-                                    <Select value={this.state.contType} className="acctselect" onChange={this.handlefilter.bind(this,0)} style={{'width':'25%','margin-left':'2%'}}>
+                                    <Select value={this.state.contType} className="acctselect" onChange={this.handlefilter.bind(this,0)} style={{'width':'25%','marginLeft':'2%'}}>
                                         <option value="-1">All</option>
                                         <option value="0">SIP</option>
                                         <option value="1">IPVideoTalk</option>
@@ -1364,7 +1364,7 @@ class NewContactsEdit extends Component {
                             <div className="scrollbox">
                                 <div style={{marginBottom:'15px'}}>
                                     <Input prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleSearchCall.bind(this)} style={{'width':'73%'}} placeholder = {callTr("a_65")}></Input>
-                                    <Select value={this.state.callType} className="acctselect" onChange={this.handlefilter.bind(this,1)} style={{'width':'25%','margin-left':'2%'}}>
+                                    <Select value={this.state.callType} className="acctselect" onChange={this.handlefilter.bind(this,1)} style={{'width':'25%','marginLeft':'2%'}}>
                                         <option value="-1">All</option>
                                         <option value="0">SIP</option>
                                         <option value="1">IPVideoTalk</option>

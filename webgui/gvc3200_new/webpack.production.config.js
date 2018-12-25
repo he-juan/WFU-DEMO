@@ -49,7 +49,7 @@ module.exports = {
             { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader'},
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192&name=img/[name].[ext]' },
             { test: /\.(gif)$/, loader: 'image-webpack-loader' },
-            { test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/, loader: 'url' }
+            { test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/, loader: 'url-loader' }
         ]
     },
     resolve: {

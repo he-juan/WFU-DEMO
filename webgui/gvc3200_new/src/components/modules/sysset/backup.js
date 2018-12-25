@@ -404,7 +404,7 @@ class Backup extends Component {
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("a_306")}</div>
-                <div className="backup-content" style={{'min-height':this.props.mainHeight}}>
+                <div className="backup-content" style={{minHeight:this.props.mainHeight}}>
                     <div className="unbackupdiv" style={{display:this.state.unbackupdisplay}}>
                         <div className="unbackuppng">
                         </div>

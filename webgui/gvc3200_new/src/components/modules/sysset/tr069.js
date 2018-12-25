@@ -71,7 +71,7 @@ class Tr069 extends Component {
         const {getFieldDecorator} = this.props.form;
 
         let itemList =
-            <Form className="configform" hideRequiredMark style={{'min-height': this.props.mainHeight}}>
+            <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}}>
                 <FormItem label={< span > {
                     this.tr("a_16360")
                 } < Tooltip title = {this.tips_tr("Enable TR-069")} > <Icon type="question-circle-o"/> </Tooltip></span >}>

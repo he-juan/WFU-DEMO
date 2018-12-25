@@ -210,8 +210,8 @@ class Preset extends Component {
         const {getFieldDecorator} = this.props.form;
         return (
             <Content className="content-container config-container" id="preset">
-                <div className="subpagetitle">预置位设置</div>
-                <div className="configform" style={{'min-height': this.props.mainHeight}}>
+                <div className="subpagetitle">{this.tr("a_16595")}</div>
+                <div className="configform" style={{minHeight: this.props.mainHeight}}>
                     <div className="preset_table">
                         {this.state.data.map((item, i)=> {
                             let isEmpty=true
@@ -293,8 +293,8 @@ class Preset extends Component {
                             </div>
                         </div>
                         <div>
-                            <div className="deletePreset" onClick={this.handleCancel}>删除</div>
-                            <div className="savePreset" onClick={this.handleOk}>添加</div>
+                            <div className="deletePreset" onClick={this.handleCancel}>{this.tr("a_21")}</div>
+                            <div className="savePreset" onClick={this.handleOk}>{this.tr("a_403")}</div>
                         </div>
                     </div>
                 </div>
@@ -332,4 +332,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PresetForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(PresetForm));

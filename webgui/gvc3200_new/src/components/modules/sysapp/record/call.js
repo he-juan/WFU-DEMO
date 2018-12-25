@@ -296,7 +296,7 @@ class Call extends Component {
                         </div>
                     </div>
                 </div>
-                <div className = 'CallDiv'>
+                <div className = 'CallDiv recordList'>
                     <Table
                         rowSelection={rowSelection}
                         rowKey=""

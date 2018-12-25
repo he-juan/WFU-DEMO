@@ -44,33 +44,20 @@ class Broadsoftfunc extends Component {
     }
 
     render(){
-        let hideItem = [];
-        let tabList =
-            <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange.bind(this, 2)} style={{'min-height': this.props.mainHeight-65}}>
-                <TabPane tab={("BroadSoft " + this.tr("a_callset"))} key={0}>
+        let tabList =[
+            (hiddenOptions,i) => {
+                return<TabPane tab={("BroadSoft " + this.tr("a_callset"))} key={i}>
                     <BroadsoftCallForm {...this.props} ref={this.saveFormRef} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        curAcct={this.state.activeAcct} callctrdisable={this.state.callctrdisable} tabOrder=""  hideItem={hideItem} />
+                                       curAcct={this.state.activeAcct} callctrdisable={this.state.callctrdisable} tabOrder={i}  hideItem={hiddenOptions} />
                 </TabPane>
-                <TabPane tab={"SCA"} key={1}>
+            } ,
+            (hiddenOptions,i) => {
+                return<TabPane tab={"SCA"} key={i}>
                     <BroadsoftScaForm {...this.props} ref={this.saveFormRef} callTr={this.tr} callTipsTr={this.tips_tr} activeKey={this.props.activeKey}
-                        curAcct={this.state.activeAcct} tabOrder=""  hideItem={hideItem} />
+                                      curAcct={this.state.activeAcct} tabOrder={i}  hideItem={hiddenOptions} />
                 </TabPane>
-            </Tabs>
-
-        for (var i = 0, j = 0; tabList.props.children[i] != undefined; i++, j++) {
-            let hiddenOptions = optionsFilter.getHiddenOptions(j);
-
-            if (hiddenOptions[0] == -1) {
-                tabList.props.children.splice(i, 1);
-                //handleReqItem.splice(i, 1);
-                i--;
-            } else {
-                tabList.props.children[i].key = i;
-                tabList.props.children[i].props.key = i;
-                tabList.props.children[i].props.children.props.tabOrder = i;
-                tabList.props.children[i].props.children.props.hideItem = hiddenOptions;
             }
-        }
+        ]
 
         return (
             <Content className="content-container config-container">
@@ -85,7 +72,18 @@ class Broadsoftfunc extends Component {
                         })
                     }
                 </Tabs>
-                {tabList}
+                <Tabs className="config-tab" activeKey={this.props.activeKey} onChange={this.onChange.bind(this, 2)} style={{minHeight: this.props.mainHeight-65}}>
+                    {
+                        tabList.map((item,index)=>{
+                            let hiddenOptions = optionsFilter.getHiddenOptions(index)
+                            if (hiddenOptions[0] == -1) {
+                                return null
+                            }else{
+                                return item(hiddenOptions,index.toString())
+                            }
+                        })
+                    }
+                </Tabs>
             </Content>
         );
     }

@@ -18,7 +18,8 @@ class GeneralForm extends React.Component {
             this.getReqItem("accountactive", "401", ""),
             this.getReqItem("name", "407", ""),
             this.getReqItem("siptranport", "448", ""),
-            this.getReqItem("enableiptalkpro", "7059", "")
+            this.getReqItem("enableiptalkpro", "7059", ""),
+            this.getReqItem("forceResetSRTP","22238","")
         );
         return req_items;
     }
@@ -56,7 +57,6 @@ class GeneralForm extends React.Component {
         if(this.isEmptyObject(this.props.itemValues)) {
             return null;
         }
-
         let itemList =
            <Form>
                <FormItem style={{display:'none'}} label={(<span>{callTr("a_1119")}&nbsp;<Tooltip title={this.tips_tr("Account Active")}><Icon type="question-circle-o" /></Tooltip></span>)}>
@@ -95,6 +95,14 @@ class GeneralForm extends React.Component {
                             </Select>
                    )}
           　　　</FormItem>
+                <FormItem className = "select-item"　 label={(<span>{callTr("a_12234")}&nbsp;<Tooltip title={this.tips_tr("Force Reset Remote SRTP")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                   {getFieldDecorator('forceResetSRTP', {
+                        valuePropName: 'checked',
+                        initialValue:  parseInt(this.props.itemValues['forceResetSRTP'])
+                        })(
+                            <Checkbox className={"P-22238"}/>
+                    )}
+          　　　 </FormItem>
               <FormItem>
                   <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>

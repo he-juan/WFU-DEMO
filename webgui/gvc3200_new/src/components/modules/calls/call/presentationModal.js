@@ -55,20 +55,10 @@ class PresentationModal extends Component {
   componentWillUpdate = (nextProps) => {
     if (this.props.visible != nextProps.visible && nextProps.visible == true) {
       this.initModal();
-      this.props.getHDMI1Resolution(true, (msgs) => {
-        var hdmi1out = msgs.headers['25104'];
-        hdmi1out = hdmi1out.split("P")[0];
-        hdmi1out = hdmi1out.split("x");
-        if (hdmi1out[0] >= 3840 && hdmi1out[1] >= 2160) {
+      this.props.getHDMI1Resolution(true, (is4kon) => {
          this.setState({
-           is4kon: true
-         })
-        }
-        else {
-          this.setState({
-            is4kon: false
-          })
-        }
+           is4kon: is4kon
+         });
       })
     }
   }

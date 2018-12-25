@@ -57,10 +57,10 @@ class NotifyBox extends Component {
                 return null;
             }
         }
-        this.tipdivAnimation(type,label);
-        return (
-            null
-        )
+        if(type&&label){
+            this.tipdivAnimation(type,label);
+        }
+        return null;
     }
 };
 

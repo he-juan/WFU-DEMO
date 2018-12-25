@@ -36,7 +36,7 @@ class CertVerify extends Component {
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("cert_check")}</div>
-                <div className="detect-area" style={{'min-height':this.props.mainHeight}}>
+                <div className="detect-area" style={{minHeight:this.props.mainHeight}}>
                     <div className="ab-center detect-cert">
                         <div className={`cert-pic pic-${this.state.validtype}`}></div>
                         <p>{this.tr(validResult)}</p>

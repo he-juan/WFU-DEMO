@@ -16,7 +16,7 @@ tip_item_zh.push (
         "Registration status for the SIP account."),
     new TipsDef("SIP Server",
         "URL or IP address, and port of the SIP server."),*/
-    
+
     /*network status*/
     new TipsDef("IP Address ", "IP 地址",
         "显示设备当前的IP地址。"),
@@ -62,7 +62,7 @@ tip_item_zh.push (
         "显示设备使用的操作系统——Android系统的版本号。"),
     new TipsDef("Kernel Version", "内核版本",
         "显示设备的内核程序版本号。"),
-    
+
     /*Account1 2 3 General Settings*/
     new TipsDef("Account Active", "激活帐号",
         "此项指出帐号是否被激活。H.323帐号默认不激活，其他帐号默认激活。"),
@@ -94,7 +94,7 @@ tip_item_zh.push (
         "勾选后，设备将会被分配一个IPVideoTalk 帐号，并开启IPVideoTalk 服务。不勾选时，即不开启IPVideoTalk 服务。默认为“是”。"),
     new TipsDef("H.323 Local Port", "H.323本地端口",
         "该项设置设备监听的本地H.323端口，默认值为1720。"),
-    
+
     /*Account1 2 3 NetWork Related*/
     new TipsDef("Outbound Proxy", "出局代理",
         "配置Outbound代理服务器、多媒体网关或会话边界控制器的IP地址或URL。用于不同网络环境的防火墙或NAT穿透。如果系统检测到对称NAT，STUN不能工作。Outbound服务器可以提供对称NAT的解决方案。"),
@@ -156,17 +156,17 @@ tip_item_zh.push (
 		"此项设置SIP T2时间间隔，默认为4s。"),
 	new TipsDef("SIP Compact Header", "SIP压缩头",
         "是否使用压缩方法发送SIP头部。有助于减小SIP消息体大小和丢包。"),
-	new TipsDef("Caller ID Display", "来电ID显示", 
+	new TipsDef("Caller ID Display", "来电ID显示",
         "当设为\"自动\"时，设备依次在SIP INVITE消息的P-Asserted Identity Header、Remote-Party-ID Header、From Header中查找caller ID。当设为\"禁用\"时，所有来电caller ID将显示为\"Unavailable\"。当设为\"From头域\"时，使用From头域中的Caller ID。"),
-    new TipsDef("Remove OBP from route", "从路由移除OBP", 
+    new TipsDef("Remove OBP from route", "从路由移除OBP",
         "默认值为“否”。设备使用的路由中将移除代理。该设置用于设备在NAT/防火墙环境下，SIP帐号通知服务器将代理设置移除。"),
-    new TipsDef("Use Privacy Header", "使用Privacy头域", 
+    new TipsDef("Use Privacy Header", "使用Privacy头域",
         "控制Privacy头域是否将出现在SIP INVITE消息中。头域中包含是否隐藏主叫号码的信息。当设置为“默认”时，仅当华为IMS的特殊功能开启后Privacy头域才不会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示Privacy头域。当设置为“否”时，SIP INVITE消息将不显示Privacy头域。默认设置为“默认”。"),
-    new TipsDef("Use P-Preferred-Identity Header", "使用P-Preferred-Identity头域", 
+    new TipsDef("Use P-Preferred-Identity Header", "使用P-Preferred-Identity头域",
         "配置是否使用SIP INVITE消息中的P-Preferred-Identity头域。详细信息请参考用户手册。"),
     new TipsDef("SIP URI Scheme When Using TLS", "TLS使用的SIP URI格式",
         "当SIP传输方式使用TLS/TCP时，选择\"sips\"。默认设置\"sip\"。"),
-    new TipsDef("Use Actual Ephemeral Port in Contact with TCP/TLS", "TCP/TLS Contact使用实际临时端口", 
+    new TipsDef("Use Actual Ephemeral Port in Contact with TCP/TLS", "TCP/TLS Contact使用实际临时端口",
         "当设备选择TCP/TLS作为SIP传输方式时，配置是否使用实际临时端口。"),
     new TipsDef("Authenticate Incoming INVITE", "验证来电INVITE",
 		"若启用，设备将发送SIP 401 Unauthorized对来电INVITE进行验证。默认为不勾选。"),
@@ -178,7 +178,7 @@ tip_item_zh.push (
 		"当TLS/TCP用于SIP传输时，配置建立连接时是否验证对端证书。"),
 	new TipsDef("Domain Certificate", "域名证书",
 		"如果“验证域名证书”设置为“是”，则验证的时候使用这里的证书进行验证。"),
-	
+
     new TipsDef("Check SIP User ID for Incoming INVITE", "检查来电INVITE的SIP用户ID",
 		"启用时，SIP用户ID将在收到来电INVITE的请求URI中被检查。若不匹配，来电将被拒绝。默认为不勾选。"),
 	new TipsDef("Trusted CA Certificates", "受信任CA证书",
@@ -187,17 +187,17 @@ tip_item_zh.push (
 		"此处用于添加受信任CA证书，点击“浏览”按钮上传PC端证书文件。证书文件必须是.pem，.crt，.cer或者.der格式。一次可上传多份证书，多份证书在同一个文件中。"),
 	new TipsDef("Import Custom Certificates", "导入自定义证书",
 		"点击“浏览”按钮上传用户自定义证书文件。证书文件必须是.pem，.crt，.cer或者.der格式。"),
-	
+
     new TipsDef("Only Accept SIP Requests from Known Servers", "仅接受已知服务器的SIP请求",
 		"启用后，仅已知的服务器发来的SIP请求才会被接受，即设备未使用过的SIP服务器发送来的请求信息将会被拒绝。默认为不勾选。"),
-        
+
     /*Account1 2 3 Codec and Signal*/
     new TipsDef("DTMF", "",
-        "此参数指定传输DTMF数字的机制。一共有3种模式：in audio表示DTMF由语音信号合成（对于低比特率编码不是很稳定），via RTP(RFC2833)或via SIP INFO。默认为\"RFC2833\"。"),
+        "此项设置传输DTMF数字的机制。共有3种模式：in audio，RFC2833，SIP INFO： <br /> 1. in audio：表示DTMF由语音信号合成（对于低比特率编码不是很稳定）。  <br /> 2.RFC2833：RFC 2833（Out of Band DTMF）是DTMF信号用专门的RTP包进行标识，在RTP包的头域中就可得知该包是DTMF包，并且知道是什么DTMF信号。  <br /> 3.SIP INFO：用SIP信令的INFO消息来携带DTMF信号。这个方法的主要缺陷是因为SIP控制信令和媒体传输（RTP）是分开传输，很容易造成DTMF信号和媒体包不同步。 <br /> 默认设置为\"RFC2833\"。"),
     new TipsDef("DTMF Payload Type", "DTMF有效荷载类型",
         "此参数设置DTMF使用RFC2833的负载类型。默认为101。"),
     new TipsDef("Preferred Vocoder", "语音编码",
-        "设备支持多种不同的语音编码类型。<br>设置优先选择列表中的语音编码，该列表与SDP信息的优先选择顺序相同"),
+        "设备支持多种不同的语言编码类型。<br /> 设置优先选择列表中的语音编码，该列表与SDP信息的优先选择顺序相同"),       
     new TipsDef("Use First Matching Vocoder in 200OK SDP", "使用SDP的200OK包中第一个匹配的语音编码",
         "启用时，话机将使用200OK SDP中首位匹配编码进行通话。"),
 	new TipsDef("Enable Audio RED with FEC", "开启音频前向纠错",
@@ -242,7 +242,7 @@ tip_item_zh.push (
         "根据当前网络环境选择抖动缓冲类型。默认自适应。"),
     new TipsDef("Jitter Buffer Length", "抖动缓冲长度",
         "根据当前网络环境选择抖动缓冲长度。默认300ms."),
-    new TipsDef("Codec Negotiation Priority", "编码协商优先级", 
+    new TipsDef("Codec Negotiation Priority", "编码协商优先级",
         "设置话机在作为被叫时进行编码协商时使用何种编码顺序。当设置为“主叫”时，话机按照收到的SIP Invite 中SDP的编码顺序进行协商；当设置为“被叫”时，话机根据话机中设置的语音编码顺序进行协商。默认设置为“被叫”。"),
     new TipsDef("H.264 Image Size", "视频大小",
         "支持的视频大小。默认为1080p."),
@@ -264,7 +264,7 @@ tip_item_zh.push (
         "根据当前网络环境设置视频抖动缓冲区大小。有效范围：0-1000。默认值为50。"),
 	new TipsDef("Enable video Gradual decoder refresh", "开启视频渐进刷新",
 		"视频渐近刷新GDR(Gradual decoder refresh)是通过P帧内包括I块组的方法来实现渐近刷新，启动该项后会带来更优的网络适应性。默认设置为“否”。"),
-	
+
     /*Account1 2 3 Call Settings*/
     new TipsDef("Dial Plan Prefix", "拨号前缀",
         "设置拨号前缀。使用该帐号拨打的一切号码将自动添加该前缀。如拨号前缀为5，设备上拨打的号码为337，则正常呼出的号码为5337。如果开启了“禁用拨号规则”，拨号前缀也会失效。"),
@@ -284,13 +284,13 @@ tip_item_zh.push (
         ""),
     new TipsDef("Call Forward Type", "呼叫转移类型",
         "在下拉菜单中选择呼叫转移类型。“无”表示不设置呼叫转移。“无条件”表示所有来电无条件转移到所设置的号码。“根据时间”表示根据设置的时间范围来转移来电。“其他”表示设置无应答转移或遇忙转移。"),
-    new TipsDef("All To", "无条件到", 
+    new TipsDef("All To", "无条件到",
         "当设置“无条件转移”后，在此输入号码将来电无条件转移到该号码。"),
-    new TipsDef("Time Period", "时间段", 
+    new TipsDef("Time Period", "时间段",
         "当设置“根据时间”转移后，在此输入时间段。时间为24小时制的“小时:分钟”，如10:00。"),
-    new TipsDef("In Time Forward To", "时间段内转移到", 
+    new TipsDef("In Time Forward To", "时间段内转移到",
         "此处输入在设定的时间段内来电转移到的号码。"),
-    new TipsDef("Out Time Forward To", "时间段外转移到", 
+    new TipsDef("Out Time Forward To", "时间段外转移到",
         "此处输入在设定的时间段外来电转移到的号码。"),
     new TipsDef("Enable Busy Forward", "开启遇忙转移",
         "如果设置为\"是\"，本地电话忙时将转移到下方设置的号码。"),
@@ -322,7 +322,7 @@ tip_item_zh.push (
         "默认为“否”，本地支持呼叫转接、呼叫等待和呼叫转移等呼叫功能。<br>例如：*72+号码，即通过呼叫功能设置无条件转移号码。<br>当本地呼叫功能与服务器相冲突时，可以将本地呼叫功能关闭。<br>更多信息可参考用户手册激活呼叫功能章节。"),
     new TipsDef("Enable FECC", "开启FECC",
         "若勾选该项，在通话中可以控制对方的摄像头。但需对方支持FECC且允许远端控制本地摄像头，默认为勾选。"),
-        
+
     new TipsDef("Use # as Dial Key", "#键拨号",
         "此项用于设置是否使用“#”键作为“发送”键发送号码。若设置为“是”，按“#”键即可发送号码。若设置为“否”，“#”键只作为拨号的一部分。默认设置为“是”。"),
     new TipsDef("Ring Timeout", "振铃超时时间",
@@ -331,19 +331,19 @@ tip_item_zh.push (
 		"设置会议组建方挂机是否将通话转移。如果勾选，会议组建方挂机另外两方可以继续通话。默认为不选。"),
     new TipsDef("Conference URI", "会议URI",
         "使用Broadsoft N-Way呼叫功能时，用户需配置会议URI。"),
-    
-    
-    
-	
-	
-	new TipsDef("Start Video Automatically", "自动开始视频", 
+
+
+
+
+
+	new TipsDef("Start Video Automatically", "自动开始视频",
 		"配置从联系人以及当有来电时是否自动开启视频。勾选后，则上述场景中的电话将会自动开启视频，设置“否”，则以语音方式拨打或者接听来电。"),
-	
-	new TipsDef("Upload Local MOH Audio File", "上传本地MOH音频文件", 
+
+	new TipsDef("Upload Local MOH Audio File", "上传本地MOH音频文件",
 		"点击“浏览”按钮上传PC端音频文件。MOH音频文件必须是.wav或者.mp3格式。<br>注意：上传、处理MP3格式文件时可能会花费较长时间，请耐心等待。选择文件上传时按钮将会变成“正在处理”，当上传完成后按钮将会变回到“浏览”。"),
-	new TipsDef("Enable Local MOH", "开启本地MOH功能", 
+	new TipsDef("Enable Local MOH", "开启本地MOH功能",
 		"若设置为“是”，本地MOH功能将会开启。用户需要上传本地MOH音频文件。开启该功能后，当用户保持呼叫时可以播放该MOH音频文件。默认设置为“否”。"),
-	
+
     /*Advanced Settings Accounts' genernal Settings*/
     new TipsDef("Local RTP Port", "本地RTP端口",
         "此项填写设备RTP-RTCP监听和传输的本地端口对，它是0通道的基本RTP端口。配置后，语音通道0将会使用Port_Value作为RTP端口值，使用Port_Value+1作为RTCP端口值。语音通道1将会使用Port_Value+10作为RTP的端口值，使用Port_Value+11作为RTCP的值。视频通道0将会使用Port_Value+2作为RTP端口值，使用Port_Value+3作为RTCP端口值。视频通道1将会使用Port_Value+12作为RTP的端口值，使用Port_Value+13作为语音RTCP的值。默认值为5004。"),
@@ -359,16 +359,16 @@ tip_item_zh.push (
 	    	"此项设置SIP TLS私钥。"),
     new TipsDef("SIP TLS Private Key Password", "SIP TLS私钥密码",
 		    "此项设置SIP TLS私钥密码"),
-	
+
 	new TipsDef("Disable in-call DTMF display", "禁止通话中DTMF显示",
         "通话中不显示DTMF。"),
     new TipsDef("BS Call Log & Contacts Update Interval", "BS通话记录及联系人更新间隔",
         "设置获取BroadSoft通话记录及联系人数据的间隔时间，使拨号界面中的号码匹配数据得以更新。默认设置为1800秒。"),
     new TipsDef("Hide Local Call History", "隐藏本地通话记录",
         "设置是否隐藏设备本地通话记录。若勾选该项，则通话记录将不会在设备界面中显示。默认设置为不勾选。注：仅当Broadsoft中的XSI服务器、用户名、密码均不为空时，勾选该项方能将本地通话记录隐藏。"),
-    
-    
-		    
+
+
+
     /*Advanced Settings Call Features*/
     new TipsDef("Disable Call-Waiting", "禁用呼叫等待",
         "默认不勾选。当两台设备建立通话时，禁止第三方的呼叫等待。"),
@@ -382,14 +382,14 @@ tip_item_zh.push (
         "多功能键设置DTMF数字，拨打电话的时候按多功能键可以一次发送DTMF。"),
     new TipsDef("Allow Media Loopback", "",
         "默认为“否”。如果设为是同时服务器/代理支持媒体信息回环的话，设备将把回环信息反馈给服务器。"),
-    
+
 	new TipsDef("Escape '#' as %23 in SIP URI","将SIP URI中的'#'转义成%23",
 		"默认值为“是”，特殊情况下用“%23”替换“#”。"),
 	new TipsDef("Disable Conference", "禁止会议",
-        "此项设置是否禁止使用会议功能。默认设置为“否”。"),	
+        "此项设置是否禁止使用会议功能。默认设置为“否”。"),
 	new TipsDef("Disable Transfer", "禁止转移",
         "此项设置是否禁止使用转移功能。默认设置为“否”。"),
-	new TipsDef("Disable DND Reminder Ring", "禁用免打扰提醒音", 
+	new TipsDef("Disable DND Reminder Ring", "禁用免打扰提醒音",
         "若设置为“是”，当设备设置了免打扰后将不会有铃声进行提醒。默认设置为“否”。"),
     new TipsDef("Always Ring Internal Ringer", "总以内置喇叭响铃",
 		"若选择“是”，不管当前正处于哪个音频通道，来电振铃将总以内置喇叭通道进行播放。默认为“否”。"),
@@ -403,7 +403,7 @@ tip_item_zh.push (
         "设置接通电话后是否自动静音。若设置为“禁用”，则不使用自动静音功能；若设置为“来电自动静音”，则接听来电后通话自动静音；若设置为“去电自动静音”则呼出电话建立通话后自动静音；若设置为“来去电静音”，则不论是来电还是去电，通话后自动静音。注：该项仅针对设备从待机状态到通话状态时生效。静音后可点击通话界面上的静音按钮取消当前静音。默认设置为“禁用”。"),
     new TipsDef("Noise Shield", "Noise Shield",
 		"若勾选为“是”，通话间隙（即无人说话时）中的敲桌子、翻纸张的声音将会被消除，默认设置为“否”。"),
-    
+
     /*Advanced Settings Tone Zone*/
     new TipsDef("Custom ring tone 1", "",
         ""),
@@ -461,12 +461,12 @@ tip_item_zh.push (
         "自定义日期。"),
     new TipsDef("Set Time", "时间设置",
         "自定义时间。"),
-    
+
     /*Advanced Settings Video Settings*/
     new TipsDef("Video Frame Rate", "视频帧率",
         "配置视频通话的视频帧率。默认为“30帧/秒”。"),
     new TipsDef("Video Bit Rate", "视频速率",
-        "配置视频电话的比特率，可以根据网络环境调整的视频比特率。如果带宽允许的情况下建议增加比特率大小；如果带宽不够，视频质量将降低。默认值跟H.264 视频大小有关：<br>H.264 视频大小设置为1080p，设置值为“1024kbps~4096kbps”之间的整数值。<br>H.264 视频大小设置为720p，设置值为“512kbps~2048kbps”之间的整数值。<br>H.264 视频大小设置为4SIF/4CIF/VGA，设置值为“384~1024 Kbps”之间的整数值。"),
+        "配置视频电话的比特率，可以根据网络环境调整的视频比特率。如果带宽允许的情况下建议增加比特率大小；如果带宽不够，视频质量将降低。默认值跟H.264 视频大小有关：<br>H.264 视频大小设置为4k，设置值为“1Mbps~8Mbps”之间的整数值。<br>H.264 视频大小设置为1080p，设置值为“1Mbps~4Mbps”之间的整数值。<br>H.264 视频大小设置为720p，设置值为“512kbps~2Mbps”之间的整数值。<br>H.264 视频大小设置为4SIF/4CIF/VGA，设置值为“384kbps~1Mbps”之间的整数值。"),
     new TipsDef("Video Packet Size", "视频包大小",
         "默认值为1400,调整范围是300到1400, 如果你有使用代理或媒体网管推荐您使用值为600~800。"),
     new TipsDef("Video Rate Control", "视频速率控制",
@@ -495,7 +495,7 @@ tip_item_zh.push (
 		"在网络丢包情况下，视频解码时将会丢掉视频该帧直接从下一个I帧开始解码。启用该项后在网速较差的环境下，将减少视频花屏的现象。默认设置为“否”。"),
 	new TipsDef("Video Display Mode", "视频显示模式",
 		"设置视频显示模式为“原始视频”、“等比例裁剪”或“根据比例补充黑边”。若设置为“原始视频”，则设备显示视频时将根据对方发送来的视频进行显示，若视频显示比例与设备显示比例不同，将会进行适当的拉伸/压缩以显示下完整视频；若设置为“等比例裁剪”，则设备将会根据设备显示比例对发送来的视频进行裁剪；若设置为“根据比例补充黑边”，则设备将会根据发送来的视频比例进行显示，若有多余部分，将使用黑边进行补充。默认设置为“等比例裁剪”。"),
-		
+
     /*Advanced Settings Video Survellance*/
     new TipsDef("Enable Video Surveillance", "",
         "默认为“否”。如果配置为“是”，视频电话在重启后奖成为视频监控摄像头。"),
@@ -565,7 +565,7 @@ tip_item_zh.push (
     new TipsDef("Vendor Class ID", "厂家类别名",
         "此项填写用于客户端与服务器端交换厂家类别名。"),
     new TipsDef("Vendor ID Vendor-Specific", "厂商标识",
-        "此项填写用于客户端与服务器端交换厂家标识号。"),   
+        "此项填写用于客户端与服务器端交换厂家标识号。"),
 	new TipsDef("IP Address", "IP地址",
         "输入IP地址。"),
     new TipsDef("Subnet Mask", "子网掩码",
@@ -574,24 +574,24 @@ tip_item_zh.push (
         "输入默认网关。"),
     new TipsDef("DNS Server 1", "DNS服务器1",
         "输入DNS服务器1。"),
-    new TipsDef("DNS Server 2", "DNS服务器2", 
+    new TipsDef("DNS Server 2", "DNS服务器2",
         "输入DNS服务器2。"),
     new TipsDef("Enable PPPoE", "启用PPPoE",
         "设置是否启用PPPoE。"),
     new TipsDef("Preferred DNS server", "",
         ""),
-    new TipsDef("Alternate DNS Server", "首选备用DNS服务器",
-        "此项用于设置首选备用DNS服务器地址。"),
-    new TipsDef("Second Alternate DNS Server", "次选备用DNS服务器",
-        "此项用于设置次选备用DNS服务器地址。"),
+    new TipsDef("Preferred DNS 1", "首选DNS服务器1",
+        "此项用于设置首选DNS服务器1地址。"),
+    new TipsDef("Preferred DNS 2", "首选DNS服务器2",
+        "此项用于设置首选DNS服务器2地址。"),
     new TipsDef("Layer 3 QoS", "第三层QoS",
         "此项用于设置第三层QoS用于IP Precedence或Diff-Serv或MPLS的参数。默认值为48。"),
     new TipsDef("Layer 2 QoS 802.1Q/VLAN Tag", "第二层QoS 802.1Q/VLAN标记",
         "此项设置第二层QoS的VLAN标记值。默认值为0。注意：如果不确定第二层Qos请不要更改第二层VLAN标记和优先级，错误配置可能导致设备获取IP失败。"),
     new TipsDef("Layer 2 QoS 802.1p Priority Value", "第二层QoS 802.1p优先值",
         "此项设置对应第二层Qos的优先级的值，默认值为0。"),
-    
-    
+
+
     new TipsDef("STUN/TURN Server", "STUN/TURN服务器",
         "STUN/TURN服务器的IP地址和URL。STUN类型可以在状态-->网络状态页面查看；STUN仅适用于非对称NAT。"),
     new TipsDef("HTTP/HTTPS User Agent", "HTTP/HTTPS用户代理",
@@ -603,17 +603,17 @@ tip_item_zh.push (
     new TipsDef("802.1X Mode", "802.1X模式",
         "设置是否启用802.1X模式。用于配置连接到交换机时进行的802.1X身份验证。默认设置为“关闭”。"),
 	new TipsDef("802.1X Identity", "802.1X认证信息",
-        "此处输入802.1X认证信息。"),
+        "此处上传802.1X认证信息。"),
 	new TipsDef("802.1X Secret", "802.1X密码",
-        "此处输入802.1X密码。"),
+        "此处上传802.1X密码。"),
 	new TipsDef("802.1X Private Key Password", "802.1X私钥密码",
-        "此处输入802.1X私钥密码。"),
-	new TipsDef("CA Certificate", "CA证书", 
-        "此处输入802.1X CA证书。"),
-	new TipsDef("Client Certificate", "客户证书", 
-        "此处输入802.1X客户证书。"),
-	new TipsDef("Private Key", "私钥", 
-        "此处输入802.1X私钥。"),
+        "此处上传802.1X私钥密码。"),
+	new TipsDef("CA Certificate", "CA证书",
+        "此处上传802.1X CA证书。"),
+	new TipsDef("Client Certificate", "客户证书",
+        "此处上传802.1X客户证书。"),
+	new TipsDef("Private Key", "私钥",
+        "此处上传802.1X私钥。"),
 	new TipsDef("HTTP Proxy", "HTTP代理",
         "配置设备使用的HTTP代理服务器。代理服务器充当中介功能，将数据包发送到目的地。"),
 	new TipsDef("HTTPS Proxy", "HTTPS代理",
@@ -634,16 +634,16 @@ tip_item_zh.push (
         "填写用于验证TURN服务器的用户名。"),
     new TipsDef("TURN Server Password", "TURN服务器密码",
         "填写用于验证TURN服务器的密码。"),
-    
+
     new TipsDef("Layer 3 QoS for SIP", "第三层SIP QoS",
 		"此项表示Layer 3 QoS用于IP优先级或Diff-Serv或MPLS的参数。默认值为26。"),
 	new TipsDef("Layer 3 QoS for Audio", "第三层音频QoS",
 		"定义了音频数据包的3层QoS参数。此值用于IP优先级，Diff-Serv或MPLS。默认值为46。"),
     new TipsDef("Layer 3 QoS for Video", "第三层视频QoS",
 		"定义了视频数据包的3层QoS参数。此值用于IP优先级，Diff-Serv或MPLS。默认值为34。"),
-       
+
     new TipsDef("IPv6 Address", "IPv6地址",
-        "配置话机的IPv6地址。"),
+        "配置设备的IPv6地址。"),
     new TipsDef("Static IPv6 Address", "静态IPv6地址",
         "当使用静态类型IPv6时，输入静态IPv6地址。"),
     new TipsDef("IPv6 Prefix length", "IPv6前缀长度",
@@ -654,7 +654,7 @@ tip_item_zh.push (
         "输入DNS服务器2地址。"),
     new TipsDef("Preferred DNS Server", "首选DNS服务器",
         "输入首选DNS服务器地址。"),
- 
+
  /*Maintenance Wifi Settings*/
     new TipsDef("Wi-Fi Function", "Wi-Fi功能",
         "此项参数设置开启/关闭Wi-Fi。默认是关闭的。"),
@@ -728,7 +728,11 @@ tip_item_zh.push (
         "此项用于设置下载固件/配置文件时是否验证服务器证书。若勾选，则设备仅从验证合法的服务器上下载固件/配置文件。默认设置为“否”。"),
     new TipsDef("Allow DHCP Option 43, 160 and 66 Override Server", "启动DHCP选项43、160和66服务器设置",
         "如果在局域网内开启该项，设备将会根据服务器下发的选项43内容对配置CPE、升级、网络vlan Tag和Priority进行重新设置。同时将会根据服务器下发的选项160和66内容对配置升级模块的更新方式和服务器路径进行重新设置。默认开启。"),
-    
+    new TipsDef("Additional Override DHCP Option", "额外的DHCP选项设置",
+        "额外的DHCP选项将被用作固件升级服务器来取代配置的或DHCP选项43和66设置的服务器，仅当”启动DHCP选项43和66服务器设置“被启用时这个选项才会生效。"),
+
+
+
     new TipsDef("Automatic Upgrade", "自动升级",
         "若启用该项，设备将根据配置的时间自动请求升级。默认设置为“每天检查”。"),
 	new TipsDef("Enable Randomized Automatic Upgrade", "开启随机自动升级",
@@ -738,7 +742,7 @@ tip_item_zh.push (
     new TipsDef("Authenticate Conf File", "认证配置文件",
         "是否对升级的配置文件进行验证。默认为否。"),
     new TipsDef("Lock Keypad Update", "锁住键盘更新",
-        "如果设置为“是”，用户将不能修改设备的配置信息。默认设置为“否”。注意:如果锁住了键盘进行更新并且用户忘记了WEB-GUI配置的管理员密码，设备将无法解锁。"),    
+        "如果设置为“是”，用户将不能修改设备的配置信息。默认设置为“否”。注意:如果锁住了键盘进行更新并且用户忘记了WEB-GUI配置的管理员密码，设备将无法解锁。"),
 	 new TipsDef("Automatic Upgrade Check Interval", "自动升级检查间隔",
 		"自动检测升级固件的时间周期。默认为10080分钟（7天）。"),
     new TipsDef("Hour of the Day", "自动升级时间",
@@ -749,7 +753,7 @@ tip_item_zh.push (
 		"配置固件升级和配置文件请求的检测方式。"),
     new TipsDef("Authenticate Conf File", "认证配置文件",
         "是否对升级的配置文件进行验证。默认为否。"),
-    
+
 	new TipsDef("XML Config File Password","XML配置文件密码",
 		"如果您使用XML Provision方式进行配置文件更新，而且已经使用Openssl等加密工具对其进行了加密，该项将提供密码使得设备可以对下载的XML文件进行解密。"),
 	new TipsDef("Firmware HTTP/HTTPS User Name", "固件HTTP/HTTPS用户名",
@@ -788,7 +792,7 @@ tip_item_zh.push (
         "此处输入自定义文件HTTP/HTTPS服务器密码。"),
     new TipsDef("Use Configurations of Config File Server", "使用配置文件服务器相关配置",
         "若启用该项，将使用配置文件的相关配置来更新Cust文件。"),
-        
+
 	/*Maintenance Logcat*/
 	new TipsDef("Clear Log", "清除日志",
         "点击“清除”按钮来清除信息日志。"),
@@ -810,12 +814,12 @@ tip_item_zh.push (
 		"输入关键词后将过滤带有关键词的系统日志，多个关键字需以逗号分隔输入。例如：设置过滤关键词为SIP，可以过滤出SIP日志 ；设置过滤关键词为 “HTTP,SIP”,可以过滤出HTTP和SIP日志。"),
     new TipsDef("H.323 Syslog Level", "H.323信令日志级别",
         "在下拉菜单中选择H.323信令日志级别。默认设置为“关”，即syslog中无H323的日志信息。还可以选择级别1到10,10为最高等级。"),
-    
+
 	new TipsDef("Ping Target Host", "目标主机",
 		"Ping时的目标主机IP地址或URL。"),
 	new TipsDef("Target Host", "目标主机",
 	    "路由跟踪的目标主机的IP地址或URL。"),
-	
+
 	/*Maintenance Debug*/
     new TipsDef("Capture Trace", "抓包",
         "点击开始进行抓捕数据, 按停止结束。抓捕设备的数据报文可以方便诊断。默认是不开启的。"),
@@ -885,11 +889,11 @@ tip_item_zh.push (
         "设置带屏保（/待机）到进入省电模式的时间。默认为10分钟。"),
     new TipsDef("HDMI Control", "HDMI控制",
         "设置是否开启HDMI输出，若开启，则需要设置HDMI显示是否与LCD画面同步。当设置为“关闭HDMI输出”时，不输出显示到HDMI显示设备。当设置为“HDMI显示与LCD同步”时，将会在HDMI显示设备上显示设备LCD画面。当设置为“界面显示同步，通话使用远端画面”时，除视频通话时在HDMI显示设备上显示远端视频画面外，其他画面显示同LCD画面。默认设置为“HDMI显示与LCD同步”。"),
-        
+
     /*Device Manager HeadSet*/
-    
-    
-    
+
+
+
     /*
     new TipsDef("Disable Missed Call OLED Indicator", "关闭未接来电OLED提示",
         "若选择“是”，当设备有未接来电时，OLED不会进行相关指示。默认为“否”。"),
@@ -926,7 +930,7 @@ tip_item_zh.push (
     /*Device Manager TV Port*/
     new TipsDef("TV Output", "TV输出",
         "选择期望的TV输出模式 (PAL or NTSC)。<br>注意：打开TV输出,设备LCD将关闭，通过WEB配置页面，维护-->设备管理-->TV输出，点击“关闭”。"),
-	
+
 	 /*maintenance Open VPN*/
     new TipsDef("OpenVPN Enable", "开启OpenVPN®",
         "此项设置是否激活OpenVPN®功能,需要服务器支持。默认是关闭的。 注意: 用户如果需要使用OpenVPN功能，需要设置OpenVPN相关的所有配置，包括服务器地址，端口，OpenVPN®证书，客户证书，客户密码。 另外，通过帐号设置->网络设置，选择NAT类型为VPN。"),
@@ -948,12 +952,12 @@ tip_item_zh.push (
 		"设置OpenVPN®用户名（可选）。"),
 	new TipsDef("OpenVPN Password", "OpenVPN®密码",
 		"设置OpenVPN®密码（可选）。"),
-	
+
 	/*maintenance tr069*/
 	new TipsDef("Enable TR-069", "打开TR-069",
 	    "设置是否启用TR-069。若设置为“是”，则设备向ACS服务器发送会话连接请求。默认设置为“是”。"),
-	new TipsDef("ACS URL", "ACS 源", 
-	    "此处填写TR-069自动配置服务器的URL。"),
+	new TipsDef("ACS URL", "ACS 源",
+	    "设置TR-069自动配置服务器的URL或IP地址及端口号。开启TR-069时必须配置此参数。"),
 	new TipsDef("ACS Username", "ACS用户名",
 	    "设备向ACS发起连接请求时ACS对TR-069客户端即设备进行认证的用户名，必须与ACS侧的配置保持一致。"),
 	new TipsDef("ACS Password", "ACS密码",
@@ -972,7 +976,7 @@ tip_item_zh.push (
 	    "此处填写设备通过SSL连接ACS时需要使用的证书文件。"),
 	new TipsDef("CPE Cert Key", "CPE证书密码",
 	    "此处填写设备通过SSL连接ACS时需要使用的证书密码。"),
-	
+
 	/*maintenance fxo prot*/
 	new TipsDef("AC termination model", "AC Termination模型",
 	    "默认基于国家。"),
@@ -982,7 +986,7 @@ tip_item_zh.push (
 	    "50-800毫秒. 默认为100毫秒。"),
     new TipsDef("Enable PSTN disconnect tone detection", "PSTN拆线音检测",
 	    "默认值否,如果设成了是，请在下面设置拆线音。"),
-	
+
 	/*maintenance broadsoft*/
 	new TipsDef("Server", "服务器",
 	    "设置Broadsoft XSI服务器地址。"),
@@ -992,10 +996,10 @@ tip_item_zh.push (
 	    "设置Broadsoft XSI服务器的用户名。"),
     new TipsDef("Password ", "密码",
 	    "设置Broadsoft XSI服务器的密码。"),
-    
+
 	/*application settings phonebook*/
 	new TipsDef("File Encoding", "文件编码",
-		"该项用于设置联系人导入/导出时支持的文件编码。"),
+		"在下拉列表中选择联系人导入/导出的文件编码。"),
 	new TipsDef("File Type", "文件类型",
 		"该项用于设置联系人导入/导出时支持的文件类型。"),
 	new TipsDef("Save Phonebook to PC", "保存电话薄到电脑",
@@ -1017,15 +1021,15 @@ tip_item_zh.push (
 	new TipsDef("Download Interval", "下载周期",
 		"从自动服务器下载的周期（分）。默认为0，即不会自动请求下载。用户可以根据需要设置。"),
 	new TipsDef("Download Now", "开始下载",
-		"点击“下载”从配置的服务器下载联系人文件到设备。<br>注意：下载的联系人文件必须是设备支持的格式文件。"),
+		"点击“下载”从配置的服务器下载联系人文件到设备。注意：下载的联系人文件必须是设备支持的格式文件。"),
 	new TipsDef("Local File", "本地文件",
 		"从电脑本地直接浏览下载到设备，点击“浏览”，选择XML文件。"),
     new TipsDef("File Encoding ", "文件编码",
 		"该项用于设置联系人下载时支持的文件编码。"),
 	new TipsDef("Emergency Call Numbers", "紧急呼叫号码",
 		"紧急呼叫号码，用于设置紧急联系人电话号码。在输入框中填写号码后点击“添加”按钮即可将该号码添加到紧急联系人列表中。若需要删除紧急联系人号码，可选择紧急联系人列表中的号码，再点击列表框右方的“删除”按钮。"),
-	
-	/*application settings IM*/	
+
+	/*application settings IM*/
 	new TipsDef("Google Talk", "",
 		"此项设置添加/删除Google Talk帐号。"),
 	new TipsDef("MSN", "",
@@ -1034,8 +1038,8 @@ tip_item_zh.push (
 		"此项设置添加/删除QQ帐号。"),
 	new TipsDef("Yahoo", "",
 		"此项设置添加/删除YahOO帐号。"),
-	
-	/*application settings Twitter*/	
+
+	/*application settings Twitter*/
 	new TipsDef("Auto Refresh Time", "自动刷新时间",
 		"此项设置自动刷新信息时间。"),
 	new TipsDef("Retweet Format", "转发格式",
@@ -1049,11 +1053,11 @@ tip_item_zh.push (
 	new TipsDef("Twitter Servers", "Twitter服务器",
 		"此项设置使用的交互信息的服务器。默认为http://twitter.com 。用户可以点击：“添加”按键，自己添加服务器地址。"),
 
-	/*application settings Facebook*/	
+	/*application settings Facebook*/
 	new TipsDef("Facebook Account", "Facebook帐号",
 		"此项设置添加Facebook帐号。点击“添加”会跳转到Facebook主页进行授权，根据提示授权成功后关闭Facebook主页，返回设备配置页面，完成添加帐号。帐号添加成功后可以在下拉框中看到添加的帐号。"),
 
-	/*application settings Browser Settings*/	
+	/*application settings Browser Settings*/
 	new TipsDef("Start Browser On Boot", "开机运行浏览器",
 		"此项设置设备启动时是否自动运行自动的浏览器。默认为否。"),
     new TipsDef("Enable Browser Toolbar", "",
@@ -1066,7 +1070,7 @@ tip_item_zh.push (
 	new TipsDef("Save Favorites to PC", "保存收藏夹到电脑",
 		"点击“保存”，将保存收藏夹XML格式文件到电脑。"),
 
-    /*Advanced Settings Photo Album*/	
+    /*Advanced Settings Photo Album*/
 	new TipsDef("Photobucket Account", "Photobucket帐号",
 		"此项设置添加/删除Photobucke帐号。"),
 	new TipsDef("Flickr Account", "Flickr帐号",
@@ -1074,13 +1078,13 @@ tip_item_zh.push (
 	new TipsDef("Phanfare Account", "Phanfare帐号",
 		"此项设置添加/删除Phanfare帐号。"),
 
-    /*Advanced Settings Last FM*/	
+    /*Advanced Settings Last FM*/
 	new TipsDef("User Name", "用户名",
 		"此项设置Last FM用户名，即用户登录在线音乐的用户名。如果没有帐号先请到lastfm网站注册。"),
 	new TipsDef("Password", "密码",
 		"此项设置Last FM对应上面用户名的用户密码。"),
 
-    /*Advanced Settings Weather*/	
+    /*Advanced Settings Weather*/
 	new TipsDef("Local City", "本地城市(城市代码)",
 		"设置设备同步的城市天气的城市代码。"),
 	new TipsDef("Refresh Interval", "刷新时间",
@@ -1090,7 +1094,7 @@ tip_item_zh.push (
 	new TipsDef("Degree Units", "度量单位",
 		"此项设置温度单位：摄氏温度/华氏温度。默认为摄氏温度。"),
 
-    /*Advanced Settings RSS*/	
+    /*Advanced Settings RSS*/
 	new TipsDef("RSS Refresh Interval", "RSS刷新时间",
 		"此项设置RSS新闻刷新信息时间间隔（s）。默认为15s。"),
 	new TipsDef("RSS Update Interval", "RSS更新时间",
@@ -1107,15 +1111,15 @@ tip_item_zh.push (
         "监控MPK列表中配置的号码组。需要服务器端支持该功能。用户首先需要在服务器端配置一个包含扩展列表的号码组 (如:BLF1006@myserver.com)。该号码组字段中填写无域名的URI(如：BLF1006)。"),
     new TipsDef("BLF Call-pickup Prefix", "代接前缀",
         "配置后，设备将在每次使用BLF键接听电话时添加该前缀。默认每个帐号设置为“**”。"),
-    
-    
+
+
     new TipsDef("MPK ID", "MPK ID",
         "选择MPK对应的序号。"),
     new TipsDef("Display Format", "显示格式",
         "配置MPK的显示格式，MPK显示格式有：用户名，用户ID，用户ID（用户名）。"),
     new TipsDef("Show DisplayName from Server", "显示服务器上名称",
         "当勾选此项后，服务器上的显示名将会替换用户设置的显示名。默认为不勾选。"),
-    
+
 	/*application LDAP phonebook*/
 	new TipsDef("Connection Mode", "连接模式",
         "设置使用LDAP或者LDAPS方式进行访问连接。"),
@@ -1151,14 +1155,14 @@ tip_item_zh.push (
         "配置号码查询时的过滤器。例如:<br>(|(telephoneNumber=%)(Mobile=%) 返回所有“telephoneNumber”或“Mobile”域中有包含了指定过滤值的联系人;<br>(&(telephoneNumber=%) (cn=*)) 返回所有“telephoneNumber”域中有包含了指定过滤值并且设置了“cn“域的联系人."),
     new TipsDef("LDAP Mail Filter", "LDAP邮件筛选规则",
         "配置邮件查询时的过滤器。例如:<br>(|(mail=%)(mailBox=%)) 返回所有“mail”或“mailBox”域中有包含了指定过滤值的联系人;<br>(!(mail=%)) 返回所有“mail”域中没有包含指定过滤值的联系人;<br>(&(mail=%) (cn=*)) 返回所有“mail”域中有包含了指定过滤值并且设置了“cn“域的联系人."),
-         
+
 	/*Device Control*/
 	new TipsDef("Preset Settings", "预置位设置",
 		"预置位是已存储的摄像机位置。预置摄像机位置并存储该预置位后，可以通过切换不同预置位，方便地调整摄像机位置。最多支持24个预置位。"),
 	new TipsDef("PTZ Control", "PTZ控制",
 		"本地摄像机进行PTZ（Pan/Tilt/Zoom）控制，即俯仰、左右转动、图像缩放，从而得到需要的视频画面。"),
-		
-	/*Advanced Settings Ringtone Manager*/	
+
+	/*Advanced Settings Ringtone Manager*/
 	new TipsDef("Ringtone File Manager", "铃声文件管理",
 		"用户可以添加/删除铃声，可用的铃声显示在列表中。用户还可以点击“上传”，上传MP3文件到设备。"),
 
@@ -1169,7 +1173,7 @@ tip_item_zh.push (
         "设置HDMI 2输出图像的分辨率，分辨率数值越大图像清晰度越高，选择的分辨率要与显示器的分辨率一致。设备会自动读取电视机支持的分辨率并与本设备支持的分辨率继续比对，双方都支持的分辨率会显示在页面上供设置。图像格式数值越大图像清晰度越高，首次启动设备会自动获取最优分辨率。"),
     new TipsDef("HDMI 3 Out Resolution", "HDMI 3输出分辨率",
         "设置HDMI 3输出图像的分辨率，分辨率数值越大图像清晰度越高，选择的分辨率要与显示器的分辨率一致。设备会自动读取电视机支持的分辨率并与本设备支持的分辨率继续比对，双方都支持的分辨率会显示在页面上供设置。图像格式数值越大图像清晰度越高，首次启动设备会自动获取最优分辨率。"),
-    
+
     /*peripheral*/
     new TipsDef("HDMI Out Resolution", "HDMI 输出分辨率",
         "设置HDMI 输出图像的分辨率，分辨率数值越大图像清晰度越高，选择的分辨率要与显示器的分辨率一致。设备会自动读取电视机支持的分辨率并与本设备支持的分辨率继续比对，双方都支持的分辨率会显示在页面上供设置。图像格式数值越大图像清晰度越高，首次启动设备会自动获取最优分辨率。"),
@@ -1217,7 +1221,7 @@ tip_item_zh.push (
     /*Recording*/
     new TipsDef("Recording save path", "录像保存路径",
         "此项设置录像时所保存的路径。"),
-        
+
     /*Status*/
     new TipsDef("Zoom", "变焦",
         "镜头支持12倍光学变焦。"),
@@ -1277,9 +1281,9 @@ tip_item_zh.push (
         "若选择“是”，当使用耳机来电时振铃通过扬声器播放。默认为“否”。"),
     new TipsDef("Factory Reset", "恢复出厂设置",
         "将设备配置恢复出厂设置。注意：重置前请进行数据备份以免数据丢失。"),
-    new TipsDef("Disable Dial Plan", "禁用拨号规则", 
+    new TipsDef("Disable Dial Plan", "禁用拨号规则",
         "用于设置拨号界面、电话本、来电通话记录、去电通话记录 & Click2Dial是否禁用拨号规则，勾选后，相应功能将不再使用下方的拨号规则。"),
-    new TipsDef("Remote Video Request", "远程视频请求", 
+    new TipsDef("Remote Video Request", "远程视频请求",
         "配置视频请求的处理方式。用户可以选择：提示，接受，拒绝。默认为“提示”。"),
     new TipsDef("DHCP Option 120 Override SIP Server", "启用DHCP Option 120服务器设置",
         "启用该功能后，设备将使用本地DHCP服务器在Option 120中下发的URL来替换SIP服务器进行注册。"),
@@ -1338,7 +1342,7 @@ tip_item_zh.push (
         "若开启,会定时向对端发送RTDP（roundTripDelayRequest）包作为H245保活包，发送周期为10s，超时时间为30s，超时后会挂断呼叫，默认不勾选。说明：若开启，可能导致与部分设备出现不兼容。"),
     new TipsDef("DTMF ", "DTMF",
         "该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。"),
-    
+
 
 
     /**new tips */
@@ -1348,12 +1352,21 @@ tip_item_zh.push (
 		"SIP定时器D，用于INVITE客户端事务收到3xx ~ 6xx回复后到这个事务结束状态的时间间隔。有效值为0-64秒。"),
 	new TipsDef("Remove OBP from route", "从路由移除OBP",
     	"若设置为“关闭”，话机使用的路由中将移除代理。若设置为“开启”，话机在NAT/防火墙环境下，SIP帐号通知服务器将代理设置移除。若设置为“总是”，话机会无条件使SIP帐号通知服务器将代理设置移除。"),
-        
+
     new TipsDef("AEC Level", "音频回声抑制等级",
-    	"当音频设备选择了鹅颈麦模式后，可设置音频回声抑制从1到5个等级 ，调节当GVC设备和电视机等设备设置的声音大小、鹅颈麦声源和GVC设备的距离不同时的音频效果， 默认关闭。")
+    	"当音频设备选择了鹅颈麦模式后，可设置音频回声抑制从1到5个等级 ，调节当GVC设备和电视机等设备设置的声音大小、鹅颈麦声源和GVC设备的距离不同时的音频效果， 默认关闭。"),
 
-
-
+    new TipsDef("Common Layout Mode", "常用布局模式",
+    "设置常用布局模式，设置的模式将应用所有会议初始布局模式。"),
+    new TipsDef("Force Reset Remote SRTP", "强制重置远程SRTP",
+    "默认值为“是”，兼容旧版本; “否”代表不会重置, 即新版本行为。"),
+    new TipsDef("H323DTMF", "DTMF",
+    "该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。"),
+    new TipsDef("Video Bit Rate2", "视频速率",
+        "配置视频电话的比特率，可以根据网络环境调整的视频比特率。如果带宽允许的情况下建议增加比特率大小；如果带宽不够，视频质量将降低。默认值跟H.264 视频大小有关：<br>H.264 视频大小设置为1080p，设置值为“1Mbps~4Mbps”之间的整数值。<br>H.264 视频大小设置为720p，设置值为“512kbps~2Mbps”之间的整数值。<br>H.264 视频大小设置为4SIF/4CIF/VGA，设置值为“384kbps~1Mbps”之间的整数值。"),
+    new TipsDef("Reboot", "重启", "设置设备重启"),
+    new TipsDef("Sleep", "睡眠", "设置设备为睡眠模式"),
+    new TipsDef("Shutdown", "关机", "将设备关机"),
 
 
 
@@ -1370,20 +1383,20 @@ tip_item_zh.push (
         "为call park配置pickup业务码"),
     new TipsDef("Line-seize Timeout", "抢线超时",
         "当设备使用共享线路时，定义占用线路前的间隔。有效值范围15至60秒。"),
-    new TipsDef("Start Video Call Fullscreen", "建立视频通话后全屏", 
+    new TipsDef("Start Video Call Fullscreen", "建立视频通话后全屏",
         "设置视频通话建立后是否默认进入全屏。默认为“否”。"),
-    
+
     new TipsDef("No Key Entry Timeout", "按键超时时间",
         "此项用于设置无键入后到自动发送号码的时间长度。当检测到该超时时间段无号码键入，将直接拨打前面键入的号码。默认设置为4秒。"),
     new TipsDef("DND Call Feature On", "DND开启号码",
         "配置DND功能开启号码。配置后，按下设备DND键将发出该号码以开启DND功能。"),
     new TipsDef("DND Call Feature Off", "DND关闭号码",
         "配置DND功能关闭号码。配置后，按下设备DND键将发出该号码以关闭DND功能。"),
-    new TipsDef("Broadsoft Call Center", "Broadsoft呼叫中心", 
+    new TipsDef("Broadsoft Call Center", "Broadsoft呼叫中心",
         "启用时，用户将不需要设置\"呼叫特征功能与服务器同步\"选项。此时，与Broadsoft服务器相关的设备呼叫特征将被自动同步。"),
-    new TipsDef("Hoteling Event", "Hoteling事件", 
+    new TipsDef("Hoteling Event", "Hoteling事件",
         "启用Broadsoft Hoteling事件功能。"),
-    new TipsDef("Call Center Status", "呼叫中心状态", 
+    new TipsDef("Call Center Status", "呼叫中心状态",
         "启用时，设备向服务器发送SUBSCRIBE消息以获取呼叫中心状态。"),
     new TipsDef("Key Mode", "按键模式",
         "可供选择的按键模式有：<br>快速拨号：快速拨打扩展板上配置的用户ID<br>Asterisk忙灯检测：监视扩展板上配置的用户ID状态<br>呼叫转移：转移当前通话到扩展板上配置的用户ID<br>对讲：寻呼/对讲扩展板上配置的用户ID<br>使用激活帐号快速拨打：同快速拨号相似，不同的是使用当前已激活的帐号进行呼叫。例如，摘机时若帐号2激活，则将会使用帐号2拨打扩展板上设置的用户ID。<br>拨打DTMF：通话过程中拨打扩展板上设置的用户ID的DTMF数字。<br>停靠：配置停靠或接听来电时的呼叫停靠特征码。"),
@@ -1401,7 +1414,7 @@ tip_item_zh.push (
         "当配置了超时时间在摘机后若超时将退出拨号界面。默认设置为“30秒”。有效值范围10至60秒。"),
     new TipsDef("Enable Function for Incoming Call", "开启来电功能项",
         "设置视频来电时的功能选项。默认值为“无”，即不开启来电功能项。若设置为“预览”，当有视频来电时，可在不接听来电的情况下在来电界面点击“预览”按钮查看来电者视频。"),
-    new TipsDef("Enable Multiply Server Mode", "开启多服务器模式", 
+    new TipsDef("Enable Multiply Server Mode", "开启多服务器模式",
         "此项用于设置多服务器呼叫功能，需与帐号中-通话设置中的分组设置配合使用。开启该模式后，一个帐号组内的帐号呼叫/来电失败时将会尝试使用组内的其他帐号。"),
     new TipsDef("Hide LDAP Contacts", "隐藏LDAP联系人",
         "设置是否隐藏LDAP联系人。若勾选该项，则LDAP联系人将不会在设备界面中显示。默认不勾选。"),
@@ -1413,7 +1426,7 @@ tip_item_zh.push (
         "配置设备的PC端口模式。当配置为\"镜像\"时，设备发送和接收的数据包将同时经过LAN端口和PC端口。"),
     new TipsDef("DHCP Option 120 Override SIP Server", "启用DHCP Option 120服务器设置",
         "启用该功能后，设备将使用本地DHCP服务器在Option 120中下发的URL来替换SIP服务器进行注册。"),
-    
+
     new TipsDef("AE Mode", "AE 模式",
         "AE模式（自动曝光）有两个选项：较暗环境和较亮环境。用户可以根据摄像头正在使用的实际环境（暗或亮）选择对应模式，设备摄像头的设置，包括亮度、对比度、曝光和伽玛值将自动调整,以达到所选择的环境下的更好的视觉效果。默认设置是“较亮环境”。"),
     new TipsDef("Disable Missed Call Backlight", "关闭未接来电背光",
@@ -1426,7 +1439,7 @@ tip_item_zh.push (
         "RJ9接收增益，它是耳机控制音量方面的设置选项，控制接收的音频信号。默认设置为0。"),
     new TipsDef("Headset Type", "耳机类型",
         "选择普通耳机类型或者EHS耳机类型。"),
-    new TipsDef("Headset Key Mode", "耳机按键模式", 
+    new TipsDef("Headset Key Mode", "耳机按键模式",
         "当设备接入耳机后，用户可以选择默认模式使用该键或使用“切换耳机/扬声器”模式使用该键。详情请参考用户手册。"),
     new TipsDef("Handset TX Gain", "手柄传输增益",
         "设置手柄传输增益。此项用于手柄音量设置，控制发送出去的音频信号。"),

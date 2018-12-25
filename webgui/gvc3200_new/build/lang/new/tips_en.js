@@ -62,7 +62,7 @@ tip_item_en.push (
         "Android OS version."),
     new TipsDef("Kernel Version",
         "Kernel version."),
-    
+
     /*Account1 2 3 General Settings*/
     new TipsDef("Account Active",
         "This field indicates whether the account is active. The default value for the last account (Account H.323) is \"No\" and the default value for the other accounts is \"Yes.\""),
@@ -94,7 +94,7 @@ tip_item_en.push (
         "Once checked, the device wil be assigned an IPVideoTalk account and the account service will be opened. If not check, the IPVideoTalk account and the corresponding service will not be enabled. The default settings is \"yes\"."),
     new TipsDef("H.323 Local Port",
         "Defines the local H.323 port used to listen. The default value is 1720."),
-        
+
 	/*Account1 2 3 NetWork Related*/
     new TipsDef("Outbound Proxy",
         "IP address or domain name of the primary outbound proxy, media gateway, or session border controller. It's used by the device for Firewall or NAT penetration in different network environments. If a symmetric NAT is detected, STUN will not work and ONLY an outbound proxy can provide a solution."),
@@ -178,7 +178,7 @@ tip_item_en.push (
 		"Validates certification chain when TLS/TCP is configured."),
     new TipsDef("Domain Certificate",
 		"Use the certificate for Authentication if set \"Check Domain certificates\" to \"Yes\"."),
-	
+
     new TipsDef("Check SIP User ID for Incoming INVITE",
 		"If set to \"Yes\", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn't match the device's SIP User ID, the call will be rejected."),
 	new TipsDef("Trusted CA Certificates",
@@ -187,15 +187,15 @@ tip_item_en.push (
 		"Click the BROWSE to upload certificate file from PC. The certificate file should be \".pem\", \".crt\" , \".cer\" or \".der\" format. The Browse button will turn to \"Processing\" and back to \"Browse\" once the upload finished."),
 	new TipsDef("Import Custom Certificates",
 		"Click \"Browse\" to upload custom certificate file from PC. The certificate file should be \".pem\", \".crt\", \".cer\" or \".der\" format."),
-	
-	
-    
+
+
+
 	new TipsDef("Only Accept SIP Requests from Known Servers",
 		"If set to \"Yes\", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn't match the device's SIP User ID, the call will be rejected. The default is \"No\"."),
-    		
+
     /*Account1 2 3 Codec and Signal*/
     new TipsDef("DTMF",
-        "This parameter specifies the mechanism to transmit DTMF digits.<br>There are 3 supported modes: in audio (DTMF is combined with the audio signal, which is not very reliable with low-bit-rate codes), via RTP (RFC2833), or via SIP INFO."),
+        "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: <br /> • In audio, which means DTMF is combined in the audio signal (not very reliable with low-bit-rate codecs); <br />• RTP (RFC2833), which means to specify DTMF with RTP packet. Users could know the packet is DTMF in the RTP header as well as the type of DTMF; <br />• SIP INFO. Use SIP INFO to carry DTMF. The downside of this mode is that it's easy to cause asynchrony of DTMF and media packet because SIP and RTP packets are transmitted respectively. <br/>The default setting is \"RFC2833\"."),
     new TipsDef("DTMF Payload Type",
         "This parameter sets the payload type for DTMF using RFC2833. Default is 101."),
     new TipsDef("Preferred Vocoder",
@@ -264,7 +264,7 @@ tip_item_en.push (
         "Configures the buffer size according to the network environment. The valid range is from 0 to 1000. The default settings is 50."),
 	new TipsDef("Enable video Gradual decoder refresh",
 		"GDR (Gradual decoder refresh) by P frame including the method of applying I block group to achieve asymptotic refresh. If set to \"Yes\", GDR will bring better network adaptability. The default setting is \"No\"."),
-    
+
     /*Account1 2 3 Call Settings*/
     new TipsDef("Dial Plan Prefix",
         "Configures the prefix to be added to each dialed number. All numbers use this account will automatically add the prefix. e.g.: The prefix is 5, the phone number is 337, then the dial number is 5337. If set \"Disable DialPlan\" to \"Yes\", the dial plan prefix will be invalid."),
@@ -275,7 +275,7 @@ tip_item_en.push (
     new TipsDef("Refer-To Use Target Contact",
         "If set to \"Yes\", the \"Refer-To\" header uses the transferred target's Contact header information for attended transfer. The default setting is \"No\"."),
     new TipsDef("Auto Answer",
-        "If set to \"Yes\", the device will automatically turn on the speaker to answer incoming calls after a short reminder beep. The default setting is \"No\"."),
+        "If set to \"Yes\", the device will automatically turn on the speaker phone to answer incoming calls after a short reminding beep. If set to \"Enable Intercom/Paging\", it will answer the call based on the SIP info header sent from the server/proxy. The default setting is \"No\"."),
     new TipsDef("Send Anonymous",
         "If set to \"Yes\", the \"From\" header in outgoing INVITE messages will be set to anonymous, essentially blocking the Caller ID to be displayed."),
     new TipsDef("Call Log",
@@ -325,12 +325,12 @@ tip_item_en.push (
 	new TipsDef("Special Feature",
         "Different soft switch vendors have special requirements. Therefore users may need select special features to meet these requirements. Users can choose from Standard, CBCOM, RNK, China Mobile, ZTE IMS, Mobotix, ZTE NGN, or Huawei IMS depending on the server type. The default setting is \"Standard\"."),
 	new TipsDef("Feature Key Synchronization",
-       	"This feature is used for Broadsoft call feature synchronization. When it's set to Broadsoft, DND and Call Forward features can be synchronized with Broadsoft server."),
+       	"This feature is used for Broadsoft call feature synchronization. When it's set to Broadsoft, DND and Call Forward features can be synchronized with Broadsoft server. The default setting is \"Disable\"."),
     new TipsDef("Enable Call Features",
         "If set to \"Yes\", call features (including call forwarding, DND and etc) will be supported locally instead of using the feature code supported on SIP server/proxy. The default setting is \"Yes\". Please refer to user manual for more details."),
     new TipsDef("Enable FECC",
         "If set to \"Yes\", You can control the camera of the opposite side for video call, but the opposite site must support FECC and allow remote control on its local camera. The default setting is \"Yes\"."),
-        
+
     new TipsDef("Ring Timeout",
         "Defines the timeout (in seconds) for the rings on no answer. The default setting is 60 seconds."),
     new TipsDef("Use # as Dial Key",
@@ -339,27 +339,27 @@ tip_item_en.push (
 		"Set whether to trsnsfer the call when the device hangs up as the conference initiator. If set to \"Yes\", the other two parties will remain in the conference call if the initiator hangs up. The default setting is \"No\"."),
     new TipsDef("Conference URI",
         "Configures the conference URI when using Broadsoft N-way calling feature."),
-    
-    
-    
-	
-	
+
+
+
+
+
 	new TipsDef("Start Video Automatically",
 		"Defines whether to enable video automatically when there is an incoming call or a call from the contacts. If set to \"Yes\", the video will be started automatically in the above cases. If set to \"No\", answer or dial the call via SIP audio."),
-	
-	
+
+
 	new TipsDef("Upload Local MOH Audio File",
 		"Click the BROWSE to upload audio file from PC. The MOH audio file should be \".wav\" or \".mp3\" format. It may take a long time uploading and processing the file, please be patient. The Browse button will turn to \"Processing\" and back to \"Browse\" once the upload finished."),
 	new TipsDef("Enable Local MOH",
 		"If set to \"Yes\" , the local MOH will be enabled. Users need to upload local MOH audio file. Once enabled, users could play the file when holding the call. The default setting is \"No\"."),
-	
+
     /*Advanced Settings Accounts' genernal Settings*/
     new TipsDef("Local RTP Port",
         "This parameter defines the local RTP-RTCP port pair used to listen and transmit. It is the base RTP port for channel 0. When configured, for audio, channel 0 will use this port_value for RTP and the port_value+1 for its RTCP; channel 1 will use port_value+10 for RTP and port_value+11 for its RTCP. For video, channel 0 will use port_value+2 for RTP and port_value+3 for its RTCP; channel 1 will use port_value+12 for RTP and port_value+13 for RTCP. The default value is 5004."),
     new TipsDef("Use Random Port",
         "When set to \"Yes\", this parameter will force random generation of both the local SIP and RTP ports. This is usually necessary when multiple phones are behind the same full cone NAT. The Default setting is \"No\". (This parameter must be set to \"No\" for Direct IP Calling to work)"),
     new TipsDef("Keep-alive Interval",
-        "Specifies how often the device sends a blank UDP packet to the SIP server in order to keep the \"pin hole\" on the NAT router to open. The default setting is 20 seconds."),
+        "Specifies how often the device sends a blank UDP packet to the SIP server in order to keep the \"ping hole\" on the NAT router to open. The default setting is 20 seconds."),
     new TipsDef("Use NAT IP",
         "The NAT IP address in SIP/SDP messages. This field is blank by default settings. You should ONLY use it when required by your ITSP."),
     new TipsDef("SIP TLS Certificate",
@@ -368,16 +368,16 @@ tip_item_en.push (
 		"Defines the SSL Private key used for SIP over TLS."),
     new TipsDef("SIP TLS Private Key Password",
 		"Defines the SSL Private key password used for SIP over TLS."),
-	
+
     new TipsDef("Disable in-call DTMF display",
         "Disable DTMF display when in-call."),
     new TipsDef("BS Call Log & Contacts Update Interval",
         "Configures the interval to obtain BroadSoft call log and contacts data thus to update the matching number data on the dialing interface. The default settings is 1800 secs."),
     new TipsDef("Hide Local Call History",
         "Defines whether to hide local call history. If set to \"Yes\", the local call history will not be displayed on the device. The default setting is \"No\". NOTE: The local call history could be hidden only when none of BroadSoft XSI Server, Username and Password is blank."),
-    
-    
-		   
+
+
+
 	/*Advanced Settings Call Features*/
     new TipsDef("Disable Call-Waiting",
         "Disables the call waiting feature. The default setting is \"No\"."),
@@ -391,18 +391,18 @@ tip_item_en.push (
         "When this option is enabled and the device's MPK has DTMF set up for Dial DTMF mode, pressing the MPK will send out all the digits as DTMF."),
     new TipsDef("Allow Media Loopback",
         "The default setting is \"No\". If the field is set to \"Yes\" and the server/proxy supports this feature, the device will feed loopback information to the server."),
-    
+
 	new TipsDef("Escape '#' as %23 in SIP URI",
 		"Replaces “#” by “%23” for some special situations. The default setting is \"Yes\"."),
 	new TipsDef("Disable Conference",
-        "Disables the Conference function. The default setting is \"No\"."),	
+        "Disables the Conference function. The default setting is \"No\"."),
 	new TipsDef("Disable Transfer",
         "Disables the Transfer function. The default setting is \"No\"."),
 	new TipsDef("Disable DND Reminder Ring",
         "Disables the DND reminder ring. If set to \"Yes\", the ring splash that indicates an incoming call when DND is enabled will not be played. The default setting is \"No\"."),
     new TipsDef("Always Ring Internal Ringer",
 		"If set to \"Yes\", the device will always ring internal ringer when headset is used at the same time. The default setting is \"No\"."),
-    
+
     new TipsDef("Default Transfer Mode",
 		"Configures default transfer mode: transfer and attended transfer."),
 	new TipsDef("Disable DialPlan",
@@ -413,7 +413,7 @@ tip_item_en.push (
         "Configures whether to mute the call on entry automatically. If set to \"Disable\", then do not use auto mute function; If set to \"Auto Mute on Outgoing Call\", then mute automatically when the other party answers the outgoing call; If set to \"Auto Mute on Incoming Call\", then mute automatically when answers the incoming call; If set to \"Mute on Incoming & Outgoing Call\", then mute automatically when the call gets through.Note: this function only take effect when the phone is from the idle status to call status. Users could click the Mute button on call interface to cancel the current mute status. The default setting is \"Disable\"."),
 	new TipsDef("Noise Shield",
 		"If set to \"Yes\", the voice of knocking table and turning over papers will be eliminated in call clearance (no one is speaking), the default setting is \"No\"."),
-    
+
     /*Advanced Settings Tone Zone*/
     new TipsDef("Custom ring tone 1",
         ""),
@@ -479,7 +479,7 @@ tip_item_en.push (
     new TipsDef("Video Frame Rate",
         "Configures the frame rate for video call. The default setting is 30fps."),
     new TipsDef("Video Bit Rate",
-        "Configures the bite rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. The default setting depends on H.264 Image Size:<br>H.264 Image Size = 1080p, Video Bit Rate can be set to integer value from 1024kbps to 4096kbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 512kbps to 2048kbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 384kbps to 1024kbps."),
+        "Configures the bite rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. The default setting depends on H.264 Image Size:<br>H.264 Image Size = 4k, Video Bit Rate can be set to integer value from 1Mbps to 8Mbps.<br>H.264 Image Size = 1080p, Video Bit Rate can be set to integer value from 1Mbps to 4Mbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 512kbps to 2Mbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 384kbps to 1Mbps."),
     new TipsDef("Video Packet Size",
         "The default value is 1400, and the range is from 300 to 1400. We recommends to use a value between 600~800 if you have an Outbound Proxy or Media Gateway."),
     new TipsDef("Video Rate Control",
@@ -495,7 +495,7 @@ tip_item_en.push (
     new TipsDef("Enable Motion Detection",
 		"The device will exit idle/screensaver mode if motion is detected. The default setting is Yes."),
     new TipsDef("Packetization-mode",
-		"The packetization mode (0, 1 or Auto) for the video packets. The default setting is 0."),
+		"The packetization mode (0, 1 or Auto) for the video packets. The default setting is 1."),
     new TipsDef("Redundant P-frame",
 		"This setting allows the device to send redundant P-frames of I frames. When an I frame is delayed or has packet loss, the redundant P-frames will be used instead. It may make video phone call less prone to errors and thus make the video stream more robust towards error propagation, but may increase bandwidth usage. The default setting is set to No."),
     new TipsDef("Adaptive MB Intra Refresh",
@@ -508,7 +508,7 @@ tip_item_en.push (
 		"If set to default setting \"Yes\",  the device will skip the P frame in lost video packet to decode the I frame in the next video packet. This setting helps to reduce video distortion. The default setting is \"No\"."),
 	new TipsDef("Video Display Mode",
 		"Set the video display mode to \"Original proportion\", \"Equal proportional cutting\" or \"Proportional add black edge\". If set to \"Original proportion\", the device displays video in its original proportion that received from remote party, if the remote video display proportion is different from the device, the device will stretch or compress video to display it; If set to \"Equal proportional cutting\", the device will cut video to meet its own display proportion; If set to \"Proportional add black edge\", the device will display video in its original proportion, if still exists spare space, the device will add black edge on it. The default setting is \"Equal proportional cutting\"."),
-    
+
 	/*Advanced Settings Video Survellance*/
     new TipsDef("Enable Video Surveillance",
         "The default setting is \"No\". If this parameter is set to \"Yes\", the video phone can be turned into a video surveillance camera (You must reboot for the changes to take effect)."),
@@ -577,7 +577,7 @@ tip_item_en.push (
     new TipsDef("Vendor Class ID",
         "Used by clients and servers to exchange vendor class ID."),
 	new TipsDef("Vendor ID Vendor-Specific",
-        "Used by clients and servers to exchange vendor-specific information."),   
+        "Used by clients and servers to exchange vendor-specific information."),
 	new TipsDef("IP Address",
         "Enter the IP address when static IP is used."),
     new TipsDef("Subnet Mask",
@@ -592,18 +592,18 @@ tip_item_en.push (
         "Select \"Yes\" to enable PPPoE."),
     new TipsDef("Preferred DNS server",
         "Enter the Preferred DNS server."),
-    new TipsDef("Alternate DNS Server",
-        "This fields sets the alternate DNS server for the user."),
-    new TipsDef("Second Alternate DNS Server",
-        "This fields sets the second alternate DNS server for the user."),
+    new TipsDef("Preferred DNS 1",
+        "Configures the preferred DNS 1 address."),
+    new TipsDef("Preferred DNS 2",
+        "Configures the preferred DNS 2 address."),
     new TipsDef("Layer 3 QoS",
         "Defines the Layer 3 QoS parameter. This value is used for IP Precedence, Diff-Serv or MPLS. The default value is 0."),
     new TipsDef("Layer 2 QoS 802.1Q/VLAN Tag",
         "Assigns the VLAN Tag of the Layer 2 QoS packets for LAN port. The default value is 0. Note: Please do not change the setting before understanding the VLAN's settings. Otherwise, the device might not be able to get the correct IP address."),
     new TipsDef("Layer 2 QoS 802.1p Priority Value",
         "Assigns the priority value of the Layer 2 QoS packets. The Default value is 0."),
-    
-    
+
+
     new TipsDef("STUN/TURN Server",
         "The IP address or the Domain name of the STUN/TURN server. STUN resolution results are displayed in the STATUS page of the device Web GUI. Only non-symmetric NAT routers work with STUN."),
     new TipsDef("HTTP/HTTPS User Agent",
@@ -637,14 +637,14 @@ tip_item_en.push (
 	new TipsDef("Bypass Proxy For",
         "Defines the destination IP address where no proxy server is needed. The device will not use a proxy server when sending packets to the specified destination IP address."),
     new TipsDef("Enable LLDP",
-        "Controls the LLDP (Link Layer Discovery Protocol) service."),
+        "If enabled, the device will accept VLAN, QoS and other parameters sent in LLDP packet from the switch in the network. The default setting is \"Yes\"."),
     new TipsDef("Enable CDP",
         "Configures whether to enable CDP to receive and/or transmit information from/to CDP-enabled devices."),
     new TipsDef("TURN Server Username",
         "Fill in the username to validate TURN server."),
     new TipsDef("TURN Server Password",
         "Fill in the password to validate TURN server."),
-    
+
     new TipsDef("Layer 3 QoS for SIP",
 		"This field defines the Layer 3 QoS parameter for IP Precedence, Diff-Serv or MPLS. The default setting is 26."),
 	new TipsDef("Layer 3 QoS for Audio",
@@ -653,7 +653,7 @@ tip_item_en.push (
 		"Defines the Layer 3 QoS parameter for video packets. This value is used for IP Precedence, Diff-Serv or MPLS. The default setting is 34."),
 
     new TipsDef("IPv6 Address",
-        "The IPv6 address obtained on the phone."),
+        "The IPv6 address obtained on the device."),
     new TipsDef("Static IPv6 Address",
         "Enter the static IPv6 address in \"Statically configured\" IPv6 address type."),
     new TipsDef("IPv6 Prefix length",
@@ -682,7 +682,7 @@ tip_item_en.push (
         "Display the selected ESSID name."),
     new TipsDef("Password  ",
         "Configures the selected ESSID password."),
-        
+
 	/*Maintenance Web Access*/
     new TipsDef("Access Methode",
         "Allows users to select HTTP or HTTPS for Web Access."),
@@ -738,7 +738,10 @@ tip_item_en.push (
         "Configures whether to validate the server certificate when download the firmware/config file. If set to \"Yes\", the phone will download the firmware/config file only from the legitimate server. The default setting is \"No\"."),
     new TipsDef("Allow DHCP Option 43, 160 and 66 Override Server",
         "If DHCP option 43, 160 and 66 is turned ON in the LAN, the device will reset the configuration CPE, upgrade, network vlan Tag, and Priority according to option 43 sent by the server. At the same time, the update mode and server path of the configuration upgrade module will be reset according to the option 160 and 66 sent by the server. The default setting is \"on\"."),
-    
+    new TipsDef("Additional Override DHCP Option",
+        "Additional DHCP Option that will be used as a firmware server instead of the setting one or name server from option 43 and 66. However, this option will be effective only when option 'Allow DHCP Option 43 and Option 66 to Override Server' is enabled\n"),
+
+
     new TipsDef("Automatic Upgrade",
         "Enable automatic HTTP upgrade and provisioning. The default setting is \"Check Every Day\"."),
 	new TipsDef("Enable Randomized Automatic Upgrade",
@@ -758,7 +761,7 @@ tip_item_en.push (
     new TipsDef("Firmware Upgrade and Provisioning",
 		"Specifies how firmware upgrading and provisioning request to be sent."),
     new TipsDef("Authenticate Conf File",
-		"Authenticate the configuration file before the device acceptance. The default setting is \"No\"."),  
+		"Authenticate the configuration file before the device acceptance. The default setting is \"No\"."),
 	new TipsDef("XML Config File Password",
 		"The password for encrypting the XML configuration file using OpenSSL. This is required for the device to decrypt the encrypted XML configuration file."),
 	new TipsDef("Firmware HTTP/HTTPS User Name",
@@ -783,7 +786,7 @@ tip_item_en.push (
         "Configures access control for keypad Menu settings."),
     new TipsDef("mDNS Override Server",
 		"If set to \"Use Type A\", the device will send type A mDNS request to the server, then request to download config file once connected successfully. If set to \"Use Type SRV\", the device will send type SRV mDNS request to the server, then request to download config file once connected successfully. If set to \"Disable\", the device will not send request. The default setting is \"Use  Type A\"."),
-    new TipsDef("Auto Reboot to Upgrade Without Prompt", 
+    new TipsDef("Auto Reboot to Upgrade Without Prompt",
 		"If set to \"Yes\", the device will automatically start upgrading after downloading the firmware files. Otherwise, users would need to confirm in the prompted message before upgrading process is started. The default value is \"No\"."),
 	new TipsDef("Disable SIP NOTIFY Authentication",
         "Device will not challenge NOTIFY with 401 when set to \"Yes\"."),
@@ -797,7 +800,7 @@ tip_item_en.push (
         "The password for the customization file HTTP/HTTPS server."),
     new TipsDef("Use Configurations of Config File Server",
         "Retrieve and download cust file with the configurations of config file."),
-            	
+
 	/*Maintenance Logcat*/
 	new TipsDef("Clear Log",
         "Click \"CLEAR\" button to delete the logs saved in the device."),
@@ -819,12 +822,12 @@ tip_item_en.push (
 		"After entering the keywords, you will filter the system log with keywords, and multiple keywords should be separated by commas. For example, set the filter keyword  \"SIP\" to filter SIP log. set the filter keyword  \"Http,SIP\" to filter  Http and SIP log."),
 	new TipsDef("H.323 Syslog Level",
         "Select H.323 Syslog level in the drop-down menu, the default setting is \"Off\", which means no H323 syslog info in syslog. You can also select from level 1 to 10, 10 is the highest level."),
-    
+
 	new TipsDef("Ping Target Host",
 		"The IP address or URL for the Target Host of the Ping."),
 	new TipsDef("Target Host",
 	    "The IP address or URL for the Target Host of the Traceroute."),
-	
+
     /*Maintenance Debug*/
     new TipsDef("Capture Trace",
         "Press START to start capturing a trace, and press STOP to stop the capture process."),
@@ -858,7 +861,7 @@ tip_item_en.push (
 		"Press \"Browse\" to bring up a file selection menu to select the local .txt file to upload to the device."),
     new TipsDef("Default Custom Language",
 		"Configures the default custom language.After imported the custom language, if found untranslated words in custom language files, the device will use the default language configured by this option."),
-		
+
     /*Device Manager LCD*/
     new TipsDef("Display Clock instead of Date",
         "Default is No. Display the clock instead of Date.If set to \"Yes\", it will show the clock in the LCD instead of date."),
@@ -896,8 +899,8 @@ tip_item_en.push (
         "Defines whether to enable HDMI. If enabled, users need to set whether HDMI would synchronize with LCD. If set to \"Close HDMI Output\", HDMI device will not display output; If set to \"HDMI Display Synchronization with LCD\", HDMI device will display what on the device LCD; If set to \"Show Opposite Screen\", HDMI device displays remote video screen in a video call while other screens display synchronization with LCD. The default settings is \"HDMI Display Synchronization with LCD\"."),
 
     /*Device Manager HeadSet*/
-    
-    
+
+
     /*new TipsDef("Disable Missed Call OLED Indicator",
         "If set to \"Yes\", the OLED will not indicate when there is missed call on the device. The default setting is \"No\"."),
     new TipsDef("Disable MWI OLED Indicator",
@@ -906,7 +909,7 @@ tip_item_en.push (
         "If set to \"Yes\", the OLED will not indicate when there is new message on the device. The default setting is \"No\"."),
     new TipsDef("Disable Contact Full OLED Indicator",
         "If set to \"Yes\", the OLED will not indicate when the contact storage or message storage is full. The defalut setting is \"No\"."),*/
-		
+
 	new TipsDef("Disable Missed Call OLED Indicator",
 	    "If set to \"Yes\", the LED indicator on the upper right corner of the phone will not light up when there is missed call on the phone. The default setting is \"No\"."),
 	new TipsDef("Disable MWI OLED Indicator",
@@ -915,8 +918,8 @@ tip_item_en.push (
 	    "If set to \"Yes\", the LED indicator on the upper right corner of the phone will not light up when there is new message on the phone. The default setting is \"No\". "),
 	new TipsDef("Disable Contact Full OLED Indicator",
 	    "If set to \"Yes\", the LED indicator on the upper right corner of the phone will light up when the contact storage or message storage is full. The default setting is \"No\"."),
-    
-    
+
+
     /*Device Manager Camera*/
     new TipsDef("Zoom Mode",
         "Select the desired camera zoom mode (Tele, optical, digital). Can adjust local video zoom either in mirror mode or during the call (on the fly) by pressing the Left or Right Arrow Key."),
@@ -934,7 +937,7 @@ tip_item_en.push (
     /*Device Manager TV Port*/
     new TipsDef("TV Output",
         "Select the desired TV Output type (PAL or NTSC)."),
-	
+
     /*maintenance Open VPN*/
     new TipsDef("OpenVPN Enable",
         "This enables/disables OpenVPN® functionality, and requires the user to have access to an OpenVPN® server. The default setting is No. NOTE: To use OpenVPN® functionalities, users must enable OpenVPN® and configure all of the settings related to OpenVPN®, including server address, port, OpenVPN® CA, certificate and key. Additionally, the user must also set the SIP account to use \"VPN\" for the \"Nat Traversal\" (under Account-> Network Settings)."),
@@ -990,7 +993,7 @@ tip_item_en.push (
 	    "50-800 milliseconds. Default 100 milliseconds."),
     new TipsDef("Enable PSTN disconnect tone detection",
 	    "Default no, if set to yes,the following tone is used as the disconnect signal."),
-	
+
 	/*maintenance broadsoft*/
 	new TipsDef("Server",
 	    "Broadsoft XSI server address with protocol."),
@@ -1000,11 +1003,11 @@ tip_item_en.push (
 	    "Username for Broadsoft XSI server."),
     new TipsDef("Password ",
 	    "Password for Broadsoft XSI server."),
-	
-	
+
+
 	/*application settings phonebook*/
 	new TipsDef("File Encoding",
-		"Selects the file encoding for import/export."),
+		"Select the encoding format of phonebook import/export file."),
 	new TipsDef("File Type",
 		"Selects the file type for import/export."),
 	new TipsDef("Save Phonebook to PC",
@@ -1033,8 +1036,8 @@ tip_item_en.push (
 		"Selects the file encoding for download."),
 	new TipsDef("Emergency Call Numbers",
 		"Configures the emergency contact phone numbers. Input the number in the input box and click \"Add\" to add the number to the contacts list. To delete the existing emergency number, select the number in the contacts list and click \"Delete\"."),
-	
-	/*application settings IM*/	
+
+	/*application settings IM*/
 	new TipsDef("Google Talk",
 		"This allows users to configure their account login for Google Talk Messenger. Click on \"ADD\" and the user will be prompted to enter the username, password for authorization. The user can choose to delete the account later if he/she desires."),
 	new TipsDef("MSN",
@@ -1044,7 +1047,7 @@ tip_item_en.push (
 	new TipsDef("Yahoo",
 		"This allows users to configure their account login for Yahoo Messenger. Click on \"ADD\" and the user will be prompted to enter the username, password for authorization. The user can choose to delete the account later if he/she desires."),
 
-	/*application settings Twitter*/	
+	/*application settings Twitter*/
 	new TipsDef("Auto Refresh Time",
 		"Set the auto refresh time."),
 	new TipsDef("Retweet Format",
@@ -1058,11 +1061,11 @@ tip_item_en.push (
 	new TipsDef("Twitter Servers",
 		"This allows user to select the server they wish to receive update from. By default, it is set to http://twitter.com. Users can also add their own server by clicking on the \"Add\" button, they can also delete the server later if desired."),
 
-	/*application settings Facebook*/	
+	/*application settings Facebook*/
 	new TipsDef("Facebook Account",
 		"This allows users to configure their account login for Facebook. Click on \"ADD\" and a pop up window for authentication purposes will appear. In the new window, the user will be prompted to log into Facebook by entering the username, password for authorization. After the user has logged in successfully, their Facebook account will be added. The user can choose to delete the account later if he/she desires."),
 
-	/*application settings Browser Settings*/	
+	/*application settings Browser Settings*/
 	new TipsDef("Start Browser On Boot",
 		"Start the embedded mini browser in LCD once the device boot up. The default setting is No."),
     new TipsDef("Enable Browser Toolbar",
@@ -1075,7 +1078,7 @@ tip_item_en.push (
 	new TipsDef("Save Favorites to PC",
 		"Allows the user to save the \"Favorites\" list to the PC. Users can click on the \"Save\" button and save the xml file to the PC."),
 
-    /*Advanced Settings Photo Album*/	
+    /*Advanced Settings Photo Album*/
 	new TipsDef("Photobucket Account",
 		"This allows users to configure their account login for Photobucket, the online photo album service. Click on \"ADD\" and the user will be prompted to enter the username, password for authorization. The user can choose to delete the account later if he/she desires."),
 	new TipsDef("Flickr Account",
@@ -1083,13 +1086,13 @@ tip_item_en.push (
 	new TipsDef("Phanfare Account",
 		"This allows users to configure their account login for Phanfare, the online photo album service. Click on \"ADD\" and the user will be prompted to enter the username, password for authorization. The user can choose to delete the account later if he/she desires."),
 
-    /*Advanced Settings Last FM*/	
+    /*Advanced Settings Last FM*/
 	new TipsDef("User Name",
 		"The user must register for a Last FM account or have an existing Last FM account. This setting allows users to configure their account login for Last FM.Enter the username for Last FM account."),
 	new TipsDef("Password",
 		"Enter the password for Last FM account."),
 
-    /*Advanced Settings Weather*/	
+    /*Advanced Settings Weather*/
 	new TipsDef("Local City",
 		"Enter the zip code of the city the user wishes to receive weather updates."),
 	new TipsDef("Refresh Interval",
@@ -1099,7 +1102,7 @@ tip_item_en.push (
 	new TipsDef("Degree Units",
 		"Allows the user to specify the degree unit for the temperature to be displayed. ( Fahrenheit or Celsius) The default unit is set to \"Fahrenheit\"."),
 
-    /*Advanced Settings RSS*/	
+    /*Advanced Settings RSS*/
 	new TipsDef("RSS Refresh Interval",
 		"The interval (in seconds) for information refreshing. The default setting is 15 seconds."),
 	new TipsDef("RSS Update Interval",
@@ -1116,15 +1119,15 @@ tip_item_en.push (
         "Configures Eventlist BLF URI to monitor the extensions on Multi Purpose Keys."),
     new TipsDef("BLF Call-pickup Prefix",
         "Configures the prefix prepended to the BLF extension when the device picks up a call with BLF key."),
-    
-    
+
+
     new TipsDef("MPK ID",
         "Select the ID for the MPK."),
     new TipsDef("Display Format",
         "Configures the display format for the MPK. Users could select  \"Name\", \"User ID\" or \"Name(User ID)\"."),
     new TipsDef("Show DisplayName from Server",
         "If selected, the display name on the server will replace the name users configured. The default is \"No\"."),
-        
+
 	/*application LDAP phonebook*/
 	new TipsDef("Connection Mode",
         "Configures to use LDAP or LDAPS to connect."),
@@ -1160,14 +1163,14 @@ tip_item_en.push (
         "Configures the filter used for number lookups. Examples:<br>(|(telephoneNumber=%)(Mobile=%) returns all records which has the “telephoneNumber“ or “Mobile“ field containing with the entered filter value;<br>(&(telephoneNumber=%) (cn=*)) returns all the records with the “telephoneNumber“ field containing with the entered filter value and “cn“ field set."),
     new TipsDef("LDAP Mail Filter",
         "Configures the filter used for E-Mail lookups.Examples:<br>(|(mail=%)(mailBox=%)) returns all records which has the “mail“ or “mailBox“ field containing with the entered filter value;<br>(!(mail=%)) returns all the records which do not have the “mail“ field containing with the entered filter value;<br>(&(mail=%) (cn=*)) returns all the records with the “mail“ field containing with the entered filter value and “cn“ field set."),
-    
+
 	/*Device Control*/
 	new TipsDef("Preset Settings",
 		"Camera presets are camera positions configured and saved ahead of time. A camera preset stores the pan, tilt, and zoom settings of the camera. You can easily control the camera by switching among camera presets. The presets can be configured before the conference or during the conference. Up to 24 presets are supported."),
 	new TipsDef("PTZ Control",
 		"Performs pan, tilt, zoom, (PTZ) control over a local camera."),
-	
-    /*Advanced Settings Ringtone Manager*/	
+
+    /*Advanced Settings Ringtone Manager*/
 	new TipsDef("Ringtone File Manager",
 		"The manager allows users to centrally manage their ringtone files. It shows all the currently available ringtones. Users can upload their own mp3 ringtone files by selecting the \"Upload\" button. Users can also delete unwanted ringtone files by selecting the \"Delete\" button."),
 
@@ -1178,7 +1181,7 @@ tip_item_en.push (
         "Configures the output image resolution of HDMI 2. Greater resolution value means higher image definition. Please select the same resolution as the output display device. The device will automatically read the resolution supported by the output display device and compare it with the resolution supported by itself. Only the resolution supported by both will be used. The device will automatically obtain the optimal resolution when it boots up for the first time."),
     new TipsDef("HDMI 3 Out Resolution",
         "Configures the output image resolution of HDMI 3. Greater resolution value means higher image definition. Please select the same resolution as the output display device. The device will automatically read the resolution supported by the output display device and compare it with the resolution supported by itself. Only the resolution supported by both will be used. The device will automatically obtain the optimal resolution when it boots up for the first time."),
-    
+
     /*peripheral*/
     new TipsDef("HDMI Out Resolution",
         "Configures the output image resolution of HDMI. Greater resolution value means higher image definition. Please select the same resolution as the output display device. The device will automatically read the resolution supported by the output display device and compare it with the resolution supported by itself. Only the resolution supported by both will be used. The device will automatically obtain the optimal resolution when it boots up for the first time."),
@@ -1198,12 +1201,12 @@ tip_item_en.push (
         "Configures the output image size on the screen of HDMI 1 output.The value range is 90%-100%. The default setting is 100%."),
 	new TipsDef("Enable Presentation Automatically When HDMI Plugged",
 		"If set to \"Yes\", then the device will display presentation automatically when HDMI is plugged in; If set to \"No\", a pop-up box will prompt the users to select \"Ok\" or \"Cancel\". If the users click neither \"Ok\" nor \"Cancel\", then the device will display presentation automatically after 30s timeout. The default setting is \"No\"."),
-    
+
 	/*Site setting*/
 	new TipsDef("Timeout Operation",
-		"Set the timeout mode to \"Enter sleep mode\" and \"shut down\", the default value is \"Enter sleep mode\"."),
+		"Set the timeout options, optional for into sleep mode and shut down, the default value is \"Enter sleep mode\"."),
     new TipsDef("Enter Sleep Mode",
-        "Specifies the timeout duration according to Timeout Operation, if the timeout is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off. The default value is \"After 30 mins\"."),
+        "According timeout option to set the timeout , if the time is set to \"Never\", the terminal will not be automatically entered into sleep mode or turn it off.The default value is \"After 30 mins\"."),
     new TipsDef("Site Name",
         "Specifies the site name to be imposed on the video of local video. When joining a multipoint conference, this site name is displayed in other participants' video.<br>The default value is null.<br>Do not use any special characters in this site name, such as a colon (:), comma (,), hyphen (-), or underline (_)."),
     new TipsDef("Display Position",
@@ -1222,11 +1225,11 @@ tip_item_en.push (
         "Fine-tunes the site name's position up or down on the local video.<br>Value range: 0%-96%. The default value is 0%."),
     new TipsDef("Background Transparency",
         "Specifies thebackground transparency for the site name display. The default value is Opaque."),
-    
+
     /*Recording*/
     new TipsDef("Recording save path",
         "Specifies the save path when recording."),
-    
+
     /*Status*/
     new TipsDef("Zoom",
         "The camera supports 12x optical zoom."),
@@ -1296,7 +1299,7 @@ tip_item_en.push (
         "This parameter is to enable/disable session timer function. If set to \"Yes\", the phone will configure the related parameters when sending session timer according to \"Session Expiration\". If set to \"No\", session timer is disabled. The default setting is \"Yes\"."),
     new TipsDef("Developer Mode",
         "If turned on, ADB (Android Debug Bridge) function will be enabled on the device. The default setting is \"Disabled\"."),
-    
+
 	new TipsDef("Echo Delay",
 	    "Configures the device's HDMI audio delay to match the audio latency of different TV sets."),
     new TipsDef("Ringtone Volume",
@@ -1345,28 +1348,35 @@ tip_item_en.push (
         "Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrartor. The default valuel is 60 minutes (1 hour). The maximum value is 1,440 minutes (1 day). The minimum value is 1 minute."),
     new TipsDef("Enable RTDR",
         "If enabled, then send RTDP (roundTripDelayRequest) package as H245 keep-alive package per 10s. The timeout interval is 30s and will hang up the call once timed out. The default setting is \"No\". Note: if enabled, it may cause incompatibility with some devices."),
-        
+
     new TipsDef("DTMF ",
         "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal."),
-    
-    
-    /** new tips */    
+
+
+    /** new tips */
     new TipsDef("Reregister before Expiration",
         "Specifies the time frequency (in seconds) that the phone sends re-registration request before the Register Expiration. The range is from 0 to 64, 800."),
     new TipsDef("SIP Timer D Interval",
 		"Defines the time interval when the INVITE client receives 3xx ~ 6xx and then replys back till the whole transaction is over. The valid value is 0-64 seconds."),
 	new TipsDef("Remove OBP from route",
 	    "Configures to remove outbound proxy from route. This is used for the SIP Extension to notify the SIP server that the device is behind a NAT/Firewall."),
-	
+
     new TipsDef("AEC level",
-    "When selecting the audio device to gooseneck mode, it can be set up audio echo from 1 to 5 grades, adjust audio effects when the voice of the GVC equipment and equipment such as TV set size, the different distance of gooseneck  sound source and GVC equipment, at the same time “off” by default.")
+    "When selecting the audio device to gooseneck mode, it can be set up audio echo from 1 to 5 grades, adjust audio effects when the voice of the GVC equipment and equipment such as TV set size, the different distance of gooseneck  sound source and GVC equipment, at the same time “off” by default."),
+    new TipsDef("Common Layout Mode",
+        "Set the common layout mode, which applies all the initial meeting layout modes."),
+    new TipsDef("Force Reset Remote SRTP",
+        "The default value is \"Yes\", compatible with the old version. \"No\" means no reset, that is the new version behavior."),
+    new TipsDef("H323DTMF", "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio，RFC2833，H245 signal."),
+    new TipsDef("Video Bit Rate2",
+        "Configures the bite rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. The default setting depends on H.264 Image Size:<br>H.264 Image Size = 1080p, Video Bit Rate can be set to integer value from 1Mbps to 4Mbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 512kbps to 2Mbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 384kbps to 1Mbps."),
     
+    new TipsDef("Reboot", "Set the device to restart"),
+    new TipsDef("Sleep", "Set the device to sleep mode"),
+    new TipsDef("Shutdown", "Turn off the device"),
     
-    
-    
-    
-    
-    
+
+
         /*useless*/
     /*
     new TipsDef("Enable SCA (Shared Call Appearance)",
@@ -1381,7 +1391,7 @@ tip_item_en.push (
         "Defines the interval (in seconds) before the line can be seized when Shared Line is used. The valid range is 15 to 60."),
     new TipsDef("Start Video Call Fullscreen",
         "Defines whether to enter fullscreen when start video call. The default setting is \"No\"."),
-    
+
     new TipsDef("No Key Entry Timeout",
         "Defines the timeout (in seconds) for no key entry. If no key is pressed after the timeout, the digits will be sent out. The default value is 4 seconds."),
     new TipsDef("DND Call Feature On",
@@ -1422,7 +1432,7 @@ tip_item_en.push (
         "Configures the PC port mode. When set to \"Mirrored\", the traffic in the LAN port will go through PC port as well and packets can be captured by connecting a PC to the PC port."),
     new TipsDef("DHCP Option 120 Override SIP Server",
         "Enables DHCP Option 120 from local server to override the SIP Server on the device. "),
-    
+
     new TipsDef("AE Mode",
         "AE mode (Automatic Exposure) has two options \"Dark Environment\" and \"Bright Environment\". Users could select the mode according to the actual environment (dark or bright) where the camera is being used. The device's camera settings including exposure, brightness, contrast and Gamma value will be automatically adjusted to achieve better visual effect under the selected environment. The default setting is \"Bright Environment\"."),
     new TipsDef("Disable Missed Call Backlight",
@@ -1444,5 +1454,5 @@ tip_item_en.push (
     */
 );
 
-  
+
 

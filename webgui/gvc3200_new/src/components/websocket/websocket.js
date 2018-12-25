@@ -69,6 +69,9 @@ class HandleWebsocket extends React.Component {
                         }
                     }
                     if (message.state == "0") {
+                        if(message.acct == "1"){
+                            this.props.setipvrolestatus("-1");
+                        }
                         continue;
                     }else {
                         //get the name and num --begin
@@ -197,6 +200,7 @@ class HandleWebsocket extends React.Component {
                 this.props.setipvrolestatus("3");
                 break;
         }
+        this.props.isallowipvtrcd();
     }
 
     handlemicblock = (message) =>{
@@ -419,9 +423,6 @@ class HandleWebsocket extends React.Component {
                     this.props.setHeldStatus(message['flag'].split("=")[1]);
                 }
                 break;
-            case 'callrecord':
-                this.props.setRecordStatus(message['state']);
-                break;
             case 'mic_block':
                 this.handlemicblock(message);
                 break;
@@ -452,6 +453,12 @@ class HandleWebsocket extends React.Component {
             case 'video_invite_res':
                 this.handlevideoinvres(message);
                 break;
+            case 'record':
+                this.props.setRecordStatus(message['state']);
+                break;
+            case "IPVT_record_state":
+                this.props.setIPVTRecordStatus(message['state']);
+                break;
             case 'IPVT_change_host':
                 this.handleipvtchangehost(message);
                 break;
@@ -471,6 +478,21 @@ class HandleWebsocket extends React.Component {
             case 'hdmi_status':
                 this.props.setHDMIstatus(message['hdmi'], message['status']);
                 break;
+            case "IPVT_hand_operate":
+            case 'IPVT_hand_operate_for_web':
+                this.props.setHandsupstatus(message['state']);
+                break;
+            case 'IPVT_camera_invite':
+                this.props.setipvtcmrinviteinfo(message);
+                break;
+            case 'IPVT_operate_camera':
+                if(message['isvideoed'] == "1")
+                    this.props.setipvtcmrinviteinfo(null);
+                break;
+            case 'IPVT_reject_camera_request':
+                if(message['status'] != "1")
+                    this.props.setipvtcmrinviteinfo(null);
+                break
         }
     }
 
@@ -540,6 +562,7 @@ const mapDispatchToProps = (dispatch) => {
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,
+        setIPVTRecordStatus: Actions.setIPVTRecordStatus,
         setHeldStatus: Actions.setHeldStatus,
         setFECCStatus: Actions.setFECCStatus,
         setDndModeStatus: Actions.setDndModeStatus,
@@ -551,7 +574,10 @@ const mapDispatchToProps = (dispatch) => {
         setPresentLineMsg: Actions.setPresentLineMsg,
         setvideoonlines: Actions.setvideoonlines,
         setlinedetailinfo: Actions.setlinedetailinfo,
-        setHDMIstatus: Actions.setHDMIstatus
+        setHDMIstatus: Actions.setHDMIstatus,
+        isallowipvtrcd: Actions.isallowipvtrcd,
+        setHandsupstatus: Actions.setHandsupstatus,
+        setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo
     }
     return bindActionCreators(actions, dispatch)
 }

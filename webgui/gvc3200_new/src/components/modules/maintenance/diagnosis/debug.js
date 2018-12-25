@@ -38,10 +38,8 @@ class DebugForm extends Component {
     }
 
     view_mode_write = (values) => {
-        let aStart;
         if( values.headers['mode'] == "on" ) {
             mode = 0;
-            aStart = "a_10";
             this.setState({
                 ckbdisabled: true,
                 aStart: "a_10"
@@ -60,10 +58,6 @@ class DebugForm extends Component {
     }
 
     componentDidMount() {
-        if(this.props.oemId == "54"){
-            checklogitems.push("acce");
-            req_items.push(this.getReqItem("acce", "acce", ""));
-        }
         this.props.getItemValues(req_items, (values) => {
             this.initDebugitemsStatus(values);
         });
@@ -109,7 +103,7 @@ class DebugForm extends Component {
         } else {
             if(count1 != checklogitems.length &&  values['capture'] != "1"){
                 if( values['acce'] == undefined || values['acce'] != "1" ){
-                    this.setState({aStart: "a_screen"});
+                    this.setState({aStart: "a_19281"});
                 }
             }
         }
@@ -120,7 +114,7 @@ class DebugForm extends Component {
         let items = form.getFieldsValue(checklogitems);
         let aStart;
 
-        if(this.state.aStart == "a_screen") {
+        if(this.state.aStart == "a_19281") {
             items.mode = "none";
         } else {
             if (mode == 1) {
@@ -147,7 +141,6 @@ class DebugForm extends Component {
                         tracelist:value
                     })
                 });
-                //window.parent.location.href = "../ppp/debugInfo.tar";
             }
         });
     }
@@ -186,19 +179,6 @@ class DebugForm extends Component {
                 }
             });
         }
-    }
-
-    startScreenShot = () => {
-        this.props.Screenshort("new", "", (res) => {
-            if (res.response == "success") {
-                this.props.Screenshort("get", "", (data) => {
-                    const { setFieldsValue } = this.props.form;
-                    setFieldsValue({
-                        screenList:data
-                    })
-                })
-            }
-        })
     }
 
     deleteTrace = () => {
@@ -251,23 +231,6 @@ class DebugForm extends Component {
         })
     }
 
-    deleteScreenlist = () => {
-        this.props.form.validateFieldsAndScroll({force: true}, (err, values) => {
-            if (values.screenList == "") {
-                return;
-            } else {
-                this.props.Screenshort('delete', values.screenList, (value) => {
-                    this.props.Screenshort('get', "",  (value) => {
-                        const { setFieldsValue } = this.props.form;
-                        setFieldsValue({
-                            screenList:value
-                        })
-                    });
-                })
-            }
-        })
-    }
-
     checkoutList = () => {
         window.location = "/ppp/";
     }
@@ -278,10 +241,6 @@ class DebugForm extends Component {
 
     checkoutRecfiles = () => {
         window.location = "/Recfiles/";
-    }
-
-    checkoutScreenfiles = () => {
-        window.location = "/screenshot/";
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -316,7 +275,7 @@ class DebugForm extends Component {
                         logitems[checklogitems[i]] = false;
                     }
                     form.setFieldsValue(logitems);
-                    this.setState({aStart: "a_screen", debugbtndisable: true});
+                    this.setState({aStart: "a_19281", debugbtndisable: true});
                 }
                 break;
             case 'capture':
@@ -327,7 +286,7 @@ class DebugForm extends Component {
                     if ((id == "acce" && form.getFieldValue("capture")) || (id == "capture" && form.getFieldValue("acce")) ) {
                         this.setState({aStart: "a_9"});
                     } else {
-                        this.setState({aStart: "a_screen"});
+                        this.setState({aStart: "a_19281"});
                     }
                 }
             case 'syslog':
@@ -469,7 +428,7 @@ class DebugForm extends Component {
                 </FormItem>
                 <FormItem label={( <span> {callTr("a_16358")} <Tooltip title={callTipsTr("View Package")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
-                        <Button className="debug" type="primary" onClick = {this.checkoutList.bind(this)} >{this.tr("a_list")}</Button>
+                        <Button className="debug" type="primary" onClick = {this.checkoutList.bind(this)} >{this.tr("a_2106")}</Button>
                     )}
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_coredump")}</p>
@@ -499,7 +458,7 @@ class DebugForm extends Component {
                 </FormItem>
                 <FormItem label={( <span> {callTr("a_19264")} <Tooltip title={callTipsTr("View Core Dump")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
-                        <Button className="debug" type="primary" onClick = {this.checkoutCoredump.bind(this)}>{this.tr("a_list")}</Button>
+                        <Button className="debug" type="primary" onClick = {this.checkoutCoredump.bind(this)}>{this.tr("a_2106")}</Button>
                     )}
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_410")}</p>
@@ -524,37 +483,12 @@ class DebugForm extends Component {
                 </FormItem>
                 <FormItem label={( <span> {callTr("a_19261")} <Tooltip title={callTipsTr("View Recording")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
-                        <Button className="debug" type="primary" onClick = {this.checkoutRecfiles.bind(this)}>{this.tr("a_list")}</Button>
-                    )}
-                </FormItem>
-               {/* <p className="blocktitle"><s></s>{this.tr("a_screenshort")}</p>
-                <FormItem label={( <span> {callTr("a_screenshort")} <Tooltip title={callTipsTr("Screenshot")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
-                    {(
-                        <Button className="debug" type="primary" onClick={this.startScreenShot.bind(this)}>{this.tr("a_screen")}</Button>
-                    )}
-                </FormItem>
-                <FormItem className="select-item" label={( <span> {callTr("a_screenlist")} <Tooltip title={callTipsTr("Screenshot List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
-                    {(
-                        <Row>
-                            {getFieldDecorator('screenList', {
-                                rules: [],
-                                initialValue: screenList[0]
-                            })(<Select style={{width:240}}>
-                                {children_screenList}
-                            </Select>
-                            )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteScreenlist.bind(this)}>{this.tr("a_19067")}</Button>
-                        </Row>
-                    )}
-                </FormItem>
-                <FormItem label={( <span> {callTr("a_viewscreen")} <Tooltip title={callTipsTr("View Screenshot")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
-                    {(
-                        <Button className="debug" type="primary" onClick = {this.checkoutScreenfiles.bind(this)}>{this.tr("a_list")}</Button>
+                        <Button className="debug" type="primary" onClick = {this.checkoutRecfiles.bind(this)}>{this.tr("a_2106")}</Button>
                     )}
                 </FormItem>
                 <FormItem >
                     <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{this.tr("a_17")}</Button>
-                </FormItem>*/}
+                </FormItem>
             </Form>
 
         let hideItem = this.props.hideItem;

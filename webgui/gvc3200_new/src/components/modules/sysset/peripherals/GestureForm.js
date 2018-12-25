@@ -93,7 +93,7 @@ class GestureForm extends Component {
         const itemvalue = this.props.itemValues;
 
         let itemList =
-            <Form hideRequiredMark style={{'min-height': this.props.mainHeight}}>
+            <Form hideRequiredMark style={{minHeight: this.props.mainHeight}}>
                 <p className="blocktitle"><s></s>{callTr("flip_phone")}</p>
                 <FormItem className="select-item" label={< span > {callTr("a_ringoncall")} < Tooltip title = {callTipsTr("Reject incoming call")} > <Icon type="question-circle-o"/> < /Tooltip>< /span>}>
                     {getFieldDecorator('ringoncall', {

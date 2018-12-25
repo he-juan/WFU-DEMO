@@ -41,7 +41,7 @@ class VideoForm extends Component {
         const itemvalue = this.props.itemValues;
 
         return(
-            <Form className="configform" hideRequiredMark style={{'min-height':this.props.mainHeight}}>
+            <Form className="configform" hideRequiredMark style={{minHeight:this.props.mainHeight}}>
                  <FormItem label={<span>{callTr("a_16151")}<Tooltip title={callTipsTr("Start Video Automatically")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("autovideo", {
                         valuePropName: 'checked',

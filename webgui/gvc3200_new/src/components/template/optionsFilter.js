@@ -172,3 +172,27 @@ export const getHiddenOptions = (key) => {
 
     return ret;
 }
+
+export const getFirstTab = () => {
+    getStates();
+    let menu = states.curMenu;
+    let optionObj = options;
+    let firstTab = "0";
+
+    for (var i in menu) {
+        optionObj = getSubObjs(optionObj, menu[i]);
+    }
+
+    if (menu[0] == 'account' && menu.length == 1) {
+        optionObj = optionObj[0]['sub'];
+    }
+
+    for(let i=0;i<optionObj.length;i++){
+        if(!hiddenConfigName(optionObj[i])){
+            firstTab=i.toString();
+            break;
+        }
+    }
+    return firstTab;
+}
+

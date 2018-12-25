@@ -111,7 +111,6 @@ class NewContactsEdit extends Component {
     handleOk = () => {
         let addoredit = this.props.addNewContact ? 'add' : 'edit';
         let displayname = this.props.form.getFieldsValue(['name']).name
-        console.log(displayname,addoredit)
         let values = this.props.form.getFieldsValue();
         if(displayname == undefined || displayname.replace(/(^\s*)|(\s*$)/g,"") == "") {
             this.props.promptMsg('ERROR','a_4835');

@@ -307,7 +307,7 @@ class Bluetooth extends Component {
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_bluetooth")}</div>
-                <Form hideRequiredMark style={{'min-height': this.props.mainHeight}} className="configform blth">
+                <Form hideRequiredMark style={{minHeight: this.props.mainHeight}} className="configform blth">
                     <FormItem label={<span>{this.tr("a_bluetooth")}</span>}>
                         {getFieldDecorator("bluetooth", {})(
                             <Switch checked={this.state.bluetoothEnabled} onChange={this.handleBluetoothChange}/>

@@ -11,7 +11,8 @@ import LayoutModal from './LayoutModal/index';
 import PresentationModal from './presentationModal';
 import InviteMemberModal from './InviteMemberModal';
 import DetailsModal from './detailsModal';
-import DTMFModal from './DTMFModal'
+import DTMFModal from './DTMFModal';
+import RecordModal from './RecordModal';
 const Content = Layout
 let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
 let dialogLeaveTimeout;
@@ -23,11 +24,6 @@ class CallDialog extends Component {
         super(props);
 
 		this.state = {
-			soundvisible: "display-hidden",
-            curtime: 0,
-            displaytime: "00:00:00",
-            currectime: 0,
-            displayrec: "00:00:00",
             callstatus: "callee-status",
             holdtype: "",
             acctstatus: [],
@@ -43,7 +39,11 @@ class CallDialog extends Component {
             otherCtrlVisible: false,
             DTMFVisible: false,
             DTMFDisplay: true,
-            DTFMString: ""
+            recordModalVisible: false,
+            DTFMString: "",
+            is4kon: false,
+            ishdmione4K: false,
+            isline4Kvideo: false
 		}
 		this.req_items = new Array();
         this.req_items.push(
@@ -69,7 +69,7 @@ class CallDialog extends Component {
 
     componentDidMount = () => {
         globalObj.isCallStatus = true;
-        if(this.props.msgsContacts.length == undefined){
+        if (this.props.msgsContacts.length == undefined) {
             this.props.getContacts();
         }
         this.props.getAcctStatus((acctstatus) => {
@@ -78,21 +78,45 @@ class CallDialog extends Component {
             }
         });
         this.props.getBFCPMode();
-        this.props.getItemValues(this.req_items, (data)=>{
+        this.props.getItemValues(this.req_items, (data) => {
             let callfeatures = new Object();
             let item;
-            for(let i in this.req_items){
+            for (let i in this.req_items) {
                 item = this.req_items[i];
                 callfeatures[item.name] = data[item.name];
             }
             this.props.setDeviceCallFeature(callfeatures);
 
-            if(data["incalldtmf"] == "1"){
+            if (data["incalldtmf"] == "1") {
                 this.setState({DTMFDisplay: false});
-            }else{
+            } else {
                 this.setState({DTMFDisplay: true});
             }
         });
+        let getis4kcon = new Promise((resolve, reject) => {
+            this.props.getHDMI1Resolution((is4kon) => {
+                resolve(is4kon);
+            });
+        });
+        let gethdmione4K = new Promise((resolve, reject) => {
+            this.props.gethdmione4K(true, (ishdmione4K) => {
+                resolve(ishdmione4K);
+            });
+        });
+        let getline4Kvideo = new Promise((resolve, reject) => {
+            this.props.getline4Kvideo(true, (isline4Kvideo) => {
+                resolve(isline4Kvideo);
+            })
+        })
+
+        let promiseAll = Promise.all([getis4kcon, gethdmione4K, getline4Kvideo])
+            .then((result) => {
+                this.setState({
+                    is4kon: result[0],
+                    ishdmione4K: result[1] == "true" ? true : false,
+                    isline4Kvideo: result[2] == "true" ? true : false
+                });
+            });
     }
 
     componentWillUnmount = () => {
@@ -160,37 +184,6 @@ class CallDialog extends Component {
         this.setState({acctstatus: curAcct});
     }
 
-    callTimeTick = () => {
-        let curtime = this.state.curtime;
-        curtime ++;
-        let displayContent = this.timeConvert(curtime);
-        let callholdstatus = "callee-status", holdtype = "";
-        if(this.props.heldStatus == "1") {
-            displayContent += ' (' + this.tr("a_inheld") + ')';
-            callholdstatus = "callee-status-hold";
-            holdtype = "call-type-hold";
-        }
-        this.setState({
-            curtime: curtime,
-            displaytime: displayContent,
-            callstatus: callholdstatus,
-            holdtype: holdtype
-        });
-
-        if(this.props.recordStatus == "1"){
-            let currectime = this.state.currectime;
-            currectime ++;
-            this.setState({
-                currectime: currectime,
-                displayrec: this.timeConvert(currectime)
-            })
-        }else if(this.state.currectime !=0 ){
-            this.setState({
-                currectime: 0,
-                displayrec: "00 : 00 : 00"
-            });
-        }
-    }
 
     timeConvert = (time) => {
         let hour = Math.floor(time / 3600);
@@ -352,10 +345,8 @@ class CallDialog extends Component {
     }
 
     handleEndline = (line, account) =>{
-        console.log("this.props.callFeatureInfo.disconfstate---",this.props.callFeatureInfo.disconfstate);
         if(this.props.callFeatureInfo.disconfstate == "0"){
             //check the line if pause
-            console.log("this.props.heldStatus---",this.props.heldStatus);
             if(this.props.heldStatus == "1"){
                 this.props.promptMsg("WARNING", this.tr("a_10126"));
                 return;
@@ -389,6 +380,7 @@ class CallDialog extends Component {
             }else{
                 this.props.promptMsg("WARNING", this.tr("a_16716"));
             }
+            return false;
         }
         if(this.props.dndstatus == "0"){
             this.props.setDndMode("1","1");
@@ -427,33 +419,10 @@ class CallDialog extends Component {
         this.setState({ otherCtrlVisible: visible });
     }
 
-	showSoundSlider = (tag) => {
-	    if(tag)
-			this.setState({ soundvisible: "display-block" });
-		else
-			this.setState({ soundvisible: "display-hidden" });
-	}
-
     handleVolChange = (value) => {
         this.props.setVolume(value);
     }
 
-    handleLineRecord = () => {
-        //type: 1-to start  0-to stop
-        let type = 1;
-        if(this.props.recordStatus == "1"){
-            type = 0;
-            this.setState({
-                currectime: 0,
-                displayrec: "00 : 00 : 00"
-            });
-        }
-
-        this.props.ctrlLineRecord(0, type);
-        if (this.props.recordStatus == "1") {
-            this.props.promptMsg('SUCCESS', "a_recoresave");
-        }
-    }
     componentWillUnmount = () => {
         clearInterval(this.callTick);
     }
@@ -487,6 +456,14 @@ class CallDialog extends Component {
         }
         this.props.confholdstate(ishold);
     }
+
+    handleHandsup = () => {
+        if(!this.countClickedTimes()) {
+            return false;
+        }
+        this.props.upordownhand();
+    }
+
     handleEndAll = () => {
         let linestatus = this.props.linestatus;
         let ipvtline;
@@ -560,6 +537,16 @@ class CallDialog extends Component {
         })
     }
 
+    acceptipvtinvite = (line) => {
+        this.props.acceptorejectipvtcmr(line, "1");
+        this.props.setipvtcmrinviteinfo(null);
+    }
+
+    rejectipvtinvite = (line) => {
+        this.props.acceptorejectipvtcmr(line, "0");
+        this.props.setipvtcmrinviteinfo(null);
+    }
+
     toogleLayoutModal = (visible) => {
         if(this.props.isvideo == '0') {
             this.props.promptMsg('WARNING', "a_10109");
@@ -588,6 +575,36 @@ class CallDialog extends Component {
             InviteMemberModalVisible: visible
         })
     }
+
+    handleRecord = () => {
+        if (!this.countClickedTimes()) {
+            return false;
+        }
+        if (this.ispause()) {
+            return false;
+        }
+
+        if(this.hasipvtline() && this.props.ipvrole == "2" && this.props.isallowipvtrcd){
+            //可开启云端和本地录像
+            this.setState({recordModalVisible:true});
+            return;
+        }
+
+        if (this.state.is4kon) {
+            this.props.promptMsg('ERROR', 'a_605');
+            return;
+        }
+        let recordstatus = this.props.recordStatus || this.props.ipvtRecordStatus;
+        /* 0-not recording  1- in recording */
+        this.props.handlerecord(recordstatus);
+    }
+
+    toogleRecordModal = (visible) =>{
+        this.setState({
+            recordModalVisible: visible
+        })
+    }
+
     handlehidedetails = () =>{
         this.props.getguicalldetailstatus((data)=>{
             let state = data.headers[':gui_calldetail'];
@@ -611,14 +628,13 @@ class CallDialog extends Component {
     }
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let status = this.props.status;
+        let {status, linestatus, recordStatus, ipvtRecordStatus, handsupStatus, ipvrole, ipvtcmrinviteinfo} = this.props;
         let videoinvitelines = "";
         if(this.props.videoinvitelines){
             videoinvitelines = this.props.videoinvitelines.split(",");
         }
         let linestatustip = [];
         let linevideouploadclass = [];
-        let linestatus = this.props.linestatus;
         let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [],linefeccclass = [] ;
         let lineuploadingdisable = [];
         let state3num = 0, state8num = 0;
@@ -721,6 +737,7 @@ class CallDialog extends Component {
                         if(!this.getipvroleTimer){
                             this.getipvroleTimer = setTimeout(()=>{
                                 this.props.getipvrole(lineitem.line,"init");
+                                this.props.isallowipvtrcd();
                             });
                         }
                     }
@@ -802,6 +819,22 @@ class CallDialog extends Component {
                 maskvisible = "display-block";
             }
         }
+
+        let recordvisible = (!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)) || this.props.ipvtrcdallowstatus;
+        let feccbtnvisile = !this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo);
+        let recordclass = "unrcd";
+        if(recordStatus == "1" || ipvtRecordStatus == "1"){
+            recordclass = "rcd"
+        }
+        let handsupclass = "unhandsup";
+        let handsupdisplay = "none";
+        if(this.hasipvtline() && (ipvrole == "1" || ipvrole == "3") ){
+            handsupdisplay = "block";
+        }
+        if(handsupStatus == "1"){
+            handsupclass = "handsup"
+        }
+
         return (
             <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
 				<div className={`call-ctrl ${tmpclass}`}>
@@ -816,7 +849,7 @@ class CallDialog extends Component {
                             <div className="confnum"></div>
                             <div className="conftype"></div>
                             <div className="confbtn">
-                                <Button id="startFECC" title={this.tr("a_19241")} disabled={localbtndisabled} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/>
+                                <Button id="startFECC" title={this.tr("a_19241")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/>
                                 <Button id="closecamera" title={this.tr("a_628")} disabled={localbtndisabled}  className={localcamerablockedclass} onClick={this.handlelocalcamera}/>
                                 <Button id="localmute" title={this.tr("a_413")} disabled={localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                             </div>
@@ -831,7 +864,7 @@ class CallDialog extends Component {
                                     <div className="confbtn">
                                         <Button title={this.tr("a_1")} className="endconf"
                                                 onClick={this.handleEndline.bind(this, item.line, item.acct)}/>
-                                        <Button className={linefeccclass[i]}
+                                        <Button className={linefeccclass[i]} style={{display: feccbtnvisile ? 'block' : 'none' }}
                                                 onClick={this.handleStartFECC.bind(this, item.line)}
                                                 disabled={item.enablefecc != "1" && item.feccstate != "1"}/>
                                         <Button title={this.tr("a_19241")} className={lineisvideoedclass[i]}
@@ -861,10 +894,13 @@ class CallDialog extends Component {
                     </div>
                     <div className="call-ctrl-btn">
                         <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} disabled={!this.hasipvtline()} onClick={() => {this.toogleInviteMemberModal(true)}} /> 
-                        <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} rcd-btn unrcd-icon`}/>
-                        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} onClick={() => this.toogleLayoutModal(true)}/>
+                        <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${recordclass}`}
+                                style={{display: recordvisible  ? 'block': 'none'}} onClick={this.handleRecord.bind(this)}/>
+                        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`}
+                                style={{display: this.state.is4kon ? 'none': 'block'}} onClick={() => this.toogleLayoutModal(true)}/>
                         <Button title={this.tr("a_11")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal(true)}/>
+                        <Button title={this.tr("a_10220")} className={`${ctrlbtnvisible} ${handsupclass}`} style={{display: handsupdisplay}}  onClick={()=>this.handleHandsup()} />
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
                         <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
                             <Popover
@@ -890,12 +926,11 @@ class CallDialog extends Component {
                     <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/> 
                     : null
                 }
-                
-                    
                 {
                     linestatus.length >0 && this.state.detailsModalVisible?
                         <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} onHide={this.handlehidedetails} /> : ""
                 }
+                <RecordModal visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)}/>
                 <Modal visible={this.state.endallConfirm1Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall1Cancel}>
                     <p className="confirm-content">{this.tr("a_10224")}</p>
                     <div className="modal-footer">
@@ -911,6 +946,16 @@ class CallDialog extends Component {
                         <Button onClick={this.handleEndall2Cancel}>{this.tr("a_3")}</Button>
                     </div>
                 </Modal>
+                {
+                    ipvtcmrinviteinfo != null ?
+                        <Modal visible={ true } width={300} footer={null} closable={false} className="endall-confirm">
+                            <p className="confirm-content"><span>{ipvtcmrinviteinfo.name || ""}</span><span>{this.tr("a_10218")}</span></p>
+                            <div className="modal-footer">
+                                <Button type="primary" onClick={()=>this.acceptipvtinvite(ipvtcmrinviteinfo.line)}>{this.tr("a_10000")}</Button>
+                                <Button onClick={()=>this.rejectipvtinvite(ipvtcmrinviteinfo.line)}>{this.tr("a_19138")}</Button>
+                            </div>
+                        </Modal> : null
+                }
                 <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
                 <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)}  linestatus={linestatus}/>
                 <DTMFModal visible={this.state.DTMFVisible} textdisplay={this.state.DTMFDisplay} DTMFString={this.state.DTMFString} onHide={this.hideDTMFModal}/>
@@ -938,7 +983,11 @@ const mapStateToProps = (state) => ({
     presentation: state.presentation,
     presentSource: state.presentSource,
     presentLineMsg: state.presentLineMsg,
-    videoonlines: state.videoonlines
+    videoonlines: state.videoonlines,
+    ipvtrcdallowstatus: state.ipvtrcdallowstatus,
+    ipvtRecordStatus: state.ipvtRecordStatus,
+    handsupStatus: state.handsupStatus,
+    ipvtcmrinviteinfo: state.ipvtcmrinviteinfo
 })
 
 function mapDispatchToProps(dispatch) {
@@ -948,8 +997,7 @@ function mapDispatchToProps(dispatch) {
       // getCurVolume: Actions.getCurVolume,
       // setVolume: Actions.setVolume,
       endCall: Actions.endCall,
-      ctrlLineMute: Actions.ctrlLineMute,
-      ctrlLineRecord: Actions.ctrlLineRecord,
+      // ctrlLineRecord: Actions.ctrlLineRecord,
       getAllLineStatus: Actions.getAllLineStatus,
       getContacts:Actions.getContacts,
       promptMsg: Actions.promptMsg,
@@ -974,7 +1022,15 @@ function mapDispatchToProps(dispatch) {
       callstatusreport: Actions.callstatusreport,
       getguicalldetailstatus: Actions.getguicalldetailstatus,
       getconfdtmf: Actions.getconfdtmf,
-      setDeviceCallFeature: Actions.setDeviceCallFeature
+      setDeviceCallFeature: Actions.setDeviceCallFeature,
+      getHDMI1Resolution : Actions.getHDMI1Resolution,
+      gethdmione4K: Actions.gethdmione4K,
+      getline4Kvideo: Actions.getline4Kvideo,
+      isallowipvtrcd: Actions.isallowipvtrcd,
+      handlerecord: Actions.handlerecord,
+      upordownhand: Actions.upordownhand,
+      acceptorejectipvtcmr: Actions.acceptorejectipvtcmr,
+      setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo
   }
   return bindActionCreators(actions, dispatch)
 }
