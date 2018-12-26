@@ -762,7 +762,7 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 视频前向纠错模式 */}
-                <FormItem label={(<span>{callTr("a_19111")}&nbsp;<Tooltip title={this.tips_tr("Video FEC Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                {/* <FormItem label={(<span>{callTr("a_19111")}&nbsp;<Tooltip title={this.tips_tr("Video FEC Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('fecmode', {
                         initialValue: this.props.itemValues['fecmode']
                     })(
@@ -772,7 +772,7 @@ class CodecForm extends React.Component {
                         </RadioGroup>
                     )
                     }
-                </FormItem>
+                </FormItem> */}
                 {/* FEC有效荷载类型 */}
                 <FormItem label={(<span>{callTr("a_16657")}&nbsp;<Tooltip title={this.tips_tr("FEC Payload Type")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('fecpayload', {
