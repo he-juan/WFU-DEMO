@@ -52,7 +52,7 @@ export const cb_put_network2 = () => (dispatch) => {
 }
 
 export const setOpenVPNCert = (pvalue, callback) => (dispatch) => {
-    let request = "action=setopenvpncert&pvalue=" + pvalue;
+    let request = "action=setopenvpncert&region=advanset&pvalue=" + pvalue;
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
