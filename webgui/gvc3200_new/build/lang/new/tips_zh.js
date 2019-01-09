@@ -197,7 +197,7 @@ tip_item_zh.push (
     new TipsDef("DTMF Payload Type", "DTMF有效荷载类型",
         "此参数设置DTMF使用RFC2833的负载类型。默认为101。"),
     new TipsDef("Preferred Vocoder", "语音编码",
-        "设备支持多种不同的语言编码类型。<br /> 设置优先选择列表中的语音编码，该列表与SDP信息的优先选择顺序相同"),       
+        "设备支持多种不同的语言编码类型。<br /> 设置优先选择列表中的语音编码，该列表与SDP信息的优先选择顺序相同"),
     new TipsDef("Use First Matching Vocoder in 200OK SDP", "使用SDP的200OK包中第一个匹配的语音编码",
         "启用时，话机将使用200OK SDP中首位匹配编码进行通话。"),
 	new TipsDef("Enable Audio RED with FEC", "开启音频前向纠错",
@@ -1366,7 +1366,7 @@ tip_item_zh.push (
         "配置视频电话的比特率，可以根据网络环境调整的视频比特率。如果带宽允许的情况下建议增加比特率大小；如果带宽不够，视频质量将降低。默认值跟H.264 视频大小有关：<br>H.264 视频大小设置为1080p，设置值为“1Mbps~4Mbps”之间的整数值。<br>H.264 视频大小设置为720p，设置值为“512kbps~2Mbps”之间的整数值。<br>H.264 视频大小设置为4SIF/4CIF/VGA，设置值为“384kbps~1Mbps”之间的整数值。"),
     new TipsDef("Reboot", "重启", "设置设备重启"),
     new TipsDef("Sleep", "睡眠", "设置设备为睡眠模式"),
-    new TipsDef("Shutdown", "关机", "将设备关机"),
+    new TipsDef("Shutdown", "关机", "将设备关机")
 
 
 
