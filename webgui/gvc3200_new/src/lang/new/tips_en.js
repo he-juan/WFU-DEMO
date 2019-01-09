@@ -1370,11 +1370,11 @@ tip_item_en.push (
     new TipsDef("H323DTMF", "This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio，RFC2833，H245 signal."),
     new TipsDef("Video Bit Rate2",
         "Configures the bite rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. The default setting depends on H.264 Image Size:<br>H.264 Image Size = 1080p, Video Bit Rate can be set to integer value from 1Mbps to 4Mbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 512kbps to 2Mbps.<br>H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 384kbps to 1Mbps."),
-    
+
     new TipsDef("Reboot", "Set the device to restart"),
     new TipsDef("Sleep", "Set the device to sleep mode"),
-    new TipsDef("Shutdown", "Turn off the device"),
-    
+    new TipsDef("Shutdown", "Turn off the device")
+
 
 
         /*useless*/
@@ -1453,6 +1453,3 @@ tip_item_en.push (
         "Configures the receive gain of the handset."),
     */
 );
-
-
-
