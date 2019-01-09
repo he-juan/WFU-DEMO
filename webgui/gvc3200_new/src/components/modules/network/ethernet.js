@@ -1211,7 +1211,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipdns2
                     })(<Input maxLength="40" className="P-22110"/>)}
                 </FormItem>
-                <FormItem className = {voipsetType} label={< span > {callTr("a_19665")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                {/*<FormItem className = {voipsetType} label={< span > {callTr("a_19665")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer2qosvoip", {
                         rules: [{
                             required: true,
@@ -1227,8 +1227,8 @@ class Ethernet extends Component {
                         }],
                         initialValue: this.props.itemValues.layer2qosvoip
                     })(<Input min={0} max={4094} className="P-22111"/>)}
-                </FormItem>
-                <FormItem className = {voipsetType} label={< span > {callTr("a_19666")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                </FormItem>*/}
+                {/*<FormItem className = {voipsetType} label={< span > {callTr("a_19666")} < Tooltip title = {callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet) for VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer2qospvvoip", {
                         rules: [{
                             required: true,
@@ -1245,7 +1245,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.layer2qospvvoip
                     })(<Input min={0} max={7} className="P-22112"/>)}
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
+                </FormItem>*/}
                 <p className={"threetitle"+" "+ twovlanType}>IPv6</p>
                 <FormItem className={"select-item" + " " + twovlanType} label={< span > {callTr("a_19226")} < Tooltip title = {callTipsTr("IPv6 Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('ipv6addrvoip', {
