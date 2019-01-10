@@ -28,7 +28,9 @@ class Ethernet extends Component {
             client_Aupload:"a_16197",
             privatekey_Aupload:"a_16197",
             type802: '',
-            beginInit: false
+            beginInit: false,
+            inLldpvlanid: false,
+            inLldpvlanqos: false
         }
 
         this.handleNvram();
@@ -164,6 +166,25 @@ class Ethernet extends Component {
         }
     }
 
+    cb_lldp_qos_set = (msgs) => {
+        var vlanid, vlanqos, in_lldp;
+        const { setFieldsValue } = this.props.form;
+        vlanid = msgs.headers['vlan_id'];
+        vlanqos = msgs.headers['vlan_qos'];
+        in_lldp = msgs.headers['in_lldp'];
+
+        if(in_lldp == '1' && vlanid != "" && vlanid != "0") {
+            setFieldsValue({ layer2qos:vlanid });
+            this.setState({ inLldpvlanid: true });
+        }
+
+        if(in_lldp == '1' && vlanqos != "" && vlanqos != "0") {
+            setFieldsValue({ layer2qospv:vlanqos });
+            this.setState({ inLldpvlanqos: true });
+        }
+
+    }
+
     checkoutItem = (values) => {
         const { setFieldsValue } = this.props.form;
         if(Boolean(Number(values.twovlan)) === true){
@@ -191,6 +212,9 @@ class Ethernet extends Component {
 
     componentDidMount() {
         this.props.getItemValues(req_items, (values) => {
+            this.props.cb_lldp_qos_check( (msgs) => {
+                this.cb_lldp_qos_set(msgs);
+            });
             this.checkoutItem(values);
             this.setState({beginInit:true})
         });
@@ -1053,7 +1077,7 @@ class Ethernet extends Component {
                             }
                         }],
                         initialValue: this.props.itemValues.layer2qos
-                    })(<Input min={0} max={4094} className="P-51" />)}
+                    })(<Input disabled={this.state.inLldpvlanid}  min={0} max={4094} className="P-51" />)}
                 </FormItem>
                 <FormItem label={< span > {callTr(a_layer2qospv)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet)")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("layer2qospv", {
@@ -1070,7 +1094,7 @@ class Ethernet extends Component {
                             }
                         }],
                         initialValue: this.props.itemValues.layer2qospv
-                    })(<Input min={0} max={7} className="P-87" />)}
+                    })(<Input disabled={this.state.inLldpvlanqos} min={0} max={7} className="P-87" />)}
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <p className={"blocktitle"+" "+ IPv4Type}><s></s>IPv6</p>
@@ -1385,7 +1409,8 @@ function mapDispatchToProps(dispatch) {
         cb_putTwoline:Actions.cb_putTwoline,
         cb_put_network2:Actions.cb_put_network2,
         cb_ping:Actions.cb_ping,
-        get_Restart8021x:Actions.get_Restart8021x
+        get_Restart8021x:Actions.get_Restart8021x,
+        cb_lldp_qos_check:Actions.cb_lldp_qos_check
     }
     return bindActionCreators(actions, dispatch)
 }
