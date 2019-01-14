@@ -84,6 +84,7 @@ class Ethernet extends Component {
             this.getReqItem("ipv6prefixlen", "1421", ""),
             this.getReqItem("ipv6dns1", "1424", ""),
             this.getReqItem("ipv6dns2", "1425", ""),
+            this.getReqItem("prefdnsserver", "1423", ""),
             this.getReqItem("ipv6addrvoip", "22114", ""),
             this.getReqItem("staticipv6addrvoip", "22115", ""),
             this.getReqItem("ipv6prefixlenvoip", "22116", ""),
@@ -1139,7 +1140,7 @@ class Ethernet extends Component {
                     })(<Input maxLength="40" className="P-1421"/>)
                     }
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19227")} < Tooltip title = {callTipsTr("IPv6 DNS Server 1")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ ipv6class } label={< span > {callTr("a_19227")} < Tooltip title = {callTipsTr("IPv6 DNS Server 1")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('ipv6dns1', {
                         rules: [
                             {
@@ -1151,7 +1152,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.ipv6dns1
                     })(<Input maxLength="40" className="P-1424"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19228")} < Tooltip title = {callTipsTr("IPv6 DNS Server 2")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ ipv6class } label={< span > {callTr("a_19228")} < Tooltip title = {callTipsTr("IPv6 DNS Server 2")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator('ipv6dns2', {
                         rules: [
                             {
@@ -1162,6 +1163,18 @@ class Ethernet extends Component {
                         ],
                         initialValue: this.props.itemValues.ipv6dns2
                     })(<Input maxLength="40" className="P-1425"/>)}
+                </FormItem>
+                <FormItem label={< span > {callTr("a_19229")} < Tooltip title = {callTipsTr("Preferred DNS Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                    {getFieldDecorator('prefdnsserver', {
+                        rules: [
+                            {
+                                validator: (data, value, callback) => {
+                                    this.checkIpv6(data, value, callback)
+                                }
+                            }
+                        ],
+                        initialValue: this.props.itemValues.prefdnsserver
+                    })(<Input maxLength="40" className="P-1423"/>)}
                 </FormItem>
                 <p className={"blocktitle"+" "+ twovlanType}><s></s>{callTr("a_19664")}</p>
                 <p className={"threetitle"+" "+ twovlanType}>IPv4</p>

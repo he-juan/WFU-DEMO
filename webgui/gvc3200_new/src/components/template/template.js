@@ -367,6 +367,7 @@ export const options = [
                     {"name": "IPv6 Prefix length", "lang": "a_19310"},
                     {"name": "IPv6 DNS Server 1", "lang": "a_19227"},
                     {"name": "IPv6 DNS Server 2", "lang": "a_19228"},
+                    {"name": "Preferred DNS Server", "lang": "a_19229"},
                     {"type": "p", "lang": ""},
                     {"type": "p", "lang": "a_4140"},
                     {"name": "802.1X mode", "lang": "a_4140"},//
