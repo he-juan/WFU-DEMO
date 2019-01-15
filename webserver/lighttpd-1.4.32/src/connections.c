@@ -281,9 +281,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-static char *dbus_path = "/com/grandstream/dbus/webservice";
-static char *dbus_dest = "com.grandstream.dbus.gmi.server";
-static char *dbus_interface = "com.grandstream.dbus.method";
+static char *dbus_path = "/com/grandstream/dbus/app";
+static char *dbus_dest = "com.grandstream.dbus.android";
+static char *dbus_interface = "com.grandstream.dbus.method.web";
 
 void hmac_sha1_vector(const u8 *key, size_t key_len, size_t num_elem,
 		      const u8 *addr[], const size_t *len, u8 *mac);
@@ -6367,7 +6367,7 @@ static int handle_callservice_by_no_param(server *srv, connection *con, buffer *
         dbus_error_free (&error);
         return -1;
     }
-                                          
+           
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, method );
 
     printf("handle_callservice_by_no_param %s\n", method);
