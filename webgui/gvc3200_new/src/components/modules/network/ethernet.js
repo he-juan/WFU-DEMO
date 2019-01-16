@@ -46,7 +46,6 @@ class Ethernet extends Component {
             this.getReqItem("dhcpvlan", "8300", ""),
             this.getReqItem("dhcpop12", "146", ""),
             this.getReqItem("dhcpop60", "148", ""),
-            this.getReqItem("dhcp120", "1411", ""),
             this.getReqItem("ipaddr1", "9", ""),
             this.getReqItem("ipaddr2", "10", ""),
             this.getReqItem("ipaddr3", "11", ""),
@@ -661,16 +660,6 @@ class Ethernet extends Component {
                         ],
                         initialValue: this.props.itemValues.dhcpop60
                     })(<Input className="P-148"/>)}
-                </FormItem>
-
-                <FormItem className={ mode.DHCP } label={< span > {callTr("a_16338")} < Tooltip title={callTipsTr("DHCP Option 120 Override SIP Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    {getFieldDecorator("dhcp120", {
-                        valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.dhcp120)
-                    })(
-                        <Checkbox className="P-1411"/>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
 
                 <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_23531")} < Tooltip title={callTipsTr("IP Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
