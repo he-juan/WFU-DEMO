@@ -12,7 +12,7 @@ class Footer extends Component {
     render() {
         return (
             <Layout className='footer-container'>
-                <span className={this.props.oemId == "54" ? 'display-hidden' : 'display-block'}>{"All Rights Reserved " + this.props.vendor + " 2018"}</span>
+                <span className={this.props.oemId == "54" ? 'display-hidden' : 'display-block'}>{"All Rights Reserved " + this.props.vendor + " 2019"}</span>
             </Layout>
         );
     }

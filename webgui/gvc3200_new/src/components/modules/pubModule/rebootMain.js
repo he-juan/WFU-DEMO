@@ -35,9 +35,9 @@ class RebootMain extends Component {
         const vendor = this.props.vendor;
         let vendorMsg;
         if( vendor == "" || vendor == undefined) {
-            vendorMsg = "All Rights Reserved Grandstream Networks, Inc. 2018";
+            vendorMsg = "All Rights Reserved Grandstream Networks, Inc. 2019";
         } else {
-            vendorMsg = "All Rights Reserved " + vendor + " 2018";
+            vendorMsg = "All Rights Reserved " + vendor + " 2019";
         }
         this.setState({
             vendorMsg: vendorMsg
