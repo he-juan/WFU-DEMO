@@ -260,7 +260,7 @@ class DownloadContactsForm extends Component {
                        )}
                    </FormItem>
                     <FormItem className={this.state.httpuservisible} label={(<span>{callTr("a_4111")}&nbsp;<Tooltip title={this.tips_tr("Config HTTP/HTTPS User Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                     <Input type="text" name = "httpsusername1" style= {{display:"none"}} disabled autocomplete = "off"/>
+                     <Input type="text" name = "httpsusername1" style= {{display:"none"}} disabled autoComplete = "off"/>
                      {getFieldDecorator('httpsusername', {
                          rules: [{
                              max:64,message: callTr("a_19632"),
@@ -271,7 +271,7 @@ class DownloadContactsForm extends Component {
                      )}
                  </FormItem>
                     <FormItem className={this.state.httpuservisible} label={(<span>{callTr("a_4112")}&nbsp;<Tooltip title={this.tips_tr("Config HTTP/HTTPS Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                    <Input type={this.state.pwdstatus1} name = "httpspass1" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type={this.state.pwdstatus1} name = "httpspass1" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator('httpspass', {
                         rules: [{
                             max:64,message: callTr("a_19632"),

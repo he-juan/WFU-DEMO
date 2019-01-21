@@ -148,7 +148,7 @@ class GdsForm extends Component {
                     )}
                 </FormItem>
                 <FormItem className={this.props.systemTypeDisplay} label={<span>{callTr(this.props.systemId)}<Tooltip title={callTipsTr("GDS Number")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    <Input type="text" name = "gdsnumber" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type="text" name = "gdsnumber" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("gdsnumber", {
                         rules: [{
                             //required: true, message: callTr("a_gdsnumempty")
@@ -162,7 +162,7 @@ class GdsForm extends Component {
                     )}
                 </FormItem>
                 <FormItem label={<span>{callTr(this.props.systemPwd)}<Tooltip title={callTipsTr("GDS Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    <Input type={this.state.type} name = "gdspwd" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type={this.state.type} name = "gdspwd" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("gdspwd", {
                         rules: [{
                             required: true, message: callTr("a_gdspwdempty")

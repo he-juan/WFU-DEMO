@@ -316,14 +316,14 @@ class FirmwareForm extends Component {
                     })(<Input className="P-192"/>)}
                 </FormItem>
                 <FormItem label={< span > {callTr("a_4111")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    <Input type="text" name = "httpuser" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type="text" name = "httpuser" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("httpuser", {
                         rules: [],
                         initialValue: this.props.itemValues.httpuser
                     })(<Input name = "httpuser" className="P-6768"/>)}
                 </FormItem>
                 <FormItem label={< span > {callTr("a_4112")} < Tooltip title = {callTipsTr("Firmware HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    <Input type={this.state.type} name = "httppass" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type={this.state.type} name = "httppass" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("httppass", {
                         rules: [],
                         initialValue: this.props.itemValues.httppass

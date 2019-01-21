@@ -252,14 +252,14 @@ class ConfigForm extends Component {
                     })(<Input className="P-237"/>)}
                 </FormItem>
                 <FormItem label={< span > {callTr("a_19177")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS User Name")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    <Input type="text" name = "confighttpuser" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type="text" name = "confighttpuser" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("confighttpuser", {
                         rules: [],
                         initialValue: this.props.itemValues.confighttpuser
                     })(<Input className="P-1360"/>)}
                 </FormItem>
                 <FormItem label={< span > {callTr("a_19178")} < Tooltip title = {callTipsTr("Config HTTP/HTTPS Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    <Input type={this.state.password1} name = "confighttppass" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type={this.state.password1} name = "confighttppass" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("confighttppass", {
                         rules: [],
                         initialValue: this.props.itemValues.confighttppass

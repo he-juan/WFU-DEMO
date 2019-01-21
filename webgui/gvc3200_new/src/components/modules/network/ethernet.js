@@ -1028,7 +1028,7 @@ class Ethernet extends Component {
                     )}
                 </FormItem>
                 <FormItem className={ mode.PPPoE } label={< span > {callTr("a_4156")} < Tooltip title={callTipsTr("PPPoE Account ID")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    <Input className="P-82" style = {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input className="P-82" style = {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("ppoeaccount", {
                         rules: [
                             {
@@ -1040,7 +1040,7 @@ class Ethernet extends Component {
                     })(<Input className="P-82"/>)}
                 </FormItem>
                 <FormItem className={ mode.PPPoE } label={< span > {callTr("a_4157")} < Tooltip title={callTipsTr("PPPoE Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    <Input type="password" className="P-83" style = {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type="password" className="P-83" style = {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("ppoepassword", {
                         rules: [
                             {
@@ -1325,14 +1325,14 @@ class Ethernet extends Component {
                     )}
                 </FormItem>
                 <FormItem className={ lan_mode_class.identity } label={< span > { callTr("a_16195") } < Tooltip title={callTipsTr("802.1X Identity")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    <Input type="text" name = "identity" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type="text" name = "identity" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator('identity', {
                         rules: [],
                         initialValue: this.props.itemValues.identity
                     })(<Input name = "identity" className="P-7902"/>)}
                 </FormItem>
                 <FormItem className={ lan_mode_class.md5pas } label={< span > { callTr("a_16196") } < Tooltip title = {callTipsTr("802.1X Secret")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
-                    <Input type={this.state.type802} name = "md5pas" style = {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type={this.state.type802} name = "md5pas" style = {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("md5pas", {
                         rules: [],
                         initialValue: this.props.itemValues.md5pas

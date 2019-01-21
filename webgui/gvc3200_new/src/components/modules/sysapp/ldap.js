@@ -141,7 +141,7 @@ class LdapForm extends Component {
                     )}
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_19670")}&nbsp;<Tooltip title={tips_tr("LDAP User Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                    <Input type="text" name = "ldapusername" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type="text" name = "ldapusername" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator('ldapusername', {
                         rules: [{
                             max:64,message: callTr("a_19632")
@@ -152,7 +152,7 @@ class LdapForm extends Component {
                     )}
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_6759")}&nbsp;<Tooltip title={tips_tr("LDAP Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                    <Input type={this.state.pwdstatus1} name = "ldappassword" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type={this.state.pwdstatus1} name = "ldappassword" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator('ldappassword', {
                         rules: [{
                             max:64,message: callTr("a_19632"),

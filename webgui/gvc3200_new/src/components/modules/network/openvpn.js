@@ -198,7 +198,7 @@ class OpenVPN extends Component {
                     {getFieldDecorator("vpnpwd", {
                         initialValue: itemvalue['vpnpwd']
                     })(
-                        <Input className="P-8395" type={this.state.type} autocomplete="off" suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />
+                        <Input className="P-8395" type={this.state.type} autoComplete="off" suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />
                     )}
                 </FormItem>
                 <FormItem>

@@ -172,7 +172,7 @@ class GeneralForm extends React.Component {
                     )}
                </FormItem>
                <FormItem label={(<span>{callTr("a_1123")}&nbsp;<Tooltip title={this.tips_tr("SIP Authentication ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                   <Input type="text" name = "authid" style= {{display:"none"}} disabled autocomplete = "off"/>
+                   <Input type="text" name = "authid" style= {{display:"none"}} disabled autoComplete = "off"/>
                    {getFieldDecorator('authid', {
                        rules: [{
                           max:64,message: callTr("max_length64"),
@@ -183,7 +183,7 @@ class GeneralForm extends React.Component {
                    )}
                </FormItem>
                <FormItem label={(<span>{callTr("a_1124")}&nbsp;<Tooltip title={this.tips_tr("SIP Authentication Password")}><Icon type="question-circle-o" /></Tooltip></span>)} >
-                    <Input type={this.state.pwdstatus} name = "authpwd" style= {{display:"none"}} disabled autocomplete = "off"/>
+                    <Input type={this.state.pwdstatus.toString()} name = "authpwd" style= {{display:"none"}} disabled autoComplete = "off"/>
                    {getFieldDecorator('authpwd', {
                        rules: [{
                           max:64,message: callTr("max_length64"),

@@ -169,7 +169,7 @@ class GeneralForm extends Component {
                         }],
                         initialValue: itemvalue['stunservername']
                     })(
-                        <Input autocomplete="off" className={"P-22042"}/>
+                        <Input autoComplete="off" className={"P-22042"}/>
                     )}
                 </FormItem>
                 <FormItem label={<span>{callTr("a_19027")}<Tooltip title={callTipsTr("TURN Server Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
