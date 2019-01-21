@@ -12,6 +12,7 @@ const RadioGroup = Radio.Group;
 const certPvalue = ["9902", "9903", "9904"];
 
 const req_items = [{"name":"vpnenable", "pvalue":"7050", "value":""},
+                    {"name":"vpnlzoenable", "pvalue":"8508", "value":""},
                     {"name":"vpnserver", "pvalue":"7051", "value":""},
                     {"name":"vpnport", "pvalue":"7052", "value":""},
 					{"name":"vpntransport", "pvalue":"2912", "value":""},
@@ -106,6 +107,14 @@ class OpenVPN extends Component {
                         <Checkbox className="P-7050"/>
                     )}
                 </FormItem>
+				<FormItem label={<span>{callTr("enable_openvpn_lzo")}<Tooltip title={callTipsTr("Lzo-Compression Enable")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                    {getFieldDecorator("vpnlzoenable", {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(itemvalue['vpnlzoenable'] || "0")
+                    })(
+						<Checkbox className="P-8508"/>
+                    )}
+				</FormItem>
 				<FormItem label={<span>{callTr("a_19266")}<Tooltip title={callTipsTr("OpenVPN Server Address")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpnserver", {
                         initialValue: itemvalue['vpnserver'],

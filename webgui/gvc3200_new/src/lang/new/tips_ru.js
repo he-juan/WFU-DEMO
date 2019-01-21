@@ -921,7 +921,9 @@ tip_item_ru.push (
     /*обслуживание Open VPN*/
     new TipsDef("OpenVPN Enable",
         "Включает или выключает поддержку OpenVPN®, требуется доступ к серверу OpenVPN®. По умолчанию Нет. ВНИМАНИЕ: Для использования OpenVPN® необходимо настроить все относящиеся к OpenVPN® параметры, включая адрес сервера, порт, OpenVPN® CA, сертификат и ключ. Кроме того, необходимо настроить SIP аккаунт для использования \"VPN\"  в \"Обходе Nat\" (в меню Аккаунт-> Сетевые настройки)."),
-    new TipsDef("OpenVPN Server Address",
+    new TipsDef("Lzo-Compression Enable",
+        "Configures enable/disable the LZO compression. When the LZO Compression is enabled on the OpenVPN server, you must turn on it at the same time. Otherwise, the network will fail to connect. "),
+	new TipsDef("OpenVPN Server Address",
 		"URL/IP адрес сервера OpenVPN®."),
     new TipsDef("OpenVPN Port",
 		"Сетевой порт сервера OpenVPN®. По умолчанию 1194."),

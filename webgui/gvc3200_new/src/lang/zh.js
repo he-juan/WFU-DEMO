@@ -1800,6 +1800,7 @@ var a_protocalchanged_zh = "修改连接方式或端口，页面将登出并跳�
 /********************* OpenVPN ********************/
 var openvpn_set_zh = "OpenVPN®设置";
 var enable_openvpn_zh = "开启OpenVPN®";
+var enable_openvpn_lzo_zh = "开启OpenVPN®压缩算法";
 var openvpn_server_zh = "OpenVPN®服务器地址";
 var openvpn_port_zh = "OpenVPN®端口";
 var openvpn_trans_zh = "OpenVPN®传输方式";
