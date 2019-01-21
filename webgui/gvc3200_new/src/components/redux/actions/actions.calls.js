@@ -1326,3 +1326,30 @@ export const getcmrnameandnumber = (callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+
+
+/******************** SFU 版本 **********************/
+
+
+// 判断是否是SFU会议 获取 msfurole
+export const getsfuconfmyrole = (cb, n = 0) => (dispatch) => {
+    if(n > 4) {
+        dispatch({type: 'SET_MSFUROLE', role: -1})
+        cb(-1)
+        return false
+    }
+    let request = "action=getsfuconfmyrole&region=webservice"
+    request += "&time=" + new Date().getTime()
+    actionUtil.handleGetRequest(request).then(function(data) {
+        data =  eval("(" + data + ")");
+        if(data.res == 'success') {
+            dispatch({type: 'SET_MSFUROLE', role: data.role})
+            cb(data.role)
+        } else {
+            setTimeout(() => {
+                dispatch(getsfuconfmyrole(cb, ++n))
+            }, 500);
+        }
+    })
+}

@@ -8,6 +8,7 @@ import {globalObj} from "../../../redux/actions/actionUtil"
 import FECCModal from "./FECCModal";
 import VideoinviteDialog from "./videoinviteDialog"
 import LayoutModal from './LayoutModal/index';
+import LayoutModel_SFU from './LayoutModal_SFU';
 import PresentationModal from './presentationModal';
 import InviteMemberModal from './InviteMemberModal';
 import DetailsModal from './detailsModal';
@@ -117,6 +118,11 @@ class CallDialog extends Component {
                     isline4Kvideo: result[2] == "true" ? true : false
                 });
             });
+        
+        //  sfu 获取role
+        this.props.getsfuconfmyrole(function(role){
+
+        })
     }
 
     componentWillUnmount = () => {
@@ -628,7 +634,7 @@ class CallDialog extends Component {
     }
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {status, linestatus, recordStatus, ipvtRecordStatus, handsupStatus, ipvrole, ipvtcmrinviteinfo} = this.props;
+        let {status, linestatus, recordStatus, ipvtRecordStatus, handsupStatus, ipvrole, ipvtcmrinviteinfo, msfurole} = this.props;
         let videoinvitelines = "";
         if(this.props.videoinvitelines){
             videoinvitelines = this.props.videoinvitelines.split(",");
@@ -923,7 +929,10 @@ class CallDialog extends Component {
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
                 {
                     this.props.isvideo == 1 ? 
+                    msfurole == -1 ?
                     <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/> 
+                    : 
+                    <LayoutModel_SFU visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} />
                     : null
                 }
                 {
@@ -987,7 +996,9 @@ const mapStateToProps = (state) => ({
     ipvtrcdallowstatus: state.ipvtrcdallowstatus,
     ipvtRecordStatus: state.ipvtRecordStatus,
     handsupStatus: state.handsupStatus,
-    ipvtcmrinviteinfo: state.ipvtcmrinviteinfo
+    ipvtcmrinviteinfo: state.ipvtcmrinviteinfo,
+    // sfu
+    msfurole: state.msfurole
 })
 
 function mapDispatchToProps(dispatch) {
@@ -1030,7 +1041,9 @@ function mapDispatchToProps(dispatch) {
       handlerecord: Actions.handlerecord,
       upordownhand: Actions.upordownhand,
       acceptorejectipvtcmr: Actions.acceptorejectipvtcmr,
-      setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo
+      setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
+      // sfu
+      getsfuconfmyrole: Actions.getsfuconfmyrole
   }
   return bindActionCreators(actions, dispatch)
 }

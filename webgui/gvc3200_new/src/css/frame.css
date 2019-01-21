@@ -6651,22 +6651,22 @@ ol.mp_list li.mp_error {}
 .layout-mode-list li.active .modediv.remote {
     background:url("../img/call/conf_control.png") -104px -347px no-repeat;
 }
-.modediv.overlap {
+.modediv.overlap, .modediv.Average{
     background: url("../img/call/conf_control.png") -78px -323px no-repeat;
 }
-.layout-mode-list li.active .modediv.overlap {
+.layout-mode-list li.active .modediv.overlap, .layout-mode-list li.active .modediv.Average {
     background: url("../img/call/conf_control.png") -104px -323px no-repeat;
 }
-.modediv.childmother {
+.modediv.childmother, .modediv.POP {
     background: url("../img/call/conf_control.png") -130px -323px no-repeat;
 }
-.layout-mode-list li.active .modediv.childmother {
+.layout-mode-list li.active .modediv.childmother, .layout-mode-list li.active .modediv.POP {
     background: url("../img/call/conf_control.png") -156px -323px no-repeat;
 }
-.modediv.pop {
+.modediv.pop, .modediv.PIP  {
     background: url("../img/call/conf_control.png") -526px -323px no-repeat;
 }
-.layout-mode-list li.active .modediv.pop {
+.layout-mode-list li.active .modediv.pop, .layout-mode-list li.active .modediv.PIP{
     background: url("../img/call/conf_control.png") -553px -323px no-repeat;
 }
 .modediv.custom {

@@ -199,3 +199,14 @@ export const ipvtRecordStatus = (state = "0", action) => {
             return state
     }
 }
+
+
+// sfu
+export const msfurole = (state = "-1", action) => {
+    switch(action.type) {
+        case Actions.SET_MSFUROLE:
+            return action.role
+        default:
+            return state
+    }
+}
