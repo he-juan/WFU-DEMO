@@ -932,7 +932,9 @@ tip_item_pt.push (
     /*Manutenção Open VPN*/
 	new TipsDef("OpenVPN Enable",
         "Isto habilita/desabilita a funcionalidade de OpenVPN®, e requer que o usuário tenha acesso a um servidor OpenVPN®. A configuração padrão é Não. AVISO:  Para utilizar os recursos de OpenVPN®, os usuários devem habilitar OpenVPN® e definir as configurações em relação a OpenVPN®, incluindo endereço do servidor, porta, OpenVPN® C, certificado e chave. Adicionalmente, o usuário deve definir a conta SIP que vai utilizar \"VPN\" para o \"Nat Traversal\" (Em Conta-> Configurações de Rede)."),
-    new TipsDef("OpenVPN Server Address",
+    new TipsDef("Lzo-Compression Enable",
+        "Configures enable/disable the LZO compression. When the LZO Compression is enabled on the OpenVPN server, you must turn on it at the same time. Otherwise, the network will fail to connect. "),
+	new TipsDef("OpenVPN Server Address",
 		"O endereço IP/URL para o servidor OpenVPN®."),
     new TipsDef("OpenVPN Port",
 		"A porta de rede para o servidor OpenVPN®. Por padrão está definido como 1194."),

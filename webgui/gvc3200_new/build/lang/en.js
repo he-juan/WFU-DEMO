@@ -1798,6 +1798,7 @@ var a_protocalchanged_en = "Modify the connection method or port, web will lead 
 /********************* OpenVPN ********************/
 var openvpn_set_en = "OpenVPN® Settings";
 var enable_openvpn_en = "Enable OpenVPN®";
+var enable_openvpn_lzo_en = "Enable OpenVPN® Comp-lzo";
 var openvpn_server_en = "OpenVPN® Server Address";
 var openvpn_port_en = "OpenVPN® Port";
 var openvpn_trans_en = "OpenVPN® Transport";
