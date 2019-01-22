@@ -6,3 +6,15 @@
 .SFU_ScreenItems .preview-item {
   position: absolute;
 }
+
+.custom-control-preview .SFU_cusmodecls {
+  text-align: center;
+}
+.custom-control-preview .SFU_cusmodecls ul {
+  width: auto !important;
+  height: 30px;
+  margin-left: 0 !important;
+  margin-top: 8px;
+  padding: 0;
+  display: inline-block !important;
+}

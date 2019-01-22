@@ -55,6 +55,10 @@ const API = (function(){
     SFU_setsysrcmdmode: function(){
       return SFU_request('/manager?action=setsysrcmdmode&region=confctrl')
     },
+    // 设置远端
+    SFU_setremotemode: function(){
+      return SFU_request('/manager?action=setdisplaydefaultremote&region=confctrl')
+    },
     // 设置等分
     SFU_setdefaultaverage: function(){
       return SFU_request('/manager?action=setdefaultaverage&region=confctrl')

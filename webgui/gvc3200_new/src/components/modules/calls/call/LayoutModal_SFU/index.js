@@ -60,53 +60,78 @@ class LayoutModel_SFU extends Component {
 
     this.setState({
       layoutSet: LAYOUT_SET,
-      activeIndex: IS_SYS_RCMD? 'sysrcmd' : HDMI1_MODE<=3 ? 'custom' : LAYOUT_SET[0].mode,
+      activeIndex: IS_SYS_RCMD ? 'sysrcmd' : this.chooseIndex(HDMI1_MODE),
       isCustom: HDMI1_MODE <= 3 ? true : false,
       customLayoutset: CUS_LAYOUT_SET
     })
   }
+  chooseIndex(hdmi1mode) {
+    switch (hdmi1mode) {
+      case "1":
+      case "2":
+      case "3":
+        return 'custom';
+      case "4":
+        return 'Average';
+      case "5":
+        return 'POP';
+      case "6":
+        return 'PIP';
+      case "7": 
+        return 'remote';
 
+    }
+  }
   handleSwitch = (mode) => {
-    let _layoutSet = JSON.parse(JSON.stringify(LAYOUT_SET))
+    let _LAYOUT_SET = JSON.parse(JSON.stringify(LAYOUT_SET))
+    var _MEMBERLIST = MEMBERLIST.slice();
     if(mode == 'custom') {
       this.setState({
         isCustom: true,
-        customLayoutset: _layoutSet
+        customLayoutset: _LAYOUT_SET
       })
     } else {
       let tempLayoutset;
       if(HDMI2_STATE == '0') {
-        if(mode == 'sysrcmd' && MEMBERLIST[0].name == 'null') {
-          tempLayoutset = [
-            {displayList: [MEMBERLIST[0]], mode: mode, name: 'hdmi1'}
-          ]
-        } else {
-          tempLayoutset = [
-            {displayList: MEMBERLIST, mode: mode, name: 'hdmi1'}
-          ]
-        }
+        if(mode == 'sysrcmd' && _MEMBERLIST[0].name == 'null') {
+          _MEMBERLIST = [_MEMBERLIST[0]]
+          
+        } else if(mode == 'remote' ) {
+          if(_MEMBERLIST.length > 1) {
+            _MEMBERLIST = _MEMBERLIST.slice(0, -1)
+          }
+          if(_MEMBERLIST[0].name == 'null') {
+            _MEMBERLIST = _MEMBERLIST.slice(1)
+          }
+        } 
+        tempLayoutset = [
+          {displayList: _MEMBERLIST, mode: mode, name: 'hdmi1'}
+        ]
 
       } else if(HDMI2_STATE == '1') {
-        if(MEMBERLIST[0].name == 'null'){  //name 为null 是 演示流
+        if(mode == 'remote') {
+          _MEMBERLIST = _MEMBERLIST.slice(0, -1)
+        }
+        if(_MEMBERLIST[0].name == 'null'){  //name 为null 是 演示流
           tempLayoutset = [
-            {displayList: [MEMBERLIST[0]], mode: mode, name: 'hdmi1'},
-            {displayList: MEMBERLIST.slice(1), mode: mode, name: 'hdmi2'}
+            {displayList: [_MEMBERLIST[0]], mode: mode, name: 'hdmi1'},
+            {displayList: _MEMBERLIST.slice(1), mode: mode, name: 'hdmi2'}
           ]
         } else {    //无演示
-          if(MEMBERLIST.length == 2) {
+          if(_MEMBERLIST.length == 2) {
             tempLayoutset = [
-              {displayList: [MEMBERLIST[0]], mode: mode, name: 'hdmi1'},
-              {displayList: [MEMBERLIST[1]], mode: mode, name: 'hdmi2'}
+              {displayList: [_MEMBERLIST[0]], mode: mode, name: 'hdmi1'},
+              {displayList: [_MEMBERLIST[1]], mode: mode, name: 'hdmi2'}
             ]
-          } else if(MEMBERLIST.length == 3) {
+          } else if(_MEMBERLIST.length == 3) {
             tempLayoutset = [
-              {displayList: MEMBERLIST.slice(0,2), mode: mode, name: 'hdmi1'},
-              {displayList: [MEMBERLIST[2]], mode: mode, name: 'hdmi2'}
+              {displayList: [_MEMBERLIST[0]], mode: mode, name: 'hdmi1'},
+              {displayList: _MEMBERLIST.slice(1), mode: mode, name: 'hdmi2'}
             ]
-          } else if(MEMBERLIST.length == 4) {
+          } else if(_MEMBERLIST.length == 4) {
             tempLayoutset = [
-              {displayList: MEMBERLIST.slice(0,2), mode: mode, name: 'hdmi1'},
-              {displayList: MEMBERLIST.slice(2,2), mode: mode, name: 'hdmi2'}
+              {displayList: _MEMBERLIST.slice(0,2), mode: mode, name: 'hdmi1'},
+              {displayList: _MEMBERLIST.slice(2,2), mode: mode, name: 'hdmi2'}
             ]
           }
         }
@@ -129,6 +154,9 @@ class LayoutModel_SFU extends Component {
     switch(this.state.activeIndex) {
       case 'sysrcmd':
         API.SFU_setsysrcmdmode();
+        break;
+      case 'remote':
+        API.SFU_setremotemode();
         break;
       case 'Average':
         API.SFU_setdefaultaverage();
@@ -188,6 +216,9 @@ class LayoutModel_SFU extends Component {
           <ul className="layout-mode-list">
             <li title={callTr('a_19383')} className={activeIndex == 'sysrcmd' ? 'active' : ''} onClick={() => { this.handleSwitch('sysrcmd') }}>
               <div className="sysrcmd modediv"></div>
+            </li>
+            <li title={callTr('a_10031')} className={activeIndex == 'remote' ? 'active' : ''} onClick={() => { this.handleSwitch('remote') }}>
+              <div className="remote modediv"></div>
             </li>
             <li title={callTr('a_19384')} className={activeIndex == 'Average' ? 'active' : ''} onClick={() => { this.handleSwitch('Average') }}>
               <div className="Average modediv"></div>

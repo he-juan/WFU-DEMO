@@ -13,7 +13,7 @@ function callTr(text) {
 }
 
 const getItemStyles = (mode, length) => {
-  if(mode == 'Average' || mode == 'sysrcmd') {
+  if(mode === 'Average' || mode === 'sysrcmd' || mode === 'remote') {
     switch(length) {
       case 1:
         return [{height: '90%', width: '90%', left: '5%', top: '5%'}];

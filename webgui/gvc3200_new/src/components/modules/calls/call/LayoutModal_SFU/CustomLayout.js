@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ScreenItems from './ScreenItems';
+import { message }from 'antd'
 
 function callTr(text) {
   let tr_text = text;
@@ -69,11 +70,25 @@ class CustomLayout extends Component {
       }
       set.push(v);
 
+
       _layoutSet[tab].displayList = this.sortByMemberList(set);
     }
-
+    // 最大视频数不超过5
+    if(this.calScreens(_layoutSet) > 5) {
+      message.error(callTr('a_10375'));
+      return false;
+    }
     // 更新
     this.props.updateCustomLayoutSet(_layoutSet);
+  }
+
+  // 计算总视频数
+  calScreens(cus_layout_set) {
+    if(this.props.hdmi2State == '0') {
+      return cus_layout_set[0].displayList.length
+    } else {
+      return cus_layout_set[0].displayList.length + cus_layout_set[1].displayList.length
+    }
   }
   findIndexInSet(set, number) {
     let result = null
@@ -191,7 +206,7 @@ class CustomLayout extends Component {
           <div className="custom-main">
             <ScreenItems set={layoutSet[tab]} />
           </div>
-          <div className="cusmodecls">
+          <div className="cusmodecls SFU_cusmodecls">
             <ul>
               <li
                 className={`cusmode cusoverlap ${layoutSet[tab].mode == 'Average' ? 'active' : ''}`}
