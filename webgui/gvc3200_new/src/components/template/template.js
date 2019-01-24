@@ -379,6 +379,31 @@ export const options = [
                     {"type": "button", "lang": "a_17"}
                 ]}
         ]},
+        {"name": "wifi", "lang": "a_wifiset", "sub": [
+            {"name": "basics", "lang": "a_wifinormal", "sub": [
+                {"name": "Preferred Internet Protocol", "lang": "a_protocoltype"},
+                {"name": "Wi-Fi Function", "lang": "a_wififunc"},
+                {"name": "Wi-Fi Band", "lang": "a_wifiFrequency"},
+                {"name": "ESSID", "lang": "ESSID"}
+            ]},
+            {"name": "security", "lang": "a_wifiauth", "sub": [
+                {"name": "ESSID", "lang": "ESSID"},
+                {"name": "Password", "lang": "a_password"},
+                {"name": "Security Mode for Hidden SSID", "lang": "a_hiddenauthmode"}
+            ]},
+            {"name": "advanced", "lang": "advanced_menu", "sub": [
+                {"name": "Layer 2 QoS 802.1p Priority Value (Wi-Fi)", "lang": "a_layer2qospvwifi"},
+                {"name": "Country Code", "lang": "a_countrycode" },
+                {"name": "Host Name", "lang": "a_dhcpop12", "product": "2"},
+                {"name": "Vendor Class ID", "lang": "a_dhcpop60", "product": "2"},
+                {"type": "button", "lang": "a_save"}
+            ]},
+            {"name": "roaming", "lang": "a_wifiroaming", "product": "1,2", "sub": [
+                {"name": "Signal Threshold", "lang": "a_signalthreshold"},
+                {"name": "Good Signal Scan Interval (s)", "lang": "a_roaminggoodinterval"},
+                {"name": "Poor Signal Scan Interval (s)", "lang": "a_roamingpoorinterval"}
+            ]}
+        ]},
         {"name": "openvpn", "lang": "a_19274", "sub": [
             {"name": "openvpn", "lang": "a_19274", "sub": [
                 {"name": "OpenVPN Enable", "lang": "a_19265"},

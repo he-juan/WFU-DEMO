@@ -223,7 +223,7 @@ class MoreForm extends Component {
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 : "" }
-                <FormItem label={< span > {callTr("a_16187")} < Tooltip title={callTipsTr("Host name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_16187")} < Tooltip title={callTipsTr("Host name")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcpop12", {
                         rules: [
                             {
@@ -239,8 +239,7 @@ class MoreForm extends Component {
                     })(<Input className="P-146"/>)}
                 </FormItem>
                 <FormItem label={< span> {callTr("a_16189")} < Tooltip title={callTipsTr("Vendor Class ID")}> <Icon
-                    type="question-circle-o"/> <
-                    /Tooltip></span>}>
+                    type="question-circle-o"/> </Tooltip></span>}>
                     {getFieldDecorator("dhcpop60", {
                         rules: [
                             {

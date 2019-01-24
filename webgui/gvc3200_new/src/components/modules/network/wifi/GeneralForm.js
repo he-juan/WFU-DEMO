@@ -489,7 +489,6 @@ class GeneralForm extends Component {
             confirmLoading: false,
             needmodify: false,
             protocoltype: "0",
-            preferredprotodisplay:"display-hidden"
 		}
     }
 
@@ -502,9 +501,6 @@ class GeneralForm extends Component {
 
     componentDidMount = () => {
         this.reqItem();
-        if(this.isWP8xx() ){
-            this.setState({preferredprotodisplay:"display-block"});
-        }
         this.props.getItemValues(req_items, (values) => {
 
             this.setState({
@@ -555,14 +551,6 @@ class GeneralForm extends Component {
     }
 
     changeProtocaltype =(val) =>{
-    }
-    handleSubmit = () => {
-        let protocoltypeItem = [{"name":"protocoltype", "pvalue":"22233"}];
-        let protocoltypeValue = this.props.form.getFieldValue("protocoltype");
-        this.setState({
-            protocoltype: protocoltypeValue
-        });
-        this.props.setItemValues(protocoltypeItem, {"protocoltype": protocoltypeValue});
     }
 
 	handleWifiChange = (checked) => {
@@ -835,22 +823,6 @@ class GeneralForm extends Component {
 
         return(
             <Form hideRequiredMark>
-                <FormItem className={ this.state.preferredprotodisplay} label={<span> {callTr("a_19225") } <Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("protocoltype", {
-                        initialValue: this.state.protocoltype
-                    })(
-                        <Select className="P-22233" onChange={this.changeProtocaltype}>
-                            <Option value="0">{callTr("a_19390")}</Option>
-                            <Option value="1">{callTr("a_19391")}</Option>
-                            <Option value="2">{callTr("a_19392")}</Option>
-                            <Option value="3">{callTr("a_19393")}</Option>
-                        </Select>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
-                <FormItem className={ this.state.preferredprotodisplay} style={{marginBottom: "40px"}}>
-                    <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
-                </FormItem>
                 <FormItem label={<span>{callTr("a_wififunc")}<Tooltip title={callTipsTr("Wi-Fi Function")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("wififunc", {
                         valuePropName: 'checked',
