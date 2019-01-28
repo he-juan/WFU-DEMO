@@ -111,6 +111,9 @@ export const setItemValues = (items, values, flag, callback) => (dispatch) => {
     flag = (flag == 0 || flag == 1) ? flag : 0;
     let request = "action=put&flag=" + flag + uritail;
     actionUtil.handleGetRequest(request).then(function(data) {
+        if(request.indexOf("web_calldetail") != -1){
+            return;
+        }
         let msgs = actionUtil.res_parse_rawtext(data);
         if (actionUtil.cb_if_is_fail(msgs)) {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});

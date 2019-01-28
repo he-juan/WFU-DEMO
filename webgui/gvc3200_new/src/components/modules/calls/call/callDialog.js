@@ -264,6 +264,10 @@ class CallDialog extends Component {
             detailsModalVisible:true,
             otherCtrlVisible: false
         });
+        let webcalldetailitem = [this.getReqItem("web_calldetail", ":web_calldetail", "")];
+        let values = {};
+        values.web_calldetail = "1";
+        this.props.setItemValues(webcalldetailitem, values,"3");
     }
 
     showDTMF = () => {
@@ -660,7 +664,7 @@ class CallDialog extends Component {
                 {/* 通话详情 */}
                 {
                     linestatus.length >0 && this.state.detailsModalVisible?
-                        <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} onHide={this.handlehidedetails} /> : ""
+                        <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} sfurole={} onHide={this.handlehidedetails} /> : ""
                 }
                 {/* 开启录像弹窗 */}
                 <RecordModal visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)}/>
@@ -734,6 +738,7 @@ function mapDispatchToProps(dispatch) {
       getAcctStatus: Actions.getAcctStatus,
       gethdmi1state: Actions.gethdmi1state,
       getItemValues:Actions.getItemValues,
+      setItemValues: Actions.setItemValues,
       isFECCEnable: Actions.isFECCEnable,
       ctrlFECC: Actions.ctrlFECC,
       getipvrole: Actions.getipvrole,
