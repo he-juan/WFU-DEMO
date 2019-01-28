@@ -13001,48 +13001,6 @@ void print_offset(buffer *b, long millis_offsets[], int n)
     }
 }
 
-static int handle_gettimezone (buffer *b)
-{
-    //void *dp;
-    int n;
-    long *result;
-
-    system("getprop persist.sys.timezone > /tmp/timezone");
-    FILE *fp = fopen("/tmp/timezone", "r");
-    char line[32] = "";
-
-    if (fp == NULL)
-        return -1;
-
-    fgets( &line, sizeof(line), fp );
-    fclose(fp);
-    snprintf(line, strlen(line), "%s", line);
-
-    buffer_append_string(b, "{\"Response\":\"Success\",");
-    buffer_append_string(b, "\"timezone\":\"");
-    buffer_append_string(b, (char *) line);
-    buffer_append_string(b, "\",\"citygmt\":[");
-    //dp=dlopen(SOFILE, RTLD_LAZY);
-    //get_timezone_offset = dlsym(dp,"get_timezone_offset");
-
-    //if(get_timezone_offset) {
-        n = sizeof(ids)/sizeof(ids[0]);
-        result = (long*)malloc(n * sizeof(long));
-
-        get_timezone_offset(ids, n, result);
-        print_offset(b, result, n);
-
-        free(result);
-    //}
-    buffer_append_string(b, "]}");
-
-/*    buffer_append_string (b, "Response=Success\r\ntimezone=");
-    buffer_append_string (b, line);
-    buffer_append_string (b, "\r\n");*/
-
-    return 1;
-}
-
 static int handle_capture (buffer *b, const struct message *m)
 {
     const char *temp = NULL;
@@ -19510,7 +19468,8 @@ static int handle_upgrade(buffer *b, const struct message *m)
 
     return 0;
 }
-/*static int handle_putwifiwpapsk(buffer *b, const struct message *m)
+
+static int handle_putwifiwpapsk(buffer *b, const struct message *m)
 {
     char hdr[72] = "";
     char buf[32] = {0};
@@ -19551,6 +19510,7 @@ static int handle_upgrade(buffer *b, const struct message *m)
     return 0;
 }
 
+/*
 static int dbus_send_wifi_changed()
 {
 #ifdef BUILD_ON_ARM
@@ -19651,6 +19611,377 @@ static int handle_wifiscan (buffer *b)
 }
 */
 
+static int handle_wifisave (server *srv, connection *con, buffer *b, const struct message *m)
+{
+    /*system("netc up ra0");
+    buffer_append_string (b, "Response=Success\r\n");
+    dbus_send_wifi_changed();*/
+	
+	char *ssid = NULL, *bssid = NULL, *password = NULL, *cacert = NULL, *userca = NULL, *identity = NULL,
+		 *anonymous = NULL, *ipaddr = NULL, *gateway = NULL, *prefix = NULL, *dns1 = NULL, *dns2 = NULL,
+         *ip6addr, *ip6prefix = NULL, *ip6dns1 = NULL, *ip6dns2 = NULL;
+	int security = -1, networkid = -1, eap = -1, phase2 = -1, istatic = 0, saveplusconn = 1;
+	char *tempval = NULL;
+	
+	int reply_timeout = 5000;
+    DBusMessage *message = NULL;
+    DBusMessage *reply = NULL;
+    DBusBusType type;
+    DBusError error;
+    DBusConnection *conn = NULL;
+    DBusMessageIter iter;
+    char *temp = NULL;
+	char *info = NULL;
+
+	type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "connectWifi" );
+
+    printf("handle_setnewmessage\n");
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        ssid = msg_get_header(m, "ssid");
+        if ( ssid == NULL )
+        {
+            ssid = "";
+        }
+		
+		bssid = msg_get_header(m, "bssid");
+        if ( bssid == NULL )
+        {
+            bssid = "";
+        }
+		
+		tempval = msg_get_header(m, "security");
+		if( tempval != NULL )
+		{
+			security = atoi(tempval);
+		}
+		
+		tempval = msg_get_header(m, "networkid");
+		if( tempval != NULL )
+		{
+			networkid = atoi(tempval);
+		}
+		
+		password = msg_get_header(m, "password");
+        if ( password == NULL )
+        {
+            password = "";
+        } else {
+            uri_decode(password);
+        }
+		
+		tempval = msg_get_header(m, "eap");
+		if( tempval != NULL )
+		{
+			eap = atoi(tempval);
+		}
+		
+		tempval = msg_get_header(m, "phase2");
+		if( tempval != NULL )
+		{
+			phase2 = atoi(tempval);
+		}
+		
+		cacert = msg_get_header(m, "cacert");
+        if ( cacert == NULL )
+        {
+            cacert = "";
+        }
+		
+		userca = msg_get_header(m, "userca");
+        if ( userca == NULL )
+        {
+            userca = "";
+        }
+		
+		identity = msg_get_header(m, "identity");
+        if ( identity == NULL )
+        {
+            identity = "";
+        }
+		
+		anonymous = msg_get_header(m, "anonymous");
+        if ( anonymous == NULL )
+        {
+            anonymous = "";
+        }
+		
+		tempval = msg_get_header(m, "istatic");
+		if( tempval != NULL )
+		{
+			istatic = atoi(tempval);
+		}
+		
+		ipaddr = msg_get_header(m, "ipaddr");
+        if ( ipaddr == NULL )
+        {
+            ipaddr = "";
+        }
+		
+		gateway = msg_get_header(m, "gateway");
+        if ( gateway == NULL )
+        {
+            gateway = "";
+        }
+		
+		prefix = msg_get_header(m, "prefix");
+        if ( prefix == NULL )
+        {
+            prefix = "";
+        }
+		
+		dns1 = msg_get_header(m, "dns1");
+        if ( dns1 == NULL )
+        {
+            dns1 = "";
+        }
+		
+		dns2 = msg_get_header(m, "dns2");
+        if ( dns2 == NULL )
+        {
+            dns2 = "";
+        }
+		
+        ip6addr = msg_get_header(m, "ip6addr");
+        if ( ip6addr == NULL )
+        {
+            ip6addr = "";
+        }
+
+        ip6prefix = msg_get_header(m, "ip6prefix");
+        if ( ip6prefix == NULL )
+        {
+            ip6prefix = "";
+        }
+
+        ip6dns1 = msg_get_header(m, "ip6dns1");
+        if ( ip6dns1 == NULL )
+        {
+            ip6dns1 = "";
+        }
+
+        ip6dns2 = msg_get_header(m, "ip6dns2");
+        if ( ip6dns2 == NULL )
+        {
+            ip6dns2 = "";
+        }
+
+		tempval = msg_get_header(m, "saveplusconn");
+		if( tempval != NULL )
+		{
+			saveplusconn = atoi(tempval);
+		}
+		
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ssid) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &bssid) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &security) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &networkid) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &password) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &eap) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &phase2) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &cacert) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &userca) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &identity) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &anonymous) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_BOOLEAN, &istatic) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ipaddr) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &gateway) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &prefix) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &dns1) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+		
+		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &dns2) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+	
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_BOOLEAN, &saveplusconn) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ip6addr) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ip6prefix) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ip6dns1) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ip6dns2) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"connect wifi failed\"}";
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
+}
+
 static int handle_certificateverify(server *srv, connection *con, buffer *b, const struct message *m){
     int n;
     long *result;
@@ -19717,6 +20048,39 @@ static int handle_certificateverify(server *srv, connection *con, buffer *b, con
     }
     
     return 1;
+}
+
+static int handle_get_countrycode_status(buffer *b)
+{
+    char buf[128] = "";
+    char buf2[128] = "";
+    FILE *fproc = NULL;
+    FILE *fproc2 = NULL;
+    char pbuf[2048] = "";
+
+    fproc = fopen ("/proc/gsboard/dev_info/country_code", "r");
+    if (fproc != NULL) {
+        fread (buf, 127, 1, fproc);
+        fclose (fproc);
+    }
+
+    fproc2 = fopen ("/proc/gsboard/dev_info/security/country_code", "r");
+    if (fproc2 != NULL) {
+        fread (buf2, 127, 1, fproc2);
+        fclose (fproc2);
+    }
+
+    char *pcode = nvram_get_safe_security("9607", pbuf, 2048);
+
+    printf("pcode: %s\n", pbuf);
+
+    if ((pcode != NULL && strcmp(pbuf, "") != 0) || strcmp(buf, "") != 0 || strcmp(buf2, "") != 0) {
+        buffer_append_string(b, "{\"status\":\"1\"}");
+    } else {
+        buffer_append_string(b, "{\"status\":\"0\"}");
+    }
+
+    return 0;
 }
 
 static int handle_vpnenable(buffer *b)
@@ -22491,7 +22855,23 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_callservice_by_no_param(srv, con, b, m, "getMaxLineCount");
             } else if(!strcasecmp(action, "certificate")){
                 handle_certificateverify(srv, con, b, m);
-            }else{
+            } else if (!strcasecmp(action, "countrycodestatus")) {
+                handle_get_countrycode_status(b);
+            } else if (!strcasecmp(action, "wifiscan")) {
+                handle_callservice_by_no_param(srv, con, b, m, "scanWifiList");
+            } else if (!strcasecmp(action, "getwifilist")) {
+                handle_callservice_by_one_param(srv, con, b, m, "start", "getAccessPointsList", 0);
+            } else if (!strcasecmp(action, "connectwifi")) {
+                handle_wifisave(srv, con, b, m);
+            } else if (!strcasecmp(action, "connectsavedwifi")) {
+                handle_callservice_by_one_param(srv, con, b, m, "networkid", "connectSavedWifi", 0);
+            } else if (!strcasecmp(action, "forgetwifi")) {
+                handle_callservice_by_one_param(srv, con, b, m, "networkid", "forgetNetwork", 0);
+            } else if (!strcasecmp(action, "disconnectwifi")) {
+                handle_callservice_by_no_param(srv, con, b, m, "disconnectNetwork");
+            } else if (!strcasecmp(action, "putwifiwpapsk")) {
+                handle_putwifiwpapsk(b, m);
+            } else {
                 findcmd = 0;
             }
 #endif
@@ -22615,7 +22995,6 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 } else if (!strcasecmp(action, "renameframecomp")) {
                     handle_rename_framecomp(b, m);
                 } else if (!strcasecmp(action, "gettimezone")) {
-                    //handle_gettimezone(b);
                     handle_callservice_by_no_param(srv, con, b, m, "getTimeZoneList");
                 } else if (!strcasecmp(action, "savetimeset")) {
                     handle_savetimeset(b, m);

@@ -33,5 +33,5 @@ export LDFLAGS="-nostdlib -pie -fPIE --sysroot=${ANDROID_ROOT}/prebuilts/ndk/r10
     -L${ANDROID_ROOT}/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9/lib/gcc/x86_64-linux-android/4.8 \
     -L${ANDROID_ROOT}/prebuilts/ndk/r10/platforms/android-18/arch-x86_64/usr/lib64 "
 
-export LIBS="-lc -ldl -lm -lssl -lcrypto -lnvram -ldbus -llog -licuuc -lpcrecpp -lsqlite -lwebupdate -ltimezone_offset \
+export LIBS="-lc -ldl -lm -lssl -lcrypto -lnvram -ldbus -llog -licuuc -lpcrecpp -lsqlite -lwebupdate \
     ${ANDROID_ROOT}/out/target/product/leaf_hill/obj/STATIC_LIBRARIES/libxml2_intermediates/libxml2.a"
