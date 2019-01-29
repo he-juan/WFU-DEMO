@@ -29,6 +29,9 @@ const hiddenConfigName = (data) => {
         case "GVC3210":
             pId = '2';
             break;
+        case "GVC3220":
+            pId = '3';
+            break;
     }
     if(states.oemId != "54"){
         let name = data['name']

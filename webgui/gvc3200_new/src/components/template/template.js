@@ -11,6 +11,7 @@
  [sample] product: "1, 2, ..."
  1: GVC3200 hidden
  2: GVC3210 hidden
+ 3: GVC3220 hidden
  */
 
 export const options = [
@@ -380,7 +381,7 @@ export const options = [
                 ]}
         ]},
         {"name": "wifi", "lang": "a_wifiset", "sub": [
-            {"name": "basics", "lang": "a_wifinormal", "sub": [
+            {"name": "basics", "lang": "a_wifinormal", "product": "3", "sub": [
                 {"name": "Preferred Internet Protocol", "lang": "a_protocoltype"},
                 {"name": "Wi-Fi Function", "lang": "a_wififunc"},
                 {"name": "Wi-Fi Band", "lang": "a_wifiFrequency"},
