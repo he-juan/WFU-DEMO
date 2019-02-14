@@ -343,7 +343,10 @@ tip_item_zh.push (
 		"点击“浏览”按钮上传PC端音频文件。MOH音频文件必须是.wav或者.mp3格式。<br>注意：上传、处理MP3格式文件时可能会花费较长时间，请耐心等待。选择文件上传时按钮将会变成“正在处理”，当上传完成后按钮将会变回到“浏览”。"),
 	new TipsDef("Enable Local MOH", "开启本地MOH功能",
 		"若设置为“是”，本地MOH功能将会开启。用户需要上传本地MOH音频文件。开启该功能后，当用户保持呼叫时可以播放该MOH音频文件。默认设置为“否”。"),
-
+    
+    new TipsDef("RFC2543 Hold","RFC2543 Hold",
+    "如果是，将在INVITE SDP for hold使用c=0.0.0.0。"),
+    
     /*Advanced Settings Accounts' genernal Settings*/
     new TipsDef("Local RTP Port", "本地RTP端口",
         "此项填写设备RTP-RTCP监听和传输的本地端口对，它是0通道的基本RTP端口。配置后，语音通道0将会使用Port_Value作为RTP端口值，使用Port_Value+1作为RTCP端口值。语音通道1将会使用Port_Value+10作为RTP的端口值，使用Port_Value+11作为RTCP的值。视频通道0将会使用Port_Value+2作为RTP端口值，使用Port_Value+3作为RTCP端口值。视频通道1将会使用Port_Value+12作为RTP的端口值，使用Port_Value+13作为语音RTCP的值。默认值为5004。"),

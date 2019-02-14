@@ -352,7 +352,8 @@ tip_item_en.push (
 		"Click the BROWSE to upload audio file from PC. The MOH audio file should be \".wav\" or \".mp3\" format. It may take a long time uploading and processing the file, please be patient. The Browse button will turn to \"Processing\" and back to \"Browse\" once the upload finished."),
 	new TipsDef("Enable Local MOH",
 		"If set to \"Yes\" , the local MOH will be enabled. Users need to upload local MOH audio file. Once enabled, users could play the file when holding the call. The default setting is \"No\"."),
-
+    new TipsDef("RFC2543 Hold",
+        "If yes, c=0.0.0.0 will be used in INVITE SDP for hold."),
     /*Advanced Settings Accounts' genernal Settings*/
     new TipsDef("Local RTP Port",
         "This parameter defines the local RTP-RTCP port pair used to listen and transmit. It is the base RTP port for channel 0. When configured, for audio, channel 0 will use this port_value for RTP and the port_value+1 for its RTCP; channel 1 will use port_value+10 for RTP and port_value+11 for its RTCP. For video, channel 0 will use port_value+2 for RTP and port_value+3 for its RTCP; channel 1 will use port_value+12 for RTP and port_value+13 for RTCP. The default value is 5004."),

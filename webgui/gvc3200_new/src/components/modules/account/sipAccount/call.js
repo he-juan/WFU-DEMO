@@ -28,6 +28,7 @@ const nvram = {
     'ringto' : "1328",       // 振铃超时时间
     'targetcon' : "135",     // 使用Refer-To报文头转移
     'enablemoh' : "2357",    // 新增 开启本地MOH功能
+    'RFC2543Hold': "26062",
     /**呼叫转移 */
     'cftype' : "display_0",  // 呼叫转移类型
     'uccf' : "allTo_0",            // 呼叫转移-无条件到
@@ -80,6 +81,7 @@ class CallForm extends React.Component {
              this.getReqItem("ringto", nvram["ringto"], ""),
              this.getReqItem("targetcon", nvram["targetcon"], ""),
              this.getReqItem("enablemoh", nvram["enablemoh"], ""),
+             this.getReqItem("RFC2543Hold", nvram["RFC2543Hold"], ""),
              this.getReqItem("cftype", nvram["cftype"], ""),
              this.getReqItem("uccf", nvram["uccf"], ""),
              this.getReqItem("timecffrom", nvram["timecffrom"], ""),
@@ -571,6 +573,18 @@ class CallForm extends React.Component {
                            {children}
                        </Select>
                    )}
+               </FormItem>
+
+               <FormItem  label={(<span>{'RFC2543 Hold'}&nbsp;<Tooltip title={this.tips_tr("RFC2543 Hold")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                   {getFieldDecorator('RFC2543Hold', {
+                       initialValue: this.props.itemValues['RFC2543Hold'] ? this.props.itemValues['RFC2543Hold'] : '0'
+                   })(
+                       <RadioGroup className={"P-" + nvram["RFC2543Hold"]}>
+                           <Radio value="0">{callTr('a_no')}</Radio>
+                           <Radio value="1">{callTr('a_yes')}</Radio>
+                       </RadioGroup>
+                   )
+                   }
                </FormItem>
 
                <p className="blocktitle"><s></s>{callTr("a_16166")}</p>

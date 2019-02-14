@@ -172,6 +172,7 @@ export const options = [
                 {"name": "Upload Local MOH Audio File", "lang": "a_16180"},
                 {"name": "Enable Local MOH", "lang": "a_16181"},
                 {"name": "Account Ring Tone", "lang": "a_16177"},
+                {"name": "RFC2543 Hold", "lang": "RFC2543 Hold"},
                 {"name": "Call forwarding", "lang": "a_1104"},
                 {"name": "Match Incoming Caller ID", "lang": "a_16178"},
                 {"name": "Distinctive Ring Tone", "lang": "a_16179"},
