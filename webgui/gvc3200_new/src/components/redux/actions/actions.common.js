@@ -131,15 +131,13 @@ export const cb_put_port_param = (action, flag, data,portredup,portclearold,cb_i
         if (flag == 0) { //export
             let msgs = actionUtil.res_parse_rawtext(data);
             if( actionUtil.cb_if_is_fail(msgs) )
-                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
+                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16419'}});
             else {
-                checkIsApplyNeed(dispatch);
+                checkIsApplyNeed();
             }
         } else if(flag == 1) {     //import
-            let msgs = actionUtil.res_parse_rawtext(data);
-            if( actionUtil.cb_if_is_fail(msgs) )
-                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
-            else {
+            let msgs = JSON.parse(data);
+            if(msgs['res'] == 'success') {
                 let urihead = "action=phbkresponse";
                 urihead += "&time=" + new Date().getTime();
                 actionUtil.handleGetRequest(urihead).then(function(data) {
@@ -160,8 +158,8 @@ export const cb_save_fav = (action,portmode,cb_get_portresponse_done) => (dispat
         let msgs = actionUtil.res_parse_rawtext(data);
         let response = msgs.headers["response"];
         if(response == "Sucess") {
-            // let urihead = "action=phbkresponse";
-            let urihead = "action=portphbkresponse";
+            let urihead = "action=phbkresponse";
+            // let urihead = "action=portphbkresponse";
 
             urihead += "&time=" + new Date().getTime();
             actionUtil.handleGetRequest(urihead).then(function(data) {
@@ -177,8 +175,8 @@ export const cb_save_fav = (action,portmode,cb_get_portresponse_done) => (dispat
 }
 
 export const cb_get_portresponse = (mode,cb_get_portresponse_done) => (dispatch) => {
-    // let urihead = "action=phbkresponse";
-    let urihead = "action=portphbkresponse";
+    let urihead = "action=phbkresponse";
+    // let urihead = "action=portphbkresponse";
     urihead += "&time=" + new Date().getTime();
     actionUtil.handleGetRequest(urihead).then(function(data) {
 
@@ -213,29 +211,29 @@ export const saveDownContactsParams = (items, values, flag, callback,argu) => (d
 
 export const cb_put_download_param = (action, flag, data, downserver, downConfig, cb_alert_response) => (dispatch) => {
     let [downmode,redup,clearold] = downConfig;
+
     let request = "action=" + action + "&downMode=" + downmode + "&flag=" + flag + "&downUrl=" + encodeURIComponent(downserver) + "&downReplace=" + redup + "&downClear=" + clearold;
     request += data;
     request += "&time=" + new Date().getTime();
-    actionUtil.handleGetRequest(request).then(function(data) {  ///-----> 1001
-        let msgs = actionUtil.res_parse_rawtext(data);
-        if(msgs.headers["flag"] == 1) {
-            dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_3325'}});
-            var urihead = "action=phbkresponse";
-            urihead += "&time=" + new Date().getTime();
-            actionUtil.handleGetRequest(urihead).then(function(data) {
-                let msgs = actionUtil.res_parse_rawtext(data);
-                cb_alert_response(msgs,1)
-
-                // cb_get_response_done(data,1,cb_alert_response);
-            }).catch(function(error) {
-                // send error message notice
-            });
-        } else {
-            if( actionUtil.cb_if_is_fail(msgs) ) {
-                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
-            } else {
-                dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
-                checkIsApplyNeed();
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let msgs = JSON.parse(data);
+        if(msgs['res'] == 'success') {
+            if(flag == 0) {
+                if( actionUtil.cb_if_is_fail(msgs) ) {
+                    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16419'}});
+                } else {
+                    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
+                    checkIsApplyNeed();
+                }
+            } else if(flag == 1) {
+                dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block", spinTip: 'a_3325'}});
+                var urihead = "action=phbkresponse";
+                urihead += "&time=" + new Date().getTime();
+                actionUtil.handleGetRequest(urihead).then(function(data) {
+                    cb_get_response_done(data,1,cb_alert_response);
+                }).catch(function(error) {
+                    // send error message notice
+                });
             }
         }
     }).catch(function(error) {
