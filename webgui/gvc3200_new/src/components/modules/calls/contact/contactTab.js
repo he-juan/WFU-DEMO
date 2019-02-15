@@ -16,6 +16,7 @@ const ImportEditForm = Form.create()(ImportEdit);
 const ExportEditForm = Form.create()(ExportEdit);
 const ContactsDownloadForm = Form.create()(DownloadContactsForm);
 let req_items;
+let rowkeys =[]
 
 class ContactTab extends Component {
     contactList = [];
@@ -43,7 +44,8 @@ class ContactTab extends Component {
             showtips: 'none',
             acctstatus: [],
             selacct:-1,
-            curAcct:null
+            curAcct:null,
+            curPage: 1
 
         }
         req_items = new Array;
@@ -199,62 +201,56 @@ class ContactTab extends Component {
         this.setState({displayDwonloadModal: false})
     }
 
-    onSelectChange = (selectedRowKeys) => {
-        this.setState({selectedRowKeys});
+    onSelectChange = (selectedRowKeys,selectedRows) => {
+        let page = this.state.curPage
+        this.setState({selectedRowKeys,selectedRows});
+        if(page!=1) {
+            let arr = []
+            let data = this.getCurSelectedRows(page)
+            for (let i = 0; i < selectedRowKeys.length; i++) {
+                arr.push(data[selectedRowKeys[i]])
+            }
+            this.setState({selectedRows:arr});
+        }
+        rowkeys = selectedRowKeys
     }
 
     onSelectItem = (record, selected, selectedRows) => {
-        let self = this;
-        let name = record.row0;
-        let number = record.row3.Number;
-        let id = record.row3.Id;
-        if (selected) {
-            self.selectedContactList.push({name: name, number: number, id: id});
-        } else {
-            for (let j = 0; j < self.selectedContactList.length; j++) {
-                if (self.selectedContactList[j].id == id) {
-                    self.selectedContactList.splice(j, 1);
-                    break;
-                }
+        let selectedRowKeys = rowkeys
+        let page = this.state.curPage
+        if(page!=1) {
+            selectedRows = []
+            let data = this.getCurSelectedRows(page)
+            for (let i = 0; i < selectedRowKeys.length; i++) {
+                selectedRows.push(data[selectedRowKeys[i]])
             }
+            this.setState({selectedRows:selectedRows});
         }
     }
 
     onSelectAllContacts = (selected, selectedRows) => {
-        let self = this;
-        if (selected) {
-            if (self.contactList.length == 0) {
-                self.selectedContactList = [...selectedRows];
-            } else {
-                for (let i = 0; i < selectedRows.length; i++) {
-                    let name = selectedRows[i].row0;
-                    let number = selectedRows[i].row3.Number;
-                    let id = selectedRows[i].row3.Id;
-                    for (var j = 0; j < self.selectedContactList.length; j++) {
-                        if (self.selectedContactList[j].id == id ) {
-                            break;
-                        }
-                    }
-                    if (j == self.selectedContactList.length) {
-                        self.selectedContactList.push({name: name, number: number,id: id});
-                    }
-                }
-            }
-        } else {
-            for (let i = self.state.curContactList.length - 1; i >= 0; i--) {
-                for (var j = 0; j < self.selectedContactList.length; j++) {
-                    let item = self.state.curContactList[i]
-                    let id = item.row3.Id;
-                    if (self.selectedContactList[j].id == id) {
-                        break;
-                    }
-                }
-                if (j != self.selectedContactList.length) {
-                    self.selectedContactList.splice(j, 1);
-                }
-            }
+        let page = this.state.curPage
+        if(page != 1) {
+            selectedRows = this.getCurSelectedRows(page)
         }
     }
+
+    getCurSelectedRows = (page) =>{
+        if(page == 1) {
+            return
+        }
+        let selectedRows = []
+        let pagesize = 15
+        let begin = pagesize * (page-1)
+        let i = 0
+        while (i<15) {
+            selectedRows.push(this.state.curContactList[begin+i])
+            i+=1
+        }
+        this.setState({selectedRows:selectedRows})
+        return selectedRows
+    }
+
     showDelContactsModal =() =>{
         this.setState({ displayDelContactsModal: true });
     }
@@ -280,23 +276,26 @@ class ContactTab extends Component {
     }
 
     handleOkDeleteAll = () => {
-        let datasource = this.selectedContactList
-        let seletedArr = [];
-        for (let i = 0; i <datasource.length ; i++) {
-            seletedArr = seletedArr.concat(datasource[i].id)
+        let data = this.state.selectedRows
+        let deleteid = ""
+        for (let i = 0; i < data.length; i++) {
+            let id = data[i].row3.Id
+            if(deleteid) {
+                deleteid += ","
+            }
+            deleteid += id
         }
-        var deleteId = seletedArr.join(',');
-        this.props.removeContact(deleteId, (result) => {
+        this.props.removeContact(deleteid, () => {
+            this.props.getContacts((items)=>{this.setState({items:items})});
+            this._createData();
             let searchkey = $("#search").val()
             if (searchkey) {
                 $("#search").val("");
             }
-            this.props.getContacts();
-            this.selectedContactList = [];
-            this._createData();
-        });
+        })
         this.setState({
             selectedRowKeys: [],
+            selectedRows: [],
             displayDelContactsModal: false
         });
     }
@@ -314,7 +313,6 @@ class ContactTab extends Component {
     }
 
     handleEditItem = (text, index) => {
-        // var firstname = text.firstname;
         var name = text.Name;
         this.props.form.resetFields();
         let emailValues = this.state.emailValues;
@@ -357,7 +355,6 @@ class ContactTab extends Component {
     checkRepeatName = (name) => {
         let data = this.props.contactsInformation
         name = name ? name : ""
-        // lastname = lastname ? lastname : ""
         for(var i = 0; data[i] != undefined; i++) {
             if(data[i].Name == name)
                 return true;
@@ -417,7 +414,6 @@ class ContactTab extends Component {
         let groupInformation = this.props.groupInformation;
         let contactinfodata = this.props.contactinfodata;
         let contactsAcct = this.props.contactsAcct;
-        // console.log('get data',contactsInformation,contactinfodata,contactsAcct)
 
         let data = [];
         let contactItems = [];
@@ -535,6 +531,14 @@ class ContactTab extends Component {
         });
     }
 
+    changePage = (pageNumber) => {
+        this.setState({
+            curPage: pageNumber,
+            selectedRows: [],
+            selectedRowKeys:[]
+        });
+    }
+
     render() {
         const callTr = this.props.callTr;
         const moreMenu = (
@@ -585,7 +589,14 @@ class ContactTab extends Component {
                 this._createActions(text, record, index)
             )
         }];
+        let pageobj = false
         let data = curContactList;
+        if(data.length>15) {
+            pageobj = {
+                pageSize: 15,
+                onChange:this.changePage
+            }
+        }
         const {selectedRowKeys} = this.state;
         const rowSelection = {
             selectedRowKeys,
@@ -624,7 +635,7 @@ class ContactTab extends Component {
                         rowSelection={rowSelection}
                         rowKey = ""
                         columns = { columns }
-                        pagination = { false }
+                        pagination = { pageobj }
                         dataSource = { data }
                         // showHeader = { false }
                     />
