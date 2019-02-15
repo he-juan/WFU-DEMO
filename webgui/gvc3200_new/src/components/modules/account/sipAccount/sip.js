@@ -45,7 +45,8 @@ const nvram = {
     'siptdint': "2387",      //SIP Timer D间隔时间
     'removeobp': "2305",     // 从路由移除OBP
     'checkdomain': "2311",   // 检查域名证书
-    'validatecert': "2867"    // 验证证书链
+    'validatecert': "2867",    // 验证证书链
+    'RFC2543Hold': "26062"
 }
 
 class SipForm extends React.Component {
@@ -93,6 +94,7 @@ class SipForm extends React.Component {
             this.getReqItem("removeobp", nvram["removeobp"], ""),
             this.getReqItem("checkdomain", nvram["checkdomain"], ""),
             this.getReqItem("validatecert", nvram["validatecert"], ""),
+            this.getReqItem("RFC2543Hold", nvram["RFC2543Hold"], ""),
         );
         return req_items;
     }
@@ -407,6 +409,15 @@ class SipForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["useepport"]} />)
                     }
                 </FormItem>
+                <FormItem  label={(<span>{'RFC2543 Hold'}&nbsp;<Tooltip title={this.tips_tr("RFC2543 Hold")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                   {getFieldDecorator('RFC2543Hold', {
+                        valuePropName: 'checked',
+                       initialValue: parseInt(this.props.itemValues['RFC2543Hold'])
+                   })(
+                        <Checkbox className={"P-" + nvram["RFC2543Hold"]} />
+                   )
+                   }
+               </FormItem>
                 <FormItem label={(<span>{callTr("a_16096")}&nbsp;<Tooltip title={this.tips_tr("Symmetric RTP")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {/* 对称RTP */}
                     {getFieldDecorator('symrtp', {
