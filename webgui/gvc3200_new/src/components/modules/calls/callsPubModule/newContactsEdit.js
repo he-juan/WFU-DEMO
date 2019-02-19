@@ -58,7 +58,7 @@ class NewContactsEdit extends Component {
         let [input,value] = [e.target,e.target.value]
         value = value.trim();
         this.setState({value:value},(e) => {
-            let iceIndex = input.id.slice(-1)
+            let iceIndex = input.id.split("accountnumber")[1]
             let numValuesinnr = this.state.numValuesinnr
             numValuesinnr[iceIndex] = value
             this.setState({numValuesinnr:numValuesinnr})
@@ -76,22 +76,20 @@ class NewContactsEdit extends Component {
             numValuesinnr = numValues;
         }
         if(e.target.className.indexOf("add-btn") != -1 && prevElem.value != "" && prevElem.value.replace(/(^\s*)|(\s*$)/g,"") != -1) {
-            for (let i = 0; i < 3 ; i++) {
+            let len = numValuesinnr.length
+            for (let i = 0; i < len ; i++) {
                 let value = $('#accountnumber'+i).val()
                 if(value==='' && typeof value){
                     this.props.promptMsg('ERROR','a_7483');
                     return false;
+                } else if(!value) {
+                    break
                 }
             }
             if(numValuesinnr[numValuesinnr.length-1] == "") {
                 numValuesinnr.pop()
             }
-            if (numValuesinnr.length >= 3) {
-                this.props.promptMsg('ERROR','a_19638');
-                return false;
-            } else {
-                numValuesinnr.push("");
-            }
+            numValuesinnr.push("");
             this.setState({numValuesinnr: numValuesinnr})
         } else if(e.target.className.indexOf("del-btn") != -1) {
             let parentElem = e.target.parentNode.parentNode.parentNode
@@ -116,7 +114,6 @@ class NewContactsEdit extends Component {
             this.props.promptMsg('ERROR','a_4835');
             return false;
         }
-        // console.log(this.props.checkRepeatName(displayname))
         if(typeof this.props.checkRepeatName == "function" && this.props.checkRepeatName(displayname) && (addoredit == "add")){
             const {callTr} = this.props;
             let self = this
@@ -261,7 +258,7 @@ class NewContactsEdit extends Component {
                                         }],
                                         initialValue: val.split(' ')[0]
                                     })(
-                                        <Input style={{width:'44%'}} type="text" onChange ={this.connectInputValue} />
+                                        <Input style={{width:'44%'}} type="text" autoFocus="autofocus" onChange ={this.connectInputValue} />
                                     )}
                                     <i className={idx === 0 ? 'add-btn' : 'del-btn' } onClick = {this.hanleNumContacts.bind(this)} style={{ backgroundPosition: idx === 0 ? '-63px -25px' :  '-21px -25px'}}/>
                                 </FormItem>

@@ -68,18 +68,18 @@ class History extends Component {
     }
 
     render() {
-        let logItemdata = this.props.logItemdata
-        let confmember = this.props.confmemberinfodata
-        let contactList = this.props.contactsInformation
-        let callnameinfo = this.props.callnameinfo
-        let loading = true
+        // let logItemdata = this.props.logItemdata
+        // let confmember = this.props.confmemberinfodata
+        // let contactList = this.props.contactsInformation
+        // let callnameinfo = this.props.callnameinfo
+        let loading = false
         // console.log(confmember,contactList,callnameinfo)
-        if (!confmember.length || !contactList.length || !callnameinfo.length) {
-            loading = true
-        }
-        if(logItemdata.length > 0) {
-            loading = false
-        }
+        // if (!confmember.length || !contactList.length || !callnameinfo.length) {
+        //     loading = true
+        // }
+        // if(logItemdata.length > 0) {
+        //     loading = false
+        // }
         let tabList =[
             (hiddenOptions,i) => {
                 return<TabPane tab = {this.tr("a_10009")} key={i}>

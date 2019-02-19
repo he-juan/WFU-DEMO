@@ -382,10 +382,9 @@ export const getMaxlineCount =() => (dispatch) =>{
 
 export const getContacts = (callback) => (dispatch) => {
     // let request = 'action=sqlitecontacts&type=contacts';
-    // let request = 'action=sqlitecontacts&region=apps&type=contacts';
-    let request = "action=sqlitecontacts&region=apps&type=contacts&sqlstr=select contacts._id as contacts_id,raw_contacts._id as raw_contacts_id,raw_contacts.display_name as contact_display_name,data.phone,data.accountid,data._id from contacts left join raw_contacts on contacts.name_raw_contact_id=raw_contacts._id left join (select _id, raw_contact_id,data1 as phone,data11 as accountid from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on raw_contacts._id=data.raw_contact_id;"
+    let request = 'action=sqlitecontacts&region=apps&type=contacts';
+    // let request = "action=sqlitecontacts&region=apps&type=contacts&sqlstr=select contacts._id as contacts_id,raw_contacts._id as raw_contacts_id,raw_contacts.display_name as contact_display_name,data.phone,data.accountid,data._id from contacts left join raw_contacts on contacts.name_raw_contact_id=raw_contacts._id left join (select _id, raw_contact_id,data1 as phone,data11 as accountid from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on raw_contacts._id=data.raw_contact_id;"
     request += "&time=" + new Date().getTime();
-
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['Response'] == 'Success') {
@@ -507,8 +506,8 @@ const formatContactAndGroupsData = function(data,type){
 }
 
 export const setGroups = (groupname,ringtone,editGroupId,callback) => (dispatch) => {
-    let request = 'action=setgroup&region=webservice&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname)+'&format=json';
-    request += "&time=" + new Date().getTime();
+    let request = 'action=setgroup&region=webservice&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname+':::'+ringtone)+'&format=json';
+    // request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
@@ -626,7 +625,6 @@ export const get_deleteCallConf = (deleteId,callback) => (dispatch) => {
 export const getContactsinfo = () => (dispatch) => {
     let request = 'action=sqlitecontacts&region=apps&type=contactinfo';
     request += "&time=" + new Date().getTime();
-
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = JSON.parse(data);
         let contactinfodata = msgs['Data'];

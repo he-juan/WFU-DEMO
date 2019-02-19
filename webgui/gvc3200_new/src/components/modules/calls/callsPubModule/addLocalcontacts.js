@@ -77,10 +77,10 @@ class AddLocalcontacts extends Component {
         this.props.form.resetFields();
         let emailValues = this.state.emailValues;
         let numValues = this.state.numValues;
-        if (text.Number.length >= 3) {
-            this.props.promptMsg('ERROR','a_19654');
-            return false;
-        }
+        // if (text.Number.length >= 3) {
+        //     this.props.promptMsg('ERROR','a_19654');
+        //     return false;
+        // }
         emailValues.length = 0;
         numValues.length = 0;
         if (text.Emaill.length == 0) {

@@ -172,12 +172,8 @@ class GroupEditModal extends Component {
                                                 <Col span={6}>
                                                     <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['Name']}</span>
                                                 </Col>
-                                                <Col span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
-                                                    {
-                                                        item['Number'].map((num,index,arr)=>{
-                                                            return <span data-className='numbertext' style={{paddingRight:'10px'}}>{`${num}${arr.length>1 && index != arr.length-1 ? "," : ""}`}</span>
-                                                        })
-                                                    }
+                                                <Col title={item['Number'].filter(Boolean).join("，")} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
+                                                    {item['Number'].filter(Boolean).join("，")}
                                                 </Col>
                                             </Row>
                                         )
@@ -195,12 +191,8 @@ class GroupEditModal extends Component {
                                                 <Col span={6}>
                                                     <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['Name']}</span>
                                                 </Col>
-                                                <Col span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
-                                                    {
-                                                        item['Number'].map((num,index,arr)=>{
-                                                            return <span style={{}} data-className='numbertext' style={{paddingRight:'10px'}}>{`${num}${arr.length>1 && index != arr.length-1 ? "," : ""}`}</span>
-                                                        })
-                                                    }
+                                                <Col title={item['Number'].filter(Boolean).join("，")} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
+                                                    {item['Number'].filter(Boolean).join("，")}
                                                 </Col>
                                                 <Col span={2} style = {{height:'21px', textAlign:"right"}}>
                                                     <button className='allow-delete' id = {'allow-delete-group'+index} onClick={this.props.handleDelete.bind(this, item, index)} ></button>

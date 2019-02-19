@@ -57,21 +57,23 @@ class ContactTab extends Component {
     }
 
     componentDidMount = () => {
-        let self = this
-        if(!this.props.groupInformation.length) {
-            this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        } else {
-            this.setState({groups:this.props.groupInformation})
-        }
-        if(!this.props.contactsInformation.length) {
-            this.props.getContacts((items)=>{this.setState({items:items})});
-        }
-        if(!this.props.contactinfodata.length) {
-            this.props.getContactsinfo();
-            setTimeout(function () {
-                self._createData();
-            },500)
-        }
+        // let self = this
+        // if(!this.props.groupInformation.length) {
+        //     this.props.getGroups((groups)=>{this.setState({groups:groups})});
+        // } else {
+        //     this.setState({groups:this.props.groupInformation})
+        // }
+        // if(!this.props.contactsInformation.length) {
+        //     this.props.getContacts((items)=>{this.setState({items:items})});
+        // }
+        // if(!this.props.contactinfodata.length) {
+        //     this.props.getContactsinfo();
+        //     setTimeout(function () {
+        //         self._createData();
+        //     },500)
+        // }
+        this.updateContact();
+
         this.props.getAcctStatus((acctstatus) => {
             if (!this.isEmptyObject(acctstatus)) {
                 this.getAcctStatusData(acctstatus);
@@ -84,7 +86,7 @@ class ContactTab extends Component {
                 selacct: defaultacct
             });
         });
-        this._createData();
+        // this._createData();
     }
 
     getAcctStatusData = (acctstatus) => {
@@ -141,15 +143,15 @@ class ContactTab extends Component {
                 this.props.getGroups((groups)=>{this.setState({groups:groups})});
 
             }
-        }
-        if (this.props.form == nextProps.form) {
-            this._createData();
-        }
-        if($.isArray(nextProps.contactsInformation)
-            && $.isArray(nextProps.contactsInformation)
-            && this.props.contactsInformation.length !== nextProps.contactsInformation.length) {
-            this.updateContact();
-            this._createData();
+            if (this.props.form == nextProps.form) {
+                this._createData();
+            }
+            if($.isArray(nextProps.contactsInformation)
+                && $.isArray(nextProps.contactsInformation)
+                && this.props.contactsInformation.length !== nextProps.contactsInformation.length) {
+                this.updateContact();
+                this._createData();
+            }
         }
     }
 
@@ -170,6 +172,7 @@ class ContactTab extends Component {
                 });
             })
         }
+        setTimeout(()=> this._createData(),500)
     }
 
     checkActiveAcct = (acctStatus) =>{
@@ -414,7 +417,6 @@ class ContactTab extends Component {
         let groupInformation = this.props.groupInformation;
         let contactinfodata = this.props.contactinfodata;
         let contactsAcct = this.props.contactsAcct;
-
         let data = [];
         let contactItems = [];
         if (contactsInformation.length == 0) {
