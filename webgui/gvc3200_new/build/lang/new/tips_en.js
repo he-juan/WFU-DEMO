@@ -352,7 +352,8 @@ tip_item_en.push (
 		"Click the BROWSE to upload audio file from PC. The MOH audio file should be \".wav\" or \".mp3\" format. It may take a long time uploading and processing the file, please be patient. The Browse button will turn to \"Processing\" and back to \"Browse\" once the upload finished."),
 	new TipsDef("Enable Local MOH",
 		"If set to \"Yes\" , the local MOH will be enabled. Users need to upload local MOH audio file. Once enabled, users could play the file when holding the call. The default setting is \"No\"."),
-
+    new TipsDef("RFC2543 Hold",
+        "If yes, c=0.0.0.0 will be used in INVITE SDP for hold."),
     /*Advanced Settings Accounts' genernal Settings*/
     new TipsDef("Local RTP Port",
         "This parameter defines the local RTP-RTCP port pair used to listen and transmit. It is the base RTP port for channel 0. When configured, for audio, channel 0 will use this port_value for RTP and the port_value+1 for its RTCP; channel 1 will use port_value+10 for RTP and port_value+11 for its RTCP. For video, channel 0 will use port_value+2 for RTP and port_value+3 for its RTCP; channel 1 will use port_value+12 for RTP and port_value+13 for RTCP. The default value is 5004."),
@@ -1018,8 +1019,12 @@ tip_item_en.push (
 		"Configures the file source of the file to be downloaded. Users can choose to download from \"Internet\" or from \"Local File\". The default setting is set to download file from Internet."),
 	new TipsDef("Clear The Old List",
 		"If set to \"Yes\", the previous contact records will be deleted when a new phonebook file loads into the device. The default setting is \"No\"."),
-	new TipsDef("Replace Duplicate Items",
+    new TipsDef("Clear Old History Mode",
+        "If set to \"Clear all\", the phone will delete all previous records before importing the new records. If set to \"Keep Local Contacts\", the newly added local new contacts will not be deleted when importing new records."),
+    new TipsDef("Replace Duplicate Items",
 		"If set to \"Yes\", when the XML phonebook file is downloaded to the device, the duplicate entries will be removed. The default setting is \"No\"."),
+    new TipsDef("Replace Duplicate Entries Mode",
+        "If set to \"Replace by name\", replace the records of the same name automatically when importing new records. If set to \"Replace by number\", replace the records of the same number automatically when importing new records."),
 	new TipsDef("Download Mode",
 		"Selects the file download mode for the download server. Users can choose from TFTP/HTTP/OFF."),
 	new TipsDef("Download Server",

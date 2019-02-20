@@ -343,7 +343,10 @@ tip_item_zh.push (
 		"点击“浏览”按钮上传PC端音频文件。MOH音频文件必须是.wav或者.mp3格式。<br>注意：上传、处理MP3格式文件时可能会花费较长时间，请耐心等待。选择文件上传时按钮将会变成“正在处理”，当上传完成后按钮将会变回到“浏览”。"),
 	new TipsDef("Enable Local MOH", "开启本地MOH功能",
 		"若设置为“是”，本地MOH功能将会开启。用户需要上传本地MOH音频文件。开启该功能后，当用户保持呼叫时可以播放该MOH音频文件。默认设置为“否”。"),
-
+    
+    new TipsDef("RFC2543 Hold","RFC2543 Hold",
+    "如果是，将在INVITE SDP for hold使用c=0.0.0.0。"),
+    
     /*Advanced Settings Accounts' genernal Settings*/
     new TipsDef("Local RTP Port", "本地RTP端口",
         "此项填写设备RTP-RTCP监听和传输的本地端口对，它是0通道的基本RTP端口。配置后，语音通道0将会使用Port_Value作为RTP端口值，使用Port_Value+1作为RTCP端口值。语音通道1将会使用Port_Value+10作为RTP的端口值，使用Port_Value+11作为RTCP的值。视频通道0将会使用Port_Value+2作为RTP端口值，使用Port_Value+3作为RTCP端口值。视频通道1将会使用Port_Value+12作为RTP的端口值，使用Port_Value+13作为语音RTCP的值。默认值为5004。"),
@@ -1010,8 +1013,12 @@ tip_item_zh.push (
 		"下载文件的来源，支持从互联网/本地下载。默认下载XML文件源为：互联网。<br>注意：下载时不能同时使用这个程序，例如下载电话簿时不能同时在设备打开电话簿。"),
 	new TipsDef("Clear The Old List", "清除旧列表",
 		"如果勾选，在下载新的记录前设备将删除之前的所有记录。默认为不勾选。"),
+    new TipsDef("Clear Old History Mode","清除旧记录模式",
+        "若设置为'清除所有',在导入新的记录前话机将删除之前的所有记录。若设置为'保留本地联系人',在导入新的记录时,本地新增的联系人将不被删除。"),
 	new TipsDef("Replace Duplicate Items", "替换相同条目",
 		"如果勾选，在下载新的记录时会自动将相同的记录删除。默认为不勾选。"),
+    new TipsDef("Replace Duplicate Entries Mode","替换重复条目模式",
+        "若设置为'根据名字替换',在导入新的记录时会自动将相同名字的记录替换掉。若设置为'根据号码替换',在导入新的记录时会自动将相同号码的记录替换掉。"),
 	new TipsDef("Download Mode", "下载模式",
 		"选择互联网下载模式。"),
 	new TipsDef("Download Server", "下载服务器",
