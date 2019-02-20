@@ -425,10 +425,17 @@ class MainHeader extends Component {
                                 <button id="customkey" onMouseDown={this.sendKey.bind(this,285)} onMouseUp={this.clearsendKey.bind(this,285)}><div></div></button>
                             </div>
                             <div id="funcbtn" className="btnarea">
-                                <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,281)} onMouseUp={this.clearsendKey.bind(this,281)}><div></div></button>
-                                <button id="yellowdigit" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,282)} onMouseUp={this.clearsendKey.bind(this,282)}><div></div></button>
-                                <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,283)} onMouseUp={this.clearsendKey.bind(this,283)}><div></div></button>
-                            </div>
+                                {
+                                        this.props.product=="GVC3210"?<div id="funcbtn" className="btnarea">
+                                            <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,281)} onMouseUp={this.clearsendKey.bind(this,281)}><div></div></button>
+                                            <button id="yellowdigit" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,282)} onMouseUp={this.clearsendKey.bind(this,282)}><div></div></button>
+                                            <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,283)} onMouseUp={this.clearsendKey.bind(this,283)}><div></div></button>
+                                        </div>:<div id="funcbtn" className="btnarea">
+                                            <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,290)} onMouseUp={this.clearsendKey.bind(this,290)}><div></div></button>
+                                            <button id="yellowdigit" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,291)} onMouseUp={this.clearsendKey.bind(this,291)}><div></div></button>
+                                            <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,292)} onMouseUp={this.clearsendKey.bind(this,292)}><div></div></button>
+                                        </div>
+                                }
                             <div className="radiusbtn">
                                 <button id="volumedownbtn" onMouseDown={this.sendKey.bind(this,25)} onMouseUp={this.clearsendKey.bind(this,25)}><div></div></button>
                                 <button id="volumeupbtn"  onMouseDown={this.sendKey.bind(this,24)} onMouseUp={this.clearsendKey.bind(this,24)}><div></div></button>
