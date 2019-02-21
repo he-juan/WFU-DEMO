@@ -11676,10 +11676,11 @@ static int handle_getparams (buffer *b,const char*fileconf)
 }
 
 static int handle_putportphbk (buffer *b, const struct message *m) {
-    char *path = NULL;
+    const char *path = NULL;
     const char *flag = NULL;
     const char *opmode = NULL;
     const char *portType = NULL;
+    const char *exportType = NULL;
     const char *portReplace = NULL;
     const char *portClear = NULL;
     const char *portEncode = NULL;
@@ -11691,6 +11692,9 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
     char *temp = NULL;
     int len = 0;
     int reply_timeout = 10000;
+    char buffer[20];
+    memset(buffer, 0, 20);
+
     DBusMessage *message = NULL;
     DBusMessage *reply = NULL;
     DBusBusType type;
@@ -11717,21 +11721,24 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
         }
     }
 
-    status = nvram_get("phonebook_status");
-    if (status != NULL && !strcasecmp(status, "1")) {
+    /*
+    status = nvram_get_safe("phonebook_status", buffer, 20);
+    if (status != NULL && strcasecmp(status, "3") && strcasecmp(status, "4") && strcasecmp(status, "99")) {
         if (jsonCallback != NULL) {
             result = malloc((strlen(jsonCallback) + 64) * sizeof(char));
             if (result != NULL) {
-                sprintf(result, "%s({\"res\": \"success\", \"portphbkresponse\": \"1\"})", jsonCallback);
+                sprintf(result, "%s({\"res\": \"error\", \"portphbkresponse\": \"2\"})", jsonCallback);
                 buffer_append_string(b, result);
                 free(result);
             }
         } else {
-            buffer_append_string(b, "{\"res\": \"success\", \"portphbkresponse\": \"1\"}");
+            buffer_append_string(b, "{\"res\": \"error\", \"portphbkresponse\": \"2\"}");
         }
 
+      
         return 0;
     }
+    */
 
     opmode = msg_get_header(m, "opmode");
     if (opmode == NULL) {
@@ -11753,24 +11760,39 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
     if (portClear == NULL) {
         portClear = "";
     }
+    exportType = msg_get_header(m, "exportType");
+    if (exportType == NULL) {
+        exportType = "";
+    }
 
     if( access( TMP_PHONEBOOKPATH, 0 ) )
     {
         mkdir(TMP_PHONEBOOKPATH, 0777);
     }
 
-    path = malloc(strlen(TMP_PHONEBOOKPATH) + strlen("/phonebook.xml") + 4);
-    sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.xml");
+    //path = malloc(strlen(TMP_PHONEBOOKPATH) + strlen("/phonebook.xml") + 4);
+    //sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.xml");
+    //path = malloc(strlen(TMP_PHONEBOOKPATH) + 4);
+    //sprintf(path, "%s/", TMP_PHONEBOOKPATH);
 
     if ( 0 == access(path, 0) ) {
         chmod(path, 0777);
     }
 
     if (!strcasecmp(flag, "0")) {
+        path = malloc(strlen(TMP_PHONEBOOKPATH) + 4);
+        sprintf(path, "%s/", TMP_PHONEBOOKPATH);
         message = dbus_message_new_method_call(dbus_dest, dbus_path, dbus_interface, "exportPhonebook");
         printf("handle_exportPhonebook");
 
     } else {
+        path = malloc(strlen(TMP_PHONEBOOKPATH) + strlen("/phonebook.xml") + 4);
+
+        if (portType != NULL && strcmp(portType, "2") == 0) {
+            sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.vcf");
+        } else {
+            sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.xml");
+        }
         message = dbus_message_new_method_call(dbus_dest, dbus_path, dbus_interface, "importPhonebook");
         printf("handle_importPhonebook");
     }
@@ -11809,13 +11831,16 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
         if (portClear != NULL) {
             len += strlen(portClear) + strlen(", \"clear\": \"\"");
         }
-        len += strlen(path) + strlen(", \"path\": \"\"");
+        if (exportType != NULL) {
+            len += strlen(exportType) + strlen(", \"exportType\": \"\"");
+        }
+        len += strlen(path) + strlen(", \"path\": \"\"") + 128;
 
         json = malloc(len * sizeof(char));
         if (json != NULL) {
-            snprintf(json, len-1, 
-                     "{\"path\": \"%s\", \"mode\": \"%s\", \"encode\": \"%s\", \"type\": \"%s\", \"replace\": \"%s\", \"clear\": \"%s\"}",
-                     path, opmode, portEncode, portType, portReplace, portClear);
+            snprintf(json, len,
+                     "{\"path\": \"%s\", \"mode\": \"%s\", \"encode\": \"%s\", \"type\": \"%s\", \"replace\": \"%s\", \"clear\": \"%s\", \"exporttype\": \"%s\"}",
+                     path, opmode, portEncode, portType, portReplace, portClear, exportType);
 
             if (!dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &json)) {
                 printf("Out of Memory!\n");
@@ -11824,7 +11849,7 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
                 exit(1);
             }
 
-            nvram_set("phonebook_status", "99");
+            //nvram_set("phonebook_status", "99");
 
             reply = dbus_connection_send_with_reply_and_block(conn, message, reply_timeout, &error);
             if (dbus_error_is_set(&error)) {
@@ -11837,7 +11862,7 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
                 print_message(reply);
                 int current_type;
                 dbus_message_iter_init(reply, &iter);
-                
+
                 while((current_type = dbus_message_iter_get_arg_type(&iter)) != DBUS_TYPE_INVALID) {
                     switch(current_type) {
                         case DBUS_TYPE_STRING:
@@ -11851,6 +11876,7 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
                 }
 
                 if (result != NULL) {
+                    /*
                     if (jsonCallback != NULL) {
                         temp = malloc((strlen(jsonCallback) + strlen(result) + 8) * sizeof(char));
                         if (temp != NULL) {
@@ -11862,6 +11888,8 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
                         buffer_append_string(b, "Response=Success\r\n");
                         buffer_append_string(b, result);
                     }
+                    */
+                    buffer_append_string(b, result);
                 }
 
                 dbus_message_unref(reply);
@@ -11884,7 +11912,10 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
     const char *interval = NULL;
     const char *downReplace = NULL;
     const char *downClear = NULL;
+    const char *downBS = NULL;
     const char *downEncode = NULL;
+    const char *userName = NULL;
+    const char *passWord = NULL;
     const char *resType = NULL;
     const char *jsonCallback = NULL;
     const char *status = NULL;
@@ -11899,22 +11930,26 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
     DBusError error;
     DBusConnection *conn = NULL;
     DBusMessageIter iter;
+    char buffer[20];
+    memset(buffer, 0, 20);
 
-    status = nvram_get("phonebook_status");
-    if (status != NULL && !strcasecmp(status, "1")) {
+    /*
+    status = nvram_get_safe("phonebook_status", buffer, 20);
+    if (status != NULL && strcasecmp(status, "3") && strcasecmp(status, "4") && strcasecmp(status, "99")) {
         if (jsonCallback != NULL) {
             result = malloc((strlen(jsonCallback) + 64) * sizeof(char));
             if (result != NULL) {
-                sprintf(result, "%s({\"res\": \"success\", \"phbkresponse\": \"1\"})", jsonCallback);
+                sprintf(result, "%s({\"res\": \"error\", \"phbkresponse\": \"2\"})", jsonCallback);
                 buffer_append_string(b, result);
                 free(result);
             }
         } else {
-            buffer_append_string(b, "{\"res\": \"success\", \"phbkresponse\": \"1\"}");
+            buffer_append_string(b, "{\"res\": \"error\", \"phbkresponse\": \"2\"}");
         }
 
         return 0;
     }
+    */
 
     resType = msg_get_header(m, "format");
     if (resType != NULL && !strcasecmp(resType, "json")) {
@@ -11931,7 +11966,7 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
         opmode = "";
     }
     serverUrl = msg_get_header(m, "downUrl");
-    uri_decode((char*)serverUrl);
+    uri_decode(serverUrl);
     if (serverUrl == NULL) {
         serverUrl = "";
     }
@@ -11947,9 +11982,21 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
     if (downClear == NULL) {
         downClear = "";
     }
+    downBS = msg_get_header(m, "downBS");
+    if (downBS == NULL) {
+        downBS = "";
+    }
     downEncode = msg_get_header(m, "downEncode");
     if (downEncode == NULL) {
         downEncode = "";
+    }
+    userName = msg_get_header(m, "Username");
+    if (userName == NULL) {
+        userName = "";
+    }
+    passWord = msg_get_header(m, "passWord");
+    if (passWord == NULL) {
+        passWord = "";
     }
 
     message = dbus_message_new_method_call(dbus_dest, dbus_path, dbus_interface, "downloadPhonebook");
@@ -11987,16 +12034,27 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
         if (downClear != NULL) {
             len += strlen(downClear) + strlen(", \"clear\": \"\"");
         }
+        if (downBS != NULL) {
+            len += strlen(downBS) + strlen(", \"downloadbs\": \"\"");
+        }
         if (downEncode != NULL) {
             len += strlen(downEncode) + strlen(", \"encode\": \"\"");
         }
-        len += strlen(flag) + strlen(", \"flag\": \"\"");
+        if (userName != NULL) {
+            len += strlen(userName) + strlen(", \"username\": \"\"");
+        }
+        if (passWord != NULL) {
+            len += strlen(passWord) + strlen(", \"password\": \"\"");
+        }
+        len += strlen(flag) + strlen(", \"flag\": \"\"") + 128;
 
         json = malloc(len * sizeof(char));
         if (json != NULL) {
-            snprintf(json, len-1, 
-                     "{\"flag\": \"%s\", \"mode\": \"%s\", \"url\": \"%s\", \"interval\": \"%s\", \"replace\": \"%s\", \"clear\": \"%s\", \"encode\": \"%s\"}",
-                     flag, opmode, serverUrl, interval, downReplace, downClear, downEncode);
+            snprintf(json, len,
+                     "{\"flag\": \"%s\", \"mode\": \"%s\", \"url\": \"%s\", \"interval\": \"%s\", \"replace\": \"%s\", \"clear\": \"%s\", \"downloadbs\": \"%s\", \"encode\": \"%s\", \"username\":\"%s\", \"password\":\"%s\"}",
+                     flag, opmode, serverUrl, interval, downReplace, downClear, downBS, downEncode, userName, passWord);
+
+            printf("json: %s\n", json);
 
             if (!dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &json)) {
                 printf("Out of Memory!\n");
@@ -12004,7 +12062,7 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
                 exit(1);
             }
 
-            nvram_set("phonebook_status", "99");
+            //nvram_set("phonebook_status", "99");
 
             reply = dbus_connection_send_with_reply_and_block(conn, message, reply_timeout, &error);
             if (dbus_error_is_set(&error)) {
@@ -12017,7 +12075,7 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
                 print_message(reply);
                 int current_type;
                 dbus_message_iter_init(reply, &iter);
-                
+
                 while((current_type = dbus_message_iter_get_arg_type(&iter)) != DBUS_TYPE_INVALID) {
                     switch(current_type) {
                         case DBUS_TYPE_STRING:
@@ -12031,6 +12089,7 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
                 }
 
                 if (result != NULL) {
+                    /*
                     if (jsonCallback != NULL) {
                         temp = malloc((strlen(jsonCallback) + strlen(result) + 8) * sizeof(char));
                         if (temp != NULL) {
@@ -12049,6 +12108,8 @@ static int handle_putdownphbk (buffer *b, const struct message *m) {
                             buffer_append_string(b, res);
                         }
                     }
+                    */
+                    buffer_append_string(b, result);
                 }
 
                 dbus_message_unref(reply);
@@ -12066,13 +12127,15 @@ static int handle_portphbkresponse (buffer *b, const struct message *m) {
     const char* jsonCallback = NULL;
     char* status = NULL;
     char* result = NULL;
+    char buffer[20];
+    memset(buffer, 0, 20);
 
     resType = msg_get_header(m, "format");
     if (resType != NULL && !strcasecmp(resType, "json")) {
         jsonCallback = msg_get_header(m, "jsoncallback");
     }
 
-    status = nvram_get("phonebook_status");
+    status = nvram_get_safe("phonebook_status", buffer, 20);
     if (status != NULL) {
         if (!strcasecmp(status, "1")) {
             status = "1";
@@ -12110,15 +12173,28 @@ static int handle_phbkresponse (buffer *b, const struct message *m) {
     const char* resType = NULL;
     const char* jsonCallback = NULL;
     char* status = NULL;
+    char* max = NULL;
+    char* progress = NULL;
     char* result = NULL;
+    char buffer1[20];
+    char buffer2[20];
+    char buffer3[20];
+    memset(buffer1, 0, 20);
+    memset(buffer2, 0, 20);
 
     resType = msg_get_header(m, "format");
     if (resType != NULL && !strcasecmp(resType, "json")) {
         jsonCallback = msg_get_header(m, "jsoncallback");
     }
 
-    status = nvram_get("phonebook_status");
+    status = nvram_get_safe("phonebook_status", buffer1, 20);
+    max = nvram_get_safe("phonebook_max", buffer2, 20);
+    if (max == NULL) {
+        max = "";
+    }
+    progress = nvram_get_safe("phonebook_progress", buffer3, 20);
     if (status != NULL) {
+        /*
         if (!strcasecmp(status, "1")) {
             status = "1";
         } else if (!strcasecmp(status, "99")) {
@@ -12128,19 +12204,20 @@ static int handle_phbkresponse (buffer *b, const struct message *m) {
         } else if (!strcasecmp(status, "0")) {
             status = "0";
         }
+        */
 
         if (jsonCallback != NULL) {
-            result = malloc((strlen(jsonCallback) + 64) * sizeof(char));
+            result = malloc((strlen(jsonCallback) + 128) * sizeof(char));
             if (result != NULL) {
-                sprintf(result, "%s({\"res\": \"success\", \"phbkresponse\": \"%s\"})", jsonCallback, status);
+                sprintf(result, "%s({\"res\": \"success\", \"phbkresponse\": \"%s\", \"max\":\"%s\", \"phbkprogress\":\"%s\"})", jsonCallback, buffer1, buffer2, buffer3);
                 buffer_append_string(b, result);
                 free(result);
             }
         } else {
-            result = malloc(64 * sizeof(char));
+            result = malloc(128 * sizeof(char));
             if (result != NULL) {
                 buffer_append_string (b, "Response=Success\r\n");
-                sprintf(result, "phbkresponse=%s\r\n", status);
+                sprintf(result, "phbkresponse=%s\r\nmax=%s\r\nphbkprogress=%s\r\n", buffer1, buffer2, buffer3);
                // sprintf(result, "{\"res\": \"success\", \"phbkresponse\": \"%s\"}", status);
                 buffer_append_string(b, result);
                 free(result);
@@ -22398,12 +22475,17 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                 chmod(file_name, 0744);
             }
 	}
-        
-    int uploadsuc = 0;
+       
+    int uploadsuc = 1;
+
+    /*
     if( con->request.content_length - whlength < 1024 ){
         uploadsuc = 1;
     }
+    */
+
     printf("process done,uploadsuc = %d---------\r\n", uploadsuc);
+
     resType = msg_get_header(m, "format");
 
     if((resType != NULL) && !strcasecmp(resType, "json"))
