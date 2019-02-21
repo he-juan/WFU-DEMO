@@ -41,6 +41,16 @@ export const linesInfo = (state = [], action) => {
     }
 }
 
+
+export const incomingcalls = (state = {style:"display-hidden",incomingcallsinfo:[]}, action) => {
+    switch (action.type) {
+        case Actions.INCOMMING_LINE_INFO:
+            return action.incomingcalls
+        default:
+            return state
+    }
+}
+
 /**
  * 是否处于保持状态
  */

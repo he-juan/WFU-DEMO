@@ -28,7 +28,7 @@ class IncomingcallDialog extends Component {
     }
 
     handleAccept = (isvideo) => {
-        let incominglinestatus = this.props.incominglinestatus;
+        let incominglinestatus = this.props.incomingcalls.incomingcallsinfo;
         // GVC3210 only support one line
         if(incominglinestatus.length == 1){
             let line = incominglinestatus[0].line;
@@ -39,7 +39,7 @@ class IncomingcallDialog extends Component {
     }
 
     handelReject = () => {
-        let incominglinestatus = this.props.incominglinestatus;
+        let incominglinestatus = this.props.incomingcalls.incomingcallsinfo
         // GVC3210 only support one line
         if(incominglinestatus.length == 1){
             let line = incominglinestatus[0].line;
@@ -51,7 +51,9 @@ class IncomingcallDialog extends Component {
     }
 
     render() {
-        let incominglines = this.props.incominglinestatus;
+        let style = this.props.incomingcalls.style;
+        let incominglines = this.props.incomingcalls.incomingcallsinfo;
+
         let length = incominglines.length;
         let checkboxvisible = "display-hidden";
         let h323acceptvisible = "display-hidden";
@@ -59,7 +61,7 @@ class IncomingcallDialog extends Component {
         let videoacceptvisible = "display-hidden";
         if (length > 1) {
             checkboxvisible = "display-block";
-        } else {
+        } else if(length == 1){
             if (incominglines[0].acct == "1") {
                 audioacceptvisible = "display-hidden";
                 videoacceptvisible = "display-inline";
@@ -79,7 +81,7 @@ class IncomingcallDialog extends Component {
             }
         }
         return (
-            <div className="incomingcalldiv" onClick={this.handleCallDialog} >
+            <div className={"incomingcalldiv " + style} onClick={this.handleCallDialog} >
                 <div className="title">{this.tr("a_670")}</div>
                 <div className="incominglist">
                     {
@@ -109,6 +111,7 @@ class IncomingcallDialog extends Component {
 const mapStateToProps = (state) => ({
     curLocale: state.curLocale,
     mainHeight: state.mainHeight,
+    incomingcalls: state.incomingcalls
 })
 
 function mapDispatchToProps(dispatch) {

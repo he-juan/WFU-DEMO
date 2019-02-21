@@ -168,10 +168,6 @@ class Main extends React.Component {
                         ? <CallDialog linestatus={linesinfo} status={this.props.callDialogStatus} />
                         : null
                     }
-                    {
-                         incomingcallsinfo.length > 0 ?
-                             <IncomingcallDialog incominglinestatus={incomingcallsinfo}/> : null
-                    }
                     <IntlProvider>
                         <Router history={ hashHistory }>
                             { Routes() }

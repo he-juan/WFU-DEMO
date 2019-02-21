@@ -3,6 +3,7 @@ import MainHeader from "./modules/pubModule/header";
 import Main from "./main";
 import {Layout} from "antd";
 import SpinBlock from "./modules/pubModule/spinblock";
+import IncomingcallDialog from './modules/calls/call/incomingcallDialog'
 import ProgressMessage from "./modules/pubModule/progressTip";
 import NotifyBox from "./modules/pubModule/notifybox";
 import HandleWebsocket from './websocket/websocket.js';
@@ -40,6 +41,7 @@ class Index extends Component {
                 <NotifyBox />
                 <Main />
                 <SpinBlock />
+                <IncomingcallDialog />
                 <ProgressMessage />
                 <HandleWebsocket />
             </Layout>

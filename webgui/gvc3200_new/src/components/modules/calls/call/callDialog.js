@@ -118,7 +118,7 @@ class CallDialog extends Component {
                     isline4Kvideo: result[2] == "true" ? true : false
                 });
             });
-        
+        //当账号为0 时需要判断是否为sfu会议
         //  sfu 获取role
         this.props.getsfuconfmyrole(function(role){
 
@@ -516,7 +516,6 @@ class CallDialog extends Component {
         this.setState({
             endallConfirm1Visible: false
         })
-
     }
     endConf =()=>{
         this.props.endconf("0");

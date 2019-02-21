@@ -23,9 +23,22 @@ export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
     // 为视频通话的线路
     let isVideoLines = linesinfo.filter((v) => {
         return v.isvideo == '1';
-    })
+    });
+    let incomingcallsinfo = [];
+    for(let i = linesinfo.length -1 ; i >= 0; i--){
+        //check if is incomming call
+        if(linesinfo[i].state == "2") {
+            incomingcallsinfo.push(linesinfo[i]);
+        }
+    }
+    if(incomingcallsinfo.length > 0){
+        dispatch({type: 'INCOMMING_LINE_INFO', incomingcalls: {style: 'display-block', incomingcallsinfo: incomingcallsinfo}});
+    }else{
+        dispatch({type: 'INCOMMING_LINE_INFO', incomingcalls: {style: 'display-hidden', incomingcallsinfo: incomingcallsinfo}});
+    }
     dispatch({type: 'HELD_STATUS', heldStatus: linesinfo.length == 0 || unHoldlines.length > 0 ? '0' : '1'});
     dispatch({type: 'SET_IS_VIDEO', isvideo: isVideoLines.length > 0 ? '1' : '0' });
+
     dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo});
     setbusylinenum(linesinfo.length)(dispatch);
 }

@@ -6545,7 +6545,7 @@ ol.mp_list li.mp_error {}
     background: #F6F7F7;
     font-size: 16px;
     box-shadow: 0px 0px 10px 2px #919191;
-    z-index: 1002;
+    z-index: 1300;
 }
 
 .incomingcalldiv .title, .selectvideodiv .title{

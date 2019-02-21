@@ -436,6 +436,7 @@ class MainHeader extends Component {
                                             <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,292)} onMouseUp={this.clearsendKey.bind(this,292)}><div></div></button>
                                         </div>
                                 }
+                            </div>
                             <div className="radiusbtn">
                                 <button id="volumedownbtn" onMouseDown={this.sendKey.bind(this,25)} onMouseUp={this.clearsendKey.bind(this,25)}><div></div></button>
                                 <button id="volumeupbtn"  onMouseDown={this.sendKey.bind(this,24)} onMouseUp={this.clearsendKey.bind(this,24)}><div></div></button>

@@ -106,8 +106,8 @@ class HandleWebsocket extends React.Component {
         let flag = false;
         for( let i = 0; i < this.props.linesinfo.length; i++ ){
             if(this.props.linesinfo[i].line == message.line) {
-                if(message['flag'].indexOf("MuteMic") != -1){
-                    this.props.linesinfo[i].isLocalMuted = message['flag'].split("=")[1];
+                if(message.flag.setChanParam &&  message.flag.setChanParam.LocalMuteVoip){
+                    this.props.linesinfo[i].isLocalMuted = message.flag.setChanParam.LocalMuteVoip;
                     flag = true;
                     break;
                 }
