@@ -1398,7 +1398,7 @@ export const cb_check_provision = (upgradeall,callback) => (dispatch) => {
 }
 
 export const initUploadStatus = () => (dispatch) => {
-    let request = 'action=initupstatus';
+    let request = 'action=initupstatus&region=maintenance';
 
     actionUtil.handleGetRequest(request).then(function(data) {
 
