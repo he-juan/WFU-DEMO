@@ -121,13 +121,13 @@ class GeneralForm extends React.Component {
                </FormItem>
                <FormItem label={(<span>{callTr("a_23536")}&nbsp;<Tooltip title={this.tips_tr("SIP Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('sipserver', {
-                       rules: [{
-                         max:64,message: callTr("max_length64"),
-                       },{
-                         validator: (data, value, callback) => {
-                           this.checkaddressPath(data, value, callback)
-                         }
-                     }],
+                    //    rules: [{
+                    //      max:64,message: callTr("max_length64"),
+                    //    },{
+                    //      validator: (data, value, callback) => {
+                    //        this.checkaddressPath(data, value, callback)
+                    //      }
+                    //  }],
                      initialValue: this.props.itemValues['sipserver']
                      })(
                        <Input type="text" id="sipserver" className={"P-" + nvram["sipserver"]} />
@@ -135,13 +135,13 @@ class GeneralForm extends React.Component {
                </FormItem>
                <FormItem  label={(<span>{callTr("a_16055")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('secsipserver', {
-                            rules: [{
-                                max:64,message: callTr("max_length64"),
-                            },{
-                                validator: (data, value, callback) => {
-                                this.checkaddressPath(data, value, callback)
-                                }
-                            }],
+                            // rules: [{
+                            //     max:64,message: callTr("max_length64"),
+                            // },{
+                            //     validator: (data, value, callback) => {
+                            //     this.checkaddressPath(data, value, callback)
+                            //     }
+                            // }],
                             initialValue: this.props.itemValues['secsipserver']
                             })(
                             <Input type="text" id="secsipserver" className={"P-" + nvram["secsipserver"]} />
@@ -149,13 +149,13 @@ class GeneralForm extends React.Component {
                </FormItem>
                <FormItem  label={(<span>{callTr("a_19168")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('thirdsipserver', {
-                            rules: [{
-                                max:64,message: callTr("max_length64"),
-                            },{
-                                validator: (data, value, callback) => {
-                                this.checkaddressPath(data, value, callback)
-                                }
-                            }],
+                            // rules: [{
+                            //     max:64,message: callTr("max_length64"),
+                            // },{
+                            //     validator: (data, value, callback) => {
+                            //     this.checkaddressPath(data, value, callback)
+                            //     }
+                            // }],
                             initialValue: this.props.itemValues['thirdsipserver']
                             })(
                             <Input type="text" id="thirdsipserver" className={"P-" + nvram["thirdsipserver"]} />
