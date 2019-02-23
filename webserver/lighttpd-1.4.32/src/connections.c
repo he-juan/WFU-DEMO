@@ -9293,20 +9293,18 @@ static int handle_originatecall (server *srv, connection *con,
     int reply_timeout = 3000;
     DBusMessage *reply = NULL;
     DBusConnection *conn = NULL;
-    int account = 0;
-    int isVideo = 0;
-    int isPaging = 0;
-    int isDialPlan = 0;
-    int isipcall = 0;
-    const char *num = NULL;
-    const char *headerString = "";
+    char *number = NULL;
+    char *account = NULL;
+    char *isVideo = NULL;
+    char *isConf = NULL;
+    char *source = NULL;
+    char *callMode = NULL;
     char *temp = NULL;
     char res[128] = "";
-    char *info = NULL;
 
-    num = msg_get_header(m, "destnum");
+    number = msg_get_header(m, "destnum");
 
-    if ( num  == NULL || strlen(num) == 0)
+    if ( number  == NULL || strlen(number) == 0)
     {
         const char *resType = msg_get_header(m, "format");
         if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
@@ -9325,7 +9323,7 @@ static int handle_originatecall (server *srv, connection *con,
     }
     else
     {
-        uri_decode((char*)num);
+        //uri_decode((char*)number);
         type = DBUS_BUS_SYSTEM;
         dbus_error_init (&error);
         conn = dbus_bus_get (type, &error);
@@ -9344,90 +9342,64 @@ static int handle_originatecall (server *srv, connection *con,
             dbus_message_set_auto_start (message, TRUE);
             dbus_message_iter_init_append( message, &iter );
 
-            temp = msg_get_header(m, "account");
-            if ( temp != NULL )
-            {
-                account = atoi( temp );
-                printf("account: %d\n", account);
-                printf("destnum: %s\n", num);
-            }
-            temp = msg_get_header(m, "isvideo");
-             printf("isVideo: temp %s\n", temp);
-            if ( temp != NULL )
-            {
-                if ( !strcasecmp( temp, "1" ) )
-                {
-                    isVideo = 1;
-                }
-            }
-            printf("isVideo: %d\n", isVideo);
+            uri_decode(number);
 
-            temp = msg_get_header(m, "isdialplan");
-            if ( temp != NULL )
-            {
-                if ( !strcasecmp( temp, "1" ) )
-                {
-                    isDialPlan = 1;
-                }
-            }
-            temp = msg_get_header(m, "ispaging");
-            printf("isPaging: temp %s\n", temp);
-            if ( temp != NULL )
-            {
-                if ( !strcasecmp( temp, "1" ) )
-                {
-                    isPaging = 1;
-                }
+            account = msg_get_header(m, "account");
+            if (account == NULL) {
+                account = "";
             }
 
-            temp = msg_get_header(m, "isipcall");
-            printf("isipcall: temp %s\n", temp);
-            if ( temp != NULL )
-            {
-                if ( !strcasecmp( temp, "1" ) )
-                {
-                    isipcall = 1;
-                }
+            isVideo = msg_get_header(m, "isvideo");
+            if (isVideo == NULL) {
+                isVideo = "";
             }
 
-            temp = msg_get_header(m, "headerstring");
-            if ( temp != NULL )
-            {
-                headerString = temp;
+            isConf = msg_get_header(m, "isconf");
+            if (isConf == NULL) {
+                isConf = "";
             }
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &account ) )
-            {
-                printf( "Out of Memory!\n" );
-                exit( 1 );
+
+            source = msg_get_header(m, "source");
+            if (source == NULL) {
+                source = "";
             }
-                if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isVideo ) )
-            {
-                printf( "Out of Memory!\n" );
-                exit( 1 );
+
+            callMode = msg_get_header(m, "callmode");
+            if (callMode == NULL) {
+                callMode = "";
             }
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isDialPlan ) )
-            {
-                printf( "Out of Memory!\n" );
-                exit( 1 );
-            }
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isPaging ) )
-            {
-                printf( "Out of Memory!\n" );
-                exit( 1 );
-            }
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isipcall ) )
-            {
-                printf( "Out of Memory!\n" );
-                exit( 1 );
-            }
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &num ) )
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &number ) )
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
             }
 
-            printf("num---%s\n", num);
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &headerString ) )
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &account ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &isVideo ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &isConf ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &source ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &callMode ) )
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
@@ -9467,19 +9439,13 @@ static int handle_originatecall (server *srv, connection *con,
                 }
                 if ( res2 != NULL )
                 {
-                    info = (char*)malloc((1+ strlen(res2)) * sizeof(char));
-                    sprintf(info, "%s", res2);
-                    temp = info;
+                    temp = "{\"res\": \"success\", \"msg\": \"call orinagated\"}";
                 }
                 else
                 {
                     temp = "{\"res\": \"error\", \"msg\": \"timeout\"}";
                 }
                 temp = build_JSON_res( srv, con, m, temp );
-                if(info != NULL)
-                {
-                    free(info);
-                }
                 if ( temp != NULL )
                 {
                     buffer_append_string( b, temp );
