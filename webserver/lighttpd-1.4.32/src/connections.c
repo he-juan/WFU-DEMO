@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <sys/vfs.h>
-#include <sys/time.h> /* select() */ 
+#include <sys/time.h> /* select() */
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,7 +19,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <assert.h>
-#include <net/if.h> 
+#include <net/if.h>
 #ifndef BUILD_RECOVER
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -242,13 +242,14 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define SIGNAL_LIGHTTPD_PHBKDOWNLOADSAVE          41
 //#define SIGNAL_LIGHTTPD_DOWNLOADSAVE            42
 
-    
+
 #define MTD_NANDFLASH		4
 #define MEMGETINFO              _IOR('M', 1, struct mtd_info_user)
 #define MEMERASE                _IOW('M', 2, struct erase_info_user)
 #define MEMGETBADBLOCK		_IOW('M', 11, loff_t)
 #define CONST_GCHAR_LEN(x) x, x ? strlen(x) : 0
 #define SKYPE_VERSION     "1"
+#define API_ARY_LEN       100
 
 typedef struct mtd_info_user mtd_info_t;
 typedef struct erase_info_user erase_info_t;
@@ -352,8 +353,11 @@ int importlanrsps = -1;
 int mpkextstartpvalue[5];
 int passwrongtimes = 0;
 int userpasswrongtimes = 0;
+int gmipasswrongtimes = 0;
+int gmilocktimes = 0;
 time_t lockoutime = 0;
 time_t userlockoutime = 0;
+time_t gmilockoutime = 0;
 
 int provision_local_fd;
 int provision_ret;
@@ -363,6 +367,11 @@ const char *mRealm = NULL;
 struct sockaddr_un provision_destaddr;
 int pwdNeedChange = 0;
 int tempOpenSyslog = 0;
+
+int pid_tcpdump = 0;
+int pid_ping = 0;
+int pid_traceroute = 0;
+
 //pthread_cond_t changeinput_cond = PTHREAD_COND_INITIALIZER;
 
 //void (*get_timezone_offset)(const char *ids[], const int n, long *result);
@@ -386,10 +395,10 @@ char *ids[] = { "GMT","Pacific/Midway", "Pacific/Honolulu", "America/Anchorage",
                 "Asia/Shanghai", "Asia/Hong_Kong", "Asia/Irkutsk",
                 "Asia/Kuala_Lumpur", "Australia/Perth", "Asia/Taipei", "Asia/Seoul", "Asia/Tokyo",
                 "Asia/Yakutsk", "Australia/Adelaide", "Australia/Darwin", "Australia/Brisbane", "Australia/Hobart",
-                "Australia/Sydney", "Asia/Vladivostok", "Pacific/Guam", "Asia/Magadan", "Pacific/Majuro", 
+                "Australia/Sydney", "Asia/Vladivostok", "Pacific/Guam", "Asia/Magadan", "Pacific/Majuro",
                 "Pacific/Auckland", "Pacific/Fiji", "Pacific/Tongatapu"
     };
-    
+
 #endif
 
 
@@ -493,6 +502,63 @@ static int mysystem(char *cmd)
     return system(cmd);
 }
 
+/* Add by cchma on 2018.12.11, use "fork" + "exec" to exec the system commands instead of using the system() directly, which can be attacked by the Command Injection.*/
+/* Reference Bug #127158, #127157, #127159, #127155 */
+static int doCommandTask(char* const argv[], const char *outfile, const char *infile, int isNonBlock)
+{
+    int rtn;
+    pid_t pid;
+
+    pid = fork();
+    if ( pid == 0 ) {  /* child process */
+
+        if (argv == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
+        /* redirect the stdout and stderr to file */
+        int outfd;
+        if (outfile != NULL && -1 != (outfd = open(outfile, O_CREAT | O_WRONLY))) {
+            ftruncate(outfd, 0);
+            lseek(outfd, 0, SEEK_SET);
+            dup2(outfd, STDOUT_FILENO);
+            dup2(outfd, STDERR_FILENO);
+            close(outfd);
+        }
+
+        /* redirect the stdin to file */
+        int infd;
+        if (infile != NULL && -1 != (infd = open(infile, O_RDONLY))) {
+            dup2(infd, STDIN_FILENO);
+            close(infd);
+        }
+
+        execvp (argv[0], argv);
+
+        /* error occur */
+        printf("exec %s in child process failed.", argv[0]);
+        exit(errno);
+    } else {  /* parent process */
+
+        /* For ping/traceroute/tcpdump, parent can not wait for the child process all the time. */
+        /* And can only to kill them when the "stop" request arrived, so we need to restore the pid of them. */
+        if (!strcmp(argv[0], "ping")) {
+            pid_ping = pid;
+        } else if (!strcmp(argv[0], "tcpdump")) {
+            pid_tcpdump = pid;
+        } else if (!strcasecmp(argv[0], "traceroute")) {
+            pid_traceroute = pid;
+        }
+
+        if (!isNonBlock) {
+            wait (&rtn);
+            printf("child process %s, return %d\n", argv[0], rtn );
+        }
+    }
+
+    return rtn;
+}
+
 static const char *msg_get_header(const struct message *m, char *var)
 {
     char cmp[80];
@@ -568,7 +634,7 @@ static int handle_checkneedapplyp(buffer *b)
         buffer_append_string(b, "needapply=1\r\n");
     else
         buffer_append_string(b, "needapply=0\r\n");
-    
+
     return 1;
 }
 
@@ -587,7 +653,7 @@ static PvalueList *create_list_node(char *pvalue, char *data)
        newNode->data = strdup( data );
        newNode->next = NULL;
     }
-    
+
     return newNode;
 }
 
@@ -624,7 +690,7 @@ static PvalueList* pvaluelist_append( PvalueList *head, char *pvalue, char *data
             prePtr->next = newNode;
         }
     }
-    
+
     return head;
 }
 
@@ -1014,7 +1080,7 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                 //memset(targetnumber, 0, len);
                 //replace(phonenum, "\"", "\\\"", targetnumber);
             }
-            
+
             if( pinyin != NULL ){
                 len = strlen(pinyin) * 2;
                 targetpinyin = malloc(len);
@@ -1093,7 +1159,7 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                 snprintf(res, len, "{\"Id\":\"%d\", \"RawId\":\"%d\", \"Info\":\"%s\", \"AcctIndex\":\"%d\", \"InfoType\":\"%d\", \"DataType\":\"%d\"}", data1, data2, targetname, data3, data5, data4);
             else
                 snprintf(res, len, ",{\"Id\":\"%d\", \"RawId\":\"%d\", \"Info\":\"%s\", \"AcctIndex\":\"%d\", \"InfoType\":\"%d\", \"DataType\":\"%d\"}", data1, data2, targetname, data3, data5, data4);
-            
+
             buffer_append_string(b, res);
 
             //printf("%10d %10d %10s\n", data1, data2, targetname);
@@ -1363,7 +1429,7 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             else{
                 json_handle(phonenum);
             }
-            
+
             if( memberdate == NULL ){
                 printf("memberdate is null\n");
                 continue;
@@ -1437,11 +1503,11 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             disname2 = sqlite3_column_text(stmt, 10);    //contact name
             confname = sqlite3_column_text(stmt, 11);    //in conf name
 
-            if( phonenum == NULL ) 
+            if( phonenum == NULL )
                 continue;
             else
                 json_handle(phonenum);
-            
+
             if( disname == NULL ){
                 len = strlen(phonenum) + 8;
                 disname = malloc(len);
@@ -2223,7 +2289,7 @@ int sqlite_handle_display(buffer *b, const struct message *m, const char *type ,
                 fontcolor = (char*)sqlite3_column_text(stmt, 2);   //font_color
                 transparency = sqlite3_column_int(stmt, 3);    //  transparency
                 scrollspeed = sqlite3_column_int(stmt, 4);    //scroll_speed
-                height = sqlite3_column_int(stmt, 5);   //height  
+                height = sqlite3_column_int(stmt, 5);   //height
                 bold = sqlite3_column_int(stmt, 6); //bold
 
                 res = malloc( len );
@@ -2250,8 +2316,8 @@ int sqlite_handle_display(buffer *b, const struct message *m, const char *type ,
             return -1;
         }
         buffer_append_string(b,"{\"Response\":\"Success\"}");
-        
-    }  
+
+    }
     sqlite3_close(db);
     free(sqlstr);
     return 1;
@@ -2324,9 +2390,9 @@ static char * build_JSON_res( server *srv, connection *con,  const struct messag
     char *temp = NULL;
     if ( ( srv != NULL ) && ( con != NULL ) && ( m != NULL ) && ( appendRes != NULL ) )
     {
-         response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"), 
+         response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"),
                     CONST_STR_LEN("application/x-javascript; charset=utf-8"));
-            
+
         const char * jsonCallback = msg_get_header( m, "jsoncallback" );
         if ( jsonCallback != NULL )
         {
@@ -2339,7 +2405,7 @@ static char * build_JSON_res( server *srv, connection *con,  const struct messag
              temp = strdup( appendRes );
         }
     }
-    
+
     return temp;
 }
 
@@ -2348,9 +2414,9 @@ static char * build_JSON_formate( server *srv, connection *con,  const struct me
     char *temp = NULL;
     if ( ( srv != NULL ) && ( con != NULL ) && ( m != NULL ) && ( appendRes != NULL ) )
     {
-         response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"), 
+         response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"),
                     CONST_STR_LEN("application/x-javascript; charset=utf-8"));
-            
+
         const char * jsonCallback = msg_get_header( m, "jsoncallback" );
         if ( jsonCallback != NULL )
         {
@@ -2364,7 +2430,7 @@ static char * build_JSON_formate( server *srv, connection *con,  const struct me
              temp = strdup( appendRes );
         }
     }
-    
+
     return temp;
 }
 
@@ -2584,7 +2650,7 @@ static int handle_recording(buffer *b, const struct message *m)
                 cmd = malloc(len);
                 memset(cmd, 0, len);
                 replace(targetfilename, "$", "\\$", cmd);
-                
+
                 char *targetcmd = NULL;
                 len = strlen(cmd) + 128;
                 targetcmd = malloc(len);
@@ -2609,7 +2675,7 @@ static int handle_recording(buffer *b, const struct message *m)
             const char *path = msg_get_header(m, "name");
             const char *newname = msg_get_header(m, "newname");
             const char *pathonly = msg_get_header(m, "pathonly");
-            
+
             if( path != NULL && newname != NULL && pathonly != NULL){
                 char *cmd = NULL;
                 uri_decode((char*)path);
@@ -2620,7 +2686,7 @@ static int handle_recording(buffer *b, const struct message *m)
                 targetnewname = malloc(namelength);
                 memset(targetnewname, 0, namelength);
                 replace(newname, "$", "\\$", targetnewname);
-                
+
                 namelength = strlen(path) * 2;
                 targetpath = malloc(namelength);
                 memset(targetpath, 0, namelength);
@@ -2645,7 +2711,7 @@ static int handle_recording(buffer *b, const struct message *m)
                     updateok = 1;
                 }
                 free(cmd);
-                
+
                 int updatelen;
                 updatelen = strlen(newname)+128;
                 sqlstr = malloc(updatelen);
@@ -2864,7 +2930,7 @@ static int handle_ipvt_acctinfo( buffer *b )
 {
     char *acct = nvram_my_get("405");
     char *pswd = nvram_my_get("406");
-    
+
     li_MD5_CTX Md5Ctx;
     HASH HA1;
     char a1[256];
@@ -2872,12 +2938,12 @@ static int handle_ipvt_acctinfo( buffer *b )
     li_MD5_Update(&Md5Ctx, (unsigned char *)pswd, strlen(pswd));
     li_MD5_Final(HA1, &Md5Ctx);
     CvtHex(HA1, a1);
-    
+
     int len = strlen(acct) + strlen(a1) + 32;
     char *res = malloc(len);
     memset(res, 0, len);
     sprintf(res, "Response=Success\r\n405=%s\r\n406=%s", acct, a1);
-    
+
     buffer_append_string(b, res);
     free(res);
     return 0;
@@ -2942,13 +3008,16 @@ static int handle_checklockout(buffer *b)
     return locked;
 }
 
-static int authenticate (const struct message *m)
+static int authenticate (const struct message *m, int isadmin, const char *pass)
 {
-    const char *user = msg_get_header (m, "Username");
-    const char *pass = msg_get_header (m, "Secret");
+    //const char *user = msg_get_header (m, "Username");
+    //const char *pass = msg_get_header (m, "Secret");
     //const char *realm = msg_get_header (m, "time");
+    char user[12] = "";
+    char buffer[2048];
+    memset(buffer, 0, 2048);
 
-    if (user == NULL || pass == NULL)
+    if (pass == NULL)
     {
         return -1;
     }
@@ -2956,7 +3025,8 @@ static int authenticate (const struct message *m)
     char *realpass = NULL;
     int isdft = 0;
 
-    if ((!strcmp ("admin", user)) || (!strcmp("gmiadmin", user)))
+    //if ((!strcmp ("admin", user)) || (!strcmp("gmiadmin", user)))
+    if (isadmin == 1 || isadmin == 2)
     {
 #ifdef BUILD_ON_ARM
         realpass = nvram_get ("2");
@@ -2968,11 +3038,17 @@ static int authenticate (const struct message *m)
             realpass = "admin";
 #ifdef BUILD_ON_ARM
             nvram_set ("2", "admin");
-            nvram_commit ();    
+            nvram_commit ();
 #endif
         }
         if( !strcmp(realpass, "admin") ){
             isdft = 1;
+        }
+
+        if (isadmin == 1) {
+            strcpy(user, "admin");
+        } else {
+             strcpy(user, "gmiadmin");
         }
         /*if (!strcmp (adminpwd, pass))
         {
@@ -2988,8 +3064,9 @@ static int authenticate (const struct message *m)
         else
             return 0;
         }*/
-        
-    } else if (!strcmp ("user", user)) 
+
+    //} else if (!strcmp ("user", user))
+    } else if (isadmin == 0)
     {
 #ifdef BUILD_ON_ARM
         realpass = nvram_get ("196");
@@ -3009,6 +3086,7 @@ static int authenticate (const struct message *m)
             isdft = 1;
         }
 
+        strcpy(user, "user");
         /*if (!strcmp (userpwd, pass))
         {
             strcpy (usertype, "user");
@@ -3035,7 +3113,7 @@ static int authenticate (const struct message *m)
         } else {
             result = compare_md5_password(user, mRealm, pass, realpass);
         }
-        
+
         free(mRealm);
         mRealm = NULL;
     }else{
@@ -3058,7 +3136,7 @@ static int authenticate (const struct message *m)
     return -1;
 }
 
-static void authenticate_success_response(server *srv, connection *con, 
+static void authenticate_success_response(server *srv, connection *con,
     buffer *b, const struct message *m, int authres)
 {
     long unsigned int cookie;
@@ -3094,7 +3172,7 @@ static void authenticate_success_response(server *srv, connection *con,
         CONST_GCHAR_LEN(tmp));
 
     free(tmp);
-     
+
     response_header_insert(srv, con, CONST_STR_LEN("Set-Cookie"),
         CONST_STR_LEN("Version=\"1\";"));
     tmp = malloc(16);
@@ -3119,9 +3197,9 @@ static void authenticate_success_response(server *srv, connection *con,
     const char * resType = msg_get_header(m, "format");
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
     {
-        response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"), 
+        response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"),
             CONST_STR_LEN("application/x-javascript; charset=utf-8"));
-        
+
         const char * jsonCallback = msg_get_header( m, "jsoncallback" );
 
         if ( jsonCallback != NULL )
@@ -3135,7 +3213,7 @@ static void authenticate_success_response(server *srv, connection *con,
             tmp = malloc( 128 );
             snprintf( tmp, 128, "{\"res\": \"success\", \"msg\" : \"authentication accepted\", \"needchange\":\"%d\", \"insleep\":\"%s\"}", authres, insleep );
         }
-        
+
         buffer_append_string( b, tmp );
         free(tmp);
     }
@@ -3198,7 +3276,7 @@ static int check_qr_cookie(connection *con)
         ds = (data_string *)con->request.headers->data[i];
         //printf("header %d is %s\n", i, ds->value->ptr );
 	    time(&now);
-  
+
         if ( before = strstr(ds->value->ptr, "qrcookie=\"") ) {
 			before += sizeof("qrcookie=\"") -1;
 			if ( after = strstr(before, "\"")) {
@@ -3283,7 +3361,7 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
         buffer_append_string(b,"{\"Response\":\"Failed\"}");
         return -1;
     }
-    
+
     buffer_append_string(b, "{\"Response\": \"success\",\"Data\":[");
     while(sqlite3_step(stmt)==SQLITE_ROW ) {
         positionid = sqlite3_column_int(stmt, 0);
@@ -3292,16 +3370,16 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
         zoom = sqlite3_column_int(stmt, 3);
         focus = sqlite3_column_int(stmt, 4);
         presetname = (char *)sqlite3_column_text(stmt, 6);
-        
+
         cmrparam = malloc(32);
         memset(cmrparam, 0, 32);
         snprintf(cmrparam, 32, "%d,%d,%d,%d", pan, titl, zoom, focus);
-        
+
         if(presetname == NULL)
             presetname = "";
         else
             json_handle(presetname);
-        
+
         len = strlen(presetname) + 128;
         temp = malloc(len);
         memset(temp,0,len);
@@ -3309,7 +3387,7 @@ static int handle_getpresetinfo(server *srv, connection *con, buffer *b, const s
             snprintf(temp, len, "{\"position\":\"%d\",\"name\":\"%s\",\"cmrparam\":\"%s\"}", positionid, presetname, cmrparam);
         else
             snprintf(temp, len, ",{\"position\":\"%d\",\"name\":\"%s\",\"cmrparam\":\"%s\"}", positionid, presetname, cmrparam);
-        
+
         buffer_append_string(b, temp);
         free(temp);
         num++;
@@ -3846,7 +3924,7 @@ static int handle_get(buffer *b, const struct message *m)
 
     if((resType != NULL) && !strcasecmp(resType, "json"))
     {
-        jsonCallback = msg_get_header( m, "jsoncallback" );    
+        jsonCallback = msg_get_header( m, "jsoncallback" );
     }
     else
     {
@@ -3870,7 +3948,7 @@ static int handle_get(buffer *b, const struct message *m)
 		}
 		else{
 			int tempvar = atoi(var);
-			
+
 			switch(tempvar)
 			{
 				case 34:        /*acct1-6 sip account passwords*/
@@ -4052,36 +4130,36 @@ static int dbus_send_record_operation (const int arg1 )
     xmlChar *key = NULL;
 	xmlChar *val = NULL;
     const char *tempbuf = NULL;
-     
+
     if(extIndex == 0)
     	doc = xmlReadFile(CONF_MPK, NULL, 0);
     else
 	doc = xmlReadFile(CONF_MPKEXT, NULL, 0);
- 
-    if (doc == NULL) 
+
+    if (doc == NULL)
     {
         printf("error: could not parse file %s\n", CONF_MPK);
         return 0;
     }
-    
+
 	tempbuf = malloc(24);
 	snprintf(tempbuf, 24, "display_format%d", extIndex);
 	printf("get extindex is %s\n", tempbuf);
     //int nametype = 0;
 	//int fromserv = 0;
-    
+
     //Get the root element node
 	root_element = xmlDocGetRootElement(doc);
-    for (cur_node = root_element->xmlChildrenNode; cur_node; cur_node = cur_node->next) 
+    for (cur_node = root_element->xmlChildrenNode; cur_node; cur_node = cur_node->next)
     {
-    	if (cur_node->type == XML_ELEMENT_NODE) 
+    	if (cur_node->type == XML_ELEMENT_NODE)
         {
         	if ((!xmlStrcmp(cur_node->name, BAD_CAST "int")))
             {
             	key = xmlGetProp(cur_node, BAD_CAST "name");
                 if( key != NULL )
                 {
-                	if( strcmp( (char *)key, tempbuf) == 0 ) 
+                	if( strcmp( (char *)key, tempbuf) == 0 )
 		            {
 		            	//nametype = atoi( (char*)xmlNodeListGetString(doc, cur_node->xmlChildrenNode, 1) );
 						val = xmlGetProp(cur_node, BAD_CAST "value");
@@ -4188,7 +4266,7 @@ static int handle_getapldacct(buffer *b, const struct message *m)
      * name_str: change from acct_name
      * ptr: return of strstr function
      * mpkindex: the request argument
-     */  	
+     */
  /*   xmlDoc *doc = NULL;
     xmlNode *root_element = NULL;
     xmlNode *cur_node = NULL;
@@ -4239,7 +4317,7 @@ static int handle_getapldacct(buffer *b, const struct message *m)
                     name_str = (char*)acct_name;
 
 		    len = strlen(name_str)-1;
-		    
+
             // get the substr of name_str. remove the last number
 		    sub_str = malloc(len+1);
 		    temp_substr = sub_str;
@@ -4277,12 +4355,12 @@ static int handle_getmpkinfo(buffer *b, const struct message *m)
 {
 	char *temp = NULL;
 	const char *val = NULL;
-    
+
 	temp = msg_get_header(m, "mpkindex");
 	int mpkindex = atoi(temp);
 	//temp = msg_get_header(m, "page");
 	//int pageindex = atoi(temp);
-	
+
 	//printf("mpkindex:%d	page:%d\n", mpkindex, pageindex);
 
 	//int addnum = pageindex * 100 + mpkindex * 200;
@@ -4342,7 +4420,7 @@ static int handle_getmpkinfo(buffer *b, const struct message *m)
   		count ++;
 	}
 	buffer_append_string(b, "]}");
-	
+
 }
 
 static int handle_getblf(buffer *b, const struct message *m)
@@ -4359,7 +4437,7 @@ static int handle_getblf(buffer *b, const struct message *m)
     char *temp = NULL, *name = NULL;
 
     rc = sqlite3_open("/data/data/com.base.module.mpk/databases/mpk.db", &db);
-	
+
     if( rc ){
         printf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
@@ -4467,9 +4545,9 @@ static int handle_getblf(buffer *b, const struct message *m)
     }
     sqlite3_free_table ( dbResult );
     sqlite3_close(db);
-    
+
     return 1;
-    
+
 }
 */
 static int dbus_send_string ( const char *dbusname )
@@ -4529,7 +4607,7 @@ static int dbus_send_string ( const char *dbusname )
 static int dbus_send_mpkext_order (const int arg1, const int arg2, const int arg3)
 {
 	DBusMessage* message;
-	
+
 	if( bus == NULL )
 	{
 		printf( "Error: Dbus bus is NULL\n" );
@@ -4635,7 +4713,7 @@ static int dbus_send_blf_string ( const char *dbusname, const char* arg1 )
 static int dbus_send_blf_nametype_updated (const int extindex, const int nametype, const int isfromserv)
 {
 	DBusMessage* message;
-	
+
 	dbus_bool_t bool_fromserv;
 
 	if( bus == NULL )
@@ -4664,9 +4742,9 @@ static int dbus_send_blf_nametype_updated (const int extindex, const int nametyp
 }
 
 static int dbus_send_mpkext_data_updated ( const int nvramindex )
-{ 
+{
 	DBusMessage* message;
-	
+
 	if( NULL == bus )
 	{
 		printf( "Error:Dbus bus is NULL\n" );
@@ -4707,12 +4785,12 @@ static int dbus_send_mpk_data_updated ( const int type, const int opindex, const
     }
 
     dbus_message_append_args( message, DBUS_TYPE_INT32, &type,
-    								DBUS_TYPE_INT32, &opindex, 
-    								DBUS_TYPE_INT32, &acct, 
-    								DBUS_TYPE_STRING, &name, 
-    								DBUS_TYPE_STRING, &number, 
-    								DBUS_TYPE_INT32, &mode, 
-    								DBUS_TYPE_INT32, &extIndex, 
+    								DBUS_TYPE_INT32, &opindex,
+    								DBUS_TYPE_INT32, &acct,
+    								DBUS_TYPE_STRING, &name,
+    								DBUS_TYPE_STRING, &number,
+    								DBUS_TYPE_INT32, &mode,
+    								DBUS_TYPE_INT32, &extIndex,
     								DBUS_TYPE_INVALID );
 
     dbus_connection_send( bus, message, NULL );
@@ -4726,13 +4804,13 @@ static int handle_putmpkorder(buffer *b, const struct message *m)
 {
 	const char *extIndex = NULL;
     extIndex = msg_get_header(m, "extIndex");
-    
+
     const char *fromIndex = NULL;
     fromIndex = msg_get_header(m, "from");
-    
+
     const char *toIndex = NULL;
     toIndex = msg_get_header(m, "to");
-    
+
     buffer_append_string (b, "Response=Success\r\n");
     dbus_send_mpk_order( atoi(extIndex), atoi(fromIndex), atoi(toIndex) );
 }
@@ -4747,12 +4825,12 @@ static int handle_putmpkext(buffer *b, const struct message *m)
 	temp = msg_get_header(m, "extIndex");
 	if ( temp!= NULL)
 		extindex = atoi(temp);
-	else 
+	else
 	{
 		buffer_append_string (b, "Response=Error\r\n");
         return 0;
 	}
-	
+
 	temp = msg_get_header(m, "nametype");
 	nametype = atoi(temp);
 
@@ -4768,7 +4846,7 @@ static int handle_putmpk(buffer *b, const struct message *m)
     char *temp = NULL, *tempbuf = NULL, *urivalue = NULL;
     int extindex = 0;
     int nametype = 0;
-    
+
     temp = msg_get_header(m, "extIndex");
     if( temp != NULL )
         extindex = atoi(temp);
@@ -4777,18 +4855,18 @@ static int handle_putmpk(buffer *b, const struct message *m)
     	buffer_append_string (b, "Response=Error\r\n");
     	return 0;
     }
-    
+
     //temp = msg_get_header(m, "nametype");
 
     //nametype = atoi(temp);
     //dbus_send_blf_nametype_updated(extindex, nametype);
-	
+
     //buffer_append_string (b, "Response=Success\r\n");
 
     urivalue = msg_get_header(m, "urivalue");
     temp = msg_get_header(m, "uripos");
     nvram_set(temp, urivalue);
-  
+
     nvram_commit();
 
     dbus_send_blf_int( SIGNAL_BLFUPDATED, -1);
@@ -4848,7 +4926,7 @@ static int handle_putblfext(buffer *b, const struct message *m)
 
             tempindex = mpkextstartpvalue[4] + addnum;
             snprintf(tempbuf, 8, "%d", tempindex);
-	    	if(!strcmp(mode, "3")) 
+	    	if(!strcmp(mode, "3"))
 	    	{
 				eventlist = msg_get_header(m, "eventlist");
             	nvram_set(tempbuf, eventlist);
@@ -4893,7 +4971,7 @@ static int handle_putblfext(buffer *b, const struct message *m)
 			temp = msg_get_header(m, "exchangepos");
 			exchangeIndex = 40 * extIndex + ( atoi(temp)-1 );
 			//dbus_send_mpkext_order( nvramIndex, exchangeIndex );
-		
+
 			temp = msg_get_header(m, "isdatachanged");
 			isDataChanged = atoi(temp);
 			if(isDataChanged == 1)
@@ -4915,7 +4993,7 @@ static int handle_putblf(buffer *b, const struct message *m)
 {
     const char *optype = NULL, *number = NULL, *name = NULL;
     int type, opindex, extIndex, acct, mode;
-    
+
     optype = msg_get_header(m, "type");
     opindex = atoi(msg_get_header(m, "index"));
     extIndex = atoi(msg_get_header(m, "extIndex"));
@@ -5033,7 +5111,7 @@ static int handle_put(buffer *b, const struct message *m)
                 temp = malloc(128);
                 snprintf(temp, 128, "%s", "{\"res\": \"error\", \"msg\" : \"phone rebooting\"}");
             }
-                
+
             buffer_append_string( b, temp );
             free(temp);
         }
@@ -5053,7 +5131,7 @@ static int handle_put(buffer *b, const struct message *m)
     const char *var = NULL, *tempval= NULL;
 
     var = msg_get_header(m, "flag");
-	
+
     int tmpflag = 1;
     if ( var != NULL )
     {
@@ -5069,14 +5147,14 @@ static int handle_put(buffer *b, const struct message *m)
         {
             cfdbus = 0;
             wfile = 0;
-        }   
+        }
     }
     else
     {
         wfile = 0;
         tmpflag = 1;
     }
-    
+
     /*if ( !wfile )
     {
         if( !access(TEMP_PVALUES, 0) )
@@ -5100,7 +5178,7 @@ static int handle_put(buffer *b, const struct message *m)
             temp = malloc(128);
             snprintf(temp, 128, "{\"res\": \"success\", \"flag\" : \"%d\"}", tmpflag);
         }
-                
+
         buffer_append_string( b, temp );
         free(temp);
     }
@@ -5142,7 +5220,7 @@ static int handle_put(buffer *b, const struct message *m)
 #endif
         }
         free(val);
-    } 
+    }
     if( wfile )
     {
         if( access(DATA_DIR, 0) ) {
@@ -5186,7 +5264,7 @@ static int handle_put(buffer *b, const struct message *m)
 #endif
         if( cfdbus )
             dbus_send_cfupdated();
-    }   
+    }
 
     return 0;
 }
@@ -5205,7 +5283,7 @@ static int get_mac_address(char *ifname, char *mac)
     if (fd >= 0) {
         strcpy(ifr.ifr_name, ifname);
         if (ioctl (fd, SIOCGIFHWADDR, &ifr) == 0) {
-            sprintf(mac, "%02x-%02x-%02x-%02x-%02x-%02x", 
+            sprintf(mac, "%02x-%02x-%02x-%02x-%02x-%02x",
                     (unsigned char)ifr.ifr_hwaddr.sa_data[0],
                     (unsigned char)ifr.ifr_hwaddr.sa_data[1],
                     (unsigned char)ifr.ifr_hwaddr.sa_data[2],
@@ -5218,7 +5296,7 @@ static int get_mac_address(char *ifname, char *mac)
 
         close( fd );
     }
-    
+
     return -1;
 }
 
@@ -5227,9 +5305,9 @@ static int get_gateway(char *gateway)
     if (gateway == NULL) {
         return -1;
     }
-        
+
     strcpy (gateway, "none");
-    
+
     char *nettype = nvram_my_get("8");
     if(!strcmp(nettype, "1")){
         char *gate1 = NULL, *gate2 = NULL, *gate3 = NULL, *gate4 = NULL;
@@ -5238,7 +5316,7 @@ static int get_gateway(char *gateway)
         gate3 = nvram_get("19");
         gate4 = nvram_get("20");
         int len = strlen(gate1) + strlen(gate2) + strlen(gate3) + strlen(gate4) + 16;
-        
+
         if(gate1 != NULL && gate2 != NULL && gate3 != NULL && gate4 != NULL){
             sprintf(gateway, "%s.%s.%s.%s", gate1, gate2, gate3, gate4);
         }
@@ -5270,7 +5348,7 @@ static int get_gateway(char *gateway)
                             (gw >> 16) & 0xff,
                             (gw >> 8) & 0xff,
                             gw & 0xff);
-                    
+
                     memset(line, 0, sizeof(line));
                     fclose( fp );
                     return 0;
@@ -5282,10 +5360,10 @@ static int get_gateway(char *gateway)
             free(line);
             line = NULL;
         }*/
-     
+
         fclose( fp );
     }
-    
+
     return -1;
 }
 
@@ -5306,7 +5384,7 @@ static int get_dns_server(char *dns_server, int dns_type)
 
     if (fp == NULL)
         return -1;
-        
+
     if (dns_server == NULL) {
         fclose( fp );
         return -1;
@@ -5318,7 +5396,7 @@ static int get_dns_server(char *dns_server, int dns_type)
                 line[strlen(line)-1] = '\0';
             }
         strcpy (dns_server, line);
-        
+
         if(!strcmp(dns_server, "") || dns_server == NULL){
             strcpy (dns_server, "0.0.0.0");
         }
@@ -5344,7 +5422,7 @@ static int get_ipv6_dns_server(char *dns_server, int dns_type) {
 
     if (fp != NULL)
     {
-        while (fgets(&line, sizeof(line), fp)) 
+        while (fgets(&line, sizeof(line), fp))
         {
             if(line[strlen(line)-1] == '\n')
             {
@@ -5391,7 +5469,7 @@ static void print_iter( DBusMessage *message, int depth)
     dbus_int32_t valint32;
     char* valstring;
     dbus_bool_t valbool;
-    
+
      dbus_message_iter_init (message, &iter);
      while ((current_type = dbus_message_iter_get_arg_type (&iter)) != DBUS_TYPE_INVALID)
      {
@@ -5416,7 +5494,7 @@ static void print_iter( DBusMessage *message, int depth)
                 dbus_message_iter_get_basic(&iter, &valbool);
                 printf( "boolean type, %d\n", valbool );
                 break;
-                
+
             default:
                 break;
         }
@@ -5442,14 +5520,14 @@ static int handle_endcall(server *srv, connection *con, buffer *b, const struct 
     char *info = NULL;
     char *flag = NULL;
     int iflag;
-    
+
     temp = msg_get_header(m, "line");
     if ( temp  == NULL ) {
         lineIndex = -1;
     } else {
         lineIndex = atoi(temp);
     }
-    
+
     flag = msg_get_header(m, "flag");
     if( flag == NULL ){
         iflag = 0;
@@ -5481,7 +5559,7 @@ static int handle_endcall(server *srv, connection *con, buffer *b, const struct 
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-        
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &iflag ) )
         {
             printf( "Out of Memory!\n" );
@@ -5577,11 +5655,11 @@ static int handle_setdndonoroff(server *srv, connection *con,buffer *b, const st
     dndvalue = msg_get_header(m,"setdnd");
     //dndtype = msg_get_header(m,"dndtype");
     account = msg_get_header(m, "account");
-    
+
     if(dndvalue != NULL){
         setdnd = atoi(dndvalue);
     }
-    
+
     if(account != NULL){
         acct = atoi(account);
     }
@@ -5699,7 +5777,7 @@ static int handle_setdndonoroff(server *srv, connection *con,buffer *b, const st
             type = "true";
 
     snprintf(cmd, 128, "am broadcast -a com.base.module.phone.DND --es \"type\" \"%s\" --ez \"state\" %s", dndtype,type);
-    
+
     int result = mysystem(cmd);
     if( result )
         temp = "{\"res\":\"failed\"}";
@@ -5710,14 +5788,14 @@ static int handle_setdndonoroff(server *srv, connection *con,buffer *b, const st
         snprintf(temp, 128, "{\"res\":\"success\",\"dndinfo\":\"%s\",\"dndtype\":\"%s\"}", type, dndtype);
     }
     temp = build_JSON_formate( srv, con, m, temp );
-        
+
     if ( temp != NULL )
     {
         buffer_append_string( b, temp );
         free(temp);
     }*/
-    
-    
+
+
     return 1;
 }
 static int handle_vgasend(server *srv, connection *con,buffer *b, const struct message *m)
@@ -5872,7 +5950,7 @@ static int handle_vgaread(server *srv, connection *con,buffer *b, const struct m
     int rc;
     int len = 128,itype=0;
     int value;
-    char *sql_name[3] = {"vertical","horizontal","sampling"}; 
+    char *sql_name[3] = {"vertical","horizontal","sampling"};
     sqlite3_stmt *stmt;
 
     rc = sqlite3_open("/data/data/com.android.providers.settings/databases/settings.db", &db);
@@ -5900,7 +5978,7 @@ static int handle_vgaread(server *srv, connection *con,buffer *b, const struct m
         sqlstr = "select value from system where name=\"vga_in_horizontal_offset\";";
     else if(itype == 2)
         sqlstr = "select value from system where name=\"sampling_phase\";";
-    
+
     rc= sqlite3_prepare_v2(db,sqlstr, strlen(sqlstr), &stmt,0);
     if( rc ){
         printf("Can't open statement: %s\n", sqlite3_errmsg(db));
@@ -5943,13 +6021,13 @@ static int handle_confirmadminpsw(server *srv, connection *con,buffer *b, const 
             temp = "{\"res\":\"failed\"}";
 
         temp = build_JSON_formate( srv, con, m, temp );
-        
+
        if ( temp != NULL )
         {
             buffer_append_string( b, temp );
             free(temp);
         }
-        
+
 
     return 0;
 }
@@ -5970,7 +6048,7 @@ static int handle_acceptringline(server *srv, connection *con, buffer *b, const 
     int isAddToConf = 0;
     char res[128] = "";
     char *info = NULL;
-    
+
     temp = msg_get_header(m, "line");
     if ( temp  == NULL ) {
         lineIndex = 0;
@@ -6107,7 +6185,7 @@ static int handle_callservice_by_two_param(server *srv, connection *con, buffer 
     int isflag = 0;
     char res[128] = "";
     char *info = NULL;
-    
+
     temp = msg_get_header(m, parafirestname);
     if ( temp == NULL ) {
         isflag = 0;
@@ -6367,14 +6445,14 @@ static int handle_callservice_by_no_param(server *srv, connection *con, buffer *
         dbus_error_free (&error);
         return -1;
     }
-           
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, method );
 
     printf("handle_callservice_by_no_param %s\n", method);
     if (message != NULL)
     {
         dbus_message_set_auto_start (message, TRUE);
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -6384,7 +6462,7 @@ static int handle_callservice_by_no_param(server *srv, connection *con, buffer *
                 error.name,
                 error.message);
         }
-        
+
         if ( reply )
         {
             print_message( reply );
@@ -6399,14 +6477,14 @@ static int handle_callservice_by_no_param(server *srv, connection *con, buffer *
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
 
                 dbus_message_iter_next (&iter);
             }
-            
+
             if ( res != NULL )
             {
                 info = (char*)malloc((1 + strlen(res)) * sizeof(char));
@@ -6825,7 +6903,7 @@ static int handle_attendtransfer(server *srv, connection *con, buffer *b, const 
     int iscancel = 0;
     const char *number = NULL;
     char *info = NULL;
-    
+
     temp = msg_get_header(m, "line");
     if ( temp  == NULL ) {
         lineIndex = 0;
@@ -6948,7 +7026,7 @@ static int handle_attendtransfercancel(server *srv, connection *con, buffer *b, 
     int lineIndex = 0;
     char res[128] = "";
     char *info = NULL;
-    
+
     temp = msg_get_header(m, "line");
     if ( temp  == NULL ) {
         lineIndex = 0;
@@ -7056,7 +7134,7 @@ static int handle_attendtransferline(server *srv, connection *con, buffer *b, co
     char *temp = NULL;
     int lineIndex = 0;
     char *info = NULL;
-    
+
     temp = msg_get_header(m, "line");
     if ( temp  == NULL ) {
         lineIndex = 0;
@@ -7117,7 +7195,7 @@ static int handle_sendcontinuerecord(server *srv, connection *con, buffer *b, co
     //char *recordtype = "record";
     char *flag = NULL;
     int status = 0;
-    
+
     flag = msg_get_header(m, "flag");
     if(flag != NULL){
         status = atoi(flag);
@@ -7140,7 +7218,7 @@ static int handle_sendcontinuerecord(server *srv, connection *con, buffer *b, co
         return -1;
     }
 
-    dbus_message_append_args( message, DBUS_TYPE_INT32, &status, 
+    dbus_message_append_args( message, DBUS_TYPE_INT32, &status,
                                     DBUS_TYPE_INVALID );
 
     dbus_connection_send( bus, message, NULL );
@@ -7170,7 +7248,7 @@ static int handle_layoutctrl(server *srv, connection *con, buffer *b, const stru
     char *temp = NULL;
     int lineIndex = 0;
     char *laytype = NULL;
-    
+
     laytype = msg_get_header(m, "mode");
     if ( laytype  == NULL ) {
         laytype = "overlap";
@@ -7224,22 +7302,22 @@ static int handle_layoutctrl(server *srv, connection *con, buffer *b, const stru
         }
         printf( "message is %d ----- %d",lineIndex,position);
         dbus_message_append_args( message, DBUS_TYPE_STRING, &laytype,
-                                    DBUS_TYPE_INT32, &arg1, 
-                                    DBUS_TYPE_INT32, &arg2, 
-                                    DBUS_TYPE_INT32, &lineIndex, 
-                                    DBUS_TYPE_INT32, &position, 
+                                    DBUS_TYPE_INT32, &arg1,
+                                    DBUS_TYPE_INT32, &arg2,
+                                    DBUS_TYPE_INT32, &lineIndex,
+                                    DBUS_TYPE_INT32, &position,
                                     DBUS_TYPE_INVALID );
     }
     else if(strcmp(laytype,"max_show_chn") == 0)
     {
         dbus_message_append_args( message, DBUS_TYPE_STRING, &laytype,
-                                    DBUS_TYPE_INT32, &lineIndex, 
+                                    DBUS_TYPE_INT32, &lineIndex,
                                     DBUS_TYPE_INVALID );
     }
     else if(strcmp(laytype,"max_hdmi_out") == 0)
     {
         dbus_message_append_args( message, DBUS_TYPE_STRING, &laytype,
-                                    DBUS_TYPE_INT32, &lineIndex, 
+                                    DBUS_TYPE_INT32, &lineIndex,
                                     DBUS_TYPE_INVALID );
     }
     else
@@ -7276,7 +7354,7 @@ static int handle_getlayout(server *srv, connection *con, buffer *b, const struc
     char *dbus_layout_interface = "com.grandstream.dbus.method_call.layoutmode_cur";
     char *layoutpath = "/com/grandstream/dbus/camtest";
     char *dbus_layoutdest = "chapi.gs_avs.server";
-    
+
     type = DBUS_BUS_SYSTEM;
     dbus_error_init (&error);
     conn = dbus_bus_get (type, &error);
@@ -7288,7 +7366,7 @@ static int handle_getlayout(server *srv, connection *con, buffer *b, const struc
     }
 
     message = dbus_message_new_method_call( dbus_layoutdest,layoutpath, dbus_layout_interface, "layoutmode_cur");
-    
+
     if ( message == NULL )
     {
         printf( "message is NULL\n");
@@ -7315,7 +7393,7 @@ static int handle_getlayout(server *srv, connection *con, buffer *b, const struc
         char *res = NULL;
         int arg[3];
         int i = 0;
-        
+
         dbus_message_iter_init( reply, &iter );
 
         while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
@@ -7331,7 +7409,7 @@ static int handle_getlayout(server *srv, connection *con, buffer *b, const struc
                    break;
                 default:
                     break;
-            } 
+            }
             dbus_message_iter_next (&iter);
         }
 
@@ -7373,7 +7451,7 @@ static int handle_getlayoutlineinfo(server *srv, connection *con, buffer *b, con
     char *dbus_layout_interface = "com.grandstream.dbus.method_call.layout_channellist";
     char *layoutpath = "/com/grandstream/dbus/camtest";
     char *dbus_layoutdest = "chapi.gs_avs.server";
-    
+
     type = DBUS_BUS_SYSTEM;
     dbus_error_init (&error);
     conn = dbus_bus_get (type, &error);
@@ -7385,7 +7463,7 @@ static int handle_getlayoutlineinfo(server *srv, connection *con, buffer *b, con
     }
 
     message = dbus_message_new_method_call( dbus_layoutdest,layoutpath, dbus_layout_interface, "layout_channellist");
-    
+
     if ( message == NULL )
     {
         printf( "message is NULL\n");
@@ -7412,7 +7490,7 @@ static int handle_getlayoutlineinfo(server *srv, connection *con, buffer *b, con
         char *res[3];
         int arg;
         int i = 0;
-        
+
         dbus_message_iter_init( reply, &iter );
 
         while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
@@ -7428,7 +7506,7 @@ static int handle_getlayoutlineinfo(server *srv, connection *con, buffer *b, con
                    break;
                 default:
                     break;
-            } 
+            }
             dbus_message_iter_next (&iter);
         }
 
@@ -7835,19 +7913,19 @@ static int handle_sethdmioutputmode(server *srv, connection *con, buffer *b, con
     {
         dbus_message_set_auto_start (message, TRUE);
         dbus_message_iter_init_append( message, &iter );
-        
+
         hdmi = msg_get_header(m, "hdmi");
         if ( hdmi == NULL )
         {
             hdmi = "hdmi1";
         }
-        
+
         curmode = msg_get_header(m, "mode");
         if ( curmode != NULL )
         {
             mode = atoi(curmode);
         }
-        
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &hdmi ) )
         {
             printf( "Out of Memory when isBFCPSupport!\n");
@@ -8508,7 +8586,7 @@ static int handle_start_ping (buffer *b, const struct message *m, int type)
         else
             if(type == 1)
                 sprintf(cmd, "traceroute %s > /data/traceroute.txt &", addr);
-        
+
         mysystem(cmd);
         free(cmd);
 
@@ -8554,7 +8632,7 @@ static int handle_get_ping_msg (buffer *b, const struct message *m)
     if (ch == -1) {
         buffer_append_string(b, "Response=Success\r\npingmsg=continue\r\n");
         close(fp);
-        return 0;       
+        return 0;
     }
 
     while(ch != -1 && ch != '\n')
@@ -8585,7 +8663,7 @@ static int handle_get_tracroute_msg (buffer *b, const struct message *m)
 
     temp = msg_get_header(m, "offset");
     offset = atoi(temp);
-    
+
     fp = fopen("/data/traceroute.txt", "r");
     if (fp == NULL){
         system("killall traceroute");
@@ -8593,7 +8671,7 @@ static int handle_get_tracroute_msg (buffer *b, const struct message *m)
             "Message=can not open file\r\n");
         return -1;
     }
-    
+
     res = fseek(fp, offset, SEEK_SET);
     if (res != 0){
         system("killall traceroute");
@@ -8608,7 +8686,7 @@ static int handle_get_tracroute_msg (buffer *b, const struct message *m)
     sprintf(temp, "Response=Success\r\npingmsg=%s\r\noffset=%d\r\n", linestr,strlen(linestr) + offset);
     buffer_append_string(b, temp);
     free(temp);
-    
+
     fclose(fp);
 
     return 0;
@@ -8640,15 +8718,15 @@ static int handle_gethdmi1state(buffer *b)
             "Message=unknown file\r\n");
         return -1;
     }
-    
-    state = fgetc(fp); 
+
+    state = fgetc(fp);
     temp = malloc(64);
-    
+
     sprintf(temp, "Response=Success\r\nhdmi1state=%c\r\n", state);
-    
+
     buffer_append_string(b, temp);
     free(temp);
-    
+
     close(fp);
 
     return 0;
@@ -8815,7 +8893,7 @@ static int handle_gettcpserverstate(server *srv, connection *con, buffer *b, con
 
     system("rm /data/pstcpserver.txt");
     int res = system("ps | grep tcpserver > /data/pstcpserver.txt");
-    
+
     if(res == 0)
     {
         fp = fopen("/data/pstcpserver.txt", "r");
@@ -8831,8 +8909,8 @@ static int handle_gettcpserverstate(server *srv, connection *con, buffer *b, con
                 break;
             }
         }
-        fclose(fp);    
-    } 
+        fclose(fp);
+    }
     //state = valid_connection(con);
     temp = malloc(128);
     sprintf(temp, "response=Success\r\n");
@@ -8898,14 +8976,14 @@ static int handle_developmode(server *srv, connection *con, buffer *b, const str
     DBusBusType type;
     int reply_timeout = 3000;
     DBusMessage *reply = NULL;
-    DBusConnection *conn = NULL;    
+    DBusConnection *conn = NULL;
     int state = 0;
     int len = 128;
     char *temp = NULL;
     char propdeve[128] = "";
     char *handleway = NULL;
     char *devestate = NULL;
-    
+
     handleway = msg_get_header(m,"way");
     if(handleway == NULL)
     {
@@ -8940,7 +9018,7 @@ static int handle_developmode(server *srv, connection *con, buffer *b, const str
         {
             uri_decode(devestate);
         }
-        
+
         fprintf(stderr, "setDevelopMode\n");
         message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setDevelopMode" );
         if (message != NULL)
@@ -8952,7 +9030,7 @@ static int handle_developmode(server *srv, connection *con, buffer *b, const str
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
-            } 
+            }
 
             dbus_message_append_args( message,  DBUS_TYPE_INVALID );
             dbus_error_init( &error );
@@ -8978,7 +9056,7 @@ static int handle_developmode(server *srv, connection *con, buffer *b, const str
                             dbus_message_iter_get_basic(&iter, &res2);
                             printf( "string type, %s\n", res2 );
                             break;
-                            
+
                         default:
                             break;
                     }
@@ -9004,7 +9082,7 @@ static int handle_developmode(server *srv, connection *con, buffer *b, const str
         {
             dbus_message_set_auto_start (message, TRUE);
             dbus_message_iter_init_append( message, &iter );
-            
+
             dbus_message_append_args( message,  DBUS_TYPE_INVALID );
             dbus_error_init( &error );
             reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
@@ -9029,7 +9107,7 @@ static int handle_developmode(server *srv, connection *con, buffer *b, const str
                             dbus_message_iter_get_basic(&iter, &res2);
                             printf( "string type, %s\n", res2 );
                             break;
-                            
+
                         default:
                             break;
                     }
@@ -9051,7 +9129,7 @@ static int handle_developmode(server *srv, connection *con, buffer *b, const str
     {
         sprintf(temp, "{\"response\":\"failed\"}");
     }
-    
+
     buffer_append_string(b, temp);
     free(temp);
 #endif
@@ -9326,12 +9404,12 @@ static int handle_originatecall (server *srv, connection *con,
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
-            } 
+            }
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isDialPlan ) )
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
-            } 
+            }
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isPaging ) )
             {
                 printf( "Out of Memory!\n" );
@@ -9346,14 +9424,14 @@ static int handle_originatecall (server *srv, connection *con,
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
-            } 
-            
+            }
+
             printf("num---%s\n", num);
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &headerString ) )
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
-            } 
+            }
             //dbus_message_iter_append_basic(&iter,DBUS_TYPE_INVALID);
 	    dbus_message_append_args( message,  DBUS_TYPE_INVALID );
 
@@ -9380,7 +9458,7 @@ static int handle_originatecall (server *srv, connection *con,
                             dbus_message_iter_get_basic(&iter, &res2);
                             printf( "string type, %s\n", res2 );
                             break;
-                            
+
                         default:
                             break;
                     }
@@ -9523,10 +9601,10 @@ static int handle_addconfmemeber (server *srv, connection *con,
             }else{
                 videostate = 1;
             }
-            
+
             if(isquickstart != NULL)
                 quickstart = atoi(isquickstart);
-            
+
             if ( pingcode != NULL )
             {
                 uri_decode((char*)pingcode);
@@ -9536,7 +9614,7 @@ static int handle_addconfmemeber (server *srv, connection *con,
 
             if(isdialplan == NULL)
                 isdialplan = "";
-            
+
             if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &numbers ) )
             {
                 printf( "Out of Memory!\n" );
@@ -9644,7 +9722,7 @@ static int handle_addconfmemeber (server *srv, connection *con,
     return 0;
 }
 
-static int handle_vendor (server *srv, connection *con, 
+static int handle_vendor (server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char res[128] = "";
@@ -9652,9 +9730,9 @@ static int handle_vendor (server *srv, connection *con,
     FILE *sys_file;
     char *temp = NULL;
     int ret = -1;
-    
+
     sys_file = fopen ("/proc/gsboard/dev_info/vendor_fullname", "r");
-    
+
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
         fclose (sys_file);
@@ -9699,7 +9777,7 @@ static int handle_vendor (server *srv, connection *con,
 #endif
 
 /*Duplicate with handle_product && handle_vendor for save http request purpose*/
-static int handle_productinfo (server *srv, connection *con, 
+static int handle_productinfo (server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char res[128] = "";
@@ -9709,7 +9787,7 @@ static int handle_productinfo (server *srv, connection *con,
     char * temp = NULL;
 
     sys_file = fopen ("/proc/gsboard/dev_info/vendor_fullname", "r");
-    
+
     if (sys_file != NULL) {
         fread (vendorBuf, 127, 1, sys_file);
         fclose (sys_file);
@@ -9759,7 +9837,7 @@ static int handle_productinfo (server *srv, connection *con,
     return -1;
 }
 
-static int handle_product (server *srv, connection *con, 
+static int handle_product (server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char res[128] = "";
@@ -9811,16 +9889,16 @@ static int handle_product (server *srv, connection *con,
     return -1;
 }
 
-static int handle_hardware (server *srv, connection *con, 
+static int handle_hardware (server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char res[128] = "";
     char buf[128] = "";
     FILE *sys_file;
     char *temp = NULL;
-    
+
     sys_file = fopen ("/proc/gsboard/dev_info/dev_rev", "r");
-    
+
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
         fclose (sys_file);
@@ -9861,7 +9939,7 @@ static int handle_hardware (server *srv, connection *con,
     return -1;
 }
 
-static int start_daemon(int type)
+static int start_daemon(void)
 {
     /* Our process ID and Session ID */
     pid_t pid = -1, sid = -1;
@@ -9910,26 +9988,15 @@ static int start_daemon(int type)
     // Child process.
     if ( pid == 0 )
     {
-        if( type == 1 )
-            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type shutdown");
-        else if( type == 2 )
-            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep");
-        else if( type == 3 )
-            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type wakeup");
-        else if( type == 4 )
-            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot_rw");
-        else if( type == 5 )
-            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type shutdown_rw");
-        else if( type == 6 )
-            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep_rw");
-        else
-            system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot");
+        //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot");
+        char *cmd[] = {"am", "broadcast", "--user", "all", "-a", "com.base.module.systemmanager.UPGRADE_OR_REBOOT", "--es", "type", "reboot", 0};
+        doCommandTask(cmd, NULL, NULL, 0);
     }
 
     exit(EXIT_SUCCESS);
 }
 
-static pid_t start_reboot(int type)
+static pid_t start_reboot()
 {
     //This process is used as daemon's parent, which will be ended when daemon is forked.
     pid_t pid = fork();
@@ -9946,7 +10013,7 @@ static pid_t start_reboot(int type)
     // Child process.
     else if ( pid == 0 )
     {
-        start_daemon(type);
+        start_daemon();
     }
 
     return pid;
@@ -9976,7 +10043,7 @@ static int handle_reboot(server *srv, connection *con, buffer *b, const struct m
         if( type == 0 )
             handle_callservice_by_no_param(srv, con, b, m, "rebootDevice");
         else
-            start_reboot(type);
+            start_reboot();
     }else{
         buffer_append_string (b, "Response=Error\r\nMessage=Boot not completed\r\n");
         fclose(fp);
@@ -9987,7 +10054,7 @@ static int handle_reboot(server *srv, connection *con, buffer *b, const struct m
 }
 
 #ifndef BUILD_RECOVER
-static int handle_pn (server *srv, connection *con, 
+static int handle_pn (server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char res[128] = "";
@@ -9995,7 +10062,7 @@ static int handle_pn (server *srv, connection *con,
     FILE *sys_file;
 
     sys_file = fopen ( "/proc/gsboard/dev_info/PN", "r" );
-    
+
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
         fclose (sys_file);
@@ -10036,7 +10103,7 @@ static int handle_pn (server *srv, connection *con,
     return 1;
 }
 
-static int handle_sn (server *srv, connection *con, 
+static int handle_sn (server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char buf[128] = "";
@@ -10044,13 +10111,13 @@ static int handle_sn (server *srv, connection *con,
 
     char pn[128] = "";
     FILE *sys_file = fopen ( "/proc/gsboard/dev_info/PN", "r" );
-    
-    if (sys_file != NULL) 
+
+    if (sys_file != NULL)
     {
         fread (pn, 127, 1, sys_file);
         fclose (sys_file);
     }
-    
+
 
     get_mac_address ("eth0", buf);
     const char *resType = msg_get_header(m, "format");
@@ -10071,7 +10138,7 @@ static int handle_sn (server *srv, connection *con,
             snprintf( res, sizeof( res ),
                     "%s: \"%s\"}", "{\"res\": \"success\", \"sn: 00100300SB0100100000\" ", buf );
         }
-        else if ( ( strcasestr( pn, "963-20015" ) != NULL ) || ( strcasestr( pn, "96320015" ) != NULL ) 
+        else if ( ( strcasestr( pn, "963-20015" ) != NULL ) || ( strcasestr( pn, "96320015" ) != NULL )
 			|| ( strcasestr( pn, "963-30015" ) != NULL ) || ( strcasestr( pn, "96330015" ) != NULL ) )
         {
             snprintf( res, sizeof( res ),
@@ -10106,7 +10173,7 @@ static int handle_sn (server *srv, connection *con,
         {
             snprintf(res, sizeof(res), "sn=00100300SB0100100000%s\r\n", buf );
         }
-        else if ( ( strcasestr( pn, "963-20015" ) != NULL ) || ( strcasestr( pn, "96320015" ) != NULL ) 
+        else if ( ( strcasestr( pn, "963-20015" ) != NULL ) || ( strcasestr( pn, "96320015" ) != NULL )
 			|| ( strcasestr( pn, "963-30015" ) != NULL ) || ( strcasestr( pn, "96330015" ) != NULL ) )
         {
             snprintf(res, sizeof(res), "sn=00100300ZX3100100000%s\r\n", buf );
@@ -10123,7 +10190,7 @@ static int handle_sn (server *srv, connection *con,
         {
             snprintf(res, sizeof(res), "sn=00100300CL0200100000%s\r\n", buf );
         }
-       
+
         buffer_append_string (b, res);
     }
     return 0;
@@ -10204,7 +10271,7 @@ static int handle_factset (buffer *b,const struct message *m)
         result = system("am broadcast -a \"com.base.module.systemmanager.FACTORY_RESET\" --es cmd \"fixed_factory_reset 7\"");   // 1|2|4
     }
     sync();
-    
+
     if( result == 0 )
         buffer_append_string (b, "Response=Success\r\n");
     else
@@ -10480,7 +10547,7 @@ static int handle_network (server *srv, connection *con,
     {
         buffer_append_string (b, "Response=Success\r\n");
     }
-    
+
     if(p_value != NULL && p_value[0] != '\0' && strstr(p_value, "ppp") == NULL)
     {
         get_mac_address(p_value, buf);
@@ -10489,7 +10556,7 @@ static int handle_network (server *srv, connection *con,
     {
         get_mac_address("eth0", buf);
     }
-    
+
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
     {
         snprintf(mac, sizeof(mac), "%s", buf );
@@ -10499,7 +10566,7 @@ static int handle_network (server *srv, connection *con,
         snprintf(res, sizeof(res), "Mac=%s\r\n", buf );
         buffer_append_string (b, res);
     }
-    
+
     if (p_value != NULL && p_value[0] != '\0')
     {
         get_ip_address(p_value, buf);
@@ -10518,7 +10585,7 @@ static int handle_network (server *srv, connection *con,
         snprintf(res, sizeof(res), "IP=%s\r\n", buf );
         buffer_append_string (b, res);
     }
-   
+
     if (p_value != NULL && p_value[0] != '\0')
     {
         get_ip_mask(p_value, buf);
@@ -10527,7 +10594,7 @@ static int handle_network (server *srv, connection *con,
     {
         get_ip_mask("eth0", buf);
     }
-    
+
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
     {
         snprintf(mask, sizeof(mask), "%s", buf );
@@ -10537,7 +10604,7 @@ static int handle_network (server *srv, connection *con,
         snprintf(res, sizeof(res), "Mask=%s\r\n", buf );
         buffer_append_string (b, res);
     }
-    
+
     get_gateway (buf);
 
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
@@ -10549,7 +10616,7 @@ static int handle_network (server *srv, connection *con,
         snprintf(res, sizeof(res), "Gateway=%s\r\n", buf );
         buffer_append_string (b, res);
     }
-    
+
     temp = nvram_my_get("8");
     if (temp != NULL)
         ipv4_type = atoi(temp);
@@ -10562,7 +10629,7 @@ static int handle_network (server *srv, connection *con,
     {
         get_dns_server(buf, 1);
     }*/
-    
+
     get_dns_server(buf, 1);
 
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
@@ -10583,7 +10650,7 @@ static int handle_network (server *srv, connection *con,
     {
         get_dns_server(buf, 2);
     }*/
-    
+
     get_dns_server(buf, 2);
 
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
@@ -10595,7 +10662,7 @@ static int handle_network (server *srv, connection *con,
         snprintf(res, sizeof(res), "DNS2=%s\r\n", buf );
         buffer_append_string (b, res);
     }
-   
+
     temp = nvram_my_get("1419");
     if (temp != NULL)
         ipv6_type = atoi(temp);
@@ -10632,7 +10699,7 @@ static int handle_network (server *srv, connection *con,
     {
         get_ipv6_dns_server(buf, 1);
     }
-    */    
+    */
     temp = nvram_my_get("1424");
     if (temp != NULL && !strcmp(temp, "")) {
         snprintf(buf, sizeof(buf), "%s", temp);
@@ -10690,16 +10757,16 @@ static int handle_network (server *srv, connection *con,
     val = "0";
 #endif
     if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
-    { 
-        if (strcmp (val, "0") == 0) 
+    {
+        if (strcmp (val, "0") == 0)
         {
             snprintf(type, sizeof(type), "dhcp" );
-        } 
-        else if (strcmp (val, "2") == 0) 
+        }
+        else if (strcmp (val, "2") == 0)
         {
             snprintf(type, sizeof(type), "pppoe" );
-        } 
-        else 
+        }
+        else
         {
             snprintf(type, sizeof(type), "static" );
         }
@@ -10737,15 +10804,15 @@ static int handle_network (server *srv, connection *con,
     }
     else
     {
-        if (strcmp (val, "0") == 0) 
+        if (strcmp (val, "0") == 0)
         {
             snprintf(res, sizeof(res), "type=dhcp\r\n" );
-        } 
-        else if (strcmp (val, "2") == 0) 
+        }
+        else if (strcmp (val, "2") == 0)
         {
             snprintf(res, sizeof(res), "type=pppoe\r\n" );
-        } 
-        else 
+        }
+        else
         {
             snprintf(res, sizeof(res), "type=static\r\n" );
         }
@@ -10768,7 +10835,7 @@ static int handle_network (server *srv, connection *con,
         buffer_append_string(b, res);
 
     }
-    
+
     return 1;
 }
 
@@ -10778,9 +10845,9 @@ static int handle_fxoexist(buffer *b)
     char buf[128] = "";
     int fxoexist;
     FILE *sys_file;
-    
+
     sys_file = fopen ("/proc/gsboard/dev_info/have_FXO", "r");
-    
+
     if (sys_file != NULL) {
         fread (buf, 127, 1, sys_file);
         fclose (sys_file);
@@ -10795,7 +10862,7 @@ static int handle_fxoexist(buffer *b)
         buffer_append_string(b, "Response=Error\r\n"
                 "Message=Can't get fxo status\r\n");
         return -1;
-    } 
+    }
 }
 
 static int handle_fxostatus(buffer *b)
@@ -10805,7 +10872,7 @@ static int handle_fxostatus(buffer *b)
     snprintf(res, sizeof(res), "Response=Success\r\n"
             "fxocon=%d\r\n",fxocon );
     buffer_append_string (b, res);
-    
+
     snprintf(res, sizeof(res), "fxostatus=%d\r\n",fxostatus );
     buffer_append_string (b, res);
 
@@ -10813,7 +10880,7 @@ static int handle_fxostatus(buffer *b)
 }
 
 
-static int handle_uptime (server *srv, connection *con, 
+static int handle_uptime (server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char res[128] = "";
@@ -10821,9 +10888,9 @@ static int handle_uptime (server *srv, connection *con,
     int day, hour, min, sec;
     long long sys_time;
     FILE *sys_file;
-    
+
     sys_file = fopen ("/proc/uptime", "r");
-    
+
     if (sys_file != NULL) {
         sys_time = 0;
         fread (buf, 127, 1, sys_file);
@@ -10936,9 +11003,9 @@ static int handle_status (  server *srv, connection *con,buffer *b, const struct
                 numbers[ipvideo] = nvram_my_get("gsid_0");
                 break;
             }
-        } 
+        }
     }
-    
+
     activate[0] = nvram_my_get("271");
     activate[1] = nvram_my_get("401");
     activate[2] = nvram_my_get("501");
@@ -11022,7 +11089,7 @@ static int handle_status (  server *srv, connection *con,buffer *b, const struct
 static void xmlNodeSetEncodeContent(xmlDocPtr doc, xmlNodePtr cur, const xmlChar * content)
 {
     xmlChar * encode_buf = NULL;
-    
+
     if ((cur != NULL) && (content != NULL))
     {
         encode_buf = xmlEncodeEntitiesReentrant(doc, (xmlChar *) content);
@@ -11258,9 +11325,9 @@ static int handle_provisioninit(buffer *b, const struct message *m)
         buffer_append_string (b, "0");
         return 0;
     }
-    
+
     system("stop provision");
-    
+
     char *temp = NULL;
     temp = msg_get_header( m, "upgradeall" );
     if( temp != NULL ){
@@ -11287,7 +11354,7 @@ static int handle_provisioninit(buffer *b, const struct message *m)
         buffer_append_string (b, "0");
     else
         buffer_append_string (b, "1");
-    
+
     return 1;
 }
 
@@ -11735,7 +11802,7 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
             buffer_append_string(b, "{\"res\": \"error\", \"portphbkresponse\": \"2\"}");
         }
 
-      
+
         return 0;
     }
     */
@@ -12234,10 +12301,10 @@ static int handle_phbkresponse (buffer *b, const struct message *m) {
     char res[32] = "";
 
     buffer_append_string (b, "Response=Success\r\n");
-    
+
     snprintf(res, sizeof(res), "lanrsps=%d\r\n", lan_reload_flag);
     buffer_append_string(b, res);
-    
+
     return 0;
 }
 */
@@ -13182,14 +13249,14 @@ static const char *return_peripheral_status(server *srv, connection *con, const 
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, method );
 
     printf("handle_callservice_by_no_param %s\n", method);
     if (message != NULL)
     {
         dbus_message_set_auto_start (message, TRUE);
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -13199,7 +13266,7 @@ static const char *return_peripheral_status(server *srv, connection *con, const 
                 error.name,
                 error.message);
         }
-        
+
         if ( reply )
         {
             print_message( reply );
@@ -13214,14 +13281,14 @@ static const char *return_peripheral_status(server *srv, connection *con, const 
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
 
                 dbus_message_iter_next (&iter);
             }
-            
+
             temp = malloc(16);
             memset(temp, 0, 16);
             if ( res != NULL )
@@ -13258,10 +13325,10 @@ static char *get_device_info(server *srv, connection *con)
     char *periname[5] = {"HDMI 1",  "HDMI 2", "HDMI IN", "USB", "SDCard"};
     char *perimethod[5] = {"getHDMIOneState", "getHDMITwoState", "getHDMIInState", "getUSBState", "getSDCardStatus"};
     char *periresult = NULL;
-    
+
     buf = malloc(2048);
     memset(buf, 0, 2048);
-    
+
     /*get account info*/
     strcat(buf, "/********** Account Info **********/\n");
     tmpitem = malloc(256);
@@ -13270,7 +13337,7 @@ static char *get_device_info(server *srv, connection *con)
         sprintf(tmpitem, "Account_%d_name: %s\nAccount_%d_number: %s\nAccount_%d_server: %s\nAccount_%d_status: %d\nAccount_%d_activate: %s\n", i, acctinfo[i][0], i, nvram_my_get(acctinfo[i][1]), i, nvram_my_get(acctinfo[i][2]), i, acctinfo[i][3], i, nvram_my_get(acctinfo[i][4]));
         strcat(buf, tmpitem);
     }
-    
+
     /*get system info*/
     strcat(buf, "\n/********** System Info ***********/\n");
     for(int i = 0; i < 6; i++)
@@ -13280,7 +13347,7 @@ static char *get_device_info(server *srv, connection *con)
         sprintf(tmpitem, "%s: %s\n", item_name[i], value);
         strcat(buf, tmpitem);
     }
-    
+
     /*get network info*/
     strcat(buf, "\n/********** Network Info **********/\n");
     tempval = nvram_get("wan_device");
@@ -13288,30 +13355,30 @@ static char *get_device_info(server *srv, connection *con)
         get_mac_address(tempval, mac);
     else
         get_mac_address("eth0", mac);
-        
+
     if (tempval != NULL && tempval[0] != '\0')
         get_ip_address(tempval, ip);
     else
         get_ip_address ("eth0", ip);
-        
+
     if (tempval != NULL && tempval[0] != '\0')
         get_ip_mask(tempval, mask);
     else
         get_ip_mask("eth0", mask);
-    
+
     get_gateway(gateway);
-    
+
     get_dns_server(dns1, 1);
     get_dns_server(dns2, 2);
-        
+
     tempval = nvram_get("8");
     if(tempval != NULL)
         ip_type = atoi(tempval);
-        
+
     memset(tmpitem, 0, 256);
     sprintf(tmpitem, "MAC: %s\nIP type: %s\nIP address: %s\nSubnet mask: %s\nGateway: %s\nDNS server 1: %s\nDNS server 2: %s\n", mac, iptype[ip_type], ip, mask, gateway, dns1, dns2);
     strcat(buf, tmpitem);
-    
+
     /*get peripheral info*/
     strcat(buf, "\n/********* Peripheral Info ********/\n");
     for(int i = 0; i < 5; i++){
@@ -13320,7 +13387,7 @@ static char *get_device_info(server *srv, connection *con)
         sprintf(tmpitem, "%s: %s\n", periname[i], periresult);
         strcat(buf, tmpitem);
     }
-    
+
     free(periresult);
     free(tmpitem);
     return buf;
@@ -13334,9 +13401,9 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
     struct dirent *dp;
     DIR *dir;
     char name[128] = "", *ptr = NULL, *fileExt = NULL;
-    
+
     mode = msg_get_header(m, "mode");
-    
+
     temp = msg_get_header(m, "syslog");
     if(temp != NULL){
         syslog = atoi(temp);
@@ -13366,11 +13433,11 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
             sprintf(cmd, "rm %s -rf", DEBUG_TMP_PATH);
             system(cmd);
         }
-        
+
         memset(cmd, 0, 128);
         sprintf(cmd, "mkdir %s", DEBUG_TMP_PATH);
         system(cmd);
-        
+
         if(syslog){
             char *syslog_p = nvram_get("208");
             if (syslog_p == NULL || !strcmp(syslog_p, "") || !strcmp(syslog_p, "0")) {
@@ -13417,14 +13484,14 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
             fflush(deviceinfo);
             fclose(deviceinfo);
         }
-        
+
         if(buf != NULL){
             free(buf);
         }
-        
+
         if(capture){
             handle_capture(b, m);
-            
+
             if( access( DEBUG_TMP_PATH, 0 ) )
             {
                 printf("The directory doesn't exist\n");
@@ -13436,7 +13503,7 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
                 printf("directory open failed\n");
                 return -1;
             }
-            
+
             while ((dp = readdir( dir )) != NULL)
             {
                 if(dp == NULL)
@@ -13464,7 +13531,7 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
                 }
             }
         }
-       
+
         if (syslog && tempOpenSyslog == 1) {
             nvram_set("208", "0");
             nvram_commit();
@@ -13604,7 +13671,7 @@ static int handle_get_record_list (buffer *b, const struct message *m)
     int j=0;
     char name[256] = "";
     char *fileExt = NULL;
-    char *temp = NULL;  
+    char *temp = NULL;
     int list;    //list: 0-get list  1-view record list
     char *sys = NULL;
 
@@ -13621,10 +13688,10 @@ static int handle_get_record_list (buffer *b, const struct message *m)
                 "Message=Recording directory open failed\r\n");
         return -1;
     }
-    
+
     temp = msg_get_header(m, "list");
     list = atoi(temp);
-    
+
     if(!list)
     {
         buffer_append_string(b, "{\"Response\":\"Success\",\"Records\":[");
@@ -13637,7 +13704,7 @@ static int handle_get_record_list (buffer *b, const struct message *m)
             sprintf(sys, "rm %s -rf", RECORD_TMP_PATH);
             system(sys);
         }
-        
+
         memset(sys, 0, 128);
         sprintf(sys, "mkdir %s", RECORD_TMP_PATH);
         system(sys);
@@ -13675,7 +13742,7 @@ static int handle_get_record_list (buffer *b, const struct message *m)
                             buffer_append_string(b, name);
                             buffer_append_string(b, "\"");
                             j++;
-                        } 
+                        }
                         else
                         {
                             memset(sys, 0, 128);
@@ -13710,7 +13777,7 @@ static int handle_start_recording (buffer *b)
         buffer_append_string(b, "Response=Error\r\nMessage=Already start\r\n");
         return -1;
     }
-    
+
     dbus_send_record_operation(true);
     buffer_append_string(b, "Response=Success\r\nMessage=Start success\r\n");
 }
@@ -13814,7 +13881,7 @@ static int handle_coredumplist (buffer *b)
         }
     }
     buffer_append_string(b, "]}");
-    
+
     closedir(dir);
     return 1;
 }
@@ -13970,7 +14037,7 @@ static int handle_gettonename(buffer *b, const struct message *m)
                 continue;
             tempval = strdup(ptr+1);
         }
-        
+
         uri_decode(tempval);
         len = strlen(var) + strlen(tempval) + 4;
         res = malloc(len);
@@ -14397,7 +14464,7 @@ static int handle_custom_cert(buffer *b, const struct message *m)
         buffer_append_string(b, "2");
         return -1;
     }
-    
+
     FILE *fp = fopen(TMP_CERT_PATH , "r");
     char line[1024] = "";
     char *buf = NULL;
@@ -14849,7 +14916,7 @@ static int handle_openvpn_cert (buffer *b, const struct message *m)
     } else {
         fseek( fp, 0L, SEEK_END );
         size = ftell(fp);
-        
+
         if(size == 0){
             buffer_append_string(b, "Response=Error\r\n"
                     "Message=The file is empty\r\n");
@@ -14961,7 +15028,7 @@ static int handle_tonelist1 (buffer *b)
 					buffer_append_string(b,temp);
 					free(temp);
 				}
-					
+
 				/*else if( !strcasecmp(dbResult[j], "title") )
                 {
                     len =  strlen(dbResult[index]) + 32;
@@ -14990,9 +15057,9 @@ static int handle_tonelist1 (buffer *b)
     }
     sqlite3_free_table ( dbResult );
     sqlite3_close(db);
-    
+
     return 1;
-    
+
 }
 
 static int handle_tonelist (buffer *b, const char *path)
@@ -15182,7 +15249,7 @@ static int handle_deltone(buffer *b, const struct message *m)
     char *path = NULL;
     char val[256] = "";
     int done = 0;
-    
+
 
     for (x = 0; x < 10000; x++) {
         snprintf(hdr, sizeof(hdr), "file-%04d", x);
@@ -15419,7 +15486,7 @@ By Steve Reid <sreid@sea-to-sky.net>
 100% Public Domain
 
 -----------------
-Modified 7/98 
+Modified 7/98
 By James H. Brown <jbrown@burgoyne.com>
 Still 100% Public Domain
 
@@ -15441,7 +15508,7 @@ Since the file IO in main() reads 16K at a time, any file 8K or larger would
 be guaranteed to generate the wrong hash (e.g. Test Vector #3, a million
 "a"s).
 
-I also changed the declaration of variables i & j in SHA1Update to 
+I also changed the declaration of variables i & j in SHA1Update to
 unsigned long from unsigned int for the same reason.
 
 These changes should make no difference to any 32 bit implementations since
@@ -15468,7 +15535,7 @@ Still 100% public domain
 Modified 4/01
 By Saul Kravitz <Saul.Kravitz@celera.com>
 Still 100% PD
-Modified to run on Compaq Alpha hardware.  
+Modified to run on Compaq Alpha hardware.
 
 -----------------
 Modified 4/01
@@ -15665,7 +15732,7 @@ static int handle_sysconfig_acct(xmlDocPtr doc, xmlNodePtr root_node, buffer *b)
     xmlChar *key = NULL;
     char res[256] = "";
     int i = 1;
-    
+
     if (root_node == NULL)
     {
         return -1;
@@ -15743,7 +15810,7 @@ static int handle_sysconfig_upgrade(xmlDocPtr doc, xmlNodePtr root_node, buffer 
     xmlNodePtr cur_node = NULL, child_node = NULL, son2_node = NULL;
     xmlChar *key = NULL;
     char res[128] = "";
-    
+
     if (root_node == NULL)
     {
         return -1;
@@ -15838,23 +15905,23 @@ static int handle_sysconfig_upgrade(xmlDocPtr doc, xmlNodePtr root_node, buffer 
 }
 
 static int handle_sysconfig(buffer *b, const struct message *m)
-{        
+{
     xmlDocPtr doc = NULL;
     xmlNode *cur_node = NULL;
     const char *temp = NULL;
 
     doc = xmlReadFile(SYS_CONFIG_FILE, NULL, 0);
- 
-    if (doc == NULL) 
+
+    if (doc == NULL)
     {
         printf("error: could not parse file %s\n", SYS_CONFIG_FILE);
         buffer_append_string(b, "Response=Error\r\n"
                 "Message=Configuration File Not Found\r\n");
         return -1;
     }
-    
+
     cur_node = xmlDocGetRootElement(doc);
-    
+
     cur_node = cur_node->xmlChildrenNode;
     while (cur_node != NULL)
     {
@@ -15933,7 +16000,7 @@ static int handle_getPhoneStatus(buffer *b, const struct message *m)
                             statusresult = strsep(&p, " ");
                             printf("statusresult is %s\n", statusresult);
                             printf("%s\n", p);
-                        } 
+                        }
                     }
                     remove("/tmp/gmitmp2");
                  }
@@ -16039,7 +16106,7 @@ char *generate_file_name(buffer *b, const struct message *m)
         {
             file_name = strdup(VPN_PATH"/ca.crt");
         }
-        else if (!strcasecmp(type, "cert")) 
+        else if (!strcasecmp(type, "cert"))
         {
             file_name = strdup(VPN_PATH"/gxv3140.crt");
         }
@@ -16250,12 +16317,12 @@ static int handle_startrecover(buffer *b, const struct message *m)
 
 static int handle_recoverresult(buffer *b)
 {
-    char res[80] = "";  
+    char res[80] = "";
     char buf[80] = "";
     FILE *log_file;
-    
+
     log_file = fopen ("/tmp/log", "r");
-    
+
     if (log_file != NULL) {
         fread (buf, 127, 1, log_file);
         fclose (log_file);
@@ -16337,7 +16404,7 @@ static int handle_getgroup(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getGroup" );
 
     printf("handle_getgroup\n");
@@ -16352,13 +16419,13 @@ static int handle_getgroup(server *srv, connection *con,
         {
             gpID = "";
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &gpID ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -16383,7 +16450,7 @@ static int handle_getgroup(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -16432,8 +16499,8 @@ static int handle_getgroup(server *srv, connection *con,
                                         temp = info;
                                         xmlFree(key);
                                         break;
-                                    } 
-                                    else 
+                                    }
+                                    else
                                     {
                                         temp = "{\"res\": \"error\", \"msg\": \"can't get groups information\"}";
                                     }
@@ -16444,7 +16511,7 @@ static int handle_getgroup(server *srv, connection *con,
 
                     xmlFreeDoc(doc);
                 }
-                else 
+                else
                 {
                     info = (char*)malloc((1 + strlen(res)) * sizeof(char));
                     sprintf(info, "%s", res);
@@ -16476,7 +16543,7 @@ static int handle_getgroup(server *srv, connection *con,
 
     return 0;
 }
-static int handle_getcontact(server *srv, connection *con, 
+static int handle_getcontact(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -16512,7 +16579,7 @@ static int handle_getcontact(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getContact" );
 
     printf("handle_getcontact\n");
@@ -16541,7 +16608,7 @@ static int handle_getcontact(server *srv, connection *con,
         {
             ctName = "";
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ctID ) )
         {
             printf( "Out of Memory!\n" );
@@ -16559,7 +16626,7 @@ static int handle_getcontact(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -16584,7 +16651,7 @@ static int handle_getcontact(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                
+
                     default:
                         break;
                 }
@@ -16633,8 +16700,8 @@ static int handle_getcontact(server *srv, connection *con,
                                         temp = info;
                                         xmlFree(key);
                                         break;
-                                    } 
-                                    else 
+                                    }
+                                    else
                                     {
                                         temp = "{\"res\": \"error\", \"msg\": \"can't get contacts information\"}";
                                     }
@@ -16645,7 +16712,7 @@ static int handle_getcontact(server *srv, connection *con,
 
                     xmlFreeDoc(doc);
                 }
-                else 
+                else
                 {
                     info = (char*)malloc((1+ strlen(res)) * sizeof(char));
                     sprintf(info, "%s", res);
@@ -16678,7 +16745,7 @@ static int handle_getcontact(server *srv, connection *con,
     return 0;
 }
 
-static int handle_getgroupcount(server *srv, connection *con, 
+static int handle_getgroupcount(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -16701,14 +16768,14 @@ static int handle_getgroupcount(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getGroupCount" );
 
     printf("handle_getgroupcount\n");
     if (message != NULL)
     {
         dbus_message_set_auto_start (message, TRUE);
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -16733,7 +16800,7 @@ static int handle_getgroupcount(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -16773,7 +16840,7 @@ static int handle_getgroupcount(server *srv, connection *con,
     return 0;
 }
 
-static int handle_getcontactcount(server *srv, connection *con, 
+static int handle_getcontactcount(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -16796,14 +16863,14 @@ static int handle_getcontactcount(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getContactCount" );
 
     printf("handle_getcontactcount\n");
     if (message != NULL)
     {
         dbus_message_set_auto_start (message, TRUE);
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -16828,7 +16895,7 @@ static int handle_getcontactcount(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -16893,7 +16960,7 @@ void urldecode(char *p)
     *p='\0';
 }
 
-static int handle_setgroup(server *srv, connection *con, 
+static int handle_setgroup(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -16917,7 +16984,7 @@ static int handle_setgroup(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setGroup" );
 
     printf("handle_setgroup\n");
@@ -16936,13 +17003,13 @@ static int handle_setgroup(server *srv, connection *con,
         {
             uri_decode( (char*)gpInfo );
         }
-    
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &gpInfo ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-       
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -16967,7 +17034,7 @@ static int handle_setgroup(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -17131,7 +17198,7 @@ static int handle_updategroupmembership(server *srv, connection *con,
     return 0;
 }
 
-static int handle_setcontact(server *srv, connection *con, 
+static int handle_setcontact(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -17155,7 +17222,7 @@ static int handle_setcontact(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setContact" );
 
     printf("handle_setcontact\n");
@@ -17174,13 +17241,13 @@ static int handle_setcontact(server *srv, connection *con,
         {
             uri_decode( (char*)ctInfo );
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ctInfo ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -17205,7 +17272,7 @@ static int handle_setcontact(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -17245,7 +17312,7 @@ static int handle_setcontact(server *srv, connection *con,
     return 0;
 }
 
-static int handle_removecontact(server *srv, connection *con, 
+static int handle_removecontact(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -17269,7 +17336,7 @@ static int handle_removecontact(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "removeContact" );
 
     printf("handle_removecontact\n");
@@ -17284,13 +17351,13 @@ static int handle_removecontact(server *srv, connection *con,
         {
             ctID = "";
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ctID ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -17315,7 +17382,7 @@ static int handle_removecontact(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -17800,7 +17867,7 @@ static int handle_googleschedule_status(buffer *b, const struct message *m)
 {
     char *sqlstr = NULL;
     char *scheid = NULL, *status = NULL;
-    
+
     status = msg_get_header(m, "status");
 
     if(status != NULL){
@@ -17808,7 +17875,7 @@ static int handle_googleschedule_status(buffer *b, const struct message *m)
             buffer_append_string(b,"{\"Response\":\"Error\"}");
             return -1;
         }
-        
+
         int updatelen = 128;
         scheid = msg_get_header(m, "scheid");
         if( scheid != NULL ){
@@ -17820,7 +17887,7 @@ static int handle_googleschedule_status(buffer *b, const struct message *m)
             buffer_append_string(b, "{\"Response\":\"Error\"}");
             return -1;
         }
-                
+
         sqlite3 *db;
         int rc;
         char * errmsg = NULL;
@@ -17834,7 +17901,7 @@ static int handle_googleschedule_status(buffer *b, const struct message *m)
             sqlite3_close(db);
             return -1;
         }
-        
+
         rc = sqlite3_exec(db, sqlstr, 0, 0, &errmsg);
         if( rc ){
             printf("Can't open statement: %s\n", sqlite3_errmsg(db));
@@ -17843,7 +17910,7 @@ static int handle_googleschedule_status(buffer *b, const struct message *m)
             sqlite3_close(db);
             return -1;
         }
-        
+
         char *returnstr = NULL;
         returnstr = malloc(updatelen);
         memset(returnstr, 0, updatelen);
@@ -17896,7 +17963,7 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
     }
 
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setSchedule" );
-    
+
     printf("handle_updateschedule type = %d\n", type);
     if (message != NULL)
     {
@@ -18055,7 +18122,7 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
         else{
             uri_decode((char*)recordfrom);
         }
-        
+
         preset = msg_get_header(m, "preset");
         if ( preset == NULL )
         {
@@ -18099,7 +18166,7 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
-        }   
+        }
 
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &reminder) )
         {
@@ -18160,7 +18227,7 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-        
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &recordfrom) )
         {
             printf( "Out of Memory!\n" );
@@ -18546,7 +18613,7 @@ static int handle_cleargroup(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "clearGroup" );
 
     printf("handle_cleargroup\n");
@@ -18561,13 +18628,13 @@ static int handle_cleargroup(server *srv, connection *con,
         {
             gpID = "";
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &gpID ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -18592,7 +18659,7 @@ static int handle_cleargroup(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -18728,7 +18795,7 @@ static int handle_clearallcallhistory(server *srv, connection *con,
     return 0;
 }
 
-static int handle_removegroup(server *srv, connection *con, 
+static int handle_removegroup(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -18752,7 +18819,7 @@ static int handle_removegroup(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "removeGroup" );
 
     printf("handle_removegroup\n");
@@ -18767,13 +18834,13 @@ static int handle_removegroup(server *srv, connection *con,
         {
             gpID = "";
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &gpID ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -18798,7 +18865,7 @@ static int handle_removegroup(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -18838,7 +18905,7 @@ static int handle_removegroup(server *srv, connection *con,
     return 0;
 }
 
-static int handle_movetodefault(server *srv, connection *con, 
+static int handle_movetodefault(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -18862,7 +18929,7 @@ static int handle_movetodefault(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "moveToDefault" );
 
     printf("handle_movetodefault\n");
@@ -18877,13 +18944,13 @@ static int handle_movetodefault(server *srv, connection *con,
         {
             ctID = "";
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ctID ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -18908,7 +18975,7 @@ static int handle_movetodefault(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -19241,7 +19308,7 @@ static int handle_converaudio (buffer *b, const struct message *m)
     /*
     outfile_al = malloc(strlen(filepath) + 32);
     memset(outfile_al, 0, sizeof(outfile_al));
-    sprintf(outfile_al, "%s/audiofile.al", filepath);    
+    sprintf(outfile_al, "%s/audiofile.al", filepath);
     // call sox functions. conver the audiofile to alaw format
     audio_conversion_new (infile, outfile_al, 0);
 
@@ -19464,7 +19531,7 @@ static int handle_savephbkconf (buffer *b, const struct message *m,const char*fi
     return 1;
 }
 
-static int handle_setPhonebookAddr(server *srv, connection *con, 
+static int handle_setPhonebookAddr(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char *temp = NULL;
@@ -19482,7 +19549,7 @@ static int handle_setPhonebookAddr(server *srv, connection *con,
 
         return -1;
     }
-    else 
+    else
     {
         dbus_send_lighttpd( SIGNAL_LIGHTTPD_PHBKDOWNLOADSAVE);
     }
@@ -19495,11 +19562,11 @@ static int handle_setPhonebookAddr(server *srv, connection *con,
         buffer_append_string( b, temp );
         free(temp);
     }
-   
+
     return 1;
 }
 
-static int handle_importPhonebook(server *srv, connection *con, 
+static int handle_importPhonebook(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     char *temp = NULL;
@@ -19517,11 +19584,11 @@ static int handle_importPhonebook(server *srv, connection *con,
 
         return -1;
     }
-    else 
+    else
     {
         dbus_send_lighttpd( SIGNAL_LIGHTTPD_PHBKDOWN);
     }
-   
+
     temp = "{\"res\": \"success\", \"msg\": \"download phonebook\"}";
     temp = build_JSON_res( srv, con, m, temp );
 
@@ -19693,13 +19760,13 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
     /*system("netc up ra0");
     buffer_append_string (b, "Response=Success\r\n");
     dbus_send_wifi_changed();*/
-	
+
 	char *ssid = NULL, *bssid = NULL, *password = NULL, *cacert = NULL, *userca = NULL, *identity = NULL,
 		 *anonymous = NULL, *ipaddr = NULL, *gateway = NULL, *prefix = NULL, *dns1 = NULL, *dns2 = NULL,
          *ip6addr, *ip6prefix = NULL, *ip6dns1 = NULL, *ip6dns2 = NULL;
 	int security = -1, networkid = -1, eap = -1, phase2 = -1, istatic = 0, saveplusconn = 1;
 	char *tempval = NULL;
-	
+
 	int reply_timeout = 5000;
     DBusMessage *message = NULL;
     DBusMessage *reply = NULL;
@@ -19734,25 +19801,25 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
         {
             ssid = "";
         }
-		
+
 		bssid = msg_get_header(m, "bssid");
         if ( bssid == NULL )
         {
             bssid = "";
         }
-		
+
 		tempval = msg_get_header(m, "security");
 		if( tempval != NULL )
 		{
 			security = atoi(tempval);
 		}
-		
+
 		tempval = msg_get_header(m, "networkid");
 		if( tempval != NULL )
 		{
 			networkid = atoi(tempval);
 		}
-		
+
 		password = msg_get_header(m, "password");
         if ( password == NULL )
         {
@@ -19760,79 +19827,79 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
         } else {
             uri_decode(password);
         }
-		
+
 		tempval = msg_get_header(m, "eap");
 		if( tempval != NULL )
 		{
 			eap = atoi(tempval);
 		}
-		
+
 		tempval = msg_get_header(m, "phase2");
 		if( tempval != NULL )
 		{
 			phase2 = atoi(tempval);
 		}
-		
+
 		cacert = msg_get_header(m, "cacert");
         if ( cacert == NULL )
         {
             cacert = "";
         }
-		
+
 		userca = msg_get_header(m, "userca");
         if ( userca == NULL )
         {
             userca = "";
         }
-		
+
 		identity = msg_get_header(m, "identity");
         if ( identity == NULL )
         {
             identity = "";
         }
-		
+
 		anonymous = msg_get_header(m, "anonymous");
         if ( anonymous == NULL )
         {
             anonymous = "";
         }
-		
+
 		tempval = msg_get_header(m, "istatic");
 		if( tempval != NULL )
 		{
 			istatic = atoi(tempval);
 		}
-		
+
 		ipaddr = msg_get_header(m, "ipaddr");
         if ( ipaddr == NULL )
         {
             ipaddr = "";
         }
-		
+
 		gateway = msg_get_header(m, "gateway");
         if ( gateway == NULL )
         {
             gateway = "";
         }
-		
+
 		prefix = msg_get_header(m, "prefix");
         if ( prefix == NULL )
         {
             prefix = "";
         }
-		
+
 		dns1 = msg_get_header(m, "dns1");
         if ( dns1 == NULL )
         {
             dns1 = "";
         }
-		
+
 		dns2 = msg_get_header(m, "dns2");
         if ( dns2 == NULL )
         {
             dns2 = "";
         }
-		
+
         ip6addr = msg_get_header(m, "ip6addr");
         if ( ip6addr == NULL )
         {
@@ -19862,13 +19929,13 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
 		{
 			saveplusconn = atoi(tempval);
 		}
-		
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ssid) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &bssid) )
         {
             printf( "Out of Memory!\n" );
@@ -19892,7 +19959,7 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &eap) )
         {
             printf( "Out of Memory!\n" );
@@ -19904,67 +19971,67 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &cacert) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &userca) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &identity) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &anonymous) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_BOOLEAN, &istatic) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &ipaddr) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &gateway) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &prefix) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &dns1) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-		
+
 		if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &dns2) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-	
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_BOOLEAN, &saveplusconn) )
         {
             printf( "Out of Memory!\n" );
@@ -20073,11 +20140,11 @@ static int handle_certificateverify(server *srv, connection *con, buffer *b, con
     if (fp == NULL){
         return -1;
     }
-        
+
     fgets( &line, sizeof(line), fp );
     fclose(fp);
     snprintf(line, strlen(line), "%s", line);
-    
+
     resType = msg_get_header(m, "format");
     if(strstr(line, "auth Success")){
         if((resType != NULL) && !strcasecmp(resType, "json"))
@@ -20123,7 +20190,7 @@ static int handle_certificateverify(server *srv, connection *con, buffer *b, con
             buffer_append_string (b, "Response=Error\r\n");
         }
     }
-    
+
     return 1;
 }
 
@@ -20178,7 +20245,7 @@ static int handle_vpnenable(buffer *b)
     return 0;
 }
 
-static int handle_launchservice(server *srv, connection *con, 
+static int handle_launchservice(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20203,7 +20270,7 @@ static int handle_launchservice(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "launchService" );
 
     printf("handle_launchservice\n");
@@ -20229,7 +20296,7 @@ static int handle_launchservice(server *srv, connection *con,
         {
             uri_decode( (char*)arg );
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &name ) )
         {
             printf( "Out of Memory!\n" );
@@ -20241,7 +20308,7 @@ static int handle_launchservice(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -20266,7 +20333,7 @@ static int handle_launchservice(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -20306,7 +20373,7 @@ static int handle_launchservice(server *srv, connection *con,
     return 0;
 }
 
-static int handle_closeservice(server *srv, connection *con, 
+static int handle_closeservice(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20330,7 +20397,7 @@ static int handle_closeservice(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "closeService" );
 
     printf("handle_closeservice\n");
@@ -20345,13 +20412,13 @@ static int handle_closeservice(server *srv, connection *con,
         {
             name = "";
         }
-      
+
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &name ) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -20376,7 +20443,7 @@ static int handle_closeservice(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -20416,7 +20483,7 @@ static int handle_closeservice(server *srv, connection *con,
     return 0;
 }
 
-static int handle_closecurservice(server *srv, connection *con, 
+static int handle_closecurservice(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20439,14 +20506,14 @@ static int handle_closecurservice(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "closeCurService" );
 
     printf("handle_closecurservice\n");
     if (message != NULL)
     {
         dbus_message_set_auto_start (message, TRUE);
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -20471,7 +20538,7 @@ static int handle_closecurservice(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -20511,7 +20578,7 @@ static int handle_closecurservice(server *srv, connection *con,
     return 0;
 }
 
-static int handle_grabwindow(server *srv, connection *con, 
+static int handle_grabwindow(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20535,7 +20602,7 @@ static int handle_grabwindow(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "grabWindow" );
 
     printf("handle_grabwindow\n");
@@ -20550,7 +20617,7 @@ static int handle_grabwindow(server *srv, connection *con,
         {
             path = "";
         }
-      
+
         uri_decode((char*)path);
 
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &path ) )
@@ -20558,7 +20625,7 @@ static int handle_grabwindow(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -20583,7 +20650,7 @@ static int handle_grabwindow(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -20943,7 +21010,7 @@ static int handle_touchscreen(server *srv, connection *con,
     return 0;
 }*/
 
-static int handle_getmessage(server *srv, connection *con, 
+static int handle_getmessage(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -20968,7 +21035,7 @@ static int handle_getmessage(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getMessage" );
 
     printf("handle_getmessage\n");
@@ -20989,7 +21056,7 @@ static int handle_getmessage(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -21014,7 +21081,7 @@ static int handle_getmessage(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -21054,7 +21121,7 @@ static int handle_getmessage(server *srv, connection *con,
     return 0;
 }
 
-static int handle_setnewmessage(server *srv, connection *con, 
+static int handle_setnewmessage(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -21082,7 +21149,7 @@ static int handle_setnewmessage(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setNewMessage" );
 
     printf("handle_setnewmessage\n");
@@ -21097,7 +21164,7 @@ static int handle_setnewmessage(server *srv, connection *con,
         {
             num = "";
         }
-      
+
         account = msg_get_header(m, "account");
 
         if ( account == NULL )
@@ -21153,7 +21220,7 @@ static int handle_setnewmessage(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -21178,7 +21245,7 @@ static int handle_setnewmessage(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -21218,7 +21285,7 @@ static int handle_setnewmessage(server *srv, connection *con,
     return 0;
 }
 
-static int handle_senddraftmessage(server *srv, connection *con, 
+static int handle_senddraftmessage(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -21242,7 +21309,7 @@ static int handle_senddraftmessage(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "sendDraftMessage" );
 
     printf("handle_senddraftmessage\n");
@@ -21263,7 +21330,7 @@ static int handle_senddraftmessage(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -21288,7 +21355,7 @@ static int handle_senddraftmessage(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -21328,7 +21395,7 @@ static int handle_senddraftmessage(server *srv, connection *con,
     return 0;
 }
 
-static int handle_removemessage(server *srv, connection *con, 
+static int handle_removemessage(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -21354,7 +21421,7 @@ static int handle_removemessage(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "removeMessage" );
 
     printf("handle_removemessage\n");
@@ -21395,7 +21462,7 @@ static int handle_removemessage(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -21420,7 +21487,7 @@ static int handle_removemessage(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -21534,7 +21601,7 @@ static int handle_savemessage(buffer *b, const struct message *m)
                 print_message(reply);
                 int current_type;
                 dbus_message_iter_init(reply, &iter);
-                
+
                 while((current_type = dbus_message_iter_get_arg_type(&iter)) != DBUS_TYPE_INVALID) {
                     switch(current_type) {
                         case DBUS_TYPE_STRING:
@@ -21572,7 +21639,7 @@ static int handle_savemessage(buffer *b, const struct message *m)
     return 1;
 }
 
-static int handle_getlastcall(server *srv, connection *con, 
+static int handle_getlastcall(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -21597,7 +21664,7 @@ static int handle_getlastcall(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getLastCall" );
 
     printf("handle_getlastcall\n");
@@ -21618,7 +21685,7 @@ static int handle_getlastcall(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -21643,7 +21710,7 @@ static int handle_getlastcall(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -21683,7 +21750,7 @@ static int handle_getlastcall(server *srv, connection *con,
     return 0;
 }
 
-static int handle_removecall(server *srv, connection *con, 
+static int handle_removecall(server *srv, connection *con,
     buffer *b, const struct message *m)
 {
     DBusMessage* message = NULL;
@@ -21709,7 +21776,7 @@ static int handle_removecall(server *srv, connection *con,
         dbus_error_free (&error);
         return -1;
     }
-                                          
+
     message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "removeCall" );
 
     printf("handle_removecall\n");
@@ -21743,7 +21810,7 @@ static int handle_removecall(server *srv, connection *con,
             printf( "Out of Memory!\n" );
             exit( 1 );
         }
-            
+
         dbus_error_init( &error );
         reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
 
@@ -21768,7 +21835,7 @@ static int handle_removecall(server *srv, connection *con,
                     case DBUS_TYPE_STRING:
                         dbus_message_iter_get_basic(&iter, &res);
                         break;
-                            
+
                     default:
                         break;
                 }
@@ -22006,7 +22073,7 @@ static int handle_savecallhistory(buffer *b, const struct message *m)
                 print_message(reply);
                 int current_type;
                 dbus_message_iter_init(reply, &iter);
-                
+
                 while((current_type = dbus_message_iter_get_arg_type(&iter)) != DBUS_TYPE_INVALID) {
                     switch(current_type) {
                         case DBUS_TYPE_STRING:
@@ -22074,7 +22141,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
 		buffer_append_string(b, "Response=Error\r\nMessage=Authentication Required\r\n");
 		return -1;
 	}
-	
+
     printf("process_upload---------\r\n");
     //FILE *file_fd = NULL;
     int file_fd;
@@ -22093,11 +22160,11 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
     const char * jsonCallback = NULL;
     size_t whlength = 0;
 
-	if (con->request.content_length) 
+	if (con->request.content_length)
 	{
 		chunkqueue *cq = con->request_content_queue;
                 chunk *c;
-        
+
 		assert(chunkqueue_length(cq) == (off_t)con->request.content_length);
 #ifndef BUILD_RECOVER
                 file_name = generate_file_name(b, m);
@@ -22244,7 +22311,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                                     {
                                         start = strrchr(tempval, '\/');
                                     }
-                                    
+
                                     if ((start > end) || start == NULL)
                                     {
                                         start = tempval;
@@ -22285,7 +22352,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                                 if (start != NULL)
                                 {
                                     start += strlen("\r\n\r\n");
-                                    
+
                                     printf("trip header %d\n", strip_header);
                                     c->offset += start - chunk_start;
                                 }
@@ -22298,7 +22365,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                             {
                                 start = chunk_start + c->offset;
                             }
-                            
+
                             //end = strstr(c->file.mmap.start + c->file.length - 54, "\r\n--------------------");
                             if (1)
                             {
@@ -22314,13 +22381,13 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                                     dectet = end -1;
                                     //end += strlen("\r\n");
 
-                                	while (((*dectet == '\r') && (*(dectet + 2) =='-')) 
+                                	while (((*dectet == '\r') && (*(dectet + 2) =='-'))
                                         || ((*dectet == '\n') && (*(dectet + 1) =='-'))
                                         || (*dectet == '-') )
                                    {
                                         end--;
                                         dectet--;
-                                   } 
+                                   }
                                 }
                             }
 
@@ -22398,7 +22465,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
 #endif
                             }
                             */
-                            if ((strip_header == 1) && ((start = strstr(c->mem->ptr + c->offset, "\r\n\r\n")) != NULL) 
+                            if ((strip_header == 1) && ((start = strstr(c->mem->ptr + c->offset, "\r\n\r\n")) != NULL)
                                  && (strstr(c->mem->ptr + c->offset, "Content-Type:") != NULL))
 
                             {
@@ -22422,13 +22489,13 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                                     dectet = end -1;
                                     //end += strlen("\r\n");
 
-                                	while (((*dectet == '\r') && (*(dectet + 2) =='-')) 
+                                	while (((*dectet == '\r') && (*(dectet + 2) =='-'))
                                         || ((*dectet == '\n') && (*(dectet + 1) =='-'))
                                         || (*dectet == '-') )
                                    {
                                         end--;
                                         dectet--;
-                                   } 
+                                   }
                                 }
                             }
                             length = end - start;
@@ -22475,7 +22542,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                 chmod(file_name, 0744);
             }
 	}
-       
+
     int uploadsuc = 1;
 
     /*
@@ -22490,7 +22557,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
 
     if((resType != NULL) && !strcasecmp(resType, "json"))
     {
-        jsonCallback = msg_get_header( m, "jsoncallback" );    
+        jsonCallback = msg_get_header( m, "jsoncallback" );
 
         if(jsonCallback != NULL)
         {
@@ -22552,13 +22619,13 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
 #ifndef BUILD_RECOVER
 
 int isReadable(int sd,int * error,int timeOut)
-{ 
+{
     // milliseconds
     fd_set socketReadSet;
     FD_ZERO(&socketReadSet);
     FD_SET(sd,&socketReadSet);
     struct timeval tv;
-    
+
     if (timeOut)
     {
         tv.tv_sec  = timeOut / 1000;
@@ -22570,14 +22637,14 @@ int isReadable(int sd,int * error,int timeOut)
         tv.tv_usec = 0;
     } // if
 
-    
-    if (select(sd+1,&socketReadSet,0,0,&tv) == -1) 
+
+    if (select(sd+1,&socketReadSet,0,0,&tv) == -1)
     {
         *error = 1;
         return 0;
     } // if
     *error = 0;
-    
+
     return FD_ISSET(sd,&socketReadSet) != 0;
 } /* isReadable */
 
@@ -22598,9 +22665,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         resType = msg_get_header(m, "format");
         if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
         {
-             response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"), 
+             response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"),
                 CONST_STR_LEN("application/x-javascript; charset=utf-8"));
-        
+
             const char * jsonCallback = msg_get_header( m, "jsoncallback" );
 
             if ( jsonCallback != NULL )
@@ -22614,7 +22681,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 temp = malloc( 128 );
                 snprintf( temp, 128, "%s", "{\"res\": \"error\", \"msg\" : \"command not found\"}" );
             }
-            
+
             buffer_append_string( b, temp );
             free(temp);
         }
@@ -22625,7 +22692,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         buffer_append_string(b, res);
         return -1;
     }
-    
+
     strncpy(action, temp, sizeof(action) - 1);
 
     char *region = NULL;
@@ -22653,8 +22720,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             }
         }
 
+        //int authres = authenticate(m);
+        const char *pass = msg_get_header (m, "Secret");
         const char *src = msg_get_header(m, "src");
-        int authres = authenticate(m);
+		int authres = authenticate(m, isadmin, pass);
 
         if (authres == -1 || authres == -2) {
             if (isadmin){
@@ -22676,9 +22745,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             resType = msg_get_header(m, "format");
             if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
             {
-                 response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"), 
+                 response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"),
                     CONST_STR_LEN("application/x-javascript; charset=utf-8"));
-            
+
                 const char * jsonCallback = msg_get_header( m, "jsoncallback" );
 
                 if ( jsonCallback != NULL )
@@ -22693,7 +22762,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     temp = malloc( 128 );
                     snprintf( temp, 128, "%s%d%s", "{\"res\": \"error\", \"msg\" : \"authentication failed\", \"times\":\"", isadmin == 1 ? passwrongtimes : userpasswrongtimes, "\"}" );
                 }
-                
+
                 buffer_append_string( b, temp );
                 free(temp);
             }
@@ -22766,7 +22835,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         } else if (check_qr_cookie(con)) {
             if (!strcasecmp(action, "getacctconf")) {
                 handle_get(b, m);
-            } else if (!strcasecmp(action, "acctquickconf")) { 
+            } else if (!strcasecmp(action, "acctquickconf")) {
                 handle_put(b, m);
                 handle_applypvalue(b, m);
                 handle_applyresponse(b);
@@ -23149,7 +23218,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 } else if (!strcasecmp(action, "getdateinfo")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getDateInfo");
                 } else if (!strcasecmp(action, "setdateinfo")) {
-                    handle_webservice_by_two_string_param(srv, con, b, m, "datestr", "timestr", "setDateInfo"); 
+                    handle_webservice_by_two_string_param(srv, con, b, m, "datestr", "timestr", "setDateInfo");
                 } else if (!strcasecmp(action, "tracelist")) {
                     handle_tracelist(b);
                 } else if (!strcasecmp(action, "deletetrace")) {
@@ -23340,7 +23409,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             else if (!strcasecmp(region, "confctrl")){
                 if (!strcasecmp(action, "addconfmemeber")) {
                     handle_addconfmemeber(srv, con, b, m);
-                } 
+                }
                 else if (!strcasecmp(action, "acceptringline")) {
                     handle_acceptringline(srv, con, b, m);
                 }
@@ -23607,7 +23676,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else{
                     findcmd = 0;
                 }
-            }    
+            }
             else if (!strcasecmp(region, "remotekey")){
                 if (!strcasecmp(action, "remotekeypress")) {
                     //handle_callservice_by_two_param(srv, con, b, m, "keyaction", "keycode", "remoteKeyPress");
@@ -24078,6 +24147,1282 @@ static int connection_handle_read(server *srv, connection *con) {
     return 0;
 }
 
+static int handle_gmichecklockout(buffer *b)
+{
+    int locked = 0;
+    if( gmilocktimes >=3){
+        locked = 1;
+        buffer_append_string( b, "2" );
+    }else{
+        /*if( passwrongtimes >= 5 && userpasswrongtimes >= 5 ){
+            time_t now;
+            time(&now);
+            if (now < lockoutime)
+            {
+                locked = 1;
+                buffer_append_string( b, "1" );
+            }else
+            {
+                //passwrongtimes = 0;
+                locked = 0;
+                buffer_append_string( b, "0" );
+            }
+        }else{
+            locked = 0;
+            buffer_append_string( b, "0" );
+        }*/
+        locked = 0;
+        buffer_append_string( b, "0" );
+    }
+    return locked;
+}
+
+static int handle_action_uri_service(server *srv, connection *con,
+    buffer *b, const struct message *m, char *action)
+{
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 5000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *temp = NULL;
+    char *info = NULL;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+	char * tmp_api = NULL;
+	char *error_msg = NULL;
+
+	if(!strcasecmp(action, "api-add_group"))
+		tmp_api = "setGroup";
+	else if(!strcasecmp(action, "api-get_groups")) {
+		tmp_api = "getGroup";
+        //return sqlite_handle_contact(b, m, "groups");
+	} else if(!strcasecmp(action, "api-get_contacts"))
+		tmp_api = "getContact";
+	else if(!strcasecmp(action, "api-delete_all_contact"))
+		tmp_api = "removeContact";
+	else if(!strcasecmp(action, "api-delete_contact"))
+		tmp_api = "removeContact";
+	else if(!strcasecmp(action, "api-edit_delete_group"))
+	{
+		char *new_groupname = msg_get_header(m, "name");
+		if(new_groupname == NULL)
+			new_groupname = "";
+		if(!strcmp(new_groupname, ""))
+			tmp_api = "removeGroup";
+		else
+			tmp_api = "setGroup";
+	}
+	else if(!strcasecmp(action, "api-get_line_status"))
+	{
+		char *line = msg_get_header(m, "line");
+		if(line == NULL)
+			tmp_api = "getAllLineInfo";
+		else
+			tmp_api = "getLineStatus";
+	}
+	else if(!strcasecmp(action, "api-get_phone_status"))
+		tmp_api = "getPhoneStatus";
+	else if(!strcasecmp(action, "api-make_call"))
+		tmp_api = "originateCall";
+	else if(!strcasecmp(action, "api-phone_operation"))
+	{
+		char *cmd = msg_get_header(m, "cmd");
+		if(!strcasecmp(cmd, "endcall"))
+			tmp_api = "endConf";
+		else if(!strcasecmp(cmd, "holdcall"))
+			tmp_api = "holdUnholdCall";
+		else if(!strcasecmp(cmd, "acceptcall"))
+			tmp_api = "acceptOrRejectRingingLine";
+		else if(!strcasecmp(cmd, "rejectcall"))
+			tmp_api = "acceptOrRejectRingingLine";
+	}
+	else if(!strcasecmp(action, "api-save_edit_contact"))
+		tmp_api = "setContact";
+	else if(!strcasecmp(action, "phonebook_download"))
+		tmp_api = "exportPhonebook";
+
+	printf("tmp_api---%s\n", tmp_api);
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, tmp_api);
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+
+		/*append parameters to dbus method call*/
+        if (!strcasecmp(action, "api-add_group"))
+        {
+            dbus_message_iter_init_append( message, &iter );
+
+            char *name = msg_get_header(m, "name");
+            if (name == NULL)
+            {
+                buffer_append_string(b, "{\"res\": \"error\", \"msg\": \"name should not be null\"}");
+				return -1;
+            }
+            else
+            {
+                uri_decode(name);
+				int length = strlen(name) + 8;
+				char * tmp_name = (char *)malloc(length);
+				snprintf(tmp_name, length, ":::%s\0", name);
+				strcpy(name, tmp_name);
+				free(tmp_name);
+            }
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &name ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"can't set the group\"}";
+        }
+		else if (!strcasecmp(action, "api-get_groups"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+			char *id = NULL;
+			id = msg_get_header(m, "id");
+			if(id == NULL)
+				id = "";
+
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &id ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"failed to delete all groups\"}";
+        }
+		else if (!strcasecmp(action, "api-get_contacts"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+			char *contactid = NULL, *groupid = NULL, *contactname = NULL;
+
+			contactid = msg_get_header(m, "contactid");
+			if(contactid == NULL)
+				contactid = "";
+
+			groupid = msg_get_header(m, "groupid");
+			if(groupid == NULL)
+				groupid = "";
+
+			contactname = msg_get_header(m, "contactname");
+			if(contactname == NULL) {
+			    contactname = "";
+			}
+			else
+			{
+			    uri_decode( (char*)contactname );
+			}
+
+
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &contactid ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &groupid ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &contactname ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"failed to delete all groups\"}";
+        }
+		else if (!strcasecmp(action, "api-delete_all_contact"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+			char *id = "";
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &id ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"failed to delete all groups\"}";
+        }
+		else if(!strcasecmp(action, "api-delete_contact"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+
+            char *id = msg_get_header(m, "id");
+            if (id == NULL)
+            {
+                buffer_append_string(b, "{\"res\":\"error\", \"msg\":\"id should not be null\"}");
+				return -1;
+            }
+            else
+            {
+                uri_decode(id);
+            }
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &id ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+			error_msg = "{\"res\": \"error\", \"msg\": \"failed to delete the contact\"}";
+		}
+		else if(!strcasecmp(action, "api-edit_delete_group"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+
+			char *groupid = msg_get_header(m, "id");
+			char *groupname = msg_get_header(m, "name");
+
+			if(groupid == NULL || !strcmp(groupid, ""))
+			{
+				buffer_append_string(b, "{\"res\":\"error\", \"msg\":\"id should not be null\"}");
+				return -1;
+			}
+
+			if(groupname == NULL)
+				groupname = "";
+
+			int length = strlen(groupid) + strlen(groupname) + 8;
+			char *tmp_edit = (char *)malloc(length);
+			char *param = NULL;
+
+			if(strcmp(groupname, "") != 0)
+			{
+				snprintf(tmp_edit, length, "%s:::%s\0", groupid, groupname);
+				param = tmp_edit;
+
+				error_msg = "{\"res\": \"error\", \"msg\": \"failed to edit the group\"}";
+			}
+			else
+			{
+				param = groupid;
+				error_msg = "{\"res\": \"error\", \"msg\": \"failed to delete the group\"}";
+			}
+
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &param ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+			free(tmp_edit);
+		}
+		else if(!strcasecmp(action, "api-get_line_status") && !strcasecmp(tmp_api, "getLineStatus"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+
+			char *line_id = msg_get_header(m, "line");
+			if (line_id != NULL)
+			{
+			    dbus_message_iter_init_append( message, &iter );
+				int id = atoi(line_id);
+				if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &id) )
+	            {
+
+	                printf( "Out of Memory!\n" );
+	                exit( 1 );
+	            }
+			}
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"can't get the status of line\"}";
+		}
+		else if(!strcasecmp(action, "api-make_call"))
+		{
+            printf("api-make_call\n" );
+			dbus_message_iter_init_append( message, &iter );
+
+			char *phonenum = msg_get_header(m, "phonenumber");
+			//char *acc = msg_get_header(m, "account");
+
+			//char *isVideo = "0";
+            char *isConf = "0";
+            char *source = "2";
+            char *callMode = "0";
+			int isDialPlan = 0;
+			char *headerString = "";
+            int isPaging = 0;
+            int isipcall = 0;
+            int account = 0;
+            char *temp = NULL;
+            int isVideo = 0;
+
+            temp = msg_get_header(m, "account");
+            if ( temp != NULL )
+            {
+                account = atoi( temp );
+            }
+
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &account) )
+			{
+				printf( "Out of Memory!\n" );
+				exit( 1 );
+			}
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isVideo) )
+			{
+				printf( "Out of Memory!\n" );
+				exit( 1 );
+			}
+
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isDialPlan) )
+			{
+				printf( "Out of Memory!\n" );
+				exit( 1 );
+			}
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isPaging ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isipcall ) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &phonenum) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &headerString) )
+			{
+				printf( "Out of Memory!\n" );
+				exit( 1 );
+			}
+
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"can't make the call\"}";
+		}
+		else if(!strcasecmp(action, "api-phone_operation"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+			char *cmd = msg_get_header(m, "cmd");
+			char *lineid = msg_get_header(m, "line");
+
+			if(lineid == NULL || strcmp(lineid, "") == 0)
+			{
+				buffer_append_string(b, "{\"res\":\"error\", \"msg\":\"parameter line should not be null\"}");
+				return -1;
+			}
+			else
+			{
+				int line = atoi(lineid);
+				if(!strcasecmp(cmd, "acceptcall"))
+				{
+				    int accept = 1;
+					int type = 0;
+					if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &accept) )
+                    {
+                        printf( "Out of Memory!\n" );
+                        exit( 1 );
+                    }
+					if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &line) )
+					{
+						printf( "Out of Memory!\n" );
+						exit( 1 );
+					}
+					if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &type) )
+					{
+						printf( "Out of Memory!\n" );
+						exit( 1 );
+					}
+				}
+				else if(!strcasecmp(cmd, "rejectcall"))
+				{
+				    int accept = 0;
+                    int type = 0;
+                    if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &accept) )
+                    {
+                        printf( "Out of Memory!\n" );
+                        exit( 1 );
+                    }
+					if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &line) )
+					{
+						printf( "Out of Memory!\n" );
+						exit( 1 );
+					}
+					if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &type) )
+                    {
+                        printf( "Out of Memory!\n" );
+                        exit( 1 );
+                    }
+                }
+				else
+				{
+                    int flag = 1;
+				    if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &flag) )
+                    {
+                        printf( "Out of Memory!\n" );
+                        exit( 1 );
+                    }
+				}
+			}
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"faided to accomplish the phone operation\"}";
+		}
+		else if(!strcasecmp(action, "api-save_edit_contact"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+
+			char *id = msg_get_header(m, "id");
+			char *idstr = (char *)malloc(30);
+            memset(idstr, 0, 30);
+			if(id == NULL)
+			{
+				idstr = "";
+			} else {
+			    char *idformat = "\"contactid\":\"%s\"";
+			    int idlen = strlen(id) + strlen(idformat);
+                char *str = (char *)malloc(idlen);
+                snprintf(str, idlen, idformat, id);
+                strcat(idstr, str);
+			}
+
+
+			char *firstname = msg_get_header(m, "firstname");
+			char *lastname = msg_get_header(m, "lastname");
+
+			if(firstname == NULL || lastname == NULL)
+			{
+				buffer_append_string(b, "{\"res\":\"error\", \"msg\":\"Contact name should not be null\"}");
+				return -1;
+			}
+
+			char *group = msg_get_header(m, "group");
+			if(group == NULL)
+			{
+			    group = "";
+			}
+
+			char *phoneformat = "{\"type\":\"%s\",\"account\":\"-1\",\"number\":\"%s\"}";
+			int phoneformatlen = strlen(phoneformat);
+            char *strPhone = (char *)malloc(1024);
+            memset(strPhone, 0, 1024);
+
+            char *newphone1 = msg_get_header(m, "newphone1");
+			if(newphone1 != NULL)
+			{
+			    int phone1len = strlen(phoneformat) + strlen(newphone1);
+			    char *strnewphone1 = (char *)malloc(phone1len);
+                snprintf(strnewphone1, phone1len, phoneformat, "2", newphone1);
+                strcat(strPhone, strnewphone1);
+                free(strnewphone1);
+            }
+
+			char *newphone2 = msg_get_header(m, "newphone2");
+			if(newphone2 != NULL)
+            {
+			    if(strcasecmp(strPhone, ""))
+			    {
+			        strcat(strPhone, ",");
+			    }
+                int phone2len = phoneformatlen + strlen(newphone2);
+                char *strnewphone2 = (char *)malloc(phone2len);
+                snprintf(strnewphone2, phone2len, phoneformat, "1",newphone2);
+                strcat(strPhone,strnewphone2);
+                free(strnewphone2);
+            }
+
+			char *newphone3 = msg_get_header(m, "newphone3");
+			if(newphone3 != NULL)
+            {
+			    if(strcasecmp(strPhone, ""))
+			    {
+			        strcat(strPhone, ",");
+			    }
+                int phone3len = phoneformatlen + strlen(newphone3);
+                char *strnewphone3 = (char *)malloc(phone3len);
+                snprintf(strnewphone3, phone3len, phoneformat, "3",newphone3);
+                strcat(strPhone,strnewphone3);
+                free(strnewphone3);
+            }
+
+			char *newphone4 = msg_get_header(m, "newphone4");
+			if(newphone4 != NULL)
+            {
+			    if(strcasecmp(strPhone, ""))
+			    {
+			        strcat(strPhone, ",");
+			    }
+                int phone4len = phoneformatlen + strlen(newphone4);
+                char *strnewphone4 = (char *)malloc(phone4len);
+                snprintf(strnewphone4, phone4len, phoneformat, "4",newphone4);
+                strcat(strPhone,strnewphone4);
+                free(strnewphone4);
+            }
+
+            char *newphone5 = msg_get_header(m, "newphone5");
+            if(newphone5 != NULL)
+            {
+			    if(strcasecmp(strPhone, ""))
+			    {
+			        strcat(strPhone, ",");
+			    }
+                int phone5len = phoneformatlen + strlen(newphone5);
+                char *strnewphone5 = (char *)malloc(phone5len);
+                snprintf(strnewphone5, phone5len, phoneformat,"5",newphone5);
+                strcat(strPhone,strnewphone5);
+                free(strnewphone5);
+            }
+//			strcat(strPhone,"],");
+
+			char *email = msg_get_header(m, "email");
+			if(email == NULL)
+				email = "";
+
+//			int len1 = strlen(idstr) + strlen(firstname) + strlen(lastname) + strlen(group) + strlen(newphone1) + strlen(newphone2) + strlen(newphone3) + strlen(newphone4) + strlen(email) + 30;
+//			char *format = "{\"rawcontact\":{%s},\"structuredname\":{\"givenname\":\"%s\",\"familyname\":\"%s\"},\"groupmembership\":[{\"groupid\":\"%s\"},,,,],\"phone\":[{\"type\":\"2\",\"account\":\"-1\",\"number\":\"%s\"},{\"type\":\"1\",\"account\":\"-1\",\"number\":\"%s\"},{\"type\":\"4\",\"account\":\"-1\",\"number\":\"%s\"},{\"type\":\"5\",\"account\":\"-1\",\"number\":\"%s\"},{\"type\":\"3\",\"account\":\"-1\",\"number\":\"%s\"}],\"email\":[{\"type\":\"1\",\"address\":\"%s\"}]}";
+
+			int len1 = strlen(idstr) + strlen(firstname) + strlen(lastname) + strlen(group) + strlen(email) + 30;
+			char *format = "{\"rawcontact\":{%s},\"structuredname\":{\"givenname\":\"%s\",\"familyname\":\"%s\"},\"groupmembership\":[{\"groupid\":\"%s\"}],\"phone\":[%s],\"email\":[{\"type\":\"1\",\"address\":\"%s\"}]}";
+
+			int len = len1 + strlen(format) + strlen(strPhone);
+			char *tmp_info = (char *)malloc(len);
+            memset(tmp_info, 0, len);
+            snprintf(tmp_info, len, format, idstr, firstname, lastname, group, strPhone,  email);
+            printf( "tmp_info: %s\n", tmp_info);
+            uri_decode( (char*)tmp_info );
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &tmp_info) )
+			{
+				printf( "Out of Memory!\n" );
+				exit( 1 );
+			}
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"faided to save the contact\"}";
+			free(strPhone);
+			free(tmp_info);
+		}
+		else if(!strcasecmp(action, "phonebook_download"))
+		{
+			dbus_message_iter_init_append( message, &iter );
+			const char *path = NULL;
+//			path = malloc(strlen(TMP_PHONEBOOKPATH) + strlen("/phonebook.xml") + 4);
+            path = malloc(strlen(TMP_PHONEBOOKPATH) + 4);
+//		    sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.xml");
+            sprintf(path, "%s/", TMP_PHONEBOOKPATH);
+
+		    if ( 0 == access(path, 0) ) {
+		        chmod(path, 0777);
+		    }
+
+			int len = strlen(path) + 128;
+			char *tmp_param = (char *)malloc(len);
+			memset(tmp_param, 0, len);
+//			snprintf(tmp_param, len, "{\"path\":\"/mnt%s\",\"type\":\"1\",\"encode\":\"UTF-8\",\"replace\":\"0\",\"clear\":\"0\",\"mode\":\"1\", \"exporttype\": \"\"}", path);
+			snprintf(tmp_param, len, "{\"path\":\"%s\",\"type\":\"1\",\"encode\":\"UTF-8\",\"replace\":\"0\",\"clear\":\"0\",\"mode\":\"1\", \"exporttype\": \"\"}", path);
+			printf("tmp_param---%s\n", tmp_param);
+
+			//char *tmp_param = "{\"path\": \"%s\",\"type\":\"xml\",\"encode\":\"utf-8\"}";
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &tmp_param) )
+			{
+				printf( "Out of Memory!\n" );
+				exit( 1 );
+			}
+
+			error_msg = "{\"res\": \"error\", \"msg\": \"faided to download the phonebook\"}";
+		}
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = error_msg;
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
+}
+
+static void handle_getapivalues(buffer *b, const struct message *m)
+{
+	char *temp = NULL;
+	char *result = NULL;
+	int num = 0;
+	char keyvalue[API_ARY_LEN][API_ARY_LEN];
+	temp = msg_get_header(m, "request");
+	int count = 0;
+
+	buffer_append_string(b, "{\"response\":\"success\",\"body\":{");
+
+	result = strtok(temp, ":");
+	while(result != NULL)
+	{
+		strcpy(keyvalue[num++], result);
+
+		char *value = nvram_get(result);
+		if(value == NULL)
+		 value = "";
+
+		int len = strlen(result) + strlen(value) + 12;
+		char *tmp_str = (char*)malloc(len);
+		memset(tmp_str, 0, len);
+
+		if (count == 0) {
+			snprintf(tmp_str, len, "\"%s\":\"%s\"", result, value);
+		} else {
+			snprintf(tmp_str, len, ",\"%s\":\"%s\"", result, value);
+		}
+
+		printf("tmp_str: %s\n", tmp_str);
+		buffer_append_string(b, tmp_str);
+		count++;
+
+		result = strtok(NULL, ":");
+		free(tmp_str);
+	}
+
+	buffer_append_string(b, "}}");
+}
+
+static void handle_postapivalues(buffer *b, const struct message *m)
+{
+	char *result = NULL;
+	int HDRcount = m->hdrcount;
+	int num = 0;
+
+	char *left = (char*)malloc(sizeof(char) * HDRcount * API_ARY_LEN);
+	if(left == NULL){
+		buffer_append_string(b, "{\"response\":\"error\",\"msg\":\"computer memory is not enough!\"}");
+		return;
+	}
+
+	char *right = (char*)malloc(sizeof(char) * HDRcount * API_ARY_LEN);
+	if(right == NULL){
+		free(left);
+		buffer_append_string(b, "{\"response\":\"error\",\"msg\":\"computer memory is not enough!\"}");
+		return;
+	}
+
+	//start from 1 due to the first value of m is always "action"
+	for(int i = 1; i < HDRcount; i++)
+	{
+		if(m->headers[i][0] == 'P')
+		{
+			result = strtok(m->headers[i], "=");
+
+			int tag = 0;
+			while(result != NULL)
+			{
+				int len = strlen(result);
+				if(len > 99)
+				{
+					buffer_append_string(b, "{\"response\":\"error\",\"msg\":\"the value is oversized\"}");
+					free(left);
+					free(right);
+					return;
+				}
+				if(tag == 0)
+				{
+					char *temp = malloc(sizeof(char) * (len - 1));
+					memset(temp, 0 , len-1);
+					for(int j = 1; j < len ; j++)
+						temp[j-1] = result[j];
+					temp[len-1] = '\0';
+					strcpy(&left[num * 100], temp);
+					tag = 1;
+					free(temp);
+				}
+				else
+				{
+					strcpy(&right[num * 100], result);
+					tag = 0;
+				}
+				result = strtok(NULL, "=");
+			}
+			num++;
+		}
+		else
+		{
+			buffer_append_string(b, "{\"response\":\"error\",\"msg\":\"wrong format\"}");
+			free(left);
+			free(right);
+			return;
+		}
+	}
+
+	for(int i = 0; i < num; i++)
+	{
+		nvram_set(&left[i*100], &right[i*100]);
+	}
+
+	buffer_append_string(b, "{\"response\":\"success\",\"body\":{\"status\":\"right\"}}");
+	free(left);
+	free(right);
+}
+
+static void handle_api_pwdchange(buffer *b, const struct message *m)
+{
+	char *curadminpwd = nvram_get("2");
+	char *curuserpwd = nvram_get("196");
+
+	char *oldadminpwd = msg_get_header(m, "oldadmin");
+	char *newadminpwd = msg_get_header(m, "P2");
+	char *olduserpwd = msg_get_header(m, "olduser");
+	char *newuserpwd = msg_get_header(m, "P196");
+
+	int o_admincmp = strcmp(oldadminpwd, "");
+	int n_admincmp = strcmp(newadminpwd, "");
+	int o_usercmp = strcmp(olduserpwd, "");
+	int n_usercmp = strcmp(newuserpwd, "");
+
+	int adminpwdcmp = strcmp(oldadminpwd, curadminpwd);
+	int userpwdcmp = strcmp(olduserpwd, curuserpwd);
+
+	if(!o_admincmp && !n_admincmp && !o_usercmp && !n_usercmp)
+		return;
+
+	if(!adminpwdcmp && n_admincmp != 0)
+	{
+		nvram_set("2", newadminpwd);
+
+	}
+	else if(!adminpwdcmp && !n_admincmp)
+	{
+		buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"admin's password is not supposed to be null\"}");
+		return;
+	}
+	else if(adminpwdcmp != 0 && (o_admincmp | n_admincmp) != 0)
+	{
+		buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"admin's password doesn't match\"}");
+		return;
+	}
+
+	if(!userpwdcmp && n_usercmp != 0)
+	{
+		nvram_set("196", newuserpwd);
+//		buffer_append_string(b, "{\"response\":\"success\", \"body\":{\"status\":\"right\"}}");
+//		return;
+	}
+	else if(!userpwdcmp && n_usercmp == 0)
+	{
+		buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"user's password is not supposed to be null\"}");
+		return;
+	}
+	else if(userpwdcmp != 0)
+	{
+		buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"user's password doesn't match\"}");
+		return;
+	}
+    buffer_append_string(b, "{\"response\":\"success\", \"body\":{\"status\":\"right\"}}");
+    return;
+}
+
+static void handle_acc_status(buffer *b, const struct message *m)
+{
+	char *registered = msg_get_header(m, "registered");
+
+    char * sip_server[] = {"47", "402", "502", "602", "1702", "1802","50602","50702","50802","50902","51002","51102","51202","51302","51402","51502"};
+	char * sip_id[] = {"35", "404", "504", "604", "1704", "1804","50604","50704","50804","50904","51004","51104","51204","51304","51404","51504"};
+	char * name[] = {"270", "417", "517", "617", "1717", "1817","50617","50717","50817","50917","51017","51117","51217","51317","51417","51517"};
+	char * reg[] = {"271", "401", "501", "601", "1701", "1801","50601","50701","50801","50901","51001","51101","51201","51301","51401","51501"};
+
+	char *tmp_status = (char *)malloc(300);
+	memset(tmp_status, 0, 300);
+
+	if(registered == NULL)
+	{
+		buffer_append_string(b, "{\"response\":\"success\",\"body\":[");
+		for(int i = 0; i < 6; i++)
+		{
+			if(i == 0)
+				snprintf(tmp_status, 300, "{\"id\":%d, \"sip_server\":\"%s\", \"sip_id\":\"%s\", \"name\":\"%s\", \"reg\":%s}", i+1, nvram_get(sip_server[i]), nvram_get(sip_id[i]), nvram_get(name[i]), nvram_get(reg[i]));
+			else
+				snprintf(tmp_status, 300, ",{\"id\":%d, \"sip_server\":\"%s\", \"sip_id\":\"%s\", \"name\":\"%s\", \"reg\":%s}", i+1, nvram_get(sip_server[i]), nvram_get(sip_id[i]), nvram_get(name[i]), nvram_get(reg[i]));
+
+			buffer_append_string(b, tmp_status);
+		}
+	}
+	else if(!strcmp(registered, "")) {
+        return;
+    }
+	else if(!strcmp(registered, "1") || !strcasecmp(registered, "true"))
+	{
+		buffer_append_string(b, "{\"response\":\"success\",\"body\":[");
+		int tag = 0;
+		for(int i = 0; i < 6; i++)
+		{
+			if(!strcmp(nvram_get(reg[i]), "1"))
+			{
+				if(tag == 0)
+					snprintf(tmp_status, 300, "{\"id\":%d, \"sip_server\":\"%s\", \"sip_id\":\"%s\", \"name\":\"%s\", \"reg\":%s}", i+1, nvram_get(sip_server[i]), nvram_get(sip_id[i]), nvram_get(name[i]), "1");
+				else
+					snprintf(tmp_status, 300, ",{\"id\":%d, \"sip_server\":\"%s\", \"sip_id\":\"%s\", \"name\":\"%s\", \"reg\":%s}", i+1, nvram_get(sip_server[i]), nvram_get(sip_id[i]), nvram_get(name[i]), "1");
+
+				buffer_append_string(b, tmp_status);
+				tag++;
+			}
+		}
+	}
+	else {
+        return;
+    }
+
+	buffer_append_string(b, "]}");
+	free(tmp_status);
+}
+
+static void handle_system_operations(buffer *b, const struct message *m)
+{
+	char * request = msg_get_header(m, "request");
+	if(!strcasecmp(request, "REBOOT"))
+	{
+		buffer_append_string(b, "{\"response\":\"success\",\"body\":reboot\"}");
+	    start_reboot();
+	}
+	else if(!strcasecmp(request, "RESET"))
+	{
+	    int result;
+	    //result = system("am broadcast -a \"com.base.module.systemmanager.FACTORY_RESET\" --es cmd \"fixed_factory_reset 7\"");   // 1|2|4
+
+        char *cmd[] = {"am", "broadcast", "-a", "com.base.module.systemmanager.FACTORY_RESET", "--es", "cmd", "fixed_factory_reset 7", 0};
+        result = doCommandTask(cmd, NULL, NULL, 0);
+
+	    sync();
+
+        if( result == 0 )
+            buffer_append_string (b, "Response=Success\r\n");
+        else
+            buffer_append_string (b, "Response=Error\r\n");
+	}
+	else if(!strcasecmp(request, "PROV"))
+	{
+		//system("stop provision && start provision");
+
+        char *cmd1[] = {"stop", "provision", 0};
+        doCommandTask(cmd1, NULL, NULL, 0);
+
+        char *cmd2[] = {"start", "provision", 0};
+        doCommandTask(cmd2, NULL, NULL, 0);
+
+		sync();
+		buffer_append_string (b, "{\"response\":\"success\",\"body\":provision\"}");
+	}
+	else
+		buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"command not found\"}");
+}
+
+static char * transString(char *type, int timeinfo)
+{
+	char *s = (char*)malloc(5);
+	if(type == "year")
+	{
+		timeinfo += 1900;
+		sprintf(s, "%d", timeinfo);
+	}
+	else if(type == "month")
+	{
+		timeinfo += 1;
+		if(timeinfo < 10)
+		{
+			s[0] = '0';
+			s[1] = (char)(timeinfo + 48);
+			s[2] = '\0';
+		}
+		else{
+			sprintf(s, "%d", timeinfo);
+		}
+	}
+	else if(type == "day")
+	{
+		if(timeinfo < 10)
+		{
+			s[0] = '0';
+			s[1] = (char)(timeinfo + 48);
+			s[2] = '\0';
+		}
+		else{
+			sprintf(s, "%d", timeinfo);
+		}
+	}
+	else if(type == "wday")
+	{
+		char *wday[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+		s = wday[timeinfo];
+	}
+	else if(type == "hour")
+	{
+		if(timeinfo > 12)
+			timeinfo -= 12;
+		sprintf(s, "%d", timeinfo);
+	}
+	else if(type == "minute")
+	{
+		if(timeinfo < 10)
+		{
+			s[0] = '0';
+			s[1] = (char)(timeinfo + 48);
+			s[2] = '\0';
+		}
+		else{
+			sprintf(s, "%d", timeinfo);
+		}
+	}
+
+	return s;
+	free(s);
+}
+
+static void handle_gettime(buffer *b)
+{
+	buffer_append_string(b, "{\"date\":");
+	time_t rawtime;
+	struct tm *timeinfo;
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	/* get date of the localtime like the format "date":"Tue 07/21/2015" */
+	char *year = transString("year", timeinfo->tm_year);
+	char *month = transString("month", timeinfo->tm_mon);
+	char *day = transString("day", timeinfo->tm_mday);
+	char *wday = transString("wday", timeinfo->tm_wday);
+
+	char *tmp_date = (char*)malloc(20);
+	memset(tmp_date, 0, 20);
+	snprintf(tmp_date, 20, "\"%s %s/%s/%s\",", wday, month, day, year);
+	buffer_append_string(b, tmp_date);
+
+	/* get time of the localtime like the format "time":" 2:29PM",*/
+	char *hour = transString("hour", timeinfo->tm_hour);
+	char *minute = transString("minute", timeinfo->tm_min);
+	char *tmp_time = (char*)malloc(20);
+	memset(tmp_time, 0, 20);
+
+	if(timeinfo->tm_hour < 12)
+		snprintf(tmp_time, 20, "\"time\":\" %s:%sAM\",", hour, minute);
+	else
+		snprintf(tmp_time, 20, "\"time\":\" %s:%sPM\",", hour, minute);
+	buffer_append_string(b, tmp_time);
+
+
+	/* get uptime of the device like the format "uptime":" 21 days"*/
+    char buf[128] = "";
+    int up_days, up_hour, up_min, up_sec;
+    long long sys_time;
+    FILE *sys_file;
+
+    sys_file = fopen ("/proc/uptime", "r");
+
+    if (sys_file != NULL) {
+        sys_time = 0;
+        fread (buf, 127, 1, sys_file);
+        fclose (sys_file);
+
+        sscanf (buf, "%lld", &sys_time);
+
+        up_days = sys_time / (24 * 3600);
+		sys_time %= (24 * 3600);
+        up_hour = sys_time / 3600;
+        sys_time %= 3600;
+        up_min = sys_time / 60;
+        up_sec = sys_time % 60;
+	}
+
+	int up_len = sizeof(int) + 12;
+	char *tmp_uptime = (char*)malloc(up_len);
+	buffer_append_string(b, "\"uptime\":\" ");
+	if(up_days <= 1)
+		snprintf(tmp_uptime, up_len, "%d day, ", up_days);
+	else
+	 	snprintf(tmp_uptime, up_len, "%d days, ", up_days);
+	buffer_append_string(b, tmp_uptime);
+
+	if(up_hour <= 1)
+		snprintf(tmp_uptime, up_len, "%d hour, ", up_hour);
+	else
+		snprintf(tmp_uptime, up_len, "%d hours, ", up_hour);
+	buffer_append_string(b, tmp_uptime);
+
+	if(up_min <= 1)
+		snprintf(tmp_uptime, up_len, "%d minute, ", up_min);
+	else
+		snprintf(tmp_uptime, up_len, "%d minutes, ", up_min);
+	buffer_append_string(b, tmp_uptime);
+
+	if(up_sec <= 1)
+		snprintf(tmp_uptime, up_len, "%d second\"}", up_sec);
+	else
+		snprintf(tmp_uptime, up_len, "%d seconds\"}", up_sec);
+	buffer_append_string(b, tmp_uptime);
+
+	free(tmp_date);
+	free(tmp_time);
+	free(tmp_uptime);
+}
+
+static int handle_get_device_info(server *srv, connection *con, buffer *b, const struct message *m)
+{
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 1500;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *temp = NULL;
+    char *info = NULL;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getDeviceInfo");
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't call method\"}";
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
+}
+
+static int process_action_uri(server *srv, connection *con, buffer *b, const struct message *m) {
+    char *action = NULL;
+	char *temp = NULL;
+
+    action = msg_get_header(m, "action");
+
+    if (action == NULL) {
+        buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"command not found\"}");
+    } else {
+        if (!strcasecmp(action, "login")) {
+			//int isadmin = 0;
+			temp = msg_get_header(m, "username");
+			if (strcasecmp ("gmiadmin", temp)) {
+				buffer_append_string(b, "Response=Error\r\nMessage=Invalid Username\r\n");
+				//isadmin = 1;
+			}else{
+				//isadmin = 0;
+				time_t now;
+				time(&now);
+
+				if( gmilocktimes >= 3 ){
+					buffer_append_string(b, "Response=Error\r\nMessage=Locked\r\nLockType=2\r\n");
+					return -1;
+				}
+				if( gmipasswrongtimes >= 5 && now < gmilockoutime ){
+					buffer_append_string(b, "Response=Error\r\nMessage=Locked\r\nLockType=1\r\n");
+					return -1;
+				}
+
+				const char *user = msg_get_header (m, "username");
+		    	const char *pass = msg_get_header (m, "Secret");
+				//int authres = authenticate(m, user, pass);
+                int authres = authenticate(m, 2, pass);
+
+				if (authres == -1) {
+
+					if( gmipasswrongtimes >= 5 )
+						gmipasswrongtimes = gmipasswrongtimes % 5;
+					gmipasswrongtimes ++;
+					if( gmipasswrongtimes >= 5 ) {
+						//locktimes ++;
+						gmilockoutime = now + LOCK_TIMEOUT;
+					}
+					return -1;
+				} else if( authres == -2 ){
+					buffer_append_string(b, "Response=Error\r\nMessage=Invalid Username\r\n");
+				} else {
+					gmilocktimes = 0;
+					gmipasswrongtimes = 0;
+					gmilockoutime = 0;
+
+					authenticate_success_response(srv, con, b, m, authres );
+				}
+			}
+
+        } else if (!strcasecmp(action, "checklockout")) {
+	        handle_gmichecklockout( b );
+		} else if(!strcasecmp(action, "loginrealm")){
+			handle_loginrealm( b );
+	    } else if (valid_connection(con)) {
+            if (!strcasecmp(action, "api-values.get")) {
+				handle_getapivalues(b, m);
+            } else if (!strcasecmp(action, "api-values.post")) {
+				handle_postapivalues(b, m);
+            } else if (!strcasecmp(action, "api-get_groups")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-add_group")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-change_password")) {
+				handle_api_pwdchange(b, m);
+			} else if (!strcasecmp(action, "api-get_contacts")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-delete_all_contact")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-delete_contact")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-edit_delete_group")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-get_accounts")) {
+				handle_acc_status(b, m);
+			} else if (!strcasecmp(action, "api-get_line_status")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-get_phone_status")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-get_time")) {
+				handle_gettime(b);
+			} else if (!strcasecmp(action, "api-make_call")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-phone_operation")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-save_edit_contact")) {
+				handle_action_uri_service(srv, con, b, m, action);
+			} else if (!strcasecmp(action, "api-sys_operation")) {
+				handle_system_operations(b, m);
+			} else if (!strcasecmp(action, "phonebook_download")) {
+				handle_action_uri_service(srv, con, b, m, action);
+            } else if (!strcasecmp(action, "api-get_device_info_for_ate")) {
+                //handle_callservice_by_no_param(srv, con, b, m, "getDeviceInfo");
+                handle_get_device_info(srv, con, b, m);
+            }else {
+                buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"command not found\"}");
+            }
+        }else {
+            buffer_append_string(b, "{\"response\":\"error\", \"msg\":\"authentication required\"}");
+        }
+    }
+
+    return -1;
+}
+
 static int connection_handle_write_prepare(server *srv, connection *con) {
     int i;
     struct message m;
@@ -24218,6 +25563,93 @@ static int connection_handle_write_prepare(server *srv, connection *con) {
                 process_upload(srv, con, b, &m);
             }
             /* fall through */
+            break;
+        }
+
+        else if (strcasestr(con->physical.rel_path->ptr, "/cgi-bin/") != NULL) {
+            con->http_status = 200;
+            if (con->mode != DIRECT) break;
+
+            con->file_finished = 0;
+
+            m.hdrcount = 0;
+            for (i = 0; i < MAX_MANHEADERS; i++)
+            {
+                m.headers[0] = NULL;
+            }
+
+            /* get action from path and add to m */
+            char *action = NULL;
+            if (strlen(con->physical.rel_path->ptr) > 9) {
+                int action_len = strlen(con->physical.rel_path->ptr) + 16;
+                action = (char*)malloc(action_len);
+                snprintf(action, action_len, "action=%s", con->physical.rel_path->ptr + strlen("/cgi-bin/"));
+            }
+            m.headers[m.hdrcount++] = action;
+
+            /* get parameters from http header */
+            if (con->request.http_method == HTTP_METHOD_GET) {
+                // get
+                if (con->uri.query->ptr != NULL && strcasecmp(con->uri.query->ptr, "")) {
+                    m.headers[m.hdrcount++] = strtok(con->uri.query->ptr, "&");
+                    //printf("con->uri.query->ptr is %s\n", con->uri.query->ptr);
+                    while (m.hdrcount < (MAX_MANHEADERS - 1) &&
+                        (m.headers[m.hdrcount] = strtok(NULL, "&"))) {
+                        //printf("con->uri.query->ptr is %s\n", con->uri.query->ptr);
+                        m.hdrcount++;
+                    }
+                }
+            } else {
+                // post
+                char *start = NULL;
+                chunkqueue *cq = con->request_content_queue;
+                chunk *c;
+                for (c = cq->first; c; c = cq->first)
+                {
+                    int r = 0;
+                    switch(c->type)
+                    {
+                        case MEM_CHUNK:
+                            start = c->mem->ptr + c->offset;
+
+                            r = c->mem->used - c->offset - 1;
+                            printf("param: %s\n", start);
+
+                            if (start != NULL) {
+                                m.headers[m.hdrcount++] = strtok(start, "&");
+                                //printf("con->uri.query->ptr is %s\n", con->uri.query->ptr);
+                                while (m.hdrcount < (MAX_MANHEADERS - 1) &&
+                                    (m.headers[m.hdrcount] = strtok(NULL, "&"))) {
+                                    //printf("con->uri.query->ptr is %s\n", con->uri.query->ptr);
+                                    m.hdrcount++;
+                                }
+                            }
+                            break;
+                    }
+
+                    if (r > 0) {
+                        c->offset += r;
+                        cq->bytes_out += r;
+                    } else {
+                        break;
+                    }
+                    chunkqueue_remove_finished_chunks(cq);
+                }
+            }
+
+            buffer_reset(con->physical.path);
+
+            if (!con->file_finished) {
+                buffer *b;
+
+                con->file_finished = 1;
+                b = chunkqueue_get_append_buffer(con->write_queue);
+
+                response_header_overwrite(srv, con, CONST_STR_LEN("Content-Type"), CONST_STR_LEN("text/plain"));
+                response_header_overwrite(srv, con, CONST_STR_LEN("Cache-Control"), CONST_STR_LEN("no-cache"));
+                response_header_overwrite(srv, con, CONST_STR_LEN("Pragma"), CONST_STR_LEN("no-cache"));
+                process_action_uri(srv, con, b, &m);
+            }
             break;
         }
 
@@ -24471,7 +25903,7 @@ int apply_cache_pvalue(int init)
     const char *var = NULL;
 
     printf("begin apply_cache_pvalue\n" );
-    
+
     while ( curPtr != NULL )
     {
 #ifdef BUILD_ON_ARM
@@ -24507,7 +25939,7 @@ int apply_cache_pvalue(int init)
 
         while ( curPtr != NULL )
         {
-            if ( sizeOfStrToWrite < ( strlen( strToWrite ) + strlen(curPtr->pvalue ) + strlen(curPtr->data )  + 1 ) ) 
+            if ( sizeOfStrToWrite < ( strlen( strToWrite ) + strlen(curPtr->pvalue ) + strlen(curPtr->data )  + 1 ) )
             {
                 strToWrite = realloc( strToWrite, sizeOfStrToWrite + 512 );
             }
@@ -24549,7 +25981,7 @@ int init_cache_pvalue()
     char *val = NULL;
     char *strval = NULL;
 
-    while ((  fp != NULL) && !feof( fp ) ) 
+    while ((  fp != NULL) && !feof( fp ) )
     {
         fgets( &line, sizeof(line), fp );
         printf("line is %s\n", line );
@@ -26189,4 +27621,3 @@ int connection_state_machine(server *srv, connection *con) {
 
 	return 0;
 }
-
