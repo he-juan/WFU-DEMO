@@ -117,6 +117,7 @@ static int l_issetugid(void) {
 #define DISPLAY_NAME         "DISPLAY"
 #define DBUS_PATH               "/com/grandstream/dbus/gui"
 #define DBUS_INTERFACE      "com.grandstream.dbus.signal"
+#define DBUS_INTERFACE_WEB      "com.grandstream.dbus.signal.to.web"
 #define SIGNAL_LIGHTTPD     "lighttpd"
 #define SIGNAL_STATUS        "status"
 #define SIGNAL_CALL             "call"
@@ -930,7 +931,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_DEVICE ) ) // signal device
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_DEVICE ) ) // signal device
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_INT32, &i,
@@ -995,7 +996,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         //init_register_status();
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_LANGUAGE_RELOAD ) ) // signal language changed
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_LANGUAGE_RELOAD ) ) // signal language changed
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1023,7 +1024,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_PHONE_BOOK_RESPONSE ) ) // signal phonebook
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_PHONE_BOOK_RESPONSE ) ) // signal phonebook
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1037,7 +1038,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_PHONE_BOOK_PORTRESPONSE ) ) // signal phonebook when export
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_PHONE_BOOK_PORTRESPONSE ) ) // signal phonebook when export
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1051,7 +1052,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_LANGUAGE_IMPORT ) ) // signal language import
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_LANGUAGE_IMPORT ) ) // signal language import
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1065,7 +1066,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_RADIO_FAV_RESPONSE ) ) // signal radio_fav
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_RADIO_FAV_RESPONSE ) ) // signal radio_fav
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1079,7 +1080,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_VIDEO_FAV_RESPONSE ) ) // signal youtube_fav
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_VIDEO_FAV_RESPONSE ) ) // signal youtube_fav
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1093,7 +1094,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_WDPHOTO_FAV_RESPONSE ) ) // signal worldphoto_fav
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_WDPHOTO_FAV_RESPONSE ) ) // signal worldphoto_fav
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1107,7 +1108,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_BOOKMARKS_RESPONSE ) ) // signal bookmarks
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_BOOKMARKS_RESPONSE ) ) // signal bookmarks
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1121,7 +1122,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_WEATHER_FAV_RESPONSE ) ) // signal weather_fav
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_WEATHER_FAV_RESPONSE ) ) // signal weather_fav
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1135,7 +1136,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_COLORE_CHGPWD_RESPONSE ) ) // signal change colore password response
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_COLORE_CHGPWD_RESPONSE ) ) // signal change colore password response
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_INT32, &i, DBUS_TYPE_INVALID ) )
         {
@@ -1260,7 +1261,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }*/
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_WIFI_SCAN_RESULT ) ) // signal wifi scan
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_WIFI_SCAN_RESULT ) ) // signal wifi scan
     {
         DBusMessageIter args;
         int count = 0, n = 0;
