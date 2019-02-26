@@ -20,7 +20,7 @@ let mCalling = false;
 let mDisDialrule = [];
 let mDisableIPVT = 0;
 const rowkey = record => {return record.key}
-
+let timer = null;
 
 class DialUpForm extends Component {
     globalItems = [];
@@ -40,7 +40,8 @@ class DialUpForm extends Component {
             bjdialdisplay: "display-hidden",
             accountdisplayarr: ["display-hidden", "display-hidden", "display-hidden", "display-hidden"],
             // maxinputnum: -1,
-            expandedRows:[]
+            expandedRows:[],
+            contactsPage: 1
         }
         this.disconfstate = "0";
         req_items = new Array;
@@ -833,13 +834,27 @@ class DialUpForm extends Component {
         }
     }
 
-
+    handleContactsScroll = (e) => {
+        if(timer) return false
+        const outerHeight = e.target.offsetHeight;
+        const scrollTop = e.target.scrollTop;
+        timer = setTimeout(() => {
+            timer = null
+            const innerHeight = this.refs.contactsTable.offsetHeight;
+            if(innerHeight - outerHeight - scrollTop < 300) {
+                this.setState({
+                    contactsPage: this.state.contactsPage + 1
+                })
+            }
+        }, 100)
+    }
     render() {
         const {getFieldDecorator} = this.props.form;
         const {busylinenum, maxlinecount, msgsContacts} = this.props;
         let acctstatus = this.state.acctstatus;
         let selacct = this.state.selacct != -1 ? this.state.selacct : this.state.defaultacct;
-        let displayitems = this.state.displayitems;
+        let displayitems = this.state.displayitems.slice(0, this.state.contactsPage * 20);
+
         let displaydataslen = displayitems.length;
         let displaydatas = [];
         let j = 0;
@@ -893,7 +908,6 @@ class DialUpForm extends Component {
                 this._renderActions(text, record, index)
             )
         }];
-
         return (
             <Content className="content-container">
                 <div className="subpagetitle">{this.tr("a_9400")}</div>
@@ -989,24 +1003,26 @@ class DialUpForm extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="dial-up-bottom">
-                        <Table
-                            rowKey={rowkey}
-                            columns={columns}
-                            pagination={false}
-                            dataSource={displaydatas}
-                            showHeader={false}
-                            // expandRowByClick = { true }
-                            expandedRowRender={this.expandedRowRender.bind(this)}
-                            expandIconColumnIndex={-1}
-                            expandIconAsCell={false}
-                            onRowClick={this.handelOnRowClick.bind(this)}    //添加单击方法
-                            expandedRowKeys={this.state.expandedRows}
-                            // expandedRowKeys = {[]}
-                        />
-                        <div className="nodatooltips" style={{display: nodatatipdisplay}}>
-                            <div></div>
-                            <p>{this.tr("a_10082")}</p>
+                    <div className="dial-up-bottom" onScroll={(e) => this.handleContactsScroll(e)} style={{height: parseInt(this.props.mainHeight) - 180}}>
+                        <div ref="contactsTable">
+                            <Table
+                                rowKey={rowkey}
+                                columns={columns}
+                                pagination={false}
+                                dataSource={displaydatas}
+                                showHeader={false}
+                                // expandRowByClick = { true }
+                                expandedRowRender={this.expandedRowRender.bind(this)}
+                                expandIconColumnIndex={-1}
+                                expandIconAsCell={false}
+                                onRowClick={this.handelOnRowClick.bind(this)}    //添加单击方法
+                                expandedRowKeys={this.state.expandedRows}
+                                // expandedRowKeys = {[]}
+                            />
+                            <div className="nodatooltips" style={{display: nodatatipdisplay}}>
+                                <div></div>
+                                <p>{this.tr("a_10082")}</p>
+                            </div>
                         </div>
                     </div>
                 </Form>
@@ -1037,7 +1053,7 @@ function mapDispatchToProps(dispatch) {
   var actions = {
       jumptoTab: Actions.jumptoTab,
       setCurMenu: Actions.setCurMenu,
-      getContacts: Actions.getContacts2,
+      getContacts: Actions.getContacts,
       sendSingleCall: Actions.sendSingleCall,
       showCallDialog: Actions.showCallDialog,
       getCalllog: Actions.get_calllog,

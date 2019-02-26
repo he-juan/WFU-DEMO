@@ -155,7 +155,7 @@ export const cb_originate_call = (action, numbers, accounts) => (dispatch) => {
         promptForRequestFailed()
     });
 }
-
+// 添加会议成员
 export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isquickstart, pingcode, isdialplan, confname) => (dispatch) => {
     let request = 'action=addconfmemeber&region=confctrl&numbers=' + encodeURIComponent(numbers) + "&accounts=" +
         encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo +
@@ -394,9 +394,7 @@ export const getMaxlineCount =() => (dispatch) =>{
 }
 
 export const getContacts = (callback) => (dispatch) => {
-    // let request = 'action=sqlitecontacts&type=contacts';
     let request = 'action=sqlitecontacts&region=apps&type=contacts';
-    // let request = "action=sqlitecontacts&region=apps&type=contacts&sqlstr=select contacts._id as contacts_id,raw_contacts._id as raw_contacts_id,raw_contacts.display_name as contact_display_name,data.phone,data.accountid,data._id from contacts left join raw_contacts on contacts.name_raw_contact_id=raw_contacts._id left join (select _id, raw_contact_id,data1 as phone,data11 as accountid from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on raw_contacts._id=data.raw_contact_id;"
     request += "&time=" + new Date().getTime();
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
@@ -416,27 +414,6 @@ export const getContacts = (callback) => (dispatch) => {
     });
 }
 
-export const getContacts2 = (callback) => (dispatch) => {
-    let request = 'action=sqlitecontacts&region=apps&type=contacts';
-    request += "&time=" + new Date().getTime();
-
-    actionUtil.handleGetRequest(request).then(function(data){
-        let msgs = JSON.parse(data)
-        if (msgs['Response'] == 'Success') {
-            let msgsArr = formatContactAndGroupsData(msgs['Data'],'Number');
-            let msgsAcct = formatContactAndGroupsData(msgs['Data'],'AcctIndex');
-            let msgsContacts = msgs['Data'];
-            dispatch({type: 'GET_CONTACTS_MSGS', msgsContacts: msgsContacts});
-            dispatch({type: 'GET_CONTACTS_INFORMATION', contactsInformation: msgsArr});
-            dispatch({type: 'GET_CONTACTS_ACCT', contactsAcct: msgsAcct});
-            callback(msgsArr);
-        } else {
-            callback([]);
-        }
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 
 

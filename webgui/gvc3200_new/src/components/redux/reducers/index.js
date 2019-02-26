@@ -568,7 +568,7 @@ const contactsInformation = (state={}, action) => {
     }
 }
 
-const msgsContacts = (state={}, action) => {
+const msgsContacts = (state=null, action) => {
     switch (action.type) {
         case Actions.GET_CONTACTS_MSGS:
             return action.msgsContacts

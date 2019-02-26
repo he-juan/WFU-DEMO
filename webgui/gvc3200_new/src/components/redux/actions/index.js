@@ -6,65 +6,6 @@ import * as Store from '../../entry'
 /****************************** actions *******************************/
 /**********************************************************************/
 
-// export const setCurLocale = (cur_locale) => (dispatch) => {
-//     dispatch({type: 'LOCALE_CHANGE', curLocale: cur_locale})
-// }
-
-export const promptMsg = (type, label) => (dispatch) => {
-    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: type, content: label}})
-}
-
-export const promptSpinMsg = (spinStyle, spinTip) => (dispatch) => {
-    dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: spinStyle, spinTip: spinTip}})
-}
-
-export const progressMessage = (percent, display, text) => (dispatch) => {
-    dispatch({type: 'MSG_PROGRESS', progressMsg: {percent: percent, display:display, text:text}})
-}
-
-export const setUploadStatus = (status) => (dispatch) => {
-    dispatch({type: 'UPLOAD_STATUS', uploadStatus: {status:status}})
-}
-
-export const setCurAccount = (acctIndex) => (dispatch) => {
-    dispatch({type: 'ACCOUNT_CHANGE', curAccount: acctIndex})
-}
-
-export const setPageStatus = (page) => (dispatch) => {
-    dispatch({type: 'PAGE_STATUS', pageStatus: page})
-}
-
-export const jumptoTab = (num) => (dispatch) => {
-    dispatch({type: 'TAB_ACTIVE_KEY_CHANGE', TabactiveKey: num})
-}
-
-export const passTipStyle = (style) => (dispatch) => {
-    dispatch({type: 'CHANGE_PWD_STYLE', passtipStyle: style})
-}
-
-export const changeTabKeys = (current, openKeys) => (dispatch) => {
-    dispatch({type: 'CHANGE_TAB_KEYS', changetabKeys: {current:current, openKeys:openKeys}})
-}
-
-export const setHashChange = (value) => (dispatch) => {
-    dispatch({type: 'HASH_CHANGE', hashChange: value})
-}
-
-export const setCurMenu = (value) => (dispatch) => {
-    dispatch({type: 'CUR_MENU_CHANGE', curMenu: value})
-}
-
-export const updateMainHeight = (value) => (dispatch) => {
-    dispatch({type: 'HEIGHT_CHANGE', mainHeight: value})
-}
-
-export const enterPageSaving = (value) => (dispatch) => {
-    dispatch({type: 'ENTER_SAVING', enterSave: value})
-}
-
-export const setLogcat = (value) => (dispatch) => {
-    dispatch({type: 'REQUEST_GET_LOGCAT_FILE', logcatFile: value})
-}
 
 export const setMaxAcctNum = (value) => (dispatch) => {
     dispatch({type: 'SET_MAX_ACCT_NUM', maxAcctNum: value})
@@ -251,57 +192,6 @@ export const reboot = () => (dispatch) => {
     });
 }
 
-// export const getItemValues = (items, callback) => (dispatch) => {
-//     let uritail = "";
-//     for (var i = 0; i < items.length; i++) {
-//         uritail += actionUtil.build_get(i, items[i].pvalue);
-//     }
-//     let request = "action=get" + uritail;
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         let values = actionUtil.pvalueToConfName(msgs, items);
-//         dispatch({type: 'REQUEST_GET_ITEM_VALUE', itemValues: values});
-//         callback(values);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const setItemValues = (items, values, flag, callback) => (dispatch) => {
-//     let uritail = "",itemVal;
-//     for (let i = 0; i < items.length; i++) {
-//         itemVal = values[items[i].name]
-//         if(typeof itemVal == 'boolean') {
-//             itemVal = Number(itemVal)
-//         } else if (typeof itemVal == 'number' && isNaN(itemVal)) {
-//             itemVal = '0'
-//         } else if (itemVal == undefined){
-//             itemVal = ""
-//         }
-//         uritail += actionUtil.build_put(i, items[i].pvalue, itemVal);
-//     }
-//     flag = (flag == 0 || flag == 1) ? flag : 0;
-
-//     let request = "action=put&flag=" + flag + uritail;
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         if (actionUtil.cb_if_is_fail(msgs)) {
-//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
-//         } else {
-//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
-//             checkIsApplyNeed(dispatch);
-//             callback();
-//         }
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const checkIsApply = () => (dispatch) => {
-//     checkIsApplyNeed(dispatch);
-// }
-
 const checkIsApplyNeed = (dispatch) => {
     let request = "action=needapply";
 
@@ -402,39 +292,6 @@ const saveOrRunApplyFunInCookie = (type,urihead) => {
 
 }
 
-// export const cb_set_autoanswer = ( i ,autoanswer ) => (dispatch) => {
-//     var urihead = "action=autoanswer&acct=" + i + "&value=" + autoanswer;
-//     urihead += "&time=" + new Date().getTime();
-//     saveOrRunApplyFunInCookie('save',urihead)
-// }
-
-// export const cb_updateautoanswerstatus = (i) => (dispatch) => {
-//     var urihead = "action=updateautoanswerstatus&acct=" + i;
-//     urihead += "&time=" + new Date().getTime();
-//     saveOrRunApplyFunInCookie('save',urihead)
-// }
-
-// export const cb_set_callforward = ( i, type ,isbusyto, number1, isnoanswerto, number2, noanswerlimit, isdndto, number3 ) => (dispatch) => {
-//     //autoTo number
-//     //TimeRurl time1, time2, number1, number2
-//     //Other isbusyto, number1, isnoanswerto, number2, noanswerlimit, isdndto, number3
-//     var urihead = "action=callforward&acct=" + i + "&type=" + type;
-//     switch (type) {
-//         case 'allTo':
-//             urihead += "&number="+isbusyto
-//             break;
-//         case 'TimeRule':
-//             urihead += "&time1="+encodeURI(isbusyto)+"&time2="+encodeURI(number1)+"&number1="+isnoanswerto+"&number2="+number2
-//             break;
-//         case 'WorkRule':
-//             urihead += "&isbusyto="+isbusyto+"&number1="+number1+"&isnoanswerto="+isnoanswerto+"&number2="+number2+"&noanswerlimit="+noanswerlimit+"&isdndto="+isdndto+"&number3="+number3
-//             break;
-//         default:
-//             break;
-//     }
-//     urihead += "&time=" + new Date().getTime();
-//     saveOrRunApplyFunInCookie('save',urihead);
-// }
 
 export const getNvrams = (nvrams, callback) => (dispatch) => {
     let request = "action=get"
@@ -623,14 +480,7 @@ export const endCall = (line) => (dispatch) => {
     });
 }
 
-// export const ctrlLineMute = (line) => (dispatch) => {
-//     let request = "action=ctrllinemute&line=" + line;
-//
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
+
 
 export const ctrlLineRecord = (line, setrecord) => (dispatch) => {
     let request = "action=ctrllinerecord&line=" + line + "&setrecord=" + setrecord;
@@ -683,70 +533,6 @@ export const writeHideConfig = (type, value) => (dispatch) => {
 
 
 
-
-
-
-
-
-
-
-// export const getTimezone = (callback) => (dispatch) => {
-//     let request = 'action=gettimezone&region=advanset';
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         dispatch({type: 'REQUEST_GET_TIMEZONE_VALUES', timezoneValues: data});
-//         callback(data);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const saveTimeset = (value) => (dispatch) => {
-//     let request = "action=savetimeset&timezone=" + value;
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         if (actionUtil.cb_if_is_fail(msgs)) {
-//             // send notice action
-//         } else {
-//             // send notice action
-//             //dispatch({type: 'NOTICE_CHANGE', changeNotice: ["Save Successfully!", {color: '#fff', background: '#51c57d'}]});
-//             checkIsApplyNeed();
-//         }
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const getLanguagesValues = (callback) => (dispatch) => {
-//     let request = 'action=getlanguages';
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         dispatch({type: 'REQUEST_GET_LANGUAGES_VALUES', languagesValues: msgs});
-//         callback(msgs);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const putLanguage = (value) => (dispatch) => {
-//     var lancts = value.split("_");
-//     let request = "action=putlanguage&lan=" + lancts[0] + "&country=" + lancts[1];
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         if (actionUtil.cb_if_is_fail(msgs)) {
-//             // send notice action
-//         } else {
-//             // send notice action
-//             //dispatch({type: 'NOTICE_CHANGE', changeNotice: ["Save Successfully!", {color: '#fff', background: '#51c57d'}]});
-//             checkIsApplyNeed();
-//         }
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-
-
 export const cb_put_importlan = (callback) => (dispatch) => {
     let request = 'action=importlang';
 
@@ -777,117 +563,6 @@ const cb_get_import_response = (callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
-
-// export const getVeriCert = () => (dispatch) => {
-//     let request = 'action=getvericert';
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let tObj = eval("(" + data + ")")
-//         dispatch({type: 'REQUEST_GET_VERI_CERT', certInfo: tObj})
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const checkVeriCert = (info, callback) => (dispatch) => {
-//     let request ;
-//     if(info.type == "sipCert"){
-//         request = 'action=checkvericert&maxnum=' + info.maxnum + "&pvalue0=" + info.pvalue;
-//     }else{
-//         request = 'action=setcustomcert&pvalue='+info.pvalue;
-//     }
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         callback(data);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const getVpnCerts = (callback) => (dispatch) => {
-//     let request = 'action=getvpncerts';
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let tObj = eval("(" + data + ")");
-//         callback(tObj.list);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const getWifiCerts = (callback) => (dispatch) => {
-//     let request = 'action=getwificerts';
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let tObj = eval("(" + data + ")");
-//         callback(tObj.list);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const uploadAndInstallCert = (values, file, callback) => (dispatch) => {
-//     let url = "../upload?type=vericert";
-
-//     actionUtil.handleUploadCert(url, file).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         if(msgs.headers['response'] == "Success"){
-//             cb_install_cert(values, callback);
-//         }
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// const cb_install_cert = (values, callback) => {
-//     let request = "action=installcert&certname=" + encodeURIComponent(values['certname']) + "&ext=" + values['ext'] +
-//                   "&use=" + values['certuse'] + "&certpwd=" + encodeURIComponent(values['certpwd']);
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let tObj = eval("(" + data + ")");
-//         callback(tObj);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const cb_delete_cert = (name, use, callback) => (dispatch) => {
-//     let request = "action=deletecert&certname=" + encodeURIComponent(name) + "&use=" + use;
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let tObj = eval("(" + data + ")");
-//         callback(tObj);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const cb_check_password = (value, callback) => (dispatch) => {
-//     let g_actype = value;
-//     let request = "action=checkpwd&Username=" + g_actype;
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         if (actionUtil.cb_if_is_fail(msgs)) {
-
-//         } else {
-//             callback(msgs);
-//         }
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const cb_check_current_pwd = (username, inputpwd, callback) => (dispatch) => {
-//     let request = "action=checkcurpwd&username=" + username + "&curpwd=" + encodeURIComponent(inputpwd);
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let msgs = actionUtil.res_parse_rawtext(data);
-//         if (actionUtil.cb_if_is_fail(msgs)) {
-//         } else {
-//             callback(msgs);
-//         }
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
 
 export const cb_get_wifiresult = (callback) => (dispatch) => {
     let request = "action=wifiscan";
@@ -960,35 +635,6 @@ export const cb_disconnect_wifi = (callback) => (dispatch) => {
     });
 }
 
-// export const cb_sqlite_sitename = (callback) => (dispatch) => {
-//     let request = "action=sqlitedisplay&type=sitesetting&affect=read";
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let tObj = eval("(" + data + ")")
-//         callback(tObj.Data);
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
-
-// export const setSitenameInfo = (paramurl, type) => (dispatch) => {
-//     let request = "";
-//     if(type == 1)
-//         request = "action=setsitenameinfo&" + paramurl;
-//     else
-//         request = "action=setsitenameoffset&" + paramurl;
-
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let tObj = eval("(" + data + ")")
-//         if (tObj.res != "success") {
-//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
-//         } else {
-//             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
-//         }
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
 
 export const updateLights = () => (dispatch) => {
     let request = "action=updatelights";
@@ -1796,25 +1442,6 @@ export const get_norrecordinglist = (callback) => (dispatch) => {
     });
 }
 
-// export const get_recordinglist = (callback) => (dispatch) => {
-//     let request = 'action=recording&region=maintenance&type=getrecordinglist';
-//
-//     actionUtil.handleGetRequest(request).then(function(data) {
-//         let recordinglist = [];
-//         var Use24Hour;
-//         if( data.substring(0, 1) == "{" )
-//         {
-//             var json = eval("(" + data + ")");
-//             recordinglist = json.Data;
-//             Use24Hour = json.Use24Hour;
-//         }
-//         callback(recordinglist);
-//         dispatch({type: 'REQUEST_GET_RECORDINGLIST', recordinglist: recordinglist});
-//         dispatch({type: 'REQUEST_GET_USE24HOUR', Use24Hour: Use24Hour});
-//     }).catch(function(error) {
-//         promptForRequestFailed();
-//     });
-// }
 
 export const get_renameRecord = (requestUri, callback) => (dispatch) => {
     let request = 'action='+requestUri;

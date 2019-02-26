@@ -9,13 +9,67 @@ const promptForRequestFailed = () => (dispatch) => {
 }
 
 /**
- * 设置语音
+ * 设置语言
  */
 export const setCurLocale = (cur_locale) => (dispatch) => {
     dispatch({type: 'LOCALE_CHANGE', curLocale: cur_locale})
 }
 
+export const promptMsg = (type, label) => (dispatch) => {
+    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: type, content: label}})
+}
 
+export const promptSpinMsg = (spinStyle, spinTip) => (dispatch) => {
+    dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: spinStyle, spinTip: spinTip}})
+}
+
+export const progressMessage = (percent, display, text) => (dispatch) => {
+    dispatch({type: 'MSG_PROGRESS', progressMsg: {percent: percent, display:display, text:text}})
+}
+
+export const setUploadStatus = (status) => (dispatch) => {
+    dispatch({type: 'UPLOAD_STATUS', uploadStatus: {status:status}})
+}
+
+export const setCurAccount = (acctIndex) => (dispatch) => {
+    dispatch({type: 'ACCOUNT_CHANGE', curAccount: acctIndex})
+}
+
+export const setPageStatus = (page) => (dispatch) => {
+    dispatch({type: 'PAGE_STATUS', pageStatus: page})
+}
+
+export const jumptoTab = (num) => (dispatch) => {
+    dispatch({type: 'TAB_ACTIVE_KEY_CHANGE', TabactiveKey: num})
+}
+
+export const passTipStyle = (style) => (dispatch) => {
+    dispatch({type: 'CHANGE_PWD_STYLE', passtipStyle: style})
+}
+
+export const changeTabKeys = (current, openKeys) => (dispatch) => {
+    dispatch({type: 'CHANGE_TAB_KEYS', changetabKeys: {current:current, openKeys:openKeys}})
+}
+
+export const setHashChange = (value) => (dispatch) => {
+    dispatch({type: 'HASH_CHANGE', hashChange: value})
+}
+
+export const setCurMenu = (value) => (dispatch) => {
+    dispatch({type: 'CUR_MENU_CHANGE', curMenu: value})
+}
+
+export const updateMainHeight = (value) => (dispatch) => {
+    dispatch({type: 'HEIGHT_CHANGE', mainHeight: value})
+}
+
+export const enterPageSaving = (value) => (dispatch) => {
+    dispatch({type: 'ENTER_SAVING', enterSave: value})
+}
+
+export const setLogcat = (value) => (dispatch) => {
+    dispatch({type: 'REQUEST_GET_LOGCAT_FILE', logcatFile: value})
+}
 
 /**
  * 获取表单数据，初始化
