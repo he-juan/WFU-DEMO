@@ -424,7 +424,6 @@ class MainHeader extends Component {
                             <div className="btnarea">
                                 <button id="customkey" onMouseDown={this.sendKey.bind(this,285)} onMouseUp={this.clearsendKey.bind(this,285)}><div></div></button>
                             </div>
-                            <div id="funcbtn" className="btnarea">
                                 {
                                         this.props.product=="GVC3210"?<div id="funcbtn" className="btnarea">
                                             <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,281)} onMouseUp={this.clearsendKey.bind(this,281)}><div></div></button>
@@ -436,7 +435,6 @@ class MainHeader extends Component {
                                             <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,292)} onMouseUp={this.clearsendKey.bind(this,292)}><div></div></button>
                                         </div>
                                 }
-                            </div>
                             <div className="radiusbtn">
                                 <button id="volumedownbtn" onMouseDown={this.sendKey.bind(this,25)} onMouseUp={this.clearsendKey.bind(this,25)}><div></div></button>
                                 <button id="volumeupbtn"  onMouseDown={this.sendKey.bind(this,24)} onMouseUp={this.clearsendKey.bind(this,24)}><div></div></button>
