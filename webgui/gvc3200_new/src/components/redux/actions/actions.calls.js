@@ -612,13 +612,31 @@ export const get_deleteCallConf = (deleteId,callback) => (dispatch) => {
     })
 }
 
-export const getContactsinfo = () => (dispatch) => {
+// export const getContactsinfo = () => (dispatch) => {
+//     let request = 'action=sqlitecontacts&region=apps&type=contactinfo';
+//     request += "&time=" + new Date().getTime();
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         let msgs = JSON.parse(data);
+//         let contactinfodata = msgs['Data'];
+//         dispatch({type: 'REQUEST_GET_CONTACTINFO', contactinfodata: contactinfodata});
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     })
+// }
+
+export const getContactsinfo = (showloading,callback) => (dispatch) => {
     let request = 'action=sqlitecontacts&region=apps&type=contactinfo';
-    request += "&time=" + new Date().getTime();
+    if(showloading) {
+        dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-block"}});
+    }
     actionUtil.handleGetRequest(request).then(function(data) {
+        if(showloading) {
+            dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden"}})
+        }
         let msgs = JSON.parse(data);
         let contactinfodata = msgs['Data'];
         dispatch({type: 'REQUEST_GET_CONTACTINFO', contactinfodata: contactinfodata});
+        callback(msgs)
     }).catch(function(error) {
         promptForRequestFailed();
     })

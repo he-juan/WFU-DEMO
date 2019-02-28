@@ -102,7 +102,6 @@ class DownloadContactsForm extends Component {
                 let values = this.props.form.getFieldsValue();
                 let clearmode = this.props.form.getFieldValue('clearoldlistmode')
                 let replacemode = this.props.form.getFieldValue('downdupmode')
-                console.log(values)
                 if(this.props.form.getFieldValue('clearold') == 1 ) {
                     values['clearold'] = `${Number(clearmode)+1}`
                 } else {
@@ -117,6 +116,7 @@ class DownloadContactsForm extends Component {
                 this.setState({
                     formitemValues: values
                 });
+                this.props.handleHideDownloadModal();
             }
         });
     }
@@ -235,9 +235,7 @@ class DownloadContactsForm extends Component {
         }
     }
 
-    handleOk = () => {
-
-    }
+    handleOk = () => {}
 
     handleCancel = () => {
         this.props.handleHideDownloadModal();
@@ -273,7 +271,7 @@ class DownloadContactsForm extends Component {
                             valuePropName: 'checked',
                             initialValue: parseInt(itemValues.downdup)
                         })(
-                            <Checkbox className="P-1436"/>
+                            <Checkbox onClick={this.handleVisibleType.bind(this,"downdup")} className="P-1436"/>
                         )}
                     </FormItem>
                     <FormItem label={(<span>{callTr("a_19649")}&nbsp;<Tooltip title={this.tips_tr("Replace Duplicate Entries Mode")}><Icon type="question-circle-o" /></Tooltip></span>)} >

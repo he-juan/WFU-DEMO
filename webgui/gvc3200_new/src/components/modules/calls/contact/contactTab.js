@@ -33,7 +33,6 @@ class ContactTab extends Component {
             displayModal:false,
             displayDwonloadModal:false,
             addNewContact:false,
-            items:[],
             groups:[],
             editContact:{},
             emailValues:[],
@@ -45,7 +44,8 @@ class ContactTab extends Component {
             acctstatus: [],
             selacct:-1,
             curAcct:null,
-            curPage: 1
+            curPage: 1,
+            updateState: ''
 
         }
         req_items = new Array;
@@ -72,13 +72,8 @@ class ContactTab extends Component {
         //         self._createData();
         //     },500)
         // }
-        this.updateContact();
+        let showloading = true
 
-        this.props.getAcctStatus((acctstatus) => {
-            if (!this.isEmptyObject(acctstatus)) {
-                this.getAcctStatusData(acctstatus);
-            }
-        });
         this.props.getItemValues(req_items, (values) => {
             let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
             this.setState({
@@ -86,6 +81,14 @@ class ContactTab extends Component {
                 selacct: defaultacct
             });
         });
+        this.updateContact(showloading);
+
+        this.props.getAcctStatus((acctstatus) => {
+            if (!this.isEmptyObject(acctstatus)) {
+                this.getAcctStatusData(acctstatus);
+            }
+        });
+        
         // this._createData();
     }
 
@@ -156,11 +159,11 @@ class ContactTab extends Component {
     }
 
 
-    updateContact = () => {
+    updateContact = (showloading) => {
         // this.props.getContactCount();
-        this.props.getContacts((items)=>{this.setState({items:items})});
+        this.props.getContacts((items)=>{this.setState({updateState:''})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        this.props.getContactsinfo();
+        this.props.getContactsinfo(showloading);
         if(!this.isEmptyObject(this.props.acctStatus)){
             this.setState({
                 existActiveAccount: this.checkActiveAcct(this.props.acctStatus)
@@ -289,7 +292,7 @@ class ContactTab extends Component {
             deleteid += id
         }
         this.props.removeContact(deleteid, () => {
-            this.props.getContacts((items)=>{this.setState({items:items})});
+            this.props.getContacts((items)=>{this.setState({updateState:''})});
             this._createData();
             let searchkey = $("#search").val()
             if (searchkey) {
@@ -405,14 +408,10 @@ class ContactTab extends Component {
     }
 
     _createData = () => {
-        // if(!$.isArray(this.props.contactsInformation) || !$.isArray(this.props.groupInformation)
-        //     || !$.isArray(this.props.contactsAcct) ) {
-        //     return;
-        // }
-        // if (!$.isArray(this.props.contactinfodata)) {
-        //     // this.props.getContactsinfo();
-        //     return;
-        // }
+        if(this.isEmptyObject(this.props.contactsInformation) || this.isEmptyObject(this.props.groupInformation)
+            || this.isEmptyObject(this.props.contactsAcct) ) {
+            return null;
+        }
         let contactsInformation  = this.props.contactsInformation;
         let groupInformation = this.props.groupInformation;
         let contactinfodata = this.props.contactinfodata;
@@ -542,6 +541,10 @@ class ContactTab extends Component {
     }
 
     render() {
+        if(this.isEmptyObject(this.props.contactsInformation) || this.isEmptyObject(this.props.groupInformation)
+            || this.isEmptyObject(this.props.contactsAcct) ) {
+            return null;
+        }
         const callTr = this.props.callTr;
         const moreMenu = (
             <Menu>
@@ -646,10 +649,25 @@ class ContactTab extends Component {
                         <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
-                <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
-                <ImportEditForm {...this.props} displayImportModal={this.state.displayImportModal}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
-                <ExportEditForm {...this.props} displayExportModal={this.state.displayExportModal}  handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
-                <ContactsDownloadForm {...this.props} displayDwonloadModal={this.state.displayDwonloadModal} handleHideDownloadModal={this.handleHideDownloadModal} />
+                {
+                    this.state.displayImportModal ?
+                    <ImportEditForm  displayImportModal={this.state.displayImportModal}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                    : null
+                }
+                {
+                    this.state.displayExportModal ?
+                    <ExportEditForm  displayExportModal={this.state.displayExportModal}  handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                    : null
+                }
+                {
+                    this.state.displayDwonloadModal ?
+                    <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} /> 
+                    : null
+                }
+                <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/> 
+                {/* <ImportEditForm  displayImportModal={this.state.displayImportModal}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                <ExportEditForm  displayExportModal={this.state.displayExportModal}  handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} />  */}
             </div>
         )
     }
