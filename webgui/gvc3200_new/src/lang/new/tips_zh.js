@@ -700,7 +700,7 @@ tip_item_zh.push (
     new TipsDef("Confirm Screen Lock Password", "确认锁屏密码",
         "请再次输入锁屏新密码确认。"),
     new TipsDef("Disable SSH", "禁止SSH访问",
-		   "如果设置为“是”，设备将禁止SSH方式进行访问。默认设置为“否”。"),
+		   "如果设置为“是”，设备将禁止SSH方式进行访问。"),
     new TipsDef("Current Admin Password", "当前管理员密码",
         "请输入当前管理员密码，密码为英文字符，注意大小写，最大长度为32。"),
 

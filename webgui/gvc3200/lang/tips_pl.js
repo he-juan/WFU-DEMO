@@ -680,7 +680,7 @@ tip_item.push (
     new TipsDef("Confirm Screen Lock Password",
         "Enter the new screen lock password again to confirm."),
     new TipsDef("Disable SSH",
-		"If set to \"Yes\", the device will not allow any SSH access to the device. The default setting is \"No\"."),
+		"If set to \"Yes\", the device will not allow any SSH access to the device. "),
     new TipsDef("Current Admin Password",
         "Enter current administrator's password. This field is case sensitive. The maximum length is 32 alphabet characters."),
 

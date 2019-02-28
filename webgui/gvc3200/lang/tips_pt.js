@@ -706,7 +706,7 @@ tip_item.push (
     new TipsDef("Confirm Screen Lock Password",
         "Digite de novo a senha de bloqueio de tela para confirmar."),
     new TipsDef("Disable SSH",
-		"Se está configurado \"Sim\", o dispositivo não irá permitir o acesso via SSH ao dispositivo. A configuração padrão é \"Não\"."),
+		"Se está configurado \"Sim\", o dispositivo não irá permitir o acesso via SSH ao dispositivo. "),
     new TipsDef("Current Admin Password",
         "Digite a senha de administrador atual. Este campo é sensível a maiúsculas e minúsculas. O comprimento máximo é 32 caracteres."),
 
