@@ -65,7 +65,9 @@
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 #include "web_ui_update.h"
+#include <android/log.h>
 
+#define  LOGD(x...) __android_log_print(ANDROID_LOG_DEBUG, "WebServer", x)
 #define HASHLEN 16
 #define HASHHEXLEN 32
 typedef unsigned char HASH[HASHLEN];
