@@ -134,6 +134,15 @@ class DebugForm extends Component {
         }
 
         this.props.oneClickDebug(items, (values) => {
+            if(items['mode'] == "on" && values.headers.response == 'Error') {
+                mode = 1;
+                aStart = "a_9"
+                this.setState({
+                    aStart: aStart,
+                    ckbdisabled: !this.state.ckbdisabled
+                });
+                this.props.promptMsg('ERROR', this.tr('a_2095'))
+            }
             if(items['mode'] == "off" || items['mode'] == "none") {
                 this.props.getTracelist((value) => {
                     const { setFieldsValue } = this.props.form;
@@ -526,7 +535,8 @@ const mapDispatchToProps = (dispatch) => {
     getDelete:Actions.getDelete,
     getRecordState:Actions.getRecordState,
     Screenshort:Actions.Screenshort,
-    oneClickDebug: Actions.oneClickDebug
+    oneClickDebug: Actions.oneClickDebug,
+    promptMsg: Actions.promptMsg
   }
   return bindActionCreators(actions, dispatch)
 }

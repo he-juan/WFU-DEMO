@@ -9,6 +9,13 @@ const promptForRequestFailed = () => (dispatch) => {
     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
 }
 
+
+export const showCallDialog = (value) => (dispatch) => {
+    //value: "end"/"minimize"-not render  9-enter  10-leave
+    // GVC3210 多路通话  需要保存线路信息
+    dispatch({type: 'SHOW_CALL_DIALOG', callDialogStatus: value})
+}
+
 /**
  * @param linesinfo 所有通话线路的信息
  * @param callback
@@ -393,6 +400,9 @@ export const getMaxlineCount =() => (dispatch) =>{
     });
 }
 
+/**
+ * 获取联系人列表
+ */
 export const getContacts = (callback) => (dispatch) => {
     let request = 'action=sqlitecontacts&region=apps&type=contacts';
     request += "&time=" + new Date().getTime();
@@ -413,9 +423,6 @@ export const getContacts = (callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
-
-
-
 
 export const setContacts = (infostr,callback) => (dispatch) => {
     let request="action=setcontact&region=webservice&contactInfo=" + encodeURIComponent(infostr) + "&format=json";
@@ -841,6 +848,9 @@ export const getHDMI1Resolution = ( callback) => (dispatch) => {
 
 }
 
+/** 
+ * 判断HDMI1输出是否为4k
+ */
 export const gethdmione4K = (async, callback) => (dispatch) =>{
     let request = "action=gethdmione4K&region=confctrl";
     request += "&time=" + new Date().getTime();
@@ -861,6 +871,7 @@ export const gethdmione4K = (async, callback) => (dispatch) =>{
         });
     }
 }
+
 
 export const getline4Kvideo = (async, callback) => (dispatch) =>{
     let request = "action=getline4Kvideo&region=confctrl";
@@ -1091,6 +1102,9 @@ export const setPresentation = (isPresent) => (dispatch) => {
     })
 }
 
+/**
+ * mode 大于0 则说明在演示中
+ */
 export const getBFCPMode = (cb) => (dispatch) => {
     let request = "action=getBFCPMode&region=confctrl&time=" + new Date().getTime();
     actionUtil.handleGetRequest(request).then(function (data) {
@@ -1118,6 +1132,7 @@ export const setPresentLineMsg = (line, msg) => dispatch =>{
         msg: msg
     })
 }
+
 
 export const confholdstate = (ishold) => (dispatch) => {
     let request = "action=confholdstate&region=confctrl&sethold=" + ishold;
@@ -1241,7 +1256,9 @@ export const handleipvtrecord = (ipvtrcdstatus, callback) => (dispatch) =>{
 }
 
 
-
+/**
+ * ipvt会议 本地录像状态
+ */
 export const getlocalrcdstatus = () => (dispatch) => {
     let request = "action=isrecording&region=confctrl";
     request += "&time=" + new Date().getTime();
@@ -1259,6 +1276,9 @@ export const getlocalrcdstatus = () => (dispatch) => {
     });
 }
 
+/**
+ * ipvt会议 云端录像状态
+ */
 export const getipvtrcdstatus = () => (dispatch) => {
     let request = "action=ipvtrcdstate&region=confctrl";
     request += "&time=" + new Date().getTime();
