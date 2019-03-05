@@ -1022,7 +1022,7 @@ export const blockLineOrNot = (line) =>(dispatch) => {
         promptForRequestFailed();
     });
 }
-
+// 开启关闭视频
 export const ctrlvideostate = (line, mode) =>(dispatch) => {
     let request = "action=ctrlvideostate&region=confctrl&isflag="+ mode + "&line=" + line;
     request += "&time=" + new Date().getTime();
@@ -1043,6 +1043,7 @@ export const acceptringline = (line, isaccept, isvideo, callback) => (dispatch) 
     });
 }
 
+// 暂停恢复视频上传
 export const conflinevideoedstate = (line, isvideoed) => ( dispatch ) => {
     let request = "action=conflinevideoedstate&region=confctrl&isvideoed="+ isvideoed + "&line="+ line;
     request += "&time=" + new Date().getTime();

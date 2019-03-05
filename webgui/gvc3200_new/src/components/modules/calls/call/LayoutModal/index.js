@@ -182,8 +182,7 @@ class LayoutModal extends Component {
     if (!visible || hdmi1state != '1') {
       return null;
     }
-    let _conftype = conftype.match(/\(.*\)/)[0];
-    // console.log(hdmi1content, hdmi2content)
+    let _conftype = conftype || ''
     return (
       <Modal
         visible={visible}

@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import Enhance from "../../../mixins/Enhance"
-import { Layout, Button, Icon, Slider, Popover,Modal } from "antd"
+import { Layout, Button, Popover,Modal } from "antd"
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -14,8 +14,9 @@ import InviteMemberModal from './InviteMemberModal';
 import DetailsModal from './detailsModal';
 import DTMFModal from './DTMFModal';
 import RecordModal from './RecordModal';
-const Content = Layout
-let tmpclass = "", disacct = "", linestatustip = "",ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden", obj_incominginfo = new Object(), contactItems;
+import LinesList from './LinesList'
+
+let tmpclass = "", ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden";
 let dialogLeaveTimeout;
 let mClicktimes = 0;
 let mPreClickTime, mCurrentClickTime, mTipTimeout;
@@ -70,7 +71,7 @@ class CallDialog extends Component {
 
     componentDidMount = () => {
         globalObj.isCallStatus = true;
-        if (this.props.msgsContacts.length == undefined) {
+        if (!this.props.msgsContacts || this.props.msgsContacts.length == undefined) {
             this.props.getContacts();
         }
         this.props.getAcctStatus((acctstatus) => {
@@ -210,7 +211,7 @@ class CallDialog extends Component {
 
         return `${hour} : ${min} : ${sec}`;
     }
-
+    // 判断是否有ipvt通话
     hasipvtline = () => {
         let linestatus = this.props.linestatus;
         for(let i = 0; i< linestatus.length;i++){
@@ -240,144 +241,6 @@ class CallDialog extends Component {
 			this.props.showCallDialog("minimize");
 		}, 1000);
 	}
-
-    handlelocalmute =(ismute) => {
-        if(!this.countClickedTimes())
-        {
-            return false;
-        }
-        this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
-    }
-    handlelocalcamera = () =>{
-        if(!this.countClickedTimes())
-        {
-            return false;
-        }
-        this.props.ctrlCameraBlockState();
-    }
-
-    handlelinemute = (lineitem) =>{
-        if(lineitem.islinemute == "1"){
-            this.props.ctrlLineMute(lineitem.line, "0");
-        }else{
-            this.props.ctrlLineMute(lineitem.line, "1");
-        }
-    }
-
-    handlelineblock = (line) =>{
-        if(!this.countClickedTimes())
-        {
-            return false;
-        }
-        if(this.ispause()){
-            return false;
-        }
-        this.props.blockLineOrNot(line);
-    }
-
-    handlelinevideoswitch =(lineitem) =>{
-        if(!this.countClickedTimes())
-        {
-            return false;
-        }
-        if(this.ispause()){
-            return false;
-        }
-        let mode = "1"
-        if(lineitem.isvideo == "1"){
-            mode = "0";
-        }
-        this.props.ctrlvideostate(lineitem.line, mode);
-    }
-
-    handleStartFECC = (line) =>{
-        if(!this.countClickedTimes()){
-            return false;
-        }
-        this.props.gethdmi1state((result) => {
-            if(result.state == "1"){  //HDMI 1 has connected
-                let req_items = new Array;
-                req_items.push(
-                    this.getReqItem("hdmi2", "hdmi2", ""),
-                    this.getReqItem("hdmi3", "hdmi3", "")
-                );
-                this.props.getItemValues(req_items, (values) => {
-                    let hdmi2state = values["hdmi2"];
-                    let hdmi3state = values["hdmi3"];
-                    let hdmi23state = 0;
-                    if(hdmi3state == "1" && hdmi2state == "1")
-                        hdmi23state = 4;
-                    else if(hdmi3state != "1" && hdmi2state == "1")
-                        hdmi23state = 5;
-                    else if(hdmi3state != "1" && hdmi2state != "1")
-                        hdmi23state = 6;
-
-                    if(hdmi23state == 4 || hdmi23state == 5 || hdmi23state == 6)
-                    {
-                        /**
-                         open FECC
-                         1. HDMI1
-                         2. HDMI1, HDMI2
-                         3. HDMI1, HDMI2, HDMI3
-                         **/
-                        this.props.isFECCEnable(line, (result) => {
-                            if (result.res.toLowerCase() == "success" && result.flag == "true") {
-                                //start FECC
-                                this.props.ctrlFECC(line, 1, (result) =>{
-                                    if(result.res == "success" || result == 0 ){
-                                    }else{
-                                        this.props.promptMsg("WARNING", this.tr("a_63"));
-                                    }
-                                });
-                            } else {
-                                //not enable FECC
-                                this.props.promptMsg("WARNING", this.tr("a_63"));
-                            }
-
-                        });
-                    }
-                    else
-                    {
-                        this.props.promptMsg("WARNING", this.tr("a_16707") + " " + this.tr("a_63"));
-                    }
-                })
-            }else{
-                this.props.promptMsg("WARNING", this.tr("a_16707") + " " + this.tr("a_63"));
-            }
-        });
-    }
-
-    handleHideFECC = () =>{
-    }
-
-    handleEndline = (line, account) =>{
-        if(this.props.callFeatureInfo.disconfstate == "0"){
-            //check the line if pause
-            if(this.props.heldStatus == "1"){
-                this.props.promptMsg("WARNING", this.tr("a_10126"));
-                return;
-            }
-        }
-        let flag = "0";
-        if(account == 1 && this.props.ipvrole == "2"){
-            flag = "1";
-        }
-        this.props.endlinecall(line, flag);
-    }
-
-    handleuploading = (line, isvideoed) => {
-        if(!this.countClickedTimes()) {
-            return false;
-        }
-        if(this.ispause()){
-            return false;
-        }
-        let flag = 1 ;
-        if(isvideoed == "1"){
-            flag = 0;
-        }
-        this.props.conflinevideoedstate(line,flag);
-    }
 
     handlednd = () =>{
         if(this.hasipvtline()){
@@ -470,16 +333,18 @@ class CallDialog extends Component {
         this.props.upordownhand();
     }
 
+    // 结束回话
     handleEndAll = () => {
         let linestatus = this.props.linestatus;
         let ipvtline;
         for(let i = 0 ; i < linestatus.length; i++) {
             let lineitem = linestatus[i];
             if (lineitem.acct == 1) {
-                ipvtline = lineitem.line;
+                ipvtline = lineitem.line; 
                 break;
             }
         }
+        // 如果是ipvt会议
         if(ipvtline){
             this.props.getipvrole(ipvtline, "closeprompt", (result)=>{
                 if(result == "2"){
@@ -487,13 +352,13 @@ class CallDialog extends Component {
                         endallConfirm1Visible: true
                     })
                 }else{
-                    let endall2title = this.tr("a_10103");
+                    let endall2title = this.tr("a_10103");  // a_10103: 您确定要结束会议吗?
                     if(result == "1" || result == "3"){
-                        endall2title = this.tr("a_19357");
+                        endall2title = this.tr("a_19357");  // a_19357: 您确定要离开IPVT会议吗
                         for(let i = 0 ; i < linestatus.length; i++) {
                             let lineitem = linestatus[i];
                             if (lineitem.acct == 0) {
-                                endall2title = this.tr("a_19354");
+                                endall2title = this.tr("a_19354"); //a_19354: 您确定要离开IPVT会议并且结束本地会议吗?
                                 break;
                             }
                         }
@@ -632,28 +497,23 @@ class CallDialog extends Component {
         }
     }
     render(){
+        console.log(this.state.acctstatus)
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {status, linestatus, recordStatus, ipvtRecordStatus, handsupStatus, ipvrole, ipvtcmrinviteinfo, msfurole} = this.props;
+        let {callDialogStatus, linestatus, recordStatus, ipvtRecordStatus, handsupStatus, ipvrole, ipvtcmrinviteinfo, msfurole} = this.props;
         let videoinvitelines = "";
         if(this.props.videoinvitelines){
             videoinvitelines = this.props.videoinvitelines.split(",");
         }
-        let linestatustip = [];
-        let linevideouploadclass = [];
-        let lineisvideoedclass = [], linesuspendclass = [], lineconfvideoclass = [], lineblockclass = [], linemuteclass = [],linefeccclass = [] ;
-        let lineuploadingdisable = [];
-        let state3num = 0, state8num = 0;
+        // 保持按钮状态
         let heldclass = this.props.heldStatus == '0' ? "unhold-icon" : 'hold-icon';
+
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
             let account = lineitem.acct;
-            lineuploadingdisable[i] = false;
-            linestatustip[i] = "";
             switch (state) {
-                case "3":
-                case "init3":
-                    state3num ++;
+                case "3":  // 呼叫中
+                case "init3":  // 呼叫中时 刷新浏览器
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
@@ -661,64 +521,15 @@ class CallDialog extends Component {
                     if (dialogLeaveTimeout) {
                         clearTimeout(dialogLeaveTimeout);
                     }
-                    linestatustip[i] = this.tr("a_509");
-                    linevideouploadclass[i] = "display-hidden";
                     ctrlbtnvisible = "display-hidden";
-                    lineisvideoedclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i]
-                        = linemuteclass[i] = linefeccclass[i] = "display-hidden";
                     break;
-                case "4":
-                case "5":
-                    linevideouploadclass[i] = "display-block" + " uploading";
+                case "4": // 通话中
+                case "5": //  通话中 处于保持状态
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-block";
-                    lineisvideoedclass[i] = "uploading";
-                    linesuspendclass[i]="unconfsuspend";
-                    lineblockclass[i] = "unconfblock";
-                    linemuteclass[i] = "unmute";
-                    linefeccclass[i] = "startFECC";
-                    if(lineitem.enablefecc != "1" && lineitem.feccstate != "1"){
-                        linefeccclass[i] += " btndisable";
-                    }
-                    if(lineitem.issuspend == "1"){
-                        linesuspendclass[i]="confsuspend";
-                    }
-                    if (lineitem.isvideo == "1") {
-                        linestatustip[i] = this.tr("a_669");
-                        lineconfvideoclass[i] = "confvideo";
-                    } else {
-                        linestatustip[i] = this.tr("a_668");
-                        lineconfvideoclass[i] = "confaudio";
-                        linesuspendclass[i] += " btndisable";
-                    }
-                    if(lineitem.isblock == "1"){
-                        lineblockclass[i] = "confblock";
-                    }
-                    if(lineitem.islinemute == "1"){
-                        linemuteclass[i] = "mute";
-                    }
-                    if(lineitem.isvideoed == "1"){
-                        lineisvideoedclass[i] = "unuploading"
-                    }else{
-                        lineisvideoedclass[i] = "uploading"
-                    }
-
-                    if(lineitem.isremotehold == "1") {
-                        linesuspendclass[i] += " btndisable";
-                        lineconfvideoclass[i] += " btndisable";
-                        lineblockclass[i] += " btndisable";
-                        linemuteclass[i] += " btndisable";
-                    }
-                    if(account != 1){
-                        lineisvideoedclass[i] += " btndisable";
-                    }
-                    if(account == 8) account = 3;
-                    if(this.state.acctstatus.length > 0){
-                        linestatustip[i] += " (" + this.state.acctstatus[account]["name"]+")";
-                    }
                     if(lineitem.feccline && lineitem.feccline != "-2"){
                         if(!this.setfeccstateTimer){
                             this.setfeccstateTimer = setTimeout(()=>{
@@ -736,7 +547,6 @@ class CallDialog extends Component {
                                 this.props.getCameraBlocked();
                         });
                     }
-
                     //handle ipvt line
                     if(account == 1){
                         if(!this.getipvroleTimer){
@@ -747,61 +557,14 @@ class CallDialog extends Component {
                         }
                     }
                     break;
-                case "init8":
-                case "8":
-                    state8num ++;
+                case "init8":   // 呼叫时 点击刷新
+                case "8":  // 呼叫失败
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                         maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-hidden";
-                    lineisvideoedclass[i] = lineconfvideoclass[i] = linesuspendclass[i] = lineblockclass[i] = linemuteclass[i] = "display-hidden";
-                    switch(lineitem.msg){
-                        case "3":
-                            linestatustip[i] = this.tr("a_539");
-                            break;
-                        case "4":
-                            linestatustip[i] = this.tr("a_540");
-                            break;
-                        case "5":
-                            linestatustip[i] = this.tr("a_541");
-                            break;
-                        case "6":
-                            linestatustip[i] = this.tr("a_542");
-                            break;
-                        case "7":
-                            linestatustip[i] = this.tr("a_543");
-                            break;
-                        case "8":
-                            linestatustip[i] = this.tr("a_544");
-                            break;
-                        case "9":
-                            linestatustip[i] = this.tr("a_545");
-                            break;
-                        default:
-                            linestatustip[i] = this.tr("a_643");
-                            break;
-                    }
                     break;
-            }
-        }
-
-        let ismute = linestatus[0] && linestatus[0].isLocalMuted == "1" ? "1" : "0";
-        let localmuteclass = "unmute";
-        let localcamerablockedclass = "confvideo";
-        let startFECCClass = "startFECC";
-        let localbtndisabled = false;
-        if((state3num + state8num) == linestatus.length){  //there has no line in talking
-            localmuteclass += " btndisable";
-            startFECCClass += " btndisable";
-            localcamerablockedclass += " btndisable";
-            localbtndisabled = true;
-        }else{
-            localmuteclass = ismute == "1" ? "mute" : "unmute";
-            if(this.props.localcamerablocked == "0"){
-                localcamerablockedclass = "confvideo";
-            }else{
-                localcamerablockedclass = "confaudio";
             }
         }
 
@@ -812,13 +575,13 @@ class CallDialog extends Component {
             feccline = feccInfo.line;
             feccdisplay = feccInfo.status == "1" ? true : false
         }
-        if(linestatus.length == 0 && status == 10){  //当所有线路均取消时 显示消失动画
+        if(callDialogStatus == 10){  //当所有线路均取消时 显示消失动画
             if(maskvisible == "display-block"){
                 tmpclass = "call-dialog-out call-dialog-out-active";
                 dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
             }
         }
-        if(status == "9"){
+        if(callDialogStatus == "9"){
             if(tmpclass != "call-dialog-in call-dialog-in-active"){
                 tmpclass = "call-dialog-in call-dialog-in-active";
                 maskvisible = "display-block";
@@ -848,64 +611,23 @@ class CallDialog extends Component {
                         <div className="ctrl-title">{this.tr("a_callconf")}</div>
                         <div className="shrink-icon" onClick={this.minimizeDialog}></div>
                     </div>
-                    <div className="ctrl-line">
-                        <div className="local-line">
-                            <div className="confname">{this.tr("a_10032")}</div>
-                            <div className="confnum"></div>
-                            <div className="conftype"></div>
-                            <div className="confbtn">
-                                <Button id="startFECC" title={this.tr("a_19241")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/>
-                                <Button id="closecamera" title={this.tr("a_628")} disabled={localbtndisabled}  className={localcamerablockedclass} onClick={this.handlelocalcamera}/>
-                                <Button id="localmute" title={this.tr("a_413")} disabled={localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
-                            </div>
-                        </div>
-                        {
-                            linestatus.map((item, i) => {
-                                let disabledflag = item.acct == 1 || item.isremotehold == "1";
-                                return <div className={`remote-line remote-line-${i}`}>
-                                    <div className="confname">{item.name || item.num}</div>
-                                    <div className="confnum">{item.acct == 1 ? (item.name || item.num) : item.num}</div>
-                                    <div className="conftype">{linestatustip[i]}</div>
-                                    <div className="confbtn">
-                                        <Button title={this.tr("a_1")} className="endconf"
-                                                onClick={this.handleEndline.bind(this, item.line, item.acct)}/>
-                                        <Button className={linefeccclass[i]} style={{display: feccbtnvisile ? 'block' : 'none' }}
-                                                onClick={this.handleStartFECC.bind(this, item.line)}
-                                                disabled={item.enablefecc != "1" && item.feccstate != "1"}/>
-                                        <Button title={this.tr("a_19241")} className={lineisvideoedclass[i]}
-                                                disabled={item.acct == 1 ? false : true}
-                                                onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/>
-                                        <Button title={this.tr("a_16700")}
-                                                disabled={disabledflag || item.isvideo == "0" ? true : false}
-                                                className={item.acct == 1 ? "unconfsuspend btndisable" : linesuspendclass[i]}/>
-                                        <Button title={this.tr("a_623")}
-                                                disabled={disabledflag ? true : false}
-                                                className={item.acct == 1 ? "confvideo btndisable" : lineconfvideoclass[i]}
-                                                onClick={this.handlelinevideoswitch.bind(this, item)}
-                                        />
-                                        <Button title={this.tr("a_16701")}
-                                                disabled={disabledflag ? true : false}
-                                                className={item.acct == 1 ? "unconfblock btndisable" : lineblockclass[i]}
-                                                onClick={this.handlelineblock.bind(this, item.line)}
-                                        />
-                                        <Button title={item.islinemute == "1" ? this.tr("a_659") : this.tr("a_649")}
-                                                disabled={disabledflag ? true : false}
-                                                className={item.acct == 1 ? "unmute btndisable" : linemuteclass[i]}
-                                                onClick={this.handlelinemute.bind(this, item)}/>
-                                    </div>
-                                </div>
-                            })
-                        }
-                    </div>
+                    <LinesList linestatus={linestatus} acctstatus={this.state.acctstatus} feccbtnvisile={feccbtnvisile} />
                     <div className="call-ctrl-btn">
+                        {/* 添加成员按钮 */}
                         <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} disabled={!this.hasipvtline()} onClick={() => {this.toogleInviteMemberModal(true)}} /> 
+                        {/* 录像按钮 */}
                         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${recordclass}`}
                                 style={{display: recordvisible  ? 'block': 'none'}} onClick={this.handleRecord.bind(this)}/>
+                        {/* 布局按钮 */}
                         <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`}
                                 style={{display: this.state.is4kon ? 'none': 'block'}} onClick={() => this.toogleLayoutModal(true)}/>
+                        {/* 保持按钮 */}
                         <Button title={this.tr("a_11")} className={`${ctrlbtnvisible} ${heldclass}`} onClick={this.handleHoldall} />
+                        {/* 演示按钮 */}
                         <Button title={this.tr("a_10004")} className={`${ctrlbtnvisible} present-btn unpresen-icon ${this.props.presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal(true)}/>
+                        {/* 举手按钮 */}
                         <Button title={this.tr("a_10220")} className={`${ctrlbtnvisible} ${handsupclass}`} style={{display: handsupdisplay}}  onClick={()=>this.handleHandsup()} />
+                        {/* 结束按钮 */}
                         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
                         <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
                             <Popover
@@ -924,21 +646,25 @@ class CallDialog extends Component {
                             <VideoinviteDialog linestatus={this.props.linestatus}></VideoinviteDialog> : null
                     }
 				</div>
-
+                {/* 本地摄像头控制 弹窗 */}
                 <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
+                {/* 布局弹窗 */}
                 {
                     this.props.isvideo == 1 ? 
                     msfurole == -1 ?
-                    <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} confname={linestatus[0].name || linestatus[0].num} conftype={linestatustip[0]}/> 
+                    <LayoutModal visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} confname={linestatus[0].name || linestatus[0].num} conftype={this.state.acctstatus[0].name}/> 
                     : 
                     <LayoutModel_SFU visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} />
                     : null
                 }
+                {/* 通话详情 */}
                 {
                     linestatus.length >0 && this.state.detailsModalVisible?
                         <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} onHide={this.handlehidedetails} /> : ""
                 }
+                {/* 开启录像弹窗 */}
                 <RecordModal visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)}/>
+                {/* 结束会议确认框 1 列表点击成员 */}
                 <Modal visible={this.state.endallConfirm1Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall1Cancel}>
                     <p className="confirm-content">{this.tr("a_10224")}</p>
                     <div className="modal-footer">
@@ -947,6 +673,7 @@ class CallDialog extends Component {
                         <Button onClick={this.handleEndall1Cancel}>{this.tr("a_3")}</Button>
                     </div>
                 </Modal>
+                {/* 结束会议确认框 2*/}
                 <Modal visible={this.state.endallConfirm2Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall2Cancel}>
                     <p className="confirm-content">{this.state.endallConfirm2Title}</p>
                     <div className="modal-footer">
@@ -954,6 +681,7 @@ class CallDialog extends Component {
                         <Button onClick={this.handleEndall2Cancel}>{this.tr("a_3")}</Button>
                     </div>
                 </Modal>
+                {/* IPVT会议 邀请弹窗 */}
                 {
                     ipvtcmrinviteinfo != null ?
                         <Modal visible={ true } width={300} footer={null} closable={false} className="endall-confirm">
@@ -964,8 +692,11 @@ class CallDialog extends Component {
                             </div>
                         </Modal> : null
                 }
+                {/* 演示弹窗 */}
                 <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
+                {/* 邀请成员 */}
                 <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)}  linestatus={linestatus}/>
+                {/* 小键盘 */}
                 <DTMFModal visible={this.state.DTMFVisible} textdisplay={this.state.DTMFDisplay} DTMFString={this.state.DTMFString} onHide={this.hideDTMFModal}/>
             </div>
         );
@@ -973,15 +704,9 @@ class CallDialog extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    curLocale: state.curLocale,
-    mainHeight: state.mainHeight + 50,
-    maxVolume: state.maxVolume,
-    curVolume: state.curVolume,
-    muteStatus: state.muteStatus,
     recordStatus: state.recordStatus,
     msgsContacts: state.msgsContacts,
     FECCStatus: state.FECCStatus,
-    callFeatureInfo: state.callFeatureInfo,
     ipvrole: state.ipvrole,
     dndstatus: state.dndstatus,
     localcamerablocked: state.localcamerablocked,
@@ -1003,29 +728,17 @@ const mapStateToProps = (state) => ({
 function mapDispatchToProps(dispatch) {
   var actions = {
 	  showCallDialog: Actions.showCallDialog,
-      // getMaxVolume: Actions.getMaxVolume,
-      // getCurVolume: Actions.getCurVolume,
-      // setVolume: Actions.setVolume,
       endCall: Actions.endCall,
-      // ctrlLineRecord: Actions.ctrlLineRecord,
-      getAllLineStatus: Actions.getAllLineStatus,
       getContacts:Actions.getContacts,
       promptMsg: Actions.promptMsg,
       getAcctStatus: Actions.getAcctStatus,
-      ctrlLocalMute: Actions.ctrlLocalMute,
       gethdmi1state: Actions.gethdmi1state,
       getItemValues:Actions.getItemValues,
       isFECCEnable: Actions.isFECCEnable,
       ctrlFECC: Actions.ctrlFECC,
       getipvrole: Actions.getipvrole,
-      endlinecall: Actions.endlinecall,
       setDndMode: Actions.setDndMode,
-      ctrlLineMute: Actions.ctrlLineMute,
-      blockLineOrNot: Actions.blockLineOrNot,
-      ctrlvideostate: Actions.ctrlvideostate,
-      conflinevideoedstate: Actions.conflinevideoedstate,
       getCameraBlocked: Actions.getCameraBlocked,
-      ctrlCameraBlockState: Actions.ctrlCameraBlockState,
       endconf: Actions.endconf,
       getBFCPMode: Actions.getBFCPMode,
       confholdstate: Actions.confholdstate,

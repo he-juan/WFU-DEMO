@@ -165,7 +165,7 @@ class Main extends React.Component {
                     {
                         (linesinfo.length > 0 && this.props.callDialogStatus != "minimize")
                         || this.props.callDialogStatus == "10" || this.props.callDialogStatus == "9"
-                        ? <CallDialog linestatus={linesinfo} status={this.props.callDialogStatus} />
+                        ? <CallDialog linestatus={linesinfo} callDialogStatus={this.props.callDialogStatus} />
                         : null
                     }
                     <IntlProvider>

@@ -344,7 +344,7 @@ class InviteMemberModal extends Component {
                   }
                 }
                 return (
-                  <li>
+                  <li key={i}>
                     <Checkbox checked={item.checked} onChange={() => this.selectContact(item, i)}/> <span className={`${IconType}-icon`}></span> <strong>{Name}</strong> <em>{item.Number}</em>
                   </li>
                 )
