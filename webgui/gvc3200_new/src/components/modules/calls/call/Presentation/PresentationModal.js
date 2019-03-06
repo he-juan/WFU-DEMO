@@ -7,10 +7,10 @@
  */
 import React, { Component } from 'react'
 import { Modal, Form, Select} from 'antd';
-import Enhance from "../../../mixins/Enhance";
+import Enhance from "../../../../mixins/Enhance";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { promptMsg, setPresentation, getHDMI1Resolution } from '../../../redux/actions';
+import { promptMsg, setPresentation, getHDMI1Resolution } from '../../../../redux/actions';
 
 const FormItem = Form.Item
 const Option = Select.Option

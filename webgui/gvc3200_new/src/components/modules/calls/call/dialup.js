@@ -928,6 +928,7 @@ class DialUpForm extends Component {
                             <ol>
                                 {acctstatus.map((item, i) => {
                                     return <li
+                                        key={i}
                                         className={`account-item ${item.activate == '0' || item.register == '0' ? 'acct-item-disable' : ''}`}
                                         onMouseOver={this.handleMouseOver.bind(this, item, i)}
                                         onMouseLeave={this.handleMouseLeave.bind(this, item, i)}

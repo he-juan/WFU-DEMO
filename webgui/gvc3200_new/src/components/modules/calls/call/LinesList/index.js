@@ -1,3 +1,6 @@
+/**
+ * 线路列表 包括本地
+ */
 import React, { Component } from 'react'
 import Enhance from "../../../../mixins/Enhance"
 import * as Actions from '../../../../redux/actions/index'
@@ -69,28 +72,28 @@ function calLineBtnStatus(lineItem, acctstatus){
             isvideoedclass = suspendclass =  confvideoclass = blockclass = muteclass = 'display-hidden';
             switch(msg) {
                 case "3":
-                    linestatustip[i] = tr("a_539");
+                    itemTitle = tr("a_539");
                     break;
                 case "4":
-                    linestatustip[i] = tr("a_540");
+                    itemTitle = tr("a_540");
                     break;
                 case "5":
-                    linestatustip[i] = tr("a_541");
+                    itemTitle = tr("a_541");
                     break;
                 case "6":
-                    linestatustip[i] = tr("a_542");
+                    itemTitle = tr("a_542");
                     break;
                 case "7":
-                    linestatustip[i] = tr("a_543");
+                    itemTitle = tr("a_543");
                     break;
                 case "8":
-                    linestatustip[i] = tr("a_544");
+                    itemTitle = tr("a_544");
                     break;
                 case "9":
-                    linestatustip[i] = tr("a_545");
+                    itemTitle = tr("a_545");
                     break;
                 default:
-                    linestatustip[i] = tr("a_643");
+                    itemTitle = tr("a_643");
                     break;
                 
             }

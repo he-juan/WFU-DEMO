@@ -1,4 +1,4 @@
-import { promptMsg} from '../../../../redux/actions'
+import { promptMsg} from '../../../../../redux/actions'
 
 const API = (function(){
   function SFU_request(uri) {

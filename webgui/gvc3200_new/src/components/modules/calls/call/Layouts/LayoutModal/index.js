@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Enhance from "../../../../mixins/Enhance";
-import { promptMsg,getBFCPMode } from '../../../../redux/actions';
+import Enhance from "../../../../../mixins/Enhance";
+import { promptMsg,getBFCPMode } from '../../../../../redux/actions';
 import { Modal } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
