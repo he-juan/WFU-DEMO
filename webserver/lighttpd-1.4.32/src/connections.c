@@ -9907,7 +9907,7 @@ static int handle_hardware (server *srv, connection *con,
     return -1;
 }
 
-static int start_daemon(void)
+static int start_daemon(int type)
 {
     /* Our process ID and Session ID */
     pid_t pid = -1, sid = -1;
@@ -9956,15 +9956,37 @@ static int start_daemon(void)
     // Child process.
     if ( pid == 0 )
     {
-        //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot");
-        char *cmd[] = {"am", "broadcast", "--user", "all", "-a", "com.base.module.systemmanager.UPGRADE_OR_REBOOT", "--es", "type", "reboot", 0};
+        char reboot_type[80] = "";
+        if( type == 1 )
+            //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type shutdown");
+            snprintf(reboot_type, sizeof(reboot_type), "%s", "shutdown");
+        else if( type == 2 )
+            //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep");
+            snprintf(reboot_type, sizeof(reboot_type), "%s", "sleep");
+        else if( type == 3 )
+            //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type wakeup");
+            snprintf(reboot_type, sizeof(reboot_type), "%s", "wakeup");
+        else if( type == 4 )
+            //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot_rw");
+            snprintf(reboot_type, sizeof(reboot_type), "%s", "reboot_rw");
+        else if( type == 5 )
+            //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type shutdown_rw");
+            snprintf(reboot_type, sizeof(reboot_type), "%s", "shutdown_rw");
+        else if( type == 6 )
+            //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep_rw");
+            snprintf(reboot_type, sizeof(reboot_type), "%s", "sleep_rw");
+        else
+            //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot");
+            snprintf(reboot_type, sizeof(reboot_type), "%s", "reboot");
+
+        char *cmd[] = {"am", "broadcast", "--user", "all", "-a", "com.base.module.systemmanager.UPGRADE_OR_REBOOT", "--es", "type", reboot_type, 0};
         doCommandTask(cmd, NULL, NULL, 0);
     }
 
     exit(EXIT_SUCCESS);
 }
 
-static pid_t start_reboot()
+static pid_t start_reboot(int type)
 {
     //This process is used as daemon's parent, which will be ended when daemon is forked.
     pid_t pid = fork();
@@ -9981,7 +10003,7 @@ static pid_t start_reboot()
     // Child process.
     else if ( pid == 0 )
     {
-        start_daemon();
+        start_daemon(type);
     }
 
     return pid;
@@ -10011,7 +10033,7 @@ static int handle_reboot(server *srv, connection *con, buffer *b, const struct m
         if( type == 0 )
             handle_callservice_by_no_param(srv, con, b, m, "rebootDevice");
         else
-            start_reboot();
+            start_reboot(type);
     }else{
         buffer_append_string (b, "Response=Error\r\nMessage=Boot not completed\r\n");
         fclose(fp);
@@ -24175,8 +24197,8 @@ static int handle_action_uri_service(server *srv, connection *con,
 	if(!strcasecmp(action, "api-add_group"))
 		tmp_api = "setGroup";
 	else if(!strcasecmp(action, "api-get_groups")) {
-		tmp_api = "getGroup";
-        //return sqlite_handle_contact(b, m, "groups");
+		//tmp_api = "getGroup";
+        return sqlite_handle_contact(b, m, "groups");
 	} else if(!strcasecmp(action, "api-get_contacts"))
 		tmp_api = "getContact";
 	else if(!strcasecmp(action, "api-delete_all_contact"))
@@ -24197,9 +24219,9 @@ static int handle_action_uri_service(server *srv, connection *con,
 	{
 		char *line = msg_get_header(m, "line");
 		if(line == NULL)
-			tmp_api = "getAllLineInfo";
+			tmp_api = "getAllCallStatus";
 		else
-			tmp_api = "getLineStatus";
+			tmp_api = "getSingleCallStatus";
 	}
 	else if(!strcasecmp(action, "api-get_phone_status"))
 		tmp_api = "getPhoneStatus";
@@ -24389,7 +24411,7 @@ static int handle_action_uri_service(server *srv, connection *con,
 
 			free(tmp_edit);
 		}
-		else if(!strcasecmp(action, "api-get_line_status") && !strcasecmp(tmp_api, "getLineStatus"))
+		else if(!strcasecmp(action, "api-get_line_status") && !strcasecmp(tmp_api, "getSingleCallStatus"))
 		{
 			dbus_message_iter_init_append( message, &iter );
 
@@ -24414,68 +24436,51 @@ static int handle_action_uri_service(server *srv, connection *con,
 			dbus_message_iter_init_append( message, &iter );
 
 			char *phonenum = msg_get_header(m, "phonenumber");
-			//char *acc = msg_get_header(m, "account");
+			char *acc = msg_get_header(m, "account");
 
-			//char *isVideo = "0";
+			char *isVideo = "1";
             char *isConf = "0";
-            char *source = "2";
+            char *source = "0";
             char *callMode = "0";
 			int isDialPlan = 0;
 			char *headerString = "";
-            int isPaging = 0;
-            int isipcall = 0;
-            int account = 0;
-            char *temp = NULL;
-            int isVideo = 0;
 
-            temp = msg_get_header(m, "account");
-            if ( temp != NULL )
-            {
-                account = atoi( temp );
-            }
 
-			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &account) )
-			{
-				printf( "Out of Memory!\n" );
-				exit( 1 );
-			}
-
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isVideo) )
-			{
-				printf( "Out of Memory!\n" );
-				exit( 1 );
-			}
-
-			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isDialPlan) )
-			{
-				printf( "Out of Memory!\n" );
-				exit( 1 );
-			}
-
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isPaging ) )
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &phonenum) )
             {
                 printf( "Out of Memory!\n" );
                 exit( 1 );
             }
 
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isipcall ) )
-            {
-                printf( "Out of Memory!\n" );
-                exit( 1 );
-            }
-
-            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &phonenum) )
-            {
-                printf( "Out of Memory!\n" );
-                exit( 1 );
-            }
-
-			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &headerString) )
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &acc) )
 			{
 				printf( "Out of Memory!\n" );
 				exit( 1 );
 			}
 
+			if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &isVideo) )
+			{
+				printf( "Out of Memory!\n" );
+				exit( 1 );
+			}
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &isConf) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &source) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &callMode) )
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
 
 			error_msg = "{\"res\": \"error\", \"msg\": \"can't make the call\"}";
 		}
@@ -25006,7 +25011,7 @@ static void handle_system_operations(buffer *b, const struct message *m)
 	if(!strcasecmp(request, "REBOOT"))
 	{
 		buffer_append_string(b, "{\"response\":\"success\",\"body\":reboot\"}");
-	    start_reboot();
+	    start_reboot(0);
 	}
 	else if(!strcasecmp(request, "RESET"))
 	{
