@@ -459,15 +459,7 @@ export const writeHideConfig = (type, value) => (dispatch) => {
 
 
 
-export const cb_put_importlan = (callback) => (dispatch) => {
-    let request = 'action=importlang';
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        setTimeout(cb_get_import_response(callback), 3000);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 const cb_get_import_response = (callback) => (dispatch) => {
     let request = 'action=importlanrsps';

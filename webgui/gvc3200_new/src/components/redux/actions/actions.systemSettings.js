@@ -133,15 +133,15 @@ export const sysReboot = (type, cb) => (dispatch) => {
 /**
  * 获取时区
  */
-export const getTimezone = (callback) => (dispatch) => {
-    let request = 'action=gettimezone&region=advanset';
+export const getTimezone = (lang,callback) => (dispatch) => {
+    let lan=lang=='en'?0:1
+    let request = 'action=gettimezone&lang='+lan;
     actionUtil.handleGetRequest(request).then(function(data) {
-        dispatch({type: 'REQUEST_GET_TIMEZONE_VALUES', timezoneValues: data});
-        callback(data);
-    }).catch(function(error) {
-        console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
-    });
+        var result=JSON.parse(data)
+        if(result.Response=="Success"){
+            callback(result);
+        }
+    })
 }
 
 /**
@@ -158,10 +158,7 @@ export const saveTimeset = (value) => (dispatch) => {
             //dispatch({type: 'NOTICE_CHANGE', changeNotice: ["Save Successfully!", {color: '#fff', background: '#51c57d'}]});
             actionUtil.checkIsApplyNeed(dispatch);
         }
-    }).catch(function(error) {
-        console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
-    });
+    })
 }
 
 
@@ -194,12 +191,12 @@ export const setDateInfo = (values) => (dispatch) => {
  * 获取语言
  */
 export const getLanguagesValues = (callback) => (dispatch) => {
-    let request = 'action=getlanguages&region=advanset';
+    let request = 'action=getlanguages';
 
     actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        dispatch({type: 'REQUEST_GET_LANGUAGES_VALUES', languagesValues: msgs});
-        callback(msgs);
+        let tObj = JSON.parse(data);
+        if(tObj.Response=="Success")
+        callback(tObj);
     }).catch(function(error) {
         console.error(error)
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
@@ -209,17 +206,84 @@ export const getLanguagesValues = (callback) => (dispatch) => {
 /**
  * 设置语言
  */
-export const putLanguage = (value) => (dispatch) => {
-    var lancts = value.split("_");
-    let request = "action=putlanguage&region=advanset&lan=" + lancts[0] + "&country=" + lancts[1];
+export const putLanguage = (value,callback) => (dispatch) => {
+    let request = "action=putlanguage&lan=" + value
     actionUtil.handleGetRequest(request).then(function(data) {
-        let msgs = actionUtil.res_parse_rawtext(data);
-        if (actionUtil.cb_if_is_fail(msgs)) {
-            // send notice action
-        } else {
-            // send notice action
-            //dispatch({type: 'NOTICE_CHANGE', changeNotice: ["Save Successfully!", {color: '#fff', background: '#51c57d'}]});
-            actionUtil.checkIsApplyNeed(dispatch);
+        let tObj = JSON.parse(data);
+        if(tObj.res=="success")
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+        if(callback) {
+            callback(tObj);
+        }
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+    });
+}
+
+
+/**  
+ * 设置语言文件
+*/
+
+export const cb_put_importlan = (callback) => (dispatch) => {
+    let request = 'action=importlang';
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        if(tObj.res=="success")
+        callback(tObj);
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+    });
+}
+
+/** 
+ * 按层级获取可选的语言列表
+*/
+export const getLocaleList = (level,localeId,callback) => (dispatch) => {
+    var request
+    if(localeId){
+        request = 'action=getLocaleListByLevel&level='+level+'&localeId='+localeId;
+    }else{
+        request = 'action=getLocaleListByLevel&level='+level;
+    }
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        callback(tObj);
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+    });
+}
+
+/** 
+ * 获取是否存在自定义的语言文件
+ */
+export const getCustomstate = (callback) => (dispatch) => {
+    let request = 'action=custLanExist';
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        if(tObj.Response=="Success")
+        callback(tObj);
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+    });
+}
+/**
+ * 删除自定义语言文件
+ */
+export const deleteCustom = (callback) => (dispatch) => {
+    let request = "action=rmcustlan"
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        if(tObj.res=="success"){
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_del_ok'}});
+            callback(tObj);
         }
     }).catch(function(error) {
         console.error(error)

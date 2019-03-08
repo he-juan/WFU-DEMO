@@ -103,6 +103,7 @@ export const set_defaultacct = (acctindex, callback) => (dispatch) =>{
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
         }
     }).catch(function(error) {
-        promptForRequestFailed();
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
     });
 }

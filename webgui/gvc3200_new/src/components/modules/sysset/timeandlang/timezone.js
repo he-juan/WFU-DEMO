@@ -5,53 +5,16 @@ import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import moment from 'moment'
-
+import en_GB from 'antd/lib/locale-provider/en_GB'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const RadioGroup = Radio.Group;
 let req_items;
-var city_names = [ "a_16489", "a_16491","a_16492","a_16493",
-"a_16494","a_16495","a_16496","a_16497","a_16498",
-"a_16499", "a_16500","a_16501","a_16502","a_16503",
-"a_16504","a_16505","a_16506","a_16507","a_16508",
-"a_16509","a_16510", "a_16711", "a_16511", "a_16512",
-"a_16513","a_16514","a_16515","a_16516","a_16517",
-"a_16518", "a_16519", "a_16520",
-"a_16521", "a_16522", "a_16712", "a_16523", "a_16524", "a_16525",
-"a_16526", "a_16527", "a_16713", "a_16528", "a_16529", "a_16530",
-"a_16531", "a_16532", "a_16533","a_16534",
-"a_16535", "a_16536", "a_16537", "a_16538", "a_16539",
-"a_16540", "a_16541", "a_16542", "a_16543", "a_16544",
-"a_16545", "a_16546", "a_16547", "a_16548", "a_16549",
-"a_16550", "a_16551","a_16552","a_16553", "a_16714",
-"a_16554", "a_16555", "a_16556",
-"a_16557", "a_16558", "a_16559", "a_16560", "a_16561",
-"a_16562", "a_16563", "a_16564", "a_16565", "a_16566",
-"a_16567","a_16568","a_16569","a_16570", "a_16715", "a_16490", "a_16571",
-"a_16572","a_16573"];
 
-const childrenValue = ["GMT","Pacific/Midway","Pacific/Honolulu","America/Anchorage","America/Los_Angeles","America/Tijuana",
-        "America/Phoenix","America/Chihuahua","America/Denver","America/Costa_Rica","America/Chicago","America/Mexico_City",
-        "America/Regina","America/Bogota","America/New_York","America/Caracas","America/Barbados","America/Halifax",
-        "America/Manaus","America/Santiago","America/St_Johns","America/Recife","America/Sao_Paulo","America/Argentina/Buenos_Aires",
-        "America/Godthab","America/Montevideo","Atlantic/South_Georgia","Atlantic/Azores","Atlantic/Cape_Verde","Africa/Casablanca",
-        "Europe/London","Europe/Amsterdam","Europe/Belgrade","Europe/Brussels","Europe/Madrid","Europe/Sarajevo","Africa/Windhoek",
-        "Africa/Brazzaville","Asia/Amman","Europe/Athens","Europe/Istanbul","Asia/Beirut","Africa/Cairo","Europe/Helsinki","Asia/Jerusalem",
-        "Europe/Minsk","Africa/Harare","Asia/Baghdad","Europe/Moscow","Asia/Kuwait","Africa/Nairobi","Asia/Tehran","Asia/Baku","Asia/Tbilisi",
-        "Asia/Yerevan","Asia/Dubai","Asia/Kabul","Asia/Karachi","Asia/Oral","Asia/Yekaterinburg","Asia/Calcutta","Asia/Colombo","Asia/Katmandu",
-        "Asia/Almaty","Asia/Rangoon","Asia/Krasnoyarsk","Asia/Bangkok","Asia/Jakarta","Asia/Shanghai","Asia/Hong_Kong","Asia/Irkutsk","Asia/Kuala_Lumpur",
-        "Australia/Perth","Asia/Taipei","Asia/Seoul","Asia/Tokyo","Asia/Yakutsk","Australia/Adelaide","Australia/Darwin",
-        "Australia/Brisbane","Australia/Hobart","Australia/Sydney","Asia/Vladivostok","Pacific/Guam","Asia/Magadan","Pacific/Noumea",
-        "Pacific/Majuro","Pacific/Auckland","Pacific/Fiji","Pacific/Tongatapu"
-    ];
+
 
 var newgmts = new Array;
-let newcitygmts = new Array();
-var gmtvalues = new Array();
-var newcity_names = new Array();
-var timezone;
-let children;
+
 
 class TimezoneForm extends Component {
     constructor(props) {
@@ -61,7 +24,9 @@ class TimezoneForm extends Component {
             initDate: '',
             initTime: '',
             datefmt: '3',
-            timefmt: '1'
+            timefmt: '1',
+            children: [],
+            timeValue:""
         }
 
         this.datefmtMap = {
@@ -71,7 +36,7 @@ class TimezoneForm extends Component {
             '2': 'D/M/YYYY'
         }
         this.timefmtMap = {
-            '0':'hh:mm a',
+            '0':'hh:mm A',
             '1':'HH:mm'
         }
         this.handleNvram();
@@ -117,47 +82,21 @@ class TimezoneForm extends Component {
     }
 
     getTimezone_suc = (data) => {
-        if( data.substring(0, 1) == "{" ) {
-            newcitygmts = [];
-            gmtvalues = [];
-            newcity_names = [];
-            var tObj = JSON.parse(data);
-            timezone = tObj.timezone;
-    		var citygmts = tObj.citygmt;
-            newcitygmts.push(citygmts[0]);
-    		newcity_names.push(this.tr(city_names[0]));
-            gmtvalues.push(childrenValue[0])
-
-            var preid, curid, newpos;
-    		preid = parseInt(citygmts[0].substring(3).replace(":", ""));
-    		newgmts.push(preid);
-            var insertnum = 0;
-            for(var k = 1; citygmts[k] != undefined; k++) {
-                curid = parseInt(citygmts[k].substring(3).replace(":", ""));
-                newpos = this.findPos(curid);
-                if(newpos == -1) {
-                    newgmts.push(curid);
-                    newcitygmts.push(citygmts[k]);
-                    newcity_names.push(this.tr(city_names[k]));
-                    gmtvalues.push(childrenValue[k]);
-                } else {
-                    insertnum ++;
-                    newgmts = this.insert(newgmts, newpos, curid);
-                    newcitygmts = this.insert(newcitygmts, newpos, citygmts[k]);
-                    newcity_names = this.insert(newcity_names, newpos, this.tr(city_names[k]));
-                    gmtvalues = this.insert(gmtvalues, newpos, childrenValue[k]);
-                }
+        let children=[]
+        let hasIt=false
+        for(let i=0;i<data.list.length;i++){
+            if(data.timezone.id==data.list[i].id){
+                hasIt=true
             }
-            children = [];
-            for (let i = 0; i < newcity_names.length; i++) {
-                children.push(<Option value = {gmtvalues[i]}>{this.htmlEncode(newcitygmts[i]) + "(" + this.htmlEncode(newcity_names[i]) + ")"}</Option>);
-            }
-            this.props.form.setFieldsValue({
-                timezone: timezone
-            });
-        } else {
-            //this.props.setPageStatus(0);
+            children.push(<Option value = {data.list[i].id}>{data.list[i].name}</Option>)
         }
+        if(!hasIt){
+            children.push(<Option value = {data.timezone.id}>{data.timezone.name}</Option>)
+        }
+        this.setState({
+            children:children,
+            timeValue:data.timezone.id
+        })
     }
 
     onChangeTimezone = (value) => {
@@ -173,7 +112,7 @@ class TimezoneForm extends Component {
                 timefmt
             })
         });
-        this.props.getTimezone((values) => {
+        this.props.getTimezone(this.props.curLocale,(values) => {
             this.getTimezone_suc(values);
         });
         this.getDateInfo();
@@ -190,7 +129,7 @@ class TimezoneForm extends Component {
             }
         }
         if(this.props.curLocale != nextProps.curLocale) {
-            this.props.getTimezone((values) => {
+            this.props.getTimezone(nextProps.curLocale,(values) => {
                 this.getTimezone_suc(values);
             });
         }
@@ -287,19 +226,20 @@ class TimezoneForm extends Component {
                     })(<DatePicker format={this.datefmtMap[this.state.datefmt]} allowClear={false} showToday={false} onChange={this.dateChangeHandler} />)}
                 </FormItem>
                 {/* 设置时间 */}
+                <LocaleProvider locale={en_GB}>
                 <FormItem label={<span>{callTr("a_9067")}<Tooltip title={callTipsTr("Set Time")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator("time", {
                         initialValue: initialTime
                     })(<TimePicker use12Hours={this.state.timefmt == '0'} format={this.timefmtMap[this.state.timefmt]} allowEmpty={false} onChange={this.timeChangeHandler}/> )}
                 </FormItem>
-
+                </LocaleProvider>
                 <FormItem className="select-item" label={<span>{callTr("a_23527")} <Tooltip title={callTipsTr("Time Zone")}> <Icon type="question-circle-o"/> </Tooltip> </span> }>
                     {getFieldDecorator('timezone', {
                         rules: [],
-                        initialValue: timezone
+                        initialValue: this.state.timeValue
                     })(
-                        <Select  onChange={ this.onChangeTimezone.bind(this) }>
-                            {children}
+                        <Select>
+                            {this.state.children}
                         </Select>
                     )
                     }
