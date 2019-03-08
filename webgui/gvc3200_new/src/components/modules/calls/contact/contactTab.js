@@ -408,8 +408,8 @@ class ContactTab extends Component {
     }
 
     _createData = () => {
-        if(this.isEmptyObject(this.props.contactsInformation) || this.isEmptyObject(this.props.groupInformation)
-            || this.isEmptyObject(this.props.contactsAcct) ) {
+        if(JSON.stringify(this.props.contactsInformation) == '{}' || JSON.stringify(this.props.groupInformation) == '{}'
+            || JSON.stringify(this.props.contactsAcct)== '{}' ) {
             return null;
         }
         let contactsInformation  = this.props.contactsInformation;
@@ -541,8 +541,8 @@ class ContactTab extends Component {
     }
 
     render() {
-        if(this.isEmptyObject(this.props.contactsInformation) || this.isEmptyObject(this.props.groupInformation)
-            || this.isEmptyObject(this.props.contactsAcct) ) {
+        if(JSON.stringify(this.props.contactsInformation) == '{}' || JSON.stringify(this.props.groupInformation) == '{}'
+            || JSON.stringify(this.props.contactsAcct)== '{}' ) {
             return null;
         }
         const callTr = this.props.callTr;
@@ -656,7 +656,7 @@ class ContactTab extends Component {
                 }
                 {
                     this.state.displayExportModal ?
-                    <ExportEditForm  displayExportModal={this.state.displayExportModal}  handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                    <ExportEditForm  displayExportModal={this.state.displayExportModal} contactsInformation={this.props.contactsInformation} handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                     : null
                 }
                 {

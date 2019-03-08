@@ -503,9 +503,9 @@ const formatContactAndGroupsData = function(data,type){
 }
 
 export const setGroups = (groupname,ringtone,editGroupId,callback) => (dispatch) => {
-    let request = 'action=setgroup&region=webservice&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname+':::'+ringtone)+'&format=json';
+    //let request = 'action=setgroup&region=webservice&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname+':::'+ringtone)+'&format=json';
+    let request = 'action=setgroup&region=webservice&groupInfo='+encodeURIComponent(editGroupId+':::'+groupname)+'&format=json';
     // request += "&time=" + new Date().getTime();
-
     actionUtil.handleGetRequest(request).then(function(data){
         let msgs = JSON.parse(data)
         if (msgs['res'] == 'success') {
