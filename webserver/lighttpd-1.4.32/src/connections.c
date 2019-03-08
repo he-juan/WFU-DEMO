@@ -921,7 +921,7 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                 return -1;
             }
             if( atoi(temp) == 0 ){
-                snprintf(sqlstr, len, "select conf_log._id as calllog_id,conf_log.conf_name as name, conf_log.duration as duration, conf_log.start_time as date,-1 as type,conf_log.is_schedule as isvideo, 1 as is_conference, 0 as acctindex, conf_log._id as order1 from conf_log UNION ALL select calls._id as calllog_id,calls.number as name, calls.duration as duration, calls.date as date, calls.type as type, calls.media_type as isvideo, calls.group_id as is_conference, calls.gs_account as account, calls.number as order1 from calls where is_conference=0 order by date desc;");
+                snprintf(sqlstr, len, "select conf_log._id as calllog_id,conf_log.conf_name as name, conf_log.duration as duration, conf_log.start_time as date,-1 as type,conf_log.is_schedule as isvideo, 1 as is_conference, 0 as acctindex, conf_log._id as order1 from conf_log UNION ALL select calls._id as calllog_id,calls.number as name, calls.duration as duration, calls.date as date, calls.type as type, calls.media_type as isvideo, calls.group_id as is_conference, calls.account as account, calls.number as order1 from calls where is_conference=0 order by date desc;");
             }else if( atoi(temp) == 4 ){
                 snprintf(sqlstr, len, "select conf_log._id as calllog_id,conf_log.conf_name as name, conf_log.duration as duration, conf_log.start_time as date,0 as type,0 as isvideo, 1 as is_conference from conf_log group by name order by date desc;");
             }
@@ -933,13 +933,13 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             buffer_append_string(b,"{\"Response\":\"Error\"}");
             return -1;
         }
-        snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, calls.gs_account as account, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where calls.type=%d order by date desc;", atoi(temp));
+        snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, calls.account as account, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where calls.type=%d order by date desc;", atoi(temp));
     }
     else if( !strcasecmp(type, "leftcalllogname") ) {
-        snprintf(sqlstr, len, "select calls._id as calllog_id,calls.name as name,raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where calls.is_conference=0;");
+        snprintf(sqlstr, len, "select calls._id as calllog_id,calls.name as name,raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where calls.is_conference=0;");
     }
     else if( !strcasecmp(type, "confmember") ) {
-        snprintf(sqlstr, len, "select conf_log._id as conflog_id,calls._id as logid, calls.number as number,calls.name as name,raw_contacts.display_name as contactname, calls.type as calltype, calls.duration as callduration, calls.date as calldate, calls.media_type as mediatype, calls.gs_account as account from conf_log left join calls on conf_log._id=calls.group_id and calls.is_conference=1 left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id;");
+        snprintf(sqlstr, len, "select conf_log._id as conflog_id,calls._id as logid, calls.number as number,calls.name as name, calls.type as calltype, calls.duration as callduration, calls.date as calldate, calls.media_type as mediatype, calls.account as account from conf_log left join calls on conf_log._id=calls.group_id and calls.is_conference=1");
     }
     else if( !strcasecmp(type, "calllog") ) {
         temp = msg_get_header(m, "flag");
@@ -959,18 +959,18 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             const char *logtype = NULL;
             logtype = msg_get_header(m, "logtype");
             if( logtype != NULL && atoi(logtype) == 0 ){
-                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.gs_account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname,conf_log.conf_name as confname from calls left join conf_log on calls.group_id=conf_log._id left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where number=\"%s\" and account=%d order by date desc;", number, acctindex);
+                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname,conf_log.conf_name as confname from calls left join conf_log on calls.group_id=conf_log._id left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where number=\"%s\" and account=%d order by date desc;", number, acctindex);
             }else{
-                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.gs_account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname,conf_log.conf_name as confname from calls left join conf_log on calls.group_id=conf_log._id left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where number=\"%s\" and type=3 and account=%d order by date desc;", number, acctindex);
+                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname,conf_log.conf_name as confname from calls left join conf_log on calls.group_id=conf_log._id left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where number=\"%s\" and type=3 and account=%d order by date desc;", number, acctindex);
             }
         }
         else if( temp != NULL && atoi(temp) == 2 ){
             //get all calls by latest,such as in schedule page
-            snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.gs_account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id group by number order by date desc;");
+            snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id group by number order by date desc;");
         }
         else if( temp != NULL && atoi(temp) == 3 ){
             //get not conference calls by latest,such as in call page
-            snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.gs_account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where calls.is_conference=0 group by number order by date desc;");
+            snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where calls.is_conference=0 group by number order by date desc;");
         }
         else{
             const char *logtype = NULL;
@@ -980,9 +980,9 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
                 return -1;
             }
             if( atoi(logtype) != 0 ){
-                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.gs_account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where type=%d order by date desc;", atoi(logtype));
+                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id where type=%d order by date desc;", atoi(logtype));
             }else{
-                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.gs_account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id order by date desc;");
+                snprintf(sqlstr, len, "select calls._id as calllog_id,calls.type as type,calls.name as name,calls.number as number,calls.account as account,calls.duration as duration,calls.date as date,calls.is_conference as is_conference,calls.media_type as mediatype, calls.group_id as confid, raw_contacts.display_name as contactname from calls left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id order by date desc;");
             }
         }
     }
@@ -990,7 +990,7 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
         snprintf(sqlstr, len, "select conf_log._id as conflog_id,conf_log.conf_name as name,conf_log.duration as duration,conf_log.start_time as date from conf_log order by date desc;");
     }
     else if( !strcasecmp(type, "conflog") ) {
-        snprintf(sqlstr, len, "select conf_log._id as conflog_id,conf_log.conf_name as confname,conf_log.duration as duration,conf_log.start_time as date,calls.number as number,calls.name as name,calls.gs_account as account,calls.group_id as conf_id,raw_contacts.display_name as contactname, calls.type as calltype, calls.duration as callduration, calls.date as calldate, calls.media_type as mediatype from conf_log left join calls on conf_log._id=calls.group_id and calls.is_conference=1 left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.gs_account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id order by date desc;");
+        snprintf(sqlstr, len, "select conf_log._id as conflog_id,conf_log.conf_name as confname,conf_log.duration as duration,conf_log.start_time as date,calls.number as number,calls.name as name,calls.account as account,calls.group_id as conf_id,raw_contacts.display_name as contactname, calls.type as calltype, calls.duration as callduration, calls.date as calldate, calls.media_type as mediatype from conf_log left join calls on conf_log._id=calls.group_id and calls.is_conference=1 left join (select _id, raw_contact_id,data1 as contactnumber,data11 as contactacct from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/phone_v2')) as data on calls.number=data.contactnumber and calls.account=data.contactacct left join raw_contacts on raw_contacts._id=data.raw_contact_id order by date desc;");
     }
     else if( !strcasecmp(type, "email") ) {
         snprintf(sqlstr, len, "select contacts._id as contacts_id,raw_contacts._id as raw_contacts_id,raw_contacts.display_name as contact_display_name,data.phone,data._id from contacts left join raw_contacts on contacts.name_raw_contact_id=raw_contacts._id left join (select _id, raw_contact_id,data1 as phone,data11 as accountid from data where mimetype_id=(select _id from mimetypes where mimetype='vnd.android.cursor.item/email_v2')) as data on raw_contacts._id=data.raw_contact_id;");
@@ -1000,8 +1000,15 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
         buffer_append_string(b,"{\"Response\":\"Error\"}");
         return -1;
     }
-    printf("sqlite_handle_contact, sql str is %s\n", sqlstr);
-    rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/contacts2.db", &db);
+    // printf("sqlite_handle_contact, sql str is %s\n", sqlstr);
+    // rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/contacts2.db", &db);
+    if (!strcasecmp(type, "leftcalllogall") || !strcasecmp(type, "confmember")) {
+        rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/calllog.db", &db);
+    } else if (!strcasecmp(type, "blacklist") || !strcasecmp(type, "whitelist")) {
+        rc = sqlite3_open("/data/data/com.android.providers.black/databases/blacklist.db", &db);
+    } else {
+        rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/contacts2.db", &db);
+    }
     if( rc ){
         printf("Can't open database: %s\n", sqlite3_errmsg(db));
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
@@ -1409,20 +1416,18 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             num ++;
         }
     }else if( !strcasecmp(type, "confmember") ) {
-        char *disname2, *memberdate;
+        char *memberdate;
         int data4, data5, iscontact, data6;
         while(sqlite3_step(stmt)==SQLITE_ROW ) {
-            //printf("num = %d\n", num);
             data1 = sqlite3_column_int(stmt, 0);    //conflog id
             data2 = sqlite3_column_int(stmt, 1);    //conf member log id
             phonenum = (char*)sqlite3_column_text(stmt, 2); //member number
             disname = (char*)sqlite3_column_text(stmt,3);   //member name
-            disname2 = (char*)sqlite3_column_text(stmt, 4);//member contact name
-            data3 = sqlite3_column_int(stmt, 5);    //member type
-            data4 = sqlite3_column_int(stmt, 6);    //member duration
-            memberdate = (char*)sqlite3_column_text(stmt, 7);//member date
-            data5 = sqlite3_column_int(stmt, 8);    //is video
-            data6 = sqlite3_column_int(stmt, 9);    //member account
+            data3 = sqlite3_column_int(stmt, 4);    //member type
+            data4 = sqlite3_column_int(stmt, 5);    //member duration
+            memberdate = (char*)sqlite3_column_text(stmt, 6);//member date
+            data5 = sqlite3_column_int(stmt, 7);    //is video
+            data6 = sqlite3_column_int(stmt, 8);    //member account
 
             if( phonenum == NULL ){
                 printf("phonenum is null\n");
@@ -1433,37 +1438,22 @@ int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
             }
 
             if( memberdate == NULL ){
-                printf("memberdate is null\n");
+                LOGD("memberdate is null");
                 continue;
             }
-            if( disname2 == NULL ){
-                iscontact = 0;
-                if( disname == NULL ){
-                    printf("disname is null\n");
-                }else{
-                    len = strlen(disname) * 2;
-                    targetname = malloc(len);
-                    memset(targetname, 0, len);
-                    snprintf(targetname, len, "%s", disname);
-                    json_handle(targetname);
-                    /*replace(disname, "\\", "\\\\", targetname);
-                    snprintf(disname, len, "%s", targetname);
-                    memset(targetname, 0, len);
-                    replace(disname, "\"", "\\\"", targetname);*/
-                }
+            if( disname == NULL ){
+                    LOGD("disname is null");
             }else{
-                iscontact = 1;
-                len = strlen(disname2) * 2;
+                len = strlen(disname) * 2;
                 targetname = malloc(len);
                 memset(targetname, 0, len);
-                snprintf(targetname, len, "%s", disname2);
+                snprintf(targetname, len, "%s", disname);
                 json_handle(targetname);
-                /*replace(disname2, "\\", "\\\\", targetname);
-                snprintf(disname2, len, "%s", targetname);
+                /*replace(disname, "\\", "\\\\", targetname);
+                snprintf(disname, len, "%s", targetname);
                 memset(targetname, 0, len);
-                replace(disname2, "\"", "\\\"", targetname);*/
+                replace(disname, "\"", "\\\"", targetname);*/
             }
-
             len = strlen(phonenum)+strlen(memberdate)+256;
             if( targetname != NULL ){
                 len += strlen(targetname);
