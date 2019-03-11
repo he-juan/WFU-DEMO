@@ -9353,7 +9353,7 @@ static int handle_originatecall (server *srv, connection *con,
 
             source = msg_get_header(m, "source");
             if (source == NULL) {
-                source = "";
+                source = "0";
             }
 
             callMode = msg_get_header(m, "callmode");
