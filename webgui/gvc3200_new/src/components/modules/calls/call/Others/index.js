@@ -17,7 +17,6 @@ class Others extends Component {
     this.state = {
       DTMFString: "",
       DTMFVisible: false,
-      DTMFDisplay: true,
       otherCtrlVisible: false,
       detailsModalVisible:false,
     }
@@ -87,7 +86,7 @@ class Others extends Component {
   }
 
   render() {
-    const {ctrlbtnvisible, linestatus} = this.props
+    const {ctrlbtnvisible, linestatus, DTMFDisplay} = this.props
     return (
       <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
         <Popover
@@ -106,7 +105,7 @@ class Others extends Component {
             <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} onHide={this.handlehidedetails} /> : ""
         }
         {/* 小键盘 */}
-        <DTMFModal visible={this.state.DTMFVisible} textdisplay={this.state.DTMFDisplay} DTMFString={this.state.DTMFString} onHide={this.hideDTMFModal}/>
+        <DTMFModal visible={this.state.DTMFVisible} textdisplay={DTMFDisplay} DTMFString={this.state.DTMFString} onHide={this.hideDTMFModal}/>
       </div>
     )
   }

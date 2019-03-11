@@ -46,6 +46,8 @@ class LayoutModal extends Component {
     let url = `/manager?action=${action}&region=${region}&time=${new Date().getTime()}`
     if(action == 'setcustommode') {
       let {hdmi1mode, hdmi1content, hdmi2content, hdmi2mode} =  this.state
+      hdmi1content = hdmi1content.replace('0', '0_main-video').replace('13', 'Camera').replace('12', 'Content').replace('15', '0_slide-video') // sfu版本后兼容
+      hdmi2content = hdmi2content.replace('0', '0_main-video').replace('13', 'Camera').replace('12', 'Content').replace('15', '0_slide-video') // sfu版本后兼容
       url += `${url}&hdmi1mode=${hdmi1mode}&hdmi1content=${hdmi1content.replace(/\,/g,':::')}&hdmi2content=${hdmi2content.replace(/\,/g,':::')}&hdmi2mode=${hdmi2mode}`
     }
     return new Promise((resolve, reject) => {
@@ -99,6 +101,7 @@ class LayoutModal extends Component {
         let hdmi2state = data[1].state;  // hdmi2
         let hdmi1mode = parseInt(data[2].mode);    // 4: 系统推荐, 等分模式; 5: 字母模式; 6: 画中画模式;  小于3的是自定义模式
         let hdmi1content = data[3].lines; // '0,13' 
+        hdmi1content = hdmi1content.replace('Content', '12').replace('0_slide-video' , '15').replace('0_main-video', '0').replace('Camera', '13').replace(/.*\s(main-video)/g, '0'); // sfu版本后兼容
 
         this.setState({
           hdmi1mode,
@@ -114,6 +117,7 @@ class LayoutModal extends Component {
           ]).then(data => {
             let hdmi2mode = parseInt(data[0].mode);
             let hdmi2content = data[1].lines;
+            hdmi2content = hdmi2content.replace('Content', '12').replace('0_slide-video' , '15').replace('0_main-video', '0').replace('Camera', '13').replace(/.*\s(main-video)/g, '0');
             this.setState({
               hdmi2mode,
               hdmi2content

@@ -5,8 +5,10 @@ import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {globalObj} from "../../../redux/actions/actionUtil"
-import FECCModal from "./FECCModal";
-import VideoinviteDialog from "./videoinviteDialog"
+import FECCModal from "./_FECCModal";
+import VideoInviteModal from "./_VideoInviteModal"
+import LinesList from './_LinesList'
+import IPVTShareCameraModal from './_IPVTshareCameraModal'
 import InviteMember from './InviteMember';
 import Record from './Record'
 import Presentation from './Presentation'
@@ -15,7 +17,6 @@ import Handsup from './Handsup'
 import Hold from './Hold'
 import EndCall from './EndCall'
 import Others from './Others'
-import LinesList from './LinesList'
 
 let tmpclass = "", ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden";
 let dialogLeaveTimeout;
@@ -27,15 +28,12 @@ class CallDialog extends Component {
         super(props);
 
 		this.state = {
-            callstatus: "callee-status",
-            holdtype: "",
             acctstatus: [],
-            displayFECCModal:false,
-            FECCline: "-1",
             
             is4kon: false,
             ishdmione4K: false,
-            isline4Kvideo: false
+            isline4Kvideo: false,
+            DTMFDisplay: true    //?
 		}
 		this.req_items = new Array();
         this.req_items.push(
@@ -223,28 +221,9 @@ class CallDialog extends Component {
     }
 
     
-
-
-
-    acceptipvtinvite = (line) => {
-        this.props.acceptorejectipvtcmr(line, "1");
-        this.props.setipvtcmrinviteinfo(null);
-    }
-
-    rejectipvtinvite = (line) => {
-        this.props.acceptorejectipvtcmr(line, "0");
-        this.props.setipvtcmrinviteinfo(null);
-    }
-
-
-    
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {callDialogStatus, linestatus, ipvtcmrinviteinfo, msfurole} = this.props;
-        let videoinvitelines = "";
-        if(this.props.videoinvitelines){
-            videoinvitelines = this.props.videoinvitelines.split(",");
-        }
+        let {callDialogStatus, linestatus, msfurole} = this.props;
         
 
         for(let i = 0 ; i < linestatus.length; i++){
@@ -310,13 +289,7 @@ class CallDialog extends Component {
             }
         }
 
-        let feccInfo = this.props.FECCStatus;
-        let feccline = "";
-        let feccdisplay = false;
-        if(feccInfo){
-            feccline = feccInfo.line;
-            feccdisplay = feccInfo.status == "1" ? true : false
-        }
+        
         if(callDialogStatus == 10){  //当所有线路均取消时 显示消失动画
             if(maskvisible == "display-block"){
                 tmpclass = "call-dialog-out call-dialog-out-active";
@@ -330,9 +303,6 @@ class CallDialog extends Component {
             }
         }
 
-        
-        let feccbtnvisile = !this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo);
-
         const _hasipvtline = this.hasipvtline()
         const _ispause = this.ispause()
         return (
@@ -342,7 +312,7 @@ class CallDialog extends Component {
                         <div className="ctrl-title">{this.tr("a_callconf")}</div>
                         <div className="shrink-icon" onClick={this.minimizeDialog}></div>
                     </div>
-                    <LinesList linestatus={linestatus} acctstatus={this.state.acctstatus} feccbtnvisile={feccbtnvisile} />
+                    <LinesList linestatus={linestatus} acctstatus={this.state.acctstatus} feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)} />
                     <div className="call-ctrl-btn">
                         {/* 添加成员按钮 */}
                         <InviteMember 
@@ -406,27 +376,16 @@ class CallDialog extends Component {
                             ctrlbtnvisible={ctrlbtnvisible}
                             ispause={_ispause}
                             hasipvtline={_hasipvtline}
+                            DTMFDisplay={this.state.DTMFDisplay}
                         />
 					</div>
-                    {
-                        videoinvitelines.length > 0 ?
-                            <VideoinviteDialog linestatus={this.props.linestatus}></VideoinviteDialog> : null
-                    }
 				</div>
                 {/* 本地摄像头控制 弹窗 */}
-                <FECCModal line={feccline} display={feccdisplay} handleHideModal={this.handleHideFECC}/>
-                {/* IPVT会议 邀请弹窗 */}
-                {
-                    ipvtcmrinviteinfo != null ?
-                        <Modal visible={ true } width={300} footer={null} closable={false} className="endall-confirm">
-                            <p className="confirm-content"><span>{ipvtcmrinviteinfo.name || ""}</span><span>{this.tr("a_10218")}</span></p>
-                            <div className="modal-footer">
-                                <Button type="primary" onClick={()=>this.acceptipvtinvite(ipvtcmrinviteinfo.line)}>{this.tr("a_10000")}</Button>
-                                <Button onClick={()=>this.rejectipvtinvite(ipvtcmrinviteinfo.line)}>{this.tr("a_19138")}</Button>
-                            </div>
-                        </Modal> : null
-                }
-
+                <FECCModal />
+                {/** 视频邀请弹窗 */}
+                <VideoInviteModal linestatus={this.props.linestatus}/>
+                {/* IPVT会议 '共享摄像头' */}
+                <IPVTShareCameraModal />
                 
             </div>
         );
@@ -435,11 +394,8 @@ class CallDialog extends Component {
 
 const mapStateToProps = (state) => ({
     msgsContacts: state.msgsContacts,
-    FECCStatus: state.FECCStatus,
     ipvrole: state.ipvrole,
-    videoinvitelines: state.videoinvitelines,
     heldStatus: state.heldStatus,
-    ipvtcmrinviteinfo: state.ipvtcmrinviteinfo,
     // sfu
     msfurole: state.msfurole
 })
@@ -461,8 +417,6 @@ function mapDispatchToProps(dispatch) {
       gethdmione4K: Actions.gethdmione4K,
       getline4Kvideo: Actions.getline4Kvideo,
       isallowipvtrcd: Actions.isallowipvtrcd,
-      acceptorejectipvtcmr: Actions.acceptorejectipvtcmr,
-      setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
       // sfu
       getsfuconfmyrole: Actions.getsfuconfmyrole
   }
