@@ -5025,6 +5025,119 @@ static int handle_putblf(buffer *b, const struct message *m)
     }
 }*/
 
+static int handle_callservice_by_one_param_string(server *srv, connection *con, buffer *b, const struct message *m, const char *paraname, const char *method)
+{
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 5000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *param = NULL;
+    char *temp = NULL;
+    char *info = NULL;
+    int tempparam;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, method );
+
+    printf("handle_callservice_by_one_param, param = %s, method = %s\n", paraname, method);
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        param = msg_get_header(m, paraname);
+
+        /*
+        if ( param == NULL )
+        {
+            tempparam = 0;
+        }else
+        {
+            tempparam = atoi(param);
+        }
+        */
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &param ) )
+        {
+            printf( "Out of Memory when %s!\n", method );
+            exit( 1 );
+        }
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n", error.name, error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't get result\"}";
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
+}
+
 static int handle_applyresponse (buffer *b)
 {
     char res[32] = "";
@@ -12413,12 +12526,18 @@ static int handle_putlanguage (buffer *b, const struct message *m)
     return 0;
 }
 
-static int handle_importlanguage(buffer *b)
+static int handle_importlanguage(server *srv, connection *con, buffer *b, const struct message *m)
 {
     importlanrsps = -1;
-    system("chmod 644 /data/import_language");
-    dbus_send_string(SIGNAL_IMPORT_CUSLANG);
-    buffer_append_string (b, "Response=Success\r\n");
+    //system("chmod 644 /data/import_language.txt");
+
+    char *cmd[] = {"chmod", "644", "/data/import_language.txt", 0};
+    doCommandTask(cmd, NULL, NULL, 0);
+
+//    dbus_send_string(DBUS_INTERFACE_GUI, SIGNAL_IMPORT_CUSLANG);
+    handle_callservice_by_no_param(srv, con, b, m, "updateUserTranslation");
+//    buffer_append_string (b, "Response=Success\r\n");
+
     return 0;
 }
 
@@ -12432,6 +12551,45 @@ static int handle_getimportlanresps (buffer *b)
     buffer_append_string(b, res);
 
     return 0;
+}
+
+static int handle_custLanExist (buffer *b)
+{
+    if(access("/data/import_language.txt", F_OK) == 0) {
+        buffer_append_string(b, "{\"Response\":\"Success\",\"isExist\":\"1\"}");
+    } else {
+        buffer_append_string (b, "{\"Response\":\"Success\",\"isExist\":\"0\"}");
+    }
+    return 0;
+}
+
+static int handle_rmcustlan(server *srv, connection *con, buffer *b, const struct message *m)
+{
+    char *cmd[] = {"rm", "/data/import_language.txt", 0};
+    int result = doCommandTask(cmd, NULL, NULL, 0);
+    if(result == 0)
+    {
+//        buffer_append_string (b, "{\"Response\":\"Success\"}");
+        handle_callservice_by_no_param(srv, con, b, m, "updateUserTranslation");
+    } else {
+        buffer_append_string (b, "{\"Response\":\"Error\"}");
+    }
+    return 1;
+}
+
+static int handle_getLocaleListByLevel(server *srv, connection *con, buffer *b, const struct message *m)
+{
+    const char *level = NULL;
+    const char *localeId = NULL;
+    level = msg_get_header(m, "level");
+    localeId = msg_get_header(m, "localeId");
+    if(!strcasecmp(level, "0"))
+    {
+        handle_callservice_by_no_param(srv, con, b, m, "getLocaleListByLevel1");
+    } else {
+        handle_callservice_by_one_param_string(srv, con, b, m, "localeId", "getLocaleListByLevel2");
+    }
+    return 1;
 }
 
 static int handle_importconfig(buffer *b)
@@ -12714,6 +12872,112 @@ static int handle_callforward(buffer *b, const struct message *m)
     }
 
     return 1;
+}
+
+static int handle_gettimezone_new (server *srv, connection *con, buffer *b, const struct message *m)
+{
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 5000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *temp = NULL;
+    char *info = NULL;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "getTimeZoneList" );
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        int isChinese = 0;
+        temp = msg_get_header(m, "lang");
+        if (temp != NULL) {
+            isChinese = atoi(temp);
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &isChinese ) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't call method\"}";
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
 }
 
 /*static int handle_settimezone (buffer *b, const struct message *m)
@@ -16141,7 +16405,7 @@ char *generate_file_name(buffer *b, const struct message *m)
         }
         else if (!strcasecmp(type, "importlan"))
         {
-            file_name = strdup(DATA_DIR"/import_language");
+            file_name = strdup(DATA_DIR"/import_language.txt");
         }
         else if (!strcasecmp(type, "importcfg"))
         {
@@ -23002,7 +23266,24 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_callservice_by_no_param(srv, con, b, m, "disconnectNetwork");
             } else if (!strcasecmp(action, "putwifiwpapsk")) {
                 handle_putwifiwpapsk(b, m);
-            } else {
+            } else if (!strcasecmp(action, "custLanExist")) {
+				handle_custLanExist(b);
+			} else if (!strcasecmp(action, "rmcustlan")) {
+				handle_rmcustlan(srv, con, b, m);
+			} else if (!strcasecmp(action, "getLocaleListByLevel")) {
+				handle_getLocaleListByLevel(srv, con, b, m);
+			}else if (!strcasecmp(action, "gettimezone")) {
+				//handle_callservice_by_no_param(srv, con, b, m, "getTimeZoneList");
+				handle_gettimezone_new(srv, con, b, m);
+			} else if (!strcasecmp(action, "savetimeset")) {
+				handle_callservice_by_one_param_string(srv, con, b, m, "timezone", "setTimezone");
+			} else if (!strcasecmp(action, "getlanguages")) {
+				handle_callservice_by_no_param(srv, con, b, m, "getCurLocale");
+			} else if (!strcasecmp(action, "importlang")) {
+				handle_importlanguage(srv, con, b, m);
+			} else if (!strcasecmp(action, "putlanguage")) {
+	            handle_callservice_by_one_param_string(srv, con, b, m, "lan", "setCurLocale");
+	        } else {
                 findcmd = 0;
             }
 #endif
@@ -23262,7 +23543,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 } else if (!strcasecmp(action, "restorecfg")) {
                     handle_restorecfg(b);
                 } else if (!strcasecmp(action, "importlang")) {
-                    handle_importlanguage(b);
+                    handle_importlanguage(srv, con, b, m);
                 } else if (!strcasecmp(action, "importlanrsps")) {
                     handle_getimportlanresps(b);
                 } else{
