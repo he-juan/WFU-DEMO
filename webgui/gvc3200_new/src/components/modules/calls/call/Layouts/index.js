@@ -59,7 +59,8 @@ const mapStateToProps = (state) => ({
   isvideo: state.isvideo,
   presentation: state.presentation,
   presentSource: state.presentSource,
-  presentLineMsg: state.presentLineMsg
+  presentLineMsg: state.presentLineMsg,
+  msfurole: state.msfurole
   
 })
 

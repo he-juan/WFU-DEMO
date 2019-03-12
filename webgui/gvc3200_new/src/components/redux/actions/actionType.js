@@ -119,7 +119,7 @@ export const IPVT_CAMERA_INVITE = 'IPVT_CAMERA_INVITE'
 
 // SFU
 export const SET_MSFUROLE = 'SET_MSFUROLE'
-
+export const SET_SFU_MEETINGINFO = 'SET_SFU_MEETINGINFO'
 
 
 // extension

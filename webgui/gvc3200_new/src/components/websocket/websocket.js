@@ -492,7 +492,17 @@ class HandleWebsocket extends React.Component {
             case 'IPVT_reject_camera_request':
                 if(message['status'] != "1")
                     this.props.setipvtcmrinviteinfo(null);
-                break
+                break;
+            case 'sfu_member_join':
+            case 'sfu_mute_member':
+            case 'sfu_member_leave':
+            case 'sfu_lock_meeting':
+                this.props.getsfuconfinfo();
+                break;
+            case 'sfu_change_host':
+                this.props.getsfuconfmyrole();
+                this.props.getsfuconfinfo();
+                break;
         }
     }
 
@@ -577,7 +587,11 @@ const mapDispatchToProps = (dispatch) => {
         setHDMIstatus: Actions.setHDMIstatus,
         isallowipvtrcd: Actions.isallowipvtrcd,
         setHandsupstatus: Actions.setHandsupstatus,
-        setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo
+        setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
+
+        //sfu
+        getsfuconfinfo: Actions.getsfuconfinfo,
+        getsfuconfmyrole: Actions.getsfuconfmyrole,
     }
     return bindActionCreators(actions, dispatch)
 }

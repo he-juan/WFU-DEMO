@@ -1,0 +1,40 @@
+.sfu-confline .sfu_lock {
+  background: url('../../../../../img/call/conf_control.png') -524px -271px no-repeat;
+}
+.sfu-confline .sfu_lock:hover {
+  background: url('../../../../../img/call/conf_control.png') -584px -271px no-repeat;
+}
+.sfu-confline .sfu_locked {
+  background: url('../../../../../img/call/conf_control.png') -524px -245px no-repeat;
+}
+.sfu-confline .sfu_locked:hover {
+  background: url('../../../../../img/call/conf_control.png') -584px -245px no-repeat;
+}
+
+.sfu-confline .sfu_mute {
+  background: url('../../../../../img/call/conf_control.png') 0px -245px no-repeat;
+}
+.sfu-confline .sfu_mute:hover {
+  background: url('../../../../../img/call/conf_control.png') 0px -297px no-repeat;
+}
+
+.sfu-confline .sfu_unmute {
+  background: url('../../../../../img/call/conf_control.png') -208px -245px no-repeat;
+}
+.sfu-confline .sfu_unmute:hover {
+  background: url('../../../../../img/call/conf_control.png') -208px -297px no-repeat;
+}
+
+.sfu-confline .sfu_tranhost {
+  background: url('../../../../../img/call/conf_control.png') -442px -271px no-repeat;
+}
+.sfu-confline .sfu_tranhost:hover {
+  background: url('../../../../../img/call/conf_control.png') -494px -271px no-repeat;
+}
+
+.sfu-confline .sfu_kick {
+  background: url('../../../../../img/call/conf_control.png') -442px -245px no-repeat;
+}
+.sfu-confline .sfu_kick:hover {
+  background: url('../../../../../img/call/conf_control.png') -494px -245px no-repeat;
+}

@@ -10,6 +10,37 @@ const promptForRequestFailed = () => (dispatch) => {
 }
 
 
+
+export const sendSingleCall = (num, acct, isvideo, isconf, source, callmode) => (dispatch) => {
+    let request = 'action=originatecall&number=' + num + "&account=" + acct + "&isvideo=" + isvideo + "&isconf=" + isconf + "&source=" + source + "&callmode=" + callmode;
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+export const endCall = (line) => (dispatch) => {
+    let request = 'action=endcall&line=' + line;
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+
+
+export const ctrlLineRecord = (line, setrecord) => (dispatch) => {
+    let request = "action=ctrllinerecord&line=" + line + "&setrecord=" + setrecord;
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+
 export const showCallDialog = (value) => (dispatch) => {
     //value: "end"/"minimize"-not render  9-enter  10-leave
     // GVC3210 多路通话  需要保存线路信息
@@ -306,7 +337,7 @@ export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, 
     addconfmemeber(numbers, accounts, confid,callmode,isvideo,isquickstart,pingcode,isdialplan,confname)(dispatch);
 }
 
-export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, isdialplan, isipcall, isvideo) => (dispatch) => {
+export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, isdialplan, isipcall, isvideo, source) => (dispatch) => {
     if (dialnum == "") {
         return false;
     }
@@ -381,7 +412,7 @@ export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, is
             isipcall = 1;
     }
     setTimeout(()=>{
-        cb_originate_call("originatecall&region=webservice&destnum=" + encodeURIComponent(dialnum) + "&account=" + dialacct + "&isvideo=" + isvideo + "&ispaging=" + ispaging + "&isipcall=" + isipcall + "&isdialplan=" + isdialplan + "&headerstring=&format=json", dialnum, dialacct)(dispatch);
+        cb_originate_call("originatecall&region=webservice&destnum=" + encodeURIComponent(dialnum) + "&account=" + dialacct + "&isvideo=" + isvideo + "&ispaging=" + ispaging + "&isipcall=" + isipcall + "&isdialplan=" + isdialplan +"&source="+ source + "&headerstring=&format=json", dialnum, dialacct)(dispatch);
     }, 100);
 }
 
@@ -1356,14 +1387,32 @@ export const getcmrnameandnumber = (callback) => (dispatch) => {
 
 
 
-/******************** SFU 版本 **********************/
+/******************** SFU 版本 ********************************************/
 
 
-// 判断是否是SFU会议 获取 msfurole
+// 判断是否是SFU会议  不稳定..
+// export const issfuconf = () => (dispatch) => {
+//     let request = 'action=issfuconf&region=webservice'
+//     request += "&time=" + new Date().getTime();
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         console.log(data)
+//     }) 
+// }
+// 设置 msfurole
+export const set_msfurole = (role) => {
+    return {
+        type: 'SET_MSFUROLE',
+        role: role
+    }
+}
+
+//  获取 msfurole
 export const getsfuconfmyrole = (cb, n = 0) => (dispatch) => {
     if(n > 4) {
-        dispatch({type: 'SET_MSFUROLE', role: -1})
-        cb(-1)
+        dispatch(set_msfurole(-1))
+        if(cb) {
+            cb(-1)
+        }
         return false
     }
     let request = "action=getsfuconfmyrole&region=webservice"
@@ -1371,12 +1420,64 @@ export const getsfuconfmyrole = (cb, n = 0) => (dispatch) => {
     actionUtil.handleGetRequest(request).then(function(data) {
         data =  eval("(" + data + ")");
         if(data.res == 'success') {
-            dispatch({type: 'SET_MSFUROLE', role: data.role})
-            cb(data.role)
+            dispatch(set_msfurole(data.role))
+            if(cb) {
+                cb(data.role)
+            }
         } else {
             setTimeout(() => {
                 dispatch(getsfuconfmyrole(cb, ++n))
-            }, 500);
+            }, 300);
         }
     })
+}
+
+// 全场静音或取消全场静音
+export const mutesfuallaudio = (ismute) => (dispatch) => {
+    //ismuted=0 取消全场静音  ismuted=1 全场静音
+    let request = "action=mutesfuallaudio&region=webservice&ismuted="+ismute
+    actionUtil.handleGetRequest(request).then(function(data) {})
+}
+
+// 获取SFU会议成员列表信息
+export const getsfuconfinfo = () => (dispatch) => {
+    let request = "action=getsfuconfinfo&region=webservice"
+    actionUtil.handleGetRequest(request).then(function(data) {
+        data = JSON.parse(data)
+        dispatch({type: 'SET_SFU_MEETINGINFO', info: data.meetingInfo})
+    })
+
+}
+
+// 锁定/解锁 sfu会议
+export const locksfuconf = (islock, cb) => (dispatch) => {
+    // islock  0 : 解锁; 1: 锁定;
+    let request = "action=locksfuconf&region=webservice&islock="+islock
+    actionUtil.handleGetRequest(request).then(function(data) {
+    })
+}
+
+// 静音/取消静音 单独成员线路
+
+export const mutesfumemberaudio = (ismuted, number) => (dispatch) => {
+    // ismuted 1: 静音 0: 取消静音
+    // number 成员号码
+    let request = "action=mutesfumemberaudio&region=webservice&number="+number+"&ismuted="+ismuted
+    request += "&time=" + new Date().getTime();
+    actionUtil.handleGetRequest(request).then(function(data) {
+    })
+}
+
+// 踢出成员
+export const kicksfumember = (number) => (dispatch) => {
+    // number 成员号码
+    let request = "action=kicksfumember&region=webservice&number="+number
+    actionUtil.handleGetRequest(request).then(function(data) {})
+}
+
+// 授予主持人
+export const transfersfuhost = (number) => (dispatch) => {
+    // number 成员号码
+    let request = "action=transfersfuhost&region=webservice&number="+number
+    actionUtil.handleGetRequest(request).then(function(data) {})
 }

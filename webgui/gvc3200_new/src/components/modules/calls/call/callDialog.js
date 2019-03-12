@@ -109,9 +109,8 @@ class CallDialog extends Component {
             });
         //当账号为0 时需要判断是否为sfu会议
         //  sfu 获取role
-        this.props.getsfuconfmyrole(function(role){
-
-        })
+        this.props.set_msfurole(null)
+        this.props.getsfuconfmyrole(function(role){})
     }
 
     componentWillUnmount = () => {
@@ -217,6 +216,7 @@ class CallDialog extends Component {
     // }
 
     componentWillUnmount = () => {
+        
         clearInterval(this.callTick);
     }
 
@@ -224,7 +224,6 @@ class CallDialog extends Component {
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let {callDialogStatus, linestatus, msfurole} = this.props;
-        
 
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
@@ -338,7 +337,6 @@ class CallDialog extends Component {
                             is4kon={this.state.is4kon}
                             acctstatus={this.state.acctstatus}
                             ispause={_ispause}
-                            msfurole={msfurole}
                             linestatus={linestatus} 
                         />
                         
@@ -418,7 +416,9 @@ function mapDispatchToProps(dispatch) {
       getline4Kvideo: Actions.getline4Kvideo,
       isallowipvtrcd: Actions.isallowipvtrcd,
       // sfu
-      getsfuconfmyrole: Actions.getsfuconfmyrole
+      issfuconf: Actions.issfuconf,
+      getsfuconfmyrole: Actions.getsfuconfmyrole,
+      set_msfurole: Actions.set_msfurole
   }
   return bindActionCreators(actions, dispatch)
 }

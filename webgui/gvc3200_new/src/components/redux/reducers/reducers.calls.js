@@ -211,11 +211,22 @@ export const ipvtRecordStatus = (state = "0", action) => {
 }
 
 
-// sfu
-export const msfurole = (state = "-1", action) => {
+// sfu 本地角色
+export const msfurole = (state = null, action) => {
     switch(action.type) {
         case Actions.SET_MSFUROLE:
             return action.role
+        default:
+            return state
+    }
+}
+
+
+// sfu 会议信息 包括成员列表
+export const sfu_meetinginfo = (state=null, action) => {
+    switch(action.type) {
+        case Actions.SET_SFU_MEETINGINFO:
+            return action.info || null
         default:
             return state
     }

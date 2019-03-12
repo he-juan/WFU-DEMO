@@ -387,35 +387,6 @@ export const getTonelistAll = (callback) => (dispatch) => {
     })
 }
 
-//################### calls ##################//
-export const sendSingleCall = (num, acct, isvideo, isconf, source, callmode) => (dispatch) => {
-    let request = 'action=originatecall&number=' + num + "&account=" + acct + "&isvideo=" + isvideo + "&isconf=" + isconf + "&source=" + source + "&callmode=" + callmode;
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
-
-export const endCall = (line) => (dispatch) => {
-    let request = 'action=endcall&line=' + line;
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
-
-
-
-export const ctrlLineRecord = (line, setrecord) => (dispatch) => {
-    let request = "action=ctrllinerecord&line=" + line + "&setrecord=" + setrecord;
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 //################## callset #################//
 export const readHideConfig = (callback) => (dispatch) => {
     let request = 'action=readconfig';
