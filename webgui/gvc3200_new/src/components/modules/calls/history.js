@@ -38,10 +38,8 @@ class History extends Component {
         //     this.props.getAllConfMember()
         // }
         this.props.get_calllog(0);
-        this.props.getNormalCalllogNames()
+        // this.props.getNormalCalllogNames()
         this.props.getAllConfMember()
-
-
     }
 
     isYestday = (theDate) => {

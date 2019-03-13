@@ -147,6 +147,7 @@ let req_items;
 class Call extends Component {
     historyList = [];
     selectedContactList = [];
+    curData = [];
     constructor(props) {
         super(props)
         this.state = {
@@ -188,9 +189,9 @@ class Call extends Component {
                 selacct: defaultacct
             });
         });
-        if(!this.props.callnameinfo.length) {
-            this.props.getNormalCalllogNames()
-        }
+        // if(!this.props.callnameinfo.length) {
+        //     this.props.getNormalCalllogNames()
+        // }
     }
 
     componentWillReceiveProps = () => {
@@ -224,20 +225,22 @@ class Call extends Component {
         }
     }
 
-    onSelectAllContacts = (e) => {
-        this.state.checkedAll = e.target.checked
-        let data = this.state.curContactList
+    onSelectAllContacts = (e, selectedRows) => {
+        // console.log(this.curData)
+        let selected = e.target.checked
+        let data = this.curData
         let selectedRowKeys = []
         let selectedContactList = []
         for (let i = 0; i < data.length; i++) {
-            if(e.target.checked) {
+            if(selected) {
                 selectedRowKeys.push(data[i].key)
                 selectedContactList.push({id:data[i].row0.logItem.Id,IsConf:data[i].row0.logItem.IsConf})
             }
         }
         this.selectedContactList = selectedContactList
         this.setState({
-            selectedRowKeys: selectedRowKeys
+            selectedRowKeys: selectedRowKeys,
+            checkedAll:selected
         });
     }
 
@@ -304,12 +307,12 @@ class Call extends Component {
     }
 
     _createRow0 = (text, record , index) => {
+
         let logItem = text.logItem
         let memberArr = text.memberArr
         let type = logItem.Type
+        // console.log('logItem',logItem,'text',text)
         if (type == '-1') {
-            // console.log(memberArr)
-            // console.log(text)
             type = memberArr[0].Type
         }
         let nameStr = ''
@@ -325,6 +328,7 @@ class Call extends Component {
         } else {
             nameStr = memberArr[0].Name
         }
+        // console.log(nameStr)
         return <span className={nameStr}><i className={"type" + type}></i>{nameStr}</span>;
     }
 
@@ -452,8 +456,10 @@ class Call extends Component {
         if(!logItemdata.length) {
             return dataResult
         }
-
-        // console.log(confmember,contactList,callnameinfo)
+        if(JSON.stringify(logItemdata)== '{}' || JSON.stringify(confmember)== '{}' || JSON.stringify(contactList)== '{}') {
+            return dataResult
+        }
+        // console.log(logItemdata,confmember,contactList,callnameinfo)
         for ( let i = 0; i < logItemdata.length; i++ ) {
             let data = {};
             let memberArr = []
@@ -471,24 +477,20 @@ class Call extends Component {
                         haslogItem = true
                     }
                 }
-            }
+            } 
             if (!haslogItem) {
-                for (let j = 0; callnameinfo[j] != undefined; j++) {
-                    if(callnameinfo[j].Id == logItemdata[i].Id) {
-                        let obj = logItemdata[i]
-                        obj.Name = callnameinfo[j].Name
-                        obj.Number = logItemdata[i].NameOrNumber
-                        obj.recordName = ''
-                        if(obj.Name != obj.Number) {
-                            obj.recordName = obj.Name
-                        }
-                        memberArr.push(obj)
-                    }
+                let obj = Object.assign({}, logItemdata[i])
+                obj.Number = logItemdata[i].NameOrNumber
+                obj.Name = logItemdata[i].NameOrNumber
+                obj.recordName = ''
+                if(obj.Name != obj.Number) {
+                    obj.recordName = obj.Name
                 }
+                memberArr.push(obj)
             }
             if(memberArr.length) {
                 data = {
-                    logItem : logItemdata[i],
+                    logItem :  logItemdata[i],
                     memberArr: memberArr
                 }
                 dataResult.push({
@@ -500,6 +502,7 @@ class Call extends Component {
             }
 
         }
+        this.curData = dataResult
         return dataResult
     }
 
@@ -682,12 +685,11 @@ class Call extends Component {
                         <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
-                {/*  加载完成后加载组件 可减少组件重复发送请求 */}
-                { !isloading ? <ContactEditDiv {...this.props} contactsInformation={contactsInformation} view_status_Duration={view_status_Duration} isToday={isToday} convertTime = {convertTime} displayDiv={this.state.displayDiv}
+                { this.state.displayDiv ? <ContactEditDiv {...this.props} contactsInformation={contactsInformation} view_status_Duration={view_status_Duration} isToday={isToday} convertTime = {convertTime} displayDiv={this.state.displayDiv}
                                                detailDiv = {this.state.detailDiv} callTr={callTr} handleHide={this.handleHide} handleAddContact={this.handleAddContact} />
                     : null
                 }
-                { !isloading ? <NewConEditForm {...this.props} callTr={this.props.callTr}
+                { this.state.displayNewConfModal ? <NewConEditForm {...this.props} callTr={this.props.callTr}
                                                handleHideNewConfModal= {this.handleHideNewConfModal}
                                                displayNewConfModal={this.state.displayNewConfModal}
                                                confMemberData={this.state.confMemberData}
