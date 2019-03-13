@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import Enhance from "../../../../mixins/Enhance"
 import * as Actions from '../../../../redux/actions/index'
-import { Button, Modal} from "antd"
+import { Button, Modal, Radio} from "antd"
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -16,6 +16,9 @@ class EndCall extends Component {
       endallConfirm1Visible: false,
       endallConfirm2Visible: false,
       endallConfirm2Title: "",
+      endallConfirm3Visible: false,
+      transferableHostList: [],
+      checkedHostNumber: ''
     }
   }
 
@@ -54,7 +57,21 @@ class EndCall extends Component {
                 });
             }
         });
-    }else{
+    } else if(this.props.msfurole == '2'){
+        let memeberList = this.props.sfu_meetinginfo.memberInfoList
+        this.props.getsfutransferablelist((list) => {
+            let _list = memeberList.filter(v => {
+                if(v.role == '2') return false
+                if(list.indexOf(v.number) < 0) return false
+                return true
+            })
+            this.setState({
+                endallConfirm3Visible: true,
+                transferableHostList: _list,
+                checkedHostNumber: _list[0].number
+            })
+        })
+    } else {
         this.setState({
             endallConfirm2Visible: true,
             endallConfirm2Title: this.tr("a_10103")
@@ -90,7 +107,23 @@ class EndCall extends Component {
         endallConfirm2Visible: false
     })
   }
+  handleEndall3Cancel = () => {
+    this.setState({
+        endallConfirm3Visible: false
+    })
+  }
+  checkHostRadio = (e) => {
+      this.setState({
+          checkedHostNumber: e.target.value
+      })
+  }
+//  转移主持人
+  tranHost = () =>　{
+    this.props.transfersfuhost(this.state.checkedHostNumber)
+    this.props.endconf("1");
+  }
   render() {
+    const {transferableHostList, checkedHostNumber} = this.state
     return (
       <span>
         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/>
@@ -111,6 +144,23 @@ class EndCall extends Component {
                 <Button onClick={this.handleEndall2Cancel}>{this.tr("a_3")}</Button>
             </div>
         </Modal>
+
+        {/* 结束会议确认框 3, sfu会议退出 主持人可转移主持权限*/}
+        <Modal visible={this.state.endallConfirm3Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall3Cancel}>
+            <p className="confirm-content" style={{margin:'25px 0 10px'}}>{this.tr('a_10364')}</p>
+            <Radio.Group value={checkedHostNumber} onChange={this.checkHostRadio.bind(this)} style={{display:'block', margin:'15px 25px 30px', overflow: 'auto', maxHeight: '200px'}} >
+                {
+                    transferableHostList.map((v) => (
+                        <Radio value={v.number} style={{display: 'inline-block',width:'50%',height: '30px',lineHeight: '30px',marginRight: '0', fontSize:'0.875rem'}}>{v.name}</Radio>
+                    ))
+                }
+            </Radio.Group>
+            <div className="modal-footer">
+                <Button type="primary" onClick={this.endAllCall}>{this.tr("a_10362")}</Button>
+                <Button type="primary" onClick={this.tranHost.bind(this)}>{this.tr("a_637")}</Button>
+                <Button onClick={this.handleEndall3Cancel}>{this.tr("a_3")}</Button>
+            </div>
+        </Modal>
       </span>
     )
   }
@@ -118,13 +168,16 @@ class EndCall extends Component {
 
 
 const mapStateToProps = (state) => ({
-  
+  msfurole: state.msfurole,
+  sfu_meetinginfo: state.sfu_meetinginfo,
 })
 
 const mapDispatchToProps = (dispatch) => {
   const actions = {
     endconf: Actions.endconf,
     getipvrole: Actions.getipvrole,
+    getsfutransferablelist: Actions.getsfutransferablelist,
+    transfersfuhost: Actions.transfersfuhost
      
   }
   return bindActionCreators(actions, dispatch)

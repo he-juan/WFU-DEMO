@@ -1481,3 +1481,14 @@ export const transfersfuhost = (number) => (dispatch) => {
     let request = "action=transfersfuhost&region=webservice&number="+number
     actionUtil.handleGetRequest(request).then(function(data) {})
 }
+
+// 获取可被转让为主持人的信息列表
+export const getsfutransferablelist = (cb) => (dispatch) => {
+    let request = "action=getsfutransferablelist&region=webservice"
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let _data = JSON.parse(data)
+        if(_data.res == 'success') {
+            cb(_data.transferableHostList)
+        }
+    })
+}

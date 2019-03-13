@@ -13,7 +13,6 @@ class LinesList extends Component {
 
     render() {
         const  { msfurole, ...rest } = this.props
-        console.log(msfurole)
         if(msfurole == null) return <div style={{height: 550}}></div>
         return msfurole >=1 ? <ListSFU {...rest} /> : <ListNormal {...rest} />
     }
