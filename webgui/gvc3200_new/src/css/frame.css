@@ -7064,7 +7064,18 @@ ol.mp_list li.mp_error {}
 }
 .ipvconfdivs {
     display: block;
-    height: 30px;
+    overflow: hidden;
+}
+.ipvconfdivs ul.confmember {
+    float: right;
+    width: 444px;
+}
+.ipvconfdivs ul.confmember li {
+    line-height: 30px;
+}
+.ipvconfdivs ul.confmember li span {
+    display: inline-block;
+    width: 30%;
 }
 #ipvconfurl {
     max-width: 420px;
@@ -7127,6 +7138,7 @@ ol.mp_list li.mp_error {}
     text-align: left;
     margin-top: 5px;
     color: #222222;
+    text-align: center;
 }
 .linelist span {
     margin-left: 22px;
@@ -7156,25 +7168,27 @@ ol.mp_list li.mp_error {}
     height: 50px;
     font-weight: bold;
 }
-.detailstitle div {
-    float: left;
-    text-align: center;
-}
 #detailsend {
-    width: 260px;
-    padding-left: 110px;
-    text-align: left;
+    width: 50%;
+    text-align: center;
     height: 50px;
     line-height: 50px;
+    float:left;
 }
 #detailreceive {
-    width: 260px;
-    text-align: left;
+    width: 50%;
+    text-align: center;
     height: 50px;
     line-height: 50px;
+    float:left;
 }
-.detailscontent .titlediv,.detailscontent .sendinfo,.detailscontent .receinfo {
+.detailscontent .titlediv,.detailscontent .sendinfo{
     float: left;
+    text-align: left;
+    font-size: 12px;
+}
+.detailscontent .receinfo  {
+    float: right;
     text-align: left;
     font-size: 12px;
 }

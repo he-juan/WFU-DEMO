@@ -1,0 +1,16 @@
+.details-mute {
+  background: url('../../../../../img/call/conf_control.png') 0px -245px no-repeat;
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+}
+
+
+.details-unmute {
+  background: url('../../../../../img/call/conf_control.png') -208px -245px no-repeat;
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+}

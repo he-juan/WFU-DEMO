@@ -284,7 +284,7 @@ class LinesList extends Component {
                               {/* 授予主持人 */}
                               <Button title={tr("a_10368")} className="sfu_tranhost" onClick={this.handleSfuTranhost.bind(this, item.number)}/>
                               {/* 静音成员 */}
-                              <Button title={item.isMuted =='0' ? tr("a_659") : tr("a_18")} className={item.isMuted == '0' ? 'sfu_mute' : 'sfu_unmute'} onClick={this.handleSfuMuteMember.bind(this, item.isMuted, item.number)}/>
+                              <Button title={item.isMuted =='1' ? tr("a_659") : tr("a_18")} className={item.isMuted == '1' ? 'sfu_mute' : 'sfu_unmute'} onClick={this.handleSfuMuteMember.bind(this, item.isMuted, item.number)}/>
                             </div>
                         </div>})
                       }

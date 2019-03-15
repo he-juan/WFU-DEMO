@@ -500,6 +500,7 @@ class HandleWebsocket extends React.Component {
                 this.props.getsfuconfinfo();
                 break;
             case 'sfu_change_host':
+            case 'sfu_login':
                 this.props.getsfuconfmyrole();
                 this.props.getsfuconfinfo();
                 break;

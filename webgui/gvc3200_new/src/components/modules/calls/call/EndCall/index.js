@@ -68,7 +68,7 @@ class EndCall extends Component {
             this.setState({
                 endallConfirm3Visible: true,
                 transferableHostList: _list,
-                checkedHostNumber: _list[0].number
+                checkedHostNumber: _list[0] ? _list[0].number : null
             })
         })
     } else {
@@ -147,17 +147,22 @@ class EndCall extends Component {
 
         {/* 结束会议确认框 3, sfu会议退出 主持人可转移主持权限*/}
         <Modal visible={this.state.endallConfirm3Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall3Cancel}>
-            <p className="confirm-content" style={{margin:'25px 0 10px'}}>{this.tr('a_10364')}</p>
-            <Radio.Group value={checkedHostNumber} onChange={this.checkHostRadio.bind(this)} style={{display:'block', margin:'15px 25px 30px', overflow: 'auto', maxHeight: '200px'}} >
-                {
-                    transferableHostList.map((v) => (
-                        <Radio value={v.number} style={{display: 'inline-block',width:'50%',height: '30px',lineHeight: '30px',marginRight: '0', fontSize:'0.875rem'}}>{v.name}</Radio>
-                    ))
-                }
-            </Radio.Group>
+            <p className="confirm-content" style={{margin:'25px 0 10px'}}>{ transferableHostList.length ? this.tr('a_10364') : this.tr("a_10363")}</p>
+            {
+                transferableHostList.length > 0 ? 
+                <Radio.Group value={checkedHostNumber} onChange={this.checkHostRadio.bind(this)} style={{display:'block', margin:'15px 25px 30px', overflow: 'auto', maxHeight: '200px'}} >
+                    {
+                        transferableHostList.map((v) => (
+                            <Radio value={v.number} style={{display: 'inline-block',width:'50%',height: '30px',lineHeight: '30px',marginRight: '0', fontSize:'0.875rem'}}>{v.name}</Radio>
+                        ))
+                    }
+                </Radio.Group> : null
+            }
             <div className="modal-footer">
                 <Button type="primary" onClick={this.endAllCall}>{this.tr("a_10362")}</Button>
-                <Button type="primary" onClick={this.tranHost.bind(this)}>{this.tr("a_637")}</Button>
+                {
+                    transferableHostList.length > 0 ? <Button type="primary" onClick={this.tranHost.bind(this)}>{this.tr("a_637")}</Button> : null
+                }
                 <Button onClick={this.handleEndall3Cancel}>{this.tr("a_3")}</Button>
             </div>
         </Modal>

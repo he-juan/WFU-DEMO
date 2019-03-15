@@ -8,6 +8,7 @@ import { Button, Popover} from "antd"
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DetailsModal from './DetailsModal'
+import DetailsModalSFU from './DetailsModal_sfu'
 import DTMFModal from './DTMFModal'
 
 
@@ -86,7 +87,7 @@ class Others extends Component {
   }
 
   render() {
-    const {ctrlbtnvisible, linestatus, DTMFDisplay} = this.props
+    const {ctrlbtnvisible, linestatus, DTMFDisplay, msfurole, acctstatus} = this.props
     return (
       <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
         <Popover
@@ -101,8 +102,12 @@ class Others extends Component {
 
         {/* 通话详情 */}
         {
-          linestatus.length >0 && this.state.detailsModalVisible?
+          linestatus.length > 0 && msfurole < 1 && this.state.detailsModalVisible ?
             <DetailsModal visible={this.state.detailsModalVisible} linestatus={this.props.linestatus} onHide={this.handlehidedetails} /> : ""
+        }
+        {
+          msfurole >= 1 && this.state.detailsModalVisible ?
+          <DetailsModalSFU visible={this.state.detailsModalVisible}  onHide={this.handlehidedetails} acctstatus={acctstatus}/> : ""
         }
         {/* 小键盘 */}
         <DTMFModal visible={this.state.DTMFVisible} textdisplay={DTMFDisplay} DTMFString={this.state.DTMFString} onHide={this.hideDTMFModal}/>
@@ -113,6 +118,7 @@ class Others extends Component {
 
 
 const mapStateToProps = (state) => ({
+  msfurole: state.msfurole,
   dndstatus: state.dndstatus,
   heldStatus: state.heldStatus
 })

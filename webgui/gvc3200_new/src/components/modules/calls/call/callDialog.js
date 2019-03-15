@@ -140,6 +140,7 @@ class CallDialog extends Component {
         let max = 4;
         for (let i = 0; i < max; i++) {
             let accountname = acctStatus[`account_${i}_name`];
+            let accountnumber = acctStatus[`account_${i}_no`];
             if (i == 3) {
 
                 if(acctStatus[`account_${6}_name`].length > 0){
@@ -154,7 +155,8 @@ class CallDialog extends Component {
                         "acctindex": i,
                         "register": acctStatus[`account_${6}_status`],
                         "activate": acctStatus[`account_${6}_activate`],
-                        "name": accountname
+                        "name": accountname,
+                        "number": accountnumber
                     });
             } else {
                 if (i == 0) {
@@ -171,7 +173,8 @@ class CallDialog extends Component {
                         "acctindex": i,
                         "register": acctStatus[`account_${i}_status`],
                         "activate": acctStatus[`account_${i}_activate`],
-                        "name": accountname
+                        "name": accountname,
+                        "number": accountnumber
                     });
             }
         }
@@ -375,6 +378,7 @@ class CallDialog extends Component {
                             ispause={_ispause}
                             hasipvtline={_hasipvtline}
                             DTMFDisplay={this.state.DTMFDisplay}
+                            acctstatus={this.state.acctstatus}
                         />
 					</div>
 				</div>
