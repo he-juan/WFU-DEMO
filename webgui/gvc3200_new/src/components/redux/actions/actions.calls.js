@@ -1492,3 +1492,27 @@ export const getsfutransferablelist = (cb) => (dispatch) => {
         }
     })
 }
+
+// 获取视频布局列表
+
+export const getsfuvideolayoutlist = (cb) => () => {
+    let request = "action=getsfuvideolayoutlist&region=webservice"
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let _data = JSON.parse(data)
+        if(_data.res == 'success') {
+            cb(_data.displayList)
+        }
+    })
+}
+
+// 开始录像
+
+export const startconfrecording = (sources) => () => {
+    let request = 'action=startconfrecording&source=' + sources + '&region=webservice'
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let _data = JSON.parse(data)
+        if(_data.res == 'success') {
+            cb(_data.displayList)
+        }
+    })
+}

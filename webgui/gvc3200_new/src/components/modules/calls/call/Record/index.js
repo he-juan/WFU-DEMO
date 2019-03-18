@@ -8,6 +8,7 @@ import { Button } from "antd"
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import RecordModal from './RecordModal'
+import RecordModalSFU from './RecordModal_sfu'
 
 /**
  * Record  prop: 
@@ -33,7 +34,7 @@ class Record extends Component {
         return false;
     }
     
-    if(this.props.hasipvtline && this.props.ipvrole == "2"){
+    if((this.props.hasipvtline && this.props.ipvrole == "2") || this.props.msfurole >= 1 ){
         this.setState({recordModalVisible:true});
         return;
     }
@@ -54,7 +55,7 @@ class Record extends Component {
   }
 
   render() {
-    const { ctrlbtnvisible, recordStatus, ipvtRecordStatus, is4kon, ishdmione4K, isline4Kvideo } = this.props;
+    const { ctrlbtnvisible, recordStatus, ipvtRecordStatus, is4kon, ishdmione4K, isline4Kvideo, msfurole } = this.props;
 
     let recordvisible = (!is4kon && (!ishdmione4K || !isline4Kvideo)) || this.props.ipvtrcdallowstatus;
 
@@ -67,7 +68,12 @@ class Record extends Component {
     return (
       <span>
         <Button title={this.tr("a_12098")} className={`${ctrlbtnvisible} ${recordclass}`} onClick={this.handleRecord.bind(this)}/>
-        <RecordModal visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)}/>
+        {
+          msfurole < 1 ? 
+          <RecordModal visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)}/>
+          :
+          <RecordModalSFU visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)} />
+        }
       </span>
     )
   }
@@ -75,6 +81,7 @@ class Record extends Component {
 
 
 const mapStateToProps = (state) => ({
+  msfurole: state.msfurole,
   ipvrole: state.ipvrole,
   recordStatus: state.recordStatus,
   ipvtRecordStatus: state.ipvtRecordStatus,
