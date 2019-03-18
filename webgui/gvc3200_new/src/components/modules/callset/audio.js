@@ -200,13 +200,13 @@ class Audio extends Component {
                         )}
                     </FormItem>
                     {/* 闹钟音量  */}
-                    <FormItem label={<span>{callTr("a_19017")}<Tooltip title={callTipsTr("Alarm Volume")}><Icon type="question-circle-o" /></Tooltip></span>}>
+                    {/* <FormItem label={<span>{callTr("a_19017")}<Tooltip title={callTipsTr("Alarm Volume")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("notifyVal", {
                             initialValue: parseInt(audioInfo['curNotify'])
                         })(
                             <Slider min={0} max={7} marks={{ 0: "0", 7: "7" }} />
                         )}
-                    </FormItem>
+                    </FormItem> */}
                     {/* speakerVal  */}
                     {/* <FormItem label={<span>{callTr("a_16255")}<Tooltip title={callTipsTr("Echo Delay")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("speakerVal", {

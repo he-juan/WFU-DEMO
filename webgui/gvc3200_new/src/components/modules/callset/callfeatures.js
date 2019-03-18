@@ -15,7 +15,7 @@ const req_items = [
     {"name":"discallwaittone", "pvalue":"186", "value":""},   // 无呼叫等待音
     {"name":"disdndring", "pvalue":"1486", "value":""},       // 禁用DND提示音
     {"name":"entrymute", "pvalue":"29607", "value":""},    // 接通时自动静音
-    {"name":"noiseblock", "pvalue":"25110", "value":""},    // Noise Shield
+    // {"name":"noiseblock", "pvalue":"25110", "value":""},    // Noise Shield
 
     // 规则
 
@@ -23,6 +23,7 @@ const req_items = [
     {"name":"disableincalldtmf", "pvalue":"338", "value":""},  // 禁止通话中DTMF显示
     {"name":"filterchars", "pvalue":"22012", "value":""},     // 过滤字符集 
     {"name":"callwait", "pvalue":"91", "value":""},         // 禁止呼叫等待
+    {"name":"DisableDirectIPCall", "pvalue":"277", "value":""}  // 禁用IP拨打模式
 ]
 
 
@@ -111,14 +112,14 @@ class CallfeaturesForm extends Component {
                     )}
                 </FormItem>
                 {/* Noise Shield */}
-                <FormItem label={<span>{callTr("Noise shield")}<Tooltip title={callTipsTr("Noise Shield")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                {/* <FormItem label={<span>{callTr("Noise shield")}<Tooltip title={callTipsTr("Noise Shield")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("noiseblock", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['noiseblock'])
                     })(
                         <Checkbox className={"P-25110"}/>
                     )}
-                </FormItem>
+                </FormItem> */}
 
                 <p className="blocktitle"><s></s>{callTr("a_19804")}</p>
                 {/* 将SIP URI中的'#'转义成%23 */}
@@ -157,7 +158,14 @@ class CallfeaturesForm extends Component {
                         <Checkbox className={"P-91"}/>
                     )}
                 </FormItem>
-                
+                <FormItem label={<span>{callTr("a_16293")}<Tooltip title={callTipsTr("Disable Direct IP Call")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                    {getFieldDecorator("DisableDirectIPCall", {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(itemvalue['DisableDirectIPCall'])
+                    })(
+                        <Checkbox className={"P-277"}/>
+                    )}
+                </FormItem>
                 
                 
                 

@@ -37,28 +37,28 @@ class Security extends Component {
                     <SecurityRmtacsForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                                         hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            } ,
+            },
             (hiddenOptions,i) => {
                 return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
                     <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                                           hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            } ,
+            },
             (hiddenOptions,i) => {
-                return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
-                    <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                return<TabPane tab={this.tr("a_9688")} key={i} tabName="screenlockpwd">
+                    <SecurityScreenLockForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                                           hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            } ,
+            },
             (hiddenOptions,i) => {
-                return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
-                    <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                return<TabPane tab={"SIP TLS"} key={i} tabName="siptls">
+                    <SecuritySiptlsForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                                           hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
-            } ,
+            },
             (hiddenOptions,i) => {
-                return<TabPane tab={this.tr("a_19806")} key={i} tabName="userinfo">
-                    <SecurityUserinfoForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
+                return<TabPane tab={this.tr("a_19807")} key={i} tabName="certificate">
+                    <SecurityCertificateForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr}
                                           hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
             }

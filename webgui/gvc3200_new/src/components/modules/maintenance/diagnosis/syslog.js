@@ -133,7 +133,7 @@ class SyslogForm extends Component {
                 </FormItem>
                 <FormItem className={ this.state.aSendlog } label={< span > {
                     callTr("a_19126")
-                } < Tooltip title = {callTipsTr("Send SIP Log")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {callTipsTr("Send SIP Log")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("sendlog", {
                         rules: [],
                         valuePropName: 'checked',

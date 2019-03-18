@@ -225,7 +225,7 @@ class Common extends Component {
         let itemList =
             <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}}>
                 <p className="blocktitle"><s></s>{this.tr("a_19655")}</p>
-                <FormItem className = "ip-address" label={< span > {this.tr("a_16652")} < Tooltip title = {this.tips_tr("Preferred DNS 1")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = "ip-address" label={< span > {this.tr("a_16652")} < Tooltip title = {this.tips_tr("Preferred DNS 1")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -298,7 +298,7 @@ class Common extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className = "ip-address" label={< span > {this.tr("a_19656")} < Tooltip title = {this.tips_tr("Preferred DNS 2")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = "ip-address" label={< span > {this.tr("a_19656")} < Tooltip title = {this.tips_tr("Preferred DNS 2")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -372,7 +372,7 @@ class Common extends Component {
                     )}
                 </FormItem>
 
-                <FormItem label={< span > { this.tr("a_16193") } < Tooltip title = {this.tips_tr("Enable LLDP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { this.tr("a_16193") } < Tooltip title = {this.tips_tr("Enable LLDP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("enablelldp", {
                         rules: [],
                         valuePropName: 'checked',
@@ -381,7 +381,19 @@ class Common extends Component {
                         <Checkbox className="P-1684"/>
                     )}
                 </FormItem>
-                <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                
+                <FormItem label={< span > {this.tr("a_19286")} < Tooltip title = {this.tips_tr("Enable CDP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                    {getFieldDecorator("enablecdp", {
+                        rules: [],
+                        valuePropName: 'checked',
+                        //initialValue: this.props.itemValues.enablecdp
+                        initialValue: Boolean(Number(this.props.itemValues.enablecdp))
+                    })(
+                        <Checkbox className="P-22119"/>
+                    )}
+                    <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
+                </FormItem>
+                <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qossip", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -395,7 +407,7 @@ class Common extends Component {
                         initialValue: this.props.itemValues.layer3qossip
                     })(<Input className="P-1558" disabled={this.state.input_disabled}/>)}
                 </FormItem>
-                <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4276")} < Tooltip title = {this.tips_tr("Layer 3 QoS for Audio")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4276")} < Tooltip title = {this.tips_tr("Layer 3 QoS for Audio")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qosaudio", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -411,7 +423,7 @@ class Common extends Component {
                 </FormItem>
                 <FormItem className = {this.state.openlldpStyle} label={< span > {
                     this.tr("a_4277")
-                } < Tooltip title = {this.tips_tr("Layer 3 QoS for Video")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                } < Tooltip title = {this.tips_tr("Layer 3 QoS for Video")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qosvideo", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -425,14 +437,14 @@ class Common extends Component {
                         initialValue: this.props.itemValues.layer3qosvideo
                     })(<Input className="P-1560" disabled={this.state.input_disabled}/>)}
                 </FormItem>
-                <FormItem label={< span > {this.tr("a_16194")} < Tooltip title = {this.tips_tr("HTTP/HTTPS User Agent")} > <Icon type="question-circle-o"/> < /Tooltip>< /span>}>
+                <FormItem label={< span > {this.tr("a_16194")} < Tooltip title = {this.tips_tr("HTTP/HTTPS User Agent")} > <Icon type="question-circle-o"/> </Tooltip></span>}>
                     {getFieldDecorator("useragent", {
                         rules: [ ],
                         initialValue: this.props.itemValues.useragent
                     })(<Input className="P-1541"/>)}
                     <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem label={< span > {this.tr("a_19128")} < Tooltip title = {this.tips_tr("SIP User Agent")} > <Icon type="question-circle-o"/> < /Tooltip>< /span>}>
+                <FormItem label={< span > {this.tr("a_19128")} < Tooltip title = {this.tips_tr("SIP User Agent")} > <Icon type="question-circle-o"/> </Tooltip></span>}>
                     {getFieldDecorator("sipuseragent", {
                         rules: [ ],
                         initialValue: this.props.itemValues.sipuseragent
@@ -481,6 +493,7 @@ class Common extends Component {
                         initialValue: this.props.itemValues.proxyhttp
                     })(<Input style = {{display:"none"}}/>)}
                 </FormItem>
+
             </Form>;
 
         let hiddenOptions = optionsFilter.getHiddenOptions(0);

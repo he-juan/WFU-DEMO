@@ -432,7 +432,7 @@ class CallForm extends React.Component {
                        valuePropName: 'checked',
                        initialValue: parseInt(dialplancheck[0])
                    })(
-                       <Checkbox>{callTr("a_321")} ＆ {callTr("a_19373")}</Checkbox>
+                       <Checkbox>{callTr("a_19373")}</Checkbox>
                    )}
 
                </FormItem>
