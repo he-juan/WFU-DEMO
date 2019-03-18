@@ -46,7 +46,9 @@ const nvram = {
     'removeobp': "2305",     // 从路由移除OBP
     'checkdomain': "2311",   // 检查域名证书
     'validatecert': "2867",    // 验证证书链
-    'RFC2543Hold': "26062"
+    'RFC2543Hold': "26062",
+    'rtpipfilter' : "26026",
+    'rtptimeout' : "29068"
 }
 
 class SipForm extends React.Component {
@@ -95,6 +97,8 @@ class SipForm extends React.Component {
             this.getReqItem("checkdomain", nvram["checkdomain"], ""),
             this.getReqItem("validatecert", nvram["validatecert"], ""),
             this.getReqItem("RFC2543Hold", nvram["RFC2543Hold"], ""),
+            this.getReqItem("rtpipfilter", nvram["rtpipfilter"], ""),
+            this.getReqItem("rtptimeout", nvram["rtptimeout"], ""),
         );
         return req_items;
     }
@@ -390,6 +394,34 @@ class SipForm extends React.Component {
                             <Option value="2">TLS</Option>
                         </Select>
                     )}
+                </FormItem>
+                {/* RTP IP过滤 */}
+                <FormItem label={(<span>{callTr("a_19154")}&nbsp;<Tooltip title={this.tips_tr("RTP IP Filter")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    {getFieldDecorator('rtpipfilter', {
+                        initialValue: this.props.itemValues['rtpipfilter'] ? this.props.itemValues['rtpipfilter'] : "0"
+                    })(
+                        <Select className={"P-" + nvram["rtpipfilter"]}>
+                            <Option value="0">{callTr("a_32")}</Option>
+                            <Option value="1">{callTr("a_19155")}</Option>
+                            <Option value="2">{callTr("a_19156")}</Option>
+                        </Select>
+                    )}
+                </FormItem>
+                {/* RTP 超时(秒) */}
+                <FormItem label={(<span>{callTr("a_19287")}&nbsp;<Tooltip title={this.tips_tr("RTP Timeout (s)")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    {getFieldDecorator('rtptimeout', {
+                        rules: [{
+                            validator: (data, value, callback) => {
+                                this.digits(data, value, callback)
+                            }
+                        }, {
+                            validator: (data, value, callback) => {
+                                this.range(data, value, callback, 0, 600)
+                            }
+                        }],
+                        initialValue: this.props.itemValues['rtptimeout']
+                        })(<Input className={"P-" + nvram["rtptimeout"]}/>)
+                   }
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_16094")}&nbsp;<Tooltip title={this.tips_tr("SIP URI Scheme When Using TLS")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipschema', {

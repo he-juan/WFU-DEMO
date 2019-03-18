@@ -1380,7 +1380,9 @@ tip_item_en.push (
 
     new TipsDef("Reboot", "Set the device to restart"),
     new TipsDef("Sleep", "Set the device to sleep mode"),
-    new TipsDef("Shutdown", "Turn off the device")
+    new TipsDef("Shutdown", "Turn off the device"),
+    new TipsDef("RTP Timeout (s)",
+        "Configures the RTP timeout of the phone. If the phone does not receive the RTP packet within the specified RTP time, the call will be automatically disconnected. The default range is 0-600. If set to 0, the phone will not hang up the call automatically.")
 
 
 
