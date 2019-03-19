@@ -11950,6 +11950,8 @@ static int handle_putportphbk (buffer *b, const struct message *m) {
 
         if (portType != NULL && strcmp(portType, "2") == 0) {
             sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.vcf");
+        } else if (strcmp(portType, "3") == 0) {
+            sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.csv");
         } else {
             sprintf(path, "%s/%s", TMP_PHONEBOOKPATH, "phonebook.xml");
         }
@@ -16392,7 +16394,15 @@ char *generate_file_name(buffer *b, const struct message *m)
             {
                 mkdir(TMP_PHONEBOOKPATH, 0777);
             }
-            file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.xml");
+            
+            char *filetype = msg_get_header(m, "t");
+            if (filetype != NULL && strcmp(filetype, "2") == 0) {
+                file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.vcf");
+            } else if (strcmp(filetype, "3") == 0) {
+                file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.csv");
+            } else {
+                file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.xml");               
+            }
             //file_name = strdup(TEMP_PATH"/phonebook_import");
         }
         else if (!strcasecmp(type, "upgradefile"))
