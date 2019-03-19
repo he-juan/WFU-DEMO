@@ -21,6 +21,6 @@ fi
 
 npm install --unsafe-perm=true --allow-root
 
-npm run build
+npm run product
 
 # 请使用root用户执行此脚本
