@@ -1063,7 +1063,7 @@ class CodecForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <p className="blocktitle"><s></s>{callTr("account_rtp")}</p>
+                <p className="blocktitle"><s></s>{callTr("a_19819")}</p>
                 {/* SRTP方式 */}
                 <FormItem className="select-item" label={(<span>{callTr("a_16128")}&nbsp;<Tooltip title={this.tips_tr("SRTP Mode")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('srtp', {

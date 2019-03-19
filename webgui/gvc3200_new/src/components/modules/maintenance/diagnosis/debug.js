@@ -440,7 +440,7 @@ class DebugForm extends Component {
                         <Button className="debug" type="primary" onClick = {this.checkoutList.bind(this)} >{this.tr("a_2106")}</Button>
                     )}
                 </FormItem>
-                <p className="blocktitle"><s></s>{this.tr("a_coredump")}</p>
+                <p className="blocktitle"><s></s>{this.tr("a_19823")}</p>
                 <FormItem label={( <span> {callTr("a_19262")} <Tooltip title={callTipsTr("Enable Core Dump Generation")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {getFieldDecorator("enabcoredump", {
                         rules: [],
