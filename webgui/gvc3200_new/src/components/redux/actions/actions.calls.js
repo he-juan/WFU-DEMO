@@ -1510,9 +1510,21 @@ export const getsfuvideolayoutlist = (cb) => () => {
 export const startconfrecording = (sources) => () => {
     let request = 'action=startconfrecording&source=' + sources + '&region=webservice'
     actionUtil.handleGetRequest(request).then(function(data) {
-        let _data = JSON.parse(data)
-        if(_data.res == 'success') {
-            cb(_data.displayList)
-        }
+        // let _data = JSON.parse(data)
+        // if(_data.res == 'success') {
+        //     cb(_data.displayList)
+        // }
+    })
+}
+
+// 邀请 sfu成员
+
+export const invitesfumember = (number) => () => {
+    let request = 'action=invitesfumember&region=webservice&number=' + number
+    actionUtil.handleGetRequest(request).then(function(data) {
+        // let _data = JSON.parse(data)
+        // if(_data.res == 'success') {
+        //     cb(_data.displayList)
+        // }
     })
 }

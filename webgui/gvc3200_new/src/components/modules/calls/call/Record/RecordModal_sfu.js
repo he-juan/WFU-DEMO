@@ -41,9 +41,11 @@ class RecordModalSFU extends Component {
       <Modal visible={visible} title="录像" onCancel={onHide} okText="保存" onOk={() => this.handleSubmit()}>
         <p style={{fontSize: 16, marginBottom:20}}>请选择要录制的屏幕,最多3方:</p>
         <Checkbox.Group value={checkedSource} onChange={(v) => this.handleCheck(v)}>
+        <p style={{lineHeight: '28px', overflow: 'hidden', width: 300, paddingLeft: 20}}><span>{'演示画面'}</span> <Checkbox style={{float: 'right'}} value="Content"></Checkbox></p>
           {
             list.map(v => {
-              return <p style={{lineHeight: '28px', overflow: 'hidden', width: 300, paddingLeft: 20}}><span>{v.name == 'null' ? '演示画面' : v.name}</span> <Checkbox style={{float: 'right'}} value={v.trackId}></Checkbox></p>
+              if (v.name == 'null') return null
+              return <p style={{lineHeight: '28px', overflow: 'hidden', width: 300, paddingLeft: 20}}><span>{ v.name}</span> <Checkbox style={{float: 'right'}} value={v.trackId}></Checkbox></p>
             })
           }
         </Checkbox.Group>

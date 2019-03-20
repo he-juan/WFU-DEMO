@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Enhance from "../../../../mixins/Enhance";
-import { promptMsg, getContacts, promptSpinMsg, getAcctStatus, cb_start_addmemberconf, cb_start_single_call } from '../../../../redux/actions';
+import { promptMsg, getContacts, promptSpinMsg, getAcctStatus, cb_start_addmemberconf, cb_start_single_call, invitesfumember } from '../../../../redux/actions';
 import { Modal, Select, Input, Checkbox } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -150,7 +150,7 @@ class InviteMemberModal extends Component {
         return false;
       }
       let existIpvt = this.hasExistIpvt(linestatus);  // 线路中是否存在ipvt
-      if((!existIpvt && itemAcc == 1) || itemAcc != 1){
+      if(!existIpvt && this.props.msfurole  < 1){
         let allow = maxlinecount - linestatus.length;   // 非IPVT 最大允许个数 
         let checkedItem = contactList.filter(item => {
           return item.AcctIndex != '1' && item.checked
@@ -159,6 +159,14 @@ class InviteMemberModal extends Component {
           return this.showError(this.tr('a_10097'));
         }
       };
+      if(this.props.msfurole == 2) {
+        let checkedItem = contactList.filter(item => {
+          return item.AcctIndex != '1' && item.checked
+        });
+        if(checkedItem.length >= 1 || item.AcctIndex != '0') {
+          return this.showError(this.tr('a_10097'));
+        }
+      }
       _contactList[i].checked = true;
       _contactList.unshift(_contactList.splice(i,1)[0]);
     } else {
@@ -214,7 +222,7 @@ class InviteMemberModal extends Component {
 
     let _contactList = this.state.contactList.slice();
     let existIpvt = this.hasExistIpvt(linestatus);  // 线路中是否存在ipvt
-    if((!existIpvt && itemAcc == 1) || itemAcc != 1){
+    if(!existIpvt && this.props.msfurole  < 1) {
       let allow = maxlinecount - linestatus.length;   // 非IPVT 最大允许个数 
       let checkedItem = _contactList.filter(item => {
         return item.AcctIndex != '1' && item.checked
@@ -226,6 +234,14 @@ class InviteMemberModal extends Component {
         return this.showError(this.tr('a_10097'));
       }
     };
+    if(this.props.msfurole == 2) {
+      let checkedItem = _contactList.filter(item => {
+        return item.AcctIndex != '1' && item.checked
+      });
+      if(checkedItem.length >= 1 || item.AcctIndex != '0') {
+        this.showError(this.tr('a_10097'));
+      }
+    }
     _contactList.unshift(newContact)
     this.setState({
       contactList: _contactList,
@@ -240,6 +256,15 @@ class InviteMemberModal extends Component {
     let _numbers_, _accounts_, _confid_, _callmode_, _isvideo_, _isquickstart_, _pingcode_, _isdialplan_, _confname_;
     let {contactFilter, callmode, mediaType, acctstatus, bjPassword, activeAcc} = this.state
     let checkedContacts = this.state.contactList.filter(item => item.checked);
+
+     // 如果是sfu会议 对接sfu邀请接口
+     if(this.props.msfurole == 2) {
+      this.props.invitesfumember(checkedContacts[0].Number);
+      this.props.onHide();
+      return;
+    }
+
+
     // 将输入框中的值插入数组
     if(contactFilter.length > 0) {
       let tempValue = contactFilter
@@ -371,7 +396,8 @@ const mapState = (state) => {
   return {
     msgsContacts: state.msgsContacts,
     maxlinecount: state.maxlinecount, // 最大连接数
-    callFeatureInfo: state.callFeatureInfo
+    callFeatureInfo: state.callFeatureInfo,
+    msfurole: state.msfurole
   }
 }
 const mapDispatch = (dispatch) => {
@@ -381,7 +407,8 @@ const mapDispatch = (dispatch) => {
     promptSpinMsg: promptSpinMsg,
     getAcctStatus: getAcctStatus,
     cb_start_addmemberconf: cb_start_addmemberconf,
-    cb_start_single_call: cb_start_single_call
+    cb_start_single_call: cb_start_single_call,
+    invitesfumember: invitesfumember
   }
   return bindActionCreators(actions, dispatch)
 }

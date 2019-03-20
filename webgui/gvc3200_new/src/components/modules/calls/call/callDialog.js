@@ -320,7 +320,7 @@ class CallDialog extends Component {
                         <InviteMember 
                             ctrlbtnvisible={ctrlbtnvisible} 
                             ispause={_ispause} 
-                            disabled={!_hasipvtline} 
+                            disabled={!_hasipvtline && msfurole != 2} 
                             linestatus={linestatus} 
                         />
                         {/* 录像按钮 */}

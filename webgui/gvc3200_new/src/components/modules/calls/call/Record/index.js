@@ -34,7 +34,7 @@ class Record extends Component {
         return false;
     }
     
-    if((this.props.hasipvtline && this.props.ipvrole == "2") || this.props.msfurole >= 1 ){
+    if((this.props.hasipvtline && this.props.ipvrole == "2") || (this.props.msfurole >= 1 && this.props.recordStatus == '0') ){
         this.setState({recordModalVisible:true});
         return;
     }

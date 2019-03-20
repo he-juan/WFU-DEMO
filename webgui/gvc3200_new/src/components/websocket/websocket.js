@@ -380,7 +380,11 @@ class HandleWebsocket extends React.Component {
                 }
                 break;
             case "local_mute":
-                this.handlemuteline(message);
+                if(message.flag.callrecord) {
+                    this.handleCallRecord(message.flag.callrecord)
+                } else {
+                    this.handlemuteline(message);
+                }
                 break;
             case 'updatename':
                 this.updatename(message);
@@ -529,7 +533,10 @@ class HandleWebsocket extends React.Component {
     handleClose = () => {
         //console.log("close")
     }
-
+    handleCallRecord = (callrecord) => {
+        let flag = callrecord.opt == 'start' ? 1 : 0
+        this.props.setRecordStatus(flag)
+    }
     handleUrl = () => {
         let ws_host = location.host
         let ws_protocol = location.protocol
