@@ -65,6 +65,7 @@
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 #include "web_ui_update.h"
+#include <cutils/properties.h>
 #include <android/log.h>
 
 #define  LOGD(x...) __android_log_print(ANDROID_LOG_DEBUG, "WebServer", x)
@@ -12411,39 +12412,63 @@ static int handle_setsyslogd(buffer *b)
     return 1;
 }
 
+static int handle_restart8021x(buffer *b)
+{
+    //system("/system/xbin/supplicant.sh restart &");
+    char *cmd1[] = {"/system/xbin/supplicant.sh", "restart", 0};
+    doCommandTask(cmd1, NULL, NULL, 0);
+
+    char *cmd2[] = {"am", "broadcast", "-a", "android.intent.action.ETHERNET_SET_SYNC", "-e", "eth_changed", "1", 0};
+    doCommandTask(cmd2, NULL, NULL, 0);
+
+    buffer_append_string(b, "Response=Success\r\n");
+
+    return 1;
+}
+
 static int handle_set_property(buffer *b, const struct message *m)
 {
     char *cmd = NULL;
-    const char *cmdtype = NULL;
-    cmdtype = msg_get_header(m, "type");
+    char *cmdtype = NULL;
+    char property_buf[80] = {0};
     int result = -1;
+
+    cmdtype = msg_get_header(m, "type");
 
     if( cmdtype != NULL )
     {
         int type = atoi(cmdtype);
-        const char *value = NULL;
+        char *value = NULL;
         value = msg_get_header(m, "value");
-        uri_decode((char*)value);
-        int len = 64+strlen(value);
-        cmd = malloc(len);
-        memset(cmd, 0, len);
-        if( type == 0 ){
-            snprintf(cmd, len, "setprop persist.dhcp.hostname \"%s\"", value);
-        }else if( type == 1 ){
-            snprintf(cmd, len, "setprop persist.dhcp.vendorclassid \"%s\"", value);
-        }else if( type == 2 ){
-            snprintf(cmd, len, "setprop persist.dhcp.vendorspec \"%s\"", value);
-        }else if( type == 3 ){
-            snprintf(cmd, len, "setprop dhcp.eth0.tftpserver \"%s\"", value);
+
+        if (value != NULL) {
+            uri_decode(value);
+
+            switch(type) {
+                case 0:
+                    strcpy(property_buf, "persist.dhcp.hostname");
+                    break;
+                case 1:
+                    strcpy(property_buf, "persist.dhcp.vendorclassid");
+                    break;
+                case 2:
+                    strcpy(property_buf, "persist.dhcp.vendorspec");
+                    break;
+                case 3:
+                    strcpy(property_buf, "dhcp.eth0.tftpserver");
+                    break;
+            }
+
+            result = property_set(property_buf, value);
         }
-        result = mysystem(cmd);
-        free(cmd);
     }
 
-    if( result == 0 )
+    if (result == 0) {
         buffer_append_string(b, "Response=Success\r\n");
-    else
+    } else {
         buffer_append_string(b, "Response=Error\r\n");
+    }
+
     return 1;
 }
 
@@ -22793,7 +22818,17 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
 
             close(file_fd);
             if ((!strcasecmp(file_name, PATH_802MODE"/ca.pem")) || (!strcasecmp(file_name, PATH_802MODE"/client.pem")) || (!strcasecmp(file_name, PATH_802MODE"/user.prv")) ){
-                chmod(file_name, 0744);
+                chmod(file_name, 0766);
+
+                if (!strcasecmp(file_name, PATH_802MODE"/ca.pem")) {
+                    nvram_unset("8439");
+                    nvram_commit();
+                }
+
+                if ((!strcasecmp(file_name, PATH_802MODE"/user.pem")) || (!strcasecmp(file_name, PATH_802MODE"/user.prv"))) {
+                    nvram_unset("8440");
+                    nvram_commit();
+                }
             }
 	}
 
@@ -23201,6 +23236,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_reboot(srv, con, b, m);
             } else if (!strcasecmp(action, "isupgrade")) {
                 handle_callservice_by_no_param(srv, con, b, m, "isUpgradingDevice");
+            } else if (!strcasecmp(action, "restart8021x")) {
+                handle_restart8021x(b);
             } else if (!strcasecmp(action, "setprop")) {
                 handle_set_property(b, m);
             //} else if (!strcasecmp(action, "sqlitesettings")) {
