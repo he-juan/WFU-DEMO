@@ -119,6 +119,7 @@ export const setItemValues = (items, values, flag, callback) => (dispatch) => {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
+            actionUtil.handleGetRequest('action=restart8021x')
             actionUtil.checkIsApplyNeed(dispatch);
             if (typeof callback === 'function') {
                 callback();
