@@ -153,7 +153,7 @@ class LanguageForm extends Component {
     }
 
     deleteCustom() {
-        Modal.confirm({
+        let modal = Modal.confirm({
             content: <span dangerouslySetInnerHTML={{__html: this.tr("a_19818")}}></span>,
             okText: <span dangerouslySetInnerHTML={{__html: this.tr("a_2")}}></span>,
             onOk:()=> {
@@ -161,7 +161,7 @@ class LanguageForm extends Component {
                     this.setState({
                         hasCustom:false
                     })
-                    Modal.destroy()
+                    modal.destroy()
                 })
             },
             cancelText: <span dangerouslySetInnerHTML={{__html: this.tr("a_3")}}></span>,

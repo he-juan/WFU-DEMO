@@ -282,7 +282,6 @@ export const deleteCustom = (callback) => (dispatch) => {
     actionUtil.handleGetRequest(request).then(function(data) {
         let tObj = JSON.parse(data);
         if(tObj.res=="success"){
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_del_ok'}});
             callback(tObj);
         }
     }).catch(function(error) {
