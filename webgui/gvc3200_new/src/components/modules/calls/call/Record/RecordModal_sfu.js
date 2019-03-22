@@ -9,9 +9,10 @@ import {Modal, Checkbox} from "antd"
 class RecordModalSFU extends Component {
   constructor() {
     super()
+    let recordSource = localStorage.getItem("recordSource") 
     this.state = {
       list: [],
-      checkedSource: []
+      checkedSource: recordSource ? recordSource.split(",") : []
     }
   }
   componentDidUpdate(prevProps) {
@@ -31,6 +32,7 @@ class RecordModalSFU extends Component {
   }
   handleSubmit = () => {
     let _checkedSource = this.state.checkedSource.join(',')
+    localStorage.setItem("recordSource", _checkedSource)
     this.props.startconfrecording(_checkedSource)
     this.props.onHide()
   }

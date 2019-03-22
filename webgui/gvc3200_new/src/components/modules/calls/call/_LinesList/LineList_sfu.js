@@ -69,13 +69,6 @@ class LinesList extends Component {
         sfu_lock: null
       }
     }
-    ispause = () => {
-        if(this.props.heldStatus == '1') {
-            this.props.promptMsg("WARNING", "a_10126");
-            return true;
-        }
-        return false;
-    }
 
     // 防止快速点击
     countClickedTimes = ()=>{

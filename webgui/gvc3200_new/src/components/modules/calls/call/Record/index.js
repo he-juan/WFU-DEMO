@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import Enhance from "../../../../mixins/Enhance"
 import * as Actions from '../../../../redux/actions/index'
-import { Button } from "antd"
+import { Button, Modal } from "antd"
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import RecordModal from './RecordModal'
@@ -30,7 +30,7 @@ class Record extends Component {
     if (!this.props.countClickedTimes()) {
         return false;
     }
-    if (this.props.ispause) {
+    if (this.props.ispause()) {
         return false;
     }
     
@@ -54,6 +54,10 @@ class Record extends Component {
     })
   }
 
+  handleContinueRecord = (flag) => {
+    localStorage.removeItem('isRecorded')
+    this.toogleRecordModal(flag);
+  }
   render() {
     const { ctrlbtnvisible, recordStatus, ipvtRecordStatus, is4kon, ishdmione4K, isline4Kvideo, msfurole } = this.props;
 
@@ -74,6 +78,17 @@ class Record extends Component {
           :
           <RecordModalSFU visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)} />
         }
+        <Modal
+          title="提示"
+          visible={this.props.heldStatus == '0' && localStorage.getItem('isRecorded') == '1'}
+          okText="确认"
+          onCancel={() => this.handleContinueRecord(false)}
+          onOk= {() => this.handleContinueRecord(true)}
+          cancelText="取消"
+          width="320"
+        >
+          <p style={{fontSize: 16, textAlign: 'left'}}>你要继续录像吗?</p>
+        </Modal>
       </span>
     )
   }
@@ -85,7 +100,8 @@ const mapStateToProps = (state) => ({
   ipvrole: state.ipvrole,
   recordStatus: state.recordStatus,
   ipvtRecordStatus: state.ipvtRecordStatus,
-  ipvtrcdallowstatus: state.ipvtrcdallowstatus
+  ipvtrcdallowstatus: state.ipvtrcdallowstatus,
+  heldStatus: state.heldStatus
 })
 
 const mapDispatchToProps = (dispatch) => {

@@ -22,7 +22,7 @@ class Layouts extends Component {
         this.props.promptMsg('WARNING', "a_10109");
         return;
     }
-    if(visible == true && this.props.ispause) {
+    if(visible == true && this.props.ispause()) {
         return;
     }
     this.setState({

@@ -19,7 +19,7 @@ class Presentation extends Component {
     }
   }
   tooglePresentModal = (visible) => {
-    if(visible == true && this.props.ispause) {
+    if(visible == true && this.props.ispause()) {
         return;
     }
     this.setState({

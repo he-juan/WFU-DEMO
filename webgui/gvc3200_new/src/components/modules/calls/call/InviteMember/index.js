@@ -15,7 +15,7 @@ class InviteMember extends Component {
     }
   }
   toogleInviteMemberModal = (visible) => {
-    if(visible == true && this.props.ispause) {
+    if(visible == true && this.props.ispause()) {
         return;
     }
     this.setState({

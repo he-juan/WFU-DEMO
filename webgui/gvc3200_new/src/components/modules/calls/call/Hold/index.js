@@ -38,6 +38,7 @@ class Hold extends Component {
     if(linestatus[0].state == "5" ){
         ishold = "0"
     }
+    
     this.props.confholdstate(ishold);
   }
 
@@ -59,8 +60,8 @@ class Hold extends Component {
 
 const mapStateToProps = (state) => ({
   videoonlines: state.videoonlines,
-  heldStatus: state.heldStatus
-
+  heldStatus: state.heldStatus,
+  recordStatus: state.recordStatus
 })
 
 const mapDispatchToProps = (dispatch) => {

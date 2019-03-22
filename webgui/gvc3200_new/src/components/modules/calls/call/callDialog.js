@@ -306,7 +306,7 @@ class CallDialog extends Component {
         }
 
         const _hasipvtline = this.hasipvtline()
-        const _ispause = this.ispause()
+        const _ispause = this.ispause
         return (
             <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
 				<div className={`call-ctrl ${tmpclass}`}>

@@ -372,10 +372,14 @@ class HandleWebsocket extends React.Component {
                     case "4":
                         // accept the call
                     case "5": //hold all line
+                        if(this.props.recordStatus == '1') {
+                            localStorage.setItem('isRecorded', '1')
+                        }
+                        this.changelinesstatus(message);
+                        break;
                     case "8":
                         // call failed
                         this.changelinesstatus(message);
-                        break;
                         break;
                 }
                 break;
@@ -508,6 +512,9 @@ class HandleWebsocket extends React.Component {
                 this.props.getsfuconfmyrole();
                 this.props.getsfuconfinfo();
                 break;
+            case 'unhold_continue_record':
+                localStorage.removeItem('isRecorded');
+                break;
         }
     }
 
@@ -535,6 +542,9 @@ class HandleWebsocket extends React.Component {
     }
     handleCallRecord = (callrecord) => {
         let flag = callrecord.opt == 'start' ? 1 : 0
+        if(flag == 1) {
+            localStorage.removeItem('isRecorded')
+        }
         this.props.setRecordStatus(flag)
     }
     handleUrl = () => {
@@ -565,7 +575,8 @@ const mapStateToProps = (state) => ({
     ipvrole: state.ipvrole,
     videoinvitelines: state.videoinvitelines,
     callDialogStatus: state.callDialogStatus,
-    videoonlines: state.videoonlines
+    videoonlines: state.videoonlines,
+    recordStatus: state.recordStatus
 })
 
 const mapDispatchToProps = (dispatch) => {

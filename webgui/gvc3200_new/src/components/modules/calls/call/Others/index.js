@@ -41,7 +41,7 @@ class Others extends Component {
   }
 
   showDTMF = () => {
-    if(this.props.ispause){
+    if(this.props.ispause()){
         return false;
     }
     this.props.getconfdtmf((data)=>{
