@@ -356,6 +356,7 @@ class HandleWebsocket extends React.Component {
                                 this.props.showCallDialog("end");
                             }, 1000);
                         }
+                        localStorage.removeItem('recordSource')
                         break;
                     case "1":
                     case "3":
@@ -514,6 +515,9 @@ class HandleWebsocket extends React.Component {
                 break;
             case 'unhold_continue_record':
                 localStorage.removeItem('isRecorded');
+                if(message['status'] == '0') {
+                    localStorage.removeItem('recordSource')
+                }
                 break;
         }
     }

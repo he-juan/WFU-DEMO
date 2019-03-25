@@ -226,7 +226,7 @@ class CallDialog extends Component {
     
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {callDialogStatus, linestatus, msfurole} = this.props;
+        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo} = this.props;
 
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
@@ -320,7 +320,7 @@ class CallDialog extends Component {
                         <InviteMember 
                             ctrlbtnvisible={ctrlbtnvisible} 
                             ispause={_ispause} 
-                            disabled={!_hasipvtline && msfurole != 2} 
+                            disabled={!_hasipvtline && msfurole != 2 || (sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 
                             linestatus={linestatus} 
                         />
                         {/* 录像按钮 */}
@@ -399,7 +399,8 @@ const mapStateToProps = (state) => ({
     ipvrole: state.ipvrole,
     heldStatus: state.heldStatus,
     // sfu
-    msfurole: state.msfurole
+    msfurole: state.msfurole,
+    sfu_meetinginfo: state.sfu_meetinginfo
 })
 
 function mapDispatchToProps(dispatch) {
