@@ -45,13 +45,15 @@ class ContactTab extends Component {
             selacct:-1,
             curAcct:null,
             curPage: 1,
-            updateState: ''
+            updateState: '',
+            maxImportCount: ''
 
         }
         req_items = new Array;
         req_items.push(
             this.getReqItem("defaultAcct", "22046", ""),
-            this.getReqItem("disdialplan", "2382", "")
+            this.getReqItem("disdialplan", "2382", ""),
+            this.getReqItem("maxImportCount", 1688, "")
         );
         this.callmode="0"; // "0": normal call;  "1": IP call
     }
@@ -78,7 +80,8 @@ class ContactTab extends Component {
             let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
             this.setState({
                 defaultacct: defaultacct,
-                selacct: defaultacct
+                selacct: defaultacct,
+                maxImportCount: maxImportCount
             });
         });
         this.updateContact(showloading);
@@ -610,6 +613,11 @@ class ContactTab extends Component {
             onSelectAll: this.onSelectAllContacts
         }
         const hasSelected = selectedRowKeys.length > 0;
+        let disAddMember = false
+        let maxImportCount = this.state.maxImportCount ? this.state.maxImportCount : 2000
+        if(data.length == maxImportCount) {
+            disAddMember = true
+        }
         return (
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>
@@ -622,7 +630,7 @@ class ContactTab extends Component {
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelContactsCancel}>
                             <p className="confirm-content">{this.tr("a_4798")}</p>
                         </Modal>
-                        <Button type="primary" style={{marginRight:'10px'}} onClick={this.showContactModal}>
+                        <Button type="primary" style={{marginRight:'10px'}} disabled={disAddMember} onClick={this.showContactModal}>
                             {this.tr("a_4840")}
                         </Button>
                         <Dropdown overlay={moreMenu} placement="bottomCenter">
@@ -651,7 +659,7 @@ class ContactTab extends Component {
                 </div>
                 {
                     this.state.displayImportModal ?
-                    <ImportEditForm  displayImportModal={this.state.displayImportModal}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                    <ImportEditForm  displayImportModal={this.state.displayImportModal} contactNum = {data.length} maxImportCount ={maxImportCount}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                     : null
                 }
                 {
@@ -661,7 +669,7 @@ class ContactTab extends Component {
                 }
                 {
                     this.state.displayDwonloadModal ?
-                    <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} /> 
+                    <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} contactNum = {data.length} maxImportCount ={maxImportCount} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} /> 
                     : null
                 }
                 <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/> 

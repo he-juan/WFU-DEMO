@@ -299,6 +299,12 @@ export const cb_put_download_param = (action, flag, data, downserver, downConfig
     });
 }
 
+const cb_get_response_done = (data,flag,cb_alert_response) => {
+    var msgs = actionUtil.res_parse_rawtext(data);
+    actionUtil.cb_if_is_fail(msgs);
+    cb_alert_response(msgs,flag);
+}
+
 export const getPresetInfo = (callback) => (dispatch) => {
     let request = 'action=getpresetinfo&region=control';
     actionUtil.handleGetRequest(request).then(function(res) {

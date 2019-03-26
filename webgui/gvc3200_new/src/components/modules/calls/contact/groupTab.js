@@ -61,16 +61,19 @@ class GroupTab extends Component {
         let datasource = this.selectedDataList
         let seletedArr = [];
         for (let i = 0; i <datasource.length ; i++) {
-            this.props.removeGroup(datasource[i].id);
             seletedArr = seletedArr.concat(datasource[i].id)
         }
+        var deleteId = seletedArr.join(',');
+        this.props.removeGroup(deleteId);
         let searchInput = $(".search_div #search")[1]
         if (searchInput.value) {
             searchInput.value = ""
         }
-        this.props.getGroups((result) => {
-            this._createData();
-        });
+        setTimeout(()=>{
+            this.props.getGroups(() => {
+               this._createData()
+            });
+        },300)
         this.selectedDataList = [];
         this.setState({
             selectedRowKeys: [],

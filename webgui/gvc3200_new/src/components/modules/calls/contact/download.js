@@ -122,6 +122,10 @@ class DownloadContactsForm extends Component {
     }
 
     handleDownloadContacts = () => {
+        if(this.props.maxImportCount == this.props.contactNum) {
+            this.props.promptMsg("ERROR", this.tr('a_4811'));
+            return
+        }
         if( document.all.downserver.value == "" ){
             this.props.promptMsg("ERROR", "a_19640");
             return false;
@@ -146,11 +150,11 @@ class DownloadContactsForm extends Component {
         let value = Math.floor((phbkprogress/max).toFixed(2) * 100);
 
         this.props.handleHideDownloadModal();
-
         if(Number(response) > 2 && flag == 1){
             Store.store.dispatch({type: 'MSG_PROMPT_SPIN', spinMsg: {spinStyle: "display-hidden", spinTip: 'a_downloading'}});
             this.props.progressMessage(value,'none',this.tr('a_3325'));
         }
+
         switch(response) {
             case '0':
             case '1':
@@ -171,6 +175,8 @@ class DownloadContactsForm extends Component {
                     errorMessage = 'a_19642';
                 } else if (errorCode == 22) {
                     errorMessage = 'a_19643';
+                } else if (errorCode == 23) { //解析失败
+                    errorMessage = 'a_56';
                 }
                 this.props.promptMsg("ERROR", errorMessage);
                 break;
@@ -239,6 +245,24 @@ class DownloadContactsForm extends Component {
 
     handleCancel = () => {
         this.props.handleHideDownloadModal();
+    }
+
+    handleDownServer = (e) => {
+        let text = e.target.value.trim();
+        if(text.length > 4) {
+            let pre = text.substring(0,4).toLowerCase()
+            if(pre == 'tftp') {
+                this.props.form.setFieldsValue({'downmode':'1'})
+            } else if (pre == 'http') {
+                this.props.form.setFieldsValue({'downmode':'2'})
+            } else {
+                let pre2 = text.substring(0,5).toLowerCase()
+                if(pre2 == 'https') {
+                    this.props.form.setFieldsValue({'downmode':'3'})
+                }
+            }
+        }
+        
     }
 
     render() {
@@ -327,7 +351,7 @@ class DownloadContactsForm extends Component {
                             }],
                             initialValue: itemValues['downserver']
                         })(
-                            <Input type="text" className="P-331"/>
+                            <Input type="text" onChange={this.handleDownServer.bind(this)} className="P-331"/>
                         )}
                     </FormItem>
                     <FormItem className={this.state.httpuservisible} label={(<span>{callTr("a_4111")}&nbsp;<Tooltip title={this.tips_tr("Config HTTP/HTTPS User Name")}><Icon type="question-circle-o" /></Tooltip></span>)} >

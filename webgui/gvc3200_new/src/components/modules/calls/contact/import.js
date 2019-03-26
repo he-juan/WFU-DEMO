@@ -141,6 +141,12 @@ class ImportEdit extends Component {
     }
 
     beforeUploadhandle = (file, fileList) => {
+        if(this.props.maxImportCount == this.props.contactNum) {
+            let errorMessage = this.tr('a_19653') + this.itemvalues['maxImportCount'] + "!";
+            this.props.promptMsg("ERROR", errorMessage);
+            return
+        }
+
         return new Promise((resolve, reject) => {
             this.props.cb_ping();
             resolve(file);
