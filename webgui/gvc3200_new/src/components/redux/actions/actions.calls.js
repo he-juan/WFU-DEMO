@@ -194,10 +194,10 @@ export const cb_originate_call = (action, numbers, accounts) => (dispatch) => {
     });
 }
 // 添加会议成员
-export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isquickstart, pingcode, isdialplan, confname) => (dispatch) => {
+export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isquickstart, pingcode, isdialplan, confname, source) => (dispatch) => {
     let request = 'action=addconfmemeber&region=confctrl&numbers=' + encodeURIComponent(numbers) + "&accounts=" +
         encodeURIComponent(accounts) + "&confid=" + confid + "&callmode=" + callmode + "&isvideo=" + isvideo +
-        "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan + "&confname=" + confname;
+        "&isquickstart=" + isquickstart + "&pingcode=" + pingcode + "&isdialplan=" + isdialplan + "&confname=" + confname + "&source="+ source;
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function (data) {
@@ -227,9 +227,10 @@ export const quickStartIPVConf = (isvideo) => (dispatch) => {
     });
 }
 
-export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, confid, isdialplan, confname, isvideo, isquickstart, pingcode) => (dispatch) => {
+export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, confid, isdialplan, confname, isvideo, source, isquickstart, pingcode) => (dispatch) => {
     //check if all the lines are busy
     let { busylinenum, maxlinecount, linesInfo, heldStatus } = store.getState();
+    // 保持状态不能拨打
     if(heldStatus == "1"){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10080'}});
         return;
@@ -243,12 +244,13 @@ export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, 
             alllinebusyflag = false;
         }
     }
-
+    // 在忙线路为最大线路 且 非IPVT会议 不能拨打
     if(alllinebusyflag){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_16683'}});
         return;
     }
     //check remote upgrading
+    // 设备正在升级不能拨打
     if(getremoteupgradestate()){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19236'}});
         return false;
@@ -260,6 +262,7 @@ export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, 
             unactive ++;
         }
     }
+    // 所有帐号未激活不能拨打
     if(unactive == accountArr.length){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_19374'}})
         return false;
@@ -334,7 +337,7 @@ export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, 
     var urihead;
     if (callmode == undefined || callmode == "")
         callmode = "call";
-    addconfmemeber(numbers, accounts, confid,callmode,isvideo,isquickstart,pingcode,isdialplan,confname)(dispatch);
+    addconfmemeber(numbers, accounts, confid,callmode,isvideo,isquickstart,pingcode,isdialplan,confname, source)(dispatch);
 }
 
 export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, isdialplan, isipcall, isvideo, source) => (dispatch) => {

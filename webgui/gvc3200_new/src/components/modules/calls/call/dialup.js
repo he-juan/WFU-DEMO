@@ -115,7 +115,8 @@ class DialUpForm extends Component {
                 let selacct = self.state.selacct;
                 let mNumber;
                 if (data.name == undefined) {
-                    mNumber = data + ":::" + selacct;
+                    let source = "2"
+                    mNumber = data + ":::" + selacct + ":::" + source;
                     if (mHasIPVNumber == 0 && selacct == 1) {
                         mHasIPVNumber = 1;
                     }
@@ -312,7 +313,7 @@ class DialUpForm extends Component {
             this.setState({displayitems: this.globalItems});
         });
     }
-
+    // 获取账号状态并处理
     getAcctStatusData = (acctstatus) => {
         let curAcct = [];
         let selacct = this.state.selacct;
@@ -363,11 +364,6 @@ class DialUpForm extends Component {
         this.setState({acctstatus: curAcct});
     }
 
-    clickToAddAcct = () => {
-        this.props.setCurMenu(['account']);
-        hashHistory.push('/account');
-        this.props.jumptoTab(0);
-    }
 
     filterNumber = (e) => {
         let value = e.target.value.trim();
@@ -459,13 +455,16 @@ class DialUpForm extends Component {
 
             let dialnum = "";
             let dialacct = "";
+            let dialsource = "";
             for (var i = 0; i < values.length; i++) {
                 if (dialnum != "") {
                     dialnum += ":::";
                     dialacct += ":::";
+                    dialsource += ':::';
                 }
                 dialnum += values[i].split(":::")[0];
                 dialacct += values[i].split(":::")[1];
+                dialsource += values[i].split(":::")[2];
             }
             if (dialnum == "") {
                 setTimeout(function () {
@@ -487,9 +486,9 @@ class DialUpForm extends Component {
                         isdialplan += ":::" + mDisDialrule[6];
                 }
                 if (values.length == 1 && !this.hasipvtline()) {
-                    this.props.cb_start_single_call(acctstatus, dialnum, dialacct, 0, isdialplan, isipcall , isvideo);
+                    this.props.cb_start_single_call(acctstatus, dialnum, dialacct, 0, isdialplan, isipcall , isvideo, dialsource);
                 } else {
-                    this.props.cb_start_addmemberconf(acctstatus, dialnum, dialacct, mode, "", isdialplan, "", isvideo);
+                    this.props.cb_start_addmemberconf(acctstatus, dialnum, dialacct, mode, "", isdialplan, "", isvideo, dialsource);
                 }
                 $('#inputnum').manifest('remove');
             }
@@ -597,7 +596,7 @@ class DialUpForm extends Component {
     // 一级记录名称
     _renderName = (text, record, index) => {
         return <div style={{height: '44px', lineHeight: '44px'}}>
-            <div className={`display-icon item-type${record.row3.Type}`}></div>
+            <div className={'display-icon item-type' + record.row3.Type}></div>
             <div className="ellips contactstext contactname">{text.replace(/:::/g,",")}</div>
         </div>
     }
@@ -636,12 +635,23 @@ class DialUpForm extends Component {
         </div>
     }
 
+    mapToSource = (type) => {
+       let mapper = {
+           '1': '3', //来电 source 取 3
+           '2': '4', //去电 source 取 4,
+           '3': '3', //未接来电 source 取 3,
+           '0': '1', //联系人 source 取1,
+       }
+       return mapper[type] || '0'
+    }
+
     /**
      *
      * @param type   1：点击整条记录下的单条的添加按钮；  0：点击整条记录右边的添加按钮
      * @param e event
      */
     addtoinputbox = (record, type, e) =>{
+        let _this = this
         e.stopPropagation();
         const { busylinenum, maxlinecount, promptMsg } = this.props;
         let curMaxlineNum = maxlinecount - busylinenum;
@@ -682,17 +692,30 @@ class DialUpForm extends Component {
         if(type == 1){
             $('#inputnum').manifest('add', {
                 name: this.htmlEncode(record.Name),
-                number: this.htmlEncode(record.Number) + ":::" + record.Account
+                number: this.htmlEncode(record.Number) + ":::" + record.Account + ':::' + _this.mapToSource(record.Type)
             });
         } else if(type == 0){
-            let names = record.row0.split(',');
-            let numbers = record.row1.split(',');
+            let names = record.row0.split(':::');
+            let numbers = record.row1.split(':::');
             let accounts = [];
+            let sources = [];
             if(record.row3.Type == "0"){
                 accounts = record.row3.AcctIndex.split(":::") ;
+                
             }else{
                 accounts = record.row3.Account.split(":::") ;
             }
+            if(record.row3.Type == "-1") {
+                let members = this.props.confmemberinfodata.filter(v => {
+                    return v.Id == record.row3.Id
+                })
+                sources = members.map(v => {
+                    return _this.mapToSource(v.Type)
+                })
+            } else {
+                sources[0] = _this.mapToSource(record.row3.Type)
+            }
+
             let hasdisipv = false;
             let newmembernum = 0;
             for(let i = 0; i < numbers.length; i++) {
@@ -703,7 +726,7 @@ class DialUpForm extends Component {
                 newmembernum++;
                 $('#inputnum').manifest('add', {
                     name: this.htmlEncode(names[i]),
-                    number: this.htmlEncode(numbers[i]) + ":::" + accounts[i]
+                    number: this.htmlEncode(numbers[i]) + ":::" + accounts[i] + ":::" + sources[i]
                 });
             }
             mClickAdd = 0;
