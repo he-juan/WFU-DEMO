@@ -405,7 +405,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
             len = strlen(str) + 128;
             sendData = malloc(len);
             memset(sendData,0,len);
-            snprintf(sendData,len,"{\"type\":\"local_mute\",\"line\":\"%d\",\"flag\":\"%s\"},",i,str);
+            snprintf(sendData,len,"{\"type\":\"local_mute\",\"line\":\"%d\",\"flag\":%s},",i,str);
             //printf("has a call: %d\n",open_cache);
             sendDataToSocket(sendData);
             free(sendData);

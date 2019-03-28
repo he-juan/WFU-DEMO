@@ -23709,8 +23709,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 else if (!strcasecmp(action, "vgaread")){
                     handle_vgaread(srv, con, b, m);
-                }
-                 else{
+                } else if (!strcasecmp(action, "getsfuconfmyrole")) {
+                // TODO
+                    buffer_append_string(b, "{\"res\":\"failed\", \"msg\":\"memberInfo is null!\"}");
+                } else {
                     findcmd = 0;
                 }
             }
