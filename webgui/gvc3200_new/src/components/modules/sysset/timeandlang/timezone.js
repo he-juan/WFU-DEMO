@@ -48,7 +48,7 @@ class TimezoneForm extends Component {
              this.getReqItem("ntpaddr", "30", ""),
              this.getReqItem("overridentp", "144", ""),
              this.getReqItem("overrideset", "143", ""),
-             //this.getReqItem("timezone", "64", ""),
+             this.getReqItem("timezone", "64", ""),
              this.getReqItem("timefmt", "122", ""),
              this.getReqItem("datefmt", "102", ""),
              this.getReqItem("ntpaddr2", "8333", ""), // 指定网络时间协议服务器地址 2
@@ -122,6 +122,10 @@ class TimezoneForm extends Component {
         if (nextProps.activeKey == this.props.tabOrder) {
             if (this.props.activeKey != nextProps.activeKey) {
                 this.props.getItemValues(req_items);
+                this.getDateInfo();
+                this.props.getTimezone(this.props.curLocale,(values) => {
+                    this.getTimezone_suc(values);
+                });
                 this.props.form.resetFields();
             }
             if (this.props.enterSave != nextProps.enterSave) {

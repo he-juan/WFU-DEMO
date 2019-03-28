@@ -83,30 +83,30 @@ class CallDialog extends Component {
                 this.setState({DTMFDisplay: true});
             }
         });
-        let getis4kcon = new Promise((resolve, reject) => {
-            this.props.getHDMI1Resolution((is4kon) => {
-                resolve(is4kon);
-            });
-        });
-        let gethdmione4K = new Promise((resolve, reject) => {
-            this.props.gethdmione4K(true, (ishdmione4K) => {
-                resolve(ishdmione4K);
-            });
-        });
-        let getline4Kvideo = new Promise((resolve, reject) => {
-            this.props.getline4Kvideo(true, (isline4Kvideo) => {
-                resolve(isline4Kvideo);
-            })
-        })
+        // let getis4kcon = new Promise((resolve, reject) => {
+        //     this.props.getHDMI1Resolution((is4kon) => {
+        //         resolve(is4kon);
+        //     });
+        // });
+        // let gethdmione4K = new Promise((resolve, reject) => {
+        //     this.props.gethdmione4K(true, (ishdmione4K) => {
+        //         resolve(ishdmione4K);
+        //     });
+        // });
+        // let getline4Kvideo = new Promise((resolve, reject) => {
+        //     this.props.getline4Kvideo(true, (isline4Kvideo) => {
+        //         resolve(isline4Kvideo);
+        //     })
+        // })
 
-        let promiseAll = Promise.all([getis4kcon, gethdmione4K, getline4Kvideo])
-            .then((result) => {
-                this.setState({
-                    is4kon: result[0],
-                    ishdmione4K: result[1] == "true" ? true : false,
-                    isline4Kvideo: result[2] == "true" ? true : false
-                });
-            });
+        // let promiseAll = Promise.all([getis4kcon, gethdmione4K, getline4Kvideo])
+        //     .then((result) => {
+        //         this.setState({
+        //             is4kon: result[0],
+        //             ishdmione4K: result[1] == "true" ? true : false,
+        //             isline4Kvideo: result[2] == "true" ? true : false
+        //         });
+        //     });
         //当账号为0 时需要判断是否为sfu会议
         //  sfu 获取role
         this.props.set_msfurole(null)
@@ -416,9 +416,9 @@ function mapDispatchToProps(dispatch) {
       getBFCPMode: Actions.getBFCPMode,
       callstatusreport: Actions.callstatusreport,
       setDeviceCallFeature: Actions.setDeviceCallFeature,
-      getHDMI1Resolution : Actions.getHDMI1Resolution,
-      gethdmione4K: Actions.gethdmione4K,
-      getline4Kvideo: Actions.getline4Kvideo,
+    //   getHDMI1Resolution : Actions.getHDMI1Resolution,
+    //   gethdmione4K: Actions.gethdmione4K,
+    //   getline4Kvideo: Actions.getline4Kvideo,
       isallowipvtrcd: Actions.isallowipvtrcd,
       // sfu
       issfuconf: Actions.issfuconf,

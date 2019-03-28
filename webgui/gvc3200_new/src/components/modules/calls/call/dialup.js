@@ -594,7 +594,7 @@ class DialUpForm extends Component {
             })
         })
     }
-
+    // 一级记录名称
     _renderName = (text, record, index) => {
         return <div style={{height: '44px', lineHeight: '44px'}}>
             <div className={`display-icon item-type${record.row3.Type}`}></div>
@@ -798,7 +798,7 @@ class DialUpForm extends Component {
         }
     }
 
-
+    // 二级记录 会议成员
     expandedRowRender = (record) =>{
         if(record.row3.IsConf != "1") return "";
         let confId = record.row3.Id;
@@ -809,7 +809,10 @@ class DialUpForm extends Component {
             if(confmemberinfodata[i].Id == confId){
                 confmembers.push(
                     <Row style={{height:'40px',lineHeight:'40px'}}>
-                        <Col span={6} style={{paddingLeft:'40px'}}>{confmemberinfodata[i].Name}</Col>
+                        <Col span={6} style={{paddingLeft:'40px'}}>
+                            <span className={'display-icon item-type' + confmemberinfodata[i].Type} style={{margin: '8px'}}></span>
+                            {confmemberinfodata[i].Name}
+                        </Col>
                         <Col span={6} style={{paddingLeft:'8px'}}>{confmemberinfodata[i].Number}</Col>
                         <Col span={6} style={{paddingLeft:'8px'}}>{this.convertTime(confmemberinfodata[i].Date)}</Col>
                         <Col span={6}><div className="callRecord">
