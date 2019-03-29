@@ -4,6 +4,7 @@
 #include <time.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <dirent.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -8678,23 +8679,36 @@ static int handle_start_ping (buffer *b, const struct message *m, int type)
 {
     char *addr = NULL;
 
-    system("rm /data/ping.txt &");
-    system("rm /data/traceroute.txt &");
+    //system("rm /data/ping.txt &");
+    //system("rm /data/traceroute.txt &");
+
+    char *cmd1[] = {"rm", "/data/ping.txt", 0};
+    doCommandTask(cmd1, NULL, NULL, 0);
+
+    char *cmd2[] = {"rm", "/data/traceroute.txt", 0};
+    doCommandTask(cmd2, NULL, NULL, 0);
+
     addr = msg_get_header(m, "addr");
     if (addr != NULL) {
         buffer_append_string(b, "Response=Success\r\n"
             "Message=Start success\r\n");
+        /*
         char *cmd = NULL;
         cmd = malloc(128+strlen(addr));
         memset(cmd, 0, sizeof(cmd));
-        if(type == 0)
-            sprintf(cmd, "ping %s > /data/ping.txt &", addr);
-        else
-            if(type == 1)
-                sprintf(cmd, "traceroute %s > /data/traceroute.txt &", addr);
+        */
+        if(type == 0) {
+            //sprintf(cmd, "ping -c 100 %s > /data/ping.txt 2>&1 &", addr);
+            char *cmd3[] = {"ping", "-c", "20", addr, 0};
+            doCommandTask(cmd3, "/data/ping.txt", NULL, 1);
+        } else if (type == 1) {
+            //sprintf(cmd, "traceroute %s > /data/traceroute.txt &", addr);
+            char *cmd4[] = {"traceroute", addr, 0};
+            doCommandTask(cmd4, "/data/traceroute.txt", NULL, 1);
+        }
 
-        mysystem(cmd);
-        free(cmd);
+        //mysystem(cmd);
+        //free(cmd);
 
         /*ret = execlp("ping", "ping", addr, ">", "/data/ping.txt", (char *)0);
         if (ret == -1)
@@ -8712,13 +8726,25 @@ static int handle_get_ping_msg (buffer *b, const struct message *m)
     FILE *fp = NULL;
     int offset, res, count;
     char ch;
+    int status;
 
     temp = msg_get_header(m, "offset");
     offset = atoi(temp);
 
     fp = fopen("/data/ping.txt", "r");
     if (fp == NULL){
-        system("killall ping");
+        //system("killall ping");
+        //char *cmd[] = {"killall", "ping", 0};
+        //doCommandTask(cmd, NULL, NULL, 0);
+        if (pid_ping > 0) {
+            kill(pid_ping, SIGINT);
+            wait(&status);
+            if (WIFSIGNALED(status)) {
+                printf("Child process received singal %d\n", WTERMSIG(status));
+            }
+            pid_ping = 0;
+        }
+
         buffer_append_string(b, "Response=Error\r\n"
             "Message=unknown host\r\n");
         return -1;
@@ -8726,7 +8752,20 @@ static int handle_get_ping_msg (buffer *b, const struct message *m)
 
     res = fseek(fp, offset, SEEK_SET);
     if (res != 0){
-        system("killall ping");
+        //system("killall ping");
+
+        //char *cmd[] = {"killall", "ping", 0};
+        //doCommandTask(cmd, NULL, NULL, 0);
+
+        if (pid_ping > 0) {
+            kill(pid_ping, SIGINT);
+            wait(&status);
+            if (WIFSIGNALED(status)) {
+                printf("Child process received singal %d\n", WTERMSIG(status));
+            }
+            pid_ping = 0;
+        }
+
         buffer_append_string(b, "Response=Error\r\n"
             "Message=unknown host\r\n");
         return -1;
@@ -8735,7 +8774,9 @@ static int handle_get_ping_msg (buffer *b, const struct message *m)
     count = 0;
     ch = fgetc(fp);
 
-    if (ch == -1) {
+    printf("ch: %d\n", ch);
+
+    if (ch == -1 || ch == 255 || ch == 0) {
         buffer_append_string(b, "Response=Success\r\npingmsg=continue\r\n");
         close(fp);
         return 0;
@@ -8766,13 +8807,25 @@ static int handle_get_tracroute_msg (buffer *b, const struct message *m)
     FILE *fp = NULL;
     int offset, res, count;
     char linestr[1024] = "";
+    int status;
 
     temp = msg_get_header(m, "offset");
     offset = atoi(temp);
 
     fp = fopen("/data/traceroute.txt", "r");
     if (fp == NULL){
-        system("killall traceroute");
+        //system("killall traceroute");
+        //char *cmd[] = {"killall", "traceroute", 0};
+        //doCommandTask(cmd, NULL, NULL, 0);
+        if (pid_traceroute > 0) {
+            kill(pid_traceroute, SIGINT);
+            wait(&status);
+            if (WIFSIGNALED(status)) {
+                printf("Child process received singal %d\n", WTERMSIG(status));
+            }
+            pid_traceroute = 0;
+        }
+
         buffer_append_string(b, "Response=Error\r\n"
             "Message=can not open file\r\n");
         return -1;
@@ -8780,7 +8833,18 @@ static int handle_get_tracroute_msg (buffer *b, const struct message *m)
 
     res = fseek(fp, offset, SEEK_SET);
     if (res != 0){
-        system("killall traceroute");
+        //system("killall traceroute");
+        //char *cmd[] = {"killall", "traceroute", 0};
+        //doCommandTask(cmd, NULL, NULL, 0);
+        if (pid_traceroute > 0) {
+            kill(pid_traceroute, SIGINT);
+            wait(&status);
+            if (WIFSIGNALED(status)) {
+                printf("Child process received singal %d\n", WTERMSIG(status));
+            }
+            pid_traceroute = 0;
+        }
+
         buffer_append_string(b, "Response=Error\r\n"
             "Message=unknown host\r\n");
         return -1;
@@ -8800,11 +8864,32 @@ static int handle_get_tracroute_msg (buffer *b, const struct message *m)
 
 static int handle_stop_ping(buffer *b, int type)
 {
-    if(type == 0)
-        system("killall -2 ping");
-    else
-        if(type == 1)
-            system("killall -2 traceroute");
+    int status;
+    if(type == 0) {
+        //system("killall -2 ping");
+        //char *cmd[] = {"killall", "-2", "ping", 0};
+        //doCommandTask(cmd, NULL, NULL, 0);
+        if (pid_ping > 0) {
+            kill(pid_ping, SIGINT);
+            wait(&status);
+            if (WIFSIGNALED(status)) {
+                printf("Child process received singal %d\n", WTERMSIG(status));
+            }
+            pid_ping = 0;
+        }
+    } else if(type == 1) {
+        //system("killall -2 traceroute");
+        //char *cmd[] = {"killall", "-2", "traceroute", 0};
+        //doCommandTask(cmd, NULL, NULL, 0);
+        if (pid_traceroute > 0) {
+            kill(pid_traceroute, SIGINT);
+            wait(&status);
+            if (WIFSIGNALED(status)) {
+                printf("Child process received singal %d\n", WTERMSIG(status));
+            }
+            pid_traceroute = 0;
+        }
+    }
     buffer_append_string(b, "Response=Success\r\n"
         "Message=Stop success\r\n");
 
@@ -16419,14 +16504,14 @@ char *generate_file_name(buffer *b, const struct message *m)
             {
                 mkdir(TMP_PHONEBOOKPATH, 0777);
             }
-            
+
             char *filetype = msg_get_header(m, "t");
             if (filetype != NULL && strcmp(filetype, "2") == 0) {
                 file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.vcf");
             } else if (strcmp(filetype, "3") == 0) {
                 file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.csv");
             } else {
-                file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.xml");               
+                file_name = strdup(TMP_PHONEBOOKPATH"/phonebook.xml");
             }
             //file_name = strdup(TEMP_PATH"/phonebook_import");
         }
