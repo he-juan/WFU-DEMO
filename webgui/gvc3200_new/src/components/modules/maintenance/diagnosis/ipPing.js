@@ -17,25 +17,25 @@ class PingForm extends Component {
         super(props)
 
         this.state = {
-            startDisable: true,
+            startDisable: false,
             stopDisable: true,
             inputDisable: false,
             pingresValue:'',
             className:''
         }
     }
-    componentWillReceiveProps = (nextProps) => {
+    componentWillReceiveProps = (nextProps) => { 
         if (this.props.activeKey != nextProps.activeKey) {
             this.props.form.resetFields();
             clearTimeout(pingtimeout);
             this.handleStopPing();
             this.setState({
-                startDisable: true,
+                startDisable: false,
                 stopDisable: true,
                 inputDisable: false,
                 pingresValue:'',
                 className:''
-            })
+            });
         }
     }
     doRequest = (urihead) => new Promise((resolve, reject) => {
@@ -135,13 +135,13 @@ class PingForm extends Component {
     }
     
     render() {
-        const {callTr, callTipsTr} = this.props;
+        const {callTr, callTipsTr, networkStatus} = this.props;
         const {getFieldDecorator} = this.props.form;
-        
         let itemList =
             <Form hideRequiredMark>
               <FormItem label={( <span> {callTr("a_16629")} <Tooltip title={callTipsTr("Ping Target Host")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {getFieldDecorator('targethost', {
+                        initialValue: networkStatus.gateway,
                         rules: [
                             {
                                 validator: (data, value, callback) => {
@@ -162,7 +162,7 @@ class PingForm extends Component {
                         {this.tr("a_10")}
                     </Button>
                 </Row>
-                <Row style = {{"marginTop":"15px"}}><Input  type="textarea" id="pingres" value={this.state.pingresValue} className={this.state.className} style={{fontSize:"0.875rem"}} /></Row>
+                <Row style = {{"marginTop":"15px"}}><Input  type="textarea" id="pingres" disabled={true} value={this.state.pingresValue} className={this.state.className} style={{fontSize:"0.875rem"}} /></Row>
             </Form>
 
         let hideItem = this.props.hideItem;
@@ -175,6 +175,7 @@ class PingForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    networkStatus: state.networkStatus,
 })
 
 const mapDispatchToProps = (dispatch) => {

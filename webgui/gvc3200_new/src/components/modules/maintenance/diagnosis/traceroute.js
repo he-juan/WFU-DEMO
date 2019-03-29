@@ -18,7 +18,7 @@ class TracerouteForm extends Component {
 
         this.state = {
             disabled_targethost:"",
-            disabled_start:"disabled",
+            disabled_start:"",
             disabled_stop:"disabled",
             pingresValue:"",
             content:""
@@ -33,6 +33,13 @@ class TracerouteForm extends Component {
         if (nextProps.activeKey == this.props.tabOrder) {
             if (this.props.activeKey != nextProps.activeKey) {
                 this.props.form.resetFields();
+                this.setState({
+                    disabled_targethost:"",
+                    disabled_start:"",
+                    disabled_stop:"disabled",
+                    pingresValue:"",
+                    content:""
+                })
             }
         }
     }
@@ -43,9 +50,9 @@ class TracerouteForm extends Component {
         })
     }
 
-    onChangeTargethost = () => {
+    onChangeTargethost = (e) => {
         this.setState({
-            disabled_start:""
+            disabled_start: e.target.value.length ? "" : "disabled"
         })
     }
 
@@ -175,7 +182,8 @@ class TracerouteForm extends Component {
                                 }
                             }
                         ],
-                    })(<Input disabled = {disabled_targethost} onChange={this.onChangeTargethost.bind(this)} />) }
+                        initialValue: this.props.networkStatus.gateway
+                    })(<Input disabled = {disabled_targethost} onChange={(e) => this.onChangeTargethost(e)} />) }
                 </FormItem>
                 <Row style = {{"paddingLeft":"435px"}}>
                     <Button style = {{"marginRight":"20px"}} type="primary" disabled = {disabled_start} onClick = {this.clickStartping.bind(this)}>
@@ -185,7 +193,7 @@ class TracerouteForm extends Component {
                         {this.tr("a_10")}
                     </Button>
                 </Row>
-                <Row style = {{"marginTop":"15px"}}><Input type="textarea" id="pingres" value={pingresValue} className = {content} style={{fontSize:"0.875rem"}} /></Row>
+                <Row style = {{"marginTop":"15px"}}><Input type="textarea" disabled={true} id="pingres" value={pingresValue} className = {content} style={{fontSize:"0.875rem"}} /></Row>
             </Form>
 
         let hideItem = this.props.hideItem;
@@ -200,7 +208,8 @@ class TracerouteForm extends Component {
 const mapStateToProps = (state) => ({
     itemValues: state.itemValues,
     changeNotice: state.changeNotice,
-    activeKey: state.TabactiveKey
+    activeKey: state.TabactiveKey,
+    networkStatus: state.networkStatus
 })
 
 const mapDispatchToProps = (dispatch) => {

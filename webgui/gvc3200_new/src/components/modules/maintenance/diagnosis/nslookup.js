@@ -104,7 +104,7 @@ class NslookupForm extends Component {
                         {this.tr("a_19816")}
                     </Button>
                 </Row>
-                <Row style = {{"marginTop":"15px"}}><Input  type="textarea" id="pingres" value={this.state.lookupResult}  className={this.state.className} style={{fontSize:"0.875rem"}} /></Row>
+                <Row style = {{"marginTop":"15px"}}><Input  type="textarea" id="pingres" disabled={false} value={this.state.lookupResult}  className={this.state.className} style={{fontSize:"0.875rem"}} /></Row>
             </Form>
 
         let hideItem = this.props.hideItem;

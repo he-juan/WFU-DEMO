@@ -50,6 +50,9 @@ class Diagnosis extends Component {
         this.setState({clearPing:clearPing})
     }
 
+    componentDidMount = () => {
+        this.props.getNetworkStatus()
+    }
 
 
     render() {
@@ -132,7 +135,8 @@ function mapDispatchToProps(dispatch) {
         setItemValues:Actions.setItemValues,
         setLogcat: Actions.setLogcat,
         stop_ping:Actions.stop_ping,
-        jumptoTab: Actions.jumptoTab
+        jumptoTab: Actions.jumptoTab,
+        getNetworkStatus: Actions.getNetworkStatus
     }
     return bindActionCreators(actions, dispatch)
 }
