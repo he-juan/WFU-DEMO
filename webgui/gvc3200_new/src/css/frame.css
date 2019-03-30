@@ -5993,9 +5993,9 @@ table thead tr th{
     background: #f0f4ff;
 }
 .call-line-info{
-    height: 40px;
-    line-height: 40px;
-    display: inline-block;
+    height: 55px;
+    line-height: 55px;
+    float: left;
 }
 .call-line-name{
     text-align: left;
@@ -6005,10 +6005,10 @@ table thead tr th{
     width: 25%;
 }
 .call-line-date{
-    width: 20%;
+    width: 15%;
 }
 .call-line-duration {
-    width: 5%;
+    width: 10%;
 }
 .call-line-act {
     width: 20%;
@@ -7453,4 +7453,39 @@ ol.mp_list li.mp_error {}
 
 .ant-transfer-list-body-not-found {
     display: none !important;
+}
+.inlineCallInfo{
+    /* padding-top: 50px; */
+    overflow: hidden;
+    margin-top: 10px;
+}
+.inlineIcon{
+    background-image: url(/img/icon.png);
+    background-repeat: no-repeat;
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin: 5px 12px 0 0
+}
+.typeVideo{
+    background-position:-559px -25px
+}
+.typeConf{
+    background-position:-559px -25px
+}
+.inlineNameNum{float: left}
+.inlineNameNum li{
+    width: 100%;
+    line-height: 1;
+    height: 20px;
+    list-style: none;    
+}
+.hovMenu div{
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+.hovMenu div:last-child{
+    border-top:solid 1px #dfe1e2    
 }

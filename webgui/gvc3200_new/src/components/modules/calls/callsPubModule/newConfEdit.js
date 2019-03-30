@@ -1016,7 +1016,6 @@ class NewContactsEdit extends Component {
         let title = this.props.addNewConf ? 'a_10035' : 'a_10051'; // add : edit
         let allDisabled = false
         let modalclass = 'importModal confModal '
-
         if(this.props.confdetail) { // show detail
             title = 'a_12160'
             modalclass += 'hidden-modal-btn'
@@ -1025,9 +1024,9 @@ class NewContactsEdit extends Component {
         let values = this.props.form.getFieldsValue();
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
-
+        let initName = callTr('a_8443')
         let dateFormat = 'YYYY/MM/DD';
-        let now = moment().add(10, "minutes")
+        let now = moment().add(5, "minutes")
         let curMonth = now.month()
         let curDay = now.date()
         let curDate = now
@@ -1103,7 +1102,8 @@ class NewContactsEdit extends Component {
                         </FormItem>
                         <FormItem label={(<span>{callTr("a_15054")}</span>)}>
                             {getFieldDecorator('confSubject', {
-                                rules: [{required: true, message: callTr("a_19637")}]
+                                rules: [{required: true, message: callTr("a_19637")}],
+                                initialValue: initName
                             })(
                                 <Input disabled={allDisabled} style={{width:'93%'}}/>
                             )}

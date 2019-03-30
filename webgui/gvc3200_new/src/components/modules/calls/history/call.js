@@ -15,6 +15,9 @@ const NewConEditForm = Form.create()(NewConEdit)
 const rowKey = function(record) {
     return record.key;
 };
+let req_items;
+let rowkeys =[]
+
 class ContactEditDiv extends Component {
     constructor(props){
         super(props);
@@ -68,6 +71,7 @@ class ContactEditDiv extends Component {
         this.setState({displayModal:true,addNewContact:true,emailValues:[""]});
         numValues.push(number + " " + account);
         this.setState({numValues:numValues})
+        this.props.handleHide()
     }
 
     handleaddLocalContacts = (number, account) => {
@@ -76,6 +80,7 @@ class ContactEditDiv extends Component {
             addnumber: number,
             addaccount: account
         })
+        this.props.handleHide()
     }
 
     handleHideLocalContactsModal = () => {
@@ -130,7 +135,10 @@ class ContactEditDiv extends Component {
                                 </div>
                             </div>
                             <div className = "appsbtn">
+                            {this.props.contactsInformation.length ? 
                                 <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("a_19629")}</Button>
+                                :null
+                            }
                                 <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_15003")}</Button>
                             </div>
                         </div>
@@ -142,7 +150,6 @@ class ContactEditDiv extends Component {
         );
     }
 }
-let req_items;
 
 class Call extends Component {
     historyList = [];
@@ -166,7 +173,9 @@ class Call extends Component {
             addNewConf:false,
             acctstatus: [],
             selacct:-1,
-            curAcct:null
+            curAcct:null,
+            curPage: 1,
+            selectedRows: []
         }
         req_items = new Array;
         req_items.push(
@@ -198,55 +207,71 @@ class Call extends Component {
         // this._createData();
     }
 
-    onSelectChange = (selectedRowKeys) => {
-        this.setState({selectedRowKeys});
+    onSelectChange = (selectedRowKeys,selectedRows) => {
+        // this.setState({selectedRowKeys});
+        let page = this.state.curPage
+        this.setState({selectedRowKeys,selectedRows});
+        if(page!=1) {
+            let arr = []
+            let data = this.curData
+            for (let i = 0; i < selectedRowKeys.length; i++) {
+                arr.push(data[selectedRowKeys[i]])
+            }
+            this.setState({selectedRows:arr});
+        }
+        rowkeys = selectedRowKeys
+        console.log('r1',selectedRowKeys,rowkeys)
     }
 
     onSelectItem = (record, selected, selectedRows) => {
-        let self = this;
-        let key = record.key
-        let id = record.row0.logItem.Id
-        let IsConf = record.row0.logItem.IsConf
-        if (selected) {
-            self.selectedContactList.push({key: key, id: id,IsConf:IsConf});
-        } else {
-            for (let j = 0; j < self.selectedContactList.length; j++) {
-                if (self.selectedContactList[j].id == id) {
-                    self.selectedContactList.splice(j, 1);
-                    break;
+        let selectedRowKeys = rowkeys
+        let page = this.state.curPage
+        if(page!=1) {
+            selectedRows = []
+            let data = this.curData
+            let arr = []
+            if(data) {
+                for (let i = 0; i < selectedRowKeys.length; i++) {
+                    arr.push(data[selectedRowKeys[i]])
                 }
+            } else {
+                arr = selectedRows
             }
-        }
-
-        if (self.selectedContactList.length == self.state.curContactList.length && self.selectedContactList.length != 0) {
-            this.state.checkedAll = true
-        } else {
-            this.state.checkedAll = false
+            console.log(arr)
+            this.setState({selectedRows:arr});
         }
     }
 
-    onSelectAllContacts = (e, selectedRows) => {
-        // console.log(this.curData)
+    onSelectAllContacts = (e) => {
         let selected = e.target.checked
         let data = this.curData
         let selectedRowKeys = []
-        let selectedContactList = []
-        for (let i = 0; i < data.length; i++) {
+        let selectedRows = []
+        let page = this.state.curPage
+        let pagesize = 15
+        let begin = pagesize * (page-1)
+        let length = data.length < 15 ? data.length : 15
+        for (let i = 0; i < length; i++) {
             if(selected) {
-                selectedRowKeys.push(data[i].key)
-                selectedContactList.push({id:data[i].row0.logItem.Id,IsConf:data[i].row0.logItem.IsConf})
+                let n = begin + i
+                selectedRowKeys.push(data[n].key)
+                selectedRows.push(data[n])
             }
         }
-        this.selectedContactList = selectedContactList
         this.setState({
             selectedRowKeys: selectedRowKeys,
+            selectedRows: selectedRows,
             checkedAll:selected
         });
     }
 
-
     handleOkDeleteAll = () => {
-        let datasource = this.selectedContactList
+        // let datasource = this.selectedContactList
+        let data = this.state.selectedRows
+        let dataSource = []
+        for(let i =0;i<data.length;i++) {
+            dataSource.push(data[i].row0.logItem)
+        }
         let seletedConfArr = [];
         let seletedCallArr = [];
         for (let i = 0; i <datasource.length ; i++) {
@@ -436,10 +461,33 @@ class Call extends Component {
                 </Popover>
             </div>;
         } else {
+            // {this.props.contactsInformation.length ? 
+            //     <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("a_19629")}</Button>
+            //     :null
+            // }
+            //     <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_15003")}</Button>
+            // let number,account 
+            // memberArr[0]
+            // if ( !$.isEmptyObject(memberArr[0])) {
+            //     number = memberArr[0].Number;
+            //     account = memberArr[0].Account;
+            // }
+            // content = 
+            //     <div className="hovMenu">
+            //         {this.props.contactsInformation.length ?
+            //             <div onClick={this.handleaddLocalContacts(number, account)}>{this.tr("a_19629")}</div>
+            //             :null
+            //         }
+            //         <div onClick={this.handleEditContacts(number, account)}>{this.tr("a_15003")}</div>
+            //     </div>
 
             statue =
                 <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
+                    {/* <Popover content={content} placement="top" trigger="hover">
+                        <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
+                    </Popover> */}
                     <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
+
                     <button className='allow-detail' id = {'allow-detail'+index} onClick={(e)=>this.handleNewConf(e,memberArr[0], index)}></button>
                     <button className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall(e,memberArr[0], index)} ></button>
                 </div>;
@@ -525,13 +573,22 @@ class Call extends Component {
 
     _createInlineName(text) {
         var nameValue = text.recordName ? text.recordName : text.Name
-        var className;
+        let num = text.Number
+        var className = 'inlineIcon '
         if(text.IsVideo=='1') {
-            className = 'typeVideo'
+            className += 'typeVideo'
         } else {
-            className = 'typeConf'
+            className += 'typeConf'
         }
-        return <span className={name}><i className={className}></i>{nameValue}</span>;
+        let dom = 
+                <div className="inlineCallInfo">
+                    <i className={className}></i>
+                    <div className="inlineNameNum">
+                        <li>{nameValue}</li>
+                        <li>{num}</li>
+                    </div>
+                </div>
+        return dom
     }
     _createInlineAction(text) {
         let status;
@@ -553,9 +610,9 @@ class Call extends Component {
             status.push(
                 <div className="call-line">
                     <div className='call-line-info call-line-name'>{this._createInlineName(memberArr[i])}</div>
-                    <div className='call-line-info call-line-number'>{memberArr[i].Number}</div>
+                    <div className='call-line-info call-line-number'>{this._createNumType(memberArr[i])}</div>
                     <div className='call-line-info call-line-date'>{this.props.convertTime(memberArr[i].Date)}</div>
-                    <div className='call-line-info call-line-duration'>{this.convertDuration(memberArr[i].Duration)}</div>
+                    <div className='call-line-info call-line-duration'>{this.convertDuration(memberArr[i])}</div>
                     <div className='call-line-info call-line-act'>
                         {this._createInlineAction(memberArr[i])}
                     </div>
@@ -565,10 +622,32 @@ class Call extends Component {
         return status;
     }
 
-    convertDuration = (duration) => {
-        const callTr = this.props.callTr
-        if( duration == 0 )
-            return "0" + callTr('a_114');
+    _createNumType = (data) => {
+        let arr = []
+        arr.fill('',9)
+        arr[0] = 'SIP'
+        arr[1] = 'IPVideoTalk'
+        arr[8] = 'H.323'
+        let acct = data.Account
+        return arr[acct]
+    }
+
+    convertDuration = (data) => {
+        // type = 1  来电
+        // type = 2  去电
+        // type = 3  未接来电
+        let duration = data.Duration
+        const callTr = this.props.callTr        
+        if( duration == 0 ) {
+            if(data.Type == 3) {
+                return callTr('未接来电')
+            } else if(data.Type == 2) {
+                return callTr('呼叫失败')
+            } else {
+                return "0" + callTr('a_114');
+            }            
+        }
+            
         var day = parseInt(duration / (24 * 3600));
         duration %= (24 * 3600);
         var hour = parseInt(duration / 3600);
@@ -613,6 +692,16 @@ class Call extends Component {
         this.setState({displayNewConfModal: false})
     }
 
+    changePage = (pageNumber) => {
+        console.log(pageNumber)
+        this.setState({
+            curPage: pageNumber,
+            selectedRows: [],
+            selectedRowKeys:[],
+            checkedAll: false
+        });
+    }
+
     render() {
         const [contactsInformation, callTr, _createTime, isToday, convertTime, view_status_Duration] =
             [this.props.contactsInformation, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime, this.props.view_status_Duration];
@@ -642,6 +731,14 @@ class Call extends Component {
             )
         }];
         let data = this._createData()
+        let pageobj = false
+        if(data.length>15) {
+            pageobj = {
+                pageSize: 15,
+                onChange:this.changePage
+            }
+        }
+
         let isloading = this.props.loading
         const {selectedRowKeys} = this.state;
         const rowSelection = {
@@ -651,6 +748,7 @@ class Call extends Component {
             onSelectAll: this.onSelectAllContacts
         }
         const hasSelected = selectedRowKeys.length > 0;
+
         return (
             <div style={{margin:"0px 10px"}}>
                 <div className='btnbox'>
@@ -679,6 +777,7 @@ class Call extends Component {
                         onRowClick={this.handelOnRowClick.bind(this)}	//添加单击方法
                         expandedRowKeys={this.state.expandedRows}		//添加 回设置 展开的数组
                         expandIconColumnIndex={-1}
+                        pagination = { pageobj }
                     />
                     <div className = "nodatooltips" style={{display: (!data.length && !isloading) ? 'block':'none'}}>
                         <div></div>
@@ -695,9 +794,7 @@ class Call extends Component {
                                                confMemberData={this.state.confMemberData}
                                                addNewConf={this.state.addNewConf}/>
                     : null
-                }
-
-
+                }               
             </div>
         )
     }

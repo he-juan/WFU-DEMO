@@ -44,25 +44,53 @@ class History extends Component {
 
     isYestday = (theDate) => {
         var date = (new Date());    //当前时间
+        let value = new Date(theDate)
         var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(); //今天凌晨
         var yestday = new Date(today - 24*3600*1000).getTime();
-        return theDate.getTime() < today && yestday <= theDate.getTime();
+        return value.getTime() < today && yestday <= value.getTime();
     }
+
+
 
     isToday = (str) => {
         var value;
         var isYtd;
         if (new Date(str).toDateString() === new Date().toDateString()) {
            value = "Today";
-       }else if (new Date(str) < new Date()){
-           value = (this.isYestday(new Date(str))) ? "Yestday" : "Before";
-       }
-       return value;
+        }else if (new Date(str) < new Date()){
+            value = (this.isYestday(new Date(str))) ? "Yestday" : "Before";
+            if(!this.isYestday(new Date(str))) {
+                if(new Date(str).getFullYear() < new Date().getFullYear()) {
+                    value = 'Last Year'
+                }                
+            }
+        }
+        return value;
     }
 
     _createTime = (text, record, index) => {
         var Timevalue = this.convertTime(text);
-        return Timevalue;
+        let str = this.isToday(text)
+        if(str == 'Yestday') {
+            return this.tr('Yestday')
+        } else if(str == 'Before') {
+            return Timevalue.substring(5,10)
+        } else {
+            return Timevalue
+        }
+    }
+
+    _createDetailTime = (text, record, index) => {
+        let time = parseInt(text)
+        var Timevalue = this.convertTime(time);
+        let str = this.isToday(time)
+        if(str == 'Yestday') {
+            return this.tr('Yestday') + ' ' + Timevalue.split(' ')[1]
+        } else if(str == 'Before') {
+            return Timevalue.substr(5)
+        } else {
+            return Timevalue
+        }
     }
 
     render() {
@@ -81,12 +109,12 @@ class History extends Component {
         let tabList =[
             (hiddenOptions,i) => {
                 return<TabPane tab = {this.tr("a_10009")} key={i}>
-                    <CallForm {...this.props} hideItem={hiddenOptions} tabOrder={i} loading = {loading} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                    <CallForm {...this.props} hideItem={hiddenOptions} tabOrder={i} loading = {loading} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime}  convertTime={this._createDetailTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
             } ,
             (hiddenOptions,i) => {
                 return<TabPane tab = {this.tr("a_3524")} key={i}>
-                    <MissedCallForm {...this.props} hideItem={hiddenOptions} tabOrder={i} loading = {loading} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                    <MissedCallForm {...this.props} hideItem={hiddenOptions} tabOrder={i} loading = {loading} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this._createDetailTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
             }
         ]
