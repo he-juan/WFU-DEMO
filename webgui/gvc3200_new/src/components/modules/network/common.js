@@ -18,8 +18,10 @@ class Common extends Component {
 
         this.state = {
             pcportmode:"",
-            openlldpStyle:"",
-            input_disabled:""
+
+            dscp1State: false,
+            dscp2State: false,
+            dscp7State: false
         }
 
         req_items = new Array;
@@ -46,23 +48,31 @@ class Common extends Component {
             this.getReqItem("pcporttagpv", "230", ""),
             this.getReqItem("openlldp", "in_lldp", ""),
             this.getReqItem("proxyhttp", "1552", ""),
-            this.getReqItem("noproxy", "22011", "")
+            this.getReqItem("noproxy", "22011", ""),
+            
+            // 三个临时p值
+            this.getReqItem("dscp2", "dscp2", ""),  // 第三层SIP QoS
+            this.getReqItem("dscp1", "dscp1", ""),  // 第三层音频QoS 
+            this.getReqItem("dscp7", "dscp7", "")   // 第三层视频QoS
         );
     }
 
     componentDidMount() {
         this.props.getItemValues(req_items ,(values) => {
             this.checkoutPcportmode(values.pcportmode);
-            if (values.openlldp == "1") {
-                this.cb_lldp_mode_change(true);
-            } else {
-                this.cb_lldp_mode_change(false);
-            }
+            this.cb_dscp2_dscp1_dscp7(values.dscp2, values.dscp1, values.dscp7)
             this.checkoutproxyhttp(values.proxyhttp);
         });
         this.props.getReadshowipState();
     }
 
+    cb_dscp2_dscp1_dscp7(dscp2, dscp1, dscp7){
+        this.setState({
+            dscp2State : dscp2 != '' && dscp2 != '0',
+            dscp1State : dscp1 != '' && dscp1 != '0',
+            dscp7State : dscp7 != '' && dscp7 != '0',
+        })
+    }
     checkoutproxyhttp = (value) => {
         const { setFieldsValue } = this.props.form;
         var proxystr = value;
@@ -81,22 +91,6 @@ class Common extends Component {
         }
     }
 
-    cb_lldp_mode_change = (value) => {
-        let openlldpStyle;
-        let input_disabled;
-        let values = this.props.form.getFieldsValue();
-        if (value && values.openlldp == "1") {
-            openlldpStyle = "display-gray";
-            input_disabled = "disabled";
-        } else {
-            openlldpStyle = "display-block";
-            input_disabled = "";
-        }
-        this.setState({
-            openlldpStyle:openlldpStyle,
-            input_disabled:input_disabled
-        });
-    }
 
     componentWillReceiveProps = (nextProps) => {
         // this.props.getItemValues(req_items, (values) => {
@@ -184,6 +178,17 @@ class Common extends Component {
                     values.proxyhttp = tmpproxy;
                 }
 
+
+                req_items = req_items.filter( v => !(v.pvalue == 'dscp2' || v.pvalue == 'dscp1' || v.pvalue == 'dscp7'))
+                if(this.state.dscp2State) {
+                    req_items = req_items.filter(v => v.pvalue != '1558')
+                }
+                if(this.state.dscp1State) {
+                    req_items = req_items.filter(v => v.pvalue != '1559')
+                }
+                if(this.state.dscp7State) {
+                    req_items = req_items.filter(v => v.pvalue != '1560')
+                }
                 this.props.setItemValues(req_items, values);
             }
         });
@@ -393,7 +398,7 @@ class Common extends Component {
                     )}
                     <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className = {this.state.dscp2State ? 'display-gray' : 'display-block' } label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qossip", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -404,10 +409,10 @@ class Common extends Component {
                                 this.range(data, value, callback, 0, 63)
                             }
                         }],
-                        initialValue: this.props.itemValues.layer3qossip
-                    })(<Input className="P-1558" disabled={this.state.input_disabled}/>)}
+                        initialValue: this.state.dscp2State ? this.props.itemValues.dscp2 : this.props.itemValues.layer3qossip
+                    })(<Input className="P-1558" disabled={this.state.dscp2State ? true : false}/>)}
                 </FormItem>
-                <FormItem className = {this.state.openlldpStyle} label={< span > {this.tr("a_4276")} < Tooltip title = {this.tips_tr("Layer 3 QoS for Audio")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className = {this.state.dscp1State ? 'display-gray' : 'display-block'} label={< span > {this.tr("a_4276")} < Tooltip title = {this.tips_tr("Layer 3 QoS for Audio")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qosaudio", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -418,10 +423,10 @@ class Common extends Component {
                                 this.range(data, value, callback, 0, 63)
                             }
                         }],
-                        initialValue: this.props.itemValues.layer3qosaudio
-                    })(<Input className="P-1559" disabled={this.state.input_disabled}/>)}
+                        initialValue: this.state.dscp1State ? this.props.itemValues.dscp1: this.props.itemValues.layer3qosaudio
+                    })(<Input className="P-1559" disabled={this.state.dscp1State ? true : false}/>)}
                 </FormItem>
-                <FormItem className = {this.state.openlldpStyle} label={< span > {
+                <FormItem className = {this.state.dscp7State ? 'display-gray' : 'display-block'} label={< span > {
                     this.tr("a_4277")
                 } < Tooltip title = {this.tips_tr("Layer 3 QoS for Video")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qosvideo", {
@@ -434,15 +439,14 @@ class Common extends Component {
                                 this.range(data, value, callback, 0, 63)
                             }
                         }],
-                        initialValue: this.props.itemValues.layer3qosvideo
-                    })(<Input className="P-1560" disabled={this.state.input_disabled}/>)}
+                        initialValue: this.state.dscp7State ? this.props.itemValues.dscp7 : this.props.itemValues.layer3qosvideo
+                    })(<Input className="P-1560" disabled={this.state.dscp7State ? true : false}/>)}
                 </FormItem>
                 <FormItem label={< span > {this.tr("a_16194")} < Tooltip title = {this.tips_tr("HTTP/HTTPS User Agent")} > <Icon type="question-circle-o"/> </Tooltip></span>}>
                     {getFieldDecorator("useragent", {
                         rules: [ ],
                         initialValue: this.props.itemValues.useragent
                     })(<Input className="P-1541"/>)}
-                    <Icon title={this.tr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {this.tr("a_19128")} < Tooltip title = {this.tips_tr("SIP User Agent")} > <Icon type="question-circle-o"/> </Tooltip></span>}>
                     {getFieldDecorator("sipuseragent", {

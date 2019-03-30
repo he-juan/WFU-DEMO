@@ -27,7 +27,7 @@ class Ethernet extends Component {
             ca_Aupload:"a_16197",
             client_Aupload:"a_16197",
             privatekey_Aupload:"a_16197",
-            type802: '',
+            type802: 'password',
             beginInit: false,
             inLldpvlanid: false,
             inLldpvlanqos: false
@@ -167,18 +167,17 @@ class Ethernet extends Component {
     }
 
     cb_lldp_qos_set = (msgs) => {
-        var vlanid, vlanqos, in_lldp;
+        var vlanid, vlanqos;
         const { setFieldsValue } = this.props.form;
         vlanid = msgs.headers['vlan_id'];
         vlanqos = msgs.headers['vlan_qos'];
-        in_lldp = msgs.headers['in_lldp'];
 
-        if(in_lldp == '1' && vlanid != "" && vlanid != "0") {
+        if(vlanid != "" && vlanid != "0") {
             setFieldsValue({ layer2qos:vlanid });
             this.setState({ inLldpvlanid: true });
         }
 
-        if(in_lldp == '1' && vlanqos != "" && vlanqos != "0") {
+        if(vlanqos != "" && vlanqos != "0") {
             setFieldsValue({ layer2qospv:vlanqos });
             this.setState({ inLldpvlanqos: true });
         }
@@ -368,6 +367,9 @@ class Ethernet extends Component {
                         this.cb_putTwoline_callback(enable);
                     })
                 } else {
+                    if(this.state.inLldpvlanid || this.state.inLldpvlanqos) {
+                        req_items = req_items.filter(v => !(v.pvalue == '51' || v.pvalue == '87'))
+                    }
                     this.props.setItemValues(req_items, values,0,()=>{
                         this.setItemValuesCallback(values);
                     });
@@ -582,7 +584,7 @@ class Ethernet extends Component {
 
         let itemList =
             <Form className="configform" hideRequiredMark>
-                <FormItem label={< span > {callTr("a_19225")} < Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19225")} < Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("protocoltype", {
                         initialValue: this.props.itemValues["protocoltype"]
                     })(
@@ -608,7 +610,7 @@ class Ethernet extends Component {
                 <p className={"blocktitle"+" "+ IPv4Type}><s></s>IPv4</p>
                 <p className={"blocktitle"+" "+ twovlanType}><s></s>{callTr("a_19658")}</p>
                 <p className={"threetitle"+" "+ twovlanType}>IPv4</p>
-                <FormItem label={< span > {callTr("a_19659")} < Tooltip  title={ <FormattedHTMLMessage  id={this.tips_tr("Address Type")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19659")} < Tooltip  title={ <FormattedHTMLMessage  id={this.tips_tr("Address Type")} />} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networktype', {
                         rules: [],
                         initialValue: this.props.itemValues.networktype
@@ -619,7 +621,7 @@ class Ethernet extends Component {
                             <Radio value="2">PPPoE</Radio>
                         </RadioGroup>)}
                 </FormItem>
-                <FormItem className={ mode.DHCP } label={< span > {callTr("a_19335")} < Tooltip title={callTipsTr("DHCP VLAN Override")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ mode.DHCP } label={< span > {callTr("a_19335")} < Tooltip title={callTipsTr("DHCP VLAN Override")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcpvlan", {
                         rules: [],
                         initialValue: this.props.itemValues["dhcpvlan"] ? this.props.itemValues["dhcpvlan"] : "0"
@@ -631,7 +633,7 @@ class Ethernet extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className={ mode.DHCP } label={< span > {callTr("a_16187")} < Tooltip title={callTipsTr("Host name")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ mode.DHCP } label={< span > {callTr("a_16187")} < Tooltip title={callTipsTr("Host name")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcpop12", {
                         rules: [
                             {
@@ -646,7 +648,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.dhcpop12
                     })(<Input className="P-146"/>)}
                 </FormItem>
-                <FormItem className={ mode.DHCP } label={< span > {callTr("a_16189")} < Tooltip title={callTipsTr("Vendor Class ID")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ mode.DHCP } label={< span > {callTr("a_16189")} < Tooltip title={callTipsTr("Vendor Class ID")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("dhcpop60", {
                         rules: [
                             {
@@ -662,7 +664,7 @@ class Ethernet extends Component {
                     })(<Input className="P-148"/>)}
                 </FormItem>
 
-                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_23531")} < Tooltip title={callTipsTr("IP Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_23531")} < Tooltip title={callTipsTr("IP Address")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -735,7 +737,7 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_4127")} < Tooltip title={callTipsTr("Subnet Mask")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_4127")} < Tooltip title={callTipsTr("Subnet Mask")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -808,7 +810,7 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -881,7 +883,7 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_19227")} < Tooltip title={callTipsTr("DNS Server 1")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_19227")} < Tooltip title={callTipsTr("DNS Server 1")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -954,7 +956,7 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_19228")} < Tooltip title={callTipsTr("DNS Server 2")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ "ip-address" + " " + mode.staip } label={< span > {this.tr("a_19228")} < Tooltip title={callTipsTr("DNS Server 2")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>
@@ -1027,7 +1029,7 @@ class Ethernet extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className={ mode.PPPoE } label={< span > {callTr("a_4156")} < Tooltip title={callTipsTr("PPPoE Account ID")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ mode.PPPoE } label={< span > {callTr("a_4156")} < Tooltip title={callTipsTr("PPPoE Account ID")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input className="P-82" style = {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("ppoeaccount", {
                         rules: [
@@ -1039,7 +1041,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.ppoeaccount
                     })(<Input className="P-82"/>)}
                 </FormItem>
-                <FormItem className={ mode.PPPoE } label={< span > {callTr("a_4157")} < Tooltip title={callTipsTr("PPPoE Password")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ mode.PPPoE } label={< span > {callTr("a_4157")} < Tooltip title={callTipsTr("PPPoE Password")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input type="password" className="P-83" style = {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("ppoepassword", {
                         rules: [
@@ -1052,7 +1054,7 @@ class Ethernet extends Component {
                     })(<Input type={this.state.type} className="P-83"
                               suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />)}
                 </FormItem>
-                <FormItem label={< span > {callTr(a_layer2qos)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr(a_layer2qos)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer2qos", {
                         rules: [{
                             required: true,
@@ -1069,7 +1071,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.layer2qos
                     })(<Input disabled={this.state.inLldpvlanid}  min={0} max={4094} className="P-51" />)}
                 </FormItem>
-                <FormItem label={< span > {callTr(a_layer2qospv)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet)")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr(a_layer2qospv)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet)")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer2qospv", {
                         rules: [{
                             required: true,
@@ -1085,11 +1087,10 @@ class Ethernet extends Component {
                         }],
                         initialValue: this.props.itemValues.layer2qospv
                     })(<Input disabled={this.state.inLldpvlanqos} min={0} max={7} className="P-87" />)}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <p className={"blocktitle"+" "+ IPv4Type}><s></s>IPv6</p>
                 <p className={"threetitle"+" "+ twovlanType}>IPv6</p>
-                <FormItem className="select-item" label={< span > {callTr("a_19226")} < Tooltip title = {callTipsTr("IPv6 Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className="select-item" label={< span > {callTr("a_19226")} < Tooltip title = {callTipsTr("IPv6 Address")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ipv6addr', {
                         rules: [],
                         initialValue: this.props.itemValues["ipv6addr"] ? this.props.itemValues["ipv6addr"] : "0"
@@ -1099,7 +1100,7 @@ class Ethernet extends Component {
                             <Option value="1">{callTr("a_19231")}</Option>
                         </Select>)}
                 </FormItem>
-                <FormItem className={ ipv6class } label={< span > {callTr("a_19309")} < Tooltip title = {callTipsTr("Static IPv6 Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ ipv6class } label={< span > {callTr("a_19309")} < Tooltip title = {callTipsTr("Static IPv6 Address")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('staticipv6addr', {
                         rules: [
                             {
@@ -1111,7 +1112,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.staticipv6addr
                     })(<Input maxLength="40" className="P-1420"/>)}
                 </FormItem>
-                <FormItem className={ ipv6class } label={< span > {callTr("a_19310")} < Tooltip title = {callTipsTr("IPv6 Prefix length")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ ipv6class } label={< span > {callTr("a_19310")} < Tooltip title = {callTipsTr("IPv6 Prefix length")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ipv6prefixlen', {
                         rules: [{
                             required: true,
@@ -1129,7 +1130,7 @@ class Ethernet extends Component {
                     })(<Input maxLength="40" className="P-1421"/>)
                     }
                 </FormItem>
-                <FormItem className={ ipv6class } label={< span > {callTr("a_19227")} < Tooltip title = {callTipsTr("IPv6 DNS Server 1")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ ipv6class } label={< span > {callTr("a_19227")} < Tooltip title = {callTipsTr("IPv6 DNS Server 1")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ipv6dns1', {
                         rules: [
                             {
@@ -1141,7 +1142,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.ipv6dns1
                     })(<Input maxLength="40" className="P-1424"/>)}
                 </FormItem>
-                <FormItem className={ ipv6class } label={< span > {callTr("a_19228")} < Tooltip title = {callTipsTr("IPv6 DNS Server 2")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ ipv6class } label={< span > {callTr("a_19228")} < Tooltip title = {callTipsTr("IPv6 DNS Server 2")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ipv6dns2', {
                         rules: [
                             {
@@ -1153,7 +1154,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.ipv6dns2
                     })(<Input maxLength="40" className="P-1425"/>)}
                 </FormItem>
-                <FormItem label={< span > {callTr("a_19229")} < Tooltip title = {callTipsTr("Preferred DNS Server")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19229")} < Tooltip title = {callTipsTr("Preferred DNS Server")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('prefdnsserver', {
                         rules: [
                             {
@@ -1167,7 +1168,7 @@ class Ethernet extends Component {
                 </FormItem>
                 <p className={"blocktitle"+" "+ twovlanType}><s></s>{callTr("a_19664")}</p>
                 <p className={"threetitle"+" "+ twovlanType}>IPv4</p>
-                <FormItem className = { twovlanType } label={< span > {callTr("a_19659")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Voip Address Type")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = { twovlanType } label={< span > {callTr("a_19659")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Voip Address Type")} />} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networktypevoip', {
                         rules: [],
                         initialValue: this.props.itemValues["networktypevoip"] ? this.props.itemValues["networktypevoip"] : "0"
@@ -1177,7 +1178,7 @@ class Ethernet extends Component {
                             <Radio value="1">{callTr("a_4125")}</Radio>
                         </RadioGroup>)}
                 </FormItem>
-                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_23531")} < Tooltip title={callTipsTr("IP Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_23531")} < Tooltip title={callTipsTr("IP Address")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networkvoipip', {
                         rules: [
                             {
@@ -1189,7 +1190,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipip
                     })(<Input maxLength="40" className="P-22106"/>)}
                 </FormItem>
-                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_4127")} < Tooltip title={callTipsTr("Subnet Mask")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_4127")} < Tooltip title={callTipsTr("Subnet Mask")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networkvoipmask', {
                         rules: [
                             {
@@ -1201,7 +1202,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipmask
                     })(<Input maxLength="40" className="P-22107"/>)}
                 </FormItem>
-                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_16191")} < Tooltip title={callTipsTr("Default Gateway")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networkvoipgateway', {
                         rules: [
                             {
@@ -1213,7 +1214,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipgateway
                     })(<Input maxLength="40" className="P-22108"/>)}
                 </FormItem>
-                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_19227")} < Tooltip title={callTipsTr("DNS Server 1")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_19227")} < Tooltip title={callTipsTr("DNS Server 1")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networkvoipdns1', {
                         rules: [
                             {
@@ -1225,7 +1226,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.networkvoipdns1
                     })(<Input maxLength="40" className="P-22109"/>)}
                 </FormItem>
-                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_19228")} < Tooltip title={callTipsTr("DNS Server 2")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className = {twovlanType + " " + networktypevoipclass} label={< span > {callTr("a_19228")} < Tooltip title={callTipsTr("DNS Server 2")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networkvoipdns2', {
                         rules: [
                             {
@@ -1273,7 +1274,7 @@ class Ethernet extends Component {
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>*/}
                 <p className={"threetitle"+" "+ twovlanType}>IPv6</p>
-                <FormItem className={"select-item" + " " + twovlanType} label={< span > {callTr("a_19226")} < Tooltip title = {callTipsTr("IPv6 Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={"select-item" + " " + twovlanType} label={< span > {callTr("a_19226")} < Tooltip title = {callTipsTr("IPv6 Address")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ipv6addrvoip', {
                         rules: [],
                         initialValue: this.props.itemValues["ipv6addrvoip"] ? this.props.itemValues["ipv6addrvoip"] : "0"
@@ -1283,7 +1284,7 @@ class Ethernet extends Component {
                             <Option value="1">{callTr("a_19231")}</Option>
                         </Select>)}
                 </FormItem>
-                <FormItem className={ twovlanType + " " + ipv6addrvoipclass } label={< span > {callTr("a_19309")} < Tooltip title = {callTipsTr("Static IPv6 Address")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ twovlanType + " " + ipv6addrvoipclass } label={< span > {callTr("a_19309")} < Tooltip title = {callTipsTr("Static IPv6 Address")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('staticipv6addrvoip', {
                         rules: [
                             {
@@ -1295,7 +1296,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.staticipv6addrvoip
                     })(<Input maxLength="40" className="P-22115"/>)}
                 </FormItem>
-                <FormItem className={ twovlanType + " " + ipv6addrvoipclass } label={< span > {callTr("a_19310")} < Tooltip title = {callTipsTr("IPv6 Prefix length")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ twovlanType + " " + ipv6addrvoipclass } label={< span > {callTr("a_19310")} < Tooltip title = {callTipsTr("IPv6 Prefix length")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ipv6prefixlenvoip', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -1311,7 +1312,7 @@ class Ethernet extends Component {
                     }
                 </FormItem>
                 <p className="blocktitle"><s></s>{callTr("a_4140")}</p>
-                <FormItem className="select-item"  label={< span > { callTr("a_4140") } < Tooltip title={callTipsTr("802.1X Mode")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className="select-item"  label={< span > { callTr("a_4140") } < Tooltip title={callTipsTr("802.1X Mode")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('xmode', {
                         rules: [],
                         initialValue: this.props.itemValues["xmode"] ? this.props.itemValues["xmode"] : "0"
@@ -1324,14 +1325,14 @@ class Ethernet extends Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className={ lan_mode_class.identity } label={< span > { callTr("a_16195") } < Tooltip title={callTipsTr("802.1X Identity")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ lan_mode_class.identity } label={< span > { callTr("a_16195") } < Tooltip title={callTipsTr("802.1X Identity")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input type="text" name = "identity" style= {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator('identity', {
                         rules: [],
                         initialValue: this.props.itemValues.identity
                     })(<Input name = "identity" className="P-7902"/>)}
                 </FormItem>
-                <FormItem className={ lan_mode_class.md5pas } label={< span > { callTr("a_16196") } < Tooltip title = {callTipsTr("802.1X Secret")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem className={ lan_mode_class.md5pas } label={< span > { callTr("a_16196") } < Tooltip title = {callTipsTr("802.1X Secret")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     <Input type={this.state.type802} name = "md5pas" style = {{display:"none"}} disabled autoComplete = "off"/>
                     {getFieldDecorator("md5pas", {
                         rules: [],

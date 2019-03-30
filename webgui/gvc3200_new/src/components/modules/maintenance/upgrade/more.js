@@ -126,7 +126,7 @@ class MoreForm extends Component {
                     {getFieldDecorator("dhcp66", {
                         rules: [],
                         valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.sipnotify)
+                        initialValue: parseInt(this.props.itemValues.dhcp66)
                     })(
                         <Checkbox className="P-4428"/>
                     )}
