@@ -170,17 +170,16 @@ class InputSearchdiv extends Component {
 const req_items = [
     {"name": "dnd", "pvalue": "dnd", "value": ""},
 ]
-
 class MainHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
             dndstyle: 'dndoff',
-            showControl:false,
-            mInterval:""
-        }
+            showControl:false
+        },
+        this.mInterval = null;
     }
-
+    
     componentDidMount() {
         var mylanguage = $.cookie( "MyLanguage") != null ? $.cookie( "MyLanguage") : 'en';
         this.props.setCurLocale( mylanguage );
@@ -313,14 +312,21 @@ class MainHeader extends Component {
 
     sendKey=(keycode)=>{
         if( keycode != undefined && keycode != "" ){
+            let _this = this
             var counttimes = 0;
             this.props.setKeyCode(0, keycode, 0);
-            this.state.mInterval = setInterval(()=>{this.props.setKeyCode(0, keycode, ++counttimes);}, 200);
+            this.mInterval = setInterval(()=>{this.props.setKeyCode(0, keycode, ++counttimes);}, 200);
+            document.addEventListener('mouseup', _this.clearmInterval)
         }
+    }
+    clearmInterval = () => {
+        let _this = this;
+        document.removeEventListener('mouseup',_this.clearmInterval)
+        clearInterval(this.mInterval)
     }
 
     clearsendKey=(keycode)=>{
-        clearInterval(this.state.mInterval);
+        clearInterval(this.mInterval);
         if( keycode != undefined && keycode != "" ){
             this.props.setKeyCode(1, keycode, 0);
         }
