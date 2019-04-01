@@ -13,6 +13,7 @@ const nvram = {
     'sipreg': "31",   //sip注册
     'unreg': "81",    //重新注册前注销
     'regexp': "32",   //注册期限(分钟)
+    'subexp': "26051",
     'regbeforeexp': "2330", //注册期限内重新注册等待时间
     'retrytime': "138", //重新注册间隔时间
     'sipport': "40", // sip端口
@@ -30,6 +31,7 @@ const nvram = {
     'callerdisplay': "2324", // 来电ID显示
     'usepheader': "2338", //使用Privacy头域
     'useppiheader': "2339", //使用P-Preferred-Identity头域
+    'usemacheader': '26061',  //使用mac头域
     'siptranport': "130", // sip传输
     'sipschema': "2329", // TLS使用的SIP URI格式
     'useepport': "2331", // TCP/TLS Contact使用实际临时端口
@@ -64,6 +66,7 @@ class SipForm extends React.Component {
             this.getReqItem("unreg", nvram["unreg"], ""),
             this.getReqItem("regexp", nvram["regexp"], ""),
             this.getReqItem("regbeforeexp", nvram["regbeforeexp"], ""),
+            this.getReqItem("subexp", nvram["subexp"], ""),
             this.getReqItem("retrytime", nvram["retrytime"], ""),
             this.getReqItem("sipport", nvram["sipport"], ""),
             this.getReqItem("mwi", nvram["mwi"], ""),
@@ -80,6 +83,7 @@ class SipForm extends React.Component {
             this.getReqItem("callerdisplay", nvram["callerdisplay"], ""),
             this.getReqItem("usepheader", nvram["usepheader"], ""),
             this.getReqItem("useppiheader", nvram["useppiheader"], ""),
+            this.getReqItem("usemacheader", nvram["usemacheader"], ""),
             this.getReqItem("siptranport", nvram["siptranport"], ""),
             this.getReqItem("sipschema", nvram["sipschema"], ""),
             this.getReqItem("useepport", nvram["useepport"], ""),
@@ -163,7 +167,7 @@ class SipForm extends React.Component {
         const callTr = this.props.callTr;
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={(<span>{callTr("a_19054")}&nbsp;<Tooltip title={this.tips_tr("SIP Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{callTr("a_16066")}&nbsp;<Tooltip title={this.tips_tr("SIP Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipreg', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["sipreg"])
@@ -208,9 +212,26 @@ class SipForm extends React.Component {
                                 this.range(data, value, callback, 0, 64800)
                             }
                         }],
-                        initialValue: this.props.itemValues['regbeforeexp']
+                        initialValue: this.props.itemValues['regbeforeexp'] || '0'
                     })(
                         <Input type="text" className={"P-" + nvram["regbeforeexp"]} />
+                    )}
+                </FormItem>
+                {/* 订阅超时 */}
+                <FormItem label={(<span>{callTr("a_12238")}&nbsp;<Tooltip title={this.tips_tr("Subscribe Expiration")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                    {getFieldDecorator('subexp', {
+                        rules: [{
+                            validator: (data, value, callback) => {
+                                this.digits(data, value, callback)
+                            }
+                        }, {
+                            validator: (data, value, callback) => {
+                                this.range(data, value, callback, 0, 64800)
+                            }
+                        }],
+                        initialValue: this.props.itemValues['subexp'] || '0'
+                    })(
+                        <Input type="text" className={"P-" + nvram["subexp"]} />
                     )}
                 </FormItem>
                 <FormItem label={(<span>{callTr("a_16070")}&nbsp;<Tooltip title={this.tips_tr("Wait Time Retry Registration")}><Icon type="question-circle-o" /></Tooltip></span>)} >
@@ -383,6 +404,13 @@ class SipForm extends React.Component {
                             <Option value="2">{callTr("a_5")}</Option>
                         </Select>
                     )}
+                </FormItem>
+                {/* 使用mac头域 */}
+                <FormItem className="select-item" label={(<span>{callTr("a_12237")}&nbsp;<Tooltip title={this.tips_tr("Use Mac Header")}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                    {getFieldDecorator('usemacheader', {
+                        valuePropName: 'checked',
+                        initialValue: parseInt(this.props.itemValues['usemacheader'] ? this.props.itemValues['usemacheader'] : "0")
+                    })(<Checkbox className={"P-" + nvram["usemacheader"]} />)}
                 </FormItem>
                 <FormItem className="select-item" label={(<span>{callTr("a_16093")}&nbsp;<Tooltip title={this.tips_tr("SIP Transport")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('siptranport', {
