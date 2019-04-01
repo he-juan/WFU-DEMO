@@ -5,17 +5,18 @@ import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {globalObj} from "../../../redux/actions/actionUtil"
-import FECCModal from "./_FECCModal";
 import VideoInviteModal from "./_VideoInviteModal"
 import LinesList from './_LinesList'
 import IPVTShareCameraModal from './_IPVTshareCameraModal'
 import InviteMember from './InviteMember';
-import Record from './Record'
+// import Record from './Record'
 import Presentation from './Presentation'
 import Layouts from './Layouts'
 import Handsup from './Handsup'
-import Hold from './Hold'
+// import Hold from './Hold'
 import EndCall from './EndCall'
+
+import FECC from "./FECC";
 import Others from './Others'
 
 let tmpclass = "", ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden";
@@ -324,7 +325,7 @@ class CallDialog extends Component {
                             linestatus={linestatus} 
                         />
                         {/* 录像按钮 */}
-                        <Record 
+                        {/* <Record 
                             ctrlbtnvisible={ctrlbtnvisible}  
                             is4kon={this.state.is4kon}
                             ishdmione4K={this.state.ishdmione4K}
@@ -332,7 +333,7 @@ class CallDialog extends Component {
                             countClickedTimes={this.countClickedTimes.bind(this)} 
                             ispause={_ispause}
                             hasipvtline={_hasipvtline}
-                        />
+                        /> */}
                         
                         {/* 布局按钮 */}
                         <Layouts 
@@ -343,12 +344,20 @@ class CallDialog extends Component {
                             linestatus={linestatus} 
                         />
                         
+                        {/* 本地摄像头控制 弹窗 */}
+                        <FECC 
+                            countClickedTimes={this.countClickedTimes.bind(this)} 
+                            feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)}
+                        />
+
+
+
                         {/* 保持按钮 */}
-                        <Hold 
+                        {/* <Hold 
                             ctrlbtnvisible={ctrlbtnvisible}
                             linestatus={linestatus}
                             countClickedTimes={this.countClickedTimes.bind(this)} 
-                        />
+                        /> */}
                         
                         {/* 演示按钮 */}
                         <Presentation 
@@ -379,11 +388,14 @@ class CallDialog extends Component {
                             hasipvtline={_hasipvtline}
                             DTMFDisplay={this.state.DTMFDisplay}
                             acctstatus={this.state.acctstatus}
+
+                            is4kon={this.state.is4kon}
+                            ishdmione4K={this.state.ishdmione4K}
+                            isline4Kvideo={this.state.isline4Kvideo}
+                            countClickedTimes={this.countClickedTimes.bind(this)} 
                         />
 					</div>
 				</div>
-                {/* 本地摄像头控制 弹窗 */}
-                <FECCModal />
                 {/** 视频邀请弹窗 */}
                 <VideoInviteModal linestatus={this.props.linestatus}/>
                 {/* IPVT会议 '共享摄像头' */}

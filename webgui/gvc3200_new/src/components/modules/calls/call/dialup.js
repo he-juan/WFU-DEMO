@@ -428,7 +428,7 @@ class DialUpForm extends Component {
                 if (bjpwd != "") {
                     dialnum += "." + bjpwd;
                 }
-                this.props.cb_start_addmemberconf(acctstatus, dialnum, selacct+"", "call", "", "", "", isvideo);
+                this.props.cb_start_addmemberconf(acctstatus, dialnum, selacct+"", "call", "", "", "", isvideo, '2');
                 setTimeout(function () {
                     mCalling = false;
                 }, 1000);
@@ -755,7 +755,7 @@ class DialUpForm extends Component {
                 }else{
                     isdialplan = mDisDialrule[3];
                 }
-                this.props.cb_start_single_call(acctstatus,dialnum, dialacct, 0 , isdialplan, 0, "1");
+                this.props.cb_start_single_call(acctstatus,dialnum, dialacct, 0 , isdialplan, 0, "1", this.mapToSource(record.Type));
 
             }else{
                 this.props.promptMsg('WARNING', 'a_16665');
@@ -772,6 +772,10 @@ class DialUpForm extends Component {
             let dialnames = record.Name.split(":::");
             let dialaccts= record.Account.split(":::");
             let tmpnum = record.Number.replace(/-/g,"");
+            let Id = record.Id
+            let sources = this.props.confmemberinfodata.filter(data => data.Id == Id).map(v => {
+                return this.mapToSource(v.Type)
+            }).join(':::');
             if( tmpnum == "" ){
                 this.props.promptMsg('WARNING', this.tr('a_16665'));
                 return false;
@@ -787,7 +791,8 @@ class DialUpForm extends Component {
                     isdialplan = mDisDialrule[4];
                 else
                     isdialplan = mDisDialrule[3];
-                this.props.cb_start_single_call(acctstatus, record.Number, record.Account, 0, isdialplan, 0, record.IsVideo);
+
+                this.props.cb_start_single_call(acctstatus, record.Number, record.Account, 0, isdialplan, 0, record.IsVideo, sources);
             }else{
                 if( mDisableIPVT ){
                     let dialnum = "", dialacct = "";
@@ -815,7 +820,8 @@ class DialUpForm extends Component {
                         isdialplan += mDisDialrule[3] + ":::";
                 }
                 isdialplan = isdialplan.substring(0, isdialplan.length - 3);
-                this.props.cb_start_addmemberconf(acctstatus, dialnum, dialacct, "call", "", isdialplan, "", record.IsVideo);
+
+                this.props.cb_start_addmemberconf(acctstatus, dialnum, dialacct, "call", "", isdialplan, "", record.IsVideo, sources);
             }
             return;
         }

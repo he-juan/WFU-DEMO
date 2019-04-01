@@ -1,5 +1,5 @@
 /**
- * 录像功能
+ * 录像功能  GVC3220 暂废弃  移入Others
  */
 import React, { Component } from 'react'
 import Enhance from "../../../../mixins/Enhance"

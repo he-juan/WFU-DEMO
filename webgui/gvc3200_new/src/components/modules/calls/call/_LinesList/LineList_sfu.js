@@ -239,7 +239,7 @@ class LinesList extends Component {
                     <div className="confnum"></div>
                     <div className="conftype"></div>
                     <div className="confbtn">
-                        <Button id="startFECC" title={tr("a_19020")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/>
+                        {/* <Button id="startFECC" title={tr("a_19020")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/> */}
                         <Button id="closecamera" title={tr("a_628")} disabled={localbtndisabled}  className={localcamerablockedclass} onClick={this.handlelocalcamera}/>
                         <Button id="localmute" title={tr("a_413")} disabled={localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                     </div>

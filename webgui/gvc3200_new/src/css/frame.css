@@ -4511,7 +4511,7 @@ table thead tr th{
     line-height: 50px;
 }
 
-.ctrl-line .local-line div, .ctrl-line .remote-line div{
+.ctrl-line .local-line div, .ctrl-line .remote-line div, .ctrl-line .whole-control div{
     float: left;
     margin-left: 15px;
     font-size: 18px;
@@ -4745,6 +4745,9 @@ table thead tr th{
     background: url(../img/call/conf_control.png) -48px -196px no-repeat;
 }
 
+.call-ctrl-btn .startFECC, .call-ctrl-btn .startFECC:hover, .call-ctrl-btn .startFECC:active{
+    background: url(../img/call/conf_control.png) -190px -147px no-repeat;
+}
 .mute-btn .mute-icon{
     background: url(../img/icon.png) -182px -191px;
 }

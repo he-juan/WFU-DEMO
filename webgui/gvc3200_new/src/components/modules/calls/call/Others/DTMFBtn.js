@@ -85,7 +85,7 @@ class DTMFModal extends Component{
                             if(index % 3 == 1 ){
                                 middleclass = " midkeypad";
                             }
-                            return <div className={"dtmfkeypad" + middleclass} onClick={this.clickKeypad.bind(this,content + "")} >
+                            return <div key={index} className={"dtmfkeypad" + middleclass} onClick={this.clickKeypad.bind(this,content + "")} >
                                 <span>{ content + "" }</span></div>
                         })
                     }
@@ -96,15 +96,56 @@ class DTMFModal extends Component{
 
 }
 
+DTMFModal = Enhance(DTMFModal)
+
+class DTMFBtn extends Component {
+    constructor() {
+        super()
+        this.state = {
+          DTMFString: "",
+          DTMFVisible: false,
+        }
+    }
+    showDTMF = () => {
+        if(this.props.ispause()){
+            return false;
+        }
+        this.props.getconfdtmf((data)=>{
+            this.setState({DTMFString:data.dtmfstr});
+        });
+        this.setState({
+            DTMFVisible: true
+        });
+        this.props.hideOtherCtrl()
+      }
+    
+    hideDTMFModal = () =>{
+    this.setState({DTMFVisible: false});
+    }
+    render() {
+        const { DTMFDisplay, sendDTMFchar } = this.props
+        return (
+            <div onClick={this.showDTMF}>
+                {this.tr("a_10256")}
+                {/* 小键盘 */}
+                <DTMFModal visible={this.state.DTMFVisible} textdisplay={DTMFDisplay} DTMFString={this.state.DTMFString} onHide={this.hideDTMFModal} sendDTMFchar={sendDTMFchar}/>
+            </div>
+        )
+    }
+}
+
+
 const mapStateToProps = (state) => ({
 
 })
 
 const mapDispatchToProps = (dispatch) => {
     const actions = {
+        getconfdtmf: Actions.getconfdtmf,
         sendDTMFchar: Actions.sendDTMFchar
     }
     return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Enhance(DTMFModal))
+
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(DTMFBtn))
