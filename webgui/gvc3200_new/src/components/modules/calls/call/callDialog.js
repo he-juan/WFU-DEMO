@@ -83,7 +83,7 @@ class CallDialog extends Component {
             } else {
                 this.setState({DTMFDisplay: true});
             }
-        });
+        },true);
         // let getis4kcon = new Promise((resolve, reject) => {
         //     this.props.getHDMI1Resolution((is4kon) => {
         //         resolve(is4kon);

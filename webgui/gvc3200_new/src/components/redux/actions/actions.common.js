@@ -74,7 +74,7 @@ export const setLogcat = (value) => (dispatch) => {
 /**
  * 获取表单数据，初始化
  */
-export const getItemValues = (items, callback) => (dispatch) => {
+export const getItemValues = (items, callback, notSave) => (dispatch) => {
     let uritail = "";
     for (var i = 0; i < items.length; i++) {
         uritail += actionUtil.build_get(i, items[i].pvalue);
@@ -83,7 +83,9 @@ export const getItemValues = (items, callback) => (dispatch) => {
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
         let values = actionUtil.pvalueToConfName(msgs, items);
-        dispatch({type: 'REQUEST_GET_ITEM_VALUE', itemValues: values});
+        if(!notSave) {
+            dispatch({type: 'REQUEST_GET_ITEM_VALUE', itemValues: values});
+        }
         if (typeof callback === 'function') {
             callback(values);
         }

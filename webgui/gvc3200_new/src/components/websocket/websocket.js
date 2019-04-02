@@ -356,7 +356,7 @@ class HandleWebsocket extends React.Component {
                                 this.props.showCallDialog("end");
                             }, 1000);
                         }
-                        localStorage.removeItem('recordSource')
+                        sessionStorage.removeItem('recordSource')
                         break;
                     case "1":
                     case "3":
@@ -374,7 +374,7 @@ class HandleWebsocket extends React.Component {
                         // accept the call
                     case "5": //hold all line
                         if(this.props.recordStatus == '1') {
-                            localStorage.setItem('isRecorded', '1')
+                            sessionStorage.setItem('isRecorded', '1')
                         }
                         this.changelinesstatus(message);
                         break;
@@ -514,9 +514,9 @@ class HandleWebsocket extends React.Component {
                 this.props.getsfuconfinfo();
                 break;
             case 'unhold_continue_record':
-                localStorage.removeItem('isRecorded');
+                sessionStorage.removeItem('isRecorded');
                 if(message['status'] == '0') {
-                    localStorage.removeItem('recordSource')
+                    sessionStorage.removeItem('recordSource')
                 }
                 break;
         }
@@ -528,6 +528,7 @@ class HandleWebsocket extends React.Component {
     }
 
     handleData = (data) => {
+        data = data.replace(/,$/, '')
         let wsdata = window.eval("([" + data + "])");
         //console.log(wsdata);
         for(let i=0; i<wsdata.length; i++){
@@ -547,7 +548,7 @@ class HandleWebsocket extends React.Component {
     handleCallRecord = (callrecord) => {
         let flag = callrecord.opt == 'start' ? 1 : 0
         if(flag == 1) {
-            localStorage.removeItem('isRecorded')
+            sessionStorage.removeItem('isRecorded')
         }
         this.props.setRecordStatus(flag)
     }

@@ -1038,6 +1038,7 @@ export const endlinecall = (line, flag) => (dispatch) =>{
 }
 
 export const endconf = (flag) => (dispatch) =>{
+    dispatch(showCallDialog('10')) // fix 当结束会议时还会重新mount通话框导致重新发请求的问题.
     let request = "action=endconf&region=confctrl&flag=" + flag ;
     request += "&time=" + new Date().getTime();
     actionUtil.handleGetRequest(request).then(function(data) {
