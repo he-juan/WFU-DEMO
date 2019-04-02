@@ -80,7 +80,7 @@ RecordModal = connect((state) => ({
 class RecordModalSFU extends Component {
   constructor() {
     super()
-    let recordSource = localStorage.getItem("recordSource") 
+    let recordSource = sessionStorage.getItem("recordSource") 
     this.state = {
       list: [],
       checkedSource: recordSource ? recordSource.split(",") : []
@@ -103,7 +103,7 @@ class RecordModalSFU extends Component {
   }
   handleSubmit = () => {
     let _checkedSource = this.state.checkedSource.join(',')
-    localStorage.setItem("recordSource", _checkedSource)
+    sessionStorage.setItem("recordSource", _checkedSource)
     this.props.startconfrecording(_checkedSource)
     this.props.onHide()
   }
@@ -176,7 +176,7 @@ RecordModalSFU = connect(() => {}, (dispatch) => {
 /**
  * Record  prop: 
  * 
- * ctrlbtnvisible, recordvisible, is4kon, ishdmione4K, isline4Kvideo
+ * recordvisible, is4kon, ishdmione4K, isline4Kvideo
  * 
  * countClickedTimes, ispause, hasipvtline
  */
@@ -218,15 +218,15 @@ class RecordBtn extends Component {
   }
 
   handleContinueRecord = (flag) => {
-    localStorage.removeItem('isRecorded')
+    sessionStorage.removeItem('isRecorded')
     this.toogleRecordModal(flag);
   }
   render() {
-    const { ctrlbtnvisible, recordStatus, ipvtRecordStatus, is4kon, ishdmione4K, isline4Kvideo, msfurole } = this.props;
+    const { recordStatus, ipvtRecordStatus, is4kon, ishdmione4K, isline4Kvideo, msfurole } = this.props;
 
     let recordvisible = (!is4kon && (!ishdmione4K || !isline4Kvideo)) || this.props.ipvtrcdallowstatus;
 
-    if(ctrlbtnvisible== 'display-hidden' || !recordvisible) return null;
+    if(!recordvisible) return null;
 
     let recordclass = "unrcd";
     if(recordStatus == "1" || ipvtRecordStatus == "1"){
@@ -243,7 +243,7 @@ class RecordBtn extends Component {
         }
         <Modal
           title="提示"
-          visible={this.props.heldStatus == '0' && localStorage.getItem('isRecorded') == '1'}
+          visible={this.props.heldStatus == '0' && sessionStorage.getItem('isRecorded') == '1'}
           okText="确认"
           onCancel={() => this.handleContinueRecord(false)}
           onOk= {() => this.handleContinueRecord(true)}

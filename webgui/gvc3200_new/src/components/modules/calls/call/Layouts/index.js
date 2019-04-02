@@ -37,10 +37,10 @@ class Layouts extends Component {
     }
   }
   render () {
-    const { ctrlbtnvisible, is4kon, acctstatus, msfurole, linestatus } = this.props
+    const { is4kon, acctstatus, msfurole, linestatus } = this.props
     return (
       <span>
-        <Button title={this.tr("a_16703")} className={`${ctrlbtnvisible} layout-btn`} style={{display: is4kon ? 'none': 'block'}} onClick={() => this.toogleLayoutModal(true)}/>
+        <Button title={this.tr("a_16703")} className={`layout-btn`} style={{display: is4kon ? 'none': 'block'}} onClick={() => this.toogleLayoutModal(true)}/>
         {
             (this.props.isvideo == 1 && acctstatus[0]) ? 
             msfurole == -1 ?

@@ -227,7 +227,7 @@ class CallDialog extends Component {
     
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo} = this.props;
+        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, heldStatus} = this.props;
 
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
@@ -308,6 +308,8 @@ class CallDialog extends Component {
 
         const _hasipvtline = this.hasipvtline()
         const _ispause = this.ispause
+
+        const isBtnsHide = heldStatus == '1' || ctrlbtnvisible == 'display-hidden' 
         return (
             <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
 				<div className={`call-ctrl ${tmpclass}`}>
@@ -318,12 +320,15 @@ class CallDialog extends Component {
                     <LinesList linestatus={linestatus} acctstatus={this.state.acctstatus} feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)} />
                     <div className="call-ctrl-btn">
                         {/* 添加成员按钮 */}
-                        <InviteMember 
-                            ctrlbtnvisible={ctrlbtnvisible} 
-                            ispause={_ispause} 
-                            disabled={!_hasipvtline && msfurole != 2 || (sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 
-                            linestatus={linestatus} 
-                        />
+                        {
+                            isBtnsHide ? null :
+                            <InviteMember 
+                                ispause={_ispause} 
+                                disabled={!_hasipvtline && msfurole != 2 || (sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 
+                                linestatus={linestatus} 
+                            />
+                        }
+                        
                         {/* 录像按钮 */}
                         {/* <Record 
                             ctrlbtnvisible={ctrlbtnvisible}  
@@ -336,41 +341,50 @@ class CallDialog extends Component {
                         /> */}
                         
                         {/* 布局按钮 */}
-                        <Layouts 
-                            ctrlbtnvisible={ctrlbtnvisible} 
-                            is4kon={this.state.is4kon}
-                            acctstatus={this.state.acctstatus}
-                            ispause={_ispause}
-                            linestatus={linestatus} 
-                        />
+                        {
+                            isBtnsHide ? null :
+                            <Layouts 
+                                is4kon={this.state.is4kon}
+                                acctstatus={this.state.acctstatus}
+                                ispause={_ispause}
+                                linestatus={linestatus} 
+                            />
+                        }
                         
                         {/* 本地摄像头控制 弹窗 */}
-                        <FECC 
-                            countClickedTimes={this.countClickedTimes.bind(this)} 
-                            feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)}
-                        />
+                        {
+                            isBtnsHide ? null :
+                            <FECC 
+                                countClickedTimes={this.countClickedTimes.bind(this)} 
+                                feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)}
+                            />
+                        }
+                        
 
 
 
                         {/* 保持按钮 */}
-                        {/* <Hold 
-                            ctrlbtnvisible={ctrlbtnvisible}
-                            linestatus={linestatus}
-                            countClickedTimes={this.countClickedTimes.bind(this)} 
-                        /> */}
+                        {
+                            heldStatus == '0' ? null :
+                            <Button title={"取消保持"} className={`hold-icon`} onClick={() => this.props.confholdstate('0')} />
+                        }
+                        
                         
                         {/* 演示按钮 */}
-                        <Presentation 
-                            ctrlbtnvisible={ctrlbtnvisible}
-                            ispause={_ispause}
-                        />
+                        {
+                            isBtnsHide ? null :
+                            <Presentation 
+                                ispause={_ispause}
+                            />
+                        }
+                        
 
                         {/* 举手按钮 */}
-                        <Handsup 
+                        {/* <Handsup 
                             ctrlbtnvisible={ctrlbtnvisible}
                             hasipvtline={_hasipvtline}
                             countClickedTimes={this.countClickedTimes.bind(this)} 
-                        />
+                        /> */}
 
                         {/* 结束按钮 */}
                         
@@ -381,19 +395,22 @@ class CallDialog extends Component {
 
 
                         {/* 其他功能 */}
-                        <Others
-                            linestatus={linestatus}
-                            ctrlbtnvisible={ctrlbtnvisible}
-                            ispause={_ispause}
-                            hasipvtline={_hasipvtline}
-                            DTMFDisplay={this.state.DTMFDisplay}
-                            acctstatus={this.state.acctstatus}
+                        {
+                            isBtnsHide ? null :
+                            <Others
+                                linestatus={linestatus}
+                                ispause={_ispause}
+                                hasipvtline={_hasipvtline}
+                                DTMFDisplay={this.state.DTMFDisplay}
+                                acctstatus={this.state.acctstatus}
 
-                            is4kon={this.state.is4kon}
-                            ishdmione4K={this.state.ishdmione4K}
-                            isline4Kvideo={this.state.isline4Kvideo}
-                            countClickedTimes={this.countClickedTimes.bind(this)} 
-                        />
+                                is4kon={this.state.is4kon}
+                                ishdmione4K={this.state.ishdmione4K}
+                                isline4Kvideo={this.state.isline4Kvideo}
+                                countClickedTimes={this.countClickedTimes.bind(this)} 
+                            />
+                        }
+                        
 					</div>
 				</div>
                 {/** 视频邀请弹窗 */}
@@ -432,6 +449,7 @@ function mapDispatchToProps(dispatch) {
     //   gethdmione4K: Actions.gethdmione4K,
     //   getline4Kvideo: Actions.getline4Kvideo,
       isallowipvtrcd: Actions.isallowipvtrcd,
+      confholdstate: Actions.confholdstate,
       // sfu
       issfuconf: Actions.issfuconf,
       getsfuconfmyrole: Actions.getsfuconfmyrole,

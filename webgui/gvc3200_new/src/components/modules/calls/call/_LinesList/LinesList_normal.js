@@ -327,8 +327,9 @@ class LinesList extends Component {
         this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
     }
     render() {
-        const { acctstatus, feccbtnvisile, linestatus, localcamerablocked } = this.props
+        const { acctstatus, feccbtnvisile, linestatus, localcamerablocked, heldStatus } = this.props
         const { localmuteclass, localcamerablockedclass, startFECCClass, localbtndisabled, ismute } = calLocalBtnStatus(linestatus, localcamerablocked)
+        const isHeld = heldStatus == '1'
         return (
             <div className="ctrl-line">
                 {/* 全场会控 */}
@@ -337,9 +338,9 @@ class LinesList extends Component {
                     <div className="confnum"></div>
                     <div className="conftype"></div>
                     <div className="confbtn">
-                        <Button id="allSuspend" title={"点击关闭所有画面"} className="confvideo" />
-                        <Button id="allBlock" title={"点击全部禁声"} className="unconfblock" />
-                        <Button id="allMute" title={tr("a_413")} className="unmute" />
+                        <Button id="allSuspend" disabled={isHeld} title={"点击关闭所有画面"} className="confvideo" />
+                        <Button id="allBlock" disabled={isHeld} title={"点击全部禁声"} className="unconfblock" />
+                        <Button id="allMute" disabled={isHeld} title={tr("a_413")} className="unmute" />
                     </div>
                 </div>
                 <div className="local-line">
@@ -348,8 +349,8 @@ class LinesList extends Component {
                     <div className="conftype"></div>
                     <div className="confbtn">
                         {/* <Button id="startFECC" title={tr("a_19020")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/> */}
-                        <Button id="closecamera" title={tr("a_628")} disabled={localbtndisabled}  className={localcamerablockedclass} onClick={this.handlelocalcamera}/>
-                        <Button id="localmute" title={tr("a_413")} disabled={localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
+                        <Button id="closecamera" title={tr("a_628")} disabled={isHeld || localbtndisabled}  className={localcamerablockedclass} onClick={this.handlelocalcamera}/>
+                        <Button id="localmute" title={tr("a_413")} disabled={isHeld || localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                     </div>
                 </div>
                 {
@@ -362,7 +363,7 @@ class LinesList extends Component {
                         <div className="conftype">{itemTitle}</div>
                         <div className="confbtn">
                             {/* 结束通话 */}
-                            <Button title={tr("a_1")} className="endconf"
+                            <Button title={tr("a_1")} className="endconf" disabled={isHeld}
                                     onClick={this.handleEndline.bind(this, item.line, item.acct)}/>
                             {/* 本地摄像头控制 */}
                             {/* <Button className={feccclass} style={{display: feccbtnvisile ? 'block' : 'none' }}
@@ -370,27 +371,27 @@ class LinesList extends Component {
                                     disabled={item.enablefecc != "1" && item.feccstate != "1"}/> */}
                             {/* 暂停视频上传 */}
                             <Button title={tr("a_19241")} className={isvideoedclass}
-                                    disabled={item.acct == 1 ? false : true}
+                                    disabled={!isHeld && item.acct == 1 ? false : true}
                                     onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/>
                             {/* 暂停视频接受 */}
                             <Button title={tr("a_16700")}
-                                    disabled={disabledflag || item.isvideo == "0" ? true : false}
+                                    disabled={isHeld || disabledflag || item.isvideo == "0" ? true : false}
                                     className={suspendclass}/>
                             {/* 关闭视频 */}
                             <Button title={tr("a_628")}
-                                    disabled={disabledflag ? true : false}
+                                    disabled={isHeld || disabledflag ? true : false}
                                     className={confvideoclass}
                                     onClick={this.handlelinevideoswitch.bind(this, item)}
                             />
                             {/* 禁声 */}
                             <Button title={tr("a_16701")}
-                                    disabled={disabledflag ? true : false}
+                                    disabled={isHeld || disabledflag ? true : false}
                                     className={blockclass}
                                     onClick={this.handlelineblock.bind(this, item.line)}
                             />
                             {/* 静音 */}
                             <Button title={item.islinemute == "1" ? tr("a_659") : tr("a_649")}
-                                    disabled={disabledflag ? true : false}
+                                    disabled={isHeld || disabledflag ? true : false}
                                     className={muteclass}
                                     onClick={this.handlelinemute.bind(this, item)}/>
                         </div>

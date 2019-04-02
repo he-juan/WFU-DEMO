@@ -41,8 +41,7 @@ class HoldBtn extends Component {
       this.props.confholdstate(ishold);
     }
     render() {
-      const {ctrlbtnvisible, heldStatus} = this.props
-      if(ctrlbtnvisible == 'display-hidden') return null
+      const { heldStatus} = this.props
       return (
           <div onClick={this.handleHoldall}> 
             { heldStatus == '0' ? '保持' : '取消保持'}

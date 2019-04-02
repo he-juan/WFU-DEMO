@@ -24,12 +24,11 @@ class InviteMember extends Component {
   }
 
   render(){
-    const { ctrlbtnvisible, disabled, linestatus } = this.props
-    if(ctrlbtnvisible == 'display-hidden') return null
+    const { disabled, linestatus } = this.props
 
     return (
       <span>
-        <Button title={this.tr("a_517")} className={`${ctrlbtnvisible} addmember-btn`} disabled={disabled} onClick={() => {this.toogleInviteMemberModal(true)}} /> 
+        <Button title={this.tr("a_517")} className={`addmember-btn`} disabled={disabled} onClick={() => {this.toogleInviteMemberModal(true)}} /> 
         <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)}  linestatus={linestatus} />
       </span>
     )

@@ -7,11 +7,13 @@ import * as Actions from '../../../../redux/actions/index'
 import { Button, Popover} from "antd"
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import DetailsBtn from './DetailsBtn'
+import CallDetailsBtn from './CallDetailsBtn'
+import ConfDetailsBtn from './ConfDetailBtn'
 import DTMFBtn from './DTMFBtn'
 import DNDBtn from './DNDBtn'
 import HoldBtn from './HoldBtn'
 import RecordBtn from './RecordBtn'
+import HandsupBtn from './HandsupBtn'
 
 class Others extends Component {
   constructor() {
@@ -31,21 +33,29 @@ class Others extends Component {
   }
 
   render() {
-    const {ctrlbtnvisible, linestatus, DTMFDisplay, hasipvtline, acctstatus, ispause, is4kon, ishdmione4K, isline4Kvideo, countClickedTimes} = this.props
+    const {msfurole,linestatus, DTMFDisplay, hasipvtline, acctstatus, ispause, is4kon, ishdmione4K, isline4Kvideo, countClickedTimes} = this.props
     return (
-      <div className={ctrlbtnvisible + ' left-actions'} style={{position: "absolute", right: "10px"}}>
+      <div className={'left-actions'} style={{position: "absolute", right: "10px"}}>
         <Popover
           content={<div style={{lineHeight:'30px', cursor:'pointer'}}>
             {/* 录像 */}
             <RecordBtn is4kon={is4kon} ishdmione4K={ishdmione4K} isline4Kvideo={isline4Kvideo} countClickedTimes={countClickedTimes} ispause={ispause}  hasipvtline={hasipvtline}/>
             {/* 保持 */}
-            <HoldBtn ctrlbtnvisible={ctrlbtnvisible} linestatus={linestatus} />
+            { 
+              msfurole < 1 ?
+              <HoldBtn linestatus={linestatus} />  
+              : null
+              }
+            {/* 举手 */}
+            <HandsupBtn hasipvtline={hasipvtline} countClickedTimes={countClickedTimes} />
             {/* DND */}
             <DNDBtn  hasipvtline={hasipvtline}/>
             {/* DTMF */}
             <DTMFBtn DTMFDisplay={DTMFDisplay} ispause={ispause} hideOtherCtrl={() => this.handleOtherCtrlChange(false)} />
             {/* 通话详情 */}
-            <DetailsBtn acctstatus={acctstatus} linestatus={linestatus} hideOtherCtrl={() => this.handleOtherCtrlChange(false)} ispause={ispause}/>
+            <CallDetailsBtn acctstatus={acctstatus} linestatus={linestatus} hideOtherCtrl={() => this.handleOtherCtrlChange(false)} ispause={ispause}/>
+            {/** 会议详情 */}
+            <ConfDetailsBtn acctstatus={acctstatus} linestatus={linestatus} hideOtherCtrl={() => this.handleOtherCtrlChange(false) } ispause={ispause}/>
           </div>}
 
           trigger="click" visible={this.state.otherCtrlVisible} onVisibleChange={this.handleOtherCtrlChange}>
@@ -59,7 +69,8 @@ class Others extends Component {
 
 
 const mapStateToProps = (state) => ({
-  recordStatus: state.recordStatus
+  recordStatus: state.recordStatus,
+  msfurole: state.msfurole
 })
 
 const mapDispatchToProps = (dispatch) => {

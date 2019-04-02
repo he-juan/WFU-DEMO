@@ -126,7 +126,7 @@ class LinesList extends Component {
         
         return (
             <span>
-              <Button id="startFECC" title={tr("a_19020")} disabled={!feccbtnvisile} className={'startFECC'} onClick={this.handleStartFECC.bind(this, "-1")}/>
+              <Button id="startFECC" title={"摄像头控制"} disabled={!feccbtnvisile} className={'startFECC'} onClick={this.handleStartFECC.bind(this, "-1")}/>
               <FECCModal />
             </span>
         )

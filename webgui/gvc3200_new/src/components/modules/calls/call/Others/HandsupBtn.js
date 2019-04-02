@@ -1,5 +1,5 @@
 /**
- * 举手功能  GVC3220 暂废弃
+ * 举手功能
  */
 import React, { Component } from 'react'
 import Enhance from "../../../../mixins/Enhance"
@@ -19,22 +19,14 @@ class Handsup extends Component {
 
 
   render() {
-    const { ctrlbtnvisible, ipvrole, hasipvtline, handsupStatus } = this.props;
+    const { ipvrole, hasipvtline, handsupStatus } = this.props;
 
-    if(ctrlbtnvisible == 'display-hidden') return null
+    if(!(hasipvtline && (ipvrole == "1" || ipvrole == "3"))) return null
 
-    let handsupclass = "unhandsup";
-    let handsupdisplay = "none";
-    if(hasipvtline && (ipvrole == "1" || ipvrole == "3") ){
-        handsupdisplay = "block";
-    }
-    if(handsupStatus == "1"){
-        handsupclass = "handsup"
-    }
     return (
-      <span>
-        <Button title={this.tr("a_10220")} className={`${ctrlbtnvisible} ${handsupclass}`} style={{display: handsupdisplay}}  onClick={()=>this.handleHandsup()} />
-      </span>
+      <div onClick={()=>this.handleHandsup()}>
+          {handsupStatus == '1' ? '取消举手' : this.tr("a_10220")}
+      </div>
     )
   }
 }

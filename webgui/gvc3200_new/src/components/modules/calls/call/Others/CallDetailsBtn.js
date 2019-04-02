@@ -129,7 +129,7 @@ class DetailsModalNormal extends Component {
                         }
                     </div>
                     <div className="linedetails">
-                        {
+                        {/* {
                             ipvline ?
                             <div className= "ipvconfdetails" style={{ display: account == 1 ? 'block' : 'none' }}>
                                 <div className="ipvconfdivs">
@@ -164,7 +164,7 @@ class DetailsModalNormal extends Component {
                                     </span>
                                 </div>
                             </div> : ""
-                        }
+                        } */}
                         <div className="detailstitle">
                             <div id="detailsend"><div><span id="a_detailsend">Send</span>&nbsp;:&nbsp;</div></div>
                             <div id="detailreceive"><div><span id="a_detailreceive">Receive</span>&nbsp;:&nbsp;</div></div>
@@ -371,7 +371,7 @@ class DetailModalSfu extends Component {
     constructor() {
       super()
       this.state = {
-        currentInfo: 'conf-detail',
+        currentInfo: 'general-detail',
         currentMember: ''
       }
     }
@@ -420,7 +420,7 @@ class DetailModalSfu extends Component {
         <Modal className="call-details-modal" visible={visible}  width="920px" maskClosable="false" footer={null} onCancel={onHide}>
           <div className="detailscontent sfu-details" style={{ height:  '630px'}}>
             <div className="lineinfo">
-              <div className={currentInfo == 'conf-detail' ? 'linelist active' : 'linelist'} onClick={() => this.switchInfo('conf-detail')}>会议信息</div>
+              {/* <div className={currentInfo == 'conf-detail' ? 'linelist active' : 'linelist'} onClick={() => this.switchInfo('conf-detail')}>会议信息</div> */}
               <div className={currentInfo == 'general-detail' ? 'linelist active' : 'linelist'} onClick={() => this.switchInfo('general-detail')}>通用详情</div>
               {
                 Object.keys(memberDetailMap).map( v => 
@@ -429,7 +429,7 @@ class DetailModalSfu extends Component {
               }
             </div>
             <div className="linedetails">
-              {/* 会议信息 */}
+              {/* 会议信息
               {
                 currentInfo == 'conf-detail' ? 
                 <div className="conf-detail">
@@ -467,7 +467,7 @@ class DetailModalSfu extends Component {
                   </div>
                 </div>
                 : null
-              }
+              } */}
               
   
   
