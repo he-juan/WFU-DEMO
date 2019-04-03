@@ -316,13 +316,15 @@ class MainHeader extends Component {
             var counttimes = 0;
             this.props.setKeyCode(0, keycode, 0);
             this.mInterval = setInterval(()=>{this.props.setKeyCode(0, keycode, ++counttimes);}, 200);
-            document.addEventListener('mouseup', _this.clearmInterval)
+
+            function remoteMouseUp() {
+                clearInterval(_this.mInterval);
+                document.removeEventListener('mouseup',remoteMouseUp, false)
+                _this.props.setKeyCode(1, keycode, 0);
+                remoteMouseUp = null
+            }
+            document.addEventListener('mouseup', remoteMouseUp, false)
         }
-    }
-    clearmInterval = () => {
-        let _this = this;
-        document.removeEventListener('mouseup',_this.clearmInterval)
-        clearInterval(this.mInterval)
     }
 
     clearsendKey=(keycode)=>{
@@ -419,77 +421,77 @@ class MainHeader extends Component {
                     <div id="RemoteControlModal" style={{display: this.state.showControl ? "block" : "none"}}>
                         <div id="remotectrl" className="borderradius">
                             <div id="tophomebtn">
-                                <button id="powerbtn" onMouseDown={this.sendKey.bind(this,26)} onMouseUp={this.clearsendKey.bind(this,26)}></button>
+                                <button id="powerbtn" onMouseDown={this.sendKey.bind(this,26)} ></button>
                             </div>
                             <div id="touchpad"></div>
                             <div id="topbuttonarea" className="btnarea">
-                                <button id="returnkey" className="optbtnleft" onMouseDown={this.sendKey.bind(this,4)} onMouseUp={this.clearsendKey.bind(this,4)}><div></div></button>
-                                <button id="homekey" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,3)} onMouseUp={this.clearsendKey.bind(this,3)}><div></div></button>
-                                <button id="menukey" className="optbtnright"  onMouseDown={this.sendKey.bind(this,82)} onMouseUp={this.clearsendKey.bind(this,82)}><div></div></button>
+                                <button id="returnkey" className="optbtnleft" onMouseDown={this.sendKey.bind(this,4)} ><div></div></button>
+                                <button id="homekey" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,3)} ><div></div></button>
+                                <button id="menukey" className="optbtnright"  onMouseDown={this.sendKey.bind(this,82)}><div></div></button>
                             </div>
                             <div className="btnarea">
-                                <button id="customkey" onMouseDown={this.sendKey.bind(this,285)} onMouseUp={this.clearsendKey.bind(this,285)}><div></div></button>
+                                <button id="customkey" onMouseDown={this.sendKey.bind(this,285)} ><div></div></button>
                             </div>
                                 {
                                         this.props.product=="GVC3210"?<div id="funcbtn" className="btnarea">
-                                            <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,281)} onMouseUp={this.clearsendKey.bind(this,281)}><div></div></button>
-                                            <button id="yellowdigit" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,282)} onMouseUp={this.clearsendKey.bind(this,282)}><div></div></button>
-                                            <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,283)} onMouseUp={this.clearsendKey.bind(this,283)}><div></div></button>
+                                            <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,281)} ><div></div></button>
+                                            <button id="yellowdigit" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,282)} ><div></div></button>
+                                            <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,283)} ><div></div></button>
                                         </div>:<div id="funcbtn" className="btnarea">
-                                            <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,290)} onMouseUp={this.clearsendKey.bind(this,290)}><div></div></button>
-                                            <button id="yellowdigit" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,291)} onMouseUp={this.clearsendKey.bind(this,291)}><div></div></button>
-                                            <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,292)} onMouseUp={this.clearsendKey.bind(this,292)}><div></div></button>
+                                            <button id="reddigit" className="optbtnleft" onMouseDown={this.sendKey.bind(this,290)} ><div></div></button>
+                                            <button id="yellowdigit" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,291)} ><div></div></button>
+                                            <button id="bluedigit" className="optbtnright"  onMouseDown={this.sendKey.bind(this,292)}><div></div></button>
                                         </div>
                                 }
                             <div className="radiusbtn">
-                                <button id="volumedownbtn" onMouseDown={this.sendKey.bind(this,25)} onMouseUp={this.clearsendKey.bind(this,25)}><div></div></button>
-                                <button id="volumeupbtn"  onMouseDown={this.sendKey.bind(this,24)} onMouseUp={this.clearsendKey.bind(this,24)}><div></div></button>
+                                <button id="volumedownbtn" onMouseDown={this.sendKey.bind(this,25)}><div></div></button>
+                                <button id="volumeupbtn"  onMouseDown={this.sendKey.bind(this,24)} ><div></div></button>
                             </div>
                             <div className="centerarrow">
-                                <div style={{width:"100%",height:'20px',textAlign:"center"}}><button id="topbtn" className="arrowbtn" keycode="19" onMouseDown={this.sendKey.bind(this,19)} onMouseUp={this.clearsendKey.bind(this,19)}><div></div></button></div>
+                                <div style={{width:"100%",height:'20px',textAlign:"center"}}><button id="topbtn" className="arrowbtn" keycode="19" onMouseDown={this.sendKey.bind(this,19)}><div></div></button></div>
                                 <div style={{width:"100%", height:'52px'}}>
-                                    <div style={{width:"20px", height:"52px",position:"absolute",left:0}}><button id="leftbtn" className="arrowbtn" keycode="21" onMouseDown={this.sendKey.bind(this,21)} onMouseUp={this.clearsendKey.bind(this,21)}><div></div></button></div>
-                                    <button id="centerbtn" className="center" onMouseDown={this.sendKey.bind(this,23)} onMouseUp={this.clearsendKey.bind(this,23)}></button>
-                                    <div style={{width:"20px", height:"52px", position:"absolute", right:0}}><button id="rightbtn" className="arrowbtn" keycode="22"onMouseDown={this.sendKey.bind(this,22)} onMouseUp={this.clearsendKey.bind(this,22)}><div></div></button></div>
+                                    <div style={{width:"20px", height:"52px",position:"absolute",left:0}}><button id="leftbtn" className="arrowbtn" keycode="21" onMouseDown={this.sendKey.bind(this,21)} ><div></div></button></div>
+                                    <button id="centerbtn" className="center" onMouseDown={this.sendKey.bind(this,23)}></button>
+                                    <div style={{width:"20px", height:"52px", position:"absolute", right:0}}><button id="rightbtn" className="arrowbtn" keycode="22"onMouseDown={this.sendKey.bind(this,22)}><div></div></button></div>
                                 </div>
-                                <div style={{width:"100%", height:"20px", textAlign:"center"}}><button id="bottombtn" className="arrowbtn" keycode="20" onMouseDown={this.sendKey.bind(this,20)} onMouseUp={this.clearsendKey.bind(this,20)}><div></div></button></div>
+                                <div style={{width:"100%", height:"20px", textAlign:"center"}}><button id="bottombtn" className="arrowbtn" keycode="20" onMouseDown={this.sendKey.bind(this,20)} ><div></div></button></div>
                             </div>
                             <div className="radiusbtn" style={{marginTop:"-23px",height:"37px"}}>
-                                <button id="zoomoutbtn" onMouseDown={this.sendKey.bind(this,169)} onMouseUp={this.clearsendKey.bind(this,169)}><div></div></button>
-                                <button id="zoominbtn" onMouseDown={this.sendKey.bind(this,168)} onMouseUp={this.clearsendKey.bind(this,168)}><div></div></button>
+                                <button id="zoomoutbtn" onMouseDown={this.sendKey.bind(this,169)}><div></div></button>
+                                <button id="zoominbtn" onMouseDown={this.sendKey.bind(this,168)}><div></div></button>
                             </div>
                             <div id="mediabtn" className="downbtnarea">
-                                <button id="layoutbtn" className="optbtnleft" onMouseDown={this.sendKey.bind(this,277)} onMouseUp={this.clearsendKey.bind(this,277)}><div></div></button>
-                                <button id="ptzbtn" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,276)} onMouseUp={this.clearsendKey.bind(this,276)}><div></div></button>
-                                <button id="presentationbtn" className="optbtnright"  onMouseDown={this.sendKey.bind(this,278)} onMouseUp={this.clearsendKey.bind(this,278)}><div></div></button>
+                                <button id="layoutbtn" className="optbtnleft" onMouseDown={this.sendKey.bind(this,277)} ><div></div></button>
+                                <button id="ptzbtn" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,276)}><div></div></button>
+                                <button id="presentationbtn" className="optbtnright"  onMouseDown={this.sendKey.bind(this,278)}><div></div></button>
                             </div>
                             <div className="downbtnarea">
-                                <button id="digitcall" className="optbtnleft"  onMouseDown={this.sendKey.bind(this,5)} onMouseUp={this.clearsendKey.bind(this,5)}><div></div></button>
-                                <button id="digitback" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,67)} onMouseUp={this.clearsendKey.bind(this,67)}><div></div></button>
-                                <button id="digitendcall" className="optbtnright"  onMouseDown={this.sendKey.bind(this,6)} onMouseUp={this.clearsendKey.bind(this,6)}><div></div></button>
+                                <button id="digitcall" className="optbtnleft"  onMouseDown={this.sendKey.bind(this,5)} ><div></div></button>
+                                <button id="digitback" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,67)} ><div></div></button>
+                                <button id="digitendcall" className="optbtnright"  onMouseDown={this.sendKey.bind(this,6)} ><div></div></button>
                             </div>
                             <div className="downbtnarea">
-                                <button id="digit1" className="optbtnleft"  onMouseDown={this.sendKey.bind(this,8)} onMouseUp={this.clearsendKey.bind(this,8)}><div></div></button>
-                                <button id="digit2" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,9)} onMouseUp={this.clearsendKey.bind(this,9)}><div></div></button>
-                                <button id="digit3" className="optbtnright"  onMouseDown={this.sendKey.bind(this,10)} onMouseUp={this.clearsendKey.bind(this,10)}><div></div></button>
+                                <button id="digit1" className="optbtnleft"  onMouseDown={this.sendKey.bind(this,8)} ><div></div></button>
+                                <button id="digit2" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,9)} ><div></div></button>
+                                <button id="digit3" className="optbtnright"  onMouseDown={this.sendKey.bind(this,10)} ><div></div></button>
                             </div>
                             <div className="downbtnarea">
-                                <button id="digit4" className="optbtnleft" onMouseDown={this.sendKey.bind(this,11)} onMouseUp={this.clearsendKey.bind(this,11)}><div></div></button>
-                                <button id="digit5" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,12)} onMouseUp={this.clearsendKey.bind(this,12)}><div></div></button>
-                                <button id="digit6" className="optbtnright"  onMouseDown={this.sendKey.bind(this,13)} onMouseUp={this.clearsendKey.bind(this,13)}><div></div></button>
+                                <button id="digit4" className="optbtnleft" onMouseDown={this.sendKey.bind(this,11)}><div></div></button>
+                                <button id="digit5" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,12)}><div></div></button>
+                                <button id="digit6" className="optbtnright"  onMouseDown={this.sendKey.bind(this,13)}><div></div></button>
                             </div>
                             <div className="downbtnarea">
-                                <button id="digit7" className="optbtnleft" onMouseDown={this.sendKey.bind(this,14)} onMouseUp={this.clearsendKey.bind(this,14)}><div></div></button>
-                                <button id="digit8" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,15)} onMouseUp={this.clearsendKey.bind(this,15)}><div></div></button>
-                                <button id="digit9" className="optbtnright" onMouseDown={this.sendKey.bind(this,16)} onMouseUp={this.clearsendKey.bind(this,16)}><div></div></button>
+                                <button id="digit7" className="optbtnleft" onMouseDown={this.sendKey.bind(this,14)}><div></div></button>
+                                <button id="digit8" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,15)}><div></div></button>
+                                <button id="digit9" className="optbtnright" onMouseDown={this.sendKey.bind(this,16)}><div></div></button>
                             </div>
                             <div className="downbtnarea">
-                                <button id="digitasterisk" className="optbtnleft"  onMouseDown={this.sendKey.bind(this,17)} onMouseUp={this.clearsendKey.bind(this,17)}><div></div></button>
-                                <button id="digit0" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,7)} onMouseUp={this.clearsendKey.bind(this,7)}><div></div></button>
-                                <button id="digithash" className="optbtnright"  onMouseDown={this.sendKey.bind(this,18)} onMouseUp={this.clearsendKey.bind(this,18)}><div></div></button>
+                                <button id="digitasterisk" className="optbtnleft"  onMouseDown={this.sendKey.bind(this,17)}><div></div></button>
+                                <button id="digit0" className="optbtnmid"  onMouseDown={this.sendKey.bind(this,7)}><div></div></button>
+                                <button id="digithash" className="optbtnright"  onMouseDown={this.sendKey.bind(this,18)}><div></div></button>
                             </div>
                             <div id="bottommutebtn">
-                                <button id="mutebtn" className="center" onMouseDown={this.sendKey.bind(this,91)} onMouseUp={this.clearsendKey.bind(this,91)}></button>
+                                <button id="mutebtn" className="center" onMouseDown={this.sendKey.bind(this,91)}></button>
                             </div>
                             <div id="closeremote" onClick={this.closeRemoteControl}></div>
                         </div>
