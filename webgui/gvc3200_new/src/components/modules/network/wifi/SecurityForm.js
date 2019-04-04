@@ -86,6 +86,10 @@ class SecurityForm extends Component {
     handleSubmit = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if(!err && this.state.validstatus != "error"){
+                if(values.hiddenauthmode == '0') {
+                    values.essidpwd = ''
+                    this.props.form.setFieldsValue({'essidpwd': ''})
+                }
                 this.props.setItemValues(req_items, values);
             }
         });
@@ -106,15 +110,6 @@ class SecurityForm extends Component {
                         <Input />
                     )}
                 </FormItem>
-                <FormItem validateStatus={this.state.validstatus} help={callTr(this.state.help)} className={this.state.pwdisplay}
-                    label={<span>{callTr("a_6759")}<Tooltip title={callTipsTr("Password  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
-                    {getFieldDecorator("essidpwd", {
-                        initialValue: itemvalue['essidpwd'],
-                    })(
-                        <Input type={this.state.type} onChange={this.checkPwdLength}
-                            suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />
-                    )}
-                </FormItem>
                 <FormItem label={<span>{callTr("a_hiddenauthmode")}<Tooltip title={callTipsTr("Security Mode for Hidden SSID")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("hiddenauthmode", {
                         initialValue: itemvalue['hiddenauthmode'] ? itemvalue['hiddenauthmode'] : "0"
@@ -125,6 +120,15 @@ class SecurityForm extends Component {
 							<Option value="2">WPA/WPA2 PSK</Option>
 							{/*<Option value="3">802.1X EAP</Option>*/}
 						</Select>
+                    )}
+                </FormItem>
+                <FormItem validateStatus={this.state.validstatus} help={callTr(this.state.help)} className={this.state.pwdisplay}
+                    label={<span>{callTr("a_6759")}<Tooltip title={callTipsTr("Password  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                    {getFieldDecorator("essidpwd", {
+                        initialValue: itemvalue['essidpwd'],
+                    })(
+                        <Input type={this.state.type} onChange={this.checkPwdLength}
+                            suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />
                     )}
                 </FormItem>
                 <FormItem>

@@ -675,9 +675,13 @@ tip_item_zh.push (
     new TipsDef("Security Mode", "安全模式",
         "此参数设置无线网络的安全模式。支持的模式: WEP/Shared, WEP/OPEN, WPA PSK TKIP, WPA PSK AES, WPA2 PSK TKIP, WPA2 PSK AES。 安全模式默认是关闭的。用户需要根据安全模式相应的填写验证密码。"),
     new TipsDef("ESSID ", "ESSID",
-        "此项用于设置已选择的ESSID。"),
+        "此项用于设置隐藏的ESSID。"),
+    new TipsDef("Security Mode for Hidden SSID", "隐藏SSID的安全模式",
+        "此参数设置SSID为隐藏时的无线网络的安全模式。"),
     new TipsDef("Password  ", "密码",
-        "此项用于设置已选择的ESSID的密码。"),
+        "此项用于设置隐藏的ESSID的密码。"),
+	new TipsDef("Country Code", "国家",
+    "设置Wi-Fi国家码。默认为“US”。"),
 
  /*Maintenance Web Access*/
     new TipsDef("Access Methode", "访问方式",
@@ -1381,7 +1385,7 @@ tip_item_zh.push (
     new TipsDef("Shutdown", "关机", "将设备关机"),
     new TipsDef("RTP Timeout (s)", "RTP超时（秒）",
         "此项用于设置话机如果在指定的RTP超时时间内没有收到RTP包，则将自动挂断通话。有效值范围是0-600秒。若设置为0秒，则话机不会自动挂断通话。")
-
+    
 
 
 

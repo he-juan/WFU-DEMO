@@ -2173,7 +2173,9 @@ table thead tr th{
 .wifilevel_3{
     background: transparent url(../img/icon.png) -310px -24px no-repeat;
 }
-
+.wifilevel_4{
+    background: transparent url(../img/icon.png) -310px -24px no-repeat;
+}
 /*.wifilock{
     background: transparent url(../img/icon.png) -285px -24px no-repeat;
     float: right;

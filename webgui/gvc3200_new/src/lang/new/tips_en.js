@@ -684,10 +684,13 @@ tip_item_en.push (
     new TipsDef("Security Mode",
         "This parameter defines the security mode used for the wireless network. The following are supported: WEP/Shared, WEP/OPEN, WPA PSK TKIP, WPA PSK AES, WPA2 PSK TKIP, WPA2 PSK AES. The default setting is set to \"Disabled\". Users will need to enter the corresponding authentication password for the security mode."),
     new TipsDef("ESSID ",
-        "Display the selected ESSID name."),
+        "Display the hidden ESSID name."),
+    new TipsDef("Security Mode for Hidden SSID",
+        "This parameter defines the security mode used for the wireless network when the SSID is hidden."),
     new TipsDef("Password  ",
-        "Configures the selected ESSID password."),
-
+        "Configures the hidden ESSID password."),
+    new TipsDef("Country Code",
+		"Configure WiFi country code. The default value is \"US\"."),
 	/*Maintenance Web Access*/
     new TipsDef("Access Methode",
         "Allows users to select HTTP or HTTPS for Web Access."),

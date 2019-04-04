@@ -35,7 +35,7 @@ class Wifi extends Component {
                 </TabPane>
             } ,
             (hiddenOptions,i) => {
-                return<TabPane tab={this.tr("a_wifiauth")} key={i}>
+                return<TabPane tab={"添加网络"} key={i}>
                     <WifiSecurityForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
             } ,
@@ -44,11 +44,11 @@ class Wifi extends Component {
                     <WifiMoreForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
             } ,
-            (hiddenOptions,i) => {
-                return<TabPane tab={this.tr("a_wifiroaming")} key={i}>
-                    <WifiRoamingForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
-                </TabPane>
-            }
+            // (hiddenOptions,i) => {
+            //     return<TabPane tab={this.tr("a_wifiroaming")} key={i}>
+            //         <WifiRoamingForm {...this.props} activeKey={this.props.activeKey} callTr={this.tr} callTipsTr={this.tips_tr} hideItem={hiddenOptions} tabOrder={i} />
+            //     </TabPane>
+            // }
         ]
         return (
             <Content className="content-container config-container">

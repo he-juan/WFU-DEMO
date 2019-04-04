@@ -464,8 +464,8 @@ export const cb_get_wifiresult = (callback) => (dispatch) => {
     });
 }
 
-export const cb_get_wifilist = (callback) => (dispatch) => {
-    let request = "action=getwifilist";
+export const cb_get_wifilist = (start, callback) => (dispatch) => {
+    let request = "action=getwifilist&start=" + start;
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let tObj = eval("(" + data + ")")

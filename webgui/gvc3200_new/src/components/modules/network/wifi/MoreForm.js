@@ -193,7 +193,7 @@ class MoreForm extends Component {
                         <Input />
                     )}
                 </FormItem>*/}
-                <FormItem label={<span>{callTr("a_layer2qospvwifi")}<Tooltip title={callTipsTr("Layer 2 QoS 802.1p Priority Value (Wi-Fi)")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                {/* <FormItem label={<span>{callTr("a_layer2qospvwifi")}<Tooltip title={callTipsTr("Layer 2 QoS 802.1p Priority Value (Wi-Fi)")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("layer2qospvwifi", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -208,7 +208,7 @@ class MoreForm extends Component {
                     })(
                         <Input className={"P-22048"} />
                     )}
-                </FormItem>
+                </FormItem> */}
                 {this.state.councodevis
                 ? <FormItem className={this.state.councodevis} label={<span>{callTr("a_19167")}<Tooltip title={callTipsTr("Country Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("councode", {

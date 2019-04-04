@@ -167,7 +167,7 @@ class DetailForm extends Component {
         const { getFieldDecorator } = this.props.form;
         const {callTr, needmodify, protocoltype} = this.props;
         const wifidata = this.props.wifiData;
-        const strengtharr = ["a_poor", "a_fair", "a_good", "a_exclt"];
+        const strengtharr = ["无", "弱", "一般", "较强", "强"];
         let securitystr = wifidata.securityStr;
         if(securitystr.toLowerCase() == "none"){
             securitystr = callTr("a_20");
@@ -203,7 +203,7 @@ class DetailForm extends Component {
                     <span>{callTr("a_23529")}</span>
                 </FormItem>
                 <FormItem label={<span>{callTr("a_wifistrength")}</span>}>
-                    <span>{callTr(strengtharr[parseInt(wifidata.level)])}</span>
+                    <span>{strengtharr[parseInt(wifidata.level)]}</span>
                 </FormItem>
                 <FormItem label={<span>{callTr("a_linkspeed")}</span>} className={itemstatus}>
                     <span>{wifidata.speed + " Mbps"}</span>
@@ -567,7 +567,14 @@ class GeneralForm extends Component {
     			disabled: !checked,
                 wifiresult: [],
                 loading: false
-    		});
+            });
+            if(checked) {
+                this.handleWifiScan();
+                this.refreshWifiList = setInterval(
+                    () => this.handleWifiScan(),
+                    15000
+                )
+            }
         });
 	}
 
@@ -579,7 +586,7 @@ class GeneralForm extends Component {
                 setTimeout(() => {
                     this.props.getWifiResult((tObj) => {
                         if(tObj.res == "success"){
-                            this.handleWifiList();
+                            this.handleWifiList(0, []);
                         }
                     });
                 }, 800);
@@ -591,17 +598,39 @@ class GeneralForm extends Component {
         });
     }
 
-    handleWifiList = () => {
-        this.props.getWifiList((tObj) => {
-            if(tObj.msg == "no ap"){
-                setTimeout(this.handleWifiList, 1000);
-            }
-            else if(tObj.res == "success"){
-                if(!this.state.disabled){
+    handleWifiList = (start, wifiList) => {
+        this.props.getWifiList(start, (tObj) => {
+            if (tObj.msg == "no ap") {
+                setTimeout(this.handleWifiList(start, wifiList), 1000);
+            } else if (tObj.res == "success" && !this.state.disabled) {
+                var count = tObj.count;
+                var len = tObj.list.length;
+                wifiList = wifiList.concat(tObj.list);
+
+                let connectedAP = -1;
+                for (let i in wifiList) {
+                    if (wifiList[i].isConnected == "CONNECTED") {
+                        connectedAP = i;
+                        break;
+                    }
+                }
+
+                if (connectedAP > 0) {
+                    /* swap the two SSIDs to move the connected SSID to the top of the list. (ES6结构赋值) */
+                    [wifiList[0], wifiList[connectedAP]] = [wifiList[connectedAP], wifiList[0]];
+                }
+
+                this.setState({
+                    wifiresult: wifiList
+                });
+                
+                if ((start + len) >= count) {
                     this.setState({
-                        wifiresult: tObj.list,
                         loading: false
                     });
+                } else {
+                    start += len;
+                    setTimeout(this.handleWifiList(start, wifiList), 200);
                 }
             }
         })
