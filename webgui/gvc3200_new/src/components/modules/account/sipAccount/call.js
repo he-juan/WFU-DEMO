@@ -426,7 +426,7 @@ class CallForm extends React.Component {
                        valuePropName: 'checked',
                        initialValue: parseInt(dialplancheck[1])
                    })(
-                       <Checkbox>{callTr("a_19372")}</Checkbox>
+                       <Checkbox style={{marginLeft:0}}>{callTr("a_19372")}</Checkbox>
                    )}
                    {getFieldDecorator('dismpkclick', {
                        valuePropName: 'checked',
@@ -721,10 +721,10 @@ class CallForm extends React.Component {
                <Row gutter={30} style={{width:'1500px',marginLeft:'17px'}}>
                    <Col span={2}></Col>
                    <Col className="ring-capture" span={4} style={{marginLeft:'13px',marginRight:'14px',paddingLeft:'0'}}>
-                       <span>{callTr("a_16178")}</span>
+                       <span>{callTr("a_16178")} <Tooltip title={this.tips_tr("Match Incoming Caller ID")}><Icon type="question-circle-o" style={{color:'#3d77ff'}} /></Tooltip></span>
                    </Col>
                    <Col className="ring-capture" span={4}>
-                       <span>{callTr("a_16179")}</span>
+                       <span>{callTr("a_16179")} <Tooltip title={this.tips_tr("Distinctive Ring Tone")}><Icon type="question-circle-o" style={{color:'#3d77ff'}}/></Tooltip></span>
                    </Col>
                    <Col span={21}></Col>
                </Row>
