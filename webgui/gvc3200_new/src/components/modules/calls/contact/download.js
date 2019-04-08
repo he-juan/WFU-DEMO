@@ -270,7 +270,7 @@ class DownloadContactsForm extends Component {
         const [callTr] = [this.props.callTr];
         const itemValues = this.state.formitemValues;
         return (
-            <Modal title={callTr('a_19644')} className="downloadModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayDwonloadModal}>
+            <Modal title={callTr('a_3339')} className="downloadModal" onOk={this.handleOk} onCancel={this.handleCancel} visible={this.props.displayDwonloadModal}>
                 <Form>
                     <FormItem label={(<span>{callTr("a_16485")}&nbsp;<Tooltip title={this.tips_tr("Clear The Old List")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                         {getFieldDecorator('clearold', {

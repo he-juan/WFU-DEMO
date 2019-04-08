@@ -13,6 +13,7 @@ let mCurContacts = [];
 let req_items = new Array;
 let acctnames = new Array;
 const children_acctnames = [
+    <option value="-1">Active account</option>,
     <option value="0">SIP</option>,
     <option value="1">IPVideoTalk</option>,
     <option value="8">H.323</option>,
@@ -136,19 +137,21 @@ class NewContactsEdit extends Component {
     handleConfirmModal = (displayname) => {
         this.handleAddEditContacts(displayname);
         this.props.handleHideModal();
-        var containermask = document.getElementsByClassName("containermask")[0];
-        if (containermask){
-            containermask.style.display = "block";
-        }
-        this.setState({numValuesinnr:[""],emailValuesinnr:[""]});
+        // var containermask = document.getElementsByClassName("containermask")[0];
+        // if (containermask){
+        //     containermask.style.display = "block";
+        // }
+        // this.setState({numValuesinnr:[""],emailValuesinnr:[""]});
     }
 
     handleAddEditContacts = (displayname) => {
+        const {callTr} = this.props;
         let addoredit = this.props.addNewContact ? 'add' : 'edit';
         let numberstr = "";
         let groupstr = "";
         let numValues = this.props.numValues;
         let addNewContact = this.props.addNewContact;
+        let values = this.props.form.getFieldsValue();
         let numValuesinnr;
         if (numValues.length === 1 && numValues[0] === "" && addNewContact == true) {
             numValuesinnr = this.state.numValuesinnr;
@@ -156,6 +159,12 @@ class NewContactsEdit extends Component {
             numValuesinnr = numValues;
         }
         for (var i = 0; i < numValuesinnr.length; i++ ) {
+            if(values['accountnumber'+i].length > 60) {
+                let str = callTr("a_7485") + callTr("a_19805") + "60!"
+                this.props.promptMsg('ERROR', str);
+                return false
+            }
+
             if (this.props.form.getFieldsValue(['accountnumber' + i])['accountnumber'+i] == "") {
                 continue;
             } else {
@@ -184,10 +193,16 @@ class NewContactsEdit extends Component {
         if(addoredit == 'edit'){
             rawcontact = `{"contactid":"${this.props.editContact['Id']}"}`;
         }
-        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${displayname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[]}`;
+        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${displayname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[${values.email || ''}],"structuredpostal":[{"fomatted":"${values.address|| ""}"}]}`;
         this.props.setContacts(infostr,()=>{
             this.props.updateContact()
         })
+        this.props.handleHideModal();
+        var containermask = document.getElementsByClassName("containermask")[0];
+        if (containermask){
+            containermask.style.display = "block";
+        }
+        this.setState({numValuesinnr:[""],emailValuesinnr:[""]});
 
     }
 
@@ -214,6 +229,7 @@ class NewContactsEdit extends Component {
         let numValues = this.props.numValues;
         let addNewContact = this.props.addNewContact;
         let numValuesmap = [];
+        let defaultacct = this.props.defaultacct == 2 ? 0 : this.props.defaultacct 
         if (numValues.length === 1 && numValues[0] === "" && addNewContact == true) {
             numValuesmap = this.state.numValuesinnr;
         } else {
@@ -235,7 +251,8 @@ class NewContactsEdit extends Component {
                     <FormItem label={(<span>{callTr("a_7474")}</span>)}>
                         {getFieldDecorator('name', {
                             rules: [{
-                                required: true
+                                required: true,
+                                max: 60, message: callTr("a_19805") + "60!"
                             }]
                         })(
                             <Input style={{width:'89%'}}/>
@@ -246,7 +263,7 @@ class NewContactsEdit extends Component {
                             return (
                                 <FormItem className="numcontact" label={idx == 0 ? (<span>{callTr("a_10006")}&nbsp;</span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)} >
                                     {getFieldDecorator('bindaccount'+idx, {
-                                        initialValue: val.split(" ")[1] ? val.split(" ")[1] : "0"
+                                        initialValue: val.split(" ")[1] ? val.split(" ")[1] : defaultacct
                                     })(
                                         <Select style={{width:'44%'}}>
                                             {children_acctnames}
@@ -265,6 +282,34 @@ class NewContactsEdit extends Component {
                             )
                         })
                     }
+                    <FormItem label={(<span>{callTr("a_302")}</span>)}>
+                        {getFieldDecorator('email', {
+                            rules: [{
+                                max: 60, message: callTr("a_19805") + "60!"
+                            }]
+                        })(
+                            <Input style={{width:'89%'}}/>
+                        )}
+                    </FormItem>
+                    <FormItem label={(<span>{callTr("a_4748")}</span>)}>
+                        {getFieldDecorator('address', {
+                            rules: [{
+                                max: 60, message: callTr("a_19805") + "60!"
+                            }]
+                        })(
+                            <Input style={{width:'89%'}}/>
+                        )}
+                    </FormItem>
+                    {/* <FormItem label={(<span>{callTr("a_7474")}</span>)}>
+                        {getFieldDecorator('note', {})(
+                            <Input style={{width:'89%'}}/>
+                        )}
+                    </FormItem>
+                    <FormItem label={(<span>{callTr("a_7474")}</span>)}>
+                        {getFieldDecorator('net', {})(
+                            <Input style={{width:'89%'}}/>
+                        )}
+                    </FormItem> */}
                     <div className = "contactGroupselect" style={{display:GroupDisplay}}>
                         <FormItem className="one-click-debug" label={<span>{callTr("a_4779")}</span>}>
                             {

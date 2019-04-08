@@ -1033,7 +1033,7 @@ tip_item_en.push (
     new TipsDef("Replace Duplicate Entries Mode",
         "If set to \"Replace by name\", replace the records of the same name automatically when importing new records. If set to \"Replace by number\", replace the records of the same number automatically when importing new records."),
 	new TipsDef("Download Mode",
-		"Selects the file download mode for the download server. Users can choose from TFTP/HTTP/OFF."),
+		"Selects the file download mode for the download server. Users can choose from TFTP/HTTP/HTTPS/OFF.  The Default is “OFF”."),
 	new TipsDef("Download Server",
 		"Fill in the server URL or IP address to download the XML contact file from the Internet."),
 	new TipsDef("HTTP/HTTPS User Name",

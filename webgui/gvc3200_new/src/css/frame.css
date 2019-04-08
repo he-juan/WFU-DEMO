@@ -2753,10 +2753,10 @@ table thead tr th{
     background-position: -500px 0;
 }
 
-/*.anticon-cross-circle {*/
-    /*background-image: url(../img/icon.png);*/
-    /*background-position: -525px 0;*/
-/*}*/
+.anticon-cross-circle {
+    background-image: url(../img/icon.png);
+    background-position: -525px 0;
+}
 
 .anticon-check-circle:before {
     content: "";
@@ -5998,9 +5998,9 @@ table thead tr th{
     background: #f0f4ff;
 }
 .call-line-info{
-    height: 55px;
-    line-height: 55px;
-    float: left;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
 }
 .call-line-name{
     text-align: left;
@@ -6010,10 +6010,10 @@ table thead tr th{
     width: 25%;
 }
 .call-line-date{
-    width: 15%;
+    width: 20%;
 }
 .call-line-duration {
-    width: 10%;
+    width: 5%;
 }
 .call-line-act {
     width: 20%;

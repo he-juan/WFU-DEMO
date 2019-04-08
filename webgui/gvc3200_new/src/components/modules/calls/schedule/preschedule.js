@@ -411,17 +411,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     const actions = {
         get_calllog: Actions.get_calllog,
-        get_clear: Actions.get_clear,
         getAcctStatus:Actions.getAcctStatus,
         get_deleteCall: Actions.get_deleteCall,
-        getContactCount:Actions.getContactCount,
         getContacts:Actions.getContacts,
         getGroups:Actions.getGroups,
         getTonelist:Actions.getTonelist,
         setContacts:Actions.setContacts,
-        addNewBlackMember: Actions.addNewBlackMember,
-        sendSingleCall: Actions.sendSingleCall,
-        addNewWhiteMember: Actions.addNewWhiteMember,
         getContactsinfo:Actions.getContactsinfo,
         getAllConfMember:Actions.getAllConfMember,
         get_deleteCallConf:Actions.get_deleteCallConf,

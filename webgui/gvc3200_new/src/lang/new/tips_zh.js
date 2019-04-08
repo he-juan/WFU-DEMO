@@ -1027,7 +1027,7 @@ tip_item_zh.push (
     new TipsDef("Replace Duplicate Entries Mode","替换重复条目模式",
         "若设置为'根据名字替换',在导入新的记录时会自动将相同名字的记录替换掉。若设置为'根据号码替换',在导入新的记录时会自动将相同号码的记录替换掉。"),
 	new TipsDef("Download Mode", "下载模式",
-		"选择互联网下载模式。"),
+		"选择互联网下载模式，默认“关闭”"),
 	new TipsDef("Download Server", "下载服务器",
 		"设置从互联网下载的服务器地址。"),
 	new TipsDef("HTTP/HTTPS User Name", "HTTP/HTTPS用户名",

@@ -144,13 +144,29 @@ class ImportEdit extends Component {
         if(this.props.maxImportCount == this.props.contactNum) {
             let errorMessage = this.tr('a_19653') + this.itemvalues['maxImportCount'] + "!";
             this.props.promptMsg("ERROR", errorMessage);
-            return
+            return false
+        }
+        let format = file.name.substr(file.name.length - 4,4)
+        
+        if(format != this.getCurFormat()) {
+            this.props.promptMsg("ERROR", this.tr('a_12090'));
+            return false
         }
 
         return new Promise((resolve, reject) => {
             this.props.cb_ping();
             resolve(file);
         });
+    }
+
+    getCurFormat = () => {
+        let fileformat = '.xml'
+        if(this.state.importtype == '2') {
+            fileformat = '.vcf'
+        } else if(this.state.importtype == '3') {
+            fileformat = '.csv'
+        }
+        return fileformat
     }
 
     handleOk = () => {
@@ -165,12 +181,7 @@ class ImportEdit extends Component {
         const {getFieldDecorator} = this.props.form;
         const [callTr,itemValues] = [this.props.callTr,this.props.itemValues];
         let self = this;
-        let fileformat = '.xml'
-        if(this.state.importtype == '2') {
-            fileformat = '.vcf'
-        } else if(this.state.importtype == '3') {
-            fileformat = '.csv'
-        }
+        let fileformat = this.getCurFormat()
         const importContactsProps = {
             name: 'file',
             showUploadList: false,

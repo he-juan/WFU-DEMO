@@ -336,14 +336,27 @@ class Call extends Component {
         let logItem = text.logItem
         let memberArr = text.memberArr
         let type = logItem.Type
+        let isConf = logItem.IsConf
+        // let isVideo = ''
         // console.log('logItem',logItem,'text',text)
         if (type == '-1') {
             type = memberArr[0].Type
+
+            // console.log(memberArr[0].IsVideo)
+            if(memberArr[0].IsVideo == '1') {
+                // type = 1  来电
+                // type = 2  去电
+                // type = 3  未接来电
+                // video +3  456
+                type = Number(type) + 3
+            }
         }
         let nameStr = ''
         if(logItem.IsConf == '1') {
             // nameStr = logItem.NameOrNumber + '：'
-            nameStr = 'Conf：'
+            if(memberArr.length > 1) {
+                nameStr = 'Conf：'
+            }            
             for (let i = 0; memberArr[i] != undefined; i++) {
                 if(i>0) {
                     nameStr += '，'
@@ -548,7 +561,6 @@ class Call extends Component {
                     row2: data
                 })
             }
-
         }
         this.curData = dataResult
         return dataResult
@@ -571,15 +583,24 @@ class Call extends Component {
         }
     }
 
-    _createInlineName(text) {
+    _createInlineName(logItem,text) {
+
+        let type = logItem.Type
+        // let isVideo = ''
+        console.log('logItem',logItem,'text',text)
+        if (type == '-1') {
+            type = text.Type
+            if(text.IsVideo == '1') {
+                // type = 1  来电
+                // type = 2  去电
+                // type = 3  未接来电
+                // video +3  456
+                type = Number(type) + 3
+            }
+        }
         var nameValue = text.recordName ? text.recordName : text.Name
         let num = text.Number
-        var className = 'inlineIcon '
-        if(text.IsVideo=='1') {
-            className += 'typeVideo'
-        } else {
-            className += 'typeConf'
-        }
+        var className = 'inlineIcon type' + type
         let dom = 
                 <div className="inlineCallInfo">
                     <i className={className}></i>
@@ -609,7 +630,7 @@ class Call extends Component {
         for (let i = 0; memberArr[i] != undefined ; i++) {
             status.push(
                 <div className="call-line">
-                    <div className='call-line-info call-line-name'>{this._createInlineName(memberArr[i])}</div>
+                    <div className='call-line-info call-line-name'>{this._createInlineName(data,memberArr[i])}</div>
                     <div className='call-line-info call-line-number'>{this._createNumType(memberArr[i])}</div>
                     <div className='call-line-info call-line-date'>{this.props.convertTime(memberArr[i].Date)}</div>
                     <div className='call-line-info call-line-duration'>{this.convertDuration(memberArr[i])}</div>
@@ -624,11 +645,13 @@ class Call extends Component {
 
     _createNumType = (data) => {
         let arr = []
-        arr.fill('',9)
-        arr[0] = 'SIP'
-        arr[1] = 'IPVideoTalk'
-        arr[8] = 'H.323'
-        let acct = data.Account
+        arr.fill('',10)
+        arr[0] = 'Active account'
+        arr[1] = 'SIP'
+        arr[2] = 'IPVideoTalk'
+        arr[9] = 'H.323'
+        let acct = parseInt(data.Account) + 1
+        // let a = parseInt('5')
         return arr[acct]
     }
 
@@ -636,6 +659,7 @@ class Call extends Component {
         // type = 1  来电
         // type = 2  去电
         // type = 3  未接来电
+
         let duration = data.Duration
         const callTr = this.props.callTr        
         if( duration == 0 ) {
@@ -815,7 +839,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     const actions = {
         get_calllog: Actions.get_calllog,
-        get_clear: Actions.get_clear,
         getAcctStatus:Actions.getAcctStatus,
         get_deleteCall: Actions.get_deleteCall,
         getContactCount:Actions.getContactCount,
@@ -823,9 +846,6 @@ const mapDispatchToProps = (dispatch) => {
         getGroups:Actions.getGroups,
         getTonelist:Actions.getTonelist,
         setContacts:Actions.setContacts,
-        addNewBlackMember: Actions.addNewBlackMember,
-        sendSingleCall: Actions.sendSingleCall,
-        addNewWhiteMember: Actions.addNewWhiteMember,
         getContactsinfo:Actions.getContactsinfo,
         getAllConfMember:Actions.getAllConfMember,
         get_deleteCallConf:Actions.get_deleteCallConf,

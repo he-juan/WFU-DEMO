@@ -92,6 +92,7 @@ class GroupEditModal extends Component {
     }
 
     handleCancel = () => {
+        $("#search_group").val("")
         this.props.handleHideGroupModal()
     }
 
@@ -134,6 +135,9 @@ class GroupEditModal extends Component {
                 <Form hideRequiredMark>
                     <FormItem label={(<span>{callTr("a_4791")}</span>)}>
                         {getFieldDecorator('groupname', {
+                            rules: [{
+                                max: 60, message: callTr("a_19805") + "60!"
+                            }],
                             initialValue:obj.groupname
                         })(
                             <Input style={{width: '89%'}} placeholder={callTr('a_4791')} />
@@ -143,7 +147,7 @@ class GroupEditModal extends Component {
                         <div className = "contactsDiv">
                             <p>{callTr("a_19631")}</p>
                             <div>
-                                <Search placeholder={callTr("a_65")} onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                                <Search placeholder={callTr("a_65")} id="search_group" onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
                                 <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
                                     <Col span={2}>
                                         {getFieldDecorator('contactCheckall', {
