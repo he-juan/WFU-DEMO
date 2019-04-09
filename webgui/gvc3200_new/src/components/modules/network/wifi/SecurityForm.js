@@ -23,6 +23,11 @@ class SecurityForm extends Component {
 
     componentDidMount = () => {
         this.props.getItemValues(req_items, (values) => {
+            this.props.form.setFieldsValue({
+                essidname: values['essidname'],
+                hiddenauthmode: values['hiddenauthmode'],
+                essidpwd: values['essidpwd']
+            })
             if(values['hiddenauthmode'] != "0"){
                 this.setState({pwdisplay: "display-block"})
             }
@@ -32,7 +37,14 @@ class SecurityForm extends Component {
     componentWillReceiveProps = (nextProps) => {
         if (nextProps.activeKey == this.props.tabOrder) {
             if (this.props.activeKey != nextProps.activeKey) {
-                this.props.getItemValues(req_items);
+                this.props.getItemValues(req_items, (values) => {
+                    this.props.form.setFieldsValue({
+                        essidname: values['essidname'],
+                        hiddenauthmode: values['hiddenauthmode'],
+                        essidpwd: values['essidpwd']
+                    });
+                    this.checkEssidPwd(values.hiddenauthmode)
+                });
                 this.props.form.resetFields();
             }
             if (this.props.enterSave != nextProps.enterSave) {
@@ -105,14 +117,14 @@ class SecurityForm extends Component {
             <Form hideRequiredMark>
                 <FormItem label={<span>ESSID<Tooltip title={callTipsTr("ESSID ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("essidname", {
-                        initialValue: itemvalue['essidname']
+                        // initialValue: itemvalue['essidname']
                     })(
                         <Input />
                     )}
                 </FormItem>
                 <FormItem label={<span>{callTr("a_hiddenauthmode")}<Tooltip title={callTipsTr("Security Mode for Hidden SSID")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("hiddenauthmode", {
-                        initialValue: itemvalue['hiddenauthmode'] ? itemvalue['hiddenauthmode'] : "0"
+                        // initialValue: itemvalue['hiddenauthmode'] ? itemvalue['hiddenauthmode'] : "0"
                     })(
 						<Select onChange={this.checkEssidPwd}>
 							<Option value="0">{callTr("a_20")}</Option>
@@ -125,7 +137,7 @@ class SecurityForm extends Component {
                 <FormItem validateStatus={this.state.validstatus} help={callTr(this.state.help)} className={this.state.pwdisplay}
                     label={<span>{callTr("a_6759")}<Tooltip title={callTipsTr("Password  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("essidpwd", {
-                        initialValue: itemvalue['essidpwd'],
+                        // initialValue: itemvalue['essidpwd'],
                     })(
                         <Input type={this.state.type} onChange={this.checkPwdLength}
                             suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />

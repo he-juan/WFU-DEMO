@@ -111,7 +111,6 @@ class DetailsModalNormal extends Component {
         let ipvline = this.getIPVline(linestatus);
         // let existvideosnd = detailinfo.video_snd != "" && detailinfobj.videosnd;
         // let existvideorcv = detailinfo.video_rcv != "" && detailinfobj.videorcv;
-
         return (
             <Modal className="call-details-modal" visible={visible} title={this.tr('a_10015')} width="920px" maskClosable="false" footer={null} onCancel={onHide}>
                 <div className="detailscontent" style={{ height:  '630px'}}>
@@ -171,71 +170,75 @@ class DetailsModalNormal extends Component {
                         </div>
                         <div className="onedetails">
                             {/* 视频 */}
-                            <div className="videodetail">
-                                <div className="titlediv"><span>{this.tr("a_10016")}</span></div>
-                                { 
-                                    video_send ? 
-                                    <div className="sendinfo">
-                                        <div className="lostdiv">
-                                            <span className="spantitle">{this.tr("a_10019")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_send.lost}</span>
+                            {
+                                video_send || video_recv ?  
+                                <div className="videodetail">
+                                    <div className="titlediv"><span>{this.tr("a_10016")}</span></div>
+                                    { 
+                                        video_send ? 
+                                        <div className="sendinfo">
+                                            <div className="lostdiv">
+                                                <span className="spantitle">{this.tr("a_10019")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_send.lost}</span>
+                                            </div>
+                                            <div className="bitratediv">
+                                                <span className="spantitle">{this.tr("a_10020")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_send.bitrate}</span>
+                                            </div>
+                                            <div className="fpsdiv">
+                                                <span className="spantitle">{this.tr("a_12147")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_send.fps + this.tr("a_16277")}</span>
+                                            </div>
+                                            <div className="codecdiv">
+                                                <span className="spantitle">{this.tr("a_16115")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_send.codec}</span>
+                                            </div>
+                                            <div className="resolutiondiv">
+                                                <span className="spantitle">{this.tr("a_10023")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_send.resolution}</span>
+                                            </div>
                                         </div>
-                                        <div className="bitratediv">
-                                            <span className="spantitle">{this.tr("a_10020")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_send.bitrate}</span>
-                                        </div>
-                                        <div className="fpsdiv">
-                                            <span className="spantitle">{this.tr("a_12147")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_send.fps + this.tr("a_16277")}</span>
-                                        </div>
-                                        <div className="codecdiv">
-                                            <span className="spantitle">{this.tr("a_16115")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_send.codec}</span>
-                                        </div>
-                                        <div className="resolutiondiv">
-                                            <span className="spantitle">{this.tr("a_10023")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_send.resolution}</span>
-                                        </div>
-                                    </div>
-                                    : null
-                                }
-                                {
-                                    video_recv ? 
-                                    <div className="receinfo">
-                                        <div className="lostdiv">
-                                            <span className="spantitle">{this.tr("a_10019")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_recv.lost}</span>
-                                        </div>
-                                        <div className="bitratediv">
-                                            <span className="spantitle">{this.tr("a_10020")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_recv.bitrate}</span>
-                                        </div>
-                                        <div className="fpsdiv">
-                                            <span className="spantitle">{this.tr("a_12147")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_recv.fps + this.tr("a_16277")}</span>
-                                        </div>
-                                        <div className="codecdiv">
-                                            <span className="spantitle">{this.tr("a_16115")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_recv.codec}</span>
-                                        </div>
-                                        <div className="resolutiondiv">
-                                            <span className="spantitle">{this.tr("a_10023")}</span>
-                                            <span className="spansign">:</span>
-                                            <span className="spancontent">{video_recv.resolution}</span>
-                                        </div>
-                                    </div> 
-                                    : null
-                                }
-                            </div>
+                                        : null
+                                    }
+                                    {
+                                        video_recv ? 
+                                        <div className="receinfo">
+                                            <div className="lostdiv">
+                                                <span className="spantitle">{this.tr("a_10019")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_recv.lost}</span>
+                                            </div>
+                                            <div className="bitratediv">
+                                                <span className="spantitle">{this.tr("a_10020")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_recv.bitrate}</span>
+                                            </div>
+                                            <div className="fpsdiv">
+                                                <span className="spantitle">{this.tr("a_12147")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_recv.fps + this.tr("a_16277")}</span>
+                                            </div>
+                                            <div className="codecdiv">
+                                                <span className="spantitle">{this.tr("a_16115")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_recv.codec}</span>
+                                            </div>
+                                            <div className="resolutiondiv">
+                                                <span className="spantitle">{this.tr("a_10023")}</span>
+                                                <span className="spansign">:</span>
+                                                <span className="spancontent">{video_recv.resolution}</span>
+                                            </div>
+                                        </div> 
+                                        : null
+                                    }
+                                </div>
+                                :null
+                            }
                             {/* 音频 */}
                             <div className="audiodetail">
                                 <div className="titlediv"><span>{this.tr("a_10017")}</span></div>
