@@ -22,44 +22,11 @@ function tr(text) {
 
 
 
-// 本地线路的按钮状态
-function calLocalBtnStatus(linestatus, localcamerablocked) {
-    let ismute = linestatus[0] && linestatus[0].isLocalMuted == "1" ? "1" : "0";
-    let localmuteclass = "unmute";
-    let localcamerablockedclass = "confvideo";
-    let startFECCClass = "startFECC";
-    let localbtndisabled = false;
-
-    const talkingLines = linestatus.filter(v => {
-        let state = v.state
-        return ( state == '3' || state == 'init3' || state == 'init8' || state == '8')
-    })
-    if(talkingLines.length == linestatus.length) {
-        localmuteclass += " btndisable";
-        startFECCClass += " btndisable";
-        localcamerablockedclass += " btndisable";
-        localbtndisabled = true;
-    } else {
-        localmuteclass = ismute == "1" ? "mute" : "unmute";
-        if(localcamerablocked == "0"){
-            localcamerablockedclass = "confvideo";
-        }else{
-            localcamerablockedclass = "confaudio";
-        }
-    }
-
-    return {
-        localmuteclass,
-        localcamerablockedclass,
-        startFECCClass,
-        localbtndisabled,
-        ismute
-    }
-}
 
 
 
-class LinesList extends Component {
+
+class FECC extends Component {
 
 
     // 摄像头控制相关
@@ -151,4 +118,4 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Enhance(LinesList))
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(FECC))

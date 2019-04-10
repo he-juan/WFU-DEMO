@@ -1089,6 +1089,14 @@ export const conflinevideoedstate = (line, isvideoed) => ( dispatch ) => {
     });
 }
 
+// 暂停视频接受功能
+export const suspendLineOrNot = (line) => (dispatch) => {
+    let request = "action=suspendLineOrNot&region=confctrl&line=" + line
+    actionUtil.handleGetRequest(request).then(function(){
+        dispatch(getAllLineStatus(function(){}))
+    })
+}
+
 export const getCameraBlocked = () => ( dispatch ) => {
     let request = "action=isCameraBlocked&region=confctrl";
     request += "&time=" + new Date().getTime();

@@ -201,6 +201,16 @@ class LinesList extends Component {
         this.props.conflinevideoedstate(line,flag);
     }
 
+    suspendLineOrNot = (line) => {
+        if(!this.countClickedTimes()) {
+            return false;
+        }
+        if(this.ispause()){
+            return false;
+        }
+        this.props.suspendLineOrNot(line);
+    }
+
     // 摄像头控制相关
     handleStartFECC = (line) =>{
         if(!this.countClickedTimes()){
@@ -376,7 +386,9 @@ class LinesList extends Component {
                             {/* 暂停视频接受 */}
                             <Button title={tr("a_16700")}
                                     disabled={isHeld || disabledflag || item.isvideo == "0" ? true : false}
-                                    className={suspendclass}/>
+                                    className={suspendclass}
+                                    onClick={this.suspendLineOrNot.bind(this, item.line)}
+                                    />
                             {/* 关闭视频 */}
                             <Button title={tr("a_628")}
                                     disabled={isHeld || disabledflag ? true : false}
@@ -425,6 +437,7 @@ const mapDispatchToProps = (dispatch) => {
       ctrlLineMute: Actions.ctrlLineMute,
       ctrlCameraBlockState: Actions.ctrlCameraBlockState,
       ctrlLocalMute: Actions.ctrlLocalMute,
+      suspendLineOrNot: Actions.suspendLineOrNot
     }
 
     return bindActionCreators(actions, dispatch)
