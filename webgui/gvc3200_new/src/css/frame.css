@@ -6378,7 +6378,46 @@ ol.mp_list li.mp_error {}
 #direction.lefthover,.ctrldiv .direction.lefthover{background:url("../img/control_all.png") -489px -28px  no-repeat;}
 #direction.leftactive{background:url("../img/control_all.png") -489px -191px  no-repeat;}
 
+.zoomopt {
+    border: 1px solid #ccc;
+    width: 120px;
+    position: relative;
+    top: 90px;
+    margin: auto;
+    overflow: hidden;
+}
+.zoomopt .enlarge, .zoomopt .reduce {
+    float: left;
+    width: 50%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+}
+.zoomopt .enlarge span {
+    display: inline-block;
+    background: url(../img/control_all.png) 0px 0px no-repeat;
+    width: 28px;
+    height: 28px;
+    min-width: 0px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.zoomopt .enlarge span:hover {
+    background: url(../img/control_all.png) -28px 0px no-repeat;
+}
+.zoomopt .reduce span {
+    display: inline-block;
+    background: url(../img/control_all.png) -56px 0px no-repeat;
+    width: 28px;
+    height: 28px;
+    min-width: 0px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.zoomopt .reduce span:hover {
+    background: url(../img/control_all.png) -84px 0px no-repeat;
 
+}
 .ptzctrl{
     position: absolute;
     width:40px;

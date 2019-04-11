@@ -220,14 +220,15 @@ class HandleWebsocket extends React.Component {
     }
 
     handleblock = (message) =>{
-        if(message.state.split("=")[0] != "BlockHP"){
+        let isStateString = typeof message.state == 'string'
+        if(isStateString && message.state.split("=")[0] != "BlockHP"){
             return;
         }
         let linesinfo = [];
         let flag = false;
         for( let i = 0; i < this.props.linesinfo.length; i++ ){
             if(this.props.linesinfo[i].line == message.line) {
-                this.props.linesinfo[i].isblock = message.state.split("=")[1];
+                this.props.linesinfo[i].isblock = message.state.setChanParam.MicState;
                 flag = true;
                 break;
             }
@@ -344,7 +345,6 @@ class HandleWebsocket extends React.Component {
                 switch (message['state']) {
                     case "0":
                         // dile/end the call
-
                         this.props.getConnectState();
                         // this.props.showCallDialog(10);
                         this.changelinesstatus(message);

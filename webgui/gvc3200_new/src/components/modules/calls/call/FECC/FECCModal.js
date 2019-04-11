@@ -74,11 +74,8 @@ class FECCModal extends Component {
         this.setState({
             directionitem: "normal"
         });
-        if(this.state.mPressedDown){
-            this.state.mPressedDown=false;
-            clearInterval(mPressTimer);
-            this.props.setKeyCode(0, keycode, 0);
-        }
+        clearInterval(mPressTimer);
+        this.props.setKeyCode(1, keycode, 0);
     }
 
     handleCancel = () =>{
@@ -91,6 +88,19 @@ class FECCModal extends Component {
         });
     }
 
+    hanleKeycode = (keycode) => {
+        let _this = this;
+        this.props.setKeyCode(0, keycode, 0);
+        mPressTimer = setInterval(() => this.props.setKeyCode(0, keycode, 0), 200)
+
+        function docMouseUp(){
+            clearInterval(mPressTimer)
+            document.removeEventListener('mouseup', docMouseUp ,false)
+            docMouseUp = null
+            _this.props.setKeyCode(1, keycode, 0);
+        }
+        document.addEventListener('mouseup',docMouseUp ,false)
+    }
 
     render() {
         let tr = this.tr;
@@ -137,6 +147,12 @@ class FECCModal extends Component {
                                  onMouseDown={this.handleDirection.bind(this, 0, "21")} onMouseUp={this.handleDirection.bind(this, 1, "21")}></div>
                         </div>
                         <div className="zoomopt">
+                            <div className="enlarge">
+                                <span onMouseDown={this.hanleKeycode.bind(this,'168')}></span>
+                            </div>
+                            <div className="reduce">
+                                <span onMouseDown={this.hanleKeycode.bind(this,'169')}></span>
+                            </div>
                         </div>
                     </div>
 
