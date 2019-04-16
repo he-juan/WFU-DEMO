@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from '../../mixins/Enhance';
-import { FormattedHTMLMessage } from 'react-intl'
 import { ChromePicker } from 'react-color';
 import { Layout, Tabs, Form, Tooltip, Icon, Button, Select, Checkbox, Input, Slider } from 'antd';
 import * as Actions from '../../redux/actions/index'
@@ -82,7 +81,7 @@ class SitenameForm extends Component {
 
         return (
             <Form className="configform" hideRequiredMark style={{ minHeight: this.props.mainHeight }}>
-                <FormItem label={<span>{callTr("a_16225")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Site Name")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16225")}<Tooltip title={callTipsTr("Site Name")}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("sitename", {
                         initialValue: itemvalues["Sitename"] ? itemvalues["Sitename"] : "",
                         rules: [{
@@ -178,14 +177,14 @@ class SitenameForm extends Component {
                         <Checkbox />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_16610")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Horizontal Offset")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16610")}<Tooltip title={callTipsTr("Horizontal Offset")}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("horizonoffset", {
                         initialValue: itemvalues["horizont"]
                     })(
                         <Slider min={0} max={96} marks={{ 0: "0", 96: "96" }} />
                     )}
                 </FormItem>
-                <FormItem label={<span>{callTr("a_16611")}<Tooltip title={<FormattedHTMLMessage id={callTipsTr("Vertical Offset")} />}><Icon type="question-circle-o" /></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16611")}<Tooltip title={callTipsTr("Vertical Offset")}><Icon type="question-circle-o" /></Tooltip></span>}>
                     {getFieldDecorator("vericaloffset", {
                         initialValue: itemvalues["vertical"]
                     })(

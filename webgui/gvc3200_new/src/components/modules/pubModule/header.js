@@ -367,7 +367,7 @@ class MainHeader extends Component {
 
         return (
             <Header className='header-container'>
-                <Menu theme="dark" type="horizontal" style={{"height":"100%"}}>
+                <div style={{"height":"100%", background: '#22262e'}}>
                     <div className={"changepwddiv" + " " +pwdvisible} >
                         {this.tr("a_changedftpwd")}
                         <a onClick={this.handlepwdchange}>{this.tr("a_6295")}</a>
@@ -448,13 +448,13 @@ class MainHeader extends Component {
                                 <button id="volumeupbtn"  onMouseDown={this.sendKey.bind(this,24)} ><div></div></button>
                             </div>
                             <div className="centerarrow">
-                                <div style={{width:"100%",height:'20px',textAlign:"center"}}><button id="topbtn" className="arrowbtn" keycode="19" onMouseDown={this.sendKey.bind(this,19)}><div></div></button></div>
+                                <div style={{width:"100%",height:'20px',textAlign:"center"}}><button id="topbtn" className="arrowbtn"  onMouseDown={this.sendKey.bind(this,19)}><div></div></button></div>
                                 <div style={{width:"100%", height:'52px'}}>
-                                    <div style={{width:"20px", height:"52px",position:"absolute",left:0}}><button id="leftbtn" className="arrowbtn" keycode="21" onMouseDown={this.sendKey.bind(this,21)} ><div></div></button></div>
+                                    <div style={{width:"20px", height:"52px",position:"absolute",left:0}}><button id="leftbtn" className="arrowbtn" onMouseDown={this.sendKey.bind(this,21)} ><div></div></button></div>
                                     <button id="centerbtn" className="center" onMouseDown={this.sendKey.bind(this,23)}></button>
-                                    <div style={{width:"20px", height:"52px", position:"absolute", right:0}}><button id="rightbtn" className="arrowbtn" keycode="22"onMouseDown={this.sendKey.bind(this,22)}><div></div></button></div>
+                                    <div style={{width:"20px", height:"52px", position:"absolute", right:0}}><button id="rightbtn" className="arrowbtn" onMouseDown={this.sendKey.bind(this,22)}><div></div></button></div>
                                 </div>
-                                <div style={{width:"100%", height:"20px", textAlign:"center"}}><button id="bottombtn" className="arrowbtn" keycode="20" onMouseDown={this.sendKey.bind(this,20)} ><div></div></button></div>
+                                <div style={{width:"100%", height:"20px", textAlign:"center"}}><button id="bottombtn" className="arrowbtn" onMouseDown={this.sendKey.bind(this,20)} ><div></div></button></div>
                             </div>
                             <div className="radiusbtn" style={{marginTop:"-23px",height:"37px"}}>
                                 <button id="zoomoutbtn" onMouseDown={this.sendKey.bind(this,169)}><div></div></button>
@@ -496,7 +496,7 @@ class MainHeader extends Component {
                             <div id="closeremote" onClick={this.closeRemoteControl}></div>
                         </div>
                     </div>
-                </Menu>
+                </div>
             </Header>
         );
     }

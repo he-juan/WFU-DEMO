@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../mixins/Enhance";
-import { FormattedHTMLMessage } from 'react-intl';
 import {Layout, Form, Tooltip, Icon, Button, Input, Table, Popconfirm, Tabs, Select} from "antd";
 import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'

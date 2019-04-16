@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance"
-import { FormattedHTMLMessage } from 'react-intl'
 import { Form, Layout, Transfer, Modal, Input, Icon, Tooltip, Checkbox, Radio, Select, Button } from "antd"
 const FormItem = Form.Item
 const Content = Layout
@@ -479,7 +478,7 @@ class CodecForm extends React.Component {
             <Form>
                 <p className="blocktitle"><s></s>{callTr("a_10017")}</p>
                 {/* DTMF */}
-                <FormItem label={(<span>{"DTMF"}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("DTMF")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem label={(<span>{"DTMF"}&nbsp;<Tooltip title={this.tips_tr("DTMF")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('inaudio', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["inaudio"]),
@@ -522,7 +521,7 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 语音编码 */}
-                <FormItem className="transfer-control"　 label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Preferred Vocoder")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="transfer-control"　 label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={this.tips_tr("Preferred Vocoder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     <Transfer className="vocodertrans" dataSource={this.state.VocoderData} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }} targetKeys={this.state.VocoderTargetKeys} onChange={this.handleVocoderChange} render={this.renderItem} />
                 </FormItem>
                 {/* 编码协商优先级 */}
@@ -545,7 +544,7 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 语音帧/TX */}
-                <FormItem label={(<span>{callTr("a_16133")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Voice Frames Per TX")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_16133")}&nbsp;<Tooltip title={this.tips_tr("Voice Frames Per TX")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vocfp', {
                         rules: [
                             {
@@ -564,7 +563,7 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 新增  G.722.1速率 */}
-                <FormItem label={(<span>{callTr("a_16134")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("G.722.1 Rate")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_16134")}&nbsp;<Tooltip title={this.tips_tr("G.722.1 Rate")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('g722rate', {
                         initialValue: this.props.itemValues['g722rate'] ? this.props.itemValues['g722rate'] : "0"
                     })(
@@ -575,7 +574,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 新增 G.722.1有效荷载类型 */}
-                <FormItem label={(<span>{callTr("a_18563")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("G.722.1 Payload Type")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_18563")}&nbsp;<Tooltip title={this.tips_tr("G.722.1 Payload Type")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('g722payload', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -600,7 +599,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 新增 G.722.1C 速率 */}
-                <FormItem label={(<span>{callTr("a_19005")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("G.722.1C Rate")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19005")}&nbsp;<Tooltip title={this.tips_tr("G.722.1C Rate")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('g7221crate', {
                         initialValue: this.props.itemValues['g7221crate'] ? this.props.itemValues['g7221crate'] : "0"
                     })(
@@ -612,7 +611,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 新增  G.722.1C有效荷载类型 */}
-                <FormItem label={(<span>{callTr("a_19109")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("G.722.1C Payload Type")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19109")}&nbsp;<Tooltip title={this.tips_tr("G.722.1C Payload Type")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('g7221cpayload', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -791,7 +790,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 新增 开启FECC */}
-                <FormItem label={(<span>{callTr("a_19020")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Enable FECC")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19020")}&nbsp;<Tooltip title={this.tips_tr("Enable FECC")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('enablefecc', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["enablefecc"])
@@ -799,7 +798,7 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 新增 FECC H.224有效荷载类型 */}
-                <FormItem label={(<span>{callTr("a_19022")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("FECC H.224 Payload Type")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19022")}&nbsp;<Tooltip title={this.tips_tr("FECC H.224 Payload Type")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('feccpayload', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -816,7 +815,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* SDP带宽属性 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_16108")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("SDP Bandwidth Attribute")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16108")}&nbsp;<Tooltip title={this.tips_tr("SDP Bandwidth Attribute")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sdpattr', {
                         initialValue: this.props.itemValues['sdpattr'] ? this.props.itemValues['sdpattr'] : "0"
                     })(
@@ -829,7 +828,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 视频抖动缓冲区最大值 */}
-                <FormItem label={(<span>{callTr("a_16146")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Video Jitter Buffer Maximum")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_16146")}&nbsp;<Tooltip title={this.tips_tr("Video Jitter Buffer Maximum")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('jittermax', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -846,7 +845,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 开启视频渐进刷新 */}
-                <FormItem label={(<span>{callTr("a_19235")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Enable video Gradual decoder refresh")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_19235")}&nbsp;<Tooltip title={this.tips_tr("Enable video Gradual decoder refresh")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('decoderefresh', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["decoderefresh"])
@@ -877,7 +876,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 视频比特率 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_10020")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Video Bit Rate")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_10020")}&nbsp;<Tooltip title={this.tips_tr("Video Bit Rate")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('vbrate', {
                         initialValue: this.props.itemValues['vbrate'] ? this.props.itemValues['vbrate'] : "2048"
                     })(
@@ -885,7 +884,7 @@ class CodecForm extends React.Component {
                             {
                                 this.state.vbrateAvailable.map((v) => {
                                     return (
-                                        <Option value={v}>{v}Kbps</Option>
+                                        <Option value={v} key={v}>{v}Kbps</Option>
                                     )
                                 })
                             }
@@ -893,7 +892,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 新增  视频帧率 */}
-                <FormItem label={(<span>{callTr("a_16274")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Video Frame Rate")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_16274")}&nbsp;<Tooltip title={this.tips_tr("Video Frame Rate")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vidframerate', {
                         initialValue: this.props.itemValues['vidframerate'] ? this.props.itemValues['vidframerate'] : "5"
                     })(
@@ -1000,7 +999,7 @@ class CodecForm extends React.Component {
                     }
                 </FormItem>
                 {/* 演示H.264 视频大小 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_16214")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Presentation H.264 Image Size")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16214")}&nbsp;<Tooltip title={this.tips_tr("Presentation H.264 Image Size")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('presentimagesize', {
                         initialValue: this.props.itemValues['presentimagesize'] ? this.props.itemValues['presentimagesize'] : "10"
                     })(
@@ -1011,7 +1010,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 演示H.264 Profile类型 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_16215")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Presentation H.264 Profile")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16215")}&nbsp;<Tooltip title={this.tips_tr("Presentation H.264 Profile")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('presentprofile', {
                         initialValue: this.props.itemValues['presentprofile'] ? this.props.itemValues['presentprofile'] : "0"
                     })(
@@ -1024,7 +1023,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 演示视频速率 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_16203")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Presentation Video Bit Rate(Kbps)")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16203")}&nbsp;<Tooltip title={this.tips_tr("Presentation Video Bit Rate(Kbps)")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('presentvideobitrate', {
                         initialValue: this.props.itemValues['presentvideobitrate'] ? this.props.itemValues['presentvideobitrate'] : "2048"
                     })(
@@ -1032,7 +1031,7 @@ class CodecForm extends React.Component {
                             {
                                 this.state.prevbrateAvailable.map((v) => {
                                     return (
-                                        <Option value={v}>{v}Kbps</Option>
+                                        <Option value={v} key={v}>{v}Kbps</Option>
                                     )
                                 })
                             }
@@ -1040,7 +1039,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* 演示视频帧率 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_16205")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Presentation Video Frame Rate")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_16205")}&nbsp;<Tooltip title={this.tips_tr("Presentation Video Frame Rate")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('presentvideoframebate', {
                         initialValue: this.props.itemValues['presentvideoframebate'] ? this.props.itemValues['presentvideoframebate'] : "5"
                     })(
@@ -1052,7 +1051,7 @@ class CodecForm extends React.Component {
                     )}
                 </FormItem>
                 {/* BFCP传输协议 */}
-                <FormItem className="select-item" label={(<span>{callTr("a_19134")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("BFCP Transport Protocol")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_19134")}&nbsp;<Tooltip title={this.tips_tr("BFCP Transport Protocol")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('bfcptranspro', {
                         initialValue: this.props.itemValues['bfcptranspro'] ? this.props.itemValues['bfcptranspro'] : "0"
                     })(

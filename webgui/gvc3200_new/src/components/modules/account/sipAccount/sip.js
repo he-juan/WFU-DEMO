@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance"
-import { FormattedHTMLMessage } from 'react-intl'
 import * as Store from '../../../entry'
 import { Form, Layout, Input, Icon, Tooltip, Checkbox, Radio, Select, Button } from "antd"
 const FormItem = Form.Item
@@ -185,7 +184,7 @@ class SipForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_16069")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Register Expiration")} />}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_16069")}&nbsp;<Tooltip title={this.tips_tr("Register Expiration")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('regexp', {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -280,7 +279,7 @@ class SipForm extends React.Component {
                     })(<Checkbox onChange={this.handleOpenSession} className={"P-" + nvram["opensession"]} />)
                     }
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16073")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Session Expiration")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16073")}&nbsp;<Tooltip title={this.tips_tr("Session Expiration")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('seexp', {
                         rules: [{
                             required: true,
@@ -350,14 +349,14 @@ class SipForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["callert"]} />)
                     }
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16091")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Callee Request Timer")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16091")}&nbsp;<Tooltip title={this.tips_tr("Callee Request Timer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('calleet', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["calleet"])
                     })(<Checkbox className={"P-" + nvram["calleet"]} />)
                     }
                 </FormItem>
-                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16092")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Force Timer")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem style={{ display: this.state.opensession ? 'block' : 'none' }} label={(<span>{callTr("a_16092")}&nbsp;<Tooltip title={this.tips_tr("Force Timer")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('forcet', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues["forcet"])

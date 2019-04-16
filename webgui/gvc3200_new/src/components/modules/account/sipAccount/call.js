@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance";
 import { Form, Layout, Input, Icon, Tooltip, Checkbox, Select, Button, Radio,Row, Col, Upload, message, Modal } from "antd";
@@ -436,7 +435,7 @@ class CallForm extends React.Component {
                    )}
 
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_16150")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("DialPlan")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16150")}&nbsp;<Tooltip title={ this.tips_tr("DialPlan")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('dialplan', {
                        rules: [],
                        initialValue: itemValues['dialplan']
@@ -516,7 +515,7 @@ class CallForm extends React.Component {
                    )}
                </FormItem>
 
-               <FormItem  label={(<span>{callTr("a_16165")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Enable Call Features")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+               <FormItem  label={(<span>{callTr("a_16165")}&nbsp;<Tooltip title={this.tips_tr("Enable Call Features")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('enablefea', {
                         valuePropName: 'checked',
                         initialValue: parseInt(this.props.itemValues['enablefea'])
@@ -546,7 +545,7 @@ class CallForm extends React.Component {
                     })(<Checkbox className={"P-" + nvram["dialkey"]}/>)
                    }
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Upload Local MOH Audio File")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ this.tips_tr("Upload Local MOH Audio File")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Upload {...UploadMOHfileProps} fileList={this.state.fileList}>
                         <Button>
                             <Icon type="upload" /> {this.tr("a_16486")}

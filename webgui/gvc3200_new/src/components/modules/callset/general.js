@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import { Layout, Tabs, Input, Checkbox, Form, Tooltip, Icon, InputNumber, Button } from "antd";
 import * as optionsFilter from "../../template/optionsFilter"
-import { FormattedHTMLMessage } from 'react-intl'
 const Content = Layout;
 const FormItem = Form.Item;
 const req_items = [{"name":"rtpport", "pvalue":"39", "value":""},
@@ -78,7 +77,7 @@ class General extends Component {
 
         let itemList =
             <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}} >
-                <FormItem label={<span>{callTr("a_16280")}<Tooltip placement="bottom" title={<FormattedHTMLMessage id={this.isWP8xx() ? callTipsTr("Local RTP Port for WP800") : callTipsTr("Local RTP Port")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16280")}<Tooltip placement="bottom" title={this.isWP8xx() ? callTipsTr("Local RTP Port for WP800") : callTipsTr("Local RTP Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("rtpport", {
                         rules: [{
                             validator: (data, value, callback) => {

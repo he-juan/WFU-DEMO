@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import * as Store from '../../../entry'
 import Enhance from "../../../mixins/Enhance";
@@ -120,7 +119,7 @@ class CallForm extends React.Component {
                     })(<Checkbox className="592"/>)
                    }
                 </FormItem>
-                <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Upload Local MOH Audio File")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ this.tips_tr("Upload Local MOH Audio File")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Upload {...UploadMOHfileProps} fileList={this.state.fileList}>
                         <Button>
                             <Icon type="upload" /> {this.tr("a_16486")}

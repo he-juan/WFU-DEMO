@@ -3,7 +3,6 @@ import Enhance from "../../../mixins/Enhance";
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { FormattedHTMLMessage } from 'react-intl'
 import { Form, Layout, Row, Col, Input, Radio, Icon, Tooltip, Checkbox, Select,Button,Upload, message, Modal } from "antd";
 import * as Store from '../../../entry'
 const FormItem = Form.Item;
@@ -276,7 +275,7 @@ class AdvancedForm extends React.Component {
                        <Checkbox className={"P-" + nvram["authinvite"][curAccount]}/>
                    )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_challenge")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("SIP realm used for challenge INVITE & NOTIFY")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_challenge")}&nbsp;<Tooltip title={ this.tips_tr("SIP realm used for challenge INVITE & NOTIFY")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                    {getFieldDecorator('challenge'+curAccount, {
                        rules: [{
                            max:64,message: callTr("a_19632"),
@@ -287,7 +286,7 @@ class AdvancedForm extends React.Component {
                    )}
                </FormItem>
                <p className="blocktitle"><s></s>MOH</p>
-               <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Upload Local MOH Audio File")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16180")}&nbsp;<Tooltip title={ this.tips_tr("Upload Local MOH Audio File")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     <Upload {...UploadMOHfileProps} fileList={this.state.fileList}>
                         <Button>
                             <Icon type="upload" /> {this.tr("a_16486")}

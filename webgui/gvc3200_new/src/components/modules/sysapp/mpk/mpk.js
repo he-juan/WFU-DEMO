@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from '../../../mixins/Enhance'
-import { FormattedHTMLMessage } from 'react-intl'
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -704,7 +703,7 @@ class MpkForm extends Component {
                 <p className="blocktitle"><s></s>BLF</p>
                 <div id='mpkForm'>
                     <Form hideRequiredMark>
-                        <FormItem className = "select-item"  label={(<span>{callTr("a_keymode")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Key Mode ")} />} ><Icon type="question-circle-o" /></Tooltip></span>)}>
+                        <FormItem className = "select-item"  label={(<span>{callTr("a_keymode")}&nbsp;<Tooltip title={ this.tips_tr("Key Mode ")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
                             {getFieldDecorator('addkeymode', {
                                  initialValue:this.state.optionSelect
                                  })(

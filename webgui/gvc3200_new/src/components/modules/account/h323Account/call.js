@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import * as Store from '../../../entry'
 import Enhance from "../../../mixins/Enhance";

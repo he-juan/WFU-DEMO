@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import { FormattedHTMLMessage } from 'react-intl';
 import Enhance from "../../../mixins/Enhance";
 import NewContactsEdit from "../callsPubModule/newContactsEdit";
 import AddLocalcontacts from "../callsPubModule/addLocalcontacts";

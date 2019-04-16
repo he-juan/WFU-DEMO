@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import Enhance from "../../mixins/Enhance";
 import {Layout,Form, Input, Icon, Tooltip, Checkbox, Radio, Select, Button, Row, InputNumber,Upload,message, Modal } from "antd";
 import * as Actions from '../../redux/actions/index'
@@ -610,7 +609,7 @@ class Ethernet extends Component {
                 <p className={"blocktitle"+" "+ IPv4Type}><s></s>IPv4</p>
                 <p className={"blocktitle"+" "+ twovlanType}><s></s>{callTr("a_19658")}</p>
                 <p className={"threetitle"+" "+ twovlanType}>IPv4</p>
-                <FormItem label={< span > {callTr("a_19659")} < Tooltip  title={ <FormattedHTMLMessage  id={this.tips_tr("Address Type")} />} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_19659")} < Tooltip  title={ this.tips_tr("Address Type")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networktype', {
                         rules: [],
                         initialValue: this.props.itemValues.networktype
@@ -1168,7 +1167,7 @@ class Ethernet extends Component {
                 </FormItem>
                 <p className={"blocktitle"+" "+ twovlanType}><s></s>{callTr("a_19664")}</p>
                 <p className={"threetitle"+" "+ twovlanType}>IPv4</p>
-                <FormItem className = { twovlanType } label={< span > {callTr("a_19659")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Voip Address Type")} />} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className = { twovlanType } label={< span > {callTr("a_19659")} < Tooltip title={ this.tips_tr("Voip Address Type")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('networktypevoip', {
                         rules: [],
                         initialValue: this.props.itemValues["networktypevoip"] ? this.props.itemValues["networktypevoip"] : "0"

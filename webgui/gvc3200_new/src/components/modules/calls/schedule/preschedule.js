@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-// import { FormattedHTMLMessage } from 'react-intl';
 import Enhance from "../../../mixins/Enhance";
 import NewConfEdit from "../callsPubModule/newConfEdit"
 import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form ,Popover,Row,Col} from "antd";

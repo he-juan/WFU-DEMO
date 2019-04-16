@@ -195,7 +195,7 @@ class MainNav extends React.Component {
             current = 'acct';
         }
         return (
-            <Sider className="menu-container" trigger={null}>
+            <Sider className="menu-container" >
                 <Menu
                     theme="dark"
                     mode="inline"

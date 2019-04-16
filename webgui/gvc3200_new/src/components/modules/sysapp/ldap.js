@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../mixins/Enhance";
-import { FormattedHTMLMessage } from 'react-intl'
 import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -162,7 +161,7 @@ class LdapForm extends Component {
                             <Input type={this.state.pwdstatus1} name="ldappassword" className="P-8024" suffix={<Icon type="eye" className={this.state.pwdstatus1} onClick={this.handlePwdVisible1} />}/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_6764")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Name Attributes")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6764")}&nbsp;<Tooltip title={ tips_tr("LDAP Name Attributes")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('nameattr', {
                         rules: [{
                             max:64,message: callTr("a_19632"),
@@ -172,7 +171,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8028"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_6765")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Number Attributes")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6765")}&nbsp;<Tooltip title={ tips_tr("LDAP Number Attributes")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('numattr', {
                         rules: [{
                             max:64,message: callTr("a_19632"),
@@ -182,7 +181,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8029"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_6766")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Mail Attributes")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6766")}&nbsp;<Tooltip title={ tips_tr("LDAP Mail Attributes")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('mailattr', {
                         rules: [{
                             max:64,message: callTr("a_19632"),
@@ -192,7 +191,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8038"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_6774")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Name Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6774")}&nbsp;<Tooltip title={ tips_tr("LDAP Name Filter")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('namefilter', {
                         rules: [{
                             max:64,message: callTr("a_19632"),
@@ -202,7 +201,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8026"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_6775")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Number Filter")} />}><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6775")}&nbsp;<Tooltip title={ tips_tr("LDAP Number Filter")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('numberfilter', {
                         rules: [{
                             max:64,message: callTr("a_19632"),
@@ -212,7 +211,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8025"/>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_6776")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("LDAP Mail Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_6776")}&nbsp;<Tooltip title={ tips_tr("LDAP Mail Filter")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('mailfilter', {
                         rules: [{
                             max:64,message: callTr("a_19632"),
@@ -222,7 +221,7 @@ class LdapForm extends Component {
                             <Input type="text" className="P-8039"/>
                     )}
                 </FormItem>
-                {/*<FormItem label={(<span>{callTr("a_searchfieldfilter")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("Search Field Filter")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                {/*<FormItem label={(<span>{callTr("a_searchfieldfilter")}&nbsp;<Tooltip title={ tips_tr("Search Field Filter")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('searchfieldfilter', {
                         initialValue: this.props.itemValues['searchfieldfilter'] ? this.props.itemValues['searchfieldfilter'] : "0"
                     })(

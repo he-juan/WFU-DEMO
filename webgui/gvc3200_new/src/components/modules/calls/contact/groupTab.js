@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import { FormattedHTMLMessage } from 'react-intl';
 import Enhance from "../../../mixins/Enhance";
 import ContactsEdit from "../callsPubModule/ContactsEdit";
 import GroupEditModal from "../callsPubModule/groupEditModal"

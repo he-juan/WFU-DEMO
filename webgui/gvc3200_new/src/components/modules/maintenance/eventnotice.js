@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import Enhance from "../../mixins/Enhance";
 import * as Actions from '../../redux/actions/index'
 import {bindActionCreators} from 'redux'
@@ -44,7 +43,7 @@ class EventnoticeForm extends Component {
 
         let itemList =
             <Form className="configform" hideRequiredMark style={{'minHeight': this.props.mainHeight}}>
-                <FormItem label={< span > { callTr("a_onboot") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_onboot") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('Setup', {
                         rules: [
                             {
@@ -56,7 +55,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.setup
                     })(<Input id="setup"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_670") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_670") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('IncomingCall', {
                         rules: [
                             {
@@ -68,7 +67,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.incomingcall
                     })(<Input id="IncomingCall"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_outgoingcall") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_outgoingcall") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('Dial', {
                         rules: [
                             {
@@ -80,7 +79,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.dial
                     })(<Input id="Dial"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_onoffhook") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_onoffhook") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('OffHook', {
                         rules: [
                             {
@@ -92,7 +91,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.offhook
                     })(<Input id="OffHook"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_ononhook") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_ononhook") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('OnHook', {
                         rules: [
                             {
@@ -104,7 +103,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.onhook
                     })(<Input id="OnHook"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_3524") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_3524") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('MissCall', {
                         rules: [
                             {
@@ -116,7 +115,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.misscall
                     })(<Input id="MissCall"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_onconnected") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_onconnected") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('CallStart', {
                         rules: [
                             {
@@ -128,7 +127,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.callstart
                     })(<Input id="CallStart"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_ondisconnected") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_ondisconnected") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('CallStop', {
                         rules: [
                             {
@@ -140,7 +139,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.callstop
                     })(<Input id="CallStop"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_dndon") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_dndon") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('DndOn', {
                         rules: [
                             {
@@ -152,7 +151,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.dndon
                     })(<Input id="DndOn"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_dndoff") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_dndoff") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('DndOff', {
                         rules: [
                             {
@@ -164,7 +163,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.dndoff
                     })(<Input id="DndOff"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_forwardon") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_forwardon") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ForwardingOn', {
                         rules: [
                             {
@@ -176,7 +175,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.forwardingon
                     })(<Input id="ForwardingOn"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_forwardoff") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_forwardoff") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('ForwardingOff', {
                         rules: [
                             {
@@ -188,7 +187,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.forwardingoff
                     })(<Input id="ForwardingOff"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_blindtransfer") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_blindtransfer") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('BlindTransfer', {
                         rules: [
                             {
@@ -200,7 +199,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.blindtransfer
                     })(<Input id="BlindTransfer"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_attendtransfer") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_attendtransfer") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('AttendTransfer', {
                         rules: [
                             {
@@ -212,7 +211,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.attendtransfer
                     })(<Input id="AttendTransfer"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_onhold") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_onhold") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('Hold', {
                         rules: [
                             {
@@ -224,7 +223,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.hold
                     })(<Input id="Hold"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_onunhold") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_onunhold") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('UnHold', {
                         rules: [
                             {
@@ -236,7 +235,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.unhold
                     })(<Input id="UnHold"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_logon") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_logon") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('LogOn', {
                         rules: [
                             {
@@ -248,7 +247,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.logon
                     })(<Input id="LogOn"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_logoff") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_logoff") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('LogOff', {
                         rules: [
                             {
@@ -260,7 +259,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.logoff
                     })(<Input id="LogOff"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_onregister") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_onregister") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('Register', {
                         rules: [
                             {
@@ -272,7 +271,7 @@ class EventnoticeForm extends Component {
                         initialValue: eventItemsArr.register
                     })(<Input id="Register"/>)}
                 </FormItem>
-                <FormItem label={< span > { callTr("a_onunregister") } < Tooltip title={ <FormattedHTMLMessage  id={callTipsTr("Action URL")} />} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > { callTr("a_onunregister") } < Tooltip title={ callTipsTr("Action URL")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('Unregister', {
                         rules: [
                             {

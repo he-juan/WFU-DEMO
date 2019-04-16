@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import Enhance from "../../../mixins/Enhance";
 import { Form, Layout, Tabs, Input, Icon, Tooltip, Checkbox, Radio, Select, Button, Upload, message, Modal } from "antd";
 import * as Actions from '../../../redux/actions/index'
@@ -307,7 +306,7 @@ class FirmwareForm extends Component {
                     )
                     }
                 </FormItem>
-                <FormItem label={< span > {callTr("a_4113")} < Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Firmware Server Path")} />} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4113")} < Tooltip title={ this.tips_tr("Firmware Server Path")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("firpath", {
                         rules: [{
                             max: 256, message: this.tr("a_19805") + "256"

@@ -3,7 +3,6 @@ import Enhance from "../../../mixins/Enhance"
 import * as Actions from '../../../redux/actions/index'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { FormattedHTMLMessage } from 'react-intl'
 import {Form, Tooltip, Icon, Input, Checkbox, InputNumber, Button} from "antd"
 const FormItem = Form.Item;
 
@@ -83,7 +82,7 @@ class GeneralForm extends Component {
         const itemvalue = this.props.itemValues;
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={<span>{callTr("a_16280")}<Tooltip placement="bottom" title={<FormattedHTMLMessage id={this.isWP8xx() ? callTipsTr("Local RTP Port for WP800") : callTipsTr("Local RTP Port")} />}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("a_16280")}<Tooltip placement="bottom" title={this.isWP8xx() ? callTipsTr("Local RTP Port for WP800") : callTipsTr("Local RTP Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("rtpport", {
                         rules: [{
                             validator: (data, value, callback) => {

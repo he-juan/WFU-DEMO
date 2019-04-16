@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../mixins/Enhance";
-import { FormattedHTMLMessage } from 'react-intl'
 import * as Actions from '../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -354,7 +353,7 @@ class VpkForm extends Component {
         const [callTr,tips_tr,itemValues,checkAcctRig,ipvtExist,keyMode] = [this.props.callTr,this.props.tips_tr,this.props.itemValues,this.state.checkAcctRig,this.props.ipvtExist,this.state.keyMode];
         return (
             <Form onSubmit={this.handleSubmit.bind(this,this.props.operatename)} hideRequiredMark>
-                <FormItem className = "select-item"  label={(<span>{callTr("a_keymode")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("Key Mode VPK")} />} ><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className = "select-item"  label={(<span>{callTr("a_keymode")}&nbsp;<Tooltip title={ tips_tr("Key Mode VPK")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('vpkmode', {
                         initialValue: this.props.itemValues['vpkmode'] ? this.props.itemValues['vpkmode'] : "0"
                         })(
@@ -416,7 +415,7 @@ class VpkForm extends Component {
                             <Input type="text" disabled={!this.props.disableAddBtn} />
                     )}
                 </FormItem>
-                <FormItem className = "select-item vpkItem showDtmf vpkdtmf"  label={(<span>{callTr("a_dtmfcond")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={tips_tr("Dial DTMF Condition")} />} ><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className = "select-item vpkItem showDtmf vpkdtmf"  label={(<span>{callTr("a_dtmfcond")}&nbsp;<Tooltip title={ tips_tr("Dial DTMF Condition")} ><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('vpkdtmf', {
                         initialValue: this.props.itemValues['vpkdtmf'] ? this.props.itemValues['vpkdtmf'] : "0"
                         })(

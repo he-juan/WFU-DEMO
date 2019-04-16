@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from '../../../mixins/Enhance'
-import { FormattedHTMLMessage } from 'react-intl'
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -381,7 +380,7 @@ class DownloadContactsForm extends Component {
                          </Select>
                 )}
        　　　</FormItem>
-           <FormItem label={(<span>{callTr("a_20029")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={this.tips_tr("Download Now")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+           <FormItem label={(<span>{callTr("a_20029")}&nbsp;<Tooltip title={ this.tips_tr("Download Now")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                <Button type="primary" onClick={this.handleDownloadContacts} disabled = {this.state.disabled3}>{callTr("a_28")}</Button>
            </FormItem>
            <FormItem>

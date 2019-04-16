@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance";
 import { Form, Layout, Icon, Tooltip, Select, Button, Transfer, Checkbox, Input, Modal } from "antd";
@@ -169,7 +168,7 @@ class CodecForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className="transfer-control"  label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={ this.tips_tr("Preferred Vocoder")} />}><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="transfer-control"  label={(<span>{callTr("a_16114")}&nbsp;<Tooltip title={  this.tips_tr("Preferred Vocoder")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     <Transfer dataSource={this.vocoderDataSource} targetKeys={this.state.vocoderTargetKeys} render={item => item.title} onChange={this.handleChange} sorter={true} titles={[callTr("a_4877"), callTr("a_407")]} listStyle={{ width: 190, height: 206, }}/>
                 </FormItem>
                 <FormItem className="select-item" label={(<span>{callTr("a_16118")}&nbsp;<Tooltip title={this.tips_tr("H.264 Image Size")}><Icon type="question-circle-o" /></Tooltip></span>)}>
@@ -185,7 +184,7 @@ class CodecForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem className="select-item" label={(<span>{callTr("a_10020")}&nbsp;<Tooltip title={ <FormattedHTMLMessage  id={ this.tips_tr("Video Bit Rate2")} /> }><Icon type="question-circle-o" /></Tooltip></span>)}>
+                <FormItem className="select-item" label={(<span>{callTr("a_10020")}&nbsp;<Tooltip title={  this.tips_tr("Video Bit Rate2") }><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('vbrate', {
                         initialValue: this.props.itemValues['vbrate'] ? this.props.itemValues['vbrate'] : "2048"
                     })(
@@ -200,7 +199,7 @@ class CodecForm extends React.Component {
                         </Select>
                     )}
                 </FormItem>
-                <FormItem label={(<span>{callTr("a_16274")}&nbsp;<Tooltip title={<FormattedHTMLMessage id={this.tips_tr("Video Frame Rate")} />} ><Icon type="question-circle-o" /></Tooltip></span>)} >
+                <FormItem label={(<span>{callTr("a_16274")}&nbsp;<Tooltip title={this.tips_tr("Video Frame Rate")} ><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('vidframerate', {
                         initialValue: this.props.itemValues['vidframerate'] ? this.props.itemValues['vidframerate'] : "5"
                     })(

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from '../../mixins/Enhance';
-import { FormattedHTMLMessage } from 'react-intl'
 import { ChromePicker } from 'react-color';
 import {Layout, Tabs, Form, Tooltip, Icon, Button, Select, Checkbox, Input, Slider, Modal, message} from 'antd';
 import * as Actions from '../../redux/actions/index'

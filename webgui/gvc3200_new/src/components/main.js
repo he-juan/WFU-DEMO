@@ -1,6 +1,5 @@
 import React from 'react'
 import { Router, hashHistory } from 'react-router'
-import { IntlProvider } from 'react-intl'
 import Routes from "./routes"
 import MainNav from './nav/main_nav'
 import Footer from "./modules/pubModule/footer"
@@ -168,11 +167,9 @@ class Main extends React.Component {
                         ? <CallDialog linestatus={linesinfo} callDialogStatus={this.props.callDialogStatus} />
                         : null
                     }
-                    <IntlProvider>
-                        <Router history={ hashHistory }>
-                            { Routes() }
-                        </Router>
-                    </IntlProvider>
+                    <Router history={ hashHistory }>
+                        { Routes() }
+                    </Router>
                     <div>
                         <BackTop />
                     </div>

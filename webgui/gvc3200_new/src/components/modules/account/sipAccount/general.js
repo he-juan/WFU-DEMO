@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance";
-import { FormattedHTMLMessage } from 'react-intl'
 import { Form, Layout, Input, Icon, Tooltip, Checkbox, Select, Button } from "antd";
 const FormItem = Form.Item;
 const Content = Layout;
@@ -26,7 +25,7 @@ class GeneralForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pwdstatus:Array(16).fill('password'),
+            pwdstatus:'password',
         }
     }
 

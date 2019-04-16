@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import Enhance from "../../mixins/Enhance";
 import * as Actions from '../../redux/actions/index'
 import {bindActionCreators} from 'redux'
@@ -398,7 +397,7 @@ class Common extends Component {
                     )}
                     <Icon title={this.tr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem className = {this.state.dscp2State ? 'display-gray' : 'display-block' } label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem  label={< span > {this.tr("a_4275")} < Tooltip title = {this.tips_tr("Layer 3 QoS for SIP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qossip", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -412,7 +411,7 @@ class Common extends Component {
                         initialValue: this.state.dscp2State ? this.props.itemValues.dscp2 : this.props.itemValues.layer3qossip
                     })(<Input className="P-1558" disabled={this.state.dscp2State ? true : false}/>)}
                 </FormItem>
-                <FormItem className = {this.state.dscp1State ? 'display-gray' : 'display-block'} label={< span > {this.tr("a_4276")} < Tooltip title = {this.tips_tr("Layer 3 QoS for Audio")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem  label={< span > {this.tr("a_4276")} < Tooltip title = {this.tips_tr("Layer 3 QoS for Audio")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qosaudio", {
                         rules: [{
                             validator: (data, value, callback) => {
@@ -426,7 +425,7 @@ class Common extends Component {
                         initialValue: this.state.dscp1State ? this.props.itemValues.dscp1: this.props.itemValues.layer3qosaudio
                     })(<Input className="P-1559" disabled={this.state.dscp1State ? true : false}/>)}
                 </FormItem>
-                <FormItem className = {this.state.dscp7State ? 'display-gray' : 'display-block'} label={< span > {
+                <FormItem  label={< span > {
                     this.tr("a_4277")
                 } < Tooltip title = {this.tips_tr("Layer 3 QoS for Video")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer3qosvideo", {

@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import Enhance from '../../../mixins/Enhance'
-import {FormattedHTMLMessage} from 'react-intl'
 import * as Actions from '../../../redux/actions/index'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
