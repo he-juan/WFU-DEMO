@@ -302,7 +302,7 @@ class Common extends Component {
                         </Row>
                     )}
                 </FormItem>
-                <FormItem className = "ip-address" label={< span > {this.tr("a_19656")} < Tooltip title = {this.tips_tr("Preferred DNS 2")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className = "ip-address" label={< span > {this.tr("a_16192")} < Tooltip title = {this.tips_tr("Preferred DNS 2")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {(
                         <Row className="div-inputnumber">
                             <FormItem>

@@ -551,8 +551,8 @@ tip_item_zh.push (
         ""),
 
     /*Maintenance Network Settings*/
-    new TipsDef("Preferred Internet Protocol", "网络协议",
-        "选择IPv4或IPv6。"),
+    new TipsDef("Preferred Internet Protocol", "首选网络协议",
+        "选择网络协议。当IPv4和IPv6同时被启用时，首选协议将会被优先选择, 若首选协议启用失败，将自动切换至其它协议。"),
     new TipsDef("Address Type", "地址类型",
         "本设备有三种网络模式:<br>• DHCP模式: 设备通过在所连接局域网的一个DHCP服务器获取IP。所有有关静态IP/PPPoE的域值都不可用（尽管有关域值已保存在闪存中）。<br>• PPPoE模式:配置PPPoE帐号/密码，通过拨号从PPPoE服务器获取IP。<br>• 静态IP:需要手动配置IP地址、子网掩码、默认路由器IP地址、DNS服务器1、DNS服务器2。"),
     new TipsDef("PPPoE Account ID", "PPPoE帐号",
@@ -609,9 +609,9 @@ tip_item_zh.push (
     new TipsDef("802.1X Mode", "802.1X模式",
         "设置是否启用802.1X模式。用于配置连接到交换机时进行的802.1X身份验证。默认设置为“关闭”。"),
 	new TipsDef("802.1X Identity", "802.1X认证信息",
-        "此处上传802.1X认证信息。"),
+        "此处输入802.1X认证信息。"),
 	new TipsDef("802.1X Secret", "802.1X密码",
-        "此处上传802.1X密码。"),
+        "此处输入802.1X密码。"),
 	new TipsDef("802.1X Private Key Password", "802.1X私钥密码",
         "此处上传802.1X私钥密码。"),
 	new TipsDef("CA Certificate", "CA证书",

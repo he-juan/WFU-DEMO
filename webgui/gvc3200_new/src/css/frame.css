@@ -1510,6 +1510,9 @@ table thead tr th{
     margin-right: 2px;
     font-weight: bold;
 }
+.div-inputnumber .ant-form-item-with-help {
+    margin-bottom: 16px;
+}
 
 .config-container .ant-form-item-control {
     width: 82%;

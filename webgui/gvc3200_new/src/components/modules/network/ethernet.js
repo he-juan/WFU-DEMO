@@ -243,8 +243,12 @@ class Ethernet extends Component {
 
 
     handleSubmit = () => {
-        const callTr = this.props.callTr;
+        const callTr = this.tr;
         this.props.form.validateFieldsAndScroll((err, values) => {
+            if(values['prednsser1'] == '0' && values['prednsser2'] == '0' && values['prednsser3'] == '0' && values['prednsser4'] == '0' && values['networktype'] == '1') {
+                this.props.promptMsg('ERROR',  callTr('a_19637') +':'+callTr('a_16184'))
+                return;
+            } 
             if(!err) {
                 let set;
                 set = new Set([values['ipaddr1'],values["ipaddr2"],values["ipaddr3"],values["ipaddr4"]]);
@@ -1053,7 +1057,7 @@ class Ethernet extends Component {
                     })(<Input type={this.state.type} className="P-83"
                               suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />)}
                 </FormItem>
-                <FormItem label={< span > {callTr(a_layer2qos)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag (Ethernet)")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem label={< span > {callTr(a_layer2qos)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1Q/VLAN Tag")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer2qos", {
                         rules: [{
                             required: true,
@@ -1070,7 +1074,7 @@ class Ethernet extends Component {
                         initialValue: this.props.itemValues.layer2qos
                     })(<Input disabled={this.state.inLldpvlanid}  min={0} max={4094} className="P-51" />)}
                 </FormItem>
-                <FormItem label={< span > {callTr(a_layer2qospv)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1p Priority Value (Ethernet)")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem label={< span > {callTr(a_layer2qospv)} < Tooltip title={callTipsTr("Layer 2 QoS 802.1p Priority Value")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("layer2qospv", {
                         rules: [{
                             required: true,

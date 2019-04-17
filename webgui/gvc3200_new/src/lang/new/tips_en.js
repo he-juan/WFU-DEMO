@@ -564,7 +564,7 @@ tip_item_en.push (
 
     /*Maintenance Network Settings*/
     new TipsDef("Preferred Internet Protocol",
-        "Selects Prefer IPv4 or Prefer IPv6."),
+        "Selects which Internet protocol to use. When both IPv4 and IPv6 are enabled, phone attempts to use preferred protocol first and switches to the other choice if it fails."),
     new TipsDef("Address Type",
         "Users could select \"DHCP\", \"Static IP\" or \"PPPoE\". <br>• DHCP: Obtain the IP address via one DHCP server in the LAN. ALL domain values about static IP/PPPoE are unavailable. (Although some domain values have been saved in the flash.)<br>• PPPoE: Configures PPPoE account/password. Obtain the IP address from the PPPoE server via dialing.<br>• Static IP: Manual configures IP Address, Subnet Mask, Default Router's IP Address, DNS Server 1, DNS Server 2."),
     new TipsDef("PPPoE Account ID",
@@ -626,11 +626,11 @@ tip_item_en.push (
 	new TipsDef("802.1X Private Key Password",
         "Enter the private key password for the 802.1X mode."),
 	new TipsDef("Private Key",
-        "Enter the Private Key for the 802.1X mode."),
+        "Upload the Private Key for the 802.1X mode."),
     new TipsDef("CA Certificate",
-        "Enter the CA Certificate for the 802.1X mode."),
+        "Upload the CA Certificate for the 802.1X mode."),
 	new TipsDef("Client Certificate",
-        "Enter the Client Certificate for the 802.1X mode."),
+        "Upload the Client Certificate for the 802.1X mode."),
 	new TipsDef("HTTP/HTTPS Proxy",
         "Specifies the HTTP/HTTPS proxy URL for the device to send packets to. The proxy server will act as an intermediary to route the packets to the destination."),
 	new TipsDef("HTTP/HTTPS Proxy Hostname",
