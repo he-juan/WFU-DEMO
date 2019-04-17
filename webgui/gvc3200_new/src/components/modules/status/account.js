@@ -7,6 +7,29 @@ import { Table, Layout, Tabs } from 'antd';
 const Content = Layout;
 const TabPane = Tabs.TabPane;
 
+function parseText(code) {
+    var codetext;
+    switch (code){
+        case "1":
+        case "2":
+            codetext = 'a_1138';
+            break;
+        case "3":
+        case "5":
+            codetext = 'a_503';
+            break;
+        case "4":
+            codetext = 'a_521';
+            break;
+        case "6":
+            codetext = 'a_510';
+            break;
+        default:
+            codetext = 'a_1139';
+    }
+    return codetext
+}
+
 class Account extends Component {
     constructor(props) {
         super(props)
@@ -15,29 +38,7 @@ class Account extends Component {
         }
     }
 
-    view_status_code_to_text(code) {
-        var codetext;
-        switch (code){
-            case "1":
-            case "2":
-                codetext = "a_1138";
-                return codetext;
-            case "3":
-            case "5":
-                codetext = "a_503";
-                return codetext;
-            case "4":
-                codetext = "a_521";
-                return codetext;
-            case "6":
-                codetext = "a_510";
-                return codetext;
-            case "0":
-            default:
-                codetext = "a_1139";
-                return codetext;
-        }
-    }
+ 
 
     componentDidMount() {
         this.props.getAcctStatus();
@@ -45,20 +46,12 @@ class Account extends Component {
 
     render() {
         let accountStatus = this.props.acctStatus;
+        if(JSON.stringify(accountStatus) == '{}') return null
         var accountItems = [];
         for(var item in accountStatus.headers){
           accountItems[item]=accountStatus.headers[item]
         }
 
-        for (let i = 0; i< 16; i++) {
-            if ((accountItems["account_"+ `${i}`+"_status"] == "1") || (accountItems["account_"+ `${i}`+"_status"] == "2")) {
-                   $(".accountTable .ant-table-tbody .ant-table-row:eq(" + i + ")").addClass("aRegister");
-               }else if (accountItems["account_"+ `${i}`+"_status"] == "7"){
-                   $(".accountTable .ant-table-tbody .ant-table-row:eq(" + i + ")").addClass("Registering");
-               } else {
-                   $(".accountTable .ant-table-tbody .ant-table-row:eq(" + i + ")").removeClass("aRegister");
-               }
-        }
 
         let account = this.tr("a_301");
         let number = this.tr("a_10006");
@@ -70,9 +63,11 @@ class Account extends Component {
             key: 'row0',
             dataIndex: 'row0',
             width: 150,
-            render: (text, record, index) => (
-                <span><i className = "accountIcon"></i>{text}</span>
-            ),
+            render: (text, record, index) => {
+                let status = record.status
+                let spanclass = status == 1 || status == 2 ? "aRegister" : status == 7 ? "Registering" : ""
+                return <span className={spanclass}><i className = "accountIcon"></i>{text}</span>
+            },
         }, {
             title: number,
             key: 'row1',
@@ -91,55 +86,45 @@ class Account extends Component {
             render: (text, record, index) => {
                 return <span className={text}>{this.tr(text)}</span>;
             }
-      }];
+        }];
+      
+        let data = [];
+        let account_3_status = accountItems['account_3_status']
+        let account_4_status = accountItems['account_4_status']
+        let account_0_status = accountItems['account_0_status']
+        let account_3_server = accountItems['account_3_server'] || "_"
+        let account_4_server = accountItems['account_4_server'] || "_"
+        let account_0_server = accountItems['account_0_server'] || "_"
+        let row0Name = accountItems["account_0_name"] || "SIP";
+        let row1No = accountItems["account_0_no"] || "_";
+        let row2Ser = account_3_status != '0' ? account_3_server :　account_4_status != 0 ? account_4_server : account_0_server
+        let Status = account_3_status != '0' ? account_3_status :　account_4_status != 0 ? 　account_4_status : account_0_status
+        let row3Text =  parseText(Status)
+        data.push({key: 0, row0: row0Name, row1: row1No, row2: row2Ser, row3:row3Text, status : Status})
 
-      const data = [];
-      const codeArr = [];
-        if(accountItems['account_3_status']!=0){
-            data.push({
-                key: 0,
-                row0: accountItems["account_0_name"] || "SIP",
-                row1: accountItems["account_0_no"] || "_",
-                row2: accountItems["account_3_server"] || "_",
-                row3: this.view_status_code_to_text(accountItems["account_3_status"]),
-            });
-        }else if(accountItems['account_4_status']!=0){
-            data.push({
-                key: 0,
-                row0: accountItems["account_0_name"] || "SIP",
-                row1: accountItems["account_0_no"] || "_",
-                row2: accountItems["account_4_server"] || "_",
-                row3: this.view_status_code_to_text(accountItems["account_4_status"]),
-            });
-        }else{
-            data.push({
-                key: 0,
-                row0: accountItems["account_0_name"] || "SIP",
-                row1: accountItems["account_0_no"] || "_",
-                row2: accountItems["account_0_server"] || "_",
-                row3: this.view_status_code_to_text(accountItems["account_0_status"]),
-            });
-        }
         data.push({
             key: 1,
             row0: "IPVideoTalk",
             row1: accountItems["account_1_no"] || "_",
             row2: accountItems["account_1_server"] || "_",
-            row3: this.view_status_code_to_text(accountItems["account_1_status"]),
+            row3: parseText(accountItems["account_1_status"]),
+            status: accountItems["account_1_status"]
         });
         data.push({
             key: 2,
             row0: "BlueJeans",
             row1: accountItems["account_2_no"] || "_",
             row2: accountItems["account_2_server"] || "_",
-            row3: this.view_status_code_to_text(accountItems["account_2_status"]),
+            row3: parseText(accountItems["account_2_status"]),
+            status: accountItems["account_2_status"]
         });
         data.push({
             key: 6,
             row0: "H.323",
             row1: accountItems["account_6_no"] || "_",
             row2: accountItems["account_6_server"] || "_",
-            row3: this.view_status_code_to_text(accountItems["account_6_status"]),
+            row3: parseText(accountItems["account_6_status"]),
+            status: accountItems["account_6_status"]
         });
 
 
