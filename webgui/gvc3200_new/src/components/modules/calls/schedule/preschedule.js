@@ -30,7 +30,8 @@ class Call extends Component {
             confMemberData: [],
             editConfData: [],
             addNewConf:false,
-            confdetail:false
+            confdetail:false,
+            datefmt:''
         }
     }
 
@@ -60,6 +61,9 @@ class Call extends Component {
                 }
             });
         }
+        this.props.getItemValues([this.getReqItem("datefmt", "102", "")], (data) => {
+           this.setState({'datefmt':data.datefmt})
+        })
         // if(!this.props.presetinfo.length) {
         //     this.props.getPresetInfo()
         // }
@@ -264,17 +268,90 @@ class Call extends Component {
         return myStr;
     }
 
+    handleSortForConf = (data) =>{
+        // let today = moment(new Date(),"YYYY-DD-YY")
+        let arr1 = [],arr2 = [],arr3 = [],arr4 = [] //进行中>待主持>未开始>已结束
+        let status = [
+            {type:0,statusname:this.tr('a_10155')}, //待主持
+            {type:1,statusname:this.tr('a_9348')},  //进行中
+            {type:2,statusname:this.tr('a_notstart')},  // 未开始
+            // {type:3,statusname:callTr('a_10174')},  // 已过期
+            {type:3,statusname:this.tr('a_over')}  // 已结束
+        ]
+        for(let i = 0;i<data.length;i++){
+            let item = data[i]
+            let info = data[i].confinfo
+            // info.isToday = false
+            // info.isTomorrow = false
+            let startTime = moment(info.Starttime,"YYYY-MM-DD HH:mm")
+            // if(moment().isSame(info.Starttime, 'day')) {
+            //     info.isToday = true
+            // }
+            // if(moment().add(1,'d').isSame(info.Starttime, 'day')) {
+            //     console.log('is same',info.Starttime)
+            //     info.isTomorrow = true
+            // }
+            // console.log(moment().to(info.Starttime),info.Starttime)
+            let endTime = moment(info.Starttime,"YYYY-MM-DD HH:mm").add(info.Duration,"minutes") 
+            if(moment().isAfter(endTime)) {
+                item.status = status[3]
+                arr4.push(item)
+            } else if (moment().isAfter(startTime) && moment().isBefore(endTime)) {
+                // 进行中 || 待主持
+                item.status = status[0]
+                arr2.push(item)
+            } else if(moment().isBefore(startTime)) {
+                // 未开始
+                item.status = status[2]
+                arr3.push(item)
+            }
+            // console.log( arr1.concat(arr2))
+            // console.log(result)
+            // console.log(startTime.toObject(),info.Duration,endTime.toObject(),moment(startTime).isSame(endTime))
+        }
+        // let result = arr1.concat(arr2,arr3,arr4)
+        // console.log(result)
+        return arr1.concat(arr2,arr3,arr4)
+    }
+
+    convertTimeInfo = (startTime,duration) => {
+        // console.log(startTime)
+        // startTime = '2019-05-09 23:09'
+        let startTimeO = moment(startTime)
+        let datefmtObj = {
+            '3': 'YYYY/M/D',
+            '0': 'YYYY/M/D',
+            '1': 'M/D/YYYY',
+            '2': 'D/M/YYYY'
+        }
+        let datefmt = this.state.datefmt
+        let endTime = moment(startTime).add(duration,'m')
+        let range = ` ${startTimeO.format('HH:mm')} - ${endTime.format('HH:mm')}`
+        if(moment().isSame(startTime, 'day')) {
+            return this.tr("Today") + range
+        } else if(moment().add(1,'d').isSame(startTime, 'day')) {
+            return this.tr("Tommorw") + range
+        } else if (moment().isSame(startTime, 'year')) {
+            return `${moment(startTime).format('MM/DD')}  ${range}`
+        } else {
+            let format = datefmtObj[datefmt]
+            return moment(startTime).format(format)
+        }
+    }
+
+
+
     render() {
         const [confinfodata, callTr, _createTime, isToday, convertTime, logItemdata, view_status_Duration,curContactList] =
             [this.props.confinfodata, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime, this.props.logItemdata, this.props.view_status_Duration, this.state.curContactList];
         let preconfdata = this.props.preconfdata;
-        let status = [
-            {type:0,statusname:callTr('a_10155')},
-            {type:1,statusname:callTr('a_9348')},
-            {type:2,statusname:callTr('a_notstart')},
-            {type:3,statusname:callTr('a_10174')},
-            {type:4,statusname:callTr('a_over')}
-        ]
+        // let status = [
+        //     {type:0,statusname:callTr('a_10155')}, //待主持
+        //     {type:1,statusname:callTr('a_9348')},  //进行中
+        //     {type:2,statusname:callTr('a_notstart')},  // 未开始
+        //     {type:3,statusname:callTr('a_10174')},  // 已过期
+        //     {type:4,statusname:callTr('a_over')}  // 已结束
+        // ]
         let data = []
         for (let i = 0; confinfodata[i]!=undefined; i++) {
             let memberArr = []
@@ -286,13 +363,15 @@ class Call extends Component {
             let obj ={
                 confinfo:confinfodata[i],
                 memberArr:memberArr,
-                status:status[2],
+                // status:status[2],
                 key:i
             }
-
-
             data.push(obj)
         }
+
+        data = []
+        // data = this.handleSortForConf(data)
+        
         let loading = true
         if(data.length > 0) {
             loading = false
@@ -305,29 +384,29 @@ class Call extends Component {
                             return (
                                 <div key={item.key} className={'confbox'} onClick={(e)=>this.handleEdit(e,item,true)}>
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('a_10056')}：</Col>
-                                        <Col span={12}>{item.confinfo.Starttime}</Col>
+                                        <Col className='conf-label' span={15}>{item.confinfo.Displayname}</Col>
+                                        {/* <Col span={12}>{item.confinfo.Starttime}</Col> */}
                                         <Col className='conf-status' span={9}>{item.status.statusname}</Col>
                                     </Row>
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('a_15054')}：</Col>
-                                        <Col className='ellips' span={12}>{item.confinfo.Displayname}</Col>
+                                        <Col className='conf-label' span={3}>{callTr('a_10056')}：</Col>
+                                        <Col className='ellips conf-text' span={12}>{this.convertTimeInfo(item.confinfo.Starttime,item.confinfo.Duration)}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
-                                    <Row>
+                                    {/* <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_3501')}：</Col>
                                         <Col className='' span={12}>{item.confinfo.Duration / 60}{callTr('a_15008')}</Col>
                                         <Col className='conf-status' span={9}></Col>
-                                    </Row>
-                                    <Row>
+                                    </Row> */}
+                                    {/* <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_10055')}：</Col>
                                         <Col className='' span={12}>{item.confinfo.Host == 1? callTr('a_10057'): htmlEncode(item.confinfo.Host)}</Col>
                                         <Col className='conf-status' span={9}></Col>
-                                    </Row>
+                                    </Row> */}
                                     <Row>
-                                        <Col className='conf-label' span={3}>{callTr('a_19622')}：</Col>
-                                        <Col className='' span={3}>{item.memberArr.length}</Col>
-                                        <Col className='conf-status' span={18}>
+                                        <Col className='conf-label' span={3}>{callTr('a_10055')}：</Col>
+                                        <Col className='ellips conf-text' span={9}>{item.confinfo.Host == 1? callTr('a_10057'): htmlEncode(item.confinfo.Host)}</Col>
+                                        <Col className='conf-status' span={12}>
                                             <Button type="primary">{callTr("a_19623")}</Button>
                                             <Button
                                                 // onClick={this.handleEdit.bind(this, item)}
@@ -367,10 +446,15 @@ class Call extends Component {
                     }
                 </div>
                 <div className = 'CallDiv Callhistory'>
-                    <div className = "nodatooltips" style={{display: data.length > 0 ? 'none':'block'}}>
-                        <div></div>
-                        <p>{callTr("a_10082")}</p>
-                    </div>
+                    { data.length > 0 ?
+                        null:
+                        <div className = "nodata_tip">
+                            <p>
+                                {`没有会议，试试“`}
+                                <span onClick={this.props.handleNewConf}>{`${this.tr('a_10035')}“`}</span>
+                            </p>
+                        </div>
+                    }
                 </div>
                 {
                     !loading ? <NewConfEditForm {...this.props} callTr={this.props.callTr}

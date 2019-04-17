@@ -193,7 +193,7 @@ class NewContactsEdit extends Component {
         if(addoredit == 'edit'){
             rawcontact = `{"contactid":"${this.props.editContact['Id']}"}`;
         }
-        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${displayname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[${values.email || ''}],"structuredpostal":[{"fomatted":"${values.address|| ""}"}]}`;
+        let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${displayname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":["${values.email || ''}"],"structuredpostal":[{"fomatted":"${values.address|| ""}"}]}`;
         this.props.setContacts(infostr,()=>{
             this.props.updateContact()
         })
@@ -242,20 +242,20 @@ class NewContactsEdit extends Component {
         for (var item in acctnames) {
             acctnumber.push(acctnames[item]);
         }
-
         let GroupDisplay = (this.props.groups.length == 0) ? 'none' : 'block';
-        return (
+
+        return ( 
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
-
                     <FormItem label={(<span>{callTr("a_7474")}</span>)}>
                         {getFieldDecorator('name', {
                             rules: [{
-                                required: true,
+                                required: true, message: callTr("a_19637")
+                            },{
                                 max: 60, message: callTr("a_19805") + "60!"
                             }]
                         })(
-                            <Input style={{width:'89%'}}/>
+                            <Input autoFocus='autofocus' style={{width:'89%'}}/>
                         )}
                     </FormItem>
                     {

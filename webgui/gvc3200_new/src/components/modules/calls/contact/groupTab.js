@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Enhance from "../../../mixins/Enhance";
 import ContactsEdit from "../callsPubModule/ContactsEdit";
 import GroupEditModal from "../callsPubModule/groupEditModal"
+import CallMoeLine from "../callsPubModule/callMoreLine"
 import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form } from "antd";
 import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';
@@ -25,7 +26,9 @@ class GroupTab extends Component {
             searchResultArr:[],
             curContactList: [],
             groupInformation: [],
-            showtips: 'none'
+            showtips: 'none',
+            displayCallModal: false,
+            curCallData:{}
         }
     }
 
@@ -95,6 +98,10 @@ class GroupTab extends Component {
 
     handleHideGroupModal = () => {
         this.setState({displayGroupModal:false,addNewGroup:false})
+    }
+
+    handleHideCallMoreModal = () => {
+        this.setState({displayCallModal:false,curCallData:{}})
     }
 
     showDelGroupModal = () => {
@@ -364,11 +371,14 @@ class GroupTab extends Component {
         for (var i = 0; i < groupInformation.length; i++) {
             groupInformation[i]['names'] = [];
             groupInformation[i]['numbers'] = [];
+            groupInformation[i]['acct'] = [];
             groupInformation[i].ContactId.map((id) => {
                 contactsInformation.map((item, index) => {
                     if (item.RawId == id) {
+                        // console.log(item)
                         groupInformation[i]['names'].push(item.Name);
                         groupInformation[i]['numbers'].push(item.Number[0]);
+                        groupInformation[i]['acct'].push(item.AcctIndex)
                     }
                 })
             });
@@ -388,13 +398,31 @@ class GroupTab extends Component {
 
     createActions = (text, record, index) => {
         let statue;
+        let callTitle = this.tr('a_504')
+        let deleteTitle = this.tr('a_21')
+        let editTitle = this.tr('a_22')
         statue = <div className = {"callRecord " + text.Id}>
-            <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
+            <button className='allow-edit' id = {'allow-edit'+index} title={editTitle}  onClick={this.handleEditItem.bind(this, text, index)}></button>
             <Popconfirm placement="top" title={this.tr("a_19628")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleDeleteItem.bind(this, text, index)}>
-                <button className='allow-delete' id = {'allow-delete'+index} ></button>
+                <button title={deleteTitle} className='allow-delete' id = {'allow-delete'+index} ></button>
             </Popconfirm>
+            <button title={callTitle} className='allow-call' id = {'allow-call'+index}  onClick={this.showCallModal.bind(this, text, index)}></button>
         </div>;
         return statue;
+    }
+
+    showCallModal = (text) => {
+        // console.log('show',text)
+        let data = []
+        for(let i = 0;text.acct[i]!=undefined;i++) {
+            // console.log(text.acct[i],text.names[i])
+            data[i] = {
+                acct: text.acct[i],
+                names: text.names[i],
+                numbers: text.numbers[i]
+            }
+        }
+        this.setState({displayCallModal:true,curCallData:data})
     }
 
     render() {
@@ -424,6 +452,7 @@ class GroupTab extends Component {
             )
         }];
         let data = curDataList ? curDataList : this._createData()
+        // let data = []
         const {selectedRowKeys} = this.state;
         const rowSelection = {
             selectedRowKeys,
@@ -464,15 +493,22 @@ class GroupTab extends Component {
                         dataSource = { data }
                         showHeader = { true }
                     />
-                    <div className = "nodatooltips" style={{display: this.state.showtips}}>
-                        <div></div>
-                        <p>{this.tr("a_10082")}</p>
-                    </div>
+                    { data.length > 0 ?
+                        null:
+                        <div className = "nodata_tip">
+                            <p>
+                                {`没有群组，试试“`}
+                                <span onClick={this.showGroupModal}>{`${this.tr('a_9046')}“`}</span>
+                            </p>
+                        </div>
+                    }
                 </div>
                 <GroupEditModalForm {...this.props} handleHideGroupModal={this.handleHideGroupModal}  displayGroupModal={this.state.displayGroupModal} callTr={this.props.callTr}
                     htmlEncode={this.htmlEncode} editGroup={this.state.editGroup} addNewGroup={this.state.addNewGroup} contactsInformation={contactsInformation}
                     promptMsg={this.props.promptMsg} updateGroups={this.updateGroups} contactSelet={this.state.contactSelet} selectItems={this.state.selectItems} obj={this.state.obj}
                     checkboxChange={this.checkboxChange} handleDelete={this.handleDelete} handleSelectAll={this.handleSelectAll} handleSearchResult={this.handleSearchResult}  />
+                <CallMoeLine {...this.props} handleHideCallMoreModal={this.handleHideCallMoreModal}  displayCallModal={this.state.displayCallModal} callTr={this.props.callTr}
+                    htmlEncode={this.htmlEncode} promptMsg={this.props.promptMsg} curCallData={this.state.curCallData}/>
             </div>
         )
     }

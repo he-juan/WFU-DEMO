@@ -414,6 +414,11 @@ class NewContactsEdit extends Component {
         let minutesArr = []
         let durationArr = []
         extraMinutes = parseInt(extraMinutes)
+        let accountArr = [
+            <Option value = '-1'>{'本地'}</Option>,
+            <Option value = '0'>{'Google账号'}</Option>
+        ]
+
         let presetArr = [
             <Option value = '-1'>{callTr('a_20')}</Option>
         ]
@@ -447,7 +452,7 @@ class NewContactsEdit extends Component {
                 presetArr.push(<Option value = {position.toString()}>{callTr('a_10024') + (position + 1) + name }</Option>)
             }
         }
-        return {dayArr:dayArr,hoursArr:hoursArr,minutesArr:minutesArr,durationArr:durationArr,presetArr:presetArr}
+        return {accountArr:accountArr,dayArr:dayArr,hoursArr:hoursArr,minutesArr:minutesArr,durationArr:durationArr,presetArr:presetArr}
     }
 
     disabledDate =(current) => {
@@ -576,7 +581,9 @@ class NewContactsEdit extends Component {
 
     createTypeName = (value) => {
         let typeName = 'SIP'
-        if (value == '1') {
+        if(value == '-1') {
+            typeName = 'Active account'
+        } else if (value == '1') {
             // typeName = 'IPVideoTalk'
             typeName = 'IPVT'
         } else if (value == '8') {
@@ -729,13 +736,38 @@ class NewContactsEdit extends Component {
         if (this.state.tempMember.length > 0) {
             member = this.state.tempMember
         }
-
         // let existMember = this.state.curMember.length > 0 || this.state.tempMember.length > 0
-        let ismax = true
-        if((member[0] && (member[0].Acctid == '1' || member[0].Account == '1' ) && newMemberAcct == '1') || !member[0]){
-            ismax = false
-        } else {
-            this.props.promptMsg('ERROR','a_10097');
+        let ismax = false
+        // console.log(member,newMemberAcct) 
+        let curLineNum = 0
+        let ipvtLine = 0
+        let ipvtAcctNum  = 0
+        for(let i=0;i<member.length;i++) {
+            if(member[i] && (member[i].Acctid == '0' || member[i].Account == '0' || member[i].Acctid == '-1' || member[i].Account == '-1' || member[i].Acctid == '8' || member[i].Account == '8')) {
+                if(newMemberAcct == '0' || newMemberAcct == '-1' || newMemberAcct == '8') {
+                    curLineNum += 1
+                    if(curLineNum+ipvtLine == 8) {
+                        ismax = true
+                        this.props.promptMsg('ERROR','a_10097');
+                        return ismax
+                    }
+                }
+            } else if(member[i] && (member[i].Acctid == '1' || member[i].Account == '1')) {
+                ipvtLine = 1
+                if(newMemberAcct == '1') {
+                    ipvtAcctNum += 1
+                    if(curLineNum == 8) {
+                        ismax = true
+                        this.props.promptMsg('ERROR','a_10097');
+                        return ismax
+                    }
+                    if(ipvtAcctNum==100) {
+                        ismax = true
+                        this.props.promptMsg('ERROR','a_10097');
+                        return ismax
+                    }
+                }
+            }
         }
         return ismax
     }
@@ -782,8 +814,6 @@ class NewContactsEdit extends Component {
                 )}];
         let logItemdata = this.props.logItemdata
         let confmember = this.props.confmemberinfodata ? this.props.confmemberinfodata : []
-
-
 
         let contactList = this.props.contactsInformation
         let callnameinfo = this.props.callnameinfo
@@ -1100,9 +1130,22 @@ class NewContactsEdit extends Component {
                                 <Input hidden />
                             )}
                         </FormItem>
+                        <FormItem label={(<span>{callTr("关联帐号")}</span>)}>
+                            {getFieldDecorator('bindAccount', {
+                                initialValue: '0'
+                            })(
+                                <Select disabled={allDisabled} style={{width:'25%'}}>
+                                    {optionObj.accountArr}
+                                </Select>
+                            )}
+                        </FormItem>
                         <FormItem label={(<span>{callTr("a_15054")}</span>)}>
                             {getFieldDecorator('confSubject', {
-                                rules: [{required: true, message: callTr("a_19637")}],
+                                rules: [{
+                                    required: true, message: callTr("a_19637")
+                                },{
+                                    max: 10, message: callTr("a_19805") + "10!"
+                                }],
                                 initialValue: initName
                             })(
                                 <Input disabled={allDisabled} style={{width:'93%'}}/>
@@ -1306,12 +1349,30 @@ class NewContactsEdit extends Component {
 
                         <FormItem label={(<span>{callTr("a_19133")}</span>)}>
                             {getFieldDecorator('pinCode', {
-                                initialValue: ''
+                                initialValue: '',
+                                rules:[{
+                                    validator: (data, value, callback) => {
+                                        this.digits(data, value, callback)
+                                    }
+                                }, {
+                                    max: 10, message: callTr("a_19805") + "10!"
+                                }]
                             })(
                                 <Input disabled={allDisabled} style={{width:'40%'}}/>
                             )}
 
                         </FormItem>
+                        {
+                            this.props.form.getFieldValue('pinCode') ? 
+                            <FormItem label={(<span>{callTr("预约成员入会无需会议密码")}</span>)}>
+                                {getFieldDecorator('noPwd', {
+                                        valuePropName: 'checked',
+                                        initialValue: ''
+                                    })(<Checkbox disabled={allDisabled}/>)
+                                }
+                            </FormItem> : null
+                        }
+
                         <FormItem label={(<span className='ant-form-item-required'>{callTr("a_15035")}</span>)}>
                             <Button disabled={allDisabled} type="primary" onClick={this.handleAddMember.bind(this)}>
                                 {callTr('a_23')}

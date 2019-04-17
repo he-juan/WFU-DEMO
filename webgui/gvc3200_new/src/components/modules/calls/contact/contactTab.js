@@ -384,6 +384,8 @@ class ContactTab extends Component {
         let statue;
 
         var number = this.bouncer(text.Number);
+        let callTitle = this.tr('a_504')
+        let editTitle = this.tr('a_22')
         if (number.length > 1) {
             return (
                 <div id = {text.Id} className = {"callRecord number" + number.join(',') } >
@@ -394,16 +396,16 @@ class ContactTab extends Component {
                         placement="topRight"
                         trigger="focus"
                     >
-                        <button className='allow-call' id = {'allow-call'+index}></button>
+                        <button title={callTitle} className='allow-call' id = {'allow-call'+index}></button>
                     </Popover>
-                    <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
+                    <button className='allow-edit' title={editTitle} id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
                 </div>
             )
         } else {
             return (
                 <div id = {text.Id} className = {"callRecord number" + number.join(',') } >
-                    <button className='allow-call' id = {'allow-call'+index}  onClick={this.handleCall.bind(this, text, index)}></button>
-                    <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
+                    <button title={callTitle} className='allow-call' id = {'allow-call'+index}  onClick={this.handleCall.bind(this, text, index)}></button>
+                    <button title={editTitle} className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
                 </div>
             )
         }
@@ -418,13 +420,14 @@ class ContactTab extends Component {
         let groupInformation = this.props.groupInformation;
         let contactinfodata = this.props.contactinfodata;
         let contactsAcct = this.props.contactsAcct;
+        // console.log(contactsInformation,contactinfodata)
         let data = [];
         let contactItems = [];
-        if (contactsInformation.length == 0) {
-            this.setState({showtips:'block'})
-        } else {
-            this.setState({showtips:'none'})
-        }
+        // if (contactsInformation.length == 0) {
+        //     this.setState({showtips:'block'})
+        // } else {
+        //     this.setState({showtips:'none'})
+        // }
         // console.log(contactsInformation)
         for (let i = 0; i < contactsInformation.length; i++ ) {
             contactItems.push({
@@ -432,7 +435,9 @@ class ContactTab extends Component {
                 Id: contactsInformation[i].Id,
                 Name: contactsInformation[i].Name,
                 Number: contactsInformation[i].Number,
-                RawId: contactsInformation[i].RawId
+                RawId: contactsInformation[i].RawId,
+                Pinyin:contactsInformation[i].Pinyin,
+                PinyinFirst:contactsInformation[i].PinyinFirst
             })
         }
         for (var i = 0; i < contactItems.length; i++) {
@@ -499,7 +504,7 @@ class ContactTab extends Component {
 
     handleChange = (e) => {
         var self = this;
-        var searchkey = e.target.value.trim();
+        var searchkey = e.target.value.trim().toUpperCase();
         let data = [];
         let dataSource = self.contactList
         if (searchkey === "") {
@@ -508,10 +513,16 @@ class ContactTab extends Component {
             let len = dataSource.length;
             for (let i = 0; i < len; i++) {
                 let item = dataSource[i];
-                let name = item.row0;
+                let name = item.row0.toUpperCase();
                 let number = item.row3.Number[0];
                 let groupname = item.row2;
-                if (number.indexOf(searchkey) != -1 || name.indexOf(searchkey) != -1 || groupname.indexOf(searchkey) != -1) {
+                let Pinyin = item.row3.Pinyin;
+                let PinyinFirst = item.row3.PinyinFirst;
+                if (number.indexOf(searchkey) != -1 
+                || name.indexOf(searchkey) != -1 
+                || groupname.indexOf(searchkey) != -1
+                || PinyinFirst.indexOf(searchkey) !=-1
+                || Pinyin.indexOf(searchkey) !=-1 ) {
                     data.push(item);
                 }
             }
@@ -599,6 +610,7 @@ class ContactTab extends Component {
             )
         }];
         let pageobj = false
+        // let data = []
         let data = curContactList;
         if(data.length>15) {
             pageobj = {
@@ -653,10 +665,20 @@ class ContactTab extends Component {
                         dataSource = { data }
                         // showHeader = { false }
                     />
-                    <div className = "nodatooltips" style={{display: this.state.showtips}}>
-                        <div></div>
-                        <p>{this.tr("a_10082")}</p>
-                    </div>
+                    { data.length > 0 ?
+                        null:
+                        <div className = "nodata_tip">
+                            <p>
+                                {`没有联系人，试试“`}
+                                <span onClick={this.showContactModal}>{this.tr('a_9046')}</span>
+                                {`”，“`}
+                                <span onClick={this.handleImport.bind(this)}>{this.tr('a_4806')}</span>
+                                {`"或"`}
+                                <span onClick={this.handleDownload.bind(this)}>{this.tr('a_4808') + `"`}</span>
+
+                            </p>
+                        </div>
+                    }
                 </div>
                 {
                     this.state.displayImportModal ?

@@ -116,7 +116,8 @@ class DownloadContactsForm extends Component {
                 this.setState({
                     formitemValues: values
                 });
-                this.props.handleHideDownloadModal();
+                // this.props.handleHideDownloadModal();
+                this.props.sendphbknotify()
             }
         });
     }
@@ -414,6 +415,7 @@ function mapDispatchToProps(dispatch) {
         saveDownContactsParams:Actions.saveDownContactsParams,
         cb_put_download_param:Actions.cb_put_download_param,
         progressMessage:Actions.progressMessage,
+        sendphbknotify:Actions.sendphbknotify,
         cb_get_down_response: Actions.cb_get_down_response
     }
     return bindActionCreators(actions, dispatch)

@@ -6001,9 +6001,10 @@ table thead tr th{
     background: #f0f4ff;
 }
 .call-line-info{
-    height: 40px;
-    line-height: 40px;
-    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    /* display: inline-block; */
+    float: left;
 }
 .call-line-name{
     text-align: left;
@@ -6126,11 +6127,14 @@ table thead tr th{
     color: #000;
 }
 .confbox .ant-row:nth-child(2){
-    margin-bottom: 15px;
-    color: #000;
+    /* margin-bottom: 15px; */
+    /* color: #000; */
 }
 .conf-label{
-    padding-left: 15px;
+    padding-left: 15px;    
+}
+.conf-text{
+    color: #000;
 }
 .conf-status{
     padding-right: 50px;
@@ -7535,4 +7539,30 @@ ol.mp_list li.mp_error {}
 }
 .hovMenu div:last-child{
     border-top:solid 1px #dfe1e2    
+}
+.CallDiv .nodata_tip{
+    width: 500px ;
+    height: 140px;
+    margin: 150px auto;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgba(85, 98, 123, .65);
+}
+.CallDiv .nodata_tip span{
+    cursor: pointer;
+}
+.callMoreModal{
+    width: 500px!important;
+}
+.callNumerLine {
+    height: 40px;
+    line-height: 40px;
+    font-size: 0.9rem;
+}
+.callNumerSpan{padding-right: 8px}
+.callMoreModal .ant-modal-body {
+    min-height: 300px;
+    max-height: 500px;
+    overflow: auto
 }

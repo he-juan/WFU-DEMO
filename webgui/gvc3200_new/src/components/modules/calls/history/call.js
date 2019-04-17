@@ -458,18 +458,21 @@ class Call extends Component {
         let logItem = text.logItem
         let content = []
         let memberArr = record.row0.memberArr
+        let reConfTitle = this.tr('a_10058')
+        let callTitle = this.tr('a_504')
+
         if(memberArr.length>1) {
             for (let i = 0; memberArr[i] != undefined ; i++) {
                 content.push(
                     <div className="select-callnum">
-                        <span>{memberArr[i].Number}</span><span><button className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall.bind(e, memberArr[i], index)}></button></span>
+                        <span>{memberArr[i].Number}</span><span><button title={callTitle} className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall.bind(e, memberArr[i], index)}></button></span>
                     </div>
                 )
             }
             statue = <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
-                <button className='allow-detail' id = {'allow-detail'+index}  onClick={(e)=>this.handleNewConf.bind(e, memberArr, index)}></button>
+                <button title={reConfTitle} className='allow-detail' id = {'allow-detail'+index}  onClick={(e)=>this.handleNewConf.bind(e, memberArr, index)}></button>
                 <Popover content={content} placement="leftTop" trigger="hover">
-                    <button className='allow-call ' id = {'allow-call'+index} ></button>
+                    <button title={callTitle} className='allow-call ' id = {'allow-call'+index} ></button>
                 </Popover>
             </div>;
         } else {
@@ -500,8 +503,8 @@ class Call extends Component {
                     </Popover> */}
                     <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
 
-                    <button className='allow-detail' id = {'allow-detail'+index} onClick={(e)=>this.handleNewConf(e,memberArr[0], index)}></button>
-                    <button className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall(e,memberArr[0], index)} ></button>
+                    <button title={reConfTitle} className='allow-detail' id = {'allow-detail'+index} onClick={(e)=>this.handleNewConf(e,memberArr[0], index)}></button>
+                    <button title={callTitle} className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall(e,memberArr[0], index)} ></button>
                 </div>;
         }
         return statue;

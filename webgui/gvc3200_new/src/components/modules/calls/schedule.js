@@ -80,7 +80,7 @@ class History extends Component {
         let tabList =[
             (hiddenOptions,i) => {
                 return<TabPane tab = {this.tr("a_10011")} key={i}>
-                    <ScheduleForm {...this.props} hideItem={hiddenOptions} tabOrder={i} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                    <ScheduleForm {...this.props} hideItem={hiddenOptions} tabOrder={i} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} handleNewConf={this.handleNewConf}/>
                 </TabPane>
             } ,
             (hiddenOptions,i) => {
