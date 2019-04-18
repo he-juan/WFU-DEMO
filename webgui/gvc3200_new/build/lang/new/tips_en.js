@@ -116,6 +116,8 @@ tip_item_en.push (
         "If set to \"No\", the device will not unregister the SIP user's registration information. If set to \"All\",The SIP contact header will use \"*\" to clear all SIP user's registration information. If set to \"Instance\",the device only need to clear the current SIP user's info. The default is \"Instance\"."),
     new TipsDef("Register Expiration",
         "Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrar. The default value is 60 minutes (1 hour). The maximum value is 64,800 minutes (about 45 days). The minumum value is 1 minute."),
+    new TipsDef("Subscribe Expiration", 
+        "Specifies the frequency (in minutes) in which the device refreshes its subscription with the specified register server. The maximun value is 64800(about 45 days)."),
     new TipsDef("Wait Time Retry Registration",
         "The amount of time in which the device will retry the registration process in the event that is failed. The default value is 20 seconds."),
     new TipsDef("Local SIP Port",
@@ -164,6 +166,8 @@ tip_item_en.push (
         "Controls whether the Privacy header will present in the SIP INVITE message or not, whether the header contains  the caller info. When set to \"Default\", the Privacy Header won't show in INVITE only when  \"Huawei IMS\" special feature is on. If set to \"Yes\", the Privacy Header will always show in INVITE. If set to \"No\", the Privacy Header will not show in INVITE. The default setting is \"Default\"."),
     new TipsDef("Use P-Preferred-Identity Header",
         "Controls whether the P-Preferred-Identity Header will present in the SIP INVITE message. Please refer to user manual for more details."),
+    new TipsDef("Use Mac Header", 
+        "Use MAC Header in SIP register request and in User-Agent header in SIP INVITE request."),    
     new TipsDef("SIP URI Scheme When Using TLS",
         "Specifies if \"sip:\" or \"sips:\" will be used when TLS/TCP is selected for SIP Transport."),
     new TipsDef("Use Actual Ephemeral Port in Contact with TCP/TLS",
@@ -680,10 +684,13 @@ tip_item_en.push (
     new TipsDef("Security Mode",
         "This parameter defines the security mode used for the wireless network. The following are supported: WEP/Shared, WEP/OPEN, WPA PSK TKIP, WPA PSK AES, WPA2 PSK TKIP, WPA2 PSK AES. The default setting is set to \"Disabled\". Users will need to enter the corresponding authentication password for the security mode."),
     new TipsDef("ESSID ",
-        "Display the selected ESSID name."),
+        "Display the hidden ESSID name."),
+    new TipsDef("Security Mode for Hidden SSID",
+        "This parameter defines the security mode used for the wireless network when the SSID is hidden."),
     new TipsDef("Password  ",
-        "Configures the selected ESSID password."),
-
+        "Configures the hidden ESSID password."),
+    new TipsDef("Country Code",
+		"Configure WiFi country code. The default value is \"US\"."),
 	/*Maintenance Web Access*/
     new TipsDef("Access Methode",
         "Allows users to select HTTP or HTTPS for Web Access."),
@@ -708,7 +715,7 @@ tip_item_en.push (
     new TipsDef("Confirm Screen Lock Password",
         "Enter the new screen lock password again to confirm."),
     new TipsDef("Disable SSH",
-		"If set to \"Yes\", the device will not allow any SSH access to the device. The default setting is \"No\"."),
+		"If set to \"Yes\", the device will not allow any SSH access to the device. "),
     new TipsDef("Current Admin Password",
         "Enter current administrator's password. This field is case sensitive. The maximum length is 32 alphabet characters."),
 
@@ -1026,7 +1033,7 @@ tip_item_en.push (
     new TipsDef("Replace Duplicate Entries Mode",
         "If set to \"Replace by name\", replace the records of the same name automatically when importing new records. If set to \"Replace by number\", replace the records of the same number automatically when importing new records."),
 	new TipsDef("Download Mode",
-		"Selects the file download mode for the download server. Users can choose from TFTP/HTTP/OFF."),
+		"Selects the file download mode for the download server. Users can choose from TFTP/HTTP/HTTPS/OFF.  The Default is “OFF”."),
 	new TipsDef("Download Server",
 		"Fill in the server URL or IP address to download the XML contact file from the Internet."),
 	new TipsDef("HTTP/HTTPS User Name",
@@ -1380,7 +1387,9 @@ tip_item_en.push (
 
     new TipsDef("Reboot", "Set the device to restart"),
     new TipsDef("Sleep", "Set the device to sleep mode"),
-    new TipsDef("Shutdown", "Turn off the device")
+    new TipsDef("Shutdown", "Turn off the device"),
+    new TipsDef("RTP Timeout (s)",
+        "Configures the RTP timeout of the phone. If the phone does not receive the RTP packet within the specified RTP time, the call will be automatically disconnected. The default range is 0-600. If set to 0, the phone will not hang up the call automatically.")
 
 
 

@@ -116,6 +116,7 @@ tip_item_zh.push (
         "此项如果设置为“否”, 则不注销SIP用户注册信息, 如果设置为“全部”，在SIP注销报文Contact头域时将使用“*”来注销此帐号的所有注册信息，如果设置为“Instance”，则仅注销当前设备IP的注册信息。默认为“Instance”。"),
     new TipsDef("Register Expiration", "注册期限 (分钟)",
         "此参数允许用户设定设备更新注册的频率（分钟）。默认时间间隔为60分钟（1小时）。最大时间间隔为64800分钟（大约45天）。最小值为1分钟。"),
+    new TipsDef("Subscribe Expiration", "订阅超时 (分钟)", "此项用于设置设备使用指定的注册服务器刷新其订阅的时间周期（分钟）。最小值为1分钟，最大值为64800分钟（大约45天）。"),
     new TipsDef("Wait Time Retry Registration", "重试注册间隔时间",
         "注册失败重试间隔时间，默认20秒。"),
     new TipsDef("Local SIP Port", "本地SIP端口",
@@ -164,6 +165,8 @@ tip_item_zh.push (
         "控制Privacy头域是否将出现在SIP INVITE消息中。头域中包含是否隐藏主叫号码的信息。当设置为“默认”时，仅当华为IMS的特殊功能开启后Privacy头域才不会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示Privacy头域。当设置为“否”时，SIP INVITE消息将不显示Privacy头域。默认设置为“默认”。"),
     new TipsDef("Use P-Preferred-Identity Header", "使用P-Preferred-Identity头域",
         "配置是否使用SIP INVITE消息中的P-Preferred-Identity头域。详细信息请参考用户手册。"),
+    new TipsDef("Use Mac Header", "使用Mac头域", 
+        "配置是否使用SIP Register消息中的MAC头域，并在SIP INVITE消息的User-Agent头域中添加MAC地址。"),    
     new TipsDef("SIP URI Scheme When Using TLS", "TLS使用的SIP URI格式",
         "当SIP传输方式使用TLS/TCP时，选择\"sips\"。默认设置\"sip\"。"),
     new TipsDef("Use Actual Ephemeral Port in Contact with TCP/TLS", "TCP/TLS Contact使用实际临时端口",
@@ -171,7 +174,7 @@ tip_item_zh.push (
     new TipsDef("Authenticate Incoming INVITE", "验证来电INVITE",
 		"若启用，设备将发送SIP 401 Unauthorized对来电INVITE进行验证。默认为不勾选。"),
     new TipsDef("SIP Realm Used for Challenge INVITE & NOTIFY", "用于Challenge INVITE ＆ NOTIFY的SIP Realm",
-        "配置该项可验证来电INVITE，但必须开启来电INVITE才能生效。可验证provision的NOTIFY信息，包括check-sync，resync和reboot，但必须开启SIP NOTIFY认证才能生效。"),
+        "配置该项可验证来电INVITE，但必须开启验证来电INVITE才能生效。可验证provision的NOTIFY信息，包括check-sync，resync和reboot，但必须开启SIP NOTIFY认证才能生效。"),
 	new TipsDef("Check Domain Certificates", "检测域名证书",
 		"当TCP/TLS用于SIP传输时，配置是否检测域名证书。"),
 	new TipsDef("Validate Certification Chain", "验证证书链",
@@ -672,9 +675,13 @@ tip_item_zh.push (
     new TipsDef("Security Mode", "安全模式",
         "此参数设置无线网络的安全模式。支持的模式: WEP/Shared, WEP/OPEN, WPA PSK TKIP, WPA PSK AES, WPA2 PSK TKIP, WPA2 PSK AES。 安全模式默认是关闭的。用户需要根据安全模式相应的填写验证密码。"),
     new TipsDef("ESSID ", "ESSID",
-        "此项用于设置已选择的ESSID。"),
+        "此项用于设置隐藏的ESSID。"),
+    new TipsDef("Security Mode for Hidden SSID", "隐藏SSID的安全模式",
+        "此参数设置SSID为隐藏时的无线网络的安全模式。"),
     new TipsDef("Password  ", "密码",
-        "此项用于设置已选择的ESSID的密码。"),
+        "此项用于设置隐藏的ESSID的密码。"),
+	new TipsDef("Country Code", "国家",
+    "设置Wi-Fi国家码。默认为“US”。"),
 
  /*Maintenance Web Access*/
     new TipsDef("Access Methode", "访问方式",
@@ -700,7 +707,7 @@ tip_item_zh.push (
     new TipsDef("Confirm Screen Lock Password", "确认锁屏密码",
         "请再次输入锁屏新密码确认。"),
     new TipsDef("Disable SSH", "禁止SSH访问",
-		   "如果设置为“是”，设备将禁止SSH方式进行访问。默认设置为“否”。"),
+		   "如果设置为“是”，设备将禁止SSH方式进行访问。"),
     new TipsDef("Current Admin Password", "当前管理员密码",
         "请输入当前管理员密码，密码为英文字符，注意大小写，最大长度为32。"),
 
@@ -1020,7 +1027,7 @@ tip_item_zh.push (
     new TipsDef("Replace Duplicate Entries Mode","替换重复条目模式",
         "若设置为'根据名字替换',在导入新的记录时会自动将相同名字的记录替换掉。若设置为'根据号码替换',在导入新的记录时会自动将相同号码的记录替换掉。"),
 	new TipsDef("Download Mode", "下载模式",
-		"选择互联网下载模式。"),
+		"选择互联网下载模式，默认“关闭”"),
 	new TipsDef("Download Server", "下载服务器",
 		"设置从互联网下载的服务器地址。"),
 	new TipsDef("HTTP/HTTPS User Name", "HTTP/HTTPS用户名",
@@ -1375,8 +1382,10 @@ tip_item_zh.push (
         "配置视频电话的比特率，可以根据网络环境调整的视频比特率。如果带宽允许的情况下建议增加比特率大小；如果带宽不够，视频质量将降低。默认值跟H.264 视频大小有关：<br>H.264 视频大小设置为1080p，设置值为“1Mbps~4Mbps”之间的整数值。<br>H.264 视频大小设置为720p，设置值为“512kbps~2Mbps”之间的整数值。<br>H.264 视频大小设置为4SIF/4CIF/VGA，设置值为“384kbps~1Mbps”之间的整数值。"),
     new TipsDef("Reboot", "重启", "设置设备重启"),
     new TipsDef("Sleep", "睡眠", "设置设备为睡眠模式"),
-    new TipsDef("Shutdown", "关机", "将设备关机")
-
+    new TipsDef("Shutdown", "关机", "将设备关机"),
+    new TipsDef("RTP Timeout (s)", "RTP超时（秒）",
+        "此项用于设置话机如果在指定的RTP超时时间内没有收到RTP包，则将自动挂断通话。有效值范围是0-600秒。若设置为0秒，则话机不会自动挂断通话。")
+    
 
 
 
