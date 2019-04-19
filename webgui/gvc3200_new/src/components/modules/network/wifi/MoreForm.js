@@ -210,13 +210,13 @@ class MoreForm extends Component {
                     )}
                 </FormItem> */}
                 {this.state.councodevis
-                ? <FormItem className={this.state.councodevis} label={<span>{callTr("a_19167")}<Tooltip title={callTipsTr("Country Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                ? <FormItem label={<span>{callTr("a_19167")}<Tooltip title={callTipsTr("Country Code")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("councode", {
                         initialValue: itemvalue['councode'] ? itemvalue['councode'] : "US"
                     })(
                         <Select className={"P-7831"}>
                             {country_code.map((item, i) => {
-                                return <Option value={item.code}>{item.coun}</Option>
+                                return <Option value={item.code} key={item.coun}>{item.coun}</Option>
                             })}
                         </Select>
                     )}

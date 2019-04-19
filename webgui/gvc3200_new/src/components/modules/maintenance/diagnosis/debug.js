@@ -371,7 +371,6 @@ class DebugForm extends Component {
             children_screenList.push(<Option value = {screenList[i]}>{this.htmlEncode(screenList[i])}</Option>);
         }
 
-
         let itemList =
             <Form hideRequiredMark>
                 <p className="blocktitle"><s></s>{this.tr("a_19277")}</p>
@@ -395,7 +394,7 @@ class DebugForm extends Component {
                     <div>
                         {getFieldDecorator("syslog", {
                             valuePropName: 'checked',
-                            initialValue: Number(this.props.itemValues.syslog)
+                            initialValue: Number(this.props.itemValues.syslog) == 1
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'syslog')} disabled={this.state.ckbdisabled} />
                         )}
@@ -404,7 +403,7 @@ class DebugForm extends Component {
                     <div>
                         {getFieldDecorator("logcat", {
                             valuePropName: 'checked',
-                            initialValue: Number(this.props.itemValues.logcat)
+                            initialValue: Number(this.props.itemValues.logcat) == 1
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'logcat')} disabled={this.state.ckbdisabled} />
                         )}
@@ -413,7 +412,7 @@ class DebugForm extends Component {
                     <div>
                         {getFieldDecorator("capture", {
                             valuePropName: 'checked',
-                            initialValue: Number(this.props.itemValues.capture)
+                            initialValue: Number(this.props.itemValues.capture) == 1
                         })(
                             <Checkbox onChange={this.checkDebugItem.bind(this, 'capture')} disabled={this.state.ckbdisabled} />
                         )}
@@ -445,7 +444,7 @@ class DebugForm extends Component {
                     {getFieldDecorator("enabcoredump", {
                         rules: [],
                         valuePropName: 'checked',
-                        initialValue: this.props.itemValues.enabcoredump
+                        initialValue: this.props.itemValues.enabcoredump == 1
                     })(
                         <Checkbox />
                     )}

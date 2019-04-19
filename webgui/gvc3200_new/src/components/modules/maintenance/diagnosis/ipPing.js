@@ -84,6 +84,7 @@ class PingForm extends Component {
     }
     getPingMsg = (offset) => {
         this.doRequest(`action=getpingmsg&offset=${offset}`).then( msgs => {
+            if(!this.refs.ipping) return;
             let res = msgs.headers['response'];
             if(res == 'Success')　{
                 let pingmsg = msgs.headers['pingmsg'];
@@ -122,6 +123,7 @@ class PingForm extends Component {
     }
     handleStopPing = () => {
         this.doRequest(`action=stopping`).then((msgs) => {
+            if(!this.refs.ipping) return;
             let res = msgs.headers['response'];
             if(res == 'Success')　{
                 isStop = true;
@@ -138,7 +140,7 @@ class PingForm extends Component {
         const {callTr, callTipsTr, networkStatus} = this.props;
         const {getFieldDecorator} = this.props.form;
         let itemList =
-            <Form hideRequiredMark>
+            <Form hideRequiredMark ref="ipping">
               <FormItem label={( <span> {callTr("a_16629")} <Tooltip title={callTipsTr("Ping Target Host")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {getFieldDecorator('targethost', {
                         initialValue: networkStatus.gateway,

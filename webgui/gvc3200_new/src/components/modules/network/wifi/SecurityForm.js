@@ -66,7 +66,24 @@ class SecurityForm extends Component {
                 validstatus: "error",
                 help: "a_pwdlengthlimit"
             });
-        }else{
+        }else if(hiddenauthmode == '1' ){
+
+            let allowedLength = [5, 10, 13, 26, 16, 32];
+            let checkres = allowedLength.some((len, i) => {
+                return value.length == len;
+            })
+            if(!checkres){
+                this.setState({
+                    validstatus: "error",
+                    help: "a_pwdlengthallowed"
+                });
+            } else {
+                this.setState({
+                    validstatus: "",
+                    help: ""
+                });
+            }
+        } else {
             this.setState({
                 validstatus: "",
                 help: ""
@@ -107,6 +124,29 @@ class SecurityForm extends Component {
         });
     }
 
+    // checkPwdLength = (rule, value, callback) => {
+    //     const securitystr = this.props.wifiData.securityStr;
+
+    //     /*for 802.1X password is not required*/
+    //     if(securitystr.indexOf("802.1X") == -1){
+    //         if(value == ""){
+    //             callback(this.props.callTr("a_19637"));
+    //         }else if(securitystr.indexOf("WEP") != -1){
+    //             /* WEP password only allowed the length of 5,10,13,26,16,32 */
+    //             let allowedLength = [5, 10, 13, 26, 16, 32];
+    //             let checkres = allowedLength.some((curvalue, i) => {
+    //                 return value.length == curvalue;
+    //             })
+    //             if(!checkres){
+    //                 callback(this.props.callTr("a_pwdlengthallowed"));
+    //             }
+    //         }else if(value != "" && value.length < 8){
+    //             callback(this.props.callTr("a_pwdlengthlimit"));
+    //         }
+    //     }
+
+    //     callback();
+    // }
     render(){
         const { getFieldDecorator } = this.props.form;
         const callTr = this.props.callTr;
@@ -138,6 +178,7 @@ class SecurityForm extends Component {
                     label={<span>{callTr("a_6759")}<Tooltip title={callTipsTr("Password  ")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("essidpwd", {
                         // initialValue: itemvalue['essidpwd'],
+                        // validator: this.checkPwdLength
                     })(
                         <Input type={this.state.type} onChange={this.checkPwdLength}
                             suffix={<Icon type="eye" className={this.state.type} onClick={this.handlePwdVisible} />} />

@@ -54,6 +54,7 @@ class SyslogForm extends Component {
     }
 
     checkoutLoglevel = (value) => {
+        if(!this.refs.syslog) return
         let aSendlog;
         if (value === '1') {
             aSendlog = 'display-block'
@@ -84,7 +85,7 @@ class SyslogForm extends Component {
         const {getFieldDecorator} = this.props.form;
 
         let itemList =
-            <Form hideRequiredMark>
+            <Form hideRequiredMark ref="syslog">
                 <FormItem className="select-item" label={(<span>{callTr("a_12200")}
                     <Tooltip title={callTipsTr("Syslog Protocol")}><Icon type="question-circle-o"/></Tooltip>
                     </span>)}>

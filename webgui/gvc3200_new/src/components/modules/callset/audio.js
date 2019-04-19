@@ -178,7 +178,7 @@ class Audio extends Component {
                     {/* 回声延迟 */}
                     <FormItem label={<span>{callTr("a_19246")}<Tooltip title={callTipsTr("Echo Delay")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("echodelay", {
-                            initialValue: this.mapEchodelayValue(itemvalue['echodelay'])
+                            initialValue: parseInt(this.mapEchodelayValue(itemvalue['echodelay']))
                         })(
                             <Slider min={-2} max={9} marks={{ "-2": "-2", "9": "9" }} />
                         )}

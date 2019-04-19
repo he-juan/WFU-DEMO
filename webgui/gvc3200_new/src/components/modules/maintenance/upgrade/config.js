@@ -322,15 +322,13 @@ class ConfigForm extends Component {
                         valuePropName: 'fileList',
                         normalize: this._normFile
                     })(
-                        <div>
-                            <Upload {...propsA_importconf}>
-                                <Button>
-                                    <Icon type="upload" /> {this.tr("a_16486")}
-                                </Button>
-                            </Upload>
-                            <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                        </div>
+                        <Upload {...propsA_importconf}>
+                            <Button>
+                                <Icon type="upload" /> {this.tr("a_16486")}
+                            </Button>
+                        </Upload>
                     )}
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_19203")}</p>
                 <FormItem className="select-item" label={(<span>{callTr("a_19200")}&nbsp;<Tooltip title={callTipsTr("GUI customization file download via")}><Icon type="question-circle-o"/></Tooltip></span>)}>

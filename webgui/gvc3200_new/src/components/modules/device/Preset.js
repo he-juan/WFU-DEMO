@@ -220,12 +220,15 @@ class Preset extends Component {
                                 break;
                             };
                             if(isEmpty){
-                                return  <Tooltip
-                                    title={"点击编辑该预置位"}><div className="preset_box" onClick={this.showSetting.bind(this,i)}>{i+1}</div>
-                                </Tooltip>
+                                return (
+                                    <Tooltip title={"点击编辑该预置位"} key={i}>
+                                        <div className="preset_box" onClick={this.showSetting.bind(this,i)}>{i+1}</div>
+                                    </Tooltip>
+                                )
+                                
                             }else{
                                 return <Tooltip
-                                    title={"点击应用该预置位"}>
+                                    title={"点击应用该预置位"} key={i}>
                                     <div className="preset_box">
                                         <div className="preset_content" onClick={this.applyPreset.bind(this,item['position'])}>
                                             <div className="preset_title">{item['position']}.{item['name']}</div>
@@ -258,21 +261,21 @@ class Preset extends Component {
                         </div>
                         <div className="optionbtn">
                             <div className="zoombtn">
-                                <div id="AF" class="ptzctrl"
+                                <div id="AF" className="ptzctrl"
                                      onMouseLeave={this.ifStopDirection}
                                      onMouseDown={this.moveDirection.bind(this,'focusone')}
                                      onMouseUp={this.StopDirection}>AF</div>
                             </div>
                             <div className="divingline"></div>
                             <div className="zoombtn">
-                                <div id="MFup" class="ptzfocusctrl"
+                                <div id="MFup" className="ptzfocusctrl"
                                      onMouseLeave={this.ifStopDirection}
                                      onMouseDown={this.moveDirectionFocus.bind(this,'focusone')}
                                      onMouseUp={this.StopDirectionFocus}>MF+</div>
                             </div>
                             <div className="divingline"></div>
                             <div className="zoombtn">
-                                <div id="MFdown" class="ptzfocusctrl"
+                                <div id="MFdown" className="ptzfocusctrl"
                                      onMouseLeave={this.ifStopDirection}
                                      onMouseDown={this.moveDirectionFocus.bind(this,'focusnear')}
                                      onMouseUp={this.StopDirectionFocus}>MF-</div>

@@ -46,8 +46,7 @@ class NotifyBox extends Component {
     componentWillMount = () => {
         this.props.promptMsg('',"");
     }
-
-    render() {
+    componentDidUpdate = () => {
         let type = '';
         var label = '';
         if (this.props.notifyMsg && notifyType[this.props.notifyMsg.type]) {
@@ -60,6 +59,9 @@ class NotifyBox extends Component {
         if(type&&label){
             this.tipdivAnimation(type,label);
         }
+    }
+    render() {
+        
         return null;
     }
 };

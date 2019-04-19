@@ -57,6 +57,7 @@ class TracerouteForm extends Component {
     }
 
     get_ping_msg_suc = (values) => {
+        if(!this.refs.traceroute) return;
         let res = values.headers['response'];
         let pingresValue = this.state.pingresValue;
         this.setState({
@@ -172,7 +173,7 @@ class TracerouteForm extends Component {
         let content = this.state.content;
 
         let itemList =
-            <Form hideRequiredMark>
+            <Form hideRequiredMark ref="traceroute">
                 <FormItem label={( <span> {callTr("a_16629")} <Tooltip title={callTipsTr("Target Host")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {getFieldDecorator('targethost', {
                         rules: [
@@ -183,7 +184,7 @@ class TracerouteForm extends Component {
                             }
                         ],
                         initialValue: this.props.networkStatus.gateway
-                    })(<Input disabled = {disabled_targethost} onChange={(e) => this.onChangeTargethost(e)} />) }
+                    })(<Input disabled = {disabled_targethost == "disabled"} onChange={(e) => this.onChangeTargethost(e)} />) }
                 </FormItem>
                 <Row style = {{"paddingLeft":"435px"}}>
                     <Button style = {{"marginRight":"20px"}} type="primary" disabled = {disabled_start} onClick = {this.clickStartping.bind(this)}>

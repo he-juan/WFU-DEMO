@@ -258,7 +258,7 @@ class ClientCert extends Component {
         const callTr = this.props.callTr;
         return(
             <div className="ca-cert-block">
-                <div style={{"fontSize":"0.875rem", "margin-bottom":"40px"}}>
+                <div style={{"fontSize":"0.875rem", "marginBottom":"40px"}}>
                     <div>{callTr("a_addcert")}</div>
                     <Button className="upload-btn" onClick={this.handleCertModalVisible.bind(this, true)}>
                         <span className="upload-icon" />

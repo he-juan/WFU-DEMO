@@ -283,15 +283,13 @@ class FirmwareForm extends Component {
                         valuePropName: 'fileList',
                         normalize: this._normFile
                     })(
-                        <div>
-                            <Upload {...propsA_upfirmfile}>
-                                <Button>
-                                    <Icon type="upload" /> {this.tr(this.state.upfirmfile_Aupload)}
-                                </Button>
-                            </Upload>
-                            <Icon title={callTr("a_4278")} style={{left:'100px'}} className="rebooticon" type="exclamation-circle-o" />
-                        </div>
+                        <Upload {...propsA_upfirmfile}>
+                            <Button>
+                                <Icon type="upload" /> {this.tr(this.state.upfirmfile_Aupload)}
+                            </Button>
+                        </Upload>
                     )}
+                    <Icon title={callTr("a_4278")} style={{left:'100px'}} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem className="select-item" label={< span > { callTr("a_19176") } < Tooltip title={callTipsTr("Firmware Upgrade Mode")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('updatevia', {

@@ -492,15 +492,7 @@ class GeneralForm extends Component {
 		}
     }
 
-    reqItem = () => {
-        if(this.isWP8xx()){
-            req_items.push({"name":"protocoltype","pvalue":"22233", "value":""})
-        }
-        return req_items;
-    }
-
     componentDidMount = () => {
-        this.reqItem();
         this.props.getItemValues(req_items, (values) => {
 
             this.setState({
@@ -600,6 +592,7 @@ class GeneralForm extends Component {
 
     handleWifiList = (start, wifiList) => {
         this.props.getWifiList(start, (tObj) => {
+            if(!this.refs.generalForm) return;
             if (tObj.msg == "no ap") {
                 setTimeout(this.handleWifiList(start, wifiList), 1000);
             } else if (tObj.res == "success" && !this.state.disabled) {
@@ -849,13 +842,12 @@ class GeneralForm extends Component {
                 oktext = "a_connect";
             }
         }
-
         return(
-            <Form hideRequiredMark>
+            <Form hideRequiredMark ref="generalForm">
                 <FormItem label={<span>{callTr("a_wififunc")}<Tooltip title={callTipsTr("Wi-Fi Function")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("wififunc", {
                         valuePropName: 'checked',
-                        initialValue: parseInt(itemvalue['wififunc'])
+                        initialValue: parseInt(itemvalue['wififunc']) == 1
                     })(
                         <Switch checkedChildren={callTr("a_7")} unCheckedChildren={callTr("a_downoff")}
 							onChange={this.handleWifiChange}/>

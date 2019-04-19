@@ -137,7 +137,7 @@ class CustomCert extends Component {
 
         return(
             <div className="ca-cert-block">
-                <div style={{"fontSize":"0.875rem", "margin-bottom":"40px"}}>
+                <div style={{"fontSize":"0.875rem", "marginBottom":"40px"}}>
                     <div>{callTr("a_19283")}</div>
                     <Upload {...customCertProps}>
                         <Button className="upload-btn" disabled={!maxnum}>
@@ -146,7 +146,7 @@ class CustomCert extends Component {
                         </Button>
                     </Upload>
                 </div>
-                <div style={{"fontSize":"0.875rem", "margin-bottom":"10px"}}>
+                <div style={{"fontSize":"0.875rem", "marginBottom":"10px"}}>
                     {callTr("a_19282")}
                 </div>
                 <Table className="list-table" style={{maxWidth: "950px", paddingRight: "40px"}} dataSource={customcertdata} pagination={false} >

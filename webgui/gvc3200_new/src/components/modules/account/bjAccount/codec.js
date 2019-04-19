@@ -448,7 +448,7 @@ class CodecForm extends React.Component {
                             {
                                 this.state.vbrateAvailable.map((v) => {
                                     return (
-                                        <Option value={v}>{v}Kbps</Option>
+                                        <Option value={v} key={v}>{v}Kbps</Option>
                                     )
                                 })
                             }
@@ -566,7 +566,7 @@ class CodecForm extends React.Component {
                             {
                                 this.state.prevbrateAvailable.map((v) => {
                                     return (
-                                        <Option value={v}>{v}Kbps</Option>
+                                        <Option value={v} key={v}>{v}Kbps</Option>
                                     )
                                 })
                             }

@@ -88,10 +88,10 @@ class TimezoneForm extends Component {
             if(data.timezone.id==data.list[i].id){
                 hasIt=true
             }
-            children.push(<Option value = {data.list[i].id}>{data.list[i].name}</Option>)
+            children.push(<Option value = {data.list[i].id} key={data.list[i].id}>{data.list[i].name}</Option>)
         }
         if(!hasIt){
-            children.push(<Option value = {data.timezone.id}>{data.timezone.name}</Option>)
+            children.push(<Option value = {data.timezone.id} key={data.timezone.id}>{data.timezone.name}</Option>)
         }
         this.setState({
             children:children,

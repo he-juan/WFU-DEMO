@@ -378,7 +378,7 @@ class DeployForm extends Component {
                                         }
                                     }],
                                     initialValue: this.props.itemValues['hourofday']
-                                })(<Input disabled={this.state.starhour} className="P-285"/>)}
+                                })(<Input disabled={this.state.starhour == true} className="P-285"/>)}
                             </FormItem>
                             <Row className = "breakline">-</Row>
                             <FormItem style = {{"marginRight":"0"}}>
@@ -393,7 +393,7 @@ class DeployForm extends Component {
                                         }
                                     }],
                                     initialValue: this.props.itemValues['endhour']
-                                })(<Input disabled = {this.state.endhour} className="P-8459"/>)}
+                                })(<Input disabled = {this.state.endhour == true} className="P-8459"/>)}
                             </FormItem>
                         </Row>
                     </FormItem>

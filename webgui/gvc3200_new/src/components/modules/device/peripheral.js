@@ -46,7 +46,7 @@ class peripheral extends Component {
         this.props.getPresetInfoVedio((data) => {
             for(let i=0;i<data.Data.length;i++){
                 if(data.Data[i].position<24){
-                    presetList.push(<Option value={data.Data[i].position}>{this.tr("a_10024")}{parseInt(data.Data[i].position)+1}{data.Data[i].name?`(${data.Data[i].name})`:""}</Option>)
+                    presetList.push(<Option key={i} value={data.Data[i].position}>{this.tr("a_10024")}{parseInt(data.Data[i].position)+1}{data.Data[i].name?`(${data.Data[i].name})`:""}</Option>)
                 }
             }
         });
@@ -60,7 +60,7 @@ class peripheral extends Component {
                                 modes[i] = modes[i].substring(0, modes[i].length - 2);
                                 modes[i] += "(" + this.tr("a_12100")  + ")";
                             }
-                            hdmi1List.push(<option value={i.toString()}>{modes[i]}</option>);
+                            hdmi1List.push(<Option value={i.toString()} key={i}>{modes[i]}</Option>);
                         }
                         this.props.getcurhdmimode('hdmi1',(data)=>{
                             if(data.res == "success"){
@@ -72,7 +72,7 @@ class peripheral extends Component {
                     }
                 })
             }else{
-                hdmi1List.push(<Option value='-1'>{this.tr("a_9717")}</Option>)
+                hdmi1List.push(<Option value='-1' key={-1}>{this.tr("a_9717")}</Option>)
             }
             if(data.hdmi2=="true"){
                 this.props.gethdmimode('hdmi2',(data)=>{
@@ -83,7 +83,7 @@ class peripheral extends Component {
                                 modes[i] = modes[i].substring(0, modes[i].length - 2);
                                 modes[i] += "(" + this.tr("a_12100")  + ")";
                             }
-                            hdmi2List.push(<option value={i.toString()}>{modes[i]}</option>);
+                            hdmi2List.push(<Option value={i.toString()} key={i}>{modes[i]}</Option>);
                         }
                         this.props.getcurhdmimode('hdmi2',(data)=>{
                             if(data.res == "success"){
@@ -95,7 +95,7 @@ class peripheral extends Component {
                     }
                 })
             }else{
-                hdmi2List.push(<Option value='-1'>{this.tr("a_9717")}</Option>)
+                hdmi2List.push(<Option value='-1' key={-1}>{this.tr("a_9717")}</Option>)
             }
         })
         this.props.getItemValues(req_items, () => {});
@@ -158,7 +158,7 @@ class peripheral extends Component {
                         <Col span={3}><span style={{color: "#3d77ff"}}>{"1("+callTr("a_16242")+") "} </span></Col>
                         <Col span={18}> {getFieldDecorator("movespeed", {
                             valuePropName: 'value',
-                            initialValue: itemvalue['movespeed'] ? itemvalue['movespeed'] : "8"
+                            initialValue: parseInt(itemvalue['movespeed'] ? itemvalue['movespeed'] : "8")
                         })(
                             <Slider min={1} max={16} className="P-25029"/>
                         )}</Col>

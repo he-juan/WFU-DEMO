@@ -139,7 +139,7 @@ class SipCert extends Component {
 
         return(
             <div className="ca-cert-block">
-                <div style={{"fontSize":"0.875rem", "margin-bottom":"40px"}}>
+                <div style={{"fontSize":"0.875rem", "marginBottom":"40px"}}>
                     <div>{callTr("a_19222")}</div>
                     <Upload {...caCertProps}>
                         <Button className="upload-btn" disabled={!maxnum}>
@@ -148,7 +148,7 @@ class SipCert extends Component {
                         </Button>
                     </Upload>
                 </div>
-                <div style={{"fontSize":"0.875rem", "margin-bottom":"10px"}}>
+                <div style={{"fontSize":"0.875rem", "marginBottom":"10px"}}>
                     {callTr("a_19223")}
                 </div>
                 <Table className="list-table" style={{maxWidth: "950px", paddingRight: "40px"}} dataSource={certdata} pagination={false} >
