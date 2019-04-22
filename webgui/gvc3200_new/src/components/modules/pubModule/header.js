@@ -216,7 +216,6 @@ class MainHeader extends Component {
 
     handlepwdchange = () => {
         hashHistory.push('/sysset/security');
-        this.props.changeTabKeys("security","sysset");
         this.props.setCurMenu(["sysset", "security"]);
         this.props.getUserType((usertype) => {
             if(usertype == "admin"){
@@ -520,7 +519,6 @@ function mapDispatchToProps(dispatch) {
       promptMsg: Actions.promptMsg,
       setPageStatus: Actions.setPageStatus,
       jumptoTab: Actions.jumptoTab,
-      changeTabKeys: Actions.changeTabKeys,
       applyValue: Actions.applyValue,
       checkIsApply: Actions.checkIsApply,
       passTipStyle: Actions.passTipStyle,

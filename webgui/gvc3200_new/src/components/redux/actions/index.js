@@ -13,10 +13,6 @@ export const setMaxAcctNum = (value) => (dispatch) => {
 
 
 
-export const setDialineInfo = (line, acctindex, acct, isvideo, name, num) => (dispatch) => {
-    //0~8 - represent the status of line
-    dispatch({type: 'DIAL_LINE_INFO', lineInfo: {line: line, acctindex: acctindex, acct: acct, isvideo: isvideo, name: name, num: num}})
-}
 
 export const setSpeakerTestStatus = (status) => (dispatch) => {
     dispatch({ type: 'SPEAKER_TEST_STATUS', speakerteststatus:  status})
@@ -66,21 +62,7 @@ export const getdevicestatus = (callback) => (dispatch) => {
     });
 }
 
-export const getMenuList = (callback) => (dispatch) => {
-    let request = 'action=getmenu';
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        let menu = [];
-        let tObj = JSON.parse(data);
-        if (tObj !== undefined && tObj['menu'] !== undefined) {
-            menu = tObj['menu'];
-        }
-        dispatch({type: 'REQUEST_GET_MENU', menuList: menu});
-        callback(menu);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 export const getFxoexit = () => (dispatch) => {
     let request = 'action=fxoexist';

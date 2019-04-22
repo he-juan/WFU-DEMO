@@ -16,82 +16,11 @@ import * as status from './reducers.status'
 
 import * as Actions from '../actions/actionType'
 
-// const curLocale = (state = {}, action) => {
-//     switch (action.type) {
-//         case Actions.LOCALE_CHANGE:
-//             return action.curLocale
-//         default:
-//             return state
-//     }
-// }
-
-// const pageStatus = (state = {}, action) => {
-//     switch (action.type) {
-//         case Actions.PAGE_STATUS:
-//             return action.pageStatus
-//         default:
-//             return state
-//     }
-// }
 
 const hashChange = (state = {}, action) => {
     switch (action.type) {
         case Actions.HASH_CHANGE:
             return action.hashChange
-        default:
-            return state
-    }
-}
-
-const curMenu = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.CUR_MENU_CHANGE:
-            return action.curMenu
-        default:
-            return state
-    }
-}
-
-const TabactiveKey = (state = 0, action) => {
-    switch (action.type) {
-        case Actions.TAB_ACTIVE_KEY_CHANGE:
-            return action.TabactiveKey
-        default:
-            return state
-    }
-}
-
-const passtipStyle = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.CHANGE_PWD_STYLE:
-            return action.passtipStyle
-        default:
-            return state
-    }
-}
-
-const changetabKeys = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.CHANGE_TAB_KEYS:
-            return action.changetabKeys
-        default:
-            return state
-    }
-}
-
-const userType = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.REQUEST_USER_TYPE:
-            return action.userType
-        default:
-            return state
-    }
-}
-
-const menuList = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.REQUEST_GET_MENU:
-            return action.menuList
         default:
             return state
     }
@@ -133,14 +62,7 @@ const fxoexistState = (state = {}, action) => {
     }
 }
 
-const oemId = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.REQUEST_GET_COLOREXIT:
-            return action.oemId
-        default:
-            return state
-    }
-}
+
 
 const notifyMsg = (state = {}, action) => {
     switch (action.type) {
@@ -199,14 +121,6 @@ const callDialogStatus = (state = {}, action) => {
     }
 }
 
-const lineInfo = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.DIAL_LINE_INFO:
-            return action.lineInfo
-        default:
-            return state
-    }
-}
 
 const muteStatus = (state = {}, action) => {
     switch (action.type) {
@@ -218,33 +132,6 @@ const muteStatus = (state = {}, action) => {
 }
 
 
-const applyButtonStatus = (state={}, action) => {
-    switch (action.type) {
-        case Actions.UPDATE_APPLY_BUTTON:
-            return action.applyButtonStatus
-        default:
-            return state
-    }
-}
-
-const mainHeight = (state={}, action) => {
-    switch (action.type) {
-        case Actions.HEIGHT_CHANGE:
-            return action.mainHeight
-        default:
-            return state
-    }
-}
-
-// const enterSave = (state={}, action) => {
-//     switch (action.type) {
-//         case Actions.ENTER_SAVING:
-//             return action.enterSave
-//         default:
-//             return state
-//     }
-// }
-
 const curAccount = (state = '0', action) => {
     switch (action.type) {
         case Actions.ACCOUNT_CHANGE:
@@ -254,14 +141,6 @@ const curAccount = (state = '0', action) => {
     }
 }
 
-// const itemValues = (state={}, action) => {
-//     switch (action.type) {
-//         case Actions.REQUEST_GET_ITEM_VALUE:
-//             return action.itemValues
-//         default:
-//             return state
-//     }
-// }
 
 const ipvtExist = (state={}, action) => {
     switch (action.type) {
@@ -273,14 +152,7 @@ const ipvtExist = (state={}, action) => {
 }
 
 
-const acctStatus = (state={}, action) => {
-    switch (action.type) {
-        case Actions.REQUEST_GET_ACCT_STATUS:
-            return action.acctStatus
-        default:
-            return state
-    }
-}
+
 
 const networkStatus = (state={}, action) => {
     switch (action.type) {
@@ -698,29 +570,19 @@ const dndstatus = (state = "0", action) =>{
 
 
 const rootReducer = combineReducers({
-    // curLocale,
-    userType,
-    menuList,
     vendor,
     product,
     productStr,
     fxoexistState,
-    oemId,
     notifyMsg,
     spinMsg,
     progressMsg,
     uploadStatus,
     maxAcctNum,
     callDialogStatus,
-    lineInfo,
     muteStatus,
-    // heldStatus,
-    applyButtonStatus,
-    mainHeight,
-    // enterSave,
     curAccount,
     // itemValues,
-    acctStatus,
     networkStatus,
     systemUptime,
     systemProduct,
@@ -729,10 +591,6 @@ const rootReducer = combineReducers({
     eventItems,
     // pageStatus,
     hashChange,
-    curMenu,
-    TabactiveKey,
-    passtipStyle,
-    changetabKeys,
     readshowipState,
     timezoneValues,
     languagesValues,

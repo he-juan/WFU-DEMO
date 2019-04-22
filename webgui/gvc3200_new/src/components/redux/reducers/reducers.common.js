@@ -59,3 +59,100 @@ export const itemValues = (state={}, action) => {
 export const isCalling = (state = 0, action) => {
     return state
 }
+
+/**
+ * 按钮应用状态
+ */
+export const applyButtonStatus = (state={}, action) => {
+    switch (action.type) {
+        case Actions.UPDATE_APPLY_BUTTON:
+            return action.applyButtonStatus
+        default:
+            return state
+    }
+}
+
+/**
+ * 主内容高度
+ */
+export const mainHeight = (state={}, action) => {
+    switch (action.type) {
+        case Actions.HEIGHT_CHANGE:
+            return action.mainHeight
+        default:
+            return state
+    }
+}
+
+/**
+ * 当前菜单 ?
+ */
+export const curMenu = (state = {}, action) => {
+    switch (action.type) {
+        case Actions.CUR_MENU_CHANGE:
+            return action.curMenu
+        default:
+            return state
+    }
+}
+
+/**
+ * tab key
+ */
+
+export const TabactiveKey = (state = 0, action) => {
+    switch (action.type) {
+        case Actions.TAB_ACTIVE_KEY_CHANGE:
+            return action.TabactiveKey
+        default:
+            return state
+    }
+}
+
+/**
+ * oemId
+ */
+export const oemId = (state = {}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_COLOREXIT:
+            return action.oemId
+        default:
+            return state
+    }
+}
+
+/**
+ * 
+ */
+export const passtipStyle = (state = {}, action) => {
+    switch (action.type) {
+        case Actions.CHANGE_PWD_STYLE:
+            return action.passtipStyle
+        default:
+            return state
+    }
+}
+
+/**
+ * 用户类型 admin 还是user
+ */
+export const userType = (state = {}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_USER_TYPE:
+            return action.userType
+        default:
+            return state
+    }
+}
+
+/**
+ * 左侧列表
+ */
+export const menuList = (state = {}, action) => {
+    switch (action.type) {
+        case Actions.REQUEST_GET_MENU:
+            return action.menuList
+        default:
+            return state
+    }
+}

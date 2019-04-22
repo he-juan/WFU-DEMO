@@ -47,9 +47,7 @@ export const passTipStyle = (style) => (dispatch) => {
     dispatch({type: 'CHANGE_PWD_STYLE', passtipStyle: style})
 }
 
-export const changeTabKeys = (current, openKeys) => (dispatch) => {
-    dispatch({type: 'CHANGE_TAB_KEYS', changetabKeys: {current:current, openKeys:openKeys}})
-}
+
 
 export const setHashChange = (value) => (dispatch) => {
     dispatch({type: 'HASH_CHANGE', hashChange: value})
@@ -324,6 +322,23 @@ export const getContactCount = () => (dispatch) => {
         if (msgs['res'] == 'success') {
             dispatch({type: 'REQUEST_GET_CONTACTCOUNT',mContactNum: msgs['msg']});
         }
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+
+export const getMenuList = (callback) => (dispatch) => {
+    let request = 'action=getmenu';
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let menu = [];
+        let tObj = JSON.parse(data);
+        if (tObj !== undefined && tObj['menu'] !== undefined) {
+            menu = tObj['menu'];
+        }
+        dispatch({type: 'REQUEST_GET_MENU', menuList: menu});
+        callback(menu);
     }).catch(function(error) {
         promptForRequestFailed();
     });

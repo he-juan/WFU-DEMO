@@ -1085,7 +1085,6 @@ const mapStateToProps = (state) => ({
 function mapDispatchToProps(dispatch) {
   var actions = {
       jumptoTab: Actions.jumptoTab,
-      setCurMenu: Actions.setCurMenu,
       getContacts: Actions.getContacts,
       sendSingleCall: Actions.sendSingleCall,
       showCallDialog: Actions.showCallDialog,

@@ -199,7 +199,6 @@ const mapDispatchToProps = (dispatch) => {
         getFxoexit: Actions.getFxoexit,
         getAllLineStatus: Actions.getAllLineStatus,
         showCallDialog: Actions.showCallDialog,
-        setDialineInfo: Actions.setDialineInfo,
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,

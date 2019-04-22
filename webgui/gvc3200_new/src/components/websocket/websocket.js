@@ -422,7 +422,6 @@ class HandleWebsocket extends React.Component {
                 let pacct = this.returnAcctNum(message['acct']);
                 this.props.getNvrams(new Array(pacct), (value) => {
                     this.props.showCallDialog(4);
-                    this.props.setDialineInfo(message['line'], message['acct'], value.headers[pacct], message['isvideo'], message['disname'], message['num']);
                 });
                 break;
             case 'mute':
@@ -591,7 +590,6 @@ const mapDispatchToProps = (dispatch) => {
         getConnectState:Actions.getConnectState,
         progressMessage:Actions.progressMessage,
         showCallDialog: Actions.showCallDialog,
-        setDialineInfo: Actions.setDialineInfo,
         setDialineInfo1: Actions.setDialineInfo1,
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,

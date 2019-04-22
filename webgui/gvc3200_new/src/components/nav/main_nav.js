@@ -234,7 +234,6 @@ const mapStateToProps = (state) => ({
     //menuList: state.menuList,
     ipvtExist: state.ipvtExist,
     product: state.product,
-    changetabKeys: state.changetabKeys,
     hashChange: state.hashChange,
     fxoexistState: state.fxoexistState,
     userType: state.userType,
