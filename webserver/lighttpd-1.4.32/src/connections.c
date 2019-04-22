@@ -268,11 +268,18 @@ struct mtd_info_user {
 	uint32_t ecctype;
 	uint32_t eccsize;
 };
+
 struct erase_info_user {
 	uint32_t start;
 	uint32_t length;
 };
 
+struct req_param {
+    char *name;
+    char *value;
+    int type;     // 0 - int, 1 - string
+    struct req_param *next;
+};
 
 #define DEBUGSWITCH 0
 #ifndef SHA1_H
@@ -561,6 +568,43 @@ static int doCommandTask(char* const argv[], const char *outfile, const char *in
     }
 
     return rtn;
+}
+
+/**
+ * type:  0 - int, 1 - string
+ */
+static struct req_params *append_req_params(struct req_param *params, char *name, char *value, int type)
+{
+    if (params == NULL) {
+        params = (struct req_param*)malloc(sizeof(struct req_param));
+        memset(params, 0, sizeof(struct req_param));
+
+        params->name = name;
+        params->value = value;
+
+        params->type = type;
+        params->next = NULL;
+    } else {
+        struct req_param *node = (struct req_param*)malloc(sizeof(struct req_param));
+        memset(node, 0, sizeof(struct req_param));
+        node->name = name;
+        node->value = value;
+        node->type = type;
+        node->next = params->next;
+        params->next = node;
+    }
+
+    return params;
+}
+
+static void free_req_params(struct req_param *params)
+{
+    struct req_param *r = NULL;
+    while(params != NULL) {
+        r = params;
+        params = params->next;
+        free(r);
+    }
 }
 
 static const char *msg_get_header(const struct message *m, char *var)
@@ -6623,6 +6667,125 @@ static int handle_callservice_by_no_param(server *srv, connection *con, buffer *
 
     return 0;
 }
+
+static int handle_methodcall_to_gmi(server *srv, connection *con, buffer *b, const struct message *m, const char *method, const struct req_param *params)
+{
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 5000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char *param = NULL;
+    char *temp = NULL;
+    char *info = NULL;
+    int tempparam;
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        free_req_params(params);
+        return -1;
+    }
+
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, method );
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        int append_ret = 0;
+        struct req_param *r = params;
+        while(r != NULL) {
+            printf("append req params: %s - %s - %d\n", r->name, r->value, r->type);
+
+            if (r->type == 0) {
+                int p_t = atoi(r->value);
+                append_ret = dbus_message_iter_append_basic(&iter, DBUS_TYPE_INT32, &p_t);
+            } else {
+                char *p_s = r->value;
+                append_ret = dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &p_s);
+            }
+
+            if (!append_ret) {
+                printf( "Out of Memory when %s!\n", method );
+                break;
+            }
+
+            r = r->next;
+        }
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n", error.name, error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1 + strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't get result\"}";
+            }
+
+            temp = build_JSON_res( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+        free_req_params(params);
+    }
+
+    return 0;
+}
+
+
 static int handle_callstatus_report(server *srv, connection *con, buffer *b, const struct message *m, const char *paraname, int decode)
 {
 #ifdef BUILD_ON_ARM
@@ -12886,36 +13049,123 @@ static int handle_vbupdated (buffer *b, const struct message *m)
     return 1;
 }
 
-static int handle_autoanswer(buffer *b, const struct message *m)
+static int handle_autoanswer(server *srv, connection *con, buffer *b, const struct message *m)
 {
-    const char *account = NULL;
-    const char *value = NULL;
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 3000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char res[128] = "";
+    char *info = NULL;
+    char *account = NULL;
+    char *mode = NULL;
     int acct_code = 0;
-    int val_code = 0;
+    char *temp = NULL;
 
     account = msg_get_header(m, "acct");
-    value = msg_get_header(m, "value");
-    if ((account == NULL) || (value == NULL))
-    {
-        buffer_append_string (b, "Response=ERROR\r\nMessage=Missed Parameter\r\n");
-    }
-    else
-    {
-        sscanf (account, "%d", &acct_code);
-        sscanf (value, "%d", &val_code);
-
-        if (acct_code != 9 && (acct_code < 1 || acct_code > 3 || val_code < 0 || val_code > 1))
-        {
-            buffer_append_string (b, "Response=ERROR\r\nMessage=Parameter Invalid\r\n");
-        }
-        else
-        {
-            buffer_append_string (b, "Response=Success\r\n");
-            dbus_send_lighttpd(SIGNAL_ACCT1_AUTO_ANSWER_OFF + 2 *(acct_code - 1) + val_code);
-        }
+    if ( account != NULL ) {
+        acct_code = atoi(account);
     }
 
-    return 1;
+    mode = msg_get_header(m, "value");
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    fprintf(stderr, "handle_callservice_by_two_param\n");
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, "setAutoAnswer");
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &acct_code) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &mode) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        //dbus_message_iter_append_basic(&iter,DBUS_TYPE_INVALID);
+        dbus_message_append_args( message,  DBUS_TYPE_INVALID );
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1+ strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
+            }
+            else
+            {
+                temp = "{\"res\": \"error\", \"msg\": \"can't accept call\"}";
+            }
+
+            temp = build_JSON_formate( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
+        }
+
+        dbus_message_unref( message );
+    }
+
+    return 0;
 }
 
 static int dbus_send_callforward(const int arg1, const char *arg2)
@@ -12945,45 +13195,229 @@ static int dbus_send_callforward(const int arg1, const char *arg2)
     return 0;
 }
 
-static int handle_callforward(buffer *b, const struct message *m)
+static int handle_callforward(server *srv, connection *con, buffer *b, const struct message *m)
 {
-    const char *account = NULL;
-    const char *value = NULL, *type = NULL;
-    int acct_code = 0;
-    int val_code = 0;
+    DBusMessage* message = NULL;
+    DBusError error;
+    DBusMessageIter iter;
+    DBusBusType type;
+    int reply_timeout = 3000;
+    DBusMessage *reply = NULL;
+    DBusConnection *conn = NULL;
+    char res[128] = "";
+    char *info = NULL;
+    char *account = NULL;
+    int acct = 0;
+    char *forwardtype = NULL;
+    char *num1 = NULL;
+    char *num2 = NULL;
+    char *num3 = NULL;
+    char *time1 = NULL;
+    char *time2 = NULL;
+    char *busy = NULL;
+    char *noanswer = NULL;
+    char *dnd = NULL;
+    char *noanswer_limit = NULL;
+    int limit = 0;
+    char method[64] = "";
+    char *temp = NULL;
 
     account = msg_get_header(m, "acct");
-    value = msg_get_header(m, "value");
-    type = msg_get_header(m, "type");
-    if ((account == NULL) || (value == NULL && type == NULL) )
-    {
-        buffer_append_string (b, "Response=ERROR\r\nMessage=Missed Parameter\r\n");
+    if (account != NULL) {
+        acct = atoi(account);
     }
-    else
-    {
-        sscanf (account, "%d", &acct_code);
-        if( value != NULL )
-        {
-            sscanf (value, "%d", &val_code);
 
-            if (acct_code < 1 || acct_code > 3 || val_code < 0 || val_code > 1)
+    forwardtype = msg_get_header(m, "type");
+
+    if (!strcasecmp(forwardtype, "None")) {
+        sprintf(method, "closeCallForward");
+    } else if (!strcasecmp(forwardtype, "allTo")) {
+        sprintf(method, "setCallForwardByUnConditional");
+        num1 = msg_get_header(m, "number");
+    } else if (!strcasecmp(forwardtype, "TimeRule")) {
+        sprintf(method, "setCallForwardByTime");
+        time1 = msg_get_header(m, "time1");
+        uri_decode(time1);
+        time2 = msg_get_header(m, "time2");
+        uri_decode(time2);
+        num1 = msg_get_header(m, "number1");
+        num2 = msg_get_header(m, "number2");
+    } else if (!strcasecmp(forwardtype, "WorkRule")) {
+        sprintf(method, "setCallForwardByOther");
+        busy = msg_get_header(m, "isbusyto");
+        num1 = msg_get_header(m, "number1");
+        dnd = msg_get_header(m, "isdndto");
+        num3 = msg_get_header(m, "number3");
+        noanswer = msg_get_header(m, "isnoanswerto");
+        num2 = msg_get_header(m, "number2");
+        noanswer_limit = msg_get_header(m, "noanswerlimit");
+        if (noanswer_limit != NULL) {
+            limit = atoi(noanswer_limit);
+        }
+    }
+
+    type = DBUS_BUS_SYSTEM;
+    dbus_error_init (&error);
+    conn = dbus_bus_get (type, &error);
+    if (conn == NULL)
+    {
+        printf ( "Failed to open connection to %s message bus: %s\n", (type == DBUS_BUS_SYSTEM) ? "system" : "session", error.message);
+        dbus_error_free (&error);
+        return -1;
+    }
+
+    fprintf(stderr, "handle_callservice_by_two_param\n");
+    message = dbus_message_new_method_call( dbus_dest, dbus_path, dbus_interface, method);
+
+    if (message != NULL)
+    {
+        dbus_message_set_auto_start (message, TRUE);
+        dbus_message_iter_init_append( message, &iter );
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &acct) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if (!strcasecmp(forwardtype, "allTo")) {
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &num1))
             {
-                buffer_append_string (b, "Response=ERROR\r\nMessage=Parameter Invalid\r\n");
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+        } else if (!strcasecmp(forwardtype, "TimeRule")) {
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &time1))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &time2))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &num1))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &num2))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+        } else if (!strcasecmp(forwardtype, "WorkRule")) {
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &busy))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &num1))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &dnd))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &num3))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &noanswer))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &num2))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+
+            if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &limit))
+            {
+                printf( "Out of Memory!\n" );
+                exit( 1 );
+            }
+        }
+
+        //dbus_message_iter_append_basic(&iter,DBUS_TYPE_INVALID);
+        dbus_message_append_args( message,  DBUS_TYPE_INVALID );
+
+        dbus_error_init( &error );
+        reply = dbus_connection_send_with_reply_and_block( conn, message, reply_timeout, &error );
+        if ( dbus_error_is_set( &error ) )
+        {
+            fprintf(stderr, "Error %s: %s\n",
+                error.name,
+                error.message);
+        }
+
+        if ( reply )
+        {
+            print_message( reply );
+            int current_type;
+            char *res = NULL;
+            dbus_message_iter_init( reply, &iter );
+
+            while ( ( current_type = dbus_message_iter_get_arg_type( &iter ) ) != DBUS_TYPE_INVALID )
+            {
+                switch ( current_type )
+                {
+                    case DBUS_TYPE_STRING:
+                        dbus_message_iter_get_basic(&iter, &res);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                dbus_message_iter_next (&iter);
+            }
+
+            if ( res != NULL )
+            {
+                info = (char*)malloc((1+ strlen(res)) * sizeof(char));
+                sprintf(info, "%s", res);
+                temp = info;
             }
             else
             {
-                buffer_append_string (b, "Response=Success\r\n");
-                dbus_send_lighttpd( SIGNAL_ACCT1_TRANSFER_OFF + 2 *(acct_code - 1) + val_code);
+                temp = "{\"res\": \"error\", \"msg\": \"can't accept call\"}";
             }
-        }else if( type != NULL )
-        {
-            buffer_append_string (b, "Response=Success\r\n");
-            dbus_send_callforward((acct_code - 1), type);
+
+            temp = build_JSON_formate( srv, con, m, temp );
+
+            if(info != NULL)
+            {
+                free(info);
+            }
+
+            if ( temp != NULL )
+            {
+                buffer_append_string( b, temp );
+                free(temp);
+            }
+            dbus_message_unref( reply );
         }
 
+        dbus_message_unref( message );
     }
 
-    return 1;
+    return 0;
 }
 
 static int handle_gettimezone_new (server *srv, connection *con, buffer *b, const struct message *m)
@@ -23030,6 +23464,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
     char res[256] = "";
     const char *temp = NULL;
     const char *resType = NULL;
+    struct req_params *params = NULL;
 
     memset(action, 0, sizeof(action));
     temp = msg_get_header(m, "Action");
@@ -23387,7 +23822,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             } else if (!strcasecmp(action, "wifiscan")) {
                 handle_callservice_by_no_param(srv, con, b, m, "scanWifiList");
             } else if (!strcasecmp(action, "getwifilist")) {
-                handle_callservice_by_one_param(srv, con, b, m, "start", "getAccessPointsList", 0);
+                char *start = msg_get_header(m, "start");
+                params = append_req_params(params, "start", start, 0);
+                //handle_callservice_by_one_param(srv, con, b, m, "start", "getAccessPointsList", 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "getAccessPointsList", params);
             } else if (!strcasecmp(action, "connectwifi")) {
                 handle_wifisave(srv, con, b, m);
             } else if (!strcasecmp(action, "connectsavedwifi")) {
@@ -23415,6 +23853,13 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
 				handle_importlanguage(srv, con, b, m);
 			} else if (!strcasecmp(action, "putlanguage")) {
 	            handle_callservice_by_one_param_string(srv, con, b, m, "lan", "setCurLocale");
+
+            /* below are new APIs */
+            } else if (!strcasecmp(action, "makecall")) {
+                char *members = msg_get_header(m, "members");
+                uri_decode(members);
+                params = append_req_params(params, "members", members, 1);
+                handle_methodcall_to_gmi(srv, con, b, m, "makeCall", params);
 	        } else {
                 findcmd = 0;
             }
@@ -23463,11 +23908,11 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             }
             else if (!strcasecmp(region, "account")){
                 if (!strcasecmp(action, "autoanswer")) {
-                    handle_autoanswer(b, m);
+                    handle_autoanswer(srv, con, b, m);
                 } else if (!strcasecmp(action, "vbupdated")) {
                     handle_vbupdated(b, m);
                 } else if (!strcasecmp(action, "callforward")) {
-                    handle_callforward(b, m);
+                    handle_callforward(srv, con, b, m);
                 } else if (!strcasecmp(action, "converaudio")) {
                     handle_converaudio(b, m);
                 } else if (!strcasecmp(action, "tonelist")) {
