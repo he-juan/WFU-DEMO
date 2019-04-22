@@ -115,8 +115,8 @@ class Account extends Component {
             row0: "BlueJeans",
             row1: accountItems["account_2_no"] || "_",
             row2: accountItems["account_2_server"] || "_",
-            row3: parseText(accountItems["account_2_status"]),
-            status: accountItems["account_2_status"]
+            row3: accountItems["account_2_activate"] == '0' ? 'a_1139' : parseText(accountItems["account_2_status"]),
+            status: accountItems["account_2_activate"] == '0' ? '0' : accountItems["account_2_status"]
         });
         data.push({
             key: 6,

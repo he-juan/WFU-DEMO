@@ -141,7 +141,7 @@ class GeneralForm extends React.Component {
                        <Input type="text" id="sipserver" className={"P-" + nvram["sipserver"]} />
                  )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_16055")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_16055")}&nbsp;<Tooltip title={this.tips_tr("Secondary SIP Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('secsipserver', {
                             // rules: [{
                             //     max:64,message: callTr("max_length64"),
@@ -155,7 +155,7 @@ class GeneralForm extends React.Component {
                             <Input type="text" id="secsipserver" className={"P-" + nvram["secsipserver"]} />
                     )}
                </FormItem>
-               <FormItem  label={(<span>{callTr("a_19168")}&nbsp;<Tooltip title={this.tips_tr("SIP User ID")}><Icon type="question-circle-o" /></Tooltip></span>)} >
+               <FormItem  label={(<span>{callTr("a_19168")}&nbsp;<Tooltip title={this.tips_tr("Tertiary SIP Server")}><Icon type="question-circle-o" /></Tooltip></span>)} >
                     {getFieldDecorator('thirdsipserver', {
                             // rules: [{
                             //     max:64,message: callTr("max_length64"),
