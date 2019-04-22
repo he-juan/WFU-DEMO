@@ -715,6 +715,7 @@ body {
 .applyDiv{
     float: right;
     margin-right: 20px;
+    margin-top: 10px;
 }
 
 .apply {

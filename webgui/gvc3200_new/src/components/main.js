@@ -66,7 +66,7 @@ class Main extends React.Component {
                 this.props.enterPageSaving(savingtimes++);
             }
         }.bind(this);
-
+        this.props.getDefaultAcct()
         /*get dial line status to init the call page*/
         this.props.getAllLineStatus((result)=>{
             if(result.length > 0){
@@ -211,7 +211,8 @@ const mapDispatchToProps = (dispatch) => {
         getipvthandsupstatus: Actions.getipvthandsupstatus,
         resumecamera: Actions.resumecamera,
         getcmrnameandnumber: Actions.getcmrnameandnumber,
-        setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo
+        setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
+        getDefaultAcct: Actions.getDefaultAcct
     }
     return bindActionCreators(actions, dispatch)
 }

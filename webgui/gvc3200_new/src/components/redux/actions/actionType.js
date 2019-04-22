@@ -55,7 +55,7 @@ export const REQUEST_GET_STORAGE_INFO = 'REQUEST_GET_STORAGE_INFO'
 
 // account
 export const GET_IPVT_EXIST = 'GET_IPVT_EXIST'
-
+export const SET_DEFAULT_ACCT = 'SET_DEFAULT_ACCT'
 
 // sysset
 export const REQUEST_GET_READSHOWIP_STATE = 'REQUEST_GET_READSHOWIP_STATE'
@@ -123,3 +123,5 @@ export const SET_SFU_MEETINGINFO = 'SET_SFU_MEETINGINFO'
 
 
 // extension
+
+

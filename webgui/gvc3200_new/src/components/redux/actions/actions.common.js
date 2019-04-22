@@ -343,3 +343,30 @@ export const getMenuList = (callback) => (dispatch) => {
         promptForRequestFailed();
     });
 }
+
+export const getDefaultAcct = (callback) => (dispatch) => {
+    let request = 'action=get&var-0000=22046';
+    actionUtil.handleGetRequest(request).then(function(data){
+        var msgs = actionUtil.res_parse_rawtext(data);
+        dispatch({type: 'SET_DEFAULT_ACCT', defaultAcct: msgs.headers[22046]})
+    })
+}
+
+export const set_defaultacct = (acctindex, callback) => (dispatch) =>{
+    let request = 'action=setdefaultacct&region=account&account=' + acctindex;
+    actionUtil.handleGetRequest(request).then(function(data){
+        let msgs = JSON.parse(data)
+        if (msgs['res'] == 'success') {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
+            dispatch({type: 'SET_DEFAULT_ACCT', defaultAcct: acctindex})
+            if(callback) {
+                callback();
+            }
+        } else if (msgs['res'] == 'error') {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
+        }
+    }).catch(function(error) {
+        console.error(error)
+        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+    });
+}

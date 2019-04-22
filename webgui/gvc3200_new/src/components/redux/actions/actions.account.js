@@ -91,19 +91,3 @@ export const cb_set_callforward = ( i, type ,isbusyto, number1, isnoanswerto, nu
     urihead += "&time=" + new Date().getTime();
     saveOrRunApplyFunInCookie('save',urihead);
 }
-
-export const set_defaultacct = (acctindex, callback) => (dispatch) =>{
-    let request = 'action=setdefaultacct&region=account&account=' + acctindex;
-    actionUtil.handleGetRequest(request).then(function(data){
-        let msgs = JSON.parse(data)
-        if (msgs['res'] == 'success') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_savesuc'}});
-            callback();
-        } else if (msgs['res'] == 'error') {
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_63'}});
-        }
-    }).catch(function(error) {
-        console.error(error)
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
-    });
-}

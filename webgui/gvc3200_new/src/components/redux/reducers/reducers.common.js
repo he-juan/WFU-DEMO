@@ -156,3 +156,17 @@ export const menuList = (state = {}, action) => {
             return state
     }
 }
+
+
+/**
+ * 默认账号
+ */
+
+export const defaultAcct = (state = '0', action) => {
+    switch (action.type) {
+        case Actions.SET_DEFAULT_ACCT:
+            return action.defaultAcct
+        default:
+            return state
+    }
+}

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance";
 import { Form, Layout, Input, Icon, Tooltip, Checkbox, Select, Button } from "antd";
+import DefaultAcctSelect from '../../pubModule/defaultAcctSelect'
 const FormItem = Form.Item;
 const Content = Layout;
 const Option = Select.Option;
@@ -26,6 +27,7 @@ class GeneralForm extends React.Component {
         super(props);
         this.state = {
             pwdstatus:'password',
+            defaultAcctSelect: false
         }
     }
 
@@ -90,13 +92,20 @@ class GeneralForm extends React.Component {
                       values[key] = ""
                   }
               }
-              this.props.setItemValues(req_items, values, 1);
+              if(values.accountactive == '0' && this.props.defaultAcct == '0' ) {
+                this.setState({
+                    defaultAcctSelect : true
+                })
+              } else {
+                this.props.setItemValues(req_items, values, 1);
+              }
           }
         });
      }
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { defaultAcctSelect } = this.state
         const callTr = this.props.callTr;
         if(this.isEmptyObject(this.props.itemValues)) {
             return null;
@@ -227,6 +236,7 @@ class GeneralForm extends React.Component {
               <FormItem>
                   <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>
+              {defaultAcctSelect ? <DefaultAcctSelect currAcct='0' cb={this.handleSubmit} cancel={() => this.setState({defaultAcctSelect: false})} /> : null}
         </Form>;
         let hideItem = this.props.hideItem;
         for (var i = hideItem.length-1; i>=0; i--) {
@@ -238,6 +248,7 @@ class GeneralForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    defaultAcct: state.defaultAcct,
     enterSave: state.enterSave,
     activeKey: state.TabactiveKey,
     product: state.product

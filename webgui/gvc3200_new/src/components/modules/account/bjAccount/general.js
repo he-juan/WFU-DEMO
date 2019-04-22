@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance";
 import { Form, Layout, Input, Icon, Tooltip, Checkbox, Select, Button } from "antd";
+import DefaultAcctSelect from '../../pubModule/defaultAcctSelect'
 const FormItem = Form.Item;
 const Content = Layout;
 const Option = Select.Option;
@@ -10,6 +11,9 @@ let req_items = new Array;
 class GeneralForm extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            defaultAcctSelect: false
+        }
     }
 
     handlePvalue = () => {
@@ -43,7 +47,13 @@ class GeneralForm extends React.Component {
     handleSubmit = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
-              this.props.setItemValues(req_items, values,1);
+            if(values.accountactive == '0' && this.props.defaultAcct == '2' ) {
+                this.setState({
+                    defaultAcctSelect : true
+                })
+            } else {
+            this.props.setItemValues(req_items, values, 1);
+            }
           }
         });
      }
@@ -77,6 +87,7 @@ class GeneralForm extends React.Component {
               <FormItem>
                   <Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>
               </FormItem>
+              {this.state.defaultAcctSelect ? <DefaultAcctSelect currAcct='2' cb={this.handleSubmit} cancel={() => this.setState({defaultAcctSelect: false})} /> : null}
         </Form>;
         let hideItem = this.props.hideItem;
         for (var i = hideItem.length-1; i>=0; i--) {
@@ -88,6 +99,7 @@ class GeneralForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    defaultAcct: state.defaultAcct,
     enterSave: state.enterSave,
     activeKey: state.TabactiveKey
 })
