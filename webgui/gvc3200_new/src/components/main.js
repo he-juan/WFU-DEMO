@@ -58,14 +58,15 @@ class Main extends React.Component {
         this.props.getUserType();
         this.props.getFxoexit();
     }
-
+    enterSaveHandler = (e) => {
+        if (e.key == 'Enter' && e.target.id !== 'searchconfig') {
+            this.props.enterPageSaving(savingtimes++);
+        }
+    }
     componentDidMount() {
         this.props.updateMainHeight(document.body.offsetHeight - 150);
-        window.onkeypress = function (e) {
-            if (e.key == 'Enter' && e.target.id !== 'searchconfig') {
-                this.props.enterPageSaving(savingtimes++);
-            }
-        }.bind(this);
+        let _this = this;
+        document.addEventListener('keypress', _this.enterSaveHandler, false)
         this.props.getDefaultAcct()
         /*get dial line status to init the call page*/
         this.props.getAllLineStatus((result)=>{
@@ -125,7 +126,9 @@ class Main extends React.Component {
             }
         }
     }
-
+    componentWillUnmount() {
+        document.removeEventListener('keypress', _this.enterSaveHandler, false)
+    }
     render() {
         let locale
         if (this.props.curLocale == 'en') {

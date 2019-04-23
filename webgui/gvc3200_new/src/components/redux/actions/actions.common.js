@@ -124,9 +124,11 @@ export const setItemValues = (items, values, flag, callback) => (dispatch) => {
                 callback();
             }
         }
-    }).catch(function(error) {
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
-    });
+    })
+    // .catch(function(error) {
+    //     console.error(error)
+    //     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+    // });
 }
 
 /**

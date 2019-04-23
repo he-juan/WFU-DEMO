@@ -619,13 +619,13 @@ class LoginMain extends React.Component {
 									</div>
 									<div className="input-wrap">
 										<FormItem>
-											<Input id="password" type="password" style={{display: "none"}} disabled
+											<Input  type="password" style={{display: "none"}} disabled
 											       autoComplete="off"
 											/>
 											{getFieldDecorator("password", {
 												rules: [],
 												initialValue: ""
-											})(<Input id="password" type={this.state.type} maxLength="32"
+											})(<Input  type={this.state.type} maxLength="32"
 											          onBlur={this.onBlurPassword.bind(this)}
 											          onFocus={this.onFocusPassword.bind(this)}
 											          placeholder={this.tr(this.state.password)}
