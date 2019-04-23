@@ -821,7 +821,7 @@ tip_item_en.push (
 	new TipsDef("Syslog Protocol",
         "Configure sending syslog through UDP or secured SSL/TLS protocol to syslog server."),
     new TipsDef("Syslog Level",
-        "Selects the level of logging for syslog. The default setting is \"None\". There are 4 levels: DEBUG, INFO, WARNING and ERROR. Please refer to the user manual for more details."),
+        "Selects the syslog level from the drop-down menu. The default setting is \"None\", meaning no syslog is sent. Please refer to User Manual for more details. "),
     new TipsDef("Syslog Server",
         "The IP address or URL for the System log server."),
     new TipsDef("Send SIP Log",

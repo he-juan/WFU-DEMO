@@ -157,7 +157,7 @@ class SyslogForm extends Component {
                     })(<Input className="P-22129"/>)}
                 </FormItem>
                 <FormItem className="select-item" label={(<span>{callTr("a_19139")}
-                        <Tooltip title={callTipsTr("Syslog Level")}><Icon type="question-circle-o"/></Tooltip>
+                        <Tooltip title={callTipsTr("H.323 Syslog Level")}><Icon type="question-circle-o"/></Tooltip>
                     </span>
                 )}>
                     {getFieldDecorator('h323sysloglevel', {
