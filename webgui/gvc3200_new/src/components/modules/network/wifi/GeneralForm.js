@@ -206,10 +206,10 @@ class DetailForm extends Component {
                     <span>{strengtharr[parseInt(wifidata.level)]}</span>
                 </FormItem>
                 <FormItem label={<span>{callTr("a_linkspeed")}</span>} className={itemstatus}>
-                    <span>{wifidata.speed + " Mbps"}</span>
+                    <span>{wifidata.speed ? wifidata.speed + " Mbps" : ''}</span>
                 </FormItem>
                 <FormItem label={<span>{callTr("a_frequency")}</span>} className={itemstatus}>
-                    <span>{wifidata.frequency}</span>
+                    <span>{wifidata.frequency ? wifidata.frequency : ''}</span>
                 </FormItem>
                 <FormItem label={<span>{callTr("a_authmode")}</span>}>
                     <span>{securitystr}</span>
@@ -291,8 +291,7 @@ class DetailForm extends Component {
                     </div>
                 : ""}
                 <div className={wifidata.isSaved == "true" && !needmodify ? "display-hidden" : "display-block"}>
-
-                    <FormItem label={<span>{callTr("a_6759")}</span>} className={this.state.cert_iden_visible[4]}>
+                    <FormItem label={<span>{callTr("a_6759")}</span>} className={this.state.cert_iden_visible[4]} style={{display: wifidata.security == '0' ? 'none' : 'block'}}>
                         {getFieldDecorator("wifipwd", {
                             rules: [{
                                 validator: this.checkPwdLength

@@ -462,7 +462,8 @@ export const cb_connect_wifi = (wifidata, callback) => (dispatch) => {
     for(let i in wifidata){
         if(wifidata[i].value == undefined)
             wifidata[i].value = "";
-        request += "&" + wifidata[i].name + "=" + wifidata[i].value;
+        
+        request += "&" + wifidata[i].name + "=" + (wifidata[i].name == 'ssid' ? encodeURIComponent(wifidata[i].value) : wifidata[i].value);
     }
 
     actionUtil.handleGetRequest(request).then(function(data) {

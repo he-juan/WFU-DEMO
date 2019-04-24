@@ -63,7 +63,7 @@ class Network extends Component {
 
     check_vpnip = (value) => {
         let vpnipdiv;
-        if (value == '' || value == ' ' || value == undefined) {
+        if (value == '' || value == ' ' || value == undefined || value == '0.0.0.0') {
             vpnipdiv = "display-hidden";
         } else {
             vpnipdiv = "display-block";
