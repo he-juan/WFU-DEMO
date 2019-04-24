@@ -87,9 +87,10 @@ export const getItemValues = (items, callback, notSave) => (dispatch) => {
         if (typeof callback === 'function') {
             callback(values);
         }
-    }).catch(function(error) {
-        dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
-    });
+    })
+    // .catch(function(error) {
+    //     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
+    // });
 }
 
 /**

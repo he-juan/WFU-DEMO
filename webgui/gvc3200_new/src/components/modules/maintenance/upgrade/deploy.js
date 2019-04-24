@@ -58,47 +58,51 @@ class DeployForm extends Component {
     }
 
     componentDidMount() {
-        this.props.getItemValues(req_items,(values) => {
-            let networkStatus = this.props.networkStatus;
-            let data=[];
-            if(this.props.itemValues["CFG-Provision"]!==undefined){
-                data=[
-                    {
-                        key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase(),
-                    },
-                    {
-                        key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase()+".xml",
-                    },
-                    {
-                        key:"cfg"+this.props.product.toLocaleLowerCase()+".xml",
-                    },
-                    {
-                        key:"cfg.xml",
-                    }
-                ]
-            }
-            if(values["CFG-Provision"]==""){
-                let defalut=[]
-                for(let i=0;i<data.length;i++){
-                    defalut.push(data[i].key)
+
+        this.props.getNetworkStatus(() => {
+            this.props.getItemValues(req_items,(values) => {
+                let networkStatus = this.props.networkStatus;
+                
+                let data=[];
+                if(this.props.itemValues["CFG-Provision"]!==undefined){
+                    data=[
+                        {
+                            key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase(),
+                        },
+                        {
+                            key:"cfg"+networkStatus["mac"].replace(/:/g,"").toLocaleLowerCase()+".xml",
+                        },
+                        {
+                            key:"cfg"+this.props.product.toLocaleLowerCase()+".xml",
+                        },
+                        {
+                            key:"cfg.xml",
+                        }
+                    ]
                 }
-                this.setState({
-                    VocoderTargetKeys:defalut,
-                    data:data
-                })
-            }else{
-                let VocoderTargetKeys=values["CFG-Provision"].split(";").map((item)=>{
-                    return item.replace(/\$product/g,this.props.product).replace(/\$mac/g,networkStatus["mac"]).replace(/:/g,"").toLocaleLowerCase()
-                })
-                this.setState({
-                    VocoderTargetKeys:VocoderTargetKeys,
-                    data:data
-                })
-            }
-            this.checkoutAutoupmode(values.autoup);
-            this.checkENablepnp(values.enablepnp);
+                if(values["CFG-Provision"]==""){
+                    let defalut=[]
+                    for(let i=0;i<data.length;i++){
+                        defalut.push(data[i].key)
+                    }
+                    this.setState({
+                        VocoderTargetKeys:defalut,
+                        data:data
+                    })
+                }else{
+                    let VocoderTargetKeys=values["CFG-Provision"].split(";").map((item)=>{
+                        return item.replace(/\$product/g,this.props.product).replace(/\$mac/g,networkStatus["mac"]).replace(/:/g,"").toLocaleLowerCase()
+                    })
+                    this.setState({
+                        VocoderTargetKeys:VocoderTargetKeys,
+                        data:data
+                    })
+                }
+                this.checkoutAutoupmode(values.autoup);
+                this.checkENablepnp(values.enablepnp);
+            });
+
         });
-        this.props.getNetworkStatus();
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -457,6 +461,7 @@ class DeployForm extends Component {
                             <Option value="2">{callTr("a_skip")}</Option>
                         </Select>
                     )}
+                    <Icon title={callTr("a_rebooteffect")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {callTr("a_16329")} < Tooltip title = {callTipsTr("Auto Reboot to Upgrade Without Prompt")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("autoreboot", {

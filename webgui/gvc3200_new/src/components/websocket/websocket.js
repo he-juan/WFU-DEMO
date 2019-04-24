@@ -286,7 +286,9 @@ class HandleWebsocket extends React.Component {
                             Modal.info({
                                 content: <span dangerouslySetInnerHTML={{__html: a_succheck}}></span>,
                                 okText: <span dangerouslySetInnerHTML={{__html: a_2}}></span>,
-                                onOk() {
+                                onOk: ()  => {
+                                    location.hash=""
+                                    window.location.reload()
                                 },
                             });
                         }, 3000)

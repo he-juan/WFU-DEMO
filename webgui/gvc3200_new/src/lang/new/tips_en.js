@@ -60,6 +60,8 @@ tip_item_en.push (
         "Firmware version. This is the main software release version."),
     new TipsDef("Android Version",
         "Android OS version."),
+    new TipsDef("CPE Version",
+        "CPE version."),
     new TipsDef("Kernel Version",
         "Kernel version."),
 

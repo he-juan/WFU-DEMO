@@ -20,12 +20,15 @@ export const getAcctStatus = (callback) => (dispatch) => {
 }
 
 
-export const getNetworkStatus = () => (dispatch) => {
+export const getNetworkStatus = (cb) => (dispatch) => {
   let request = 'action=network&region=status';
 
   actionUtil.handleGetRequest(request).then(function(data) {
       let msgs = JSON.parse(data);
       dispatch({type: 'REQUEST_GET_NETWORK_STATUS', networkStatus: msgs})
+      if(cb) {
+        cb()
+      }
   }).catch(function(error) {
       promptForRequestFailed();
   });

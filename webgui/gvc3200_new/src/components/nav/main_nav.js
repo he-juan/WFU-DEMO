@@ -14,7 +14,10 @@ class MainNav extends React.Component {
     constructor(props) {
         super(props);
 
-        let hashname = location.hash.split('/');
+        let hashnameBefore = location.hash.split('/');
+        let hashname = hashnameBefore.filter(function (s) {
+            return s && s.trim();
+        });
         let openkey;
         let current
         if (hashname.length === 3) {

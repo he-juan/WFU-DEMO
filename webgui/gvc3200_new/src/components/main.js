@@ -127,6 +127,7 @@ class Main extends React.Component {
         }
     }
     componentWillUnmount() {
+        let _this = this;
         document.removeEventListener('keypress', _this.enterSaveHandler, false)
     }
     render() {

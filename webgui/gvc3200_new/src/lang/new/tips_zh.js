@@ -60,6 +60,8 @@ tip_item_zh.push (
         "显示设备的引导程序版本号。"),
     new TipsDef("Android Version", "Android版本",
         "显示设备使用的操作系统——Android系统的版本号。"),
+    new TipsDef("CPE Version", "CPE版本",
+        "显示设备的CPE版本号。"),
     new TipsDef("Kernel Version", "内核版本",
         "显示设备的内核程序版本号。"),
 

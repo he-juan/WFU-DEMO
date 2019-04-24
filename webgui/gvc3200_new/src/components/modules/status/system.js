@@ -29,7 +29,9 @@ class System extends Component {
             this.getReqItem("android-version","and_rev", ""),
             this.getReqItem("lcd-serialNum","lcd_sn", ""),
             this.getReqItem("ddr-serialNum","ddr_sn", ""),
-            this.getReqItem("fct-serialNum","fct_sn", "")
+            this.getReqItem("fct-serialNum","fct_sn", ""),
+            this.getReqItem("cpe_version","cpe_version", ""),
+            this.getReqItem("cpe_running","cpe_running", "")
         );
     }
 
@@ -114,6 +116,12 @@ class System extends Component {
                 <FormItem label={<span>{this.tr("a_16415")}<Tooltip title={this.tips_tr("Android Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="android-version">{ this.props.itemValues['android-version'] }</span>
                 </FormItem>
+                {
+                    this.props.itemValues['cpe_running'] == '' || this.props.itemValues['cpe_running'] == '0' ? null : 
+                    <FormItem label={<span>{this.tr("a_4253")}<Tooltip title={this.tips_tr("CPE Version")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                        <span ref="cpe_version">{ this.props.itemValues['cpe_version'] }</span>
+                    </FormItem>
+                }
                 <FormItem label={<span>{this.tr("a_16417")}<Tooltip title={this.tips_tr("System Up Time")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     <span ref="system-uptime">{ this.view_status_uptime_write(systemUptimeItem) }</span>
                 </FormItem>
