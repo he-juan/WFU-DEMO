@@ -78,6 +78,9 @@
 #define SIGNAL_IPVT_RECORD_STATE "IPVT_record_state"
 #define SIGNAL_SCHE_OPERATE "schedule_operate"
 #define SIGNAL_SCHE_EVENT_OPERATE "schedule_event_operate"
+#define SIGNAL_UPGRADE "upgrade"
+#define SIGNAL_INSTALL "install"
+#define SIGNAL_UPGRADE_DETECT   "upgrade_detect"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -1238,6 +1241,65 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
             dbus_error_free( &error );
         }
         return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE, SIGNAL_UPGRADE_DETECT))
+    {
+        if (dbus_message_get_args(message, &error,
+                                  DBUS_TYPE_STRING, &str,
+                                  DBUS_TYPE_INVALID))
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData, 0, len);
+            snprintf(sendData, len, "{\"type\":\"provdetect\", \"msg\":\"%s\"},", str);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf("receive freeline message error: %s\n", error.message);
+            dbus_error_free(&error);
+        }
+    }
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE, SIGNAL_UPGRADE))
+    {
+        if (dbus_message_get_args(message, &error,
+                                  DBUS_TYPE_STRING, &str,
+                                  DBUS_TYPE_INT32, &i,
+                                  DBUS_TYPE_INVALID))
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData, 0, len);
+            snprintf(sendData, len, "{\"type\":\"upgrade\", \"msg\":\"%s\", \"val\":\"%d\"},", str, i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf("receive freeline message error: %s\n", error.message);
+            dbus_error_free(&error);
+        }
+    }
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE, SIGNAL_INSTALL))
+    {
+        if (dbus_message_get_args(message, &error,
+                                  DBUS_TYPE_STRING, &str,
+                                  DBUS_TYPE_INT32, &i,
+                                  DBUS_TYPE_INVALID))
+        {
+            len = 128;
+            sendData = malloc(len);
+            memset(sendData, 0, len);
+            snprintf(sendData, len, "{\"type\":\"install\", \"msg\":\"%s\", \"val\":\"%d\"},", str, i);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf("receive freeline message error: %s\n", error.message);
+            dbus_error_free(&error);
+        }
     }
     else
     {

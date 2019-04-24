@@ -11719,6 +11719,30 @@ static int handle_upgradenow (buffer *b)
     return 0;
 }
 
+static int handle_system_upgrade(buffer *b, const struct message *m)
+{
+    char *prov_type = NULL;
+
+    prov_type = msg_get_header(m, "provtype");
+
+    if (prov_type != NULL && 0 == strcmp(prov_type, "0")) {
+        // prov_detect
+        char *cmd[] = {"start", "provdetect", 0};
+        doCommandTask(cmd, NULL, NULL, 0);
+
+        buffer_append_string(b, "Response=Success\r\n");
+    } else if (prov_type != NULL && 0 == strcmp(prov_type, "1")) {
+        // provision
+        char *cmd[] = {"start", "provision", 0};
+        doCommandTask(cmd, NULL, NULL, 0);
+
+        buffer_append_string(b, "Response=Success\r\n");
+    } else {
+        buffer_append_string(b, "Response=Error\r\n");
+    }
+
+    return 0;
+}
 
 static int handle_getcountry (buffer *b)
 {
@@ -20598,12 +20622,16 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
         if ( ssid == NULL )
         {
             ssid = "";
+        } else {
+            uri_decode(ssid);
         }
 
 		bssid = msg_get_header(m, "bssid");
         if ( bssid == NULL )
         {
             bssid = "";
+        } else {
+            uri_decode(bssid);
         }
 
 		tempval = msg_get_header(m, "security");
@@ -24079,6 +24107,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_provisioninit(b, m);
                 } else if (!strcasecmp(action, "upgradenow")) {
                     handle_upgradenow(b);
+                } else if (!strcasecmp(action, "sysupgrade")) {
+                    handle_system_upgrade(b, m);
                 } else if (!strcasecmp(action, "factset")) {
                     handle_factset(b,m);
                 } else if (!strcasecmp(action, "saveconf")) {
