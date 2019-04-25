@@ -15148,7 +15148,7 @@ time_t ASN1_TIME_get ( ASN1_TIME * a,int *err )
 static int handle_getvericert(buffer *b)
 {
     printf("handle_getvericert\n");
-    const char *pcerts[7] = {"2386", "2486", "2586", "2686", "2786", "2886", "8472"};
+    const char *pcerts[17] = {"2386", "2486", "2586", "2686", "2786", "2886", "51686", "51786", "51886", "51986", "52086", "52186", "52286", "52386", "52486", "52586", "8472"};
     BIO *in = NULL;
     X509 *cert = NULL;
     int num = 0;
@@ -15159,7 +15159,7 @@ static int handle_getvericert(buffer *b)
     //int length = 1024*8;
 
     buffer_append_string(b, "{\"Response\":\"Success\",\"Data\":[");
-    for(int i = 0; i < 7; i ++){
+    for(int i = 0; i < 17; i ++){
         temp = nvram_my_get(pcerts[i]);
         if( !strcasecmp(temp, "") ){
             printf("this pvalue %s is empty\n", pcerts[i]);
@@ -15237,7 +15237,7 @@ static int handle_getvericert(buffer *b)
 
 static int handle_check_custom_cert()
 {
-    /*SSL_CTX *ctx;
+    SSL_CTX *ctx;
 
     SSL_load_error_strings();
     SSL_library_init();
@@ -15265,7 +15265,7 @@ static int handle_check_custom_cert()
     {
         printf("SSL Error: %s\n", ERR_error_string(ERR_get_error(), NULL));
         return -1;
-    }*/
+    }
 
     return 0;
 }
@@ -15320,19 +15320,19 @@ static int handle_custom_cert(buffer *b, const struct message *m)
 
 static int check_same_cert(long hash)
 {
-    const char *pcerts[6] = {"2386", "2486", "2586", "2686", "2786", "2886"};
+    const char *pcerts[16] = {"2386", "2486", "2586", "2686", "2786", "2886", "51686", "51786", "51886", "51986", "52086", "52186", "52286", "52386", "52486", "52586"};
     BIO *in = NULL;
     X509 *cert = NULL;
     long tmphash;
     int exist = 0;
     char *temp = NULL;
 
-    for(int i = 0; i < 6; i ++){
+    for(int i = 0; i < 16; i ++){
         temp = nvram_my_get(pcerts[i]);
         if( !strcasecmp(temp, "") ){
             continue;
         }
-        if ((in = BIO_new_mem_buf((void*)temp, -1)) == NULL){
+        if ((in = BIO_new_mem_buf((void*)temp, -1)) == NULL) {
             continue;
         }
         if ((cert = PEM_read_bio_X509(in, NULL, NULL, NULL)) == NULL){
