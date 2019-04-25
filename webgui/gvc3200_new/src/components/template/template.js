@@ -766,6 +766,7 @@ export const options = [
                 {"name": "Boot Version", "lang": "a_16408"},
                 {"name": "Kernel Version", "lang": "a_16416"},
                 {"name": "Android Version", "lang": "a_16415"},
+                {"name": "CPE Version", "lang": "a_4253"},
                 {"name": "System Up Time", "lang": "a_16417"}
             ]}
         ]},

@@ -63,6 +63,7 @@ class SipCert extends Component {
 
     render(){
         const callTr = this.props.callTr;
+        const callTipsTr = this.props.callTipsTr;
         const getVeriCert = this.props.getVeriCert;
         const checkVeriCert = this.props.checkVeriCert;
         let certinfo, certdata = [];
@@ -113,7 +114,7 @@ class SipCert extends Component {
                         message.error(callTr("a_12222"));
                         return false;
                     }
-                    let pvalue = certpvalue[16 - maxnum];
+                    let pvalue = certpvalue.filter(v => !certdata.some(i => i.pvalue == v))[0];
                     checkVeriCert({type:"sipCert",maxnum:maxnum, pvalue:pvalue}, (data) => {
                         switch (data) {
                             case "1":
@@ -140,7 +141,7 @@ class SipCert extends Component {
         return(
             <div className="ca-cert-block">
                 <div style={{"fontSize":"0.875rem", "marginBottom":"40px"}}>
-                    <div>{callTr("a_19222")}</div>
+                    <div>{callTr("a_19222")} <Tooltip  title={callTipsTr("Import Trusted CA Certificates")}><Icon style={{color: '#3d77ff'}} type="question-circle-o"/></Tooltip></div>
                     <Upload {...caCertProps}>
                         <Button className="upload-btn" disabled={!maxnum}>
                             <span className="upload-icon" />

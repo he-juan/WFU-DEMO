@@ -65,6 +65,7 @@ class CustomCert extends Component {
 
     render(){
         const callTr = this.props.callTr;
+        const callTipsTr = this.props.callTipsTr;
         const getVeriCert = this.props.getVeriCert;
         const checkVeriCert = this.props.checkVeriCert;
         let certinfo, customcertdata = [];
@@ -138,7 +139,7 @@ class CustomCert extends Component {
         return(
             <div className="ca-cert-block">
                 <div style={{"fontSize":"0.875rem", "marginBottom":"40px"}}>
-                    <div>{callTr("a_19283")}</div>
+                    <div>{callTr("a_19283")} <Tooltip  title={callTipsTr("Import Custom Certificates")}><Icon style={{color: '#3d77ff'}} type="question-circle-o"/></Tooltip></div>
                     <Upload {...customCertProps}>
                         <Button className="upload-btn" disabled={!maxnum}>
                             <span className="upload-icon" />
