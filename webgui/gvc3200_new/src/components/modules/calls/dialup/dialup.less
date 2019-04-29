@@ -1,0 +1,234 @@
+.dialup-main {
+  margin: 10px 10px 0;
+  padding: 10px 15px;
+  min-width: 1200px;
+}
+
+.dialup-box {
+  overflow: hidden;
+
+
+  .dialup-inputs, .dialup-btns {
+    float: left;
+  }
+  .dialup-inputs {
+    width: 800px;
+    font-size: 14px;
+    .selected-acct {
+      line-height: 36px;
+      height: 36px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      span {
+        display: inline-block;
+        width: 33%;
+        text-align: left;
+        text-indent: 10px;
+      }
+      i {
+        float: right;
+        height: 36px;
+        width: 36px;
+        line-height: 36px;
+        text-align: center;
+        font-size: 15px;
+      }
+    }
+  }
+  .dialup-btns {
+    width: 200px;
+    margin-left: 10px;
+    margin-top: 46px;
+    .video-call-btn, .audio-call-btn {
+      width: 80px;
+      height: 80px;
+      display: inline-block;
+      cursor: pointer;
+      color: #fff;
+      line-height: 80px;
+      text-align: center;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .video-call-btn {
+      background: rgb(49, 177, 49);
+    }
+    .audio-call-btn {
+      background: #4885f0;
+      margin-left: 10px;
+    }
+  }
+}
+
+.acct-menu li {
+  line-height: 40px;
+  padding: 0;
+  & > span {
+    display: inline-block;
+    width: 33%;
+    text-indent: 10px;
+  }
+}
+
+
+.dialup-inputs-area {
+  margin-top: 10px;
+  .bj-inputs {
+    input{
+      width: 100%;
+      &:first-child  {
+        margin-bottom: 15px;
+      }
+    }
+  }
+
+  .tagsinput-wrapper {
+    position: relative;
+    .tagsinput-placeholder {
+      position: absolute;
+      line-height: 40px;
+      text-indent: 10px;
+      color: #777;
+      font-size: 12px;
+      z-index: 1;
+    }
+    .react-tagsinput {
+      position: absolute;
+      width: 100%;
+      height: 80px;
+      border-radius: 4px;
+      z-index: 2;
+    }
+    .react-tagsinput--focused + .tagsinput-placeholder {
+      display: none;
+    }
+  }
+}
+.dialup-record-list {
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+
+
+.log-contacts {
+  // .ant-table-row-level-0 {
+  //   // cursor: pointer;
+  // }
+  .active {
+    background: #f0f4ff;
+  }
+  .ant-table-row-level-1 {
+    background: #f0f4ff;
+    & > td {
+      padding: 10px 8px;
+      &:first-child {
+        text-indent: 40px;
+      }
+    }
+  }
+
+  .operate-btns {
+    text-align: right;
+    .add-btn, .call-btn {
+      display: inline-block;
+      height: 30px;
+      width: 30px;
+      background: url(/img/call_status_icons.png) no-repeat;
+      margin-right: 10px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+    .add-btn {
+      background-position: 0 0 ;
+    }
+    .call-btn {
+      background-position: -60px 0;
+    }
+  }
+}
+
+
+
+
+
+.modal-member {
+  .ant-modal-title {
+    font-size: 16px;
+    text-align: center;
+  }
+}
+.modal-member-ul {
+  width: 400px;
+  margin: 0 auto;
+  li {
+    height: 40px;
+    line-height: 40px;
+    font-size: 15px;
+    &>span {
+      display: inline-block;
+      width: 25%;
+      text-align: center;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+.react-tagsinput {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-left: 5px;
+  padding-top: 5px;
+}
+
+.react-tagsinput--focused {
+  border-color: #4885f0;
+}
+
+.react-tagsinput-tag {
+  background-color: #4885f0;
+  border-radius: 2px;
+  border: 1px solid #4885f0;
+  color: #fff;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+  color:#fff;
+}
+
+.react-tagsinput-tag a::before {
+  content: " ×";
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  color: #777;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  margin-top: 1px;
+  outline: none;
+  padding: 5px;
+  width: 80px;
+}

@@ -10,6 +10,105 @@ const promptForRequestFailed = () => (dispatch) => {
 }
 
 
+// 新接口 获取联系人
+export const getContacts2 = () => (dispatch) => {
+
+    dispatch({type: 'SET_CONTACTS', contacts: [
+        {
+            id: 1,
+            name: { displayname: '张三' },
+            phone: [
+                {"acct": 0, "number": "35462" },
+                {"acct": 1, "number": "35463" }
+            ]
+        },
+        {
+            id: 2,
+            name: { displayname: '李四' },
+            phone: [
+                {"acct": 0, "number": "12345" },
+                {"acct": 1, "number": "67890" }
+            ]
+        },
+        {
+            id: 3,
+            name: { displayname: '王五' },
+            phone: [
+                {"acct": 0, "number": "1620" },
+                {"acct": 1, "number": "1620" }
+            ]
+        }
+    ]})
+}
+
+// 新接口 获取通话记录
+export const getCallLogs2 = () => (dispatch) => {
+    dispatch({type: 'SET_CALLLOGS', callLogs: [
+        {
+            "isconf": "1",
+            "confid": "1",
+            "confname": "一部Web周例会",
+            "date":"1556496266047",
+            "members": [
+                {
+                    "id":"1000", 
+                    "acct":"0", 
+                    "name": "张三", 
+                    "number": "1620", 
+                    "calltype": "2", 
+                    "date":"1556416266047",
+                    "duration":"32", 
+                    "isvideo": "1", 
+                    "iscontact": "1"
+                },
+                {
+                    "id":"1001", 
+                    "acct":"0", 
+                    "name": "1607", 
+                    "number": "1607", 
+                    "calltype": "3", 
+                    "date":"1556416266047",
+                    "duration":"35", 
+                    "isvideo": "0", 
+                    "iscontact": "0"
+                },
+            ]
+        },
+        {
+            "isconf": "1",
+            "confid": "2",
+            "confname": "一部Web周例会2",
+            "date":"1556216266047",
+            "members": [
+                {
+                    "id":"1000", 
+                    "acct":"0", 
+                    "name": "张三", 
+                    "number": "35462", 
+                    "calltype": "2", 
+                    "date":"1556416266047",
+                    "duration":"32", 
+                    "isvideo": "1", 
+                    "iscontact": "1"
+                },
+                {
+                    "id":"1001", 
+                    "acct":"1", 
+                    "name": "35463", 
+                    "number": "35463", 
+                    "calltype": "3", 
+                    "date":"1556416266047",
+                    "duration":"35", 
+                    "isvideo": "0", 
+                    "iscontact": "0"
+                },
+            ]
+        }
+    ]})
+}
+
+
+
 
 export const sendSingleCall = (num, acct, isvideo, isconf, source, callmode) => (dispatch) => {
     let request = 'action=originatecall&number=' + num + "&account=" + acct + "&isvideo=" + isvideo + "&isconf=" + isconf + "&source=" + source + "&callmode=" + callmode;

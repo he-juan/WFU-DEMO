@@ -1,5 +1,28 @@
 import * as Actions from '../actions/actionType'
 
+
+export const contacts2 = (state = [], action) => {
+    switch (action.type) {
+        case Actions.SET_CONTACTS:
+            return action.contacts;
+        default: 
+            return state
+    }
+}
+
+
+export const callLogs2 = (state = [], action) => {
+    switch (action.type) {
+        case Actions.SET_CALLLOGS:
+            return action.callLogs;
+        default:
+            return state
+    }
+}
+
+
+
+
 /**
  * 未接来电记录，包括id, name
  */

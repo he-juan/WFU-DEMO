@@ -52,7 +52,7 @@ const peripheralState  = (location, cb) => {
 
 const DialUp  = (location, cb) => {
     require.ensure([], require => {
-        cb(null, require('./modules/calls/call/dialup').default);
+        cb(null, require('./modules/calls/dialup').default);
     }, 'calls');
 };
 const CallHistory  = (location, cb) => {

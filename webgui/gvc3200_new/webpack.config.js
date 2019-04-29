@@ -69,7 +69,7 @@ module.exports = {
             },
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192&name=img/[name].[ext]' },
             { test: /\.(gif)$/, loader: 'image-webpack-loader' },
-            { test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/, loader: 'url' }
+            { test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/, loader: 'url-loader' }
         ]
     },
     resolve: {
@@ -77,6 +77,10 @@ module.exports = {
         /*alias: {
             'jquery': path.resolve(ROOT_PATH, './js/jquery-2.2.1.min.js'),
         }*/
+        alias: {
+            'components': path.resolve(__dirname, './src/components'),
+            '@': path.resolve(__dirname, './src')
+        }
     },
     plugins: [
         new CopyWebpackPlugin([
@@ -103,8 +107,6 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
         new ExtractTextPlugin("[name].css"),
-        // jquery配置
-        //new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery" }),
 
         // 配置环境变量到Production，防止控制台警告
         new webpack.DefinePlugin({
