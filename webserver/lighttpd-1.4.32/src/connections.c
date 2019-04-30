@@ -62,6 +62,8 @@
 
 #include "inet_ntop_cache.h"
 
+#include "cJSON.h"
+
 #include "md5.h"
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
@@ -280,6 +282,13 @@ struct req_param {
     int type;     // 0 - int, 1 - string
     struct req_param *next;
 };
+
+/* res code for the json response */
+#define RES_SUCCESS 0
+#define RES_ERR_WITH_DATA 1
+#define RES_ERR_AUTH_FAIL -1
+#define RES_ERR_INVALID_ARG -2
+#define RES_ERR_INVALID_CMD -3
 
 #define DEBUGSWITCH 0
 #ifndef SHA1_H
@@ -917,6 +926,690 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
         printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
     }
     printf("\n");
+    return 0;
+}
+
+
+/**
+ * @Author: cchma
+ * @Date: 2019-03-12
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-03-12
+ * @description: 生成最终的JSON格式的response
+ * @param: {status_code}， 0 - success, 1 - other error, -1 - auth failed, -2 - invalid parameter, -3 - invalid command
+ * @param: {msg} 提示性的文本，不用于前端代码解析，只用于辅助性的提示说明
+ * @param: {dataObj} response主体， 由各个API自主封装内容
+ * @return:
+ *  {
+ *    "result": [0/1/-1/-2/-3],
+ *    "msg": "",
+ *    data: {}
+ *  }
+ */
+static void create_json_response(int status_code, const char *msg, cJSON *dataObj, buffer *b) {
+    char *res = NULL;
+    cJSON *resObj = cJSON_CreateObject();
+
+    cJSON_AddNumberToObject(resObj, "result", status_code);
+
+    if (NULL != msg) {
+        cJSON_AddStringToObject(resObj, "msg", msg);
+    } else {
+        cJSON_AddStringToObject(resObj, "msg", "");
+    }
+    
+    if (NULL != dataObj) {
+        cJSON_AddItemToObject(resObj, "data", dataObj);
+    } else {
+        cJSON_AddItemToObject(resObj, "data", cJSON_CreateObject());
+    }
+
+    res = cJSON_Print(resObj);
+
+    buffer_append_string(b, res);
+
+    free(res);
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的姓名信息, mimetype_id = 7
+ * @param {contact_id} 联系人的 raw_contact_id
+ * @return: {"displayname": "张三", "givenname": "张", "familyname": "三"}
+ */
+static cJSON *get_contact_info_name(sqlite3 *db, char *contact_id) {
+    cJSON *resObj = cJSON_CreateObject();
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as displayname, data2 as givenname, data3 as familyname from data where raw_contact_id=%s and mimetype_id=7;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *displayname = (char*)sqlite3_column_text(stmt, 0);    // displayname
+            char *givenname = (char*)sqlite3_column_text(stmt, 1);   // firstname
+            char *familyname = (char*)sqlite3_column_text(stmt, 2);   // lastname
+    
+            if (NULL != displayname) {
+                cJSON_AddStringToObject(resObj, "displayname", displayname);
+            } else {
+                cJSON_AddStringToObject(resObj, "displayname", "");
+            }
+
+            if (NULL != givenname) {
+                cJSON_AddStringToObject(resObj, "givenname", givenname);
+            } else {
+                cJSON_AddStringToObject(resObj, "givenname", "");
+            }
+
+            if (NULL != familyname) {
+                cJSON_AddStringToObject(resObj, "familyname", familyname);
+            } else {
+                cJSON_AddStringToObject(resObj, "familyname", "");
+            }
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return resObj;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的号码信息, mimetype_id = 5
+ * @param {contact_id} 联系人的 raw_contact_id
+ * @return: [
+               {"acct":"0", "type": "0", "number": "35462"},
+               {"acct":"1", "type": "1", "number": "35463"},
+               ...
+           ]
+ */
+static cJSON *get_contact_info_phone(sqlite3 *db, char *contact_id) {
+    cJSON *resObj = cJSON_CreateArray();
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as number, data2 as type, data11 as account from data where raw_contact_id=%s and mimetype_id=5;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            cJSON *phoneObj = cJSON_CreateObject();
+
+            char *number = (char*)sqlite3_column_text(stmt, 0);    // number
+            char *type = (char*)sqlite3_column_text(stmt, 1);   // type
+            char *account = (char*)sqlite3_column_text(stmt, 2);   // account
+    
+            if (NULL != number) {
+                cJSON_AddStringToObject(phoneObj, "number", number);
+            } else {
+                cJSON_AddStringToObject(phoneObj, "number", "");
+            }
+
+            if (NULL != type) {
+                cJSON_AddStringToObject(phoneObj, "type", type);
+            } else {
+                cJSON_AddStringToObject(phoneObj, "type", "");
+            }
+
+            if (NULL != account) {
+                cJSON_AddStringToObject(phoneObj, "acct", account);
+            } else {
+                cJSON_AddStringToObject(phoneObj, "acct", "");
+            }
+
+            cJSON_AddItemToArray(resObj, phoneObj);
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return resObj;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的群组信息, mimetype_id = 11
+ * @param {contact_id} 联系人的 raw_contact_id
+ * @return:  [
+               {"id": "0", "name": "开发一部"},
+               {"id": "1", "name": "杭研所"},
+               ...
+           ]
+ */
+static cJSON *get_contact_info_group(sqlite3 *db, char *contact_id) {
+    cJSON *resObj = cJSON_CreateArray();
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as groupid from data where raw_contact_id=%s and mimetype_id=11;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            cJSON *groupObj = cJSON_CreateObject();
+
+            char *groupid = (char*)sqlite3_column_text(stmt, 0);    // groupid
+    
+            if (NULL != groupid) {
+                cJSON_AddStringToObject(groupObj, "id", groupid);
+            } else {
+                cJSON_AddStringToObject(groupObj, "id", "");
+            }
+
+            cJSON_AddStringToObject(groupObj, "name", "");
+
+            cJSON_AddItemToArray(resObj, groupObj);
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return resObj;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的email信息, mimetype_id = 1
+ * @param {contact_id} 联系人的 raw_contact_id
+ * @return:  [
+               {"type":"0", "address": "test1@163.com"},
+               {"type":"1", "address": "test2@163.com"},
+               ...
+           ]
+ */
+static cJSON *get_contact_info_email(sqlite3 *db, char *contact_id) {
+    cJSON *resObj = cJSON_CreateArray();
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as email, data2 as type from data where raw_contact_id=%s and mimetype_id=1;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            cJSON *emailObj = cJSON_CreateObject();
+
+            char *email = (char*)sqlite3_column_text(stmt, 0);    // groupid
+            char *type = (char*)sqlite3_column_text(stmt, 1);    // type
+    
+            if (NULL != email) {
+                cJSON_AddStringToObject(emailObj, "address", email);
+            } else {
+                cJSON_AddStringToObject(emailObj, "address", "");
+            }
+
+            if (NULL != type) {
+                cJSON_AddStringToObject(emailObj, "type", type);
+            } else {
+                cJSON_AddStringToObject(emailObj, "type", "");
+            }
+
+            cJSON_AddItemToArray(resObj, emailObj);
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return resObj;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的address信息, mimetype_id = 8
+ * @param {contact_id} 联系人的 raw_contact_id
+ * @return: "塘苗路18号"
+ */
+static char *get_contact_info_address(sqlite3 *db, char *contact_id) {
+    char *res = NULL;
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as address from data where raw_contact_id=%s and mimetype_id=8;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *address = (char*)sqlite3_column_text(stmt, 0);    // address
+
+            res = (char*)malloc(strlen(address));
+            memset(res, 0, strlen(address));
+            snprintf(res, "%s", address);
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return res;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的website信息, mimetype_id = 14
+ * @param {contact_id}  联系人的 raw_contact_id
+ * @return: "www.grandstream.com"
+ */
+static char *get_contact_info_website(sqlite3 *db, char *contact_id) {
+    char *res = NULL;
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as website from data where raw_contact_id=%s and mimetype_id=14;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *website = (char*)sqlite3_column_text(stmt, 0);    // website
+
+            res = (char*)malloc(strlen(website));
+            memset(res, 0, strlen(website));
+            snprintf(res, "%s", website);
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return res;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的note信息, mimetype_id = 12
+ * @param {contact_id}  联系人的 raw_contact_id
+ * @return: "nothing serious"
+ */
+static char *get_contact_info_note(sqlite3 *db, char *contact_id) {
+    char *res = NULL;
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as note from data where raw_contact_id=%s and mimetype_id=12;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *note = (char*)sqlite3_column_text(stmt, 0);    // note
+
+            res = (char*)malloc(strlen(note));
+            memset(res, 0, strlen(note));
+            snprintf(res, "%s", note);
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return res;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的company信息, mimetype_id = 4
+ * @param {contact_id}  联系人的 raw_contact_id
+ * @return: "Grandstream"
+ */
+static char *get_contact_info_company(sqlite3 *db, char *contact_id) {
+    char *res = NULL;
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data1 as company from data where raw_contact_id=%s and mimetype_id=4;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *company = (char*)sqlite3_column_text(stmt, 0);    // company
+
+            res = (char*)malloc(strlen(company));
+            memset(res, 0, strlen(company));
+            snprintf(res, "%s", company);
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return res;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的rank信息, mimetype_id = 4
+ * @param {contact_id}  联系人的 raw_contact_id
+ * @return:  "高级程序员"
+ */
+static char *get_contact_info_rank(sqlite3 *db, char *contact_id) {
+    char *res = NULL;
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data11 as rank from data where raw_contact_id=%s and mimetype_id=4;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *rank = (char*)sqlite3_column_text(stmt, 0);    // rank
+
+            res = (char*)malloc(strlen(rank));
+            memset(res, 0, strlen(rank));
+            snprintf(res, "%s", rank);
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return res;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description:  从data表中获取联系人的department信息, mimetype_id = 4
+ * @param {contact_id}  联系人的 raw_contact_id
+ * @return:  "开发一部"
+ */
+static char *get_contact_info_department(sqlite3 *db, char *contact_id) {
+    char *res = NULL;
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data5 as department from data where raw_contact_id=%s and mimetype_id=4;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *department = (char*)sqlite3_column_text(stmt, 0);    // department
+
+            res = (char*)malloc(strlen(department));
+            memset(res, 0, strlen(department));
+            snprintf(res, "%s", department);
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return res;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 从data表中获取联系人的title信息, mimetype_id = 4
+ * @param {contact_id}  联系人的 raw_contact_id
+ * @return:  "软件工程师"
+ */
+static char *get_contact_info_title(sqlite3 *db, char *contact_id) {
+    char *res = NULL;
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select data6 as title from data where raw_contact_id=%s and mimetype_id=4;", contact_id);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *title = (char*)sqlite3_column_text(stmt, 0);    // title
+
+            res = (char*)malloc(strlen(title));
+            memset(res, 0, strlen(title));
+            snprintf(res, "%s", title);
+
+            break;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return res;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-04-30
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-04-30
+ * @description: 获取设备的联系人列表，已结合 conatcts, raw_contacts, data 三张数据表中的数据
+ * @param {type} 
+ * @return: 
+ */
+static int get_conatcts_list(buffer *b) {
+    cJSON *resObj = cJSON_CreateObject();
+    cJSON *contactArray = cJSON_CreateArray();
+    sqlite3 *db;
+    int rc;
+    sqlite3_stmt *stmt;
+    char *sqlstr = "select name_raw_contact_id as id, custom_ringtone as ringtone from contacts;";
+
+    rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/contacts2.db", &db);
+    if (rc) {
+        printf("Can't open database: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        cJSON_AddItemToObject(resObj, "contacts", contactArray);
+        create_json_response(RES_SUCCESS, NULL, resObj, b);
+        return -1;
+    }
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        cJSON_AddItemToObject(resObj, "contacts", contactArray);
+        create_json_response(RES_SUCCESS, NULL, resObj, b);
+        return -1;
+    }
+
+    while(sqlite3_step(stmt) == SQLITE_ROW) {
+        cJSON *contactObj = cJSON_CreateObject();
+
+        char *id = (char*)sqlite3_column_text(stmt, 0);    // id
+        char *ringtone = (char*)sqlite3_column_text(stmt, 1);   // ringtone
+
+        LOGD("id: %s -- ringtong: %s", id, ringtone);
+
+        if (NULL != id) {
+            cJSON_AddStringToObject(contactObj, "id", id);
+        } else {
+            cJSON_AddStringToObject(contactObj, "id", "");
+        }
+
+        if (NULL != ringtone) {
+            cJSON_AddStringToObject(contactObj, "ringtone", ringtone);
+        } else {
+            cJSON_AddStringToObject(contactObj, "ringtone", "");
+        }
+        
+        cJSON *nameObj = get_contact_info_name(db, id);     // name
+        cJSON_AddItemToObject(contactObj, "name", nameObj);
+
+        cJSON *phoneObj = get_contact_info_phone(db, id);   // phone
+        cJSON_AddItemToObject(contactObj, "phone", phoneObj);
+
+        cJSON *groupObj = get_contact_info_group(db, id);   // group
+        cJSON_AddItemToObject(contactObj, "group", groupObj); 
+
+        cJSON *emailObj = get_contact_info_email(db, id);   // email
+        cJSON_AddItemToObject(contactObj, "email", emailObj); 
+
+        char *address = get_contact_info_address(db, id);   // address
+        if (NULL != address) {
+            cJSON_AddStringToObject(contactObj, "address", address); 
+            free(address);
+        } else {
+            cJSON_AddStringToObject(contactObj, "address", ""); 
+        }
+
+        char *website = get_contact_info_website(db, id);   // website
+        if (NULL != website) {
+            cJSON_AddStringToObject(contactObj, "website", website); 
+            free(website);
+        } else {
+            cJSON_AddStringToObject(contactObj, "website", ""); 
+        }
+
+        char *note = get_contact_info_note(db, id);   // note
+        if (NULL != note) {
+            cJSON_AddStringToObject(contactObj, "note", note); 
+            free(note);
+        } else {
+            cJSON_AddStringToObject(contactObj, "note", ""); 
+        }
+
+        char *company = get_contact_info_company(db, id);   // company
+        if (NULL != company) {
+            cJSON_AddStringToObject(contactObj, "company", company); 
+            free(company);
+        } else {
+            cJSON_AddStringToObject(contactObj, "company", ""); 
+        }
+
+        char *rank = get_contact_info_rank(db, id);   // rank
+        if (NULL != rank) {
+            cJSON_AddStringToObject(contactObj, "rank", rank); 
+            free(rank);
+        } else {
+            cJSON_AddStringToObject(contactObj, "rank", ""); 
+        }
+
+        char *department = get_contact_info_department(db, id);   // department
+        if (NULL != department) {
+            cJSON_AddStringToObject(contactObj, "department", department); 
+            free(department);
+        } else {
+            cJSON_AddStringToObject(contactObj, "department", ""); 
+        }
+
+        char *title = get_contact_info_title(db, id);   // title
+        if (NULL != title) {
+            cJSON_AddStringToObject(contactObj, "title", title); 
+            free(title);
+        } else {
+            cJSON_AddStringToObject(contactObj, "title", ""); 
+        }
+
+        cJSON_AddItemToArray(contactArray, contactObj);
+    }
+
+    cJSON_AddItemToObject(resObj, "contacts", contactArray);
+    create_json_response(RES_SUCCESS, NULL, resObj, b);
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    
     return 0;
 }
 
@@ -23888,6 +24581,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 uri_decode(members);
                 params = append_req_params(params, "members", members, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "makeCall", params);
+            } else if (!strcasecmp(action, "getcontacts")) {
+                get_conatcts_list(b);
 	        } else {
                 findcmd = 0;
             }
