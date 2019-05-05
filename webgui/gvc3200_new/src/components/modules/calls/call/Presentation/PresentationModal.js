@@ -166,12 +166,12 @@ class PresentationModal extends Component {
             value={bfcpMode}
             onSelect={(v) => this.handleSelectMode(v) }
           >
-            <Option value={1} key="1">{this.tr('a_1015')}</Option>
+            <Option value='1' key="1">{this.tr('a_1015')}</Option>
             {
               (!is4kon && !videocodec && (hdmiInOn || wifiDisplayOn))
-              ? <Option value={3} key="3">PC</Option> : ''
+              ? <Option value='3' key="3">PC</Option> : ''
             }
-            <Option value={0} key="0">{this.tr('a_32')}</Option>
+            <Option value='0' key="0">{this.tr('a_32')}</Option>
           </Select>
         </FormItem>
         {

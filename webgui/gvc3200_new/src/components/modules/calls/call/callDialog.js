@@ -324,7 +324,7 @@ class CallDialog extends Component {
                             isBtnsHide ? null :
                             <InviteMember 
                                 ispause={_ispause} 
-                                disabled={!_hasipvtline && msfurole != 2 || (sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 
+                                disabled={(sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 
                                 linestatus={linestatus} 
                             />
                         }

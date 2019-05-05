@@ -273,7 +273,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => {
   var actions = {
-
+    
   }
 
   return bindActionCreators(actions, dispatch)

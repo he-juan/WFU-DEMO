@@ -128,7 +128,7 @@ class FECCModal extends Component {
                                     if( i < 4 ){
                                         topitemclass = "topitem";
                                     }
-                                    return <div className={topitemclass + " presetitem"} onMouseEnter={this.showpresetbtn.bind(this, i)}>
+                                    return <div key={i} className={topitemclass + " presetitem"} onMouseEnter={this.showpresetbtn.bind(this, i)}>
                                         <span className="presetnumitem">{i + 1}</span>
                                     </div>
                                 })

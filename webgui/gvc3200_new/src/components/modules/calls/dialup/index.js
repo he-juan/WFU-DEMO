@@ -12,7 +12,7 @@ import './dialup.less'
 function parseAcctStatus(acctstatus) {
   let headers = acctstatus.headers
   let result = [];
-  let acctIndex = [0, 1, 2, 8]
+  let acctIndex = ['0', '1','2', '8']
   acctIndex.map((i) => {
     result.push({
       "acctindex": i,
@@ -138,6 +138,9 @@ class Dialup extends Component {
       return item
     })
     CallAPI.makeCall(_memToCall)
+    this.setState({
+      memToCall: []
+    })
   }
 
   // bluejeans 账号处理
@@ -251,7 +254,6 @@ const mapDispatch = (dispatch) => {
   var actions = {
       setDefaultAcct: Actions.set_defaultacct,
       getAcctStatus: Actions.getAcctStatus,
-      getItemValues:Actions.getItemValues
 
   }
 

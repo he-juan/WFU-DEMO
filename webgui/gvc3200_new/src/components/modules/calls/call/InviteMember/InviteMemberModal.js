@@ -1,25 +1,36 @@
 import React, { Component } from 'react'
-import Enhance from "../../../../mixins/Enhance";
-import { promptMsg, getContacts, promptSpinMsg, getAcctStatus, cb_start_addmemberconf, cb_start_single_call, invitesfumember } from '../../../../redux/actions';
-import { Modal, Select, Input, Checkbox } from 'antd';
+import Enhance from "components/mixins/Enhance";
+import * as Actions from 'components/redux/actions/index'
+import { Modal, Select, Input, Checkbox, Tabs } from 'antd';
+import TagsInput from 'react-tagsinput'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import CallLogsTab from './CallLogsTab'
+import ContactsTab from './ContactsTab'
+import EpContactsBookTab from './EpContactsBookTab'
+import './inviteMember.less'
 const Option = Select.Option
+const TabPane = Tabs.TabPane
+
+function parseAcctStatus(acctstatus) {
+  let headers = acctstatus.headers
+  let result = [];
+  let acctIndex = ['0', '1', '2', '8']
+  acctIndex.map((i) => {
+    result.push({
+      "acctindex": i,
+      "register": parseInt(headers[`account_${i == 8 ? 6 : i}_status`]),  // 账号注册状态
+      "activate": parseInt(headers[`account_${i == 8 ? 6 : i}_activate`]), // 账号激活状态
+      "num": headers[`account_${i == 8 ? 6 : i}_no`],
+      "name": i == 0 ? 'SIP' : i == 8 ? 'H.323' : headers[`account_${i}_name`]
+    })
+  })
+  return result
+}
 
 class InviteMemberModal extends Component {
   constructor() {
     super();
-    this.state = {
-      activeAcc: '0',
-      callmode: 'call',
-      mediaType: '1',
-      contactList: [],
-      acctstatus: [],
-      errmsg: '',
-      isBjAccount: false,
-      contactFilter: '',
-      bjPassword: ''
-    }
     this.modalStyle = {
       position: 'absolute',
       left: '0',
@@ -29,292 +40,92 @@ class InviteMemberModal extends Component {
       margin: 'auto',
       height: '700px',
       paddingBottom: '0',
-    },
-    this.iconType = {
-      "1": "incomming",
-      "2": "callout",
-      "3": "miss"
+    }
+    this.state = {
+      acctStatus: null,  // 所有激活账号
+      selectAcct: 0,     // 当前选中账号
+      memToCall: [],      // 输入的待拨打成员号码
+      activeTab: '1'
     }
   }
-  doRequest = (action, region, params) => {
-    let uri = `/manager?action=${action}&region=${region}&time=${new Date().getTime()}`
-    if (params) {
-      uri += params
-    }
-    return new Promise((resolve, reject) => {
-      $.ajax({
-        url: uri,
-        method: 'GET',
-        success: (data) => {
-          
-          resolve(data);
-        },
-        error: (err) => {
-          this.props.promptMsg("ERROR", "a_16418");
-        }
-      })
-    })
-  }
+  
   componentDidMount() {
-    this.props.getAcctStatus(this.getAcctStatusData.bind(this))
-    this.getDefaultAcct();
-  }
-  componentWillUpdate(nextProps) {
-    if (this.props.visible != nextProps.visible && nextProps.visible == true) {
-      this.initModal();
-    }
-  }
-  toogleAcc = (v) => {
-    this.setState({ 
-      activeAcc: v,
-      isBjAccount: v == '2' ,
-      contactFilter: ''
-    })
-  }
-  initModal = () => {
-    this.getDefaultAcct();
-    if (this.state.contactList.length == 0) {
-      this.props.promptSpinMsg('display-block', '');
-      this.props.getContacts(this.getContactList.bind(this));
-    }
-  }
-  getDefaultAcct = () => {
-    this.doRequest('get', '', '&var-0000=22046').then(msg => {
-      let data = this.res_parse_rawtext(msg);
-      let acc = data['headers'][22046];
-      this.setState({
-        activeAcc: acc,
-        isBjAccount: acc == '2'
-      })
-    })
-  }
-  getAcctStatusData = (acctstatus) => {
-    let curAcct = [];
-    const acctStatus = acctstatus.headers;
-    let max = 4;
-    for (let i = 0; i < max; i++) {
-      if (i == 3) {
-        curAcct.push(
-          {
-            "acctindex": i,
-            "register": acctStatus[`account_${6}_status`],
-            "activate": acctStatus[`account_${6}_activate`],
-            "num": acctStatus[`account_${6}_name`],
-            "name": "H.323"
-          });
-      } else {
-        let accountname = acctStatus[`account_${i}_name`];
-        if (i == 0) {
-          if (acctStatus[`account_${i}_name`].length > 0) {
-            accountname = acctStatus[`account_${i}_name`];
-          } else if (acctStatus[`account_${i}_no`].length > 0) {
-            accountname = acctStatus[`account_${i}_no`];
-          } else {
-            accountname = "SIP";
-          }
-        }
-        curAcct.push(
-          {
-            "acctindex": i,
-            "register": acctStatus[`account_${i}_status`],
-            "activate": acctStatus[`account_${i}_activate`],
-            "num": acctStatus[`account_${i}_no`],
-            "name": accountname
-          });
-      }
-    }
-    this.setState({ acctstatus: curAcct });
-  }
-  getContactList = () => {
-    this.doRequest('sqlitecontacts', 'apps', '&type=calllog&flag=2&logtype=0').then(data => {
-      let list = this.props.msgsContacts.concat(JSON.parse(data).Data);
-      this.setState({
-        contactList: list
-      });
-      this.props.promptSpinMsg('display-hidden', '');
-    })
-  }
-  selectContact = (item, i) => {
-    if(item["Number"] == "anonymous") {
-      this.showError(this.tr('a_10083'));
-      return false
-    }
-    let {maxlinecount, linestatus} = this.props;
-    let { acctstatus, contactList} = this.state;
-    let _contactList = this.state.contactList.slice();
-    if(!_contactList[i].checked){
-      let itemAcc = parseInt(item.AcctIndex);                   // 当前帐号
-      if(itemAcc == 8) itemAcc = 3;
-      if(acctstatus[itemAcc].activate == '0'){
-        this.showError(this.tr('a_18564'));
-        return false;
-      }
-      let existIpvt = this.hasExistIpvt(linestatus);  // 线路中是否存在ipvt
-      if(!existIpvt && this.props.msfurole  < 1){
-        let allow = maxlinecount - linestatus.length;   // 非IPVT 最大允许个数 
-        let checkedItem = contactList.filter(item => {
-          return item.AcctIndex != '1' && item.checked
-        });
-        if(checkedItem.length >= allow) {
-          return this.showError(this.tr('a_10097'));
-        }
-      };
-      if(this.props.msfurole == 2) {
-        let checkedItem = contactList.filter(item => {
-          return item.AcctIndex != '1' && item.checked
-        });
-        if(checkedItem.length >= 1 || item.AcctIndex != '0') {
-          return this.showError(this.tr('a_10097'));
-        }
-      }
-      _contactList[i].checked = true;
-      _contactList.unshift(_contactList.splice(i,1)[0]);
-    } else {
-      delete _contactList[i].checked
-    }
-    this.setState({
-      contactList: _contactList,
-      contactFilter: ''
-    });
-  }
-  showError = (msg) => {
-    this.setState({
-      errmsg: msg
-    })
-    let timer = setTimeout(() => {
-      clearTimeout(timer);
-      this.setState({
-        errmsg: ''
-      })
-    },1000);
-  }
-  hasExistIpvt = (linestatus) => {
-    let existIpvt = false;     
-    for (let i = 0; i < linestatus.length; i++) {
-      if(linestatus[i].acct == 1) {
-        existIpvt = true;
-        break;
-      }
-    }
-    return existIpvt;
-  }
-  handleFilter = (e) => {
-    let v = e.target.value;
-    this.setState({
-      contactFilter: v
-    });
-  }
-  handleBjPassword = (e) => {
-    this.setState({
-      bjPassword: e.target.value
-    })
-  }
-  addNewContacts = (v) => {
-    const {maxlinecount, linestatus} = this.props;
-    const itemAcc = parseInt(this.state.activeAcc);
-    let newContact = {
-      AcctIndex: this.state.activeAcc,
-      Name: v,
-      ContactName: v,
-      Number: v,
-      checked: true
-    }
-
-    let _contactList = this.state.contactList.slice();
-    let existIpvt = this.hasExistIpvt(linestatus);  // 线路中是否存在ipvt
-    if(!existIpvt && this.props.msfurole  < 1) {
-      let allow = maxlinecount - linestatus.length;   // 非IPVT 最大允许个数 
-      let checkedItem = _contactList.filter(item => {
-        return item.AcctIndex != '1' && item.checked
-      });
-      if(checkedItem.length >= allow) {
+    const { getAcctStatus, defaultAcct } = this.props
+    // 激活的账号列表获取
+    getAcctStatus((acctstatus) => {
+      if (!this.isEmptyObject(acctstatus)) {
         this.setState({
-          contactFilter: ''
+          acctStatus: parseAcctStatus(acctstatus)
         })
-        return this.showError(this.tr('a_10097'));
       }
-    };
-    if(this.props.msfurole == 2) {
-      let checkedItem = _contactList.filter(item => {
-        return item.AcctIndex != '1' && item.checked
-      });
-      if(checkedItem.length >= 1 || item.AcctIndex != '0') {
-        this.showError(this.tr('a_10097'));
-      }
-    }
-    _contactList.unshift(newContact)
+    })
     this.setState({
-      contactList: _contactList,
-      contactFilter: ''
+      selectAcct: defaultAcct
     })
   }
   
-  handleSubmit = () => {
-    /**
-     * 提交参数: numbers, accounts, confid, callmode, isvideo, isquickstart, pingcode, isdialplan, confname
-     */
-    let _numbers_, _accounts_, _confid_, _callmode_, _isvideo_, _isquickstart_, _pingcode_, _isdialplan_, _confname_;
-    let {contactFilter, callmode, mediaType, acctstatus, bjPassword, activeAcc} = this.state
-    let checkedContacts = this.state.contactList.filter(item => item.checked);
+  // 选择拨打账号
+  handleSelectAcct(item) {
+    this.setState({
+      selectAcct: item,
+      memToCall: []
+    })
+  }
 
-     // 如果是sfu会议 对接sfu邀请接口
-     if(this.props.msfurole == 2) {
-      this.props.invitesfumember(checkedContacts[0].Number);
-      this.props.onHide();
-      return;
-    }
-
-
-    // 将输入框中的值插入数组
-    if(contactFilter.length > 0) {
-      let tempValue = contactFilter
-      // 如果是bluejeans帐号
-      if(activeAcc == '2' && bjPassword.length > 0) {
-        tempValue += '.' + bjPassword
+  // 添加拨打成员
+  handleChangeMemToCall = (mems) => {
+    const { selectAcct } = this.state
+    let memToCall = mems.map((number) => {
+      return {
+        num: number,
+        acct: selectAcct,
+        isvideo: 1,
+        isconf: 1,
+        source: 2,
+        name: number
       }
-      checkedContacts.unshift({
-        AcctIndex: this.state.activeAcc,
-        Name: tempValue,
-        ContactName: tempValue,
-        Number: tempValue,
-        checked: true
-      })
-    }
-    if(checkedContacts.length == 0) {
-      this.showError(this.tr('a_16436'));
-    }
-    let disconfstate = this.props.callFeatureInfo.disconfstate;
-    if(disconfstate == '1'){
-      if(checkedContacts.length > 1) {
-        this.showError(this.tr('a_16659'));
-        return false;
-      }
-      this.props.cb_start_single_call(acctstatus, checkedContacts[0].Number, checkedContacts[0].AcctIndex,0,"");
-      this.props.onHide();
-      return false;
-    }
+    })
+    this.setState({
+      memToCall:memToCall
+    })
+  }
 
-    _numbers_ = checkedContacts.map(item => item.Number).join(':::');   // 添加的成员号码
-    _accounts_ = checkedContacts.map(item => item.AcctIndex).join(':::'); // 添加的帐号类型
-    _isdialplan_ = checkedContacts.map(item => '0').join(':::');
-    _callmode_ = callmode;
-    _isvideo_ = mediaType;
-    _isquickstart_ = 0;
-    _confid_ = '';
-    _confname_ = '';
-    _pingcode_ = '';
-    this.props.cb_start_addmemberconf(acctstatus,  _numbers_, _accounts_, _callmode_, _confid_, _isdialplan_, _confname_, _isvideo_, _isquickstart_, _pingcode_);
-    this.props.onHide();
+  handleAddMemFromList = (record) => {
+    let { memToCall } = this.state
+    let _memToCall = memToCall.slice()
+    _memToCall = this.pushMemToCall(_memToCall, record)
+    this.setState({
+      memToCall: _memToCall
+    })
+  }
+  // push _memToCall 添加 去重等操作
+  pushMemToCall(_memToCall, item) {
+    const {number, acct, isvideo, source, name} = item
+    // 去重 相同的号码
+    _memToCall = _memToCall.filter(mem => mem.num != number)
+    _memToCall.push({
+      num: number,
+      acct: acct,
+      isvideo: isvideo,
+      source: source,
+      isconf: 1,
+      name: name
+    })
+    return _memToCall
+  }
+  // 切换tab
+  selectTab = (i) => {
+    this.setState({
+      activeTab: i
+    })
   }
   render() {
-    const { visible, onHide } = this.props;
-    const { activeAcc, callmode, mediaType, contactList, acctstatus, errmsg, isBjAccount, contactFilter, bjPassword } = this.state;
-    if (contactList.length == 0) {
-      return null
-    }
+    const { visible, onHide } = this.props
+    const { memToCall, acctStatus, selectAcct, activeTab } = this.state
+    if( !acctStatus ) return null;
     return (
       <Modal
-        width="900"
+        width={1000}
         style={this.modalStyle}
         className="invite-modal"
         visible={visible}
@@ -323,66 +134,41 @@ class InviteMemberModal extends Component {
         okText={this.tr('a_23')}
         onOk={() => this.handleSubmit()}
       >
-        <div style={{ height: '612px' }}>
-          <div className="invite-filter">
-            <Select value={activeAcc} style={{ width: 200 }} onSelect={this.toogleAcc}>
+        <div style={{ height: '570px' }}>
+          <Tabs onChange={(i) => this.selectTab(i)}>
+            <TabPane tab="本地通讯录" key="1"></TabPane>
+            <TabPane tab="通话记录" key="2"></TabPane>
+            <TabPane tab="企业通讯录" key="3"></TabPane>
+          </Tabs>
+          <div className="input-area">
+            <TagsInput 
+              value={memToCall.map(v => v.name)} 
+              onChange={this.handleChangeMemToCall} 
+              addKeys={[13, 188]} 
+              onlyUnique={true} 
+              addOnBlur={true} 
+              inputProps={{placeholder: ''}}
+            />
+            <Select className="acct-select" size="large" value={selectAcct} onChange={item => this.handleSelectAcct(item)}>
               {
-                acctstatus.map((item) => {
-                  return item.activate == '1' ? <Option value={item.name != 'H.323' ? String(item.acctindex) : '8'} key={item.acctindex}>{item.name}</Option> : null
+                acctStatus.map((v, i) => {
+                  if(!v.activate) return null
+                  
+                  return (
+                    <Option key={i} value={v.acctindex} disabled={!v.register}>{v.name}</Option>
+                  )
                 })
               }
             </Select>
-            &nbsp;&nbsp;&nbsp;
-            <Select value={callmode} style={{ width: 120 }} onSelect={(v) => this.setState({ callmode: v })}>
-              <Option value="call" key="0">{this.tr('a_504')}</Option>
-              {/* <Option value="paging" key="1">Paging</Option> */}
-              <Option value="ipcall" key="2">{this.tr('a_506')}</Option>
-            </Select>
-            &nbsp;&nbsp;&nbsp;
-            <Select value={mediaType} style={{ width: 120 }} onSelect={(v) => this.setState({ mediaType: v })}>
-              <Option value="1" key="1">{this.tr("a_10016")}</Option>
-              <Option value="0" key="0">{this.tr("a_10017")}</Option>
-            </Select>
           </div>
-          <br />
-          <div className="invite-input">
-            {
-              isBjAccount ? 
-              <div >
-                <Input placeholder={this.tr('a_549')} value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '220px', marginRight: '20px'}}/> 
-                <Input placeholder={this.tr('a_595')} value={bjPassword} onChange = {(e) => this.handleBjPassword(e)} style={{width: '220px'}}/>
-              </div> 
-              : < Input placeholder={this.tr('a_549')} value={contactFilter} onChange={(e) => this.handleFilter(e)} style={{width: '460px'}} />
-            }
-          </div>
-          <div className="error-tips">
-            {errmsg}
-          </div>
-          <ul className="invite-list">
-            {
-              contactList.map((item, i) => {
-                let Name = (item.ContactName && item.ContactName != '') ? item.ContactName : item.Name;
-                let IconType = item.Type ? this.iconType[item.Type] : 'contact';
-                if(contactFilter.length > 0) {
-                  if(Name.indexOf(contactFilter) == -1 && item.Number.indexOf(contactFilter) == -1) {
-                    return null;
-                  }
-                }
-                return (
-                  <li key={i}>
-                    <Checkbox checked={item.checked} onChange={() => this.selectContact(item, i)}/> <span className={`${IconType}-icon`}></span> <strong>{Name}</strong> <em>{item.Number}</em>
-                  </li>
-                )
-              })
-            }
-            {
-              contactFilter.length > 0 && /^[0-9].*$/ig.test(contactFilter) ? 
-              <li>
-                <Checkbox onChange={() => this.addNewContacts(contactFilter)} /> <span className="contact-icon"></span> <strong>{contactFilter}</strong> <em>{contactFilter}</em>
-              </li> :
-              null
-            }
-          </ul>
+          {
+            activeTab == '1' ? 
+            <ContactsTab onAdd={(item) => this.handleAddMemFromList(item)} /> 
+            : activeTab == '2' ? 
+            <CallLogsTab onAdd={(item) => this.handleAddMemFromList(item)} /> 
+            : 
+            <EpContactsBookTab onAdd={(item) => this.handleAddMemFromList(item)} />
+          }
         </div>
       </Modal>
     )
@@ -394,21 +180,12 @@ class InviteMemberModal extends Component {
 
 const mapState = (state) => {
   return {
-    msgsContacts: state.msgsContacts,
-    maxlinecount: state.maxlinecount, // 最大连接数
-    callFeatureInfo: state.callFeatureInfo,
-    msfurole: state.msfurole
+    defaultAcct: state.defaultAcct
   }
 }
 const mapDispatch = (dispatch) => {
   let actions = {
-    promptMsg: promptMsg,
-    getContacts: getContacts,
-    promptSpinMsg: promptSpinMsg,
-    getAcctStatus: getAcctStatus,
-    cb_start_addmemberconf: cb_start_addmemberconf,
-    cb_start_single_call: cb_start_single_call,
-    invitesfumember: invitesfumember
+    getAcctStatus: Actions.getAcctStatus
   }
   return bindActionCreators(actions, dispatch)
 }

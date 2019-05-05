@@ -1,0 +1,65 @@
+.input-area {
+  
+  .react-tagsinput {
+    width: 800px;
+    display: inline-block;
+    height: 44px;
+    overflow: auto;
+  }
+
+  .acct-select {
+    width: 150px;
+    display: inline-block;
+    height: 44px;
+    line-height: 44px;
+    vertical-align: top;
+    margin-left: 16px;
+    .ant-select-selection--single {
+      line-height: 44px;
+      height: 44px;
+    }
+    .ant-select-selection__rendered {
+      line-height: 44px;
+      height: 44px;
+    }
+  }
+}
+
+.tab-content {
+  height:460px;
+  overflow: auto;
+}
+
+/**
+本地通讯录
+**/
+.contacts-table {
+  // .ant-table-row-level-0 {
+  //   // cursor: pointer;
+  // }
+  .active {
+    background: #f0f4ff;
+  }
+  td {
+    padding: 10px 8px !important;
+  }
+  .operate-btns {
+    text-align: right;
+    .add-btn, .call-btn {
+      display: inline-block;
+      height: 30px;
+      width: 30px;
+      background: url(/img/call_status_icons.png) no-repeat;
+      margin-right: 10px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+    .add-btn {
+      background-position: 0 0 ;
+    }
+    .call-btn {
+      background-position: -60px 0;
+    }
+  }
+}
+
