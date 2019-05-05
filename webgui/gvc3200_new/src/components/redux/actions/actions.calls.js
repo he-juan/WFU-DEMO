@@ -12,33 +12,13 @@ const promptForRequestFailed = () => (dispatch) => {
 
 // 新接口 获取联系人
 export const getContacts2 = () => (dispatch) => {
-
-    dispatch({type: 'SET_CONTACTS', contacts: [
-        {
-            id: 1,
-            name: { displayname: '张三' },
-            phone: [
-                {"acct": 0, "number": "35462" },
-                {"acct": 1, "number": "35463" }
-            ]
-        },
-        {
-            id: 2,
-            name: { displayname: '李四' },
-            phone: [
-                {"acct": 0, "number": "12345" },
-                {"acct": 1, "number": "67890" }
-            ]
-        },
-        {
-            id: 3,
-            name: { displayname: '王五' },
-            phone: [
-                {"acct": 0, "number": "1620" },
-                {"acct": 1, "number": "1620" }
-            ]
-        }
-    ]})
+    let request = 'action=getcontacts'
+    actionUtil.handleGetRequest(request).then(function(m) {
+        let contacts = JSON.parse(m).data.contacts
+        dispatch({type: 'SET_CONTACTS', contacts:contacts})
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
 }
 
 // 新接口 获取通话记录
