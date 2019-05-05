@@ -1,20 +1,20 @@
 import * as Actions from '../actions/actionType'
 
 
-export const contacts2 = (state = [], action) => {
+export const contactsNew = (state = [], action) => {
     switch (action.type) {
         case Actions.SET_CONTACTS:
-            return action.contacts;
+            return action.contactsNew;
         default: 
             return state
     }
 }
 
 
-export const callLogs2 = (state = [], action) => {
+export const callLogsNew = (state = [], action) => {
     switch (action.type) {
         case Actions.SET_CALLLOGS:
-            return action.callLogs;
+            return action.callLogsNew;
         default:
             return state
     }

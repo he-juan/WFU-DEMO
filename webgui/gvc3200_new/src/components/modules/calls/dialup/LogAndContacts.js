@@ -65,12 +65,12 @@ class LogAndContacts extends Component {
     }
   }
   componentDidMount = () => {
-    const { contacts2, callLogs2 } = this.props
-    this.parseDataSource(contacts2, callLogs2)
+    const { contactsNew, callLogsNew } = this.props
+    this.parseDataSource(contactsNew, callLogsNew)
   }
-  parseDataSource = (contacts2, callLogs2) => {
-    const dataContacts = this.parseContacts(contacts2)
-    const dataCallLogs = this.parseCallLogs(callLogs2)
+  parseDataSource = (contactsNew, callLogsNew) => {
+    const dataContacts = this.parseContacts(contactsNew)
+    const dataCallLogs = this.parseCallLogs(callLogsNew)
     this.setState({
       dataSource: [...dataCallLogs, ...dataContacts]
     })
@@ -267,8 +267,8 @@ class LogAndContacts extends Component {
 }
 
 const mapState = (state) => ({
-  contacts2: state.contacts2,
-  callLogs2: state.callLogs2
+  contactsNew: state.contactsNew,
+  callLogsNew: state.callLogsNew
 })
 
 const mapDispatch = (dispatch) => {

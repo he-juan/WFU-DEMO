@@ -68,8 +68,8 @@ class Main extends React.Component {
         let _this = this;
         document.addEventListener('keypress', _this.enterSaveHandler, false)
         this.props.getDefaultAcct()
-        this.props.getContacts2()
-        this.props.getCallLogs2()
+        this.props.getContactsNew()
+        this.props.getCallLogsNew()
         /*get dial line status to init the call page*/
         this.props.getAllLineStatus((result)=>{
             if(result.length > 0){
@@ -219,8 +219,8 @@ const mapDispatchToProps = (dispatch) => {
         getcmrnameandnumber: Actions.getcmrnameandnumber,
         setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
         getDefaultAcct: Actions.getDefaultAcct,
-        getContacts2: Actions.getContacts2,
-        getCallLogs2: Actions.getCallLogs2
+        getContactsNew: Actions.getContactsNew,
+        getCallLogsNew: Actions.getCallLogsNew
     }
     return bindActionCreators(actions, dispatch)
 }

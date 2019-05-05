@@ -11,19 +11,19 @@ const promptForRequestFailed = () => (dispatch) => {
 
 
 // 新接口 获取联系人
-export const getContacts2 = () => (dispatch) => {
+export const getContactsNew = () => (dispatch) => {
     let request = 'action=getcontacts'
     actionUtil.handleGetRequest(request).then(function(m) {
-        let contacts = JSON.parse(m).data.contacts
-        dispatch({type: 'SET_CONTACTS', contacts:contacts})
+        let contactsNew = JSON.parse(m).data.contacts
+        dispatch({type: 'SET_CONTACTS', contactsNew:contactsNew})
     }).catch(function(error) {
         promptForRequestFailed();
     });
 }
 
 // 新接口 获取通话记录
-export const getCallLogs2 = () => (dispatch) => {
-    dispatch({type: 'SET_CALLLOGS', callLogs: [
+export const getCallLogsNew = () => (dispatch) => {
+    dispatch({type: 'SET_CALLLOGS', callLogsNew: [
         {
             "isconf": "1",
             "confid": "1",

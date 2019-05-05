@@ -26,8 +26,8 @@ class ContactsTab extends Component {
     }
   }
   componentDidMount () {
-    const { contacts2 } = this.props
-    const dataContacts = this.parseContacts(contacts2)
+    const { contactsNew } = this.props
+    const dataContacts = this.parseContacts(contactsNew)
     this.setState({
       dataSource: [...dataContacts]
     })
@@ -107,7 +107,7 @@ class ContactsTab extends Component {
 
 const mapState = (state) => {
   return {
-    contacts2: state.contacts2
+    contactsNew: state.contactsNew
   }
 }
 const mapDispatch = (dispatch) => {
