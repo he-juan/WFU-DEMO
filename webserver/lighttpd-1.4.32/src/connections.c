@@ -978,6 +978,12 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
 
 
 /**
+ * 
+ *   Below are new APIs for contacts / calllogs
+ * 
+ * /
+
+/**
  * @Author: cchma
  * @Date: 2019-03-12
  * @LastEditors: cchma
@@ -1156,7 +1162,7 @@ static cJSON *get_contact_info_group(sqlite3 *db, char *contact_id) {
 
     char *sqlstr = (char*)malloc(256);
     memset(sqlstr, 0, 256);
-    snprintf(sqlstr, 256, "select data1 as groupid from data where raw_contact_id=%s and mimetype_id=11;", contact_id);
+    snprintf(sqlstr, 256, "select data.data1, groups.title from data left join groups on data.data1=groups._id where data.raw_contact_id=%s and data.mimetype_id=11;", contact_id);
 
     rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
     if (rc) {
@@ -1167,6 +1173,7 @@ static cJSON *get_contact_info_group(sqlite3 *db, char *contact_id) {
             cJSON *groupObj = cJSON_CreateObject();
 
             char *groupid = (char*)sqlite3_column_text(stmt, 0);    // groupid
+            char *groupname = (char*)sqlite3_column_text(stmt, 1);    // groupname
     
             if (NULL != groupid) {
                 cJSON_AddStringToObject(groupObj, "id", groupid);
@@ -1174,7 +1181,11 @@ static cJSON *get_contact_info_group(sqlite3 *db, char *contact_id) {
                 cJSON_AddStringToObject(groupObj, "id", "");
             }
 
-            cJSON_AddStringToObject(groupObj, "name", "");
+            if (NULL != groupname) {
+                cJSON_AddStringToObject(groupObj, "name", groupname);
+            } else {
+                cJSON_AddStringToObject(groupObj, "name", "");
+            }
 
             cJSON_AddItemToArray(resObj, groupObj);
         }
@@ -1536,7 +1547,8 @@ static int get_conatcts_list(buffer *b) {
     sqlite3 *db;
     int rc;
     sqlite3_stmt *stmt;
-    char *sqlstr = "select name_raw_contact_id as id, custom_ringtone as ringtone from contacts;";
+    // x_times_contacted字段表示联系人联系次数, x_times_contacted大于0的且排在前limit(默认为6)个的为常用联系人
+    char *sqlstr = "select contacts.name_raw_contact_id as id, contacts.custom_ringtone as ringtone, (CASE WHEN raw_contacts.contact_id IN (SELECT raw_contacts.contact_id FROM raw_contacts WHERE raw_contacts.x_times_contacted <> 0 ORDER BY raw_contacts.x_times_contacted DESC LIMIT 6) THEN raw_contacts.x_times_contacted ELSE -1 END) AS gs_contact_times, raw_contacts.phonebook_bucket as phonebook_bucket, raw_contacts.sort_key_t9 as sort_key_t9, raw_contacts.display_name as contact_display_name from contacts left join raw_contacts on contacts.name_raw_contact_id=raw_contacts._id order by gs_contact_times DESC, phonebook_bucket,sort_key_t9,contact_display_name;";
 
     rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/contacts2.db", &db);
     if (rc) {
@@ -1565,6 +1577,7 @@ static int get_conatcts_list(buffer *b) {
 
         char *id = (char*)sqlite3_column_text(stmt, 0);    // id
         char *ringtone = (char*)sqlite3_column_text(stmt, 1);   // ringtone
+        char *times = (char*)sqlite3_column_text(stmt, 2);  // times
 
         LOGD("id: %s -- ringtong: %s", id, ringtone);
 
@@ -1580,6 +1593,12 @@ static int get_conatcts_list(buffer *b) {
             cJSON_AddStringToObject(contactObj, "ringtone", "");
         }
         
+        if (NULL != times && atoi(times) > 0) {
+            cJSON_AddStringToObject(contactObj, "isfavourite", "1"); 
+        } else {
+            cJSON_AddStringToObject(contactObj, "isfavourite", "0"); 
+        }
+
         cJSON *nameObj = get_contact_info_name(db, id);     // name
         cJSON_AddItemToObject(contactObj, "name", nameObj);
 
@@ -1647,7 +1666,7 @@ static int get_conatcts_list(buffer *b) {
         } else {
             cJSON_AddStringToObject(contactObj, "title", ""); 
         }
-
+        
         cJSON_AddItemToArray(contactArray, contactObj);
     }
 
@@ -1659,6 +1678,343 @@ static int get_conatcts_list(buffer *b) {
     
     return 0;
 }
+
+
+/**
+ * @Author: cchma
+ * @Date: 2019-05-05
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-05-05
+ * @description: 
+ * @param {confid} 会议的记录id, 根据会议 id 从 calls 表中获取对应的 conf members
+ * @return: [{"id":"1", "acct":"0", "name": "张三", "number": "35462", "calltype": "2", 
+ *           "date:":"1556416266047", "duration":"32", "isvideo": "1", "iscontact": "1"},
+ *          ...]
+ */
+static cJSON *get_conf_member(sqlite3 *db, char *confid) {
+    cJSON *resObj = cJSON_CreateArray();
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(256);
+    memset(sqlstr, 0, 256);
+    snprintf(sqlstr, 256, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where group_id=%s and is_conference=1 order by date desc", confid);
+
+    LOGD("querying members of conf: %s ......", confid);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            cJSON *callObj = cJSON_CreateObject();
+
+            char *id = (char*)sqlite3_column_text(stmt, 0);    // id
+            char *account = (char*)sqlite3_column_text(stmt, 1);   // account
+            char *name = (char*)sqlite3_column_text(stmt, 2);   // contact_cached_name
+            char *number = (char*)sqlite3_column_text(stmt, 3);  // number
+            char *type = (char*)sqlite3_column_text(stmt, 4);  // type
+            char *date = (char*)sqlite3_column_text(stmt, 5);  // date
+            char *duration = (char*)sqlite3_column_text(stmt, 6);  // duration
+            char *media_type = (char*)sqlite3_column_text(stmt, 7);  // media_type
+            int is_contact = 0;
+
+            cJSON_AddStringToObject(callObj, "id", id);
+
+            if (NULL != account) {
+                cJSON_AddStringToObject(callObj, "acct", account);
+            } else {
+                cJSON_AddStringToObject(callObj, "acct", "");
+            }
+
+            if (NULL != name) {
+                cJSON_AddStringToObject(callObj, "name", name);
+            } else {
+                cJSON_AddStringToObject(callObj, "name", "");
+            }
+
+            if (NULL != number) {
+                cJSON_AddStringToObject(callObj, "number", number);
+            } else {
+                cJSON_AddStringToObject(callObj, "number", "");
+            }
+
+            if (NULL != type) {
+                cJSON_AddStringToObject(callObj, "calltype", type);
+            } else {
+                cJSON_AddStringToObject(callObj, "calltype", "");
+            }
+
+            if (NULL != date) {
+                cJSON_AddStringToObject(callObj, "date", date);
+            } else {
+                cJSON_AddStringToObject(callObj, "date", "");
+            }
+
+            if (NULL != duration) {
+                cJSON_AddStringToObject(callObj, "duration", duration);
+            } else {
+                cJSON_AddStringToObject(callObj, "duration", "");
+            }
+
+            if (NULL != media_type) {
+                cJSON_AddStringToObject(callObj, "isvideo", media_type);
+            } else {
+                cJSON_AddStringToObject(callObj, "isvideo", "");
+            }
+
+            // The judgement may be not exact 
+            if (strcmp(name, number)) {
+                cJSON_AddStringToObject(callObj, "iscontact", "1");
+            } else {
+                cJSON_AddStringToObject(callObj, "iscontact", "0");
+            }
+
+            LOGD("conf member -- id: %s - acct: %s - name: %s - number: %s - calltype: %s - date: %s - duration: %s - isvideo: %s",
+                confid, account, name, number, type, date, duration, media_type);
+
+            cJSON_AddItemToArray(resObj, callObj);
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return resObj;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-05-05
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-05-05
+ * @description: 会议记录的会议名需要将各成员的名称或号码进行拼装
+ * @param {memberObj} 会议的 members 列表
+ * @return: “张三, 3510, 36962...”
+ */
+static char *create_conf_name(cJSON *memberObj) {
+    int count = cJSON_GetArraySize(memberObj);
+    char *confname = NULL;
+    char *newconfname = NULL;
+
+    for (int i = 0; i < count; i ++) {
+        cJSON *callObj = cJSON_GetArrayItem(memberObj, i);
+        char *name = cJSON_GetObjectItem(callObj, "name")->valuestring;
+
+        if (NULL == confname) {
+            confname = (char*)malloc(strlen(name) + 1);
+            memset(confname, 0, strlen(name) + 1);
+            snprintf(confname, strlen(name) + 1, "%s", name);
+        } else {
+            newconfname = realloc(confname, strlen(confname) + strlen(name) + 12);
+            if (NULL == newconfname) {
+                free(confname);
+                break;
+            } else {
+                confname = newconfname;
+                strcat(confname, ",");
+                strcat(confname, name);
+            }
+        }
+    }
+
+    LOGD("create conf name: %s", confname);
+
+    return confname;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-05-05
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-05-05
+ * @description: 获取所有通话记录的接口，包含会议记录和单路通话记录，已作过联系人匹配的处理，返回的数据前端能直接用
+ * @param {type} 
+ * @return: 
+ */
+static int get_calllog_list(buffer *b) {
+    cJSON *resObj = cJSON_CreateObject();
+    cJSON *callArray = cJSON_CreateArray();
+    sqlite3 *db;
+    int rc;
+    sqlite3_stmt *stmt;
+    char *sqlstr = "select _id, start_time, end_time, duration, is_schedule from conf_log order by start_time desc;";
+
+    rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/calllog.db", &db);
+    if (rc) {
+        printf("Can't open database: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        cJSON_AddItemToObject(resObj, "calllogs", callArray);
+        create_json_response(RES_SUCCESS, NULL, resObj, b);
+        return -1;
+    }
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        cJSON_AddItemToObject(resObj, "calllogs", callArray);
+        create_json_response(RES_SUCCESS, NULL, resObj, b);
+        return -1;
+    }
+
+    while(sqlite3_step(stmt) == SQLITE_ROW) {
+        char *id = (char*)sqlite3_column_text(stmt, 0);    // id
+        char *start = (char*)sqlite3_column_text(stmt, 1);   // start time
+        char *end = (char*)sqlite3_column_text(stmt, 2);   // end time
+        char *duration = (char*)sqlite3_column_text(stmt, 3);   // duration
+        char *is_schedule = (char*)sqlite3_column_text(stmt, 4);   // is schedule
+
+        LOGD("confid: %s -- start: %s -- end: %s -- duration: %s -- is_schedule: %s", id, start, end, duration, is_schedule);
+
+        if (NULL == id) {
+            continue;
+        }
+
+        cJSON *memberArrObj = get_conf_member(db, id);
+
+        int size = cJSON_GetArraySize(memberArrObj);
+
+        LOGD("conf members size: %d", size);
+
+        if (size > 1) {
+
+            LOGD("It's a conf log");
+
+            // It's a conf log
+            cJSON *confObj = cJSON_CreateObject();
+
+            cJSON_AddStringToObject(confObj, "isconf", "1");
+
+            // conf id
+            cJSON_AddStringToObject(confObj, "confid", id);
+
+            // conf name
+            char *confname = create_conf_name(memberArrObj);       
+            if (NULL != confname)  {
+                cJSON_AddStringToObject(confObj, "confname", confname);
+                free(confname);
+            } else {
+                cJSON_AddStringToObject(confObj, "confname", "");
+            }
+
+            // date
+            if (NULL != start) {
+                cJSON_AddStringToObject(confObj, "date", start);
+            } else {
+                cJSON_AddStringToObject(confObj, "date", "");
+            }
+
+            // duration
+            if (NULL != duration) {
+                cJSON_AddStringToObject(confObj, "duration", duration);
+            } else {
+                cJSON_AddStringToObject(confObj, "duration", "");
+            }
+
+            // memberlist
+            cJSON_AddItemToObject(confObj, "members", memberArrObj);
+
+            cJSON_AddItemToArray(callArray, confObj);
+
+            LOGD("append new conf: %s to the list done", id);
+        } else if (size == 1) {
+
+            LOGD("It's a single call log");
+
+            // It's a single call log
+            cJSON *callObj = cJSON_CreateObject();
+            cJSON *memberObj = cJSON_GetArrayItem(memberArrObj, 0);
+
+            // We need to replace the id to confid, which is needed when delete
+            cJSON_DeleteItemFromObject(memberObj, "id");
+            cJSON_AddStringToObject(memberObj, "id", id);
+
+            char *acct = cJSON_GetObjectItem(memberObj, "acct")->valuestring;
+            char *name = cJSON_GetObjectItem(memberObj, "name")->valuestring;
+            char *number = cJSON_GetObjectItem(memberObj, "number")->valuestring;
+
+            LOGD("checking the single calllog is needed to merged...");
+
+            // Call logs of same acct/number need to be merged, so need to do check first
+            int isMerged = 0;
+            int count = cJSON_GetArraySize(callArray);
+            for (int i = 0; i < count; i++) {
+                cJSON *item = cJSON_GetArrayItem(callArray, i);
+
+                if (!strcmp("0", cJSON_GetObjectItem(item, "isconf")->valuestring)
+                    && !strcmp(acct, cJSON_GetObjectItem(item, "acct")->valuestring)
+                    && !strcmp(number, cJSON_GetObjectItem(item, "number")->valuestring)) {
+                    
+                    cJSON *curList = cJSON_GetObjectItem(item, "list");
+
+                    cJSON_AddItemToArray(curList, memberObj);
+
+                    LOGD("find the same calllog, acct=%s, number=%s, merged!", acct, number);
+
+                    isMerged = 1;
+                    break;
+                }
+            }
+
+            if (0 == isMerged) {
+                // it's a separate log， push a new item into the array
+
+                cJSON_AddStringToObject(callObj, "isconf", "0");
+
+                if (NULL != acct) {
+                    cJSON_AddStringToObject(callObj, "acct", acct);
+                } else {
+                    cJSON_AddStringToObject(callObj, "acct", "");
+                }
+
+                if (NULL != name) {
+                    cJSON_AddStringToObject(callObj, "name", name);
+                } else {
+                    cJSON_AddStringToObject(callObj, "name", "");
+                }
+                
+                if (NULL != number) {
+                    cJSON_AddStringToObject(callObj, "number", number);
+                } else {
+                    cJSON_AddStringToObject(callObj, "number", "");
+                }
+
+                cJSON_AddItemToObject(callObj, "list", memberArrObj);
+
+                cJSON_AddItemToArray(callArray, callObj);
+
+                LOGD("not find exist calllog, now have appended to the calllogs list");
+            }
+        } else {
+            continue;
+        }
+    }
+
+    // get missed callogs, which is belong to single call log.
+
+    cJSON_AddItemToObject(resObj, "calllogs", callArray);
+    create_json_response(RES_SUCCESS, NULL, resObj, b);
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    
+    return 0;
+}
+
+
+/**
+ * 
+ *  New APIs end
+ * 
+ */
+
+
 
 int sqlite_handle_contact(buffer *b, const struct message *m, const char *type)
 {
@@ -23842,6 +24198,10 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
             boundary_length = strlen(boundary_ptr);
         }
 
+        /* file structure:  
+           [post header]--[boundary][file description]\r\n\r\n[file body]\r\n--[boundary]--\r\n
+        */
+
         /* there is content to send */
 		for (c = cq->first; c; c = cq->first) {
             int r = 0;
@@ -23972,16 +24332,24 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                                 else
                                 {
                                     char * dectet = NULL;
+
+                                    // changed by cchma, if the file is end with '-', the '-' will be cut off. 
+                                    /*
                                     dectet = end -1;
-                                    //end += strlen("\r\n");
 
                                 	while (((*dectet == '\r') && (*(dectet + 2) =='-'))
                                         || ((*dectet == '\n') && (*(dectet + 1) =='-'))
                                         || (*dectet == '-') )
-                                   {
+                                    {
                                         end--;
                                         dectet--;
-                                   }
+                                    }
+                                    */
+                                    dectet = end - 4;
+                                    if ((*dectet == '\r') && (*(dectet + 1) == '\n') 
+                                        && (*(dectet + 2) == '-') && (*(dectet + 3) == '-')) {
+                                        end -= 4;
+                                    }
                                 }
                             }
 
@@ -24080,8 +24448,9 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                                 else
                                 {
                                     char * dectet = NULL;
+
+                                    /*
                                     dectet = end -1;
-                                    //end += strlen("\r\n");
 
                                 	while (((*dectet == '\r') && (*(dectet + 2) =='-'))
                                         || ((*dectet == '\n') && (*(dectet + 1) =='-'))
@@ -24090,6 +24459,12 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                                         end--;
                                         dectet--;
                                    }
+                                   */
+                                    dectet = end - 4;
+                                    if ((*dectet == '\r') && (*(dectet + 1) == '\n') 
+                                        && (*(dectet + 2) == '-') && (*(dectet + 3) == '-')) {
+                                        end -= 4;
+                                    }
                                 }
                             }
                             length = end - start;
@@ -24658,6 +25033,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_methodcall_to_gmi(srv, con, b, m, "makeCall", params);
             } else if (!strcasecmp(action, "getcontacts")) {
                 get_conatcts_list(b);
+            } else if (!strcasecmp(action, "getcalllogs")) {
+                get_calllog_list(b);
 	        } else {
                 findcmd = 0;
             }
