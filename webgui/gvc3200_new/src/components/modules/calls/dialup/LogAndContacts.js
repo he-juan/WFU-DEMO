@@ -114,6 +114,7 @@ class LogAndContacts extends Component {
 
           name: item.name.displayname,
           number: phone.number, 
+          numberText: phone.number,
           acct: phone.acct,
           isvideo: 1,
           source: '1', // 联系人呼出source 为1
@@ -142,6 +143,7 @@ class LogAndContacts extends Component {
             i.col1 = parseAcct(m.acct)
             i.col2 = parseDate(m.date, 'YYYY M/D H:mm')
             i.source = mapToSource(m.calltype)
+            i.numberText = m.number
             return i
           })
         }
@@ -154,6 +156,7 @@ class LogAndContacts extends Component {
         r.col1 = parseAcct(m.acct)
         r.col2 = parseDate(m.date, 'YYYY M/D H:mm')
         r.source = mapToSource(m.calltype)
+        r.numberText = m.number
       }
       return r
     })
@@ -249,7 +252,14 @@ class LogAndContacts extends Component {
       let _dataSource = DATASOURCE
       if(filterTags.trim().length) {
         _dataSource = DATASOURCE.filter(item => {
-          return item.col0.indexOf(filterTags) >= 0 || item.number && item.number.indexOf(filterTags) >= 0
+          return item.col0.indexOf(filterTags) >= 0 || item.numberText && item.numberText.indexOf(filterTags) >= 0
+        }).map(item => {
+          let _item = JSON.parse(JSON.stringify(item))
+          _item.col0 = _item.col0.replace(filterTags, `<b>${filterTags}</b>`)
+          if(_item.numberText) {
+            _item.numberText = _item.numberText.replace(filterTags, `<b>${filterTags}</b>`)
+          }
+          return _item
         })
       }
       this.setState({
@@ -272,8 +282,8 @@ class LogAndContacts extends Component {
           return (
             <div className={`record-name ${record.number ? 'has-number' : ''}`}>
               <i className={getIconClass(record)}></i>
-              <strong>{text}</strong>
-              {record.number ? <em>({record.number})</em> : ''}
+              <strong dangerouslySetInnerHTML={{__html: text}}></strong>
+              {record.number ? <em dangerouslySetInnerHTML={{__html: `(${record.numberText})`}}></em> : ''}
             </div>
           )
         }

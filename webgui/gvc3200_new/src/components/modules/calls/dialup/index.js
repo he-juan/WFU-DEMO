@@ -55,7 +55,8 @@ class Dialup extends Component {
     let acctIndex = item.key
     this.setState({
       selectAcct: acctIndex,
-      memToCall: []
+      memToCall: [],
+      tagsInputValue: ''
     })
   }
   // 设置默认账号
@@ -68,23 +69,27 @@ class Dialup extends Component {
   }
   // 添加拨打成员, 只有输入逗号回车键才会触发
   handleChangeMemToCall = (mems) => {
-    const { selectAcct } = this.state
-    let memToCall = mems.map((number) => {
+    const { selectAcct, memToCall } = this.state
+
+    let _memToCall = mems.map((number) => {
+      // 已添加进memToCall的 直接从memToCall取, 不要去覆盖
+      let memAlready = memToCall.filter(item => item.name == number)[0] 
+      if(memAlready) return memAlready
       return {
         num: number,
         acct: selectAcct,
-        isvideo: 1,
-        isconf: 1,
-        source: 2,
+        isvideo: '1',
+        isconf: '1',
+        source: '2',
         name: number
       }
     })
-    let lastMem = memToCall.slice(-1)[0]
+    let lastMem = _memToCall.slice(-1)[0]
     if(lastMem && /\D/.test(lastMem.num)) {
       return false
     }
     this.setState({
-      memToCall:memToCall
+      memToCall:_memToCall
     })
   }
 
@@ -116,7 +121,7 @@ class Dialup extends Component {
       acct: acct,
       isvideo: isvideo,
       source: source,
-      isconf: 1,
+      isconf: '1',
       name: name
     })
     return _memToCall
@@ -125,9 +130,20 @@ class Dialup extends Component {
 
   // 呼出接口
   handleDialup = (isvideo) => {
-    const { memToCall, selectAcct } = this.state
+    const { memToCall, selectAcct, tagsInputValue } = this.state
+    let _memToCall = memToCall.slice()
+    // 如果有输入数字但未添加进成员, 拨打时push到成员里
+    if(tagsInputValue != '' && !/\D/.test(tagsInputValue)) {
+      _memToCall.push({
+        num: tagsInputValue,
+        acct: selectAcct,
+        isvideo: isvideo,
+        source: '2',
+        isconf: '1',
+      })
+    }
     // 快速会议
-    if(memToCall.length == 0 ) {
+    if(_memToCall.length == 0 ) {
       if (selectAcct == 1) {
         CallAPI.quickStartIPVConf()
       } 
@@ -135,17 +151,17 @@ class Dialup extends Component {
     }
     // bluejeans 处理
     if(selectAcct == 2) {
-      let numAry = memToCall[0].num.split('.')
+      let numAry = _memToCall[0].num.split('.')
       if(!numAry[0].trim().length || !numAry[0].trim().length) return false
     }
 
-    let _memToCall = memToCall.map(item => {
+    CallAPI.makeCall(_memToCall.map(item => {
       item.isvideo = isvideo
       return item
-    })
-    CallAPI.makeCall(_memToCall)
+    }))
     this.setState({
-      memToCall: []
+      memToCall: [],
+      tagsInputValue: ''
     })
   }
 
@@ -155,9 +171,9 @@ class Dialup extends Component {
     let _memToCall = memToCall
     if(!_memToCall.length) {
       _memToCall[0] = {
-        acct: 2,
-        isvideo: 1,
-        source: 2,
+        acct: '2',
+        isvideo: '1',
+        source: '2',
         num: '.'
       }
     }
