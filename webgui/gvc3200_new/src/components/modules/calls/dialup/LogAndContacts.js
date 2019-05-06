@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import CallAPI from './api'
 
+let timer, DATASOURCE
 
 // 格式化数据戳 昨天今天特殊处理
 const parseDate = (function () {
@@ -32,7 +33,9 @@ const parseAcct = (function () {
     "0": "SIP",
     "1": "IPVideoTalk",
     "2": "Bluejeans",
-    "8": "H.323"
+    "8": "H.323",
+    "-1": "默认账号",
+    "4": "默认账号"
   }
   return function(acct) {
     return acctMap[acct]
@@ -52,7 +55,28 @@ const mapToSource = (function(){
   }
 })()
 
-
+// 返回图标名 是否是会议, 单路(呼入,呼出,未接来电), 联系人
+const getIconClass = function(record) {
+  const {isconf, calltype, isvideo} = record
+  // 会议类型
+  if(isconf == '1') {
+    return 'icon-conf'
+  }
+  // 单路或成员
+  if(calltype) {
+    switch(calltype) {
+      case '1':
+        return isvideo ? 'icon-in-video' : 'icon-in-audio'
+      case '2':
+        return isvideo ? 'icon-out-video' : 'icon-out-audio'
+      case '3':
+        return isvideo ? 'icon-miss-video' : 'icon-miss-audio'
+    }
+  }
+  // 联系人
+  return 'icon-contacts'
+  
+}
 
 class LogAndContacts extends Component {
   constructor() {
@@ -61,7 +85,8 @@ class LogAndContacts extends Component {
     this.state = {
       dataSource: [],
       expandedKeys: '',
-      confMemSelectToCall: []
+      confMemSelectToCall: [],
+      curPage: 1
     }
   }
   componentDidMount = () => {
@@ -71,8 +96,9 @@ class LogAndContacts extends Component {
   parseDataSource = (contactsNew, callLogsNew) => {
     const dataContacts = this.parseContacts(contactsNew)
     const dataCallLogs = this.parseCallLogs(callLogsNew)
+    DATASOURCE = [...dataCallLogs, ...dataContacts]
     this.setState({
-      dataSource: [...dataCallLogs, ...dataContacts]
+      dataSource: DATASOURCE
     })
   }
   // 解析联系人
@@ -81,7 +107,7 @@ class LogAndContacts extends Component {
     contacts.forEach(item => {
       item.phone.forEach(phone => {
         let data = {
-          key: 'c' + item.id + phone.acct,
+          key: 'c-' + item.id + '-' + phone.acct,
           col0: item.name.displayname,
           col1: parseAcct(phone.acct),
           col2: phone.number,
@@ -90,7 +116,7 @@ class LogAndContacts extends Component {
           number: phone.number, 
           acct: phone.acct,
           isvideo: 1,
-          source: 1, // 联系人呼出source 为1
+          source: '1', // 联系人呼出source 为1
         }
         result.push(data)
       })
@@ -101,22 +127,33 @@ class LogAndContacts extends Component {
   parseCallLogs = (logs) => {
     let result = logs.map(log => {
       let r = {}
-      Object.assign(r, log)
-      r.key = 'l' + log.confid
-      r.col0 = log.confname  // 会议名称
-      r.col1 = ''
-      r.col2 = parseDate(log.date, 'YYYY M/D')
-      if(log.members) {
-        r.children = log.members.map(m => {
-          let i = {}
-          Object.assign(i, m)
-          i.key = `${r.key}-${m.id}`
-          i.col0 = m.name
-          i.col1 = parseAcct(m.acct)
-          i.col2 = parseDate(m.date, 'YYYY M/D H:mm')
-          i.source = mapToSource(m.calltype)
-          return i
-        })
+      if(log.isconf == '1') {   //如果是会议通话, 需要对members进行列举
+        Object.assign(r, log)
+        r.key = 'l-conf-' + log.confid
+        r.col0 = log.confname  // 会议名称
+        r.col1 = ''
+        r.col2 = parseDate(log.date, 'YYYY M/D')
+        if(log.members) {
+          r.children = log.members.map(m => {
+            let i = {}
+            Object.assign(i, m)
+            i.key = `${r.key}-${m.id}`
+            i.col0 = m.name
+            i.col1 = parseAcct(m.acct)
+            i.col2 = parseDate(m.date, 'YYYY M/D H:mm')
+            i.source = mapToSource(m.calltype)
+            return i
+          })
+        }
+      } else {     // 如果是单路通话 ,取list的第一个值
+        let m = log.list[0]
+        Object.assign(r, m)
+        r.isconf = '0'
+        r.key = 'l-sin-' + m.id
+        r.col0 = log.name
+        r.col1 = parseAcct(m.acct)
+        r.col2 = parseDate(m.date, 'YYYY M/D H:mm')
+        r.source = mapToSource(m.calltype)
       }
       return r
     })
@@ -192,14 +229,54 @@ class LogAndContacts extends Component {
     })
   }
 
+  handleTableScroll = (e) => {
+    if(timer) return false
+    const outerHeight = e.target.offsetHeight;
+    const scrollTop = e.target.scrollTop;
+    timer = setTimeout(() => {
+        timer = null
+        const innerHeight = this.refs.recordTable.offsetHeight;
+        if(innerHeight - outerHeight - scrollTop < 300) {
+            this.setState({
+                curPage: this.state.curPage + 1
+            })
+        }
+    }, 100)
+  }
+  componentWillReceiveProps(nextProps) {
+    if(this.props.filterTags != nextProps.filterTags) { // filterTags 过滤项
+      let filterTags = nextProps.filterTags
+      let _dataSource = DATASOURCE
+      if(filterTags.trim().length) {
+        _dataSource = DATASOURCE.filter(item => {
+          return item.col0.indexOf(filterTags) >= 0 || item.number && item.number.indexOf(filterTags) >= 0
+        })
+      }
+      this.setState({
+        dataSource: _dataSource,
+        curPage: 1
+      })
+    }
+  }
   render() {
-    const { confMemSelectToCall } = this.state
+    const { confMemSelectToCall,dataSource, expandedKeys, curPage } = this.state
+    const { mainHeight} = this.props  
+    let _dataSource = dataSource.slice(0, 25 * curPage)
     const _this = this
     const columns = [
       {
         key: 'col0',
         dataIndex: 'col0',
-        width: '35%'
+        width: '35%',
+        render(text, record, index) {
+          return (
+            <div className={`record-name ${record.number ? 'has-number' : ''}`}>
+              <i className={getIconClass(record)}></i>
+              <strong>{text}</strong>
+              {record.number ? <em>({record.number})</em> : ''}
+            </div>
+          )
+        }
       }, 
       {
         key: 'col1',
@@ -227,18 +304,21 @@ class LogAndContacts extends Component {
     ]
     
     return (
-      <div>
-        <Table
-          className="log-contacts"
-          columns={columns}
-          pagination={false}
-          dataSource={this.state.dataSource}
-          showHeader={false}
-          onRowClick={this.handleRowClick}
-          expandedRowKeys={[this.state.expandedKeys]}
-          expandIconColumnIndex={-1}
-          rowClassName={this.setRowClassName}
-        />
+      <div className="log-contacts-wrap" onScroll={(e) => this.handleTableScroll(e)} style={{maxHeight: mainHeight - 170}} >
+        <div ref="recordTable">
+          <Table
+            className="log-contacts"
+            columns={columns}
+            pagination={false}
+            dataSource={_dataSource}
+            showHeader={false}
+            onRowClick={this.handleRowClick}
+            expandedRowKeys={[expandedKeys]}
+            expandIconColumnIndex={-1}
+            rowClassName={this.setRowClassName}
+            
+          />
+        </div>
         <Modal 
           width={450} 
           className="modal-member" 
@@ -268,7 +348,9 @@ class LogAndContacts extends Component {
 
 const mapState = (state) => ({
   contactsNew: state.contactsNew,
-  callLogsNew: state.callLogsNew
+  callLogsNew: state.callLogsNew,
+  mainHeight: state.mainHeight,
+
 })
 
 const mapDispatch = (dispatch) => {

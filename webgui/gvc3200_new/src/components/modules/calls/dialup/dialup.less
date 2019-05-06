@@ -107,25 +107,104 @@
 }
 .dialup-record-list {
   border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   margin-top: 20px;
-  padding-top: 20px;
 }
 
 
+.log-contacts-wrap {
+  overflow-y: auto;
+}
 
 .log-contacts {
-  // .ant-table-row-level-0 {
-  //   // cursor: pointer;
-  // }
-  .active {
+  table {
+    border-top: none;
+    border-bottom: none;
+  }
+  .ant-table-tbody > tr > td {
+    padding: 8px 6px;
+  }
+
+  .record-name {
+    position: relative;
+    height: 40px;
+    padding-left: 40px;
+    i {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      left: 8px;
+      top: 8px;
+      background: url(/img/icon.png)  no-repeat;
+      &.icon-conf {
+        width: 32px;
+        height: 32px;
+        left: 4px;
+        top: 4px;
+        background-position: -641px -88px;
+      }
+      &.icon-in-video {
+        background-position: -459px -25px;
+      }
+      &.icon-in-audio {
+        background-position: -459px -25px;
+      }
+      &.icon-out-video {
+        background-position: -434px -25px;
+      }
+      &.icon-out-audio {
+        background-position: -434px -25px;
+      }
+      &.icon-miss-video {
+        
+        background-position: -558px -25px;
+      }
+      &.icon-miss-audio {
+        
+        background-position: -558px -25px;
+      } 
+      &.icon-contacts {
+        width: 32px;
+        height: 32px;
+        left: 4px;
+        top: 4px;
+        background-position: -165px -88px;
+      }
+    }
+    strong {
+      font-weight: normal;
+      color: #000;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      line-height: 40px;
+    }
+    &.has-number {
+      strong, em {
+        display: block;
+        line-height: 20px;
+      }
+      em {
+        font-size: 12px;
+        font-style: normal;
+      }
+    }
+  }
+
+  .ant-table-row-level-0.active {
     background: #f0f4ff;
   }
   .ant-table-row-level-1 {
     background: #f0f4ff;
     & > td {
-      padding: 10px 8px;
+      padding: 4px 6px;
       &:first-child {
-        text-indent: 40px;
+        .record-name {
+          padding-left: 80px;
+          i {
+            left: 44px;
+          }
+        }
       }
     }
   }

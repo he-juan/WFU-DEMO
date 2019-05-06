@@ -57,6 +57,10 @@ module.exports = {
         /*alias: {
             'jquery': path.resolve(ROOT_PATH, './js/jquery-2.2.1.min.js'),
         }*/
+        alias: {
+            'components': path.resolve(__dirname, './src/components'),
+            '@': path.resolve(__dirname, './src')
+        }
     },
     plugins: [
         new CopyWebpackPlugin([

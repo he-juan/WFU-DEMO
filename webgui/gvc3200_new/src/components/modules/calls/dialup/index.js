@@ -33,7 +33,8 @@ class Dialup extends Component {
     this.state = {
       acctStatus: null,  // 所有激活账号
       selectAcct: this.props.defaultAcct,     // 当前选中账号
-      memToCall: []      // 输入的待拨打成员号码
+      memToCall: [],      // 输入的待拨打成员号码
+      tagsInputValue: ''
     }
   }
   componentDidMount = () => {
@@ -65,7 +66,7 @@ class Dialup extends Component {
       })
     })
   }
-  // 添加拨打成员
+  // 添加拨打成员, 只有输入逗号回车键才会触发
   handleChangeMemToCall = (mems) => {
     const { selectAcct } = this.state
     let memToCall = mems.map((number) => {
@@ -78,6 +79,10 @@ class Dialup extends Component {
         name: number
       }
     })
+    let lastMem = memToCall.slice(-1)[0]
+    if(lastMem && /\D/.test(lastMem.num)) {
+      return false
+    }
     this.setState({
       memToCall:memToCall
     })
@@ -96,7 +101,8 @@ class Dialup extends Component {
     }
     
     this.setState({
-      memToCall: _memToCall
+      memToCall: _memToCall,
+      tagsInputValue: ''
     })
   }
 
@@ -164,9 +170,13 @@ class Dialup extends Component {
       memToCall: _memToCall
     })
   }
-
+  handleTagsInput = (v) => {
+    this.setState({
+      tagsInputValue: v
+    })
+  }
   render() {
-    const { acctStatus, selectAcct, memToCall } = this.state
+    const { acctStatus, selectAcct, memToCall, tagsInputValue } = this.state
     const { defaultAcct } = this.props
     if( !acctStatus ) return null;
     // 可选账号
@@ -197,11 +207,13 @@ class Dialup extends Component {
               onChange={this.handleChangeMemToCall} 
               addKeys={[13, 188]} 
               onlyUnique={true} 
-              addOnBlur={true} 
+              // addOnBlur={true} 
               inputProps={{placeholder: ''}}
+              inputValue={tagsInputValue}
+              onChangeInput={this.handleTagsInput}
               />
             {
-              memToCall.length > 0 
+              memToCall.length > 0 || tagsInputValue.length > 0
               ? null 
               :<span className="tagsinput-placeholder"> {selectAcct == 1 ? '输入号码或IP地址，多个可以用“,”分隔（如果为空，一键开启IPVT会议）' : '输入号码或IP地址，多个可以用“,”分隔'} </span>
             }
@@ -237,6 +249,7 @@ class Dialup extends Component {
           <div className="dialup-record-list">
             <LogContacts
               onAdd={(item) => this.handleAddMemFromList(item)}
+              filterTags={tagsInputValue}
             />
           </div>
         </div>
