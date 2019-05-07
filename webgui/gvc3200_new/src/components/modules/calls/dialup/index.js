@@ -33,7 +33,7 @@ class Dialup extends Component {
     super(props)
     this.state = {
       acctStatus: null,  // 所有激活账号
-      selectAcct: this.props.defaultAcct,     // 当前选中账号
+      selectAcct: this.props.defaultAcct || '0',     // 当前选中账号
       memToCall: [],      // 输入的待拨打成员号码
       tagsInputValue: '',
       bjMemToCall: [   // bluejeans 拨打成员
