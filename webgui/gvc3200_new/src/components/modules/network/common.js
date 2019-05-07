@@ -446,6 +446,8 @@ class Common extends Component {
                         rules: [ ],
                         initialValue: this.props.itemValues.useragent
                     })(<Input className="P-1541"/>)}
+
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <FormItem label={< span > {this.tr("a_19128")} < Tooltip title = {this.tips_tr("SIP User Agent")} > <Icon type="question-circle-o"/> </Tooltip></span>}>
                     {getFieldDecorator("sipuseragent", {

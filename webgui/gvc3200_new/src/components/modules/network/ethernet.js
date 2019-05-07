@@ -1090,6 +1090,8 @@ class Ethernet extends Component {
                         }],
                         initialValue: this.props.itemValues.layer2qospv
                     })(<Input disabled={this.state.inLldpvlanqos} min={0} max={7} className="P-87" />)}
+
+                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
                 <p className={"blocktitle"+" "+ IPv4Type}><s></s>IPv6</p>
                 <p className={"threetitle"+" "+ twovlanType}>IPv6</p>

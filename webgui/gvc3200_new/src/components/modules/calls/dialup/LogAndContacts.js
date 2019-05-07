@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import Enhance from "components/mixins/Enhance"
-import { Popover, Table, Modal, Checkbox, Button } from "antd"
+import { Popover, Table, Modal, Checkbox, Button, Tooltip } from "antd"
 import * as Actions from 'components/redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import CallAPI from './api'
 
 let timer, DATASOURCE
 
@@ -111,13 +110,13 @@ class LogAndContacts extends Component {
           col0: item.name.displayname,
           col1: parseAcct(phone.acct),
           col2: phone.number,
-
           name: item.name.displayname,
           number: phone.number, 
           numberText: phone.number,
           acct: phone.acct,
-          isvideo: 1,
+          isvideo: '1',
           source: '1', // 联系人呼出source 为1
+          contacts: '1' // 列表中联系人不需要在名称下显示号码, 这里标记做个区分
         }
         result.push(data)
       })
@@ -195,7 +194,7 @@ class LogAndContacts extends Component {
         source,
         isconf: "1"
       }]
-      CallAPI.makeCall(memToCall)
+      this.props.makeCall(memToCall)
     }
   }
   // 选择成员
@@ -226,7 +225,7 @@ class LogAndContacts extends Component {
         isconf: "1"
       }
     })
-    CallAPI.makeCall(memToCall)
+    this.props.makeCall(memToCall)
     this.setState({
       confMemSelectToCall: []
     })
@@ -234,12 +233,14 @@ class LogAndContacts extends Component {
 
   handleTableScroll = (e) => {
     if(timer) return false
+    const { curPage, dataSource } = this.state
     const outerHeight = e.target.offsetHeight;
     const scrollTop = e.target.scrollTop;
     timer = setTimeout(() => {
         timer = null
         const innerHeight = this.refs.recordTable.offsetHeight;
         if(innerHeight - outerHeight - scrollTop < 300) {
+            if(30 * curPage > dataSource.length) return
             this.setState({
                 curPage: this.state.curPage + 1
             })
@@ -271,7 +272,7 @@ class LogAndContacts extends Component {
   render() {
     const { confMemSelectToCall,dataSource, expandedKeys, curPage } = this.state
     const { mainHeight} = this.props  
-    let _dataSource = dataSource.slice(0, 25 * curPage)
+    let _dataSource = dataSource.slice(0, 30 * curPage)
     const _this = this
     const columns = [
       {
@@ -280,10 +281,10 @@ class LogAndContacts extends Component {
         width: '35%',
         render(text, record, index) {
           return (
-            <div className={`record-name ${record.number ? 'has-number' : ''}`}>
+            <div className={`record-name ${record.number && !record.contacts ? 'has-number' : ''}`}>
               <i className={getIconClass(record)}></i>
               <strong dangerouslySetInnerHTML={{__html: text}}></strong>
-              {record.number ? <em dangerouslySetInnerHTML={{__html: `(${record.numberText})`}}></em> : ''}
+              {record.number && !record.contacts ? <em dangerouslySetInnerHTML={{__html: `(${record.numberText})`}}></em> : ''}
             </div>
           )
         }
@@ -296,7 +297,10 @@ class LogAndContacts extends Component {
       {
         key: 'col2',
         dataIndex: 'col2',
-        width: '25%'
+        width: '25%',
+        render(text, record, index) {
+          return record.contacts ?  <span dangerouslySetInnerHTML={{__html: record.numberText}}></span>  : text
+        }
       },
       {
         key: 'col3',
@@ -305,8 +309,12 @@ class LogAndContacts extends Component {
         render(text, record, index){
           return (
             <div className="operate-btns">
-              <span className="add-btn" onClick={(e) => _this.handleAddRecord(record, e)}></span>
-              <span className="call-btn" onClick={(e) => _this.handleCallRecord(record, e)}></span>
+              <Tooltip  title="添加">
+                <span className="add-btn" onClick={(e) => _this.handleAddRecord(record, e)}></span>
+              </Tooltip>
+              <Tooltip  title="拨打">
+                <span className="call-btn" onClick={(e) => _this.handleCallRecord(record, e)}></span>
+              </Tooltip>
             </div>
           )
         }
@@ -365,7 +373,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => {
   var actions = {
-    
+    makeCall: Actions.makeCall
   }
 
   return bindActionCreators(actions, dispatch)

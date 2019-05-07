@@ -32,8 +32,25 @@ export const getCallLogsNew = () => (dispatch) => {
     })
 }
 
+// 新接口 统一的呼出接口
+export const makeCall = (memToCall) => (dispatch) => {
+    let request = 'action=makecall&members='+ JSON.stringify(memToCall)
+    actionUtil.handleGetRequest(request).then(function(m) {
+       
+    })
+}
 
 
+// 新接口 快速会议
+export const quickStartIPVConf = (isvideo) => (dispatch) => {
+    let request = 'action=quickStartIPVConf&region=confctrl&isvideo=' + isvideo;
+    request += "&time=" + new Date().getTime();
+
+    actionUtil.handleGetRequest(request).then(function(data){
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
 
 export const sendSingleCall = (num, acct, isvideo, isconf, source, callmode) => (dispatch) => {
     let request = 'action=originatecall&number=' + num + "&account=" + acct + "&isvideo=" + isvideo + "&isconf=" + isconf + "&source=" + source + "&callmode=" + callmode;
@@ -241,15 +258,6 @@ export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isq
     });
 }
 
-export const quickStartIPVConf = (isvideo) => (dispatch) => {
-    let request = 'action=quickStartIPVConf&region=confctrl&isvideo=' + isvideo;
-    request += "&time=" + new Date().getTime();
-
-    actionUtil.handleGetRequest(request).then(function(data){
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, confid, isdialplan, confname, isvideo, source, isquickstart, pingcode) => (dispatch) => {
     //check if all the lines are busy

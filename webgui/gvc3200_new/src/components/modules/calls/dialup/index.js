@@ -6,7 +6,6 @@ import * as Actions from 'components/redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import LogContacts from './LogAndContacts'
-import CallAPI from './api'
 import './dialup.less'
 
 function parseAcctStatus(acctstatus) {
@@ -25,7 +24,9 @@ function parseAcctStatus(acctstatus) {
   return result
 }
 
-
+function deepCopy(obj){
+  return JSON.parse(JSON.stringify(obj))
+}
 
 class Dialup extends Component {
   constructor(props){
@@ -34,7 +35,15 @@ class Dialup extends Component {
       acctStatus: null,  // 所有激活账号
       selectAcct: this.props.defaultAcct,     // 当前选中账号
       memToCall: [],      // 输入的待拨打成员号码
-      tagsInputValue: ''
+      tagsInputValue: '',
+      bjMemToCall: [   // bluejeans 拨打成员
+        {
+          acct: '2',
+          isvideo: '1',
+          source: '2',
+          num: '.'
+        }
+      ], 
     }
   }
   componentDidMount = () => {
@@ -55,7 +64,6 @@ class Dialup extends Component {
     let acctIndex = item.key
     this.setState({
       selectAcct: acctIndex,
-      memToCall: [],
       tagsInputValue: ''
     })
   }
@@ -70,7 +78,6 @@ class Dialup extends Component {
   // 添加拨打成员, 只有输入逗号回车键才会触发
   handleChangeMemToCall = (mems) => {
     const { selectAcct, memToCall } = this.state
-
     let _memToCall = mems.map((number) => {
       // 已添加进memToCall的 直接从memToCall取, 不要去覆盖
       let memAlready = memToCall.filter(item => item.name == number)[0] 
@@ -84,8 +91,9 @@ class Dialup extends Component {
         name: number
       }
     })
+    // 输入的非数字字符串无法添加
     let lastMem = _memToCall.slice(-1)[0]
-    if(lastMem && /\D/.test(lastMem.num)) {
+    if(lastMem && /\D/.test(lastMem.num) && lastMem.acct != '2') {
       return false
     }
     this.setState({
@@ -95,8 +103,9 @@ class Dialup extends Component {
 
   // 通过联系人通话记录列表添加成员
   handleAddMemFromList = (record) => {
-    let { memToCall } = this.state
-    let _memToCall = memToCall.slice()
+    let { memToCall, selectAcct } = this.state
+    if(selectAcct == 2) return
+    let _memToCall = deepCopy(memToCall)
     if(record.isconf == '1' && record.children) {
       record.children.forEach(i => {
         _memToCall = this.pushMemToCall(_memToCall, i)
@@ -130,8 +139,8 @@ class Dialup extends Component {
 
   // 呼出接口
   handleDialup = (isvideo) => {
-    const { memToCall, selectAcct, tagsInputValue } = this.state
-    let _memToCall = memToCall.slice()
+    const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
+    let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if(tagsInputValue != '' && !/\D/.test(tagsInputValue)) {
       _memToCall.push({
@@ -142,20 +151,24 @@ class Dialup extends Component {
         isconf: '1',
       })
     }
-    // 快速会议
+    
+    // bluejeans 处理
+    if(selectAcct == 2) {
+      let numAry = bjMemToCall[0].num.split('.')
+      if(!numAry[0].trim().length || !numAry[0].trim().length) return false
+      _memToCall = bjMemToCall
+    }
+
+    
     if(_memToCall.length == 0 ) {
-      if (selectAcct == 1) {
-        CallAPI.quickStartIPVConf()
+      // ipvt 快速会议
+      if (selectAcct == 1) { 
+        this.props.quickStartIPVConf(isvideo)
       } 
       return false
     }
-    // bluejeans 处理
-    if(selectAcct == 2) {
-      let numAry = _memToCall[0].num.split('.')
-      if(!numAry[0].trim().length || !numAry[0].trim().length) return false
-    }
 
-    CallAPI.makeCall(_memToCall.map(item => {
+    this.props.makeCall(_memToCall.map(item => {
       item.isvideo = isvideo
       return item
     }))
@@ -167,23 +180,16 @@ class Dialup extends Component {
 
   // bluejeans 账号处理
   handleBjMember = (content) => {
-    const { memToCall } = this.state
-    let _memToCall = memToCall
-    if(!_memToCall.length) {
-      _memToCall[0] = {
-        acct: '2',
-        isvideo: '1',
-        source: '2',
-        num: '.'
-      }
-    }
-    let numAry = _memToCall[0].num.split('.')
+    const { bjMemToCall } = this.state
+    let _bjMemToCall = deepCopy(bjMemToCall)
+    
+    let numAry = _bjMemToCall[0].num.split('.')
     numAry[0] = content.id ? content.id : numAry[0]
     numAry[1] = content.pw ? content.pw : numAry[1]
 
-    _memToCall[0].num = numAry.join('.')
+    _bjMemToCall[0].num = numAry.join('.')
     this.setState({
-      memToCall: _memToCall
+      bjMemToCall: _bjMemToCall
     })
   }
   handleTagsInput = (v) => {
@@ -224,7 +230,7 @@ class Dialup extends Component {
               addKeys={[13, 188]} 
               onlyUnique={true} 
               // addOnBlur={true} 
-              inputProps={{placeholder: ''}}
+              inputProps={{placeholder: '', maxLength: '23', style:{width: tagsInputValue.length * 10 }}}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
               />
@@ -283,6 +289,8 @@ const mapDispatch = (dispatch) => {
   var actions = {
       setDefaultAcct: Actions.set_defaultacct,
       getAcctStatus: Actions.getAcctStatus,
+      makeCall: Actions.makeCall,
+      quickStartIPVConf: Actions.quickStartIPVConf
 
   }
 

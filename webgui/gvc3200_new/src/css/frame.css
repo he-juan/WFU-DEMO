@@ -7606,6 +7606,7 @@ ol.mp_list li.mp_error {}
 
 .react-tagsinput-tag a::before {
     content: " ×";
+    color: #fff;
 }
 
 .react-tagsinput-input {
@@ -7619,5 +7620,5 @@ ol.mp_list li.mp_error {}
     margin-top: 1px;
     outline: none;
     padding: 5px;
-    width: 80px;
+    min-width: 80px;
 }
