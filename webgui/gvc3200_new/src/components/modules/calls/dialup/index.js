@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Enhance from "components/mixins/Enhance"
-import { Layout, Dropdown, Menu, Input, Button, Icon, Row, Col, Form, Popover, Table } from "antd"
+import { Layout, Dropdown, Menu, Input, Button, Icon } from "antd"
 import TagsInput from 'react-tagsinput'
 import * as Actions from 'components/redux/actions/index'
 import { bindActionCreators } from 'redux'

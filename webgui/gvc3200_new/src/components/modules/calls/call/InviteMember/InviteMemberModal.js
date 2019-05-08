@@ -167,7 +167,8 @@ class InviteMemberModal extends Component {
   // 切换tab
   selectTab = (i) => {
     this.setState({
-      activeTab: i
+      activeTab: i,
+      tagsInputValue: ''
     })
   }
 
@@ -294,11 +295,11 @@ class InviteMemberModal extends Component {
           </div>
           {
             activeTab == '1' ? 
-            <ContactsTab onAdd={(item) => this.handleAddMemFromList(item)} /> 
+            <ContactsTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} /> 
             : activeTab == '2' ? 
-            <CallLogsTab onAdd={(item) => this.handleAddMemFromList(item)} /> 
+            <CallLogsTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} /> 
             : 
-            <EpContactsBookTab onAdd={(item) => this.handleAddMemFromList(item)} />
+            <EpContactsBookTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} />
           }
         </div>
       </Modal>
