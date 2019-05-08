@@ -13,8 +13,11 @@
       width:100%;
       display: inline-block;
       height: 44px;
-      overflow: auto;
       z-index: 2;
+      // overflow-x: auto;
+      & > span {
+        white-space: nowrap;
+      }
     }
     .tagsinput-placeholder {
       position: absolute;
@@ -28,6 +31,35 @@
     .react-tagsinput--focused + .tagsinput-placeholder {
       display: none;
     }
+    .react-tagsinput-tag {
+      background: #fff;
+      color: #222;
+      padding: 5px 6px;
+      border-radius: 4px;
+      &.acct-0 {
+        border: 1px solid #799cee;
+      }
+      &.acct-1 {
+        border: 1px solid #4ed711;
+      }
+      &.acct-2 {
+        border: 1px solid #ffa650;
+      }
+      &.acct-8 {
+        border: 1px solid #95d1ff;
+      }
+      &.acct-unregister {
+        border: 1px solid #bac0ca;
+      }
+
+      .react-tagsinput-remove {
+        color: #222;
+        &::before {
+          color: #ccc;
+        }
+      }
+    }
+
   }
   .bj-inputs {
     padding-bottom: 4px;

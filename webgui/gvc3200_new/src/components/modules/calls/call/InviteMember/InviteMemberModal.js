@@ -205,6 +205,20 @@ class InviteMemberModal extends Component {
     })
     this.props.onHide()
   }
+
+  // 根据账号类型区分颜色
+  renderTag = (props) => {
+    let {tag, key, disabled, onRemove, classNameRemove, getTagDisplayValue, className, ...other} = props
+    const { memToCall } = this.state
+    return (
+      <span key={key} {...other} className={`${className} acct-${memToCall[key].acct}`} >
+        {getTagDisplayValue(tag)}
+        {!disabled &&
+          <a className={classNameRemove} onClick={(e) => onRemove(key)} />
+        }
+      </span>
+    )
+  }
   render() {
     const { visible, onHide } = this.props
     const { memToCall, acctStatus, selectAcct, activeTab, tagsInputValue } = this.state
@@ -225,6 +239,7 @@ class InviteMemberModal extends Component {
               inputProps={{placeholder: '', maxLength: '23', style:{width: tagsInputValue.length * 10 }}}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
+              renderTag={this.renderTag}
               />
             {
               memToCall.length > 0 || tagsInputValue.length > 0

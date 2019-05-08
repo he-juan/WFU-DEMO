@@ -197,6 +197,19 @@ class Dialup extends Component {
       tagsInputValue: v
     })
   }
+  // 根据账号类型区分颜色
+  renderTag = (props) => {
+    let {tag, key, disabled, onRemove, classNameRemove, getTagDisplayValue, className, ...other} = props
+    const { memToCall } = this.state
+    return (
+      <span key={key} {...other} className={`${className} acct-${memToCall[key].acct}`} >
+        {getTagDisplayValue(tag)}
+        {!disabled &&
+          <a className={classNameRemove} onClick={(e) => onRemove(key)} />
+        }
+      </span>
+    )
+  }
   render() {
     const { acctStatus, selectAcct, memToCall, tagsInputValue } = this.state
     const { defaultAcct } = this.props
@@ -209,7 +222,7 @@ class Dialup extends Component {
             if(!v.activate) return null;
             return (
               <Menu.Item key={v.acctindex} disabled={!v.register}>
-                <span>{v.name}</span>
+                <span><em className={`acct-icon acct-${v.acctindex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
                 <span>{v.num}</span>
                 <span>{!v.register ? '账号未注册' : defaultAcct == v.acctindex ? '默认账号' : <Button onClick={this.setDefaultAcct.bind(this, v.acctindex)}>设为默认账号</Button>}</span>
               </Menu.Item>
@@ -233,6 +246,7 @@ class Dialup extends Component {
               inputProps={{placeholder: '', maxLength: '23', style:{width: tagsInputValue.length * 10 }}}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
+              renderTag={this.renderTag}
               />
             {
               memToCall.length > 0 || tagsInputValue.length > 0
@@ -257,7 +271,7 @@ class Dialup extends Component {
             <div className="dialup-inputs">
               <Dropdown overlay={AcctMenu} trigger={['click']}>
                 <div className="selected-acct">
-                  <span>{acctStatus[selectAcct].name}</span> <span>{acctStatus[selectAcct].num}</span> <Icon type="down"/>
+                  <span><em className={`acct-icon acct-${selectAcct}`}></em> {acctStatus[selectAcct].name}</span> <span>{acctStatus[selectAcct].num}</span> <Icon type="down"/>
                 </div>
               </Dropdown>
               {InputArea}
