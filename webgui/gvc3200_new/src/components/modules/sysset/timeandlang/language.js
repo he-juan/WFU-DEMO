@@ -209,6 +209,7 @@ class LanguageForm extends Component {
         const props = {
             name: 'file',
             showUploadList: false,
+            accept: '.txt',
             action: '../upload?type=importlan',
             headers: {
                 authorization: 'authorization-text',
