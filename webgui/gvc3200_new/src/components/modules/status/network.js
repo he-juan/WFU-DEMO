@@ -147,13 +147,13 @@ class Network extends Component {
 
     componentDidMount() {
         this.props.getItemValues(req_items,(values) => {
-            if(values.vpnenable == "1"){
-                this.check_vpnip(values.vpnip);
-            }
+            
             this.check_proxy(values.proxy);
             this.check_twovlan(values);
         });
-        this.props.getNetworkStatus();
+        this.props.getNetworkStatus((values) => {
+            this.check_vpnip(values.vpn_ip);
+        });
     }
 
     render() {
@@ -173,7 +173,7 @@ class Network extends Component {
                             <span ref="nat-type">{ this.props.itemValues['nat-type'] }</span>
                         </FormItem>
                         <FormItem className = {this.state.vpnipdiv} label={<span>{"VPN IP"}</span>}>
-                            <span ref="vpnip">{ this.props.itemValues['vpnip'] }</span>
+                            <span ref="vpnip">{ networkStatus['vpn_ip'] }</span>
                         </FormItem>
                         <p className={"blocktitle"+" "+ this.state.voipset}><s></s>{this.tr("a_19658")}</p>
                         <p className={"blocktitle"+" " + this.state.voipsetipv4}><s></s>IPV4</p>

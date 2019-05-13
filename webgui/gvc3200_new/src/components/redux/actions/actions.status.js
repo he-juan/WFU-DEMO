@@ -27,7 +27,7 @@ export const getNetworkStatus = (cb) => (dispatch) => {
       let msgs = JSON.parse(data);
       dispatch({type: 'REQUEST_GET_NETWORK_STATUS', networkStatus: msgs})
       if(cb) {
-        cb()
+        cb(msgs)
       }
   }).catch(function(error) {
       promptForRequestFailed();
