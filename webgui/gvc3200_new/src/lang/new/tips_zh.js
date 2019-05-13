@@ -946,8 +946,12 @@ tip_item_zh.push (
 	 /*maintenance Open VPN*/
     new TipsDef("OpenVPN Enable", "开启OpenVPN®",
         "此项设置是否激活OpenVPN®功能,需要服务器支持。默认是关闭的。 注意: 用户如果需要使用OpenVPN功能，需要设置OpenVPN相关的所有配置，包括服务器地址，端口，OpenVPN®证书，客户证书，客户密码。 另外，通过帐号设置->网络设置，选择NAT类型为VPN。"),
+    new TipsDef("OpenVPN Type", "OpenVPN模式",
+    " 简约模式仅支持一些基本或通用参数配置; 专业模式支持配置文件上传，完全按需定制，请参考https://openvpn.net获取更多信息。"),
+    new TipsDef("OpenVPN Upload", "上传OpenVPN配置",
+    "将配置文件从当前电脑端上传到话机。"),
     new TipsDef("Lzo-Compression Enable", "开启OpenVPN®压缩算法",
-        "此项用于设置是否开启LZO压缩算法。当服务器端开启LZO Compression，话机端必须同时开启此配置，否则会导致网络连接失败。"),
+    "此项用于设置是否开启LZO压缩算法。当服务器端开启LZO Compression，话机端必须同时开启此配置，否则会导致网络连接失败。"),
 	new TipsDef("OpenVPN Server Address", "OpenVPN®服务器地址",
 		"设置OpenVPN®服务器的URL/IP地址。"),
     new TipsDef("OpenVPN Port", "OpenVPN®端口",

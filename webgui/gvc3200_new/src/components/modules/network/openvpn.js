@@ -3,7 +3,7 @@ import * as Actions from '../../redux/actions/index'
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 import Enhance from "../../mixins/Enhance"
-import {Form, Layout, Tooltip, Icon, Input, Checkbox, Select, Button, Radio, Upload, message} from "antd"
+import {Form, Layout, Tooltip, Icon, Input, Checkbox, Select, Button, Radio, Upload, message, Modal} from "antd"
 import * as optionsFilter from "../../template/optionsFilter";
 const Content = Layout;
 const FormItem = Form.Item;
@@ -12,6 +12,7 @@ const RadioGroup = Radio.Group;
 const certPvalue = ["9902", "9903", "9904"];
 
 const req_items = [{"name":"vpnenable", "pvalue":"7050", "value":""},
+                    { "name": "vpntype", "pvalue": "openvpnmode", "value": "" },
                     {"name":"vpnlzoenable", "pvalue":"8508", "value":""},
                     {"name":"vpnserver", "pvalue":"7051", "value":""},
                     {"name":"vpnport", "pvalue":"7052", "value":""},
@@ -91,12 +92,65 @@ class OpenVPN extends Component {
         });
     }
 
+    beforeUploadhandle = (file, fileList) => {
+        return new Promise((resolve, reject) => {
+            let name = file.name;
+            let ext = name.slice(name.lastIndexOf(".") + 1)
+            if (!(ext && (/^(zip)$/.test(ext)))) {
+                Modal.info({
+                    content: <span dangerouslySetInnerHTML={{ __html: this.tr("uploadzipFile") }}></span>,
+                    okText: <span dangerouslySetInnerHTML={{ __html: this.tr("a_ok") }}></span>,
+                    onOk() {
+                    },
+                });
+                reject();
+            } else {
+                resolve()
+            }
+        })
+    }
+
     render(){
         const { getFieldDecorator } = this.props.form;
         const callTr = this.tr;
         const callTipsTr = this.tips_tr;
         const itemvalue = this.props.itemValues;
 
+        let self = this;
+        const propsA_upfirmfile = {
+            name: 'file',
+            showUploadList: false,
+            action: '/upload?type=openvpnfile',
+            headers: {
+                authorization: 'authorization-text'
+            },
+            onChange:(info)=> {
+                if (info.file.status !== 'uploading') {
+
+                }
+                if (info.file.status === 'done') {
+                    Modal.info({
+                        content: <span dangerouslySetInnerHTML={{ __html: self.tr("a_uploadsuc") }}></span>,
+                        okText: <span dangerouslySetInnerHTML={{ __html: self.tr('a_ok') }}></span>,
+                        onOk() {
+                        },
+                    });
+                    this.props.unzipopenvpnfile((data)=>{
+                        if(data.result=="2"){
+                            Modal.info({
+                                content: <span dangerouslySetInnerHTML={{ __html: this.tr("uploadzipFile") }}></span>,
+                                okText: <span dangerouslySetInnerHTML={{ __html: this.tr("a_ok") }}></span>,
+                                onOk() {
+                                },
+                            });
+                        }
+                    })
+                } else if (info.file.status === 'error') {
+
+                }
+            },
+            beforeUpload: self.beforeUploadhandle,
+        };
         let itemList =
             <Form hideRequiredMark className="configform" style={{minHeight: this.props.mainHeight}}>
 				<FormItem label={<span>{callTr("a_19265")}<Tooltip title={callTipsTr("OpenVPN Enable")}><Icon type="question-circle-o"/></Tooltip></span>}>
@@ -107,7 +161,31 @@ class OpenVPN extends Component {
                         <Checkbox className="P-7050"/>
                     )}
                 </FormItem>
-				<FormItem label={<span>{callTr("enable_openvpn_lzo")}<Tooltip title={callTipsTr("Lzo-Compression Enable")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem label={<span>{callTr("openvpn_type")}<Tooltip title={callTipsTr("OpenVPN Type")}><Icon type="question-circle-o" /></Tooltip></span>}>
+                    {getFieldDecorator("vpntype", {
+                        initialValue: itemvalue['vpntype'] ? itemvalue['vpntype'] : "0"
+                    })(
+                        <Select className="P-openvpnmode">
+                            <Option value="0">{this.tr("SimpleMode")}</Option>
+                            <Option value="1">{this.tr("ProfessionalMode")}</Option>
+                        </Select>
+                    )}
+                </FormItem>
+                <FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "1" ? "block" : "none" }} label={<span>{callTr("OpenVPNUpload")}<Tooltip title={callTipsTr("OpenVPN Upload")}><Icon type="question-circle-o" /></Tooltip></span>}>
+                    {getFieldDecorator('a_upfirmfile', {
+                        valuePropName: 'fileList',
+                    })(
+                        <div>
+                            <Upload {...propsA_upfirmfile}>
+                                <Button>
+                                    <Icon type="upload" /> {this.tr("uploadzipFile")}
+                                </Button>
+                            </Upload>
+                        </div>
+                    )}
+                    <Icon title={callTr("a_rebooteffect")} style={{left:'200px'}} className="rebooticon" type="exclamation-circle-o" />
+                </FormItem>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("enable_openvpn_lzo")}<Tooltip title={callTipsTr("Lzo-Compression Enable")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpnlzoenable", {
                         valuePropName: 'checked',
                         initialValue: parseInt(itemvalue['vpnlzoenable'] || "0")
@@ -115,7 +193,7 @@ class OpenVPN extends Component {
 						<Checkbox className="P-8508"/>
                     )}
 				</FormItem>
-				<FormItem label={<span>{callTr("a_19266")}<Tooltip title={callTipsTr("OpenVPN Server Address")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19266")}<Tooltip title={callTipsTr("OpenVPN Server Address")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpnserver", {
                         initialValue: itemvalue['vpnserver'],
 						rules: [{
@@ -127,7 +205,7 @@ class OpenVPN extends Component {
                         <Input className="P-7051" />
                     )}
                 </FormItem>
-				<FormItem label={<span>{callTr("a_19267")}<Tooltip title={callTipsTr("OpenVPN Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19267")}<Tooltip title={callTipsTr("OpenVPN Port")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpnport", {
                         initialValue: itemvalue['vpnport'],
 						rules: [{
@@ -143,7 +221,7 @@ class OpenVPN extends Component {
                         <Input className="P-7052" />
                     )}
                 </FormItem>
-				<FormItem label={<span>{callTr("a_19268")}<Tooltip title={callTipsTr("OpenVPN Transport")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19268")}<Tooltip title={callTipsTr("OpenVPN Transport")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpntransport", {
                         initialValue: itemvalue['vpntransport'] ? itemvalue['vpntransport'] : "0"
                     })(
@@ -154,28 +232,28 @@ class OpenVPN extends Component {
                     )}
                 </FormItem>
 
-				<FormItem label={<span>{callTr("a_19668")}<Tooltip title={callTipsTr("OpenVPN CA")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19668")}<Tooltip title={callTipsTr("OpenVPN CA")}><Icon type="question-circle-o"/></Tooltip></span>}>
 					<Upload name="file" multiple={false} showUploadList={false} action="../upload?type=vericert" accept=".crt" onChange={this.handleUploadCert.bind(this, 0)}>
 						<Button className="openvpn-upload-btn" type="primary">{callTr("a_16197")}</Button>
 					</Upload>
 					<Button type="primary" disabled={this.state.disableDelBtn1} onClick={this.deleteCert.bind(this, 0)}>{callTr("a_19067")}</Button>
                 </FormItem>
 
-				<FormItem label={<span>{callTr("a_19269")}<Tooltip title={callTipsTr("OpenVPN Client Certificate")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19269")}<Tooltip title={callTipsTr("OpenVPN Client Certificate")}><Icon type="question-circle-o"/></Tooltip></span>}>
 					<Upload name="file" multiple={false} showUploadList={false} action="../upload?type=vericert" accept=".crt" onChange={this.handleUploadCert.bind(this, 1)}>
 						<Button className="openvpn-upload-btn" type="primary">{callTr("a_16197")}</Button>
 					</Upload>
 					<Button type="primary" disabled={this.state.disableDelBtn2} onClick={this.deleteCert.bind(this, 1)}>{callTr("a_19067")}</Button>
                 </FormItem>
 
-				<FormItem label={<span>{callTr("a_19270")}<Tooltip title={callTipsTr("OpenVPN Client Key")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19270")}<Tooltip title={callTipsTr("OpenVPN Client Key")}><Icon type="question-circle-o"/></Tooltip></span>}>
 					<Upload name="file" multiple={false} showUploadList={false} action="../upload?type=vericert" accept=".key" onChange={this.handleUploadCert.bind(this, 2)}>
 						<Button className="openvpn-upload-btn" type="primary">{callTr("a_16197")}</Button>
 					</Upload>
 					<Button type="primary" disabled={this.state.disableDelBtn3} onClick={this.deleteCert.bind(this, 2)}>{callTr("a_19067")}</Button>
                 </FormItem>
 
-                <FormItem label={<span>{callTr("a_19271")}<Tooltip title={callTipsTr("OpenVPN Cipher Method")}><Icon type="question-circle-o"/></Tooltip></span>}>
+                <FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19271")}<Tooltip title={callTipsTr("OpenVPN Cipher Method")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpncipher", {
                         initialValue: itemvalue['vpncipher'] ? itemvalue['vpncipher'] : "0"
                     })(
@@ -187,14 +265,14 @@ class OpenVPN extends Component {
                         </Select>
                     )}
                 </FormItem>
-				<FormItem label={<span>{callTr("a_19272")}<Tooltip title={callTipsTr("OpenVPN Username")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19272")}<Tooltip title={callTipsTr("OpenVPN Username")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpnusername", {
                         initialValue: itemvalue['vpnusername']
                     })(
                         <Input className="P-8394" />
                     )}
                 </FormItem>
-				<FormItem label={<span>{callTr("a_19273")}<Tooltip title={callTipsTr("OpenVPN Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
+				<FormItem style={{ display: this.props.form.getFieldValue("vpntype") == "0" ? "block" : "none" }} label={<span>{callTr("a_19273")}<Tooltip title={callTipsTr("OpenVPN Password")}><Icon type="question-circle-o"/></Tooltip></span>}>
                     {getFieldDecorator("vpnpwd", {
                         initialValue: itemvalue['vpnpwd']
                     })(
@@ -239,7 +317,8 @@ function mapDispatchToProps(dispatch) {
         setItemValues:Actions.setItemValues,
         setOpenVPNCert: Actions.setOpenVPNCert,
         getNvrams: Actions.getNvrams,
-        putNvrams: Actions.putNvrams
+        putNvrams: Actions.putNvrams,
+        unzipopenvpnfile:Actions.unzipopenvpnfile
     }
     return bindActionCreators(actions, dispatch)
 }

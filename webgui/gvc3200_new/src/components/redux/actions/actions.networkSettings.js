@@ -1,5 +1,9 @@
 import * as actionUtil from "./actionUtil";
 
+// it should be got missed calls data
+const promptForRequestFailed = () => (dispatch) => {
+    dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_neterror'}});
+}
 export const getReadshowipState = (callback) => (dispatch) => {
     let request = 'action=readshowip';
 
@@ -68,6 +72,16 @@ export const setOpenVPNCert = (pvalue, callback) => (dispatch) => {
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
         callback(msgs);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+
+export const unzipopenvpnfile = (callback) => (dispatch) => {
+    let request = 'action=unzipopenvpnfile&region=advanset';
+    actionUtil.handleGetRequest(request).then(function(data) {
+        callback(JSON.parse(data))
     }).catch(function(error) {
         promptForRequestFailed();
     });

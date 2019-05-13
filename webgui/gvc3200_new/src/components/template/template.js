@@ -427,6 +427,8 @@ export const options = [
         {"name": "openvpn", "lang": "a_19274", "sub": [
             {"name": "openvpn", "lang": "a_19274", "sub": [
                 {"name": "OpenVPN Enable", "lang": "a_19265"},
+                {"name": "OpenVPN Ｍode", "lang": "openvpn_type"},
+                {"name": "OpenVPN Upload", "lang": "OpenVPNUpload"},
                 {"name": "OpenVPN Server Address", "lang": "a_19266"},
                 {"name": "OpenVPN Port", "lang": "a_19267"},
                 {"name": "OpenVPN Transport", "lang": "a_19268"},
