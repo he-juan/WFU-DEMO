@@ -124,6 +124,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define DATA_BOOKMARKS              APP_CONF_PATH"/Browser/bookmarks.xml"
 #define TMP_PHONEBOOKPATH         PREFIX"/sdcard/phonebook"
 #define TMP_AUDIOFILEPATH		  PREFIX"/data/moh/account"
+#define TMP_OPENVPNPATH		      PREFIX"/data/openvpn"
 #define TMP_MESSAGEPATH           PREFIX"/sdcard/message"
 #define TMP_CALLHISTORYPATH       PREFIX"/sdcard/callhistory"
 #define TMP_GS_PHONEBOOK          TMP_PHONEBOOKPATH"/phonebook.xml"
@@ -577,6 +578,52 @@ static int doCommandTask(char* const argv[], const char *outfile, const char *in
     }
 
     return rtn;
+}
+
+/**
+* @dir: the absolute path
+* @mode: 1 - remove the dir and sub-sir/sub-files,  0 - empty the dir but not remove the dir-self.
+*/
+static int remove_dir_or_file(const char *dir, const int mode) {
+    char cur_dir[] = ".";
+    char up_dir[] = "..";
+    char dir_name[128];
+    DIR *dirp;
+    struct dirent *dp;
+    struct stat dir_stat;
+
+    if ( 0 != access(dir, F_OK) ) {
+        return 0;
+    }
+
+    if ( 0 > stat(dir, &dir_stat) ) {
+        perror("get directory stat error");
+        return -1;
+    }
+
+    if ( S_ISREG(dir_stat.st_mode) ) {  // it is a file, remove it directly.
+        remove(dir);
+    } else if ( S_ISDIR(dir_stat.st_mode)) {
+        dirp = opendir(dir);
+        while ( (dp=readdir(dirp)) != NULL ) {  // it is a dir, need to loop it and remove all the sub-dirs and sub-files by recursion.
+            // ignore the "." and ".."
+            if ( (0 == strcmp(cur_dir, dp->d_name)) || (0 == strcmp(up_dir, dp->d_name)) ) {
+                continue;
+            }
+
+            sprintf(dir_name, "%s/%s", dir, dp->d_name);
+            remove_dir_or_file(dir_name, 1);   // do recursion
+        }
+        closedir(dirp);
+
+        if (mode) {
+            rmdir(dir);     // it is a empty dir now, remove it.
+        }
+    } else {
+        perror("unknow file type!");
+    }
+
+    return 0;
 }
 
 /**
@@ -16450,6 +16497,24 @@ static int handle_openvpn_cert (buffer *b, const struct message *m)
     return 0;
 }
 
+static int handle_unzipOpenVpnFile(buffer *b)
+{
+    if ( access(TMP_OPENVPNPATH"openvpn.zip", 0) )
+    {
+        char *cmd[] = {"sh", "-c", "cd /data/openvpn && busybox unzip -o openvpn.zip", 0};
+        doCommandTask(cmd, NULL, NULL, 0);
+        remove_dir_or_file("/data/openvpn/openvpn.zip", 1);
+        char *cmd2[] = {"sh", "-c", "cd /data && chmod -R 766 openvpn && chown -R system openvpn && chgrp -R system openvpn", 0};
+        doCommandTask(cmd2, NULL, NULL, 0);
+        buffer_append_string(b, "{\"result\":0, \"msg\":\"\", \"data\":{}}");
+    }
+    else 
+    {
+        buffer_append_string(b, "{\"result\":2, \"msg\":\"file does not exist\", \"data\":{}}");
+    }
+    return 0;
+}
+
 static int handle_get_len_type(buffer *b)
 {
     char buf[128] = "";
@@ -17740,6 +17805,16 @@ char *generate_file_name(buffer *b, const struct message *m)
             sprintf(file_name, "%s/audiofile", filepath);
             //sprintf(file_name, TMP_AUDIOFILEPATH"/audiofile.%s", ext);
             free(filepath);
+        }
+        else if(!strcasecmp(type, "openvpnfile"))
+        {
+            if ( !access(TMP_OPENVPNPATH, 0) )
+            {
+                remove_dir_or_file("/data/openvpn/", 1);
+            }
+            char *cmd[] = {"mkdir", "-p", TMP_OPENVPNPATH, 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+            file_name = strdup(TMP_OPENVPNPATH"/openvpn.zip");
         }
         else
         {
@@ -24765,6 +24840,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_one_param(srv, con, b, m, "type", "setPowerTimerPolicy", 0);
                 } else if (!strcasecmp(action, "setopenvpncert")) {
                     handle_openvpn_cert(b, m);
+                } else if (!strcasecmp(action, "unzipopenvpnfile")) {
+                    handle_unzipOpenVpnFile(b);
                 } else if (!strcasecmp(action, "getlentype")) {
                     handle_get_len_type(b);
                 } else{
