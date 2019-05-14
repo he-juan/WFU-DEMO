@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const req_items = [
-    { "name": "echodelay", "pvalue": "echodelay", "value": "" },    //回声延迟单独处理
+    { "name": "echodelay", "pvalue": "22280", "value": "" },    //回声延迟单独处理
     { "name": "ringbt", "pvalue": "4001", "value": "" },
     { "name": "busytone", "pvalue": "4002", "value": "" },
     { "name": "reordertone", "pvalue": "4003", "value": "" },
@@ -62,7 +62,6 @@ class Audio extends Component {
     }
     componentDidMount = () => {
         this.props.getItemValues(req_items, (data) => {
-            console.log(data)
             this.audiodeviceChange(data['audiodevice'])
         });
         this.props.getAudioinfo((data) => {
@@ -119,7 +118,7 @@ class Audio extends Component {
             if (!err) {
                 // echodelay 单独处理
                 let echodelayValue = {};
-                let echodelayItems = [{ "name": "echodelay", "pvalue": "echodelay", "value": "" }];
+                let echodelayItems = [{ "name": "echodelay", "pvalue": "22280", "value": "" }];
                 echodelayValue['echodelay'] = this.echodelayMap[values['echodelay']];
                 this.props.setItemValues(echodelayItems, echodelayValue);
 
@@ -178,7 +177,7 @@ class Audio extends Component {
                     {/* 回声延迟 */}
                     <FormItem label={<span>{callTr("a_19246")}<Tooltip title={callTipsTr("Echo Delay")}><Icon type="question-circle-o" /></Tooltip></span>}>
                         {getFieldDecorator("echodelay", {
-                            initialValue: parseInt(this.mapEchodelayValue(itemvalue['echodelay']))
+                            initialValue: parseInt(this.mapEchodelayValue(itemvalue['echodelay'] || 60))
                         })(
                             <Slider min={-2} max={9} marks={{ "-2": "-2", "9": "9" }} />
                         )}

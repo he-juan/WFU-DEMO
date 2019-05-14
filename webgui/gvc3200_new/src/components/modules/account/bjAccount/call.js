@@ -24,7 +24,7 @@ class CallForm extends React.Component {
             this.getReqItem("calllog", "542", ""),   //呼叫日志
             this.getReqItem("dialkey", "592", ""),    //＃键拨号
             this.getReqItem("enablemoh", "2557", ""),
-            this.getReqItem("default_layout_mode_2", "default_layout_mode_2", "")
+            this.getReqItem("default_layout_mode_2", "29270", "")
         );
         return req_items;
     }

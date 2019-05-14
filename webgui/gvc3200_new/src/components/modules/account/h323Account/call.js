@@ -23,7 +23,7 @@ class CallForm extends React.Component {
             this.getReqItem("h225alive", "25058", ""),    
             this.getReqItem("h245alive", "25057", ""),
             this.getReqItem("enablertdr", "25060", ""),
-            this.getReqItem("default_layout_mode_8", "default_layout_mode_8", "")
+            this.getReqItem("default_layout_mode_8", "25073", "")
         );
         return req_items;
     }

@@ -16,7 +16,7 @@ class CallForm extends React.Component {
         req_items = [];
         req_items.push(
             this.getReqItem("autoansidle", "425", ""),
-            this.getReqItem("default_layout_mode_1","default_layout_mode_1","")
+            this.getReqItem("default_layout_mode_1","29170","")
         );
         return req_items;
     }

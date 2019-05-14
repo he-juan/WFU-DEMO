@@ -103,7 +103,7 @@ class CallForm extends React.Component {
              this.getReqItem("callerid3", nvram["callerid3"], ""),
              this.getReqItem("tonename3", nvram["tonename3"], ""),
              this.getReqItem("dialkey", nvram["dialkey"], ""),
-             this.getReqItem("default_layout_mode_0", "default_layout_mode_0", "")
+             this.getReqItem("default_layout_mode_0", "29070", "")
          );
         if(this.props.userType == 'user') {
             req_items = req_items.slice(-13)
