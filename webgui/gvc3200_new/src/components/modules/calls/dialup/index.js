@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Enhance from "components/mixins/Enhance"
-import { Layout, Dropdown, Menu, Input, Button, Icon } from "antd"
+import { Layout, Dropdown, Menu, Input, Button, Icon, message } from "antd"
 import TagsInput from 'react-tagsinput'
 import * as Actions from 'components/redux/actions/index'
 import { bindActionCreators } from 'redux'
@@ -96,8 +96,12 @@ class Dialup extends Component {
     if(lastMem && /\D/.test(lastMem.num) && lastMem.acct != '2') {
       return false
     }
+   
+    _memToCall = this.limitMaxMembers(_memToCall, 'input')
+
     this.setState({
-      memToCall:_memToCall
+      memToCall:_memToCall,
+      tagsInputValue: ''
     })
   }
 
@@ -113,7 +117,7 @@ class Dialup extends Component {
     } else {
       _memToCall = this.pushMemToCall(_memToCall, record)
     }
-    
+    _memToCall = this.limitMaxMembers(_memToCall, 'add')
     this.setState({
       memToCall: _memToCall,
       tagsInputValue: ''
@@ -123,19 +127,73 @@ class Dialup extends Component {
   // push _memToCall 添加 去重等操作
   pushMemToCall(_memToCall, item) {
     const {number, acct, isvideo, source, name} = item
-    // 去重 相同的号码
-    _memToCall = _memToCall.filter(mem => mem.num != number)
-    _memToCall.push({
-      num: number,
-      acct: acct,
-      isvideo: isvideo,
-      source: source,
-      isconf: '1',
-      name: name
-    })
+   
+    if(acct == '1') {
+      let names = name.split(',')
+      number.split(',').forEach((n, i) => {
+         // 去重 去掉相同号码且账号类型相同的账号
+        _memToCall = _memToCall.filter(mem => {
+          return mem.num != n || (mem.num == n && mem.acct != acct)
+        })
+        _memToCall.push({
+          num: n,
+          acct: acct,
+          isvideo: isvideo,
+          source: source,
+          isconf: '1',
+          name: names[i]
+        })
+      })
+    } else {
+       // 去重 去掉相同号码且账号类型相同的账号
+      _memToCall = _memToCall.filter(mem => {
+        return mem.num != number || (mem.num == number && mem.acct != acct)
+      })
+      _memToCall.push({
+        num: number,
+        acct: acct,
+        isvideo: isvideo,
+        source: source,
+        isconf: '1',
+        name: name
+      })
+    }
+    
     return _memToCall
   }
 
+  // 最大线路限制 IPVT成员合并为一路, 非IPVT成员各自为一路
+  limitMaxMembers(_memToCall, flag) {
+    if (_memToCall.length == 0) return _memToCall
+    const { maxlinecount, linesInfo } = this.props
+    let lastMem = _memToCall.pop()  // // 最后一个是待添加的, 暂移除 
+    let temp = _memToCall.concat(linesInfo) // 并且与已在通话线路中的成员合并
+    let nonIPVTlen = temp.filter(v => v.acct != '1').length // 非IPVT线路数量
+    let IPVTlen = temp.length - nonIPVTlen
+    
+    // 存在ipvt线路且ipvt线路成员不超过100
+    let curLinesLen = IPVTlen > 0  ? nonIPVTlen + 1 : nonIPVTlen  // 线路总数量
+
+    if(curLinesLen >= maxlinecount ) {   // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
+      if(IPVTlen == 0 ) {
+        message.error( '成员数量已达上限')
+      } else if(IPVTlen > 0 && lastMem.acct != '1') {
+        message.error( '通话线路已达上限，当前只能添加ipvt联系人')
+        if(flag == 'input') {
+          this.setState({
+            selectAcct: '1'
+          })
+        }
+      } else if(IPVTlen > 0 && lastMem.acct == '1') {
+        _memToCall.push(lastMem)
+      }
+    } else {
+      _memToCall.push(lastMem)
+    }
+    
+    
+    return _memToCall
+  }
 
   // 呼出接口
   handleDialup = (isvideo) => {
@@ -241,7 +299,7 @@ class Dialup extends Component {
               value={memToCall.map(v => v.name)} 
               onChange={this.handleChangeMemToCall} 
               addKeys={[13, 188]} 
-              onlyUnique={true} 
+              onlyUnique={true}
               // addOnBlur={true} 
               inputProps={{placeholder: '', maxLength: '23', style:{width: tagsInputValue.length * 10 }}}
               inputValue={tagsInputValue}
@@ -295,8 +353,10 @@ class Dialup extends Component {
 }
 
 const mapState = (state) => ({
+  linesInfo: state.linesInfo,
   defaultAcct: state.defaultAcct,
-  mainHeight: state.mainHeight
+  mainHeight: state.mainHeight,
+  maxlinecount: state.maxlinecount
 })
 
 const mapDispatch = (dispatch) => {

@@ -460,7 +460,7 @@ export const getMaxlineCount =() => (dispatch) =>{
 
     actionUtil.handleGetRequest(request).then(function(data){
         let tObj = JSON.parse(data);
-        dispatch({type: 'REQUEST_GET_MAXLINECOUNT', maxlinecount: tObj.count});
+        dispatch({type: 'REQUEST_GET_MAXLINECOUNT', maxlinecount: tObj.data.count});
     }).catch(function(error) {
         console.log("getMaxlineCount Exception:",error);
     });
