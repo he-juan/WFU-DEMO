@@ -118,6 +118,7 @@ static int l_issetugid(void) {
 #define DBUS_PATH               "/com/grandstream/dbus/gui"
 #define DBUS_INTERFACE      "com.grandstream.dbus.signal"
 #define DBUS_INTERFACE_WEB      "com.grandstream.dbus.signal.to.web"
+#define DBUS_INTERFACE_GUI      "com.grandstream.dbus.signal.to.gui"
 #define SIGNAL_LIGHTTPD     "lighttpd"
 #define SIGNAL_STATUS        "status"
 #define SIGNAL_CALL             "call"
@@ -1150,7 +1151,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_REQUEST_QR_URL ) ) // signal lcd request qrcode
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_REQUEST_QR_URL ) ) // signal lcd request qrcode
     {
         if ( dbus_message_get_args( message, &error, DBUS_TYPE_STRING, &str, DBUS_TYPE_INVALID ) )
         {
@@ -1185,7 +1186,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
                 return DBUS_HANDLER_RESULT_HANDLED;
             }
 
-            message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, SIGNAL_RESPONSE_QR_URL);
+            message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE_GUI, SIGNAL_RESPONSE_QR_URL);
             if ( message == NULL )
             {
                 printf( "message is NULL\n" );
