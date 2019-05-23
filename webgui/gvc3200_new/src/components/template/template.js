@@ -193,6 +193,7 @@ export const options = [
         ]},
         {"name": "ipvtAcct", "lang": "IPVideoTalk", "sub": [
             {"name": "general", "lang": "a_16023", "sub": [
+                {"name": "Enable IPVideoTalk", "lang": "a_19028"},
                 {"name": "Account Active", "lang": "a_1119"},
                 {"name": "Display name", "lang": "a_1126"},
                 {"name": "SIP Transport", "lang": "a_16093"},

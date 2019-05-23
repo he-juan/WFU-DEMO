@@ -66,6 +66,8 @@ tip_item_en.push (
         "Kernel version."),
 
     /*Account1 2 3 General Settings*/
+    new TipsDef("Enable IPVideoTalk2",
+        "Enable IPVideoTalk service, if set to \"YES\", the system will support IPVideoTalk related functions.The default value is \"NO\", which will take effect after restart."),
     new TipsDef("Account Active",
         "This field indicates whether the account is active. The default value for the last account (Account H.323) is \"No\" and the default value for the other accounts is \"Yes.\""),
     new TipsDef("Account Name",

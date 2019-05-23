@@ -66,6 +66,8 @@ tip_item_zh.push (
         "显示设备的内核程序版本号。"),
 
     /*Account1 2 3 General Settings*/
+    new TipsDef("Enable IPVideoTalk2","开启IPVideoTalk服务", 
+        "设置是否启用IPVideoTalk帐号，如果设置为“是”，系统将支持IPVideoTalk 相关功能。默认值为“否” ，设置后重启生效。"),
     new TipsDef("Account Active", "激活帐号",
         "此项指出帐号是否被激活。H.323帐号默认不激活，其他帐号默认激活。"),
     new TipsDef("Account Name", "帐号名称",

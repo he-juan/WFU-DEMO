@@ -19,7 +19,6 @@ class SlidingTabsDemo extends Component {
     constructor(props){
         super(props);
     }
-
     shouldComponentUpdate = (nextProps, nextState) => {
         if(this.props.curLocale != nextProps.curLocale) {
             return true
@@ -46,7 +45,9 @@ class SlidingTabsDemo extends Component {
     }
 
     render() {
-        let tabList =[
+        const { ipvtExist } = this.props
+        
+        let tabList = ipvtExist == '1' ? [
             (hiddenOptions,i) => {
                 return<TabPane tab={this.props.callTr("a_16023")} key={i}>
                     <IpvtGeneralForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr} hideItem={hiddenOptions} tabOrder={i} />
@@ -62,7 +63,13 @@ class SlidingTabsDemo extends Component {
                     <IpvtSipForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr}  hideItem={hiddenOptions} tabOrder={i} />
                 </TabPane>
             }
-        ]
+        ] : [
+            (hiddenOptions,i) => {
+                return<TabPane tab={this.props.callTr("a_16023")} key={i}>
+                    <IpvtGeneralForm {...this.props} activeKey={this.props.tab} callTr = {this.props.callTr} hideItem={hiddenOptions} tabOrder={i} />
+                </TabPane>
+            }
+        ] 
         return <Tabs className="config-tab" activeKey={this.props.tab} size="middle" onChange = {this.handleTabChnage} style={{'minHeight': this.props.mainHeight}}>
             {
                 tabList.map((item,index)=>{
@@ -98,6 +105,7 @@ const mapStateToProps = (state) => ({
     mainHeight: state.mainHeight,
     userType: state.userType,
     tab: state.TabactiveKey,
+    ipvtExist: state.ipvtExist
 })
 
 const mapDispatchToProps = (dispatch) => {
