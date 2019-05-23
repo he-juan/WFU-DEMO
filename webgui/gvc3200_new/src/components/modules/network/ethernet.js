@@ -587,19 +587,33 @@ class Ethernet extends Component {
 
         let itemList =
             <Form className="configform" hideRequiredMark>
-                <FormItem label={< span > {callTr("a_19225")} < Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
-                    {getFieldDecorator("protocoltype", {
-                        initialValue: this.props.itemValues["protocoltype"]
-                    })(
-                        <Select className="P-1415">
-                            <Option value="0">{callTr("a_19390")}</Option>
-                            <Option value="1">{callTr("a_19391")}</Option>
-                            <Option value="2">{callTr("a_19392")}</Option>
-                            <Option value="3">{callTr("a_19393")}</Option>
-                        </Select>
-                    )}
-                    <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
-                </FormItem>
+                {
+                    this.props.oemId != '72' ? 
+                    <FormItem label={< span > {callTr("a_19225")} < Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                        {getFieldDecorator("protocoltype", {
+                            initialValue: this.props.itemValues["protocoltype"]
+                        })(
+                            <Select className="P-1415">
+                                <Option value="0">{callTr("a_19390")}</Option>
+                                <Option value="1">{callTr("a_19391")}</Option>
+                                <Option value="2">{callTr("a_19392")}</Option>
+                                <Option value="3">{callTr("a_19393")}</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    : 
+                    <FormItem label={< span > {callTr("a_19225")} < Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                        {getFieldDecorator("protocoltype", {
+                            initialValue: this.props.itemValues["protocoltype"]
+                        })(
+                            <Select className="P-1415">
+                                <Option value="0">IPV4</Option>
+                                <Option value="1">IPV6</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                }
+                
                 {/*<FormItem label={< span > {callTr("a_twovlan")} < Tooltip title={callTipsTr("Different Networks for Data and VoIP Calls")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
                     {getFieldDecorator("twovlan", {
                         rules: [],
@@ -1407,6 +1421,7 @@ const mapStateToProps = (state) => ({
     userType: state.userType,
     itemValues: state.itemValues,
     enterSave: state.enterSave,
+    oemId: state.oemId
 })
 
 function mapDispatchToProps(dispatch) {

@@ -386,7 +386,7 @@ class Common extends Component {
                     )}
                 </FormItem>
                 
-                <FormItem label={< span > {this.tr("a_19286")} < Tooltip title = {this.tips_tr("Enable CDP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem style={{display: this.props.oemId == '72' ? 'none' : 'block'}} label={< span > {this.tr("a_19286")} < Tooltip title = {this.tips_tr("Enable CDP")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("enablecdp", {
                         rules: [],
                         valuePropName: 'checked',

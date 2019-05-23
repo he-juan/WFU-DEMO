@@ -620,7 +620,7 @@ tip_item_en.push (
 	new TipsDef("Frame Loss Compensation",
 		"Once enabled, the phenomenon of video loss frame will be optimized, it is enabled by default."),
 	new TipsDef("802.1X Mode",
-        "Allows the user to enable/disable 802.1X mode on the device. Configures 802.1X authentication when connected to the switch. The default setting is \"Close\"."),
+        "Allows the user to enable/disable 802.1X mode on the device. Configures 802.1X authentication when connected to the switch. The default setting is \"Disable\"."),
 	new TipsDef("802.1X Identity",
         "Enter the Identity information for the 802.1X mode."),
 	new TipsDef("802.1X Secret",
