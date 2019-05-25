@@ -245,11 +245,12 @@ class MoreForm extends Component {
                             {
                                 max: 40,
                                 message: callTr("a_19805") + "40"
-                            }, {
-                                validator: (data, value, callback) => {
-                                    this.checkNoCHString(data, value, callback)
-                                }
-                            }
+                            },
+                            // {
+                            //     validator: (data, value, callback) => {
+                            //         this.checkNoCHString(data, value, callback)
+                            //     }
+                            // }
                         ],
                         initialValue: this.props.itemValues.dhcpop60
                     })(<Input className="P-148"/>)}
@@ -259,10 +260,10 @@ class MoreForm extends Component {
                             onClick={this.handleSubmit}>{callTr("a_17")}</Button>
                 </FormItem>
             </Form>
-        let hideItem = this.props.hideItem;
-        for (var i = hideItem.length - 1; i >= 0; i--) {
-            itemList.props.children.splice(hideItem[i], 1);
-        }
+        // let hideItem = this.props.hideItem;
+        // for (var i = hideItem.length - 1; i >= 0; i--) {
+        //     itemList.props.children.splice(hideItem[i], 1);
+        // }
         return itemList;
     }
 }

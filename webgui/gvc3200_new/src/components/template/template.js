@@ -413,7 +413,7 @@ export const options = [
                 {"name": "Security Mode for Hidden SSID", "lang": "a_hiddenauthmode"}
             ]},
             {"name": "advanced", "lang": "advanced_menu", "sub": [
-                {"name": "Layer 2 QoS 802.1p Priority Value (Wi-Fi)", "lang": "a_layer2qospvwifi"},
+                // {"name": "Layer 2 QoS 802.1p Priority Value (Wi-Fi)", "lang": "a_layer2qospvwifi"},
                 {"name": "Country Code", "lang": "a_countrycode" },
                 {"name": "Host Name", "lang": "a_dhcpop12", "product": "2"},
                 {"name": "Vendor Class ID", "lang": "a_dhcpop60", "product": "2"},
