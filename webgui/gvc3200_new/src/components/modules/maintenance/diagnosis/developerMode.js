@@ -59,7 +59,7 @@ class DevForm extends Component {
 
         let itemList =
             <Form hideRequiredMark>
-                <FormItem label={< span > {callTr("a_4347")} < Tooltip title = {callTipsTr("Disable SIP NOTIFY Authentication")} > <Icon type="question-circle-o"/> < /Tooltip></span >}>
+                <FormItem label={< span > {callTr("a_4347")} < Tooltip title = {callTipsTr("Developer Mode")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator("devestate", {
                         rules: [],
                         valuePropName: 'checked',
