@@ -430,13 +430,13 @@ class DebugForm extends Component {
                                 {children_tracelist}
                             </Select>
                             )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteTrace.bind(this)}>{this.tr("a_19067")}</Button>
+                            <Button  type="primary" className="debug-delete-btn" onClick = {this.deleteTrace.bind(this)}>{this.tr("a_19067")}</Button>
                         </Row>
                     )}
                 </FormItem>
                 <FormItem label={( <span> {callTr("a_16358")} <Tooltip title={callTipsTr("View Package")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
-                        <Button className="debug" type="primary" onClick = {this.checkoutList.bind(this)} >{this.tr("a_2106")}</Button>
+                        <Button  type="primary" onClick = {this.checkoutList.bind(this)} >{this.tr("a_2106")}</Button>
                     )}
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_19823")}</p>
@@ -460,19 +460,19 @@ class DebugForm extends Component {
                                 {children_coredumplist}
                             </Select>
                             )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteCoredumplist.bind(this)}>{this.tr("a_19067")}</Button>
+                            <Button  type="primary" className="debug-delete-btn" onClick = {this.deleteCoredumplist.bind(this)}>{this.tr("a_19067")}</Button>
                         </Row>
                     )}
                 </FormItem>
                 <FormItem label={( <span> {callTr("a_19264")} <Tooltip title={callTipsTr("View Core Dump")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
-                        <Button className="debug" type="primary" onClick = {this.checkoutCoredump.bind(this)}>{this.tr("a_2106")}</Button>
+                        <Button  type="primary" onClick = {this.checkoutCoredump.bind(this)}>{this.tr("a_2106")}</Button>
                     )}
                 </FormItem>
                 <p className="blocktitle"><s></s>{this.tr("a_410")}</p>
                 <FormItem label={( <span> {callTr("a_410")} <Tooltip title={callTipsTr("Record")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
                     {(
-                        <Button className="debug" type="primary" onClick={this.startRecord.bind(this)}>{this.tr(recordStart)}</Button>
+                        <Button  type="primary" onClick={this.startRecord.bind(this)}>{this.tr(recordStart)}</Button>
                     )}
                 </FormItem>
                 <FormItem className="select-item" label={( <span> {callTr("a_19260")} <Tooltip title={callTipsTr("Recording List")}> <Icon type="question-circle-o"/> </Tooltip> </span> )}>
@@ -485,13 +485,13 @@ class DebugForm extends Component {
                                 {children_recordlist}
                             </Select>
                             )}
-                            <Button className="debug" type="primary" className="debug-delete-btn" onClick = {this.deleteRecordlist.bind(this)}>{this.tr("a_19067")}</Button>
+                            <Button  type="primary" className="debug-delete-btn" onClick = {this.deleteRecordlist.bind(this)}>{this.tr("a_19067")}</Button>
                         </Row>
                     )}
                 </FormItem>
                 <FormItem label={( <span> {callTr("a_19261")} <Tooltip title={callTipsTr("View Recording")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
                     {(
-                        <Button className="debug" type="primary" onClick = {this.checkoutRecfiles.bind(this)}>{this.tr("a_2106")}</Button>
+                        <Button  type="primary" onClick = {this.checkoutRecfiles.bind(this)}>{this.tr("a_2106")}</Button>
                     )}
                 </FormItem>
                 <FormItem >
