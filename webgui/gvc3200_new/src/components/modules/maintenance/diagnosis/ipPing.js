@@ -96,17 +96,24 @@ class PingForm extends Component {
                     })
                     pingtimeout = setTimeout(() => {this.getPingMsg(curOffset)}, 1000);
                 } else {
-                    if(isStop) {
-                        curOffset = 0;
-                        clearTimeout(pingtimeout);
-                        this.setState({
-                            startDisable: false,
-                            stopDisable: true,
-                            inputDisable: false
-                        })
-                    } else {
-                        pingtimeout = setTimeout(() => {this.getPingMsg(curOffset)}, 1000);  
-                    }
+                    curOffset = 0;
+                    clearTimeout(pingtimeout);
+                    this.setState({
+                        startDisable: false,
+                        stopDisable: true,
+                        inputDisable: false
+                    })
+                    // if(isStop) {
+                    //     curOffset = 0;
+                    //     clearTimeout(pingtimeout);
+                    //     this.setState({
+                    //         startDisable: false,
+                    //         stopDisable: true,
+                    //         inputDisable: false
+                    //     })
+                    // } else {
+                    //     pingtimeout = setTimeout(() => {this.getPingMsg(curOffset)}, 1000);  
+                    // }
                 }
                 
             }else {
@@ -114,7 +121,10 @@ class PingForm extends Component {
                 if(errmsg == 'unknown host') {
                     let _pingresValue = this.state.pingresValue  + errmsg + '\n';
                     this.setState({
-                        pingresValue : _pingresValue
+                        pingresValue : _pingresValue,
+                        startDisable: false,
+                        stopDisable: true,
+                        inputDisable: false
                     })
                 }
                 clearTimeout(pingtimeout);
