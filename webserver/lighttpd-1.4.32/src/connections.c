@@ -24889,7 +24889,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             return -1;
         }
 #endif
-        if( region == NULL || !strcasecmp(region, "")) {
+        //if( region == NULL || !strcasecmp(region, "")) {
             printf("region is null or empty \n");
 #ifdef BUILD_RECOVER
             if (!strcasecmp(action, "startrecover")) {
@@ -25035,13 +25035,58 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 get_conatcts_list(b);
             } else if (!strcasecmp(action, "getcalllogs")) {
                 get_calllog_list(b);
-	        } else {
-                findcmd = 0;
+            } else if (!strcasecmp(action, "getglobalconfinfo")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "getGlobalConfInfo", params);
+            } else if (!strcasecmp(action, "ctrlconfrecord")) {
+                char *state = msg_get_header(m, "state");
+                params = append_req_params(params, "state", state, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfRecordState", params);
+            } else if (!strcasecmp(action, "ctrlconfhold")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfHoldState", params);
+            } else if (!strcasecmp(action, "ctrlconfdnd")) {
+                char *state = msg_get_header(m, "state");
+                params = append_req_params(params, "state", state, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfDNDState", params);
+            } else if (!strcasecmp(action, "ctrlconfmute")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfMuteState", params);
+            } else if (!strcasecmp(action, "ctrlconfblock")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfBlockState", params);
+            } else if (!strcasecmp(action, "ctrlconfvideo")) {
+                char *state = msg_get_header(m, "state");
+                params = append_req_params(params, "state", state, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfVideoState", params);
+            } else if (!strcasecmp(action, "ctrllocalmute")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlLocalMuteState", params);
+            } else if (!strcasecmp(action, "ctrllocalvideo")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlLocalVideoState", params);
+            } else if (!strcasecmp(action, "getconfdtmf")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "getConfDTMF", params);
+            } else if (!strcasecmp(action, "sendconfdtmf")) {
+                char *dtmf = msg_get_header(m, "dtmf");
+                params = append_req_params(params, "dtmf", dtmf, 1);
+                handle_methodcall_to_gmi(srv, con, b, m, "sendConfDTMF", params);
+            } else if (!strcasecmp(action, "ctrllinemute")) {
+                char *line = msg_get_header(m, "line");
+                params = append_req_params(params, "line", line, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlLineMuteState", params);
+            } else if (!strcasecmp(action, "ctrllineblock")) {
+                char *line = msg_get_header(m, "line");
+                params = append_req_params(params, "line", line, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlLineBlockState", params);
+            } else if (!strcasecmp(action, "ctrllinevideo")) {
+                char *line = msg_get_header(m, "line");
+                char *state = msg_get_header(m, "state");
+                params = append_req_params(params, "line", line, 0);
+                params = append_req_params(params, "state", state, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlLineVideoState", params);
+	        //} else {
+            //    findcmd = 0;
             }
+            /* new APIs end */
 #endif
-        } else{
-            if (!strcasecmp(region, "status")){
-                if (!strcasecmp(action, "hardware")) {
+        //} else{
+        //   if (!strcasecmp(region, "status")){
+                else if (!strcasecmp(action, "hardware")) {
                     handle_hardware( srv, con, b, m );
                 } else if (!strcasecmp(action, "status")) {
                     handle_status(srv,con,b, m);
@@ -25076,13 +25121,13 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_no_param(srv, con, b, m, "isBtSupport");
                 } else if (!strcasecmp(action, "ispversion")) {
                     handle_getisp_version(b);
-                } else{
-                    findcmd = 0;
+                //} else{
+                //    findcmd = 0;
                 }
 
-            }
-            else if (!strcasecmp(region, "account")){
-                if (!strcasecmp(action, "autoanswer")) {
+            //}
+            //else if (!strcasecmp(region, "account")){
+                else if (!strcasecmp(action, "autoanswer")) {
                     handle_autoanswer(srv, con, b, m);
                 } else if (!strcasecmp(action, "vbupdated")) {
                     handle_vbupdated(b, m);
@@ -25108,23 +25153,23 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_one_param(srv, con, b, m, "account", "setDefaultAccount", 0);
                 } else if (!strcasecmp(action, "getipvtacctinfo")) {
                     handle_ipvt_acctinfo(b);
-                } else{
-                    findcmd = 0;
+                //} else{
+                //    findcmd = 0;
                 }
-            }
-            else if (!strcasecmp(region, "apps")){
-                if (!strcasecmp(action, "sqlitecontacts")) {
+            //}
+            //else if (!strcasecmp(region, "apps")){
+                else if (!strcasecmp(action, "sqlitecontacts")) {
                     handle_sqlitecontacts(b, m);
                 } else if (!strcasecmp(action, "sqliteconf")) {
                     handle_sqliteconf(b, m);
                 } else if (!strcasecmp(action, "getgoogleaccts")) {
                     handle_getgoogleaccts(b);
-                } else{
-                    findcmd = 0;
+                //} else{
+                //    findcmd = 0;
                 }
-            }
-            else if (!strcasecmp(region, "control")){
-                if (!strcasecmp(action, "getaudioinfo")) {
+            //}
+            //else if (!strcasecmp(region, "control")){
+                else if (!strcasecmp(action, "getaudioinfo")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getAudioInfo");
                 } else if (!strcasecmp(action, "getpresetinfo")) {
                     handle_getpresetinfo(srv, con, b, m);
@@ -25134,12 +25179,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_ptzctrl(b, m);
                 } else if (!strcasecmp(action, "setpreset")) {
                     handle_setpreset(b, m);
-                } else{
-                    findcmd = 0;
+                //} else{
+                //    findcmd = 0;
                 }
-            }
-            else if (!strcasecmp(region, "advanset")){
-                if (!strcasecmp(action, "sqlitedisplay")) {
+            //}
+            //else if (!strcasecmp(region, "advanset")){
+                else if (!strcasecmp(action, "sqlitedisplay")) {
                     handle_sqlitedisplay(b, m);
                 } else if (!strcasecmp(action, "getlanguages")) {
                     handle_getlanguages(b);
@@ -25221,12 +25266,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_unzipOpenVpnFile(b);
                 } else if (!strcasecmp(action, "getlentype")) {
                     handle_get_len_type(b);
-                } else{
-                    findcmd = 0;
+                //} else{
+                //    findcmd = 0;
                 }
-            }
-            else if (!strcasecmp(region, "maintenance")){
-                if (!strcasecmp(action, "oneclickdebug")) {
+            //}
+            //else if (!strcasecmp(region, "maintenance")){
+                else if (!strcasecmp(action, "oneclickdebug")) {
                     handle_oneclick_debug(srv, con, b, m);
                 } else if (!strcasecmp(action, "capture")) {
                     handle_capture(b, m);
@@ -25302,12 +25347,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_importlanguage(srv, con, b, m);
                 } else if (!strcasecmp(action, "importlanrsps")) {
                     handle_getimportlanresps(b);
-                } else{
-                    findcmd = 0;
+                //} else{
+                //    findcmd = 0;
                 }
-            }
-            else if (!strcasecmp(region, "webservice")){
-                if (!strcasecmp(action, "originatecall")) {
+            //}
+            //else if (!strcasecmp(region, "webservice")){
+                else if (!strcasecmp(action, "originatecall")) {
                     handle_originatecall(srv, con, b, m);
                 } else if (!strcasecmp(action, "originatecallconf")) {
                     handle_webservice_by_one_param(srv, con, b, m, "confId", "originateCallConf", 0);
@@ -25421,12 +25466,12 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 } else if (!strcasecmp(action, "getsfuconfmyrole")) {
                 // TODO
                     buffer_append_string(b, "{\"res\":\"failed\", \"msg\":\"memberInfo is null!\"}");
-                } else {
-                    findcmd = 0;
+                //} else {
+                //    findcmd = 0;
                 }
-            }
-            else if (!strcasecmp(region, "confctrl")){
-                if (!strcasecmp(action, "addconfmemeber")) {
+            //}
+            //else if (!strcasecmp(region, "confctrl")){
+                else if (!strcasecmp(action, "addconfmemeber")) {
                     handle_addconfmemeber(srv, con, b, m);
                 }
                 else if (!strcasecmp(action, "acceptringline")) {
@@ -25451,7 +25496,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_callservice_by_one_param(srv, con, b, m, "line", "switchLine", 0);
                 }
                 else if (!strcasecmp(action, "confholdstate")){
-                    handle_callservice_by_one_param(srv, con, b, m, "sethold", "ctrlConfHoldState", 0);
+                    handle_callservice_by_no_param(srv, con, b, m, "ctrlConfHoldState");
                 }
                 else if (!strcasecmp(action, "conflinevideoedstate")){
                     handle_callservice_by_two_param(srv, con, b, m, "isvideoed", "line", "ctrlLineVideoedState");
@@ -25461,12 +25506,6 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 else if (!strcasecmp(action, "setpincode")){
                     handle_callservice_by_one_param(srv, con, b, m, "pincode", "setPinCode", 1);
-                }
-                else if (!strcasecmp(action, "startrecord")){
-                    handle_callservice_by_no_param(srv, con, b, m, "startRecord");
-                }
-                else if (!strcasecmp(action, "stoprecord")){
-                    handle_callservice_by_no_param(srv, con, b, m, "stopRecord");
                 }
                 else if (!strcasecmp(action, "ipvtrecord")){
                     handle_callservice_by_one_param(srv, con, b, m, "state", "startOrStopIPVTRecording", 0);
@@ -25692,20 +25731,20 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if(!strcasecmp(action, "getline4Kvideo")){
                     handle_callservice_by_no_param(srv, con, b, m, "getLine4KVideo");
                 }
-                else{
-                    findcmd = 0;
-                }
-            }
-            else if (!strcasecmp(region, "remotekey")){
-                if (!strcasecmp(action, "remotekeypress")) {
+                //else{
+                //    findcmd = 0;
+                //}
+            //}
+            //else if (!strcasecmp(region, "remotekey")){
+                else if (!strcasecmp(action, "remotekeypress")) {
                     //handle_callservice_by_two_param(srv, con, b, m, "keyaction", "keycode", "remoteKeyPress");
                     handle_remotekeypress(srv, con, b, m);
                 }
                 else{
                     findcmd = 0;
                 }
-            }
-        }
+            //}
+        //}
 
         /*else if (!strcasecmp(action, "getnetwork")) {
             handle_getnetwork(b);
