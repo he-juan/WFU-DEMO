@@ -88,3 +88,47 @@ export const getStorageInfo = () => (dispatch) => {
       promptForRequestFailed();
   });
 }
+
+
+
+//  外围设备状态
+
+export const gethdmiinstate2 = (cb) => () => {
+  let request = 'action=gethdmiinstate&region=status&time=' + new Date().getTime()
+
+  actionUtil.handleGetRequest(request).then(function(data) {
+    cb(JSON.parse(data))
+  })
+}
+
+export const gethdmi1state2 = (cb) => () => {
+  let request = 'action=gethdmi1state&region=status&time=' + new Date().getTime()
+
+  actionUtil.handleGetRequest(request).then(function(data) {
+    cb(JSON.parse(data))
+  })
+}
+
+export const gethdmi2state2 = (cb) => () => {
+  let request = 'action=gethdmi2state&region=status&time=' + new Date().getTime()
+
+  actionUtil.handleGetRequest(request).then(function(data) {
+    cb(JSON.parse(data))
+  })
+}
+
+export const getusbstate2 = (cb) => () => {
+  let request = 'action=getusbstate&region=status&time=' + new Date().getTime()
+
+  actionUtil.handleGetRequest(request).then(function(data) {
+    cb(JSON.parse(data))
+  })
+}
+
+export const getsdcardstate2 = (cb) => () => {
+  let request = 'action=getsdcardstate&region=status&time=' + new Date().getTime()
+
+  actionUtil.handleGetRequest(request).then(function(data) {
+    cb(JSON.parse(data))
+  })
+}
