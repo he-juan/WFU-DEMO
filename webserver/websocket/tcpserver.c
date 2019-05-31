@@ -22,6 +22,9 @@
 
 #define DBUS_PATH                 "/com/grandstream/dbus/gui"
 #define DBUS_INTERFACE            "com.grandstream.dbus.signal"
+#define DBUS_INTERFACE_WEB        "com.grandstream.dbus.signal.to.web"
+#define DBUS_INTERFACE_GUI        "com.grandstream.dbus.signal.to.gui"
+#define DBUS_INTERFACE_AVS        "com.grandstream.dbus.signal.to.avs"
 
 #define SIGNAL_STATUS        "status"
 #define SIGNAL_DEVICE             "device"
@@ -81,6 +84,7 @@
 #define SIGNAL_UPGRADE "upgrade"
 #define SIGNAL_INSTALL "install"
 #define SIGNAL_UPGRADE_DETECT   "upgrade_detect"
+#define LINE_STATUS_CHANGED "linestatuschanged"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -209,7 +213,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_DEVICE ) ) // signal device
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_DEVICE ) ) // signal device
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_INT32, &i,
@@ -290,7 +294,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_CONFPAUSE ) ) // conf pause
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_CONFPAUSE ) ) // conf pause
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_INT32, &i,
@@ -311,7 +315,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_CAMERABLOCK ) ) // camera block
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_CAMERABLOCK ) ) // camera block
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_INT32, &i,
@@ -398,7 +402,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_AVSAPI ) ) // local mute block
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_AVS, SIGNAL_AVSAPI ) ) // local mute block
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_INT32, &i,
@@ -409,6 +413,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
             sendData = malloc(len);
             memset(sendData,0,len);
             snprintf(sendData,len,"{\"type\":\"local_mute\",\"line\":\"%d\",\"flag\":%s},",i,str);
+            LOGD("senddata: %s", sendData);
             //printf("has a call: %d\n",open_cache);
             sendDataToSocket(sendData);
             free(sendData);
@@ -463,7 +468,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_UPDATEDND ) ) // update dnd
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_UPDATEDND ) ) // update dnd
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_STRING,&str,
@@ -485,7 +490,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_SWITCHVIDEOSOURCE ) ) // switch video source
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_SWITCHVIDEOSOURCE ) ) // switch video source
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_INT32,&i,
@@ -569,7 +574,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_RECORDING ) ) // recording or hold
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_RECORDING ) ) // recording or hold
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_STRING, &str,
@@ -888,7 +893,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if (dbus_message_is_signal(message, DBUS_INTERFACE, SIGNAL_AUTO_ANSWER))
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE_GUI, SIGNAL_AUTO_ANSWER))
     {
         if (dbus_message_get_args( message, &error,
                                    DBUS_TYPE_INT32, &i,
@@ -1079,7 +1084,7 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         }
         return DBUS_HANDLER_RESULT_HANDLED;
     }
-    else if ( dbus_message_is_signal( message, DBUS_INTERFACE, SIGNAL_UI_SYNC ) )
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_UI_SYNC ) )
     {
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_STRING, &str,
@@ -1301,6 +1306,27 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
             dbus_error_free(&error);
         }
     }
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE_WEB, LINE_STATUS_CHANGED))
+    {
+        if (dbus_message_get_args(message, &error,
+                                  DBUS_TYPE_STRING, &str,
+                                  DBUS_TYPE_INVALID))
+        {
+            len = 128 + strlen(str);
+            sendData = malloc(len);
+            memset(sendData, 0, len);
+            snprintf(sendData, len, "{\"type\":\"line-status-changed\", \"data\":%s},", str);
+            LOGD("LINE_STATUS_CHANGED_DBUS: %s", sendData);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf("receive freeline message error: %s\n", error.message);
+            dbus_error_free(&error);
+        }
+    }
+
     else
     {
         //printf("Ignore the signal\n");
@@ -1400,6 +1426,10 @@ static int dbus_init()
     }
     dbus_connection_set_exit_on_disconnect( bus, FALSE );
     dbus_bus_add_match( bus, "type='signal',interface='com.grandstream.dbus.signal'", &error );
+    dbus_bus_add_match( bus, "type='signal',interface='com.grandstream.dbus.signal.to.web'", &error );
+    dbus_bus_add_match( bus, "type='signal',interface='com.grandstream.dbus.signal.to.gui'", &error );
+    dbus_bus_add_match( bus, "type='signal',interface='com.grandstream.dbus.signal.to.avs'", &error );
+
     dbus_connection_add_filter( bus, signal_filter, NULL, NULL );
 
     return 0;

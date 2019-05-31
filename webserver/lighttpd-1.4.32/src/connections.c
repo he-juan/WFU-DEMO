@@ -24975,7 +24975,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             } else if (!strcasecmp(action, "androidver")) {
                 handle_androidverion( b );
             } else if (!strcasecmp(action, "network")) {
-                handle_network(srv, con, b, m);
+                handle_callservice_by_no_param(srv, con, b, m, "getCurrentNetworkInfo");
             } else if (!strcasecmp(action, "pn")) {
                 handle_pn( srv, con, b, m );
             } else if (!strcasecmp(action, "sn")) {
