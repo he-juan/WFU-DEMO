@@ -31,17 +31,17 @@ class peripheral extends Component {
         const {gethdmiinstate, gethdmi1state, gethdmi2state, getusbstate, getsdcardstate} = this.props
         gethdmiinstate((data) => {
             this.setState({
-                hdmiinstate: data.msg || '0'
+                hdmiinstate: data.state || '0'
             })
         })
         gethdmi1state((data) => {
             this.setState({
-                hdmi1state: data.msg || '0'
+                hdmi1state: data.state || '0'
             })
         })
         gethdmi2state((data) => {
             this.setState({
-                hdmi2state: data.msg || '0'
+                hdmi2state: data.state || '0'
             })
         })
         getusbstate((data) => {
