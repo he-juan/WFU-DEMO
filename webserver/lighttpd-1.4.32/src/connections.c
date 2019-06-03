@@ -13868,7 +13868,7 @@ static int handle_getlogcat (buffer *b, const struct message *m)
     if( access("/tmp/logcat/", 0) ) {
         mkdir("/tmp/logcat/", 0777);
     }
-    snprintf(cmd, sizeof(cmd), "logcat -ds %s:%s > /tmp/logcat/logcat.txt &", tag, priority);
+    snprintf(cmd, sizeof(cmd), "logcat -ds %s:%s > /tmp/logcat/logcat.text &", tag, priority);
     printf("cmd is %s\n",cmd);
     int result = mysystem(cmd);
     if(result == 0)
