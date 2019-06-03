@@ -249,7 +249,13 @@ class DebugForm extends Component {
     }
 
     checkoutRecfiles = () => {
-        window.location = "/Recfiles/";
+        this.props.viewRecordList((response) => {
+            if (response.res == "success")  {
+                window.location = "/Recfiles/";
+            } else {
+                this.props.promptMsg('ERROR', this.tr('a_63'))
+            }
+        });
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -531,6 +537,7 @@ const mapDispatchToProps = (dispatch) => {
     getdeleteTrace:Actions.getdeleteTrace,
     getRecording:Actions.getRecording,
     getRecordList:Actions.getRecordList,
+    viewRecordList: Actions.viewRecordList,
     getDelete:Actions.getDelete,
     getRecordState:Actions.getRecordState,
     Screenshort:Actions.Screenshort,

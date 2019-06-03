@@ -275,9 +275,19 @@ export const Screenshort = (type, value, callback) => (dispatch) => {
     });
 }
 
+export const viewRecordList = (callback) => (dispatch) => {
+    let request = 'action=viewrecordlist';
+
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data);
+        callback(tObj);
+    }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
 export const getRecordList = (callback) => (dispatch) => {
     let request = 'action=getrecordlist';
-
     actionUtil.handleGetRequest(request).then(function(data) {
         let recordlist = [];
         if( data.substring(0, 1) == "{" )

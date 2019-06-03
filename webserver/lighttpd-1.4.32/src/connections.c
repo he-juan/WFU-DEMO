@@ -15581,7 +15581,10 @@ static int handle_tracelist (buffer *b)
 
 }
 
-static int handle_get_record_list (buffer *b, const struct message *m)
+/**
+ *  when view the record list, we need to copy the record files to a single dir.
+ */
+static int handle_view_record_list(buffer *b)
 {
     struct dirent *dp;
     DIR *dir;
@@ -15590,7 +15593,6 @@ static int handle_get_record_list (buffer *b, const struct message *m)
     char name[256] = "";
     char *fileExt = NULL;
     char *temp = NULL;
-    int list;    //list: 0-get list  1-view record list
     char *sys = NULL;
 
     if( access( RECORD_PATH, 0 ) )
@@ -15607,26 +15609,17 @@ static int handle_get_record_list (buffer *b, const struct message *m)
         return -1;
     }
 
-    temp = msg_get_header(m, "list");
-    list = atoi(temp);
-
-    if(!list)
+    sys = malloc(128);
+    if( !access( RECORD_TMP_PATH, 0 ) )
     {
-        buffer_append_string(b, "{\"Response\":\"Success\",\"Records\":[");
-    }
-    else{
-        sys = malloc(128);
-        if( !access( RECORD_TMP_PATH, 0 ) )
-        {
-            memset(sys, 0, 128);
-            sprintf(sys, "rm %s -rf", RECORD_TMP_PATH);
-            system(sys);
-        }
-
         memset(sys, 0, 128);
-        sprintf(sys, "mkdir %s", RECORD_TMP_PATH);
+        sprintf(sys, "rm %s -rf", RECORD_TMP_PATH);
         system(sys);
     }
+
+    memset(sys, 0, 128);
+    sprintf(sys, "mkdir %s", RECORD_TMP_PATH);
+    system(sys);
 
     while ((dp = readdir( dir )) != NULL)
     {
@@ -15647,26 +15640,9 @@ static int handle_get_record_list (buffer *b, const struct message *m)
                     fileExt = strdup(ptr+1);
                     if( strcasecmp(fileExt, "pcm") == 0 )
                     {
-                        if(!list)
-                        {
-                            if(!j)
-                            {
-                                buffer_append_string(b, "\"");
-                            }
-                            else
-                            {
-                                buffer_append_string(b, ",\"");
-                            }
-                            buffer_append_string(b, name);
-                            buffer_append_string(b, "\"");
-                            j++;
-                        }
-                        else
-                        {
-                            memset(sys, 0, 128);
-                            sprintf(sys, "cp %s/%s %s", RECORD_PATH, name, RECORD_TMP_PATH);
-                            system(sys);
-                        }
+                        memset(sys, 0, 128);
+                        sprintf(sys, "cp %s/%s %s", RECORD_PATH, name, RECORD_TMP_PATH);
+                        system(sys);
                     }
                     free(fileExt);
                     fileExt = NULL;
@@ -15674,15 +15650,79 @@ static int handle_get_record_list (buffer *b, const struct message *m)
             }
         }
     }
-    if(!list)
+
+    free(sys);
+    buffer_append_string(b, "{\"res\":\"success\"}");
+
+    closedir(dir);
+    return 1;
+}
+
+static int handle_get_record_list (buffer *b, const struct message *m)
+{
+    struct dirent *dp;
+    DIR *dir;
+    char *ptr = NULL;
+    int j=0;
+    char name[256] = "";
+    char *fileExt = NULL;
+    char *temp = NULL;
+
+    if( access( RECORD_PATH, 0 ) )
     {
-        buffer_append_string(b, "]}");
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=The recording directory doesn't exist\r\n");
+        return -1;
     }
-    else
+
+    if( (dir = opendir(RECORD_PATH))== NULL )
     {
-        free(sys);
-        buffer_append_string(b, "{\"res\":\"success\"}");
+        buffer_append_string(b, "Response=Error\r\n"
+                "Message=Recording directory open failed\r\n");
+        return -1;
     }
+
+    buffer_append_string(b, "{\"Response\":\"Success\",\"Records\":[");
+
+    while ((dp = readdir( dir )) != NULL)
+    {
+        if(dp == NULL)
+        {
+            printf("dp is null\n");
+            break;
+        }
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+        {
+            sprintf(name, dp->d_name);
+            if( name[0] != '.' )
+            {
+                uri_decode(name);
+                ptr = strrchr(name, '.');
+                if(ptr != NULL)
+                {
+                    fileExt = strdup(ptr+1);
+                    if( strcasecmp(fileExt, "pcm") == 0 )
+                    {
+                        if(!j)
+                        {
+                            buffer_append_string(b, "\"");
+                        }
+                        else
+                        {
+                            buffer_append_string(b, ",\"");
+                        }
+                        buffer_append_string(b, name);
+                        buffer_append_string(b, "\"");
+                        j++;
+                    }
+                    free(fileExt);
+                    fileExt = NULL;
+                }
+            }
+        }
+    }
+    
+    buffer_append_string(b, "]}");
 
     closedir(dir);
     return 1;
@@ -25325,6 +25365,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_deletetrace(b, m);
                 } else if (!strcasecmp(action, "getrecordlist")) {
                     handle_get_record_list(b, m);
+                } else if (!strcasecmp(action, "viewrecordlist")) {
+                    handle_view_record_list(b);
                 } else if (!strcasecmp(action, "startrecording")) {
                     handle_start_recording(b);
                 } else if (!strcasecmp(action, "stoprecording")) {
