@@ -11198,9 +11198,17 @@ static int handle_productinfo (server *srv, connection *con,
 {
     char res[128] = "";
     char buf[128] = "";
+    char baseBuf[128] = "";
     char vendorBuf[128] = "";
     FILE *sys_file;
     char * temp = NULL;
+
+    sys_file = fopen ("/proc/gxvboard/dev_info/dev_base", "r");
+
+    if (sys_file != NULL) {
+        fread (baseBuf, 127, 1, sys_file);
+        fclose (sys_file);
+    }
 
     sys_file = fopen ("/proc/gsboard/dev_info/vendor_fullname", "r");
 
@@ -11218,8 +11226,7 @@ static int handle_productinfo (server *srv, connection *con,
         const char *resType = msg_get_header(m, "format");
         if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
         {
-            snprintf( res, sizeof( res ),
-                    "%s: \"%s\", \"vendor\":\"%s\"}", "{\"res\": \"success\", \"product\" ", buf, vendorBuf );
+            snprintf( res, sizeof( res ), "{\"res\": \"success\", \"product\": \"%s\", \"vendor\": \"%s\", \"base\": \"%s\"}", buf, vendorBuf, baseBuf);
             temp = build_JSON_res( srv, con, m, res );
             buffer_append_string( b, temp );
             free(temp);
@@ -11228,7 +11235,7 @@ static int handle_productinfo (server *srv, connection *con,
         {
             buffer_append_string (b, "Response=Success\r\n");
 
-            snprintf(res, sizeof(res), "Product=%s\r\nVendor=%s\r\n", buf, vendorBuf );
+            snprintf(res, sizeof(res), "Product=%s\r\nVendor=%s\r\nBaseProduct=%s\r\n", buf, vendorBuf, baseBuf);
             buffer_append_string(b, res);
         }
         return 1;

@@ -95,7 +95,7 @@ export const getProduct = () => (dispatch) => {
         let msgs = actionUtil.res_parse_rawtext(data);
 
         if (msgs.headers['product']) {
-            dispatch({type: 'REQUEST_GET_PRODUCT', product: msgs.headers['product']});
+            dispatch({type: 'REQUEST_GET_PRODUCT', product: msgs.headers['baseproduct']});
             dispatch({type: 'REQUEST_GET_PRODUCTSTR', productStr: msgs.headers['product']});
             dispatch({type: 'REQUEST_GET_VENDOR', vendor: msgs.headers['vendor']});
         }
