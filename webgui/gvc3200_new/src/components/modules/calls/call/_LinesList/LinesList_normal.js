@@ -119,10 +119,10 @@ function calLineBtnStatus(lineItem, acctstatus){
 }
 
 // 本地线路的按钮状态
-function calLocalBtnStatus(linestatus, localcamerablocked) {
+function calLocalBtnStatus(linestatus, localcamerastate) {
     let ismute = linestatus[0] && linestatus[0].isLocalMuted == "1" ? "1" : "0";
     let localmuteclass = "unmute";
-    let localcamerablockedclass = "confvideo";
+    let localcamerastateclass = "confvideo";
     let startFECCClass = "startFECC";
     let localbtndisabled = false;
 
@@ -133,20 +133,20 @@ function calLocalBtnStatus(linestatus, localcamerablocked) {
     if(talkingLines.length == linestatus.length) {
         localmuteclass += " btndisable";
         startFECCClass += " btndisable";
-        localcamerablockedclass += " btndisable";
+        localcamerastateclass += " btndisable";
         localbtndisabled = true;
     } else {
         localmuteclass = ismute == "1" ? "mute" : "unmute";
-        if(localcamerablocked == "0"){
-            localcamerablockedclass = "confvideo";
+        if(localcamerastate == "0"){
+            localcamerastateclass = "confvideo";
         }else{
-            localcamerablockedclass = "confaudio";
+            localcamerastateclass = "confaudio";
         }
     }
 
     return {
         localmuteclass,
-        localcamerablockedclass,
+        localcamerastateclass,
         startFECCClass,
         localbtndisabled,
         ismute
@@ -363,13 +363,10 @@ class LinesList extends Component {
         $.get('/manager?action=ctrlconfvideo&state=' + (isAllSuspend ? 0 : 1))
     }
     render() {
-        const { acctstatus, feccbtnvisile, linestatus, localcamerablocked, isOnHold } = this.props
-        const { localmuteclass, localcamerablockedclass, startFECCClass, localbtndisabled, ismute } = calLocalBtnStatus(linestatus, localcamerablocked)
+        const { acctstatus, feccbtnvisile, linestatus, localcamerastate, isOnHold , isAllBlock, isAllMute, isAllSuspend } = this.props
+        const { localmuteclass, localcamerastateclass, startFECCClass, localbtndisabled, ismute } = calLocalBtnStatus(linestatus, localcamerastate)
         const isHeld = isOnHold == '1'
 
-        const isAllBlock = linestatus.filter(i => i.isblock == 0).length == 0
-        const isAllMute = linestatus.filter(i => i.ismute == 0).length == 0
-        const isAllSuspend = linestatus.filter(i => i.issuspend == 0).length == 0
         return (
             <div className="ctrl-line">
                 {/* 全场会控 */}
@@ -389,7 +386,7 @@ class LinesList extends Component {
                     <div className="conftype"></div>
                     <div className="confbtn">
                         {/* <Button id="startFECC" title={tr("a_19020")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/> */}
-                        <Button id="closecamera" title={"点击关闭本地摄像头"} disabled={isHeld || localbtndisabled}  className={localcamerablockedclass} onClick={this.handlelocalcamera}/>
+                        <Button id="closecamera" title={"点击关闭本地摄像头"} disabled={isHeld || localbtndisabled}  className={localcamerastateclass} onClick={this.handlelocalcamera}/>
                         <Button id="localmute" title={"点击静音"} disabled={isHeld || localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                     </div>
                 </div>
@@ -450,8 +447,10 @@ const mapStateToProps = (state) => ({
     callFeatureInfo: state.callFeatureInfo,
     isOnHold: state.globalConfInfo.isonhold,
     ipvrole: state.ipvrole,
-    localcamerablocked: state.localcamerablocked,
-
+    localcamerastate: state.globalConfInfo.localcamerastate,
+    isAllMute: state.globalConfInfo.isallmute,
+    isAllBlock: state.globalConfInfo.isallblock,
+    isAllSuspend: state.globalConfInfo.isallsuspend
 })
 
 const mapDispatchToProps = (dispatch) => {

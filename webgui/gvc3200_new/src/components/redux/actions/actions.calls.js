@@ -1127,37 +1127,7 @@ export const suspendLineOrNot = (line) => (dispatch) => {
     })
 }
 
-export const getCameraBlocked = () => ( dispatch ) => {
-    let request = "action=isCameraBlocked&region=confctrl";
-    request += "&time=" + new Date().getTime();
 
-    actionUtil.handleGetRequest(request).then(function (data) {
-        let result = eval("("+data+")");
-        let flag = "0";
-        if(result.flag == "true" || result.flag == "0"){
-            flag = "0";
-        } else if(result.flag == "false" || result.flag == "1"){
-            flag = "1";
-        }
-        setLocalcameraStatus(flag)(dispatch);
-    }).catch(function (error) {
-        promptForRequestFailed();
-    });
-}
-
-export const setLocalcameraStatus = (flag) => (dispatch) =>{
-    dispatch({ type: 'REQUEST_GET_CAMERABLOCKEDSTATUS', localcamerablocked: flag});
-}
-
-export const ctrlCameraBlockState = () => (dispatch) => {
-    let request = "action=ctrlCameraBlockState&region=confctrl";
-    request += "&time=" + new Date().getTime();
-
-    actionUtil.handleGetRequest(request).then(function (data) {
-    }).catch(function (error) {
-        promptForRequestFailed();
-    });
-}
 
 export const acceptOrRejectvideo = (isaccept, line) => (dispatch) => {
     let request = "action=isacceptvideo&region=confctrl&isflag=" + isaccept + "&line=" + line;
@@ -1293,16 +1263,14 @@ export const isallowipvtrcd = (callback) => (dispatch) =>{
 export const handlerecord = (recordstatus, callback) => (dispatch) =>{
     let request;
     if(recordstatus == "1"){ //目前正在处在录像状态， 需要关闭录像
-        request = "action=stoprecord&region=confctrl";
+        request = "action=ctrlconfrecord&state=0";
     }else{
-        request = "action=startrecord&region=confctrl";
+        request = "action=ctrlconfrecord&state=1";
     }
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function (data) {
-        data = data.replace(/\r/g, "\\r").replace(/\n/g, "\\n");
-        let tObj = eval("(" + data + ")");
-        if(tObj.msg == "false"){
+        if(JSON.parse(data).result == "1"){
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_605'}});
         }
         callback(tObj);

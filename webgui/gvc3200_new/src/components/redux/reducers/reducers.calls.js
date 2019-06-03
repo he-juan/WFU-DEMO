@@ -104,14 +104,6 @@ export const ipvrole = (state = "-1", action) => {
     }
 }
 
-export const localcamerablocked = (state = "0", action) => {
-    switch (action.type) {
-        case Actions.REQUEST_GET_CAMERABLOCKEDSTATUS:
-            return action.localcamerablocked
-        default:
-            return state
-    }
-}
 
 export const videoinvitelines = (state = "", action) =>{
     switch (action.type) {

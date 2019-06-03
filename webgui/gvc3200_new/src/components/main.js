@@ -207,7 +207,6 @@ const mapDispatchToProps = (dispatch) => {
         showCallDialog: Actions.showCallDialog,
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,
-        setRecordStatus: Actions.setRecordStatus,
         getMaxlineCount: Actions.getMaxlineCount,
         // isConfOnHold: Actions.isConfOnHold,
         setDeviceCallFeature: Actions.setDeviceCallFeature,

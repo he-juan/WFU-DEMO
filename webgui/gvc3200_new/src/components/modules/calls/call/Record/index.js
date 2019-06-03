@@ -98,7 +98,7 @@ class Record extends Component {
 const mapStateToProps = (state) => ({
   msfurole: state.msfurole,
   ipvrole: state.ipvrole,
-  recordStatus: state.recordStatus,
+  recordStatus: state.globalConfInfo.isrecording,
   ipvtRecordStatus: state.ipvtRecordStatus,
   ipvtrcdallowstatus: state.ipvtrcdallowstatus,
   isOnHold: state.globalConfInfo.isholdon

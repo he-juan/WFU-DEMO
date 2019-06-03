@@ -273,12 +273,6 @@ class CallDialog extends Component {
                             },500);
                         }
                     }
-                    if(!this.getcamerablockedTimmer){
-                        this.getcamerablockedTimmer = setTimeout(()=>{
-                                // 获取本地摄像头开启状态
-                                this.props.getCameraBlocked();
-                        });
-                    }
                     //handle ipvt line
                     if(account == 1){
                         if(!this.getipvroleTimer){
@@ -451,7 +445,6 @@ function mapDispatchToProps(dispatch) {
       getItemValues:Actions.getItemValues,
       ctrlFECC: Actions.ctrlFECC,
       getipvrole: Actions.getipvrole,
-      getCameraBlocked: Actions.getCameraBlocked,
       getBFCPMode: Actions.getBFCPMode,
       callstatusreport: Actions.callstatusreport,
       setDeviceCallFeature: Actions.setDeviceCallFeature,

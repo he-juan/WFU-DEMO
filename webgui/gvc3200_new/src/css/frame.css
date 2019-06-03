@@ -4905,7 +4905,7 @@ table thead tr th{
     font-size: 1.125rem;
     font-weight: bold;
     cursor: pointer;
-    z-index: 1120;
+    z-index: 998;
 }
 
 .call-items{

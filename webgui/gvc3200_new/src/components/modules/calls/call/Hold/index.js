@@ -61,7 +61,6 @@ class Hold extends Component {
 const mapStateToProps = (state) => ({
   videoonlines: state.videoonlines,
   isOnHold: state.globalConfInfo.isonhold,
-  recordStatus: state.recordStatus
 })
 
 const mapDispatchToProps = (dispatch) => {

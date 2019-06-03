@@ -102,7 +102,6 @@ class FECC extends Component {
 
 
 const mapStateToProps = (state) => ({
-    localcamerablocked: state.localcamerablocked,
 
 })
 

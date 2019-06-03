@@ -59,7 +59,7 @@ class RecordModal extends Component {
 }
 
 RecordModal = connect((state) => ({
-  recordStatus: state.recordStatus,
+  recordStatus: state.globalConfInfo.isrecording,
   ipvtRecordStatus: state.ipvtRecordStatus
 }), (dispatch) => {
   const actions = {
@@ -241,7 +241,7 @@ class RecordBtn extends Component {
           :
           <RecordModalSFU visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)} />
         }
-        <Modal
+        {/* <Modal
           title="提示"
           visible={this.props.isOnHold == '0' && sessionStorage.getItem('isRecorded') == '1'}
           okText="确认"
@@ -251,7 +251,7 @@ class RecordBtn extends Component {
           width="320"
         >
           <p style={{fontSize: 16, textAlign: 'left'}}>你要继续录像吗?</p>
-        </Modal>
+        </Modal> */}
       </div>
     )
   }
@@ -261,7 +261,7 @@ class RecordBtn extends Component {
 const mapStateToProps = (state) => ({
   msfurole: state.msfurole,
   ipvrole: state.ipvrole,
-  recordStatus: state.recordStatus,
+  recordStatus: state.globalConfInfo.isrecording,
   ipvtRecordStatus: state.ipvtRecordStatus,
   ipvtrcdallowstatus: state.ipvtrcdallowstatus,
   isOnHold: state.globalConfInfo.isonhold

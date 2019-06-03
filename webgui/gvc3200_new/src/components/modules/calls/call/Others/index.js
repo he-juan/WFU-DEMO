@@ -69,7 +69,6 @@ class Others extends Component {
 
 
 const mapStateToProps = (state) => ({
-  recordStatus: state.recordStatus,
   msfurole: state.msfurole
 })
 
