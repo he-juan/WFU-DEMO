@@ -44,10 +44,10 @@ class Hold extends Component {
 
 
   render() {
-    const { ctrlbtnvisible, heldStatus } = this.props;
+    const { ctrlbtnvisible, isOnHold } = this.props;
     if(ctrlbtnvisible == 'display-hidden') return null;
     // 保持按钮状态
-    let heldclass = heldStatus == '0' ? "unhold-icon" : 'hold-icon';
+    let heldclass = isOnHold == '0' ? "unhold-icon" : 'hold-icon';
    
     return (
       <span>
@@ -60,7 +60,7 @@ class Hold extends Component {
 
 const mapStateToProps = (state) => ({
   videoonlines: state.videoonlines,
-  heldStatus: state.heldStatus,
+  isOnHold: state.globalConfInfo.isonhold,
   recordStatus: state.recordStatus
 })
 

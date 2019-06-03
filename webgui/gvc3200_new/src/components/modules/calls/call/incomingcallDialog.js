@@ -116,7 +116,6 @@ const mapStateToProps = (state) => ({
 
 function mapDispatchToProps(dispatch) {
     var actions = {
-        showCallDialog: Actions.showCallDialog,
         acceptringline: Actions.acceptringline
     }
     return bindActionCreators(actions, dispatch)

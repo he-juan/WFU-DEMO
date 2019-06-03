@@ -4375,6 +4375,9 @@ table thead tr th{
     pointer-events: none;
 }
 
+
+
+
 .call-dialog .local-num{
     position: absolute;
     top: 24px;
@@ -4394,21 +4397,45 @@ table thead tr th{
     margin-right: 8px;
     float: left;
 }
+.call-dialog {
+    overflow: hidden;
+    top: 50px;
+    left: 250px;
+    right: 0;
+    bottom: 0px;
+    position: fixed;
+    min-width: 1200px;
+    z-index: 999;
+}
 
 .call-dialog .call-ctrl{
-    width: 1000px;
-    z-index: 1111;
+    z-index: 999;
     background: #fff;
-    position: absolute;
-    margin: auto;
-    height: 700px;
+    position: fixed;
     overflow-y: auto;
-    left: 0;
-    right: 0;
-    top: -10px;
-    bottom: 0;
+    left: 250px;
+    right: 10px;
+    top: 105px;
+    bottom: 0px;
     border-radius: 3px;
-    box-shadow: 0 0 7.5px 7.5px rgba(21, 26, 36, .15);
+    min-width: 1200px;
+}
+
+.call-dialog .call-ctrl-head {
+    padding-top: 15px;
+    text-align: center;
+}
+.call-dialog .call-ctrl-title {
+    line-height: 1;
+}
+.call-dialog .call-ctrl-title strong {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: inline-block;
+    font-weight: normal; 
+}
+.call-dialog .call-ctrl-title span {
+    font-size: 14px;
 }
 
 .call-dialog .callee-icon{
@@ -4655,6 +4682,9 @@ table thead tr th{
     background: url(../img/call/conf_control.png) -234px -271px no-repeat;
 }
 .confbtn .confblock{
+    background: url(../img/call/conf_control.png) -26px -245px no-repeat;
+}
+.confbtn .confblock:hover{
     background: url(../img/call/conf_control.png) -26px -297px no-repeat;
 }
 .confbtn .confblock.btndisable{

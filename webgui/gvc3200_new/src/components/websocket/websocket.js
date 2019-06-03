@@ -353,7 +353,6 @@ class HandleWebsocket extends React.Component {
                         if( this.props.linesinfo.length <= 0 ){ // 所有线路都取消时
                             globalObj.isCallStatus = false;
                             this.props.showCallDialog("10");
-                            this.props.setHeldStatus("0");
                             endcalltimeout = setTimeout(() => {
                                 this.props.showCallDialog("end");
                             }, 1000);
@@ -418,21 +417,12 @@ class HandleWebsocket extends React.Component {
                 this.handleremotehold(message);
                 break;
             case 'auto_answer':
-                if(this.props.product != "GAC2510"){
-                    break;
-                }
                 let pacct = this.returnAcctNum(message['acct']);
                 this.props.getNvrams(new Array(pacct), (value) => {
                     this.props.showCallDialog(4);
                 });
                 break;
-            case 'mute':
-                if(message['flag'].indexOf("MuteMic") != -1){
-                    this.props.setMuteStatus(message['line'], message['flag'].split("=")[1]);
-                }else if(message['flag'].indexOf("been_held") !=-1){
-                    this.props.setHeldStatus(message['flag'].split("=")[1]);
-                }
-                break;
+            
             case 'mic_block':
                 this.handlemicblock(message);
                 break;
@@ -519,7 +509,26 @@ class HandleWebsocket extends React.Component {
                 if(message['status'] == '0') {
                     sessionStorage.removeItem('recordSource')
                 }
+                 break;
+            // 新的消息 以上大部分无效
+            case 'line-status-changed': 
+                let linesInfo = JSON.parse(JSON.stringify(this.props.linesinfo))
+                console.log(linesInfo)
+                for( let j = 0; j < linesInfo.length; j++ ){
+                    if(linesInfo[j].line == message.data.line) {
+                        linesInfo[j] = message.data
+                        console.log(linesInfo)
+                        break;
+                    }
+                }
+                this.props.setDialineInfo1(linesInfo);
                 break;
+            // 新的消息 会议全局状态信息
+            case 'conf-status-changed':
+                this.props.setGlobalConfInfo(message.data);
+
+                break;
+                
         }
     }
 
@@ -597,7 +606,6 @@ const mapDispatchToProps = (dispatch) => {
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,
         setIPVTRecordStatus: Actions.setIPVTRecordStatus,
-        setHeldStatus: Actions.setHeldStatus,
         setFECCStatus: Actions.setFECCStatus,
         setDndModeStatus: Actions.setDndModeStatus,
         setLocalcameraStatus: Actions.setLocalcameraStatus,
@@ -612,7 +620,7 @@ const mapDispatchToProps = (dispatch) => {
         isallowipvtrcd: Actions.isallowipvtrcd,
         setHandsupstatus: Actions.setHandsupstatus,
         setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
-
+        setGlobalConfInfo: Actions.setGlobalConfInfo,
         //sfu
         getsfuconfinfo: Actions.getsfuconfinfo,
         getsfuconfmyrole: Actions.getsfuconfmyrole,

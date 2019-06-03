@@ -115,7 +115,6 @@ export const setDialineInfo1= (linesinfo, callback) => (dispatch) => {
     }else{
         dispatch({type: 'INCOMMING_LINE_INFO', incomingcalls: {style: 'display-hidden', incomingcallsinfo: incomingcallsinfo}});
     }
-    dispatch({type: 'HELD_STATUS', heldStatus: linesinfo.length == 0 || unHoldlines.length > 0 ? '0' : '1'});
     dispatch({type: 'SET_IS_VIDEO', isvideo: isVideoLines.length > 0 ? '1' : '0' });
 
     dispatch({type: 'DIAL_LINE_INFO1', linesInfo: linesinfo});
@@ -170,9 +169,7 @@ export const setIPVTRecordStatus = (status) => (dispatch) => {
     dispatch({ type: 'IPVT_RECORD_STATUS', ipvtRecordStatus:  status})
 }
 
-export const setHeldStatus = (status) => (dispatch) => {
-    dispatch({ type: 'HELD_STATUS', heldStatus:  status})
-}
+
 
 export const setFECCStatus = (line, status) => (dispatch) =>{
     dispatch({ type: 'FECC_STATUS', FECCStatus: {line: line, status: status}});
@@ -261,9 +258,9 @@ export const addconfmemeber = (numbers, accounts, confid, callmode, isvideo, isq
 
 export const cb_start_addmemberconf = (acctstates, numbers, accounts, callmode, confid, isdialplan, confname, isvideo, source, isquickstart, pingcode) => (dispatch) => {
     //check if all the lines are busy
-    let { busylinenum, maxlinecount, linesInfo, heldStatus } = store.getState();
+    let { busylinenum, maxlinecount, linesInfo, globalConfInfo } = store.getState();
     // 保持状态不能拨打
-    if(heldStatus == "1"){
+    if(globalConfInfo.isonhold == "1"){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10080'}});
         return;
     }
@@ -376,8 +373,8 @@ export const cb_start_single_call = (acctstates, dialnum, dialacct, ispaging, is
     if (dialnum == "") {
         return false;
     }
-    let { busylinenum, maxlinecount, linesInfo, heldStatus, callFeatureInfo } = store.getState();
-    if(heldStatus == "1"){
+    let { busylinenum, maxlinecount, linesInfo, globalConfInfo, callFeatureInfo } = store.getState();
+    if(globalConfInfo.isonhold == "1"){
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: 'WARNING', content: 'a_10080'}});
         return;
     }
@@ -977,6 +974,7 @@ export const getAllLineStatus = (callback) => (dispatch) => {
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(data) {
+        // if(JSON.parse(data).res == 'error') return false
         let lineinfoArr = eval("([" + data + "])");
         if(lineinfoArr.length>0){
             getvideocodec(lineinfoArr[0])
@@ -988,24 +986,24 @@ export const getAllLineStatus = (callback) => (dispatch) => {
     });
 }
 
-export const isConfOnHold = (callback) => (dispatch) =>{
-    let request = "action=isConfOnHold&region=confctrl";
-    request += "&time=" + new Date().getTime();
+// export const isConfOnHold = (callback) => (dispatch) =>{
+//     let request = "action=isConfOnHold&region=confctrl";
+//     request += "&time=" + new Date().getTime();
 
-    actionUtil.handleGetRequest(request).then(function(data) {
-        var result = eval("("+data+")");
-        if(result.res == "success" || result == 0){
-            if(result.flag == "true"){
-                dispatch({ type: 'HELD_STATUS', heldStatus: "1"})
-            }else{
-                dispatch({ type: 'HELD_STATUS', heldStatus: "0"})
-            }
-        }
-        callback(result);
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
+//     actionUtil.handleGetRequest(request).then(function(data) {
+//         var result = eval("("+data+")");
+//         if(result.res == "success" || result == 0){
+//             if(result.flag == "true"){
+//                 dispatch({ type: 'HELD_STATUS', heldStatus: "1"})
+//             }else{
+//                 dispatch({ type: 'HELD_STATUS', heldStatus: "0"})
+//             }
+//         }
+//         callback(result);
+//     }).catch(function(error) {
+//         promptForRequestFailed();
+//     });
+// }
 
 export const gotoFECCpreset = (line, presetid) => (dispatch) =>{
     let request = "action=FECCpreset&region=confctrl&type=goto&line=" + line + "&presetid=" + presetid;
@@ -1081,7 +1079,7 @@ export const endconf = (flag) => (dispatch) =>{
 }
 
 export const blockLineOrNot = (line) =>(dispatch) => {
-    let request = "action=blockLineOrNot&region=confctrl&line="+line;
+    let request = "action=ctrllineblock&region=confctrl&line="+line;
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function(data) {
@@ -1429,7 +1427,21 @@ export const getcmrnameandnumber = (callback) => (dispatch) => {
     });
 }
 
+// 设置全局会议状态
+export const setGlobalConfInfo = (globalConfInfo) => {
+    return {
+        type: 'SET_GLOBAL_CONF_INFO',
+        globalConfInfo: globalConfInfo
+    }
+}
 
+// 获取全局的会议状态
+export const getGlobalConfInfo = (callback) => (dispatch) => {
+    let request = "action=getglobalconfinfo"
+    actionUtil.handleGetRequest(request).then(function (data) {
+        dispatch(setGlobalConfInfo(JSON.parse(data).data))
+    })
+}
 
 /******************** SFU 版本 ********************************************/
 

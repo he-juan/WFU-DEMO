@@ -291,7 +291,6 @@ class LinesList extends Component {
 
 const mapStateToProps = (state) => ({
     callFeatureInfo: state.callFeatureInfo,
-    heldStatus: state.heldStatus,
     ipvrole: state.ipvrole,
     localcamerablocked: state.localcamerablocked,
     sfu_meetinginfo: state.sfu_meetinginfo,

@@ -24,6 +24,7 @@ let dialogLeaveTimeout;
 let mClicktimes = 0;
 let mPreClickTime, mCurrentClickTime, mTipTimeout;
 
+
 class CallDialog extends Component {
     constructor(props){
         super(props);
@@ -108,14 +109,20 @@ class CallDialog extends Component {
         //             isline4Kvideo: result[2] == "true" ? true : false
         //         });
         //     });
-        //当账号为0 时需要判断是否为sfu会议
+         //当账号为0 时需要判断是否为sfu会议
         //  sfu 获取role
-        this.props.set_msfurole(null)
-        this.props.getsfuconfmyrole(function(role){})
-    }
+        // this.props.set_msfurole(null)
+        // this.props.getsfuconfmyrole(function(role){}) 
+        
+        this.props.getGlobalConfInfo()
+        const _this = this;
+        window.addEventListener('hashchange', _this.minimizeDialog)
 
+    }
     componentWillUnmount = () => {
         clearTimeout(dialogLeaveTimeout);
+        const _this = this;
+        window.removeEventListener('hashchange', _this.minimizeDialog)
     }
 
     countClickedTimes =()=>{
@@ -195,7 +202,7 @@ class CallDialog extends Component {
     }
 
     ispause = () => {
-        if(this.props.heldStatus == '1') {
+        if(this.props.isOnHold == '1') {
             this.props.promptMsg("WARNING", "a_10126");
             return true;
         }
@@ -208,10 +215,14 @@ class CallDialog extends Component {
 	// }
 
 	minimizeDialog = () => {
-		this.props.showCallDialog(10);
-		setTimeout(() => {
-			this.props.showCallDialog("minimize");
-		}, 1000);
+        let linestatus = this.props.linestatus
+        if(linestatus.length == 0) return false
+        if(document.getElementsByClassName('on-call-tip')[0]) return false
+        this.props.showCallDialog("minimize");
+		// this.props.showCallDialog(10);
+		// setTimeout(() => {
+		// 	this.props.showCallDialog("minimize");
+		// }, 1000);
 	}
 
 
@@ -227,8 +238,7 @@ class CallDialog extends Component {
     
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, heldStatus} = this.props;
-
+        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, isOnHold} = this.props;
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
@@ -238,7 +248,6 @@ class CallDialog extends Component {
                 case "init3":  // 呼叫中时 刷新浏览器
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
-                        maskvisible = "display-block";
                     }
                     if (dialogLeaveTimeout) {
                         clearTimeout(dialogLeaveTimeout);
@@ -249,7 +258,6 @@ class CallDialog extends Component {
                 case "5": //  通话中 处于保持状态
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
-                        maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-block";
                     if(lineitem.feccline && lineitem.feccline != "-2"){
@@ -285,7 +293,6 @@ class CallDialog extends Component {
                 case "8":  // 呼叫失败
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
-                        maskvisible = "display-block";
                     }
                     ctrlbtnvisible = "display-hidden";
                     break;
@@ -309,12 +316,15 @@ class CallDialog extends Component {
         const _hasipvtline = this.hasipvtline()
         const _ispause = this.ispause
 
-        const isBtnsHide = heldStatus == '1' || ctrlbtnvisible == 'display-hidden' 
+        const isBtnsHide = isOnHold == '1' || ctrlbtnvisible == 'display-hidden' 
         return (
-            <div className={`call-dialog ant-modal-mask ${maskvisible}`}>
-				<div className={`call-ctrl ${tmpclass}`}>
-                    <div style={{height:'50px',background:'#eceef3'}}>
-                        <div className="ctrl-title">{this.tr("a_callconf")}</div>
+            <div className={`call-dialog`}>
+				<div className={`call-ctrl ${tmpclass}`} >
+                    <div className="call-ctrl-head">
+                        <div className="call-ctrl-title">
+                            <strong>conf 1.2.132123</strong> <br />
+                            <span>00:10:11</span>
+                        </div>
                         <div className="shrink-icon" onClick={this.minimizeDialog}></div>
                     </div>
                     <LinesList linestatus={linestatus} acctstatus={this.state.acctstatus} feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)} />
@@ -341,7 +351,7 @@ class CallDialog extends Component {
                         /> */}
                         
                         {/* 布局按钮 */}
-                        {
+                        {/* {
                             isBtnsHide ? null :
                             <Layouts 
                                 is4kon={this.state.is4kon}
@@ -349,23 +359,23 @@ class CallDialog extends Component {
                                 ispause={_ispause}
                                 linestatus={linestatus} 
                             />
-                        }
+                        } */}
                         
                         {/* 本地摄像头控制 弹窗 */}
-                        {
+                        {/* {
                             isBtnsHide ? null :
                             <FECC 
                                 countClickedTimes={this.countClickedTimes.bind(this)} 
                                 feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)}
                             />
-                        }
+                        } */}
                         
 
 
 
                         {/* 保持按钮 */}
                         {
-                            heldStatus == '0' ? null :
+                            isOnHold == '0' ? null :
                             <Button title={"取消保持"} className={`hold-icon`} onClick={() => this.props.confholdstate('0')} />
                         }
                         
@@ -426,10 +436,10 @@ class CallDialog extends Component {
 const mapStateToProps = (state) => ({
     msgsContacts: state.msgsContacts,
     ipvrole: state.ipvrole,
-    heldStatus: state.heldStatus,
+    isOnHold: state.globalConfInfo.isonhold,
     // sfu
     msfurole: state.msfurole,
-    sfu_meetinginfo: state.sfu_meetinginfo
+    sfu_meetinginfo: state.sfu_meetinginfo,
 })
 
 function mapDispatchToProps(dispatch) {
@@ -450,6 +460,7 @@ function mapDispatchToProps(dispatch) {
     //   getline4Kvideo: Actions.getline4Kvideo,
       isallowipvtrcd: Actions.isallowipvtrcd,
       confholdstate: Actions.confholdstate,
+      getGlobalConfInfo: Actions.getGlobalConfInfo,
       // sfu
       issfuconf: Actions.issfuconf,
       getsfuconfmyrole: Actions.getsfuconfmyrole,

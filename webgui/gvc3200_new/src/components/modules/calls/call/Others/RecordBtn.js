@@ -243,7 +243,7 @@ class RecordBtn extends Component {
         }
         <Modal
           title="提示"
-          visible={this.props.heldStatus == '0' && sessionStorage.getItem('isRecorded') == '1'}
+          visible={this.props.isOnHold == '0' && sessionStorage.getItem('isRecorded') == '1'}
           okText="确认"
           onCancel={() => this.handleContinueRecord(false)}
           onOk= {() => this.handleContinueRecord(true)}
@@ -264,7 +264,7 @@ const mapStateToProps = (state) => ({
   recordStatus: state.recordStatus,
   ipvtRecordStatus: state.ipvtRecordStatus,
   ipvtrcdallowstatus: state.ipvtrcdallowstatus,
-  heldStatus: state.heldStatus
+  isOnHold: state.globalConfInfo.isonhold
 })
 
 const mapDispatchToProps = (dispatch) => {

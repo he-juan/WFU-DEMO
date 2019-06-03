@@ -41,10 +41,10 @@ class HoldBtn extends Component {
       this.props.confholdstate(ishold);
     }
     render() {
-      const { heldStatus} = this.props
+      const { isOnHold} = this.props
       return (
           <div onClick={this.handleHoldall}> 
-            { heldStatus == '0' ? '保持' : '取消保持'}
+            { isOnHold == '0' ? '保持' : '取消保持'}
 
           </div>
       )
@@ -53,7 +53,7 @@ class HoldBtn extends Component {
 
 
 const mapStateToProps = (state) => ({
-  heldStatus: state.heldStatus,
+  isOnHold: state.globalConfInfo.isonhold,
   videoonlines: state.videoonlines,
   
 })

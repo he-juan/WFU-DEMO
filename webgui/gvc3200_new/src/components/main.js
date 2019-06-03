@@ -73,7 +73,7 @@ class Main extends React.Component {
         /*get dial line status to init the call page*/
         this.props.getAllLineStatus((result)=>{
             if(result.length > 0){
-                this.props.isConfOnHold();
+                // this.props.isConfOnHold();
                 this.props.getlocalrcdstatus();
                 for(let i = 0; i< result.length; i++){
                     if(result[i].acct == "1"){
@@ -208,9 +208,8 @@ const mapDispatchToProps = (dispatch) => {
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,
         setRecordStatus: Actions.setRecordStatus,
-        setHeldStatus: Actions.setHeldStatus,
         getMaxlineCount: Actions.getMaxlineCount,
-        isConfOnHold: Actions.isConfOnHold,
+        // isConfOnHold: Actions.isConfOnHold,
         setDeviceCallFeature: Actions.setDeviceCallFeature,
         getlocalrcdstatus: Actions.getlocalrcdstatus,
         getipvtrcdstatus: Actions.getipvtrcdstatus,

@@ -77,14 +77,14 @@ export const incomingcalls = (state = {style:"display-hidden",incomingcallsinfo:
 /**
  * 是否处于保持状态
  */
-export const heldStatus = (state = {}, action) => {
-    switch (action.type) {
-        case Actions.HELD_STATUS:
-            return action.heldStatus
-        default:
-            return state
-    }
-}
+// export const heldStatus = (state = {}, action) => {
+//     switch (action.type) {
+//         case Actions.HELD_STATUS:
+//             return action.heldStatus
+//         default:
+//             return state
+//     }
+// }
 
 export const FECCStatus = (state = {}, action) => {
     switch (action.type) {
@@ -234,8 +234,22 @@ export const ipvtRecordStatus = (state = "0", action) => {
 }
 
 
+export const globalConfInfo = (state = {}, action) => {
+    switch(action.type) {
+        case Actions.SET_GLOBAL_CONF_INFO: 
+            return action.globalConfInfo
+        default: 
+            return state
+    }
+}
+
+
+/**
+ * sfu
+ */
+
 // sfu 本地角色
-export const msfurole = (state = null, action) => {
+export const msfurole = (state = -1, action) => {
     switch(action.type) {
         case Actions.SET_MSFUROLE:
             return action.role
