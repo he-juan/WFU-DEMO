@@ -13877,6 +13877,7 @@ static int handle_getlogcat (buffer *b, const struct message *m)
     }
     snprintf(cmd, sizeof(cmd), "logcat -ds %s:%s > /tmp/logcat/logcat.text &", tag, priority);
     printf("cmd is %s\n",cmd);
+
     int result = mysystem(cmd);
     if(result == 0)
     {
@@ -25035,6 +25036,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             /* below are new APIs */
             } else if (!strcasecmp(action, "makecall")) {
                 char *members = msg_get_header(m, "members");
+                if (NULL == members) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 uri_decode(members);
                 params = append_req_params(params, "members", members, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "makeCall", params);
@@ -25046,12 +25051,20 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_methodcall_to_gmi(srv, con, b, m, "getGlobalConfInfo", params);
             } else if (!strcasecmp(action, "ctrlconfrecord")) {
                 char *state = msg_get_header(m, "state");
+                if (NULL == state) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfRecordState", params);
             } else if (!strcasecmp(action, "ctrlconfhold")) {
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfHoldState", params);
             } else if (!strcasecmp(action, "ctrlconfdnd")) {
-                char *state = msg_get_header(m, "state");
+                char *state = msg_get_header(m, "state"); 
+                if (NULL == state) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfDNDState", params);
             } else if (!strcasecmp(action, "ctrlconfmute")) {
@@ -25060,6 +25073,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfBlockState", params);
             } else if (!strcasecmp(action, "ctrlconfvideo")) {
                 char *state = msg_get_header(m, "state");
+                if (NULL == state) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfVideoState", params);
             } else if (!strcasecmp(action, "ctrllocalmute")) {
@@ -25070,19 +25087,35 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_methodcall_to_gmi(srv, con, b, m, "getConfDTMF", params);
             } else if (!strcasecmp(action, "sendconfdtmf")) {
                 char *dtmf = msg_get_header(m, "dtmf");
+                if (NULL == dtmf) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 params = append_req_params(params, "dtmf", dtmf, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "sendConfDTMF", params);
             } else if (!strcasecmp(action, "ctrllinemute")) {
                 char *line = msg_get_header(m, "line");
+                if (NULL == line) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 params = append_req_params(params, "line", line, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlLineMuteState", params);
             } else if (!strcasecmp(action, "ctrllineblock")) {
                 char *line = msg_get_header(m, "line");
+                if (NULL == line) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 params = append_req_params(params, "line", line, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlLineBlockState", params);
             } else if (!strcasecmp(action, "ctrllinevideo")) {
                 char *line = msg_get_header(m, "line");
                 char *state = msg_get_header(m, "state");
+                if (NULL == line || NULL == state) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
                 params = append_req_params(params, "line", line, 0);
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlLineVideoState", params);
