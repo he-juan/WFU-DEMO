@@ -38,7 +38,8 @@
             {"name": "remotecontrol", "lang": "a_16635", "acl": 0}
         ]},
         {"name": "sysapp", "lang": "a_3364", "icon":"appstore-o", "acl": 0, "sub": [
-            {"name": "ldap", "lang": "a_8411", "acl": 0, "product": "1"}
+            {"name": "ldap", "lang": "a_8411", "acl": 0, "product": "1"},
+            {"name": "record", "lang": "a_12098", "acl": 0, "product": "1"}
         ]},
         {"name": "maintenance", "lang": "a_16028", "icon":"tool", "acl": 0, "sub": [
             {"name": "upgrade", "lang": "a_1605", "acl": 1},

@@ -22,7 +22,7 @@ class Record extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeKey:0,
+            activeKey:'0',
             displaySetModal: false,
             showRecordSet: false
         }
@@ -251,13 +251,14 @@ class Record extends Component {
                     <Call {...this.props} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
                           _createName = {this._createName}  _createTime = {this._createTime} _createActions = {this._createActions} getRecordNameAndPath={this.getRecordNameAndPath} updateData={this.updateData}/>
                 </TabPane>
-            } ,
-            (hiddenOptions,i) => {
-                return<TabPane tab = {this.tr("normal_record")} key={i}>
-                    <Normal {...this.props} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
-                            _createName = {this._createName} _createDuration = {this._createDuration} _createTime = {this._createTime} _createActions = {this._createActions} />
-                </TabPane>
             }
+            // ,
+            // (hiddenOptions,i) => {
+            //     return<TabPane tab = {this.tr("normal_record")} key={i}>
+            //         <Normal {...this.props} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
+            //                 _createName = {this._createName} _createDuration = {this._createDuration} _createTime = {this._createTime} _createActions = {this._createActions} />
+            //     </TabPane>
+            // }
         ]
 
         return (
