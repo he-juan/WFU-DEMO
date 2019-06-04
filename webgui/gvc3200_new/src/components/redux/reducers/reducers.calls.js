@@ -156,7 +156,9 @@ export const videoonlines = (state = "", action) =>{
 export const detailinfo = (state = {}, action) =>{
     switch (action.type) {
         case Actions.LINE_DETAIL_INFO:
-            return action.detailinfo
+            let lineDetailInfo = {}
+            lineDetailInfo[action.detailinfo.line] = action.detailinfo.info
+            return Object.assign({}, state, lineDetailInfo)
         default:
             return state
     }

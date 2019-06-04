@@ -111,7 +111,7 @@ class DTMFBtn extends Component {
             return false;
         }
         this.props.getconfdtmf((data)=>{
-            this.setState({DTMFString:data.dtmfstr});
+            this.setState({DTMFString:data.data.dtmf});
         });
         this.setState({
             DTMFVisible: true

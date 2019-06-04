@@ -270,7 +270,7 @@ class HandleWebsocket extends React.Component {
 
 
     handlemessage = (message) => {
-        console.log(message)
+        // console.log(message)
         let type = message['type'];
         switch (type) {
             case 'install':
@@ -350,10 +350,7 @@ class HandleWebsocket extends React.Component {
                         this.changelinesstatus(message);
                         if( this.props.linesinfo.length <= 0 ){ // 所有线路都取消时
                             globalObj.isCallStatus = false;
-                            this.props.showCallDialog("10");
-                            endcalltimeout = setTimeout(() => {
-                                this.props.showCallDialog("end");
-                            }, 1000);
+                            this.props.showCallDialog("end");
                         }
                         sessionStorage.removeItem('recordSource')
                         break;
@@ -507,16 +504,23 @@ class HandleWebsocket extends React.Component {
                  break;
             // 新的消息 以上大部分无效
             case 'line-status-changed': 
-                let linesInfo = JSON.parse(JSON.stringify(this.props.linesinfo))
-                console.log(linesInfo)
-                for( let j = 0; j < linesInfo.length; j++ ){
-                    if(linesInfo[j].line == message.data.line) {
-                        linesInfo[j] = message.data
-                        console.log(linesInfo)
-                        break;
-                    }
+                // let linesInfo = JSON.parse(JSON.stringify(this.props.linesinfo))
+                // for( let j = 0; j < linesInfo.length; j++ ){
+                //     if(linesInfo[j].line == message.data.line) {
+                //         linesInfo[j] = message.data
+                //         break;
+                //     }
+                // }
+                // this.props.setDialineInfo1(linesInfo);
+                
+                if(window.TIMER_GETLINES) {
+                    clearTimeout(window.TIMER_GETLINES)
+                    window.TIMER_GETLINES = null
                 }
-                this.props.setDialineInfo1(linesInfo);
+                window.TIMER_GETLINES = setTimeout(() => {
+                    this.props.getAllLineStatus()
+                    window.TIMER_GETLINES = null
+                }, 100)
                 break;
             // 新的消息 会议全局状态信息
             case 'conf-status-changed':
@@ -615,6 +619,7 @@ const mapDispatchToProps = (dispatch) => {
         setHandsupstatus: Actions.setHandsupstatus,
         setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
         setGlobalConfInfo: Actions.setGlobalConfInfo,
+        getAllLineStatus: Actions.getAllLineStatus,
         //sfu
         getsfuconfinfo: Actions.getsfuconfinfo,
         getsfuconfmyrole: Actions.getsfuconfmyrole,

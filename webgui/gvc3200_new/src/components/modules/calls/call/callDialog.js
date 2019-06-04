@@ -19,7 +19,7 @@ import EndCall from './EndCall'
 import FECC from "./FECC";
 import Others from './Others'
 
-let tmpclass = "", ctrlbtnvisible = "display-hidden", maskvisible = "display-hidden";
+let tmpclass = "", ctrlbtnvisible = "display-hidden";
 let dialogLeaveTimeout;
 let mClicktimes = 0;
 let mPreClickTime, mCurrentClickTime, mTipTimeout;
@@ -239,6 +239,8 @@ class CallDialog extends Component {
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
         let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, isOnHold} = this.props;
+
+        console.log("linestatus", linestatus)
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
@@ -294,16 +296,10 @@ class CallDialog extends Component {
         }
 
         
-        if(callDialogStatus == 10){  //当所有线路均取消时 显示消失动画
-            if(maskvisible == "display-block"){
-                tmpclass = "call-dialog-out call-dialog-out-active";
-                dialogLeaveTimeout = setTimeout(() => {maskvisible = "display-hidden"}, 1000);
-            }
-        }
+        
         if(callDialogStatus == "9"){
             if(tmpclass != "call-dialog-in call-dialog-in-active"){
                 tmpclass = "call-dialog-in call-dialog-in-active";
-                maskvisible = "display-block";
             }
         }
 

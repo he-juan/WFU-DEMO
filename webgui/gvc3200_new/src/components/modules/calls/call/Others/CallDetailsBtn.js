@@ -19,7 +19,7 @@ class DetailsModalNormal extends Component {
 
     componentDidMount = () => {
         let line = this.getIPVline(this.props.linestatus);
-        this.setState({curline: this.props.linestatus[0].line});
+        this.setState({curline: this.props.linestatus.filter(item => item.state != 8)[0].line});
         if(line){
             this.props.getIPVConfInfo(line, (data)=>{
                 this.setState({ipvinfo:data});
@@ -60,57 +60,22 @@ class DetailsModalNormal extends Component {
     render() {
         const {curline,ipvinfo} = this.state;
         const {visible, onHide, linestatus, detailinfo} = this.props;
-        if(JSON.stringify(detailinfo) == '{}') return null
-        let account, mSendWholeBit = 0, mRecvWholeBit = 0;
-        let detailinfobj = {};
-        for(let i = 0; i < linestatus.length; i++){
-            if(linestatus[i].line == curline){
-                account = linestatus[i].acct;
-                break;
-            }
-        }
+        // if(JSON.stringify(detailinfo) == '{}') return null
 
-        let _callstatus = detailinfo.info.callStatus
+        let _callstatus = detailinfo[curline] && detailinfo[curline].callStatus || [{}, {}, {}, {}]
         let audio_send, audio_recv, video_send, video_recv, present_send, present_recv
-        if(detailinfo.line == curline) {
-            audio_send = _callstatus[0]
-            audio_recv = _callstatus[1]
-            video_send = _callstatus[2]
-            video_recv = _callstatus[3]
-            if(_callstatus[4]) {
-                if(_callstatus[4].mode == 'send'){
-                    present_send = _callstatus[4]
-                } else if(_callstatus[4].mode == 'recv') {
-                    present_recv = _callstatus[4]
-                }
+        audio_send = _callstatus[0]
+        audio_recv = _callstatus[1]
+        video_send = _callstatus[2]
+        video_recv = _callstatus[3]
+        if(_callstatus[4]) {
+            if(_callstatus[4].mode == 'send'){
+                present_send = _callstatus[4]
+            } else if(_callstatus[4].mode == 'recv') {
+                present_recv = _callstatus[4]
             }
-
         }
 
-
-        //获取当前要显示的通话线路的信息
-        // if(detailinfo.line == curline) {
-        //     detailinfobj.audiosnd = this.splitStrarray(detailinfo.audio_snd.split("snd;")[1], "audio");
-        //     detailinfobj.audiorcv = this.splitStrarray(detailinfo.audio_rcv.split("rcv;")[1], "audio");
-        //     mSendWholeBit += parseInt(detailinfobj.audiosnd.bitrate);
-        //     mRecvWholeBit += parseInt(detailinfobj.audiorcv.bitrate);
-        //     if (detailinfo.video_snd != "") {
-        //         detailinfobj.videosnd = this.splitStrarray(detailinfo.video_snd.split("snd;")[1], "video");
-        //         detailinfobj.videorcv = this.splitStrarray(detailinfo.video_rcv.split("rcv;")[1], "video");
-        //         mSendWholeBit += parseInt(detailinfobj.videosnd.bitrate);
-        //         mRecvWholeBit += parseInt(detailinfobj.videorcv.bitrate);
-        //     }
-        //     if (detailinfo.present_content != "") {
-        //         if (detailinfo.present_content.indexOf("snd") != -1) {
-        //             detailinfobj.presentsnd = this.splitStrarray(detailinfo.video_snd.split("snd;")[1], "content");
-        //         }else{
-        //             detailinfobj.presentrcv = this.splitStrarray(detailinfo.video_snd.split("rcv;")[1], "content");
-        //         }
-        //     }
-        // }
-        let ipvline = this.getIPVline(linestatus);
-        // let existvideosnd = detailinfo.video_snd != "" && detailinfobj.videosnd;
-        // let existvideorcv = detailinfo.video_rcv != "" && detailinfobj.videorcv;
         return (
             <Modal className="call-details-modal" visible={visible} title={this.tr('a_10015')} width="920px" maskClosable="false" footer={null} onCancel={onHide}>
                 <div className="detailscontent" style={{ height:  '630px'}}>
@@ -118,6 +83,7 @@ class DetailsModalNormal extends Component {
                     <div className="lineinfo">
                         {
                             linestatus.map((lineitem, index) =>{
+                                if(lineitem.state == '8') return null
                                 let classname = "linelist"
                                 if(lineitem.line == curline){
                                     classname += " active"
@@ -128,42 +94,6 @@ class DetailsModalNormal extends Component {
                         }
                     </div>
                     <div className="linedetails">
-                        {/* {
-                            ipvline ?
-                            <div className= "ipvconfdetails" style={{ display: account == 1 ? 'block' : 'none' }}>
-                                <div className="ipvconfdivs">
-                                    <span id="a_ipvconftitle" className="ipvconfdes">Subject</span><span>:</span> <span id="ipvconftitle" className="ipvconftitle ipvconfcontent">{ipvinfo.IPVTitle}</span>
-                                </div>
-                                <div className="ipvconfdivs">
-                                    <span id="a_ipvconfnumber" className="ipvconfdes">Meeting ID</span>:<span id="ipvconfnumber" className="ipvconfcontent">{ipvinfo.IPVNumber}</span>
-                                </div>
-                                <div className="ipvconfdivs">
-                                    <span id="a_ipvconfhost" className="ipvconfdes">Host</span>:<span id="ipvconfhost" className="ipvconfcontent">{ipvinfo.IPVConfHost ? ipvinfo.IPVConfHost : "IPVideoTalk"}</span>
-                                </div>
-                                <div className="ipvconfdivs">
-                                    <span id="a_ipvconfpass" className="ipvconfdes">Password</span>:<span id="ipvconfpass" className="ipvconfcontent">{ipvinfo.IPVPassword}</span>
-                                </div>
-                                <div className="ipvconfdivs" style={{display:"table"}}>
-                                    <span id="a_ipvconfurl" className="ipvconfdes">URL</span><span style={{marginRight: '25px'}}>:
-                                </span><span id="ipvconfurl" className="ipvconfcontent">{ipvinfo.IPVConfURL}</span>
-                                </div>
-                                <div className="ipvconfdivs" style={{display: ipvinfo.IPVHostcode ? 'block':'none'}}>
-                                    <span id="a_ipvconfhostcode" className="ipvconfdes">Host code</span>:
-                                    <span id="ipvconfhostcode" className="ipvconfcontent" >{ipvinfo.IPVHostcode ? ipvinfo.IPVHostcode : ""}</span>
-                                </div>
-                                <div className="ipvconfdivs" id="regiondivs" style={{display:ipvinfo.IPVRegion ? "block":"none"}}>
-                                    <span id="a_ipvconfregion" className="ipvconfdes">Server area</span>:
-                                    <span id="ipvconfregion" className="ipvconfcontent">{ipvinfo.IPVRegion}</span>
-                                </div>
-                                <div className="ipvconfdivs" id="pstndivs" style={{display: ipvinfo.IPVRegion=="0" || ipvinfo.IPVRegion == "" ? 'none':'table', marginBottom:'10px'}}>
-                                    <span id="a_ipvconfpstn" className="ipvconfdes">Join by phone</span>
-                                    <span style={{marginRight: '25px'}}>:</span>
-                                    <span id="ipvconfpstn" className="ipvconfcontent" style={{maxWidth: '440px',lineHeight:'14px', display: 'table-cell', verticalAlign: 'middle', wordWrap: 'break-word'}}>
-                                        {this.tr('a_9400')+" " + ipvinfo.IPVPSTN + " " + this.tr('a_15058')}
-                                    </span>
-                                </div>
-                            </div> : ""
-                        } */}
                         <div className="detailstitle">
                             <div id="detailsend"><div><span id="a_detailsend">Send</span>&nbsp;:&nbsp;</div></div>
                             <div id="detailreceive"><div><span id="a_detailreceive">Receive</span>&nbsp;:&nbsp;</div></div>
@@ -180,27 +110,27 @@ class DetailsModalNormal extends Component {
                                             <div className="lostdiv">
                                                 <span className="spantitle">{this.tr("a_10019")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_send.lost}</span>
+                                                <span className="spancontent">{video_send.lost || ""}</span>
                                             </div>
                                             <div className="bitratediv">
                                                 <span className="spantitle">{this.tr("a_10020")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_send.bitrate}</span>
+                                                <span className="spancontent">{video_send.bitrate || ""}</span>
                                             </div>
                                             <div className="fpsdiv">
                                                 <span className="spantitle">{this.tr("a_12147")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_send.fps + this.tr("a_16277")}</span>
+                                                <span className="spancontent">{video_send.fps  || "" + this.tr("a_16277")}</span>
                                             </div>
                                             <div className="codecdiv">
                                                 <span className="spantitle">{this.tr("a_16115")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_send.codec}</span>
+                                                <span className="spancontent">{video_send.codec  || ""}</span>
                                             </div>
                                             <div className="resolutiondiv">
                                                 <span className="spantitle">{this.tr("a_10023")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_send.resolution}</span>
+                                                <span className="spancontent">{video_send.resolution  || ""}</span>
                                             </div>
                                         </div>
                                         : null
@@ -211,27 +141,27 @@ class DetailsModalNormal extends Component {
                                             <div className="lostdiv">
                                                 <span className="spantitle">{this.tr("a_10019")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_recv.lost}</span>
+                                                <span className="spancontent">{video_recv.lost  || ""}</span>
                                             </div>
                                             <div className="bitratediv">
                                                 <span className="spantitle">{this.tr("a_10020")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_recv.bitrate}</span>
+                                                <span className="spancontent">{video_recv.bitrate  || ""}</span>
                                             </div>
                                             <div className="fpsdiv">
                                                 <span className="spantitle">{this.tr("a_12147")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_recv.fps + this.tr("a_16277")}</span>
+                                                <span className="spancontent">{video_recv.fps || "" + this.tr("a_16277")}</span>
                                             </div>
                                             <div className="codecdiv">
                                                 <span className="spantitle">{this.tr("a_16115")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_recv.codec}</span>
+                                                <span className="spancontent">{video_recv.codec || ""}</span>
                                             </div>
                                             <div className="resolutiondiv">
                                                 <span className="spantitle">{this.tr("a_10023")}</span>
                                                 <span className="spansign">:</span>
-                                                <span className="spancontent">{video_recv.resolution}</span>
+                                                <span className="spancontent">{video_recv.resolution || ""}</span>
                                             </div>
                                         </div> 
                                         : null
@@ -432,52 +362,9 @@ class DetailModalSfu extends Component {
               }
             </div>
             <div className="linedetails">
-              {/* 会议信息
-              {
-                currentInfo == 'conf-detail' ? 
-                <div className="conf-detail">
-                  <div className="ipvconfdivs">
-                    <span className="ipvconfdes">会议时间</span><span>:</span><span className="ipvconfcontent">{sfu_meetinginfo.beginTime}</span>
-                  </div>
-                  <div className="ipvconfdivs">
-                    <span className="ipvconfdes">会议号码</span><span>:</span><span className="ipvconfcontent">{sfu_meetinginfo.meetingNumber}</span>
-                  </div>
-                  <div className="ipvconfdivs">
-                    <span className="ipvconfdes">会议密码</span><span>:</span><span className="ipvconfcontent">{sfu_meetinginfo.meetingPassword ? sfu_meetinginfo.meetingPassword : '无'}</span>
-                  </div>
-                  <div className="ipvconfdivs">
-                    <span className="ipvconfdes">会议主持人</span><span>:</span><span className="ipvconfcontent">{sfu_meetinginfo.hostUser}</span>
-                  </div>
-                  <div className="ipvconfdivs">
-                    <span className="ipvconfdes">会议状态</span><span>:</span><span className="ipvconfcontent">{sfu_meetinginfo.isLocked != '1' ? '已解锁' : '已加锁'}</span>
-                  </div>
-                  <div className="ipvconfdivs">
-                    <span className="ipvconfdes">参会者成员({sfu_meetinginfo.memberInfoList.length})</span><span>:</span>
-                    <ul className="confmember">
-                      {
-                        sfu_meetinginfo.memberInfoList.map(v => {
-                          return (
-                            <li key={v.number}>
-                              <span>{v.name}</span><span>{v.number}</span><em className={v.isMuted == '0' ? 'details-unmute' : 'details-mute'}></em>
-                            </li>
-                          )
-                          
-                        })
-                      }
-                      
-                      
-                    </ul>
-                  </div>
-                </div>
-                : null
-              } */}
-              
-  
-  
               {/* 通用详情  */}
               {
                 currentInfo == 'general-detail' ? 
-  
                 <div className="general-detail">
                 <div className="detailstitle">
                   <div id="detailsend"><span id="a_detailsend">Send</span>&nbsp;:&nbsp;</div>

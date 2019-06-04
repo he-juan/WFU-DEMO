@@ -200,12 +200,29 @@ class LogAndContacts extends Component {
   // 选择成员
   selectCallMem = (memId) => {
     const { confMemSelectToCall } = this.state
-    const _memSelect = confMemSelectToCall.slice()
+    const { maxlinecount, linesInfo } = this.props
+    // console.log(linesInfo)
+    let _memSelect = JSON.parse(JSON.stringify(confMemSelectToCall))
     for(let mem of _memSelect) {
       if(mem.id == memId) {
         mem.selected = !mem.selected
         break
       }
+    }
+    // console.log(_memSelect)
+    // 选中的拨打成员数_memSelect　＋　在拨打的线路数linesInfo(去重，去除拨打失败的)　不超过最大线路数maxlinecount
+    let len = linesInfo.filter(item => item.state != '8').length + _memSelect.filter(i => i.selected && !linesInfo.some(j => j.num == i.number)).length
+    if(len >= 2) {
+      _memSelect = _memSelect.map(mem => {
+        if(mem.selected) return mem
+        mem.checkDisable = true
+        return mem
+      })
+    } else {
+      _memSelect = _memSelect.map(mem => {
+        delete mem.checkDisable
+        return mem
+      })
     }
     this.setState({
       confMemSelectToCall: _memSelect
@@ -271,7 +288,7 @@ class LogAndContacts extends Component {
   }
   render() {
     const { confMemSelectToCall,dataSource, expandedKeys, curPage } = this.state
-    const { mainHeight} = this.props  
+    const { mainHeight, maxlinecount} = this.props  
     let _dataSource = dataSource.slice(0, 30 * curPage)
     const _this = this
     const columns = [
@@ -338,21 +355,24 @@ class LogAndContacts extends Component {
           />
         </div>
         <Modal 
-          width={450} 
+          width={450}
           className="modal-member" 
           title={'呼叫'} 
           visible={confMemSelectToCall.length > 0} 
           onCancel={() => this.setState({confMemSelectToCall: []})}
+          transitionName=""
+          maskTransitionName=""
           footer={
               <Button  type="primary" onClick={() => this.confMemSelectCall()} disabled={confMemSelectToCall.filter(v => v.selected).length == 0}>呼叫</Button>
           }
           >
+          <p className="modal-tips"><span>{confMemSelectToCall.some(mem => mem.checkDisable) ? `成员数量已达上限(${maxlinecount})` : ""}</span></p>
           <ul className="modal-member-ul">
             {
               confMemSelectToCall.map(mem => {
                 return (
                   <li key={mem.id}>
-                    <span>{mem.col0}</span><span>{mem.col1}</span><span>{mem.number}</span><span><Checkbox checked={!!mem.selected} onChange={() => this.selectCallMem(mem.id)} /></span>
+                    <span><Checkbox disabled={Boolean(mem.checkDisable)} checked={!!mem.selected} onChange={() => this.selectCallMem(mem.id)} /></span><span>{mem.col0}</span><span>{mem.col1}</span><span>{mem.number}</span>
                   </li>
                 )
               })
@@ -368,7 +388,8 @@ const mapState = (state) => ({
   contactsNew: state.contactsNew,
   callLogsNew: state.callLogsNew,
   mainHeight: state.mainHeight,
-
+  maxlinecount: state.maxlinecount,
+  linesInfo: state.linesInfo,
 })
 
 const mapDispatch = (dispatch) => {

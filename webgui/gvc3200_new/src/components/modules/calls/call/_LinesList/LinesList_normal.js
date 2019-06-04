@@ -27,7 +27,8 @@ function calLineBtnStatus(lineItem, acctstatus){
         confvideoclass = '',   // 开启或关闭视频
         blockclass = '',       // 禁声
         muteclass = '',        // 静音
-        feccclass = '';        // 摄像头控制 FECC
+        feccclass = '',        // 摄像头控制 FECC
+        recallclass = 'display-hidden';
     
     const { state, acct, enablefecc, feccstate, isvideoed, isvideo, isremotehold , issuspend, isblock, islinemute, msg}= lineItem;
 
@@ -70,6 +71,7 @@ function calLineBtnStatus(lineItem, acctstatus){
         case 'init8': // 呼叫时 刷新浏览器
         case '8':
             isvideoedclass = suspendclass =  confvideoclass = blockclass = muteclass = 'display-hidden';
+            recallclass = 'confrecall';
             switch(msg) {
                 case "3":
                     itemTitle = tr("a_539");
@@ -114,42 +116,18 @@ function calLineBtnStatus(lineItem, acctstatus){
         confvideoclass,   // 开启或关闭视频
         blockclass,       // 禁声
         muteclass,        // 静音
-        feccclass       // 摄像头控制 FECC
+        feccclass,       // 摄像头控制 FECC
+        recallclass
     }
 }
 
 // 本地线路的按钮状态
-function calLocalBtnStatus(linestatus, localcamerastate) {
-    let ismute = linestatus[0] && linestatus[0].isLocalMuted == "1" ? "1" : "0";
-    let localmuteclass = "unmute";
-    let localcamerastateclass = "confvideo";
-    let startFECCClass = "startFECC";
-    let localbtndisabled = false;
-
-    const talkingLines = linestatus.filter(v => {
-        let state = v.state
-        return ( state == '3' || state == 'init3' || state == 'init8' || state == '8')
-    })
-    if(talkingLines.length == linestatus.length) {
-        localmuteclass += " btndisable";
-        startFECCClass += " btndisable";
-        localcamerastateclass += " btndisable";
-        localbtndisabled = true;
-    } else {
-        localmuteclass = ismute == "1" ? "mute" : "unmute";
-        if(localcamerastate == "0"){
-            localcamerastateclass = "confvideo";
-        }else{
-            localcamerastateclass = "confaudio";
-        }
-    }
-
+function calLocalBtnStatus(globalConfInfo) {
+    
     return {
-        localmuteclass,
-        localcamerastateclass,
-        startFECCClass,
-        localbtndisabled,
-        ismute
+        localmuteclass: globalConfInfo.localmutestate == '1' ? 'mute' : 'unmute',
+        localcamerastateclass : globalConfInfo.localcamerastate == '1' ? 'confaudio' : 'confvideo',
+        ismute: parseInt(globalConfInfo.localmutestate)
     }
 }
 
@@ -270,7 +248,7 @@ class LinesList extends Component {
     }
 
     // 挂断某个线路
-    handleEndline = (line, account) =>{
+    handleEndline = (item) =>{
         if(this.props.callFeatureInfo.disconfstate == "0"){
             //check the line if pause
             if(this.props.isOnHold == "1"){
@@ -279,10 +257,11 @@ class LinesList extends Component {
             }
         }
         let flag = "0";
-        if(account == 1 && this.props.ipvrole == "2"){
+        if(item.acct == 1 && this.props.ipvrole == "2"){
             flag = "1";
         }
-        this.props.endlinecall(line, flag);
+        // this.props.endlinecall(line, flag);
+        $.get('/manager?action=endcall&line='+ item.line)
     }
 
     // 开关视频
@@ -298,7 +277,7 @@ class LinesList extends Component {
         if(lineitem.isvideo == "1"){
             mode = "0";
         }
-        this.props.ctrlvideostate(lineitem.line, mode);
+        $.get('/manager?action=ctrlvideostate&region=confctrl&isflag='+ mode + '&line=' + lineitem.line)
     }
     // 禁声
     handlelineblock = (line) =>{
@@ -309,15 +288,11 @@ class LinesList extends Component {
         if(this.ispause()){
             return false;
         }
-        this.props.blockLineOrNot(line);
+        $.get('/manager?action=ctrllineblock&region=confctrl&line=' + line)
     }
     // 静音
     handlelinemute = (lineitem) =>{
-        if(lineitem.islinemute == "1"){
-            this.props.ctrlLineMute(lineitem.line, "0");
-        }else {
-            this.props.ctrlLineMute(lineitem.line, "1");
-        }
+        $.get('/manager?action=ctrllinemute&region=confctrl&line=' + lineitem.line + '&setmute=' + (lineitem.islinemute == '1' ? "0" : "1"))
     }
     // 本地线路摄像头
     handlelocalcamera = () =>{
@@ -335,7 +310,7 @@ class LinesList extends Component {
         {
             return false;
         }
-        this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
+        $.get('/manager?action=ctrllocalmute&region=confctrl&setmute=' + (ismute == "1" ? "0" : "1"))
     }
 
     // 全场静音
@@ -362,9 +337,13 @@ class LinesList extends Component {
         }
         $.get('/manager?action=ctrlconfvideo&state=' + (isAllSuspend ? 0 : 1))
     }
+    // 回拨
+    handleReCall = () => {
+
+    }
     render() {
-        const { acctstatus, feccbtnvisile, linestatus, localcamerastate, isOnHold , isAllBlock, isAllMute, isAllSuspend } = this.props
-        const { localmuteclass, localcamerastateclass, startFECCClass, localbtndisabled, ismute } = calLocalBtnStatus(linestatus, localcamerastate)
+        const { acctstatus, feccbtnvisile, linestatus, globalConfInfo, isOnHold , isAllBlock, isAllMute, isAllSuspend } = this.props
+        const { localmuteclass, localcamerastateclass, ismute } = calLocalBtnStatus(globalConfInfo)
         const isHeld = isOnHold == '1'
 
         return (
@@ -386,14 +365,14 @@ class LinesList extends Component {
                     <div className="conftype"></div>
                     <div className="confbtn">
                         {/* <Button id="startFECC" title={tr("a_19020")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/> */}
-                        <Button id="closecamera" title={"点击关闭本地摄像头"} disabled={isHeld || localbtndisabled}  className={localcamerastateclass} onClick={this.handlelocalcamera}/>
-                        <Button id="localmute" title={"点击静音"} disabled={isHeld || localbtndisabled}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
+                        <Button id="closecamera" title={"点击关闭本地摄像头"} disabled={isHeld}  className={localcamerastateclass} onClick={this.handlelocalcamera}/>
+                        <Button id="localmute" title={"点击静音"} disabled={isHeld}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                     </div>
                 </div>
                 {
                 linestatus.map((item, i) => {
                     let disabledflag = item.acct == 1 || item.isremotehold == "1";
-                    let {itemTitle, isvideoedclass, suspendclass, confvideoclass, blockclass, muteclass, feccclass } = calLineBtnStatus(item, acctstatus)
+                    let {itemTitle, isvideoedclass, suspendclass, confvideoclass, blockclass, muteclass, feccclass, recallclass } = calLineBtnStatus(item, acctstatus)
                     return <div className={`remote-line remote-line-${i}`} key={i}>
                         <div className="confname">{item.name || item.num}</div>
                         <div className="confnum">{item.acct == 1 ? (item.name || item.num) : item.num}</div>
@@ -401,7 +380,10 @@ class LinesList extends Component {
                         <div className="confbtn">
                             {/* 结束通话 */}
                             <Button title={"结束"} className="endconf" disabled={isHeld}
-                                    onClick={this.handleEndline.bind(this, item.line, item.acct)}/>
+                                    onClick={this.handleEndline.bind(this, item)}/>
+                            {/* 通话失败回拨 */}
+                            <Button title={"回拨"} className={recallclass} disabled={isHeld}
+                                    onClick={this.handleReCall.bind(this, item)}/>
                             {/* 本地摄像头控制 */}
                             {/* <Button className={feccclass} style={{display: feccbtnvisile ? 'block' : 'none' }}
                                     onClick={this.handleStartFECC.bind(this, item.line)}
@@ -447,7 +429,7 @@ const mapStateToProps = (state) => ({
     callFeatureInfo: state.callFeatureInfo,
     isOnHold: state.globalConfInfo.isonhold,
     ipvrole: state.ipvrole,
-    localcamerastate: state.globalConfInfo.localcamerastate,
+    globalConfInfo: state.globalConfInfo,
     isAllMute: state.globalConfInfo.isallmute,
     isAllBlock: state.globalConfInfo.isallblock,
     isAllSuspend: state.globalConfInfo.isallsuspend
@@ -462,11 +444,8 @@ const mapDispatchToProps = (dispatch) => {
       isFECCEnable: Actions.isFECCEnable,
       ctrlFECC: Actions.ctrlFECC,
       conflinevideoedstate: Actions.conflinevideoedstate,
-      ctrlvideostate: Actions.ctrlvideostate,
-      blockLineOrNot: Actions.blockLineOrNot,
-      ctrlLineMute: Actions.ctrlLineMute,
-      ctrlLocalMute: Actions.ctrlLocalMute,
-      suspendLineOrNot: Actions.suspendLineOrNot
+      suspendLineOrNot: Actions.suspendLineOrNot,
+      makeCall: Actions.makeCall
     }
 
     return bindActionCreators(actions, dispatch)

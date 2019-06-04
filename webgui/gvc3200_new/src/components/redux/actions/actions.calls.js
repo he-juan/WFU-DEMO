@@ -814,20 +814,6 @@ export const setschedule = (infostr,type,callback) => (dispatch) => {
     });
 }
 
-/**
- * mute or unmute local line
- * @param ismute
- */
-export const ctrlLocalMute = (ismute, callback) => (dispatch) => {
-    let request = "action=ctrllocalmute&region=confctrl&setmute=" + ismute;
-    request += "&time=" + new Date().getTime();
-
-    actionUtil.handleGetRequest(request).then(function(data){
-        let tObj = JSON.parse(data);
-    }).catch(function(error) {
-        console.log("ctrllocalmute Exception:",error);
-    });
-}
 
 export const ctrlLineMute = (line, ismute) => (dispatch) => {
     let request = "action=ctrllinemute&region=confctrl&line="+line+"&setmute="+ismute;
@@ -980,7 +966,9 @@ export const getAllLineStatus = (callback) => (dispatch) => {
             getvideocodec(lineinfoArr[0])
         }
         dispatch(setDialineInfo1(lineinfoArr))// dispatch({type: 'DIAL_LINE_INFO1', linesInfo: lineinfoArr});
-        callback(lineinfoArr);
+        if(callback) {
+            callback(lineinfoArr);
+        }
     }).catch(function(error) {
         promptForRequestFailed();
     });
@@ -1078,25 +1066,6 @@ export const endconf = (flag) => (dispatch) =>{
 
 }
 
-export const blockLineOrNot = (line) =>(dispatch) => {
-    let request = "action=ctrllineblock&region=confctrl&line="+line;
-    request += "&time=" + new Date().getTime();
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
-// 开启关闭视频
-export const ctrlvideostate = (line, mode) =>(dispatch) => {
-    let request = "action=ctrlvideostate&region=confctrl&isflag="+ mode + "&line=" + line;
-    request += "&time=" + new Date().getTime();
-
-    actionUtil.handleGetRequest(request).then(function(data) {
-    }).catch(function(error) {
-        promptForRequestFailed();
-    });
-}
 
 export const acceptringline = (line, isaccept, isvideo, callback) => (dispatch) => {
     let request = "action=acceptringline&region=confctrl&isaccept=" + isaccept + "&line=" + line + "&isvideo=" + isvideo;
@@ -1223,7 +1192,7 @@ export const getIPVConfInfo = (ipvline, callback) => (dispatch) => {
 }
 
 export const getconfdtmf = (callback) =>(dispatch) =>{
-    let request = "action=getconfdtmf&region=confctrl";
+    let request = "action=getconfdtmf";
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function (data) {
@@ -1235,7 +1204,7 @@ export const getconfdtmf = (callback) =>(dispatch) =>{
 }
 
 export const sendDTMFchar = (number, callback) =>(dispatch) => {
-    let request = "action=sendDTMFchar&region=confctrl&dtmfvalue="+ encodeURIComponent(number);
+    let request = "action=sendconfdtmf&dtmf="+ encodeURIComponent(number);
     request += "&time=" + new Date().getTime();
 
     actionUtil.handleGetRequest(request).then(function (data) {

@@ -208,8 +208,6 @@ const mapDispatchToProps = (dispatch) => {
         getNvrams: Actions.getNvrams,
         setMuteStatus: Actions.setMuteStatus,
         getMaxlineCount: Actions.getMaxlineCount,
-        // isConfOnHold: Actions.isConfOnHold,
-        setDeviceCallFeature: Actions.setDeviceCallFeature,
         getlocalrcdstatus: Actions.getlocalrcdstatus,
         getipvtrcdstatus: Actions.getipvtrcdstatus,
         getipvthandsupstatus: Actions.getipvthandsupstatus,

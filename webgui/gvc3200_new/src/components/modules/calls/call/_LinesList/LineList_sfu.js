@@ -149,11 +149,7 @@ class LinesList extends Component {
 
     // 静音
     handlelinemute = (lineitem) =>{
-        if(lineitem.islinemute == "1"){
-            this.props.ctrlLineMute(lineitem.line, "0");
-        }else {
-            this.props.ctrlLineMute(lineitem.line, "1");
-        }
+        $.get('/manager?action=ctrllinemute&region=confctrl&line=' + lineitem.line + '&setmute=' + (lineitem.islinemute == '1' ? "0" : "1"))
     }
     // 本地线路摄像头
     handlelocalcamera = () =>{
@@ -170,7 +166,7 @@ class LinesList extends Component {
         {
             return false;
         }
-        this.props.ctrlLocalMute(ismute == "1" ? "0" : "1");
+        $.get('/manager?action=ctrllocalmute&region=confctrl&setmute=' + (ismute == "1" ? "0" : "1"))
     }
     componentDidMount() {
       this.props.getsfuconfinfo()
@@ -304,8 +300,6 @@ const mapDispatchToProps = (dispatch) => {
       getItemValues:Actions.getItemValues,
       isFECCEnable: Actions.isFECCEnable,
       ctrlFECC: Actions.ctrlFECC,
-      ctrlLineMute: Actions.ctrlLineMute,
-      ctrlLocalMute: Actions.ctrlLocalMute,
 
       //sfu
       getsfuconfinfo: Actions.getsfuconfinfo,
