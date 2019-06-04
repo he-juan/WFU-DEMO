@@ -517,17 +517,14 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
         if ( dbus_message_get_args( message, &error, 
                                     DBUS_TYPE_INT32, &i,
                                     DBUS_TYPE_STRING, &str,
-                                    DBUS_TYPE_STRING, &str2,
-                                    DBUS_TYPE_STRING, &str3,
-                                    DBUS_TYPE_STRING, &str4,
-                                    DBUS_TYPE_STRING, &str5,
                                     DBUS_TYPE_INVALID ) )
         {
             
-            len = strlen(str) + strlen(str2) + strlen(str3) + strlen(str4) + strlen(str5) + 128;
+            len = strlen(str) + 128;
             sendData = malloc(len);
-            memset(sendData,0,len);
-            snprintf(sendData,len,"{\"type\":\"detail\",\"line\":\"%d\",\"video_snd\":\"%s\",\"video_rcv\":\"%s\",\"present_content\":\"%s\",\"audio_snd\":\"%s\",\"audio_rcv\":\"%s\"},",i,str,str2,str3,str4,str5);
+            memset(sendData, 0, len);
+            snprintf(sendData, len, "{\"type\":\"detail\",\"line\":\"%d\",\"info\":%s},", i, str);
+            LOGD("call detail: %s", sendData);
             sendDataToSocket(sendData);
             free(sendData);
         }
