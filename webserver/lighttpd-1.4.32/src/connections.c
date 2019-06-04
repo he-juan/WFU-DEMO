@@ -25159,6 +25159,14 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 params = append_req_params(params, "line", line, 0);
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlLineVideoState", params);
+            } else if (!strcasecmp(action, "endcall")) {
+                char *line = msg_get_header(m, "line");
+                if (NULL == line) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                params = append_req_params(params, "line", line, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "endLine", params);
 	        //} else {
             //    findcmd = 0;
             }
@@ -25508,8 +25516,6 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_movetodefault(srv, con, b, m);
                 } else if (!strcasecmp(action, "lineStatus")) {
                     handle_getLineStatus(srv, con, b, m);
-                } else if (!strcasecmp(action, "endcall")) {
-                    handle_endcall(srv, con, b, m);
                 } else if (!strcasecmp(action, "gmiVersion")) {
                     handle_getGmiVersion(srv, con, b, m);
                 } else if (!strcasecmp(action, "launchservice")){
