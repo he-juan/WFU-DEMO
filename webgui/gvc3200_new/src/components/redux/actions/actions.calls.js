@@ -1376,7 +1376,11 @@ export const setGlobalConfInfo = (globalConfInfo) => {
 export const getGlobalConfInfo = (callback) => (dispatch) => {
     let request = "action=getglobalconfinfo"
     actionUtil.handleGetRequest(request).then(function (data) {
-        dispatch(setGlobalConfInfo(JSON.parse(data).data))
+        let _data = JSON.parse(data).data
+        dispatch(setGlobalConfInfo(_data))
+        if(callback) {
+            callback(_data)
+        }
     })
 }
 

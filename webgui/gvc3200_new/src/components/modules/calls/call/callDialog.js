@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Enhance from "../../../mixins/Enhance"
 import { Layout, Button, Popover,Modal } from "antd"
+import moment from 'moment'
 import * as Actions from '../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -20,9 +21,20 @@ import FECC from "./FECC";
 import Others from './Others'
 
 let tmpclass = "", ctrlbtnvisible = "display-hidden";
-let dialogLeaveTimeout;
 let mClicktimes = 0;
 let mPreClickTime, mCurrentClickTime, mTipTimeout;
+
+let durationTimer = null
+
+const prefixInteger = function (num, n) {
+    return (Array(n).join(0) + num).slice(-n)
+}
+const parseDuration = function (dura) {
+    if(dura == 0) return ''
+    let d = moment.duration(dura)
+    return `${prefixInteger(d.get('hour'), 2)}:${prefixInteger(d.get('minutes'), 2)}:${prefixInteger(d.get('seconds'), 2)}`
+}
+
 
 
 class CallDialog extends Component {
@@ -35,7 +47,8 @@ class CallDialog extends Component {
             is4kon: false,
             ishdmione4K: false,
             isline4Kvideo: false,
-            DTMFDisplay: true    //?
+            DTMFDisplay: true,    //?
+            duration: 0
 		}
 		this.req_items = new Array();
         this.req_items.push(
@@ -54,7 +67,6 @@ class CallDialog extends Component {
             this.getReqItem("autovideostate", "25023", "")
         )
     }
-
     componentWillMount = () => {
         this.props.callstatusreport("0");  //页面刚进来时，停止detail message.
     }
@@ -118,11 +130,6 @@ class CallDialog extends Component {
         const _this = this;
         window.addEventListener('hashchange', _this.minimizeDialog)
 
-    }
-    componentWillUnmount = () => {
-        clearTimeout(dialogLeaveTimeout);
-        const _this = this;
-        window.removeEventListener('hashchange', _this.minimizeDialog)
     }
 
     countClickedTimes =()=>{
@@ -231,16 +238,33 @@ class CallDialog extends Component {
     // }
 
     componentWillUnmount = () => {
-        
-        clearInterval(this.callTick);
+        const _this = this;
+        window.removeEventListener('hashchange', _this.minimizeDialog)
+        clearInterval(durationTimer)
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        const thisDuration = this.props.globalConfInfo.duration
+        const nextDuration = nextProps.globalConfInfo.duration
+        if(!this.state.duration &&  nextDuration > 0 ) {
+            this.setState({
+                duration: parseInt(nextDuration)
+            })
+            durationTimer = setInterval(() => {
+                let duration = this.state.duration
+                this.setState({
+                    duration: duration + 1000
+                })
+            },1000)
+        }
+    }
     
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, isOnHold} = this.props;
+        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, isOnHold, globalConfInfo} = this.props;
+        let { duration } = this.state
 
-        console.log("linestatus", linestatus)
+
         for(let i = 0 ; i < linestatus.length; i++){
             let lineitem = linestatus[i];
             let  state= lineitem.state;
@@ -250,9 +274,6 @@ class CallDialog extends Component {
                 case "init3":  // 呼叫中时 刷新浏览器
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
-                    }
-                    if (dialogLeaveTimeout) {
-                        clearTimeout(dialogLeaveTimeout);
                     }
                     ctrlbtnvisible = "display-hidden";
                     break;
@@ -307,13 +328,14 @@ class CallDialog extends Component {
         const _ispause = this.ispause
 
         const isBtnsHide = isOnHold == '1' || ctrlbtnvisible == 'display-hidden' 
+
         return (
             <div className={`call-dialog`}>
 				<div className={`call-ctrl ${tmpclass}`} >
                     <div className="call-ctrl-head">
                         <div className="call-ctrl-title">
                             <strong>conf 1.2.132123</strong> <br />
-                            <span>00:10:11</span>
+                            <span>{parseDuration(duration)}</span>
                         </div>
                         <div className="shrink-icon" onClick={this.minimizeDialog}></div>
                     </div>
@@ -427,6 +449,7 @@ const mapStateToProps = (state) => ({
     msgsContacts: state.msgsContacts,
     ipvrole: state.ipvrole,
     isOnHold: state.globalConfInfo.isonhold,
+    globalConfInfo: state.globalConfInfo,
     // sfu
     msfurole: state.msfurole,
     sfu_meetinginfo: state.sfu_meetinginfo,
