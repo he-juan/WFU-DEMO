@@ -174,7 +174,6 @@ class MainHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dndstyle: 'dndoff',
             showControl:false
         },
         this.mInterval = null;
@@ -186,10 +185,7 @@ class MainHeader extends Component {
         this.props.checkIsApply();
         var pwdchange = $.cookie("needchange");
         pwdchange == 0 ? this.props.passTipStyle("display-hidden") : this.props.passTipStyle("display-block");
-        var dndstyle;
         this.props.getItemValues(req_items,(values) => {
-            dndstyle = (values.dnd == '1' ? 'dndon' : 'dndoff');
-            this.setState({dndstyle: dndstyle})
             this.props.setDndModeStatus(values.dnd);
         })
     }
@@ -240,7 +236,6 @@ class MainHeader extends Component {
                     cancelText: 'No',
                     onOk() {
                         self.props.setDndMode("0","0",()=>{
-                            self.setState({dndstyle: "dndoff"});
                             self.props.setDndModeStatus("0");
                         })
                         $('.header-container').css('z-index','1112')
@@ -257,7 +252,6 @@ class MainHeader extends Component {
                     cancelText: 'No',
                     onOk() {
                         self.props.setDndMode("1","0",()=>{
-                            self.setState({dndstyle: "dndon"})
                             self.props.setDndModeStatus("1");
                         })
                         $('.header-container').css('z-index','1112')
@@ -334,7 +328,7 @@ class MainHeader extends Component {
     }
 
     render() {
-        const {applyButtonStatus,pwdvisible,product,oemId,userType} = this.props;
+        const {applyButtonStatus,pwdvisible,product,oemId,userType, dndstatus} = this.props;
 
         this.updateApplyButton(applyButtonStatus);
 
@@ -385,7 +379,7 @@ class MainHeader extends Component {
                         }
                     </div>
                     <div className='header-btn-div'>
-                        <div className={"remote " + this.state.dndstyle} id="dndbtn">
+                        <div className={"remote " + (dndstatus == '1' ? 'dndon' : 'dndoff')} id="dndbtn">
                             <a onClick={this.handleSetDndMode}>{this.tr("a_1302")}</a>
                         </div>
                         <div className="RemoteControl" style={{width:100}}>
@@ -511,6 +505,7 @@ const mapStateToProps = (state) => ({
     userType: state.userType,
     productStr: state.productStr,
     itemValues:state.itemValues,
+    dndstatus: state.dndstatus
 })
 
 function mapDispatchToProps(dispatch) {

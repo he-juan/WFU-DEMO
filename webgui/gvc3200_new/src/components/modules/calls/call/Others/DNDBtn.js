@@ -21,9 +21,9 @@ class DNDBtn extends Component {
           return false;
       }
       if(this.props.dndstatus == "0"){
-          this.props.setDndMode("1","1");
+          this.props.setDndMode("1");
       }else{
-          this.props.setDndMode("0","1");
+          this.props.setDndMode("0");
       }
     }
     render() {
