@@ -729,8 +729,7 @@ export const options = [
                 {"name": "Target Host", "lang": "a_16629"}
             ]},
             {"name": "NSLookup", "acl": "1", "lang": "a_19814", "sub": [
-                {"name": "Host Name", "lang": "a_19815"},
-                {"name": "DNS server", "lang": "a_4128"}
+                {"name": "Host Name", "lang": "a_19815"}
             ]},
         ]}
     ]},

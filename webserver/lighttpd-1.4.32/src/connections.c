@@ -10155,6 +10155,36 @@ static int handle_stop_ping(buffer *b, int type)
     return 0;
 }
 
+static int handle_nslookup(buffer *b, const struct message *m)
+{
+    char *host = NULL, *server = NULL;
+    char buf[1024] = "";
+
+    host = msg_get_header(m, "host");
+
+    if (host == NULL) {
+        buffer_append_string(b, "Response=Error\r\nMessage=Host can not be empty\r\n");
+        return -1;
+    }
+
+    char *cmd[] = {"nslookup", host, 0};
+    int result = doCommandTask(cmd, "/tmp/nslookup.txt", NULL, 0);
+
+    if (result == 0) {
+        FILE *fp = fopen("/tmp/nslookup.txt", "r");
+
+        if (fp != NULL) {
+            fread(buf, 1, sizeof(buf), fp);
+            fclose(fp);
+        }
+    }
+
+    buffer_append_string(b, buf);
+
+    return 0;
+}
+
+
 static int handle_gethdmi1state(buffer *b)
 {
     char *temp = NULL;
@@ -25008,6 +25038,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_get_tracroute_msg(b, m);
             }else if (!strcasecmp(action, "stoptracroute")) {
                 handle_stop_ping(b,1);
+            } else if (!strcasecmp(action, "nslookup")) {
+                handle_nslookup(b, m);
             }else if(!strcasecmp(action,"gettcpserverstate")){
                 handle_gettcpserverstate(srv, con, b, m);
             }else if(!strcasecmp(action,"developmode")){

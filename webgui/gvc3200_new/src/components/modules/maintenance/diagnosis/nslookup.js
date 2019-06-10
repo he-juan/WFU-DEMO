@@ -55,11 +55,8 @@ class NslookupForm extends Component {
                 this.setState({
                     lookupResult: '',
                 })
-                let {targethost, dnsserver} = values
-                if(!dnsserver) {
-                    dnsserver = ''
-                }
-                this.doRequest(`action=nslookup&host=${targethost}&server=${dnsserver}`).then((data) => {
+                let {targethost} = values
+                this.doRequest(`action=nslookup&host=${targethost}`).then((data) => {
                     this.setState({
                         lookupResult: data,
                         className: 'content'
@@ -87,17 +84,6 @@ class NslookupForm extends Component {
                             }
                         ],
                     })(<Input/>)}
-                </FormItem>
-                <FormItem label={( <span> {callTr("a_4128")} <Tooltip title={callTipsTr("DNS Server")}> <Icon type="question-circle-o"/> </Tooltip> </span> )} >
-                    {getFieldDecorator('dnsserver', {
-                        rules: [
-                            {
-                                validator: (data, value, callback) => {
-                                    this.ipAddress(data, value, callback);
-                                }
-                            }
-                        ],
-                    })(<Input placeholder={callTr("a_19817")}/>)}
                 </FormItem>
                 <Row style = {{"paddingLeft":"435px"}}>
                     <Button style = {{"marginRight":"20px"}} type="primary" onClick={() => {this.startLookup()}} disabled={this.state.btnDisable}>
