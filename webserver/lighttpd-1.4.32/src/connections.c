@@ -206,6 +206,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define RECORD_PATH             "/tmp"
 #define RECORD_TMP_PATH         "/tmp/recfiles"
 #define DEBUG_TMP_PATH          "/tmp/debuginfo"
+#define RECFILE_PATH                           PREFIX"/sdcard/recfile"
 
 //#define SIGNAL_LIGHTTPD_RSS_CHANGED             0
 //#define SIGNAL_LIGHTTPD_WEATHER_CHANGED         1
@@ -622,6 +623,31 @@ static int remove_dir_or_file(const char *dir, const int mode) {
     } else {
         perror("unknow file type!");
     }
+
+    return 0;
+}
+
+/**
+* @src: the absolute path of source file
+* @dst: the absolute path of destination file
+*/
+static int copy_file(const char *src, const char *dst) {
+    int len;
+    char buff[1024];
+
+    FILE *in = fopen(src, "rb");
+    FILE *out = fopen(dst, "wb");
+
+    if (in == NULL || out == NULL) {
+        return -1;
+    }
+
+    while(len = fread(buff, 1, sizeof(buff), in)) {
+        fwrite(buff, 1, len, out);
+    }
+
+    fclose(in);
+    fclose(out);
 
     return 0;
 }
@@ -15688,6 +15714,47 @@ static int handle_view_record_list(buffer *b)
     return 1;
 }
 
+static int tarRecfile() {
+    struct dirent *dp;
+    DIR *dir;
+    char name[256] = "";
+    char *ptr = NULL;
+
+    if( !access( RECFILE_PATH, 0 ) )
+    {
+        remove_dir_or_file(RECFILE_PATH, 1);
+    }
+    mkdir(RECFILE_PATH, 0777);
+
+    if( (dir = opendir(RECFILE_PATH))== NULL )
+    {
+        printf("directory open failed\n");
+        return -1;
+    }
+
+    int len = strlen(RECORD_PATH) + 128;
+    char *cmdstr = (char*)malloc(len);
+    memset(cmdstr, 0, len);
+    snprintf(cmdstr, len, "cd /tmp && tar -cvf recfiles.tar *.pcm");
+    char *cmd[] = {"sh", "-c", cmdstr, 0};
+    doCommandTask(cmd, NULL, NULL, 0);
+    free(cmdstr);
+
+    char *recfiles_src = (char*)malloc(len);
+    memset(recfiles_src, 0, len);
+    snprintf(recfiles_src, len, "%s/recfiles.tar", RECORD_PATH);
+
+    char *recfiles_dst = (char*)malloc(len);
+    memset(recfiles_dst, 0, len);
+    snprintf(recfiles_dst, len, "%s/recfiles.tar", RECFILE_PATH);
+
+    copy_file(recfiles_src, recfiles_dst);
+
+    free(recfiles_src);
+    free(recfiles_dst);
+    return 0;
+}
+
 static int handle_get_record_list (buffer *b, const struct message *m)
 {
     struct dirent *dp;
@@ -15698,14 +15765,19 @@ static int handle_get_record_list (buffer *b, const struct message *m)
     char *fileExt = NULL;
     char *temp = NULL;
 
-    if( access( RECORD_PATH, 0 ) )
+    if ( access(RECFILE_PATH, 0) )
+    {
+        mkdir(RECFILE_PATH, 0777);
+    }
+
+    if( access( RECFILE_PATH, 0 ) )
     {
         buffer_append_string(b, "Response=Error\r\n"
                 "Message=The recording directory doesn't exist\r\n");
         return -1;
     }
 
-    if( (dir = opendir(RECORD_PATH))== NULL )
+    if( (dir = opendir(RECFILE_PATH))== NULL )
     {
         buffer_append_string(b, "Response=Error\r\n"
                 "Message=Recording directory open failed\r\n");
@@ -15731,7 +15803,7 @@ static int handle_get_record_list (buffer *b, const struct message *m)
                 if(ptr != NULL)
                 {
                     fileExt = strdup(ptr+1);
-                    if( strcasecmp(fileExt, "pcm") == 0 )
+                    if( strcasecmp(fileExt, "tar") == 0 )
                     {
                         if(!j)
                         {
@@ -15774,6 +15846,7 @@ static int handle_stop_recording (buffer *b)
 {
     dbus_send_record_operation(false);
     buffer_append_string(b, "Response=Success\r\nMessage=Stop success\r\n");
+    tarRecfile();
 
     return 0;
 }
@@ -15792,9 +15865,9 @@ static int handle_delete_record(buffer *b, const struct message *m)
         memset(filename, 0, len);
         replace(temp, "../", "", filename);
 
-        len = strlen(RECORD_PATH) + strlen(filename) + 4;
+        len = strlen(RECFILE_PATH) + strlen(filename) + 4;
         path = malloc(len);
-        snprintf(path, len, "%s/%s", RECORD_PATH, filename);
+        snprintf(path, len, "%s/%s", RECFILE_PATH, filename);
         printf("path = %s\n", path);
         if( access(path, 0) == 0 )
         {
@@ -25411,7 +25484,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_start_recording(b);
                 } else if (!strcasecmp(action, "stoprecording")) {
                     handle_stop_recording(b);
-                } else if (!strcasecmp(action, "deleterecordfile")){
+                } else if (!strcasecmp(action, "deleterecord")){
                     handle_delete_record(b, m);
                 } else if (!strcasecmp(action, "coredumplist")){
                     handle_coredumplist(b);

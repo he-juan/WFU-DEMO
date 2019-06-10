@@ -249,13 +249,7 @@ class DebugForm extends Component {
     }
 
     checkoutRecfiles = () => {
-        this.props.viewRecordList((response) => {
-            if (response.res == "success")  {
-                window.location = "/Recfiles/";
-            } else {
-                this.props.promptMsg('ERROR', this.tr('a_63'))
-            }
-        });
+        window.location = "/recfile/";
     }
 
     componentWillReceiveProps = (nextProps) => {
