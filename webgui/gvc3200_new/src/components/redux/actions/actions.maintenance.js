@@ -94,7 +94,7 @@ export const setEventItems = (values) => (dispatch) => {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_saveapplying'}});
         } else {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
-            checkIsApplyNeed();
+            actionUtil.checkIsApplyNeed(dispatch);
         }
     }).catch(function(error) {
         promptForRequestFailed();
@@ -145,7 +145,7 @@ export const getClearLogcat = () => (dispatch) => {
         } else {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_clearsuc'}});
             dispatch({type: 'REQUEST_GET_LOGCAT_FILE', logcatFile: ""});
-            checkIsApplyNeed();
+            actionUtil.checkIsApplyNeed(dispatch);
         }
     }).catch(function(error) {
         promptForRequestFailed();
@@ -157,7 +157,7 @@ export const getCapturemode = (action,callback) => (dispatch) => {
 
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
-        checkIsApplyNeed();
+        actionUtil.checkIsApplyNeed(dispatch);
         callback(msgs);
     }).catch(function(error) {
         promptForRequestFailed();
@@ -190,7 +190,7 @@ export const getDelete = (action,callback) => (dispatch) => {
         } else {
             dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_del_ok'}});
         }
-        checkIsApplyNeed();
+        actionUtil.checkIsApplyNeed(dispatch);
         callback(msgs);
     }).catch(function(error) {
         promptForRequestFailed();
