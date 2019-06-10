@@ -1518,6 +1518,8 @@ static void dbus_process()
     }
 
     dbus_bus_add_match (subbus, "type='signal',interface='com.grandstream.dbus.signal'", &suberror);
+    dbus_bus_add_match (subbus, "type='signal',interface='com.grandstream.dbus.signal.to.web'", &suberror);
+    dbus_bus_add_match (subbus, "type='signal',interface='com.grandstream.dbus.signal.to.gui'", &suberror);
     dbus_bus_add_match( subbus, "type='method_call',interface='com.grandstream.dbus.signal'", &suberror );
     dbus_bus_add_match( subbus, "type='method_return',interface='com.grandstream.dbus.signal'", &suberror );
     dbus_connection_add_filter (subbus, signal_filter2, NULL, NULL);
