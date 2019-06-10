@@ -1,62 +1,99 @@
 .dialup-main {
   margin: 10px 10px 0;
-  padding: 10px 15px;
+  padding: 10px 10px;
   min-width: 1200px;
 }
 
 .dialup-box {
   overflow: hidden;
-
-
+  padding-left: 22px;
+  height: 120px;
   .dialup-inputs, .dialup-btns {
     float: left;
   }
   .dialup-inputs {
-    width: 800px;
+    width: 600px;
     font-size: 14px;
     .selected-acct {
-      line-height: 36px;
-      height: 36px;
+      line-height: 32px;
+      height: 32px;
       cursor: pointer;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      span {
+      border: 1px solid #dadfe5;
+      border-radius: 2px;
+      &.unregister {
+        &>span {
+          color: #bac0ca !important;
+        }
+        em.acct-icon {
+          background: #bac0ca !important;
+        }
+      }
+      &>span {
         display: inline-block;
-        width: 33%;
+        width: 36%;
         text-align: left;
-        text-indent: 10px;
+        text-indent: 12px;
+        color: #0d1017;
+        &:first-child {
+          width: 148px;
+          position: relative;
+          border-right: 1px solid #dadfe5;
+          height: 22px;
+          margin-top: 5px;
+          line-height: 22px;
+          font-weight: bold;
+          color: #10131a;
+        }
+        &:last-child {
+          text-align: center;
+          color: #bac0ca;
+        }
       }
       i {
         float: right;
-        height: 36px;
-        width: 36px;
-        line-height: 36px;
+        height: 32px;
+        width: 32px;
+        line-height: 32px;
         text-align: center;
         font-size: 15px;
       }
     }
   }
   .dialup-btns {
-    width: 200px;
+    width: 250px;
     margin-left: 10px;
-    margin-top: 46px;
+    margin-top: 48px;
     .video-call-btn, .audio-call-btn {
-      width: 80px;
-      height: 68px;
+      width: 100px;
+      height: 64px;
       display: inline-block;
       cursor: pointer;
       color: #fff;
-      line-height: 68px;
+      line-height: 64px;
       text-align: center;
-      border-radius: 4px;
+      border-radius: 3px;
       font-size: 14px;
+      em {
+        width: 37px;
+        height: 37px;
+        vertical-align: middle;
+        display: inline-block;
+        background: url('~@/img/icon.png') no-repeat;
+      }
     }
     .video-call-btn {
-      background: rgb(49, 177, 49);
+      background-color: #4bd66e;
+      text-align: center;
+      em {
+        background-position: 0 -389px;
+      }
     }
     .audio-call-btn {
-      background: #4885f0;
+      background-color: #4885f0;
       margin-left: 10px;
+      em {
+        background-position: -36px -389px;
+      }
     }
   }
 }
@@ -64,15 +101,36 @@
 .acct-menu li {
   line-height: 40px;
   padding: 0;
+  font-size: 14px;
+  &.ant-dropdown-menu-item-disabled  {
+    & > span {
+      color: #bac0ca !important;
+    }
+  }
   & > span {
     display: inline-block;
-    width: 33%;
-    text-indent: 10px;
+    width: 36%;
+    text-indent: 12px;
+    color: #0d1017;
+    &:first-child {
+      width: 148px;
+      position: relative;
+      border-right: 1px solid #dadfe5;
+      height: 22px;
+      margin-top: 5px;
+      line-height: 22px;
+      font-weight: bold;
+      color: #10131a;
+    }
+    &:last-child {
+      text-align: center;
+      color: #bac0ca;
+    }
   }
 }
 
 .dialup-inputs-area {
-  margin-top: 10px;
+  margin-top: 16px;
   .bj-inputs {
     input{
       width: 100%;
@@ -88,16 +146,19 @@
       position: absolute;
       line-height: 40px;
       text-indent: 10px;
-      color: #777;
-      font-size: 12px;
+      color: #bac0ca;
+      font-size: 14px;
       z-index: 1;
     }
     .react-tagsinput {
       position: absolute;
       width: 100%;
-      height: 68px;
-      border-radius: 4px;
+      height: 65px;
+      border-radius: 2px;
       z-index: 2;
+      padding-left: 3px;
+      padding-top: 4px;
+      border-color: #dadfe5;
     }
     .react-tagsinput--focused + .tagsinput-placeholder {
       display: none;
@@ -111,6 +172,8 @@
       color: #222;
       padding: 2px 6px;
       border-radius: 4px;
+      margin-right: 3px;
+      margin-bottom: 4px;
       &.acct-0 {
         border: 1px solid #799cee;
       }
@@ -138,16 +201,22 @@
   }
 }
 .dialup-record-list {
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  margin-top: 20px;
+  margin-top: 5px;
+  .record-list-title {
+    color: #55627b;
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    background: #f7fafc;
+    border-top: 1px solid  #eceff2;
+    border-bottom: 1px solid  #eceff2;
+    text-indent: 22px;
+  }
 }
 
 
 .log-contacts-wrap {
   overflow-y: auto;
-  border-right: 1px solid #ddd;
-  border-left: 1px solid #ddd;
 }
 
 .log-contacts {
@@ -161,14 +230,27 @@
     border-right: none;
     border-left: none;
   }
+  .ant-table-tbody > tr.ant-table-row-level-0.gray{
+    background: #fafbfc;
+  }
+  .ant-table-tbody > tr:hover > td {
+    background: transparent;
+  }
   .ant-table-tbody > tr > td {
-    padding: 8px 6px;
+    padding: 6px 6px;
+    border: none;
+    text-indent: 150px;
+    color: #10131a;
+    &:nth-child(1) {
+      text-indent: 0;
+    }
   }
 
   .record-name {
     position: relative;
     height: 40px;
     padding-left: 40px;
+    left: 10px;
     
     i {
       position: absolute;
@@ -176,22 +258,18 @@
       height: 24px;
       left: 8px;
       top: 8px;
-      background: url(/img/icon.png)  no-repeat;
+      background: url('~@/img/icon.png')  no-repeat;
       &.icon-conf {
-        width: 32px;
-        height: 32px;
-        left: 4px;
-        top: 4px;
-        background-position: -641px -88px;
+        background-position: -74px -389px;
       }
       &.icon-in-video {
-        background-position: -459px -25px;
+        background-position: -200px -389px;
       }
       &.icon-in-audio {
         background-position: -459px -25px;
       }
       &.icon-out-video {
-        background-position: -434px -25px;
+        background-position: -174px -389px;
       }
       &.icon-out-audio {
         background-position: -434px -25px;
@@ -219,6 +297,9 @@
       overflow: hidden;
       white-space: nowrap;
       line-height: 40px;
+      display: inline-block;
+      width: 440px;
+      color: #10131a;
     }
     &.has-number {
       strong, em {
@@ -226,27 +307,24 @@
         line-height: 20px;
       }
       em {
-        font-size: 12px;
+        font-size: 14px;
+        color: #949ba9;
         font-style: normal;
       }
     }
   }
 
-  .ant-table-row-level-0.active {
-    background: #f0f4ff;
+  .ant-table-row-level-0 {
+    cursor: pointer;
   }
+  .ant-table-row-level-0 + .ant-table-row-level-1 {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08) inset;
+  }
+  
   .ant-table-row-level-1 {
-    background: #f0f4ff;
-    & > td {
-      padding: 4px 6px;
-      &:first-child {
-        .record-name {
-          padding-left: 80px;
-          i {
-            left: 44px;
-          }
-        }
-      }
+    background: #f3f7fa;
+    & > td{
+      border-bottom: 1px solid #eae6ed !important;
     }
   }
 
@@ -254,18 +332,18 @@
     text-align: right;
     .add-btn, .call-btn {
       display: inline-block;
-      height: 30px;
-      width: 30px;
-      background: url(/img/call_status_icons.png) no-repeat;
+      height: 20px;
+      width: 20px;
+      background: url('~@/img/icon.png') no-repeat;
       margin-right: 10px;
       vertical-align: middle;
       cursor: pointer;
     }
     .add-btn {
-      background-position: 0 0 ;
+      background-position: -42px -25px ;
     }
     .call-btn {
-      background-position: -60px 0;
+      background-position: -630px -67px;
     }
   }
 }
@@ -298,12 +376,18 @@ em.acct-icon {
 
 
 .modal-member {
+  height: 644px;
+  width: 900px;
   .ant-modal-title {
     font-size: 16px;
     text-align: center;
   }
   .ant-modal-body {
     padding-top: 5px;
+    height: 505px;
+  }
+  .ant-modal-footer {
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
   }
   .modal-tips {
     height: 22px;
@@ -320,31 +404,47 @@ em.acct-icon {
   }
 }
 .modal-member-ul {
-  width: 400px;
+  width: 700px;
   margin: 0 auto;
+  height: 450px;
+  padding: 10px 0;
+  background: #f8f9fc;
+  border-radius: 4px;
+  overflow: auto;
   li {
-    height: 40px;
-    line-height: 40px;
+    height: 50px;
+    line-height: 50px;
     font-size: 15px;
+    padding-left: 28px;
+    padding-right: 30px;
+    color: #10131a;
     &>span {
       display: inline-block;
       &:nth-child(1) {
-        width: 8%;
+        width: 30px;
       }
       &:nth-child(2) {
-        width: 30%;
+        width: 320px;
         text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
       }
       &:nth-child(3) {
-        width: 30%;
+        width: 145px;
         text-align: center;
       }
       &:nth-child(4) {
-        width: 30%;
+        width: 145px;
         text-align: right;
       }
     }
   }
+}
+.modal-member-footer {
+  height: 46px;
+  line-height: 46px;
 }
 
 

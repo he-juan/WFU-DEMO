@@ -131,7 +131,6 @@ class Audio extends Component {
                 // 针对ringTone, notifyTone 特殊处理
                 let _ringTone = values.ringTone,
                     _notifyTone = values.notifyTone;
-
                 if (_ringTone.indexOf('content://') < 0 && _ringTone.length) {
                     console.log(_ringTone)
                     _ringTone = `content://media/internal/audio/media/${this.findToneId(this.state.tonedblist, _ringTone)}`

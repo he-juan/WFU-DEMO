@@ -335,19 +335,24 @@ class Dialup extends Component {
           <div className="dialup-box">
             <div className="dialup-inputs">
               <Dropdown overlay={AcctMenu} trigger={['click']}>
-                <div className="selected-acct">
-                  <span><em className={`acct-icon acct-${selectAcct}`}></em> {acctStatus[selectAcct].name}</span> <span>{acctStatus[selectAcct].num}</span> <Icon type="down"/>
+                <div className={`selected-acct ${acctStatus[selectAcct].register == 0 ? 'unregister' : ''}`}>
+                  <span><em className={`acct-icon acct-${selectAcct}`}></em>{acctStatus[selectAcct].name}</span><span>{acctStatus[selectAcct].num}</span> <Icon type="down"/>
                 </div>
               </Dropdown>
               {InputArea}
             </div>
             <div className="dialup-btns">
-              <span className="video-call-btn" onClick={() => this.handleDialup(1)}>视频</span>
-              <span className="audio-call-btn" onClick={() => this.handleDialup(0)}>音频</span>
+              <span className="video-call-btn" onClick={() => this.handleDialup(1)}>
+                <em />
+              </span>
+              <span className="audio-call-btn" onClick={() => this.handleDialup(0)}>
+                <em />
+              </span>
             </div>
           </div>
           {/* 通话记录; 联系人 */}
           <div className="dialup-record-list">
+            <p className="record-list-title">Recent Call</p>
             <LogContacts
               onAdd={(item) => this.handleAddMemFromList(item)}
               filterTags={tagsInputValue}

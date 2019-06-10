@@ -65,11 +65,11 @@ const getIconClass = function(record) {
   if(calltype) {
     switch(calltype) {
       case '1':
-        return isvideo ? 'icon-in-video' : 'icon-in-audio'
+        return isvideo == '1' ? 'icon-in-video' : 'icon-in-audio'
       case '2':
-        return isvideo ? 'icon-out-video' : 'icon-out-audio'
+        return isvideo == '1' ? 'icon-out-video' : 'icon-out-audio'
       case '3':
-        return isvideo ? 'icon-miss-video' : 'icon-miss-audio'
+        return isvideo == '1' ? 'icon-miss-video' : 'icon-miss-audio'
     }
   }
   // 联系人
@@ -116,7 +116,8 @@ class LogAndContacts extends Component {
           acct: phone.acct,
           isvideo: '1',
           source: '1', // 联系人呼出source 为1
-          contacts: '1' // 列表中联系人不需要在名称下显示号码, 这里标记做个区分
+          contacts: '1', // 列表中联系人不需要在名称下显示号码, 这里标记做个区分
+          lvl : '0'
         }
         result.push(data)
       })
@@ -132,7 +133,8 @@ class LogAndContacts extends Component {
         r.key = 'l-conf-' + log.confid
         r.col0 = log.confname  // 会议名称
         r.col1 = ''
-        r.col2 = parseDate(log.date, 'YYYY M/D')
+        r.col2 = parseDate(log.date, 'MM/DD/YYYY')
+        r.lvl = '0'
         if(log.members) {
           r.children = log.members.map(m => {
             let i = {}
@@ -140,9 +142,10 @@ class LogAndContacts extends Component {
             i.key = `${r.key}-${m.id}`
             i.col0 = m.name
             i.col1 = parseAcct(m.acct)
-            i.col2 = parseDate(m.date, 'YYYY M/D H:mm')
+            i.col2 = parseDate(m.date, 'MM/DD/YYYY H:mm')
             i.source = mapToSource(m.calltype)
             i.numberText = m.number
+            i.lvl = '1'
             return i
           })
         }
@@ -153,9 +156,15 @@ class LogAndContacts extends Component {
         r.key = 'l-sin-' + m.id
         r.col0 = log.name
         r.col1 = parseAcct(m.acct)
-        r.col2 = parseDate(m.date, 'YYYY M/D H:mm')
+        r.col2 = parseDate(m.date, 'MM/DD/YYYY')
         r.source = mapToSource(m.calltype)
-        r.numberText = m.number
+        r.lvl = '0'
+        r.children = [Object.assign({}, r, {
+          key: 'c-l-sin-' + m.id,
+          col2: parseDate(m.date, 'MM/DD/YYYY H:mm'),
+          numberText: m.number,
+          lvl: '1'
+        })]
       }
       return r
     })
@@ -167,8 +176,12 @@ class LogAndContacts extends Component {
       expandedKeys: record.key
     })
   }
-  setRowClassName = (record) => {
-    return record.key == this.state.expandedKeys ? 'active' : ''
+  setRowClassName = (record, index) => {
+    if(record.lvl == '0' ){
+      return index % 2 == 1  ? 'gray' : ''
+    }
+    return ''
+    // return record.key == this.state.expandedKeys ? 'active' : ''
   }
   
   handleAddRecord = (record, e) => {
@@ -180,7 +193,7 @@ class LogAndContacts extends Component {
   handleCallRecord = (record, e) => {
     e.stopPropagation()
     // 点击的是会议记录
-    if(record.children) {
+    if(record.isconf == '1') {
       this.setState({
         confMemSelectToCall: record.children
       })
@@ -212,7 +225,7 @@ class LogAndContacts extends Component {
     // console.log(_memSelect)
     // 选中的拨打成员数_memSelect　＋　在拨打的线路数linesInfo(去重，去除拨打失败的)　不超过最大线路数maxlinecount
     let len = linesInfo.filter(item => item.state != '8').length + _memSelect.filter(i => i.selected && !linesInfo.some(j => j.num == i.number)).length
-    if(len >= 2) {
+    if(len >= parseInt(maxlinecount)) {
       _memSelect = _memSelect.map(mem => {
         if(mem.selected) return mem
         mem.checkDisable = true
@@ -295,13 +308,13 @@ class LogAndContacts extends Component {
       {
         key: 'col0',
         dataIndex: 'col0',
-        width: '35%',
+        width: '30%',
         render(text, record, index) {
           return (
-            <div className={`record-name ${record.number && !record.contacts ? 'has-number' : ''}`}>
+            <div className={`record-name ${record.numberText && !record.contacts ? 'has-number' : ''}`}>
               <i className={getIconClass(record)}></i>
               <strong dangerouslySetInnerHTML={{__html: text}}></strong>
-              {record.number && !record.contacts ? <em dangerouslySetInnerHTML={{__html: `(${record.numberText})`}}></em> : ''}
+              {record.numberText && !record.contacts ? <em dangerouslySetInnerHTML={{__html: `${record.numberText}`}}></em> : ''}
             </div>
           )
         }
@@ -309,7 +322,7 @@ class LogAndContacts extends Component {
       {
         key: 'col1',
         dataIndex: 'col1',
-        width: '25%'
+        width: '30%'
       },
       {
         key: 'col2',
@@ -337,7 +350,7 @@ class LogAndContacts extends Component {
         }
       }
     ]
-    
+    console.log(expandedKeys)
     return (
       <div className="log-contacts-wrap" onScroll={(e) => this.handleTableScroll(e)} style={{maxHeight: mainHeight - 170}} >
         <div ref="recordTable">
@@ -355,7 +368,7 @@ class LogAndContacts extends Component {
           />
         </div>
         <Modal 
-          width={450}
+          width={900}
           className="modal-member" 
           title={'呼叫'} 
           visible={confMemSelectToCall.length > 0} 
@@ -363,7 +376,10 @@ class LogAndContacts extends Component {
           transitionName=""
           maskTransitionName=""
           footer={
-              <Button  type="primary" onClick={() => this.confMemSelectCall()} disabled={confMemSelectToCall.filter(v => v.selected).length == 0}>呼叫</Button>
+            <div className="modal-member-footer">
+              <Button size='large'>取消</Button>
+              <Button size='large' type="primary" onClick={() => this.confMemSelectCall()} disabled={confMemSelectToCall.filter(v => v.selected).length == 0}>呼叫</Button>
+            </div>
           }
           >
           <p className="modal-tips"><span>{confMemSelectToCall.some(mem => mem.checkDisable) ? `成员数量已达上限(${maxlinecount})` : ""}</span></p>

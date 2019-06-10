@@ -139,12 +139,6 @@ class HandleWebsocket extends React.Component {
         this.props.setFECCStatus(message.line, message.state);
     }
 
-    handleupdatednd = (message) => {
-        if(message.dndmode == "dnd"){
-            this.props.setDndModeStatus(message.state);
-        }
-    }
-
     handlevideoinvite = (message) => {
         let lines = ""
         if(this.props.videoinvitelines == ""){
@@ -430,9 +424,6 @@ class HandleWebsocket extends React.Component {
             case 'close_camera_status':
                 this.updatevideoedstate(message);
                 break;
-            case 'updateDND':
-                this.handleupdatednd(message);
-                break;
             case 'video_invite':
                 this.handlevideoinvite(message);
                 break;
@@ -502,17 +493,10 @@ class HandleWebsocket extends React.Component {
                     sessionStorage.removeItem('recordSource')
                 }
                  break;
+
+                
             // 新的消息 以上大部分无效
             case 'line-status-changed': 
-                // let linesInfo = JSON.parse(JSON.stringify(this.props.linesinfo))
-                // for( let j = 0; j < linesInfo.length; j++ ){
-                //     if(linesInfo[j].line == message.data.line) {
-                //         linesInfo[j] = message.data
-                //         break;
-                //     }
-                // }
-                // this.props.setDialineInfo1(linesInfo);
-                
                 if(window.TIMER_GETLINES) {
                     clearTimeout(window.TIMER_GETLINES)
                     window.TIMER_GETLINES = null
@@ -525,9 +509,10 @@ class HandleWebsocket extends React.Component {
             // 新的消息 会议全局状态信息
             case 'conf-status-changed':
                 this.props.setGlobalConfInfo(message.data);
-
                 break;
-                
+            case 'dnd':
+                this.props.setDndModeStatus(message.state);
+                break;
         }
     }
 
@@ -562,6 +547,7 @@ class HandleWebsocket extends React.Component {
         this.props.setRecordStatus(flag)
     }
     handleUrl = () => {
+        // let ws_host = location.host
         let ws_host = location.host
         let ws_protocol = location.protocol
         let wsuri = "";
