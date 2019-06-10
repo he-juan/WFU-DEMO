@@ -79,10 +79,22 @@ module.exports = {
             {
                 from: path.resolve(ROOT_PATH, './src/iconfont'),
                 to: path.resolve(BUILD_PATH, './iconfont')
-            }
+            },
+            // 二维码快速配置页面所需图片
+            {
+                from: path.resolve(ROOT_PATH, './src/img/quickconf'),
+                to: path.resolve(BUILD_PATH, './img/quickconf')
+            },
         ]),
         new HtmlWebpackPlugin({
+            filename: "index.html",
             template: path.resolve(ROOT_PATH, './index.html'),
+            inject: false
+        }),
+        // 二维码快速配置页面
+        new HtmlWebpackPlugin({
+            filename: "quickconf.html",
+            template: path.resolve(ROOT_PATH, './quickconf.html'),
             inject: false
         }),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
