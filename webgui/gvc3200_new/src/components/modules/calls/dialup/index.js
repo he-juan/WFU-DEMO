@@ -289,7 +289,7 @@ class Dialup extends Component {
               <Menu.Item key={v.acctindex} disabled={!v.register}>
                 <span><em className={`acct-icon acct-${v.acctindex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
                 <span>{v.num}</span>
-                <span>{!v.register ? '账号未注册' : defaultAcct == v.acctindex ? '默认账号' : <Button onClick={this.setDefaultAcct.bind(this, v.acctindex)}>设为默认账号</Button>}</span>
+                <span>{!v.register ? '账号未注册' : defaultAcct == v.acctindex ? '默认账号' : <Button type="primary" onClick={this.setDefaultAcct.bind(this, v.acctindex)}>设为默认账号</Button>}</span>
               </Menu.Item>
             )
           })
@@ -336,7 +336,7 @@ class Dialup extends Component {
             <div className="dialup-inputs">
               <Dropdown overlay={AcctMenu} trigger={['click']}>
                 <div className={`selected-acct ${acctStatus[selectAcct].register == 0 ? 'unregister' : ''}`}>
-                  <span><em className={`acct-icon acct-${selectAcct}`}></em>{acctStatus[selectAcct].name}</span><span>{acctStatus[selectAcct].num}</span> <Icon type="down"/>
+                  <span><em className={`acct-icon acct-${selectAcct}`}></em>{acctStatus[selectAcct].name}</span><span>{acctStatus[selectAcct].num}</span> <Icon type="caret-down" />
                 </div>
               </Dropdown>
               {InputArea}

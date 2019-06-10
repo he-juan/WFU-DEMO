@@ -4570,8 +4570,8 @@ table thead tr th{
 
 .confbtn button{
     float: right;
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border: 0;
     outline: 0;
     padding: 0;
@@ -4580,23 +4580,21 @@ table thead tr th{
 }
 
 .confbtn .unmute{
-    background: url(../img/call/conf_control.png) -208px -245px no-repeat;
+    background: url(../img/icon.png) -313px -387px no-repeat;
 }
-.confbtn .unmute:hover{
-    background: url(../img/call/conf_control.png) -208px -297px no-repeat;
+
+.confbtn .unmute:disabled {
+    background: url(../img/icon.png) 0px -424px no-repeat;
 }
-.confbtn .unmute.btndisable{
-    background: url(../img/call/conf_control.png) -208px -271px no-repeat;
+.confbtn .mute:disabled  {
+    background: url(../img/icon.png) 0px -424px no-repeat;
 }
+
 .confbtn .mute{
-    background: url(../img/call/conf_control.png) 0px -245px no-repeat;
+    background: url(../img/icon.png)  -338px -387px no-repeat;
 }
-.confbtn .mute:hover{
-    background: url(../img/call/conf_control.png) 0px -297px no-repeat;
-}
-.confbtn .mute.btndisable{
-    background: url(../img/call/conf_control.png) 0px -271px no-repeat;
-}
+
+
 .confbtn .unclosecamera{
     background: url(../img/call/conf_control.png) -154px -245px no-repeat;
 }
@@ -4620,12 +4618,12 @@ table thead tr th{
 }
 
 .confbtn .endconf{
-    background: url(../img/call/conf_control.png) -104px -245px no-repeat;
+    background: url(../img/icon.png) -613px -387px no-repeat;
+}
+.confbtn .confrecall{
+    background: url(../img/icon.png) -637px -387px no-repeat;
 }
 
-.confbtn .endconf:hover{
-    background: url(../img/call/conf_control.png) -104px -297px no-repeat;
-}
 .confbtn .uploading{
     background: url(../img/call/conf_control.png) -364px -245px no-repeat;
 }
@@ -4642,53 +4640,48 @@ table thead tr th{
     background: url("../img/call/conf_control.png") -416px -271px no-repeat;
 }
 
-.confbtn .unconfsuspend{
-    background: url(../img/call/conf_control.png) -52px -245px no-repeat;
+
+
+.confbtn .confvideo {
+    background: url(../img/icon.png) -563px -387px no-repeat;  
 }
-.confbtn .unconfsuspend:hover{
-    background: url(../img/call/conf_control.png) -52px -297px no-repeat;
+
+.confbtn .confaudio {
+    background: url(../img/icon.png) -588px -387px no-repeat;  
 }
-.confbtn .unconfsuspend.btndisable{
-    background: url(../img/call/conf_control.png) -52px -271px no-repeat;
+
+
+
+.confbtn .cameraopen {
+    background: url(../img/icon.png) -462px -387px no-repeat;
 }
-.confbtn .confsuspend{
-    background: url(../img/call/conf_control.png) -260px -297px no-repeat;
+.confbtn .cameraclose {
+    background: url(../img/icon.png) -487px -387px no-repeat;
 }
-.confbtn .confaudio{
-    background: url(../img/call/conf_control.png) -180px -245px no-repeat;
+
+.confbtn .suspend{
+    background: url(../img/icon.png) -436px -387px no-repeat;
 }
-.confbtn .confaudio:hover{
-    background: url(../img/call/conf_control.png) -180px -297px no-repeat;
+.confbtn .suspend:disabled {
+    background: url(../img/icon.png) -436px -387px no-repeat;
 }
-.confbtn .confaudio.btndisable{
-    background: url(../img/call/conf_control.png) -180px -271px no-repeat;
+.confbtn .unsuspend{
+    background: url(../img/icon.png) -411px -387px no-repeat;
 }
-.confbtn .confvideo{
-    background: url(../img/call/conf_control.png) -154px -245px no-repeat;
-}
-.confbtn .confvideo:hover{
-    background: url(../img/call/conf_control.png) -154px -297px no-repeat;
-}
-.confbtn .confvideo.btndisable{
-    background: url(../img/call/conf_control.png) -154px -271px no-repeat;
-}
-.confbtn .unconfblock{
-    background: url(../img/call/conf_control.png) -234px -245px no-repeat;
-}
-.confbtn .unconfblock:hover{
-    background: url(../img/call/conf_control.png) -234px -297px no-repeat;
-}
-.confbtn .unconfblock.btndisable{
-    background: url(../img/call/conf_control.png) -234px -271px no-repeat;
+.confbtn .unsuspend:disabled {
+    background: url(../img/icon.png) -411px -387px no-repeat;
 }
 .confbtn .confblock{
-    background: url(../img/call/conf_control.png) -26px -245px no-repeat;
+    background: url(../img/icon.png) -388px -387px no-repeat;
 }
-.confbtn .confblock:hover{
-    background: url(../img/call/conf_control.png) -26px -297px no-repeat;
+.confbtn .confblock:disabled{
+    background: url(../img/icon.png) -363px -387px no-repeat;
 }
-.confbtn .confblock.btndisable{
-    background: url(../img/call/conf_control.png) -26px -271px no-repeat;
+.confbtn .unconfblock{
+    background: url(../img/icon.png) -363px -387px no-repeat;
+}
+.confbtn .unconfblock:disabled{
+    background: url(../img/icon.png) -363px -387px no-repeat;
 }
 
 .call-ctrl .callee-name-num{

@@ -43,7 +43,7 @@ function calLineBtnStatus(lineItem, acctstatus){
         case '5': // 通话中 处于保持状态
             itemTitle = isvideo == '1' ? tr('a_669') : tr('a_668');
             isvideoedclass = isvideoed == '1' ? 'unuploading' : 'uploading' ;
-            suspendclass = issuspend == '1' ?  'confsuspend' : 'unconfsuspend';
+            suspendclass = issuspend == '1' ?  'suspend' : 'unsuspend';
             confvideoclass = isvideo == '1' ? 'confvideo' : 'confaudio';
             blockclass = isblock == '1' ? 'confblock' : 'unconfblock';
             muteclass = islinemute == '1' ?  'mute': 'unmute';
@@ -104,10 +104,10 @@ function calLineBtnStatus(lineItem, acctstatus){
     }
     // 再加一层判断- -!
     if (acct == 1) {
-        suspendclass = 'unconfsuspend btndisable';
-        confvideoclass = 'confvideo btndisable';
-        blockclass = 'unconfblock btndisable';
-        muteclass = 'unmute btndisable'
+        suspendclass = 'unsuspend';
+        confvideoclass = 'confvideo';
+        blockclass = 'unconfblock';
+        muteclass = 'unmute'
     }
     return {
         itemTitle, //线路标题
@@ -126,7 +126,7 @@ function calLocalBtnStatus(globalConfInfo) {
     
     return {
         localmuteclass: globalConfInfo.localmutestate == '1' ? 'mute' : 'unmute',
-        localcamerastateclass : globalConfInfo.localcamerastate == '1' ? 'confaudio' : 'confvideo',
+        localcamerastateclass : globalConfInfo.localcamerastate == '1' ? 'cameraclose' : 'cameraopen',
         ismute: parseInt(globalConfInfo.localmutestate)
     }
 }
@@ -179,14 +179,15 @@ class LinesList extends Component {
         this.props.conflinevideoedstate(line,flag);
     }
 
-    suspendLineOrNot = (line) => {
+    suspendLineOrNot = (item) => {
         if(!this.countClickedTimes()) {
             return false;
         }
         if(this.ispause()){
             return false;
         }
-        this.props.suspendLineOrNot(line);
+        
+        $.get('/manager?action=ctrllinevideo&line='+item.line+'&state='+ (item.issuspend == '1' ? '0' : '1'))
     }
 
     // 摄像头控制相关
@@ -338,8 +339,10 @@ class LinesList extends Component {
         $.get('/manager?action=ctrlconfvideo&state=' + (isAllSuspend ? 0 : 1))
     }
     // 回拨
-    handleReCall = () => {
-
+    handleReCall = (item) => {
+        
+        const {acct, isvideo, num } = item
+        $.get(`/manager?action=makecall&num=${num}&isvideo=${isvideo}&isconf=1&acct=${acct}&source=2`)
     }
     render() {
         const { acctstatus, feccbtnvisile, linestatus, globalConfInfo, isOnHold , isAllBlock, isAllMute, isAllSuspend } = this.props
@@ -354,9 +357,9 @@ class LinesList extends Component {
                     <div className="confnum"></div>
                     <div className="conftype"></div>
                     <div className="confbtn">
-                        <Button id="allSuspend" disabled={isHeld} title={"点击关闭所有画面"} onClick={ () => this.toggleAllSuspend(isAllSuspend)}  className={isAllSuspend ? "confaudio" : "confvideo"} />
-                        <Button id="allBlock" disabled={isHeld} title={"点击全部禁声"} onClick={this.toggleAllBlock} className={ isAllBlock ? "confblock" : "unconfblock"} />
-                        <Button id="allMute" disabled={isHeld} title={"点击全场静音"} onClick={this.toggleAllMute} className={ isAllMute ? "mute" : "unmute"} />
+                        <Button id="allSuspend" disabled={isHeld} title={isAllSuspend ? "点击开启所有画面" :"点击关闭所有画面"} onClick={ () => this.toggleAllSuspend(isAllSuspend)}  className={isAllSuspend ? "suspend" : "unsuspend"} />
+                        <Button id="allBlock" disabled={isHeld} title={isAllBlock ? "点击取消全场禁声":"点击全场禁声"} onClick={this.toggleAllBlock} className={ isAllBlock ? "confblock" : "unconfblock"} />
+                        <Button id="allMute" disabled={isHeld} title={isAllMute ? "点击取消全场静音": "点击全场静音"} onClick={this.toggleAllMute} className={ isAllMute ? "mute" : "unmute"} />
                     </div>
                 </div>
                 <div className="local-line">
@@ -394,25 +397,25 @@ class LinesList extends Component {
                                     onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/> */}
 
                             {/* 点击关闭他的画面 */}
-                            <Button title={"点击关闭他的画面"}
+                            <Button title={ item.issuspend == '1'? "点击开启他的画面": "点击关闭他的画面"}
                                     disabled={isHeld || disabledflag || item.isvideo == "0" ? true : false}
                                     className={suspendclass}
-                                    onClick={this.suspendLineOrNot.bind(this, item.line)}
+                                    onClick={this.suspendLineOrNot.bind(this, item)}
                                     />
                             {/* 关闭视频 */}
-                            <Button title={"点击切换音频"}
+                            <Button title={item.isvideo == '1' ? "点击切换音频" : "点击切换视频" }
                                     disabled={isHeld || disabledflag ? true : false}
                                     className={confvideoclass}
                                     onClick={this.handlelinevideoswitch.bind(this, item)}
                             />
                             {/* 禁声 */}
-                            <Button title={"点击禁声"}
+                            <Button title={item.isblock  == '1' ? "点击取消禁声" : "点击禁声"}
                                     disabled={isHeld || disabledflag ? true : false}
                                     className={blockclass}
                                     onClick={this.handlelineblock.bind(this, item.line)}
                             />
                             {/* 静音 */}
-                            <Button title={"点击静音"}
+                            <Button title={item.ismute == '1' ? "点击取消静音" : "点击静音"}
                                     disabled={isHeld || disabledflag ? true : false}
                                     className={muteclass}
                                     onClick={this.handlelinemute.bind(this, item)}/>
