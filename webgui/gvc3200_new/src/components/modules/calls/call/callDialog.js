@@ -261,7 +261,7 @@ class CallDialog extends Component {
     
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
-        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, isOnHold, globalConfInfo} = this.props;
+        let {callDialogStatus, linestatus, msfurole, sfu_meetinginfo, isOnHold, globalConfInfo, isrecording} = this.props;
         let { duration } = this.state
 
 
@@ -275,14 +275,12 @@ class CallDialog extends Component {
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                     }
-                    ctrlbtnvisible = "display-hidden";
                     break;
                 case "4": // 通话中
                 case "5": //  通话中 处于保持状态
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                     }
-                    ctrlbtnvisible = "display-block";
                     if(lineitem.feccline && lineitem.feccline != "-2"){
                         if(!this.setfeccstateTimer){
                             this.setfeccstateTimer = setTimeout(()=>{
@@ -311,7 +309,6 @@ class CallDialog extends Component {
                     if (tmpclass != "call-dialog-in call-dialog-in-active") {
                         tmpclass = "call-dialog-in call-dialog-in-active";
                     }
-                    ctrlbtnvisible = "display-hidden";
                     break;
             }
         }
@@ -327,15 +324,17 @@ class CallDialog extends Component {
         const _hasipvtline = this.hasipvtline()
         const _ispause = this.ispause
 
-        const isBtnsHide = isOnHold == '1' || ctrlbtnvisible == 'display-hidden' 
+        const lineActive = linestatus.filter(item => item.state == '4' || item.state == '5')
+
+        const isBtnsHide = isOnHold == '1' ||  lineActive.length == 0 
 
         return (
             <div className={`call-dialog`}>
 				<div className={`call-ctrl ${tmpclass}`} >
                     <div className="call-ctrl-head">
                         <div className="call-ctrl-title">
-                            <strong>conf 1.2.132123</strong> <br />
-                            <span>{parseDuration(duration)}</span>
+                            <strong>{globalConfInfo.name || '会议室'}</strong> <br />
+                            <span className={isrecording == 1 ? 'isrecording' : ''}>{parseDuration(duration)}</span>
                         </div>
                         <div className="shrink-icon" onClick={this.minimizeDialog}></div>
                     </div>
@@ -388,18 +387,37 @@ class CallDialog extends Component {
                         {/* 保持按钮 */}
                         {
                             isOnHold == '0' ? null :
-                            <Button title={"取消保持"} className={`hold-icon`} onClick={() => this.props.confholdstate('0')} />
+                            <span>
+                                <Button title={"取消保持"} className={`unhold-icon`} onClick={() => this.props.confholdstate('0')} /> <br />
+                                {'取消保持'}
+                            </span>
                         }
                         
                         
                         {/* 演示按钮 */}
-                        {
+                        {/* {
                             isBtnsHide ? null :
                             <Presentation 
                                 ispause={_ispause}
                             />
+                        } */}
+
+                        {/* menu */}
+                         {
+                            isBtnsHide ? null :
+                            <Others
+                                linestatus={linestatus}
+                                ispause={_ispause}
+                                hasipvtline={_hasipvtline}
+                                DTMFDisplay={this.state.DTMFDisplay}
+                                acctstatus={this.state.acctstatus}
+
+                                is4kon={this.state.is4kon}
+                                ishdmione4K={this.state.ishdmione4K}
+                                isline4Kvideo={this.state.isline4Kvideo}
+                                countClickedTimes={this.countClickedTimes.bind(this)} 
+                            />
                         }
-                        
 
                         {/* 举手按钮 */}
                         {/* <Handsup 
@@ -416,22 +434,7 @@ class CallDialog extends Component {
                         />
 
 
-                        {/* 其他功能 */}
-                        {
-                            isBtnsHide ? null :
-                            <Others
-                                linestatus={linestatus}
-                                ispause={_ispause}
-                                hasipvtline={_hasipvtline}
-                                DTMFDisplay={this.state.DTMFDisplay}
-                                acctstatus={this.state.acctstatus}
-
-                                is4kon={this.state.is4kon}
-                                ishdmione4K={this.state.ishdmione4K}
-                                isline4Kvideo={this.state.isline4Kvideo}
-                                countClickedTimes={this.countClickedTimes.bind(this)} 
-                            />
-                        }
+                       
                         
 					</div>
 				</div>
@@ -449,10 +452,12 @@ const mapStateToProps = (state) => ({
     msgsContacts: state.msgsContacts,
     ipvrole: state.ipvrole,
     isOnHold: state.globalConfInfo.isonhold,
+    isrecording: state.globalConfInfo.isrecording,
     globalConfInfo: state.globalConfInfo,
     // sfu
     msfurole: state.msfurole,
     sfu_meetinginfo: state.sfu_meetinginfo,
+    
 })
 
 function mapDispatchToProps(dispatch) {

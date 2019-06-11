@@ -103,6 +103,9 @@
   line-height: 40px;
   padding: 0;
   font-size: 14px;
+  &:hover {
+    background:#eff5fe;
+  }
   &.ant-dropdown-menu-item-disabled  {
     & > span {
       color: #bac0ca !important;
@@ -116,7 +119,6 @@
     &:first-child {
       width: 148px;
       position: relative;
-      border-right: 1px solid #dadfe5;
       height: 22px;
       margin-top: 5px;
       line-height: 22px;
@@ -124,8 +126,13 @@
       color: #10131a;
     }
     &:last-child {
-      text-align: center;
+      text-align: right;
+      padding-right: 10px;
       color: #bac0ca;
+      .ant-btn-primary:hover, .ant-btn-primary:focus {
+        background: #2868ff;
+        border-color: #2868ff;
+      }
     }
   }
 }

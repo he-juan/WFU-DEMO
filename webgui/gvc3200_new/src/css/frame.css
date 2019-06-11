@@ -4427,6 +4427,7 @@ table thead tr th{
 }
 .call-dialog .call-ctrl-title {
     line-height: 1;
+    height: 70px;
 }
 .call-dialog .call-ctrl-title strong {
     font-size: 18px;
@@ -4436,8 +4437,43 @@ table thead tr th{
 }
 .call-dialog .call-ctrl-title span {
     font-size: 14px;
+    color: #596680;
+}
+.call-dialog .call-ctrl-title span.isrecording {
+    position: relative;
 }
 
+.call-dialog .call-ctrl-title span.isrecording::before {
+    content: '';
+    left: -16px;
+    width: 8px;
+    height: 8px;
+    background: #ff424e;
+    position: absolute;
+    border-radius: 50%;
+    top: 6px;
+    animation: dotAni 1s linear infinite;
+}
+@keyframes dotAni {
+    0% {
+        opacity: 0;
+    }
+    24% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    74% {
+        opacity:1;
+    }
+    75% {
+        opacity:0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
 .call-dialog .callee-icon{
     width: 160px;
     height: 160px;
@@ -4535,31 +4571,58 @@ table thead tr th{
 }
 
 .call-ctrl .ctrl-line{
+    color: #596680;
+    position: absolute;
     width: 100%;
-    height: 550px;
+    top: 85px;
+    bottom: 100px;
+    overflow-y: auto;
 }
 
-.ctrl-line div{
-    height: 50px;
-    line-height: 50px;
-}
 
-.ctrl-line .local-line div, .ctrl-line .remote-line div, .ctrl-line .whole-control div{
+
+.ctrl-line .local-line, .ctrl-line .remote-line,  .ctrl-line .whole-control {
+    height: 54px;
+    line-height: 54px;
+    margin: 0 20px;
+    border-bottom: 1px solid #eceff1;
+}
+.ctrl-line .whole-control {
+    border-top: 1px solid #eceff1;
+}
+.ctrl-line .local-line span, .ctrl-line .remote-line span, .ctrl-line .whole-control span{
     float: left;
     margin-left: 15px;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .ctrl-line .confname, .ctrl-line .confnum, .ctrl-line .conftype{
-    width: 150px;
+    width: 300px;
     height: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.ctrl-line .confnum {
+    width: 200px;
+}
 
-.ctrl-line .conftype{
+.ctrl-line .conftype {
     width: 170px;
+    text-align: right;
+}
+.ctrl-line .conftype.call-fail {
+    color: #ff424e;
+}
+.ctrl-line .conftype.call-ing {
+    color: #28c24d;
+}
+.local-line .confname, .whole-control .confname {
+    font-weight: bold;  
+    color: #10113a;  
+}
+.remote-line .confname {
+    color: #10113a;  
 }
 
 .ctrl-line .confbtn{
@@ -4587,7 +4650,7 @@ table thead tr th{
     background: url(../img/icon.png) 0px -424px no-repeat;
 }
 .confbtn .mute:disabled  {
-    background: url(../img/icon.png) 0px -424px no-repeat;
+    background: url(../img/icon.png) 0px -795px no-repeat;
 }
 
 .confbtn .mute{
@@ -4620,8 +4683,16 @@ table thead tr th{
 .confbtn .endconf{
     background: url(../img/icon.png) -613px -387px no-repeat;
 }
+
+.confbtn .endconf:disabled{
+    background: url(../img/icon.png) -100px -423px no-repeat;
+}
+
 .confbtn .confrecall{
     background: url(../img/icon.png) -637px -387px no-repeat;
+}
+.confbtn .confrecall:disabled{
+    background: url(../img/icon.png) -200px -795px no-repeat;
 }
 
 .confbtn .uploading{
@@ -4646,42 +4717,56 @@ table thead tr th{
     background: url(../img/icon.png) -563px -387px no-repeat;  
 }
 
+.confbtn .confvideo:disabled {
+    background: url(../img/icon.png) -150px -795px no-repeat;  
+}
 .confbtn .confaudio {
     background: url(../img/icon.png) -588px -387px no-repeat;  
 }
-
+.confbtn .confaudio:disabled {
+    background: url(../img/icon.png) -175px -795px no-repeat;  
+}
 
 
 .confbtn .cameraopen {
     background: url(../img/icon.png) -462px -387px no-repeat;
 }
+.confbtn .cameraopen:disabled {
+    background: url(../img/icon.png) -100px -795px no-repeat;
+}
+
+
 .confbtn .cameraclose {
     background: url(../img/icon.png) -487px -387px no-repeat;
 }
+.confbtn .cameraclose:disabled {
+    background: url(../img/icon.png) -125px -795px no-repeat;
+}
+
 
 .confbtn .suspend{
     background: url(../img/icon.png) -436px -387px no-repeat;
 }
 .confbtn .suspend:disabled {
-    background: url(../img/icon.png) -436px -387px no-repeat;
+    background: url(../img/icon.png) -75px -795px  no-repeat;
 }
 .confbtn .unsuspend{
-    background: url(../img/icon.png) -411px -387px no-repeat;
+    background: url(../img/icon.png) -412px -387px no-repeat;
 }
 .confbtn .unsuspend:disabled {
-    background: url(../img/icon.png) -411px -387px no-repeat;
+    background: url(../img/icon.png)  -25px -423px no-repeat;
 }
 .confbtn .confblock{
     background: url(../img/icon.png) -388px -387px no-repeat;
 }
 .confbtn .confblock:disabled{
-    background: url(../img/icon.png) -363px -387px no-repeat;
+    background: url(../img/icon.png) -50px -795px no-repeat;
 }
 .confbtn .unconfblock{
     background: url(../img/icon.png) -363px -387px no-repeat;
 }
 .confbtn .unconfblock:disabled{
-    background: url(../img/icon.png) -363px -387px no-repeat;
+    background: url(../img/icon.png) -25px -795px no-repeat;
 }
 
 .call-ctrl .callee-name-num{
@@ -4722,14 +4807,16 @@ table thead tr th{
 
 .call-ctrl-btn{
     width: 100%;
-    height: 36px;
+    height: 100px;
     left: 0;
     right: 0;
-    bottom: -10px;
+    bottom: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    position: absolute;
+    box-shadow: 0 -2px 3px rgba(165, 172, 183, 0.35);
+    z-index: 1;
 }
 
 .call-ctrl p{
@@ -4742,11 +4829,18 @@ table thead tr th{
     overflow: hidden;
 }
 
+.call-ctrl-btn > span {
+    height: 60px;
+    width: 130px;
+    text-align: center;
+    color: #10113a;
+    font-size: 14px;
+}
 .call-ctrl-btn button{
-    width: 48px;
-    height: 49px;
-    margin-left: 30px;
+    width: 36px;
+    height: 36px;
     border: none;
+    border-radius: 50%;
 }
 
 /*.call-ctrl-btn .mute-btn, .call-ctrl-btn .rcd-btn{*/
@@ -4754,61 +4848,47 @@ table thead tr th{
 /*}*/
 
 .call-ctrl-btn .addmember-btn {
-    background: url(../img/call/conf_control.png) -96px 0px no-repeat;
+    background: url(../img/icon.png) -125px -426px no-repeat;
 }
-.call-ctrl-btn .addmember-btn[disabled] {
-    opacity: 0.4;
-}
-.call-ctrl-btn .addmember-btn[disabled]:hover {
-    background-color: #fff;
-}
-.call-ctrl-btn .addmember-btn:not(:disabled):hover, .call-ctrl-btn .addmember-btn:active{
-    background: url(../img/call/conf_control.png) -96px -98px no-repeat;
-}
+
 
 .call-ctrl-btn .layout-btn {
-    background: url(../img/call/conf_control.png) -48px -147px no-repeat;
-}
-
-.call-ctrl-btn .layout-btn:hover, .call-ctrl-btn .layout-btn:active{
-    background: url(../img/call/conf_control.png) -48px -196px no-repeat;
-}
-
-.call-ctrl-btn .startFECC, .call-ctrl-btn .startFECC:hover, .call-ctrl-btn .startFECC:active{
-    background: url(../img/call/conf_control.png) -190px -147px no-repeat;
-}
-.mute-btn .mute-icon{
-    background: url(../img/icon.png) -182px -191px;
-}
-
-.mute-btn .unmute-icon{
-    background: url(../img/icon.png) -58px -191px;
-}
-
-.call-ctrl-btn .unrcd{
-   background: url(../img/call/conf_control.png) -48px 0px no-repeat;
+    background: url(../img/icon.png) -162px -426px no-repeat;
 }
 
 
-.call-ctrl-btn .rcd, .call-ctrl-btn .unrcd:hover{
-    background: url(../img/call/conf_control.png) -48px -98px no-repeat;
+.call-ctrl-btn .fecc-btn{
+    background: url(../img/icon.png) -199px -426px no-repeat;
 }
 
-
-.call-ctrl-btn .hold-icon, .call-ctrl-btn .unhold-icon:hover{
-    background: url(../img/call/conf_control.png) 0px -196px no-repeat;
-}
 
 .call-ctrl-btn .unhold-icon{
-    background: url(../img/call/conf_control.png) 0px -147px no-repeat;
-}
-
-.call-ctrl-btn .presen-icon, .call-ctrl-btn .unpresen-icon:hover, .call-ctrl-btn .presen-icon, .call-ctrl-btn .unpresen-icon.active{
-    background: url(../img/call/conf_control.png)  -96px -196px no-repeat;
+    background: url(../img/icon.png)  -346px -426px no-repeat;
 }
 
 .call-ctrl-btn .unpresen-icon{
-    background: url(../img/call/conf_control.png)  -96px -147px no-repeat;
+    background: url(../img/icon.png)  -236px -426px no-repeat;
+}
+.call-ctrl-btn .menu-btn {
+    background: url(../img/icon.png) -273px -426px no-repeat;
+}
+
+
+.menu-popover {
+    min-width: 150px;
+    padding:0;
+    cursor: pointer;
+    line-height: 36px;
+    margin: -8px -16px;
+}
+.menu-popover > div {
+    padding:2px 8px;
+}
+.menu-popover > div:hover {
+    background: #f4f7f9;
+}
+.call-ctrl-btn .end-btn{
+    background: url(../img/icon.png) -309px -426px no-repeat;
 }
 
 .call-ctrl-btn .ant-btn, .confbtn .ant-btn{
@@ -4820,19 +4900,9 @@ table thead tr th{
 .call-ctrl-btn .handsup{
     background: url(../img/call/conf_control.png) -578px -98px no-repeat;
 }
-.call-ctrl-btn .end-btn{
-    background: url(../img/call/conf_control.png) -288px 0px no-repeat;
-}
 
-.call-ctrl-btn .end-btn:hover{
-    background: url(../img/call/conf_control.png) -288px -98px no-repeat;
-}
 
-.call-ctrl-btn .end-btn .end-icon{
-    background: url(../img/icon.png) -116px -197px;
-    width: 36px;
-    height: 20px;
-}
+
 
 .call-ctrl .sound-slider{
     width: 40px;

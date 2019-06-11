@@ -38,7 +38,8 @@ class Presentation extends Component {
     const {presentation} = this.props
     return (
       <span>
-        <Button title={this.tr("a_10004")} className={`present-btn unpresen-icon ${presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal(true)}/>
+        <Button title={this.tr("a_10004")} className={`present-btn unpresen-icon ${presentation ? 'active': ''}`} onClick={() => this.tooglePresentModal(true)}/> <br />
+        {this.tr("a_10004")}
         <PresentationModal visible={this.state.PresentModalVisible} onHide={() => this.tooglePresentModal(false)} />
       </span>
     )

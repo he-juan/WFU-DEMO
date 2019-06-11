@@ -289,7 +289,7 @@ class Dialup extends Component {
               <Menu.Item key={v.acctindex} disabled={!v.register}>
                 <span><em className={`acct-icon acct-${v.acctindex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
                 <span>{v.num}</span>
-                <span>{!v.register ? '账号未注册' : defaultAcct == v.acctindex ? '默认账号' : <Button type="primary" onClick={this.setDefaultAcct.bind(this, v.acctindex)}>设为默认账号</Button>}</span>
+                <span>{!v.register ? '账号未注册' : defaultAcct == v.acctindex ? '默认账号' : <Button type="primary" size='small' onClick={this.setDefaultAcct.bind(this, v.acctindex)}>设为默认账号</Button>}</span>
               </Menu.Item>
             )
           })

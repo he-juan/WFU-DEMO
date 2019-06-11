@@ -40,7 +40,7 @@ class Layouts extends Component {
     const { is4kon, acctstatus, msfurole, linestatus } = this.props
     return (
       <span>
-        <Button title={this.tr("a_16703")} className={`layout-btn`} style={{display: is4kon ? 'none': 'block'}} onClick={() => this.toogleLayoutModal(true)}/>
+        <Button title={this.tr("a_16703")} className={`layout-btn`} style={{display: is4kon ? 'none': 'inline-block'}} onClick={() => this.toogleLayoutModal(true)}/>
         {
             (this.props.isvideo == 1 && acctstatus[0]) ? 
             msfurole == -1 ?
@@ -49,6 +49,8 @@ class Layouts extends Component {
             <LayoutModel_SFU visible={this.state.LayoutModalVisible} onHide={() => this.toogleLayoutModal(false)} />
             : null
         }
+        <br />
+        {this.tr("a_16703")}
       </span>
     )
   }

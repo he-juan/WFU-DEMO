@@ -43,30 +43,13 @@ function calLineBtnStatus(lineItem, acctstatus){
         case '5': // 通话中 处于保持状态
             itemTitle = isvideo == '1' ? tr('a_669') : tr('a_668');
             isvideoedclass = isvideoed == '1' ? 'unuploading' : 'uploading' ;
-            suspendclass = issuspend == '1' ?  'suspend' : 'unsuspend';
+            suspendclass = isvideo == '0' ? 'unsuspend' : issuspend == '1' ?  'suspend' : 'unsuspend';
             confvideoclass = isvideo == '1' ? 'confvideo' : 'confaudio';
             blockclass = isblock == '1' ? 'confblock' : 'unconfblock';
             muteclass = islinemute == '1' ?  'mute': 'unmute';
             feccclass = (enablefecc != '1' && feccstate != '1') ? 'startFECC btndisable' : 'startFECC';
 
-            // disable 状态
-            if(isvideo != '1' || isremotehold == '1') {
-                suspendclass += ' btndisable';
-            }
-            if(isremotehold == '1') {
-                confvideoclass += ' btndisable';
-                blockclass += ' btndisable';
-                muteclass += ' btndisable'
-            }
-            if (acct != 1) {
-                isvideoedclass += ' btndisable';
-            }
-
-            // title加类型
-            if(acctstatus.length > 0 ){
-                let account = acct == '8' ? '3' : acct
-                itemTitle += `(${acctstatus[account]['name']})`;
-            }
+           
             break;
         case 'init8': // 呼叫时 刷新浏览器
         case '8':
@@ -341,46 +324,55 @@ class LinesList extends Component {
     // 回拨
     handleReCall = (item) => {
         
-        const {acct, isvideo, num } = item
-        $.get(`/manager?action=makecall&num=${num}&isvideo=${isvideo}&isconf=1&acct=${acct}&source=2`)
+        const { line } = item
+        $.get(`/manager?action=redialline&line=${line}`)
     }
     render() {
-        const { acctstatus, feccbtnvisile, linestatus, globalConfInfo, isOnHold , isAllBlock, isAllMute, isAllSuspend } = this.props
+        const { acctstatus, feccbtnvisile, linestatus, globalConfInfo, isOnHold, isAllMute, isAllBlock } = this.props
         const { localmuteclass, localcamerastateclass, ismute } = calLocalBtnStatus(globalConfInfo)
         const isHeld = isOnHold == '1'
+        // 接口的isAllSuspend 有问题, 这里自行计算
+        const isAllSuspend = linestatus.filter(item => {
+            return item.state != '8' && item.isvideo == '1' && item.issuspend == '0'
+        }).length == 0
+
+        const isAllAudio = linestatus.filter(item => {
+            return item.state != 8 && item.isvideo == '1'
+        }).length == 0
+
 
         return (
             <div className="ctrl-line">
                 {/* 全场会控 */}
                 <div className="whole-control">
-                    <div className="confname">全场会控</div>
-                    <div className="confnum"></div>
-                    <div className="conftype"></div>
-                    <div className="confbtn">
-                        <Button id="allSuspend" disabled={isHeld} title={isAllSuspend ? "点击开启所有画面" :"点击关闭所有画面"} onClick={ () => this.toggleAllSuspend(isAllSuspend)}  className={isAllSuspend ? "suspend" : "unsuspend"} />
+                    <span className="confname">全场会控</span>
+                    <span className="confnum"></span>
+                    <span className="conftype"></span>
+                    <span className="confbtn">
+                        <Button id="allSuspend" disabled={isHeld || isAllAudio} title={isAllSuspend ? "点击开启所有画面" :"点击关闭所有画面"} onClick={ () => this.toggleAllSuspend(isAllSuspend)}  className={isAllAudio ?'unsuspend' : isAllSuspend ? "suspend" : "unsuspend"} />
                         <Button id="allBlock" disabled={isHeld} title={isAllBlock ? "点击取消全场禁声":"点击全场禁声"} onClick={this.toggleAllBlock} className={ isAllBlock ? "confblock" : "unconfblock"} />
                         <Button id="allMute" disabled={isHeld} title={isAllMute ? "点击取消全场静音": "点击全场静音"} onClick={this.toggleAllMute} className={ isAllMute ? "mute" : "unmute"} />
-                    </div>
+                    </span>
                 </div>
                 <div className="local-line">
-                    <div className="confname">{tr("a_10032")}</div>
-                    <div className="confnum"></div>
-                    <div className="conftype"></div>
-                    <div className="confbtn">
+                    <span className="confname">{tr("a_10032")}</span>
+                    <span className="confnum"></span>
+                    <span className="conftype"></span>
+                    <span className="confbtn">
                         {/* <Button id="startFECC" title={tr("a_19020")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/> */}
                         <Button id="closecamera" title={"点击关闭本地摄像头"} disabled={isHeld}  className={localcamerastateclass} onClick={this.handlelocalcamera}/>
                         <Button id="localmute" title={"点击静音"} disabled={isHeld}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
-                    </div>
+                    </span>
                 </div>
                 {
                 linestatus.map((item, i) => {
                     let disabledflag = item.acct == 1 || item.isremotehold == "1";
                     let {itemTitle, isvideoedclass, suspendclass, confvideoclass, blockclass, muteclass, feccclass, recallclass } = calLineBtnStatus(item, acctstatus)
                     return <div className={`remote-line remote-line-${i}`} key={i}>
-                        <div className="confname">{item.name || item.num}</div>
-                        <div className="confnum">{item.acct == 1 ? (item.name || item.num) : item.num}</div>
-                        <div className="conftype">{itemTitle}</div>
-                        <div className="confbtn">
+                        <span className="confname">{item.name || item.num}</span>
+                        <span className="confnum">{item.acct == 1 ? (item.name || item.num) : item.num}</span>
+                        <span className={`conftype ${item.state == '8' ? 'call-fail' : item.state == ('3' || 'init3') ? 'call-ing' : ''}`}>{itemTitle}</span>
+                        <span className="confbtn">
                             {/* 结束通话 */}
                             <Button title={"结束"} className="endconf" disabled={isHeld}
                                     onClick={this.handleEndline.bind(this, item)}/>
@@ -394,7 +386,7 @@ class LinesList extends Component {
                             {/* 暂停视频上传 */}
                             {/* <Button title={tr("a_19241")} className={isvideoedclass}
                                     disabled={!isHeld && item.acct == 1 ? false : true}
-                                    onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/> */}
+                                    onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/> */} 
 
                             {/* 点击关闭他的画面 */}
                             <Button title={ item.issuspend == '1'? "点击开启他的画面": "点击关闭他的画面"}
@@ -419,7 +411,7 @@ class LinesList extends Component {
                                     disabled={isHeld || disabledflag ? true : false}
                                     className={muteclass}
                                     onClick={this.handlelinemute.bind(this, item)}/>
-                        </div>
+                        </span>
                     </div>})
                 }
             </div>

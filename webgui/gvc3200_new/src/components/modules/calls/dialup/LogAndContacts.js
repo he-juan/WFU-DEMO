@@ -350,7 +350,6 @@ class LogAndContacts extends Component {
         }
       }
     ]
-    console.log(expandedKeys)
     return (
       <div className="log-contacts-wrap" onScroll={(e) => this.handleTableScroll(e)} style={{maxHeight: mainHeight - 170}} >
         <div ref="recordTable">

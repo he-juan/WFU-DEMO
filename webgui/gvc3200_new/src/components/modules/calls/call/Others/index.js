@@ -35,9 +35,10 @@ class Others extends Component {
   render() {
     const {msfurole,linestatus, DTMFDisplay, hasipvtline, acctstatus, ispause, is4kon, ishdmione4K, isline4Kvideo, countClickedTimes} = this.props
     return (
-      <div className={'left-actions'} style={{position: "absolute", right: "10px"}}>
+      <span >
         <Popover
-          content={<div style={{lineHeight:'30px', cursor:'pointer'}}>
+        
+          content={<div  className='menu-popover'>
             {/* 录像 */}
             <RecordBtn is4kon={is4kon} ishdmione4K={ishdmione4K} isline4Kvideo={isline4Kvideo} countClickedTimes={countClickedTimes} ispause={ispause}  hasipvtline={hasipvtline}/>
             {/* 保持 */}
@@ -57,12 +58,18 @@ class Others extends Component {
             {/** 会议详情 */}
             <ConfDetailsBtn acctstatus={acctstatus} linestatus={linestatus} hideOtherCtrl={() => this.handleOtherCtrlChange(false) } ispause={ispause}/>
           </div>}
-
-          trigger="click" visible={this.state.otherCtrlVisible} onVisibleChange={this.handleOtherCtrlChange}>
-          <Button type="primary" style={{width: "100px"}}>Other</Button>
+          trigger="click" 
+          visible={this.state.otherCtrlVisible} 
+          onVisibleChange={this.handleOtherCtrlChange}
+          // getPopupContainer={(el) => el}
+          placement="topRight"
+          
+          >
+          <Button type="primary" className='menu-btn' ></Button> 
         </Popover>
-        
-      </div>
+          <br/>   
+          {'菜单'}
+      </span>
     )
   }
 }
