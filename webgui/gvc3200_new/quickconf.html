@@ -4,7 +4,7 @@
 <html>
 <head>
     <title id="a_title">Quick setup</title>
-    <script type="text/javascript" src='js/jquery.tools.min.js'></script>
+    <script type="text/javascript" src='/js/jquery-2.2.1.min.js'></script>
     <script type="text/javascript" src='/js/jquery.cookie.js'></script>
     <script type="text/javascript" src='/js/jquery.stylish-select.min.js'></script>
     <script type="text/javascript" src='/js/hideShowPassword.min.js'></script>
@@ -24,6 +24,7 @@
         input:-ms-input-placeholder {  font-size: 16px; color:#c7c7cc; }
         ::-moz-placeholder {  font-size: 16px; color:#c7c7cc; }
         ul::-webkit-scrollbar{display: none;}
+        #clanguage, #timezone-div{ z-index: 100;  display: block;  position: fixed;  top: 0px;  left: 0px;  bottom: 0px;  right: 0px;}
         button {  border: none;  border-radius: 4px;  color: white;  cursor: pointer;  font-size: 16px;  height: 30px;  min-width: 82px;  font-family: Arial;  }
         .config-title {  text-align: left;  margin: 50px 0 10px 20px;  font-size: 15px;  color:#155bff;  }
         .config-div { margin: 10px 0;  height: 40px;  line-height: 40px;  }
@@ -39,15 +40,22 @@
         #propmtip {  font-size: 14px;  width: 100%;  text-align: center;  height: 15px;  line-height: 15px;  }
         #propmtip span {  display: none;  }
         #ret2 { position: absolute;  margin: auto;  top: -20px;  bottom: 0;  left: 0;  right: 0;  height: 20px;  width: 100%;  font-size: 18px  }
-        .mask, #accountconf, #ret2,  #setnetwork{ display: none;}
+        .mask, #accountconf, #ret2, #setlanguage, #clanguage,#settimezone, #timezone-div, #setnetwork{ display: none;}
+        .lang ul, #timezone{ max-height: 350px; cursor: pointer;list-style: none; outline: none;text-align: left;  border-bottom: 1px solid #eceff2;overflow: auto;
+        -webkit-tap-highlight-color : rgba(0, 0, 0, 0);background-color: white;-webkit-overflow-scrolling: touch; }
         .selectDiv, .selectDiv2{width: 100% ; height: 40px;line-height:40px;border-top:1px solid #c8c7cc;border-bottom:1px solid #c8c7cc; font-size: 16px;background-color: white;}
         .selectDiv div:first-child{position:absolute;width:130px;left: 20px;text-align: left;text-overflow:ellipsis;white-space: nowrap;overflow:hidden;}
         .selectDiv div:nth-child(2){ position:absolute; left:175px; right:25px;text-align: right; color:#8e8e93; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
         /*#selectedlang, #selectedtimezone{float:left; padding-left: 20px;}*/
         .selectDiv2 div:first-child{position: absolute; left:17px;right:45px; text-align: left;text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
         .arrow{position:absolute;right:0px;width:8px;height:13px;margin: 15px 8px 15px 5px;  background: url('/img/quickconf/arrow_details_icon.png') 8px 13px;-webkit-background-size: cover;  background-size: cover;}
-        .step-btn{position: absolute;width: 100%; bottom: 45px;text-align: center;}
-        #network-next-step{width:80%;;min-width: 150px;height:50px;line-height:50px;border-radius:8px;background-color: #155bff; color: white; font-size: 20px;}
+        .clang_item, #timezone li{ position: relative;height: 40px;line-height: 40px;padding-left:20px;padding-right:35px;border-bottom: 1px solid #eceff2; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+        .buttom-btn{height:45px;}
+        .buttom-btn button{height:45px;width:50%;background-color:white;color:#155bff;border-radius: 0;}
+        .buttom-btn button:first-child{ border-right:1px solid #eceff2; border-bottom-left-radius: 8px;}
+        .buttom-btn button:last-child{ border-bottom-right-radius: 8px;}
+        #setlanguage .lang-next-step, .step-btn{position: absolute;width: 100%; bottom: 45px;text-align: center;}
+        #setlanguage .lang-next-step button{width:80%;;min-width: 150px;height:50px;line-height:50px;border-radius:8px;background-color: #155bff; color: white; font-size: 20px;}
         .step-btn button{width: 40%; min-width: 100px;height:50px;line-height:50px;border-radius:6px; border:1px solid #bcbbc1;background-color: #fefefe;color: #000000; font-size: 18px}
         .step-btn button:last-child {margin-left: 10px; background-color: #007aff;color: white; }
         .step-btn button:disabled{background-color: #9B9B9B;cursor: not-allowed;}
@@ -98,6 +106,194 @@
 <body>
 
 <div id="notic" style="display: none;"><div id="message"></div></div>
+<div id="setlanguage">
+    <p class="config-title" id="a_sellang">Select language</p>
+    <div class="lang">
+        <div class="selectDiv"><div id="a_lang">Language</div><div id="selectedlang"></div><div class="arrow"></div></div>
+        <div class="lang-next-step"><button name="a_nextstep">下一步</button></div>
+        <div id="clanguage">
+            <div class="modal-mask"></div>
+            <div class="wrap">
+             <div class="content">
+              <div style="height: 8px;"></div>
+              <ul class="clang">
+            <li id="ja_JP" class="clang_item">日本語<div></div></li>
+            <li id="zh_TW" class="clang_item">中文 (台湾)<div></div></li>
+            <li id="zh_CN" class="clang_item">中文 (简体)<div></div></li>
+            <li id="zh_HK" class="clang_item">中文 (香港)<div></div></li>
+            <li id="in_ID" class="clang_item">Bahasa Indonesia<div></div></li>
+            <li id="ms_MY" class="clang_item">Bahasa Melayu<div></div></li>
+            <li id="af_ZA" class="clang_item">Afrikaans<div></div></li>
+            <li id="ca_ES" class="clang_item">Català<div></div></li>
+            <li id="cs_CZ" class="clang_item">Čeština<div></div></li>
+            <li id="da_DK" class="clang_item">Dansk<div></div></li>
+            <li id="de_DE" class="clang_item">Deutsch (Deutschland)<div></div></li>
+            <li id="de_LI" class="clang_item">Deutsch (Liechtenstein)<div></div></li>
+            <li id="de_AT" class="clang_item">Deutsch (Österreich)<div></div></li>
+            <li id="de_CH" class="clang_item">Deutsch (Schweiz)<div></div></li>
+            <li id="en_AU" class="clang_item">English (Australia)<div></div></li>
+            <li id="en_CA" class="clang_item">English (Canada)<div></div></li>
+            <li id="en_NZ" class="clang_item">English (New Zealand)<div></div></li>
+            <li id="en_SG" class="clang_item">English (Singapore)<div></div></li>
+            <li id="en_GB" class="clang_item">English (United Kingdom)<div></div></li>
+            <li id="en_US" class="clang_item">English (United States)<div></div></li>
+            <li id="es_ES" class="clang_item">Español (España)<div></div></li>
+            <li id="es_US" class="clang_item">Español (Estados Unidos)<div></div></li>
+            <li id="tl_PH" class="clang_item">Filipino<div></div></li>
+            <li id="fr_BE" class="clang_item">Français (Belgique)<div></div></li>
+            <li id="fr_CA" class="clang_item">Français (Canada)<div></div></li>
+            <li id="fr_FR" class="clang_item">Français (France)<div></div></li>
+            <li id="fr_CH" class="clang_item">Français (Suisse)<div></div></li>
+            <li id="hr_HR" class="clang_item">Hrvatski<div></div></li>
+            <li id="zu_ZA" class="clang_item">IsiZulu<div></div></li>
+            <li id="it_IT" class="clang_item">Italiano (Italia)<div></div></li>
+            <li id="it_CH" class="clang_item">Italiano (Svizzera)<div></div></li>
+            <li id="sw_TZ" class="clang_item">Kiswahili<div></div></li>
+            <li id="lv_LV" class="clang_item">Latviešu<div></div></li>
+            <li id="lt_LT" class="clang_item">Lietuvių<div></div></li>
+            <li id="hu_HU" class="clang_item">Magyar<div></div></li>
+            <li id="nl_BE" class="clang_item">Nederlands (België)<div></div></li>
+            <li id="nl_NL" class="clang_item">Nederlands (Nederland)<div></div></li>
+            <li id="nb_NO" class="clang_item">Norsk bokmål<div></div></li>
+            <li id="pl_PL" class="clang_item">Polski<div></div></li>
+            <li id="pt_BR" class="clang_item">Português (Brasil)<div></div></li>
+            <li id="pt_PT" class="clang_item">Português (Portugal)<div></div></li>
+            <li id="ro_RO" class="clang_item">Română<div></div></li>
+            <li id="rm_CH" class="clang_item">Romansh<div></div></li>
+            <li id="sk_SK" class="clang_item">Slovenčina<div></div></li>
+            <li id="sl_SI" class="clang_item">Slovenščina<div></div></li>
+            <li id="fi_FI" class="clang_item">Suomi<div></div></li>
+            <li id="sv_SE" class="clang_item">Svenska<div></div></li>
+            <li id="vi_VN" class="clang_item">Tiếng Việt<div></div></li>
+            <li id="tr_TR" class="clang_item">Türkçe<div></div></li>
+            <li id="el_GR" class="clang_item">Ελληνικά<div></div></li>
+            <li id="bg_BG" class="clang_item">Български<div></div></li>
+            <li id="ru_RU" class="clang_item">Русский<div></div></li>
+            <li id="sr_RS" class="clang_item">Српски<div></div></li>
+            <li id="uk_UA" class="clang_item">Українська<div></div></li>
+            <li id="iw_IL" class="clang_item">עברית<div></div></li>
+            <li id="ar_EG" class="clang_item">العربية<div></div></li>
+            <li id="fa_IR" class="clang_item">فارسی<div></div></li>
+            <li id="am_ET" class="clang_item">አማርኛ<div></div></li>
+            <li id="hi_IN" class="clang_item">हिन्दी<div></div></li>
+            <li id="th_TH" class="clang_item">ไทย<div></div></li>
+            <li id="ko_KR" class="clang_item">한국어<div></div></li>
+        </ul>
+                <div class="buttom-btn"><button id="lang-cancel" name="a_cancel">取消</button><button id="lang-confirm">确定</button></div>
+                </div></div>
+        </div>
+    </div>
+</div>
+
+<div id="settimezone" class="">
+    <p class="config-title" id="a_seltimezone">Select time zone</p>
+    <div class="selectDiv"><div id="a_timezone">Timezone</div><div id="selectedtimezone"></div><div class="arrow"></div></div>
+    <div class="step-btn"><button id="time-back-btn" name="a_laststep">Previous step</button><button id="time-next-step" name="a_nextstep">Next step</button></div>
+    <div></div>
+    <div id="timezone-div" style="z-index: 100;">
+        <div class="modal-mask"></div>
+        <div class="wrap">
+            <div class="content">
+                <div style="height: 8px;"></div>
+        <ul id="timezone">
+            <li id="GMT">GMT<div></div></li>
+            <li id="Pacific-Midway">Midway Island</li>
+            <li id="Pacific-Honolulu">Hawaii</li>
+            <li id="America-Anchorage">Alaska</li>
+            <li id="America-Los_Angeles">Pacific Time</li>
+            <li id="America-Tijuana">Tijuana</li>
+            <li id="America-Phoenix">Arizona</li>
+            <li id="America-Chihuahua">Chihuahua</li>
+            <li id="America-Denver">Mountain Time</li>
+            <li id="America-Costa_Rica">Central America</li>
+            <li id="America-Chicago">Central Time</li>
+            <li id="America-Mexico_City">Mexico City</li>
+            <li id="America-Regina">Saskatchewan</li>
+            <li id="America-Bogota">Bogota</li>
+            <li id="America-New_York">Eastern Time</li>
+            <li id="America-Caracas">Venezuela</li>
+            <li id="America-Barbados">Atlantic Time (Barbados)</li>
+            <li id="America-Halifax">Atlantic Time (Canada)</li>
+            <li id="America-Manaus">Manaus</li>
+            <li id="America-Santiago">Santiago</li>
+            <li id="America-St_Johns">Newfoundland</li>
+            <li id="America-Recife">Recife</li>
+            <li id="America-Sao_Paulo" >Brasilia</li>
+            <li id="America-Argentina/Buenos_Aires" >Buenos Aires</li>
+            <li id="America-Godthab" >Greenland</li>
+            <li id="America-Montevideo">Montevideo</li>
+            <li id="Atlantic-South_Georgia">Mid-Atlantic</li>
+            <li id="Atlantic-Azores">Azores</li>
+            <li id="Atlantic-Cape_Verde">Cape Verde Islands</li>
+            <li id="Africa-Casablanca">Casablanca</li>
+            <li id="Europe-London">London</li>
+            <li id="Europe-Amsterdam">Amsterdam, Berlin</li>
+            <li id="Europe-Belgrade">Belgrade</li>
+            <li id="Europe-Brussels">Brussels</li>
+            <li id="Europe-Madrid">Madrid</li>
+            <li id="Europe-Sarajevo">Sarajevo</li>
+            <li id="Africa-Windhoek">Windhoek</li>
+            <li id="Africa-Brazzaville">W. Africa Time</li>
+            <li id="Asia-Amman">Amman, Jordan</li>
+            <li id="Europe-Athens">Athens, Istanbul</li>
+            <li id="Europe-Istanbul">Istanbul</li>
+            <li id="Asia-Beirut">Beirut, Lebanon</li>
+            <li id="Africa-Cairo">Cairo</li>
+            <li id="Europe-Helsinki">Helsinki</li>
+            <li id="Asia-Jerusalem">Jerusalem</li>
+            <li id="Europe-Minsk">Minsk</li>
+            <li id="Africa-Harare">Harare</li>
+            <li id="Asia-Baghdad">Baghdad</li>
+            <li id="Europe-Moscow">Moscow, St.Petersburg</li>
+            <li id="Asia-Kuwait">Kuwait</li>
+            <li id="Africa-Nairobi">Nairobi</li>
+            <li id="Asia-Tehran">Tehran</li>
+            <li id="Asia-Baku">Baku</li>
+            <li id="Asia-Tbilisi">Tbilisi</li>
+            <li id="Asia-Yerevan">Yerevan</li>
+            <li id="Asia-Dubai">Dubai</li>
+            <li id="Asia-Kabul">Kabul</li>
+            <li id="Asia-Karachi">Islamabad, Karachi</li>
+            <li id="Asia-Oral">Ural'sk</li>
+            <li id="Asia-Yekaterinburg">Yekaterinburg</li>
+            <li id="Asia-Calcutta">Kolkata, Chennai, New Delhi, Mumbai</li>
+            <li id="Asia-Colombo">Sri Lanka</li>
+            <li id="Asia-Katmandu">Kathmandu</li>
+            <li id="Asia-Almaty">Astana</li>
+            <li id="Asia-Rangoon">Yangon</li>
+            <li id="Asia-Krasnoyarsk">Krasnoyarsk</li>
+            <li id="Asia-Bangkok">Bangkok</li>
+            <li id="Asia-Jakarta">Jakarta</li>
+            <li id="Asia-Shanghai">Beijing</li>
+            <li id="Asia-Hong_Kong">Hong Kong</li>
+            <li id="Asia-Irkutsk">Irkutsk</li>
+            <li id="Asia-Kuala_Lumpur">Kuala Lumpur</li>
+            <li id="Australia-Perth">Perth</li>
+            <li id="Asia-Taipei">Taipei</li>
+            <li id="Asia-Seoul">Seoul</li>
+            <li id="Asia-Tokyo">Tokyo, Osaka</li>
+            <li id="Asia-Yakutsk">Yakutsk</li>
+            <li id="Australia-Adelaide">Adelaide</li>
+            <li id="Australia-Darwin">Darwin</li>
+            <li id="Australia-Brisbane">Brisbane</li>
+            <li id="Australia-Hobart">Hobart</li>
+            <li id="Australia-Sydney">Sydney, Canberra</li>
+            <li id="Asia-Vladivostok">Vladivostok</li>
+            <li id="Pacific-Guam">Guam</li>
+            <li id="Asia-Magadan">Magadan</li>
+            <li id="Pacific-Noumea">Noumea, New Caledonia</li>
+            <li id="Pacific-Majuro">Majuro</li>
+            <li id="Pacific-Auckland">Auckland</li>
+            <li id="Pacific-Fiji">Fiji</li>
+            <li id="Pacific-Tongatapu">Tonga</li>
+        </ul>
+
+        <div class="buttom-btn"><button id="timezone-cancel" name="a_cancel">Cancel</button><button id="timezone-confirm">Confirm</button></div>
+            </div></div>
+    </div>
+</div>
+
+
 <div id="setnetwork">
     <p class="config-title" id="a_networkconf">Network configuration</p>
     <div class="config-box" style="margin-top: 0;">
@@ -106,7 +302,7 @@
         <div class="g_conf" style="border-bottom: none;"><div id="wifi-pic"></div><span style="left: 45px;">Wi-FI</span><span id="wifistatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
     </div>
     <div class="selectDiv2" style="margin-top: 30px;"><div id="a_advnetworkconf">高级网络设置</div><div class="arrow"></div></div>
-    <div class="step-btn"><button id="network-next-step" name="a_nextstep">下一步</button></div>
+    <div class="step-btn"><button id="network-back-btn" name="a_laststep">上一步</button><button id="network-next-step" name="a_nextstep">下一步</button></div>
 </div>
 
 
@@ -253,11 +449,14 @@
     <div id="result"></div>
 </div>
 
-<script id="language" src='/lang/zh.js'></script>
+<script id="language" src='/lang/en_quickconf.js'></script>
 <!--<script type="text/javascript" src='/js/public.js'></script>-->
 <script type='text/javascript'>
 
     var position = 0, isnetworkvisited = false;
+    var langobj = {curlangId:"",clickedlangId:"",isvisited:false};
+    var timezoneobj ={curtimezoneId:"",clickedtimezoneId:"",isvisited:false};
+//    var networkconfigObj = {isvisited:false};
     var accountobj ={isvisited:false}, pwdobj = {isvisited:false, haspwd:false};
 
     var req_items = new Array();
@@ -302,10 +501,11 @@
     var orignnetworktype = 0, orignip6nettype = 0, originprtctype = 0;
     var orignaddress = "", orignsubmask = "", origngateway = "", origndnssever1 = "", origndnssever2 = "";
     var orignppoeaccount = "", orignppoepwd = "";
-    var savesitename = 0, savelandone=0, saveaccountdone = 0, savenetworkdone = 0;
+    var savesitename = 0, savelandone=0, savetimezonedone=0, saveaccountdone = 0, savenetworkdone = 0;
     var orignipv6addr = "", orignipv6prefixlen = "", orignipv6dns1 = "", orignipv6dns2 = "";
+    var city_names = [];
     var newgmts = new Array;
-    var colore = $.cookie("coloreExist");
+//    var colore = $.cookie("coloreExist");
     var height;
     var useactivationcode = true;
     var bg_tp, dispos, disduration, fontcolor, fontsize, bold;
@@ -326,11 +526,11 @@
             success: function (data) {
                 var tObj = eval("(" + data + ")");
                 if (tObj.res == "success") {
-                    $("#setnetwork").fadeIn();
+                    $("#setlanguage").show();
                     $("#qrdiv").hide();
                     checkres = true;
                 } else {
-                    $("#setnetwork").hide();
+                    $("#setlanguage").hide();
                     $("#qrdiv").fadeIn(1000);
                 }
             },
@@ -338,10 +538,8 @@
             }
         });
         if (checkres) {
-            cb_get_action("network&region=quickconf");
-            cb_get(req_items);
-            var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
-            cb_get_action(sqlitestr);
+            cb_get_action('getlanguages&region=quickconf');
+//            cb_get_timezone();
         }
         pageEventActions();
     });
@@ -355,10 +553,46 @@
             cb_get_action('refreshqrcode&region=quickconf');
         });
 
+        $("#setlanguage .selectDiv").click(function () {
+            if ($("#clanguage").is(':hidden')) {
+                $("#clanguage").show().focus();
+            } else {
+                $("#clanguage").hide();
+                $(langobj.clickedlangId).find("div").removeClass("active");
+                $(langobj.curlangId).find("div").addClass("active");
+                langobj.clickedlangId = langobj.curlangId;
+            }
+        });
+
+        $("#lang-cancel").click(function () {
+            $("#clanguage").hide();
+            $(langobj.clickedlangId).find("div").removeClass("active");
+            $(langobj.curlangId).find("div").addClass("active");
+            langobj.clickedlangId = langobj.curlangId;
+        });
+
+        $("#lang-confirm").click(function () {
+            langobj.curlangId = langobj.clickedlangId;
+            $("#selectedlang").text($(langobj.clickedlangId).text());
+            $("#clanguage").hide();
+        });
+
+        $("#clanguage ul").on("click", ".clang_item", function () {
+            $(langobj.clickedlangId).find("div").removeClass("active");
+            $(this).find("div").addClass("active");
+            langobj.clickedlangId = "#" + $(this).attr('id');
+        });
+
         $(".wrap").on("click touchmove", function (event) {
             var target = event.srcElement || event.target;
             var targetId = $(target).parent().attr("id");
             switch (targetId) {
+                case "clanguage":
+                    $("#lang-cancel").click();
+                    break;
+                case "timezone-div":
+                    $("#timezone-cancel").click();
+                    break;
                 case "selectproto":
                     $("#selectproto").hide();
                     break;
@@ -371,7 +605,61 @@
             }
         });
 
+        $(".lang-next-step button").click(function () {
+            if (!timezoneobj.isvisited) {
+                $(".lang-next-step button").attr("disabled", "disabled");
+            }
+            $("#setlanguage").hide();
+            $("#settimezone").fadeIn(1000);
+        });
+
+        $("#settimezone .selectDiv").click(function () {
+            if ($("#timezone-div").is(':hidden')) {
+                $("#timezone-div").show();
+            } else {
+                $("#timezone-div").hide();
+                $(timezoneobj.clickedtimezoneId).find("div").removeClass("active");
+                $(timezoneobj.curtimezoneId).find("div").addClass("active");
+                timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
+            }
+        });
+
+        $("#timezone-cancel").click(function () {
+            $("#timezone-div").hide();
+            $(timezoneobj.clickedtimezoneId).find("div").removeClass("active");
+            $(timezoneobj.curtimezoneId).find("div").addClass("active");
+            timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
+        });
+
+        $("#timezone-confirm").click(function () {
+            timezoneobj.curtimezoneId = timezoneobj.clickedtimezoneId;
+            $("#selectedtimezone").text($(timezoneobj.clickedtimezoneId).text());
+            $("#timezone-div").hide();
+        });
+
+        $("#timezone").on("click", "li", function () {
+            $(timezoneobj.clickedtimezoneId).find("div").removeClass("active");
+            $(this).find("div").addClass("active");
+            timezoneobj.clickedtimezoneId = "#" + $(this).attr('id');
+        });
+
+        $("#time-back-btn").click(function () {
+            $("#settimezone").hide();
+            $("#setlanguage").fadeIn();
+        });
+
+        $("#time-next-step").click(function () {
+            $("#settimezone").hide();
+            $("#setnetwork").fadeIn();
+        });
+
+        $("#network-back-btn").click(function () {
+            $("#settimezone").fadeIn();
+            $("#setnetwork").hide();
+        });
+
         $("#setnetwork .selectDiv2").click(function () {
+            init_page();
             $("#setnetwork").hide();
             $("#setprefernetwork").fadeIn();
         });
@@ -667,6 +955,12 @@
         $("#siteconf-next-step").click(function () {
             //最後配置結束發送各種保存請求
             showTips(a_7478);
+            var lan_ct = $(langobj.curlangId).attr("id");
+            var lancts = lan_ct.split("_");
+            cb_get_action("putlanguage&region=quickconf&lan=" + lancts[0] + "&country=" + lancts[1]);//保存语言
+            var timezone = $(timezoneobj.curtimezoneId).attr("id");
+            timezone = timezone.replace("-", "/");
+            cb_get_action("savetimeset&region=quickconf&timezone=" + timezone);//保存时区
             cb_saveaccount(); //保存账号
             var setsitename = "setSitesettingInfo&region=quickconf&bgtp=" + bg_tp + "&sitename=" + encodeURIComponent($("#sitename").val())
                 + "&dispos=" + dispos + "&disduration=" + disduration + "&fontcolor="+encodeURIComponent(fontcolor) + "&fontsize="+fontsize + "&bold=" + bold;
@@ -868,11 +1162,40 @@
             var msgs = res_parse_rawtext(data);
             if (cb_is_fail(msgs)) {
             } else {
-                if(action.indexOf("refreshqrcode") != -1){
+                if (action.indexOf("getlanguages") != -1) {
+                    var lan = msgs.headers["language"];
+                    lan = lan.split("\n")[0];
+                    langobj.curlangId = '#' + lan;
+                    langobj.clickedlangId = '#' + lan;
+                    var temp = $(langobj.curlangId);
+                    temp.find("div").addClass("active");
+                    $("#selectedlang").text(temp.text());
+                    if(lan == "zh_CN"){
+                        $("#language").attr("src", '/lang/zh_quickconf.js');
+                        $.getScript('/lang/zh_quickconf.js',function(){
+                            translate_page();
+                            cb_get_timezone();
+                            cb_get_action("network&region=quickconf");
+                            cb_get(req_items);
+                            var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
+                            cb_get_action(sqlitestr);
+                        });
+                    }else{
+                        cb_get_timezone();
+                        cb_get_action("network&region=quickconf");
+                        cb_get(req_items);
+                        var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
+                        cb_get_action(sqlitestr);
+                    }
+                }else if(action.indexOf("refreshqrcode") != -1){
                     $("#qrdiv").hide();
                     $("#qrsucdiv").fadeIn(1000);
                 }else if(action.indexOf("network") != -1){
+                    $("#time-next-step").removeAttr("disabled");
                     if(msgs.headers["response"] && msgs.headers["response"].toLowerCase() == "success"){
+//                        isnetworkvisited = true;
+//                        $("#settimezone").hide();
+//                        $("#setnetwork").fadeIn(1000);
                         if(msgs.headers["ip"]!="" && msgs.headers["ip"]!="none"){
                             $("#ipaddress").text(msgs.headers["ip"]);
                         }
@@ -891,18 +1214,34 @@
                             $("#wifi-pic").addClass("wifidisconnect");
                         }
                     }else{
-                     //   $("#setnetwork").hide();
-                     //   $("#qrdiv").show(1000);
+//                        $("#settimezone").hide();
+//                        $("#qrdiv").show(1000);
                     }
-                }
-                else if(action.indexOf("setactivecode") != -1) {
+                }else if(action.indexOf("putlanguage") != -1){
+                    if (data.indexOf("Cookie Invalid") != -1) {
+                        $("#modal-mask-prompt").hide();
+                        $("#siteconf").hide();
+                        $("#qrdiv").show(1000);
+                        savelandone = 0;
+                    } else {
+                        savelandone = 1;
+                        checkallsavedone();
+                    }
+                }else if(action.indexOf("savetimeset") != -1){
+                    if (data.indexOf("Cookie Invalid") != -1) {
+                        $("#modal-mask-prompt").hide();
+                        $("#qrdiv").show(1000);
+                        $("#siteconf").hide();
+                        savetimezonedone = 0;
+                    } else {
+                        savetimezonedone = 1;
+                        checkallsavedone();
+                    }
+                }else if(action.indexOf("setactivecode") != -1) {
                     saveaccountdone = 1;
                     checkallsavedone();
                 }else if(action.indexOf("acctquickconf") != -1){
                     saveaccountdone = 1;
-                    checkallsavedone();
-                }else if(action.indexOf("setSitesettingInfo") != -1 ){
-                    savesitename = 1;
                     checkallsavedone();
                 }
             }
@@ -927,7 +1266,79 @@
 
     function cb_networkerror(xmlHttpRequest, errorThrown, action){
         promptTip(a_1001, "err");
+        if(action.indexOf("network") != -1){
+            $("#time-next-step").removeAttr("disabled");
+        }
     }
+    function cb_get_timezone(){
+        var urihead = "action=gettimezone&region=quickconf";
+        urihead += "&time=" + new Date().getTime();
+        $.ajax ({
+            type: 'get',
+            url:'/manager',
+            data:urihead,
+            dataType:'text',
+            success:function(data) {
+                cb_get_timezone_suc(data);
+            },
+            error:function(xmlHttpRequest, errorThrown) {
+                cb_networkerror(xmlHttpRequest, errorThrown);
+                $(".lang-next-step button").removeAttr("disabled");
+            }
+        });
+    }
+
+    function cb_get_timezone_suc(data) {
+        if (data.substring(0, 1) == "{") {
+            $(".lang-next-step button").removeAttr("disabled");
+            position = 1;
+            timezoneobj.isvisited=true;
+            var tObj = eval("(" + data + ")");
+            var timezone = tObj.timezone;
+            timezone = timezone.replace("/","-");
+            var citygmts = tObj.citygmt;
+            var newcitygmts = new Array();
+            newcitygmts.push(citygmts[0]);
+            var newcity_names = new Array();
+            newcity_names.push(city_names[0]);
+            var gmtvalues = new Array();
+            gmtvalues.push($("#timezone li").eq(0).attr("id"));
+
+            var preid, curid, newpos;
+            preid = parseInt(citygmts[0].substring(3).replace(":", ""));
+            newgmts.push(preid);
+            var insertnum = 0;
+            for (var k = 1; citygmts[k] != undefined; k++) {
+                curid = parseInt(citygmts[k].substring(3).replace(":", ""));
+                newpos = findPos(curid);
+                if (newpos == -1) {
+                    newgmts.push(curid);
+                    newcitygmts.push(citygmts[k]);
+                    newcity_names.push(city_names[k]);
+                    gmtvalues.push($("#timezone li").eq(k).attr("id"));
+                } else {
+                    insertnum++;
+                    newgmts = insert(newgmts, newpos, curid);
+                    newcitygmts = insert(newcitygmts, newpos, citygmts[k]);
+                    newcity_names = insert(newcity_names, newpos, city_names[k]);
+                    gmtvalues = insert(gmtvalues, newpos, $("#timezone li").eq(k).attr("id"));
+                }
+            }
+            var tmpid;
+            $('#timezone').empty();
+            for (var i = 0; i < newcitygmts.length; i++) {
+                var $toneopt = $("<li id='" + gmtvalues[i] + "'>" + newcitygmts[i] + ", " + newcity_names[i] + "<div></div></li>");
+                $('#timezone').append($toneopt);
+            }
+            timezoneobj.curtimezoneId = "#" + timezone;
+            timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
+            var temp = $(timezoneobj.curtimezoneId);
+            temp.find("div").addClass("active");
+            $("#selectedtimezone").text(temp.text());
+        } else {
+        }
+    }
+
     function checkipv4addritems(){
         if(!checkIpv4Address($("#ipv4address").val())){
             return {type:"err", message: a_4246};
@@ -1174,21 +1585,26 @@
     }
 
     function checkallsavedone() {
-        if(savesitename && saveaccountdone && savenetworkdone){
+        if(savesitename && saveaccountdone && savelandone && savetimezonedone && savenetworkdone){
             $("#siteconf,#modal-mask-prompt").hide();
             $("#configdone").show(1000);
             cb_get_action("quickconfdone&region=quickconf");
-            savesitename = saveaccountdone = savenetworkdone = 0;
+            savesitename = saveaccountdone = savelandone = savetimezonedone = savenetworkdone = 0;
         }
     }
 
     function translate_page(){
         $("#a_title").text(a_20203);
         document.title = a_20203;
+        $("#a_sellang").text(a_20200);
+        $("#a_lang").text(a_16216);
         $("button[name=a_nextstep]").text(a_19041);
         $("button[name=a_laststep]").text(a_19085);
         $("button[name=a_cancel], div[name=a_cancel]").text(a_3);
         $("button[name=a_done]").text(a_15012);
+        $("#a_seltimezone").text(a_12066);
+        $("#a_timezone").text(a_6657);
+        $("#lang-confirm, #timezone-confirm").text(a_2);
         $("#a_networkconf").text(a_20201);
         $("#a_advnetworkconf").text(a_20202);
         $("#a_ethernet").text(a_206);
@@ -1224,6 +1640,15 @@
         networktypeArr = [a_4124, a_4125, "PPPoE"];
         ipv6networktypeArr = [a_4124, a_4125];
         protocoltypeArr = [a_19390,a_19391,a_19392,a_19393];
+        city_names = [a_16489, a_16491,a_16492,a_16493, a_16494,a_16495,a_16496,a_16497,a_16498,
+            a_16499, a_16500,a_16501,a_16502,a_16503, a_16504,a_16505,a_16506,a_16507,a_16508,
+            a_16509,a_16510, a_16711, a_16511, a_16512, a_16513,a_16514,a_16515,a_16516,a_16517,
+            a_16518, a_16519, a_16520, a_16521, a_16522, a_16712, a_16523, a_16524, a_16525,
+            a_16526, a_16527, a_16713, a_16528, a_16529, a_16530, a_16531, a_16532, a_16533,a_16534,
+            a_16535, a_16536, a_16537, a_16538, a_16539, a_16540, a_16541, a_16542, a_16543, a_16544,
+            a_16545, a_16546, a_16547, a_16548, a_16549, a_16550, a_16551,a_16552,a_16553, a_16714,
+            a_16554, a_16555, a_16556, a_16557, a_16558, a_16559, a_16560, a_16561, a_16562, a_16563, a_16564,
+            a_16565, a_16566, a_16567,a_16568,a_16569,a_16570, a_16715, a_16490, a_16571, a_16572,a_16573];
     }
 
     function init_page(){
