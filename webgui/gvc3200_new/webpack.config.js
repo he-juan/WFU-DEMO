@@ -53,19 +53,7 @@ module.exports = {
             },
             { test: /\.js[x]?$/, exclude: /node_modules/, loader: 'babel-loader',
               query: {
-                 "plugins": [
-                 ["react-perf",{
-                     "maxExecuteLimit": 5,
-                     "maxRenderElements": 50,
-                     "needAddPerfRule": {
-                       "superClass": ["Component"]
-                     },
-                     "invalidStatements": [
-                       "this.refs.\\w+.value\\s*=\\s*\\S+"
-                     ]
-                   }
-                 ]
-               ]}
+                 "plugins": []}
             },
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192&name=img/[name].[ext]' },
             { test: /\.(gif)$/, loader: 'image-webpack-loader' },
