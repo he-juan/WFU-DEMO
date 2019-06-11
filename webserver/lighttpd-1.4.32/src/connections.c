@@ -25273,6 +25273,14 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 params = append_req_params(params, "line", line, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "endLine", params);
+            } else if (!strcasecmp(action, "redialline")) {
+                char *line = msg_get_header(m, "line");
+                if (NULL == line) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                params = append_req_params(params, "line", line, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "redialLines", params);
 	        //} else {
             //    findcmd = 0;
             }
@@ -25800,9 +25808,6 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if(!strcasecmp(action, "attendtransferline"))
                 {
                     handle_attendtransferline(srv, con, b, m);
-                }
-                else if (!strcasecmp(action, "redialLines")) {
-                    handle_callservice_by_one_param(srv, con, b, m,"line","redialLines",0);
                 }
                 else if(!strcasecmp(action, "setcallmode"))
                 {
