@@ -196,96 +196,6 @@
             <div class="content">
                 <div style="height: 8px;"></div>
         <ul id="timezone">
-            <li id="GMT">GMT<div></div></li>
-            <li id="Pacific-Midway">Midway Island</li>
-            <li id="Pacific-Honolulu">Hawaii</li>
-            <li id="America-Anchorage">Alaska</li>
-            <li id="America-Los_Angeles">Pacific Time</li>
-            <li id="America-Tijuana">Tijuana</li>
-            <li id="America-Phoenix">Arizona</li>
-            <li id="America-Chihuahua">Chihuahua</li>
-            <li id="America-Denver">Mountain Time</li>
-            <li id="America-Costa_Rica">Central America</li>
-            <li id="America-Chicago">Central Time</li>
-            <li id="America-Mexico_City">Mexico City</li>
-            <li id="America-Regina">Saskatchewan</li>
-            <li id="America-Bogota">Bogota</li>
-            <li id="America-New_York">Eastern Time</li>
-            <li id="America-Caracas">Venezuela</li>
-            <li id="America-Barbados">Atlantic Time (Barbados)</li>
-            <li id="America-Halifax">Atlantic Time (Canada)</li>
-            <li id="America-Manaus">Manaus</li>
-            <li id="America-Santiago">Santiago</li>
-            <li id="America-St_Johns">Newfoundland</li>
-            <li id="America-Recife">Recife</li>
-            <li id="America-Sao_Paulo" >Brasilia</li>
-            <li id="America-Argentina/Buenos_Aires" >Buenos Aires</li>
-            <li id="America-Godthab" >Greenland</li>
-            <li id="America-Montevideo">Montevideo</li>
-            <li id="Atlantic-South_Georgia">Mid-Atlantic</li>
-            <li id="Atlantic-Azores">Azores</li>
-            <li id="Atlantic-Cape_Verde">Cape Verde Islands</li>
-            <li id="Africa-Casablanca">Casablanca</li>
-            <li id="Europe-London">London</li>
-            <li id="Europe-Amsterdam">Amsterdam, Berlin</li>
-            <li id="Europe-Belgrade">Belgrade</li>
-            <li id="Europe-Brussels">Brussels</li>
-            <li id="Europe-Madrid">Madrid</li>
-            <li id="Europe-Sarajevo">Sarajevo</li>
-            <li id="Africa-Windhoek">Windhoek</li>
-            <li id="Africa-Brazzaville">W. Africa Time</li>
-            <li id="Asia-Amman">Amman, Jordan</li>
-            <li id="Europe-Athens">Athens, Istanbul</li>
-            <li id="Europe-Istanbul">Istanbul</li>
-            <li id="Asia-Beirut">Beirut, Lebanon</li>
-            <li id="Africa-Cairo">Cairo</li>
-            <li id="Europe-Helsinki">Helsinki</li>
-            <li id="Asia-Jerusalem">Jerusalem</li>
-            <li id="Europe-Minsk">Minsk</li>
-            <li id="Africa-Harare">Harare</li>
-            <li id="Asia-Baghdad">Baghdad</li>
-            <li id="Europe-Moscow">Moscow, St.Petersburg</li>
-            <li id="Asia-Kuwait">Kuwait</li>
-            <li id="Africa-Nairobi">Nairobi</li>
-            <li id="Asia-Tehran">Tehran</li>
-            <li id="Asia-Baku">Baku</li>
-            <li id="Asia-Tbilisi">Tbilisi</li>
-            <li id="Asia-Yerevan">Yerevan</li>
-            <li id="Asia-Dubai">Dubai</li>
-            <li id="Asia-Kabul">Kabul</li>
-            <li id="Asia-Karachi">Islamabad, Karachi</li>
-            <li id="Asia-Oral">Ural'sk</li>
-            <li id="Asia-Yekaterinburg">Yekaterinburg</li>
-            <li id="Asia-Calcutta">Kolkata, Chennai, New Delhi, Mumbai</li>
-            <li id="Asia-Colombo">Sri Lanka</li>
-            <li id="Asia-Katmandu">Kathmandu</li>
-            <li id="Asia-Almaty">Astana</li>
-            <li id="Asia-Rangoon">Yangon</li>
-            <li id="Asia-Krasnoyarsk">Krasnoyarsk</li>
-            <li id="Asia-Bangkok">Bangkok</li>
-            <li id="Asia-Jakarta">Jakarta</li>
-            <li id="Asia-Shanghai">Beijing</li>
-            <li id="Asia-Hong_Kong">Hong Kong</li>
-            <li id="Asia-Irkutsk">Irkutsk</li>
-            <li id="Asia-Kuala_Lumpur">Kuala Lumpur</li>
-            <li id="Australia-Perth">Perth</li>
-            <li id="Asia-Taipei">Taipei</li>
-            <li id="Asia-Seoul">Seoul</li>
-            <li id="Asia-Tokyo">Tokyo, Osaka</li>
-            <li id="Asia-Yakutsk">Yakutsk</li>
-            <li id="Australia-Adelaide">Adelaide</li>
-            <li id="Australia-Darwin">Darwin</li>
-            <li id="Australia-Brisbane">Brisbane</li>
-            <li id="Australia-Hobart">Hobart</li>
-            <li id="Australia-Sydney">Sydney, Canberra</li>
-            <li id="Asia-Vladivostok">Vladivostok</li>
-            <li id="Pacific-Guam">Guam</li>
-            <li id="Asia-Magadan">Magadan</li>
-            <li id="Pacific-Noumea">Noumea, New Caledonia</li>
-            <li id="Pacific-Majuro">Majuro</li>
-            <li id="Pacific-Auckland">Auckland</li>
-            <li id="Pacific-Fiji">Fiji</li>
-            <li id="Pacific-Tongatapu">Tonga</li>
         </ul>
 
         <div class="buttom-btn"><button id="timezone-cancel" name="a_cancel">Cancel</button><button id="timezone-confirm">Confirm</button></div>
@@ -1157,6 +1067,9 @@
             }else if(action.indexOf("setSitesettingInfo") != -1 ){
                 savesitename = 1;
                 checkallsavedone();
+            }else if(action.indexOf("savetimeset") != -1) {
+                savetimezonedone = 1;
+                checkallsavedone();
             }
         } else {
             var msgs = res_parse_rawtext(data);
@@ -1174,14 +1087,14 @@
                         $("#language").attr("src", '/lang/zh_quickconf.js');
                         $.getScript('/lang/zh_quickconf.js',function(){
                             translate_page();
-                            cb_get_timezone();
+                            cb_get_timezone(1);
                             cb_get_action("network&region=quickconf");
                             cb_get(req_items);
                             var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
                             cb_get_action(sqlitestr);
                         });
                     }else{
-                        cb_get_timezone();
+                        cb_get_timezone(0);
                         cb_get_action("network&region=quickconf");
                         cb_get(req_items);
                         var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
@@ -1227,16 +1140,6 @@
                         savelandone = 1;
                         checkallsavedone();
                     }
-                }else if(action.indexOf("savetimeset") != -1){
-                    if (data.indexOf("Cookie Invalid") != -1) {
-                        $("#modal-mask-prompt").hide();
-                        $("#qrdiv").show(1000);
-                        $("#siteconf").hide();
-                        savetimezonedone = 0;
-                    } else {
-                        savetimezonedone = 1;
-                        checkallsavedone();
-                    }
                 }else if(action.indexOf("setactivecode") != -1) {
                     saveaccountdone = 1;
                     checkallsavedone();
@@ -1270,8 +1173,9 @@
             $("#time-next-step").removeAttr("disabled");
         }
     }
-    function cb_get_timezone(){
-        var urihead = "action=gettimezone&region=quickconf";
+    function cb_get_timezone(lang) {
+        // lang: 0 - en , 1 - zh
+        var urihead = "action=gettimezone&lang=" + lang + "&region=quickconf";
         urihead += "&time=" + new Date().getTime();
         $.ajax ({
             type: 'get',
@@ -1292,9 +1196,33 @@
         if (data.substring(0, 1) == "{") {
             $(".lang-next-step button").removeAttr("disabled");
             position = 1;
-            timezoneobj.isvisited=true;
+            timezoneobj.isvisited=true;            
             var tObj = eval("(" + data + ")");
             var timezone = tObj.timezone;
+            var list = tObj.list;
+
+            timezone.id = timezone.id.replace("/", "-");
+
+            var isCurInList = false;
+            for (var i = 0; list[i] != undefined; i++) {
+
+                list[i].id = list[i].id.replace("/", "-");
+
+                if (list[i].id == timezone.id) {
+                    isCurInList = true;
+                }
+                var $toneopt = $("<li id='" + list[i].id + "'>" + list[i].name + "<div></div></li>");
+                $('#timezone').append($toneopt);
+            }
+
+            if (!isCurInList) {
+                var $toneopt = $("<li id='" + timezone.id + "'>" + timezone.name + "<div></div></li>");
+                $('#timezone').append($toneopt);
+            }
+
+
+
+            /*
             timezone = timezone.replace("/","-");
             var citygmts = tObj.citygmt;
             var newcitygmts = new Array();
@@ -1330,7 +1258,10 @@
                 var $toneopt = $("<li id='" + gmtvalues[i] + "'>" + newcitygmts[i] + ", " + newcity_names[i] + "<div></div></li>");
                 $('#timezone').append($toneopt);
             }
-            timezoneobj.curtimezoneId = "#" + timezone;
+            */
+
+            //timezoneobj.curtimezoneId = "#" + timezone;
+            timezoneobj.curtimezoneId = "#" + timezone.id;
             timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
             var temp = $(timezoneobj.curtimezoneId);
             temp.find("div").addClass("active");
