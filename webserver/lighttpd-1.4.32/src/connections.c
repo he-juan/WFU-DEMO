@@ -1722,9 +1722,10 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid) {
     int rc;
     sqlite3_stmt *stmt;
 
-    char *sqlstr = (char*)malloc(256);
-    memset(sqlstr, 0, 256);
-    snprintf(sqlstr, 256, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where group_id=%s and is_conference=1 order by date desc", confid);
+    char *sqlstr = (char*)malloc(512);
+    memset(sqlstr, 0, 512);
+    // 根据传入的会议id去查询该会议下所有的会议成员，或根据传入的未接来电的记录id查询该记录的详细数据
+    snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where (group_id=%s and is_conference=1) or (_id=%s and type=3 and is_conference=0) order by date desc;", confid, confid);
 
     LOGD("querying members of conf: %s ......", confid);
 
@@ -1865,7 +1866,8 @@ static int get_calllog_list(buffer *b) {
     sqlite3 *db;
     int rc;
     sqlite3_stmt *stmt;
-    char *sqlstr = "select _id, start_time, end_time, duration, is_schedule from conf_log order by start_time desc;";
+    // 先查询所有的会议记录以及未接来电记录，GVC3220上只有未接来电记录属于单路通话记录，其余的都是会议记录
+    char *sqlstr = "select _id, start_time, end_time, duration, is_schedule from conf_log union all select _id, date, end_time, duration, type from calls where type=3 order by start_time desc;";
 
     rc = sqlite3_open("/data/data/com.android.providers.contacts/databases/calllog.db", &db);
     if (rc) {
