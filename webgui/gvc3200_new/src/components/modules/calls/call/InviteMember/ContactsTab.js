@@ -77,12 +77,19 @@ class ContactsTab extends Component {
           acct: phone.acct,
           isvideo: 1,
           source: 1, // 联系人呼出source 为1
-          contacts: '1'
+          contacts: '1',
+          lvl: '0'
         }
         result.push(data)
       })
     });
     return result
+  }
+  setRowClassName = (record, index) => {
+    if(record.lvl == '0' ){
+      return index % 2 == 1  ? 'gray' : ''
+    }
+    return ''
   }
   handleAddRecord = (record, e) => {
     e.stopPropagation()
@@ -184,6 +191,7 @@ class ContactsTab extends Component {
             pagination={false}
             dataSource={_dataSource}
             showHeader={false}
+            rowClassName={this.setRowClassName}
           />
         </div>
       </div>

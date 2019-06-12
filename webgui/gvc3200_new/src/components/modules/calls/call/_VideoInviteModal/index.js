@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Enhance from "../../../../mixins/Enhance"
-import { Layout,Checkbox, Button } from "antd"
+import { Layout,Checkbox, Button, Modal } from "antd"
 import * as Actions from '../../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -17,14 +17,6 @@ class VideoinviteDialog extends Component {
         }
     }
 
-    componentDidMount = () => {
-        let videoinvitelines = this.props.videoinvitelines.split(","); //["0", "1"]
-        let checkedlines = [];
-        checkedlines.push(videoinvitelines[0]);
-        this.setState({
-            checkedlines: checkedlines
-        })
-    }
 
     handleCallDialog = () => {
     }
@@ -56,48 +48,52 @@ class VideoinviteDialog extends Component {
             this.props.acceptOrRejectvideo(isaccept, checkedlines[i]);
         }
     }
-
+    componentWillReceiveProps (nextProps) {
+        if(JSON.stringify(this.props.videoinvitelines) != JSON.stringify(nextProps.videoinvitelines)) {
+            this.setState({
+                checkedlines: nextProps.videoinvitelines.split(',')
+            })
+        }
+    }
     render() {
-        if(this.props.videoinvitelines.length == 0) return null;
+        // if(this.props.videoinvitelines.length == 0) return null;
         let linestatus = this.props.linestatus;
         let videoinvitelines = this.props.videoinvitelines.split(","); //["0", "1"]
 
         return (
-            <div>
-                <div className="ant-modal-mask " style={{zIndex:1112}}></div>
-                <div className="selectvideodiv" style={{zIndex:1113}}>
-                    <div className="title">{this.tr("a_607")}</div>
-                    <div className="selectlist">
-                        {
-                            videoinvitelines.map((item, i) => {
-                                let num, name, defaultchecked = false;
-                                for(let j = 0 ; j < linestatus.length; j++){
-                                    if(linestatus[j].line == item ){
-                                        num = linestatus[j].num;
-                                        name = linestatus[j].name || linestatus[j].num;
-                                        break;
-                                    }
-                                }
-                                if(i == 0){
-                                    defaultchecked = true;
-                                }
-                                return <div className="itemdiv">
-                                    <div className="itemcheck">
-                                        <Checkbox defaultChecked={defaultchecked}  onChange={this.onChange.bind(this,item)}></Checkbox></div>
-                                    <div className="itemname"><span title={name}>{name}</span></div>
-                                    <div className="itemnum"><span title={num}>{num}</span></div>
-                                </div>
-                            })
-                        }
+            <Modal 
+                title={this.tr("a_607")} 
+                visible={this.props.videoinvitelines.length > 0}
+                closable={false} 
+                className="selectvideodiv" 
+                footer={
+                    <div className="selectbtn">
+                        <Button className="rejectvideo" onClick={this.handleInvite.bind(this, 0)}>{this.tr("a_523")}</Button>
+                        <Button type="primary" className="accpvideo" onClick={this.handleInvite.bind(this, 1)}>{this.tr("a_10000")}</Button>
                     </div>
-                    <div className="ctrlbtn">
-                        <div className="selectbtn">
-                            <Button type="primary" className="accpvideo" onClick={this.handleInvite.bind(this, 1)}>{this.tr("a_10000")}</Button>
-                            <Button type="primary" className="rejectvideo" onClick={this.handleInvite.bind(this, 0)}>{this.tr("a_523")}</Button>
-                        </div>
-                    </div>
+                }
+            >
+                <div className="selectlist">
+                    {
+                        videoinvitelines.map((item, i) => {
+                            let num, name, defaultchecked = true;
+                            for(let j = 0 ; j < linestatus.length; j++){
+                                if(linestatus[j].line == item ){
+                                    num = linestatus[j].num;
+                                    name = linestatus[j].name || linestatus[j].num;
+                                    break;
+                                }
+                            }
+                            return <div className="itemdiv" key={i}>
+                                <span className="itemcheck">
+                                    <Checkbox defaultChecked={defaultchecked}  onChange={this.onChange.bind(this,item)}></Checkbox></span>
+                                <span className="itemname"><em title={name}>{name}</em></span>
+                                <span className="itemnum"><em title={num}>{num}</em></span>
+                            </div>
+                        })
+                    }
                 </div>
-            </div>
+            </Modal>
 
         );
     }}

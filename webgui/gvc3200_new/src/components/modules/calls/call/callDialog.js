@@ -326,6 +326,8 @@ class CallDialog extends Component {
 
         const lineActive = linestatus.filter(item => item.state == '4' || item.state == '5')
 
+        const lineNotFail = linestatus.filter(item => item.state != '8')
+
         const isBtnsHide = isOnHold == '1' ||  lineActive.length == 0 
 
         return (
@@ -345,7 +347,7 @@ class CallDialog extends Component {
                             isBtnsHide ? null :
                             <InviteMember 
                                 ispause={_ispause} 
-                                disabled={(sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 
+                                disabled={lineNotFail.length >= Number(this.props.maxlinecount) ||(sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 
                                 linestatus={linestatus} 
                             />
                         }
@@ -454,6 +456,7 @@ const mapStateToProps = (state) => ({
     isOnHold: state.globalConfInfo.isonhold,
     isrecording: state.globalConfInfo.isrecording,
     globalConfInfo: state.globalConfInfo,
+    maxlinecount: state.maxlinecount,
     // sfu
     msfurole: state.msfurole,
     sfu_meetinginfo: state.sfu_meetinginfo,

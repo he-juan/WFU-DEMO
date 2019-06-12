@@ -129,7 +129,7 @@ class EndCall extends Component {
         <Button title={this.tr("a_1")}  className="end-btn" onClick={this.handleEndAll}/> <br />
         {this.tr("a_1")}
         {/* 结束会议确认框 1 */}
-        <Modal visible={this.state.endallConfirm1Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall1Cancel}>
+        <Modal  visible={this.state.endallConfirm1Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall1Cancel}>
           <p className="confirm-content">{this.tr("a_10224")}</p>
           <div className="modal-footer">
             <Button type="primary" onClick={this.endConf}>{this.tr("a_10067")}</Button>
@@ -138,7 +138,7 @@ class EndCall extends Component {
           </div>
         </Modal>
         {/* 结束会议确认框 2*/}
-        <Modal visible={this.state.endallConfirm2Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall2Cancel}>
+        <Modal width={420} visible={this.state.endallConfirm2Visible} className="endall-confirm" footer={null} onCancel={this.handleEndall2Cancel}>
             <p className="confirm-content">{this.state.endallConfirm2Title}</p>
             <div className="modal-footer">
                 <Button type="primary" onClick={this.endAllCall}>{this.tr("a_2")}</Button>

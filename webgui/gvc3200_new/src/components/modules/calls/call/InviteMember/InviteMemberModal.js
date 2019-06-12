@@ -335,7 +335,7 @@ class InviteMemberModal extends Component {
           <Tabs onChange={(i) => this.selectTab(i)}>
             <TabPane tab="本地通讯录" key="1"></TabPane>
             <TabPane tab="通话记录" key="2"></TabPane>
-            <TabPane tab="企业通讯录" key="3"></TabPane>
+            {/* <TabPane tab="企业通讯录" key="3"></TabPane> */}
           </Tabs>
           <div className="invite-area">
             {InputArea}

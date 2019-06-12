@@ -107,15 +107,25 @@
     border-right: none;
     border-left: none;
   }
+  .ant-table-tbody > tr.ant-table-row-level-0.gray{
+    background: #fafbfc;
+  }
+  .ant-table-tbody > tr:hover > td {
+    background: transparent;
+  }
   .ant-table-tbody > tr > td {
-    padding: 8px 6px;
+    padding: 6px 6px;
+    border: none;
+    color: #10131a;
+    &:nth-child(1) {
+      text-indent: 0;
+    }
   }
 
   .record-name {
     position: relative;
     height: 40px;
     padding-left: 40px;
-    
     i {
       position: absolute;
       width: 24px;
@@ -124,20 +134,16 @@
       top: 8px;
       background: url(/img/icon.png)  no-repeat;
       &.icon-conf {
-        width: 32px;
-        height: 32px;
-        left: 4px;
-        top: 4px;
-        background-position: -641px -88px;
+        background-position: -74px -389px;
       }
       &.icon-in-video {
-        background-position: -459px -25px;
+        background-position: -200px -389px;
       }
       &.icon-in-audio {
         background-position: -459px -25px;
       }
       &.icon-out-video {
-        background-position: -434px -25px;
+        background-position: -174px -389px;
       }
       &.icon-out-audio {
         background-position: -434px -25px;
@@ -165,6 +171,9 @@
       overflow: hidden;
       white-space: nowrap;
       line-height: 40px;
+      display: inline-block;
+      width: 440px;
+      color: #10131a;
     }
     &.has-number {
       strong, em {
@@ -172,47 +181,43 @@
         line-height: 20px;
       }
       em {
-        font-size: 12px;
+        font-size: 14px;
+        color: #949ba9;
         font-style: normal;
       }
     }
   }
 
-  .ant-table-row-level-0.active {
-    background: #f0f4ff;
+
+  .ant-table-row-level-0 {
+    cursor: pointer;
   }
+  .ant-table-row-level-0 + .ant-table-row-level-1 {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08) inset;
+  }
+  
   .ant-table-row-level-1 {
-    background: #f0f4ff;
-    & > td {
-      padding: 4px 6px;
-      &:first-child {
-        .record-name {
-          padding-left: 80px;
-          i {
-            left: 44px;
-          }
-        }
-      }
+    background: #f3f7fa;
+    & > td{
+      border-bottom: 1px solid #eae6ed !important;
     }
   }
-
   .operate-btns {
     text-align: right;
     .add-btn, .call-btn {
       display: inline-block;
-      height: 30px;
-      width: 30px;
-      background: url(/img/call_status_icons.png) no-repeat;
+      height: 20px;
+      width: 20px;
+      background: url('~@/img/icon.png') no-repeat;
       margin-right: 10px;
       vertical-align: middle;
       cursor: pointer;
     }
     .add-btn {
-      background-position: 0 0 ;
+      background-position: -42px -25px  ;
     }
     .call-btn {
-      background-position: -60px 0;
+      background-position: -630px -67px;
     }
   }
 }
-

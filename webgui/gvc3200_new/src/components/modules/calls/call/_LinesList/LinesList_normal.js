@@ -6,7 +6,7 @@ import Enhance from "../../../../mixins/Enhance"
 import * as Actions from '../../../../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 
 function tr(text) {
     var tr_text = text;
@@ -326,6 +326,15 @@ class LinesList extends Component {
         
         const { line } = item
         $.get(`/manager?action=redialline&line=${line}`)
+    }
+    componentWillReceiveProps (nextProps) {
+        if(nextProps.isAllMute != this.props.isAllMute && this.props.isAllMute != undefined) {
+            if(nextProps.isAllMute == '1') {
+                this.props.promptMsg("SUCCESS", "已静音所有会议成员");
+            } else {
+                this.props.promptMsg("SUCCESS", "已取消静音所有会议成员");
+            }
+        }
     }
     render() {
         const { acctstatus, feccbtnvisile, linestatus, globalConfInfo, isOnHold, isAllMute, isAllBlock } = this.props
