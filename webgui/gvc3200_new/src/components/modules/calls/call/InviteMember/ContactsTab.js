@@ -22,24 +22,10 @@ const parseAcct = (function () {
 
 // 返回图标名 是否是会议, 单路(呼入,呼出,未接来电), 联系人
 const getIconClass = function(record) {
-  const {isconf, calltype, isvideo} = record
-  // 会议类型
-  if(isconf == '1') {
-    return 'icon-conf'
-  }
-  // 单路或成员
-  if(calltype) {
-    switch(calltype) {
-      case '1':
-        return isvideo ? 'icon-in-video' : 'icon-in-audio'
-      case '2':
-        return isvideo ? 'icon-out-video' : 'icon-out-audio'
-      case '3':
-        return isvideo ? 'icon-miss-video' : 'icon-miss-audio'
-    }
-  }
+  const { isfavourite } = record
+  
   // 联系人
-  return 'icon-contacts'
+  return isfavourite == '1' ? 'icon-contacts-fav' : 'icon-contacts'
   
 }
 
@@ -64,9 +50,9 @@ class ContactsTab extends Component {
   parseContacts = (contacts) => {
     let result = []
     contacts.forEach(item => {
-      item.phone.forEach(phone => {
+      item.phone.forEach((phone, i) => {
         let data = {
-          key: 'c' + item.id + phone.acct,
+          key: 'c' + item.id + i,
           col0: item.name.displayname,
           col1: parseAcct(phone.acct),
           col2: phone.number,
@@ -78,7 +64,8 @@ class ContactsTab extends Component {
           isvideo: 1,
           source: 1, // 联系人呼出source 为1
           contacts: '1',
-          lvl: '0'
+          lvl: '0',
+          isfavourite: item.isfavourite
         }
         result.push(data)
       })

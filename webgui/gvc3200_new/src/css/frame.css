@@ -7424,7 +7424,7 @@ ol.mp_list li.mp_error {}
 /*dtmf dial -- begin*/
 .dtmf-modal {
     background: #FFFFFF;
-    width: 302px !important;
+    width: 408px !important;
     /*height: 410px;*/
     /*position: absolute;*/
     /*left: 50%;*/
@@ -7443,18 +7443,23 @@ ol.mp_list li.mp_error {}
     margin-top: 100px;
 }
 .dtmfinput {
-    font-size: 36px;
-    color: #222222;
-    height: 40px;
+    font-size: 22px;
+    color: #10131a;
     clear: both;
-    margin: 30px 0 30px 0;
+    margin: 5px 0 15px;
     padding: 0;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    text-indent: 30px;
+    letter-spacing: 5px;
+    overflow: hidden;
 }
 .dtmfdial {
     width: 100%;
     height: 260px;
     font-size: 28px;
-    color: #666666;
+    color: #10131a;
     background: #FFFFFF;
     margin: 0px;
     /*position: absolute;*/
@@ -7462,49 +7467,28 @@ ol.mp_list li.mp_error {}
 }
 .dtmfkeypad {
     float: left;
-    width: 100px;
-    height: 65px;
+    width: 136px;
+    height: 72px;
     background: #FFFFFF;
     cursor: pointer;
     text-align: center;
-    border-top: 1px solid #E1E1E1;
-    line-height: 65px;
+    border-top: 1px solid #ebeff3;
+    line-height: 72px;
+    font-size: 20px;
+}
+.dtmfkeypad:nth-child(1), 
+.dtmfkeypad:nth-child(2),
+.dtmfkeypad:nth-child(3) {
+    border-top: 1px solid #cfd6db;
 }
 .dtmfkeypad:hover {
-    background: #219BF2;
+    background: #3d77ff;
     color: #FFFFFF;
 }
-.dtmfinput p {
-    overflow: hidden;
-    padding: 0 0 0 5px;
-    margin: 0px;
-    width: 265px;
-    height: 30px;
-    line-height: 30px;
-    float: left;
-}
-.dtmfinput input {
-    width: 185px;
-    background: transparent;
-    border: 0px;
-    height: 40px;
-    line-height: 40px;
-    font-size: 26px;
-    color: #222222;
-    padding-left: 10px;
-    margin: 0px;
-}
-.dtmfcursor {
-    width: 4px;
-    border-right: 1px solid #CAC9C9;
-    height: auto;
-    top: 6px;
-    position: relative;
-    left: 1px;
-    display: none;
-}
+
+
 .midkeypad {
-    border: 1px solid #E1E1E1;
+    border: 1px solid #ebeff3;
     border-bottom: 0px;
 }
 .dtmfspchar {

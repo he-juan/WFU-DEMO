@@ -69,7 +69,7 @@ class DTMFModal extends Component{
         var keyboardArray = (new Array(12)).fill(0);
         return(
             <Modal className="dtmf-modal" keyboard="false" maskClosable="false" footer={null} visible={visible} onCancel={onHide}>
-                <div className="dtmfinput"><p style={{textAlign: 'right'}}>{showstr}</p></div>
+                <div className="dtmfinput">{showstr}</div>
                 <div className="dtmfdial">
                     {
                         keyboardArray.map((item, index) => {

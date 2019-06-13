@@ -56,7 +56,7 @@ const mapToSource = (function(){
 
 // 返回图标名 是否是会议, 单路(呼入,呼出,未接来电), 联系人
 const getIconClass = function(record) {
-  const {isconf, calltype, isvideo} = record
+  const {isconf, calltype, isvideo, isfavourite} = record
   // 会议类型
   if(isconf == '1') {
     return 'icon-conf'
@@ -73,7 +73,7 @@ const getIconClass = function(record) {
     }
   }
   // 联系人
-  return 'icon-contacts'
+  return isfavourite == '1' ? 'icon-contacts-fav' : 'icon-contacts'
   
 }
 
@@ -104,9 +104,9 @@ class LogAndContacts extends Component {
   parseContacts = (contacts) => {
     let result = []
     contacts.forEach(item => {
-      item.phone.forEach(phone => {
+      item.phone.forEach((phone, i) => {
         let data = {
-          key: 'c-' + item.id + '-' + phone.acct,
+          key: 'c-' + item.id + '-' + i,
           col0: item.name.displayname,
           col1: parseAcct(phone.acct),
           col2: phone.number,
@@ -117,7 +117,8 @@ class LogAndContacts extends Component {
           isvideo: '1',
           source: '1', // 联系人呼出source 为1
           contacts: '1', // 列表中联系人不需要在名称下显示号码, 这里标记做个区分
-          lvl : '0'
+          lvl : '0',
+          isfavourite: item.isfavourite
         }
         result.push(data)
       })
@@ -381,7 +382,7 @@ class LogAndContacts extends Component {
             </div>
           }
           >
-          <p className="modal-tips"><span>{confMemSelectToCall.some(mem => mem.checkDisable) ? `成员数量已达上限(${maxlinecount})` : ""}</span></p>
+          <p className="modal-tips"><span><b className="error_icon"></b>{confMemSelectToCall.some(mem => mem.checkDisable) ? `成员数量已达上限, 超出${maxlinecount}人` : ""}</span></p>
           <ul className="modal-member-ul">
             {
               confMemSelectToCall.map(mem => {

@@ -120,11 +120,12 @@ class InviteMemberModal extends Component {
     if(record.isconf == '1' && record.children) {
       record.children.forEach(i => {
         _memToCall = this.pushMemToCall(_memToCall, i)
+        _memToCall = this.limitMaxMembers(_memToCall, 'add')
       })
     } else {
       _memToCall = this.pushMemToCall(_memToCall, record)
+      _memToCall = this.limitMaxMembers(_memToCall, 'add')
     }
-    _memToCall = this.limitMaxMembers(_memToCall, 'add')
     this.setState({
       memToCall: _memToCall,
       tagsInputValue: ''
@@ -245,9 +246,9 @@ class InviteMemberModal extends Component {
 
     if(curLinesLen >= maxlinecount ) {   // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
       if(IPVTlen == 0 ) {
-        message.error( '成员数量已达上限')
+        this.props.promptMsg('ERROR', '成员数量已达上限')
       } else if(IPVTlen > 0 && lastMem.acct != '1') {
-        message.error( '通话线路已达上限，当前只能添加ipvt联系人')
+        this.props.promptMsg('ERROR','通话线路已达上限，当前只能添加ipvt联系人')
         if(flag == 'input') {
           this.setState({
             selectAcct: '1'
@@ -377,6 +378,7 @@ const mapState = (state) => {
 }
 const mapDispatch = (dispatch) => {
   let actions = {
+    promptMsg:Actions.promptMsg,
     getAcctStatus: Actions.getAcctStatus,
     makeCall: Actions.makeCall
   }
