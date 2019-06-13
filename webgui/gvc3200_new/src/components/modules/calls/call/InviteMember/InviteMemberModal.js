@@ -104,6 +104,7 @@ class InviteMemberModal extends Component {
     // 输入的非数字字符串无法添加
     let lastMem = _memToCall.slice(-1)[0]
     if(lastMem && /\D/.test(lastMem.num) && lastMem.acct != '2') {
+      message.error(this.tr('a_10104'))
       return false
     }
     _memToCall = this.limitMaxMembers(_memToCall, 'input')
