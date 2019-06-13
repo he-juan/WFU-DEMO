@@ -8,6 +8,17 @@ import moment from 'moment'
 
 let timer, DATASOURCE
 
+function tr(text) {
+  var tr_text = text;
+  var language = $.cookie('MyLanguage') == null ? 'en' : $.cookie('MyLanguage');
+  try {
+      tr_text = window.eval(text+"_" + language);
+  } catch (err) {
+  } finally {
+      return tr_text;
+  }
+}
+
 // 格式化数据戳 昨天今天特殊处理
 const parseDate = (function () {
   const TODAYZERO = moment(moment().format('YYYY/MM/DD')).valueOf()
@@ -16,10 +27,10 @@ const parseDate = (function () {
   return function (timestamp, fmt) {
     timestamp = parseInt(timestamp)
     if( YESTERDAYZERO <= timestamp  && timestamp < TODAYZERO) {
-      fmt = fmt.replace('YYYY M/D', '昨天')
+      fmt = fmt.replace('MM/DD/YYYY', `[${tr('a_23553')}]`)
     }
     if( TODAYZERO <= timestamp  && timestamp < TOMMORROWZERO ) {
-      fmt = fmt.replace('YYYY M/D', '今天')
+      fmt = fmt.replace('MM/DD/YYYY', `[${tr('a_23554')}]`)
     }
     let date = moment(parseInt(timestamp)).format(fmt)
     return date
@@ -33,8 +44,8 @@ const parseAcct = (function () {
     "1": "IPVideoTalk",
     "2": "Bluejeans",
     "8": "H.323",
-    "-1": "默认账号",
-    "4": "默认账号"
+    "-1": tr("a_19113"),
+    "4": tr("a_19113")
   }
   return function(acct) {
     return acctMap[acct]
@@ -134,7 +145,7 @@ class LogAndContacts extends Component {
         r.key = 'l-conf-' + log.confid
         r.col0 = log.confname  // 会议名称
         r.col1 = ''
-        r.col2 = parseDate(log.date, 'MM/DD/YYYY')
+        r.col2 = log.date
         r.lvl = '0'
         if(log.members) {
           r.children = log.members.map(m => {
@@ -143,7 +154,7 @@ class LogAndContacts extends Component {
             i.key = `${r.key}-${m.id}`
             i.col0 = m.name
             i.col1 = parseAcct(m.acct)
-            i.col2 = parseDate(m.date, 'MM/DD/YYYY H:mm')
+            i.col2 = m.date
             i.source = mapToSource(m.calltype)
             i.numberText = m.number
             i.lvl = '1'
@@ -157,12 +168,12 @@ class LogAndContacts extends Component {
         r.key = 'l-sin-' + m.id
         r.col0 = log.name
         r.col1 = parseAcct(m.acct)
-        r.col2 = parseDate(m.date, 'MM/DD/YYYY')
+        r.col2 = m.date
         r.source = mapToSource(m.calltype)
         r.lvl = '0'
         r.children = [Object.assign({}, r, {
           key: 'c-l-sin-' + m.id,
-          col2: parseDate(m.date, 'MM/DD/YYYY H:mm'),
+          col2: m.date,
           numberText: m.number,
           lvl: '1'
         })]
@@ -330,7 +341,17 @@ class LogAndContacts extends Component {
         dataIndex: 'col2',
         width: '25%',
         render(text, record, index) {
-          return record.contacts ?  <span dangerouslySetInnerHTML={{__html: record.numberText}}></span>  : text
+          if(record.contacts) {
+            return <span dangerouslySetInnerHTML={{__html: record.numberText}}></span> 
+          } 
+          if(record.lvl == '0') {
+            return parseDate(text, 'MM/DD/YYYY')
+          } 
+          if(record.lvl == '1') {
+            return parseDate(text, 'MM/DD/YYYY H:mm')
+          }
+         
+          return ''
         }
       },
       {
@@ -340,10 +361,10 @@ class LogAndContacts extends Component {
         render(text, record, index){
           return (
             <div className="operate-btns">
-              <Tooltip  title="添加">
+              <Tooltip  title={tr('a_403')}>
                 <span className="add-btn" onClick={(e) => _this.handleAddRecord(record, e)}></span>
               </Tooltip>
-              <Tooltip  title="拨打">
+              <Tooltip  title={tr('a_9400')}>
                 <span className="call-btn" onClick={(e) => _this.handleCallRecord(record, e)}></span>
               </Tooltip>
             </div>
@@ -370,19 +391,19 @@ class LogAndContacts extends Component {
         <Modal 
           width={900}
           className="modal-member" 
-          title={'呼叫'} 
+          title={tr('a_504')} 
           visible={confMemSelectToCall.length > 0} 
           onCancel={() => this.setState({confMemSelectToCall: []})}
           transitionName=""
           maskTransitionName=""
           footer={
             <div className="modal-member-footer">
-              <Button size='large'>取消</Button>
-              <Button size='large' type="primary" onClick={() => this.confMemSelectCall()} disabled={confMemSelectToCall.filter(v => v.selected).length == 0}>呼叫</Button>
+              <Button size='large'>{tr('a_3')}</Button>
+              <Button size='large' type="primary" onClick={() => this.confMemSelectCall()} disabled={confMemSelectToCall.filter(v => v.selected).length == 0}>{tr('a_504')}</Button>
             </div>
           }
           >
-          <p className="modal-tips"><span><b className="error_icon"></b>{confMemSelectToCall.some(mem => mem.checkDisable) ? `成员数量已达上限, 超出${maxlinecount}人` : ""}</span></p>
+          <p className="modal-tips"><span style={{display: confMemSelectToCall.some(mem => mem.checkDisable) ? 'inline-block': 'none'}}><b className="error_icon"></b>{`${tr('a_23550')}(${maxlinecount})`}</span></p>
           <ul className="modal-member-ul">
             {
               confMemSelectToCall.map(mem => {

@@ -3973,3 +3973,13 @@ var a_23546_en="miss required permission";
 var a_23547_en="Screen lock password has been set";
 var a_23548_en="If needed change please click";
 var a_23549_en="reset password";
+
+
+
+// 通话页面 新增 
+var a_23550_en = 'The number of members has reached the limit.';
+var a_23551_en = 'The call line has reached the upper limit. Currently, only the IPVideoTalk number can be selected.';
+var a_23552_en = 'Recent Call';
+var a_23553_en = 'Yesterday';
+var a_23554_en = 'Today';
+var a_23555_en = '';

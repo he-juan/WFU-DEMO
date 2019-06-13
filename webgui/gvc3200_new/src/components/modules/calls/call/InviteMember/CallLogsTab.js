@@ -17,10 +17,10 @@ const parseDate = (function () {
   return function (timestamp, fmt) {
     timestamp = parseInt(timestamp)
     if( YESTERDAYZERO <= timestamp  && timestamp < TODAYZERO) {
-      fmt = fmt.replace('YYYY M/D', '昨天')
+      fmt = fmt.replace('MM/DD/YYYY', '昨天')
     }
     if( TODAYZERO <= timestamp  && timestamp < TOMMORROWZERO ) {
-      fmt = fmt.replace('YYYY M/D', '今天')
+      fmt = fmt.replace('MM/DD/YYYY', '今天')
     }
     let date = moment(parseInt(timestamp)).format(fmt)
     return date
@@ -107,7 +107,7 @@ class CallLogsTab extends Component {
         r.key = 'l-conf-' + log.confid
         r.col0 = log.confname  // 会议名称
         r.col1 = ''
-        r.col2 = parseDate(log.date, 'MM/DD/YYYY')
+        r.col2 = log.date
         r.lvl = '0'
         if(log.members) {
           r.children = log.members.map(m => {
@@ -116,7 +116,7 @@ class CallLogsTab extends Component {
             i.key = `${r.key}-${m.id}`
             i.col0 = m.name
             i.col1 = parseAcct(m.acct)
-            i.col2 = parseDate(m.date, 'MM/DD/YYYY H:mm')
+            i.col2 = m.date
             i.source = mapToSource(m.calltype)
             i.numberText = m.number
             i.lvl = '1'
@@ -130,12 +130,12 @@ class CallLogsTab extends Component {
         r.key = 'l-sin-' + m.id
         r.col0 = log.name
         r.col1 = parseAcct(m.acct)
-        r.col2 = parseDate(m.date, 'MM/DD/YYYY')
+        r.col2 = m.date, 'MM/DD/YYYY'
         r.source = mapToSource(m.calltype)
         r.lvl = '0'
         r.children = [Object.assign({}, r, {
           key: 'c-l-sin-' + m.id,
-          col2: parseDate(m.date, 'MM/DD/YYYY H:mm'),
+          col2: m.date,
           numberText: m.number,
           lvl: '1'
         })]
@@ -232,7 +232,17 @@ class CallLogsTab extends Component {
       {
         key: 'col2',
         dataIndex: 'col2',
-        width: '25%'
+        width: '25%',
+        render(text, record, index) {
+          if(record.lvl == '0') {
+            return parseDate(text, 'MM/DD/YYYY')
+          } 
+          if(record.lvl == '1') {
+            return parseDate(text, 'MM/DD/YYYY H:mm')
+          }
+         
+          return ''
+        }
       },
       {
         key: 'col3',

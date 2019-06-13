@@ -184,9 +184,9 @@ class Dialup extends Component {
 
     if(curLinesLen >= maxlinecount ) {   // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
       if(IPVTlen == 0 ) {
-        this.props.promptMsg('ERROR', '成员数量已达上限')
+        this.props.promptMsg('ERROR', 'a_23550')
       } else if(IPVTlen > 0 && lastMem.acct != '1') {
-        this.props.promptMsg('ERROR','通话线路已达上限，当前只能添加ipvt联系人')
+        this.props.promptMsg('ERROR','a_23551')
         if(flag == 'input') {
           this.setState({
             selectAcct: '1'
@@ -290,7 +290,7 @@ class Dialup extends Component {
               <Menu.Item key={v.acctindex} disabled={!v.register}>
                 <span><em className={`acct-icon acct-${v.acctindex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
                 <span>{v.num}</span>
-                <span>{!v.register ? '账号未注册' : defaultAcct == v.acctindex ? '默认账号' : <Button type="primary" size='small' onClick={this.setDefaultAcct.bind(this, v.acctindex)}>设为默认账号</Button>}</span>
+                <span>{!v.register ? this.tr('a_1139') : defaultAcct == v.acctindex ? this.tr('a_19113') : <Button type="primary" size='small' onClick={this.setDefaultAcct.bind(this, v.acctindex)}>{this.tr('a_16697')}</Button>}</span>
               </Menu.Item>
             )
           })
@@ -317,7 +317,7 @@ class Dialup extends Component {
             {
               memToCall.length > 0 || tagsInputValue.length > 0
               ? null 
-              :<span className="tagsinput-placeholder"> {selectAcct == 1 ? '输入号码或IP地址，多个可以用“,”分隔（如果为空，一键开启IPVT会议）' : '输入号码或IP地址，多个可以用“,”分隔'} </span>
+              :<span className="tagsinput-placeholder"> {selectAcct == 1 ? `${this.tr('a_16693')}( ${this.tr('a_10158')} )` : this.tr('a_16693')} </span>
             }
           </div>
           :
@@ -353,7 +353,7 @@ class Dialup extends Component {
           </div>
           {/* 通话记录; 联系人 */}
           <div className="dialup-record-list">
-            <p className="record-list-title">Recent Call</p>
+            <p className="record-list-title">{this.tr('a_23552')}</p>
             <LogContacts
               onAdd={(item) => this.handleAddMemFromList(item)}
               filterTags={tagsInputValue}
