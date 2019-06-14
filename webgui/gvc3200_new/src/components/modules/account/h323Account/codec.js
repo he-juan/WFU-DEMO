@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance";
-import { Form, Layout, Icon, Tooltip, Select, Button, Transfer, Checkbox, Input, Modal } from "antd";
+import { Form, Layout, Icon, Tooltip, Select, Button, Checkbox, Input, Modal } from "antd";
+import Transfer from '../../pubModule/transfer';
 const FormItem = Form.Item;
 const Content = Layout;
 const Option = Select.Option;
@@ -105,7 +106,7 @@ class CodecForm extends React.Component {
             }
         })
         this.setState({
-            vocoderTargetKeys
+            vocoderTargetKeys: [...new Set([...vocoderTargetKeys])]
         })
     }
     handleChange = (nextTargetKeys) => {

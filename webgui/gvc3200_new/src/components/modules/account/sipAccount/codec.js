@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Enhance from "../../../mixins/Enhance"
-import { Form, Layout, Transfer, Modal, Input, Icon, Tooltip, Checkbox, Radio, Select, Button } from "antd"
+import { Form, Layout, Modal, Input, Icon, Tooltip, Checkbox, Radio, Select, Button } from "antd"
+import Transfer from '../../pubModule/transfer';
 const FormItem = Form.Item
 const Content = Layout
 const Option = Select.Option
@@ -272,7 +273,7 @@ class CodecForm extends React.Component {
                 VideoTargetKeys.push(values[item])
             }
         })
-        this.setState({ VideoData, VideoTargetKeys });
+        this.setState({ VideoData, VideoTargetKeys: [...new Set([...VideoTargetKeys])] });
     }
 
     handleVocoderChange = (VocoderTargetKeys, direction, moveKeys) => {
