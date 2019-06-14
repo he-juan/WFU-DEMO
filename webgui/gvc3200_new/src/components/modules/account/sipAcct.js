@@ -129,7 +129,7 @@ class SlidingTabsDemo extends React.Component {
       ]
       return (
             <div style = {{background:"#f3f7fa"}}>
-                <Tabs className="config-tab accountTab" activeKey={tab2} size="middle" onChange={this.onChange.bind(this,"2")} style={{"minHeight":this.props.mainHeight-30}}>
+                <Tabs className="config-tab accountTab" activeKey={tab2} size="middle" onChange={this.onChange.bind(this,"2")} style={{"minHeight":this.props.mainHeight}}>
                     {
                         tabList.map((item,index)=>{
                             let hiddenOptions = optionsFilter.getHiddenOptions(index)

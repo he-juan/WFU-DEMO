@@ -7622,7 +7622,9 @@ ol.mp_list li.mp_error {}
     overflow: auto
 }
 
-
+.ant-tabs-bar {
+    margin-bottom: 2px !important;
+}
 
 /* react-tags */
 .react-tagsinput {

@@ -368,7 +368,7 @@ class CallForm extends React.Component {
             }
         };
         let itemList =
-           <Form>
+           <Form style={{height: this.props.mainHeight - 57, overflowY: 'auto', overflowX: 'hidden'}}>
                <FormItem className = "select-item"　 label={(<span>{callTr("a_16106")}&nbsp;<Tooltip title={this.tips_tr("Remote Video Request")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                    {getFieldDecorator('remotevideo', {
                        initialValue: this.props.itemValues['remotevideo'] ? this.props.itemValues['remotevideo'] : "0"
@@ -818,7 +818,8 @@ class CallForm extends React.Component {
 
 const mapStateToProps = (state) => ({
     enterSave: state.enterSave,
-    activeKey: state.TabactiveKey
+    activeKey: state.TabactiveKey,
+    mainHeight: state.mainHeight
 })
 
 const mapDispatchToProps = (dispatch) => {

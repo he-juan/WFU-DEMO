@@ -475,7 +475,7 @@ class CodecForm extends React.Component {
             return null;
         }
         let itemList =
-            <Form>
+            <Form style={{height: this.props.mainHeight - 57, overflowY: 'auto', overflowX: 'hidden'}}>
                 <p className="blocktitle"><s></s>{callTr("a_10017")}</p>
                 {/* DTMF */}
                 <FormItem label={(<span>{"DTMF"}&nbsp;<Tooltip title={this.tips_tr("DTMF")}><Icon type="question-circle-o" /></Tooltip></span>)}>
@@ -1105,7 +1105,8 @@ class CodecForm extends React.Component {
 const mapStateToProps = (state) => ({
     enterSave: state.enterSave,
     activeKey: state.TabactiveKey,
-    product: state.product
+    product: state.product,
+    mainHeight: state.mainHeight
 })
 
 export default connect(mapStateToProps)(Enhance(CodecForm));

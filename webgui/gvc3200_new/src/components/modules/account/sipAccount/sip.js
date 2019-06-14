@@ -165,7 +165,7 @@ class SipForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         const callTr = this.props.callTr;
         let itemList =
-            <Form hideRequiredMark>
+            <Form style={{height: this.props.mainHeight - 57, overflowY: 'auto', overflowX: 'hidden'}} hideRequiredMark>
                 <FormItem label={(<span>{callTr("a_16066")}&nbsp;<Tooltip title={this.tips_tr("SIP Registration")}><Icon type="question-circle-o" /></Tooltip></span>)}>
                     {getFieldDecorator('sipreg', {
                         valuePropName: 'checked',
@@ -620,7 +620,8 @@ class SipForm extends React.Component {
 
 const mapStateToProps = (state) => ({
     enterSave: state.enterSave,
-    activeKey: state.TabactiveKey
+    activeKey: state.TabactiveKey,
+    mainHeight: state.mainHeight
 })
 
 export default connect(mapStateToProps)(Enhance(SipForm));
