@@ -230,7 +230,7 @@ class ConfigForm extends Component {
                         <Checkbox onChange={this.onChangeGapsitem.bind(this)} />
                     )}
                 </FormItem>
-                <FormItem className = {"select-item" + " " +this.state.gapsitem} label={< span > {callTr("a_4113")} < Tooltip title = {callTipsTr("Config Upgrade Via")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className = {"select-item" + " " +this.state.gapsitem} label={< span > {callTr("a_19176")} < Tooltip title = {callTipsTr("Config Upgrade Via")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('updateconfigvia', {
                         rules: [],
                         initialValue: this.props.itemValues["updateconfigvia"] ? this.props.itemValues["updateconfigvia"] : "0"

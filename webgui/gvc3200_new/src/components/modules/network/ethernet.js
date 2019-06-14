@@ -586,7 +586,7 @@ class Ethernet extends Component {
         };
 
         let itemList =
-            <Form className="configform" hideRequiredMark>
+            <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}}>
                 {
                     this.props.oemId != '72' ? 
                     <FormItem label={< span > {callTr("a_19225")} < Tooltip title={callTipsTr("Preferred Internet Protocol")} > <Icon type="question-circle-o"/> </Tooltip></span >}>

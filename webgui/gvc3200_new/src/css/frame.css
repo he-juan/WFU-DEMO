@@ -781,8 +781,12 @@ body {
     left: 0;
     height: 100%;
     /*min-height: 600px;*/
+    overflow-y: auto;
 }
 
+.menu-container > .ant-menu {
+    padding-bottom: 50px;
+}
 .menu-container .ant-menu-dark, .menu-container .ant-menu-dark .ant-menu-inline.ant-menu-sub{
     background: #2c313d;
 }
@@ -5903,6 +5907,8 @@ table thead tr th{
 
 .RemoteControl{
     color: #8f9fb2;
+    padding: 0 15px;
+    width: auto !important;
     border-left:1px solid #8f9fb2;
     border-right:1px solid #8f9fb2;
 }
@@ -7625,7 +7631,10 @@ ol.mp_list li.mp_error {}
 .ant-tabs-bar {
     margin-bottom: 2px !important;
 }
-
+.ant-checkbox-checked .ant-checkbox-inner, .ant-checkbox-indeterminate .ant-checkbox-inner {
+    background-color: #3d77ff !important;
+    border-color: #3d77ff !important;
+}
 /* react-tags */
 .react-tagsinput {
     background-color: transparent;

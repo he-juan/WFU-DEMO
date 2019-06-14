@@ -169,8 +169,8 @@ class peripheral extends Component {
                             initialValue: itemvalue['initposition'] ? itemvalue['initposition'] : "0"
                         })(
                             <Select className={"P-camera_boot_position"}>
-                                <option value="0">Default</option>
-                                <option value="100">Position when power off</option>
+                                <option value="0">{callTr('a_17026')}</option>
+                                <option value="100">{callTr('a_17027')}</option>
                                 {presetList}
                             </Select>
                         )}

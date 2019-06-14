@@ -291,7 +291,7 @@ class FirmwareForm extends Component {
                     )}
                     <Icon title={callTr("a_4278")} style={{left:'100px'}} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
-                <FormItem className="select-item" label={< span > { callTr("a_19176") } < Tooltip title={callTipsTr("Firmware Upgrade Mode")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
+                <FormItem className="select-item" label={< span > { callTr("a_19175") } < Tooltip title={callTipsTr("Firmware Upgrade Mode")} > <Icon type="question-circle-o"/> </Tooltip></span >}>
                     {getFieldDecorator('updatevia', {
                         rules: [],
                         initialValue: this.props.itemValues["updatevia"] ? this.props.itemValues["updatevia"] : "1"

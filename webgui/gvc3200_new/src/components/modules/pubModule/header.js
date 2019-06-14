@@ -230,10 +230,9 @@ class MainHeader extends Component {
             var self = this;
             if(values.dnd == '1'){
                 confirm({
-                    title: 'close?',
-                    content: 'close?',
-                    okText: 'Yes',
-                    cancelText: 'No',
+                    content: self.tr('a_10254') + '?',
+                    okText: self.tr('a_5'),
+                    cancelText: self.tr('a_6'),
                     onOk() {
                         self.props.setDndMode("0","0",()=>{
                             self.props.setDndModeStatus("0");
@@ -246,10 +245,9 @@ class MainHeader extends Component {
                 });
             }else{
                 confirm({
-                    title: 'open??',
-                    content: 'open',
-                    okText: 'Yes',
-                    cancelText: 'No',
+                    content: self.tr('a_10253') + '?',
+                    okText:  self.tr('a_5'),
+                    cancelText: self.tr('a_6'),
                     onOk() {
                         self.props.setDndMode("1","0",()=>{
                             self.props.setDndModeStatus("1");
@@ -382,10 +380,10 @@ class MainHeader extends Component {
                         <div className={"remote " + (dndstatus == '1' ? 'dndon' : 'dndoff')} id="dndbtn">
                             <a onClick={this.handleSetDndMode}>{this.tr("a_1302")}</a>
                         </div>
-                        <div className="RemoteControl" style={{width:100}}>
+                        <div className="RemoteControl" style={{ fontSize:'0.875rem'}}>
                             <a onClick={this.showRemoteControl}>{this.tr("a_19043")}</a>
                         </div>
-                        <div>
+                        <div style={{marginRight: 0, marginLeft:-10}}>
                             <Dropdown overlay={languageMenu}>
                                 <a style={{"display":"inline-block", "width":"100%", "height":"100%"}}>
                                     {$.cookie("MyLanguage") == "zh" ? "中文" : "English"}
