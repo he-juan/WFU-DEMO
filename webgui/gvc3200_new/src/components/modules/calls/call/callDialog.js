@@ -335,7 +335,7 @@ class CallDialog extends Component {
 				<div className={`call-ctrl ${tmpclass}`} >
                     <div className="call-ctrl-head">
                         <div className="call-ctrl-title">
-                            <strong>{globalConfInfo.name || '会议室'}</strong> <br />
+                            <strong>{globalConfInfo.name || this.tr('a_23555')}</strong> <br />
                             <span className={isrecording == 1 ? 'isrecording' : ''}>{parseDuration(duration)}</span>
                         </div>
                         <div className="shrink-icon" onClick={this.minimizeDialog}></div>
@@ -386,12 +386,12 @@ class CallDialog extends Component {
 
 
 
-                        {/* 保持按钮 */}
+                        {/* 取消保持按钮 */}
                         {
                             isOnHold == '0' ? null :
                             <span>
-                                <Button title={"取消保持"} className={`unhold-icon`} onClick={() => this.props.confholdstate('0')} /> <br />
-                                {'取消保持'}
+                                <Button title={this.tr('a_660')} className={`unhold-icon`} onClick={() => this.props.confholdstate('0')} /> <br />
+                                {this.tr('a_660')}
                             </span>
                         }
                         

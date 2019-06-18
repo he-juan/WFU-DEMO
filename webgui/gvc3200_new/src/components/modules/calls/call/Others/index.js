@@ -68,7 +68,7 @@ class Others extends Component {
           <Button type="primary" className='menu-btn' ></Button> 
         </Popover>
           <br/>   
-          {'菜单'}
+          {this.tr('a_46')}
       </span>
     )
   }

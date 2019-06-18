@@ -161,7 +161,7 @@ class ContactsTab extends Component {
         render(text, record, index){
           return (
             <div className="operate-btns">
-              <Tooltip  title="添加">
+              <Tooltip  title={_this.tr('a_403')}>
                 <span className="add-btn" onClick={(e) => _this.handleAddRecord(record, e)}></span>
               </Tooltip>
             </div>

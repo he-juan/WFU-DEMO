@@ -93,8 +93,8 @@ class FECC extends Component {
         
         return (
             <span>
-              <Button id="startFECC" title={"摄像头控制"} disabled={!feccbtnvisile} className={'fecc-btn'} onClick={this.handleStartFECC.bind(this, "-1")}/> <br />
-              {'摄像头控制'}
+              <Button id="startFECC" title={this.tr('a_10026')} disabled={!feccbtnvisile} className={'fecc-btn'} onClick={this.handleStartFECC.bind(this, "-1")}/> <br />
+              {this.tr('a_10026')}
               <FECCModal />
             </span>
         )

@@ -234,7 +234,7 @@ class RecordBtn extends Component {
     };
     return (
       <div onClick={this.handleRecord.bind(this)}>
-        { recordclass == "unrcd" ? "录像" : "取消录像"}
+        { recordclass == "unrcd" ? this.tr('a_12098') : this.tr('a_10285')}
         {
           msfurole < 1 ? 
           <RecordModal visible={this.state.recordModalVisible} onHide={() => this.toogleRecordModal(false)}/>

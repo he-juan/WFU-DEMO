@@ -110,7 +110,8 @@ function calLocalBtnStatus(globalConfInfo) {
     return {
         localmuteclass: globalConfInfo.localmutestate == '1' ? 'mute' : 'unmute',
         localcamerastateclass : globalConfInfo.localcamerastate == '1' ? 'cameraclose' : 'cameraopen',
-        ismute: parseInt(globalConfInfo.localmutestate)
+        ismute: parseInt(globalConfInfo.localmutestate),
+        localcamerastate: parseInt(globalConfInfo.localcamerastate)
     }
 }
 
@@ -330,15 +331,15 @@ class LinesList extends Component {
     componentWillReceiveProps (nextProps) {
         if(nextProps.isAllMute != this.props.isAllMute && this.props.isAllMute != undefined) {
             if(nextProps.isAllMute == '1') {
-                this.props.promptMsg("SUCCESS", "已静音所有会议成员");
+                this.props.promptMsg("SUCCESS", this.tr('a_10292'));
             } else {
-                this.props.promptMsg("SUCCESS", "已取消静音所有会议成员");
+                this.props.promptMsg("SUCCESS", this.tr('a_10293'));
             }
         }
     }
     render() {
         const { acctstatus, feccbtnvisile, linestatus, globalConfInfo, isOnHold, isAllMute, isAllBlock } = this.props
-        const { localmuteclass, localcamerastateclass, ismute } = calLocalBtnStatus(globalConfInfo)
+        const { localmuteclass, localcamerastateclass, ismute, localcamerastate } = calLocalBtnStatus(globalConfInfo)
         const isHeld = isOnHold == '1'
         // 接口的isAllSuspend 有问题, 这里自行计算
         const isAllSuspend = linestatus.filter(item => {
@@ -354,25 +355,28 @@ class LinesList extends Component {
             <div className="ctrl-line">
                 {/* 全场会控 */}
                 <div className="whole-control">
-                    <span className="confname">全场会控</span>
+                    <span className="confname">{this.tr('a_23565')}</span>
                     <span className="confnum"></span>
                     <span className="conftype"></span>
                     <span className="confbtn">
-                        <Button id="allSuspend" disabled={isHeld || isAllAudio} title={isAllSuspend ? "点击开启所有画面" :"点击关闭所有画面"} onClick={ () => this.toggleAllSuspend(isAllSuspend)}  className={isAllAudio ?'unsuspend' : isAllSuspend ? "suspend" : "unsuspend"} />
-                        <Button id="allBlock" disabled={isHeld} title={isAllBlock ? "点击取消全场禁声":"点击全场禁声"} onClick={this.toggleAllBlock} className={ isAllBlock ? "confblock" : "unconfblock"} />
-                        <Button id="allMute" disabled={isHeld} title={isAllMute ? "点击取消全场静音": "点击全场静音"} onClick={this.toggleAllMute} className={ isAllMute ? "mute" : "unmute"} />
+                        <Button id="allSuspend" disabled={isHeld || isAllAudio} title={isAllSuspend ? this.tr('a_23562') : this.tr('a_23561')} onClick={ () => this.toggleAllSuspend(isAllSuspend)}  className={isAllAudio ?'unsuspend' : isAllSuspend ? "suspend" : "unsuspend"} />
+                        <Button id="allBlock" disabled={isHeld} title={isAllBlock ? this.tr('a_23560'): this.tr('a_23559')} onClick={this.toggleAllBlock} className={ isAllBlock ? "confblock" : "unconfblock"} />
+                        <Button id="allMute" disabled={isHeld} title={isAllMute ? this.tr('a_23564'): this.tr('a_23563')} onClick={this.toggleAllMute} className={ isAllMute ? "mute" : "unmute"} />
                     </span>
                 </div>
+                {/* 本地线路 */}
                 <div className="local-line">
                     <span className="confname">{tr("a_10032")}</span>
                     <span className="confnum"></span>
                     <span className="conftype"></span>
                     <span className="confbtn">
-                        {/* <Button id="startFECC" title={tr("a_19020")} disabled={localbtndisabled} style={{display: feccbtnvisile ? 'block' : 'none' }} className={startFECCClass} onClick={this.handleStartFECC.bind(this, "-1")}/> */}
-                        <Button id="closecamera" title={"点击关闭本地摄像头"} disabled={isHeld}  className={localcamerastateclass} onClick={this.handlelocalcamera}/>
-                        <Button id="localmute" title={"点击静音"} disabled={isHeld}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
+                        {/* ipvt 共享摄像头, 设备暂未支持ipvt */}
+                        <Button id='ipvtSharecamera' disabled={true} title={''} onClick={() => {}} className={true ? 'unsharecamera': 'sharecamera'} />
+                        <Button id="closeCamera" title={localcamerastate ? this.tr('a_23569') : this.tr('a_23568') } disabled={isHeld}  className={localcamerastateclass} onClick={this.handlelocalcamera}/>
+                        <Button id="localMute" title={ismute ? this.tr('a_23567') : this.tr('a_23566')} disabled={isHeld}  className={localmuteclass} onClick={this.handlelocalmute.bind(this, ismute)}/>
                     </span>
                 </div>
+                {/* 成员线路 */}
                 {
                 linestatus.map((item, i) => {
                     let disabledflag = item.acct == 1 || item.isremotehold == "1";
@@ -383,10 +387,10 @@ class LinesList extends Component {
                         <span className={`conftype ${item.state == '8' ? 'call-fail' : item.state == ('3' || 'init3') ? 'call-ing' : ''}`}>{itemTitle}</span>
                         <span className="confbtn">
                             {/* 结束通话 */}
-                            <Button title={"结束"} className="endconf" disabled={isHeld}
+                            <Button title={this.tr('a_1')} className="endconf" disabled={isHeld}
                                     onClick={this.handleEndline.bind(this, item)}/>
                             {/* 通话失败回拨 */}
-                            <Button title={"回拨"} className={recallclass} disabled={isHeld}
+                            <Button title={this.tr('a_23570')} className={recallclass} disabled={isHeld}
                                     onClick={this.handleReCall.bind(this, item)}/>
                             {/* 本地摄像头控制 */}
                             {/* <Button className={feccclass} style={{display: feccbtnvisile ? 'block' : 'none' }}
@@ -398,25 +402,25 @@ class LinesList extends Component {
                                     onClick={this.handleuploading.bind(this, item.line, item.isvideoed)}/> */} 
 
                             {/* 点击关闭他的画面 */}
-                            <Button title={ item.issuspend == '1'? "点击开启他的画面": "点击关闭他的画面"}
+                            <Button title={ item.issuspend == '1'? this.tr('a_23571'): this.tr('a_23572')}
                                     disabled={isHeld || disabledflag || item.isvideo == "0" ? true : false}
                                     className={suspendclass}
                                     onClick={this.suspendLineOrNot.bind(this, item)}
                                     />
                             {/* 关闭视频 */}
-                            <Button title={item.isvideo == '1' ? "点击切换音频" : "点击切换视频" }
+                            <Button title={item.isvideo == '1' ? this.tr('a_23573') : this.tr('a_23574') }
                                     disabled={isHeld || disabledflag ? true : false}
                                     className={confvideoclass}
                                     onClick={this.handlelinevideoswitch.bind(this, item)}
                             />
                             {/* 禁声 */}
-                            <Button title={item.isblock  == '1' ? "点击取消禁声" : "点击禁声"}
+                            <Button title={item.isblock  == '1' ? this.tr('a_23576') : this.tr('a_23575')}
                                     disabled={isHeld || disabledflag ? true : false}
                                     className={blockclass}
                                     onClick={this.handlelineblock.bind(this, item.line)}
                             />
                             {/* 静音 */}
-                            <Button title={item.ismute == '1' ? "点击取消静音" : "点击静音"}
+                            <Button title={item.ismute == '1' ? this.tr('a_23567') : this.tr('a_23566')}
                                     disabled={isHeld || disabledflag ? true : false}
                                     className={muteclass}
                                     onClick={this.handlelinemute.bind(this, item)}/>

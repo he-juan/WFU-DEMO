@@ -98,10 +98,10 @@ class DetailsModalNormal extends Component {
                         <table>
                             <thead className="detailstitle">
                                 <tr>
-                                    <th width="20%">Type</th>
-                                    <th width="20%">Parameter</th>
-                                    <th width="30%">Send</th>
-                                    <th width="30%">Receive</th>
+                                    <th width="20%">{this.tr('a_2059')}</th>
+                                    <th width="30%">{this.tr('a_10074')}</th>
+                                    <th width="25%">{this.tr('a_4')}</th>
+                                    <th width="25%">{this.tr('a_10018')}</th>
                                 </tr>
                             </thead>
                             <tbody>

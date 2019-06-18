@@ -4739,6 +4739,19 @@ table thead tr th{
     background: url(../img/icon.png) -100px -795px no-repeat;
 }
 
+.confbtn .unsharecamera {
+    background: url(../img/icon.png) -513px -387px no-repeat;
+}
+.confbtn .unsharecamera:disabled {
+    background: url(../img/icon.png) -50px -424px no-repeat;
+}
+
+.confbtn .sharecamera {
+    background: url(../img/icon.png) -538px -387px no-repeat;
+}
+.confbtn .sharecamera:disabled {
+    background: url(../img/icon.png) -75px -424px no-repeat;
+}
 
 .confbtn .cameraclose {
     background: url(../img/icon.png) -487px -387px no-repeat;
@@ -4746,7 +4759,6 @@ table thead tr th{
 .confbtn .cameraclose:disabled {
     background: url(../img/icon.png) -125px -795px no-repeat;
 }
-
 
 .confbtn .suspend{
     background: url(../img/icon.png) -436px -387px no-repeat;

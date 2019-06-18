@@ -25,7 +25,7 @@ class Handsup extends Component {
 
     return (
       <div onClick={()=>this.handleHandsup()}>
-          {handsupStatus == '1' ? '取消举手' : this.tr("a_10220")}
+          {handsupStatus == '1' ? this.tr('a_10221') : this.tr("a_10220")}
       </div>
     )
   }

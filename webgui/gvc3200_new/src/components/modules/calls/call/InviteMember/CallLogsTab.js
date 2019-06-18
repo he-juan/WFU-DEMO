@@ -6,6 +6,16 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import moment from 'moment'
 
+function tr(text) {
+  var tr_text = text;
+  var language = $.cookie('MyLanguage') == null ? 'en' : $.cookie('MyLanguage');
+  try {
+      tr_text = window.eval(text+"_" + language);
+  } catch (err) {
+  } finally {
+      return tr_text;
+  }
+}
 
 let timer, DATASOURCE
 
@@ -17,10 +27,10 @@ const parseDate = (function () {
   return function (timestamp, fmt) {
     timestamp = parseInt(timestamp)
     if( YESTERDAYZERO <= timestamp  && timestamp < TODAYZERO) {
-      fmt = fmt.replace('MM/DD/YYYY', '昨天')
+      fmt = fmt.replace('MM/DD/YYYY', `[${tr('a_23553')}]`)
     }
     if( TODAYZERO <= timestamp  && timestamp < TOMMORROWZERO ) {
-      fmt = fmt.replace('MM/DD/YYYY', '今天')
+      fmt = fmt.replace('MM/DD/YYYY', `[${tr('a_23554')}]`)
     }
     let date = moment(parseInt(timestamp)).format(fmt)
     return date
@@ -33,9 +43,7 @@ const parseAcct = (function () {
     "0": "SIP",
     "1": "IPVideoTalk",
     "2": "Bluejeans",
-    "8": "H.323",
-    "-1": "默认账号",
-    "4": "默认账号"
+    "8": "H.323"
   }
   return function(acct) {
     return acctMap[acct]
@@ -251,7 +259,7 @@ class CallLogsTab extends Component {
         render(text, record, index){
           return (
             <div className="operate-btns">
-              <Tooltip  title="添加">
+              <Tooltip title={tr('a_403')}>
                 <span className="add-btn" onClick={(e) => _this.handleAddRecord(record, e)}></span>
               </Tooltip>
             </div>

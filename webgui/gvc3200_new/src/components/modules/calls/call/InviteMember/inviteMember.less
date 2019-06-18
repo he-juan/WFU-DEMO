@@ -1,3 +1,11 @@
+
+.invite-modal {
+  .ant-tabs {
+    margin: 0 0 18px;
+  }
+  
+}
+
 .invite-area {
   margin-bottom: 5px;
   .invite-inputs-area {
@@ -7,13 +15,19 @@
     position: relative;
     display: inline-block;
     width: 800px;
-    height: 44px;
+    height: 38px;
+    .react-tagsinput-input {
+      margin-bottom: 0;
+    }
     .react-tagsinput {
       position: absolute;
       width:100%;
       display: inline-block;
-      height: 44px;
+      height: 38px;
       z-index: 2;
+      padding-top: 2px;
+      padding-left: 2px;
+      border-color: #d9d9d9;
       // overflow-x: auto;
       & > span {
         white-space: nowrap;
@@ -21,7 +35,7 @@
     }
     .tagsinput-placeholder {
       position: absolute;
-      line-height: 40px;
+      line-height: 36px;
       text-indent: 10px;
       color: #777;
       font-size: 12px;
@@ -35,7 +49,8 @@
       background: #fff;
       color: #222;
       padding: 5px 6px;
-      border-radius: 4px;
+      border-radius: 2px;
+      margin-bottom: 0;
       &.acct-0 {
         border: 1px solid #799cee;
       }
@@ -65,8 +80,8 @@
     padding-bottom: 4px;
     .ant-input {
       width: 390px;
-      height: 44px;
-      line-height: 44px;
+      height: 38px;
+      line-height: 38px;
       &:first-child {
         margin-right: 20px;
       }
@@ -77,17 +92,18 @@
   .acct-select {
     width: 150px;
     display: inline-block;
-    height: 44px;
-    line-height: 44px;
+    height: 38px;
+    line-height: 38px;
     vertical-align: top;
     margin-left: 16px;
     .ant-select-selection--single {
-      line-height: 44px;
-      height: 44px;
+      line-height: 38px;
+      height: 38px;
+      border-radius: 1px;
     }
     .ant-select-selection__rendered {
-      line-height: 44px;
-      height: 44px;
+      line-height: 38px;
+      height: 38px;
     }
   }
 }
@@ -225,5 +241,30 @@
     .call-btn {
       background-position: -630px -67px;
     }
+  }
+}
+
+em.acct-icon {
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  margin-right: 6px;
+  position: relative;
+  top:1px;
+  &.acct-0 {
+    background: #799cee;
+  }
+  &.acct-1 {
+    background: #4ed711;
+  }
+  &.acct-2 {
+    background: #ffa650;
+  }
+  &.acct-8 {
+    background: #95d1ff;
+  }
+  &.acct-unregister {
+    background: #bac0ca;
   }
 }

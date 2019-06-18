@@ -44,7 +44,7 @@ class HoldBtn extends Component {
       const { isOnHold} = this.props
       return (
           <div onClick={this.handleHoldall}> 
-            { isOnHold == '0' ? '保持' : '取消保持'}
+            { isOnHold == '0' ? this.tr('a_648') : this.tr('a_660')}
 
           </div>
       )

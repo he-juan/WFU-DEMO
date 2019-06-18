@@ -12,6 +12,8 @@ import './inviteMember.less'
 const Option = Select.Option
 const TabPane = Tabs.TabPane
 
+
+
 function parseAcctStatus(acctstatus) {
   let headers = acctstatus.headers
   let result = [];
@@ -247,9 +249,9 @@ class InviteMemberModal extends Component {
 
     if(curLinesLen >= maxlinecount ) {   // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
       if(IPVTlen == 0 ) {
-        this.props.promptMsg('ERROR', '成员数量已达上限')
+        this.props.promptMsg('ERROR', 'a_23550')
       } else if(IPVTlen > 0 && lastMem.acct != '1') {
-        this.props.promptMsg('ERROR','通话线路已达上限，当前只能添加ipvt联系人')
+        this.props.promptMsg('ERROR','a_23551')
         if(flag == 'input') {
           this.setState({
             selectAcct: '1'
@@ -305,7 +307,7 @@ class InviteMemberModal extends Component {
             {
               memToCall.length > 0 || tagsInputValue.length > 0
               ? null 
-              :<span className="tagsinput-placeholder"> {selectAcct == 1 ? '输入号码或IP地址，多个可以用“,”分隔' : '输入号码或IP地址，多个可以用“,”分隔'} </span>
+              :<span className="tagsinput-placeholder"> {this.tr('a_16693')}</span>
             }
           </div>
           :
@@ -328,15 +330,15 @@ class InviteMemberModal extends Component {
         okText={this.tr('a_23')}
         footer={
           <div>
-            <Button onClick={() => this.handleInvite(1)}>视频邀请</Button>
-            <Button onClick={() => this.handleInvite(0)}>音频邀请</Button>
+            <Button type="primary" disabled={memToCall.length == 0 && selectAcct != '2'} onClick={() => this.handleInvite(1)}>{this.tr("a_23557"/**视频邀请 */)}</Button>
+            <Button type="primary" disabled={memToCall.length == 0 && selectAcct != '2'} onClick={() => this.handleInvite(0)}>{this.tr("a_23558"/**音频邀请 */)}</Button>
           </div>
         }
       >
         <div style={{ height: '570px' }}>
           <Tabs onChange={(i) => this.selectTab(i)}>
-            <TabPane tab="本地通讯录" key="1"></TabPane>
-            <TabPane tab="通话记录" key="2"></TabPane>
+            <TabPane tab={this.tr('a_23556')} key="1"></TabPane>
+            <TabPane tab={this.tr('a_307')} key="2"></TabPane>
             {/* <TabPane tab="企业通讯录" key="3"></TabPane> */}
           </Tabs>
           <div className="invite-area">
@@ -347,7 +349,7 @@ class InviteMemberModal extends Component {
                   if(!v.activate) return null
                   
                   return (
-                    <Option key={i} value={v.acctindex} disabled={!v.register}>{v.name}</Option>
+                    <Option key={i} value={v.acctindex} disabled={!v.register}><em className={`acct-icon acct-${v.acctindex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</Option>
                   )
                 })
               }
