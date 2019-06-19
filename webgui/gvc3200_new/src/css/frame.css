@@ -5500,7 +5500,7 @@ table thead tr th{
     font-size: 14px;
 }
 
-.content-container .ant-btn-primary:focus {
+.content-container .ant-btn-primary:focus, .ant-btn-primary {
     color: #fff;
     background-color: #3d77ff;
     border-color: #3d77ff;

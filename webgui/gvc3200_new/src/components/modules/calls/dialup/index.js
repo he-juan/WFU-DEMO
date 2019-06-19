@@ -329,6 +329,8 @@ class Dialup extends Component {
         }  
       </div>
     )
+    
+    let selectAcctItem = acctStatus.filter(item => item.acctindex == selectAcct)[0] || '0'
     return (
       <Layout className="content-container">
         <div className="subpagetitle">{this.tr("a_9400")}</div>
@@ -337,8 +339,8 @@ class Dialup extends Component {
           <div className="dialup-box">
             <div className="dialup-inputs">
               <Dropdown overlay={AcctMenu} trigger={['click']}>
-                <div className={`selected-acct ${acctStatus[selectAcct].register == 0 ? 'unregister' : ''}`}>
-                  <span><em className={`acct-icon acct-${selectAcct}`}></em>{acctStatus[selectAcct].name}</span><span>{acctStatus[selectAcct].num}</span> <Icon type="caret-down" />
+                <div className={`selected-acct ${selectAcctItem.register == 0 ? 'unregister' : ''}`}>
+                  <span><em className={`acct-icon acct-${selectAcct}`}></em>{selectAcctItem.name}</span><span>{selectAcctItem.num}</span> <Icon type="caret-down" />
                 </div>
               </Dropdown>
               {InputArea}

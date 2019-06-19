@@ -16,7 +16,6 @@ class Common extends Component {
         super(props)
 
         this.state = {
-            pcportmode:"",
 
             dscp1State: false,
             dscp2State: false,
@@ -42,9 +41,6 @@ class Common extends Component {
             this.getReqItem("useragent", "1541", ""),
             this.getReqItem("sipuseragent", "26027", ""),
             //this.getReqItem("mediaaddr", "media_address", ""),
-            this.getReqItem("pcportmode", "1348", ""),
-            this.getReqItem("pcporttag", "229", ""),
-            this.getReqItem("pcporttagpv", "230", ""),
             this.getReqItem("openlldp", "in_lldp", ""),
             this.getReqItem("proxyhttp", "1552", ""),
             this.getReqItem("noproxy", "22011", ""),
@@ -58,11 +54,9 @@ class Common extends Component {
 
     componentDidMount() {
         this.props.getItemValues(req_items ,(values) => {
-            this.checkoutPcportmode(values.pcportmode);
             this.cb_dscp2_dscp1_dscp7(values.dscp2, values.dscp1, values.dscp7)
             this.checkoutproxyhttp(values.proxyhttp);
         });
-        this.props.getReadshowipState();
     }
 
     cb_dscp2_dscp1_dscp7(dscp2, dscp1, dscp7){
@@ -193,38 +187,12 @@ class Common extends Component {
         });
     }
 
-    checkoutPcportmode = (value) => {
-        let pcportmode;
-        value = value ? value : '0';
-        if (value === '0') {
-            pcportmode = "display-block"
-        } else {
-            pcportmode = "display-hidden"
-        }
-        this.setState({
-            pcportmode: pcportmode
-        })
-    }
-
-    onChangeMode = (value) => {
-        this.checkoutPcportmode(value);
-    }
-
-    onChangeEnablelldp = (e) => {
-        this.cb_lldp_mode_change(e.target.checked);
-    }
 
     render() {
         const {getFieldDecorator} = this.props.form;
         const callTr = this.tr;
         const callTipsTr = this.tips_tr;
         const oemid = this.props.oemId;
-        let readshowipState = this.props.readshowipState;
-        var showwidgetip;
-        if(readshowipState.headers)
-        {
-            readshowipState.headers['showip'] == "0" ? showwidgetip = false: showwidgetip = true;
-        }
 
         let itemList =
             <Form className="configform" hideRequiredMark style={{minHeight: this.props.mainHeight}}>
@@ -520,7 +488,6 @@ const CommonForm = Form.create()(Enhance(Common));
 const mapStateToProps = (state) => ({
     curLocale: state.curLocale,
     itemValues: state.itemValues,
-    readshowipState: state.readshowipState,
     mainHeight: state.mainHeight,
     enterSave: state.enterSave,
     userType: state.userType,
@@ -531,9 +498,7 @@ function mapDispatchToProps(dispatch) {
     var actions = {
         getItemValues:Actions.getItemValues,
         setItemValues:Actions.setItemValues,
-        getReadshowipState:Actions.getReadshowipState,
         promptMsg:Actions.promptMsg,
-        get_showwidgetip:Actions.get_showwidgetip
     }
     return bindActionCreators(actions, dispatch)
 }
