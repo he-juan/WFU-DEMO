@@ -103,9 +103,6 @@
   line-height: 40px;
   padding: 0;
   font-size: 14px;
-  &:hover {
-    background:#eff5fe;
-  }
   &.ant-dropdown-menu-item-disabled  {
     & > span {
       color: #bac0ca !important;
@@ -137,6 +134,15 @@
         background: #2868ff;
         border-color: #2868ff;
       }
+    }
+  }
+  .ant-btn-primary {
+    display: none;
+  }
+  &:hover {
+    background:#eff5fe;
+    .ant-btn-primary {
+      display: inline-block;
     }
   }
 }
