@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import moment from 'moment'
 
-let timer, DATASOURCE
+let timer, timer2, DATASOURCE
 
 function tr(text) {
   var tr_text = text;
@@ -291,24 +291,28 @@ class LogAndContacts extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if(this.props.filterTags != nextProps.filterTags) { // filterTags 过滤项
-      let filterTags = nextProps.filterTags
-      let _dataSource = DATASOURCE
-      if(filterTags.trim().length) {
-        _dataSource = DATASOURCE.filter(item => {
-          return item.col0.indexOf(filterTags) >= 0 || item.numberText && item.numberText.indexOf(filterTags) >= 0
-        }).map(item => {
-          let _item = JSON.parse(JSON.stringify(item))
-          _item.col0 = _item.col0.replace(filterTags, `<b>${filterTags}</b>`)
-          if(_item.numberText) {
-            _item.numberText = _item.numberText.replace(filterTags, `<b>${filterTags}</b>`)
-          }
-          return _item
+      clearTimeout(timer2)
+      timer2 = setTimeout(() => {
+        let filterTags = nextProps.filterTags
+        let _dataSource = DATASOURCE
+        if(filterTags.trim().length) {
+          _dataSource = DATASOURCE.filter(item => {
+            return item.col0.indexOf(filterTags) >= 0 || item.numberText && item.numberText.indexOf(filterTags) >= 0
+          }).map(item => {
+            let _item = JSON.parse(JSON.stringify(item))
+            _item.col0 = _item.col0.replace(filterTags, `<b>${filterTags}</b>`)
+            if(_item.numberText) {
+              _item.numberText = _item.numberText.replace(filterTags, `<b>${filterTags}</b>`)
+            }
+            return _item
+          })
+        }
+        this.setState({
+          dataSource: _dataSource,
+          curPage: 1
         })
-      }
-      this.setState({
-        dataSource: _dataSource,
-        curPage: 1
-      })
+      }, 300)
+      
     }
   }
   render() {
