@@ -105,7 +105,7 @@ class LogAndContacts extends Component {
   }
   parseDataSource = (contactsNew, callLogsNew) => {
     const dataContacts = this.parseContacts(contactsNew)
-    const dataCallLogs = this.parseCallLogs(callLogsNew)
+    const dataCallLogs = this.parseCallLogs(callLogsNew).slice(0, 20)
     DATASOURCE = [...dataCallLogs, ...dataContacts]
     this.setState({
       dataSource: DATASOURCE
