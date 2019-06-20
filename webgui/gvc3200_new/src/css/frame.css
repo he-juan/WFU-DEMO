@@ -1729,7 +1729,7 @@ table thead tr th{
 .gdslist button,.mpklist button,.vpklist button{
     margin: 10px;
 }
-.allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact, .Playing, .Pause , .initial {
+.allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact, .Playing, .Pause , .initial, .reschedule {
     display: inline-block;
     position: relative;
     top: 5px;
@@ -1738,7 +1738,6 @@ table thead tr th{
     font-size: 1rem;
     background-image: url(../img/icon.png);
     cursor: pointer;
-
 }
 
 @-moz-document url-prefix() {
@@ -1832,7 +1831,11 @@ table thead tr th{
     background-position: -652px -66px;
 }
 .allow-addContact {
-    background-position: -63px -25px;
+    /* background-position: -63px -25px; */
+    background-position:-732px -425px;
+}
+.allow-addContact:hover {
+    background-position:-753px -425px;
 }
 .allow-delete {
     background-position:-209px -66px;
@@ -1864,6 +1867,14 @@ table thead tr th{
     background-position:-484px -66px;
     cursor: default;
     margin-left: 6px;
+}
+
+.reschedule {
+    /* background-position:-230px -66px; */
+    background-position:-774px -425px;
+}
+.reschedule:hover {
+    background-position:-795px -425px;
 }
 
 .recordSetIcon{
@@ -3757,27 +3768,55 @@ table thead tr th{
 .CallDiv span i {
     display: inline-block;
     position: relative;
-    top: 8px;
-    width: 25px;
-    height: 25px;
+    top: 6px;
+    width: 24px;
+    height: 24px;
     margin-right: 12px;
-}
-.CallDiv span .type2 {
     background-image: url(../img/icon.png);
+    background-repeat: no-repeat;
+}
+
+.CallDiv span .type2, .inlineCallInfo .type2 {
+    /* background-image: url(../img/icon.png); */
     background-position: -434px -25px;
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
 }
-.CallDiv span .type1 {
-    background-image: url(../img/icon.png);
+.CallDiv span .type1, .inlineCallInfo .type1 {
+    /* background-image: url(../img/icon.png); */
     background-position: -459px -25px;
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
 }
-.CallDiv span .type3,.selectcall-modal table span .type3
+.CallDiv span .type3,.selectcall-modal table span .type3, .inlineCallInfo .type3
 {
-    background-image: url(../img/icon.png);
+    /* background-image: url(../img/icon.png); */
     background-position: -559px -25px;
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
 }
+
+.CallDiv span .type4, .inlineCallInfo .type4 {
+    /* background-image: url(../img/icon.png); */
+    background-position: -198px -389px;
+    /* background-repeat: no-repeat; */
+}
+.CallDiv span .type5, .inlineCallInfo .type5{
+    /* background-image: url(../img/icon.png); */
+    background-position: -173px -389px;
+    /* background-repeat: no-repeat; */
+}
+
+.CallDiv span .type5, .inlineCallInfo .type6 {
+    /* background-image: url(../img/icon.png); */
+    background-position: -224px -389px;
+    /* background-repeat: no-repeat; */
+}
+.CallDiv span .typeconf {
+    /* background-image: url(../img/icon.png); */
+    background-position: -74px -389px;
+    /* background-repeat: no-repeat; */
+}
+
+
+
 .CallDiv span .block, .selectcall-modal span .block {
     background-image: url(../img/icon.png);
     background-position: -534px -25px;
@@ -3826,6 +3865,10 @@ table thead tr th{
     background-image: url(../img/icon.png);
     background-position: -165px -87px;
     background-repeat: no-repeat;
+}
+
+.contactsIcon_fav{
+    background-position: -674px -88px;
 }
 
 .CallDiv span.contactstext{
@@ -4255,7 +4298,7 @@ table thead tr th{
 
 .call-area .item-type-1 {
     background: url(../img/icon.png) -641px -88px no-repeat;
-    float: left; 
+    float: left;
     width: 32px;
     height: 32px;
     float: left;
@@ -4437,7 +4480,7 @@ table thead tr th{
     font-size: 18px;
     margin-bottom: 10px;
     display: inline-block;
-    font-weight: normal; 
+    font-weight: normal;
 }
 .call-dialog .call-ctrl-title strong.isrecording {
     position: relative;
@@ -4618,11 +4661,11 @@ table thead tr th{
     color: #28c24d;
 }
 .local-line .confname, .whole-control .confname {
-    font-weight: bold;  
-    color: #10113a;  
+    font-weight: bold;
+    color: #10113a;
 }
 .remote-line .confname {
-    color: #10113a;  
+    color: #10113a;
 }
 
 .ctrl-line .confbtn{
@@ -4714,17 +4757,17 @@ table thead tr th{
 
 
 .confbtn .confvideo {
-    background: url(../img/icon.png) -563px -387px no-repeat;  
+    background: url(../img/icon.png) -563px -387px no-repeat;
 }
 
 .confbtn .confvideo:disabled {
-    background: url(../img/icon.png) -150px -795px no-repeat;  
+    background: url(../img/icon.png) -150px -795px no-repeat;
 }
 .confbtn .confaudio {
-    background: url(../img/icon.png) -588px -387px no-repeat;  
+    background: url(../img/icon.png) -588px -387px no-repeat;
 }
 .confbtn .confaudio:disabled {
-    background: url(../img/icon.png) -175px -795px no-repeat;  
+    background: url(../img/icon.png) -175px -795px no-repeat;
 }
 
 
@@ -5016,7 +5059,7 @@ table thead tr th{
 }
 
 .callselectdiv {
-    width: 170px;
+    width: 250px;
     padding: 17px 34px 17px 24px;
     background: #fff;
 }
@@ -5024,14 +5067,18 @@ table thead tr th{
     width: 100%;
     height: 30px;
     line-height: 30px;
+    overflow: hidden;
 }
 
 .callselectItem span {
-    display: inline-block;
+    display: block;
     height: 40px;
     line-height: 40px;
     width: 100%;
+    padding-right: 35px;
     position: relative;
+    overflow: hidden;
+
 }
 .callselectItem span i {
     height: 20px;
@@ -5683,7 +5730,7 @@ table thead tr th{
 .CallDiv .ant-table-tbody > tr > td {
     padding: 0px;
     height: 54px;
-    line-height: 54px;
+    /* line-height: 54px; */
 }
 
 .Callhistory table tbody tr td:nth-child(2), .Callhistory table tbody tr td:nth-child(4) {
@@ -6107,6 +6154,7 @@ table thead tr th{
     text-align: left;
     border-top:  1px solid #fff;
     background: #f0f4ff;
+    overflow: hidden;
 }
 .call-line-info{
     height: 50px;
@@ -6133,7 +6181,8 @@ table thead tr th{
     text-align: right;
 }
 .call-checkall {
-    width: 70px;
+    /* width: 70px; */
+    width: 35px;
     margin-left: 2px;
 }
 .btnbox{
@@ -6159,7 +6208,7 @@ table thead tr th{
     min-width: 100px;
     line-height: 30px;
 }
-.allow-detail,.allow-call,.allow-addContact {
+.allow-detail,.allow-call,.allow-addContact, .reschedule{
     margin: 0 5px;
 }
 .select-callnum span{float: left}
@@ -6172,10 +6221,7 @@ table thead tr th{
 
 }
 .add-contact{}
-.confinfo_memberlist{
-    width: 80%;
-    margin: 0 auto;
-}
+
 .confModal{
     width: 800px!important;
 }
@@ -6185,8 +6231,7 @@ table thead tr th{
 .confModal .ant-form-item-control-wrapper{
     width: 70%;
 }
-.memberlist {overflow: hidden;padding-left: 25%;line-height: 33px}
-.memberlist div{width: 50%;float: left}
+
 .confModal span.contactsIcon {
     display: inline-block;
     line-height: 33px;
@@ -6239,7 +6284,7 @@ table thead tr th{
     /* color: #000; */
 }
 .conf-label{
-    padding-left: 15px;    
+    padding-left: 15px;
 }
 .conf-text{
     color: #000;
@@ -6761,7 +6806,7 @@ ol.mp_list li.mp_error {}
     background-color: #3d77ff;
 }
 
-/* 
+/*
 .incomingbtn .reject{
     border-color: #ff616b;
     background-color: #ff616b;
@@ -7097,7 +7142,7 @@ ol.mp_list li.mp_error {}
 
     width: 480px;
     height: auto;
-    
+
 }
 
 .selectvideodiv .selectlist{
@@ -7510,7 +7555,7 @@ ol.mp_list li.mp_error {}
     line-height: 72px;
     font-size: 20px;
 }
-.dtmfkeypad:nth-child(1), 
+.dtmfkeypad:nth-child(1),
 .dtmfkeypad:nth-child(2),
 .dtmfkeypad:nth-child(3) {
     border-top: 1px solid #cfd6db;
@@ -7603,8 +7648,8 @@ ol.mp_list li.mp_error {}
     background-image: url(/img/icon.png);
     background-repeat: no-repeat;
     float: left;
-    width: 25px;
-    height: 25px;
+    width: 24px;
+    height: 24px;
     margin: 5px 12px 0 0
 }
 .typeVideo{
@@ -7618,7 +7663,7 @@ ol.mp_list li.mp_error {}
     width: 100%;
     line-height: 1;
     height: 20px;
-    list-style: none;    
+    list-style: none;
 }
 .hovMenu div{
     height: 30px;
@@ -7627,7 +7672,7 @@ ol.mp_list li.mp_error {}
     cursor: pointer;
 }
 .hovMenu div:last-child{
-    border-top:solid 1px #dfe1e2    
+    border-top:solid 1px #dfe1e2
 }
 .CallDiv .nodata_tip{
     width: 500px ;
@@ -7714,4 +7759,31 @@ ol.mp_list li.mp_error {}
     outline: none;
     padding: 5px;
     min-width: 80px;
+}
+.ellipsName{
+    display: inline-block;
+    max-width: 100px;
+    line-height: 1;
+    /* padding-top: 4px */
+}
+.ellipsDetailName {
+    min-width: 210px;
+    max-width: 300px;
+    display: block
+}
+.missCallText {
+    color: #ff424e
+}
+.popover_Contact {
+    padding: 17px 24px;
+    min-width: 208px
+}
+.popover_Contact li{
+    list-style: none;
+    color: #10131a;
+    font-size: 14px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
 }

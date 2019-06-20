@@ -25,6 +25,7 @@ class ContactTab extends Component {
         this.state = {
             selectedRowKeys: [],
             displayDelContactsModal: false,
+            displayClearContactModal: false,
             displayAddWhitelistModal: false,
             displayAddBlacklistModal: false,
             displayImportModal:false,
@@ -83,14 +84,20 @@ class ContactTab extends Component {
                 maxImportCount: values.maxImportCount
             });
         });
-        this.updateContact(showloading);
+        let data = this.props.contactsNew
+        // console.log(this.props.contactsNew)
+        if(!data.length) {
+            this.updateContact(showloading);
+        } else {
+            this.handleContactData(data)
+        }
 
         this.props.getAcctStatus((acctstatus) => {
             if (!this.isEmptyObject(acctstatus)) {
                 this.getAcctStatusData(acctstatus);
             }
         });
-        
+
         // this._createData();
     }
 
@@ -146,16 +153,16 @@ class ContactTab extends Component {
                 || this.props.curAccount != nextProps.curAccount) {
                 // this.updateContact();
                 this.props.getGroups((groups)=>{this.setState({groups:groups})});
-
+                this.handleContactData(nextProps.contactsNew)
             }
             if (this.props.form == nextProps.form) {
-                this._createData();
+                // this._createData();
             }
-            if($.isArray(nextProps.contactsInformation)
-                && $.isArray(nextProps.contactsInformation)
-                && this.props.contactsInformation.length !== nextProps.contactsInformation.length) {
-                this.updateContact();
-                this._createData();
+            if($.isArray(nextProps.contactsNew)
+                && $.isArray(nextProps.contactsNew)
+                && this.props.contactsNew.length !== nextProps.contactsNew.length) {
+                this.handleContactData(nextProps.contactsNew)
+                // this._createData();
             }
         }
     }
@@ -163,7 +170,9 @@ class ContactTab extends Component {
 
     updateContact = (showloading) => {
         // this.props.getContactCount();
-        this.props.getContacts((items)=>{this.setState({updateState:''})});
+        this.props.getContacts_new()
+        this.handleContactData(this.props.contactsNew)
+        // this.props.getContacts((items)=>{this.setState({updateState:''})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
         this.props.getContactsinfo(showloading);
         if(!this.isEmptyObject(this.props.acctStatus)){
@@ -177,7 +186,55 @@ class ContactTab extends Component {
                 });
             })
         }
-        setTimeout(()=> this._createData(),500)
+        let searchkey = $("#search").val()
+        if (searchkey!='') {
+            $("#search").val("");
+        }
+        // setTimeout(()=> this._createData(),500)
+    }
+
+    handleContactData = (contactsData) => {
+        let curContactList = []
+        contactsData.forEach(item => {
+            let phoneStr = ''
+            let phoneArr = []
+            item.phone.forEach(phone => {
+                if(phoneStr){
+                    phoneStr += ','
+                }
+                phoneStr += phone.number
+                phoneArr.push(phone.number)
+            })
+            let groupStr = ''
+            let groupArr = []
+            item.group.forEach(group => {
+                if(groupStr){
+                    groupStr += ','
+                }
+                groupStr += group.name
+                groupArr.push(group.name)
+            })
+            let row0 = {
+                name:item.name.displayname,
+                isfavourite:item.isfavourite
+            }
+            let data = {
+                key: 'c' + item.id,
+                row0: row0,
+                row1: phoneArr,
+                row2: groupArr,
+                row3: item,
+                name: item.name.displayname,
+
+                // number: phone.number,
+                // acct: phone.acct,
+                // isvideo: 1,
+                // source: 1, // 联系人呼出source 为1
+            }
+            curContactList.push(data)
+        })
+        this.contactList = curContactList
+        this.setState({curContactList,curContactList})
     }
 
     checkActiveAcct = (acctStatus) =>{
@@ -267,6 +324,14 @@ class ContactTab extends Component {
         this.setState({ displayDelContactsModal: false });
     }
 
+    showClearContactsModal =() =>{
+        this.setState({ displayClearContactModal: true });
+    }
+
+    handleClearContactsCancel =()=>{
+        this.setState({ displayClearContactModal: false });
+    }
+
     showAddWhitelistModal =() =>{
         this.setState({ displayAddWhitelistModal: true });
     }
@@ -285,27 +350,35 @@ class ContactTab extends Component {
 
     handleOkDeleteAll = () => {
         let data = this.state.selectedRows
+        // console.log(data)
         let deleteid = ""
         for (let i = 0; i < data.length; i++) {
-            let id = data[i].row3.Id
+            let id = data[i].row3.id
             if(deleteid) {
                 deleteid += ","
             }
             deleteid += id
         }
         this.props.removeContact(deleteid, () => {
-            this.props.getContacts((items)=>{this.setState({updateState:''})});
-            this._createData();
-            let searchkey = $("#search").val()
-            if (searchkey) {
-                $("#search").val("");
-            }
+            this.updateContact()
+            // this.props.getContacts((items)=>{this.setState({updateState:''})});
+            // this._createData();
+            // let searchkey = $("#search").val()
+            // if (searchkey) {
+            //     $("#search").val("");
+            // }
         })
         this.setState({
             selectedRowKeys: [],
             selectedRows: [],
             displayDelContactsModal: false
         });
+    }
+
+    handleOkClearAll = () => {
+        // console.log('clear')
+        // this.props.clearContact()
+        this.handleClearContactsCancel()
     }
 
     showContactModal = () => {
@@ -315,48 +388,69 @@ class ContactTab extends Component {
 
     handleCall = (text, index) => {
         let {acctstatus} = this.state;
-        let curnum = text.Number[0].trim();
-        let acct = text.AcctIndex[0];
+        let curnum = text.number;
+        let acct = text.acct;
         this.props.cb_start_single_call(acctstatus, curnum, acct, 0, 0, 0 , 0);
     }
 
     handleEditItem = (text, index) => {
-        var name = text.Name;
+        // console.log('edit',text)
+        var name = text.name.displayname;
         this.props.form.resetFields();
         let emailValues = this.state.emailValues;
         let numValues = this.state.numValues;
         emailValues.length = 0;
         numValues.length = 0;
-        if (text.Emaill.length == 0) {
+        if (text.email.length == 0) {
             emailValues = [''];
+        }
+        let email = ''
+        if(text.email[0]) {
+            email = text.email[0].address
         }
         this.setState({displayModal:true,editContact:text,addNewContact:false});
         var obj = {
-            name:name
+            name: name,
+            email: email,
+            address: text.address,
+            note: text.note,
+            website: text.website
         };
-        for (var i = 0; i < text.AcctIndex.length; i++) {
+        // for (var i = 0; i < text.phone.length; i++) {
+            // let acctstatus = this.props.acctStatus.headers;
+            // var Index = text.AcctIndex[i];
+            // if(acctstatus[`account_${Index}_no`] == ""){
+            //     text.AcctIndex[i] = '-1'
+            // }
+            // numValues.push(text.Number[i]+ " " + text.AcctIndex[i]);
+            // obj['bindaccount'+i] = text.AcctIndex[i];
+            // obj['accountnumber'+i] = text.Number[i];
+        // }
+        text.phone.forEach((item,i) => {
+            // console.log(i,item)
             let acctstatus = this.props.acctStatus.headers;
-            var Index = text.AcctIndex[i];
+            let Index = item.acct;
             if(acctstatus[`account_${Index}_no`] == ""){
-                text.AcctIndex[i] = '-1'
+                text.acct = '-1'
             }
-            numValues.push(text.Number[i]+ " " + text.AcctIndex[i]);
-            obj['bindaccount'+i] = text.AcctIndex[i];
-            obj['accountnumber'+i] = text.Number[i];
+            obj['bindaccount'+i] = item.acct;
+            obj['accountnumber'+i] = item.number;
+            numValues.push(item.number+ "--- ---" + item.acct)
+        })
+        for (var i = 0; i < text.email.length; i++) {
+            emailValues.push(text.email[i].address);
         }
-        for (var i = 0; i < text.Emaill.length; i++) {
-            emailValues.push(text.Emaill[i]);
-        }
-        for (var i = 0; i < text.GroupName.length; i++) {
-            obj['groupnumber' + text.GroupName[i] + text.GroupId[i]] = true;
+        for (var i = 0; i < text.group.length; i++) {
+            obj['groupnumber' + text.group[i].name + text.group[i].id] = true;
         }
         this.setState({numValues: numValues, emailValues: emailValues})
+        // console.log(obj)
         this.props.form.setFieldsValue(obj);
     }
 
     bouncer = (arr) => {
         return arr.filter(function(val) {
-            return !(!val || val === "" || val === "undefined");
+            return !(!val.number || val.number === "" || val.number === "undefined");
         });
     }
 
@@ -372,26 +466,38 @@ class ContactTab extends Component {
 
     _createName = (text, record, index) => {
         let status;
-        status = <div style = {{'height':'33px'}} title={text}><span className = "contactsIcon"></span><span className = "ellips contactstext contactname">{text}</span></div>;
+        // console.log(text)
+        status = <div style = {{'height':'33px'}} title={text.name}><span className = {'contactsIcon' + text.isfavourite == '1' ? " contactsIcon_fav" : ""}></span><span className = "ellips contactstext contactname">{text.name}</span></div>;
         return status;
     }
 
-    _createNumber = (text) => {
-        return <div style = {{'height':'33px'}} title={text}><span className = "ellips contactstext contactnumber" style={{ 'paddingLeft':'0'}}>{text}</span></div>;
+    _createNumberOrGroup = (text) => {
+        let content = []
+        text.forEach((item, i) => {
+            let str = ''
+            if(i>0) {
+                str += ' ,'
+            }
+            str += item
+            content.push(
+                <span className = "ellips contactstext contactnumber" style={{ 'paddingLeft':'0'}} title={item}>{str}</span>
+            )
+        })
+        return <div style = {{'height':'33px'}} title={text}>{content}</div>
     }
 
     _createActions = (text, record, index) => {
+        // return null
         let statue;
-
-        var number = this.bouncer(text.Number);
+        var number = this.bouncer(text.phone);
         let callTitle = this.tr('a_504')
         let editTitle = this.tr('a_22')
         if (number.length > 1) {
             return (
-                <div id = {text.Id} className = {"callRecord number" + number.join(',') } >
+                <div id = {text.id} className = {"callRecord number" + number.join(',') } >
                     <Popover
                         content={
-                            <CallSelectNum sendSingleCall = {this.props.sendSingleCall} selectnumItem={text} existActiveAccount={this.state.existActiveAccount}/>
+                            <CallSelectNum sendSingleCall = {this.props.sendSingleCall} selectnumItem={text.phone} existActiveAccount={this.state.existActiveAccount}/>
                         }
                         placement="topRight"
                         trigger="focus"
@@ -404,90 +510,11 @@ class ContactTab extends Component {
         } else {
             return (
                 <div id = {text.Id} className = {"callRecord number" + number.join(',') } >
-                    <button title={callTitle} className='allow-call' id = {'allow-call'+index}  onClick={this.handleCall.bind(this, text, index)}></button>
+                    <button title={callTitle} className='allow-call' id = {'allow-call'+index}  onClick={this.handleCall.bind(this, text.phone[0], index)}></button>
                     <button title={editTitle} className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
                 </div>
             )
         }
-    }
-
-    _createData = () => {
-        if(JSON.stringify(this.props.contactsInformation) == '{}' || JSON.stringify(this.props.groupInformation) == '{}'
-            || JSON.stringify(this.props.contactsAcct)== '{}' ) {
-            return null;
-        }
-        let contactsInformation  = this.props.contactsInformation;
-        let groupInformation = this.props.groupInformation;
-        let contactinfodata = this.props.contactinfodata;
-        let contactsAcct = this.props.contactsAcct;
-        // console.log(contactsInformation,contactinfodata)
-        let data = [];
-        let contactItems = [];
-        // if (contactsInformation.length == 0) {
-        //     this.setState({showtips:'block'})
-        // } else {
-        //     this.setState({showtips:'none'})
-        // }
-        // console.log(contactsInformation)
-        for (let i = 0; i < contactsInformation.length; i++ ) {
-            contactItems.push({
-                key: i,
-                Id: contactsInformation[i].Id,
-                Name: contactsInformation[i].Name,
-                Number: contactsInformation[i].Number,
-                RawId: contactsInformation[i].RawId,
-                Pinyin:contactsInformation[i].Pinyin,
-                PinyinFirst:contactsInformation[i].PinyinFirst
-            })
-        }
-        for (var i = 0; i < contactItems.length; i++) {
-            contactItems[i]['GroupName'] = [];
-            contactItems[i]['GroupId'] = [];
-            for (var j = 0; j < groupInformation.length; j ++) {
-                if ($.inArray(contactItems[i].RawId,groupInformation[j].ContactId) != -1) {
-                    contactItems[i]['GroupName'].push(groupInformation[j].Name)
-                    contactItems[i]['GroupId'].push(groupInformation[j].Id)
-                }
-            }
-        }
-        for (var i = 0; i < contactItems.length; i++) {
-            contactItems[i]['Emaill'] = [];
-            contactItems[i]['firstname'] = "";
-            contactItems[i]['lastname'] = "";
-            for (var j = 0; j < contactinfodata.length; j++ ) {
-                if ((contactinfodata[j].RawId == contactItems[i].RawId) && (contactinfodata[j].InfoType == "1")) {
-                    contactItems[i]['Emaill'].push(contactinfodata[j].Info)
-                }
-                if ((contactItems[i].RawId == contactinfodata[j].RawId)&&(contactItems[i].Name == contactinfodata[j].Info)&&(contactinfodata[j].InfoType == "7")) {
-                    contactItems[i]['firstname'] = contactinfodata[j].FirstName;
-                    contactItems[i]['lastname'] = contactinfodata[j].LastName;
-                    break;
-                }
-            }
-        }
-        for (var i = 0; i < contactItems.length; i++) {
-            contactItems[i]['AcctIndex'] = [];
-            for (var j = 0; j < contactsAcct.length; j++) {
-                if (contactsAcct[j].Id == contactItems[i].Id) {
-                    contactItems[i]['AcctIndex'] = contactsAcct[j].AcctIndex
-                }
-            }
-        }
-        for ( var i = 0; i < contactItems.length; i++ ) {
-            data.push({
-                key: i,
-                row0: contactItems[i].Name,
-                row1: contactItems[i].Number.join(','),
-                row2: contactItems[i].GroupName.join(','),
-                row3: contactItems[i]
-            })
-        }
-
-        this.contactList = data;
-        this.setState({
-            curContactList: data
-        });
-        return data
     }
 
     handleImport = () => {
@@ -507,22 +534,21 @@ class ContactTab extends Component {
         var searchkey = e.target.value.trim().toUpperCase();
         let data = [];
         let dataSource = self.contactList
+        // console.log(dataSource)
         if (searchkey === "") {
             data = [...dataSource];
         } else {
             let len = dataSource.length;
             for (let i = 0; i < len; i++) {
                 let item = dataSource[i];
-                let name = item.row0.toUpperCase();
-                let number = item.row3.Number[0];
-                let groupname = item.row2;
-                let Pinyin = item.row3.Pinyin;
-                let PinyinFirst = item.row3.PinyinFirst;
-                if (number.indexOf(searchkey) != -1 
-                || name.indexOf(searchkey) != -1 
-                || groupname.indexOf(searchkey) != -1
-                || PinyinFirst.indexOf(searchkey) !=-1
-                || Pinyin.indexOf(searchkey) !=-1 ) {
+                let name = item.row0.name.toUpperCase();
+                let number = item.row1.join(',');
+                let groupname = item.row2.join(',');
+                // let Pinyin = item.row3.Pinyin;
+                // let PinyinFirst = item.row3.PinyinFirst;
+                if (number.indexOf(searchkey) != -1
+                || name.indexOf(searchkey) != -1
+                || groupname.indexOf(searchkey) != -1) {
                     data.push(item);
                 }
             }
@@ -532,7 +558,7 @@ class ContactTab extends Component {
         for(let i = 0; i<self.selectedContactList.length;i++){
             for(let j=0;j<data.length;j++){
                 let item = data[j];
-                let name = item.row0;
+                let name = item.row0.name;
                 let id = item.row3.Id;
                 if(self.selectedContactList[i].id == id){
                     selectRows.push(j);
@@ -556,10 +582,10 @@ class ContactTab extends Component {
 
     render() {
         // console.log(this.props.contactsInformation,this.props.groupInformation,this.props.contactsAcct)
-        if(JSON.stringify(this.props.contactsInformation) == '{}' || JSON.stringify(this.props.groupInformation) == '{}'
-            || JSON.stringify(this.props.contactsAcct)== '{}' ) {
-            return null;
-        }
+        // if(JSON.stringify(this.props.contactsInformation) == '{}' || JSON.stringify(this.props.groupInformation) == '{}'
+        //     || JSON.stringify(this.props.contactsAcct)== '{}' ) {
+        //     return null;
+        // }
         const callTr = this.props.callTr;
         const moreMenu = (
             <Menu>
@@ -575,6 +601,7 @@ class ContactTab extends Component {
             </Menu>
         );
         const curContactList = this.state.curContactList
+        // console.log('curContactList',curContactList)
         const columns = [{
             title: callTr("a_19626"),
             // title: '',
@@ -591,14 +618,17 @@ class ContactTab extends Component {
             dataIndex: 'row1',
             width: '25%',
             render: (text, record, index) => (
-                this._createNumber(text)
+                this._createNumberOrGroup(text)
             )
         }, {
             title: callTr("a_4779"),
             // title: '',
             key: 'row2',
             dataIndex: 'row2',
-            width: '25%'
+            width: '25%',
+            render: (text, record, index) => (
+                this._createNumberOrGroup(text)
+            )
         }, {
             // title: callTr("a_44"),
             title: '',
@@ -612,6 +642,7 @@ class ContactTab extends Component {
         let pageobj = false
         // let data = []
         let data = curContactList;
+        // console.log(data)
         if(data.length>15) {
             pageobj = {
                 pageSize: 15,
@@ -642,6 +673,13 @@ class ContactTab extends Component {
                         <Modal visible={this.state.displayDelContactsModal} title={this.tr("a_4798")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelContactsCancel}>
                             <p className="confirm-content">{this.tr("a_4795")}</p>
+                        </Modal>
+                        <Button className="select-delete" type="primary" style={{marginRight:'10px'}} onClick={this.showClearContactsModal}>
+                            <i/>{this.tr("a_404")}
+                        </Button>
+                        <Modal visible={this.state.displayClearContactModal} title={this.tr("清空联系人")} className="confirm-modal"
+                               okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkClearAll} onCancel={this.handleClearContactsCancel}>
+                            <p className="confirm-content">{this.tr("确定清空所有联系人？")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} disabled={disAddMember} onClick={this.showContactModal}>
                             {this.tr("a_4840")}
@@ -692,13 +730,14 @@ class ContactTab extends Component {
                 }
                 {
                     this.state.displayDwonloadModal ?
-                    <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} contactNum = {data.length} maxImportCount ={maxImportCount} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} /> 
+                    <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} contactNum = {data.length} maxImportCount ={maxImportCount} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} />
                     : null
                 }
-                <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} 
-                editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} 
-                handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} 
-                getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode} defaultacct ={this.state.defaultacct}/> 
+                <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups}
+                editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} addNewContact={this.state.addNewContact}
+                handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem}
+                getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode} defaultacct ={this.state.defaultacct}/>
+
                 {/* <ImportEditForm  displayImportModal={this.state.displayImportModal}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                 <ExportEditForm  displayExportModal={this.state.displayExportModal}  handleHideExportModal={this.handleHideExportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                 <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} />  */}
@@ -715,7 +754,8 @@ const mapStateToProps = (state) => ({
     activeKey: state.TabactiveKey,
     callDialog: state.callDialog,
     acctStatus: state.acctStatus,
-    product: state.product
+    product: state.product,
+    contactsNew: state.contactsNew
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -728,7 +768,9 @@ const mapDispatchToProps = (dispatch) => {
         getContactsinfo:Actions.getContactsinfo,
         sendSingleCall:Actions.sendSingleCall,
         getAcctStatus: Actions.getAcctStatus,
-        cb_start_single_call:Actions.cb_start_single_call
+        cb_start_single_call:Actions.cb_start_single_call,
+        getContacts_new:Actions.getContactsNew,
+        clearContact:Actions.clearContact
     }
 
     return bindActionCreators(actios, dispatch)

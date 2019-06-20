@@ -27,16 +27,6 @@ class AddLocalcontacts extends Component {
     }
 
     updateContact = () => {
-        if(!this.props.groupInformation.length) {
-            this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        }
-        if(!this.props.contactsInformation.length) {
-            this.props.getContacts((items)=>{this.setState({items:items})});
-        }
-        if(!this.props.contactinfodata.length) {
-            this.props.getContactsinfo();
-        }
-
     }
 
     handleOk = () => {
@@ -48,7 +38,7 @@ class AddLocalcontacts extends Component {
     }
 
     handleChange = (e) => {
-        const contactsInformation = this.props.contactsInformation;
+        const contactsNew = this.props.contactsNew;
         var self = this;
         var searchkey = e.target.value.toLowerCase().trim();
         let trs = document.querySelectorAll(".addlocalcontacts table tbody tr");
@@ -57,8 +47,8 @@ class AddLocalcontacts extends Component {
                 trs[i].style.display = 'table-row';
             }
         } else {
-            for (var i = 0; i < contactsInformation.length; i++) {
-                if (contactsInformation[i]['Name'].toLowerCase().indexOf(searchkey) == -1) {
+            for (var i = 0; i < contactsNew.length; i++) {
+                if (contactsNew[i]['name']['displayname'].toLowerCase().indexOf(searchkey) == -1) {
                     trs[i].style.display = "none";
                 } else {
                     trs[i].style.display = "table-row";
@@ -72,38 +62,45 @@ class AddLocalcontacts extends Component {
     }
 
     handleAddcontacts = (text) => {
-        var firstname = text.firstname;
-        var lastname = text.lastname;
+        var name = text.name.displayname;
         this.props.form.resetFields();
         let emailValues = this.state.emailValues;
         let numValues = this.state.numValues;
-        // if (text.Number.length >= 3) {
-        //     this.props.promptMsg('ERROR','a_19654');
-        //     return false;
-        // }
         emailValues.length = 0;
         numValues.length = 0;
-        if (text.Emaill.length == 0) {
+        if (text.email.length == 0) {
             emailValues = [''];
+        }
+        let email = ''
+        if(text.email[0]) {
+            email = text.email[0].address
         }
         this.setState({displayModal:true,editContact:text});
         var obj = {
-            lastname:lastname,
-            firstname:firstname
+            name: name,
+            email: email,
+            address: text.address,
+            note: text.note,
+            website: text.website
         };
-        for (var i = 0; i < text.AcctIndex.length; i++) {
-            numValues.push(text.Number[i]+ " " + text.AcctIndex[i]);
-            obj['bindaccount'+i] = text.AcctIndex[i];
-            obj['accountnumber'+i] = text.Number[i];
+        text.phone.forEach((item,i) => {
+            let acctstatus = this.props.acctStatus.headers;
+            let Index = item.acct;
+            if(acctstatus[`account_${Index}_no`] == ""){
+                text.acct = '-1'
+            }
+            obj['bindaccount'+i] = item.acct;
+            obj['accountnumber'+i] = item.number;
+            numValues.push(item.number+ "--- ---" + item.acct)
+        })
+        obj['bindaccount'+text.phone.length] = this.props.addaccount;
+        obj['accountnumber'+text.phone.length] = this.props.addnumber;
+        numValues.push(this.props.addnumber+ "--- ---" + this.props.addaccount);
+        for (var i = 0; i < text.email.length; i++) {
+            emailValues.push(text.email[i].address);
         }
-        obj['bindaccount'+text.AcctIndex.length] = this.props.addaccount;
-        obj['accountnumber'+text.AcctIndex.length] = this.props.addnumber;
-        numValues.push(this.props.addnumber+ " " + this.props.addaccount);
-        for (var i = 0; i < text.Emaill.length; i++) {
-            emailValues.push(text.Emaill[i]);
-        }
-        for (var i = 0; i < text.GroupName.length; i++) {
-            obj['groupnumber' + text.GroupName[i] + text.GroupId[i]] = true;
+        for (var i = 0; i < text.group.length; i++) {
+            obj['groupnumber' + text.group[i].name + text.group[i].id] = true;
         }
         this.setState({numValues: numValues, emailValues: emailValues})
         this.props.form.setFieldsValue(obj);
@@ -112,15 +109,13 @@ class AddLocalcontacts extends Component {
     _createName = (text, record, index) => {
         let status;
         status = <div style={{'height': '33px'}} onClick={this.handleAddcontacts.bind(this, text)}><span className="contactsIcon"></span><span
-            className="ellips contactstext">{text.Name}</span></div>;
+            className="ellips contactstext">{text.name.displayname}</span></div>;
         return status;
     }
 
     render() {
-        let contactsInformation  = this.props.contactsInformation;
-        let groupInformation = this.props.groupInformation;
-        let contactinfodata = this.props.contactinfodata;
-        let contactsAcct = this.props.contactsAcct;
+        // let groupInformation = this.props.groupInformation;
+        let contactsNew = this.props.contactsNew
         const callTr = this.props.callTr;
         const columns = [{
             title: "",
@@ -132,55 +127,14 @@ class AddLocalcontacts extends Component {
         }];
         let data = [];
         let contactItems = [];
-        for ( let i = 0; i < contactsInformation.length; i++ ) {
-            contactItems.push({
-                key: i,
-                Id: contactsInformation[i].Id,
-                Name: contactsInformation[i].Name,
-                Number: contactsInformation[i].Number,
-                RawId: contactsInformation[i].RawId
-            })
-        }
-        for (var i = 0; i < contactItems.length; i++) {
-            contactItems[i]['GroupName'] = [];
-            contactItems[i]['GroupId'] = [];
-            for (var j = 0; j < groupInformation.length; j ++) {
-                if ($.inArray(contactItems[i].RawId,groupInformation[j].ContactId) != -1) {
-                    contactItems[i]['GroupName'].push(groupInformation[j].Name)
-                    contactItems[i]['GroupId'].push(groupInformation[j].Id)
-                }
-            }
-        }
-        for (var i = 0; i < contactItems.length; i++) {
-            contactItems[i]['Emaill'] = [];
-            contactItems[i]['firstname'] = "";
-            contactItems[i]['lastname'] = "";
-            for (var j = 0; j < contactinfodata.length; j++ ) {
-                if ((contactinfodata[j].RawId == contactItems[i].RawId) && (contactinfodata[j].InfoType == "1")) {
-                    contactItems[i]['Emaill'].push(contactinfodata[j].Info)
-                }
-                if ((contactItems[i].RawId == contactinfodata[j].RawId)&&(contactItems[i].Name == contactinfodata[j].Info)) {
-                    contactItems[i]['firstname'] = contactinfodata[j].FirstName;
-                    contactItems[i]['lastname'] = contactinfodata[j].LastName;
-                    break;
-                }
-            }
-        }
-        for (var i = 0; i < contactItems.length; i++) {
-            contactItems[i]['AcctIndex'] = [];
-            for (var j = 0; j < contactsAcct.length; j++) {
-                if (contactsAcct[j].Id == contactItems[i].Id) {
-                    contactItems[i]['AcctIndex'] = contactsAcct[j].AcctIndex
-                }
-            }
-        }
-        for ( var i = 0; i < contactItems.length; i++ ) {
+        contactsNew.forEach((item,i) => {
             data.push({
                 key: i,
-                row0:contactItems[i]
+                row0: item
             })
-        }
+        });
 
+        let numFromHistor = true
         return (
             <Modal title = {callTr('a_19634')} onOk={this.handleOk} onCancel={this.handleCancel}
                     className='selectcontact-modal addlocalcontacts' visible={this.props.displayLocalContactsModal}
@@ -197,7 +151,7 @@ class AddLocalcontacts extends Component {
                     dataSource={data}
                     showHeader={true}
                 />
-                <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact}
+                <NewContactsEditForm {...this.props} numFromHistor={numFromHistor} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact}
                 displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
             </Modal>
         )
@@ -205,10 +159,11 @@ class AddLocalcontacts extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    contactsInformation: state.contactsInformation,
+    // contactsInformation: state.contactsInformation,
     groupInformation: state.groupInformation,
-    contactinfodata: state.contactinfodata,
-    contactsAcct: state.contactsAcct,
+    // contactinfodata: state.contactinfodata,
+    // contactsAcct: state.contactsAcct,
+    contactsNew: state.contactsNew
 })
 
 const mapDispatchToProps = (dispatch) => {

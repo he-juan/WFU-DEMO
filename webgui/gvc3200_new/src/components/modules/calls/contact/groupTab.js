@@ -24,16 +24,23 @@ class GroupTab extends Component {
             selectItems:[],
             obj:{},
             searchResultArr:[],
-            curContactList: [],
+            curGroupList: [],
             groupInformation: [],
             showtips: 'none',
             displayCallModal: false,
-            curCallData:{}
+            curCallData:{},
+            contactList:[]
         }
     }
 
     componentDidMount = () => {
         this.updateGroups();
+        let data = this.props.contactsNew
+        let contactList = this.handleContactData(data)
+        this.contactList = contactList;
+        this.setState({
+            contactList: contactList
+        });
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -44,14 +51,29 @@ class GroupTab extends Component {
                 this.props.getContacts();
             }
         }
-        if(this.props.groupInformation != nextProps.groupInformation || this.props.contactsInformation!= nextProps.contactsInformation) {
+        if(this.props.groupInformation != nextProps.groupInformation || this.props.contactsNew!= nextProps.contactsNew) {
             this._createData();
         }
+    }
+
+    handleContactData = (data) => {
+        let contactList = []
+        data.forEach(item => {
+            let number = item.phone.length ? item.phone[0].number : ''
+            let obj = {
+                id: item.id,
+                name: item.name.displayname,
+                number: number
+            }
+            contactList.push(obj)
+        });
+        return contactList
     }
 
     updateGroups = () => {
         // this.props.getContactCount();
         this.props.getGroups();
+        this.props.getContacts_new()
         this.props.getContacts();
         let self = this
         setTimeout(function () {
@@ -152,9 +174,9 @@ class GroupTab extends Component {
                 }
             }
         } else {
-            for (let i = self.state.curContactList.length - 1; i >= 0; i--) {
+            for (let i = self.state.curGroupList.length - 1; i >= 0; i--) {
                 for (var j = 0; j < self.selectedDataList.length; j++) {
-                    let item = self.state.curContactList[i]
+                    let item = self.state.curGroupList[i]
                     let id = item.row2.Id;
                     if (self.selectedDataList[j].id === id) {
                         break;
@@ -196,7 +218,7 @@ class GroupTab extends Component {
             }
         }
         this.setState({
-            curContactList: data,
+            curGroupList: data,
             selectedRowKeys:selectRows
         });
     }
@@ -207,17 +229,19 @@ class GroupTab extends Component {
         var contactsNameObj = {};
         var contactSelet = [];
         var selectItems = [];
+        let contactList = this.state.contactList
         text.ContactId.map((id) => {
-            this.props.contactsInformation.map((item, index) => {
-                if (item.RawId == id) {
-                    contactsNameObj['contactCheckbox'+item.RawId] = true;
-                    contactSelet.push(item.RawId)
+            contactList.map((item, index) => {
+                if (item.id == id) {
+                    contactsNameObj['contactCheckbox'+item.id] = true;
+                    contactSelet.push(item.id)
                     selectItems.push(item)
                     return true;
                 }
             })
         })
         let searchKey = ''
+        // console.log(selectItems)
         var obj = Object.assign({groupname:text.Name,ringtone:text.Ringtone,searchKey:searchKey},contactsNameObj)
         obj = this.changeCheckAll(selectItems,obj)
         this.setState({contactSelet:contactSelet,selectItems:selectItems, obj:obj})
@@ -229,23 +253,23 @@ class GroupTab extends Component {
         let selectItems = [];
         let obj = this.state.obj;
         let searchResultArr = this.state.searchResultArr
-        const contactsInformation = this.props.contactsInformation;
-        var index = $.inArray(text.RawId,contactSelet);
+        let contactList = this.state.contactList
+        var index = $.inArray(text.id,contactSelet);
         if (e.target.checked) {
             if (index === -1) {
-                contactSelet.push(text.RawId);
-                obj['contactCheckbox' + text.RawId] = true;
+                contactSelet.push(text.id);
+                obj['contactCheckbox' + text.id] = true;
             }
         } else {
-            obj['contactCheckbox' + text.RawId] = false;
+            obj['contactCheckbox' + text.id] = false;
             if (index !== -1) {
                 contactSelet.splice(index,1);
             }
         }
-        for (var i = 0; i < contactSelet.length; i++) {
-            for ( var j = 0; j < contactsInformation.length; j++) {
-                if (contactSelet[i] === contactsInformation[j]['RawId'] ) {
-                    selectItems.push(contactsInformation[j]);
+        for (var i = 0; i < contactList.length; i++) {
+            for ( var j = 0; j < contactList.length; j++) {
+                if (contactSelet[i] === contactList[j]['id'] ) {
+                    selectItems.push(contactList[j]);
                 }
             }
         }
@@ -257,7 +281,7 @@ class GroupTab extends Component {
     changeCheckAll = (curArr,obj) => {
         let curIdArr = []
         for(let i in curArr){
-            curIdArr.push(curArr[i].RawId);
+            curIdArr.push(curArr[i].id);
         }
         let selectedIdArr = []
         let starpos = 'contactCheckbox'.length
@@ -290,20 +314,20 @@ class GroupTab extends Component {
         let contactSelet = this.state.contactSelet;
         let selectItems = this.state.selectItems;
         selectItems = [];
-        const contactsInformation = this.props.contactsInformation;
+        let contactList = this.state.contactList
         var index = $.inArray(text.RawId,contactSelet);
         if (index != -1) {
             contactSelet.splice(index,1);
         }
         for (var i = 0; i < contactSelet.length; i++) {
-            for ( var j = 0; j < contactsInformation.length; j++) {
-                if (contactSelet[i] == contactsInformation[j]['RawId']) {
-                    selectItems.push(contactsInformation[j]);
+            for ( var j = 0; j < contactList.length; j++) {
+                if (contactSelet[i] == contactList[j]['id']) {
+                    selectItems.push(contactList[j]);
                 }
             }
         }
         obj['contactCheckbox' + text.RawId] = false;
-        if (selectItems.length != contactsInformation.length) {
+        if (selectItems.length != contactList.length) {
             obj['contactCheckall'] = false;
         }
         this.setState({selectItems:selectItems, obj:obj})
@@ -317,19 +341,19 @@ class GroupTab extends Component {
         let selectItems = this.state.selectItems
         if(searchResultArr && searchResultArr.length>0 ){
             for (var i = 0; i < searchResultArr.length; i++) {
-                var index = $.inArray(searchResultArr[i].RawId,contactSelet);
+                var index = $.inArray(searchResultArr[i].id,contactSelet);
                 if (seleceted) {
                     if (index === -1) {
-                        contactSelet.push(searchResultArr[i].RawId);
+                        contactSelet.push(searchResultArr[i].id);
                         selectItems.push(searchResultArr[i]);
                     }
-                    obj['contactCheckbox' + searchResultArr[i]['RawId']] = true;
+                    obj['contactCheckbox' + searchResultArr[i]['id']] = true;
                 } else if(seleceted === false) {
                     if (index !== -1) {
                         contactSelet.splice(index,1);
                         selectItems.splice(index,1)
                     }
-                    obj['contactCheckbox' + searchResultArr[i]['RawId']] = false;
+                    obj['contactCheckbox' + searchResultArr[i]['id']] = false;
                 }
             }
             obj = this.changeCheckAll(searchResultArr,obj)
@@ -359,9 +383,8 @@ class GroupTab extends Component {
 
     _createData = () => {
         const callTr = this.props.callTr;
-        let mContactNum = this.props.mContactNum;
         let groupInformation = this.props.groupInformation;
-        let contactsInformation = this.props.contactsInformation;
+        let contactsNew = this.props.contactsNew;
         let data = [];
         if (groupInformation.length == 0) {
             this.setState({showtips:'block'})
@@ -373,12 +396,11 @@ class GroupTab extends Component {
             groupInformation[i]['numbers'] = [];
             groupInformation[i]['acct'] = [];
             groupInformation[i].ContactId.map((id) => {
-                contactsInformation.map((item, index) => {
-                    if (item.RawId == id) {
-                        // console.log(item)
-                        groupInformation[i]['names'].push(item.Name);
-                        groupInformation[i]['numbers'].push(item.Number[0]);
-                        groupInformation[i]['acct'].push(item.AcctIndex)
+                contactsNew.map((item, index) => {
+                    if (item.id == id) {
+                        groupInformation[i]['names'].push(item.name.displayname);
+                        groupInformation[i]['numbers'].push(item.phone[0].number);
+                        groupInformation[i]['acct'].push(item.phone[0].acct)
                     }
                 })
             });
@@ -391,7 +413,7 @@ class GroupTab extends Component {
         }
         this.groupList = data;
         this.setState({
-            curContactList: data
+            curGroupList: data
         });
         return data
     }
@@ -412,10 +434,8 @@ class GroupTab extends Component {
     }
 
     showCallModal = (text) => {
-        // console.log('show',text)
         let data = []
         for(let i = 0;text.acct[i]!=undefined;i++) {
-            // console.log(text.acct[i],text.names[i])
             data[i] = {
                 acct: text.acct[i],
                 names: text.names[i],
@@ -427,8 +447,8 @@ class GroupTab extends Component {
 
     render() {
         const callTr = this.props.callTr;
-        let contactsInformation = this.props.contactsInformation;
-        const curDataList = this.state.curContactList
+        let contactsNew = this.props.contactsNew;
+        const curDataList = this.state.curGroupList
         const columns = [{
             title: callTr("a_4779"),
             key: 'row0',
@@ -504,7 +524,7 @@ class GroupTab extends Component {
                     }
                 </div>
                 <GroupEditModalForm {...this.props} handleHideGroupModal={this.handleHideGroupModal}  displayGroupModal={this.state.displayGroupModal} callTr={this.props.callTr}
-                    htmlEncode={this.htmlEncode} editGroup={this.state.editGroup} addNewGroup={this.state.addNewGroup} contactsInformation={contactsInformation}
+                    htmlEncode={this.htmlEncode} editGroup={this.state.editGroup} addNewGroup={this.state.addNewGroup} contactsNew={contactsNew}
                     promptMsg={this.props.promptMsg} updateGroups={this.updateGroups} contactSelet={this.state.contactSelet} selectItems={this.state.selectItems} obj={this.state.obj}
                     checkboxChange={this.checkboxChange} handleDelete={this.handleDelete} handleSelectAll={this.handleSelectAll} handleSearchResult={this.handleSearchResult}  />
                 <CallMoeLine {...this.props} handleHideCallMoreModal={this.handleHideCallMoreModal}  displayCallModal={this.state.displayCallModal} callTr={this.props.callTr}
@@ -517,8 +537,8 @@ class GroupTab extends Component {
 const mapStateToProps = (state) => ({
     mContactNum:state.mContactNum,
     groupInformation:state.groupInformation,
-    contactsInformation:state.contactsInformation,
-    activeKey: state.TabactiveKey
+    activeKey: state.TabactiveKey,
+    contactsNew: state.contactsNew
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -527,6 +547,8 @@ const mapDispatchToProps = (dispatch) => {
         getGroups:Actions.getGroups,
         getContacts:Actions.getContacts,
         removeGroup:Actions.removeGroup,
+        getContacts_new:Actions.getContactsNew
+
     }
 
     return bindActionCreators(actios, dispatch)

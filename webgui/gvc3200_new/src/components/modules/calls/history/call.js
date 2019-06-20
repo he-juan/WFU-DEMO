@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import Enhance from "../../../mixins/Enhance";
 import NewContactsEdit from "../callsPubModule/newContactsEdit";
 import AddLocalcontacts from "../callsPubModule/addLocalcontacts";
-import NewConEdit from "../callsPubModule/newConfEdit"
+import NewConfEdit from "../callsPubModule/newConfEdit"
+import CallMoeLine from "../callsPubModule/callMoreLine"
 import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form , Popover} from "antd";
 import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';
@@ -10,145 +11,12 @@ import { connect } from 'react-redux';
 
 const NewContactsEditForm = Form.create()(NewContactsEdit);
 const AddLocalcontactsForm = Form.create()(AddLocalcontacts);
-const NewConEditForm = Form.create()(NewConEdit)
+const NewConfEditForm = Form.create()(NewConfEdit)
 const rowKey = function(record) {
     return record.key;
 };
 let req_items;
 let rowkeys =[]
-
-class ContactEditDiv extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            editContact:{},
-            displayModal:false,
-            addNewContact:false,
-            items:[],
-            groups:[],
-            handleSaveContactGroupId:new Function(),
-            emailValues:[],
-            numValues:[],
-            displayLocalContactsModal:false,
-            addnumber:'',
-            addaccount:'',
-            showtips: 'none',
-            contactsinfo:[],
-            confMember:[]
-        }
-    }
-
-    componentDidMount = () => {
-        if(!this.props.groupInformation.length) {
-            this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        } else {
-            this.setState({groups:this.props.groupInformation})
-        }
-    }
-
-    updateContact = () => {
-        // this.props.getContactCount();
-        this.props.getContacts((items)=>{this.setState({items:items})});
-        this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        this.props.getContactsinfo();
-        this.props.getAllConfMember()
-    }
-
-    handleClose = () => {
-        this.props.handleHide();
-    }
-
-    handleHideModal = () => {
-        this.setState({displayModal:false,addNewContact:false})
-    }
-
-    handleEditContacts = (number, account) => {
-        var containermask = document.getElementsByClassName("containermask")[0];
-        containermask.style.display="none";
-        let numValues = this.state.numValues;
-        numValues.length = 0;
-        this.setState({displayModal:true,addNewContact:true,emailValues:[""]});
-        numValues.push(number + " " + account);
-        this.setState({numValues:numValues})
-        this.props.handleHide()
-    }
-
-    handleaddLocalContacts = (number, account) => {
-        this.setState({
-            displayLocalContactsModal: true,
-            addnumber: number,
-            addaccount: account
-        })
-        this.props.handleHide()
-    }
-
-    handleHideLocalContactsModal = () => {
-        this.setState({displayLocalContactsModal: false})
-    }
-
-    handleOkDelete = ( item ) => {
-        var divId = "logitemdiv" + item.Id;
-        var div = document.getElementById(divId);
-        var parentDiv = document.getElementById("logitemsdiv");
-        var containerdiv = document.getElementById("containerdiv");
-        this.props.get_deleteCall(item.Id, (result) => {
-            if (result == 'success') {
-                this.props.get_calllog(0);
-                div.parentNode.removeChild(div);
-                if (parentDiv.children.length == 0) {
-                    containerdiv.style.display="none";
-                }
-            }
-        });
-    }
-
-    checkRepeatName = (firstname,lastname) => {
-        let data = this.props.contactinfodata
-        firstname = firstname ? firstname : ""
-        lastname = lastname ? lastname : ""
-        for(var i = 0; data[i] != undefined; i++) {
-            if(data[i].FirstName == firstname && data[i].LastName == lastname)
-                return true;
-        }
-        return false
-    }
-
-    render() {
-        const callTr = this.props.callTr;
-        var number;
-        var account;
-        if ( !$.isEmptyObject(this.props.detailDiv)) {
-            number = this.props.detailDiv.Number;
-            account = this.props.detailDiv.Account;
-        }
-        let buttonDisplay = '';
-        return (
-            <div className = {"containermask " + this.props.displayDiv}>
-                <div id = "containerdiv ">
-                    <div id = "contacteditdiv" className='addContact-select'>
-                        <div id = "itemdetaildiv">
-                            <div className = "titlediv">
-                                <span>{callTr("a_73")}</span>
-                                <div style = {{'float':'right'}} >
-                                    <button type = "Button" onClick={this.handleClose}/>
-                                </div>
-                            </div>
-                            <div className = "appsbtn">
-                            {this.props.contactsInformation.length ? 
-                                <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("a_19629")}</Button>
-                                :null
-                            }
-                                <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_15003")}</Button>
-                            </div>
-                        </div>
-                        <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} displayModal={this.state.displayModal} detailItems={this.state.detailItems} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
-                        <AddLocalcontactsForm {...this.props} callTr={this.props.callTr} handleHideLocalContactsModal= {this.handleHideLocalContactsModal} displayLocalContactsModal={this.state.displayLocalContactsModal} addnumber={this.state.addnumber} addaccount={this.state.addaccount} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
 
 class Call extends Component {
     historyList = [];
@@ -159,22 +27,36 @@ class Call extends Component {
         this.state = {
             selectedRowKeys: [],
             displayDiv: 'display-hidden',
-            detailDiv: {},
+            add_num_info: {},
             curContactList: [],
             existActiveAccount: false,
             displayDelHistCallsModal: false,
-            displayAddWhitelistModal: false,
-            displayAddBlacklistModal: false,
+            displayClearHistotyModal: false,
             expandedRows:[],
             checkedAll: false,
             displayNewConfModal: false,
             confMemberData:[],
             addNewConf:false,
-            acctstatus: [],
             selacct:-1,
             curAcct:null,
             curPage: 1,
-            selectedRows: []
+            selectedRows: [],
+            logListData:[],
+            displayCallModal:false,
+            curCallData:[],
+
+            editContact:{},
+            showNewContactModal:false,
+            addNewContact:false,
+            items:[],
+            groups:[],
+            handleSaveContactGroupId:new Function(),
+            emailValues:[],
+            numValues:[],
+            displayLocalContactsModal:false,
+            addnumber:'',
+            addaccount:'',
+            confMember:[]
         }
         req_items = new Array;
         req_items.push(
@@ -185,11 +67,6 @@ class Call extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getAcctStatus((acctstatus) => {
-            if (!this.isEmptyObject(acctstatus)) {
-                this.getAcctStatusData(acctstatus);
-            }
-        });
         this.props.getItemValues(req_items, (values) => {
             let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
             this.setState({
@@ -197,19 +74,129 @@ class Call extends Component {
                 selacct: defaultacct
             });
         });
+        let data = this.props.callLogsNew
+        if(!data.length) {
+            this.props.getCallLogsNew()
+        } else {
+            this.handleLogData(data)
+        }
+        if(!$.isArray(this.props.contactsNew)) {
+            setTimeout(() => {
+                this.props.getContacts_new()
+            }, 2000);
+            // return;
+        }
+        /**newcontact */
+        if(!this.props.groupInformation.length) {
+            this.props.getGroups((groups)=>{this.setState({groups:groups})});
+        } else {
+            this.setState({groups:this.props.groupInformation})
+        }
         // if(!this.props.callnameinfo.length) {
         //     this.props.getNormalCalllogNames()
         // }
     }
 
-    componentWillReceiveProps = () => {
-        // this._createData();
+    componentWillReceiveProps = (nextProps) => {
+        // if(nextProps.callLogsNew.length !== this.props.callLogsNew.length) {
+            this.handleLogData(nextProps.callLogsNew)
+        // }
+    }
+
+    sortMember = (member,member2) => {
+        return parseInt(member.acct) - parseInt(member2.acct)
+    }
+
+    handleLogData = (data) => {
+        let log = []
+        data.forEach((item,i) => {
+            // let obj = {}
+            let listData = []
+
+            if(item.isconf === '1') {
+                listData = item.members
+                let sipmember = []
+                let ipvtmember = []
+                let H323member = []
+                let othermember = []
+                item.members.forEach(member => {
+                    // if(member.acct == '0'){
+                    //     sipmember.push(member)
+                    // }
+                    if(member.acct == '1' ) {
+                        if(ipvtmember.length) {
+                            member.ipvtconftitle = 'Conf:'
+                        }
+                        ipvtmember.push(member)
+                    } else {
+                        othermember.push(member)
+                    }
+
+                    // if(member.acct == '8' ){
+                    //     H323member.push(member)
+                    // } else {
+                    //     othermember.push(member)
+                    // }
+                    // else {
+                    //     sipmember.push(member)
+                    // }
+
+                })
+                // let newmember = sipmember.concat(ipvtmember,H323member,othermember)
+                // item.members = newmember
+                ipvtmember.sort(()=> {return -1})
+                othermember.sort(()=> {return -1})
+                item.members = othermember.concat(ipvtmember)
+                item.isipvtconf = '0'
+                if(item.members.length === ipvtmember.length) {
+                    item.isipvtconf = '1'
+                }
+                // if(hasIPVT && hasSip) {
+                //     item.conftype = 'mixconf'
+                // } else if(hasIPVT && !hasSip) {
+                //     item.conftype = 'ipvtconf'
+                // }
+                // else {
+                //     item.conftype = 'sip'
+                // }
+            }
+            let obj = {
+                key: 'c' + i,
+                row0: item,
+                row1: item.date,
+                row2: item,
+                row3: item
+                // name: item.name.displayname,
+                // number: phone.number,
+                // acct: phone.acct,
+                // isvideo: 1,
+                // source: 1, // 联系人呼出source 为1
+            }
+            if(item.isconf === '0') {
+                obj.row1 = item.list[0].date
+            } else {
+
+            }
+            if(item.conftype) {
+
+            }
+            log.push(obj)
+        });
+        this.setState({logListData:log})
+        this.curData = log
     }
 
     onSelectChange = (selectedRowKeys,selectedRows) => {
         // this.setState({selectedRowKeys});
+        // console.log('onSelectChange',selectedRowKeys,selectedRows)
+
         let page = this.state.curPage
-        this.setState({selectedRowKeys,selectedRows});
+        // this.setState({});
+        let checkedAll = false
+        if(selectedRows.length) {
+            checkedAll = true
+        }
+        this.setState({selectedRowKeys,selectedRows,checkedAll})
         if(page!=1) {
             let arr = []
             let data = this.curData
@@ -219,16 +206,15 @@ class Call extends Component {
             this.setState({selectedRows:arr});
         }
         rowkeys = selectedRowKeys
-        console.log('r1',selectedRowKeys,rowkeys)
     }
 
     onSelectItem = (record, selected, selectedRows) => {
         let selectedRowKeys = rowkeys
         let page = this.state.curPage
+        let arr = []
         if(page!=1) {
             selectedRows = []
             let data = this.curData
-            let arr = []
             if(data) {
                 for (let i = 0; i < selectedRowKeys.length; i++) {
                     arr.push(data[selectedRowKeys[i]])
@@ -236,9 +222,10 @@ class Call extends Component {
             } else {
                 arr = selectedRows
             }
-            console.log(arr)
             this.setState({selectedRows:arr});
         }
+        // console.log('onSelectItem',arr)
+
     }
 
     onSelectAllContacts = (e) => {
@@ -265,20 +252,34 @@ class Call extends Component {
     }
 
     handleOkDeleteAll = () => {
-        // let datasource = this.selectedContactList
         let data = this.state.selectedRows
-        let dataSource = []
+        let datasource = []
         for(let i =0;i<data.length;i++) {
-            dataSource.push(data[i].row0.logItem)
+            datasource.push(data[i].row0)
         }
         let seletedConfArr = [];
         let seletedCallArr = [];
         for (let i = 0; i <datasource.length ; i++) {
-            if(datasource[i].IsConf == '1') {
-                seletedConfArr = seletedConfArr.concat(datasource[i].id)
+            if(datasource[i].isconf == '0') {
+                let callhistory = datasource[i].list
+                callhistory.forEach(item => {
+                    if(item.type == 3) {
+                        seletedCallArr = seletedCallArr.concat(item.id)
+                    } else {
+                        seletedConfArr = seletedConfArr.concat(item.id)
+                    }
+                })
             } else {
-                seletedCallArr = seletedCallArr.concat(datasource[i].id)
+                seletedConfArr = seletedConfArr.concat(datasource[i].confid)
             }
+            // if(datasource[i].isconf == '1') {
+            //     seletedConfArr = seletedConfArr.concat(datasource[i].confid)
+            // } else {
+            //     let callhistory = datasource[i].list
+            //     callhistory.forEach(item => {
+            //         seletedCallArr = seletedCallArr.concat(item.id)
+            //     })
+            // }
         }
         let self = this
         var delconf = new Promise(function(resolve, reject) {
@@ -316,9 +317,11 @@ class Call extends Component {
         }
 
         promiseAll.then(function (res) {
-            self.props.get_calllog(0);
+            // self.props.get_calllog(0);
+            self.props.getCallLogsNew()
             setTimeout(function () {
                 self.props.promptMsg('SUCCESS', "a_57");
+
                 // self._createData();
             }, 500);
             self.selectedContactList = [];
@@ -326,58 +329,64 @@ class Call extends Component {
         this.selectedContactList = []
         this.setState({
             selectedRowKeys: [],
-            displayDelHistCallsModal: false
+            displayDelHistCallsModal: false,
+            checkedAll:false
         });
     }
 
     _createRow0 = (text, record , index) => {
+        // return "123"
+        let content = []
+        let type = '0'
+        if(text.isconf === '1') {
+            // return text.confname
+            let source = text.members
+            // type = source[0].calltype
+            // if(source[0].isvideo) {
+            //     type = Number(type) + 3
+            // }
+            type ='conf'
+            if(text.isipvtconf == '1') {
+                let num = source[0].number
+                let namestr = 'Conf：' + num
+                content.push(
+                    <span className = "ellips ellipsName" title={namestr}>{namestr}</span>
+                )
+            } else {
+                source.forEach((item,i) => {
+                    let name = ''
+                    if (i>0) {
+                        name += "，"
+                    }
+                    name += item.name
+                    content.push(
+                        <span className = "ellips ellipsName" title={item.name}>{name}</span>
+                    )
+                })
+            }
 
-        let logItem = text.logItem
-        let memberArr = text.memberArr
-        let type = logItem.Type
-        let isConf = logItem.IsConf
-        // let isVideo = ''
-        // console.log('logItem',logItem,'text',text)
-        if (type == '-1') {
-            type = memberArr[0].Type
 
-            // console.log(memberArr[0].IsVideo)
-            if(memberArr[0].IsVideo == '1') {
-                // type = 1  来电
-                // type = 2  去电
-                // type = 3  未接来电
-                // video +3  456
+        } else {
+            // return text.name
+            let source = text.list
+            type = source[0].calltype
+            if(source[0].isvideo == '1') {
                 type = Number(type) + 3
             }
+            content.push(<span className = "ellips ellipsName" title={text.name }>{text.name }</span>)
         }
-        let nameStr = ''
-        if(logItem.IsConf == '1') {
-            // nameStr = logItem.NameOrNumber + '：'
-            if(memberArr.length > 1) {
-                nameStr = 'Conf：'
-            }            
-            for (let i = 0; memberArr[i] != undefined; i++) {
-                if(i>0) {
-                    nameStr += '，'
-                }
-                nameStr += memberArr[i].recordName ? memberArr[i].recordName : memberArr[i].Name
-            }
-        } else {
-            nameStr = memberArr[0].Name
-        }
-        // console.log(nameStr)
-        return <span className={nameStr}><i className={"type" + type}></i>{nameStr}</span>;
+        return <span className={"nameStr"}><i className={"type" + type}></i>{content}</span>;
     }
 
 
-    handleAddContact = (event,text) => {
+    handleAddContact = (text, index, event) => {
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
         } else {
             text = event
         }
-        this.setState({displayDiv : "display-block",detailDiv: text});
+        this.setState({displayDiv : "display-block",add_num_info: text});
     }
 
     showDelHistCallsModal = () => {
@@ -388,126 +397,145 @@ class Call extends Component {
         this.setState({displayDelHistCallsModal: false});
     }
 
-    getAcctStatusData = (acctstatus) => {
-        let curAcct = [];
-        let selacct = this.state.selacct;
-        const acctStatus = acctstatus.headers;
-        let max = 4;
-        for (let i = 0; i < max; i++) {
-            if (i == 3) {
-                curAcct.push(
-                    {
-                        "acctindex": i,
-                        "register": acctStatus[`account_${6}_status`],
-                        "activate": acctStatus[`account_${6}_activate`],
-                        "num": acctStatus[`account_${6}_name`],
-                        "name": "H.323"
-                    });
-                if(acctStatus[`account_${6}_activate`] == "1" && selacct == -1){
-                    this.setState({selacct: 3});
-                }
-            } else {
-                if(acctStatus[`account_${i}_activate`] == "1" && selacct == -1){
-                    this.setState({selacct: i});
-                }
-                let accountname = acctStatus[`account_${i}_name`];
-                if (i == 0) {
-                    if (acctStatus[`account_${i}_name`].length > 0) {
-                        accountname = acctStatus[`account_${i}_name`];
-                    } else if (acctStatus[`account_${i}_no`].length > 0) {
-                        accountname = acctStatus[`account_${i}_no`];
-                    } else {
-                        accountname = "SIP";
-                    }
-                }
-                curAcct.push(
-                    {
-                        "acctindex": i,
-                        "register": acctStatus[`account_${i}_status`],
-                        "activate": acctStatus[`account_${i}_activate`],
-                        "num": acctStatus[`account_${i}_no`],
-                        "name": accountname
-                    });
-            }
-        }
-        this.setState({acctstatus: curAcct});
+    showClearHistotyModal = () => {
+        this.setState({displayClearHistotyModal: true});
     }
 
-    handleCall = (event,text, index) => {
-        let {acctstatus} = this.state;
+    handleClearHistotyModal = () =>{
+        this.setState({displayClearHistotyModal: false});
+    }
+
+    handleOkClearAll = () => {
+        this.props.clearCallHistory()
+        this.handleClearHistotyModal()
+    }
+
+
+
+    handleCall = (text, index, event) => {
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
         } else {
             text = event
         }
-        let curnum = text.Number;
-        let acct = text['Account'];
-        this.props.cb_start_single_call(acctstatus, curnum, acct, 0, 0, 0 , 0);
+        if(text.acct === '1') {
+            let names = text.name.split(',')
+            let numbers = text.number.split(",")
+            if(names.length>1) {
+                let curCallData = []
+                names.forEach((item, i) => {
+                    curCallData[i] = {
+                        acct: text.acct,
+                        names: names[i],
+                        numbers: numbers[i],
+                        isvideo: text.isvideo,
+                        source: text.calltype || 3
+                    }
+                })
+                this.setState({displayCallModal:true,curCallData:curCallData})
+                return
+            }
+        }
+        let memToCall =[]
+        memToCall.push({
+            num: text.number,
+            acct: text.acct,
+            isvideo: text.isvideo || 0,
+            source: text.calltype || 3,
+            isconf: '1',
+        })
+        this.props.makeCall(memToCall)
     }
 
-    handleHide = () => {
-        this.setState({
-            displayDiv:"display-hidden",
-            detailDiv: {}
-        });
+    // handleHide = () => {
+    //     this.setState({displayDiv:"display-hidden",add_num_info: {}});
+    // }
+
+    handleHideCallMoreModal = () => {
+        this.setState({displayCallModal:false,curCallData:{}})
+    }
+
+    showCallModal = (text, index, event) => {
+        let curCallData = []
+        if(!event.Id) {
+            event.cancelBubble = true;
+            event.stopPropagation( );
+        } else {
+            text = event
+        }
+        // console.log(text)
+        text.forEach((item, i) => {
+            if(item.acct === '1') {
+                let names = item.name.split(",")
+                let numbers = item.number.split(",")
+                if(names.length) {
+                    names.forEach((o, j) => {
+                        let obj = {
+                            acct: item.acct,
+                            names: names[j],
+                            numbers: numbers[j],
+                            isvideo: item.isvideo,
+                            source: item.calltype
+                        }
+                        curCallData.push(obj)
+                    })
+                }
+            } else {
+                curCallData[i] = {
+                    acct: item.acct,
+                    names: item.name,
+                    numbers: item.number,
+                    isvideo: item.isvideo,
+                    source: item.calltype
+                }
+            }
+        })
+
+
+        this.setState({displayCallModal:true,curCallData:curCallData})
     }
 
     _createActions = (text, record, index) => {
         let statue;
-        let logItem = text.logItem
-        let content = []
-        let memberArr = record.row0.memberArr
+        // let logItem = text.logItem
+        // let content = []
+        // let memberArr = record.row0.memberArr
         let reConfTitle = this.tr('a_10058')
         let callTitle = this.tr('a_504')
-
-        if(memberArr.length>1) {
-            for (let i = 0; memberArr[i] != undefined ; i++) {
-                content.push(
-                    <div className="select-callnum">
-                        <span>{memberArr[i].Number}</span><span><button title={callTitle} className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall.bind(e, memberArr[i], index)}></button></span>
-                    </div>
-                )
-            }
-            statue = <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
-                <button title={reConfTitle} className='allow-detail' id = {'allow-detail'+index}  onClick={(e)=>this.handleNewConf.bind(e, memberArr, index)}></button>
-                <Popover content={content} placement="leftTop" trigger="hover">
-                    <button title={callTitle} className='allow-call ' id = {'allow-call'+index} ></button>
-                </Popover>
+        // if()
+        if(text.isconf === '1') {
+            let source = text.members
+            // source.forEach(item)
+            statue = <div  className = {"callRecord" + " type"}>
+                <button title={reConfTitle} className='reschedule' id = {'reschedule'+index}  onClick={this.handleNewConf.bind(this, source, index)}></button>
+                <button title={callTitle} className={'allow-call ' + index} onClick={this.showCallModal.bind(this, source, index)}></button>
             </div>;
         } else {
-            // {this.props.contactsInformation.length ? 
-            //     <Button type="primary" style={{marginRight:'15px',display:buttonDisplay,width:'170px'}} onClick={this.handleaddLocalContacts.bind(this, number, account)} >{callTr("a_19629")}</Button>
-            //     :null
-            // }
-            //     <Button type="primary" style={{display:buttonDisplay,width:'160px'}} onClick={this.handleEditContacts.bind(this, number, account)} >{callTr("a_15003")}</Button>
-            // let number,account 
-            // memberArr[0]
-            // if ( !$.isEmptyObject(memberArr[0])) {
-            //     number = memberArr[0].Number;
-            //     account = memberArr[0].Account;
-            // }
-            // content = 
-            //     <div className="hovMenu">
-            //         {this.props.contactsInformation.length ?
-            //             <div onClick={this.handleaddLocalContacts(number, account)}>{this.tr("a_19629")}</div>
-            //             :null
-            //         }
-            //         <div onClick={this.handleEditContacts(number, account)}>{this.tr("a_15003")}</div>
-            //     </div>
-
+            let source = text.list
+            let contact = source[0]
+            let number = contact.number
+            let account = contact.acct
+            let contactsNew = this.props.contactsNew
+            let addContent =
+            <div className="popover_Contact">
+                {contactsNew.length>0 && <li onClick={this.handleaddLocalContacts.bind(this, number, account)}>{this.tr("a_19629")}</li>}
+                <li onClick={this.handleEditContacts.bind(this, number, account)}>{this.tr("a_15003")}</li>
+            </div>
             statue =
-                <div id = {logItem.Id} className = {"callRecord" + " type" + logItem.Type}>
+                <div className = {"callRecord" + " type"}>
                     {/* <Popover content={content} placement="top" trigger="hover">
                         <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
                     </Popover> */}
-                    <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
-
-                    <button title={reConfTitle} className='allow-detail' id = {'allow-detail'+index} onClick={(e)=>this.handleNewConf(e,memberArr[0], index)}></button>
-                    <button title={callTitle} className='allow-call' id = {'allow-call'+index} onClick={(e)=>this.handleCall(e,memberArr[0], index)} ></button>
+                    {/* <button className={contact.iscontact == '1' ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={this.handleAddContact.bind(this,contact, index)}></button> */}
+                    <Popover content={addContent} placement="top" trigger="hover">
+                        <button className={contact.iscontact == '1' ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index}></button>
+                    </Popover>
+                    <button title={reConfTitle} className='reschedule' id = {'reschedule'+index} onClick={this.handleNewConf.bind(this,contact, index)}></button>
+                    <button title={callTitle} className='allow-call' id = {'allow-call'+index} onClick={this.handleCall.bind(this,contact, index)} ></button>
                 </div>;
         }
-        return statue;
+        return statue
     }
 
     _createData = () => {
@@ -522,7 +550,6 @@ class Call extends Component {
         if(JSON.stringify(logItemdata)== '{}' || JSON.stringify(confmember)== '{}' || JSON.stringify(contactList)== '{}') {
             return dataResult
         }
-        // console.log(logItemdata,confmember,contactList,callnameinfo)
         for ( let i = 0; i < logItemdata.length; i++ ) {
             let data = {};
             let memberArr = []
@@ -540,7 +567,7 @@ class Call extends Component {
                         haslogItem = true
                     }
                 }
-            } 
+            }
             if (!haslogItem) {
                 let obj = Object.assign({}, logItemdata[i])
                 obj.Number = logItemdata[i].NameOrNumber
@@ -585,62 +612,93 @@ class Call extends Component {
         }
     }
 
-    _createInlineName(logItem,text) {
-
-        let type = logItem.Type
+    _createInlineName(logItem) {
+        let type = logItem.calltype
         // let isVideo = ''
-        console.log('logItem',logItem,'text',text)
-        if (type == '-1') {
-            type = text.Type
-            if(text.IsVideo == '1') {
-                // type = 1  来电
-                // type = 2  去电
-                // type = 3  未接来电
-                // video +3  456
-                type = Number(type) + 3
-            }
+        if(logItem.isvideo == '1') {
+            type = Number(type) + 3
         }
-        var nameValue = text.recordName ? text.recordName : text.Name
-        let num = text.Number
         var className = 'inlineIcon type' + type
-        let dom = 
+        let dom =
                 <div className="inlineCallInfo">
                     <i className={className}></i>
                     <div className="inlineNameNum">
-                        <li>{nameValue}</li>
-                        <li>{num}</li>
+                        <li className="ellips ellipsName ellipsDetailName">{logItem.name}</li>
+                        <li className="ellips ellipsName ellipsDetailName">{logItem.number}</li>
                     </div>
                 </div>
         return dom
     }
-    _createInlineAction(text) {
+
+    _createInlineAction(text,isconf) {
         let status;
+        let hiddenAddContact = true
+        if(isconf === '1' && text.iscontact !== '1') {
+            hiddenAddContact = false
+        }
+        // let hiddenAddContact = false
+        // if(contact.iscontact) {
+        //     hiddenAddContact = true
+        // }
+        // console.log(text)
+        if(text.acct === '1') {
+            if(text.name.split(',').length >1 ) {
+                hiddenAddContact = true
+            }
+        }
+        // let contact = source[0]
+        let number = text.number
+        let account = text.acct
+        // let contactsNew = this.props.contactsNew
+        // console.log(contactsNew)
+        let addContent =
+        <div className="popover_Contact">
+            <li onClick={this.handleaddLocalContacts.bind(this, number, account)}>{this.tr("a_19629")}</li>
+            <li onClick={this.handleEditContacts.bind(this, number, account)}>{this.tr("a_15003")}</li>
+        </div>
+
+
         status =
             <div className = {"callRecord"}>
-                <button className={text.recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'}  onClick={this.handleAddContact.bind(this, text,0)}></button>
-                <button className='allow-detail'  onClick={this.handleNewConf.bind(this, text,0)}></button>
-                <button className='allow-call' onClick={this.handleCall.bind(this, text)}></button>
+                <Popover content={addContent} placement="top" trigger="hover">
+                    <button className={hiddenAddContact ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'}  onClick={this.handleAddContact.bind(this, text,0)}></button>
+                </Popover>
+                {/* <button className='allow-detail'  onClick={this.handleNewConf.bind(this, text,0)}></button> */}
+                <button className='allow-call' onClick={this.handleCall.bind(this, text,'')}></button>
             </div>;
         return status;
 
     }
 
     expandedRowRender(record){	//显示内容和样式的渲染
-        let data = record.row0.logItem
-        let memberArr = record.row0.memberArr
+        // let data = record.row0.logItem
+        let data = record.row3
+
+        // let memberArr = data.row0.memberArr
+        let datasource = []
+        if(data.isconf === '1') {
+            datasource = data.members
+        } else {
+            datasource = data.list
+        }
         let status = [];
-        for (let i = 0; memberArr[i] != undefined ; i++) {
-            status.push(
-                <div className="call-line">
-                    <div className='call-line-info call-line-name'>{this._createInlineName(data,memberArr[i])}</div>
-                    <div className='call-line-info call-line-number'>{this._createNumType(memberArr[i])}</div>
-                    <div className='call-line-info call-line-date'>{this.props.convertTime(memberArr[i].Date)}</div>
-                    <div className='call-line-info call-line-duration'>{this.convertDuration(memberArr[i])}</div>
-                    <div className='call-line-info call-line-act'>
-                        {this._createInlineAction(memberArr[i])}
+        for (let i = 0; datasource[i] != undefined ; i++) {
+            if(i<10) {
+                status.push(
+                    <div className="call-line">
+                        <div className='call-line-info ellips call-line-name'>{this._createInlineName(datasource[i])}</div>
+                        <div className='call-line-info ellips call-line-number'>{this._createNumType(datasource[i])}</div>
+                        <div className='call-line-info ellips call-line-date'>{this.props.convertTime(datasource[i].date)}</div>
+                        <div className='call-line-info ellips call-line-duration'>{this.convertDuration(datasource[i])}</div>
+                        <div className='call-line-info ellips call-line-act'>
+                            {this._createInlineAction(datasource[i],data.isconf)}
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            } else {
+                break
+            }
+
         }
         return status;
     }
@@ -652,7 +710,7 @@ class Call extends Component {
         arr[1] = 'SIP'
         arr[2] = 'IPVideoTalk'
         arr[9] = 'H.323'
-        let acct = parseInt(data.Account) + 1
+        let acct = parseInt(data.acct) + 1
         // let a = parseInt('5')
         return arr[acct]
     }
@@ -662,18 +720,18 @@ class Call extends Component {
         // type = 2  去电
         // type = 3  未接来电
 
-        let duration = data.Duration
-        const callTr = this.props.callTr        
+        let duration = data.duration
+        const callTr = this.props.callTr
         if( duration == 0 ) {
-            if(data.Type == 3) {
-                return callTr('未接来电')
-            } else if(data.Type == 2) {
-                return callTr('呼叫失败')
+            if(data.calltype == 3) {
+                return <span className="missCallText" title={callTr('未接来电')}>{callTr('未接来电')}</span>
+            } else if(data.calltype == 2) {
+                return <span className="missCallText" title={callTr('呼叫失败')}>{callTr('呼叫失败')}</span>
             } else {
                 return "0" + callTr('a_114');
-            }            
+            }
         }
-            
+
         var day = parseInt(duration / (24 * 3600));
         duration %= (24 * 3600);
         var hour = parseInt(duration / 3600);
@@ -690,11 +748,11 @@ class Call extends Component {
         }else{
             timestr += sec + callTr('a_114');
         }
-
-        return timestr;
+        <span title={timestr}>{timestr}</span>
+        return <span title={timestr}>{timestr}</span>;
     }
 
-    handleNewConf = (event,text) => {
+    handleNewConf = (text, index, event) => {
         if(!event.Id) {
             event.cancelBubble = true;
             event.stopPropagation( );
@@ -719,7 +777,6 @@ class Call extends Component {
     }
 
     changePage = (pageNumber) => {
-        console.log(pageNumber)
         this.setState({
             curPage: pageNumber,
             selectedRows: [],
@@ -727,6 +784,64 @@ class Call extends Component {
             checkedAll: false
         });
     }
+
+    /****newContact  LocalContact******/
+    updateContact = () => {
+        // this.props.getContactCount();
+        // this.props.getContacts((items)=>{this.setState({items:items})});
+        this.props.getGroups((groups)=>{this.setState({groups:groups})});
+        // this.props.getContactsinfo();
+        // this.props.getAllConfMember()
+        this.props.getCallLogsNew()
+        this.props.getContactsNew()
+    }
+
+    // handleClose = () => {
+    //     this.props.handleHide();
+    // }
+
+    handleHideModal = () => {
+        this.setState({showNewContactModal:false,addNewContact:false})
+    }
+
+    handleEditContacts = (number, account) => {
+        // var containermask = document.getElementsByClassName("containermask")[0];
+        // containermask.style.display="none";
+        let numValues = this.state.numValues;
+        numValues.length = 0;
+        this.setState({showNewContactModal:true,addNewContact:true,emailValues:[""]});
+        numValues.push(number + "--- ---" + account);
+        this.setState({numValues:numValues})
+        // this.props.handleHide()
+    }
+
+    handleaddLocalContacts = (number, account) => {
+        // console.log(number, account)
+        this.setState({
+            displayLocalContactsModal: true,
+            addnumber: number,
+            addaccount: account
+        })
+        // this.props.handleHide()
+    }
+
+    handleHideLocalContactsModal = () => {
+        this.setState({displayLocalContactsModal: false})
+    }
+
+    checkRepeatName = (firstname,lastname) => {
+        let data = this.props.contactinfodata
+        firstname = firstname ? firstname : ""
+        lastname = lastname ? lastname : ""
+        for(var i = 0; data[i] != undefined; i++) {
+            if(data[i].FirstName == firstname && data[i].LastName == lastname)
+                return true;
+        }
+        return false
+    }
+
+
+
 
     render() {
         const [contactsInformation, callTr, _createTime, isToday, convertTime, view_status_Duration] =
@@ -745,7 +860,7 @@ class Call extends Component {
             dataIndex: 'row1',
             width: '30%',
             render: (text, record, index) => (
-                _createTime(text, record, index)
+                convertTime(text, record, index)
             )
         },{
             title: callTr("a_44"),
@@ -756,7 +871,7 @@ class Call extends Component {
                 this._createActions(text, record, index)
             )
         }];
-        let data = this._createData()
+        let data = this.state.logListData
         let pageobj = false
         if(data.length>15) {
             pageobj = {
@@ -788,6 +903,13 @@ class Call extends Component {
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkDeleteAll} onCancel={this.handleDelHistCallsCancel}>
                             <p className="confirm-content">{this.tr("a_3531")}</p>
                         </Modal>
+                        <Button className="select-delete" type="primary" style={{marginRight:'10px'}} onClick={this.showClearHistotyModal}>
+                            <i/>{this.tr("a_404")}
+                        </Button>
+                        <Modal visible={this.state.displayClearHistotyModal} title={this.tr("a_3523")} className="confirm-modal"
+                               okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkClearAll} onCancel={this.handleClearHistotyModal}>
+                            <p className="confirm-content">{this.tr("a_3504")}</p>
+                        </Modal>
                     </div>
                 </div>
                 <div className = 'CallDiv Callhistory'>
@@ -810,17 +932,23 @@ class Call extends Component {
                         <p>{this.tr("a_10082")}</p>
                     </div>
                 </div>
-                { this.state.displayDiv ? <ContactEditDiv {...this.props} contactsInformation={contactsInformation} view_status_Duration={view_status_Duration} isToday={isToday} convertTime = {convertTime} displayDiv={this.state.displayDiv}
-                                               detailDiv = {this.state.detailDiv} callTr={callTr} handleHide={this.handleHide} handleAddContact={this.handleAddContact} />
+                {/* { this.state.displayDiv ? <ContactEditDiv {...this.props} contactsInformation={contactsInformation} view_status_Duration={view_status_Duration} isToday={isToday} convertTime = {convertTime} displayDiv={this.state.displayDiv}
+                                               add_num_info = {this.state.add_num_info} callTr={callTr} handleHide={this.handleHide} handleAddContact={this.handleAddContact} />
                     : null
-                }
-                { this.state.displayNewConfModal ? <NewConEditForm {...this.props} callTr={this.props.callTr}
+                } */}
+                { this.state.displayNewConfModal ? <NewConfEditForm {...this.props} callTr={this.props.callTr}
                                                handleHideNewConfModal= {this.handleHideNewConfModal}
                                                displayNewConfModal={this.state.displayNewConfModal}
                                                confMemberData={this.state.confMemberData}
                                                addNewConf={this.state.addNewConf}/>
                     : null
-                }               
+                }
+
+                <NewContactsEditForm {...this.props} displayModal={this.state.showNewContactModal} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} detailItems={this.state.detailItems} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                <AddLocalcontactsForm {...this.props} displayLocalContactsModal={this.state.displayLocalContactsModal} callTr={this.props.callTr} handleHideLocalContactsModal= {this.handleHideLocalContactsModal} addnumber={this.state.addnumber} addaccount={this.state.addaccount} />
+
+                <CallMoeLine {...this.props} handleHideCallMoreModal={this.handleHideCallMoreModal}  displayCallModal={this.state.displayCallModal} callTr={this.props.callTr}
+                htmlEncode={this.htmlEncode} promptMsg={this.props.promptMsg} curCallData={this.state.curCallData}/>
             </div>
         )
     }
@@ -828,14 +956,15 @@ class Call extends Component {
 
 const mapStateToProps = (state) => ({
     logItemdata: state.logItemdata,
-    acctStatus: state.acctStatus,
     contactsInformation: state.contactsInformation,
     callDialog: state.callDialog,
     msgsContacts: state.msgsContacts,
     contactinfodata: state.contactinfodata,
     confmemberinfodata: state.confmemberinfodata,
     callnameinfo:state.callnameinfo,
-    groupInformation: state.groupInformation
+    groupInformation: state.groupInformation,
+    callLogsNew:state.callLogsNew,
+    contactsNew: state.contactsNew
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -852,7 +981,11 @@ const mapDispatchToProps = (dispatch) => {
         getAllConfMember:Actions.getAllConfMember,
         get_deleteCallConf:Actions.get_deleteCallConf,
         getNormalCalllogNames:Actions.getNormalCalllogNames,
-        cb_start_single_call:Actions.cb_start_single_call
+        cb_start_single_call:Actions.cb_start_single_call,
+        getCallLogsNew:Actions.getCallLogsNew,
+        clearCallHistory:Actions.get_clear,
+        getContacts_new:Actions.getContactsNew,
+        makeCall: Actions.makeCall
     }
     return bindActionCreators(actions, dispatch)
 }

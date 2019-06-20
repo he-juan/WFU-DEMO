@@ -25,21 +25,24 @@ class History extends Component {
     }
 
     componentDidMount = () => {
-        if(!this.props.contactsInformation.length) {
-            this.props.getContacts()
-        }
-        if(!this.props.contactinfodata.length) {
-            this.props.getContactsinfo();
-        }
+        // if(!this.props.contactsInformation.length) {
+        //     this.props.getContacts()
+        // }
+        // if(!this.props.contactinfodata.length) {
+        //     this.props.getContactsinfo();
+        // }
         // if(!this.props.callnameinfo.length) {
         //     this.props.getNormalCalllogNames()
         // }
         // if(!this.props.confmemberinfodata.length) {
         //     this.props.getAllConfMember()
         // }
-        this.props.get_calllog(0);
+        if(!this.props.callLogsNew.length) {
+            this.props.getCallLogsNew(0);
+        }
+        // this.props.get_calllog(0);
         // this.props.getNormalCalllogNames()
-        this.props.getAllConfMember()
+        // this.props.getAllConfMember()
     }
 
     isYestday = (theDate) => {
@@ -62,7 +65,7 @@ class History extends Component {
             if(!this.isYestday(new Date(str))) {
                 if(new Date(str).getFullYear() < new Date().getFullYear()) {
                     value = 'Last Year'
-                }                
+                }
             }
         }
         return value;
@@ -85,7 +88,7 @@ class History extends Component {
         var Timevalue = this.convertTime(time);
         let str = this.isToday(time)
         if(str == 'Yestday') {
-            return this.tr('Yestday') + ' ' + Timevalue.split(' ')[1]
+            return this.tr('a_23553') + ' ' + Timevalue.split(' ')[1]
         } else if(str == 'Before') {
             return Timevalue.substr(5)
         } else {
@@ -152,7 +155,8 @@ const mapStateToProps = (state) => ({
     contactinfodata: state.contactinfodata,
     confmemberinfodata: state.confmemberinfodata,
     contactsInformation: state.contactsInformation,
-    callnameinfo:state.callnameinfo
+    callnameinfo:state.callnameinfo,
+    callLogsNew:state.callLogsNew
 })
 
 function mapDispatchToProps(dispatch) {
@@ -164,7 +168,8 @@ function mapDispatchToProps(dispatch) {
         getContacts:Actions.getContacts,
         getContactsinfo:Actions.getContactsinfo,
         getAllConfMember:Actions.getAllConfMember,
-        getNormalCalllogNames:Actions.getNormalCalllogNames
+        getNormalCalllogNames:Actions.getNormalCalllogNames,
+        getCallLogsNew:Actions.getCallLogsNew
 
     }
     return bindActionCreators(actions, dispatch)

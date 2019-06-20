@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { Form,Checkbox, Modal, Tooltip, Icon, Row,Col, Input, Button, Select, Radio,DatePicker,Table,Cascader,Tabs } from "antd"
 import moment from 'moment';
 import {setTimeoutOpt} from "../../../redux/actions";
+import InviteMemberModal from "../../calls/call/InviteMember/InviteMemberModal"
 const FormItem = Form.Item
 const Option = Select.Option
 const TabPane = Tabs.TabPane;
@@ -154,11 +155,11 @@ class NewContactsEdit extends Component {
                 memberaccts += ':::';
                 recordsfrom += ':::';
             }
-            membernames += memberData[i].recordName ? memberData[i].recordName : memberData[i].Name
-            membernumbers += memberData[i].Number
-            memberaccts += memberData[i].Account || memberData[i].Acctid
+            membernames += memberData[i].name
+            membernumbers += memberData[i].number
+            memberaccts += memberData[i].acct
             // recordsfrom = memberData[i].recordsfrom || ''
-            let type = memberData[i].Type
+            let type = memberData[i].calltype
             if (type==1 || type==3) {
                 recordsfrom +=3
             } else if (type == 2) {
@@ -497,12 +498,13 @@ class NewContactsEdit extends Component {
         for (let i = memberArr.length -1 ; memberArr[i] != undefined ; i--) {
             for (let j = i-1; memberArr[j] != undefined ; j--) {
                 // console.log(memberArr[i],memberArr[j])
-                if(memberArr[j] && memberArr[i] && memberArr[i].Number == memberArr[j].Number) {
+                if(memberArr[j] && memberArr[i] && memberArr[i].number == memberArr[j].number) {
                     memberArr.splice(j,1)
                 }
             }
         }
         // memberArr = curMember.concat(tempMember)
+        // console.log('handleAddModalOk',memberArr)
         this.setState({
             curMember: memberArr,
             tempMember:[],
@@ -530,44 +532,30 @@ class NewContactsEdit extends Component {
             {title: '',key: 'row0',dataIndex: 'row0',width: '50%'},
             {title: '',key: 'row1',dataIndex: 'row1',width: '25%'},
             {title: '',key: 'row2',dataIndex: 'row2',width: '25%'}];
-        let contactsInformation  = this.props.contactsInformation;
-        let contactsAcct = this.props.contactsAcct
+        // let contactsInformation  = this.props.contactsInformation;
+        // let contactsAcct = this.props.contactsAcct
+        let contactsNew = this.props.contactsNew
         // console.log('contactsInformation',contactsInformation)
         // console.log('contactsAcct',this.props.contactsAcct)
-        if(!this.props.contactsAcct.length){
+        if(!contactsNew.length){
             return {columns:columns,data:[]}
         }
+        // console.log(contactsNew)
         let contactItems = [];
-        for (let i = 0; i < contactsInformation.length; i++ ) {
-            if(contactsInformation[i].Number.length > 1 ) {
-                for (let j = 0; j < contactsInformation[i].Number.length; j++) {
-                    for (let k = 0; k < contactsAcct.length; k++) {
-                        if(contactsInformation[i].Id == contactsAcct[k].Id) {
-                            contactItems.push({
-                                key: i,
-                                row0: contactsInformation[i].Name,
-                                row1: this.createTypeName(contactsAcct[k].AcctIndex[j]),
-                                row2: contactsInformation[i].Number[j],
-                                acct: contactsAcct[k].AcctIndex[j]
-                            })
-                        }
-                    }
-                }
-            } else {
+        contactsNew.forEach(contact=>{
+            contact.phone.forEach(item => {
                 contactItems.push({
-                    key: i,
-                    row0: contactsInformation[i].Name,
-                    row1: this.createTypeName(contactsInformation[i].AcctIndex),
-                    row2: contactsInformation[i].Number[0],
-                    acct: contactsInformation[i].AcctIndex
+                    row0: contact.name.displayname,
+                    row1: this.createTypeName(item.acct),
+                    row2: item.number,
+                    acct: item.acct
                 })
-            }
+            })
+        })
 
-        }
         for (let i = 0; i < contactItems.length; i++) {
             contactItems[i].key = i
         }
-
         if(contactItems.length) {
             if(!this.state.allContacts.length) {
                 this.setState({allContacts:contactItems});
@@ -675,8 +663,6 @@ class NewContactsEdit extends Component {
         }
         let selectedContactRowKeys = this.state.selectedContactRowKeys
 
-        // console.log(record)
-
         let name = record.row0;
         // let number = record.row2[0];
         let number = record.row2;
@@ -685,11 +671,11 @@ class NewContactsEdit extends Component {
         let acct = record.acct
         let tempMember = this.state.tempMember
         if (selected) {
-            tempMember.push({Name: name, Number: number, Account: acct});
+            tempMember.push({name: name, number: number, acct: acct});
             selectedContactRowKeys.push(record.key)
         } else {
             for (let j = 0; j < tempMember.length; j++) {
-                if (tempMember[j].Number == number) {
+                if (tempMember[j].number == number) {
                     tempMember.splice(j, 1);
                     break;
                 }
@@ -738,7 +724,7 @@ class NewContactsEdit extends Component {
         }
         // let existMember = this.state.curMember.length > 0 || this.state.tempMember.length > 0
         let ismax = false
-        // console.log(member,newMemberAcct) 
+        // console.log(member,newMemberAcct)
         let curLineNum = 0
         let ipvtLine = 0
         let ipvtAcctNum  = 0
@@ -999,7 +985,7 @@ class NewContactsEdit extends Component {
             let acct = item.Account
             // console.log(dataArr[j],name,number)
             if (selected) {
-                tempMember.push({Name: name, Number: number, Account: acct});
+                tempMember.push({name: name, number: number, acct: acct});
             } else {
                 for (let i = tempMember.length - 1 ; tempMember[i] != undefined; i++) {
                     if (tempMember[i].Number == number) {
@@ -1042,8 +1028,59 @@ class NewContactsEdit extends Component {
         this.setState({selectedRowKeys:selectedRowKeys})
     }
 
+    toogleInviteMemberModal = (visible) => {
+        // if(visible == true && this.props.ispause()) {
+        //     return;
+        // }
+        this.setState({
+            displayAddModal: visible
+        })
+    }
+
+    handleNumberData = (data) => {
+        // console.log('numdata',data)
+        let memberArr = []
+        let curMember = this.state.curMember
+        let tempMember = data
+        memberArr = curMember.concat(tempMember)
+        for (let i = memberArr.length -1 ; memberArr[i] != undefined ; i--) {
+            for (let j = i-1; memberArr[j] != undefined ; j--) {
+                // console.log(memberArr[i],memberArr[j])
+                if(memberArr[j] && memberArr[i] && memberArr[i].number == memberArr[j].number) {
+                    memberArr.splice(j,1)
+                }
+            }
+        }
+        // memberArr = curMember.concat(tempMember)
+        // console.log('handleAddModalOk',memberArr)
+        this.setState({
+            curMember: memberArr,
+            tempMember:[],
+            selectedRowKeys:[],
+            selectedContactRowKeys:[],
+            selectedCallRowKeys:[],
+            displayAddModal: false,
+            activeKey:'0'
+        })
+    }
+
+    deleteCurMember = (index) => {
+        let memberData = this.state.curMember
+        memberData.splice(index,1)
+        this.setState({curMember:memberData})
+    }
+
+    handleEmail = (index,e) => {
+        // console.log(v,index.target.value)
+        let value = e.target.value
+        let memberData = this.state.curMember
+        memberData[index].email = value
+        this.setState({curMember:memberData})
+    }
+
     render() {
         let title = this.props.addNewConf ? 'a_10035' : 'a_10051'; // add : edit
+        const { disabled, linestatus } = this.props
         let allDisabled = false
         let modalclass = 'importModal confModal '
         if(this.props.confdetail) { // show detail
@@ -1071,6 +1108,7 @@ class NewContactsEdit extends Component {
         }
         // let memberData = this.props.confMemberData
         let memberData = this.props.confMemberData
+        // console.log('render', memberData)
         if( this.state.curMember.length == 0  && this.props.confMemberData.length>0) {
             this.setState({curMember:this.props.confMemberData})
         } else if(this.state.curMember.length > 0) {
@@ -1120,6 +1158,13 @@ class NewContactsEdit extends Component {
             selectedRowKeys,
             onSelect: this.onSelectCallItem,
         }
+
+        let showbindAccount = false
+        let bindAccount = '-1'
+        if(showbindAccount) {
+            bindAccount = this.props.form.getFieldValue('bindAccount')
+        }
+        // console.log('bindAccount',bindAccount)
         return(
             <div>
                 <Modal  className={modalclass} visible={this.props.displayNewConfModal}
@@ -1130,15 +1175,18 @@ class NewContactsEdit extends Component {
                                 <Input hidden />
                             )}
                         </FormItem>
-                        <FormItem label={(<span>{callTr("关联帐号")}</span>)}>
-                            {getFieldDecorator('bindAccount', {
-                                initialValue: '0'
-                            })(
-                                <Select disabled={allDisabled} style={{width:'25%'}}>
-                                    {optionObj.accountArr}
-                                </Select>
-                            )}
-                        </FormItem>
+                        {showbindAccount &&
+                            <FormItem label={(<span>{callTr("关联帐号")}</span>)}>
+                                {getFieldDecorator('bindAccount', {
+                                    initialValue: '0'
+                                })(
+                                    <Select disabled={allDisabled} style={{width:'25%'}}>
+                                        {optionObj.accountArr}
+                                    </Select>
+                                )}
+                            </FormItem>
+                        }
+
                         <FormItem label={(<span>{callTr("a_15054")}</span>)}>
                             {getFieldDecorator('confSubject', {
                                 rules: [{
@@ -1363,7 +1411,7 @@ class NewContactsEdit extends Component {
 
                         </FormItem>
                         {
-                            this.props.form.getFieldValue('pinCode') ? 
+                            this.props.form.getFieldValue('pinCode') ?
                             <FormItem label={(<span>{callTr("预约成员入会无需会议密码")}</span>)}>
                                 {getFieldDecorator('noPwd', {
                                         valuePropName: 'checked',
@@ -1378,25 +1426,37 @@ class NewContactsEdit extends Component {
                                 {callTr('a_23')}
                             </Button>
                         </FormItem>
-                        <div className = 'confinfo_memberlist'>
-                            {
-                                (memberData.length > 0) && memberData.map((member) => {
-                                    return (
-                                        <div className={'memberlist'}>
-                                            <div style = {{'height':'33px'}}>
-                                                <span className = "contactsIcon"></span>
-                                                <span className = "ellips contactstext contactname">{member.recordName ? member.recordName:member.Name}</span>
+                        {
+                            memberData.length > 0 &&
+                            <div className = 'confinfo_memberlist'>
+                                {
+                                    (memberData.length > 0) && memberData.map((member,index) => {
+                                        return (
+                                            <div className={'memberlist'}>
+                                                <div className='memberinfo'>
+                                                    <div className='ellipsName name'>{member.name ? member.name:member.number}</div>
+                                                    <div className='ellipsName'>{member.number}</div>
+                                                    {/* <span className = "contactsIcon"></span>
+                                                    <span className = "ellips contactstext contactname">{member.name ? member.name:member.number}</span> */}
+                                                </div>
+                                                <i className='delete-icon' onClick={this.deleteCurMember.bind(this,index)}></i>
+                                                { showbindAccount && bindAccount == '0' &&
+                                                    <div className='memberEmaiBox'>
+                                                        <Input disabled={allDisabled} value={member.email || ''} onChange={this.handleEmail.bind(this,index)} style={{width:'100%'}}/>
+                                                    </div>
+                                                }
+
+                                                {/*<span>{member.recordName ? member.recordName:member.Name}</span><span></span>*/}
                                             </div>
-                                            <div>{member.Number} </div>
-                                            {/*<span>{member.recordName ? member.recordName:member.Name}</span><span></span>*/}
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        }
+
                     </Form>
                 </Modal>
-
+                {/* {this.state.displayAddModal ?
                 <Modal className='importModal confModal' style={{'minHeight':'540px'}} title={callTr('a_517')} onOk={this.handleAddModalOk} onCancel={this.handleAddModalCancel}
                        okText={callTr("a_2")} cancelText={callTr("a_3")}  visible={this.state.displayAddModal}>
                     <Tabs className="config-tab" defaultActiveKey={this.state.activeKey} onChange={this.changeTab}>
@@ -1444,6 +1504,9 @@ class NewContactsEdit extends Component {
                         </TabPane>
                     </Tabs>
                 </Modal>
+                :null} */}
+                <InviteMemberModal visible={this.state.displayAddModal} onHide={() => this.toogleInviteMemberModal(false)} handleNumberData={this.handleNumberData} isJustAddMember={true} linestatus={linestatus} />
+
             </div>
         )
     }
@@ -1458,6 +1521,7 @@ const mapStateToProps = (state) => ({
     callnameinfo:state.callnameinfo,
     confmemberinfodata:state.confmemberinfodata,
     contactsAcct: state.contactsAcct,
+    contactsNew: state.contactsNew
 });
 
 function mapDispatchToProps(dispatch) {
@@ -1468,7 +1532,8 @@ function mapDispatchToProps(dispatch) {
         setschedule: Actions.setschedule,
         getNormalCalllogNames:Actions.getNormalCalllogNames,
         getAllConfMember:Actions.getAllConfMember,
-        getAcctStatus: Actions.getAcctStatus
+        getAcctStatus: Actions.getAcctStatus,
+        getContacts_new:Actions.getContactsNew,
     }
     return bindActionCreators(actions, dispatch)
 }

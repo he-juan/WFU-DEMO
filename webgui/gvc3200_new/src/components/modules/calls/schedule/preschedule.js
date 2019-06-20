@@ -6,6 +6,7 @@ import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import './schedule.less'
 const rowKey = function(record) {
     return record.key;
 };
@@ -68,6 +69,9 @@ class Call extends Component {
         //     this.props.getPresetInfo()
         // }
 
+    }
+
+    componentWillUnmount = () => {
     }
 
     updateDate = () => {
@@ -232,11 +236,21 @@ class Call extends Component {
       //  console.log(obj)
 
         this.props.form.setFieldsValue(obj);
+        // console.log('text',text)
+
+        let member = []
+        text.memberArr.forEach((item,i) => {
+            member[i] = {
+                number:item.Number,
+                name:item.name,
+                acct:item.Acctid
+            }
+        })
 
         this.setState({
             displayNewConfModal: true,
             addNewConf:false,
-            confMemberData:text.memberArr,
+            confMemberData:member,
             confdetail: confdetail
         })
     }
@@ -292,7 +306,7 @@ class Call extends Component {
             //     info.isTomorrow = true
             // }
             // console.log(moment().to(info.Starttime),info.Starttime)
-            let endTime = moment(info.Starttime,"YYYY-MM-DD HH:mm").add(info.Duration,"minutes") 
+            let endTime = moment(info.Starttime,"YYYY-MM-DD HH:mm").add(info.Duration,"minutes")
             if(moment().isAfter(endTime)) {
                 item.status = status[3]
                 arr4.push(item)
@@ -352,6 +366,7 @@ class Call extends Component {
         //     {type:3,statusname:callTr('a_10174')},  // 已过期
         //     {type:4,statusname:callTr('a_over')}  // 已结束
         // ]
+
         let data = []
         for (let i = 0; confinfodata[i]!=undefined; i++) {
             let memberArr = []
@@ -369,9 +384,9 @@ class Call extends Component {
             data.push(obj)
         }
 
-        data = []
-        // data = this.handleSortForConf(data)
-        
+        // data = []
+        data = this.handleSortForConf(data)
+
         let loading = true
         if(data.length > 0) {
             loading = false
@@ -406,17 +421,18 @@ class Call extends Component {
                                     <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_10055')}：</Col>
                                         <Col className='ellips conf-text' span={9}>{item.confinfo.Host == 1? callTr('a_10057'): htmlEncode(item.confinfo.Host)}</Col>
-                                        <Col className='conf-status' span={12}>
-                                            <Button type="primary">{callTr("a_19623")}</Button>
+                                        {item.type != 1 ?
+                                            <Col className='conf-status' span={12}>
+                                            <Button type="primary" style={{background:'#4bd66a',borderColor:'#4bd66a'}}>{callTr("a_19623")}</Button>
                                             <Button
                                                 // onClick={this.handleEdit.bind(this, item)}
-                                                onClick={(e)=>this.handleEdit(e,item)} type="primary">{callTr("a_19624")}</Button>
+                                                onClick={(e)=>this.handleEdit(e,item)} type="primary" >{callTr("a_19624")}</Button>
                                             {/*<Button type="primary">{callTr("a_cancelMeet")}</Button>*/}
 
                                             {item.confinfo['Recycle'] == '0' ? (
                                                 <Popconfirm placement="top" title={callTr("a_9334")} okText={callTr("a_2")} cancelText={callTr("a_3")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
                                                     {/*<button className='allow-delete'></button>*/}
-                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
+                                                    <Button className='cancel_btn' onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
                                                 </Popconfirm>
                                             ) : (
                                                 <Popover title={callTr('a_19169')} content={
@@ -425,7 +441,7 @@ class Call extends Component {
                                                         <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id,1)} >{callTr('a_15041')}</p>
                                                     </div>
                                                 } trigger="click">
-                                                    <Button onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
+                                                    <Button className='cancel_btn' onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
                                                 </Popover>
                                             )}
 
@@ -433,6 +449,10 @@ class Call extends Component {
                                             {/*<Button className="submit" type="primary" size="large" onClick={this.handleSubmit}>{callTr("a_17")}</Button>*/}
 
                                         </Col>
+                                        :
+                                        <Col className='conf-status' span={12}/>
+                                        }
+
                                     </Row>
                                     {/*<div style = {{'height':'33px'}}>*/}
                                     {/*<span className = "contactsIcon"></span>*/}

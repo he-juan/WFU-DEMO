@@ -24,7 +24,19 @@ class callMoreLine extends Component {
 
     handleOk = () => {
         console.log(this.state.selCallData)
-        // this.props.handleHideCallMoreModal();
+        let data = this.state.selCallData
+        let memToCall =[]
+        data.forEach(item =>{
+            memToCall.push({
+                num: item.numbers,
+                acct: item.acct,
+                isvideo: item.isvideo || 0,
+                source: item.source || 0,
+                isconf: '1',
+            })
+        })
+        this.props.makeCall(memToCall)
+        this.props.handleHideCallMoreModal();
     }
 
     handleCancel = () => {
@@ -41,7 +53,7 @@ class callMoreLine extends Component {
     onChange = (e) => {
         let checked = e.target.checked
         let value = e.target.value
-        console.log('checked', checked,value);
+        // console.log('checked', checked,value);
         let data = this.state.selCallData
         let limitNum = 8
         if(checked) {
@@ -75,7 +87,7 @@ class callMoreLine extends Component {
                     if(data[i].numbers==value.numbers && data[i].names==value.names && data[i].acct==value.acct){
                         data[i].isSelected = true
                     }
-                }                
+                }
             }
         }
         return data
@@ -83,11 +95,9 @@ class callMoreLine extends Component {
 
     render() {
         let modalclass = 'importModal confModal callMoreModal'
-        let values = this.props.form.getFieldsValue();
-        const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
         let data = this.props.curCallData
-        // console.log('6666',this.props.curCallData)
+        // console.log('curCallData',this.props.curCallData)
         let arr = []
         arr.fill('',10)
         arr[0] = 'Active account'
@@ -104,17 +114,17 @@ class callMoreLine extends Component {
                             (data != "" || data.length > 0) && data.length && data.map((item) => {
                                 return(
                                     <Row className="callNumerLine">
-                                        <Col span={8}>{item.names}</Col>
+                                        <Col span={8} className="ellips">{item.names}</Col>
                                         <Col span={8}>{arr[item.acct]}</Col>
                                         <Col span={8}>
-                                        <span className="callNumerSpan">{item.numbers}</span>                                        
+                                        <span className="callNumerSpan">{item.numbers}</span>
                                         <Checkbox disabled={this.state.alldisabled && !item.isSelected} value={item} onChange={this.onChange}></Checkbox>
                                         </Col>
-                                    </Row> 
-                                )                                
+                                    </Row>
+                                )
                             })
                         }
-                      
+
                         {/* <Row>
 
                             <Col span={8}><Checkbox value="A">A</Checkbox></Col>
@@ -135,6 +145,7 @@ const mapStateToProps = (state) => ({
 
 function mapDispatchToProps(dispatch) {
     var actions = {
+        makeCall: Actions.makeCall
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -31,11 +31,21 @@ class CallSelectNum extends Component {
 
     render () {
         let selectnumItem = this.props.selectnumItem;
-        let selectnum = selectnumItem.Number;
-        let selectacct = selectnumItem.AcctIndex;
+        let selectnum = [];
+        let selectacct = [];
+        selectnumItem.forEach(item => {
+            selectnum.push(item.number)
+            selectacct.push(item.acct)
+        });
         let selectnumArray = new Array;
         for (let i = 0; i < (selectnum && selectnum.length); i++) {
             selectnumArray.push(selectnum[i]+ ' ' + selectacct[i])
+        }
+        let obj = {
+            '-1': 'Active account',
+            '0': 'SIP',
+            '1': 'IPVideoTalk',
+            'H.323':'H.323'
         }
         return (
             <div className = "callselectdiv">
@@ -43,9 +53,12 @@ class CallSelectNum extends Component {
                     selectnumArray && selectnumArray.map((item, idx,items) => {
                         return (
                             <div className='callselectItem'>
-                                <p>
-                                    <span>{item.split(' ')[0]}<i onClick={this.handleCallNum.bind(this, item, idx, this.props.index)}></i></span>
-                                </p>
+                                {/* <p> */}
+                                    <span className='ellips' title = {item.split(' ')[0] + ` (${obj[item.split(' ')[1]]})`}>
+                                        {item.split(' ')[0] + ` (${obj[item.split(' ')[1]]})`}
+                                        <i onClick={this.handleCallNum.bind(this, item, idx, this.props.index)}></i>
+                                    </span>
+                                {/* </p> */}
                             </div>
                         )
                     })

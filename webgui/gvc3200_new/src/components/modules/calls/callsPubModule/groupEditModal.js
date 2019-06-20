@@ -24,11 +24,26 @@ class GroupEditModal extends Component {
     }
 
     componentDidMount = () => {
-        let contactsInformation = this.props.contactsInformation
-        this.contactList = contactsInformation;
+        let data = this.props.contactsNew
+        let contactList = this.handleContactData(data)
+        this.contactList = contactList;
         this.setState({
-            curContactList: contactsInformation
+            curContactList: contactList
         });
+    }
+
+    handleContactData = (data) => {
+        let contactList = []
+        data.forEach(item => {
+            let number = item.phone.length ? item.phone[0].number : ''
+            let obj = {
+                id: item.id,
+                name: item.name.displayname,
+                number: number
+            }
+            contactList.push(obj)
+        });
+        return contactList
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -100,14 +115,15 @@ class GroupEditModal extends Component {
         var self = this;
         var searchkey = e.toLowerCase().trim();
         let data = [];
-        let dataSource = self.props.contactsInformation
+        let dataSource = self.props.contactsNew
+        dataSource = this.handleContactData(dataSource)
         if (searchkey == "") {
             data = [...dataSource];
         } else {
             let len = dataSource.length;
             for (let i = 0; i < len; i++) {
                 let contact = dataSource[i];
-                if (contact.Number[0].indexOf(searchkey) != -1 || contact.Name.toLowerCase().indexOf(searchkey) != -1) {
+                if (contact.number.indexOf(searchkey) != -1 || contact.name.toLowerCase().indexOf(searchkey) != -1) {
                     data.push(contact);
                 }
             }
@@ -129,6 +145,7 @@ class GroupEditModal extends Component {
         const {getFieldDecorator} = this.props.form;
         const {callTr} = this.props;
         const selectItems = this.props.selectItems;
+        // console.log(selectItems,'selectItems')
         const obj = this.props.obj;
         return (
              <Modal title={callTr('a_4837')} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='groups-modal' visible={this.props.displayGroupModal}>
@@ -166,18 +183,18 @@ class GroupEditModal extends Component {
                                         return (
                                             <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
                                                 <Col span={2}>
-                                                    {getFieldDecorator('contactCheckbox'+item['RawId'], {
+                                                    {getFieldDecorator('contactCheckbox'+item['id'], {
                                                         valuePropName: 'checked',
-                                                        initialValue: obj['contactCheckbox'+item['RawId']]
+                                                        initialValue: obj['contactCheckbox'+item['id']]
                                                     })(
                                                         <Checkbox onClick={this.props.checkboxChange.bind(item, item)} data-className='contactCheckbox' data-RawId={item.RawId}></Checkbox>
                                                         )}
                                                 </Col>
                                                 <Col span={6}>
-                                                    <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['Name']}</span>
+                                                    <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['name']}</span>
                                                 </Col>
-                                                <Col title={item['Number'].filter(Boolean).join("，")} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
-                                                    {item['Number'].filter(Boolean).join("，")}
+                                                <Col title={item['number']} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
+                                                    {item['number']}
                                                 </Col>
                                             </Row>
                                         )
@@ -193,10 +210,10 @@ class GroupEditModal extends Component {
                                         return (
                                             <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
                                                 <Col span={6}>
-                                                    <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['Name']}</span>
+                                                    <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['name']}</span>
                                                 </Col>
-                                                <Col title={item['Number'].filter(Boolean).join("，")} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
-                                                    {item['Number'].filter(Boolean).join("，")}
+                                                <Col title={item['number']} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
+                                                    {item['number']}
                                                 </Col>
                                                 <Col span={2} style = {{height:'21px', textAlign:"right"}}>
                                                     <button className='allow-delete' id = {'allow-delete-group'+index} onClick={this.props.handleDelete.bind(this, item, index)} ></button>
@@ -216,6 +233,7 @@ class GroupEditModal extends Component {
 
 const mapStateToProps = (state) => ({
     groupInformation:state.groupInformation,
+    contactsNew:state.contactsNew
 });
 
 function mapDispatchToProps(dispatch) {

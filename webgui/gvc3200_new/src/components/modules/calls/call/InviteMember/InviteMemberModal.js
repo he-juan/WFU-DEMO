@@ -59,11 +59,11 @@ class InviteMemberModal extends Component {
           source: '2',
           num: '.'
         }
-      ], 
+      ],
       activeTab: '1',
     }
   }
-  
+
   componentDidMount() {
     const { getAcctStatus, defaultAcct } = this.props
     // 激活的账号列表获取
@@ -78,7 +78,7 @@ class InviteMemberModal extends Component {
       selectAcct: defaultAcct
     })
   }
-  
+
   // 选择拨打账号
   handleSelectAcct(item) {
     this.setState({
@@ -92,7 +92,7 @@ class InviteMemberModal extends Component {
     const { selectAcct, memToCall } = this.state
     let _memToCall = mems.map((number) => {
       // 已添加进memToCall的 直接从memToCall取, 不要去覆盖
-      let memAlready = memToCall.filter(item => item.name == number)[0] 
+      let memAlready = memToCall.filter(item => item.name == number)[0]
       if(memAlready) return memAlready
       return {
         num: number,
@@ -129,6 +129,8 @@ class InviteMemberModal extends Component {
       _memToCall = this.pushMemToCall(_memToCall, record)
       _memToCall = this.limitMaxMembers(_memToCall, 'add')
     }
+
+
     this.setState({
       memToCall: _memToCall,
       tagsInputValue: ''
@@ -168,14 +170,14 @@ class InviteMemberModal extends Component {
         name: name
       })
     }
-    
+
     return _memToCall
   }
   // bluejeans 账号处理
   handleBjMember = (content) => {
     const { bjMemToCall } = this.state
     let _bjMemToCall = deepCopy(bjMemToCall)
-    
+
     let numAry = _bjMemToCall[0].num.split('.')
     numAry[0] = content.id ? content.id : numAry[0]
     numAry[1] = content.pw ? content.pw : numAry[1]
@@ -220,8 +222,8 @@ class InviteMemberModal extends Component {
         })
         return false
       }
-    } 
-    
+    }
+
     // bluejeans 处理
     if(selectAcct == 2) {
       let numAry = bjMemToCall[0].num.split('.')
@@ -247,18 +249,18 @@ class InviteMemberModal extends Component {
   limitMaxMembers(_memToCall, flag) {
     if (_memToCall.length == 0) return _memToCall
     const { maxlinecount, linesInfo } = this.props
-    let lastMem = _memToCall.pop()  // // 最后一个是待添加的, 暂移除 
+    let lastMem = _memToCall.pop()  // // 最后一个是待添加的, 暂移除
     let temp = _memToCall.concat(linesInfo) // 并且与已在通话线路中的成员合并
     let nonIPVTlen = temp.filter(v => v.acct != '1').length // 非IPVT线路数量
     let IPVTlen = temp.length - nonIPVTlen
-    
-   
-    let curLinesLen = IPVTlen > 0  ? nonIPVTlen + 1 : nonIPVTlen  // 线路总数量
 
-    if(IPVTlen >= 200 && lastMem.acct == '1') {
+    // 存在ipvt线路且ipvt线路成员不超过100
+    let curLinesLen = IPVTlen > 0  ? nonIPVTlen + 1 : nonIPVTlen  // 线路总数量
+    let maxNum = 200
+    if(IPVTlen >= maxNum && lastMem.acct == '1') {
       this.props.promptMsg('ERROR', 'a_23577')
       return _memToCall
-    } 
+    }
 
     if(curLinesLen >= maxlinecount ) {   // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
       if(IPVTlen == 0 ) {
@@ -270,17 +272,17 @@ class InviteMemberModal extends Component {
             selectAcct: '1'
           })
         }
-      } else if(IPVTlen > 0 && IPVTlen < 200 && lastMem.acct == '1') {
+      } else if(IPVTlen > 0 && IPVTlen < maxNum && lastMem.acct == '1') {
         _memToCall.push(lastMem)
       }
     } else {
       _memToCall.push(lastMem)
     }
-    
-    
+
+
     return _memToCall
   }
-  
+
 
   // 根据账号类型区分颜色
   renderTag = (props) => {
@@ -295,6 +297,23 @@ class InviteMemberModal extends Component {
       </span>
     )
   }
+  handleAddMember = () => {
+    const { memToCall } = this.state
+    let data = []
+    console.log(memToCall)
+    memToCall.forEach(item => {
+      let obj = item
+      obj.number = item.num
+      data.push(obj)
+    })
+    this.props.handleNumberData(data)
+    this.setState({
+      memToCall: [],
+      tagsInputValue: ''
+    })
+    this.props.onHide()
+  }
+
   render() {
     const { visible, onHide } = this.props
     const { memToCall, acctStatus, selectAcct, activeTab, tagsInputValue } = this.state
@@ -304,14 +323,14 @@ class InviteMemberModal extends Component {
      const InputArea = (
       <div className="invite-inputs-area">
         {
-          selectAcct != 2 ? 
+          selectAcct != 2 ?
           <div className="invite-tagsinput-wrapper">
-            <TagsInput 
-              value={memToCall.map(v => v.name)} 
-              onChange={this.handleChangeMemToCall} 
-              addKeys={[13]} 
-              onlyUnique={true} 
-              // addOnBlur={true} 
+            <TagsInput
+              value={memToCall.map(v => v.name)}
+              onChange={this.handleChangeMemToCall}
+              addKeys={[13]}
+              onlyUnique={true}
+              // addOnBlur={true}
               inputProps={{placeholder: '', maxLength: '23', style:{width: tagsInputValue.length * 10 }}}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
@@ -319,16 +338,16 @@ class InviteMemberModal extends Component {
               />
             {
               memToCall.length > 0 || tagsInputValue.length > 0
-              ? null 
+              ? null
               :<span className="tagsinput-placeholder"> {this.tr('a_16693')}</span>
-            }
+           }
           </div>
           :
           <div className="bj-inputs">
-            <Input placeholder="Meeting ID" onChange={(e) => this.handleBjMember({id: e.target.value})} size="large" ></Input> 
+            <Input placeholder="Meeting ID" onChange={(e) => this.handleBjMember({id: e.target.value})} size="large" ></Input>
             <Input placeholder="Password (optional)" onChange={(e) => this.handleBjMember({pw: e.target.value}) } size="large"></Input>
           </div>
-        }  
+        }
       </div>
     )
 
@@ -342,10 +361,13 @@ class InviteMemberModal extends Component {
         title={this.tr('a_517')}
         okText={this.tr('a_23')}
         footer={
-          <div>
-            <Button type="primary" disabled={memToCall.length == 0 && selectAcct != '2'} onClick={() => this.handleInvite(1)}>{this.tr("a_23557"/**视频邀请 */)}</Button>
-            <Button type="primary" disabled={memToCall.length == 0 && selectAcct != '2'} onClick={() => this.handleInvite(0)}>{this.tr("a_23558"/**音频邀请 */)}</Button>
-          </div>
+           this.props.isJustAddMember ?
+              <Button onClick={() => this.handleAddMember()}>添加</Button>
+              :
+              <div>
+                <Button type="primary" disabled={memToCall.length == 0 && selectAcct != '2'} onClick={() => this.handleInvite(1)}>{this.tr("a_23557"/**视频邀请 */)}</Button>
+                <Button type="primary" disabled={memToCall.length == 0 && selectAcct != '2'} onClick={() => this.handleInvite(0)}>{this.tr("a_23558"/**音频邀请 */)}</Button>
+              </div>
         }
       >
         <div style={{ height: '570px' }}>
@@ -360,7 +382,7 @@ class InviteMemberModal extends Component {
               {
                 acctStatus.map((v, i) => {
                   if(!v.activate) return null
-                  
+
                   return (
                     <Option key={i} value={v.acctindex} disabled={!v.register}><em className={`acct-icon acct-${v.acctindex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</Option>
                   )
@@ -369,11 +391,11 @@ class InviteMemberModal extends Component {
             </Select>
           </div>
           {
-            activeTab == '1' ? 
-            <ContactsTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} /> 
-            : activeTab == '2' ? 
-            <CallLogsTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} /> 
-            : 
+            activeTab == '1' ?
+            <ContactsTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} />
+            : activeTab == '2' ?
+            <CallLogsTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} />
+            :
             <EpContactsBookTab onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue} />
           }
         </div>
