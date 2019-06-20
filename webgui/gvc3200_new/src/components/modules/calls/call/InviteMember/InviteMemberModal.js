@@ -247,6 +247,11 @@ class InviteMemberModal extends Component {
     // 存在ipvt线路且ipvt线路成员不超过100
     let curLinesLen = IPVTlen > 0  ? nonIPVTlen + 1 : nonIPVTlen  // 线路总数量
 
+    if(IPVTlen >= 200 && lastMem.acct == '1') {
+      this.props.promptMsg('ERROR', 'a_23577')
+      return _memToCall
+    } 
+
     if(curLinesLen >= maxlinecount ) {   // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
       if(IPVTlen == 0 ) {
         this.props.promptMsg('ERROR', 'a_23550')
@@ -257,7 +262,7 @@ class InviteMemberModal extends Component {
             selectAcct: '1'
           })
         }
-      } else if(IPVTlen > 0 && lastMem.acct == '1') {
+      } else if(IPVTlen > 0 && IPVTlen < 200 && lastMem.acct == '1') {
         _memToCall.push(lastMem)
       }
     } else {
@@ -296,7 +301,7 @@ class InviteMemberModal extends Component {
             <TagsInput 
               value={memToCall.map(v => v.name)} 
               onChange={this.handleChangeMemToCall} 
-              addKeys={[13, 188]} 
+              addKeys={[13]} 
               onlyUnique={true} 
               // addOnBlur={true} 
               inputProps={{placeholder: '', maxLength: '23', style:{width: tagsInputValue.length * 10 }}}
