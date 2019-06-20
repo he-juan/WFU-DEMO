@@ -324,13 +324,20 @@ class MainHeader extends Component {
             this.props.setKeyCode(1, keycode, 0);
         }
     }
-
+    handleApply = () => { 
+        if(this.props.linesinfo.length > 0) {
+            this.props.promptMsg('ERROR', 'a_1516')
+            return false
+        }
+        const applyfunc = $.cookie("applyfunc");
+        this.props.applyValue(applyfunc, ()=>{$.cookie("applyfunc", "", {path: '/', expires:10});})
+    }
     render() {
         const {applyButtonStatus,pwdvisible,product,oemId,userType, dndstatus} = this.props;
 
         this.updateApplyButton(applyButtonStatus);
 
-        const applyfunc = $.cookie("applyfunc");
+       
 
         const operationMenu = (
             <Menu className = "headermenu">
@@ -406,7 +413,7 @@ class MainHeader extends Component {
                     </InputSearchdiv>
                     <div className="applyDiv">
                         <Button id="apply" className="apply"
-                            onClick={this.props.applyValue.bind(this, applyfunc, ()=>{$.cookie("applyfunc", "", {path: '/', expires:10});})} ghost>{this.tr("a_16003")}
+                            onClick={() => this.handleApply()} ghost>{this.tr("a_16003")}
                         </Button>
                     </div>
                     <div id="RemoteControlModal" style={{display: this.state.showControl ? "block" : "none"}}>
@@ -503,7 +510,8 @@ const mapStateToProps = (state) => ({
     userType: state.userType,
     productStr: state.productStr,
     itemValues:state.itemValues,
-    dndstatus: state.dndstatus
+    dndstatus: state.dndstatus,
+    linesinfo: state.linesInfo
 })
 
 function mapDispatchToProps(dispatch) {
