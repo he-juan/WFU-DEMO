@@ -204,15 +204,23 @@ class InviteMemberModal extends Component {
     const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
-    if(tagsInputValue != '' && !/\D/.test(tagsInputValue)) {
-      _memToCall.push({
-        num: tagsInputValue,
-        acct: selectAcct,
-        isvideo: isvideo,
-        source: '2',
-        isconf: '1'
-      })
-    }
+    if(tagsInputValue != '') {
+      if(!/\D/.test(tagsInputValue)) {
+        _memToCall.push({
+          num: tagsInputValue,
+          acct: selectAcct,
+          isvideo: isvideo,
+          source: '2',
+          isconf: '1',
+        })
+      } else {
+        message.error(this.tr('a_10104'))
+        this.setState({
+          tagsInputValue: ''
+        })
+        return false
+      }
+    } 
     
     // bluejeans 处理
     if(selectAcct == 2) {
