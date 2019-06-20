@@ -6731,10 +6731,13 @@ ol.mp_list li.mp_error {}
 }
 
 .incominglist .itemdiv .itemname {
-    width: 190px;
+    width: 160px;
+}
+.incominglist .itemdiv .itemtype {
+    width: 120px;
 }
 .incominglist .itemdiv .itemnum {
-    width: 200px;
+    width: 110px;
     text-align: right;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -6743,6 +6746,23 @@ ol.mp_list li.mp_error {}
 
 .incomingbtn {
 
+}
+.incomingbtn .reject {
+    border-color: #ff616b;
+    background-color: #ff616b;
+    color:#fff;
+}
+.incomingbtn .h323-accept {
+    border-color: #3d77ff;
+    background-color: #3d77ff;
+}
+.incomingbtn .video-accept {
+    border-color: #4db66e;
+    background-color: #4db66e;
+}
+.incomingbtn .audio-accept {
+    border-color: #3d77ff;
+    background-color: #3d77ff;
 }
 
 /* 

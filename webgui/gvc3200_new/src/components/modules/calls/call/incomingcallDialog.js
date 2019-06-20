@@ -6,6 +6,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 const Content = Layout
 
+const acctMap = {
+    '0' : 'SIP',
+    '1' : 'IPVT',
+    '2' : 'BlueJeans',
+    '8' : 'H.323'
+}
+
 class IncomingcallDialog extends Component {
     constructor(props) {
         super(props);
@@ -122,11 +129,11 @@ class IncomingcallDialog extends Component {
                 footer = {
                     <div className="incomingbtn">
                     <Button className="reject" onClick={this.handelReject}>{this.tr('a_523')}</Button>
-                    <Button type="primary" className={h323acceptvisible + " callaccept"}
+                    <Button type="primary" className={h323acceptvisible + " h323-accept"}
                             onClick={this.handleAccept.bind(this, 1)}>{this.tr('a_522')}</Button>
-                    <Button type="primary" className={videoacceptvisible + " callaccept"}
+                    <Button type="primary" className={videoacceptvisible + " video-accept"}
                             onClick={this.handleAccept.bind(this, 1)}>{this.tr('a_626')}</Button>
-                    <Button type="primary" className={audioacceptvisible + " callaccept"}
+                    <Button type="primary" className={audioacceptvisible + " audio-accept"}
                             onClick={this.handleAccept.bind(this, 0)}>{this.tr('a_625')}</Button>
                     </div>
                 }
@@ -139,6 +146,7 @@ class IncomingcallDialog extends Component {
                                     <Checkbox className={checkboxvisible} onChange={this.onchange} value={i}></Checkbox>
                                 </span>
                                 <span className="itemname">{item.name}</span>
+                                <span className="itemtype">{acctMap[item.acct]}</span>
                                 <span className="itemnum">{item.num}</span>
                             </li>
                         })
