@@ -129,7 +129,7 @@ class IncomingcallDialog extends Component {
                 footer = {
                     <div className="incomingbtn">
                     <Button className="reject" onClick={this.handelReject}>{this.tr('a_523')}</Button>
-                    <Button type="primary" className={h323acceptvisible + " h323-accept"}
+                    <Button type="primary" className={h323acceptvisible + " video-accept"}
                             onClick={this.handleAccept.bind(this, 1)}>{this.tr('a_522')}</Button>
                     <Button type="primary" className={videoacceptvisible + " video-accept"}
                             onClick={this.handleAccept.bind(this, 1)}>{this.tr('a_626')}</Button>

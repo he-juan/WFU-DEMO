@@ -34,7 +34,7 @@ class DTMFModal extends Component{
             return "";
         }
         let dtmfstr = DTMFString;
-        let maxlength = 12;
+        let maxlength = 20;
         let hide_content, new_content;
         if (this.props.textdisplay) {
             if (dtmfstr.length > maxlength) {
