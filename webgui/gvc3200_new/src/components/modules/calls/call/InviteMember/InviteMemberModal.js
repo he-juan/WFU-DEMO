@@ -244,7 +244,7 @@ class InviteMemberModal extends Component {
     let nonIPVTlen = temp.filter(v => v.acct != '1').length // 非IPVT线路数量
     let IPVTlen = temp.length - nonIPVTlen
     
-    // 存在ipvt线路且ipvt线路成员不超过100
+   
     let curLinesLen = IPVTlen > 0  ? nonIPVTlen + 1 : nonIPVTlen  // 线路总数量
 
     if(IPVTlen >= 200 && lastMem.acct == '1') {

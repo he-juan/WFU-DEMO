@@ -24,13 +24,19 @@ const parseDate = (function () {
   const TODAYZERO = moment(moment().format('YYYY/MM/DD')).valueOf()
   const YESTERDAYZERO = moment(moment().subtract(1, 'days').format('YYYY/MM/DD')).valueOf()
   const TOMMORROWZERO = moment(moment().add(1, 'days').format('YYYY/MM/DD')).valueOf()
-  return function (timestamp, fmt) {
+  const YEARZERO = moment(moment().format('YYYY/1/1')).valueOf()
+  return function (timestamp, lvl) {
+    let fmt = ''
     timestamp = parseInt(timestamp)
     if( YESTERDAYZERO <= timestamp  && timestamp < TODAYZERO) {
-      fmt = fmt.replace('MM/DD/YYYY', `[${tr('a_23553')}]`)
-    }
-    if( TODAYZERO <= timestamp  && timestamp < TOMMORROWZERO ) {
-      fmt = fmt.replace('MM/DD/YYYY', `[${tr('a_23554')}]`)
+      fmt = `[${tr('a_23553')}] ${lvl == '1' ? 'H:mm' : ''}`
+    } else if( TODAYZERO <= timestamp  && timestamp < TOMMORROWZERO ) {
+      // fmt = fmt.replace('MM/DD/YYYY', `[${tr('a_23554')}]`)
+      fmt = 'H:mm'
+    } else if (YEARZERO <= timestamp && timestamp < YESTERDAYZERO) {
+      fmt = `MM/DD ${lvl == '1' ? 'H:mm' : ''}`
+    } else {
+      fmt = `MM/DD/YYYY ${lvl == '1' ? 'H:mm' : ''}`
     }
     let date = moment(parseInt(timestamp)).format(fmt)
     return date
@@ -348,13 +354,9 @@ class LogAndContacts extends Component {
           if(record.contacts) {
             return <span dangerouslySetInnerHTML={{__html: record.numberText}}></span> 
           } 
-          if(record.lvl == '0') {
-            return parseDate(text, 'MM/DD/YYYY')
+          if(record.lvl) {
+            return parseDate(text, record.lvl)
           } 
-          if(record.lvl == '1') {
-            return parseDate(text, 'MM/DD/YYYY H:mm')
-          }
-         
           return ''
         }
       },
