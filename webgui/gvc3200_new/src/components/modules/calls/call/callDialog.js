@@ -24,16 +24,8 @@ let tmpclass = "", ctrlbtnvisible = "display-hidden";
 let mClicktimes = 0;
 let mPreClickTime, mCurrentClickTime, mTipTimeout;
 
-let durationTimer = null
 
-const prefixInteger = function (num, n) {
-    return (Array(n).join(0) + num).slice(-n)
-}
-const parseDuration = function (dura) {
-    if(dura == 0) return ''
-    let d = moment.duration(dura)
-    return `${prefixInteger(d.get('hour'), 2)}:${prefixInteger(d.get('minutes'), 2)}:${prefixInteger(d.get('seconds'), 2)}`
-}
+
 
 
 
@@ -48,7 +40,6 @@ class CallDialog extends Component {
             ishdmione4K: false,
             isline4Kvideo: false,
             DTMFDisplay: true,    //?
-            duration: 0
 		}
 		this.req_items = new Array();
         this.req_items.push(
@@ -240,24 +231,8 @@ class CallDialog extends Component {
     componentWillUnmount = () => {
         const _this = this;
         window.removeEventListener('hashchange', _this.minimizeDialog)
-        clearInterval(durationTimer)
     }
 
-    componentWillReceiveProps = (nextProps) => {
-        const thisDuration = this.props.globalConfInfo.duration
-        const nextDuration = nextProps.globalConfInfo.duration
-        if(!this.state.duration &&  nextDuration > 0 ) {
-            this.setState({
-                duration: parseInt(nextDuration)
-            })
-            durationTimer = setInterval(() => {
-                let duration = this.state.duration
-                this.setState({
-                    duration: duration + 1000
-                })
-            },1000)
-        }
-    }
     
     render(){
         //dialogstatus: 9-enter  10-leave  1~7-line statues 86-not found  87-timeout 88-busy
@@ -335,8 +310,8 @@ class CallDialog extends Component {
 				<div className={`call-ctrl ${tmpclass}`} >
                     <div className="call-ctrl-head">
                         <div className="call-ctrl-title">
-                            <strong>{globalConfInfo.name || this.tr('a_23555')}</strong> <br />
-                            <span className={isrecording == 1 ? 'isrecording' : ''}>{parseDuration(duration)}</span>
+                            <strong className={isrecording == 1 ? 'isrecording' : ''}>{globalConfInfo.name || this.tr('a_23555')}</strong> <br />
+                            <span ></span>
                         </div>
                         <div className="shrink-icon" onClick={this.minimizeDialog}></div>
                     </div>

@@ -4431,7 +4431,7 @@ table thead tr th{
 }
 .call-dialog .call-ctrl-title {
     line-height: 1;
-    height: 70px;
+    height: 60px;
 }
 .call-dialog .call-ctrl-title strong {
     font-size: 18px;
@@ -4439,15 +4439,11 @@ table thead tr th{
     display: inline-block;
     font-weight: normal; 
 }
-.call-dialog .call-ctrl-title span {
-    font-size: 14px;
-    color: #596680;
-}
-.call-dialog .call-ctrl-title span.isrecording {
+.call-dialog .call-ctrl-title strong.isrecording {
     position: relative;
 }
 
-.call-dialog .call-ctrl-title span.isrecording::before {
+.call-dialog .call-ctrl-title strong.isrecording::before {
     content: '';
     left: -16px;
     width: 8px;
