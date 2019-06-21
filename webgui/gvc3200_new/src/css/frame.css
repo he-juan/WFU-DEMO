@@ -5251,6 +5251,8 @@ table thead tr th{
     display: inline-block;
     vertical-align: middle;
     padding-right: 20px;
+    margin: 0;
+    width: 540px
 }
 .CallDiv span.lock i {
     width: 20px;
@@ -5259,9 +5261,13 @@ table thead tr th{
     margin-left: 8px;
     margin-right: 3px;
 }
+.CallDiv span.locktype0 i {
+    background: transparent;
+}
 .CallDiv span.locktype1 i {
     background: url(../img/icon.png) -422px -192px no-repeat;
 }
+
 .content-container .backup-content{
     position: relative;
     margin: 10px 10px 0 10px;

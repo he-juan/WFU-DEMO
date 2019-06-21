@@ -61,7 +61,7 @@ class Record extends Component {
         let path = text.Path
         let info = this.getRecordNameAndPath(path)
         var name = info.name
-        var statue = <span id = {'locktype' + text.Id} className={'lock ellips locktype' + text.Lock}><i/>{name}</span>
+        var statue = <span id = {'locktype' + text.Id} className={'lock ellips locktype' + text.Lock}>{name}<i/></span>
         return statue;
     }
 
@@ -220,6 +220,12 @@ class Record extends Component {
             this.props.promptMsg('ERROR',"a_6162");
         }
         let mOpid = text.Id;
+        var classname = document.getElementById(mOpid).className;
+        var lock = classname.split(' ')[1].substring(8);
+        if( lock == "1" ){
+            this.props.promptMsg('ERROR',"a_6162");
+            return false;
+        }
         let path = text.Path
         var delteId = [mOpid];
         path = path.replace(/ogg/g, "rgs").replace(/wav/g, "rgs").replace(/rgs/g, "*").replace(/,/g, " ");
