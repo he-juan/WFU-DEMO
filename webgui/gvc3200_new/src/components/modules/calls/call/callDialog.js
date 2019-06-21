@@ -303,7 +303,7 @@ class CallDialog extends Component {
 
         const lineNotFail = linestatus.filter(item => item.state != '8')
 
-        const isBtnsHide = isOnHold == '1' ||  lineActive.length == 0 
+        const isBtnsHide = isOnHold == '1' ||  lineActive.length == 0
 
         return (
             <div className={`call-dialog`}>
@@ -318,7 +318,7 @@ class CallDialog extends Component {
                     <div className="call-ctrl-btn">
                         {/* 添加成员按钮 */}
                         {
-                            isBtnsHide ? null :
+                            isBtnsHide || lineActive.length == Number(this.props.maxlinecount) ? null :
                             <InviteMember 
                                 ispause={_ispause} 
                                 disabled={lineNotFail.length >= Number(this.props.maxlinecount) ||(sfu_meetinginfo && sfu_meetinginfo.memberInfoList.length >= parseInt(sfu_meetinginfo.maxUserCount))} 

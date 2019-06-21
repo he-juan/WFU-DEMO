@@ -28,8 +28,8 @@ class InviteMember extends Component {
 
     return (
       <span>
-        <Button title={this.tr("a_517")} className={`addmember-btn`} disabled={disabled} onClick={() => {this.toogleInviteMemberModal(true)}} />  <br/>
-        {this.tr("a_517")}
+        <Button title={this.tr("a_23029")} className={`addmember-btn`} disabled={disabled} onClick={() => {this.toogleInviteMemberModal(true)}} />  <br/>
+        {this.tr("a_23029")}
         <InviteMemberModal visible={this.state.InviteMemberModalVisible} onHide={() => this.toogleInviteMemberModal(false)}  linestatus={linestatus} />
       </span>
     )
