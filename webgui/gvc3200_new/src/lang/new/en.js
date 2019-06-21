@@ -4006,3 +4006,4 @@ var a_23575_en = 'Click to block';
 var a_23576_en = 'Click to unblock';
 var a_23577_en = 'The number of IPVideoTalk members has reached the limit.';
 var a_23578_en = 'Minimize dialog';
+var a_23579_en = "Click to return to the call";

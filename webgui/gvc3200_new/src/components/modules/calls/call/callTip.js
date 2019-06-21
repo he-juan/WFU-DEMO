@@ -28,7 +28,7 @@ class CallTip extends Component {
 
     render(){
         return (
-            <div className="on-call-tip" onClick={this.handleCallDialog} style={{width: this.state.tipwidth}}>{this.tr("return_call")}</div>
+            <div className="on-call-tip" onClick={this.handleCallDialog} style={{width: this.state.tipwidth}}>{this.tr("a_23579")}</div>
         );
     }
 }

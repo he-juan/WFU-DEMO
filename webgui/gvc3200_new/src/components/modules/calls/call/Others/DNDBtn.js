@@ -36,7 +36,8 @@ class DNDBtn extends Component {
 
 
 const mapStateToProps = (state) => ({
-  dndstatus: state.dndstatus
+  dndstatus: state.dndstatus,
+  curLocale: state.curLocale,
 
 })
 
