@@ -1717,7 +1717,7 @@ static int get_conatcts_list(buffer *b) {
  *           "date:":"1556416266047", "duration":"32", "isvideo": "1", "iscontact": "1"},
  *          ...]
  */
-static cJSON *get_conf_member(sqlite3 *db, char *confid) {
+static cJSON *get_conf_member(sqlite3 *db, char *confid, char *isMissedCall) {
     cJSON *resObj = cJSON_CreateArray();
     int rc;
     sqlite3_stmt *stmt;
@@ -1725,7 +1725,12 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid) {
     char *sqlstr = (char*)malloc(512);
     memset(sqlstr, 0, 512);
     // 根据传入的会议id去查询该会议下所有的会议成员，或根据传入的未接来电的记录id查询该记录的详细数据
-    snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where (group_id=%s and is_conference=1) or (_id=%s and type=3 and is_conference=0) order by date desc;", confid, confid);
+
+    if (isMissedCall) {
+        snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where _id=%s and type=3 and is_conference=0 order by date desc;", confid);
+    } else {
+        snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where group_id=%s and is_conference=1 order by date desc;", confid);
+    }
 
     LOGD("querying members of conf: %s ......", confid);
 
@@ -1904,7 +1909,12 @@ static int get_calllog_list(buffer *b) {
             continue;
         }
 
-        cJSON *memberArrObj = get_conf_member(db, id);
+        int isMissedCall = 0;
+        if (!strcmp(is_schedule, "3")) {
+            isMissedCall = 1;
+        }
+
+        cJSON *memberArrObj = get_conf_member(db, id, isMissedCall);
 
         int size = cJSON_GetArraySize(memberArrObj);
 
