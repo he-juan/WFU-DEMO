@@ -4005,3 +4005,4 @@ var a_23574_en = 'Click to open video image';
 var a_23575_en = 'Click to block';
 var a_23576_en = 'Click to unblock';
 var a_23577_en = 'The number of IPVideoTalk members has reached the limit.';
+var a_23578_en = 'Minimize dialog';

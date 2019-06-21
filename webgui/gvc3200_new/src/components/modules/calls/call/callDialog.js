@@ -311,9 +311,8 @@ class CallDialog extends Component {
                     <div className="call-ctrl-head">
                         <div className="call-ctrl-title">
                             <strong className={isrecording == 1 ? 'isrecording' : ''}>{globalConfInfo.name || this.tr('a_23555')}</strong> <br />
-                            <span ></span>
                         </div>
-                        <div className="shrink-icon" onClick={this.minimizeDialog}></div>
+                        <div className="shrink-icon" title={this.tr('a_23578')} onClick={this.minimizeDialog}></div>
                     </div>
                     <LinesList linestatus={linestatus} acctstatus={this.state.acctstatus} feccbtnvisile={!this.state.is4kon && (!this.state.ishdmione4K || !this.state.isline4Kvideo)} />
                     <div className="call-ctrl-btn">
