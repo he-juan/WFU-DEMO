@@ -9,13 +9,14 @@ import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form,
 import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+const rowkey = record => {return record.key}
+
 
 const NewContactsEditForm = Form.create()(NewContactsEdit);
 const ImportEditForm = Form.create()(ImportEdit);
 const ExportEditForm = Form.create()(ExportEdit);
 const ContactsDownloadForm = Form.create()(DownloadContactsForm);
 let req_items;
-let rowkeys =[]
 
 class ContactTab extends Component {
     contactList = [];
@@ -387,10 +388,15 @@ class ContactTab extends Component {
     }
 
     handleCall = (text, index) => {
-        let {acctstatus} = this.state;
-        let curnum = text.number;
-        let acct = text.acct;
-        this.props.cb_start_single_call(acctstatus, curnum, acct, 0, 0, 0 , 0);
+        let memToCall =[]
+        memToCall.push({
+            num: text.number,
+            acct: text.acct,
+            isvideo: text.isvideo || 0,
+            source: '1',
+            isconf: '1',
+        })
+        this.props.makeCall(memToCall)
     }
 
     handleEditItem = (text, index) => {
@@ -466,8 +472,7 @@ class ContactTab extends Component {
 
     _createName = (text, record, index) => {
         let status;
-        // console.log(text)
-        status = <div style = {{'height':'33px'}} title={text.name}><span className = {'contactsIcon' + text.isfavourite == '1' ? " contactsIcon_fav" : ""}></span><span className = "ellips contactstext contactname">{text.name}</span></div>;
+        status = <div style = {{'height':'33px'}} title={text.name}><span className = {`contactsIcon${text.isfavourite == '1' ? " contactsIcon_fav" : ""}`}></span><span className = "ellips contactstext contactname">{text.name}</span></div>;
         return status;
     }
 
@@ -480,7 +485,7 @@ class ContactTab extends Component {
             }
             str += item
             content.push(
-                <span className = "ellips contactstext contactnumber" style={{ 'paddingLeft':'0'}} title={item}>{str}</span>
+                <span className = "ellips contactstext contactnumber" key={'nm' + i} style={{ 'paddingLeft':'0'}} title={item}>{str}</span>
             )
         })
         return <div style = {{'height':'33px'}} title={text}>{content}</div>
@@ -697,7 +702,7 @@ class ContactTab extends Component {
                 <div className = 'CallDiv Contactstable'>
                     <Table
                         rowSelection={rowSelection}
-                        rowKey = ""
+                        rowKey={rowkey}
                         columns = { columns }
                         pagination = { pageobj }
                         dataSource = { data }
@@ -770,7 +775,8 @@ const mapDispatchToProps = (dispatch) => {
         getAcctStatus: Actions.getAcctStatus,
         cb_start_single_call:Actions.cb_start_single_call,
         getContacts_new:Actions.getContactsNew,
-        clearContact:Actions.clearContact
+        clearContact:Actions.clearContact,
+        makeCall: Actions.makeCall
     }
 
     return bindActionCreators(actios, dispatch)

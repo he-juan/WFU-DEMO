@@ -5,6 +5,7 @@ import * as Actions from 'components/redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+
 let timer, DATASOURCE
 
 // parse 账号类型
@@ -23,10 +24,10 @@ const parseAcct = (function () {
 // 返回图标名 是否是会议, 单路(呼入,呼出,未接来电), 联系人
 const getIconClass = function(record) {
   const { isfavourite } = record
-  
+
   // 联系人
   return isfavourite == '1' ? 'icon-contacts-fav' : 'icon-contacts'
-  
+
 }
 
 
@@ -58,14 +59,15 @@ class ContactsTab extends Component {
           col2: phone.number,
 
           name: item.name.displayname,
-          number: phone.number, 
+          number: phone.number,
           numberText: phone.number,
           acct: phone.acct,
           isvideo: 1,
           source: 1, // 联系人呼出source 为1
           contacts: '1',
           lvl: '0',
-          isfavourite: item.isfavourite
+          isfavourite: item.isfavourite,
+          email: item.email[0] ? item.email[0].address : ''
         }
         result.push(data)
       })
@@ -140,7 +142,7 @@ class ContactsTab extends Component {
             </div>
           )
         }
-      }, 
+      },
       {
         key: 'col1',
         dataIndex: 'col1',

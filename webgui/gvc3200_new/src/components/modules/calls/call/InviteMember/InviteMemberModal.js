@@ -12,8 +12,6 @@ import './inviteMember.less'
 const Option = Select.Option
 const TabPane = Tabs.TabPane
 
-
-
 function parseAcctStatus(acctstatus) {
   let headers = acctstatus.headers
   let result = [];
@@ -100,7 +98,8 @@ class InviteMemberModal extends Component {
         isvideo: '1',
         isconf: '1',
         source: '2',
-        name: number
+        name: number,
+        email: email || ''
       }
     })
     // 输入的非数字字符串无法添加
@@ -138,7 +137,7 @@ class InviteMemberModal extends Component {
   }
   // push _memToCall 添加 去重等操作
   pushMemToCall(_memToCall, item) {
-    const {number, acct, isvideo, source, name} = item
+    const {number, acct, isvideo, source, name, email} = item
 
     if(acct == '1') {
       let names = name.split(',')
@@ -153,7 +152,8 @@ class InviteMemberModal extends Component {
           isvideo: isvideo,
           source: source,
           isconf: '1',
-          name: names[i]
+          name: names[i],
+          email: email || ''
         })
       })
     } else {
@@ -167,7 +167,8 @@ class InviteMemberModal extends Component {
         isvideo: isvideo,
         source: source,
         isconf: '1',
-        name: name
+        name: name,
+        email: email || ''
       })
     }
 

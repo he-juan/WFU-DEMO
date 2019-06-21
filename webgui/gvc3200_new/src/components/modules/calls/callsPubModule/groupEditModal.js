@@ -181,7 +181,7 @@ class GroupEditModal extends Component {
                                 {
                                     (this.state.curContactList).map((item, index) => {
                                         return (
-                                            <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
+                                            <Row type="flex" key={'r'+index} justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
                                                 <Col span={2}>
                                                     {getFieldDecorator('contactCheckbox'+item['id'], {
                                                         valuePropName: 'checked',

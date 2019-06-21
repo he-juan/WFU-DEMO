@@ -292,6 +292,7 @@ class Call extends Component {
             // {type:3,statusname:callTr('a_10174')},  // 已过期
             {type:3,statusname:this.tr('a_over')}  // 已结束
         ]
+        // console.log('handleSortForConf',data)
         for(let i = 0;i<data.length;i++){
             let item = data[i]
             let info = data[i].confinfo

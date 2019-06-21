@@ -7,6 +7,7 @@ import { Form,Checkbox, Modal, Tooltip, Icon, Row,Col, Input, Button, Select, Ra
 import moment from 'moment';
 import {setTimeoutOpt} from "../../../redux/actions";
 import InviteMemberModal from "../../calls/call/InviteMember/InviteMemberModal"
+import '../schedule/schedule.less'
 const FormItem = Form.Item
 const Option = Select.Option
 const TabPane = Tabs.TabPane;
@@ -1159,7 +1160,7 @@ class NewContactsEdit extends Component {
             onSelect: this.onSelectCallItem,
         }
 
-        let showbindAccount = false
+        let showbindAccount = true
         let bindAccount = '-1'
         if(showbindAccount) {
             bindAccount = this.props.form.getFieldValue('bindAccount')
@@ -1204,7 +1205,7 @@ class NewContactsEdit extends Component {
                                 rules: [{ type: 'object', required: true, message: 'Please select time!' }],
                                 initialValue:moment(curDate, 'YYYY-MM-DD')
                             })(
-                                <DatePicker disabled={allDisabled} disabledDate={this.disabledDate} onChange={this.onStartChange.bind(this)} style={{width:'40%'}} format={dateFormat}/>
+                                <DatePicker allowClear={false} disabled={allDisabled} disabledDate={this.disabledDate} onChange={this.onStartChange.bind(this)} style={{width:'40%'}} format={dateFormat}/>
                             )}
                             &nbsp;&nbsp;
                             {getFieldDecorator('confhours', {

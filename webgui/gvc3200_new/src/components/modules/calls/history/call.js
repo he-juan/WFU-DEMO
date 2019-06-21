@@ -160,6 +160,7 @@ class Call extends Component {
                 //     item.conftype = 'sip'
                 // }
             }
+            item.key = 'k' + i
             let obj = {
                 key: 'c' + i,
                 row0: item,
@@ -360,7 +361,7 @@ class Call extends Component {
                     }
                     name += item.name
                     content.push(
-                        <span className = "ellips ellipsName" title={item.name}>{name}</span>
+                        <span className = "ellips ellipsName" key={'st'+i} title={item.name}>{name}</span>
                     )
                 })
             }
@@ -373,7 +374,7 @@ class Call extends Component {
             if(source[0].isvideo == '1') {
                 type = Number(type) + 3
             }
-            content.push(<span className = "ellips ellipsName" title={text.name }>{text.name }</span>)
+            content.push(<span className = "ellips ellipsName" key={"n"+text.key} title={text.name }>{text.name }</span>)
         }
         return <span className={"nameStr"}><i className={"type" + type}></i>{content}</span>;
     }
@@ -523,7 +524,7 @@ class Call extends Component {
                 <li onClick={this.handleEditContacts.bind(this, number, account)}>{this.tr("a_15003")}</li>
             </div>
             statue =
-                <div className = {"callRecord" + " type"}>
+                <div className = {"callRecord" + " type"} key={'a'+text.key}>
                     {/* <Popover content={content} placement="top" trigger="hover">
                         <button className={memberArr[0].recordName ? 'display-hidden allow-addContact' : 'display-inline allow-addContact'} id = {'allow-addContact'+index} onClick={(e)=>this.handleAddContact(e,memberArr[0], index)}></button>
                     </Popover> */}
@@ -685,7 +686,7 @@ class Call extends Component {
         for (let i = 0; datasource[i] != undefined ; i++) {
             if(i<10) {
                 status.push(
-                    <div className="call-line">
+                    <div className="call-line" key={'s'+i}>
                         <div className='call-line-info ellips call-line-name'>{this._createInlineName(datasource[i])}</div>
                         <div className='call-line-info ellips call-line-number'>{this._createNumType(datasource[i])}</div>
                         <div className='call-line-info ellips call-line-date'>{this.props.convertTime(datasource[i].date)}</div>
@@ -763,7 +764,6 @@ class Call extends Component {
         let data = text
         if(!text.length) {
             data = [text]
-
         }
         this.setState({
             displayNewConfModal: true,

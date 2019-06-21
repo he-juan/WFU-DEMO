@@ -9,6 +9,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 const GroupEditModalForm = Form.create()(GroupEditModal);
+const rowkey = record => {return record.key}
+
 
 class GroupTab extends Component {
     groupList = [];
@@ -507,7 +509,7 @@ class GroupTab extends Component {
                 <div className = 'CallDiv Grouptable'>
                     <Table
                         rowSelection={rowSelection}
-                        rowKey = ""
+                        rowKey = {rowkey}
                         columns = { columns }
                         pagination = { false }
                         dataSource = { data }

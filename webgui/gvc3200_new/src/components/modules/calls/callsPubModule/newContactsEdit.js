@@ -250,7 +250,6 @@ class NewContactsEdit extends Component {
         }
         let GroupDisplay = (this.props.groups.length == 0) ? 'none' : 'block';
         let numFromHistor = this.props.numFromHistor
-
         return (
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
@@ -322,7 +321,7 @@ class NewContactsEdit extends Component {
                             {
                                 this.props.groups.map((item, index) => {
                                     return (
-                                        <div>
+                                        <div key={'d'+index}>
                                             {getFieldDecorator("groupnumber" + item['Name'] + item['Id'], {
                                                 valuePropName: 'checked',
                                                 initialValue: Number("groupnumber" + item['Name'] + item['Id'])

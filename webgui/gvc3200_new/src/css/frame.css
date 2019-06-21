@@ -3804,7 +3804,7 @@ table thead tr th{
     /* background-repeat: no-repeat; */
 }
 
-.CallDiv span .type5, .inlineCallInfo .type6 {
+.CallDiv span .type6, .inlineCallInfo .type6 {
     /* background-image: url(../img/icon.png); */
     background-position: -224px -389px;
     /* background-repeat: no-repeat; */
@@ -3867,7 +3867,7 @@ table thead tr th{
     background-repeat: no-repeat;
 }
 
-.contactsIcon_fav{
+.CallDiv span.contactsIcon_fav{
     background-position: -674px -88px;
 }
 
@@ -6303,8 +6303,9 @@ table thead tr th{
     margin-left: 8px;
 }
 .btn_addschedule {
-    display: inline-block;
-    width: 100px;
+    /* display: inline-block; */
+    /* min-width: 100px; */
+    max-width: 120px;
     margin: 10px 0 5px 40px;
 }
 .confModal .ant-tabs-nav-container{
@@ -7693,20 +7694,29 @@ ol.mp_list li.mp_error {}
     cursor: pointer;
 }
 .callMoreModal{
-    width: 500px!important;
+    width: 900px!important;
 }
 .callNumerLine {
     height: 40px;
     line-height: 40px;
     font-size: 0.9rem;
 }
-.callNumerSpan{padding-right: 8px}
 .callMoreModal .ant-modal-body {
-    min-height: 300px;
+    margin: 28px 100px 30px 100px;
+    background: #f8f9fc;
+    min-height: 474px;
     max-height: 500px;
     overflow: auto
 }
+.callNameCol{
+    padding-left: 10px;
+}
+.callNameSpan{padding-left: 20px!important}
 
+.callNumCol{
+    padding-right:14px ;
+    text-align: right
+}
 .ant-tabs-bar {
     margin-bottom: 2px !important;
 }

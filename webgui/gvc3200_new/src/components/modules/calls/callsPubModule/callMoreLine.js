@@ -109,31 +109,21 @@ class callMoreLine extends Component {
             <div>
                 <Modal className={modalclass} visible={this.props.displayCallModal}
                        title={callTr('a_504')} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_504")} cancelText={callTr("a_3")} >
-                      {/* <Checkbox.Group onChange={this.onChange}> */}
                         {
                             (data != "" || data.length > 0) && data.length && data.map((item) => {
                                 return(
                                     <Row className="callNumerLine">
-                                        <Col span={8} className="ellips">{item.names}</Col>
-                                        <Col span={8}>{arr[item.acct]}</Col>
-                                        <Col span={8}>
-                                        <span className="callNumerSpan">{item.numbers}</span>
-                                        <Checkbox disabled={this.state.alldisabled && !item.isSelected} value={item} onChange={this.onChange}></Checkbox>
+
+                                        <Col span={10} className="ellips callNameCol" >
+                                            <Checkbox disabled={this.state.alldisabled && !item.isSelected} value={item} onChange={this.onChange}></Checkbox>
+                                            <span className="callNameSpan">{item.names}</span>
                                         </Col>
+                                        <Col span={8}>{arr[item.acct]}</Col>
+                                        <Col span={6} className="callNumCol">{item.numbers}</Col>
                                     </Row>
                                 )
                             })
                         }
-
-                        {/* <Row>
-
-                            <Col span={8}><Checkbox value="A">A</Checkbox></Col>
-                            <Col span={8}><Checkbox value="B">B</Checkbox></Col>
-                            <Col span={8}><Checkbox value="C">C</Checkbox></Col>
-                            <Col span={8}><Checkbox value="D">D</Checkbox></Col>
-                            <Col span={8}><Checkbox value="E">E</Checkbox></Col>
-                        </Row> */}
-                    {/* </Checkbox.Group> */}
                 </Modal>
             </div>
         )
