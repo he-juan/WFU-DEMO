@@ -132,6 +132,12 @@ class Main extends React.Component {
         let _this = this;
         document.removeEventListener('keypress', _this.enterSaveHandler, false)
     }
+
+    componentWillReceiveProps(nextProps) {
+        if(this.props.linesinfo.length > 0 && nextProps.linesinfo == 0) {
+            this.props.getCallLogsNew()
+        }
+    }
     render() {
         let locale
         if (this.props.curLocale == 'en') {

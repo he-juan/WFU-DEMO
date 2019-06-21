@@ -318,7 +318,10 @@ class LogAndContacts extends Component {
           curPage: 1
         })
       }, 300)
-      
+    }
+    if(this.props.callLogsNew.length != nextProps.callLogsNew.length || this.props.contactsNew != nextProps.contactsNew.length) {
+      const { contactsNew, callLogsNew } = nextProps
+      this.parseDataSource(contactsNew, callLogsNew)
     }
   }
   render() {
