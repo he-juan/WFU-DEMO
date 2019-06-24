@@ -198,9 +198,9 @@ class NewContactsEdit extends Component {
         }
         let infostr = `{"rawcontact":${rawcontact},"structuredname":{"displayname":"${displayname}"},"groupmembership":[${groupstr}],"phone":[${numberstr}],"email":[{"type": "1", "address":"${values.email || ''}"}],"note":[{"note":"${values.note || ''}"}],"website":[{"type": "7", "url": "${values.website || ''}"}],"structuredpostal":[{"fomatted":"${values.address|| ""}"}]}`;
         this.props.setContacts(infostr,()=>{
-            setTimeout(() => {
+            // setTimeout(() => {
                 this.props.updateContact()
-            }, 2500);
+            // }, 2500);
         })
         this.props.handleHideModal();
         var containermask = document.getElementsByClassName("containermask")[0];
@@ -234,13 +234,15 @@ class NewContactsEdit extends Component {
         let numValues = this.props.numValues;
         let addNewContact = this.props.addNewContact;
         let numValuesmap = [];
-        let defaultacct = this.props.defaultacct == 2 ? 0 : this.props.defaultacct
+
+        // let defaultacct = this.props.defaultacct == 2 ? 0 : this.props.defaultacct
+        let defaultacct = typeof(this.props.defaultacct) != undefined ? this.props.defaultacct : '-1'
+
         if (numValues.length === 1 && numValues[0] === "" && addNewContact == true) {
             numValuesmap = this.state.numValuesinnr;
         } else {
             numValuesmap = numValues;
         }
-        // console.log(numValuesmap)
         let title = this.props.addNewContact ? 'a_4840' : 'a_4839';
         const {getFieldDecorator} = this.props.form;
         const {callTr,itemValues} = this.props;
@@ -251,6 +253,7 @@ class NewContactsEdit extends Component {
         let GroupDisplay = (this.props.groups.length == 0) ? 'none' : 'block';
         let numFromHistor = this.props.numFromHistor
         return (
+            this.props.displayModal &&
             <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
                 <Form hideRequiredMark >
                     <FormItem label={(<span>{callTr("a_7474")}</span>)}>
@@ -306,12 +309,12 @@ class NewContactsEdit extends Component {
                             <Input style={{width:'89%'}}/>
                         )}
                     </FormItem>
-                    <FormItem label={(<span>{callTr("note")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_note")}</span>)}>
                         {getFieldDecorator('note', {})(
                             <Input style={{width:'89%'}}/>
                         )}
                     </FormItem>
-                    <FormItem label={(<span>{callTr("website")}</span>)}>
+                    <FormItem label={(<span>{callTr("a_website")}</span>)}>
                         {getFieldDecorator('website', {})(
                             <Input style={{width:'89%'}}/>
                         )}

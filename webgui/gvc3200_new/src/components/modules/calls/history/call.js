@@ -56,7 +56,8 @@ class Call extends Component {
             displayLocalContactsModal:false,
             addnumber:'',
             addaccount:'',
-            confMember:[]
+            confMember:[],
+            defaultacct:''
         }
         req_items = new Array;
         req_items.push(
@@ -789,11 +790,13 @@ class Call extends Component {
     updateContact = () => {
         // this.props.getContactCount();
         // this.props.getContacts((items)=>{this.setState({items:items})});
-        this.props.getGroups((groups)=>{this.setState({groups:groups})});
         // this.props.getContactsinfo();
         // this.props.getAllConfMember()
-        this.props.getCallLogsNew()
-        this.props.getContactsNew()
+        setTimeout(() => {
+            this.props.getGroups((groups)=>{this.setState({groups:groups})});
+            this.props.getCallLogsNew()
+            this.props.getContactsNew()
+        }, 2500);
     }
 
     // handleClose = () => {
@@ -944,8 +947,8 @@ class Call extends Component {
                     : null
                 }
 
-                <NewContactsEditForm {...this.props} displayModal={this.state.showNewContactModal} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} detailItems={this.state.detailItems} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
-                <AddLocalcontactsForm {...this.props} displayLocalContactsModal={this.state.displayLocalContactsModal} callTr={this.props.callTr} handleHideLocalContactsModal= {this.handleHideLocalContactsModal} addnumber={this.state.addnumber} addaccount={this.state.addaccount} />
+                <NewContactsEditForm {...this.props} defaultacct={this.state.defaultacct} displayModal={this.state.showNewContactModal} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact} handleSaveContactGroupId = {this.state.handleSaveContactGroupId} detailItems={this.state.detailItems} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} checkRepeatName={this.checkRepeatName} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                <AddLocalcontactsForm {...this.props} defaultacct={this.state.defaultacct} displayLocalContactsModal={this.state.displayLocalContactsModal} callTr={this.props.callTr} updateContact={this.updateContact} handleHideLocalContactsModal= {this.handleHideLocalContactsModal} addnumber={this.state.addnumber} addaccount={this.state.addaccount} />
 
                 <CallMoeLine {...this.props} handleHideCallMoreModal={this.handleHideCallMoreModal}  displayCallModal={this.state.displayCallModal} callTr={this.props.callTr}
                 htmlEncode={this.htmlEncode} promptMsg={this.props.promptMsg} curCallData={this.state.curCallData}/>
@@ -984,7 +987,7 @@ const mapDispatchToProps = (dispatch) => {
         cb_start_single_call:Actions.cb_start_single_call,
         getCallLogsNew:Actions.getCallLogsNew,
         clearCallHistory:Actions.get_clear,
-        getContacts_new:Actions.getContactsNew,
+        getContactsNew:Actions.getContactsNew,
         makeCall: Actions.makeCall
     }
     return bindActionCreators(actions, dispatch)

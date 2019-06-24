@@ -164,7 +164,7 @@ class GroupEditModal extends Component {
                         <div className = "contactsDiv">
                             <p>{callTr("a_19631")}</p>
                             <div>
-                                <Search placeholder={callTr("a_65")} id="search_group" onSearch={this.handleSearch} onChange={this.handleListenValue} enterButton/>
+                                <Search placeholder={callTr("a_65")} id="search_group" onSearch={this.handleSearch} onChange={this.handleListenValue}/>
                                 <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
                                     <Col span={2}>
                                         {getFieldDecorator('contactCheckall', {
@@ -191,9 +191,9 @@ class GroupEditModal extends Component {
                                                         )}
                                                 </Col>
                                                 <Col span={6}>
-                                                    <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['name']}</span>
+                                                    <span style={{display: 'inline-block',position: 'relative', maxWidth: '72px',overflow: 'hidden',whiteSpace: 'nowrap',textOverflow: 'ellipsis'}} data-className='nametext'>{item['name']}</span>
                                                 </Col>
-                                                <Col title={item['number']} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
+                                                <Col title={item['number']} span={16} style = {{textAlign:'right',maxWidth: '188px',overflow: 'hidden',whiteSpace: 'nowrap',textOverflow: 'ellipsis'}}>
                                                     {item['number']}
                                                 </Col>
                                             </Row>
@@ -208,11 +208,11 @@ class GroupEditModal extends Component {
                                 {
                                     selectItems.map((item, index) => {
                                         return (
-                                            <Row type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
+                                            <Row key={'r2'+index} type="flex" justify="around" align="middle" style={{ marginTop:'14px',height: '20px', fontSize: '0.875rem'}}>
                                                 <Col span={6}>
-                                                    <span style={{display: 'inline-block',position: 'relative', 'max-width': '72px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}} data-className='nametext'>{item['name']}</span>
+                                                    <span style={{display: 'inline-block',position: 'relative', maxWidth: '72px',overflow: 'hidden',whiteSpace: 'nowrap',textOverflow: 'ellipsis'}} data-className='nametext'>{item['name']}</span>
                                                 </Col>
-                                                <Col title={item['number']} span={16} style = {{'text-align':'right','max-width': '188px',overflow: 'hidden','white-space': 'nowrap','text-overflow': 'ellipsis'}}>
+                                                <Col title={item['number']} span={16} style = {{textAlign:'right',maxWidth: '188px',overflow: 'hidden',whiteSpace: 'nowrap',textOverflow: 'ellipsis'}}>
                                                     {item['number']}
                                                 </Col>
                                                 <Col span={2} style = {{height:'21px', textAlign:"right"}}>

@@ -23,10 +23,12 @@ class AddLocalcontacts extends Component {
     }
 
     componentDidMount = () => {
-        this.updateContact();
+        // this.updateContact();
     }
 
     updateContact = () => {
+        this.props.updateContact()
+        this.handleCancel()
     }
 
     handleOk = () => {
@@ -84,13 +86,13 @@ class AddLocalcontacts extends Component {
             website: text.website
         };
         text.phone.forEach((item,i) => {
-            let acctstatus = this.props.acctStatus.headers;
-            let Index = item.acct;
-            if(acctstatus[`account_${Index}_no`] == ""){
-                text.acct = '-1'
-            }
-            obj['bindaccount'+i] = item.acct;
-            obj['accountnumber'+i] = item.number;
+            // let acctstatus = this.props.acctStatus.headers;
+            // let Index = item.acct;
+            // if(acctstatus[`account_${Index}_no`] == ""){
+            //     text.acct = '-1'
+            // }
+            // obj['bindaccount'+i] = item.acct;
+            // obj['accountnumber'+i] = item.number;
             numValues.push(item.number+ "--- ---" + item.acct)
         })
         obj['bindaccount'+text.phone.length] = this.props.addaccount;
@@ -136,6 +138,7 @@ class AddLocalcontacts extends Component {
 
         let numFromHistor = true
         return (
+            this.props.displayLocalContactsModal &&
             <Modal title = {callTr('a_19634')} onOk={this.handleOk} onCancel={this.handleCancel}
                     className='selectcontact-modal addlocalcontacts' visible={this.props.displayLocalContactsModal}
                     okText={callTr("a_2")} cancelText={callTr("a_3")} >
@@ -154,6 +157,7 @@ class AddLocalcontacts extends Component {
                 <NewContactsEditForm {...this.props} numFromHistor={numFromHistor} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups} editContact={this.state.editContact}
                 displayModal={this.state.displayModal} addNewContact={this.state.addNewContact} handleHideModal={this.handleHideModal} product={this.props.product} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
             </Modal>
+
         )
     }
 }

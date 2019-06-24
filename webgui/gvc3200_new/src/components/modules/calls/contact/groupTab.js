@@ -50,7 +50,7 @@ class GroupTab extends Component {
             // selected tab changed or selected account changed
             if (this.props.activeKey != nextProps.activeKey
                 || this.props.curAccount != nextProps.curAccount) {
-                this.props.getContacts();
+                // this.props.getContacts();
             }
         }
         if(this.props.groupInformation != nextProps.groupInformation || this.props.contactsNew!= nextProps.contactsNew) {
@@ -76,7 +76,7 @@ class GroupTab extends Component {
         // this.props.getContactCount();
         this.props.getGroups();
         this.props.getContacts_new()
-        this.props.getContacts();
+        // this.props.getContacts();
         let self = this
         setTimeout(function () {
             self._createData()
@@ -99,6 +99,7 @@ class GroupTab extends Component {
             this.props.getGroups(() => {
                this._createData()
             });
+            this.props.getContacts_new()
         },300)
         this.selectedDataList = [];
         this.setState({

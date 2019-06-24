@@ -45,7 +45,7 @@ class CallSelectNum extends Component {
             '-1': 'Active account',
             '0': 'SIP',
             '1': 'IPVideoTalk',
-            'H.323':'H.323'
+            '8':'H.323'
         }
         return (
             <div className = "callselectdiv">

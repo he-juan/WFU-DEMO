@@ -17,7 +17,7 @@ const ImportEditForm = Form.create()(ImportEdit);
 const ExportEditForm = Form.create()(ExportEdit);
 const ContactsDownloadForm = Form.create()(DownloadContactsForm);
 let req_items;
-
+let rowkeys =[]
 class ContactTab extends Component {
     contactList = [];
     selectedContactList = [];
@@ -60,21 +60,6 @@ class ContactTab extends Component {
     }
 
     componentDidMount = () => {
-        // let self = this
-        // if(!this.props.groupInformation.length) {
-        //     this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        // } else {
-        //     this.setState({groups:this.props.groupInformation})
-        // }
-        // if(!this.props.contactsInformation.length) {
-        //     this.props.getContacts((items)=>{this.setState({items:items})});
-        // }
-        // if(!this.props.contactinfodata.length) {
-        //     this.props.getContactsinfo();
-        //     setTimeout(function () {
-        //         self._createData();
-        //     },500)
-        // }
         let showloading = true
 
         this.props.getItemValues(req_items, (values) => {
@@ -172,10 +157,11 @@ class ContactTab extends Component {
     updateContact = (showloading) => {
         // this.props.getContactCount();
         this.props.getContacts_new()
+        this.props.getCallLogsNew()
         this.handleContactData(this.props.contactsNew)
         // this.props.getContacts((items)=>{this.setState({updateState:''})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        this.props.getContactsinfo(showloading);
+        // this.props.getContactsinfo(showloading);
         if(!this.isEmptyObject(this.props.acctStatus)){
             this.setState({
                 existActiveAccount: this.checkActiveAcct(this.props.acctStatus)
@@ -670,7 +656,7 @@ class ContactTab extends Component {
         return (
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>
-                    <div style={{'float':'left'}}>
+                    <div style={{'float':'left',marginTop:5}}>
                         <Button className="select-delete" type="primary" disabled={!hasSelected} style={{marginRight:'10px'}} onClick={this.showDelContactsModal}>
                             <i className={!hasSelected ? "select-delete-icon" : ""} />
                             {this.tr("a_19067")}

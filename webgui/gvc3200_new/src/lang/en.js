@@ -1837,7 +1837,8 @@ var a_contacttitle_en = "Titel";
 var a_groupringtone_en = "Group Ringtone";
 var a_groupmembers_en = "Group Members";
 var a_selectall_en = "Select All";
-
+var a_note_en = "Remarks"
+var a_website_en = "URL"
 var a_devicename_en = "Device Name";
 var a_bluetooth_en = "Bluetooth Settings";
 var a_discoverable_en = "Visible to Nearby Bluetooth Devices";
