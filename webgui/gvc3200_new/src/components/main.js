@@ -135,7 +135,9 @@ class Main extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(this.props.linesinfo.length > 0 && nextProps.linesinfo == 0) {
-            this.props.getCallLogsNew()
+            setTimeout(() => {
+                this.props.getCallLogsNew()
+            }, 1000)
         }
     }
     render() {
