@@ -59,7 +59,7 @@ class VideoinviteDialog extends Component {
         // if(this.props.videoinvitelines.length == 0) return null;
         let linestatus = this.props.linestatus;
         let videoinvitelines = this.props.videoinvitelines.split(","); //["0", "1"]
-
+        let videoLinesLen = videoinvitelines.length
         return (
             <Modal 
                 title={this.tr("a_607")} 
@@ -85,7 +85,7 @@ class VideoinviteDialog extends Component {
                                 }
                             }
                             return <div className="itemdiv" key={i}>
-                                <span className="itemcheck">
+                                <span className="itemcheck" style={{display: videoLinesLen == 1 ? 'none' : 'inline-block'}}>
                                     <Checkbox defaultChecked={defaultchecked}  onChange={this.onChange.bind(this,item)}></Checkbox></span>
                                 <span className="itemname"><em title={name}>{name}</em></span>
                                 <span className="itemnum"><em title={num}>{num}</em></span>
