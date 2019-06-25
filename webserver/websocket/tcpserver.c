@@ -87,6 +87,7 @@
 #define LINE_STATUS_CHANGED "linestatuschanged"
 #define CONF_STATUS_CHANGED "confstatuschanged"
 #define DND_STATE_CHANGED "dndstatuschanged"
+#define PRESENTATION_STATUS_CHANGED_DBUS "presentaionstatuschanged"
 
 static char *dbus_path = "/com/grandstream/dbus/webservice";
 static char *dbus_dest = "com.grandstream.dbus.gmi.server";
@@ -1356,6 +1357,26 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
             memset(sendData, 0, len);
             snprintf(sendData, len, "{\"type\":\"dnd\", \"state\":%s},", str);
             LOGD("DND_CHANGED_DBUS: %s", sendData);
+            sendDataToSocket(sendData);
+            free(sendData);
+        }
+        else
+        {
+            printf("receive freeline message error: %s\n", error.message);
+            dbus_error_free(&error);
+        }
+    }
+    else if (dbus_message_is_signal(message, DBUS_INTERFACE_WEB, PRESENTATION_STATUS_CHANGED_DBUS))
+    {
+        if (dbus_message_get_args(message, &error,
+                                  DBUS_TYPE_STRING, &str,
+                                  DBUS_TYPE_INVALID))
+        {
+            len = 128 + strlen(str);
+            sendData = malloc(len);
+            memset(sendData, 0, len);
+            snprintf(sendData, len, "{\"type\":\"presentaion-status-changed\", \"data\":%s},", str);
+            LOGD("PRESENTATION_CHANGED_DBUS: %s", sendData);
             sendDataToSocket(sendData);
             free(sendData);
         }

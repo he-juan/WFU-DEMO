@@ -25293,6 +25293,16 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 params = append_req_params(params, "line", line, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "redialLines", params);
+            } else if (!strcasecmp(action, "getpresentationstate")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "getLocalPresentationState", params);
+            } else if (!strcasecmp(action, "setpresentationstate")) {
+                char *state = msg_get_header(m, "state");
+                if (NULL == state) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                params = append_req_params(params, "state", state, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "setLocalPresentationState", params);
 	        //} else {
             //    findcmd = 0;
             }
