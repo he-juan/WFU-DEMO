@@ -157,7 +157,7 @@ class ContactTab extends Component {
 
 
     updateContact = (showloading) => {
-        this.props.getContacts_new()
+        this.props.getContactsNew()
         this.props.getCallLogsNew()
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
         if(!this.isEmptyObject(this.props.acctStatus)){
@@ -708,7 +708,7 @@ class ContactTab extends Component {
                 </div>
                 {
                     this.state.displayImportModal ?
-                    <ImportEditForm  displayImportModal={this.state.displayImportModal} contactNum = {data.length} maxImportCount ={maxImportCount}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
+                    <ImportEditForm updateContact={this.updateContact} displayImportModal={this.state.displayImportModal} contactNum = {data.length} maxImportCount ={maxImportCount}  handleHideImportModal={this.handleHideImportModal}  callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} itemValues={this.props.itemValues} promptMsg={this.props.promptMsg} htmlEncode={this.htmlEncode}/>
                     : null
                 }
                 {
@@ -718,7 +718,7 @@ class ContactTab extends Component {
                 }
                 {
                     this.state.displayDwonloadModal ?
-                    <ContactsDownloadForm  displayDwonloadModal={this.state.displayDwonloadModal} contactNum = {data.length} maxImportCount ={maxImportCount} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} />
+                    <ContactsDownloadForm updateContact={this.updateContact} displayDwonloadModal={this.state.displayDwonloadModal} contactNum = {data.length} maxImportCount ={maxImportCount} handleHideDownloadModal={this.handleHideDownloadModal} callTr={this.props.callTr} getReqItem ={this.props.getReqItem} getItemValues={this.props.getItemValues} />
                     : null
                 }
                 <NewContactsEditForm {...this.props} emailValues={this.state.emailValues} numValues={this.state.numValues} updateContact={this.updateContact} groups={this.state.groups}
@@ -757,7 +757,7 @@ const mapDispatchToProps = (dispatch) => {
         sendSingleCall:Actions.sendSingleCall,
         getAcctStatus: Actions.getAcctStatus,
         cb_start_single_call:Actions.cb_start_single_call,
-        getContacts_new:Actions.getContactsNew,
+        getContactsNew:Actions.getContactsNew,
         clearContact:Actions.clearContact,
         makeCall: Actions.makeCall,
         getCallLogsNew:Actions.getCallLogsNew,

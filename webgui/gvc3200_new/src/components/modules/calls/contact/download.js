@@ -183,7 +183,8 @@ class DownloadContactsForm extends Component {
                 break;
             default:
         }
-        this.props.getContacts();
+        this.props.updateContact();
+
     }
 
     getDownConfig = (flag) => {
@@ -263,7 +264,7 @@ class DownloadContactsForm extends Component {
                 }
             }
         }
-        
+
     }
 
     render() {

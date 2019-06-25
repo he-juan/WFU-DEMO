@@ -88,7 +88,7 @@ class ImportEdit extends Component {
                 break;
             default:
         }
-        this.props.getContacts();
+        this.props.updateContact();
     }
 
     handleFileTypeChange = (type,val) => {
@@ -147,7 +147,7 @@ class ImportEdit extends Component {
             return false
         }
         let format = file.name.substr(file.name.length - 4,4)
-        
+
         if(format != this.getCurFormat()) {
             this.props.promptMsg("ERROR", this.tr('a_12090'));
             return false
