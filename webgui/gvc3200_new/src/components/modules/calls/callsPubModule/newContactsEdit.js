@@ -12,12 +12,7 @@ const acctname_item = ['270','417','517','617','1717','1817',"50617","50717","50
 let mCurContacts = [];
 let req_items = new Array;
 let acctnames = new Array;
-const children_acctnames = [
-    <option value="-1">Active account</option>,
-    <option value="0">SIP</option>,
-    <option value="1">IPVideoTalk</option>,
-    <option value="8">H.323</option>,
-]
+
 
 class NewContactsEdit extends Component {
     constructor(props){
@@ -253,8 +248,8 @@ class NewContactsEdit extends Component {
         let GroupDisplay = (this.props.groups.length == 0) ? 'none' : 'block';
         let numFromHistor = this.props.numFromHistor
         return (
-            this.props.displayModal &&
-            <Modal title={callTr(title)} onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className='contacts-modal' visible={this.props.displayModal}>
+            // this.props.displayModal &&
+            <Modal title={callTr(title)}  onOk={this.handleOk} onCancel={this.handleCancel} okText={callTr("a_2")} cancelText={callTr("a_3")} className={`contacts-modal ${this.props.displayModal ? 'display-block':'display-hidden'}`} visible={this.props.displayModal}>
                 <Form hideRequiredMark >
                     <FormItem label={(<span>{callTr("a_7474")}</span>)}>
                         {getFieldDecorator('name', {
@@ -270,12 +265,15 @@ class NewContactsEdit extends Component {
                     {
                         (numValuesmap != "" || numValuesmap.length > 0) && numValuesmap.map((val,idx,arr) => {
                             return (
-                                <FormItem className="numcontact" label={idx == 0 ? (<span>{callTr("a_10006")}&nbsp;</span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)} >
+                                <FormItem  key={'f'+idx} className="numcontact" label={idx == 0 ? (<span>{callTr("a_10006")}&nbsp;</span>) : (<span style={{visibility:'hidden'}}>{"紧急联系人"}</span>)} >
                                     {getFieldDecorator('bindaccount'+idx, {
                                         initialValue: val.split("--- ---")[1] ? val.split("--- ---")[1] : defaultacct
                                     })(
                                         <Select style={{width:'44%'}}>
-                                            {children_acctnames}
+                                            <Option value="-1">{callTr("a_active_account")}</Option>
+                                            <Option value="0">SIP</Option>
+                                            <Option value="1">IPVideoTalk</Option>
+                                            <Option value="8">H.323</Option>
                                         </Select>
                                     )}&nbsp;&nbsp;
                                     {getFieldDecorator('accountnumber'+idx, {
@@ -331,7 +329,7 @@ class NewContactsEdit extends Component {
                                             })(
                                                 <Checkbox onChange={this.checkGroupItem.bind(this, "groupnumber" + item['Name'] + item['Id'])} />
                                             )}
-                                            <span className="ellips" style={{'max-width':'430px',position:'absolute'}}>{item['Name']}</span>
+                                            <span className="ellips" style={{'maxWidth':'430px',position:'absolute'}}>{item['Name']}</span>
                                         </div>
                                     )
                                 })

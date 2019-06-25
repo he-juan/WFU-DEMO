@@ -6180,6 +6180,7 @@ table thead tr th{
 }
 .call-line-duration {
     width: 5%;
+    white-space: nowrap;
 }
 .call-line-act {
     width: 20%;
@@ -7695,14 +7696,25 @@ ol.mp_list li.mp_error {}
 .CallDiv .nodata_tip{
     width: 500px ;
     height: 140px;
-    margin: 150px auto;
+    margin: 100px auto;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 14px;
     font-weight: bold;
-    color: rgba(85, 98, 123, .65);
+    color: #949ba9;
+}
+.CallDiv .nodata_tip p{
+    margin-top: 20px;
+}
+.nodata{
+    margin: 0 auto;
+    width: 164px;
+    height: 102px;
+    background: transparent url("../img/icon.png") 0px -92px no-repeat;
 }
 .CallDiv .nodata_tip span{
     cursor: pointer;
+    text-decoration: underline;
+    color:#3d77ff;
 }
 .callMoreModal{
     width: 900px!important;

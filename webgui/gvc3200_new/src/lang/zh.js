@@ -1846,6 +1846,13 @@ var a_discoverable_zh = "对附近设备可见";
 var a_paireddevices_zh = "已配对的设备";
 var a_blthunpair_zh = "取消配对";
 var a_nodevice_zh ="对不起，暂无可用设备";
+var a_nocontact_try_zh ="没有联系人，试试"
+var a_or_zh = "或"
+var a_noConf_try_zh = "没有会议，试试"
+var a_clearContact_zh = "清空联系人"
+var a_clearContactTip_zh = "确定清空所有联系人？"
+var a_active_account_zh = "动态账号"
+
 
 /***************Device Detection***************/
 var device_detect_zh = "设备检测";
@@ -1950,6 +1957,7 @@ var call_notfound_zh = "呼叫失败! 404找不到!";
 var call_busy_zh = "呼叫失败! 486对方忙!";
 var call_noresponse_zh = "呼叫失败! 无响应!";
 var call_timeout_zh="呼叫失败! 超时异常!";
+var call_fail_zh="呼叫失败";
 var recent_call_zh = "最近通话";
 var a_selectcontact_zh = "选择联系人";
 var a_newgroup_zh = "新建群组";
@@ -2186,3 +2194,4 @@ var a_aeclevel_zh = "音频回声抑制等级";
 /****************conference schedule ****************/
 var a_notstart_zh = "未开始"
 var a_over_zh = "已结束"
+

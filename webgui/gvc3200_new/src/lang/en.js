@@ -1845,6 +1845,14 @@ var a_discoverable_en = "Visible to Nearby Bluetooth Devices";
 var a_paireddevices_en = "Paired devices";
 var a_blthunpair_en = "Unpair";
 var a_nodevice_en ="Sorry, no device is available.";
+var a_nocontact_try_en ="No contacts,try"
+var a_or_en = "or"
+var a_noConf_try_en = "No meeting appointment, try"
+var a_clearContact_en = "Clear contacts"
+var a_clearContactTip_en = "Are you sure you want to clear all contacts?"
+var a_active_account_en = "Active account"
+
+
 
 /***************Device Detection***************/
 var device_detect_en = "Device Diagnosis";
@@ -1945,6 +1953,7 @@ var call_notfound_en = "Call Failed! 404 not found!";
 var call_busy_en = "Call Failed! 486 busy!";
 var call_noresponse_en = "Call Failed! no response!";
 var call_timeout_en="Call Failed! Timeout exception!";
+var call_fail_en="Call failed";
 var recent_call_en = "Recent call";
 var a_selectcontact_en = "Select contacts";
 var valid_suc_en = "Validation success";

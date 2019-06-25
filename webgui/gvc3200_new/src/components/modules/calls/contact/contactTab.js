@@ -9,6 +9,8 @@ import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Form,
 import * as Actions from '../../../redux/actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
+
 const rowkey = record => {return record.key}
 
 
@@ -57,11 +59,11 @@ class ContactTab extends Component {
             this.getReqItem("maxImportCount", 1688, "")
         );
         this.callmode="0"; // "0": normal call;  "1": IP call
+        this.handleContactData = debounce(this.handleContactData, 600)
     }
 
     componentDidMount = () => {
         let showloading = true
-
         this.props.getItemValues(req_items, (values) => {
             let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
             this.setState({
@@ -71,12 +73,13 @@ class ContactTab extends Component {
             });
         });
         let data = this.props.contactsNew
-        // console.log(this.props.contactsNew)
         if(!data.length) {
             this.updateContact(showloading);
         } else {
             this.handleContactData(data)
         }
+        this.props.getGroups((groups)=>{this.setState({groups:groups})});
+
 
         this.props.getAcctStatus((acctstatus) => {
             if (!this.isEmptyObject(acctstatus)) {
@@ -141,27 +144,22 @@ class ContactTab extends Component {
                 this.props.getGroups((groups)=>{this.setState({groups:groups})});
                 this.handleContactData(nextProps.contactsNew)
             }
-            if (this.props.form == nextProps.form) {
-                // this._createData();
-            }
-            if($.isArray(nextProps.contactsNew)
-                && $.isArray(nextProps.contactsNew)
-                && this.props.contactsNew.length !== nextProps.contactsNew.length) {
+            // if($.isArray(nextProps.contactsNew)
+            //     && this.props.contactsNew.length !== nextProps.contactsNew.length) {
+            //     this.handleContactData(nextProps.contactsNew)
+            //     // this._createData();
+            // }
+            if($.isArray(nextProps.contactsNew)) {
                 this.handleContactData(nextProps.contactsNew)
-                // this._createData();
             }
         }
     }
 
 
     updateContact = (showloading) => {
-        // this.props.getContactCount();
         this.props.getContacts_new()
         this.props.getCallLogsNew()
-        this.handleContactData(this.props.contactsNew)
-        // this.props.getContacts((items)=>{this.setState({updateState:''})});
         this.props.getGroups((groups)=>{this.setState({groups:groups})});
-        // this.props.getContactsinfo(showloading);
         if(!this.isEmptyObject(this.props.acctStatus)){
             this.setState({
                 existActiveAccount: this.checkActiveAcct(this.props.acctStatus)
@@ -177,7 +175,6 @@ class ContactTab extends Component {
         if (searchkey!='') {
             $("#search").val("");
         }
-        // setTimeout(()=> this._createData(),500)
     }
 
     handleContactData = (contactsData) => {
@@ -365,6 +362,9 @@ class ContactTab extends Component {
     handleOkClearAll = () => {
         // console.log('clear')
         // this.props.clearContact()
+        this.props.removeContact("", () => {
+            this.updateContact()
+        })
         this.handleClearContactsCancel()
     }
 
@@ -573,10 +573,6 @@ class ContactTab extends Component {
 
     render() {
         // console.log(this.props.contactsInformation,this.props.groupInformation,this.props.contactsAcct)
-        // if(JSON.stringify(this.props.contactsInformation) == '{}' || JSON.stringify(this.props.groupInformation) == '{}'
-        //     || JSON.stringify(this.props.contactsAcct)== '{}' ) {
-        //     return null;
-        // }
         const callTr = this.props.callTr;
         const moreMenu = (
             <Menu>
@@ -668,9 +664,9 @@ class ContactTab extends Component {
                         <Button className="select-delete" type="primary" style={{marginRight:'10px'}} onClick={this.showClearContactsModal}>
                             <i/>{this.tr("a_404")}
                         </Button>
-                        <Modal visible={this.state.displayClearContactModal} title={this.tr("清空联系人")} className="confirm-modal"
+                        <Modal visible={this.state.displayClearContactModal} title={this.tr("a_clearContact")} className="confirm-modal"
                                okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOkClearAll} onCancel={this.handleClearContactsCancel}>
-                            <p className="confirm-content">{this.tr("确定清空所有联系人？")}</p>
+                            <p className="confirm-content">{this.tr("a_clearContactTip")}</p>
                         </Modal>
                         <Button type="primary" style={{marginRight:'10px'}} disabled={disAddMember} onClick={this.showContactModal}>
                             {this.tr("a_4840")}
@@ -697,13 +693,14 @@ class ContactTab extends Component {
                     { data.length > 0 ?
                         null:
                         <div className = "nodata_tip">
+                            <div className="nodata"></div>
                             <p>
-                                {`没有联系人，试试“`}
-                                <span onClick={this.showContactModal}>{this.tr('a_9046')}</span>
-                                {`”，“`}
-                                <span onClick={this.handleImport.bind(this)}>{this.tr('a_4806')}</span>
-                                {`"或"`}
-                                <span onClick={this.handleDownload.bind(this)}>{this.tr('a_4808') + `"`}</span>
+                                {this.tr('a_nocontact_try')}&nbsp;
+                                <span onClick={this.showContactModal}>{`"${this.tr('a_9046')}"`}</span>
+                                {`，`}
+                                <span onClick={this.handleImport.bind(this)}>{`"${this.tr('a_4806')}"`}</span>
+                                &nbsp;{this.tr('a_or')}&nbsp;
+                                <span onClick={this.handleDownload.bind(this)}>{`"${this.tr('a_4808')}"`}</span>
 
                             </p>
                         </div>
@@ -762,7 +759,8 @@ const mapDispatchToProps = (dispatch) => {
         cb_start_single_call:Actions.cb_start_single_call,
         getContacts_new:Actions.getContactsNew,
         clearContact:Actions.clearContact,
-        makeCall: Actions.makeCall
+        makeCall: Actions.makeCall,
+        getCallLogsNew:Actions.getCallLogsNew,
     }
 
     return bindActionCreators(actios, dispatch)

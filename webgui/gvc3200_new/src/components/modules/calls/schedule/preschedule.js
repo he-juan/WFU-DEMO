@@ -470,9 +470,10 @@ class Call extends Component {
                     { data.length > 0 ?
                         null:
                         <div className = "nodata_tip">
+                            <div className="nodata"></div>
                             <p>
-                                {`没有会议，试试“`}
-                                <span onClick={this.props.handleNewConf}>{`${this.tr('a_10035')}“`}</span>
+                                {this.tr('a_noConf_try')}&nbsp;
+                                <span onClick={this.props.handleNewConf}>{`"${this.tr('a_10035')}"`}</span>
                             </p>
                         </div>
                     }

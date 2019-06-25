@@ -1160,12 +1160,11 @@ class NewContactsEdit extends Component {
             onSelect: this.onSelectCallItem,
         }
 
-        let showbindAccount = true
+        let showbindAccount = false
         let bindAccount = '-1'
         if(showbindAccount) {
             bindAccount = this.props.form.getFieldValue('bindAccount')
         }
-        // console.log('bindAccount',bindAccount)
         return(
             <div>
                 <Modal  className={modalclass} visible={this.props.displayNewConfModal}
