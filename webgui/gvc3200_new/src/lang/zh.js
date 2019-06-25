@@ -1852,7 +1852,8 @@ var a_noConf_try_zh = "没有会议，试试"
 var a_clearContact_zh = "清空联系人"
 var a_clearContactTip_zh = "确定清空所有联系人？"
 var a_active_account_zh = "动态账号"
-
+var a_nogroup_try_zh ="没有群组，试试"
+var a_nocallNum_zh = "无可呼叫的号码"
 
 /***************Device Detection***************/
 var device_detect_zh = "设备检测";

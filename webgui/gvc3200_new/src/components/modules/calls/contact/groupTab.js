@@ -437,6 +437,10 @@ class GroupTab extends Component {
     }
 
     showCallModal = (text) => {
+        if(text.numbers.length == 0 ) {
+            this.props.promptMsg("ERROR", "a_nocallNum");
+            return false
+        }
         let data = []
         for(let i = 0;text.acct[i]!=undefined;i++) {
             data[i] = {
@@ -519,9 +523,10 @@ class GroupTab extends Component {
                     { data.length > 0 ?
                         null:
                         <div className = "nodata_tip">
+                            <div className="nodata"></div>
                             <p>
-                                {`没有群组，试试“`}
-                                <span onClick={this.showGroupModal}>{`${this.tr('a_9046')}“`}</span>
+                                {this.tr('a_nogroup_try')}&nbsp;&nbsp;
+                                <span onClick={this.showGroupModal}>{`"${this.tr('a_9046')}"`}</span>
                             </p>
                         </div>
                     }

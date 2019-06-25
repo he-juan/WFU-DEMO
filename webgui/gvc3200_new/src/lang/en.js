@@ -1851,6 +1851,8 @@ var a_noConf_try_en = "No meeting appointment, try"
 var a_clearContact_en = "Clear contacts"
 var a_clearContactTip_en = "Are you sure you want to clear all contacts?"
 var a_active_account_en = "Active account"
+var a_nogroup_try_en ="No groups, try"
+var a_nocallNum_en = "No callable number"
 
 
 
