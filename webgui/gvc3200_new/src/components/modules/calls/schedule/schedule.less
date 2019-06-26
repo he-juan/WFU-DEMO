@@ -7,15 +7,100 @@
   border-color: #37c15a;
 }
 .cancel_btn{
-  background: #fff;
-  border-color: #333;
-  color:#333
+  background: #fff!important;
+  border-color: #333!important;
+  color:#333!important
 }
 .cancel_btn:hover{
   background: #fff;
   border-color: #333;
   color:#333
 }
+.statecolor3{
+  color: #4bd66e
+}
+.statecolor2{
+  color: #fa8f37
+}
+.statecolor1{
+  color: #3d77ff
+}
+.statecolor0{
+  color: #8598b9
+}
+.confbox button{
+  opacity: 0;
+}
+
+.confbox:hover{
+  background: #f0f4ff;
+  button{
+    opacity: 1;
+    transition: all 0.2s ease .1s;
+  }
+}
+.confbox{
+  padding:15px ;
+  margin: 0 10px;
+  font-size: 14px;
+  border-top: solid 1px #dfe1e2;
+  // border-bottom: none;
+}
+.confbox:last-child {
+  border-bottom: 1px solid #dfe1e2;
+}
+.confbox .ant-row{
+  line-height: 35px;
+  height: 35px;
+}
+.confbox .ant-row:nth-child(1){
+  font-weight: bold;
+  color: #10131a;
+  .conf-label{
+    max-width: 860px;
+  }
+}
+.confbox .ant-row:nth-child(2){
+  /* margin-bottom: 15px; */
+  /* color: #000; */
+}
+.conf-label{
+  padding-left: 15px;
+}
+.conf-text{
+  color: #000;
+}
+.conf-status{
+  padding-right: 40px;
+  text-align: right;
+}
+.conf-status button{
+  margin-left: 8px;
+}
+.btn_addschedule {
+  /* display: inline-block; */
+  /* min-width: 100px; */
+  max-width: 120px;
+  margin: 10px 0 10px 28px;
+}
+.confModal .ant-tabs-nav-container{
+  padding-left: 320px;
+  border: none;
+  box-shadow: none;
+}
+.confModal .ant-tabs-bar {
+  border: none;
+}
+// .scrollbox{max-height: 300px;overflow-y: auto;width: 95%;margin: 0 auto}
+
+
+.scrollbox{max-height: 400px;overflow-y: auto;width: 95%;margin: 0 auto}
+.confModal .ant-tabs-content{
+  height: 300px;
+}
+.confModal table{border: none}
+.confbox button{z-index: 100}
+
 
 .confinfo_memberlist {
   width: 420px;

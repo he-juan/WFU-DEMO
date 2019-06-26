@@ -99,7 +99,7 @@ class InviteMemberModal extends Component {
         isconf: '1',
         source: '2',
         name: number,
-        email: email || ''
+        email: ''
       }
     })
     // 输入的非数字字符串无法添加

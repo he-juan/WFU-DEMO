@@ -205,21 +205,21 @@ class Call extends Component {
     }
 
     componentDidMount = () => {
-        this.props.get_calllog(0);
-        this.props.getAcctStatus((result)=>{
-            if(!this.isEmptyObject(result)) {
-                let acctstatus = result.headers;
-                let max = 16;
-                if(this.isWP8xx()) max = 2;
+        // this.props.get_calllog(0);
+        // this.props.getAcctStatus((result)=>{
+        //     if(!this.isEmptyObject(result)) {
+        //         let acctstatus = result.headers;
+        //         let max = 16;
+        //         if(this.isWP8xx()) max = 2;
 
-                for(let i = 0; i < max; i++){
-                    if(acctstatus[`account_${i}_status`] == "1"){
-                        this.setState({existActiveAccount: true});
-                        break;
-                    }
-                }
-            }
-        });
+        //         for(let i = 0; i < max; i++){
+        //             if(acctstatus[`account_${i}_status`] == "1"){
+        //                 this.setState({existActiveAccount: true});
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // });
     }
 
     componentWillReceiveProps = () => {

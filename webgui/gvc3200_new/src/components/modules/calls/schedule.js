@@ -31,9 +31,9 @@ class History extends Component {
     }
 
     updateDate = () => {
-        this.props.getAllConfMember();
-        this.props.getPreConf();
-        this.props.getConfInfo()
+        // this.props.getAllConfMember();
+        // this.props.getPreConf();
+        // this.props.getConfInfo()
     }
 
     componentDidMount = () => {
@@ -63,17 +63,7 @@ class History extends Component {
         return Timevalue;
     }
 
-    handleHideNewConfModal = () => {
-        this.setState({displayNewConfModal: false})
-    }
 
-    handleNewConf = () => {
-        this.setState({
-            displayNewConfModal: true,
-            addNewConf:true,
-            confMemberData:[]
-        })
-    }
 
     render() {
         const callTr = this.tr;
@@ -93,9 +83,7 @@ class History extends Component {
             <div>
                 <Content className="content-container config-container">
                     <div className="subpagetitle">{this.tr("a_10011")}</div>
-                    <Button className='btn_addschedule' onClick={this.handleNewConf} type="primary" >
-                        {callTr('a_10035')}
-                    </Button>
+
                     <Tabs className="config-tab" activeKey={this.props.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
                         {
                             tabList.map((item,index)=>{

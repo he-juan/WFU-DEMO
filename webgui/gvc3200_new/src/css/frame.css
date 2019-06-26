@@ -4482,6 +4482,10 @@ table thead tr th{
     display: inline-block;
     font-weight: normal;
 }
+.call-dialog .call-ctrl-title span {
+    font-size: 14px;
+    color: #596680;
+}
 .call-dialog .call-ctrl-title strong.isrecording {
     position: relative;
 }
@@ -6208,6 +6212,7 @@ table thead tr th{
     padding-left: 62px!important;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08) inset;
     padding: 5px 0
+
 }
 .ant-table-expanded-row:hover td{
     background: #f3f8f9!important;
@@ -6215,6 +6220,7 @@ table thead tr th{
 .ant-table-expanded-row td .call-line:last-child{
     border: none
 }
+
 /* .ant-table-tbody > tr:hover > td {
     background: #f3f8f9;
 } */
@@ -6280,63 +6286,7 @@ table thead tr th{
     color: #f04134;
 }
 /******************shedule*****************/
-.confbox{
-    padding:15px ;
-    font-size: 14px;
-    /*border-bottom: 1px solid #dfe1e2;*/
-    border: solid 1px #dfe1e2;
-    border-bottom: none;
-}
-.confbox:last-child {
-    border-bottom: 1px solid #dfe1e2;
-}
-.confbox .ant-row{
-    line-height: 35px;
-    height: 35px;
-}
-.confbox .ant-row:nth-child(1){
-    color: #000;
-}
-.confbox .ant-row:nth-child(2){
-    /* margin-bottom: 15px; */
-    /* color: #000; */
-}
-.conf-label{
-    padding-left: 15px;
-}
-.conf-text{
-    color: #000;
-}
-.conf-status{
-    padding-right: 50px;
-    text-align: right;
-}
-.conf-status button{
-    margin-left: 8px;
-}
-.btn_addschedule {
-    /* display: inline-block; */
-    /* min-width: 100px; */
-    max-width: 120px;
-    margin: 10px 0 5px 40px;
-}
-.confModal .ant-tabs-nav-container{
-    padding-left: 320px;
-    border: none;
-    box-shadow: none;
-}
-.confModal .ant-tabs-bar {
-    border: none;
-}
-.scrollbox{max-height: 300px;overflow-y: auto;width: 95%;margin: 0 auto}
 
-
-.scrollbox{max-height: 400px;overflow-y: auto;width: 95%;margin: 0 auto}
-.confModal .ant-tabs-content{
-    height: 300px;
-}
-.confModal table{border: none}
-.confbox button{z-index: 100}
 
 
 .dialdiv{  width: 800px;  height: 89px;  margin: 0; }
@@ -7825,4 +7775,10 @@ ol.mp_list li.mp_error {}
     height: 40px;
     line-height: 40px;
     cursor: pointer;
+}
+.repeatIcon{
+    width: 15px;
+    height: 15px;
+    background-position: -580px -192px;
+    margin: 10px 0 0 -20px;
 }

@@ -32,38 +32,42 @@ class Call extends Component {
             editConfData: [],
             addNewConf:false,
             confdetail:false,
-            datefmt:''
+            datefmt:'',
+            schedules:[]
         }
     }
 
     componentDidMount = () => {
-        this.props.get_calllog(0);
-        if(!this.props.confmemberinfodata.length) {
-            this.props.getAllConfMember()
-        }
-        if(!this.props.preconfdata.length) {
-            this.props.getPreConf();
-        }
-        if(!this.props.confinfodata.length) {
-            this.props.getConfInfo()
-        }
-        if(!this.props.contactsAcct.length) {
-            this.props.getAcctStatus((result)=>{
-                if(!this.isEmptyObject(result)) {
-                    let acctstatus = result.headers;
-                    let max = 16;
-                    if(this.isWP8xx()) max = 2;
-                    for(let i = 0; i < max; i++){
-                        if(acctstatus[`account_${i}_status`] == "1"){
-                            this.setState({existActiveAccount: true});
-                            break;
-                        }
-                    }
-                }
-            });
-        }
+        // this.props.get_calllog(0);
+        // if(!this.props.confmemberinfodata.length) {
+        //     this.props.getAllConfMember()
+        // }
+        // if(!this.props.preconfdata.length) {
+        //     this.props.getPreConf();
+        // }
+        // if(!this.props.confinfodata.length) {
+        //     this.props.getConfInfo()
+        // }
+        // if(!this.props.contactsAcct.length) {
+            // this.props.getAcctStatus((result)=>{
+            //     if(!this.isEmptyObject(result)) {
+            //         let acctstatus = result.headers;
+            //         let max = 16;
+            //         if(this.isWP8xx()) max = 2;
+            //         for(let i = 0; i < max; i++){
+            //             if(acctstatus[`account_${i}_status`] == "1"){
+            //                 this.setState({existActiveAccount: true});
+            //                 break;
+            //             }
+            //         }
+            //     }
+            // });
+        // }
         this.props.getItemValues([this.getReqItem("datefmt", "102", "")], (data) => {
            this.setState({'datefmt':data.datefmt})
+        })
+        this.props.getSchedules(schedules => {
+            this.setState({schedules})
         })
         // if(!this.props.presetinfo.length) {
         //     this.props.getPresetInfo()
@@ -75,9 +79,12 @@ class Call extends Component {
     }
 
     updateDate = () => {
-        this.props.getAllConfMember();
-        this.props.getPreConf();
-        this.props.getConfInfo()
+        // this.props.getAllConfMember();
+        // this.props.getPreConf();
+        this.props.getSchedules(schedules => {
+            this.setState({schedules})
+        })
+        // this.props.getConfInfo()
     }
 
     componentWillReceiveProps = () => {
@@ -150,7 +157,7 @@ class Call extends Component {
         }
         this.props.form.resetFields();
 
-        let confinfo = text.confinfo
+        let confinfo = text
         let Starttime = confinfo.Starttime
         let arr = Starttime.split(' ')
         let year = moment(arr[0],'YYYY-MM-DD')
@@ -239,7 +246,7 @@ class Call extends Component {
         // console.log('text',text)
 
         let member = []
-        text.memberArr.forEach((item,i) => {
+        text.Members.forEach((item,i) => {
             member[i] = {
                 number:item.Number,
                 name:item.name,
@@ -282,53 +289,6 @@ class Call extends Component {
         return myStr;
     }
 
-    handleSortForConf = (data) =>{
-        // let today = moment(new Date(),"YYYY-DD-YY")
-        let arr1 = [],arr2 = [],arr3 = [],arr4 = [] //进行中>待主持>未开始>已结束
-        let status = [
-            {type:0,statusname:this.tr('a_10155')}, //待主持
-            {type:1,statusname:this.tr('a_9348')},  //进行中
-            {type:2,statusname:this.tr('a_notstart')},  // 未开始
-            // {type:3,statusname:callTr('a_10174')},  // 已过期
-            {type:3,statusname:this.tr('a_over')}  // 已结束
-        ]
-        // console.log('handleSortForConf',data)
-        for(let i = 0;i<data.length;i++){
-            let item = data[i]
-            let info = data[i].confinfo
-            // info.isToday = false
-            // info.isTomorrow = false
-            let startTime = moment(info.Starttime,"YYYY-MM-DD HH:mm")
-            // if(moment().isSame(info.Starttime, 'day')) {
-            //     info.isToday = true
-            // }
-            // if(moment().add(1,'d').isSame(info.Starttime, 'day')) {
-            //     console.log('is same',info.Starttime)
-            //     info.isTomorrow = true
-            // }
-            // console.log(moment().to(info.Starttime),info.Starttime)
-            let endTime = moment(info.Starttime,"YYYY-MM-DD HH:mm").add(info.Duration,"minutes")
-            if(moment().isAfter(endTime)) {
-                item.status = status[3]
-                arr4.push(item)
-            } else if (moment().isAfter(startTime) && moment().isBefore(endTime)) {
-                // 进行中 || 待主持
-                item.status = status[0]
-                arr2.push(item)
-            } else if(moment().isBefore(startTime)) {
-                // 未开始
-                item.status = status[2]
-                arr3.push(item)
-            }
-            // console.log( arr1.concat(arr2))
-            // console.log(result)
-            // console.log(startTime.toObject(),info.Duration,endTime.toObject(),moment(startTime).isSame(endTime))
-        }
-        // let result = arr1.concat(arr2,arr3,arr4)
-        // console.log(result)
-        return arr1.concat(arr2,arr3,arr4)
-    }
-
     convertTimeInfo = (startTime,duration) => {
         // console.log(startTime)
         // startTime = '2019-05-09 23:09'
@@ -354,75 +314,106 @@ class Call extends Component {
         }
     }
 
+    handleHideNewConfModal = () => {
+        this.setState({displayNewConfModal: false})
+    }
 
+    handleNewConf = () => {
+        this.setState({
+            displayNewConfModal: true,
+            addNewConf:true,
+            confMemberData:[]
+        })
+    }
 
     render() {
         const [confinfodata, callTr, _createTime, isToday, convertTime, logItemdata, view_status_Duration,curContactList] =
             [this.props.confinfodata, this.props.callTr, this.props._createTime, this.props.isToday, this.props.convertTime, this.props.logItemdata, this.props.view_status_Duration, this.state.curContactList];
-        let preconfdata = this.props.preconfdata;
-        // let status = [
-        //     {type:0,statusname:callTr('a_10155')}, //待主持
-        //     {type:1,statusname:callTr('a_9348')},  //进行中
-        //     {type:2,statusname:callTr('a_notstart')},  // 未开始
-        //     {type:3,statusname:callTr('a_10174')},  // 已过期
-        //     {type:4,statusname:callTr('a_over')}  // 已结束
-        // ]
-
-        let data = []
-        for (let i = 0; confinfodata[i]!=undefined; i++) {
-            let memberArr = []
-            for (let j = 0; j < preconfdata.length; j++) {
-                if(preconfdata[j].Id == confinfodata[i].Id) {
-                    memberArr.push(preconfdata[j])
-                }
-            }
-            let obj ={
-                confinfo:confinfodata[i],
-                memberArr:memberArr,
-                // status:status[2],
-                key:i
-            }
-            data.push(obj)
+        // let preconfdata = this.props.preconfdata;
+        let stateObj = {
+            '3': this.tr('a_9348'),
+            '2': this.tr('a_10155'),
+            '1':this.tr('a_notstart'),
+            '0':this.tr('a_over')
         }
+        let schedules = this.state.schedules
+        let data = []
+        schedules.forEach((item,index) => {
+            item.key = 'conf'+index
+            if(item.InviteAcct == '') {
+                data.push(item)
+            }
+        })
+
 
         // data = []
-        data = this.handleSortForConf(data)
 
+        // data.
         let loading = true
+        let arr = []
+        // data.push(schedules[0])
+        // data.push(schedules[1])
+        // arr.push(schedules[0])
+
+        data = data.sort((a,b) => {
+            if (a && b) {
+                let a1 = parseInt(a.Confstate)
+                let b1 = parseInt(b.Confstate)
+                if(a1 == b1 && a1 !=0) {
+                    if(a1 == 0) {
+                        return 0
+                    }
+                    return 1
+                }
+                return  b1- a1
+            }
+            return 0
+        })
         if(data.length > 0) {
             loading = false
         }
+        // console.log(data)
+
         return (
             <div>
+                <Button className='btn_addschedule' onClick={this.handleNewConf} type="primary" >
+                    {callTr('a_10035')}
+                </Button>
                 <div className = 'preconflist'>
                     {
                         (data != "" || data.length > 0) && data.map((item) => {
                             return (
                                 <div key={item.key} className={'confbox'} onClick={(e)=>this.handleEdit(e,item,true)}>
                                     <Row>
-                                        <Col className='conf-label' span={15}>{item.confinfo.Displayname}</Col>
-                                        {/* <Col span={12}>{item.confinfo.Starttime}</Col> */}
-                                        <Col className='conf-status' span={9}>{item.status.statusname}</Col>
+                                        <Col className='conf-label ellips' span={15}>
+                                            {item['Recycle'] != '0' && <i className="inlineIcon repeatIcon" />}
+                                            {item.Displayname}
+                                        </Col>
+                                        {/* <Col span={12}>{item.Starttime}</Col> */}
+                                        <Col className='conf-status' span={9}>
+                                        <span className={'statecolor' + item.Confstate}>{stateObj[item.Confstate]}</span>
+
+                                        </Col>
                                     </Row>
                                     <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_10056')}：</Col>
-                                        <Col className='ellips conf-text' span={12}>{this.convertTimeInfo(item.confinfo.Starttime,item.confinfo.Duration)}</Col>
+                                        <Col className='ellips conf-text' span={12}>{this.convertTimeInfo(item.Starttime,item.Duration)}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row>
                                     {/* <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_3501')}：</Col>
-                                        <Col className='' span={12}>{item.confinfo.Duration / 60}{callTr('a_15008')}</Col>
+                                        <Col className='' span={12}>{item.Duration / 60}{callTr('a_15008')}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row> */}
                                     {/* <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_10055')}：</Col>
-                                        <Col className='' span={12}>{item.confinfo.Host == 1? callTr('a_10057'): htmlEncode(item.confinfo.Host)}</Col>
+                                        <Col className='' span={12}>{item.Host == 1? callTr('a_10057'): htmlEncode(item.Host)}</Col>
                                         <Col className='conf-status' span={9}></Col>
                                     </Row> */}
                                     <Row>
                                         <Col className='conf-label' span={3}>{callTr('a_10055')}：</Col>
-                                        <Col className='ellips conf-text' span={9}>{item.confinfo.Host == 1? callTr('a_10057'): htmlEncode(item.confinfo.Host)}</Col>
-                                        {item.type != 1 ?
+                                        <Col className='ellips conf-text' span={9}>{item.Host == 1? callTr('a_10057'): htmlEncode(item.Host)}</Col>
+                                        {item.Confstate != '3' ?
                                             <Col className='conf-status' span={12}>
                                             <Button type="primary" style={{background:'#4bd66a',borderColor:'#4bd66a'}}>{callTr("a_19623")}</Button>
                                             <Button
@@ -430,16 +421,16 @@ class Call extends Component {
                                                 onClick={(e)=>this.handleEdit(e,item)} type="primary" >{callTr("a_19624")}</Button>
                                             {/*<Button type="primary">{callTr("a_cancelMeet")}</Button>*/}
 
-                                            {item.confinfo['Recycle'] == '0' ? (
-                                                <Popconfirm placement="top" title={callTr("a_9334")} okText={callTr("a_2")} cancelText={callTr("a_3")} onConfirm={(e)=>this.handleOkDelete(e,item.confinfo.Id)}>
+                                            {item['Recycle'] == '0' ? (
+                                                <Popconfirm placement="top" title={callTr("a_9334")} okText={callTr("a_2")} cancelText={callTr("a_3")} onConfirm={(e)=>this.handleOkDelete(e,item.Id)}>
                                                     {/*<button className='allow-delete'></button>*/}
                                                     <Button className='cancel_btn' onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
                                                 </Popconfirm>
                                             ) : (
-                                                <Popover title={callTr('a_19169')} content={
+                                                <Popover title={callTr('a_10160')} content={
                                                     <div>
-                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id)} >{callTr('a_15042')}</p>
-                                                        <p onClick={(e)=>this.handleOkDelete(e,item.confinfo.Id,1)} >{callTr('a_15041')}</p>
+                                                        <p onClick={(e)=>this.handleOkDelete(e,item.Id,1)} >{callTr('a_cancelConf')}</p>
+                                                        <p onClick={(e)=>this.handleOkDelete(e,item.Id)} >{callTr('a_cancelConfAll')}</p>
                                                     </div>
                                                 } trigger="click">
                                                     <Button className='cancel_btn' onClick={(e)=>this.cancelPop(e)} type="primary">{callTr("a_19625")}</Button>
@@ -528,7 +519,8 @@ const mapDispatchToProps = (dispatch) => {
         getPreConf:Actions.getPreConf,
         getConfInfo:Actions.getConfInfo,
         get_deleteConf:Actions.get_deleteConf,
-        get_deleteOnceConf:Actions.get_deleteOnceConf
+        get_deleteOnceConf:Actions.get_deleteOnceConf,
+        getSchedules:Actions.getSchedules
     }
     return bindActionCreators(actions, dispatch)
 }

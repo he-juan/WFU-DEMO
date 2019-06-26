@@ -2192,3 +2192,5 @@ var a_aeclevel_en = "AEC Level";
 /****************conference schedule ****************/
 var a_notstart_en = "Is not started"
 var a_over_en = "Over"
+var a_cancelConf_en = "Cancel this meeting"
+var a_cancelConfAll_en = "Cancel the entire meeting"

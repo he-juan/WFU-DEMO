@@ -32,11 +32,22 @@ export const getCallLogsNew = () => (dispatch) => {
     })
 }
 
+// 新接口 获取会议记录
+export const getSchedules = (callback) => (dispatch) => {
+    let request = 'action=getschedules'
+    actionUtil.handleGetRequest(request).then(function(m) {
+        let schedules = JSON.parse(m).data.schedules
+        callback(schedules)
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
 // 新接口 统一的呼出接口
 export const makeCall = (memToCall) => (dispatch) => {
     let request = 'action=makecall&members='+ JSON.stringify(memToCall)
     actionUtil.handleGetRequest(request).then(function(m) {
-       
+
     })
 }
 
@@ -897,7 +908,7 @@ export const getHDMI1Resolution = ( callback) => (dispatch) => {
 
 }
 
-/** 
+/**
  * 判断HDMI1输出是否为4k
  */
 export const gethdmione4K = (async, callback) => (dispatch) =>{
@@ -1393,7 +1404,7 @@ export const getGlobalConfInfo = (callback) => (dispatch) => {
 //     request += "&time=" + new Date().getTime();
 //     actionUtil.handleGetRequest(request).then(function(data) {
 //         console.log(data)
-//     }) 
+//     })
 // }
 // 设置 msfurole
 export const set_msfurole = (role) => {

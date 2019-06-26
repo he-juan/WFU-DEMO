@@ -74,18 +74,18 @@ class NewContactsEdit extends Component {
         // this.props.getContactCount();
         // this.props.get_calllog(0);
         // this.props.getContacts((items)=>{this.setState({items:items})});
-        if(!this.props.contactsInformation.length) {
-            this.props.getContacts()
-        }
-        if(!this.props.callnameinfo.length) {
-            this.props.getNormalCalllogNames()
-        }
+        // if(!this.props.contactsInformation.length) {
+        //     this.props.getContacts()
+        // }
+        // if(!this.props.callnameinfo.length) {
+        //     this.props.getNormalCalllogNames()
+        // }
         if(!this.props.confmemberinfodata.length) {
             this.props.getAllConfMember()
         }
-        if(!this.props.contactsAcct.length) {
-            this.props.getAcctStatus()
-        }
+        // if(!this.props.contactsAcct.length) {
+        //     this.props.getAcctStatus()
+        // }
         if(!this.props.presetinfo.length) {
             this.props.getPresetInfo()
         }
@@ -208,9 +208,7 @@ class NewContactsEdit extends Component {
             setTimeout(function () {
                 self.props.updateDate()
             }, 500);
-            // this.props.updateDate();
         }
-        // console.log(infostr)
     }
 
     getCustomRepeatRule = () => {

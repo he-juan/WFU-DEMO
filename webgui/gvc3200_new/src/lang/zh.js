@@ -2195,4 +2195,5 @@ var a_aeclevel_zh = "音频回声抑制等级";
 /****************conference schedule ****************/
 var a_notstart_zh = "未开始"
 var a_over_zh = "已结束"
-
+var a_cancelConf_zh = "取消本次会议"
+var a_cancelConfAll_zh = "取消整个会议"
