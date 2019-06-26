@@ -10,7 +10,7 @@ const Option = Select.Option
 function parseAcctStatus(acctstatus) {
   let headers = acctstatus.headers
   let result = []
-  let acctIndex = [0, 1, 2, 8]
+  let acctIndex = [0, 1, 8]
   acctIndex.map((i) => {
     result.push({
       "acctindex": i.toString(),
@@ -33,10 +33,10 @@ class DefaultAcctSelect extends Component {
   }
   componentDidMount() {
     const { getAcctStatus, currAcct } = this.props
-
     getAcctStatus((acctstatus) => {
       if (!this.isEmptyObject(acctstatus)) {
         let activateStatus = parseAcctStatus(acctstatus).filter(v => v.activate == '1' && v.register == '1' && v.acctindex != currAcct)
+        // let activateStatus = parseAcctStatus(acctstatus).filter(v => v.acctindex != currAcct)
         this.setState({
           activateStatus: activateStatus,
           defAcc: activateStatus[0].acctindex
