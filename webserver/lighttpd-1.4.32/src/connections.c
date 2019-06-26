@@ -1732,7 +1732,7 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid, char *isMissedCall) {
         snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where group_id=%s and is_conference=1 order by date desc;", confid);
     }
 
-    LOGD("querying members of conf: %s ......", confid);
+    //LOGD("querying members of conf: %s ......", confid);
 
     rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
     if (rc) {
@@ -1803,8 +1803,7 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid, char *isMissedCall) {
                 cJSON_AddStringToObject(callObj, "iscontact", "0");
             }
 
-            LOGD("conf member -- id: %s - acct: %s - name: %s - number: %s - calltype: %s - date: %s - duration: %s - isvideo: %s",
-                confid, account, name, number, type, date, duration, media_type);
+            //LOGD("conf member -- id: %s - acct: %s - name: %s - number: %s - calltype: %s - date: %s - duration: %s - isvideo: %s", confid, account, name, number, type, date, duration, media_type);
 
             cJSON_AddItemToArray(resObj, callObj);
         }
@@ -1851,7 +1850,7 @@ static char *create_conf_name(cJSON *memberObj) {
         }
     }
 
-    LOGD("create conf name: %s", confname);
+    //LOGD("create conf name: %s", confname);
 
     return confname;
 }
@@ -1903,7 +1902,7 @@ static int get_calllog_list(buffer *b) {
         char *duration = (char*)sqlite3_column_text(stmt, 3);   // duration
         char *is_schedule = (char*)sqlite3_column_text(stmt, 4);   // is schedule
 
-        LOGD("confid: %s -- start: %s -- end: %s -- duration: %s -- is_schedule: %s", id, start, end, duration, is_schedule);
+        //LOGD("confid: %s -- start: %s -- end: %s -- duration: %s -- is_schedule: %s", id, start, end, duration, is_schedule);
 
         if (NULL == id) {
             continue;
@@ -1922,7 +1921,7 @@ static int get_calllog_list(buffer *b) {
 
         if (size > 1) {
 
-            LOGD("It's a conf log");
+            //LOGD("It's a conf log");
 
             // It's a conf log
             cJSON *confObj = cJSON_CreateObject();
@@ -1960,10 +1959,10 @@ static int get_calllog_list(buffer *b) {
 
             cJSON_AddItemToArray(callArray, confObj);
 
-            LOGD("append new conf: %s to the list done", id);
+            //LOGD("append new conf: %s to the list done", id);
         } else if (size == 1) {
 
-            LOGD("It's a single call log");
+            //LOGD("It's a single call log");
 
             // It's a single call log
             cJSON *callObj = cJSON_CreateObject();
@@ -1977,7 +1976,7 @@ static int get_calllog_list(buffer *b) {
             char *name = cJSON_GetObjectItem(memberObj, "name")->valuestring;
             char *number = cJSON_GetObjectItem(memberObj, "number")->valuestring;
 
-            LOGD("checking the single calllog is needed to merged...");
+            //LOGD("checking the single calllog is needed to merged...");
 
             // Call logs of same acct/number need to be merged, so need to do check first
             int isMerged = 0;
@@ -1993,7 +1992,7 @@ static int get_calllog_list(buffer *b) {
 
                     cJSON_AddItemToArray(curList, memberObj);
 
-                    LOGD("find the same calllog, acct=%s, number=%s, merged!", acct, number);
+                    //LOGD("find the same calllog, acct=%s, number=%s, merged!", acct, number);
 
                     isMerged = 1;
                     break;
@@ -2027,7 +2026,7 @@ static int get_calllog_list(buffer *b) {
 
                 cJSON_AddItemToArray(callArray, callObj);
 
-                LOGD("not find exist calllog, now have appended to the calllogs list");
+                //LOGD("not find exist calllog, now have appended to the calllogs list");
             }
         } else {
             continue;
@@ -2045,6 +2044,295 @@ static int get_calllog_list(buffer *b) {
     return 0;
 }
 
+
+
+
+/**
+ * @Author: cchma
+ * @Date: 2019-06-26 11:34:35
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-06-26 11:34:35
+ * @description: 
+ * @param {scheduleid} 会议预约的id, 根据会议 id 从 group_contacts 表中获取对应的 members
+ * @return: [{"Id":"1", "Acctid":"0", "Name": "张三", "Number": "35462", "RecordFrom": "2", 
+ *           "GoogleStatus:":"0", "Email":""},
+ *          ...]
+ */
+static cJSON *get_schedule_member(sqlite3 *db, char *scheduleid) {
+    cJSON *resObj = cJSON_CreateArray();
+    int rc;
+    sqlite3_stmt *stmt;
+
+    char *sqlstr = (char*)malloc(512);
+    memset(sqlstr, 0, 512);
+    // 根据传入的会议id去查询该会议下所有的会议成员
+    
+    snprintf(sqlstr, 512, "select id, account_id, number, name, data_source, state, host_email from group_contacts where group_contacts.group_id=%s;", scheduleid);
+
+    LOGD("querying members of schedule: %s ......", scheduleid);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            cJSON *memObj = cJSON_CreateObject();
+
+            char *id = (char*)sqlite3_column_text(stmt, 0);    // id
+            char *account = (char*)sqlite3_column_text(stmt, 1);   // account
+            char *number = (char*)sqlite3_column_text(stmt, 2);   // number
+            char *name = (char*)sqlite3_column_text(stmt, 3);  // name
+            char *source = (char*)sqlite3_column_text(stmt, 4);  // source
+            char *state = (char*)sqlite3_column_text(stmt, 5);  // google status
+            char *email = (char*)sqlite3_column_text(stmt, 6);  // email
+
+            // id
+            if (NULL != id) {
+                cJSON_AddStringToObject(memObj, "Id", id);
+            } else {
+                cJSON_AddStringToObject(memObj, "Id", "");
+            }
+
+            // acct
+            if (NULL != account) {
+                cJSON_AddStringToObject(memObj, "Acctid", account);
+            } else {
+                cJSON_AddStringToObject(memObj, "Acctid", "");
+            }
+
+            // number
+            if (NULL != number) {
+                cJSON_AddStringToObject(memObj, "Number", number);
+            } else {
+                cJSON_AddStringToObject(memObj, "Number", "");
+            }
+
+            // name
+            if (NULL != name) {
+                cJSON_AddStringToObject(memObj, "Name", name);
+            } else {
+                cJSON_AddStringToObject(memObj, "Name", "");
+            }
+
+            // source
+            if (NULL != source) {
+                cJSON_AddStringToObject(memObj, "RecordFrom", source);
+            } else {
+                cJSON_AddStringToObject(memObj, "RecordFrom", "");
+            }
+
+            // google status 
+            cJSON_AddStringToObject(memObj, "GoogleStatus", state);
+
+            // email
+            if (NULL != email) {
+                cJSON_AddStringToObject(memObj, "Email", email);
+            } else {
+                cJSON_AddStringToObject(memObj, "Email", "");
+            }
+
+            cJSON_AddItemToArray(resObj, memObj);
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return resObj;
+}
+
+/**
+ * @Author: cchma
+ * @Date: 2019-06-26 10:35:53
+ * @LastEditors: cchma
+ * @LastEditTime: 2019-06-26 10:35:53
+ * @description: 获取所有的会议预约记录，并包含会议成员信息
+ * @param {type} 
+ * @return: 
+ */
+static int get_schedule_list(buffer *b) {
+    cJSON *resObj = cJSON_CreateObject();
+    cJSON *scheduleArray = cJSON_CreateArray();
+    sqlite3 *db;
+    int rc;
+    sqlite3_stmt *stmt;
+    // 先从 schedule 表中查询所有的会议预约记录，再通过 schedule id 去 groups_contacts 表中查询对应的会议成员
+    char *sqlstr = "select id, start_time, start_time_milliseconds, duration, host, display_name, recycle, rule, schedule_lost, schedule_inconf, schedule_end, meeting_preset, preset_position_name, dnd_key, conf_auto_answer, invited from schedule order by start_time_milliseconds desc;";
+
+    rc = sqlite3_open("/data/data/com.base.module.schedule/databases/conference.db", &db);
+    if (rc) {
+        printf("Can't open database: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        cJSON_AddItemToObject(resObj, "schedules", scheduleArray);
+        create_json_response(RES_SUCCESS, NULL, resObj, b);
+        return -1;
+    }
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+
+        cJSON_AddItemToObject(resObj, "schedules", scheduleArray);
+        create_json_response(RES_SUCCESS, NULL, resObj, b);
+        return -1;
+    }
+
+    while(sqlite3_step(stmt) == SQLITE_ROW) {
+        char *id = (char*)sqlite3_column_text(stmt, 0);    // schedule id
+        char *starttime = (char*)sqlite3_column_text(stmt,1);   //start time
+        char *milliseconds = (char*)sqlite3_column_text(stmt,2);   //start time milliseconds
+        char *duration = (char*)sqlite3_column_text(stmt, 3);    //duration
+        char *host = (char*)sqlite3_column_text(stmt, 4);   //host
+        char *displayname = (char*)sqlite3_column_text(stmt, 5);   //displayname
+        char *recycle = (char*)sqlite3_column_text(stmt, 6);   //recycle
+        char *rule = (char*)sqlite3_column_text(stmt, 7);   //rule
+        char *conflost = (char*)sqlite3_column_text(stmt, 8);   // schedule_lost = 1 ：待主持
+        char *ifinconf = (char*)sqlite3_column_text(stmt, 9);   // schedule_inconf = 1 ：进行中
+        char *confend = (char*)sqlite3_column_text(stmt, 10);  // schedule_end = 1 ：已结束
+        char *preset = (char*)sqlite3_column_text(stmt, 11);   //preset index
+        char *presetname = (char*)sqlite3_column_text(stmt, 12);   //preset name
+        char *confdnd = (char*)sqlite3_column_text(stmt, 13);   // conf dnd
+        char *confautoanswer = (char*)sqlite3_column_text(stmt, 14);  // conf auto answer
+        char *invited = (char*)sqlite3_column_text(stmt, 15);   // invited, 如果不为空，代表该会议为受邀请会议
+        //char *remider = (char*)sqlite3_column_text(stmt, 4);   //need remider
+        //char *remindertime = (char*)sqlite3_column_text(stmt, 5);   //remider time
+        //char *confdnd = (char*)sqlite3_column_text(stmt, 8);   //conf dnd        
+        //char *color = (char*)sqlite3_column_text(stmt, 10);   //color
+        //char *confautoanswer = (char*)sqlite3_column_text(stmt, 12);   //conf_auto_answer        
+        //char *schedulepsw = (char*)sqlite3_column_text(stmt, 14);   //schedule password
+        //char *schedulenum = (char*)sqlite3_column_text(stmt, 15);   //schedule number
+        //char *scheduleurl = (char*)sqlite3_column_text(stmt, 16);   //schedule url
+        //char *schedulepstn = (char*)sqlite3_column_text(stmt, 17);   //schedule pstn
+        //char *repeatrule = (char*)sqlite3_column_text(stmt, 18);   //repeat rule
+        //char *inviteacct = (char*)sqlite3_column_text(stmt, 19);   //invite account
+
+        if (NULL == id) {
+            continue;
+        }
+
+        cJSON *memberArrObj = get_schedule_member(db, id);
+
+        cJSON *scheduleObj = cJSON_CreateObject();
+
+        // schedule id
+        cJSON_AddStringToObject(scheduleObj, "Id", id);
+
+        // start time - string
+        if (NULL != starttime) {
+            cJSON_AddStringToObject(scheduleObj, "Starttime", starttime);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Starttime", "");
+        }
+
+        // start time - timestamp
+        if (NULL != milliseconds) {
+            cJSON_AddStringToObject(scheduleObj, "Milliseconds", milliseconds);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Milliseconds", "");
+        }
+
+        // duration
+        if (NULL != duration) {
+            cJSON_AddStringToObject(scheduleObj, "Duration", duration);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Duration", "");
+        }
+
+        // host
+        if (NULL != host) {
+            cJSON_AddStringToObject(scheduleObj, "Host", host);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Host", "");
+        }
+
+        // display name
+        if (NULL != displayname) {
+            cJSON_AddStringToObject(scheduleObj, "Displayname", displayname);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Displayname", "");
+        }
+
+        // recycle
+        if (NULL != recycle) {
+            cJSON_AddStringToObject(scheduleObj, "Recycle", recycle);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Recycle", "");
+        }
+
+        // rule
+        if (NULL != rule) {
+            cJSON_AddStringToObject(scheduleObj, "RepeatRule", rule);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "RepeatRule", rule);
+        }
+
+        // 0 - 已结束， 1 - 未开始， 2 - 待主持， 3 - 进行中
+        char confState[8] = {0}; 
+        if (conflost != NULL && !strcmp(conflost, "1")) {
+            strcpy(confState, "2");
+        } else if (ifinconf != NULL && !strcmp(ifinconf, "1")) {
+            strcpy(confState, "3");
+        } else if (confend != NULL && !strcmp(confend, "1")) {
+            strcpy(confState, "0");
+        } else {
+            strcpy(confState, "1");
+        }
+        cJSON_AddStringToObject(scheduleObj, "Confstate", confState);
+
+        // preset id 
+        if (NULL != preset) {
+            cJSON_AddStringToObject(scheduleObj, "Preset", preset);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Preset", "");
+        }
+
+        // preset name
+        if (NULL != presetname) {
+            cJSON_AddStringToObject(scheduleObj, "PresetName", presetname);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "PresetName", "");
+        }
+
+        // conf dnd
+        if (NULL != confdnd) {
+            cJSON_AddStringToObject(scheduleObj, "Confdnd", confdnd);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Confdnd", "");
+        }
+
+        // conf auto answer
+        if (NULL != confautoanswer) {
+            cJSON_AddStringToObject(scheduleObj, "Confautoanswer", confautoanswer);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "Confautoanswer", confautoanswer);
+        }
+
+        // Invited
+        if (NULL != invited) {
+            cJSON_AddStringToObject(scheduleObj, "InviteAcct", invited);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "InviteAcct", "");
+        }
+
+        // memberlist
+        cJSON_AddItemToObject(scheduleObj, "Members", memberArrObj);
+
+        cJSON_AddItemToArray(scheduleArray, scheduleObj);
+    }
+
+    cJSON_AddItemToObject(resObj, "schedules", scheduleArray);
+    create_json_response(RES_SUCCESS, NULL, resObj, b);
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    
+    return 0;
+}
 
 /**
  * 
@@ -25205,6 +25493,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 get_conatcts_list(b);
             } else if (!strcasecmp(action, "getcalllogs")) {
                 get_calllog_list(b);
+            } else if (!strcasecmp(action, "getschedules")) {
+                get_schedule_list(b);
             } else if (!strcasecmp(action, "getglobalconfinfo")) {
                 handle_methodcall_to_gmi(srv, con, b, m, "getGlobalConfInfo", params);
             } else if (!strcasecmp(action, "ctrlconfrecord")) {
