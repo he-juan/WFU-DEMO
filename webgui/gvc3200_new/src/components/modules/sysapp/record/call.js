@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import Enhance from "../../../mixins/Enhance";
-import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm } from "antd";
+import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Select } from "antd";
 import * as Actions from '../../../redux/actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -12,12 +12,17 @@ class Call extends Component {
         super(props)
         this.state = {
             selectedRowKeys: [],
-            curDataList: []
+            curDataList: [],
+            pathlist: [],
+            displaySetModal: false,
+            curpath: '',
+            tempRecordPath: ''
         }
     }
 
     componentDidMount = () => {
         this._createData()
+        this.updatePath()
         if(!this.props.recordinglist.length) {
             this.props.get_recordinglist();
             let self = this
@@ -25,6 +30,19 @@ class Call extends Component {
                 self._createData();
             },500)
         }
+    }
+
+    updatePath = () => {
+        this.props.getRecordingPath((res)=> {
+            // res = {"curpath": "/mnt/usbhost0/8_1",
+            //     "list": [
+            //     "/mnt/usbhost0/8_1",
+            //     "/mnt/usbhost1",
+            //     "/mnt/usbhost2",
+            //     "/mnt/extsd"
+            // ]}
+            this.setState({curpath:res.curpath,pathlist:res.list})
+        })
     }
 
     componentWillReceiveProps = () => {
@@ -227,6 +245,28 @@ class Call extends Component {
         return data
     }
 
+    showSetRecordPath = () => {
+        this.setState({displaySetModal:true})
+    }
+
+    handleSetModalCancel =() => {
+        this.setState({displaySetModal:false,tempRecordPath:''})
+    }
+
+    changeTempPath = (value) => {
+        this.setState({tempRecordPath:value})
+    }
+
+    setRecordPath = () => {
+        let v = this.state.tempRecordPath
+        if(v) {
+            this.props.setRecordingPath(v,()=>{
+                this.updatePath()
+            })
+        }
+        this.handleSetModalCancel()
+    }
+
     render() {
         const callTr = this.props.callTr;
         const _createName = this.props._createName;
@@ -279,6 +319,40 @@ class Call extends Component {
             onSelectAll: this.onSelectAllRecords
         }
         const hasSelected = selectedRowKeys.length > 0;
+
+        let {curpath, pathlist} = this.state
+        let children = []
+        let sellect
+        if(pathlist.length > 0) {
+            let isExist = pathlist.find(item => {return item == curpath})
+            if(!isExist) {
+                curpath = pathlist[0]
+            }
+            let pathArr = ['a_usbdisk0','a_usbdisk1','a_usbdisk2','a_extsd']
+            let index = 0
+            pathlist.forEach((item) => {
+                if(item.indexOf('usbhost0')!=-1) {
+                    index = 0
+                } else if (item.indexOf('usbhost1')!=-1) {
+                    index = 1
+                } else if (item.indexOf('usbhost2')!=-1) {
+                    index = 2
+                } else if (item.indexOf('extsd')!=-1) {
+                    index = 3
+                }
+                children.push(<Option value = {item} key={item}>{callTr(pathArr[index])}</Option>)
+            })
+            sellect =
+                <Select defaultValue={curpath} style={{width:'300'}} onChange={this.changeTempPath}>
+                    {children}
+                </Select>
+        } else {
+            sellect =
+                <Select placeholder = {callTr("a_norecordpath")} disabled={true} style={{width:'300'}}>
+                    {children}
+                </Select>
+        }
+
         return (
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>
@@ -289,6 +363,13 @@ class Call extends Component {
                                 {this.tr("a_19067")}
                             </Button>
                         </Popconfirm>
+                        <Button className="select-delete" type="primary" disabled={false} onClick={this.showSetRecordPath} style={{marginLeft:10}}>
+                            {this.tr("a_319")}
+                        </Button>
+                        <Modal visible={this.state.displaySetModal} title={this.tr("a_recodrPath")} className="confirm-modal recordsetmodal"
+                            okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.setRecordPath} onCancel={this.handleSetModalCancel}>
+                            <div className="confirm-content">{sellect}</div>
+                        </Modal>
                     </div>
                     <div style={{'float':'right'}}>
                         <div className = 'search_div'>

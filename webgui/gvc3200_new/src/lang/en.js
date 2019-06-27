@@ -2194,3 +2194,12 @@ var a_notstart_en = "Is not started"
 var a_over_en = "Over"
 var a_cancelConf_en = "Cancel this meeting"
 var a_cancelConfAll_en = "Cancel the entire meeting"
+
+/****************record **************/
+var a_recordSet_en = "Recording Management"
+var a_recodrPath_en = "Save path"
+var a_norecordpath_en = "No storage device"
+var a_usbdisk0_en = "USB disk 0"
+var a_usbdisk1_en = "USB disk 1"
+var a_usbdisk2_en = "USB disk 2"
+var a_extsd_en = "extsd"

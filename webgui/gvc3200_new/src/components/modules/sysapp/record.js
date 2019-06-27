@@ -24,7 +24,7 @@ class Record extends Component {
         this.state = {
             activeKey:'0',
             displaySetModal: false,
-            showRecordSet: false
+            showRecordSet: true
         }
     }
 
@@ -36,6 +36,7 @@ class Record extends Component {
         this.props.get_recordinglist( (result) => {
             recordlistInfo = result;
         });
+
         // this.props.get_norrecordinglist( (result) => {
         //     norrecordinglist = result;
         // });
@@ -66,9 +67,43 @@ class Record extends Component {
     }
 
     _createTime = (text, record, index) => {
-        text = parseInt(text)
-        let Timevalue = this.view_status_Time(text);
-        return Timevalue;
+        // text = parseInt(text)
+        // let Timevalue = this.view_status_Time(text);
+        // return Timevalue;
+        let time = parseInt(text)
+        var Timevalue = this.convertTime(time);
+        let str = this.isToday(time)
+        if(str == 'Yestday') {
+            return this.tr('a_23553') + ' ' + Timevalue.split(' ')[1]
+        } else if(str == 'Before') {
+            return Timevalue.substr(5)
+        } else {
+            return Timevalue
+        }
+    }
+
+    isToday = (str) => {
+        var value;
+        var isYtd;
+        if (new Date(str).toDateString() === new Date().toDateString()) {
+           value = "Today";
+        }else if (new Date(str) < new Date()){
+            value = (this.isYestday(new Date(str))) ? "Yestday" : "Before";
+            if(!this.isYestday(new Date(str))) {
+                if(new Date(str).getFullYear() < new Date().getFullYear()) {
+                    value = 'Last Year'
+                }
+            }
+        }
+        return value;
+    }
+
+    isYestday = (theDate) => {
+        var date = (new Date());    //当前时间
+        let value = new Date(theDate)
+        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(); //今天凌晨
+        var yestday = new Date(today - 24*3600*1000).getTime();
+        return value.getTime() < today && yestday <= value.getTime();
     }
 
     _createActions = (text, record, index) => {
@@ -253,7 +288,7 @@ class Record extends Component {
     render() {
         let tabList =[
             (hiddenOptions,i) => {
-                return<TabPane tab = {this.tr("a_12098")} key={i}>
+                return<TabPane tab = {this.tr("a_recordSet")} key={i}>
                     <Call {...this.props} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
                           _createName = {this._createName}  _createTime = {this._createTime} _createActions = {this._createActions} getRecordNameAndPath={this.getRecordNameAndPath} updateData={this.updateData}/>
                 </TabPane>
@@ -269,8 +304,8 @@ class Record extends Component {
 
         return (
             <Content className="content-container config-container">
-                <div className="subpagetitle">{this.tr("a_12098")}</div>
-                <Tabs className="config-tab" activeKey={this.state.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight}}>
+                {/* <div className="subpagetitle">{this.tr("a_12098")}</div> */}
+                <Tabs className="config-tab" activeKey={this.state.activeKey} onChange = {this.callback.bind(this)} style = {{'minHeight':this.props.mainHeight + 40}}>
                     {
                         tabList.map((item,index)=>{
                             let hiddenOptions = optionsFilter.getHiddenOptions(index)
@@ -311,7 +346,9 @@ function mapDispatchToProps(dispatch) {
         get_renameRecord: Actions.get_renameRecord,
         get_deleteRecord: Actions.get_deleteRecord,
         get_recordingNotify: Actions.get_recordingNotify,
-        resetVideoName:Actions.resetVideoName
+        resetVideoName:Actions.resetVideoName,
+        getRecordingPath:Actions.getRecordingPath,
+        setRecordingPath:Actions.setRecordingPath
     }
     return bindActionCreators(actions, dispatch)
 }

@@ -2197,3 +2197,12 @@ var a_notstart_zh = "未开始"
 var a_over_zh = "已结束"
 var a_cancelConf_zh = "取消本次会议"
 var a_cancelConfAll_zh = "取消整个会议"
+
+/****************record **************/
+var a_recordSet_zh = "录像管理"
+var a_recodrPath_zh = "保存路径"
+var a_norecordpath_zh = "没有可存储的设备"
+var a_usbdisk0_zh = "U盘0"
+var a_usbdisk1_zh = "U盘1"
+var a_usbdisk2_zh = "U盘2"
+var a_extsd_zh = "外置SD卡"

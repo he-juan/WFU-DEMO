@@ -1,7 +1,5 @@
 import * as actionUtil from "./actionUtil";
 
-'recording&region=maintenance&type=getrecordinglist {"name": "record", "lang": "a_12098", "acl": 0, "product": "1"},'
-
 const promptForRequestFailed = () => (dispatch) => {
     dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
 }
@@ -65,6 +63,34 @@ export const get_deleteRecord = (requestDelete, callback) => (dispatch) => {
         callback(json);
 
     }).catch(function(error) {
+        promptForRequestFailed();
+    });
+}
+
+// 新接口 获取录像保存路径
+export const getRecordingPath = (callback) => (dispatch) => {
+    let request = 'action=getrecordingpath'
+    actionUtil.handleGetRequest(request).then(function(m) {
+        // let callLogsNew = JSON.parse(m).data.calllogs
+        // dispatch({type: 'SET_CALLLOGS', callLogsNew:callLogsNew})
+        callback(JSON.parse(m).data)
+    }).catch(function(error) {
+        promptForRequestFailed();
+    })
+}
+
+export const setRecordingPath = (path,  callback) => (dispatch) => {
+    let request;
+    request = "action=setrecordingpath&path=" + path ;
+    actionUtil.handleGetRequest(request).then(function (data) {
+        let tObj = JSON.parse(data);
+        if(tObj.result == 0) {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "SUCCESS", content: 'a_7479'}});
+        } else {
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16005'}});
+        }
+        callback(tObj)
+    }).catch(function (error) {
         promptForRequestFailed();
     });
 }

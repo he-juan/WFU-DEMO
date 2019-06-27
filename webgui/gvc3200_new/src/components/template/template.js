@@ -35,7 +35,7 @@ export const options = [
                 ]},
             {"name": "conf_history", "lang": "history_all", "product":"1,2", "sub": [
 
-                ]}
+            ]}
         ]},
         {"name": "history", "lang": "a_3536", "sub": [
             {"name": "all", "lang": "history_all", "sub": [
@@ -92,9 +92,9 @@ export const options = [
                 {"name": "Caller ID Display", "lang": "a_16086"},
                 {"name": "Use Privacy Header", "lang": "a_16088", "acl": "1"},
                 {"name": "Use P-Preferred-Identity Header", "lang": "a_16089", "acl": "1"},
-                {"name": "SIP Transport", "lang": "a_16093"}, 
-                {"name": "RTP IP Filter", "lang": "a_19154"}, 
-                {"name": "RTP Timeout (s)", "lang": "a_19287"},   
+                {"name": "SIP Transport", "lang": "a_16093"},
+                {"name": "RTP IP Filter", "lang": "a_19154"},
+                {"name": "RTP Timeout (s)", "lang": "a_19287"},
                 {"name": "SIP URI Scheme When Using TLS", "lang": "a_16094"},
                 {"name": "Use Actual Ephemeral Port in Contact with TCP/TLS", "lang": "a_16095"},
                 {"name": "RFC2543 Hold", "lang": "RFC2543 Hold"},
@@ -150,7 +150,7 @@ export const options = [
                 {"name": "H.264 Profile Type", "lang": "a_16119"},
                 {"name": "Use H.264 Constrained Profiles", "lang": "a_19253"},
                 {"name": "H.265 payload type", "lang": "a_19258"},
-                
+
                 {"type": "p", "lang": "a_16640"},
                 {"name": "Disable BFCP", "lang": "a_19014"},
                 {"name": "Initial INVITE with Media Info", "lang": "a_19240"},
@@ -534,7 +534,7 @@ export const options = [
                 {"name": "SIP TLS Private Key", "lang": "a_16286"},
                 {"name": "SIP TLS Private Key Password", "lang": "a_16287"},
                 {"type": "button", "lang": "a_17"}
-                
+
             ]},
             {"name": "Certificate Management", "acl": "1", "lang": "a_19807", "sub": [
                 {"name": "CA Certificate", "lang": "a_4391"},
@@ -603,8 +603,8 @@ export const options = [
                 {"type": "button", "lang": "a_17"}
             ]}
         ]},
-        {"name": "record", "lang": "a_12098", "sub": [
-            {"name": "call", "lang": "a_12098", "sub": [
+        {"name": "record", "lang": "a_recordSet", "sub": [
+            {"name": "call", "lang": "a_recordSet", "sub": [
                 {"type": "button", "lang": "a_21"}
             ]},
             {"name": "normal", "product": "1,2", "lang": "a_12098", "sub": [

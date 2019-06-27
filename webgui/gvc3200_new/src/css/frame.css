@@ -7782,3 +7782,6 @@ ol.mp_list li.mp_error {}
     background-position: -580px -192px;
     margin: 10px 0 0 -20px;
 }
+.recordsetmodal {
+    width: 500px !important;
+}
