@@ -1917,8 +1917,6 @@ static int get_calllog_list(buffer *b) {
 
         int size = cJSON_GetArraySize(memberArrObj);
 
-        LOGD("conf members size: %d", size);
-
         if (size > 1) {
 
             //LOGD("It's a conf log");
@@ -25593,6 +25591,17 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "setLocalPresentationState", params);
+            } else if (!strcasecmp(action, "getrecordingpath")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "getRecordingPath", params);
+            } else if (!strcasecmp(action, "getrecordingpath")) {
+                char *path = msg_get_header(m, "path");
+                if (NULL == path) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                params = append_req_params(params, "path", path, 1);
+                handle_methodcall_to_gmi(srv, con, b, m, "setRecordingPath", params);
+            }
 	        //} else {
             //    findcmd = 0;
             }
