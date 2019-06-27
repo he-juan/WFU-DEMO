@@ -25632,7 +25632,6 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 params = append_req_params(params, "path", path, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "setRecordingPath", params);
-            }
 	        //} else {
             //    findcmd = 0;
             }
