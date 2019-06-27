@@ -672,8 +672,13 @@ static struct req_params *append_req_params(struct req_param *params, char *name
         node->name = name;
         node->value = value;
         node->type = type;
-        node->next = params->next;
-        params->next = node;
+        node->next = NULL;
+
+        struct req_param *r = params;
+        while(r->next != NULL) {
+            r = r->next;
+        }
+        r->next = node;
     }
 
     return params;
@@ -8127,10 +8132,20 @@ static int handle_methodcall_to_gmi(server *srv, connection *con, buffer *b, con
             printf("append req params: %s - %s - %d\n", r->name, r->value, r->type);
 
             if (r->type == 0) {
-                int p_t = atoi(r->value);
+                int p_t;
+                if (NULL != r->value) {
+                    p_t = atoi(r->value);
+                } else {
+                    p_t = 0;
+                }
                 append_ret = dbus_message_iter_append_basic(&iter, DBUS_TYPE_INT32, &p_t);
             } else {
-                char *p_s = r->value;
+                char *p_s = NULL;
+                if (NULL != r->value) {
+                    p_s = r->value;
+                } else {
+                    p_s = "";
+                }
                 append_ret = dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &p_s);
             }
 
@@ -25493,6 +25508,22 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 get_calllog_list(b);
             } else if (!strcasecmp(action, "getschedules")) {
                 get_schedule_list(b);
+            } else if (!strcasecmp(action, "startpreconf")) {
+                char *confId = msg_get_header(m, "Id");
+                char *confName = msg_get_header(m, "Displayname");
+                char *pinCode = msg_get_header(m, "Confdnd");
+                char *memberAutoJoin = msg_get_header(m, "Confautoanswer");
+                char *members = msg_get_header(m, "Members");
+                if (NULL == confId || NULL == members) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                }
+                uri_decode(members);
+                params = append_req_params(params, "confId", confId, 1);
+                params = append_req_params(params, "confName", confName, 1);
+                params = append_req_params(params, "pinCode", pinCode, 1);
+                params = append_req_params(params, "memberAutoJoin", memberAutoJoin, 0);
+                params = append_req_params(params, "members", members, 1);
+                handle_methodcall_to_gmi(srv, con, b, m, "startPreConf", params);
             } else if (!strcasecmp(action, "getglobalconfinfo")) {
                 handle_methodcall_to_gmi(srv, con, b, m, "getGlobalConfInfo", params);
             } else if (!strcasecmp(action, "ctrlconfrecord")) {
