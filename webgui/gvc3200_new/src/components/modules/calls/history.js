@@ -10,7 +10,8 @@ import { bindActionCreators } from 'redux';
 import {  connect } from 'react-redux';
 import { debounce } from 'lodash';
 import * as optionsFilter from "../../template/optionsFilter";
-
+var datefmt = ''
+var timezone = ''
 
 const Content = Layout;
 const NewContactsEditForm = Form.create()(NewContactsEdit);
@@ -66,7 +67,8 @@ class History extends Component {
         req_items = new Array;
         req_items.push(
             this.getReqItem("defaultAcct", "22046", ""),
-            this.getReqItem("disdialplan", "2382", "")
+            this.getReqItem("disdialplan", "2382", ""),
+            this.getReqItem("datefmt", "102", "")
         );
         this.callmode="0"; // "0": normal call;  "1": IP call
         this.handleLogData = debounce(this.handleLogData, 500)
@@ -75,11 +77,19 @@ class History extends Component {
     componentDidMount = () => {
         this.props.getItemValues(req_items, (values) => {
             let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
+            datefmt = values.datefmt
             this.setState({
                 defaultacct: defaultacct,
                 selacct: defaultacct
             });
         });
+        if(!this.props.timezone) {
+            this.props.getTimezone(this.props.curLocale,(value)=>{
+                timezone = value.timezone.id
+            });
+        } else {
+            timezone = this.props.timezone
+        }
         let data = this.props.callLogsNew
         if(!data.length) {
             this.props.getCallLogsNew()
@@ -133,26 +143,28 @@ class History extends Component {
         return value;
     }
 
-    _createTime = (text, record, index) => {
-        var Timevalue = this.convertTime(text);
-        let str = this.isToday(text)
-        if(str == 'Yestday') {
-            return this.tr('Yestday')
-        } else if(str == 'Before') {
-            return Timevalue.substring(5,10)
-        } else {
-            return Timevalue
-        }
-    }
-
     _createDetailTime = (text, record, index) => {
+        let datefmtObj = {
+            '3': 'YYYY/M/D',
+            '0': 'YYYY/M/D',
+            '1': 'M/D/YYYY',
+            '2': 'D/M/YYYY'
+        }
         let time = parseInt(text)
-        var Timevalue = this.convertTime(time);
         let str = this.isToday(time)
+        if (str == 'Before') {
+            datefmtObj = {
+                '3': 'M/D',
+                '0': 'M/D',
+                '1': 'M/D',
+                '2': 'D/M'
+            }
+        }
+        datefmt = datefmt || '3'
+        let format = datefmtObj[datefmt]
+        var Timevalue = this.convertTime(text,format,timezone);
         if(str == 'Yestday') {
             return this.tr('a_23553') + ' ' + Timevalue.split(' ')[1]
-        } else if(str == 'Before') {
-            return Timevalue.substr(5)
         } else {
             return Timevalue
         }
@@ -373,12 +385,9 @@ class History extends Component {
         }
 
         promiseAll.then(function (res) {
-            // self.props.get_calllog(0);
             self.props.getCallLogsNew()
             setTimeout(function () {
                 self.props.promptMsg('SUCCESS', "a_57");
-
-                // self._createData();
             }, 500);
             self.selectedContactList = [];
         })
@@ -841,8 +850,6 @@ class History extends Component {
 
     /****newContact  LocalContact******/
     updateContact = () => {
-        // this.props.getContactCount();
-        // this.props.getContacts((items)=>{this.setState({items:items})});
         // this.props.getContactsinfo();
         // this.props.getAllConfMember()
         setTimeout(() => {
@@ -1036,8 +1043,9 @@ const mapStateToProps = (state) => ({
     confmemberinfodata: state.confmemberinfodata,
     callnameinfo:state.callnameinfo,
     groupInformation: state.groupInformation,
-    callLogsNew:state.callLogsNew,
-    contactsNew: state.contactsNew
+    contactsNew: state.contactsNew,
+    timezone: state.timezone,
+
 
 })
 
@@ -1045,13 +1053,9 @@ const mapDispatchToProps = (dispatch) => {
     const actions = {
         promptMsg:Actions.promptMsg,
         getItemValues:Actions.getItemValues,
-        get_calllog: Actions.get_calllog,
         getAcctStatus:Actions.getAcctStatus,
         get_deleteCall: Actions.get_deleteCall,
-        getContactCount:Actions.getContactCount,
-        getContacts:Actions.getContacts,
         getGroups:Actions.getGroups,
-        getTonelist:Actions.getTonelist,
         setContacts:Actions.setContacts,
         getContactsinfo:Actions.getContactsinfo,
         getAllConfMember:Actions.getAllConfMember,
@@ -1061,7 +1065,8 @@ const mapDispatchToProps = (dispatch) => {
         getCallLogsNew:Actions.getCallLogsNew,
         clearCallHistory:Actions.get_clear,
         getContactsNew:Actions.getContactsNew,
-        makeCall: Actions.makeCall
+        makeCall: Actions.makeCall,
+        getTimezone:Actions.getTimezone,
 
     }
     return bindActionCreators(actions, dispatch)

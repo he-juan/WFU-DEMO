@@ -1,56 +1,38 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
 import * as Store from '../entry'
+// import moment from 'moment'
+import moment from 'moment-timezone'
 var mUse24Hour;
-var mDateObj = new Date();
 
 const Mixins = {
-    convertTime(date) {
+    convertTime (date,format,timezone) {
         let states = Store.store.getState();
         mUse24Hour = states.Use24Hour
-        mDateObj.setTime(date);
-        var timestr = mDateObj.getFullYear() + "/";
-        var month = mDateObj.getMonth() + 1;
-        if (month < 10)
-            timestr += "0";
-        timestr += month;
-        timestr += "/";
-        var date = mDateObj.getDate();
-        if (date < 10)
-            timestr += "0";
-        timestr += date;
-        timestr += " ";
-
-        var currentDate = new Date();
-        if (currentDate.getFullYear() == mDateObj.getFullYear() && currentDate.getMonth() == mDateObj.getMonth() && currentDate.getDate() == mDateObj.getDate())
-            timestr = "";
-
-        var hours = mDateObj.getHours();
-        if (hours < 12) {
-            if (hours < 10)
-                timestr += "0";
-            timestr += hours;
+        format = format || 'YYYY/M/D'
+        timezone = timezone || "Asia/Shanghai"
+        moment.tz.setDefault(timezone);
+        let timestr = moment.unix(date/1000).format(format)
+        let timeDay = moment().tz(timezone).format(format)
+        if(moment(timeDay).isSame(timestr, 'day')) {
+            timestr = ''
         } else {
-            if (mUse24Hour == 0) {
-                if (hours - 12 < 10)
-                    timestr += "0";
-                timestr += (hours - 12);
-            } else {
-                timestr += hours;
-            }
+            timestr += " ";
         }
-        timestr += ":";
-        var minutes = mDateObj.getMinutes();
-        if (minutes < 10)
-            timestr += "0";
-        timestr += minutes;
+        let format2 = 'HH'
+        if(mUse24Hour == 0) {
+            format2 = 'hh'
+        }
+        format2 += ':mm'
+        let timestr2 = moment.unix(date/1000).format(format2)
+        timestr += timestr2
+        let hours = moment.unix(date/1000).hour()
         if (mUse24Hour == 0) {
             if (hours < 12)
-                timestr += " " + this.tr("a_19672");
+                timestr += " " + this.tr("a_am");
             else
-                timestr += " " + this.tr("a_19673");
+                timestr += " " + this.tr("a_pm");
         }
-
         return timestr;
     },
 
@@ -94,7 +76,7 @@ const Mixins = {
             if(title == tooltips[i].id){
                 return <span dangerouslySetInnerHTML={{__html:tooltips[i].content}}></span>
             }
-                
+
         }
 
         return "";
@@ -290,7 +272,7 @@ const Mixins = {
 //修饰函数,将类作为参数传递
 var Enhance = myComponent => {
     Object.assign(myComponent.prototype, Mixins)
-    
+
     //修饰后返回
     return myComponent;
 };

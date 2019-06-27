@@ -18,6 +18,9 @@ var mType;
 var path;
 var recordlistInfo = [];
 var norrecordinglist = [];
+var datefmt = ''
+var timezone = ''
+
 class Record extends Component {
     constructor(props) {
         super(props);
@@ -30,6 +33,16 @@ class Record extends Component {
 
     componentDidMount = () => {
         this.updateData();
+        this.props.getItemValues([this.getReqItem("datefmt", "102", "")], (data) => {
+            datefmt = data.datefmt
+        })
+        if(!this.props.timezone) {
+            this.props.getTimezone(this.props.curLocale,(value)=>{
+                timezone = value.timezone.id
+            });
+        } else {
+            timezone = this.props.timezone
+        }
     }
 
     updateData = () => {
@@ -70,13 +83,27 @@ class Record extends Component {
         // text = parseInt(text)
         // let Timevalue = this.view_status_Time(text);
         // return Timevalue;
+        let datefmtObj = {
+            '3': 'YYYY/M/D',
+            '0': 'YYYY/M/D',
+            '1': 'M/D/YYYY',
+            '2': 'D/M/YYYY'
+        }
         let time = parseInt(text)
-        var Timevalue = this.convertTime(time);
         let str = this.isToday(time)
+        if (str == 'Before') {
+            datefmtObj = {
+                '3': 'M/D',
+                '0': 'M/D',
+                '1': 'M/D',
+                '2': 'D/M'
+            }
+        }
+        datefmt = datefmt || '3'
+        let format = datefmtObj[datefmt]
+        var Timevalue = this.convertTime(text,format,timezone);
         if(str == 'Yestday') {
             return this.tr('a_23553') + ' ' + Timevalue.split(' ')[1]
-        } else if(str == 'Before') {
-            return Timevalue.substr(5)
         } else {
             return Timevalue
         }
@@ -330,6 +357,7 @@ const mapStateToProps = (state) => ({
     norrecordinglist:state.norrecordinglist,
     product: state.product,
     oemId:state.oemId,
+    timezone: state.timezone
 })
 
 function mapDispatchToProps(dispatch) {
@@ -348,7 +376,8 @@ function mapDispatchToProps(dispatch) {
         get_recordingNotify: Actions.get_recordingNotify,
         resetVideoName:Actions.resetVideoName,
         getRecordingPath:Actions.getRecordingPath,
-        setRecordingPath:Actions.setRecordingPath
+        setRecordingPath:Actions.setRecordingPath,
+        getTimezone:Actions.getTimezone
     }
     return bindActionCreators(actions, dispatch)
 }
