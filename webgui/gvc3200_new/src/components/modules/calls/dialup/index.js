@@ -300,10 +300,10 @@ class Dialup extends Component {
           acctStatus.map((v, i) => {
             if(!v.activate) return null;
             return (
-              <Menu.Item key={v.acctindex} disabled={!v.register}>
+              <Menu.Item key={v.acctindex} className={!v.register ? 'disabled' : ''}>
                 <span><em className={`acct-icon acct-${v.acctindex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
                 <span>{v.num}</span>
-                <span>{!v.register ? this.tr('a_1139') : defaultAcct == v.acctindex ? this.tr('a_19113') : <Button type="primary" size='small' onClick={this.setDefaultAcct.bind(this, v.acctindex)}>{this.tr('a_16697')}</Button>}</span>
+                <span>{defaultAcct == v.acctindex ? this.tr('a_19113')  : <Button type="primary" size='small' onClick={this.setDefaultAcct.bind(this, v.acctindex)}>{this.tr('a_16697')}</Button>}</span>
               </Menu.Item>
             )
           })
