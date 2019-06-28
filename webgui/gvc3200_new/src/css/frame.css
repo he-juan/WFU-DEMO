@@ -4925,13 +4925,50 @@ table thead tr th{
     background: url(../img/icon.png)  -346px -426px no-repeat;
 }
 
-.call-ctrl-btn .unpresen-icon{
+.call-ctrl-btn .present-btn{
     background: url(../img/icon.png)  -236px -426px no-repeat;
+}
+.call-ctrl-btn .present-btn.active{
+    background: url(../img/icon.png)  -853px -426px no-repeat;
+}
+.call-ctrl-btn .present-btn:disabled {
+    background: url(../img/icon.png)  -816px -426px no-repeat !important;
 }
 .call-ctrl-btn .menu-btn {
     background: url(../img/icon.png) -273px -426px no-repeat;
 }
 
+.presource-type-list {
+    display: flex;
+    justify-content: space-around;
+}
+.presource-type-list li {
+    text-align: center;
+}
+.presource-type-list li span {
+    display: block;
+    width: 88px;
+    height: 88px;
+    cursor: pointer;
+}
+.presource-type-list span.presource-1  {
+    background: url(../img/icon.png) -793px -227px no-repeat;
+}
+.presource-type-list span.presource-2  {
+    background: url(../img/icon.png) -880px -227px no-repeat;
+}
+.presource-type-list span.presource-3  {
+    background: url(../img/icon.png) -706px -227px no-repeat;
+}
+.presource-type-list span.presource-1:hover, .presource-type-list span.presource-1.active  {
+    background: url(../img/icon.png) -754px -462px no-repeat;
+}
+.presource-type-list span.presource-2:hover, .presource-type-list span.presource-2.active  {
+    background: url(../img/icon.png) -841px -462px no-repeat;
+}
+.presource-type-list span.presource-3:hover, .presource-type-list span.presource-3.active  {
+    background: url(../img/icon.png) -667px -462px no-repeat;
+}
 
 .menu-popover {
     min-width: 150px;

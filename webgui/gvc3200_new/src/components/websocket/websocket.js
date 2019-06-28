@@ -513,6 +513,9 @@ class HandleWebsocket extends React.Component {
             case 'dnd':
                 this.props.setDndModeStatus(message.state);
                 break;
+            case 'presentaion-status-changed':
+                this.props.setPreState(message.data)
+                break;
         }
     }
 
@@ -606,6 +609,7 @@ const mapDispatchToProps = (dispatch) => {
         setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
         setGlobalConfInfo: Actions.setGlobalConfInfo,
         getAllLineStatus: Actions.getAllLineStatus,
+        setPreState: Actions.setPreState,
         //sfu
         getsfuconfinfo: Actions.getsfuconfinfo,
         getsfuconfmyrole: Actions.getsfuconfmyrole,

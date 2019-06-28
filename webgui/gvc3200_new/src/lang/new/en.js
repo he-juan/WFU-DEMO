@@ -4007,3 +4007,6 @@ var a_23576_en = 'Click to unblock';
 var a_23577_en = 'The number of IPVideoTalk members has reached the limit.';
 var a_23578_en = 'Minimize dialog';
 var a_23579_en = "Click to return to the call";
+var a_23580_en = "Presentation source";
+var a_23581_en = "Switch presentation source";
+var a_23582_en = "Someone is sharing his screen, you are temporarily unable to open presentation at the same time.";

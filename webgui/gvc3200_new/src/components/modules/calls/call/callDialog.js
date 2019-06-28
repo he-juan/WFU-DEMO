@@ -88,6 +88,9 @@ class CallDialog extends Component {
                 this.setState({DTMFDisplay: true});
             }
         },true);
+
+        
+
         // let getis4kcon = new Promise((resolve, reject) => {
         //     this.props.getHDMI1Resolution((is4kon) => {
         //         resolve(is4kon);
@@ -371,12 +374,12 @@ class CallDialog extends Component {
                         
                         
                         {/* 演示按钮 */}
-                        {/* {
+                        {
                             isBtnsHide ? null :
                             <Presentation 
                                 ispause={_ispause}
                             />
-                        } */}
+                        }
 
                         {/* menu */}
                          {

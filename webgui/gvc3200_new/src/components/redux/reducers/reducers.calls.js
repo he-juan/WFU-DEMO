@@ -238,6 +238,16 @@ export const globalConfInfo = (state = {}, action) => {
 }
 
 
+export const preState = (state = null, action) => {
+    switch(action.type) {
+        case Actions.SET_PRE_STATE:
+            return action.preState
+        default:
+            return state
+    }
+}
+
+
 /**
  * sfu
  */

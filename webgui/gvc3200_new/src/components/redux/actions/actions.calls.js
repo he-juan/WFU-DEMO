@@ -837,6 +837,13 @@ export const ctrlLineMute = (line, ismute) => (dispatch) => {
     });
 }
 
+export const gethdmiinstate = () => (dispatch) => {
+    let request = 'action=gethdmiinstate&region=status'
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let tObj = JSON.parse(data)
+        dispatch(setHDMIstatus('hdmiIn', data.state))
+    })
+}
 
 export const gethdmi1state = (callback) => (dispatch) => {
     let request = "action=gethdmi1state&region=status";
@@ -1251,7 +1258,7 @@ export const handlerecord = (recordstatus, callback) => (dispatch) =>{
 
     actionUtil.handleGetRequest(request).then(function (data) {
         if(JSON.parse(data).result == "1"){
-            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_605'}});
+            dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_9692'}});
         }
         callback(tObj);
     }).catch(function (error) {
@@ -1394,6 +1401,39 @@ export const getGlobalConfInfo = (callback) => (dispatch) => {
         }
     })
 }
+
+
+// 演示相关
+export const setPreState = (preState) => {
+    return {
+        type: 'SET_PRE_STATE',
+        preState: preState
+    }
+}
+export const getPreState = (callback) => (dispatch) => {
+    let request = 'action=getpresentationstate'
+    actionUtil.handleGetRequest(request).then(function(data) {
+        let _data = JSON.parse(data).data
+        dispatch(setPreState(_data))
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /******************** SFU 版本 ********************************************/
 
