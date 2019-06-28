@@ -260,7 +260,7 @@ class CallForm extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
             //   let curAccount = this.props.curAccount;
-              let curAccount = 1;
+              let curAccount = 0;
               this.props.cb_set_autoanswer(curAccount,values['autoanswer']);
               switch (values['cftype']) {
                   case 'allTo':
