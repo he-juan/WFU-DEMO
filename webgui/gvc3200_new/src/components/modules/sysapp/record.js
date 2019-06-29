@@ -87,12 +87,19 @@ class Record extends Component {
 
     _createActions = (text, record, index) => {
         let statue;
+        let lockTit = ''
+        if(text.Lock == '1') {
+            lockTit = this.tr("a_unlock")
+        } else {
+            lockTit = this.tr("a_lock")
+        }
+
         statue = <div id = {text.Id} className = {"callRecord locktype" + text.Lock}>
-            <button className='allow-download'  id = {'allow-download'+index}  onClick={this.handleDownload.bind(this,text.Path,index)}></button>
-            <button className='allow-edit' id = {'allow-edit'+index}  onClick={this.handleEditItem.bind(this, text, index)}></button>
-            <button style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
+            <button className='allow-download'  id = {'allow-download'+index} title={this.tr('a_download')}  onClick={this.handleDownload.bind(this,text.Path,index)}></button>
+            <button className='allow-edit' id = {'allow-edit'+index} title={this.tr('a_edit')} onClick={this.handleEditItem.bind(this, text, index)}></button>
+            <button style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}} title ={lockTit} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
             <Popconfirm placement="top" title={this.tr("a_6174")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
-                <button className='allow-delete' id = {'allow-delete'+index} ></button>
+                <button title={this.tr('a_delete')} className='allow-delete' id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;
         return statue;
@@ -145,6 +152,7 @@ class Record extends Component {
                 document.getElementById(mOpid).setAttribute("class", namediv);
                 document.getElementById(spanId).setAttribute("class", namespan);
             }
+            this.updateData()
         });
     }
 
