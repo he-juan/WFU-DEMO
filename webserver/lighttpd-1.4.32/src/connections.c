@@ -25533,6 +25533,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     return -1;
                 }
                 params = append_req_params(params, "state", state, 0);
+                params = append_req_params(params, "sources", "All", 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfRecordState", params);
             } else if (!strcasecmp(action, "ctrlconfhold")) {
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlConfHoldState", params);
