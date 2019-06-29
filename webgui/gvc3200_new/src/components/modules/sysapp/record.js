@@ -80,57 +80,9 @@ class Record extends Component {
     }
 
     _createTime = (text, record, index) => {
-        // text = parseInt(text)
-        // let Timevalue = this.view_status_Time(text);
-        // return Timevalue;
-        let datefmtObj = {
-            '3': 'YYYY/M/D',
-            '0': 'YYYY/M/D',
-            '1': 'M/D/YYYY',
-            '2': 'D/M/YYYY'
-        }
-        let time = parseInt(text)
-        let str = this.isToday(time)
-        if (str == 'Before') {
-            datefmtObj = {
-                '3': 'M/D',
-                '0': 'M/D',
-                '1': 'M/D',
-                '2': 'D/M'
-            }
-        }
         datefmt = datefmt || '3'
-        let format = datefmtObj[datefmt]
-        var Timevalue = this.convertTime(text,format,timezone);
-        if(str == 'Yestday') {
-            return this.tr('a_23553') + ' ' + Timevalue.split(' ')[1]
-        } else {
-            return Timevalue
-        }
-    }
-
-    isToday = (str) => {
-        var value;
-        var isYtd;
-        if (new Date(str).toDateString() === new Date().toDateString()) {
-           value = "Today";
-        }else if (new Date(str) < new Date()){
-            value = (this.isYestday(new Date(str))) ? "Yestday" : "Before";
-            if(!this.isYestday(new Date(str))) {
-                if(new Date(str).getFullYear() < new Date().getFullYear()) {
-                    value = 'Last Year'
-                }
-            }
-        }
-        return value;
-    }
-
-    isYestday = (theDate) => {
-        var date = (new Date());    //当前时间
-        let value = new Date(theDate)
-        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(); //今天凌晨
-        var yestday = new Date(today - 24*3600*1000).getTime();
-        return value.getTime() < today && yestday <= value.getTime();
+        var Timevalue = this.convertTime(text,datefmt,timezone);
+        return Timevalue
     }
 
     _createActions = (text, record, index) => {

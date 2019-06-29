@@ -6,19 +6,50 @@ import moment from 'moment-timezone'
 var mUse24Hour;
 
 const Mixins = {
-    convertTime (date,format,timezone) {
+    convertTime (date,formatIndex,timezone) {
+        if(date.length == 10 ) {
+            date += '000'
+        }
         let states = Store.store.getState();
         mUse24Hour = states.Use24Hour
-        format = format || 'YYYY/M/D'
+        let datefmtObj = {
+            '3': 'YYYY/M/D',
+            '0': 'YYYY/M/D',
+            '1': 'M/D/YYYY',
+            '2': 'D/M/YYYY'
+        }
+
+        let format = datefmtObj[formatIndex] || 'YYYY/M/D'  //显示格式
         timezone = timezone || "Asia/Shanghai"
         moment.tz.setDefault(timezone);
+
+        let compformat = 'YYYY/M/D' // 比较格式
+
         let timestr = moment.unix(date/1000).format(format)
-        let timeDay = moment().tz(timezone).format(format)
-        if(moment(timeDay).isSame(timestr, 'day')) {
+
+        let comDate = moment.unix(date/1000).format(compformat)
+        let comtimeNow = moment().tz(timezone).format(compformat)
+        if(moment(comtimeNow).isSame(comDate, 'day')) { //今天
             timestr = ''
-        } else {
-            timestr += " ";
+        } else if(moment(comtimeNow).isSame(comDate, 'years')) {  //今年
+            datefmtObj = {
+                '3': 'M/D',
+                '0': 'M/D',
+                '1': 'M/D',
+                '2': 'D/M'
+            }
+            format = datefmtObj[formatIndex]
+            timestr = moment.unix(date/1000).format(format)
+            let yestday = moment().subtract(1,"days").format(compformat)
+            if(moment(yestday).isSame(comDate,"day")) { //昨天
+                timestr = this.tr('a_23553') + ' '
+            } else {
+                timestr += " "
+            }
+        } else { //其他
+            timestr += " "
         }
+
         let format2 = 'HH'
         if(mUse24Hour == 0) {
             format2 = 'hh'
