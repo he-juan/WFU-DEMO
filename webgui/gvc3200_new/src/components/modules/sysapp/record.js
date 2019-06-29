@@ -98,7 +98,7 @@ class Record extends Component {
         }
 
         statue = <div id = {text.Id} className = {"callRecord locktype" + text.Lock}>
-            <button className='allow-download'  id = {'allow-download'+index} title={this.tr('a_download')}  onClick={this.handleDownload.bind(this,text.Path,index)}></button>
+            <button className='allow-download'  id = {'allow-download'+index} title={this.tr('a_download')}  onClick={this.handleDownload.bind(this,text,index)}></button>
             <button className='allow-edit' id = {'allow-edit'+index} title={this.tr('a_edit')} onClick={this.handleEditItem.bind(this, text, index)}></button>
             <button style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}} title ={lockTit} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
             <Popconfirm placement="top" title={this.tr("a_6174")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
@@ -111,26 +111,17 @@ class Record extends Component {
     getRecordNameAndPath = (path) => {
         let mNameIndex = path.lastIndexOf("/") + 1;
         let name = path.substring(mNameIndex);
-        let pathOnly = path.substring(0,mNameIndex-1)
+        let pathOnly = path.substring('/mnt'.length,mNameIndex)
         return {name:name,pathOnly:pathOnly}
     }
 
-    handleDownload = (path, index) => {
+    handleDownload = (text, index) => {
+        let path = text.Path
         let record = this.getRecordNameAndPath(path)
         let recordingpath = record.pathOnly
         let recordingName = record.name
-
-        if( recordingpath.indexOf("sdcard") != -1 ) {
-            parent.window.location.href = "/sdcard/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
-        } else if( recordingpath.indexOf("usbhost") != -1 ){
-            if( recordingpath.indexOf("usbhost0") != -1 )
-                parent.window.location.href = "/usbhost0/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
-            else if( recordingpath.indexOf("usbhost2") != -1 )
-                parent.window.location.href = "/usbhost2/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
-            else if( recordingpath.indexOf("usbhost3") != -1 )
-                parent.window.location.href = "/usbhost3/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
-            else
-                parent.window.location.href = "/usbhost1/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
+        if(recordingpath.indexOf("usbhost") != -1) {
+            parent.window.location.href = recordingpath + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
         } else {
             parent.window.location.href = "/Recording/" + encodeURIComponent(recordingName) + "?time=" + new Date().getTime();
         }
