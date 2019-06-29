@@ -329,18 +329,36 @@ class Call extends Component {
                 curpath = pathlist[0]
             }
             let pathArr = ['a_usbdisk0','a_usbdisk1','a_usbdisk2','a_extsd']
+            let usb0num = 0,usb1num = 0,usb2num = 0,sdnum = 0
             let index = 0
             pathlist.forEach((item) => {
+                let extStr = ''
                 if(item.indexOf('usbhost0')!=-1) {
                     index = 0
+                    if(usb0num) {
+                        extStr = '_' + usb0num
+                    }
+                    usb0num += 1
                 } else if (item.indexOf('usbhost1')!=-1) {
                     index = 1
+                    if(usb1num) {
+                        extStr = '_' + usb1num
+                    }
+                    usb1num += 1
                 } else if (item.indexOf('usbhost2')!=-1) {
                     index = 2
+                    if(usb2num) {
+                        extStr = '_' + usb2num
+                    }
+                    usb2num += 1
                 } else if (item.indexOf('extsd')!=-1) {
                     index = 3
+                    if(sdnum) {
+                        extStr = '_' + sdnum
+                    }
+                    sdnum += 1
                 }
-                children.push(<Option value = {item} key={item}>{callTr(pathArr[index])}</Option>)
+                children.push(<Option value = {item} key={item}>{callTr(pathArr[index]) + extStr}</Option>)
             })
             sellect =
                 <Select defaultValue={curpath} style={{width:'300'}} onChange={this.changeTempPath}>
