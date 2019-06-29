@@ -4722,7 +4722,7 @@ table thead tr th{
 .ant-spin-lg .ant-spin-dot {
     width: 56px;
     height: 56px;
-    background: transparent url("../img/loading.gif") no-repeat center center;
+    /* background: transparent url("../img/loading.gif") no-repeat center center; */
 }
 .ant-spin-dot i {
     background: transparent;
@@ -4948,7 +4948,7 @@ table thead tr th{
     background-position: -500px 0;
 }
 .restoreModal .restoreProcess .prosessbar div.bkping {
-    background: transparent url("../img/loading_2.gif") no-repeat center center;
+    /* background: transparent url("../img/loading_2.gif") no-repeat center center; */
 }
 .ant-modal-content .ant-form-item-label label::after {
     content: " ";
@@ -5207,7 +5207,6 @@ table thead tr th{
 .recordSetModal {
     width: 710px !important;
 }
-
 
 
 

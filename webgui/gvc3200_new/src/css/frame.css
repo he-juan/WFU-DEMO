@@ -1729,7 +1729,7 @@ table thead tr th{
 .gdslist button,.mpklist button,.vpklist button{
     margin: 10px;
 }
-.allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact, .Playing, .Pause , .initial, .reschedule {
+.allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact, .Playing, .Pause , .initial, .reschedule, .disalble-delete {
     display: inline-block;
     position: relative;
     top: 5px;
@@ -1741,7 +1741,7 @@ table thead tr th{
 }
 
 @-moz-document url-prefix() {
-    .allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact/*, .Playing, .Pause , .initial*/ {
+    .allow-up,.arrow-down,.allow-edit,.allow-lock,.allow-delete,.allow-download, .allow-detail,.allow-call,.allow-addContact, .disalble-delete/*, .Playing, .Pause , .initial*/ {
         top: -5px;
     }
 }
@@ -1840,8 +1840,17 @@ table thead tr th{
 .allow-delete {
     background-position:-209px -66px;
 }
-.allow-delete:hover {
+/* .allow-delete:hover {
     background-position:-230px -66px;
+} */
+
+.disalble-delete {
+    background-position:-627px -190px;
+    margin-left: 6px
+}
+
+.disalble-delete.disabled:hover, .disalble-delete[disabled]:hover{
+    cursor: not-allowed;
 }
 
 .diabaledPlay .allow-download{

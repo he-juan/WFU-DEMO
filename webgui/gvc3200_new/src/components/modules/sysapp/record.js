@@ -88,10 +88,13 @@ class Record extends Component {
     _createActions = (text, record, index) => {
         let statue;
         let lockTit = ''
+        let delClass = ''
         if(text.Lock == '1') {
             lockTit = this.tr("a_unlock")
+            delClass = 'disalble-delete'
         } else {
             lockTit = this.tr("a_lock")
+            delClass = 'allow-delete'
         }
 
         statue = <div id = {text.Id} className = {"callRecord locktype" + text.Lock}>
@@ -99,7 +102,7 @@ class Record extends Component {
             <button className='allow-edit' id = {'allow-edit'+index} title={this.tr('a_edit')} onClick={this.handleEditItem.bind(this, text, index)}></button>
             <button style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}} title ={lockTit} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
             <Popconfirm placement="top" title={this.tr("a_6174")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
-                <button title={this.tr('a_delete')} className='allow-delete' id = {'allow-delete'+index} ></button>
+                <button disabled={text.Lock == '1'} title={this.tr('a_delete')} className={delClass} id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;
         return statue;
