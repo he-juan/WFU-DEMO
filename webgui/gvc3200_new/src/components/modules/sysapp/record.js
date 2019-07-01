@@ -156,7 +156,7 @@ class Record extends Component {
         let className = document.getElementById(dom).className;
         var lock = className.split('locktype')[1]
         if(lock == '1') {
-            this.props.promptMsg('ERROR',"a_18567");
+            this.props.promptMsg('ERROR',"a_renamefail");
             return false
         }
         var self = this;

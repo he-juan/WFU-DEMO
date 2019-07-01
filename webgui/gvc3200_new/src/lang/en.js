@@ -2207,5 +2207,5 @@ var a_lock_en = "Lock"
 var a_unlock_en = "Unlock"
 var a_delRecord_en = "Are you sure you want to delete this recording?"
 var a_delRecords_en = "Are you sure to delete the selected recording?"
-
+var a_renamefail_en = "Files are locked and cannot be renamed"
 
