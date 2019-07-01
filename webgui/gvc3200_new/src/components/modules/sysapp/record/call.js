@@ -320,7 +320,7 @@ class Call extends Component {
         }
         const hasSelected = selectedRowKeys.length > 0;
 
-        let {curpath, pathlist} = this.state
+        let {curpath, pathlist, tempRecordPath} = this.state
         let children = []
         let sellect
         if(pathlist.length > 0) {
@@ -360,8 +360,11 @@ class Call extends Component {
                 }
                 children.push(<Option value = {item} key={item}>{callTr(pathArr[index]) + extStr}</Option>)
             })
+            if(tempRecordPath){
+                curpath = tempRecordPath
+            }
             sellect =
-                <Select defaultValue={curpath} style={{width:'300'}} onChange={this.changeTempPath}>
+                <Select value={curpath} style={{width:'300'}} onChange={this.changeTempPath}>
                     {children}
                 </Select>
         } else {
