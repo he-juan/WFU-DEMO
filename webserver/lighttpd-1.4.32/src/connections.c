@@ -4158,7 +4158,7 @@ static int handle_recording(buffer *b, const struct message *m)
                     buffer_append_string(b,"{\"Response\":\"Error\"}");
                     return -1;
                 }
-                int len = strlen(path) + strlen(newname) + 64;
+                int len = strlen(path) + strlen(newname) + strlen(pathonly) * 2 + 64;
                 cmd = malloc(len);
                 memset(cmd, 0, len);
                 snprintf(cmd, len, "mv \"%s/%s\" \"%s/%s\"", pathonly, targetpath, pathonly, targetnewname);
