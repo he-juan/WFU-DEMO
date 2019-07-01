@@ -217,10 +217,10 @@ const readshowipState = (state={}, action) => {
     }
 }
 
-const timezoneValues = (state={}, action) => {
+const timezone = (state='', action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_TIMEZONE_VALUES:
-            return action.timezoneValues
+            return action.timezone
         default:
             return state
     }
@@ -592,7 +592,7 @@ const rootReducer = combineReducers({
     // pageStatus,
     hashChange,
     readshowipState,
-    timezoneValues,
+    timezone,
     languagesValues,
     logcatFile,
     tracelist,

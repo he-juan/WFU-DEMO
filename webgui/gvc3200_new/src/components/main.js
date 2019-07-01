@@ -70,6 +70,7 @@ class Main extends React.Component {
         this.props.getDefaultAcct()
         this.props.getContactsNew()
         this.props.getCallLogsNew()
+        this.props.getTimezone('en')
         /*get dial line status to init the call page*/
         this.props.getAllLineStatus((result)=>{
             if(result.length > 0){
@@ -224,7 +225,8 @@ const mapDispatchToProps = (dispatch) => {
         setipvtcmrinviteinfo: Actions.setipvtcmrinviteinfo,
         getDefaultAcct: Actions.getDefaultAcct,
         getContactsNew: Actions.getContactsNew,
-        getCallLogsNew: Actions.getCallLogsNew
+        getCallLogsNew: Actions.getCallLogsNew,
+        getTimezone: Actions.getTimezone
     }
     return bindActionCreators(actions, dispatch)
 }

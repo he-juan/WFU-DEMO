@@ -4,7 +4,10 @@ import { Popover, Table, Modal, Checkbox, Button, Tooltip } from "antd"
 import * as Actions from 'components/redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import moment from 'moment'
+// import moment from 'moment'
+import moment from 'moment-timezone'
+
+
 
 let timer, timer2, DATASOURCE
 
@@ -106,8 +109,9 @@ class LogAndContacts extends Component {
     }
   }
   componentDidMount = () => {
-    const { contactsNew, callLogsNew } = this.props
+    const { contactsNew, callLogsNew, timezone } = this.props
     this.parseDataSource(contactsNew, callLogsNew)
+    moment.tz.setDefault(timezone)
   }
   parseDataSource = (contactsNew, callLogsNew) => {
     const dataContacts = this.parseContacts(contactsNew)
@@ -436,11 +440,12 @@ const mapState = (state) => ({
   mainHeight: state.mainHeight,
   maxlinecount: state.maxlinecount,
   linesInfo: state.linesInfo,
+  timezone: state.timezone
 })
 
 const mapDispatch = (dispatch) => {
   var actions = {
-    makeCall: Actions.makeCall
+    makeCall: Actions.makeCall,
   }
 
   return bindActionCreators(actions, dispatch)

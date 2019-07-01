@@ -301,7 +301,6 @@ class InviteMemberModal extends Component {
   handleAddMember = () => {
     const { memToCall } = this.state
     let data = []
-    console.log(memToCall)
     memToCall.forEach(item => {
       let obj = item
       obj.number = item.num

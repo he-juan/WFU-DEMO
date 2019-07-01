@@ -139,7 +139,10 @@ export const getTimezone = (lang,callback) => (dispatch) => {
     actionUtil.handleGetRequest(request).then(function(data) {
         var result=JSON.parse(data)
         if(result.Response=="Success"){
-            callback(result);
+            if(callback) {
+                callback(result);
+            }
+            dispatch({type: 'REQUEST_GET_TIMEZONE_VALUES', timezone: result.timezone.id})
         }
     })
 }
@@ -151,6 +154,7 @@ export const saveTimeset = (value) => (dispatch) => {
     let request = "action=savetimeset&timezone=" + value;
     actionUtil.handleGetRequest(request).then(function(data) {
         let msgs = actionUtil.res_parse_rawtext(data);
+        dispatch(getTimezone('en'))
         if (actionUtil.cb_if_is_fail(msgs)) {
             // send notice action
         } else {

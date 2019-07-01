@@ -35,7 +35,7 @@ class DetailForm extends Component {
         if(this.props.wifiData.bssid != nextProps.wifiData.bssid){
             this.handleResetForm();
 
-            if(nextProps.wifiData.securityStr.indexOf("802.1X") != -1){
+            if(nextProps.wifiData.securityStr.toUpperCase().indexOf("802.1X") != -1){
                 this.ctrlCertConfig("0");
             }
         }
@@ -86,7 +86,7 @@ class DetailForm extends Component {
     }
 
     checkPwdLength = (rule, value, callback) => {
-        const securitystr = this.props.wifiData.securityStr;
+        const securitystr = this.props.wifiData.securityStr.toUpperCase();
 
         /*for 802.1X password is not required*/
         if(securitystr.indexOf("802.1X") == -1){
@@ -215,7 +215,7 @@ class DetailForm extends Component {
                     <span>{securitystr}</span>
                 </FormItem>
 
-                {securitystr.indexOf("802.1X") != -1 && wifidata.isSaved == "false" ?
+                {securitystr.toUpperCase().indexOf("802.1X") != -1 && wifidata.isSaved == "false" ?
                     <div>
                         <FormItem label={<span>{callTr("a_eapmethod")}</span>}>
                             {getFieldDecorator("eapmethod", {
@@ -785,7 +785,7 @@ class GeneralForm extends Component {
             let wifidataarr = [];
 
             let eap = -1, phase2 = -1;
-            if (curwifi.securityStr.indexOf("802.1X") != -1) {
+            if (curwifi.securityStr.toUpperCase().indexOf("802.1X") != -1) {
                 eap = form.getFieldValue("eapmethod");
                 if (eap == "0" || eap == "2") {
                     phase2 = form.getFieldValue("phase2");

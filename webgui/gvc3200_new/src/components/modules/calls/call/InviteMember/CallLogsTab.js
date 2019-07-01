@@ -4,7 +4,7 @@ import { Table, Tooltip } from "antd"
 import * as Actions from 'components/redux/actions/index'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 function tr(text) {
   var tr_text = text;
@@ -105,7 +105,8 @@ class CallLogsTab extends Component {
   }
 
   componentDidMount () {
-    const { callLogsNew } = this.props
+    const { callLogsNew, timezone } = this.props
+    moment.tz.setDefault(timezone)
     const dataCallLogs = this.parseCallLogs(callLogsNew)
     DATASOURCE = dataCallLogs
     this.setState({
@@ -295,7 +296,8 @@ class CallLogsTab extends Component {
 
 const mapState = (state) => {
   return {
-    callLogsNew: state.callLogsNew
+    callLogsNew: state.callLogsNew,
+    timezone: state.timezone
   }
 }
 const mapDispatch = (dispatch) => {
