@@ -33,7 +33,7 @@ export const options = [
             {"name": "preschedule", "lang": "a_preschedule", "sub": [
 
                 ]},
-            {"name": "conf_history", "lang": "history_all", "product":"1,2", "sub": [
+            {"name": "schedule_invited", "lang": "history_all", "sub": [
 
             ]}
         ]},

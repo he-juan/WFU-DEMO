@@ -6,13 +6,13 @@ import { bindActionCreators } from 'redux';
 import {  connect } from 'react-redux';
 import * as optionsFilter from "../../template/optionsFilter";
 import PreShedule from "./schedule/preschedule";
-import Schdule_History from "./schedule/schedule_history";
+import Schedule_Invited from "./schedule/schedule_invited";
 import NewConfEdit from "./callsPubModule/newConfEdit"
 
 const Content = Layout;
 const TabPane = Tabs.TabPane;
 const ScheduleForm = Form.create()(PreShedule);
-const HistoryForm = Form.create()(Schdule_History);
+const InvitedForm = Form.create()(Schedule_Invited);
 const NewConfEditForm = Form.create()(NewConfEdit)
 
 class History extends Component {
@@ -75,7 +75,7 @@ class History extends Component {
             } ,
             (hiddenOptions,i) => {
                 return<TabPane tab = {this.tr("history_all")} key={i}>
-                    <HistoryForm {...this.props} hideItem={hiddenOptions} tabOrder={i} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
+                    <InvitedForm {...this.props} hideItem={hiddenOptions} tabOrder={i} view_status_Duration = {this.view_status_Duration} _createTime={this._createTime} convertTime={this.convertTime} isToday={this.isToday} callTr={this.tr} getReqItem = {this.getReqItem} activeKey={this.state.activeKey} />
                 </TabPane>
             }
         ]
