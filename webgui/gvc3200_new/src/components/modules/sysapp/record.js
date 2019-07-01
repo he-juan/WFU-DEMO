@@ -11,6 +11,7 @@ import RecordSet from "./recordset";
 const Content = Layout;
 const TabPane = Tabs.TabPane;
 const RecordSetForm = Form.create()(RecordSet);
+const FormItem = Form.Item;
 var mEitdId;
 var mSpChar = ["\\",":","*","?","<",">","|","\""];
 var mOpid;
@@ -26,8 +27,12 @@ class Record extends Component {
         super(props);
         this.state = {
             activeKey:'0',
-            displaySetModal: false,
-            showRecordSet: true
+            // displaySetModal: false,
+            // showRecordSet: true,
+            displayRenameModal: false,
+            curRecord: "",
+            helptext: null,
+            validateStatus: null
         }
     }
 
@@ -159,76 +164,84 @@ class Record extends Component {
             this.props.promptMsg('ERROR',"a_renamefail");
             return false
         }
-        var self = this;
-        Modal.info({
-            title: <span dangerouslySetInnerHTML={{__html: self.tr("a_69")}}></span>,
-            content: (
-                <div>
-                    <Input id="renameinput" name="renameinput" type="text"></Input>
-                </div>
-            ),
-            okText: <span dangerouslySetInnerHTML={{__html: self.tr("a_2")}}></span>,
-            cancelText: <span dangerouslySetInnerHTML={{__html: self.tr("a_3")}}></span>,
-            onOk() {self.handleOk(text)},
-            onCancel() {}
-        });
+        this.setState({displayRenameModal:true,curRecord:text})
     }
 
-    handleOk = (text) => {
-        var value  = document.getElementById("renameinput").value;
-        var newname = $.trim(value);
-        if (newname.length > 64) {
-            this.props.promptMsg('ERROR',"a_15073");
-            return false;
-        }
-        let path = text.Path
-        let info = this.getRecordNameAndPath(path)
-        var oldname = info.name
-        let pathOnly = info.pathOnly
-        var recordinglistInfo = [];
-        let mOpid = text.Id
-        var spcharlength = mSpChar.length;
-        var illegalflag = false;
-        if (newname == '') {
-            return false;
-        } else {
-            recordinglistInfo = this.props.recordinglist
-            for (let i = 0; recordinglistInfo[i] != undefined ; i++) {
-                let item = recordinglistInfo[i]
-                let name = this.getRecordNameAndPath(item.Path).name
-                let str = newname + '.mkv'
-                if(str === name) {
-                    if(item['Id'] !== mOpid){
-                        this.props.promptMsg('ERROR',"a_18568");
-                        return false;
+    handleOk = () => {
+
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if(!err) {
+                var value  = document.getElementById("renameinput").value;
+                var newname = $.trim(value);
+                if (newname.length > 64) {
+                    this.setState({
+                        validateStatus: 'error',
+                        helptext: this.tr("a_lengthlimit") + "64"
+                    })
+                    return false;
+                }
+                let text = this.state.curRecord
+                let path = text.Path
+                let info = this.getRecordNameAndPath(path)
+                var oldname = info.name
+                let pathOnly = info.pathOnly
+                var recordinglistInfo = [];
+                let mOpid = text.Id
+                var spcharlength = mSpChar.length;
+                var illegalflag = false;
+                if (newname == '') {
+                    this.setState({
+                        validateStatus: 'error',
+                        helptext: this.tr('a_recordEmpty')
+                    })
+                    return false;
+                } else {
+                    recordinglistInfo = this.props.recordinglist
+                    for (let i = 0; recordinglistInfo[i] != undefined ; i++) {
+                        let item = recordinglistInfo[i]
+                        let name = this.getRecordNameAndPath(item.Path).name
+                        let str = newname + '.mkv'
+                        if(str === name) {
+                            if(item['Id'] !== mOpid){
+                                this.setState({
+                                    validateStatus: 'error',
+                                    helptext: this.tr('a_recordNameExist')
+                                })
+                                return false;
+                            }
+                        }
                     }
                 }
+                var n = 0;
+                for (var n = 0; n < spcharlength; n++) {
+                    if (newname.indexOf(mSpChar[n]) != -1) {
+                        illegalflag = true;
+                        break;
+                    }
+                }
+                var reg = new RegExp("^[a-zA-Z0-9\u4E00-\u9FA5\uF900-\uFA2D_-]+$");
+                if (!reg.test(newname)) {
+                    illegalflag = true;
+                }
+                if (illegalflag) {
+                    this.setState({
+                        validateStatus: 'error',
+                        helptext: this.tr('a_renameerr')
+                    })
+                    return false;
+                }
+                newname += '.mkv'
+                if (newname == oldname) {
+                    return false;
+                }
+                var requestUri = "recording&region=maintenance&type=renamerecord&id=" + mOpid + "&name=" + encodeURIComponent(oldname) + "&newname=" + encodeURIComponent(newname) + "&pathonly=" + encodeURIComponent(pathOnly);
+                this.props.resetVideoName(requestUri,()=>{
+                    this.updateData()
+                })
+                this.hiddenRenameModal()
             }
-        }
-        var n = 0;
-        for (var n = 0; n < spcharlength; n++) {
-            if (newname.indexOf(mSpChar[n]) != -1) {
-                illegalflag = true;
-                break;
-            }
-        }
-        var reg = new RegExp("^[a-zA-Z0-9\u4E00-\u9FA5\uF900-\uFA2D_-]+$");
-        if (!reg.test(newname)) {
-            illegalflag = true;
-        }
-        if (illegalflag) {
-            this.props.promptMsg('ERROR',"a_2096");
-            return false;
-        }
-        newname += '.mkv'
-        if (newname == oldname) {
-            return false;
-        }
-        // this.props.promptSpinMsg('display-block', "a_processing");
-        var requestUri = "recording&region=maintenance&type=renamerecord&id=" + mOpid + "&name=" + encodeURIComponent(oldname) + "&newname=" + encodeURIComponent(newname) + "&pathonly=" + encodeURIComponent(pathOnly);
-        this.props.resetVideoName(requestUri,()=>{
-            this.updateData()
         })
+
     }
 
     handleOkDelete = (text, index) => {
@@ -266,7 +279,17 @@ class Record extends Component {
         });
     }
 
+    hiddenRenameModal = () => {
+        this.setState({
+            displayRenameModal:false,
+            curRecord:"",
+            validateStatus: null,
+            helptext: null
+        })
+    }
+
     render() {
+        const {getFieldDecorator} = this.props.form;
         let tabList =[
             (hiddenOptions,i) => {
                 return<TabPane tab = {this.tr("a_recordSet")} key={i}>
@@ -298,10 +321,26 @@ class Record extends Component {
                         })
                     }
                 </Tabs>
+                {this.state.displayRenameModal &&
+                    <Modal visible={this.state.displayRenameModal} title={this.tr("a_recordName")} className="confirm-modal recordsetmodal"
+                        okText={this.tr("a_2")} cancelText={this.tr("a_3")} onOk={this.handleOk} onCancel={this.hiddenRenameModal}>
+                        <div className="confirm-content">
+                            <Form hideRequiredMark>
+                                <FormItem help={this.state.helptext} validateStatus={this.state.validateStatus}>
+                                    {getFieldDecorator("renameinput", {
+                                    })(<Input type="text" name="renameinput" placeholder={this.tr("a_inputRecordName")} style={{width:300,marginLeft:84}}/>)}
+                                </FormItem>
+                            </Form>
+                        </div>
+                    </Modal>
+                }
+
             </Content>
         );
     }
 }
+
+const RecordForm = Form.create()(Enhance(Record));
 
 const mapStateToProps = (state) => ({
     curLocale: state.curLocale,
@@ -336,4 +375,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Enhance(Record));
+export default connect(mapStateToProps, mapDispatchToProps)(Enhance(RecordForm));

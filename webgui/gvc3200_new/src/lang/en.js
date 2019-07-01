@@ -2208,4 +2208,7 @@ var a_unlock_en = "Unlock"
 var a_delRecord_en = "Are you sure you want to delete this recording?"
 var a_delRecords_en = "Are you sure to delete the selected recording?"
 var a_renamefail_en = "Files are locked and cannot be renamed"
-
+var a_recordName_en = "Record name"
+var a_inputRecordName_en = "Please enter Record name"
+var a_recordNameExist_en = "The file name already exists. Please re-enter"
+var a_recordEmpty_en = "Record name cannot be empty"

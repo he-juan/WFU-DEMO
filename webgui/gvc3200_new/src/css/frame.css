@@ -1845,7 +1845,7 @@ table thead tr th{
 } */
 
 .disalble-delete {
-    background-position:-627px -190px;
+    background-position:-627px -189px;
     margin-left: 6px
 }
 
@@ -1906,7 +1906,7 @@ table thead tr th{
     margin-left: 10px;
 }
 .callRecord .allow-delete{
-    background-position: -209px -66px;
+    background-position: -210px -66px;
     margin-left: 6px;
 }
 .callRecord .allow-download:hover{
@@ -1916,7 +1916,7 @@ table thead tr th{
     background-position: -272px -66px;
 }
 .callRecord .allow-delete:hover{
-    background-position: -230px -66px;
+    background-position: -231px -66px;
 }
 .progress-bar-bg {
     display: inline-block;
@@ -5777,9 +5777,9 @@ table thead tr th{
     font-weight: bold;
 }
 
-.recordSetModal {
+/* .recordSetModal {
     width: 720px !important;
-}
+} */
 .ant-tabs-nav .ant-tabs-tab {
   padding: 8px 4px;
 }
@@ -7830,4 +7830,13 @@ ol.mp_list li.mp_error {}
 }
 .recordsetmodal {
     width: 500px !important;
+}
+.recordsetmodal .confirm-content {
+    margin-bottom: 0;
+    padding-bottom:16px
+}
+.recordsetmodal .ant-form-explain{
+    text-align: left;
+    padding-left: 84px;
+    padding-top: 5px;
 }
