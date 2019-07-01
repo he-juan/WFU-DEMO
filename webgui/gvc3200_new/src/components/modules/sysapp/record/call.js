@@ -16,7 +16,8 @@ class Call extends Component {
             pathlist: [],
             displaySetModal: false,
             curpath: '',
-            tempRecordPath: ''
+            tempRecordPath: '',
+            curPage: 1
         }
     }
 
@@ -143,18 +144,20 @@ class Call extends Component {
             let className = document.getElementById(dom).className;
             var lock = className.split('locktype')[1]
             if(lock !== '1') {
-                let path = selectedRecords[i].path.replace(/ogg/g, "rgs").replace(/wav/g, "rgs").replace(/rgs/g, "*").replace(/,/g, " ")
+                // let path = selectedRecords[i].path.replace(/ogg/g, "rgs").replace(/wav/g, "rgs").replace(/rgs/g, "*").replace(/,/g, " ")
+                let path = selectedRecords[i].path
                 task.push(this.delTask(id,path))
             } else {
                 hasLockDoc = true;
             }
         }
         let self = this
+
         if(task.length >0) {
             Promise.all(task).then(function (result) {
                 let successNum = 0
                 self.props.get_recordinglist( (result) => {
-                    self.props.recordinglist = result;
+                    // self.props.recordinglist = result;
                     self._createData()
                 });
                 for (let i = 0; result[i] != undefined ; i++) {
@@ -184,7 +187,7 @@ class Call extends Component {
             this.props.promptMsg('ERROR',"a_6162");
         }
         self.setState({selectedRowKeys: []});
-        self.selectedRecords = []
+        self.selectedDataList = []
     }
 
     handleChange = (e) => {
@@ -265,6 +268,14 @@ class Call extends Component {
             })
         }
         this.handleSetModalCancel()
+    }
+
+    changePage = (pageNumber) => {
+        this.setState({
+            curPage: pageNumber,
+            selectedRows: [],
+            selectedRowKeys:[]
+        });
     }
 
     render() {
@@ -374,6 +385,14 @@ class Call extends Component {
                 </Select>
         }
 
+        let pageobj = false
+        if(data.length>15) {
+            pageobj = {
+                pageSize: 15,
+                onChange:this.changePage
+            }
+        }
+
         return (
             <div style={{margin:"0px 10px"}}>
                 <div style={{margin:"4px 10px 10px 22px", height:'32px'}}>
@@ -406,6 +425,7 @@ class Call extends Component {
                         pagination={ false }
                         dataSource={ data }
                         showHeader={ true }
+                        pagination = { pageobj }
                     />
                     <div className = "nodatooltips" style={{display: showtips}}>
                         <div></div>
