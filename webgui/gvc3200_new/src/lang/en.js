@@ -2205,3 +2205,7 @@ var a_usbdisk2_en = "USB disk 2"
 var a_extsd_en = "extsd"
 var a_lock_en = "Lock"
 var a_unlock_en = "Unlock"
+var a_delRecord_en = "Are you sure you want to delete this recording?"
+var a_delRecords_en = "Are you sure to delete the selected recording?"
+
+
