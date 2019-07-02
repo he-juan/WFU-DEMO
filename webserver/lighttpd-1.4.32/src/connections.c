@@ -4412,6 +4412,31 @@ static int handle_ipvt_acctinfo( buffer *b )
     return 0;
 }
 
+static int handle_check_current_pwd(buffer *b, const struct message *m){
+    char *username = msg_get_header(m, "username");
+    char *curpwd = msg_get_header(m, "curpwd");
+    uri_decode((char *)curpwd);
+
+    char *savedpwd = NULL;
+    if(!strcasecmp("admin", username)){
+        savedpwd = nvram_get("2");
+    }
+    else if(!strcasecmp("user", username)){
+        savedpwd = nvram_get("196");
+    }
+    else{
+        buffer_append_string(b, "Response=Error\r\n");
+        return 0;
+    }
+
+    if(!strcmp(savedpwd, curpwd))
+        buffer_append_string(b, "Response=Success\r\nSame=1\r\n");
+    else
+        buffer_append_string(b, "Response=Success\r\nSame=0\r\n");
+
+    return 1;
+}
+
 static int handle_loginrealm( buffer *b )
 {
     long realm = random() * random();
@@ -25379,6 +25404,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_applyresponse(b);
             } else if (!strcasecmp(action, "needapply")) {
                 handle_checkneedapplyp(b);
+            }else if (!strcasecmp(action, "checkcurpwd")) {
+                handle_check_current_pwd(b, m);
             } else if (!strcasecmp(action, "cfupdated")) {
                 handle_cfupdated(b);
             } else if (!strcasecmp(action, "ping")) {
