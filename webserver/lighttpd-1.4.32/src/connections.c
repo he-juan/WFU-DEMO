@@ -25369,7 +25369,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
         buffer_append_string(b, "response=success");
     */
-    } else if (valid_connection(con)) {
+    //} else if (valid_connection(con)) {
+    } else if (1) {
         int findcmd = 1;
 #ifndef BUILD_RECOVER
         if (protected_command_find(command_protect, action))
@@ -25596,6 +25597,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
                     return -1;
                 }
+                uri_decode(dtmf);
                 params = append_req_params(params, "dtmf", dtmf, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "sendConfDTMF", params);
             } else if (!strcasecmp(action, "ctrllinemute")) {
