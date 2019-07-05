@@ -113,16 +113,22 @@ class Record extends Component {
         return statue;
     }
 
-    getRecordNameAndPath = (path) => {
+    getRecordNameAndPath = (path,isdownload) => {
         let mNameIndex = path.lastIndexOf("/") + 1;
         let name = path.substring(mNameIndex);
-        let pathOnly = path.substring('/mnt'.length,mNameIndex)
+        let pathOnly
+        if(isdownload) {
+            pathOnly = path.substring('/mnt'.length,mNameIndex)
+        } else {
+            pathOnly = path.substring(0,mNameIndex-1)
+        }
         return {name:name,pathOnly:pathOnly}
     }
 
     handleDownload = (text, index) => {
         let path = text.Path
-        let record = this.getRecordNameAndPath(path)
+        let isdownload = true
+        let record = this.getRecordNameAndPath(path,isdownload)
         let recordingpath = record.pathOnly
         let recordingName = record.name
         if(recordingpath.indexOf("usbhost") != -1) {
