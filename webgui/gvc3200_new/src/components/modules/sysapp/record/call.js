@@ -4,6 +4,7 @@ import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Selec
 import * as Actions from '../../../redux/actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+let rowkeys =[]
 
 class Call extends Component {
     dataList = [];
@@ -17,7 +18,8 @@ class Call extends Component {
             displaySetModal: false,
             curpath: '',
             tempRecordPath: '',
-            curPage: 1
+            curPage: 1,
+            selectedRows:[]
         }
     }
 
@@ -53,70 +55,58 @@ class Call extends Component {
         },500)
     }
 
-    onSelectChange = (selectedRowKeys) => {
-        this.setState({selectedRowKeys});
+    onSelectChange = (selectedRowKeys,selectedRows) => {
+        let page = this.state.curPage
+        this.setState({selectedRowKeys,selectedRows});
+        if(page!=1) {
+            let arr = []
+            let data = this.getCurSelectedRows(page)
+            for (let i = 0; i < selectedRowKeys.length; i++) {
+                arr.push(data[selectedRowKeys[i]])
+            }
+            this.setState({selectedRows:arr});
+        }
+        rowkeys = selectedRowKeys
     }
 
     onSelectItem = (record, selected, selectedRows) => {
-        record = record.row0
-        let name = this.props.getRecordNameAndPath(record.Path).name.toLowerCase()
-        let id = record.Id;
-        if (selected) {
-            this.selectedDataList.push({name: name, id: id,path: record.Path});
-        } else {
-            for (let j = 0; j < this.selectedDataList.length; j++) {
-                if (this.selectedDataList[j].id == id) {
-                    this.selectedDataList.splice(j, 1);
-                    break;
-                }
+        let selectedRowKeys = rowkeys
+        let page = this.state.curPage
+        if(page!=1) {
+            selectedRows = []
+            let data = this.getCurSelectedRows(page)
+            for (let i = 0; i < selectedRowKeys.length; i++) {
+                selectedRows.push(data[selectedRowKeys[i]])
             }
+            this.setState({selectedRows:selectedRows});
         }
     }
 
     onSelectAllRecords = (selected, selectedRows) => {
-        let self = this;
-        if (selected) {
-            if (self.dataList.length == selectedRows.length) {
-                self.selectedDataList = [];
-                for(let i = 0; i< selectedRows.length; i++){
-                    let item = selectedRows[i].row0;
-                    let name = this.props.getRecordNameAndPath(item.Path).name.toLowerCase()
-                    self.selectedDataList.push({name:name, id:item.Id, path: item.Path});
-                }
-            } else {
-                for (let i = 0; i < selectedRows.length; i++) {
-                    let item = selectedRows[i].row0
-                    let name = this.props.getRecordNameAndPath(item.Path).name.toLowerCase()
-                    let id = item.Id;
-                    for (var j = 0; j < self.selectedDataList.length; j++) {
-                        if (self.selectedDataList[j].id === id && self.selectedDataList[j].name === name) {
-                            break;
-                        }
-                    }
-                    if (j == self.selectedDataList.length) {
-                        self.selectedDataList.push({name: name, id: id, path:item.Path});
-                    }
-                }
-            }
+        let page = this.state.curPage
+        if(page != 1) {
+            selectedRows = this.getCurSelectedRows(page)
         } else {
-            for (let i = self.state.curDataList.length - 1; i >= 0; i--) {
-                let index = null
-                for (var j = 0; j < self.selectedDataList.length; j++) {
-                    let item = self.state.curDataList[i].row0
-                    let name = this.props.getRecordNameAndPath(item.Path).name.toLowerCase();
-                    let id = item.Id
-                    if (self.selectedDataList[j].id === id && self.selectedDataList[j].name === name) {
-                        index = j
-                        break;
-                    }
-                }
-                if (j != self.selectedDataList.length) {
-                    self.selectedDataList.splice(index, 1);
-                }
-            }
+            this.setState({selectedRows:selectedRows})
         }
-
     }
+
+    getCurSelectedRows = (page) =>{
+        if(page == 1) {
+            return
+        }
+        let selectedRows = []
+        let pagesize = 15
+        let begin = pagesize * (page-1)
+        let i = 0
+        while (i<15) {
+            selectedRows.push(this.state.curDataList[begin+i])
+            i+=1
+        }
+        this.setState({selectedRows:selectedRows})
+        return selectedRows
+    }
+
 
     delTask = (id,path) => {
         let self = this
@@ -135,17 +125,16 @@ class Call extends Component {
 
     handleOkDeleteMulti = () => {
         const recordinglist = this.props.recordinglist;
-        let selectedRecords = this.selectedDataList
+        let selectedRecords = this.state.selectedRows
         let task = []
         let hasLockDoc = false;
         for (var i = 0; i < selectedRecords.length; i++) {
-            let id = selectedRecords[i].id;
-            let dom = 'locktype' + id;
-            let className = document.getElementById(dom).className;
-            var lock = className.split('locktype')[1]
+            let item = selectedRecords[i].row0
+            let id = item.Id;
+            let lock = item.Lock
             if(lock !== '1') {
                 // let path = selectedRecords[i].path.replace(/ogg/g, "rgs").replace(/wav/g, "rgs").replace(/rgs/g, "*").replace(/,/g, " ")
-                let path = selectedRecords[i].path
+                let path = item.Path
                 task.push(this.delTask(id,path))
             } else {
                 hasLockDoc = true;
@@ -157,22 +146,16 @@ class Call extends Component {
             Promise.all(task).then(function (result) {
                 let successNum = 0
                 self.props.get_recordinglist( (result) => {
-                    // self.props.recordinglist = result;
                     self._createData()
                 });
+
                 for (let i = 0; result[i] != undefined ; i++) {
                     if(result[i].res == 'success') {
                         successNum = successNum + 1
-                        let id = result[i].id
-                        var recordinglist = self.props.recordinglist;
-                        for (var j = recordinglist.length; j > 0 ; j--) {
-                            if (id == recordinglist[j-1]['Id']) {
-                                recordinglist.splice(j-1,1);
-                                break;
-                            }
-                        }
                     }
                 }
+                self.props.updateData()
+
                 if(successNum == task.length ) {
                     if(hasLockDoc) {
                         self.props.promptMsg('SUCCESS',"a_16428");
@@ -186,8 +169,7 @@ class Call extends Component {
         } else {
             this.props.promptMsg('ERROR',"a_6162");
         }
-        self.setState({selectedRowKeys: []});
-        self.selectedDataList = []
+        self.setState({selectedRowKeys: [],selectedRows:[]});
     }
 
     handleChange = (e) => {
@@ -208,21 +190,25 @@ class Call extends Component {
             }
         }
         let selectRows = [];
-        for(let i = 0; i<self.selectedDataList.length;i++){
+        let selectedDataList = this.state.selectedRows
+        for(let i = 0; i<selectedDataList.length;i++){
             for(let j=0;j<data.length;j++){
-                let item = data[j].row0;
-                let name = this.props.getRecordNameAndPath(item.Path).name.toLowerCase();
-                let id = item.Id;
-                if(self.selectedDataList[i].id === id && self.selectedDataList[i].name === name){
+                let id = data[j].row0.Id;
+                let id2 = selectedDataList[i].row0.Id
+                if(id2 === id){
                     selectRows.push(j);
                     break;
                 }
             }
         }
+        if(selectRows.length > 0) {
+            this.setState({
+                selectedRowKeys:selectRows
+            });
+        }
 
         this.setState({
-            curDataList: data,
-            selectedRowKeys:selectRows
+            curDataList: data
         });
     }
 

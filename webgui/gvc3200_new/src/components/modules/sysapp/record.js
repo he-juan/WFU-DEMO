@@ -273,15 +273,15 @@ class Record extends Component {
             } else {
                 this.props.promptMsg('ERROR',"a_20157");
             }
-            $(".CallDiv #allow-download"+mEitdId).parent().parent().parent().remove();
-            for (var i = recordinglistInfo.length; i > 0; i--) {
-                if (mOpid == recordinglistInfo[i]['Id']) {
-                    recordinglistInfo.splice(i,1);
-                }
-            }
+            // $(".CallDiv #allow-download"+mEitdId).parent().parent().parent().remove();
+            // for (var i = recordinglistInfo.length; i > 0; i--) {
+            //     if (mOpid == recordinglistInfo[i]['Id']) {
+            //         recordinglistInfo.splice(i,1);
+            //     }
+            // }
             this.updateData()
-            var requesturi = "recordingnotify&region=maintenance&type=rename&id=" + data.id;
-            this.props.get_recordingNotify(requesturi);
+            // var requesturi = "recordingnotify&region=maintenance&type=rename&id=" + data.id;
+            // this.props.get_recordingNotify(requesturi);
         });
     }
 
