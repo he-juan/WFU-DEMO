@@ -49,7 +49,8 @@ class ContactTab extends Component {
             curAcct:null,
             curPage: 1,
             updateState: '',
-            maxImportCount: ''
+            maxImportCount: '',
+            selectedRows:[]
 
         }
         req_items = new Array;
@@ -281,6 +282,8 @@ class ContactTab extends Component {
         let page = this.state.curPage
         if(page != 1) {
             selectedRows = this.getCurSelectedRows(page)
+        } else {
+            this.setState({selectedRows:selectedRows})
         }
     }
 
@@ -557,9 +560,13 @@ class ContactTab extends Component {
                 }
             }
         }
+        if(selectRows.length > 0) {
+            this.setState({
+                selectedRowKeys:selectRows
+            });
+        }
         this.setState({
-            curContactList: data,
-            selectedRowKeys:selectRows
+            curContactList: data
         });
     }
 
