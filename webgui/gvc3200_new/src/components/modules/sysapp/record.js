@@ -94,24 +94,26 @@ class Record extends Component {
         let statue;
         let lockTit = ''
         let editTit = ''
+        let delTit = ''
         let delClass = ''
         if(text.Lock == '1') {
             lockTit = this.tr("a_unlock")
             editTit = this.tr("a_unedit")
+            delTit = this.tr("a_undel")
             delClass = 'disalble-delete'
         } else {
             lockTit = this.tr("a_lock")
-            delClass = 'allow-delete'
             editTit = this.tr("a_edit")
-
+            delTit = this.tr("a_delete")
+            delClass = 'allow-delete'
         }
 
         statue = <div id = {text.Id} className = {"callRecord locktype" + text.Lock}>
             <button className='allow-download'  id = {'allow-download'+index} title={this.tr('a_download')}  onClick={this.handleDownload.bind(this,text,index)}></button>
             <button className='allow-edit' disabled={text.Lock == '1'} id = {'allow-edit'+index} title={editTit} onClick={this.handleEditItem.bind(this, text, index)}></button>
-            <button style={!this.isWP8xx() ? {display:'inline-block'} : {display:'none'}} title ={lockTit} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
+            <button title ={lockTit} className={'allow-lock' + ' locktype' + text.Lock} id = {'allow-lock'+index}  onClick={this.handleLockItem.bind(this, text, index)}></button>
             <Popconfirm placement="top" title={this.tr("a_delRecord")} okText={this.tr("a_2")} cancelText={this.tr("a_3")} onConfirm={this.handleOkDelete.bind(this, text, index)}>
-                <button disabled={text.Lock == '1'} title={this.tr('a_delete')} className={delClass} id = {'allow-delete'+index} ></button>
+                <button disabled={text.Lock == '1'} title={delTit} className={delClass} id = {'allow-delete'+index} ></button>
             </Popconfirm>
         </div>;
         return statue;
