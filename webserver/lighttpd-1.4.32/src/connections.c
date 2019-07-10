@@ -3640,7 +3640,7 @@ int sqlite_handle_conf(buffer *b, const struct message *m, const char *type)
             data4 = sqlite3_column_int(stmt, 3);    // focus
 
             dbus_send_ptz_control("preset_goto", data1, data2, data3, data4);
-            buffer_append_string(b, "success");
+            buffer_append_string(b, "\"success\"");
         }
     }
     buffer_append_string(b, "]}");
@@ -25662,6 +25662,16 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 params = append_req_params(params, "path", path, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "setRecordingPath", params);
+            } else if (!strcasecmp(action, "ctrlIPVTLocalHandUpOrDown")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlIPVTLocalHandUpOrDown", params);
+            } else if (!strcasecmp(action, "ctrlIPVTLocalCamera")) {
+                char *state = msg_get_header(m, "state");
+                if (NULL == state) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                params = append_req_params(params, "state", state, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "ctrlIPVTLocalCamera", params);
 	        //} else {
             //    findcmd = 0;
             }
