@@ -32,7 +32,8 @@ class Record extends Component {
             displayRenameModal: false,
             curRecord: "",
             helptext: null,
-            validateStatus: null
+            validateStatus: null,
+            shouldUpdaList: false
         }
     }
 
@@ -53,11 +54,16 @@ class Record extends Component {
     updateData = () => {
         this.props.get_recordinglist( (result) => {
             recordlistInfo = result;
+            this.setState({shouldUpdaList:true})
         });
 
         // this.props.get_norrecordinglist( (result) => {
         //     norrecordinglist = result;
         // });
+    }
+
+    updateListOver = () => {
+        this.setState({shouldUpdaList:false})
     }
 
     callback = (key) => {
@@ -180,7 +186,6 @@ class Record extends Component {
     }
 
     handleOk = () => {
-
         this.props.form.validateFieldsAndScroll((err, values) => {
             if(!err) {
                 var value  = document.getElementById("renameinput").value;
@@ -304,8 +309,8 @@ class Record extends Component {
         const {getFieldDecorator} = this.props.form;
         let tabList =[
             (hiddenOptions,i) => {
-                return<TabPane tab = {this.tr("a_recordSet")} key={i}>
-                    <Call {...this.props} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
+                return <TabPane tab = {this.tr("a_recordSet")} key={i}>
+                    <Call {...this.props} updateListOver = {this.updateListOver} shouldUpdaList = {this.state.shouldUpdaList} hideItem={hiddenOptions} tabOrder={i} callTr={this.tr} activeKey={this.state.activeKey}
                           _createName = {this._createName}  _createTime = {this._createTime} _createActions = {this._createActions} getRecordNameAndPath={this.getRecordNameAndPath} updateData={this.updateData}/>
                 </TabPane>
             }

@@ -4,6 +4,8 @@ import { Input, Icon, Tooltip, Button, Checkbox, Table, Modal, Popconfirm, Selec
 import * as Actions from '../../../redux/actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+const rowkey = record => {return record.key}
+
 let rowkeys =[]
 
 class Call extends Component {
@@ -25,15 +27,7 @@ class Call extends Component {
     }
 
     componentDidMount = () => {
-        this._createData()
         this.updatePath()
-        if(!this.props.recordinglist.length) {
-            this.props.get_recordinglist();
-            let self = this
-            setTimeout(function () {
-                self._createData();
-            },500)
-        }
     }
 
     updatePath = () => {
@@ -49,11 +43,17 @@ class Call extends Component {
         })
     }
 
-    componentWillReceiveProps = () => {
-        let self = this
-        setTimeout(function () {
-            self._createData();
-        },500)
+    componentWillReceiveProps = (nextprops) => {
+        if(nextprops.shouldUpdaList == true) {
+            setTimeout(() => {
+                this._createData();
+            }, 500);
+        }
+        if(this.props.recordinglist.length === void 0 && nextprops.recordinglist.length !== void 0) {
+            setTimeout(() => {
+                this._createData();
+            }, 0);
+        }
     }
 
     onSelectChange = (selectedRowKeys,selectedRows) => {
@@ -221,7 +221,7 @@ class Call extends Component {
         }
         for (let i = 0; i< recordinglist.length; i++) {
             data.push({
-                key: i,
+                key: "c" + i,
                 row0: recordinglist[i],
                 row1: recordinglist[i].Size,
                 row2: recordinglist[i].Time,
@@ -232,6 +232,7 @@ class Call extends Component {
         this.setState({
             curDataList: data
         });
+        this.props.updateListOver()
         return data
     }
 
@@ -418,7 +419,7 @@ class Call extends Component {
                 <div className = 'CallDiv recordList'>
                     <Table
                         rowSelection={rowSelection}
-                        rowKey=""
+                        rowKey={rowkey}
                         columns = { columns }
                         pagination={ false }
                         dataSource={ data }
