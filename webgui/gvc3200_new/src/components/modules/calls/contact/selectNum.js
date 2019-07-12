@@ -10,23 +10,17 @@ class CallSelectNum extends Component {
     }
 
     handleCallNum = (item, idx, index) => {
-        if(!this.props.existActiveAccount){
-            this.props.promptMsg('WARNING','a_19374');
-            return;
-        }
-        // request won't be sent when there is a call exists
-        if(this.props.callDialog == "minimize"){
-            this.props.promptMsg('WARNING','a_19639');
-            return;
-        }
-        let calltip = document.getElementsByClassName('on-call-tip')[0];
-
-        if(!calltip){
-            let curnum = item.split(' ')[0].trim();
-            let acct = item.split(' ')[1];
-            let source = 1;
-            this.props.sendSingleCall(curnum, acct, 0, 0, source, 0);
-        }
+        let curnum = item.split('--- ---')[0].trim();
+        let acct = item.split('--- ---')[1];
+        let memToCall =[]
+        memToCall.push({
+            num: curnum,
+            acct: acct,
+            isvideo: 0,
+            source: '1',
+            isconf: '1',
+        })
+        this.props.makeCall(memToCall)
     }
 
     render () {
@@ -39,7 +33,7 @@ class CallSelectNum extends Component {
         });
         let selectnumArray = new Array;
         for (let i = 0; i < (selectnum && selectnum.length); i++) {
-            selectnumArray.push(selectnum[i]+ ' ' + selectacct[i])
+            selectnumArray.push(selectnum[i]+ '--- ---' + selectacct[i])
         }
         let obj = {
             '-1': 'Active account',
@@ -52,10 +46,10 @@ class CallSelectNum extends Component {
                 {
                     selectnumArray && selectnumArray.map((item, idx,items) => {
                         return (
-                            <div className='callselectItem'>
+                            <div className='callselectItem' key={idx}>
                                 {/* <p> */}
-                                    <span className='ellips' title = {item.split(' ')[0] + ` (${obj[item.split(' ')[1]]})`}>
-                                        {item.split(' ')[0] + ` (${obj[item.split(' ')[1]]})`}
+                                    <span className='ellips' title = {item.split('--- ---')[0] + ` (${obj[item.split('--- ---')[1]]})`}>
+                                        {item.split('--- ---')[0] + ` (${obj[item.split('--- ---')[1]]})`}
                                         <i onClick={this.handleCallNum.bind(this, item, idx, this.props.index)}></i>
                                     </span>
                                 {/* </p> */}

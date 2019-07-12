@@ -491,7 +491,7 @@ class ContactTab extends Component {
                 <div id = {text.id} className = {"callRecord number" + number.join(',') } >
                     <Popover
                         content={
-                            <CallSelectNum sendSingleCall = {this.props.sendSingleCall} selectnumItem={text.phone} existActiveAccount={this.state.existActiveAccount}/>
+                            <CallSelectNum makeCall= {this.props.makeCall} sendSingleCall = {this.props.sendSingleCall} selectnumItem={text.phone} existActiveAccount={this.state.existActiveAccount}/>
                         }
                         placement="topRight"
                         trigger="focus"
