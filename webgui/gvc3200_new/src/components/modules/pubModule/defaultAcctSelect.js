@@ -9,20 +9,26 @@ const Option = Select.Option
 
 function parseAcctStatus(acctstatus) {
   let headers = acctstatus.headers
-  let result = []
-  let acctIndex = [0, 1, 8]
-  acctIndex.map((i) => {
+  let result = [];
+  let acctIndex = [
+    { index: '0',name: 'SIP' },
+    { index: '1',name: 'IPVideoTalk' },
+    // { index: '2',name: 'BlueJeans' },
+    { index: '8',name: 'H.323' },
+  ]
+  acctIndex.map((item) => {
+    let i = item.index
+    let name = item.name
     result.push({
-      "acctindex": i.toString(),
+      "acctindex": i,
       "register": parseInt(headers[`account_${i == 8 ? 6 : i}_status`]),  // 账号注册状态
       "activate": parseInt(headers[`account_${i == 8 ? 6 : i}_activate`]), // 账号激活状态
       "num": headers[`account_${i == 8 ? 6 : i}_no`],
-      "name": i == 0 ? 'SIP' : i == 8 ? 'H.323' : headers[`account_${i}_name`]
+      "name": name
     })
   })
   return result
 }
-
 class DefaultAcctSelect extends Component {
   constructor () {
     super()
