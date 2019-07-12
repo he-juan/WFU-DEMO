@@ -19,7 +19,8 @@ class Call extends Component {
             curpath: '',
             tempRecordPath: '',
             curPage: 1,
-            selectedRows:[]
+            selectedRows:[],
+            pagesize: 15
         }
     }
 
@@ -96,10 +97,10 @@ class Call extends Component {
             return
         }
         let selectedRows = []
-        let pagesize = 15
+        let pagesize = this.state.pagesize
         let begin = pagesize * (page-1)
         let i = 0
-        while (i<15) {
+        while (i<pagesize) {
             selectedRows.push(this.state.curDataList[begin+i])
             i+=1
         }
@@ -264,6 +265,13 @@ class Call extends Component {
         });
     }
 
+    onShowSizeChange = (current, size) => {
+        this.setState({
+            curPage:current,
+            pagesize:size
+        })
+    }
+
     render() {
         const callTr = this.props.callTr;
         const _createName = this.props._createName;
@@ -370,12 +378,16 @@ class Call extends Component {
                     {children}
                 </Select>
         }
-
         let pageobj = false
         if(data.length>15) {
             pageobj = {
-                pageSize: 15,
-                onChange:this.changePage
+                pageSize: this.state.pagesize,
+                onChange:this.changePage,
+                total: data.length,
+                showTotal: total => callTr('a_total') + ": " + total,
+                showSizeChanger:true,
+                pageSizeOptions:["15","30","45","100"],
+                onShowSizeChange:this.onShowSizeChange
             }
         }
 
