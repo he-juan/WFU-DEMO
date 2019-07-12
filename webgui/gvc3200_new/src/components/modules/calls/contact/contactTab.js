@@ -66,7 +66,7 @@ class ContactTab extends Component {
     componentDidMount = () => {
         let showloading = true
         this.props.getItemValues(req_items, (values) => {
-            let defaultacct = values["defaultAcct"] == "8" ? 3 : values["defaultAcct"] || "-1"
+            let defaultacct = values["defaultAcct"] || "-1"
             this.setState({
                 defaultacct: defaultacct,
                 selacct: defaultacct,
