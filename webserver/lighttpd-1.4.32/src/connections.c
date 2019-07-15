@@ -14160,6 +14160,14 @@ static int handle_phbkresponse (buffer *b, const struct message *m) {
     return 0;
 }
 
+static int handle_phbk_notify(buffer *b) {
+    char *cmd[] = {"am", "broadcast", "--user", "all", "-a", "com.android.contacts.LAUNCH_INTERVAL_DOWNLOAD", 0};
+    doCommandTask(cmd, NULL, NULL, 0);
+
+    buffer_append_string(b, "Response=Success\r\n");
+
+    return 0;
+}
 
 /*static int handle_lanrsps(buffer *b)
 {
@@ -25438,8 +25446,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_putportphbk(b, m);
             } else if (!strcasecmp(action, "portphbkresponse")) {
                 handle_portphbkresponse(b, m);
-            }
-            else if (!strcasecmp(action, "confirmadminpsw")) {
+            } else if (!strcasecmp(action, "phbknotify")) {
+                handle_phbk_notify(b);
+            } else if (!strcasecmp(action, "confirmadminpsw")) {
                 handle_confirmadminpsw(srv, con,b, m);
             }else if (!strcasecmp(action, "startping")) {
                 handle_start_ping(b, m, 0);
