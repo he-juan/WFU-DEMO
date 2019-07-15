@@ -462,7 +462,7 @@ export const cb_connect_wifi = (wifidata, callback) => (dispatch) => {
     for(let i in wifidata){
         if(wifidata[i].value == undefined)
             wifidata[i].value = "";
-        
+
         request += "&" + wifidata[i].name + "=" + (wifidata[i].name == 'ssid' ? encodeURIComponent(wifidata[i].value) : wifidata[i].value);
     }
 
@@ -784,6 +784,14 @@ export const cb_get_down_response = (flag,cb_alert_response) => (dispatch) => {
         cb_get_response_done(data,flag,cb_alert_response);
     }).catch(function(error) {
         // send error message notice
+    });
+}
+
+export const sendphbknotify = () => (dispatch) => {
+    let request = 'action=phbknotify'
+    actionUtil.handleGetRequest(request).then(function(data) {
+    }).catch(function(error) {
+        promptForRequestFailed();
     });
 }
 
