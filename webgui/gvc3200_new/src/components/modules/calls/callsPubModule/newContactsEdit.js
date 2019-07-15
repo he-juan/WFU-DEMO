@@ -122,23 +122,11 @@ class NewContactsEdit extends Component {
                 },
                 onOk() {
                     self.handleAddEditContacts(displayname);
-                    // self.handleConfirmModal(displayname)
                 },
             });
         } else {
             this.handleAddEditContacts(displayname);
-            // this.handleConfirmModal(displayname)
         }
-    }
-
-    handleConfirmModal = (displayname) => {
-        this.handleAddEditContacts(displayname);
-        this.props.handleHideModal();
-        // var containermask = document.getElementsByClassName("containermask")[0];
-        // if (containermask){
-        //     containermask.style.display = "block";
-        // }
-        // this.setState({numValuesinnr:[""],emailValuesinnr:[""]});
     }
 
     handleAddEditContacts = (displayname) => {
@@ -187,7 +175,6 @@ class NewContactsEdit extends Component {
             }
         }
         let rawcontact='{}';
-        // console.log()
         if(addoredit == 'edit'){
             rawcontact = `{"contactid":"${this.props.editContact['id']}"}`;
         }

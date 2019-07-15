@@ -432,6 +432,9 @@ class ContactTab extends Component {
             obj['accountnumber'+i] = item.number;
             numValues.push(item.number+ "--- ---" + item.acct)
         })
+        if(numValues.length == 0) {
+            numValues = [""]
+        }
         for (var i = 0; i < text.email.length; i++) {
             emailValues.push(text.email[i].address);
         }
