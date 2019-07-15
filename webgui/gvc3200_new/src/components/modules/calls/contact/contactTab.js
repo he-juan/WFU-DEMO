@@ -474,10 +474,12 @@ class ContactTab extends Component {
             }
             str += item
             content.push(
-                <span className = "ellips contactstext contactnumber" key={'nm' + i} style={{ 'paddingLeft':'0'}} title={item}>{str}</span>
+                <span className = "ellips contactstext contactnumber" key={'nm' + i} style={{ 'paddingLeft':'0'}}
+                // title={item}
+                >{str}</span>
             )
         })
-        return <div style = {{'height':'33px'}} title={text}>{content}</div>
+        return <div className="ellips" style = {{'height':'33px',maxWidth:460}} title={text}>{content}</div>
     }
 
     _createActions = (text, record, index) => {
@@ -610,7 +612,7 @@ class ContactTab extends Component {
             // title: '',
             key: 'row1',
             dataIndex: 'row1',
-            width: '25%',
+            width: '30%',
             render: (text, record, index) => (
                 this._createNumberOrGroup(text)
             )
@@ -628,7 +630,7 @@ class ContactTab extends Component {
             title: '',
             key: 'row3',
             dataIndex: 'row3',
-            width: '25%',
+            width: '20%',
             render: (text, record, index) => (
                 this._createActions(text, record, index)
             )
