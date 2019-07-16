@@ -394,6 +394,8 @@ int pid_tcpdump = 0;
 int pid_ping = 0;
 int pid_traceroute = 0;
 
+int record_flag = 0;
+
 //pthread_cond_t changeinput_cond = PTHREAD_COND_INITIALIZER;
 
 //void (*get_timezone_offset)(const char *ids[], const int n, long *result);
@@ -16185,6 +16187,9 @@ static int handle_start_recording (buffer *b)
     }
 
     dbus_send_record_operation(true);
+
+    record_flag = 1;
+
     buffer_append_string(b, "Response=Success\r\nMessage=Start success\r\n");
 }
 
@@ -16193,6 +16198,20 @@ static int handle_stop_recording (buffer *b)
     dbus_send_record_operation(false);
     buffer_append_string(b, "Response=Success\r\nMessage=Stop success\r\n");
     tarRecfile();
+
+    record_flag = 0;
+
+    return 0;
+}
+
+static int handle_query_record_state(buffer *b)
+{
+    char *temp = NULL;
+    temp = malloc(24);
+    memset(temp, 0, 24);
+    snprintf(temp, 24, "record_state=%d\r\n", record_flag);
+    buffer_append_string(b, temp);
+    free(temp);
 
     return 0;
 }
@@ -25889,6 +25908,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_get_record_list(b, m);
                 } else if (!strcasecmp(action, "viewrecordlist")) {
                     handle_view_record_list(b);
+                } else if (!strcasecmp(action, "getrecordstate")) {
+                    handle_query_record_state(b);
                 } else if (!strcasecmp(action, "startrecording")) {
                     handle_start_recording(b);
                 } else if (!strcasecmp(action, "stoprecording")) {
