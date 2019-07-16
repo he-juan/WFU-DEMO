@@ -61,8 +61,7 @@ class NewContactsEdit extends Component {
         })
     }
 
-    hanleNumContacts = (e) => {
-        let prevElem = e.target.previousElementSibling;
+    hanleNumContacts = (type,index,e) => {
         let numValues = this.props.numValues;
         let addNewContact = this.props.addNewContact;
         let numValuesinnr;
@@ -71,10 +70,10 @@ class NewContactsEdit extends Component {
         } else {
             numValuesinnr = numValues;
         }
-        if(e.target.className.indexOf("add-btn") != -1 && prevElem.value != "" && prevElem.value.replace(/(^\s*)|(\s*$)/g,"") != -1) {
+        if(type == 1) {
             let len = numValuesinnr.length
             for (let i = 0; i < len ; i++) {
-                let value = $('#accountnumber'+i).val()
+                let value = this.props.form.getFieldValue(`accountnumber${i}`)
                 if(value==='' && typeof value){
                     this.props.promptMsg('ERROR','a_7483');
                     return false;
@@ -87,15 +86,14 @@ class NewContactsEdit extends Component {
             }
             numValuesinnr.push("");
             this.setState({numValuesinnr: numValuesinnr})
-        } else if(e.target.className.indexOf("del-btn") != -1) {
-            let parentElem = e.target.parentNode.parentNode.parentNode
-            numValuesinnr.filter((val,idx,arr) => {
-                return val.split("--- ---")[0] == prevElem.value && arr.splice(idx,1)
-            })
-            for(let i=0;i<numValuesinnr.length;i++){
-                this.props.form.resetFields(['accountnumber'+i])
+        } else if(type == 0) {
+            if(numValuesinnr.length>1) {
+                numValuesinnr.splice(index,1)
+                for(let i=0;i<numValuesinnr.length;i++){
+                    this.props.form.resetFields(['accountnumber'+i])
+                }
+                this.setState({numValuesinnr:numValuesinnr})
             }
-            this.setState({numValuesinnr:numValuesinnr})
         } else {
             this.props.promptMsg('ERROR','a_7483');
             return false;
@@ -271,11 +269,19 @@ class NewContactsEdit extends Component {
                                     })(
                                         <Input style={{width:'44%',color:numFromHistor && idx == numValuesmap.length -1 ? '#3d77ff': "" }} type="text" autoFocus="autofocus" onChange ={this.connectInputValue} />
                                     )}
-                                    <i className={idx === 0 ? 'add-btn' : 'del-btn' } onClick = {this.hanleNumContacts.bind(this)} style={{ backgroundPosition: idx === 0 ? '-63px -25px' :  '-21px -25px'}}/>
+                                    <i className='del-btn' onClick = {this.hanleNumContacts.bind(this,'0',idx)}
+                                    style={{ backgroundPosition: idx === 0 && numValuesmap.length == 1  ? '-584px -25px' :  '-21px -25px',
+                                    cursor:idx === 0 && numValuesmap.length == 1 ? "not-allowed":"pointer"}}/>
                                 </FormItem>
                             )
                         })
                     }
+                    <FormItem label={(<span>{""}</span>)}>
+                        <span style={{float:"right",marginRight:54,color:'#5889fe'}}>{callTr("a_addNum")}</span>
+                        <i className={'add-btn'} onClick = {this.hanleNumContacts.bind(this,'1')}
+                        style={{ cursor: "pointer"}}
+                        />
+                    </FormItem>
                     <FormItem label={(<span>{callTr("a_302")}</span>)}>
                         {getFieldDecorator('email', {
                             rules: [{
