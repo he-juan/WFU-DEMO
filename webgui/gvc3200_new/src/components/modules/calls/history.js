@@ -120,9 +120,9 @@ class History extends Component {
         // }
     }
 
-    _createDetailTime = (text, record, index) => {
+    _createDetailTime = (text,showYstdDetail) => {
         datefmt = datefmt || '3'
-        var Timevalue = this.convertTime(text,datefmt,timezone);
+        var Timevalue = this.convertTime(text,datefmt,timezone,showYstdDetail);
         return Timevalue
     }
 
@@ -701,13 +701,14 @@ class History extends Component {
             datasource = data.list
         }
         let status = [];
+        let showYstdDetail = true
         for (let i = 0; datasource[i] != undefined ; i++) {
             if(i<10) {
                 status.push(
                     <div className="call-line" key={'s'+i}>
                         <div className='call-line-info ellips call-line-name'>{this._createInlineName(datasource[i])}</div>
                         <div className='call-line-info ellips call-line-number'>{this._createNumType(datasource[i])}</div>
-                        <div className='call-line-info ellips call-line-date'>{this._createDetailTime(datasource[i].date)}</div>
+                        <div className='call-line-info ellips call-line-date'>{this._createDetailTime(datasource[i].date,showYstdDetail)}</div>
                         <div className='call-line-info call-line-duration'>{this.convertDuration(datasource[i])}</div>
                         <div className='call-line-info ellips call-line-act'>
                             {this._createInlineAction(datasource[i],data.isconf)}
@@ -883,7 +884,7 @@ class History extends Component {
             dataIndex: 'row1',
             width: '30%',
             render: (text, record, index) => (
-                _createDetailTime(text, record, index)
+                _createDetailTime(text)
             )
         },{
             title: callTr("a_44"),

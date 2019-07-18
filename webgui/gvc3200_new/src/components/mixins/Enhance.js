@@ -6,7 +6,7 @@ import moment from 'moment-timezone'
 var mUse24Hour;
 
 const Mixins = {
-    convertTime (date,formatIndex,timezone) {
+    convertTime (date,formatIndex,timezone,showYstdDetail) {
         if(date.length == 10 ) {
             date += '000'
         }
@@ -43,6 +43,9 @@ const Mixins = {
             let yestday = moment().subtract(1,"days").format(compformat)
             if(moment(yestday).isSame(comDate,"day")) { //昨天
                 timestr = this.tr('a_23553') + ' '
+                if(!showYstdDetail) {
+                    return timestr
+                }
             } else {
                 timestr += " "
             }
