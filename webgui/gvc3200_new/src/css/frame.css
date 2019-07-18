@@ -7840,3 +7840,11 @@ ol.mp_list li.mp_error {}
     padding-left: 84px;
     padding-top: 5px;
 }
+.paging_center{
+    text-align: center
+}
+.paging_center .ant-table-pagination.ant-pagination {
+    display: inline-block;
+    margin: 40px 0;
+    float: none;
+}
