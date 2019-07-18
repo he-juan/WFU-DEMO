@@ -69,6 +69,10 @@ export const setLogcat = (value) => (dispatch) => {
     dispatch({type: 'REQUEST_GET_LOGCAT_FILE', logcatFile: value})
 }
 
+export const setUse24Hour = (value) => (dispatch) => {
+    dispatch({type: 'REQUEST_GET_USE24HOUR', Use24Hour: value});
+}
+
 /**
  * 获取表单数据，初始化
  */
@@ -185,6 +189,12 @@ export const cb_ping = (callback) => (dispatch) => {
 export const cb_put_port_param = (action, flag, data,portredup,portclearold,cb_import_response) => (dispatch) => {
 
     let urihead = "action=" + action + "&flag=" + flag + "&portReplace=" + portredup + "&portClear=" + portclearold;
+
+    // portType //导入文件类型
+    // portEncode //编码
+    // portReplace //替换重复项目   按姓名替换是2 按姓名是1
+    // portClear //清除旧列表 保留是2 清除所有是1
+
     urihead += data;
     urihead += "&time=" + new Date().getTime();
     actionUtil.handleGetRequest(urihead).then(function(data) {

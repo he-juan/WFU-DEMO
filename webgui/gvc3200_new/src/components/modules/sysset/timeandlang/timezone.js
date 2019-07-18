@@ -53,7 +53,7 @@ class TimezoneForm extends Component {
              this.getReqItem("datefmt", "102", ""),
              this.getReqItem("ntpaddr2", "8333", ""), // 指定网络时间协议服务器地址 2
 
-            
+
          )
          return req_items;
     }
@@ -117,7 +117,7 @@ class TimezoneForm extends Component {
         });
         this.getDateInfo();
     }
-    
+
     componentWillReceiveProps = (nextProps) => {
         if (nextProps.activeKey == this.props.tabOrder) {
             if (this.props.activeKey != nextProps.activeKey) {
@@ -143,7 +143,7 @@ class TimezoneForm extends Component {
         this.props.getDateInfo((data) => {
             const _data = JSON.parse(data)
             this.setState({
-                initDate:  _data.Date, 
+                initDate:  _data.Date,
                 initTime: _data.Time
             });
         })
@@ -178,7 +178,11 @@ class TimezoneForm extends Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if(!err) {
           let values = this.props.form.getFieldsValue();
-          this.props.setItemValues(req_items, values,2);
+          this.props.setItemValues(req_items, values,2,()=>{
+            this.props.getItemValues([this.getReqItem("P122", "122", "")], (data) => {
+                this.props.setUse24Hour(data.P122)
+            })
+          });
           this.props.saveTimeset(values.timezone);
         }
       });
@@ -321,7 +325,8 @@ const mapDispatchToProps = (dispatch) => {
         saveTimeset:Actions.saveTimeset,
         setPageStatus: Actions.setPageStatus,
         getDateInfo: Actions.getDateInfo,
-        setDateInfo: Actions.setDateInfo
+        setDateInfo: Actions.setDateInfo,
+        setUse24Hour: Actions.setUse24Hour
     }
     return bindActionCreators(actions, dispatch)
 }
