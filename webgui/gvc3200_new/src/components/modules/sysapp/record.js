@@ -351,7 +351,6 @@ class Record extends Component {
                         </div>
                     </Modal>
                 }
-
             </Content>
         );
     }

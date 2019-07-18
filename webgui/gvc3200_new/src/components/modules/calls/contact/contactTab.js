@@ -50,7 +50,8 @@ class ContactTab extends Component {
             curPage: 1,
             updateState: '',
             maxImportCount: '',
-            selectedRows:[]
+            selectedRows:[],
+            pagesize: 10
 
         }
         req_items = new Array;
@@ -292,10 +293,10 @@ class ContactTab extends Component {
             return
         }
         let selectedRows = []
-        let pagesize = 15
+        let pagesize = this.state.pagesize
         let begin = pagesize * (page-1)
         let i = 0
-        while (i<15) {
+        while (i<pagesize) {
             selectedRows.push(this.state.curContactList[begin+i])
             i+=1
         }
@@ -583,6 +584,13 @@ class ContactTab extends Component {
         });
     }
 
+    onShowSizeChange = (current, size) => {
+        this.setState({
+            curPage:current,
+            pagesize:size
+        })
+    }
+
     render() {
         // console.log(this.props.contactsInformation,this.props.groupInformation,this.props.contactsAcct)
         const callTr = this.props.callTr;
@@ -639,13 +647,16 @@ class ContactTab extends Component {
             )
         }];
         let pageobj = false
-        // let data = []
         let data = curContactList;
-        // console.log(data)
-        if(data.length>15) {
+        if(data.length>10) {
             pageobj = {
-                pageSize: 15,
-                onChange:this.changePage
+                pageSize: this.state.pagesize,
+                onChange:this.changePage,
+                total: data.length,
+                showTotal: total => callTr('a_total') + ": " + total,
+                showSizeChanger:true,
+                pageSizeOptions:["10","20","30","40"],
+                onShowSizeChange:this.onShowSizeChange
             }
         }
         const {selectedRowKeys} = this.state;
@@ -693,7 +704,7 @@ class ContactTab extends Component {
                         </div>
                     </div>
                 </div>
-                <div className = 'CallDiv Contactstable'>
+                <div className = 'CallDiv Contactstable paging_center'>
                     <Table
                         rowSelection={rowSelection}
                         rowKey={rowkey}

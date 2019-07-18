@@ -22,7 +22,7 @@ class Call extends Component {
             tempRecordPath: '',
             curPage: 1,
             selectedRows:[],
-            pagesize: 15
+            pagesize: 10
         }
     }
 
@@ -221,7 +221,7 @@ class Call extends Component {
         }
         for (let i = 0; i< recordinglist.length; i++) {
             data.push({
-                key: "c" + i,
+                key: "c" + recordinglist[i].Id,
                 row0: recordinglist[i],
                 row1: recordinglist[i].Size,
                 row2: recordinglist[i].Time,
@@ -380,14 +380,14 @@ class Call extends Component {
                 </Select>
         }
         let pageobj = false
-        if(data.length>15) {
+        if(data.length>10) {
             pageobj = {
                 pageSize: this.state.pagesize,
                 onChange:this.changePage,
                 total: data.length,
                 showTotal: total => callTr('a_total') + ": " + total,
                 showSizeChanger:true,
-                pageSizeOptions:["15","30","45","100"],
+                pageSizeOptions:["10","20","30","40"],
                 onShowSizeChange:this.onShowSizeChange
             }
         }
@@ -416,7 +416,7 @@ class Call extends Component {
                         </div>
                     </div>
                 </div>
-                <div className = 'CallDiv recordList'>
+                <div className = 'CallDiv recordList paging_center'>
                     <Table
                         rowSelection={rowSelection}
                         rowKey={rowkey}

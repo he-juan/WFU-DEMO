@@ -49,6 +49,7 @@ class History extends Component {
             logListData:[],
             displayCallModal:false,
             curCallData:[],
+            pagesize: 10,
 
             editContact:{},
             showNewContactModal:false,
@@ -257,9 +258,9 @@ class History extends Component {
         let selectedRowKeys = []
         let selectedRows = []
         let page = this.state.curPage
-        let pagesize = 15
+        let pagesize = this.state.pagesize
         let begin = pagesize * (page-1)
-        let length = data.length < 15 ? data.length : 15
+        let length = data.length < pagesize ? data.length : pagesize
         for (let i = 0; i < length; i++) {
             if(selected) {
                 let n = begin + i
@@ -858,6 +859,13 @@ class History extends Component {
         return false
     }
 
+    onShowSizeChange = (current, size) => {
+        this.setState({
+            curPage:current,
+            pagesize:size
+        })
+    }
+
     render() {
         const [callTr, _createDetailTime, getReqItem] =
             [this.tr,  this._createDetailTime, this.getReqItem];
@@ -888,10 +896,15 @@ class History extends Component {
         }];
         let data = this.state.logListData
         let pageobj = false
-        if(data.length>15) {
+        if(data.length>10) {
             pageobj = {
-                pageSize: 15,
-                onChange:this.changePage
+                pageSize: this.state.pagesize,
+                onChange:this.changePage,
+                total: data.length,
+                showTotal: total => callTr('a_total') + ": " + total,
+                showSizeChanger:true,
+                pageSizeOptions:["10","20","30","40"],
+                onShowSizeChange:this.onShowSizeChange
             }
         }
 
@@ -929,7 +942,7 @@ class History extends Component {
                                 </Modal>
                             </div>
                         </div>
-                        <div className = 'CallDiv Callhistory'>
+                        <div className = 'CallDiv Callhistory paging_center'>
                             <Table
                                 rowSelection={rowSelection}
                                 rowKey = {rowKey}
