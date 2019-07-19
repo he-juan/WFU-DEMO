@@ -74,6 +74,7 @@ class Main extends React.Component {
         this.props.getItemValues([this.getReqItem("P122", "122", "")], (data) => {
             this.props.setUse24Hour(data.P122)
         })
+        this.props.getDateInfo()
         /*get dial line status to init the call page*/
         this.props.getAllLineStatus((result)=>{
             if(result.length > 0){
@@ -230,7 +231,8 @@ const mapDispatchToProps = (dispatch) => {
         getContactsNew: Actions.getContactsNew,
         getCallLogsNew: Actions.getCallLogsNew,
         getTimezone: Actions.getTimezone,
-        setUse24Hour: Actions.setUse24Hour
+        setUse24Hour: Actions.setUse24Hour,
+        getDateInfo: Actions.getDateInfo
     }
     return bindActionCreators(actions, dispatch)
 }

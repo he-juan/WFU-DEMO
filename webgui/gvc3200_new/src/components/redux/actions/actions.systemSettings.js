@@ -172,7 +172,11 @@ export const saveTimeset = (value) => (dispatch) => {
 export const getDateInfo = (callback) => (dispatch) => {
     let request = "action=getdateinfo&region=maintenance";
     actionUtil.handleGetRequest(request).then(function(data) {
-        callback(data)
+        const _data = JSON.parse(data)
+        dispatch({type: 'SYSTEM_DATE', systemDate: _data.Date});
+        if(callback) {
+            callback(data)
+        }
     }).catch(function(error) {
         console.error(error)
         dispatch({type: 'MSG_PROMPT', notifyMsg: {type: "ERROR", content: 'a_16418'}});
@@ -226,7 +230,7 @@ export const putLanguage = (value,callback) => (dispatch) => {
 }
 
 
-/**  
+/**
  * 设置语言文件
 */
 
@@ -243,7 +247,7 @@ export const cb_put_importlan = (callback) => (dispatch) => {
     });
 }
 
-/** 
+/**
  * 按层级获取可选的语言列表
 */
 export const getLocaleList = (level,localeId,callback) => (dispatch) => {
@@ -263,7 +267,7 @@ export const getLocaleList = (level,localeId,callback) => (dispatch) => {
     });
 }
 
-/** 
+/**
  * 获取是否存在自定义的语言文件
  */
 export const getCustomstate = (callback) => (dispatch) => {

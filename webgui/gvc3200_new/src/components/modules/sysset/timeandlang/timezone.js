@@ -184,6 +184,7 @@ class TimezoneForm extends Component {
             })
           });
           this.props.saveTimeset(values.timezone);
+          this.getDateInfo();
         }
       });
     }

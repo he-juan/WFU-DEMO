@@ -341,6 +341,15 @@ const Use24Hour = (state={}, action) => {
     }
 }
 
+const systemDate = (state={}, action) => {
+    switch (action.type) {
+        case Actions.SYSTEM_DATE:
+            return action.systemDate
+        default:
+            return state
+    }
+}
+
 const interceptItemdata = (state={}, action) => {
     switch (action.type) {
         case Actions.REQUEST_GET_INTERCEPTLOG:
@@ -631,6 +640,7 @@ const rootReducer = combineReducers({
     speakerteststatus,
     resetkeyteststatus,
     dndstatus,
+    systemDate,
 
 
 // 拆分后处理

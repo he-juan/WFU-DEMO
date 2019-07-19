@@ -12,6 +12,8 @@ const Mixins = {
         }
         let states = Store.store.getState();
         mUse24Hour = states.Use24Hour
+        let userDate = states.systemDate
+
         let datefmtObj = {
             '3': 'YYYY/M/D',
             '0': 'YYYY/M/D',
@@ -28,7 +30,14 @@ const Mixins = {
         let timestr = moment.unix(date/1000).format(format)
 
         let comDate = moment.unix(date/1000).format(compformat)
-        let comtimeNow = moment().tz(timezone).format(compformat)
+        let comtimeNow, yesterday
+        if(JSON.stringify(userDate) != "{}") {
+            comtimeNow = moment(userDate).tz(timezone).format(compformat)
+            yesterday = moment(userDate).subtract(1,"days").format(compformat)
+        } else {
+            comtimeNow = moment().tz(timezone).format(compformat)
+            yesterday = moment().subtract(1,"days").format(compformat)
+        }
         if(moment(comtimeNow).isSame(comDate, 'day')) { //今天
             timestr = ''
         } else if(moment(comtimeNow).isSame(comDate, 'years')) {  //今年
@@ -40,12 +49,13 @@ const Mixins = {
             }
             format = datefmtObj[formatIndex]
             timestr = moment.unix(date/1000).format(format)
-            let yestday = moment().subtract(1,"days").format(compformat)
-            if(moment(yestday).isSame(comDate,"day")) { //昨天
+            if(moment(yesterday).isSame(comDate,"day")) { //昨天
                 timestr = this.tr('a_23553') + ' '
                 if(!showYstdDetail) {
                     return timestr
                 }
+            } else if(moment(comDate).isAfter(comtimeNow,"day")) { //记录时间在设定的时间之后 均显示为今天
+                timestr = ''
             } else {
                 timestr += " "
             }
