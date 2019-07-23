@@ -1804,7 +1804,7 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid, char *isMissedCall) {
             }
 
             // The judgement may be not exact 
-            if (strcmp(name, number)) {
+            if (NULL != name && NULL != number && (strcmp(name, number))) {
                 cJSON_AddStringToObject(callObj, "iscontact", "1");
             } else {
                 cJSON_AddStringToObject(callObj, "iscontact", "0");
@@ -25700,6 +25700,14 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "ctrlIPVTLocalCamera", params);
+            } else if (!strcasecmp(action, "getsetvoiceassistantstate")) {
+                char *state = msg_get_header(m, "state");
+                if (NULL == state) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                params = append_req_params(params, "state", state, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "getSetVoiceAssistantState", params);
 	        //} else {
             //    findcmd = 0;
             }
