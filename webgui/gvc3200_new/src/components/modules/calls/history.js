@@ -287,7 +287,7 @@ class History extends Component {
             if(datasource[i].isconf == '0') {
                 let callhistory = datasource[i].list
                 callhistory.forEach(item => {
-                    if(item.type == 3) {
+                    if(item.calltype == 3) { //
                         seletedCallArr = seletedCallArr.concat(item.id)
                     } else {
                         seletedConfArr = seletedConfArr.concat(item.id)
@@ -740,7 +740,6 @@ class History extends Component {
         // type = 1  来电
         // type = 2  去电
         // type = 3  未接来电
-
         let duration = data.duration
         const callTr = this.tr
         if( duration == 0 ) {
