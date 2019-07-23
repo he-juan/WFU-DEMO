@@ -703,24 +703,19 @@ class History extends Component {
         let status = [];
         let showYstdDetail = true
         for (let i = 0; datasource[i] != undefined ; i++) {
-            if(i<10) {
-                status.push(
-                    <div className="call-line" key={'s'+i}>
-                        <div className='call-line-info ellips call-line-name'>{this._createInlineName(datasource[i])}</div>
-                        <div className='call-line-info ellips call-line-number'>{this._createNumType(datasource[i])}</div>
-                        <div className='call-line-info ellips call-line-date'>{this._createDetailTime(datasource[i].date,showYstdDetail)}</div>
-                        <div className='call-line-info call-line-duration'>{this.convertDuration(datasource[i])}</div>
-                        <div className='call-line-info ellips call-line-act'>
-                            {this._createInlineAction(datasource[i],data.isconf)}
-                        </div>
+            status.push(
+                <div className="call-line" key={'s'+i}>
+                    <div className='call-line-info ellips call-line-name'>{this._createInlineName(datasource[i])}</div>
+                    <div className='call-line-info ellips call-line-number'>{this._createNumType(datasource[i])}</div>
+                    <div className='call-line-info ellips call-line-date'>{this._createDetailTime(datasource[i].date,showYstdDetail)}</div>
+                    <div className='call-line-info call-line-duration'>{this.convertDuration(datasource[i])}</div>
+                    <div className='call-line-info ellips call-line-act'>
+                        {this._createInlineAction(datasource[i],data.isconf)}
                     </div>
-                )
-            } else {
-                break
-            }
-
+                </div>
+            )
         }
-        return status;
+        return <div style={{maxHeight:500,overflowY:'auto'}}>{status}</div>;
     }
 
     _createNumType = (data) => {
