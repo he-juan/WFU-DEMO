@@ -260,6 +260,9 @@ class History extends Component {
         let page = this.state.curPage
         let pagesize = this.state.pagesize
         let begin = pagesize * (page-1)
+        while(begin >= data.length) {
+            begin = begin - pagesize
+        }
         // let length = data.length < pagesize ? data.length : pagesize
         for (let i = 0; i < pagesize; i++) {
             if(selected) {

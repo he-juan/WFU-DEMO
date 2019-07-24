@@ -56,6 +56,7 @@ class Call extends Component {
         }
     }
 
+
     onSelectChange = (selectedRowKeys,selectedRows) => {
         let page = this.state.curPage
         this.setState({selectedRowKeys,selectedRows});
@@ -98,10 +99,16 @@ class Call extends Component {
         }
         let selectedRows = []
         let pagesize = this.state.pagesize
+        let data = this.state.curDataList
         let begin = pagesize * (page-1)
+        while(begin >= data.length) {
+            begin = begin - pagesize
+        }
         let i = 0
         while (i<pagesize) {
-            selectedRows.push(this.state.curDataList[begin+i])
+            if(data[begin+i]) {
+                selectedRows.push(data[begin+i])
+            }
             i+=1
         }
         this.setState({selectedRows:selectedRows})

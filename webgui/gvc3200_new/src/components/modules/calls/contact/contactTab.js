@@ -293,11 +293,19 @@ class ContactTab extends Component {
             return
         }
         let selectedRows = []
+        let data = this.state.curContactList
         let pagesize = this.state.pagesize
         let begin = pagesize * (page-1)
+
+        while(begin >= data.length) {
+            begin = begin - pagesize
+        }
+
         let i = 0
         while (i<pagesize) {
-            selectedRows.push(this.state.curContactList[begin+i])
+            if(data[begin+i]) {
+                selectedRows.push(data[begin+i])
+            }
             i+=1
         }
         this.setState({selectedRows:selectedRows})
