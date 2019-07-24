@@ -453,14 +453,23 @@ class ContactTab extends Component {
         });
     }
 
-    checkRepeatName = (name) => {
-        let data = this.props.contactsInformation
-        name = name ? name : ""
-        for(var i = 0; data[i] != undefined; i++) {
-            if(data[i].Name == name)
-                return true;
+    checkRepeatName = (name,id) => {
+        let data = this.props.contactsNew
+        let index = null
+        if(id != null) {
+            index = data.findIndex((v,i,a)=>{
+                return v.name.displayname == name && v.id != id;
+            });
+        } else {
+            index = data.findIndex((v,i,a)=>{
+                return v.name.displayname == name;
+            });
         }
-        return false
+        if(index == -1) {
+            return false
+        } else {
+            return true
+        }
     }
 
     _createName = (text, record, index) => {

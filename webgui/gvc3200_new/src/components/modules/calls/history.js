@@ -260,12 +260,14 @@ class History extends Component {
         let page = this.state.curPage
         let pagesize = this.state.pagesize
         let begin = pagesize * (page-1)
-        let length = data.length < pagesize ? data.length : pagesize
-        for (let i = 0; i < length; i++) {
+        // let length = data.length < pagesize ? data.length : pagesize
+        for (let i = 0; i < pagesize; i++) {
             if(selected) {
                 let n = begin + i
-                selectedRowKeys.push(data[n].key)
-                selectedRows.push(data[n])
+                if(data[n]) {
+                    selectedRowKeys.push(data[n].key)
+                    selectedRows.push(data[n])
+                }
             }
         }
         this.setState({
@@ -371,17 +373,19 @@ class History extends Component {
                 let num = source[0].number
                 let namestr = 'Conf：' + num
                 content.push(
-                    <span className = "ellips ellipsName" title={namestr}>{namestr}</span>
+                    <span className = "ellips" title={namestr}>{namestr}</span>
                 )
             } else {
                 source.forEach((item,i) => {
                     let name = ''
+                    let classStr = source.length > 1 ? 'ellips ellipsName' : 'ellips';
+
                     if (i>0) {
                         name += "，"
                     }
-                    name += item.name
+                    name += item.name;
                     content.push(
-                        <span className = "ellips ellipsName" key={'st'+i} title={item.name}>{name}</span>
+                        <span className ={classStr} key={'st'+i} title={item.name}>{name}</span>
                     )
                 })
             }
@@ -394,7 +398,7 @@ class History extends Component {
             if(source[0].isvideo == '1') {
                 type = Number(type) + 3
             }
-            content.push(<span className = "ellips ellipsName" key={"n"+text.key} title={text.name }>{text.name }</span>)
+            content.push(<span className = "ellips" key={"n"+text.key} title={text.name }>{text.name }</span>)
         }
         return <span className={"nameStr"}><i className={"type" + type}></i>{content}</span>;
     }
@@ -843,15 +847,16 @@ class History extends Component {
         this.setState({displayLocalContactsModal: false})
     }
 
-    checkRepeatName = (firstname,lastname) => {
-        let data = this.props.contactinfodata
-        firstname = firstname ? firstname : ""
-        lastname = lastname ? lastname : ""
-        for(var i = 0; data[i] != undefined; i++) {
-            if(data[i].FirstName == firstname && data[i].LastName == lastname)
-                return true;
+    checkRepeatName = (name) => {
+        let data = this.props.contactsNew
+        let index = data.findIndex((v,i,a)=>{
+            return v.name.displayname == name;
+        });
+        if(index == -1) {
+            return false
+        } else {
+            return true
         }
-        return false
     }
 
     onShowSizeChange = (current, size) => {
@@ -992,19 +997,14 @@ const mapStateToProps = (state) => ({
     activeKey: state.TabactiveKey,
     userType: state.userType,
     logItemdata: state.logItemdata,
-    contactinfodata: state.contactinfodata,
     confmemberinfodata: state.confmemberinfodata,
     contactsInformation: state.contactsInformation,
     callnameinfo:state.callnameinfo,
     callLogsNew:state.callLogsNew,
 
-    logItemdata: state.logItemdata,
-    contactsInformation: state.contactsInformation,
     callDialog: state.callDialog,
     msgsContacts: state.msgsContacts,
     contactinfodata: state.contactinfodata,
-    confmemberinfodata: state.confmemberinfodata,
-    callnameinfo:state.callnameinfo,
     groupInformation: state.groupInformation,
     contactsNew: state.contactsNew,
     timezone: state.timezone,

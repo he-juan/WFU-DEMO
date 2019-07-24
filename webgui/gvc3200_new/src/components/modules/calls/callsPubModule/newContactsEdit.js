@@ -108,7 +108,13 @@ class NewContactsEdit extends Component {
             this.props.promptMsg('ERROR','a_4835');
             return false;
         }
-        if(typeof this.props.checkRepeatName == "function" && this.props.checkRepeatName(displayname) && (addoredit == "add")){
+        let contactId = null
+        if(addoredit == "edit") {
+            contactId = this.props.editContact['id']
+        }
+        if(typeof this.props.checkRepeatName == "function" &&
+        (this.props.checkRepeatName(displayname) && (addoredit == "add") || this.props.checkRepeatName(displayname,contactId) && (addoredit == "edit"))
+        ){
             const {callTr} = this.props;
             let self = this
             Modal.confirm({
