@@ -50,7 +50,7 @@ class GeneralForm extends React.Component {
     handleSubmit = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
-            if(values.enableiptalkpro == '0' && this.props.defaultAcct == '1' ) {
+            if((values.accountactive == '0' || values.enableiptalkpro == '0') && this.props.defaultAcct == '1' ) {
                 this.setState({
                     defaultAcctSelect : true
                 })
