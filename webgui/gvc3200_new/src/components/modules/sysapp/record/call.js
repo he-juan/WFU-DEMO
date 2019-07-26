@@ -248,7 +248,11 @@ class Call extends Component {
     }
 
     handleSetModalCancel =() => {
-        this.setState({displaySetModal:false,tempRecordPath:''})
+        this.setState({displaySetModal:false})
+        setTimeout(() => {
+            this.setState({tempRecordPath:''})
+        }, 0);
+
     }
 
     changeTempPath = (value) => {
