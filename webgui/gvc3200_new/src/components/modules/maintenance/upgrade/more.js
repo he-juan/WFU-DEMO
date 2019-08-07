@@ -158,9 +158,9 @@ class MoreForm extends Component {
                     {getFieldDecorator("autopro", {
                         rules: [],
                         valuePropName: 'checked',
-                        initialValue: parseInt(this.props.itemValues.sipnotify)
+                        initialValue: parseInt(this.props.itemValues.autopro)
                     })(
-                        <Checkbox className="P-4428"/>
+                        <Checkbox className="P-1414"/>
                     )}
                     <Icon title={callTr("a_4278")} className="rebooticon" type="exclamation-circle-o" />
                 </FormItem>
