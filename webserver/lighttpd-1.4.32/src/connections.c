@@ -3735,6 +3735,8 @@ int sqlite_handle_display(buffer *b, const struct message *m, const char *type ,
                 if(sitename!=NULL)
                     len = strlen(sitename)+256;
 
+                json_handle(sitename);
+
                 res = malloc( len );
                 memset(res, 0, len);
                 if( !num )
