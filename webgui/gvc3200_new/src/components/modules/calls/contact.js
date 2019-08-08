@@ -41,6 +41,9 @@ class Contact extends Component {
                     </TabPane>
                 }
             ]
+        if(this.props.productStr == '同步课堂H60') {
+            tabList.splice(1,1)
+        }
         return (
             <Content className="content-container config-container">
                 <div className="subpagetitle">{this.tr("a_19631")}</div>
@@ -65,7 +68,8 @@ const mapStateToProps = (state) => ({
     curLocale: state.curLocale,
     mainHeight: state.mainHeight,
     activeKey: state.TabactiveKey,
-    userType: state.userType
+    userType: state.userType,
+    productStr:state.productStr
 })
 
 function mapDispatchToProps(dispatch) {

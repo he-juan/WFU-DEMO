@@ -626,12 +626,16 @@ class ContactTab extends Component {
         );
         const curContactList = this.state.curContactList
         // console.log('curContactList',curContactList)
+        let widthArr = ['25%','30%','25%','20']
+        if(this.props.productStr == '同步课堂H60') {
+            widthArr= ['40%','40%','0','20']
+        }
         const columns = [{
             title: callTr("a_19626"),
             // title: '',
             key: 'row0',
             dataIndex: 'row0',
-            width: '25%',
+            width: widthArr[0],
             render: (text, record, index) => (
                 this._createName(text, record, index)
             )
@@ -640,7 +644,7 @@ class ContactTab extends Component {
             // title: '',
             key: 'row1',
             dataIndex: 'row1',
-            width: '30%',
+            width: widthArr[1],
             render: (text, record, index) => (
                 this._createNumberOrGroup(text)
             )
@@ -649,20 +653,24 @@ class ContactTab extends Component {
             // title: '',
             key: 'row2',
             dataIndex: 'row2',
-            width: '25%',
+            width: widthArr[2],
             render: (text, record, index) => (
                 this._createNumberOrGroup(text)
             )
-        }, {
+        },
+        {
             // title: callTr("a_44"),
             title: '',
             key: 'row3',
             dataIndex: 'row3',
-            width: '20%',
+            width: widthArr[3],
             render: (text, record, index) => (
                 this._createActions(text, record, index)
             )
         }];
+        if(this.props.productStr == '同步课堂H60') {
+            columns.splice(2,1)
+        }
         let pageobj = false
         let data = curContactList;
         if(data.length>10) {
