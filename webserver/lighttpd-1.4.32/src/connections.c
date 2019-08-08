@@ -1734,9 +1734,9 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid, char *isMissedCall) {
     // 根据传入的会议id去查询该会议下所有的会议成员，或根据传入的未接来电的记录id查询该记录的详细数据
 
     if (isMissedCall) {
-        snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where _id=%s and type=3 and is_conference=0 order by date desc;", confid);
+        snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type, name from calls where _id=%s and type=3 and is_conference=0 order by date desc;", confid);
     } else {
-        snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type from calls where group_id=%s and is_conference=1 order by date desc;", confid);
+        snprintf(sqlstr, 512, "select _id, account, contact_cached_name, number, type, date, duration, media_type, name from calls where group_id=%s and is_conference=1 order by date desc;", confid);
     }
 
     //LOGD("querying members of conf: %s ......", confid);
@@ -1757,6 +1757,7 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid, char *isMissedCall) {
             char *date = (char*)sqlite3_column_text(stmt, 5);  // date
             char *duration = (char*)sqlite3_column_text(stmt, 6);  // duration
             char *media_type = (char*)sqlite3_column_text(stmt, 7);  // media_type
+            char *server_name = (char*)sqlite3_column_text(stmt, 8);   // name set by the server 
             int is_contact = 0;
 
             cJSON_AddStringToObject(callObj, "id", id);
@@ -1767,8 +1768,10 @@ static cJSON *get_conf_member(sqlite3 *db, char *confid, char *isMissedCall) {
                 cJSON_AddStringToObject(callObj, "acct", "");
             }
 
-            if (NULL != name) {
+            if (NULL != name && strcmp(name, "")) {
                 cJSON_AddStringToObject(callObj, "name", name);
+            } else if (NULL != server_name && strcmp(server_name, "")) {
+                cJSON_AddStringToObject(callObj, "name", server_name);
             } else {
                 cJSON_AddStringToObject(callObj, "name", "");
             }
