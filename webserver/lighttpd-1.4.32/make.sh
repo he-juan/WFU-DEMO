@@ -1,6 +1,5 @@
-#go to ../websocket/modwebsocket ,exec make.sh first
-
-make clean && make distclean
-source  envlighttpdarmEABI.sh
-./configure --host=arm-linux --with-websocket --with-pcre --without-bzip2 --without-zlib --prefix=/system/lighttpd --with-openssl
+sudo make clean && sudo make distclean
+#source  envlighttpdarmEABI.sh
+source  envlighttpdarm64.sh
+./configure --host=aarch64-linux-android --with-websocket --without-bzip2 --without-zlib --prefix=/system/lighttpd --with-openssl
 make && sudo make install
