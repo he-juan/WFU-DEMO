@@ -160,6 +160,9 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define DBUS_PATH                 "/com/grandstream/dbus/gui"
 #define DBUS_CAM_PATH             "/com/grandstream/dbus/camtest"
 #define DBUS_INTERFACE            "com.grandstream.dbus.signal"
+#define DBUS_INTERFACE_GUI            "com.grandstream.dbus.signal.to.gui"
+#define DBUS_INTERFACE_PHONE            "com.grandstream.dbus.signal.to.gsphone"
+#define DBUS_INTERFACE_WEB        "com.grandstream.dbus.signal.to.web"
 #define SIGNAL_LIGHTTPD           "lighttpd"
 #define SIGNAL_CALLUPDATED          "callfuncupdated"
 #define SIGNAL_TVOUT              "tvout"
@@ -3695,7 +3698,7 @@ int sqlite_handle_display(buffer *b, const struct message *m, const char *type ,
     }
 
     printf("sqlite_handle_display, sql str is %s\n", sqlstr);
-    rc = sqlite3_open("/data/data/com.android.providers.settings/databases/gs_settings.db", &db);
+    rc = sqlite3_open("/data/user_de/0/com.android.providers.settings/databases/gs_settings.db", &db);
     if( rc ){
         printf("Can't open database: %s\n", sqlite3_errmsg(db));
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
@@ -10779,7 +10782,7 @@ void send_qrcode_dbus_to_gui(char *sig)
         return DBUS_HANDLER_RESULT_HANDLED;
     }
 
-    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, sig);
+    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE_GUI, sig);
     if ( message == NULL )
     {
         printf( "message is NULL\n" );
@@ -14719,7 +14722,7 @@ static int dbus_send_callforward(const int arg1, const char *arg2)
         return 1;
     }
 
-    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, SIGNAL_CALLFORWARD);
+    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE_GUI, SIGNAL_CALLFORWARD);
     if ( message == NULL )
     {
         printf( "message is NULL\n");
@@ -16416,7 +16419,7 @@ static int dbus_send_lighttpd ( const int arg1 )
         return 1;
     }
 
-    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE, SIGNAL_LIGHTTPD);
+    message = dbus_message_new_signal( DBUS_PATH, DBUS_INTERFACE_GUI, SIGNAL_LIGHTTPD);
     if ( message == NULL )
     {
         printf( "message is NULL\n");
@@ -25345,8 +25348,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_applyresponse(b);
                 buffer_append_string(b, res);
                 buffer_append_string(b, "Cookie Valid");
+            } else if (!strcasecmp(action, "getLocaleListByLevel")) {
+                handle_getLocaleListByLevel(srv, con, b, m);
             } else if (!strcasecmp(action, "getlanguages")) {
-                handle_getlanguages(b);
+                handle_callservice_by_no_param(srv, con, b, m, "getCurLocale");
             } else if (!strcasecmp(action, "gettimezone")) {
                 //handle_callservice_by_no_param(srv, con, b, m, "getTimeZoneList");
                 handle_gettimezone_new(srv, con, b, m);
@@ -25357,7 +25362,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             } else if (!strcasecmp(action, "savetimeset")) {
                 handle_callservice_by_one_param_string(srv, con, b, m, "timezone", "setTimezone");
             } else if (!strcasecmp(action, "putlanguage")) {
-                handle_putlanguage(b, m);
+                handle_callservice_by_one_param_string(srv, con, b, m, "lan", "setCurLocale");
             } else if (!strcasecmp(action, "getlockpwd")) {
                 handle_callservice_by_no_param(srv, con, b, m, "isScreenLockEnabled");
             } else if (!strcasecmp(action, "savelockpwd")) {
@@ -25404,8 +25409,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
         buffer_append_string(b, "response=success");
     */
-    //} else if (valid_connection(con)) {
-    } else if (1) {
+    } else if (valid_connection(con)) {
         int findcmd = 1;
 #ifndef BUILD_RECOVER
         if (protected_command_find(command_protect, action))
