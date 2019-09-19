@@ -30,10 +30,10 @@ export CFLAGS="--sysroot=${ANDROID_ROOT}/prebuilts/ndk/current/platforms/android
     -fPIE -fstack-protector-all -D_FORTIFY_SOURCE=1"
 
 export LDFLAGS="-nostdlib -Bdynamic -pie -fPIE -Wl,-rpath-link=${ANDROID_ROOT}/out/target/product/gvc3220/system/lib64/ \
-    -Wl,-z,now -Wl,-z,relro -Wl,-Bstatic -loldssl_static -loldcrypto_static -Wl,-Bdynamic \
+    -Wl,-z,now -Wl,-z,relro -Wl,-Bstatic -lssl_static2 -lcrypto_static2 -Wl,-Bdynamic \
     -L${ANDROID_ROOT}/out/target/product/gvc3220/system/lib64/  \
-    -L${ANDROID_ROOT}/out/target/product/gvc3220/obj/STATIC_LIBRARIES/liboldssl_static_intermediates/ \
-    -L${ANDROID_ROOT}/out/target/product/gvc3220/obj/STATIC_LIBRARIES/liboldcrypto_static_intermediates/"
+    -L${ANDROID_ROOT}/out/target/product/gvc3220/obj/STATIC_LIBRARIES/libssl_static2_intermediates/ \
+    -L${ANDROID_ROOT}/out/target/product/gvc3220/obj/STATIC_LIBRARIES/libcrypto_static2_intermediates/"
 
 
 export LIBS="-lc -ldl -lm -lgsnvram -lgsdbus -llog -licuuc -lpcre -lsqlite -lxml2 -lcutils"
