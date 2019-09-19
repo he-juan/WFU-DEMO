@@ -1,0 +1,27 @@
+.color-picker {
+  position: relative;
+  border: 1px solid #ccc;
+  width: 70px;
+  height: 30px;
+  border-radius: 2px;
+  cursor: pointer;
+  .color-preview {
+    display: inline-block;
+    width: 60px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    border-radius: 2px;
+  }
+  .color-picker-main {
+    position: absolute;
+    top: 32px;
+    left:0;
+    z-index: 1;
+    user-select: none;
+  }
+}

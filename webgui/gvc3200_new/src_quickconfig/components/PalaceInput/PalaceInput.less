@@ -1,0 +1,33 @@
+.palace-input {
+  input {
+    opacity: 0;
+    // &:focus + .palace-view {
+    //   border-color:#108ee9 ;
+    //   li {
+    //     border-color:#108ee9 ;
+    //   }
+    // }
+  }
+}
+
+.palace-view {
+  list-style-type:  none;
+  margin: 0;
+  padding: 0;
+  width: 6rem;
+  border: 1px solid #ccc;
+  display: flex;
+  margin: 0 auto;
+  li {
+    font-size: 18px;
+    flex: 1;
+    height: 1rem;
+    line-height:1rem;
+    box-sizing: border-box;
+    text-align: center;
+    border-right: 1px solid #ccc;
+    &:last-child {
+      border-right: none;
+    }
+  }
+}

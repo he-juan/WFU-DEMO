@@ -1,0 +1,52 @@
+.tab-pages {
+  .link-tabs {
+    margin: 0 -25px;
+    .ant-tabs-bar {
+      padding: 0 25px;
+      box-shadow: 0 1px 10px rgba(223,225,229,.5);
+      margin: 0 0 6px 0;
+    }
+    .ant-tabs-nav .ant-tabs-tab {
+      padding: 16px 0px;
+      font-weight: 500;
+      &:hover  {
+        color: #3d77ff;
+      }
+    }
+    .ant-tabs-nav .ant-tabs-tab-active {
+      color: #3d77ff;
+      // font-weight: bold;
+    }
+    .ant-tabs-ink-bar {
+      background-color: #3d77ff;
+      height: 4px;
+      border-radius: 2px;
+    }
+    .ant-tabs-nav-wrap {
+      margin-bottom: 1px;
+    }
+  }
+
+
+
+
+  /*tab路由动画*/
+  .ani-tab-page-enter {
+    opacity: 0;
+  }
+
+  .ani-tab-page-enter-active {
+    opacity: 1;
+    transition: opacity 800ms, transform 800ms;
+  }
+
+  .ani-tab-page-exit {
+    opacity: 1;
+  }
+
+  .ani-tab-page-exit-active {
+    opacity: 0;
+    transition: opacity 800ms, transform 800ms;
+  }
+
+}

@@ -4,9 +4,10 @@
 <html>
 <head>
     <title id="a_title">Quick setup</title>
-    <script type="text/javascript" src='js/jquery.tools.min.js'></script>
-    <script type="text/javascript" src='js/jquery.cookie.js'></script>
-    <script type="text/javascript" src='js/jquery.stylish-select.min.js'></script>
+    <script type="text/javascript" src='/js/jquery-2.2.1.min.js'></script>
+    <script type="text/javascript" src='/js/jquery.cookie.js'></script>
+    <script type="text/javascript" src='/js/jquery.stylish-select.min.js'></script>
+    <script type="text/javascript" src='/js/hideShowPassword.min.js'></script>
     <style>
         * {margin: 0;  padding: 0;  }
         html{  font-size:16px;  }
@@ -59,39 +60,47 @@
         .step-btn button:last-child {margin-left: 10px; background-color: #007aff;color: white; }
         .step-btn button:disabled{background-color: #9B9B9B;cursor: not-allowed;}
         #ethernet-pic, #wifi-pic{ position: absolute;top: 6px;width:29px;height: 29px;}
-        .ethconnect{background: url("./img/quickconf/ethernet_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
-        .ethdisconnect{background: url("./img/quickconf/ethernet_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
-        .wificonnect{background: url("./img/quickconf/wifi_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
-        .wifidisconnect{background: url("./img/quickconf/wifi_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .ethconnect{background: url("/img/quickconf/ethernet_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .ethdisconnect{background: url("/img/quickconf/ethernet_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .wificonnect{background: url("/img/quickconf/wifi_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
+        .wifidisconnect{background: url("/img/quickconf/wifi_no_connected_icon.png") 29px 29px;  -webkit-background-size: cover;  background-size: cover;}
         #selectproto ul li, #selectaddrtype ul li, #selectip6addrtype ul li{height: 44px;line-height: 44px;padding-left:20px;border-bottom: 1px solid #eceff2;position: relative; }
         #selectproto ul li span,#selectaddrtype ul li span, #selectip6addrtype ul li span{position: absolute;  right: 40px;  left: 20px;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden;}
         #selectproto ul li input + div,#selectaddrtype ul li input + div, #selectip6addrtype ul li input + div{position:absolute;right: 20px;top: 10px;}
         #selectproto ul li input[checked="checked"] + div,#selectaddrtype ul li input[checked="checked"] + div,#selectip6addrtype ul li input[checked="checked"] + div
-        {width: 20px;height: 20px;background:url("./img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
+        {width: 20px;height: 20px;background:url("/img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
         /*#selectproto ul li input[checked="checked"] + div,#selectaddrtype ul li input[checked="checked"] + div{width: 10px;height: 10px;background-color: white;}*/
         .modal-title{height: 40px;line-height:40px;font-size:16px;padding-left:20px;background-color:#155bff;border-radius: 8px 8px 0 0; color: white;}
         #protocol-cancel, #sel-addrtype-cancel, #sel-addr6type-cancel{height: 44px;  line-height: 44px; text-align: center;color:#155bff}
-        .config-box{margin-top: 30px;  padding-left: 12px; font-size: 16px; background-color:white; border-bottom: 0.5px solid #c8c7cc;border-top: 0.5px solid #c8c7cc;}
+        .config-box{margin-top: 30px; margin-bottom:20px; padding-left: 12px; font-size: 16px; background-color:white; border-bottom: 0.5px solid #c8c7cc;border-top: 0.5px solid #c8c7cc;}
         .config-box .g_conf{position: relative;  height: 40px;line-height: 40px;border-bottom: 1px inset #eceff2;}
         .config-box .g_conf span{ position: absolute;  right: 180px;  left: 0px;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden;}
         .config-box .g_conf input{position: absolute;  width:160px;top:10px;right:12px;border:none;color:#8e8e93; text-align:right;background-color:transparent;}
 
         #acctactive{position: absolute;top:11px; right:20px;width:22px;height: 22px;}
-        .accountactive{background: url("./img/quickconf/checked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
-        .accountinactive{background: url("./img/quickconf/unchecked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .accountactive{background: url("/img/quickconf/checked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .accountinactive{background: url("/img/quickconf/unchecked_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
         input[type="radio"]{display: none;}
-        div .active{ position: absolute; top: 10px; right: 10px; width: 20px;  height: 20px; background:url("./img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
+        div .active{ position: absolute; top: 10px; right: 10px; width: 20px;  height: 20px; background:url("/img/quickconf/single_election_tick_icon.png") 20px;  -webkit-background-size: cover;  background-size: cover;}
         .qr-pic{ width: 300px; height: 206px; margin: 45px auto;}
-        .qrinvalid-pic{background: url("./img/quickconf/qr_code_invalid_image.png");  -webkit-background-size: cover;  background-size: cover;}
-        .qrrefreshed-pic{background: url("./img/quickconf/qr_code_refreshed_image.png");  -webkit-background-size: cover;  background-size: cover;}
+        .qrinvalid-pic{background: url("/img/quickconf/qr_code_invalid_image.png");  -webkit-background-size: cover;  background-size: cover;}
+        .qrrefreshed-pic{background: url("/img/quickconf/qr_code_refreshed_image.png");  -webkit-background-size: cover;  background-size: cover;}
         #setpwd{  position: relative;  }
         #setpwd input{  width: 45px;height:45px; font-size: 30px;text-align: center; border: 1px solid #c8c7cc;}
         #pwdmask1, #pwdmask2{ position:absolute; top:0; left:0; right:0; bottom: 0; }
         .content{position: absolute;left: 5px;right: 5px;bottom: 15px;background: white;font-size: 16px;border-radius: 8px;}
-        .suc-pic{display:inline-block;width:22px;height:22px;margin-bottom:10px;background: url("./img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
-        .qr-refreshsuc{position:relative;display:inline-block;width:22px;height:22px;top:3px;margin-right:6px;background: url("./img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .suc-pic{display:inline-block;width:22px;height:22px;margin-bottom:10px;background: url("/img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
+        .qr-refreshsuc{position:relative;display:inline-block;width:22px;height:22px;top:3px;margin-right:6px;background: url("/img/quickconf/refreshed_icon.png") 22px 22px;  -webkit-background-size: cover;  background-size: cover;}
         #modal-mask-prompt{ position: fixed;top:0;bottom:0;left: 0;right: 0;background-color:rgba(55, 55, 55, 0.6);z-index: 1000;}
         #modal-mask-prompt div{margin: 150px auto;text-align:center;width: 200px;height: 50px;line-height: 50px; background: white;border-radius: 6px;}
+        /*********** password visible or not style ************/
+        .hideShowPassword-wrapper{margin-top: 3px !important;height: 40px;position: absolute !important; right: 12px;}
+        .hideShowPassword-wrapper input{padding-right: 0 !important;}
+        .hideShowPassword-toggle{width: 20px; height: 18px; z-index: 5; margin: 0 !important; cursor: pointer; text-indent: -9999em; top: 16% !important; right: 4px !important;}
+        .hideShowPassword-toggle-hide{background: url(/img/quickconf/pwd_visible.png) -110px -30px no-repeat;}
+        .hideShowPassword-toggle-hide:hover{background: url(/img/quickconf/pwd_visible.png) -152px -30px no-repeat;}
+        .hideShowPassword-toggle-show{background: url(/img/quickconf/pwd_visible.png) -23px -28px no-repeat;}
+        .hideShowPassword-toggle-show:hover{background: url(/img/quickconf/pwd_visible.png) -67px -28px no-repeat;}
     </style>
 </head>
 <body>
@@ -187,96 +196,6 @@
             <div class="content">
                 <div style="height: 8px;"></div>
         <ul id="timezone">
-            <li id="GMT">GMT<div></div></li>
-            <li id="Pacific-Midway">Midway Island</li>
-            <li id="Pacific-Honolulu">Hawaii</li>
-            <li id="America-Anchorage">Alaska</li>
-            <li id="America-Los_Angeles">Pacific Time</li>
-            <li id="America-Tijuana">Tijuana</li>
-            <li id="America-Phoenix">Arizona</li>
-            <li id="America-Chihuahua">Chihuahua</li>
-            <li id="America-Denver">Mountain Time</li>
-            <li id="America-Costa_Rica">Central America</li>
-            <li id="America-Chicago">Central Time</li>
-            <li id="America-Mexico_City">Mexico City</li>
-            <li id="America-Regina">Saskatchewan</li>
-            <li id="America-Bogota">Bogota</li>
-            <li id="America-New_York">Eastern Time</li>
-            <li id="America-Caracas">Venezuela</li>
-            <li id="America-Barbados">Atlantic Time (Barbados)</li>
-            <li id="America-Halifax">Atlantic Time (Canada)</li>
-            <li id="America-Manaus">Manaus</li>
-            <li id="America-Santiago">Santiago</li>
-            <li id="America-St_Johns">Newfoundland</li>
-            <li id="America-Recife">Recife</li>
-            <li id="America-Sao_Paulo" >Brasilia</li>
-            <li id="America-Argentina/Buenos_Aires" >Buenos Aires</li>
-            <li id="America-Godthab" >Greenland</li>
-            <li id="America-Montevideo">Montevideo</li>
-            <li id="Atlantic-South_Georgia">Mid-Atlantic</li>
-            <li id="Atlantic-Azores">Azores</li>
-            <li id="Atlantic-Cape_Verde">Cape Verde Islands</li>
-            <li id="Africa-Casablanca">Casablanca</li>
-            <li id="Europe-London">London</li>
-            <li id="Europe-Amsterdam">Amsterdam, Berlin</li>
-            <li id="Europe-Belgrade">Belgrade</li>
-            <li id="Europe-Brussels">Brussels</li>
-            <li id="Europe-Madrid">Madrid</li>
-            <li id="Europe-Sarajevo">Sarajevo</li>
-            <li id="Africa-Windhoek">Windhoek</li>
-            <li id="Africa-Brazzaville">W. Africa Time</li>
-            <li id="Asia-Amman">Amman, Jordan</li>
-            <li id="Europe-Athens">Athens, Istanbul</li>
-            <li id="Europe-Istanbul">Istanbul</li>
-            <li id="Asia-Beirut">Beirut, Lebanon</li>
-            <li id="Africa-Cairo">Cairo</li>
-            <li id="Europe-Helsinki">Helsinki</li>
-            <li id="Asia-Jerusalem">Jerusalem</li>
-            <li id="Europe-Minsk">Minsk</li>
-            <li id="Africa-Harare">Harare</li>
-            <li id="Asia-Baghdad">Baghdad</li>
-            <li id="Europe-Moscow">Moscow, St.Petersburg</li>
-            <li id="Asia-Kuwait">Kuwait</li>
-            <li id="Africa-Nairobi">Nairobi</li>
-            <li id="Asia-Tehran">Tehran</li>
-            <li id="Asia-Baku">Baku</li>
-            <li id="Asia-Tbilisi">Tbilisi</li>
-            <li id="Asia-Yerevan">Yerevan</li>
-            <li id="Asia-Dubai">Dubai</li>
-            <li id="Asia-Kabul">Kabul</li>
-            <li id="Asia-Karachi">Islamabad, Karachi</li>
-            <li id="Asia-Oral">Ural'sk</li>
-            <li id="Asia-Yekaterinburg">Yekaterinburg</li>
-            <li id="Asia-Calcutta">Kolkata, Chennai, New Delhi, Mumbai</li>
-            <li id="Asia-Colombo">Sri Lanka</li>
-            <li id="Asia-Katmandu">Kathmandu</li>
-            <li id="Asia-Almaty">Astana</li>
-            <li id="Asia-Rangoon">Yangon</li>
-            <li id="Asia-Krasnoyarsk">Krasnoyarsk</li>
-            <li id="Asia-Bangkok">Bangkok</li>
-            <li id="Asia-Jakarta">Jakarta</li>
-            <li id="Asia-Shanghai">Beijing</li>
-            <li id="Asia-Hong_Kong">Hong Kong</li>
-            <li id="Asia-Irkutsk">Irkutsk</li>
-            <li id="Asia-Kuala_Lumpur">Kuala Lumpur</li>
-            <li id="Australia-Perth">Perth</li>
-            <li id="Asia-Taipei">Taipei</li>
-            <li id="Asia-Seoul">Seoul</li>
-            <li id="Asia-Tokyo">Tokyo, Osaka</li>
-            <li id="Asia-Yakutsk">Yakutsk</li>
-            <li id="Australia-Adelaide">Adelaide</li>
-            <li id="Australia-Darwin">Darwin</li>
-            <li id="Australia-Brisbane">Brisbane</li>
-            <li id="Australia-Hobart">Hobart</li>
-            <li id="Australia-Sydney">Sydney, Canberra</li>
-            <li id="Asia-Vladivostok">Vladivostok</li>
-            <li id="Pacific-Guam">Guam</li>
-            <li id="Asia-Magadan">Magadan</li>
-            <li id="Pacific-Noumea">Noumea, New Caledonia</li>
-            <li id="Pacific-Majuro">Majuro</li>
-            <li id="Pacific-Auckland">Auckland</li>
-            <li id="Pacific-Fiji">Fiji</li>
-            <li id="Pacific-Tongatapu">Tonga</li>
         </ul>
 
         <div class="buttom-btn"><button id="timezone-cancel" name="a_cancel">Cancel</button><button id="timezone-confirm">Confirm</button></div>
@@ -290,7 +209,7 @@
     <div class="config-box" style="margin-top: 0;">
         <div class="g_conf"><span id="a_ipaddr">IP Address</span><span id="ipaddress" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
         <div class="g_conf"><div id="ethernet-pic"></div><span style="left: 45px;" id="a_ethernet">以太网</span><span id="ethernetstatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
-        <div class="g_conf" style="border-bottom: none;"><div id="wifi-pic"></div><span style="left: 45px;">Wi-Fi</span><span id="wifistatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
+        <div class="g_conf" style="border-bottom: none;"><div id="wifi-pic"></div><span style="left: 45px;">Wi-FI</span><span id="wifistatus" style="right: 15px;left: auto;color:#8e8e93;"></span></div>
     </div>
     <div class="selectDiv2" style="margin-top: 30px;"><div id="a_advnetworkconf">高级网络设置</div><div class="arrow"></div></div>
     <div class="step-btn"><button id="network-back-btn" name="a_laststep">上一步</button><button id="network-next-step" name="a_nextstep">下一步</button></div>
@@ -378,54 +297,41 @@
 
 
 
+<div id='zeroconf' style="display:none;position:relative;">
+    <p class="config-title" id="a_acctactivte">帐号激活</p>
+    <div class="config-box" style="margin-top: 0px;">
+        <div class="g_conf mobile" style="border-bottom: none;"><span id="a_activationcode">激活码</span>
+            <input id="activationcode" name="activationcode" type="text" maxlength="10" placeholder=""/></div>
+    </div>
+    <div>
+        <p id="useacctpwdconf" style="text-align:center; color: #007aff;"><span id="a_useacctpwdconf">使用帐号与密码配置</span><span> >> </span></p>
+    </div>
+    <div class="step-btn"><button id="zeroconf-back-btn" name="a_laststep">上一步</button>
+        <button id="zeroconf-next-step" name="a_nextstep">下一步</button></div>
+</div>
+
 <div id='accountconf' style="display:none;position:relative;">
     <p class="config-title" id="a_acctconf">帐号配置</p>
-    <div webtip="Account Name" class="config-box" style="margin-top: 0px;">
-        <div class="g_conf"><span id="a_accountname">帐号名称</span><input id="accountname" name="accountname" type="text" placeholder=""/></div>
-        <div class="g_conf master"><span id="a_sipserver">SIP服务器</span><input id="sipserver" name="sipserver" type="text" placeholder=""/></div>
-        <div class="g_conf master"><span id="a_userid">SIP用户ID</span><input id="userid" name="userid" type="text" placeholder=""/></div>
-        <div class="g_conf master"><span id="a_authid">SIP认证ID</span><input id="authid" name="authid" type="text" placeholder=""/></div>
-        <div class="g_conf"><span id="a_authpwd">SIP认证密码</span><input id="authpwd" name="authpwd" type="password" autocomplete="off" placeholder=""/></div>
-        <div class="g_conf master" style="border-bottom: none;"><span id="a_displayname">显示名称</span><input id="displayname" name="displayname" type="text" placeholder=""/></div>
-        <div class="g_conf mobile" style="display: none;"><span id="a_sbcaddr">SBC地址</span><input id="SBCaddress" name="SBCaddress" type="text" placeholder=""/></div>
-        <div class="g_conf mobile" style="display:none;border-bottom: none;"><span id="a_sitename">SIte Name</span><input id="sitename" name="sitename" type="text" placeholder=""/></div>
+    <div class="config-box" style="margin-top: 0px;">
+        <div class="g_conf"><span id="a_accountname">帐号</span><input id="accountname" name="accountname" type="text" placeholder=""/></div>
+        <div class="g_conf"><span id="a_authpwd">密码</span>
+            <input id="authpwd" name="authpwd" style="right: 30px;" type="password" autocomplete="off" placeholder=""/></div>
+        <div class="g_conf" style="border-bottom: none"><span id="a_sbcaddr">SBC地址</span><input id="SBCaddress" name="SBCaddress" type="text" placeholder=""/></div>
+        <!--<div class="g_conf mobile" style="display:none;border-bottom: none;"><span id="a_sitename">SIte Name</span><input id="sitename" name="sitename" type="text" placeholder=""/></div>-->
     </div>
-    <div class="config-box">
-        <div class="g_conf" style="border-bottom: none;"><span id="a_acctactive">帐号激活</span> <div id="acctactive"></div></div>
+    <div>
+        <p id="autoactive" style="text-align:center; color: #007aff;"><span id="a_autoactive">使用激活码激活账号</span><span> >> </span></p>
     </div>
     <div class="step-btn"><button id="account-back-btn" name="a_laststep">上一步</button><button id="account-next-step" name="a_nextstep">下一步</button></div>
 </div>
 
-<div id="pwddiv" style="display:none;position:relative;">
-    <p class="config-title" id="a_setlockpwd">Set Screen lock password</p>
-    <div id="existpwd" style="display: none;text-align: center;margin: 26px 0 30px 0;color: #8f8f8f;">
-        <p style="margin-bottom: 10px;" id="a_hassetpwd">Screen lock password has been set</p>
-        <p><span id="a_clickhint">If needed change please click</span> <span id="resetpwd" style="color: #007aff;"> reset password ></span></p>
+<div id="siteconf" style="display: none;position:relative;">
+    <p class="config-title" id="a_siteconf">会场名称</p>
+    <div class="config-box" style="margin-top: 0px;">
+        <div class="g_conf"  style="border-bottom: none;"><span id="a_sitename">会场名称</span>
+            <input id="sitename" name="sitename" type="text" maxlength="16" placeholder=""/></div>
     </div>
-    <div id="noexistpwd" style="display: none;">
-    <div id="setpwd">
-        <p style="text-align: center;margin: 26px 0 30px 0;font-size: 12px;color: #8f8f8f;" id="a_inputpwd">请输入6位数字密码</p>
-        <div id="first" style="position: relative;text-align: center;">
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <div id="pwdmask1"></div>
-        </div>
-        <div id="second" style="display:none;position: relative; text-align: center;">
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <input class="pwditem" maxlength="1" type="tel" value=""/>
-            <div id="pwdmask2"></div>
-        </div>
-    </div>
-    </div>
-    <div class="step-btn"><button id="pwd-back-btn" name="a_laststep">上一步</button><button id="pwd-next-step" name="a_done">完成</button></div>
+    <div class="step-btn"><button id="siteconf-back-btn" name="a_laststep">上一步</button><button id="siteconf-next-step" name="a_done">完成</button></div>
 </div>
 
 <div id="configdone" style="display:none;">
@@ -453,18 +359,18 @@
     <div id="result"></div>
 </div>
 
-<script id="language" src='lang/en.js'></script>
+<script id="language" src='/lang/en_quickconf.js'></script>
 <!--<script type="text/javascript" src='/js/public.js'></script>-->
 <script type='text/javascript'>
 
     var position = 0, isnetworkvisited = false;
     var langobj = {curlangId:"",clickedlangId:"",isvisited:false};
     var timezoneobj ={curtimezoneId:"",clickedtimezoneId:"",isvisited:false};
-    var networkconfigObj = {isvisited:false};
+//    var networkconfigObj = {isvisited:false};
     var accountobj ={isvisited:false}, pwdobj = {isvisited:false, haspwd:false};
 
-    var network_req_items = new Array();
-    network_req_items.push(
+    var req_items = new Array();
+    req_items.push(
         new ReqItem("protocoltype", "1415", ""),
         new ReqItem("networktype", "8", ""),
         new ReqItem("ppoeaccount", "82", ""),
@@ -494,25 +400,28 @@
         new ReqItem("staticipv6addr", "1420", ""),
         new ReqItem("ipv6prefixlen", "1421", ""),
         new ReqItem("ipv6dns1", "1424", ""),
-        new ReqItem("ipv6dns2", "1425", "")
+        new ReqItem("ipv6dns2", "1425", ""),
+        new ReqItem("accountname", "270", ""),
+        new ReqItem("authpwd", "34", ""),
+        new ReqItem("SBCaddress", "48", "")
     );
+
     var networktypeArr = [], ipv6networktypeArr = [];
     var protocoltypeArr = [];
     var orignnetworktype = 0, orignip6nettype = 0, originprtctype = 0;
     var orignaddress = "", orignsubmask = "", origngateway = "", origndnssever1 = "", origndnssever2 = "";
     var orignppoeaccount = "", orignppoepwd = "";
-    var savelockpwddone = 0, savelandone=0, savetimezonedone=0, saveaccountdone = 0, savenetworkdone = 0;
+    var savesitename = 0, savelandone=0, savetimezonedone=0, saveaccountdone = 0, savenetworkdone = 0;
     var orignipv6addr = "", orignipv6prefixlen = "", orignipv6dns1 = "", orignipv6dns2 = "";
     var city_names = [];
-    var lockpwd = "";
     var newgmts = new Array;
-    var colore = $.cookie("coloreExist");
+//    var colore = $.cookie("coloreExist");
     var height;
+    var useactivationcode = true;
+    var bg_tp, dispos, disduration, fontcolor, fontsize, bold;
 
     $(function () {
-        height = document.body.clientHeight;
         translate_page();
-        init_page();
         var hash = location.hash;
         if (hash) {
             hash = hash.substring(1);
@@ -546,6 +455,10 @@
     });
 
     function pageEventActions() {
+        $("#authpwd").hideShowPassword({
+            innerToggle: true
+        });
+
         $("#refreshqr").click(function () {
             cb_get_action('refreshqrcode&region=quickconf');
         });
@@ -646,38 +559,8 @@
         });
 
         $("#time-next-step").click(function () {
-            if (isnetworkvisited) {
-                $("#settimezone").hide();
-                $("#setnetwork").fadeIn();
-            } else {
-                $("#time-next-step").attr("disabled", "disabled");
-                cb_get_action("network&region=quickconf");
-            }
-            if (!networkconfigObj.isvisited) {
-                var uritail = "";
-                for (var i = 0; i < network_req_items.length; i++) {
-                    uritail += build_get(i, network_req_items[i].pvalue);
-                }
-                var urihead = "action=get&region=quickconf" + uritail + "&time=" + new Date().getTime();
-                $.ajax({
-                    type: 'get',
-                    url: '/manager',
-                    data: urihead,
-                    dataType: 'text',
-                    success: function (data) {
-                        if (data.indexOf("Cookie Invalid") != -1) {
-                            $("#setnetwork").hide();
-                            $("#settimezone").hide();
-                            $("#qrdiv").show(1000);
-                        } else {
-                            networkconfigObj.isvisited = true;
-                            cb_get_items_suc(data, network_req_items);
-                        }
-                    },
-                    error: function (xmlHttpRequest, errorThrown) {
-                    }
-                });
-            }
+            $("#settimezone").hide();
+            $("#setnetwork").fadeIn();
         });
 
         $("#network-back-btn").click(function () {
@@ -686,6 +569,7 @@
         });
 
         $("#setnetwork .selectDiv2").click(function () {
+            init_page();
             $("#setnetwork").hide();
             $("#setprefernetwork").fadeIn();
         });
@@ -912,63 +796,10 @@
         });
 
         $("#network-next-step").click(function () {
-            if (accountobj.isvisited) {
-                $("#setnetwork").hide();
-                $("#accountconf").fadeIn(1000);
-                $("#accountname").focus();
-            } else {
-                $("#network-next-step").attr("disabled", "disabled");
-                var account_req_items = new Array;
-                account_req_items.push(
-                    new ReqItem("acctactive", "271", ""),
-                    new ReqItem("accountname", "270", ""),
-                    new ReqItem("sipserver", "47", ""),
-                    new ReqItem("SBCaddress", "48", ""),
-                    new ReqItem("userid", "35", ""),
-                    new ReqItem("authid", "36", ""),
-                    new ReqItem("displayname", "3", "")
-                );
-                var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
-                cb_get_action(sqlitestr);
-                var uritail = '';
-                for (var i = 0; i < account_req_items.length; i++) {
-                    uritail += build_get(i, account_req_items[i].pvalue);
-                }
-                var accounturihead = "action=get&region=quickconf" + uritail + "&time=" + new Date().getTime();
-                $.ajax({
-                    type: 'get',
-                    url: '/manager',
-                    data: accounturihead,
-                    dataType: 'text',
-                    success: function (data) {
-                        if (data.indexOf("Cookie Invalid") != -1) {
-                            $("#setnetwork").hide()
-                            $("#qrdiv").show(1000);
-                        }else {
-                            accountobj.isvisited = true;
-                            $("#setnetwork").hide();
-                            $("#accountconf").fadeIn(1000);
-                            $("#accountname").focus();
-                            $("#network-next-step").removeAttr("disabled");
-                            cb_get_items_suc(data, account_req_items);
-                        }
-                    },
-                    error: function (xmlHttpRequest, errorThrown) {
-                        promptTip("网络错误！", "err");
-                    }
-                });
-            }
-        });
-
-        $("#acctactive").click(function () {
-            if ($(this).hasClass("accountactive")) {
-                $(this).removeClass("accountactive");
-                $(this).addClass("accountinactive");
-            } else {
-                $(this).removeClass("accountinactive");
-                $(this).addClass("accountactive");
-            }
-
+            init_page();
+            $("#setnetwork").hide();
+            $("#zeroconf").fadeIn(1000);
+            $("#activationcode").focus();
         });
 
         $("#resetbtn").click(function () {
@@ -976,148 +807,63 @@
             $(".config-div input[type='text']").val("");
         });
 
-        $("#account-back-btn").click(function () {
+        $("#useacctpwdconf").click(function(){
+            useactivationcode = false;
+            $("#zeroconf").hide();
+            $("#accountconf").show();
+
+        });
+
+        $("#autoactive").click(function(){
+            useactivationcode = true;
+            $("#accountconf").hide();
+            $("#zeroconf").show();
+        });
+
+        $("#zeroconf-back-btn, #account-back-btn").click(function () {
+            $("#zeroconf").hide();
             $("#accountconf").hide();
             $("#setnetwork").show();
         });
 
-        $("#account-next-step").click(function () {
-            if (colore == "54" && ($("#sipserver").val() == "" || $("#sipserver").val() == "ims.ge.chinamobile.com")) {
-
-            } else {
-                if (!checkUrlPath($("#sipserver").val())) {
-                    promptTip(a_20214, "err");
+        $("#zeroconf-next-step, #account-next-step").click(function () {
+            if(useactivationcode){  //使用激活码
+                var activationcode = $("#activationcode").val().trim();
+                if(activationcode == ""){
+                    promptTip(a_20216, "err");
                     return false;
                 }
+            }else{  //手动配置账号
+                var accountname = $("#accountname").val().trim();
+//                if(accountname == ""){
+//                    promptTip(a_16441, "err");
+//                    return false;
+//                }
                 var reg = new RegExp("^[A-Za-z0-9-_.!~*'()+]+$");
-                if ($("#userid").val() != "" && !reg.test($("#userid").val())) {
+                if(accountname != "" && !reg.test(accountname)){
                     promptTip(a_16441, "err");
                     return false;
                 }
-
-                reg = new RegExp("^[A-Za-z0-9-_.!~*'()+@]+$");
-                if ($("#authid").val() != "" && !reg.test($("#authid").val())) {
-                    promptTip(a_19194, "err");
+                var pwd = $("#authpwd").val().trim();
+                reg = new RegExp("^[\x21-\x7E]+$");
+                if(pwd != "" && !reg.test(pwd)){
+                    promptTip($("#a_authpwd").text() + " " + a_19275, "err");
                     return false;
                 }
             }
-            if (pwdobj.isvisited) {
-                $("#accountconf").hide();
-                $("#pwddiv").fadeIn(1000);
-                showpwddiv();
-            } else {
-                $(this).attr("disabled", "disabled");
-                cb_get_action("getlockpwd&region=quickconf");
-            }
-
+            //显示会场名称页面
+            $(this).parent().parent().hide();
+            $("#siteconf").show();
         });
 
-        $("#pwd-back-btn").click(function () {
-            $("#first").show();
-            $("#second").hide();
-            $("#pwddiv").hide();
-            $("#accountconf").fadeIn(1000);
-            $("#accountname").focus();
-            $("#pwddiv input").val("");
-            $("#a_setlockpwd").text(a_6759);
+        $("#siteconf-back-btn").click(function(){
+            useactivationcode = true;
+           $("#siteconf").hide();
+           $("#zeroconf").show();
         });
 
-        $("#pwdmask1,#pwdmask2").click(function () {
-            var items;
-            if ($(this).attr("id") == "pwdmask1") {
-                items = $("#first").find("input");
-            } else {
-                items = $("#second").find("input");
-            }
-            for (var i = 0; i < items.length; i++) {
-                if ($(items[i]).val() == "") {
-                    $(items[i]).focus();
-                    return;
-                }
-            }
-            $(items[items.length - 1]).focus();
-        });
-
-
-        $("#first input,#second input").keydown(function (event) {
-            var items = $(this).parent().find("input");
-            if (event.which != 8) {
-                if ($(items[items.length - 1]).val() != "") {
-                    return;
-                }
-                for (var j = items.length - 1; j >= 0; j--) {
-                    if ($(items[j]).val() != "" && j != items.length - 1) {
-                        $(items[j + 1]).focus();
-                        return;
-                    }
-                }
-            }
-        });
-
-        $("#first input,#second input").keyup(function (event) {
-            var self = $(this);
-            $(this).val($(this).val().replace(/\D/g, ''));
-            var items = $(this).parent().find("input");
-            var len = items.length;
-            var firstpwd0 = $("#first").find("input").first();
-            if (firstpwd0.val() == "") {
-                $("#pwd-next-step").removeAttr("disabled");
-            } else {
-                $("#pwd-next-step").attr("disabled", "disabled");
-            }
-            if (event.which == 8) {
-                $(this).css("-webkit-text-security", "");
-                $(this).css("text-security", "");
-                for (var j = len - 1; j >= 0; j--) {
-                    if ($(items[j]).val() != "") {
-                        $(items[j]).focus();
-                        return;
-                    }
-                }
-            } else {
-                setTimeout(function () {
-                    self.css("-webkit-text-security", "disc");
-                    self.css("text-security", "disc");
-                }, 200);
-                for (var i = 0; i < len; i++) {
-                    if ($(items[i]).val() == "") {
-                        $(items[i]).focus();
-                        return;
-                    }
-                }
-                //密码框都不为空则跳转到确认密码页
-                if ($(this).parent().attr("id") == "first") {
-                    jumpToSecondpwd();
-                    return;
-                }
-                if ($(this).parent().attr("id") == "second") {
-                    //判断两次密码是否一致
-                    if (checkpwds()) {
-                        $("#pwd-next-step").removeAttr("disabled");
-                        $(this).blur();
-                        return;
-                    } else {
-                        promptTip(a_16448, "err");
-                        $("#pwddiv input").val("");
-                        jumpToFirstpwd();
-                        return;
-                    }
-                }
-            }
-        });
-
-        $("#resetpwd").click(function () {
-            $("#existpwd").hide();
-            $("#noexistpwd").fadeIn(1000);
-            jumpToFirstpwd();
-        });
-
-        $("#pwd-next-step").click(function () {
+        $("#siteconf-next-step").click(function () {
             //最後配置結束發送各種保存請求
-            $(this).attr("disabled", "disabled");
-            if (lockpwd != "") {
-                cb_get_action("savelockpwd&region=quickconf&newlock=" + lockpwd);  //保存锁屏密码
-            }
             showTips(a_7478);
             var lan_ct = $(langobj.curlangId).attr("id");
             var lancts = lan_ct.split("_");
@@ -1126,6 +872,9 @@
             timezone = timezone.replace("-", "/");
             cb_get_action("savetimeset&region=quickconf&timezone=" + timezone);//保存时区
             cb_saveaccount(); //保存账号
+            var setsitename = "setSitesettingInfo&region=quickconf&bgtp=" + bg_tp + "&sitename=" + encodeURIComponent($("#sitename").val())
+                + "&dispos=" + dispos + "&disduration=" + disduration + "&fontcolor="+encodeURIComponent(fontcolor) + "&fontsize="+fontsize + "&bold=" + bold;
+            cb_get_action(setsitename);  //保存站点信息（只修改了会场名称，其他参数按原样保存）
             cb_savenetwork()  //保存网络
         });
     }
@@ -1147,39 +896,6 @@
             }
         }
         return true;
-    }
-
-    function jumpToFirstpwd(){
-        lockpwd = "";
-        $("#first input").first().focus();
-        $("#first").show();
-        $("#second").hide();
-        $("#a_setlockpwd").text(a_6759);
-        $("#setpwd input").css("-webkit-text-security","");
-        $("#setpwd input").css("text-security","");
-        $("#pwd-next-step").removeAttr("disabled");
-    }
-
-    function jumpToSecondpwd(){
-        $("#first").hide();
-        $("#second").fadeIn(1000);
-        $("#a_setlockpwd").text(a_9656);
-        $("#second input").val("");
-        $("#second input").first().focus();
-        $("#pwd-next-step").attr("disabled","disabled");
-    }
-
-    function showpwddiv(){
-        if(pwdobj.haspwd){
-            $("#existpwd").show();
-            $("#noexistpwd").hide();
-            $("#a_setlockpwd").text(a_6759);
-        }else{
-            $("#existpwd").hide();
-            $("#noexistpwd").show();
-            jumpToFirstpwd();
-        }
-
     }
 
     function cb_get_items_suc(data, items){
@@ -1240,29 +956,8 @@
                 temp.text( msgs.headers[items[i].pvalue.toLowerCase()] );
             }
         }
-        if(msgs.headers["1415"]!=undefined){
+        if(msgs.headers["1415"]){
             get_item_suc_callback(msgs);
-        }else if(msgs.headers["271"]!=undefined){
-            getaccount_suc_callback(msgs);
-        }
-
-    }
-
-    function getaccount_suc_callback(msg) {
-        if ($("#acctactive").text() == "1") {
-            $("#acctactive").addClass("accountactive");
-        }else{
-            $("#acctactive").addClass("accountinactive");
-        }
-        $("#acctactive").text("");
-        if(colore == "54"  && ($("#sipserver").val() == "" || $("#sipserver").val() == "ims.ge.chinamobile.com") ){
-            $("#a_accountname").text(a_301);
-            $("#a_authpwd").text(a_6759);
-            $(".mobile").show();
-            $(".master").hide();
-        }else{
-            $(".mobile").hide();
-            $(".master").show();
         }
     }
 
@@ -1317,6 +1012,28 @@
         }
     }
 
+
+    function cb_get(items, type) {
+        var uritail = "";
+        for (var i = 0; i < items.length; i++) {
+            uritail += build_get(i, items[i].pvalue);
+        }
+        var urihead = "action=get&region=quickconf" + uritail;
+        urihead += "&time=" + new Date().getTime();
+        $.ajax({
+            type: 'get',
+            url: '/manager',
+            data: urihead,
+            dataType: 'text',
+            success: function (data) {
+                cb_get_items_suc(data, items);
+            },
+            error: function (xmlHttpRequest, errorThrown) {
+                cb_networkerror(xmlHttpRequest, errorThrown, action);
+            }
+        });
+    }
+
     function cb_get_action(action, async){
         var urihead = "action=" + action;
         urihead += "&time=" + new Date().getTime();
@@ -1338,26 +1055,21 @@
     function cb_get_action_done(data, action) {
         if (data.substring(0, 1) == "{") {
             data = eval("(" + data + ")");
-            if( action.indexOf("affect=read" ) != "-1" ){
+            if(action.indexOf("savelockpwd") != -1){
+                savelockpwddone = 1;
+                checkallsavedone();
+            }else if( action.indexOf("affect=read" ) != -1 ){
                 if(data.Response == "Success")
                 {
                     var items = data.Data;
-                    setsitename(items);
+                    setsiteinfo(items);
                 }
-            }else if(action.indexOf("savelockpwd") != -1){
-                savelockpwddone = 1;
+            }else if(action.indexOf("setSitesettingInfo") != -1 ){
+                savesitename = 1;
                 checkallsavedone();
-            }else if(action.indexOf("getlockpwd") != -1) {
-                pwdobj.isvisited = true;
-                $("#accountconf").hide();
-                $("#pwddiv").fadeIn(1000);
-                $("#account-next-step").removeAttr("disabled");
-                if (data.flag == "1") {
-                    pwdobj.haspwd = true;
-                } else {
-                    pwdobj.haspwd = false;
-                }
-                showpwddiv();
+            }else if(action.indexOf("savetimeset") != -1) {
+                savetimezonedone = 1;
+                checkallsavedone();
             }
         } else {
             var msgs = res_parse_rawtext(data);
@@ -1372,13 +1084,21 @@
                     temp.find("div").addClass("active");
                     $("#selectedlang").text(temp.text());
                     if(lan == "zh_CN"){
-                        $("#language").attr("src", '/lang/zh.js');
-                        $.getScript('/lang/zh.js',function(){
+                        $("#language").attr("src", '/lang/zh_quickconf.js');
+                        $.getScript('/lang/zh_quickconf.js',function(){
                             translate_page();
-                            cb_get_timezone();
+                            cb_get_timezone(1);
+                            cb_get_action("network&region=quickconf");
+                            cb_get(req_items);
+                            var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
+                            cb_get_action(sqlitestr);
                         });
                     }else{
-                        cb_get_timezone();
+                        cb_get_timezone(0);
+                        cb_get_action("network&region=quickconf");
+                        cb_get(req_items);
+                        var sqlitestr = "sqlitedisplay&region=quickconf&type=sitesetting&affect=read";  //获取会场名称
+                        cb_get_action(sqlitestr);
                     }
                 }else if(action.indexOf("refreshqrcode") != -1){
                     $("#qrdiv").hide();
@@ -1386,10 +1106,10 @@
                 }else if(action.indexOf("network") != -1){
                     $("#time-next-step").removeAttr("disabled");
                     if(msgs.headers["response"] && msgs.headers["response"].toLowerCase() == "success"){
-                        isnetworkvisited = true;
-                        $("#settimezone").hide();
-                        $("#setnetwork").fadeIn(1000);
-                        if(msgs.headers["ip"]!=""){
+//                        isnetworkvisited = true;
+//                        $("#settimezone").hide();
+//                        $("#setnetwork").fadeIn(1000);
+                        if(msgs.headers["ip"]!="" && msgs.headers["ip"]!="none"){
                             $("#ipaddress").text(msgs.headers["ip"]);
                         }
                         if(msgs.headers["ethstatus"] == "1"){
@@ -1407,56 +1127,55 @@
                             $("#wifi-pic").addClass("wifidisconnect");
                         }
                     }else{
-                        $("#settimezone").hide();
-                        $("#qrdiv").show(1000);
+//                        $("#settimezone").hide();
+//                        $("#qrdiv").show(1000);
                     }
                 }else if(action.indexOf("putlanguage") != -1){
                     if (data.indexOf("Cookie Invalid") != -1) {
                         $("#modal-mask-prompt").hide();
+                        $("#siteconf").hide();
                         $("#qrdiv").show(1000);
-                        $("#pwddiv").hide();
                         savelandone = 0;
                     } else {
                         savelandone = 1;
                         checkallsavedone();
                     }
-                }else if(action.indexOf("savetimeset") != -1){
-                    if (data.indexOf("Cookie Invalid") != -1) {
-                        $("#modal-mask-prompt").hide();
-                        $("#qrdiv").show(1000);
-                        $("#pwddiv").hide();
-                        savetimezonedone = 0;
-                    } else {
-                        savetimezonedone = 1;
-                        checkallsavedone();
-                    }
+                }else if(action.indexOf("setactivecode") != -1) {
+                    saveaccountdone = 1;
+                    checkallsavedone();
                 }else if(action.indexOf("acctquickconf") != -1){
-                    if (data.indexOf("Cookie Invalid") != -1) {
-                        $("#modal-mask-prompt").hide();
-                        $("#qrdiv").show(1000);
-                        $("#pwddiv").hide();
-                        saveaccountdone = 0;
-                    } else {
-                        saveaccountdone = 1;
-                        checkallsavedone();
-                    }
-                }else if(action.indexOf("getlockpwd") != -1){
-                    if (data.indexOf("Cookie Invalid") != -1) {
-                        $("#accountconf").hide();
-                        $("#qrdiv").show(1000);
-                    }
+                    saveaccountdone = 1;
+                    checkallsavedone();
                 }
             }
         }
     }
+
+    function setsiteinfo(items){
+        for(var i=0;items[i] != undefined;i++)
+        {
+            if(items[i].Sitename!=undefined){
+                $("#sitename").val(items[i].Sitename);
+                bg_tp = items[i].bg_tp;
+                dispos = items[i].displayposition;
+                disduration = items[i].displayduration;
+                fontcolor = items[i].fontcolor;
+                fontsize = items[i].fontsize;
+                bold = items[i].bold;
+                break;
+            }
+        }
+    }
+
     function cb_networkerror(xmlHttpRequest, errorThrown, action){
         promptTip(a_1001, "err");
         if(action.indexOf("network") != -1){
             $("#time-next-step").removeAttr("disabled");
         }
     }
-    function cb_get_timezone(){
-        var urihead = "action=gettimezone&region=quickconf";
+    function cb_get_timezone(lang) {
+        // lang: 0 - en , 1 - zh
+        var urihead = "action=gettimezone&lang=" + lang + "&region=quickconf";
         urihead += "&time=" + new Date().getTime();
         $.ajax ({
             type: 'get',
@@ -1477,9 +1196,33 @@
         if (data.substring(0, 1) == "{") {
             $(".lang-next-step button").removeAttr("disabled");
             position = 1;
-            timezoneobj.isvisited=true;
+            timezoneobj.isvisited=true;            
             var tObj = eval("(" + data + ")");
             var timezone = tObj.timezone;
+            var list = tObj.list;
+
+            timezone.id = timezone.id.replace("/", "-");
+
+            var isCurInList = false;
+            for (var i = 0; list[i] != undefined; i++) {
+
+                list[i].id = list[i].id.replace("/", "-");
+
+                if (list[i].id == timezone.id) {
+                    isCurInList = true;
+                }
+                var $toneopt = $("<li id='" + list[i].id + "'>" + list[i].name + "<div></div></li>");
+                $('#timezone').append($toneopt);
+            }
+
+            if (!isCurInList) {
+                var $toneopt = $("<li id='" + timezone.id + "'>" + timezone.name + "<div></div></li>");
+                $('#timezone').append($toneopt);
+            }
+
+
+
+            /*
             timezone = timezone.replace("/","-");
             var citygmts = tObj.citygmt;
             var newcitygmts = new Array();
@@ -1515,22 +1258,15 @@
                 var $toneopt = $("<li id='" + gmtvalues[i] + "'>" + newcitygmts[i] + ", " + newcity_names[i] + "<div></div></li>");
                 $('#timezone').append($toneopt);
             }
-            timezoneobj.curtimezoneId = "#" + timezone;
+            */
+
+            //timezoneobj.curtimezoneId = "#" + timezone;
+            timezoneobj.curtimezoneId = "#" + timezone.id;
             timezoneobj.clickedtimezoneId = timezoneobj.curtimezoneId;
             var temp = $(timezoneobj.curtimezoneId);
             temp.find("div").addClass("active");
             $("#selectedtimezone").text(temp.text());
         } else {
-        }
-    }
-
-    function setsitename(items){
-        for(var i=0;items[i] != undefined;i++)
-        {
-            if(items[i].Sitename!=undefined){
-                $("#sitename").val(items[i].Sitename);
-                break;
-            }
         }
     }
 
@@ -1566,16 +1302,16 @@
             return {type:"err", message: a_528};
         }
         if(!(checkdigits(parseInt($("#ipv6prefixlen").val())))){
-            return {type:"err", message: a_19332};
+            return {type:"err", message: a_20211};
         }
         if(!range(parseInt($("#ipv6prefixlen").val().trim()), 1, 128)){
-            return {type:"err", message: a_19332};
+            return {type:"err", message: a_20212};
         }
         if($("#ipv6dns1").val().trim() != "" &&!checkDialIPv6($("#ipv6dns1").val())){
-            return {type:"err", message: a_4249};
+            return {type:"err", message: a_16184 + " " + a_12090};
         }
-        if($("#ipv6dns1").val().trim() != "" && !checkIpv4Address($("#ipv6dns2").val())){
-            return {type:"err", message: a_4249};
+        if($("#ipv6dns2").val().trim() != "" && !checkDialIPv6($("#ipv6dns2").val())){
+            return {type:"err", message: a_16185 + " " + a_12090};
         }
         return {type: "suc", message:""};
     }
@@ -1655,52 +1391,43 @@
     }
 
     function cb_saveaccount(){
-        var acctactive;
-        if ($("#acctactive").hasClass("accountactive"))
-            acctactive = 1;
-        else
-            acctactive = 0;
-        var account_put_items = new Array();
-        var accountname = $("#accountname").val();
-        account_put_items.push(
-            new ReqItem("acctactive", "271", acctactive),
-            new ReqItem("accountname", "270", accountname)
-        );
-        var pwd = $("#authpwd").val();
-        if( pwd !="" && pwd != undefined ){
-            account_put_items.push( new ReqItem("authpwd", "34", pwd));
-        }
-        if(colore == "54"  && ($("#sipserver").val() == "" || $("#sipserver").val() == "ims.ge.chinamobile.com")){
-            //保存会场名称
-            var setsitename = "setSitesettingInfo&region=quickconf&sitename=" + encodeURIComponent($("#sitename").val());
-            cb_get_action(setsitename);  //save sitesettings information
+        if(useactivationcode){
+            cb_get_action("setactivecode&region=quickconf&code="+ $("#activationcode").val().trim());
+        }else{
+            var account_put_items = new Array();
+            var accountname = $("#accountname").val().trim();
+            account_put_items.push(
+                new ReqItem("accountname", "270", accountname)
+            );
+            var pwd = $("#authpwd").val();
+            if( pwd !="" && pwd != undefined ){
+                account_put_items.push( new ReqItem("authpwd", "34", pwd));
+            }
             var sipuserid = "";
             var sipauthid = "";
             if (accountname.substring(0, 1) == "0") {
                 sipuserid = "+86" + accountname.substring(1);
+                sipauthid = "86" + accountname.substring(1) + "@ims.ge.chinamobile.com";
             } else if (accountname != "") {
-                sipuserid = "+86" + accountname;
-            }
-            if (accountname.substring(0, 1) == "0") {
-                sipauthid = "86" + accountname.substring(1) + "@ims.ge.chinamobile.com"
-            } else if (accountname != "") {
-                sipauthid = "86" + accountname + "@ims.ge.chinamobile.com"
+                sipuserid = accountname;
+                sipauthid = accountname + "@ims.ge.chinamobile.com";
+                if(accountname.substring(0, 2) == "86"){
+                    sipuserid = "+" + sipuserid;
+                }else if(accountname.substring(0, 3) == "+86"){
+                    sipauthid = sipauthid.substring(1);
+                }else{
+                    sipuserid = "+86" + sipuserid;
+                    sipauthid = "86" + sipauthid;
+                }
             }
             account_put_items.push(
                 new ReqItem("sipserver", "47", "ims.ge.chinamobile.com"),
                 new ReqItem("userid", "35", sipuserid),
-                new ReqItem("userid", "36", sipauthid)
+                new ReqItem("authid", "36", sipauthid)
             );
-        }else{
-            account_put_items.push(
-                new ReqItem("sipserver", "47", $("#sipserver").val()),
-                new ReqItem("userid", "35", $("#userid").val()),
-                new ReqItem("userid", "36", $("#authid").val()),
-                new ReqItem("displayname", "3", $("#displayname").val())
-            );
+            var uritail = build_put_items(account_put_items);
+            cb_get_action("acctquickconf&region=quickconf" + uritail);
         }
-        var uritail = build_put_items(account_put_items);
-        cb_get_action("acctquickconf&region=quickconf" + uritail);
     }
 
     function cb_savenetwork(){
@@ -1786,35 +1513,31 @@
                 cb_networkerror(xmlHttpRequest, errorThrown);
             }
         });
-
     }
 
     function checkallsavedone() {
-        if(saveaccountdone && savelandone && savetimezonedone && savenetworkdone){
-            if(lockpwd == "" || (lockpwd != "" && savelockpwddone) ){
-                $("#pwddiv,#modal-mask-prompt").hide();
-                $("#configdone").fadeIn(1000);
-                cb_get_action("quickconfdone&region=quickconf");
-                savelockpwddone = saveaccountdone = savelandone = savetimezonedone = savenetworkdone = 0;
-                $("#pwd-next-step").removeAttr("disabled");
-            }
+        if(savesitename && saveaccountdone && savelandone && savetimezonedone && savenetworkdone){
+            $("#siteconf,#modal-mask-prompt").hide();
+            $("#configdone").show(1000);
+            cb_get_action("quickconfdone&region=quickconf");
+            savesitename = saveaccountdone = savelandone = savetimezonedone = savenetworkdone = 0;
         }
     }
 
     function translate_page(){
-        $("#a_title").text(a_23500);
-        document.title = a_23500;
-        $("#a_sellang").text(a_16216);
+        $("#a_title").text(a_20203);
+        document.title = a_20203;
+        $("#a_sellang").text(a_20200);
         $("#a_lang").text(a_16216);
         $("button[name=a_nextstep]").text(a_19041);
         $("button[name=a_laststep]").text(a_19085);
         $("button[name=a_cancel], div[name=a_cancel]").text(a_3);
         $("button[name=a_done]").text(a_15012);
-        $("#a_seltimezone").text(a_23527);
-        $("#a_timezone").text(a_23527);
+        $("#a_seltimezone").text(a_12066);
+        $("#a_timezone").text(a_6657);
         $("#lang-confirm, #timezone-confirm").text(a_2);
-        $("#a_networkconf").text(a_4115);
-        $("#a_advnetworkconf").text(a_19071);
+        $("#a_networkconf").text(a_20201);
+        $("#a_advnetworkconf").text(a_20202);
         $("#a_ethernet").text(a_206);
         $("#a_ipaddr,#a_ipaddr2").text(a_6650);
         $("#a_submask").text(a_4127);
@@ -1836,22 +1559,15 @@
         $("#a_onlyipv6").text(a_19393);
         $("#a_staticipv6addr").text(a_19232);
         $("#a_ipv6prefixlen").text(a_19233);
-        $("#a_acctconf").text(a_301);
-        $("#a_accountname").text(a_1120);
-        $("#a_sipserver").text(a_1121);
-        $("#a_userid").text(a_1122);
-        $("#a_authid").text(a_1123);
-        $("#a_authpwd").text(a_1124);
-        $("#a_displayname").text(a_1126);
-        $("#a_sbcaddr").text(a_20050);
-        $("#a_sitename").text(a_16225);
-        $("#a_acctactive").text(a_1119);
-        $("#a_setlockpwd").text(a_6759);
-        $("#a_hassetpwd").text(a_23547);
-        $("#a_clickhint").text(a_23548);
-        $("#resetpwd").text(a_23549 );
-        $("#a_inputpwd").text(a_9655);
-        $("#a_confdone").text(a_23503);
+        $("#a_acctactivte").text(a_20214);
+        $("#a_activationcode").text(a_20215);
+        $("#a_acctconf").text(a_20204);
+        $("#a_confdone").text(a_20210);
+        $("#a_accountname").text(a_301);
+        $("#a_authpwd").text(a_6759);
+        $("#a_useacctpwdconf").text(a_20218);
+        $("#a_siteconf, #a_sitename").text(a_16225);
+        $("#a_autoactive").text(a_20219);
         networktypeArr = [a_4124, a_4125, "PPPoE"];
         ipv6networktypeArr = [a_4124, a_4125];
         protocoltypeArr = [a_19390,a_19391,a_19392,a_19393];
@@ -1867,7 +1583,8 @@
     }
 
     function init_page(){
-        $("#accountconf, #pwddiv").css("min-height", (height-50)+"px" );
+        height = document.body.clientHeight;
+        $("#zeroconf,#accountconf, #siteconf").css("min-height", (height-50)+"px" );
         $("#ipv4config, #ipv6config").css("min-height", (height-20)+"px" );
         if(height < 505){
             $("#accountconf .step-btn").css("bottom", "20px" );

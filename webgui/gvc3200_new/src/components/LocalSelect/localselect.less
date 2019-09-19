@@ -1,0 +1,49 @@
+.locale-select {
+  width: 90px;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  .locale-txt {
+    min-width: 54px;
+    display: inline-block;
+    text-align: center;
+  }
+  .locale-dropdown {
+    top: 46px !important;
+    &::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 10px solid #fff;
+      position: absolute;
+      right: 10px;
+      top: -8px;
+    }
+  }
+  .ant-dropdown-menu {
+    padding: 2px;
+    border: 1px solid #fff;
+    box-shadow: 0 2px 5px rgba(20,32,56,.3);
+    overflow: hidden;
+  }
+  .ant-dropdown-menu-item {
+    padding: 5px 8px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 2px;
+    color: #55627b;
+    .icon-logout {
+      vertical-align: -14%;
+      margin-right: 8px;
+    }
+    &:hover {
+      background:#3d77ff;
+      color: #fff;
+      .icon-logout {
+        background-position: -222px -50px;
+      }
+    }
+  }
+}
