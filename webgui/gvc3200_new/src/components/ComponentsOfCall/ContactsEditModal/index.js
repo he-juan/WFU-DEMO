@@ -211,7 +211,7 @@ class ContactsEditModal extends Component {
                   <div className='acct-number-items' key={i}>
                     <Form.Item>
                       <Select
-                        value={phoneItem.acct}
+                        value={phoneItem.acct.toString()}
                         onChange={v => this.updateEditContacts('phoneAcct', {
                           v: v,
                           index: i
