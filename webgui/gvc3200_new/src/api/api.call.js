@@ -366,3 +366,13 @@ export const setSchedule = (params, type = 'add') => {
     url
   })
 }
+
+/**
+ * 开启关闭勿扰模式
+ */
+export const ctrlConfDnd = (state = 1) => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=ctrlconfdnd&state=' + state
+  })
+}

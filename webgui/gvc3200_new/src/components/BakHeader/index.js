@@ -7,6 +7,7 @@ import LocalSelect from '@/components/LocalSelect'
 import RemoteControl from '@/components/RemoteControl'
 import ApplyBtn from './ApplyBtn'
 import UserMenu from './UserMenu'
+import DNDBtn from './DNDBtn'
 import SearchBox from '@/components/SearchBox'
 import './bakheader.less'
 
@@ -28,7 +29,9 @@ class BakHeader extends Component {
         <LocalSelect />
         <em className='border' />
         <RemoteControl productInfo={productInfo}/>
-        <em className='border' style={{ marginRight: 8 }} />
+        <em className='border' />
+        <DNDBtn />
+        <em className='border' />
         <SearchBox />
         <em className='border' />
         <ApplyBtn />

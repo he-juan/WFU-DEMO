@@ -26,7 +26,7 @@ class AcctConfig extends Component {
     this.setState({
       values: {
         ...pvalues,
-        sitename: siteData.Data[0].Sitename
+        sitename: siteData.Data ? siteData.Data[0].Sitename : ''
       }
     })
   }

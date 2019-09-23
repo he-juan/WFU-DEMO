@@ -358,6 +358,8 @@ const msgs = {
   m_202: 'Can not calling because the phone is in recover backup',
   m_203: 'The video line is full, unable to make new video call',
   m_204: 'H.323 not support conference',
+  m_205: 'Enable DND?',
+  m_206: 'Disable DND?',
 
   m_999: ''
 }
@@ -681,6 +683,7 @@ const commons = {
   c_323: '6 to 32 characters, contain at least 1 number, and 1 letter/special character.',
   c_324: 'Confirm password',
   c_325: 'The HDMI output interface marked with number "1" is the primary interface to output primary video. Please make sure to follow the port order when connecting HDMI OUT for normal use.',
+  c_326: 'DND',
 
   c_999: ''
 }

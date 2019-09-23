@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import './PalaceInput.less'
 
 const PalaceInput = (props) => {
-  const { value = '123123', onChange, length = 6, ...rest } = props
+  const { value = '', onChange, length = 6, ...rest } = props
   const inputRef = useRef()
   return (
     <div className='palace-input' {...rest}>

@@ -59,5 +59,6 @@ export default {
   c_058: 'Invalid subnet mask',
   c_059: 'Invalid gateway address',
   c_060: 'Invalid DNS server address',
-  c_061: 'PPPoE account ID and password can\'t be empty'
+  c_061: 'PPPoE account ID and password can\'t be empty',
+  c_602: 'Operation failed!'
 }

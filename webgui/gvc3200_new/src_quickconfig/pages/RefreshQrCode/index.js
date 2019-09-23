@@ -16,7 +16,7 @@ class RefreshQrCode extends Component {
           isActive: true
         })
       } else {
-        Toast.fail('操作失败！')
+        Toast.fail($t('c_062'))
       }
     })
   }
