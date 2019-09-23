@@ -36,7 +36,6 @@ class Upgrade extends Component {
     return (
       <TabPages
         routes={routes}
-        redirect={{ from: '/bak/maintenance_upgrade/', to: '/bak/maintenance_upgrade/firmware' }}
       />
     )
   }

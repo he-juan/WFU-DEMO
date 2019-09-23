@@ -8,6 +8,8 @@ import './baknav.less'
 import menuData from './menulist'
 import { getPvalues } from '@/api/api.common'
 import { $t } from '@/Intl'
+import { isMenuRouteDeny } from '@/utils/tools'
+
 const { SubMenu } = Menu
 const WIFI_MENU_PATH = '/bak/network_wifi'
 
@@ -54,19 +56,21 @@ class BakNav extends Component {
     const pathname = location.pathname.split('/').slice(0, 3).join('/')
     return menuData.map((v) => {
       if (v.sub) {
-        return (
+        return isMenuRouteDeny(v) ? null : (
           <SubMenu key={v.path} title={<span> { v.icon ? <i className={`icons ${v.icon} ${pathname.indexOf(v.path) !== -1 ? 'active' : ''}`} /> : null}<span>{$t(v.name)}</span></span>}>
             {this.buildMenu(v.sub)}
           </SubMenu>
         )
       }
       return (
-        WIFI_MENU_PATH === v.path && !SHOW_WIFI_MENU ? null : <Menu.Item key={v.path}>
-          <Link to={v.path}>
-            { v.icon ? <i className={`icons ${v.icon}`} /> : null}
-            <span>{$t(v.name)}</span>
-          </Link>
-        </Menu.Item>
+        WIFI_MENU_PATH === v.path && !SHOW_WIFI_MENU ? null : isMenuRouteDeny(v) ? null : (
+          <Menu.Item key={v.path}>
+            <Link to={v.path}>
+              { v.icon ? <i className={`icons ${v.icon} ${pathname.indexOf(v.path) !== -1 ? 'active' : ''}`} /> : null}
+              <span>{$t(v.name)}</span>
+            </Link>
+          </Menu.Item>
+        )
       )
     })
   }
@@ -74,7 +78,6 @@ class BakNav extends Component {
   componentDidMount () {
     // 获取wifi设置开关是否开启
     getPvalues(['P22038']).then(data => {
-      console.log(data)
       this.setState({
         SHOW_WIFI_MENU: +data['P22038'] !== 1
       })

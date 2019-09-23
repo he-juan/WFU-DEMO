@@ -23,7 +23,6 @@ class IPVideoTalk extends Component {
     return (
       <TabPages
         routes={_routes}
-        redirect={{ from: '/bak/acct_ipvt', to: '/bak/acct_ipvt/general' }}
       />
     )
   }

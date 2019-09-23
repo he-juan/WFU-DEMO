@@ -20,7 +20,6 @@ class SIP extends Component {
     return (
       <TabPages
         routes={routes}
-        redirect={{ from: '/bak/acct_sip/', to: '/bak/acct_sip/general' }}
       />
     )
   }

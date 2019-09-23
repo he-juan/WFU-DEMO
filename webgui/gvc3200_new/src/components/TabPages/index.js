@@ -7,13 +7,19 @@ import { withRouter, Switch, Redirect, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { $t } from '@/Intl'
 import PropTypes from 'prop-types'
+import { isMenuRouteDeny } from '@/utils/tools'
 
 import './tabpages.less'
 
 const TabPane = Tabs.TabPane
 
 const TabPages = (props) => {
-  const { history, location, routes, redirect } = props
+  let { history, location, routes } = props
+  routes = routes.filter(v => {
+    return !isMenuRouteDeny(v)
+  })
+  const _to = routes[0].path
+  const _from = _to.split('/').slice(0, -1).join('/')
   return (
     <div className='tab-pages'>
       <Tabs className='link-tabs' activeKey={location.pathname} onChange={(path) => { history.push(path) }} >
@@ -23,7 +29,7 @@ const TabPages = (props) => {
       </Tabs>
       <TransitionGroup>
         <Switch location={location}>
-          <Redirect exact from={redirect.from} to={redirect.to} />
+          <Redirect exact from={_from} to={_to} />
           {
             routes.map(({ component: Component, path, ...props }) => (
               <Route key={path} path={path} {...props}>
@@ -55,11 +61,7 @@ TabPages.propTypes = {
       PropTypes.object,
       PropTypes.func
     ])
-  })).isRequired,
-  redirect: PropTypes.shape({
-    from: PropTypes.string,
-    to: PropTypes.string
-  }).isRequired
+  })).isRequired
 }
 
 export default withRouter(TabPages)

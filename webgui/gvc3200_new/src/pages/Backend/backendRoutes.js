@@ -58,7 +58,7 @@ export default (
   <Suspense fallback={null}>
     <TransitionGroup>
       <Switch>
-        <Route exact path='/bak' component={() => <Redirect to={'/bak/acct_sip'} />} />
+        <Route exact path='/bak' component={() => <Redirect to={'/bak/calling_call'} />} />
         {
           routes.map(({ component: Component, path, ...props }) => (
             <Route key={path} path={path} {...props}>

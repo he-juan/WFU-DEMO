@@ -15,7 +15,6 @@ class Wifi extends Component {
     return (
       <TabPages
         routes={routes}
-        redirect={{ from: '/bak/network_wifi', to: '/bak/network_wifi/basic' }}
       />
     )
   }

@@ -1,5 +1,7 @@
 .backend-nav {
   background:#2c313d;
+
+  & > .ant-menu-item,
   .ant-menu-submenu-title {
     padding-left: 10px !important;
     font-size: 14px;
@@ -39,7 +41,15 @@
       }
     }
   }
-
+  & > .ant-menu-item {
+    height: 45px;
+    line-height: 45px;
+    margin-bottom: 2px;
+    &.ant-menu-item-selected {
+      font-weight: 700;
+      color: #e1e8f0;
+    }
+  }
   .ant-menu-submenu-selected .ant-menu-submenu-title {
     font-weight: 700;
     color: #e1e8f0;

@@ -17,9 +17,7 @@ const routes = [
 class Security extends Component {
   render () {
     return (
-      <TabPages
-        routes={routes}
-        redirect={{ from: '/bak/sys_security', to: '/bak/sys_security/webssh' }}
+      <TabPages routes={routes}
       />
     )
   }

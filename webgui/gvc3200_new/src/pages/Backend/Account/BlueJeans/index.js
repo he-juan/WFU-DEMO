@@ -15,7 +15,6 @@ class BlueJeans extends Component {
     return (
       <TabPages
         routes={routes}
-        redirect={{ from: '/bak/acct_bj', to: '/bak/acct_bj/general' }}
       />
     )
   }

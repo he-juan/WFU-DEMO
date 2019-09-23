@@ -388,3 +388,26 @@ export const storageListener = (() => {
     }
   }
 })()
+
+
+
+/**
+ * 根据路由的 denyModel 和 denyRole 判断是否显示菜单项
+ */
+export const isMenuRouteDeny = route => {
+  let {
+    productInfo: { BaseProduct },
+    oemId,
+    userType
+  } = store.getState()
+  let { denyModel, denyRole, denyOem } = route
+
+  if (
+    (denyRole && denyRole.indexOf(userType) > -1) ||
+    (oemId === denyOem) ||
+    (denyModel && denyModel.indexOf(BaseProduct) > -1)
+  ) {
+    return true
+  }
+  return false
+}

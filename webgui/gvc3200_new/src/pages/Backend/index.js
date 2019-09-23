@@ -12,6 +12,7 @@ import { getNetWorkStatus, getAcctStatus, getDefaultAcct, getIPVTExist, getTimeC
 import { connect } from 'react-redux'
 import './backend.less'
 import { $t } from '@/Intl'
+import { isMenuRouteDeny } from '@/utils/tools'
 
 const { Header, Content, Sider } = Layout
 
@@ -22,7 +23,8 @@ const { Header, Content, Sider } = Layout
     wholeLoading: state.wholeLoading,
     callLogs: state.callLogs,
     locale: state.locale,
-    timestampNow: state.timestampNow
+    timestampNow: state.timestampNow,
+    userType: state.userType
   }),
   (dispatch) => ({
     getNetWorkStatus: () => dispatch(getNetWorkStatus()), // 获取全局的网络状态
@@ -71,9 +73,12 @@ class Backend extends Component {
   getTitle () {
     const { location } = this.props
     let matchItem = null
-    for (let i = 0; i < menuData.length; i++) {
-      let sub = menuData[i].sub
-      matchItem = sub.filter(item => new RegExp(item.path).test(location.pathname))[0]
+    let _menuData = menuData.filter(item => !isMenuRouteDeny(item))
+    for (let i = 0; i < _menuData.length; i++) {
+      let sub = _menuData[i].sub
+      matchItem = (sub || [_menuData[i]]).filter(item => {
+        return new RegExp(item.path).test(location.pathname) && !isMenuRouteDeny(item)
+      })[0]
       if (matchItem) break
     }
     if (!matchItem) return ''

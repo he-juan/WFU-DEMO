@@ -15,7 +15,6 @@ class H323 extends Component {
     return (
       <TabPages
         routes={routes}
-        redirect={{ from: '/bak/acct_h323', to: '/bak/acct_h323/general' }}
       />
     )
   }

@@ -13,7 +13,6 @@ class Security extends Component {
     return (
       <TabPages
         routes={routes}
-        redirect={{ from: '/bak/sys_timelang', to: '/bak/sys_timelang/time' }}
       />
     )
   }

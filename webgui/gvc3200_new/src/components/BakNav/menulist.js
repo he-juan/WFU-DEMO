@@ -1,3 +1,11 @@
+// {
+//   name: '',
+//   path: '',
+//   icon: '',
+//   denyRole: '',
+//   denyModel: '',
+//   sub: ''
+// }
 export default [
   // call
   {
@@ -28,6 +36,7 @@ export default [
     name: 'r_002',
     path: '/bak/acct',
     icon: 'icon-account',
+    denyRole: 'user',
     sub: [
       {
         name: 'r_064',
@@ -55,6 +64,7 @@ export default [
     sub: [
       {
         name: 'r_014',
+        denyRole: 'user',
         path: '/bak/callset_general'
       },
       {
@@ -63,14 +73,17 @@ export default [
       },
       {
         name: 'r_016',
+        denyRole: 'user',
         path: '/bak/callset_sitename'
       },
       {
         name: 'r_017',
+        denyRole: 'user',
         path: '/bak/callset_audio'
       },
       {
         name: 'r_018',
+        denyRole: 'user',
         path: '/bak/callset_video'
       }
     ]
@@ -95,6 +108,7 @@ export default [
       },
       {
         name: 'r_022',
+        denyRole: 'user',
         path: '/bak/network_advanced'
       }
     ]
@@ -120,6 +134,7 @@ export default [
       },
       {
         name: 'r_026',
+        denyRole: 'user',
         path: '/bak/sys_security'
       }
     ]
@@ -172,6 +187,7 @@ export default [
     sub: [
       {
         name: 'r_033',
+        denyRole: 'user',
         path: '/bak/maintenance_upgrade'
       },
       {
