@@ -53,6 +53,7 @@ class InitWebsocket extends React.Component {
     websocket.onclose = () => {
       this.logging('Websocket disconnected')
       if (typeof this.props.onClose === 'function') this.props.onClose()
+      if (history.location.pathname === '/login') return false
       // ping 一下服务器
       serverPing().then(data => {
         if (data['response'] === 'error' && data['message'] === 'authentication required') {

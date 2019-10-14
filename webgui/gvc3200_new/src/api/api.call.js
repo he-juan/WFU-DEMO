@@ -144,7 +144,7 @@ export const sendphbknotify = () => {
  * 下载通讯录
  * @param {Object} param0
  */
-export const putdownphbk = (
+export const putdownphbk = ({
   downMode,
   flag,
   downUrl,
@@ -155,10 +155,10 @@ export const putdownphbk = (
   downEncode,
   Username,
   passWord
-) => {
+}) => {
   return _axios({
     method: 'get',
-    url: `/manager?action=putdownphbk&${parseUrlParams(
+    url: `/manager?action=putdownphbk&${parseUrlParams({
       downMode,
       flag,
       downUrl,
@@ -169,7 +169,7 @@ export const putdownphbk = (
       downEncode,
       Username,
       passWord
-    )}`
+    })}`
   })
 }
 

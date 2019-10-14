@@ -108,7 +108,7 @@ module.exports = {
     "no-unexpected-multiline": "error",
     "no-unmodified-loop-condition": "error",
     "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
-    "no-unreachable": "error",
+    "no-unreachable": "warn",
     "no-unsafe-finally": "error",
     "no-unsafe-negation": "error",
     "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true, "allowTaggedTemplates": true }],

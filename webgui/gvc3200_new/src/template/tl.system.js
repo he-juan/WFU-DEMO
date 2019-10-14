@@ -13,17 +13,17 @@ export default {
         // 超时时间
         { lang: 'sys_pow_002', _p: 'sleepmode' },
         // 重启设备
-        { lang: 'sys_pow_003', _p: 'Reboot' },
+        { lang: 'sys_pow_003', _p: 'reboot' },
         // 睡眠
-        { lang: 'sys_pow_004', _p: 'Sleep' },
+        { lang: 'sys_pow_004', _p: 'sleep' },
         // 关机
-        { lang: 'sys_pow_005', _p: 'Shutdown' }
+        { lang: 'sys_pow_005', _p: 'shutdown' }
       ]
     },
     {
       label: 'TimeAndLang',
       lang: 'r_024',
-      path: 'time',
+      path: 'timelang',
       sub: [
         {
           label: 'Time',

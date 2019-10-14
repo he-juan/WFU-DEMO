@@ -98,14 +98,14 @@ module.exports = function(proxy, allowedHost) {
         '/phonebook'
       ],
       contentBase: paths.appBuild,
-      target: 'http://192.168.124.89/',  //replace with the ip of device
+      target: 'http://192.168.124.112/',  //replace with the ip of device
       // target: 'http://192.168.124.127:8081',
       changeOrigin: true,
       secure: false
 
     }, {
       context: ['/tcp_proxy'],
-      target: 'ws://192.168.124.89',
+      target: 'ws://192.168.124.112',
       changeOrigin: true,
       ws: true,
       logLevel: 'error'

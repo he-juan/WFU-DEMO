@@ -44,7 +44,8 @@ _axios.interceptors.response.use(
     if (data.Response === 'Error' && data.Message === 'Authentication Required') { // 认证失败 回退登录页
       Cookie.remove('type')
       // history.push(`/login?redirect=${encodeURIComponent(history.location.pathname)}`) //menu 会有报错 Can't perform a React state update on an unmounted component, 暂未找到解决方案, 改成刷新
-      window.location.href = `/login?redirect=${encodeURIComponent(history.location.pathname)}`
+      let _pathname = history.location.pathname
+      window.location.href = `/login${_pathname === '/login' ? '' : `?redirect=${encodeURIComponent(_pathname)}`}`
     }
     return data
   },

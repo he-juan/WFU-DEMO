@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import Cookie from 'js-cookie'
 import { connect } from 'react-redux'
-import { Form, Button, Modal, message } from 'antd'
+import { Form, Button, Modal, message, Select } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { SelectItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
@@ -50,14 +50,18 @@ class Power extends FormCommon {
 
     Promise.all([
       API.getTimeoutOpt(),
-      API.getSleepMode()
+      API.getSleepMode(),
+      API.getPvalues(['Phide_power'])
     ]).then(data => {
       let policy = data[0].policy
       let sleepmode = data[1].sleepmode
-      setFieldsValue({ policy, sleepmode })
+      let hidepower = data[2].Phide_power
+      setFieldsValue({ policy, sleepmode, hidepower })
     })
   }
-
+  toogleShutdown = (v) => {
+    API.putPvalues({ 'Phide_power': v })
+  }
   // 提交数据
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -135,7 +139,7 @@ class Power extends FormCommon {
 
   // render
   render () {
-    let { getFieldDecorator: gfd } = this.props.form
+    let { getFieldDecorator: gfd, getFieldValue } = this.props.form
     let { modalTips, modal2Btns, modalOption, modalShow, modalType } = this.state
     let modalFooter = null
     if (modalType === '1') {
@@ -189,17 +193,33 @@ class Power extends FormCommon {
               { v: '3600000', t: $t('c_015') }
             ]}
           />
+          {/* 关机 */}
+          <FormItem {...options['shutdown']}>
+            {
+              gfd('hidepower', {
+                initialValue: '0',
+                normalize: (value) => value || '0'
+              })(
+                <Select onChange={this.toogleShutdown} getPopupContainer={(triggerNode) => { return triggerNode }} style={{ width: '338px' }}>
+                  <Select.Option value='1'>{$t('c_066')}</Select.Option>
+                  <Select.Option value='0'>{$t('c_327')}</Select.Option>
+                </Select>
+              )
+            }
+            <Button
+              style={{ display: getFieldValue('hidepower') === '1' ? 'none' : 'inline-block', marginLeft: 10 }}
+              onClick={() => this.handleOpration('Shutdown')}
+            >
+              {$t('b_008')}
+            </Button>
+          </FormItem>
           {/* 重启设备 */}
-          <FormItem {...options['Reboot']}>
+          <FormItem {...options['reboot']}>
             <Button onClick={() => this.handleOpration('Reboot')}>{$t('b_006')}</Button>
           </FormItem>
           {/* 睡眠 */}
-          <FormItem {...options['Sleep']}>
+          <FormItem {...options['sleep']}>
             <Button onClick={() => this.handleOpration('Sleep')}>{$t('b_007')}</Button>
-          </FormItem>
-          {/* 关机 */}
-          <FormItem {...options['Shutdown']}>
-            <Button onClick={() => this.handleOpration('Shutdown')}>{$t('b_008')}</Button>
           </FormItem>
           <FormItem label=''>
             <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>

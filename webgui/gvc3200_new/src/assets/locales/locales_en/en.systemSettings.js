@@ -15,7 +15,7 @@ export default {
   sys_pow_004_tip: 'Set the device to sleep mode.',
 
   sys_pow_005: 'Shutdown',
-  sys_pow_005_tip: 'Turn off the device.',
+  sys_pow_005_tip: 'Set disable or enable the device shutdown. If "disable" is selected, the shutdown function of remote control, software interface or Web UI will be disabled. The default is "enable".',
 
   /* Time and Language */
 

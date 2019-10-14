@@ -55,7 +55,9 @@ export default {
   app_ldap_018: 'LDAP dialing default account',
   app_ldap_018_tip: '123',
 
-  /* Recording Management */
+  /* 第三方应用 */
+  app_tpapp_001: 'Auto launch application on start up',
+  app_tpapp_001_tip: 'Set the device to start third-party applications when starting up. If a third party application has been installed on the device, you can select one that will be automatically opened at startup. The default value is "forbidden".',
 
   app_999: ''
 }

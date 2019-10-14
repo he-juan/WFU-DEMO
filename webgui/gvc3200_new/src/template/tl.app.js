@@ -45,6 +45,15 @@ export default {
         // LDAP拨号默认帐号
         { lang: 'app_ldap_018', p: 'P22039' }
       ]
+    },
+    {
+      label: 'ThirdPartyApp',
+      lang: '',
+      path: 'tpapp',
+      sub: [
+        // 开机自启动应用
+        { lang: 'app_tpapp_001', p: 'Pconfig_user_app' }
+      ]
     }
   ]
 }

@@ -176,6 +176,10 @@ export default [
       {
         name: 'r_032',
         path: '/bak/app_record'
+      },
+      {
+        name: 'r_070',
+        path: '/bak/app_tpapp'
       }
     ]
   },

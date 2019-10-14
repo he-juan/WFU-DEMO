@@ -19,7 +19,7 @@ const routes = {
   r_010: 'Call',
   r_011: 'Contacts',
   r_012: 'Schedule',
-  r_013: 'Call History',
+  r_013: 'Call history',
   r_014: 'General settings',
   // r_015: '通话设置',
   r_016: 'Site name',
@@ -37,8 +37,8 @@ const routes = {
   r_028: 'Preset settings',
   r_029: 'Peripheral',
   r_030: 'Remote control',
-  r_031: 'LDAP Contacts',
-  r_032: 'Recording Management',
+  r_031: 'LDAP contacts',
+  r_032: 'Recording management',
   r_033: 'Upgrade',
   r_034: 'Troubleshooting',
   r_035: 'Account status',
@@ -53,16 +53,16 @@ const routes = {
   r_044: 'SIP settings',
   r_045: 'Codec settings',
   r_046: 'Call settings',
-  r_047: 'WI-FI Basics',
+  r_047: 'WI-FI basics',
   r_048: 'Add network',
-  r_049: 'Time Settings',
+  r_049: 'Time settings',
   r_050: 'Language',
   r_051: 'Web/SSH access',
-  r_052: 'User Info Management',
+  r_052: 'User info management',
   r_053: 'Screen lock password',
-  r_054: 'Certificate Management',
+  r_054: 'Certificate management',
   r_055: 'Firmware',
-  r_056: 'Config File',
+  r_056: 'Config file',
   r_057: 'Provision',
   r_058: 'Syslog',
   r_059: 'Logcat',
@@ -76,6 +76,8 @@ const routes = {
   r_067: 'H.323',
   r_068: 'SIP TLS',
   r_069: 'Ping',
+  r_070: 'Third party application',
+
   r_999: ''
 }
 
@@ -684,6 +686,8 @@ const commons = {
   c_324: 'Confirm password',
   c_325: 'The HDMI output interface marked with number "1" is the primary interface to output primary video. Please make sure to follow the port order when connecting HDMI OUT for normal use.',
   c_326: 'DND',
+  c_327: 'Enable',
+  c_328: 'Forbidden',
 
   c_999: ''
 }

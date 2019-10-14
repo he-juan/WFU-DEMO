@@ -42,6 +42,7 @@ const routes = [
   /** app */
   { path: '/bak/app_ldap', component: lazy(() => import(/* webpackChunkName: "app" */ './App/LDAPContacts')) },
   { path: '/bak/app_record', component: lazy(() => import(/* webpackChunkName: "app" */ './App/RecordingManage')) },
+  { path: '/bak/app_tpapp', component: lazy(() => import(/* webpackChunkName: "app" */ './App/ThirdPartyApp')) },
 
   /** Maintenance */
   { path: '/bak/maintenance_upgrade', component: lazy(() => import(/* webpackChunkName: "maintenance" */ './Maintenance/Upgrade')) },

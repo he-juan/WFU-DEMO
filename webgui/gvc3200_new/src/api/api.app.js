@@ -63,3 +63,13 @@ export const setRecordLockstate = (id, lockstate) => {
     url: '/manager?action=recording&region=maintenance&type=lockrecord&id=' + id + '&lockstate=' + lockstate
   })
 }
+
+/**
+ * 获取第三方app列表
+ */
+export const getAppList = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getapplist'
+  })
+}
