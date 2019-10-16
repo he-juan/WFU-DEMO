@@ -1,8 +1,8 @@
-m4trace:aclocal.m4:1489: -1- m4_include([m4/libtool.m4])
-m4trace:aclocal.m4:1490: -1- m4_include([m4/ltoptions.m4])
-m4trace:aclocal.m4:1491: -1- m4_include([m4/ltsugar.m4])
-m4trace:aclocal.m4:1492: -1- m4_include([m4/ltversion.m4])
-m4trace:aclocal.m4:1493: -1- m4_include([m4/lt~obsolete.m4])
+m4trace:aclocal.m4:1370: -1- m4_include([m4/libtool.m4])
+m4trace:aclocal.m4:1371: -1- m4_include([m4/ltoptions.m4])
+m4trace:aclocal.m4:1372: -1- m4_include([m4/ltsugar.m4])
+m4trace:aclocal.m4:1373: -1- m4_include([m4/ltversion.m4])
+m4trace:aclocal.m4:1374: -1- m4_include([m4/lt~obsolete.m4])
 m4trace:configure.ac:4: -1- AC_INIT([lighttpd], [1.4.32], [contact@lighttpd.net])
 m4trace:configure.ac:4: -1- m4_pattern_forbid([^_?A[CHUM]_])
 m4trace:configure.ac:4: -1- m4_pattern_forbid([_AC_])
@@ -68,9 +68,6 @@ m4trace:configure.ac:4: -1- m4_pattern_allow([^sharedstatedir$])
 m4trace:configure.ac:4: -1- AC_SUBST([localstatedir], ['${prefix}/var'])
 m4trace:configure.ac:4: -1- AC_SUBST_TRACE([localstatedir])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^localstatedir$])
-m4trace:configure.ac:4: -1- AC_SUBST([runstatedir], ['${localstatedir}/run'])
-m4trace:configure.ac:4: -1- AC_SUBST_TRACE([runstatedir])
-m4trace:configure.ac:4: -1- m4_pattern_allow([^runstatedir$])
 m4trace:configure.ac:4: -1- AC_SUBST([includedir], ['${prefix}/include'])
 m4trace:configure.ac:4: -1- AC_SUBST_TRACE([includedir])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^includedir$])
@@ -198,7 +195,7 @@ m4trace:configure.ac:9: -1- AC_SUBST_TRACE([target_os])
 m4trace:configure.ac:9: -1- m4_pattern_allow([^target_os$])
 m4trace:configure.ac:11: -1- AM_INIT_AUTOMAKE([-Wall -Wportability -Wno-override foreign dist-bzip2 tar-ustar])
 m4trace:configure.ac:11: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
-m4trace:configure.ac:11: -1- AM_AUTOMAKE_VERSION([1.15])
+m4trace:configure.ac:11: -1- AM_AUTOMAKE_VERSION([1.14.1])
 m4trace:configure.ac:11: -1- AC_REQUIRE_AUX_FILE([install-sh])
 m4trace:configure.ac:11: -1- AC_SUBST([INSTALL_PROGRAM])
 m4trace:configure.ac:11: -1- AC_SUBST_TRACE([INSTALL_PROGRAM])
@@ -391,7 +388,7 @@ m4trace:configure.ac:17: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_TRUE])
 m4trace:configure.ac:17: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_FALSE])
 m4trace:configure.ac:18: -1- AM_PROG_CC_C_O
 m4trace:configure.ac:19: -1- _m4_warn([obsolete], [The macro `AC_PROG_LD' is obsolete.
-You should run autoupdate.], [m4/libtool.m4:3342: AC_PROG_LD is expanded from...
+You should run autoupdate.], [m4/libtool.m4:3120: AC_PROG_LD is expanded from...
 configure.ac:19: the top level])
 m4trace:configure.ac:19: -1- AC_SUBST([SED])
 m4trace:configure.ac:19: -1- AC_SUBST_TRACE([SED])
@@ -525,14 +522,14 @@ m4trace:configure.ac:43: -1- m4_pattern_allow([^NO_RDYNAMIC_FALSE$])
 m4trace:configure.ac:43: -1- _AM_SUBST_NOTMAKE([NO_RDYNAMIC_TRUE])
 m4trace:configure.ac:43: -1- _AM_SUBST_NOTMAKE([NO_RDYNAMIC_FALSE])
 m4trace:configure.ac:51: -1- _m4_warn([obsolete], [The macro `AC_LIBTOOL_DLOPEN' is obsolete.
-You should run autoupdate.], [m4/ltoptions.m4:113: AC_LIBTOOL_DLOPEN is expanded from...
+You should run autoupdate.], [m4/ltoptions.m4:111: AC_LIBTOOL_DLOPEN is expanded from...
 configure.ac:51: the top level])
 m4trace:configure.ac:51: -1- _m4_warn([obsolete], [AC_LIBTOOL_DLOPEN: Remove this warning and the call to _LT_SET_OPTION when you
-put the 'dlopen' option into LT_INIT's first parameter.], [m4/ltoptions.m4:113: AC_LIBTOOL_DLOPEN is expanded from...
+put the `dlopen' option into LT_INIT's first parameter.], [m4/ltoptions.m4:111: AC_LIBTOOL_DLOPEN is expanded from...
 configure.ac:51: the top level])
 m4trace:configure.ac:52: -1- AC_PROG_LIBTOOL
 m4trace:configure.ac:52: -1- _m4_warn([obsolete], [The macro `AC_PROG_LIBTOOL' is obsolete.
-You should run autoupdate.], [m4/libtool.m4:99: AC_PROG_LIBTOOL is expanded from...
+You should run autoupdate.], [m4/libtool.m4:107: AC_PROG_LIBTOOL is expanded from...
 configure.ac:52: the top level])
 m4trace:configure.ac:52: -1- LT_INIT
 m4trace:configure.ac:52: -1- m4_pattern_forbid([^_?LT_[A-Z_]+$])
@@ -580,7 +577,8 @@ m4trace:configure.ac:52: -1- m4_pattern_allow([^RANLIB$])
 m4trace:configure.ac:52: -1- m4_pattern_allow([LT_OBJDIR])
 m4trace:configure.ac:52: -1- AC_DEFINE_TRACE_LITERAL([LT_OBJDIR])
 m4trace:configure.ac:52: -1- m4_pattern_allow([^LT_OBJDIR$])
-m4trace:configure.ac:52: -1- AH_OUTPUT([LT_OBJDIR], [/* Define to the sub-directory where libtool stores uninstalled libraries. */
+m4trace:configure.ac:52: -1- AH_OUTPUT([LT_OBJDIR], [/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
 @%:@undef LT_OBJDIR])
 m4trace:configure.ac:52: -1- LT_SUPPORTED_TAG([CC])
 m4trace:configure.ac:52: -1- AC_SUBST([MANIFEST_TOOL])
@@ -601,9 +599,6 @@ m4trace:configure.ac:52: -1- m4_pattern_allow([^OTOOL$])
 m4trace:configure.ac:52: -1- AC_SUBST([OTOOL64])
 m4trace:configure.ac:52: -1- AC_SUBST_TRACE([OTOOL64])
 m4trace:configure.ac:52: -1- m4_pattern_allow([^OTOOL64$])
-m4trace:configure.ac:52: -1- AC_SUBST([LT_SYS_LIBRARY_PATH])
-m4trace:configure.ac:52: -1- AC_SUBST_TRACE([LT_SYS_LIBRARY_PATH])
-m4trace:configure.ac:52: -1- m4_pattern_allow([^LT_SYS_LIBRARY_PATH$])
 m4trace:configure.ac:52: -1- AH_OUTPUT([HAVE_DLFCN_H], [/* Define to 1 if you have the <dlfcn.h> header file. */
 @%:@undef HAVE_DLFCN_H])
 m4trace:configure.ac:52: -1- AC_DEFINE_TRACE_LITERAL([HAVE_DLFCN_H])
@@ -1297,10 +1292,10 @@ m4trace:configure.ac:528: -1- m4_pattern_allow([^SIZEOF_OFF_T$])
 m4trace:configure.ac:528: -1- AH_OUTPUT([SIZEOF_OFF_T], [/* The size of `off_t\', as computed by sizeof. */
 @%:@undef SIZEOF_OFF_T])
 m4trace:configure.ac:534: -1- _m4_warn([obsolete], [The macro `AC_TRY_RUN' is obsolete.
-You should run autoupdate.], [../../lib/autoconf/general.m4:2775: AC_TRY_RUN is expanded from...
+You should run autoupdate.], [../../lib/autoconf/general.m4:2764: AC_TRY_RUN is expanded from...
 configure.ac:534: the top level])
-m4trace:configure.ac:534: -1- _m4_warn([cross], [AC_RUN_IFELSE called without default to allow cross compiling], [../../lib/autoconf/general.m4:2759: AC_RUN_IFELSE is expanded from...
-../../lib/autoconf/general.m4:2775: AC_TRY_RUN is expanded from...
+m4trace:configure.ac:534: -1- _m4_warn([cross], [AC_RUN_IFELSE called without default to allow cross compiling], [../../lib/autoconf/general.m4:2748: AC_RUN_IFELSE is expanded from...
+../../lib/autoconf/general.m4:2764: AC_TRY_RUN is expanded from...
 configure.ac:534: the top level])
 m4trace:configure.ac:534: -1- AC_DEFINE_TRACE_LITERAL([HAVE_SENDFILE_BROKEN])
 m4trace:configure.ac:534: -1- m4_pattern_allow([^HAVE_SENDFILE_BROKEN$])
@@ -1314,10 +1309,10 @@ m4trace:configure.ac:556: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' i
 You should run autoupdate.], [../../lib/autoconf/general.m4:207: AC_HELP_STRING is expanded from...
 configure.ac:556: the top level])
 m4trace:configure.ac:564: -1- _m4_warn([obsolete], [The macro `AC_TRY_LINK' is obsolete.
-You should run autoupdate.], [../../lib/autoconf/general.m4:2698: AC_TRY_LINK is expanded from...
+You should run autoupdate.], [../../lib/autoconf/general.m4:2687: AC_TRY_LINK is expanded from...
 ../../lib/m4sugar/m4sh.m4:639: AS_IF is expanded from...
-../../lib/autoconf/general.m4:2042: AC_CACHE_VAL is expanded from...
-../../lib/autoconf/general.m4:2063: AC_CACHE_CHECK is expanded from...
+../../lib/autoconf/general.m4:2031: AC_CACHE_VAL is expanded from...
+../../lib/autoconf/general.m4:2052: AC_CACHE_CHECK is expanded from...
 configure.ac:564: the top level])
 m4trace:configure.ac:571: -1- AC_DEFINE_TRACE_LITERAL([HAVE_IPV6])
 m4trace:configure.ac:571: -1- m4_pattern_allow([^HAVE_IPV6$])
