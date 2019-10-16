@@ -11639,7 +11639,7 @@ static int handle_productinfo (server *srv, connection *con,
         {
             buffer_append_string (b, "Response=Success\r\n");
 
-            snprintf(res, sizeof(res), "Product=%s\r\nVendor=%s\r\nBaseProduct=%s\r\n", buf, vendorBuf, baseBuf);
+            snprintf(res, sizeof(res), "Product=GVC3220\r\nVendor=%s\r\nBaseProduct=GVC3220\r\n", buf, vendorBuf, baseBuf);
             buffer_append_string(b, res);
         }
         return 1;
