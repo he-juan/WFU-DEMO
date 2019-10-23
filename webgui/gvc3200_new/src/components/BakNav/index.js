@@ -76,10 +76,10 @@ class BakNav extends Component {
   }
 
   componentDidMount () {
-    // 获取wifi设置开关是否开启
+    // 获取wifi设置开关是否开启 1为开启
     getPvalues(['P22038']).then(data => {
       this.setState({
-        SHOW_WIFI_MENU: +data['P22038'] !== 1
+        SHOW_WIFI_MENU: +data['P22038'] !== '0'
       })
     })
   }

@@ -156,12 +156,13 @@ export const setDevelopmode = (mode) => {
 
 /**
  * 开始ping
- * @param {String} addr ip 或域名
+ * @param {String} addr ip 或 域名
+ * @param {String} type ipv6 或 ipv4
  */
-export const startPing = (addr) => {
+export const startPing = (addr, type) => {
   return _axios({
     method: 'get',
-    url: '/manager?action=startping&addr=' + addr
+    url: '/manager?action=startping&addr=' + addr + '&type=' + type
   })
 }
 
