@@ -794,7 +794,7 @@ class CodecSettings extends FormCommon {
           ]}
         />
         <FormItem label='' >
-          <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+          <Button className='sub-btn' onClick={this.handleSubmit} id='subBtn'>{$t('b_001')}</Button>
         </FormItem>
       </Form>
     )

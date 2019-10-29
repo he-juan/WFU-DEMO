@@ -35,7 +35,7 @@ class FirmwareInstallTip extends PureComponent {
       if (msg === 'progress') {
         this.msgProgressHandler(val)
       } else if (msg === 'status') {
-        this.msgＳtatusHandler(val)
+        this.msgStatusHandler(val)
       }
     })
   }
@@ -61,7 +61,7 @@ class FirmwareInstallTip extends PureComponent {
     }
   }
 
-  msgＳtatusHandler = (val) => {
+  msgStatusHandler = (val) => {
     this.setState({
       percent: 0
     })

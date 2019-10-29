@@ -8,13 +8,17 @@ import FirmwareInstallTip from '@/components/FirmwareInstallTip'
 import ConfControl from '@/components/ConfControl'
 import backendRoutes from './backendRoutes'
 import menuData from '@/components/BakNav/menulist'
-import { getNetWorkStatus, getAcctStatus, getDefaultAcct, getIPVTExist, getTimeConfig, getCallLogs, getUserType, getContactsAndGroups } from '@/store/actions'
+import { store } from '@/store'
+import { getNetWorkStatus, getAcctStatus, getDefaultAcct, getIPVTExist, getTimeConfig, getCallLogs, getUserType, getContactsAndGroups, setUserType } from '@/store/actions'
 import { connect } from 'react-redux'
-import './backend.less'
 import { $t } from '@/Intl'
 import { isMenuRouteDeny } from '@/utils/tools'
+import API from '@/api'
+import Cookie from 'js-cookie'
+import './backend.less'
 
 const { Header, Content, Sider } = Layout
+let LOGOUT_TIMER
 
 @withRouter
 @connect(
@@ -55,9 +59,15 @@ class Backend extends Component {
     this.props.getCallLogs()
     this.props.getUserType()
     this.props.getContactsAndGroups()
+
+    // 超时登出
+    this.webTimeout()
+    // 全局监听 enter 事件
+    document.addEventListener('keydown', this.listenEnterEvent, false)
   }
   componentWillUnmount () {
     window.removeEventListener('resize', this.calContentHeight)
+    document.removeEventListener('keydown', this.listenEnterEvent)
   }
   setContentHeight = () => {
     this.calContentHeight()
@@ -69,6 +79,40 @@ class Backend extends Component {
     this.setState({
       contentHeight
     })
+  }
+  // 全局监听 enter 事件
+  listenEnterEvent = e => {
+    let theEvent = e || window.event
+    let code = theEvent.keyCode || theEvent.which || theEvent.charCode
+    if (code === 13) {
+      if (!document.querySelectorAll('.header-search-box').length) {
+        let subNode = document.getElementById('subBtn')
+        if (subNode) {
+          e.preventDefault()
+          // 回车执行保存
+          document.getElementById('subBtn').click()
+        }
+      }
+    }
+  }
+  // 超时登出
+  webTimeout = () => {
+    LOGOUT_TIMER = setInterval(() => {
+      API.getConnectState().then(msg => {
+        if (msg.state === '-1') {
+          API.logoff().then(m => {
+            if (m.Response === 'Success') {
+              window.localStorage.setItem('logindate', '')
+              store.dispatch(setUserType(null))
+              Cookie.remove('type')
+              Cookie.remove('logindate')
+              this.props.history.push('/login')
+              clearInterval(LOGOUT_TIMER)
+            }
+          })
+        }
+      })
+    }, 30000)
   }
   getTitle () {
     const { location } = this.props

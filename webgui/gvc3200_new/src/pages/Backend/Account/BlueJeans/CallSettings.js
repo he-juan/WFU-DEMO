@@ -50,7 +50,7 @@ class CallSettings extends FormCommon {
       name: 'file',
       showUploadList: false,
       action: '/upload?type=audiofile&acct=3',
-
+      accept: '.wav,.mp3',
       onChange (info) {
         if (info.file.response && info.file.response.indexOf('Authentication Required') > -1) {
           history.push(`/login?redirect=${encodeURIComponent(history.location.pathname)}`)
@@ -63,6 +63,7 @@ class CallSettings extends FormCommon {
           _this.props.setWholeLoading(false, '')
           let fileext = info.file.name.split('.').pop()
           API.converaudio(fileext, 3).then((m) => {
+            _this.props.setWholeLoading(false, '')
             Modal.info({
               title: m.Response === 'Success' ? $t('m_085') : $t('m_019'),
               okText: $t('b_002'),
@@ -130,7 +131,7 @@ class CallSettings extends FormCommon {
           ]}
         />
         <FormItem>
-          <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+          <Button className='sub-btn' onClick={this.handleSubmit} id='subBtn'>{$t('b_001')}</Button>
         </FormItem>
       </Form>
     )

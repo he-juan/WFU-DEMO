@@ -131,7 +131,7 @@ class GeneralSettings extends FormCommon {
           gfd={gfd}
         />
         <FormItem label='' >
-          <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+          <Button className='sub-btn' onClick={this.handleSubmit} id='subBtn'>{$t('b_001')}</Button>
         </FormItem>
         <DefaultAcctModal restActiveAcct={restActiveAcct} cb={() => this.handleSubmit()} onCancel={() => this.setState({ restActiveAcct: [] })}/>
       </Form>

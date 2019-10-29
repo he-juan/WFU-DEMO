@@ -254,7 +254,7 @@ class Advanced extends FormCommon {
           gfd={gfd}
         />
         <FormItem>
-          <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+          <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
         </FormItem>
       </Form>
     )

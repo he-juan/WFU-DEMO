@@ -606,7 +606,7 @@ class Ethernet extends FormCommon {
             </Upload>
           </FormItem>
           <FormItem>
-            <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+            <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
           </FormItem>
         </Form>
       </Spin>

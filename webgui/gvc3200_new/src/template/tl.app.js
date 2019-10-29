@@ -48,7 +48,7 @@ export default {
     },
     {
       label: 'ThirdPartyApp',
-      lang: '',
+      lang: 'r_070',
       path: 'tpapp',
       sub: [
         // 开机自启动应用

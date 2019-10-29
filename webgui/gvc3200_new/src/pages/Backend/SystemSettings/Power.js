@@ -222,7 +222,7 @@ class Power extends FormCommon {
             <Button onClick={() => this.handleOpration('Sleep')}>{$t('b_007')}</Button>
           </FormItem>
           <FormItem label=''>
-            <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+            <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
           </FormItem>
         </Form>
       </Fragment>

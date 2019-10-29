@@ -203,7 +203,7 @@ class Language extends FormCommon {
           { hasCustom ? <i onClick={this.handleDelCustom} className='icons icon-del-customfile'></i> : null}
         </FormItem>
         <FormItem>
-          <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+          <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
         </FormItem>
       </Form>
     )

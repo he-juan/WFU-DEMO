@@ -50,6 +50,17 @@ export const changDefaultPwd = (params) => {
     url: '/manager?action=changedefaultpwd&' + parseUrlParams(params)
   })
 }
+
+/**
+ * 过期登出
+ */
+export const getConnectState = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getconnectstate'
+  })
+}
+
 /**
  * 检测是否需要应用
  */

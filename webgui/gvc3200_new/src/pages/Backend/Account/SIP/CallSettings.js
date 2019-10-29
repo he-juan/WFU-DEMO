@@ -174,6 +174,7 @@ class CallSettings extends FormCommon {
     const MOHUploadProps = {
       name: 'file',
       showUploadList: false,
+      accept: '.wav,.mp3',
       action: '/upload?type=audiofile&acct=1',
       headers: {
       },
@@ -186,9 +187,9 @@ class CallSettings extends FormCommon {
           _this.props.setWholeLoading(true, $t('m_062'))
         }
         if (info.file.status === 'done') {
-          _this.props.setWholeLoading(false, '')
           let fileext = info.file.name.split('.').pop()
           API.converaudio(fileext, 1).then((m) => {
+            _this.props.setWholeLoading(false, '')
             Modal.info({
               title: m.Response === 'Success' ? $t('m_085') : $t('m_019'),
               okText: $t('b_002'),
@@ -399,7 +400,8 @@ class CallSettings extends FormCommon {
               gfd('Pstarttime_0', {
                 rules: [
                   this.checkoutTimeformat()
-                ]
+                ],
+                hidden: CFType !== 'TimeRule'
               })(
                 <Input />
               )
@@ -411,7 +413,8 @@ class CallSettings extends FormCommon {
               gfd('Pfinishtime_0', {
                 rules: [
                   this.checkoutTimeformat()
-                ]
+                ],
+                hidden: CFType !== 'TimeRule'
               })(
                 <Input />
               )
@@ -507,7 +510,7 @@ class CallSettings extends FormCommon {
         <h4 className='bak-sub-title'>{$t('c_137')}</h4>
         <div className='call-setting-rings'>
           <p className='ring-titles'>
-            <span>{$t('acct_148')} <Tooltip title={$t('acct_148_tip')} ><Icon type='question-circle-o' /></Tooltip></span>
+            <span>{$t('acct_148')} <Tooltip title={<span dangerouslySetInnerHTML={{ __html: $t('acct_148_tip') }}></span>} ><Icon type='question-circle-o' /></Tooltip></span>
             <span>{$t('acct_149')} <Tooltip title={$t('acct_149_tip')} ><Icon type='question-circle-o' /></Tooltip></span>
           </p>
           <div className='bak-form-item'>
@@ -536,7 +539,7 @@ class CallSettings extends FormCommon {
           </div>
         </div>
         <FormItem label='' >
-          <Button className='sub-btn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
+          <Button className='sub-btn' onClick={this.handleSubmit} id='subBtn'>{$t('b_001')}</Button>
         </FormItem>
       </Form>
     )
