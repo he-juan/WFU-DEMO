@@ -45,7 +45,7 @@ class Advanced extends FormCommon {
 
       // 保存 初始值
       for (const key in this.options) {
-        if (this.options[key].reboot) {
+        if (this.options[key].reboot && !this.options[key].deny) {
           this.rebootOptions[key] = other[key]
         }
       }

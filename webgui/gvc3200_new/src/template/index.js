@@ -56,8 +56,8 @@ const attrResult = (result, p, item, oemId, BaseProduct, userType) => {
   }
   if (
     (item.denyModel && item.denyModel.indexOf(BaseProduct) > -1) || // 当配置项 隐藏的 设备型号和当前型号匹配时
-    (item.denyOem && item.denyOem.indexOf(oemId) > -1) || // 当配置项隐藏的oemId 和当前型号oemid匹配时
-    (item.onlyAdmin && userType === 'user') // 当配置项只能admin显示 而当前为user用户时
+    (item.denyOem && item.denyOem.split(',').includes(oemId)) || // 当配置项隐藏的oemId 和当前型号oemid匹配时
+    (item.denyRole && item.denyRole.indexOf(userType) > -1) // 当配置项隐藏的用户类型和当前用户类型匹配时 （admin, 或user）
   ) {
     result[key].deny = 1
   }

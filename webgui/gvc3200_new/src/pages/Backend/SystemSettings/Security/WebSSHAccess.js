@@ -32,7 +32,7 @@ class WebSSHAccess extends FormCommon {
       originPort = data['P901']
       // 保存 初始值
       for (const key in this.options) {
-        if (this.options[key].reboot) {
+        if (this.options[key].reboot && !this.options[key].deny) {
           this.rebootOptions[key] = data[key]
         }
       }
