@@ -130,6 +130,7 @@ export default [
       },
       {
         name: 'r_025',
+        denyRole: 'user',
         path: '/bak/sys_tr069'
       },
       {

@@ -118,6 +118,6 @@ export const dateTimeFmt = (state = { dateFmt: 'YYYY/MM/DD', timeFmt: 'HH:mm' },
 /**
  * 用户类型
  */
-export const userType = (state = 'user', action) => {
+export const userType = (state = Cookie.get('type') || 'admin', action) => {
   return action.type === Types.SET_USER_TYPE ? action.userType : state
 }

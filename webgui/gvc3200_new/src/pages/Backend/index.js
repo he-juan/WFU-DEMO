@@ -51,13 +51,13 @@ class Backend extends Component {
   }
   async componentDidMount () {
     this.setContentHeight()
+    await this.props.getUserType()
     await this.props.getTimeConfig()
     this.props.getNetWorkStatus()
     this.props.getAcctStatus()
     this.props.getDefaultAcct()
     this.props.getIPVTExist()
     this.props.getCallLogs()
-    this.props.getUserType()
     this.props.getContactsAndGroups()
 
     // 超时登出
