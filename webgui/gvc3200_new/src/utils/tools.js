@@ -289,7 +289,8 @@ export const momentFormat = (timestamp, { showtime, showtoday }) => {
   }
 }
 
-let rebootNotifyKey = null
+let rebootNotifyKey = 'updatable'
+let rebootUnsubscribe = () => {}
 /**
  * 根据是否重启判断弹窗 重启提示弹窗
  * @param {object} oldOptions 获取到的options
@@ -300,11 +301,9 @@ let rebootNotifyKey = null
 export const rebootNotify = ({ oldOptions, newOptions, immediate = false }, callback = '') => {
   // $fm
   let notifyFn = () => {
-    if (rebootNotifyKey) return null
-    const key = `open${Date.now()}`
     const closeFn = () => {
-      notification.close(key)
-      rebootNotifyKey = null
+      notification.close(rebootNotifyKey)
+      rebootUnsubscribe()
     }
     const confirmFn = () => {
       // 重启确认框点击确定后先调应用接口
@@ -318,8 +317,11 @@ export const rebootNotify = ({ oldOptions, newOptions, immediate = false }, call
         // 前往重启页面 调用重启页面
         let { linesInfo } = store.getState()
         Cookie.remove('applyFun')
-        Cookie.set('reboottype', linesInfo.length > 0 ? 4 : 0, { path: '/', expires: 10 })
-        notification.close(key)
+        Cookie.set('reboottype', linesInfo.length > 0 ? 4 : 0, {
+          path: '/',
+          expires: 10
+        })
+        notification.close(rebootNotifyKey)
         history.push('/reboot')
       })
     }
@@ -334,18 +336,28 @@ export const rebootNotify = ({ oldOptions, newOptions, immediate = false }, call
       message: $t('c_042'),
       description: $t('c_243'),
       btn,
-      key,
+      key: rebootNotifyKey,
       duration: 0,
       top: 50,
       style: {
         marginRight: -8
       },
       onClose: () => {
-        rebootNotifyKey = null
+        rebootUnsubscribe()
       }
     })
-    rebootNotifyKey = key
   }
+  let curLocale = store.getState().locale // 获取 locale
+  rebootUnsubscribe() // 防止多次订阅，先执行 取消订阅
+  // 通过订阅 store的变化 ，来重复执行 open方法 然后根据 唯一key的方式更新 内容
+  rebootUnsubscribe = store.subscribe(() => {
+    let locale = store.getState().locale
+    if (locale !== curLocale) {
+      setTimeout(() => { notifyFn() }, 50)
+      curLocale = locale
+    }
+  })
+
   if (immediate) {
     notifyFn()
     callback && callback()
