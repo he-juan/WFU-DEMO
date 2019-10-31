@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Icon, Tooltip, Upload, Button, Table, Popconfirm, message } from 'antd'
 import { $t } from '@/Intl'
+import { parseRawText, rebootNotify } from '@/utils/tools'
 import './Certs.less'
 
 const certpvalue = ['2386', '2486', '2586', '2686', '2786', '2886', '51686', '51786', '51886', '51986', '52086', '52186', '52286', '52386', '52486', '52586']
@@ -49,7 +50,6 @@ class SipCert extends Component {
 
   // 删除证书
   deleteCert = (nvram) => {
-    console.log(nvram)
     const { getVeriCert, deleteCert } = this.props
     let params = {}
     params[nvram] = ''
@@ -76,7 +76,17 @@ class SipCert extends Component {
       action: '/upload?type=vericert',
       accept: '.pem, .crt, .cer, .der',
       onChange (info) {
-        const { status } = info.file
+        const { response, status } = info.file
+        if (response !== undefined) {
+          let msgs = parseRawText(response)
+          if (msgs.Response === 'Error' && msgs.Message === 'Authentication Required') {
+            message.error($t('m_019'))
+            setTimeout(() => {
+              window.location.href = `/login`
+            }, 1500)
+            return false
+          }
+        }
         // if (status !== 'uploading') {
         //   console.log(info.file, info.fileList)
         // }
@@ -92,6 +102,8 @@ class SipCert extends Component {
               case 1:
                 getVeriCert()
                 message.success(`${info.file.name} ` + $t('m_018'))
+                // 弹重启
+                rebootNotify({ immediate: true })
                 break
               case 2:
                 message.error($t('m_020'))
@@ -157,6 +169,12 @@ class SipCert extends Component {
               {$t('b_004')}
             </Button>
           </Upload>
+          <Icon
+            title={$t('m_037')}
+            className='rebooticon'
+            type='info-circle'
+            style={{ color: '#faad14', marginLeft: 20 }}
+          />
         </div>
         <div className='table-title'>{$t('sys_sec_017')}</div>
         {/* 证书表格 */}

@@ -119,6 +119,10 @@ class UserInfoManage extends FormCommon {
   checkPassword2 = () => {
     return {
       validator: (rule, value, callback) => {
+        if (!value) {
+          callback()
+          return
+        }
         if (value && value.length < 6) {
           callback($t('m_008'))
           return

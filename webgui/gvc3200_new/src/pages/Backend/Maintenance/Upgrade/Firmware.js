@@ -132,8 +132,15 @@ class Firmware extends FormCommon {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
       if (!err) {
-        const { P192 } = values
-        values.P192 = P192.replace(/(TFTP\:\/\/)|(HTTP\:\/\/)|(HTTPS\:\/\/)|(\:\/\/)/ig, '')
+        const { P6767, P192 } = values
+        // 判断是否是固件升级方式的协议头
+        let arr = ['TFTP://', 'HTTP://', 'HTTPS://']
+        if (P192.substring(0, arr[+P6767].length).toUpperCase() === arr[+P6767]) {
+          values.P192 = P192.substring(arr[+P6767].length).trim()
+        } else if (P192.indexOf('://') !== -1) {
+          return message.error($t('m_207'))
+        }
+
         this.submitFormValue(values).then(msgs => {
           if (msgs.Response === 'Success') {
             // 判断是否 弹出 重启提示弹窗
@@ -189,10 +196,7 @@ class Firmware extends FormCommon {
           gfd={gfd}
           gfdOptions={{
             rules: [
-              {
-                max: 512,
-                message: $t('m_050') + 512
-              }
+              this.maxLen(512)
             ]
           }}
           {...options['P6768']}

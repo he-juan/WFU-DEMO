@@ -352,9 +352,12 @@ export const rebootNotify = ({ oldOptions, newOptions, immediate = false }, call
   } else {
     let status = !1
     for (const key in oldOptions) {
-      const oldVal = oldOptions[key]
-      const newVal = newOptions[key].toString()
-      if (oldVal !== newVal) status = !0
+      const oldVal = oldOptions[key] !== null || oldOptions[key] !== undefined ? oldOptions[key].toString() : ''
+      const newVal = newOptions[key] !== null || newOptions[key] !== undefined ? newOptions[key].toString() : ''
+      if (oldVal !== newVal) {
+        status = !0
+        break
+      }
     }
     if (status) {
       notifyFn()

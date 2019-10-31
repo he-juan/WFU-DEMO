@@ -233,14 +233,13 @@ class Provision extends FormCommon {
         }
         // 判断是否弹窗确认
         if (+other['P22032'] === 1 && JSON.stringify(other).includes(':"5060"')) {
-          const self = this
           Modal.confirm({
             title: $t('c_042'),
             content: $t('m_134'),
             okText: $t('b_002'),
             cancelText: $t('b_005'),
-            onOk () {
-              self.confirmSave(values)
+            onOk: () => {
+              this.confirmSave(values)
             }
           })
         } else {
@@ -306,6 +305,7 @@ class Provision extends FormCommon {
           <Form.Item className='sub-form-item'>
             {
               gfd('P285', {
+                hidden: isHideStartEndHour,
                 rules: [
                   this.digits(),
                   this.range(0, 23)
@@ -319,6 +319,7 @@ class Provision extends FormCommon {
           <Form.Item className='sub-form-item' >
             {
               gfd('P8459', {
+                hidden: isHideStartEndHour,
                 rules: [
                   this.digits(),
                   this.range(0, 23)

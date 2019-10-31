@@ -362,6 +362,8 @@ const msgs = {
   m_204: 'H.323 not support conference',
   m_205: 'Enable DND?',
   m_206: 'Disable DND?',
+  m_207: 'Please fill in correct firmware server path',
+  m_208: 'Please fill in correct config server path',
 
   m_999: ''
 }
