@@ -289,7 +289,7 @@ export const momentFormat = (timestamp, { showtime, showtoday }) => {
   }
 }
 
-let rebootNotifyKey = 'updatable'
+export let rebootNotifyKey = 'updatable'
 let rebootUnsubscribe = () => {}
 /**
  * 根据是否重启判断弹窗 重启提示弹窗

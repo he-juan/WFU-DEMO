@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Layout, BackTop, Spin, Icon } from 'antd'
+import { Layout, BackTop, Spin, Icon, notification } from 'antd'
 import BakNav from '@/components/BakNav'
 import BakHeader from '@/components/BakHeader'
 import WebsocketMessage from '@/components/WebsocketMessage'
@@ -12,7 +12,7 @@ import { store } from '@/store'
 import { getNetWorkStatus, getAcctStatus, getDefaultAcct, getIPVTExist, getTimeConfig, getCallLogs, getUserType, getContactsAndGroups, setUserType } from '@/store/actions'
 import { connect } from 'react-redux'
 import { $t } from '@/Intl'
-import { isMenuRouteDeny } from '@/utils/tools'
+import { isMenuRouteDeny, rebootNotifyKey } from '@/utils/tools'
 import API from '@/api'
 import Cookie from 'js-cookie'
 import './backend.less'
@@ -68,6 +68,8 @@ class Backend extends Component {
   componentWillUnmount () {
     window.removeEventListener('resize', this.calContentHeight)
     document.removeEventListener('keydown', this.listenEnterEvent)
+    notification.close(rebootNotifyKey)
+    clearInterval(LOGOUT_TIMER)
   }
   setContentHeight = () => {
     this.calContentHeight()
@@ -143,7 +145,9 @@ class Backend extends Component {
           </Header>
           <Layout>
             <Sider width={240} className='backend-sider'>
-              <BakNav />
+              <div style={{ height: contentHeight, overflow: 'auto' }}>
+                <BakNav />
+              </div>
             </Sider>
             <Content className='backend-content' style={{ height: contentHeight }} id='backendContent'>
               <h3>{curTitle}</h3>
