@@ -11,7 +11,7 @@ import { $t } from '@/Intl'
 import { isMenuRouteDeny } from '@/utils/tools'
 
 const { SubMenu } = Menu
-const WIFI_MENU_PATH = '/bak/network_wifi'
+const WIFI_MENU_PATH = '/manage/network_wifi'
 
 @withRouter
 class BakNav extends Component {

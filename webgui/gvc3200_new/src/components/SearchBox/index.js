@@ -62,7 +62,7 @@ class SearchBox extends Component {
 
   buildResultItem (item, title, path, val) {
     let _title = cloneDeep(title)
-    let _path = '/bak/'
+    let _path = '/manage/'
     _title.push(item.lang)
     _title = _title.join('/')
 

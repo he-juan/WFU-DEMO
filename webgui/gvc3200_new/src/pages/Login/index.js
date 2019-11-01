@@ -70,7 +70,7 @@ class LoginForm extends Component {
         this.props.changePw(username)
       } else {
         let redirect = parseSearch(history.location.search).redirect
-        history.push(redirect || '/bak/acct_sip/general')
+        history.push(redirect || '/manage/acct_sip/general')
       }
     } else {
       const { Message, Times, LockType } = data
@@ -208,7 +208,7 @@ class PwChangeForm extends Component {
     let payload = changeType === 'admin' ? { adminpwd: encodeURIComponent(pw1) } : { userpwd: encodeURIComponent(pw1) }
     API.changDefaultPwd(payload).then(m => {
       if (m.Response === 'Success') {
-        history.push('/bak/acct_sip/general')
+        history.push('/manage/acct_sip/general')
       } else {
         const errors = {
           '0': $t('m_167'), // 修改失败

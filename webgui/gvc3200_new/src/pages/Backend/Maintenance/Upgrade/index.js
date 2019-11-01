@@ -9,10 +9,10 @@ import Provision from './Provision'
 import AdvancedSettings from './AdvancedSettings'
 
 const routes = [
-  { tab: 'r_055', path: '/bak/maintenance_upgrade/firmware', component: Firmware },
-  { tab: 'r_056', path: '/bak/maintenance_upgrade/configfile', component: ConfigFile },
-  { tab: 'r_057', path: '/bak/maintenance_upgrade/provision', component: Provision },
-  { tab: 'r_022', path: '/bak/maintenance_upgrade/advanced', component: AdvancedSettings }
+  { tab: 'r_055', path: '/manage/maintenance_upgrade/firmware', component: Firmware },
+  { tab: 'r_056', path: '/manage/maintenance_upgrade/configfile', component: ConfigFile },
+  { tab: 'r_057', path: '/manage/maintenance_upgrade/provision', component: Provision },
+  { tab: 'r_022', path: '/manage/maintenance_upgrade/advanced', component: AdvancedSettings }
 ]
 
 // wholeLoading

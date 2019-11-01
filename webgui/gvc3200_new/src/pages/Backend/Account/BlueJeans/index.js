@@ -5,9 +5,9 @@ import CodecSettings from './CodecSettings'
 import CallSettings from './CallSettings'
 
 const routes = [
-  { tab: 'r_014', path: '/bak/acct_bj/general', component: GeneralSettings },
-  { tab: 'r_045', path: '/bak/acct_bj/codec', component: CodecSettings },
-  { tab: 'r_046', path: '/bak/acct_bj/call', component: CallSettings }
+  { tab: 'r_014', path: '/manage/acct_bj/general', component: GeneralSettings },
+  { tab: 'r_045', path: '/manage/acct_bj/codec', component: CodecSettings },
+  { tab: 'r_046', path: '/manage/acct_bj/call', component: CallSettings }
 ]
 
 class BlueJeans extends Component {

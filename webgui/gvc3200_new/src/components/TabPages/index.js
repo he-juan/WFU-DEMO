@@ -46,7 +46,7 @@ const TabPages = (props) => {
               </Route>
             ))
           }
-          <Route component={() => <Redirect to={'/bak'} />}/>
+          <Route component={() => <Redirect to={'/manage'} />}/>
         </Switch>
       </TransitionGroup>
     </div>

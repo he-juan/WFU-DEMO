@@ -10,106 +10,106 @@ export default [
   // call
   {
     name: 'r_001',
-    path: '/bak/calling',
+    path: '/manage/calling',
     icon: 'icon-call',
     sub: [
       {
         name: 'r_001',
-        path: '/bak/calling_call'
+        path: '/manage/calling_call'
       },
       {
         name: 'r_011',
-        path: '/bak/calling_contacts'
+        path: '/manage/calling_contacts'
       },
       {
         name: 'r_012',
-        path: '/bak/calling_schedule'
+        path: '/manage/calling_schedule'
       },
       {
         name: 'r_013',
-        path: '/bak/calling_history'
+        path: '/manage/calling_history'
       }
     ]
   },
   // account
   {
     name: 'r_002',
-    path: '/bak/acct',
+    path: '/manage/acct',
     icon: 'icon-account',
     denyRole: 'user',
     sub: [
       {
         name: 'r_064',
-        path: '/bak/acct_sip'
+        path: '/manage/acct_sip'
       },
       {
         name: 'r_065',
-        path: '/bak/acct_ipvt'
+        path: '/manage/acct_ipvt'
       },
       {
         name: 'r_066',
-        path: '/bak/acct_bj'
+        path: '/manage/acct_bj'
       },
       {
         name: 'r_067',
-        path: '/bak/acct_h323'
+        path: '/manage/acct_h323'
       }
     ]
   },
   // call features
   {
     name: 'r_003',
-    path: '/bak/callset',
+    path: '/manage/callset',
     icon: 'icon-callset',
     sub: [
       {
         name: 'r_014',
         denyRole: 'user',
-        path: '/bak/callset_general'
+        path: '/manage/callset_general'
       },
       {
         name: 'r_003',
-        path: '/bak/callset_callfeature'
+        path: '/manage/callset_callfeature'
       },
       {
         name: 'r_016',
         denyRole: 'user',
-        path: '/bak/callset_sitename'
+        path: '/manage/callset_sitename'
       },
       {
         name: 'r_017',
         denyRole: 'user',
-        path: '/bak/callset_audio'
+        path: '/manage/callset_audio'
       },
       {
         name: 'r_018',
         denyRole: 'user',
-        path: '/bak/callset_video'
+        path: '/manage/callset_video'
       }
     ]
   },
   // network settings
   {
     name: 'r_004',
-    path: '/bak/network',
+    path: '/manage/network',
     icon: 'icon-network',
     sub: [
       {
         name: 'r_019',
-        path: '/bak/network_ethernet'
+        path: '/manage/network_ethernet'
       },
       {
         name: 'r_020',
-        path: '/bak/network_wifi'
+        path: '/manage/network_wifi'
       },
       {
         name: 'r_021',
-        path: '/bak/network_openvpn'
+        path: '/manage/network_openvpn'
       },
       {
         name: 'r_022',
         denyRole: 'user',
-        path: '/bak/network_advanced'
+        path: '/manage/network_advanced'
       }
     ]
   },
@@ -117,115 +117,115 @@ export default [
   // system settings
   {
     name: 'r_005',
-    path: '/bak/sys',
+    path: '/manage/sys',
     icon: 'icon-sysset',
     sub: [
       {
         name: 'r_023',
-        path: '/bak/sys_power'
+        path: '/manage/sys_power'
       },
       {
         name: 'r_024',
-        path: '/bak/sys_timelang'
+        path: '/manage/sys_timelang'
       },
       {
         name: 'r_025',
         denyRole: 'user',
-        path: '/bak/sys_tr069'
+        path: '/manage/sys_tr069'
       },
       {
         name: 'r_026',
         denyRole: 'user',
-        path: '/bak/sys_security'
+        path: '/manage/sys_security'
       }
     ]
   },
   // device control
   {
     name: 'r_006',
-    path: '/bak/dev',
+    path: '/manage/dev',
     icon: 'icon-device',
     sub: [
       {
         name: 'r_028',
-        path: '/bak/dev_preset'
+        path: '/manage/dev_preset'
       },
       {
         name: 'r_027',
-        path: '/bak/dev_camera'
+        path: '/manage/dev_camera'
       },
       {
         name: 'r_029',
-        path: '/bak/dev_peripheral'
+        path: '/manage/dev_peripheral'
       },
       {
         name: 'r_030',
-        path: '/bak/dev_remoteconrol'
+        path: '/manage/dev_remoteconrol'
       }
     ]
   },
   // app
   {
     name: 'r_007',
-    path: '/bak/app',
+    path: '/manage/app',
     icon: 'icon-app',
     sub: [
       {
         name: 'r_031',
-        path: '/bak/app_ldap'
+        path: '/manage/app_ldap'
       },
       {
         name: 'r_032',
-        path: '/bak/app_record'
+        path: '/manage/app_record'
       },
       {
         name: 'r_070',
-        path: '/bak/app_tpapp'
+        path: '/manage/app_tpapp'
       }
     ]
   },
   // maintenance
   {
     name: 'r_008',
-    path: '/bak/maintenance',
+    path: '/manage/maintenance',
     icon: 'icon-maintenance',
     sub: [
       {
         name: 'r_033',
         denyRole: 'user',
-        path: '/bak/maintenance_upgrade'
+        path: '/manage/maintenance_upgrade'
       },
       {
         name: 'r_034',
-        path: '/bak/maintenance_trouble'
+        path: '/manage/maintenance_trouble'
       }
     ]
   },
   // status
   {
     name: 'r_009',
-    path: '/bak/status',
+    path: '/manage/status',
     icon: 'icon-status',
     sub: [
       {
         name: 'r_035',
-        path: '/bak/status_account'
+        path: '/manage/status_account'
       },
       {
         name: 'r_036',
-        path: '/bak/status_peripheral'
+        path: '/manage/status_peripheral'
       },
       {
         name: 'r_037',
-        path: '/bak/status_network'
+        path: '/manage/status_network'
       },
       {
         name: 'r_038',
-        path: '/bak/status_systeminfo'
+        path: '/manage/status_systeminfo'
       },
       {
         name: 'r_039',
-        path: '/bak/status_remotecontrol'
+        path: '/manage/status_remotecontrol'
       }
     ]
   }

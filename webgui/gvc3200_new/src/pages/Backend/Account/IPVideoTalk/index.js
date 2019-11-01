@@ -6,9 +6,9 @@ import CodecSettings from './CodecSettings'
 import CallSettings from './CallSettings'
 
 const routes = [
-  { tab: 'r_014', path: '/bak/acct_ipvt/general', component: GeneralSettings },
-  { tab: 'r_045', path: '/bak/acct_ipvt/codec', component: CodecSettings },
-  { tab: 'r_046', path: '/bak/acct_ipvt/call', component: CallSettings }
+  { tab: 'r_014', path: '/manage/acct_ipvt/general', component: GeneralSettings },
+  { tab: 'r_045', path: '/manage/acct_ipvt/codec', component: CodecSettings },
+  { tab: 'r_046', path: '/manage/acct_ipvt/call', component: CallSettings }
 ]
 
 @connect(
