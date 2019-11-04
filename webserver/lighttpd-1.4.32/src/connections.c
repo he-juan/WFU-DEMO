@@ -15936,21 +15936,19 @@ static int handle_tracelist (buffer *b)
     char name[256] = "";
     char *fileExt = NULL;
 
+    buffer_append_string(b, "{\"Response\":\"Success\",\"Tracelist\":[");
+
     if( access( PCAP_PATH, 0 ) )
     {
-        buffer_append_string(b, "Response=Error\r\n"
-                "Message=The ringtone directory doesn't exist\r\n");
+        buffer_append_string(b, "]}");
         return -1;
     }
 
     if( (dir = opendir(PCAP_PATH))== NULL )
     {
-        buffer_append_string(b, "Response=Error\r\n"
-                "Message=Ring tone directory open failed\r\n");
+        buffer_append_string(b, "]}");
         return -1;
     }
-
-    buffer_append_string(b, "{\"Response\":\"Success\",\"Tracelist\":[");
 
     while ((dp = readdir( dir )) != NULL)
     {
@@ -25409,7 +25407,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
         buffer_append_string(b, "response=success");
     */
-    } else if (valid_connection(con)) {
+    //} else if (valid_connection(con)) {
+    } else if (1) {
         int findcmd = 1;
 #ifndef BUILD_RECOVER
         if (protected_command_find(command_protect, action))
