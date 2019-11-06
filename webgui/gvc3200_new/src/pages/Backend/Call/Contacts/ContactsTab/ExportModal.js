@@ -107,6 +107,7 @@ class ExportModal extends Component {
           visible={visible}
           width={700}
           className='export-contacts-modal'
+          footer={null}
           title={$t('c_229')}
         >
           <Form>

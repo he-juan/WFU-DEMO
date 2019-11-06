@@ -125,7 +125,7 @@ class AdvancedSettings extends FormCommon {
         />
         {/* 恢复出厂设置 */}
         <FormItem {...options['reset']}>
-          <Button type='primary' onClick={this.handleClickReset}>{$t('b_022')}</Button>
+          <Button type='primary' style={{ width: 100 }} onClick={this.handleClickReset}>{$t('b_022')}</Button>
         </FormItem>
 
         <FormItem label=''>

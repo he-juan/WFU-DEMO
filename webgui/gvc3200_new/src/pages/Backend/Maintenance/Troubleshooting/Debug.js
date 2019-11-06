@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { Form, Button, Checkbox, message, Select, Switch, Spin } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import FormItem from '@/components/FormItem'
@@ -7,6 +7,22 @@ import API from '@/api'
 import './Debug.less'
 import { $t } from '@/Intl'
 import { rebootNotify } from '@/utils/tools'
+let checklogitems = ['syslog', 'logcat', 'capture']
+
+// 需要 forwardRef 解决 新api  暴露的问题
+let CSelect = (props, ref) => {
+  let { width, options, ...othter } = props
+  return (
+    <Select ref={ref} style={{ width }} {...othter} getPopupContainer={triggerNode => triggerNode}>
+      {
+        options.map(item => (
+          <Select.Option value={item.v} key={item.v}>{item.t}</Select.Option>
+        ))
+      }
+    </Select>
+  )
+}
+CSelect = forwardRef(CSelect)
 
 @Form.create()
 class Debug extends FormCommon {
@@ -20,6 +36,7 @@ class Debug extends FormCommon {
   }
   options = getOptions('Maintenance.TroubleShooting.Debug')
   rebootOptions = {}
+
   componentDidMount () {
     Promise.all([
       API.getCaptureState(),
@@ -28,6 +45,14 @@ class Debug extends FormCommon {
       this.getCoredumplist(),
       this.getRecordList()
     ]).then(res => {
+      let tmpValues = {}
+      let len = 0
+      checklogitems.forEach(key => {
+        let v = +res[0][key] // 0 或 1
+        tmpValues[key] = v || 0
+        len += v
+      })
+      this.props.form.setFieldsValue({ debugAll: len === checklogitems.length ? 1 : 0, ...tmpValues })
       this.setState({
         isCatching: res[0].mode === 'on',
         isRecording: res[1].record_state === '1',
@@ -78,40 +103,42 @@ class Debug extends FormCommon {
     })
   }
 
-  checkDebugAll = (e) => {
-    const { setFieldsValue } = this.props.form
-    setFieldsValue(!e.target.checked ? {
-      syslog: 0,
-      logcat: 0,
-      capture: 0
-    } : {
-      syslog: 1,
-      logcat: 1,
-      capture: 1
-    })
-  }
+  // 调试信息清单 checkbox 单个事件
   checkDebugItem = () => {
     const { setFieldsValue, getFieldsValue } = this.props.form
     setTimeout(() => {
-      let debugItems = getFieldsValue(['syslog', 'logcat', 'capture'])
-      let isAllCheck = debugItems['syslog'] && debugItems['logcat'] && debugItems['capture']
-      setFieldsValue({ debugAll: isAllCheck ? 1 : 0 })
+      let debugItems = getFieldsValue(checklogitems)
+      let len = 0
+      for (const key in debugItems) {
+        len += +debugItems[key]
+      }
+
+      setFieldsValue({ debugAll: len === checklogitems.length ? 1 : 0 })
     })
   }
+
+  // 全选/全不选
+  checkDebugAll = (e) => {
+    const { setFieldsValue } = this.props.form
+    let _checklogitems = {}
+    checklogitems.forEach(item => {
+      _checklogitems[item] = e.target.checked ? 1 : 0
+    })
+    setFieldsValue(_checklogitems)
+  }
+
   // 抓取debug信息
   handleDebug = () => {
     const { getFieldsValue } = this.props.form
     const { isCatching } = this.state // 是否在抓包
-    const { syslog, logcat, capture } = getFieldsValue(['syslog', 'logcat', 'capture'])
-    let _mode = capture === 0 ? 'none' : isCatching ? 'off' : 'on' // 如果未勾选抓包则mode为none; 如果勾选了但未开始抓包mode为on;如果勾选了并且正在抓包, mode为off;
+    const items = getFieldsValue(checklogitems)
+    let _mode = items.capture === 0 ? 'none' : isCatching ? 'off' : 'on' // 如果未勾选抓包则mode为none; 如果勾选了但未开始抓包mode为on;如果勾选了并且正在抓包, mode为off;
     this.setState({
       isCatching: _mode === 'none' ? isCatching : !isCatching
     })
     API.onClickDebug({
       mode: _mode,
-      syslog: syslog,
-      logcat: logcat,
-      capture: capture
+      ...items
     }).then(data => {
       if (_mode === 'on' && data.Response === 'Error') {
         this.setState({
@@ -192,7 +219,7 @@ class Debug extends FormCommon {
   delRecordFile = () => {
     const recordfile = this.props.form.getFieldValue('recordfile')
     if (!recordfile) return false
-    API.deleteRecord(recordfile).then(m => {
+    API.debugDeleteRecord(recordfile).then(m => {
       if (m.Response === 'Success') {
         message.success($t('m_013'))
         this.getRecordList()
@@ -201,11 +228,17 @@ class Debug extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldsValue } = this.props.form
     const { isCatching, debugTraceList, coreDumpList, recordList, isRecording, pageLoaded } = this.state
-    const { syslog, logcat, capture } = getFieldsValue(['syslog', 'logcat', 'capture'])
+    const debugItems = getFieldsValue(checklogitems)
     const options = this.options
+    // 处理 一键调试 的 disable的的状态
+    let unlen = 0
+    for (const key in debugItems) {
+      unlen += debugItems[key]
+    }
 
     return (
       <Spin spinning={!pageLoaded} wrapperClassName='common-loading-spin'>
@@ -213,8 +246,8 @@ class Debug extends FormCommon {
           <h4 className='bak-sub-title'>{$t('c_071')}</h4>
           {/* 一键调试 */}
           <FormItem {...options['debugging']}>
-            <Button type='primary' disabled={syslog === 0 && logcat === 0 && capture === 0} onClick={this.handleDebug}>
-              { capture > 0 ? isCatching ? $t('b_026') : $t('b_025') : $t('b_028') }
+            <Button type='primary' disabled={unlen === 0} onClick={this.handleDebug}>
+              { debugItems['capture'] > 0 ? isCatching ? $t('b_026') : $t('b_025') : $t('b_028') }
             </Button>
           </FormItem>
           {/* 调试信息清单 */}
@@ -223,8 +256,7 @@ class Debug extends FormCommon {
               {
                 gfd('debugAll', {
                   valuePropName: 'checked',
-                  normalize: (value) => Number(value),
-                  initialValue: 1
+                  normalize: (value) => Number(value)
                 })(
                   <Checkbox onChange={(e) => this.checkDebugAll(e)} disabled={isCatching}>{$t('c_055')}</Checkbox>
                 )
@@ -236,8 +268,7 @@ class Debug extends FormCommon {
               {
                 gfd('syslog', {
                   valuePropName: 'checked',
-                  normalize: (value) => Number(value),
-                  initialValue: 1
+                  normalize: (value) => Number(value)
                 })(
                   <Checkbox onChange={(e) => this.checkDebugItem(e)} disabled={isCatching}>{$t('c_074')}</Checkbox>
                 )
@@ -248,8 +279,7 @@ class Debug extends FormCommon {
               {
                 gfd('logcat', {
                   valuePropName: 'checked',
-                  normalize: (value) => Number(value),
-                  initialValue: 1
+                  normalize: (value) => Number(value)
                 })(
                   <Checkbox onChange={(e) => this.checkDebugItem(e)} disabled={isCatching}>{$t('c_075')}</Checkbox>
                 )
@@ -260,8 +290,7 @@ class Debug extends FormCommon {
               {
                 gfd('capture', {
                   valuePropName: 'checked',
-                  normalize: (value) => Number(value),
-                  initialValue: 1
+                  normalize: (value) => Number(value)
                 })(
                   <Checkbox onChange={(e) => this.checkDebugItem(e)} disabled={isCatching}>{$t('c_076')}</Checkbox>
                 )
@@ -272,11 +301,9 @@ class Debug extends FormCommon {
           <FormItem {...options['debugfile']}>
             {
               gfd('debugfile')(
-                <Select className='debug-select-item'>
-                  {
-                    debugTraceList.map(i => <Select.Option value={i} key={i}>{i}</Select.Option>)
-                  }
-                </Select>
+                <CSelect className='debug-select-item' options={
+                  debugTraceList.map(i => ({ v: i, t: i }))
+                } />
               )
             }
             <Button className='debug-del-btn' onClick={this.delDebugFile}>{$t('b_003')}</Button>
@@ -303,11 +330,9 @@ class Debug extends FormCommon {
           <FormItem {...options['coredumpfile']}>
             {
               gfd('coredumpfile')(
-                <Select className='debug-select-item'>
-                  {
-                    coreDumpList.map(i => <Select.Option value={i} key={i}>{i}</Select.Option>)
-                  }
-                </Select>
+                <CSelect className='debug-select-item' options={
+                  coreDumpList.map(i => ({ v: i, t: i }))
+                } />
               )
             }
             <Button className='debug-del-btn' onClick={this.delCoredumpFile}>{$t('b_003')}</Button>
@@ -327,11 +352,9 @@ class Debug extends FormCommon {
           <FormItem {...options['recordfile']}>
             {
               gfd('recordfile')(
-                <Select className='debug-select-item'>
-                  {
-                    recordList.map(i => <Select.Option value={i} key={i}>{i}</Select.Option>)
-                  }
-                </Select>
+                <CSelect className='debug-select-item' options={
+                  recordList.map(i => ({ v: i, t: i }))
+                } />
               )
             }
             <Button className='debug-del-btn' onClick={this.delRecordFile}>{$t('b_003')}</Button>
@@ -339,7 +362,7 @@ class Debug extends FormCommon {
           </FormItem>
           {/* 查看已有录音 */}
           <FormItem {...options['recordInfo']}>
-            <a href='/recfile/' target='__blank'>
+            <a href='/recfiles/' target='__blank'>
               {$t('c_072')}
             </a>
           </FormItem>

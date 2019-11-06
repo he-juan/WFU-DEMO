@@ -193,27 +193,27 @@ class OpenVPN extends FormCommon {
           <FormItem {...options['delCA']} hide={!isSimpleMode}>
           <>
             <Upload className='uploads-item' {...this.uploadConfigs} accept='.crt' onChange={(info) => this.handleUploads(info, '9902')}>
-              <Button><Icon type='upload' />{$t('b_004')}</Button>
+              <Button type='primary'><Icon type='upload' />{$t('b_004')}</Button>
             </Upload>
-            <Button type='primary' disabled={!delCA} className='uploads-delete' onClick={() => this.handleDels('P9902')}>{$t('b_003')}</Button>
+            <Button disabled={!delCA} className='uploads-delete' onClick={() => this.handleDels('P9902')}>{$t('b_003')}</Button>
           </>
           </FormItem>
           {/* OpenVPN®客户证书 */}
           <FormItem {...options['delCert']} hide={!isSimpleMode}>
           <>
-            <Upload className='uploads-item' {...this.uploadConfigs} accept='.crt' onChange={(info) => this.handleUploads(info, 'P9903')}>
-              <Button><Icon type='upload' />{$t('b_004')}</Button>
+            <Upload className='uploads-item' {...this.uploadConfigs} accept='.crt' onChange={(info) => this.handleUploads(info, '9903')}>
+              <Button type='primary'><Icon type='upload' />{$t('b_004')}</Button>
             </Upload>
-            <Button type='primary' disabled={!delCert} className='uploads-delete' onClick={() => this.handleDels('P9903')}>{$t('b_003')}</Button>
+            <Button disabled={!delCert} className='uploads-delete' onClick={() => this.handleDels('P9903')}>{$t('b_003')}</Button>
           </>
           </FormItem>
           {/* OpenVPN®客户端秘钥 */}
           <FormItem {...options['delKey']} hide={!isSimpleMode}>
           <>
-            <Upload className='uploads-item' {...this.uploadConfigs} accept='.key' onChange={(info) => this.handleUploads(info, 'P9904')}>
-              <Button><Icon type='upload' />{$t('b_004')}</Button>
+            <Upload className='uploads-item' {...this.uploadConfigs} accept='.key' onChange={(info) => this.handleUploads(info, '9904')}>
+              <Button type='primary'><Icon type='upload' />{$t('b_004')}</Button>
             </Upload>
-            <Button type='primary' disabled={!delKey} className='uploads-delete' onClick={() => this.handleDels('P9904')}>{$t('b_003')}</Button>
+            <Button disabled={!delKey} className='uploads-delete' onClick={() => this.handleDels('P9904')}>{$t('b_003')}</Button>
           </>
           </FormItem>
           {/* OpenVPN®加密方式 */}

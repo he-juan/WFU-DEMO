@@ -15,6 +15,7 @@ class VideoSettings extends FormCommon {
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
+      data.P921 = data.P921 || '1'
       setFieldsValue(data)
     })
   }

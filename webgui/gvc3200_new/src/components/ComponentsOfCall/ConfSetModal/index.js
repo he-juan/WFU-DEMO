@@ -488,7 +488,7 @@ class ConfSetModal extends FormCommon {
     return (
       <>
         <Modal visible={!!visible} onCancel={() => this.onModalCancel(onCancel)} onOk={this.handleOk} width={800} wrapClassName='conf-setmodal' title={title} cancelText={$t('b_005')} okText={$t('b_002')}>
-          <Form>
+          <Form hideRequiredMark>
             {
               allDisabled && <FormItem label={$t('c_280')}>{stateObj[currConf['confstate']]}</FormItem>
             }

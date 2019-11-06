@@ -12,7 +12,7 @@ export default {
   net_003_tip: '选择DHCP Option VLAN模式。若选择“DHCP选项132和DHCP选项133”，设备将接收DHCP服务器发来的DHCP option 132 (802.1Q VLAN ID) 以及DHCP option 133 (QOS priority level)用于本地网络设置。若选择“封装于DHCP选项43”，设备将接收DHCP服务器发来的DHCP option 43用于本地网络设置。注：当选择“封装于DHCP Option 43”时，请确保维护->更新升级中的“启动DHCP选项43、160和66服务器设置”设置项已启用。默认为“禁用”。',
 
   net_004: '主机名(Option 12)',
-  net_004_tip: '此项填写客户端主机名。可选项。某些网络服务提供商可能会用到。',
+  net_004_tip: '此项设置客户端主机名。该项为可选项。某些网络服务提供商可能会用到。',
 
   net_005: '厂家类别名(Option 60)',
   net_005_tip: '此项填写用于客户端与服务器端交换厂家类别名。',

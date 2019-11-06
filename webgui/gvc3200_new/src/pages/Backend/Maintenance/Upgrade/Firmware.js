@@ -167,7 +167,7 @@ class Firmware extends FormCommon {
         <FormItem {...options['upgradefile']}>
           <Upload className='upload-btn' {...this.uploadFirmwareConfig} fileList={this.state.fileList}>
             <Button>
-              <Icon type='upload' /> {$t('b_016')}
+              <Icon type='upload' /> {$t('b_004')}
             </Button>
           </Upload>
         </FormItem>

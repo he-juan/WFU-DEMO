@@ -80,6 +80,13 @@ class ConfigFile extends FormCommon {
       if (!err) {
         let arr = ['TFTP://', 'HTTP://', 'HTTPS://']
         const { usegsgap, P212, P237, P6775, P6774 } = values
+        // 去除首尾空格被过滤
+        let needs = ['P1360', 'P1361', 'P234', 'P235', 'P1359']
+        needs.forEach(p => {
+          if (values[p]) {
+            values[p] = values[p].trim()
+          }
+        })
 
         // 配置文件 不为默认
         if (!usegsgap && P237) {
@@ -168,10 +175,7 @@ class ConfigFile extends FormCommon {
           hide={isShouldHide}
           gfdOptions={{
             rules: [
-              {
-                max: 256,
-                message: $t('m_050') + 256
-              }
+              this.maxLen(256)
             ]
           }}
         />
@@ -180,10 +184,7 @@ class ConfigFile extends FormCommon {
           gfd={gfd}
           gfdOptions={{
             rules: [
-              {
-                max: 512,
-                message: $t('m_050') + 512
-              }
+              this.maxLen(512)
             ]
           }}
           {...options['P1360']}
@@ -192,6 +193,11 @@ class ConfigFile extends FormCommon {
         <PwInputItem
           gfd={gfd}
           {...options['P1361']}
+          gfdOptions={{
+            rules: [
+              this.maxLen(512)
+            ]
+          }}
         />
         {/* 总是发送HTTP基本认证信息 */}
         <CheckboxItem
@@ -204,10 +210,7 @@ class ConfigFile extends FormCommon {
           {...options['P234']}
           gfdOptions={{
             rules: [
-              {
-                max: 128,
-                message: $t('m_050') + 128
-              }
+              this.maxLen(128)
             ]
           }}
         />
@@ -217,10 +220,7 @@ class ConfigFile extends FormCommon {
           {...options['P235']}
           gfdOptions={{
             rules: [
-              {
-                max: 128,
-                message: $t('m_050') + 128
-              }
+              this.maxLen(128)
             ]
           }}
         />
@@ -233,10 +233,15 @@ class ConfigFile extends FormCommon {
         <PwInputItem
           gfd={gfd}
           {...options['P1359']}
+          gfdOptions={{
+            rules: [
+              this.maxLen(512)
+            ]
+          }}
         />
         {/* 下载当前配置 */}
         <FormItem {...options['downConf']}>
-          <Button className='button' type='primary' onClick={this.handleDownConf}>{$t('b_021')}</Button>
+          <Button className='button' type='primary' style={{ width: 100 }} onClick={this.handleDownConf}>{$t('b_021')}</Button>
         </FormItem>
         {/* 上传设备配置 */}
         <FormItem {...options['importcfg']}>
@@ -270,10 +275,7 @@ class ConfigFile extends FormCommon {
           {...options['P6774']}
           gfdOptions={{
             rules: [
-              {
-                max: 256,
-                message: $t('m_050') + 256
-              }
+              this.maxLen(256)
             ]
           }}
         />
@@ -283,10 +285,7 @@ class ConfigFile extends FormCommon {
           {...options['P6776']}
           gfdOptions={{
             rules: [
-              {
-                max: 32,
-                message: $t('m_050') + 32
-              }
+              this.maxLen(32)
             ]
           }}
         />
@@ -296,10 +295,7 @@ class ConfigFile extends FormCommon {
           {...options['P6777']}
           gfdOptions={{
             rules: [
-              {
-                max: 128,
-                message: $t('m_050') + 128
-              }
+              this.maxLen(128)
             ]
           }}
         />

@@ -68,7 +68,7 @@ export default [
         path: '/manage/callset_general'
       },
       {
-        name: 'r_003',
+        name: 'r_015',
         path: '/manage/callset_callfeature'
       },
       {

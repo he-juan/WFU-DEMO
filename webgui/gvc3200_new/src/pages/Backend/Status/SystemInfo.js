@@ -25,7 +25,7 @@ class SystemInfo extends Component {
 
   parseUpTime = (timeInfo) => {
     const { Day, Hour, Min, Sec } = timeInfo
-    return `${Day + $t('c_088')}, ${Hour + $t('c_089')}, ${Min + $t('c_090')}, ${Sec + $t('c_091')}`
+    return `${Day + ' ' + $t('c_088')}, ${Hour + ' ' + $t('c_089')}, ${Min + ' ' + $t('c_090')}, ${Sec + ' ' + $t('c_091')}`
   }
   render () {
     const { sysInfo } = this.state

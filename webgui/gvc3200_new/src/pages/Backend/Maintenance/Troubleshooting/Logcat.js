@@ -1,7 +1,8 @@
 import React from 'react'
-import { Form, Button, message } from 'antd'
+import { Form, Button, Divider, message } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { SelectItem, InputItem } from '@/components/FormItem'
+import NoData from '@/components/NoData'
 import { getOptions } from '@/template'
 import API from '@/api'
 import { $t } from '@/Intl'
@@ -9,11 +10,17 @@ import { $t } from '@/Intl'
 @Form.create()
 class Logcat extends FormCommon {
   options = getOptions('Maintenance.TroubleShooting.Logcat')
+  state = {
+    logcatFile: ''
+  }
 
   clearLog = () => {
     API.clearLogcat().then(m => {
       if (m.Response === 'Success') {
         message.success($t('m_067'))
+        this.setState({
+          logcatFile: ''
+        })
       }
     })
   }
@@ -24,16 +31,26 @@ class Logcat extends FormCommon {
         API.getLogcat(logTag, logPri).then(m => {
           if (m.Response === 'Success') {
             setTimeout(() => {
-              window.location.href = `/logcat/logcat.text?time=` + new Date().getTime()
+              API.getLogcatText().then(text => {
+                this.setState({
+                  logcatFile: text
+                })
+                // unwillmount不取消
+                setTimeout(() => {
+                  API.removeLogcat()
+                }, 2000)
+              })
             }, 200)
           }
         })
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options
+    const { logcatFile } = this.state
 
     return (
       <Form>
@@ -45,7 +62,12 @@ class Logcat extends FormCommon {
         <InputItem
           {...options['logTag']}
           gfd={gfd}
-          gfdOptions={{ initialValue: '' }}
+          gfdOptions={{
+            initialValue: '',
+            rules: [
+              this.maxLen(32)
+            ]
+          }}
         />
         {/* 日志优先级 */}
         <SelectItem
@@ -65,6 +87,11 @@ class Logcat extends FormCommon {
         <FormItem label=''>
           <Button type='primary' onClick={this.getLogcat}>{$t('b_024')}</Button>
         </FormItem>
+        <Divider />
+        {/* 日志 */}
+        {
+          logcatFile ? <pre style={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}>{logcatFile}</pre> : <NoData />
+        }
       </Form>
     )
   }

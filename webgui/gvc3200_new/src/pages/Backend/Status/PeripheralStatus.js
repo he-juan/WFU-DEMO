@@ -77,7 +77,7 @@ class PeripheralStatus extends Component {
     let hdmiinstate = await this.getHdmiinstate()
     let hdmi1state = await this.getHdmi1state()
     let hdmi2state = await this.getHdmi2state()
-    let usbstate = await this.getSdcardstate()
+    let usbstate = await this.getUsbstate()
     let sdcardstate = await this.getSdcardstate()
 
     this.setState({

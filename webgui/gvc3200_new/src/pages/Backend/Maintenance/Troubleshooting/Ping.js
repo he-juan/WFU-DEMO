@@ -112,8 +112,6 @@ class Ping extends FormCommon {
     API.stopPing().then(m => {
       if (m.Response === 'Success') {
         pingIsStop = true
-        clearTimeout(pingTimer)
-        pingTimer = null
         message.success($t('m_070'))
         this.setState({
           stopDisable: true
@@ -123,6 +121,7 @@ class Ping extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const { gateway } = this.props

@@ -365,7 +365,9 @@ class CallSettings extends FormCommon {
         {/* 帐号默认铃声 */}
         <FormItem {...options['P104']}>
           {
-            gfd('P104')(
+            gfd('P104', {
+              normalize: (v) => v === '' ? 'content://settings/system/ringtone' : v
+            })(
               RingSelect
             )
           }
@@ -518,7 +520,9 @@ class CallSettings extends FormCommon {
               {gfd('P1488')(<Input />)}
             </span>
             <span>
-              {gfd('P1489')(RingSelect)}
+              {gfd('P1489', {
+                normalize: (v) => v === '' ? 'content://settings/system/ringtone' : v
+              })(RingSelect)}
             </span>
           </div>
           <div className='bak-form-item'>
@@ -526,7 +530,9 @@ class CallSettings extends FormCommon {
               {gfd('P1490')(<Input />)}
             </span>
             <span>
-              {gfd('P1491')(RingSelect)}
+              {gfd('P1491', {
+                normalize: (v) => v === '' ? 'content://settings/system/ringtone' : v
+              })(RingSelect)}
             </span>
           </div>
           <div className='bak-form-item'>
@@ -534,7 +540,9 @@ class CallSettings extends FormCommon {
               {gfd('P1492')(<Input />)}
             </span>
             <span>
-              {gfd('P1493')(RingSelect)}
+              {gfd('P1493', {
+                normalize: (v) => v === '' ? 'content://settings/system/ringtone' : v
+              })(RingSelect)}
             </span>
           </div>
         </div>

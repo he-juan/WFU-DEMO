@@ -256,91 +256,91 @@ class Ethernet extends FormCommon {
 
           <FormItem {...options['P9']} hide={P8 !== '1'} className='ip-input-form-item'>
             <Form.Item className='sub-form-item'>
-              {gfd('P9', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P9', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P10', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P10', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P11', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P11', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P12', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P12', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
           </FormItem>
           {/* 子网掩码 */}
           <FormItem {...options['P13']} hide={P8 !== '1'} className='ip-input-form-item'>
             <Form.Item className='sub-form-item'>
-              {gfd('P13', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P13', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P14', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P14', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P15', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P15', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P16', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P16', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
           </FormItem>
           {/* 网关 */}
           <FormItem {...options['P17']} hide={P8 !== '1'} className='ip-input-form-item'>
             <Form.Item className='sub-form-item'>
-              {gfd('P17', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P17', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P18', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P18', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P19', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P19', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P20', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P20', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
           </FormItem>
           {/* DNS服务器1 */}
           <FormItem {...options['P21']} hide={P8 !== '1'} className='ip-input-form-item'>
             <Form.Item className='sub-form-item'>
-              {gfd('P21', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P21', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P22', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P22', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P23', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P23', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P24', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P24', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
           </FormItem>
           {/* DNS服务器2 */}
           <FormItem {...options['P25']} hide={P8 !== '1'} className='ip-input-form-item'>
             <Form.Item className='sub-form-item'>
-              {gfd('P25', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P25', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P26', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P26', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P27', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P27', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P28', { rules: this.ipInputRule })(<Input />)}
+              {gfd('P28', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
           </FormItem>
           {/* PPPoE帐号ID */}
@@ -414,6 +414,7 @@ class Ethernet extends FormCommon {
             hide={P1419 !== '1'}
             gfdOptions={{
               rules: [
+                this.required(),
                 this.checkIpv6()
               ]
             }}
@@ -438,6 +439,7 @@ class Ethernet extends FormCommon {
             hide={P1419 !== '1'}
             gfdOptions={{
               rules: [
+                this.required(),
                 this.checkIpv6()
               ]
             }}

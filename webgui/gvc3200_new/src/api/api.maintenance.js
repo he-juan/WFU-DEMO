@@ -102,6 +102,17 @@ export const getLogcat = (logTag, logPri) => {
 }
 
 /**
+ * 获取日志的 文本内容
+ */
+export const getLogcatText = () => {
+  return _axios({
+    method: 'get',
+    url: '/logcat/logcat.text?region=maintenance',
+    stringData: true
+  })
+}
+
+/**
  * 开始traceroute
  * @param {String} addr 目标域名或ip
  */
@@ -291,7 +302,7 @@ export const getRecordList = () => {
 /**
  * 删除录音
  */
-export const deleteRecord = (recordname) => {
+export const debugDeleteRecord = (recordname) => {
   return _axios({
     method: 'get',
     url: '/manager?action=deleterecord&recordname=' + recordname

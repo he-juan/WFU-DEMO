@@ -34,17 +34,19 @@ class AccountStatus extends Component {
             acctStatus.map(acctInfo => (
               <tr key={acctInfo.acctIndex}>
                 <td>
-                  <i className={`icons icon-acctstatus ${acctInfo.activate === 0 ? '' : acctInfo.activate !== 7 ? 'active-1' : 'active-2'}`}></i>
-                  {acctInfo['name']}
+                  <i className={`icons icon-acctstatus ${+acctInfo.register === 0 ? '' : acctInfo.activate !== 7 ? 'active-1' : 'active-2'}`}></i>
+                  {acctInfo['name'] || '-'}
                 </td>
                 <td>
-                  {acctInfo['num']}
+                  {acctInfo['num'] || '-'}
                 </td>
                 <td>
-                  {acctInfo['server']}
+                  {acctInfo['server'] || '-'}
                 </td>
                 <td>
-                  {acctInfo['register'] === 0 ? $t('c_083') : $t('c_082')}
+                  <span style={{ color: acctInfo['register'] === 0 ? '#7d8a99' : '#42db66' }}>
+                    {acctInfo['register'] === 0 ? $t('c_083') : $t('c_082')}
+                  </span>
                 </td>
               </tr>
             ))

@@ -3,7 +3,7 @@ import { Form, Checkbox, Button, message } from 'antd'
 import Transfer from '@/components/Transfer'
 import FormCommon from '@/components/FormCommon'
 import { getOptions } from '@/template'
-import FormItem, { CheckboxItem, SelectItem, InputItem, RadioGroupItem } from '@/components/FormItem'
+import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/FormItem'
 import { $t } from '@/Intl'
 
 @Form.create()
@@ -550,14 +550,14 @@ class CodecSettings extends FormCommon {
           gfd={gfd}
         />
         {/* 视频前向纠错模式 */}
-        <RadioGroupItem
+        {/* <RadioGroupItem
           {...options['P26022']}
           gfd={gfd}
           radioOptions={[
             { v: '0', t: '0' },
             { v: '1', t: '1' }
           ]}
-        />
+        /> */}
         {/* FEC有效荷载类型 */}
         <InputItem
           {...options['P2394']}

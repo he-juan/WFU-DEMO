@@ -127,7 +127,7 @@ class GroupEditModal extends Component {
                             <li key={contact.id}>
                               <span>{contact.name.displayname}</span>
                               <span>
-                                {contact.phone[0] ? contact.phone[0].number : ''}
+                                <em>{contact.phone[0] ? contact.phone[0].number : ''}</em>
                                 <i className='icons icon-delete-2' onClick={() => this.unCheckContact(contact)}/>
                               </span>
                             </li>

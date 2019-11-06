@@ -179,6 +179,14 @@
         display: inline-block;
         width: 55%;
         text-align: right;
+        em {
+          display: inline-block;
+          width: calc(100% - 30px);
+          vertical-align: middle;
+          font-style: normal;
+          text-align: right;
+          .ellipsis();
+        }
       }
       
       &:hover {
