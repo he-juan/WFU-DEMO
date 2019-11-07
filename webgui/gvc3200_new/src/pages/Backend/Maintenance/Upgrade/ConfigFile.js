@@ -75,7 +75,7 @@ class ConfigFile extends FormCommon {
 
   // 提交数据
   handleSubmit = () => {
-    const { validateFields } = this.props.form
+    const { validateFields, setFieldsValue } = this.props.form
     validateFields((err, values) => {
       if (!err) {
         let arr = ['TFTP://', 'HTTP://', 'HTTPS://']
@@ -91,23 +91,26 @@ class ConfigFile extends FormCommon {
         // 配置文件 不为默认
         if (!usegsgap && P237) {
           if (P237.substring(0, arr[+P212].length).toUpperCase() === arr[+P212]) {
-            values.P237 = P237.substring(arr[+P212].length).trim()
+            values.P237 = P237.substring(arr[+P212].length)
           } else if (P237.indexOf('://') !== -1) {
             return message.error($t('m_208'))
           }
+          values.P237 = values.P237.trim()
         }
         // 自定义文件非deny
         if (P6774) {
           if (P6774.substring(0, arr[+P6775].length).toUpperCase() === arr[+P6775]) {
-            values.P6774 = P6774.substring(arr[+P6775].length).trim()
+            values.P6774 = P6774.substring(arr[+P6775].length)
           } else if (P6774.indexOf('://') !== -1) {
             return message.error($t('m_065'))
           }
+          values.P6774 = values.P6774.trim()
         }
         if (!this.options['usegsgap'].deny) delete values.usegsgap
 
         this.submitFormValue(values).then(msgs => {
           if (msgs.Response === 'Success') {
+            setFieldsValue(values)
             // 判断是否 弹出 重启提示弹窗
             rebootNotify({ immediate: this.isShouldReboot }, () => {
               this.isShouldReboot = false

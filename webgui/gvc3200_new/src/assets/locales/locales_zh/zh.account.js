@@ -24,19 +24,19 @@ export default {
   acct_007_tip: 'SIP服务器电话用户用于验证的验证ID。可以与用户ID相同或不同。',
 
   acct_008: 'SIP认证密码',
-  acct_008_tip: 'SIP服务器电话用户用于设备注册到由服务提供商提供的SIP服务器上的密码。',
+  acct_008_tip: 'SIP电话用户向SIP服务器注册时使用的密码。输入的密码不以明文显示。',
 
   acct_009: '显示名称',
   acct_009_tip: 'SIP电话用户作为主叫时，显示在被叫方设备上的来电名称。可选项，可不填。',
 
   acct_010: '语音信箱接入号',
-  acct_010_tip: '这个号码通常是语音信箱入口接入码。例如：Asterisk服务器的语音信箱接入号为8500。可以通过语音邮件应用进入语音邮箱。',
+  acct_010_tip: '当配置了该项时，用户能够按设备上的MESSAGE按键拨打至语音信箱。这个号码通常是语音信箱入口接入码。例如：Asterisk服务器的语音信箱接入号为8500。',
 
   acct_011: '电话 URI',
   acct_011_tip: '若设备有指定的PSTN电话号码，该项应设置为“User=Phone”。此时设备在指示E.164号码时发送的SIP请求头文件中将附上“User=Phone”这一字段。若设置为“启用”，在发送SIP请求时“Tel:”将会替换“SIP:”。默认设置该项禁用。',
 
   acct_012: '出局代理',
-  acct_012_tip: '配置Outbound代理服务器、多媒体网关或会话边界控制器的IP地址或URL。用于不同网络环境的防火墙或NAT穿透。如果系统检测到对称NAT，STUN不能工作。Outbound服务器可以提供对称NAT的解决方案。',
+  acct_012_tip: '配置出局代理服务器、多媒体网关或会话边界控制器的IP地址或URL。该配置用于不同网络环境的防火墙或NAT穿透。当系统检测到对称NAT时，STUN不能工作，此时出局服务器可以提供对称NAT的解决方案。',
 
   acct_013: '备用出局代理',
   acct_013_tip: '配置备用出局代理服务器、多媒体网关或会话边界控制器的IP地址或URL。当出局代理不能正常工作时使用备用出局代理。',
@@ -111,7 +111,7 @@ export default {
   acct_036_tip: '控制Privacy头域是否将出现在SIP INVITE消息中。头域中包含是否隐藏主叫号码的信息。当设置为“默认”时，仅当华为IMS的特殊功能开启后Privacy头域才不会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示Privacy头域。当设置为“否”时，SIP INVITE消息将不显示Privacy头域。默认设置为“默认”。',
 
   acct_037: '使用P-Preferred-Identity头域',
-  acct_037_tip: '配置是否使用SIP INVITE消息中的P-Preferred-Identity头域。详细信息请参考用户手册。',
+  acct_037_tip: '控制是否P-Preferred-Identity头域将出现在SIP INVITE消息中。仅当华为IMS的特殊功能开启后P-Preferred-Identity头域才会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示P-Preferred-Identity头域。当设置为“否”时，SIP INVITE消息将不显示P-Preferred-Identity头域。默认设置为“默认”。',
 
   acct_038: '使用MAC头域',
   acct_038_tip: '此项设置是否使用MAC头域。如果设置为“否”,则所有SIP REGISTER消息都不使用MAC头域；如果设置为“仅REGISTER”，则仅在注册/注销的SIP消息中包含MAC头域；如果设置为“全部”，则所有传出的SIP消息中都包含MAC头域。',
@@ -156,10 +156,10 @@ export default {
   acct_051_tip: '启用后，仅已知的服务器发来的SIP请求才会被接受，即设备未使用过的SIP服务器发送来的请求信息将会被拒绝。默认为不勾选。',
 
   acct_052: 'SIP T1超时时间',
-  acct_052_tip: '此项设置SIP T1超时时间。默认为0.5s。',
+  acct_052_tip: '设置SIP T1 超时时间。T1是对服务器和客户端之间的事务往返延时（RTT）时间评估。如果网络等待时间很高，请选择更大的值以保证稳定的使用。默认设置为0.5秒。',
 
   acct_053: 'SIP T2间隔时间',
-  acct_053_tip: '此项设置SIP T2时间间隔，默认为4s。',
+  acct_053_tip: '设置SIP T2 间隔时间。T2定义了INVITE响应和non-INVITE请求的时间间隔。默认设置为4秒。',
 
   acct_054: 'SIP Timer D间隔时间',
   acct_054_tip: 'SIP定时器D，用于INVITE客户端事务收到3xx ~ 6xx回复后到这个事务结束状态的时间间隔。有效值为0-64秒。',

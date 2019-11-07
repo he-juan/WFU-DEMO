@@ -24,13 +24,13 @@ export default {
   acct_007_tip: 'SIP service subscriber\'s ID used for authentication. It can be identical to or different from the SIP User ID.',
 
   acct_008: 'SIP Authentication Password',
-  acct_008_tip: 'The account password required for the device to authenticate with the ITSP (SIP) server before the account can be registered. After it is saved, this will appear as hidden for security purpose.',
+  acct_008_tip: 'The account password required for the phone to authenticate with the ITSP/SIP server before the account can be registered. The password will be hidden for secrurity purpose after it\'s saved.',
 
   acct_009: 'Display Name',
   acct_009_tip: 'The SIP server subscriber\'s name (optional) that will be used for Caller ID display.',
 
   acct_010: 'Voicemail Access Number',
-  acct_010_tip: 'This ID is usually the VM portal access number. For example, in Asterisk server, 8500 could be used. Access voice messages by entering Voice Mail app.',
+  acct_010_tip: 'This ID is usually the VM portal access number. For example, in Asterisk server, 8500 could be used to access voice message.',
 
   acct_011: 'Tel URI',
   acct_011_tip: 'If the device has an assigned PSTN telephone number, this field should be set to "User=Phone". Then a "User=Phone" parameter will be attached to the Request-Line and "TO" header in the SIP request to indicate the E.164 number. If set to "Enable", "Tel:" will be used instead of "SIP:" in the SIP request. The default setting is "Disable".',
@@ -110,8 +110,8 @@ export default {
   acct_036: 'Use Privacy Header',
   acct_036_tip: 'Controls whether the Privacy header will present in the SIP INVITE message or not, whether the header contains the caller info. When set to "Default", the Privacy Header won\'t show in INVITE only when "Huawei IMS" special feature is on. If set to "Yes", the Privacy Header will always show in INVITE. If set to "No", the Privacy Header will not show in INVITE. The default setting is "Default".',
 
-  acct_037: 'Use P-preferred-identity header',
-  acct_037_tip: 'Controls whether the P-Preferred-Identity Header will present in the SIP INVITE message. Please refer to user manual for more details.',
+  acct_037: 'Use P-preferred-identity Header',
+  acct_037_tip: 'Controls whether the P-Preferred-Identity Header will present in the SIP INVITE message or not. The default setting is "default". The P-Preferred-Identity Header will show in SIP INVITE only when "Huawei IMS" special feature is on. If set to "Yes", the P-Preferred-Identity Header will always show in INVITE. If set to "No", the header will not show in INVITE. The default setting is "Default".',
 
   acct_038: 'Use Mac Header',
   acct_038_tip: 'Configures whether to use MAC header. If set to "No", all SIP REGISTER messages will not contain MAC header; If set to "Only for REGISTER", MAC header will only be included in SIP REGISTER and UNREGISTER messages; If set to "Yes to All SIP", all outgoing SIP REGISTER messages will contain MAC header.',
@@ -156,10 +156,10 @@ export default {
   acct_051_tip: 'If set to "Yes", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn\'t match the device\'s SIP User ID, the call will be rejected. The default is "No".',
 
   acct_052: 'SIP T1 Timeout',
-  acct_052_tip: 'SIP T1 Timeout. The default setting 0.5 second.',
+  acct_052_tip: 'SIP T1 Timeout. T1 is the evaluation on RTT (Round Trip Time) between the server and the client. If the network latency takes a long time, please select a larger value to ensure the stability. The default setting is 0.5 seconds.',
 
   acct_053: 'SIP T2 Interval',
-  acct_053_tip: 'SIP T2 Interval. The default setting is 4 seconds.',
+  acct_053_tip: 'SIP T2 Interval. T2 defines the interval between INVITE and non-INVITE. The default setting is 4 seconds.',
 
   acct_054: 'SIP Timer D Interval',
   acct_054_tip: 'Defines the time interval when the INVITE client receives 3xx ~ 6xx and then replys back till the whole transaction is over. The valid value is 0-64 seconds.',

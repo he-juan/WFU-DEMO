@@ -69,10 +69,13 @@ class Debug extends FormCommon {
       this.props.form.setFieldsValue({ P29611 })
     })
     return API.getTracelist().then(data => {
-      this.setState({
-        debugTraceList: data.Tracelist || []
-      })
-      this.props.form.setFieldsValue({ debugfile: data.Tracelist[0] || '' })
+      if (data['Response'] === 'Success') {
+        this.setState({
+          debugTraceList: data.Tracelist || []
+        }, () => {
+          this.props.form.setFieldsValue({ debugfile: data.Tracelist[0] || '' })
+        })
+      }
       return Promise.resolve()
     })
   }
@@ -80,14 +83,13 @@ class Debug extends FormCommon {
   // 获取核心存储列表
   getCoredumplist = () => {
     return API.getCoredumplist().then(data => {
-      let coreDumpList = []
-      if (data.Response === 'Success') {
-        coreDumpList = data.Coredumplist || []
+      if (data['Response'] === 'Success') {
+        this.setState({
+          coreDumpList: data.Coredumplist || []
+        }, () => {
+          this.props.form.setFieldsValue({ coredumpfile: data.Coredumplist[0] || '' })
+        })
       }
-      this.setState({
-        coreDumpList: coreDumpList
-      })
-      this.props.form.setFieldsValue({ coredumpfile: coreDumpList[0] || '' })
       return Promise.resolve()
     })
   }
@@ -95,10 +97,13 @@ class Debug extends FormCommon {
   // 获取录音列表
   getRecordList = () => {
     return API.getRecordList().then(data => {
-      this.setState({
-        recordList: data.Records || []
-      })
-      this.props.form.setFieldsValue({ recordfile: data.Records[0] || '' })
+      if (data['Response'] === 'Success') {
+        this.setState({
+          recordList: data.Records || []
+        }, () => {
+          this.props.form.setFieldsValue({ recordfile: data.Records[0] || '' })
+        })
+      }
       return Promise.resolve()
     })
   }

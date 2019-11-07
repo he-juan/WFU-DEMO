@@ -36,7 +36,6 @@ class BakNav extends Component {
     return result
   }
   handleOpenChange = (k) => {
-    // const { history } = this.props
     let lastKey = k[k.length - 1]
     if (k[0] && lastKey.indexOf(k[0]) < 0) {
       k = [lastKey]
@@ -45,7 +44,11 @@ class BakNav extends Component {
     // let destlv1 = menuData.filter(item => item.path === k[0])[0]
     // if (!destlv1) return false
     // let destlv2 = destlv1.sub ? destlv1.sub[0].path : destlv1.path
-    // history.push(destlv2)
+    // this.setState({
+    //   openKeys: k
+    // }, () => {
+    //   this.props.history.push(destlv2)
+    // })
     this.setState({
       openKeys: k
     })

@@ -5,34 +5,35 @@ import { isMenuRouteDeny } from '@/utils/tools'
 
 const routes = [
   /* call */
-  { path: '/manage/calling_call', component: lazy(() => import(/* webpackChunkName: "calling" */ './Call/Call')) },
-  { path: '/manage/calling_history', component: lazy(() => import(/* webpackChunkName: "calling" */ './Call/CallHistory')) },
-  { path: '/manage/calling_contacts', component: lazy(() => import(/* webpackChunkName: "calling" */ './Call/Contacts')) },
-  { path: '/manage/calling_schedule', component: lazy(() => import(/* webpackChunkName: "calling" */ './Call/Schedule')) },
+  { path: '/manage/calling_call', component: lazy(() => import(/* webpackChunkName: "calling_call" */ './Call/Call')) },
+  { path: '/manage/calling_history', component: lazy(() => import(/* webpackChunkName: "calling_history" */ './Call/CallHistory')) },
+  { path: '/manage/calling_contacts', component: lazy(() => import(/* webpackChunkName: "calling_contacts" */ './Call/Contacts')) },
+  { path: '/manage/calling_schedule', component: lazy(() => import(/* webpackChunkName: "calling_schedule" */ './Call/Schedule')) },
+
   /* account */
-  { path: '/manage/acct_sip', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct" */ './Account/SIP')) },
-  { path: '/manage/acct_ipvt', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct" */ './Account/IPVideoTalk')) },
-  { path: '/manage/acct_bj', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct" */ './Account/BlueJeans')) },
-  { path: '/manage/acct_h323', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct" */ './Account/H323')) },
+  { path: '/manage/acct_sip', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_sip" */ './Account/SIP')) },
+  { path: '/manage/acct_ipvt', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_ipvt" */ './Account/IPVideoTalk')) },
+  { path: '/manage/acct_bj', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_bj" */ './Account/BlueJeans')) },
+  { path: '/manage/acct_h323', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_h323" */ './Account/H323')) },
 
   /* call features */
-  { path: '/manage/callset_general', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset" */ './CallFeatures/GeneralSettings')) },
-  { path: '/manage/callset_callfeature', component: lazy(() => import(/* webpackChunkName: "callset" */ './CallFeatures/CallFeatures')) },
-  { path: '/manage/callset_sitename', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset" */'./CallFeatures/SiteName')) },
-  { path: '/manage/callset_audio', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset" */'./CallFeatures/AudioControl')) },
-  { path: '/manage/callset_video', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset" */'./CallFeatures/VideoSettings')) },
+  { path: '/manage/callset_general', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset_general" */ './CallFeatures/GeneralSettings')) },
+  { path: '/manage/callset_callfeature', component: lazy(() => import(/* webpackChunkName: "callset_callfeature" */ './CallFeatures/CallFeatures')) },
+  { path: '/manage/callset_sitename', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset_sitename" */'./CallFeatures/SiteName')) },
+  { path: '/manage/callset_audio', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset_audio" */'./CallFeatures/AudioControl')) },
+  { path: '/manage/callset_video', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset_video" */'./CallFeatures/VideoSettings')) },
 
   /* network settings */
-  { path: '/manage/network_wifi', component: lazy(() => import(/* webpackChunkName: "network" */ './NetworkSettings/Wifi')) },
-  { path: '/manage/network_ethernet', component: lazy(() => import(/* webpackChunkName: "network" */ './NetworkSettings/Ethernet')) },
-  { path: '/manage/network_openvpn', component: lazy(() => import(/* webpackChunkName: "network" */'./NetworkSettings/Openvpn')) },
-  { path: '/manage/network_advanced', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "network" */'./NetworkSettings/Advanced')) },
+  { path: '/manage/network_wifi', component: lazy(() => import(/* webpackChunkName: "network_wifi" */ './NetworkSettings/Wifi')) },
+  { path: '/manage/network_ethernet', component: lazy(() => import(/* webpackChunkName: "network_ethernet" */ './NetworkSettings/Ethernet')) },
+  { path: '/manage/network_openvpn', component: lazy(() => import(/* webpackChunkName: "network_openvpn" */'./NetworkSettings/Openvpn')) },
+  { path: '/manage/network_advanced', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "network_advanced" */'./NetworkSettings/Advanced')) },
 
   /* system settings */
-  { path: '/manage/sys_power', component: lazy(() => import(/* webpackChunkName: "systemset" */ './SystemSettings/Power')) },
-  { path: '/manage/sys_timelang', component: lazy(() => import(/* webpackChunkName: "systemset" */ './SystemSettings/TimeAndLang')) },
-  { path: '/manage/sys_tr069', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "systemset" */ './SystemSettings/TR069')) },
-  { path: '/manage/sys_security', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "systemset" */ './SystemSettings/Security')) },
+  { path: '/manage/sys_power', component: lazy(() => import(/* webpackChunkName: "sys_power" */ './SystemSettings/Power')) },
+  { path: '/manage/sys_timelang', component: lazy(() => import(/* webpackChunkName: "sys_timelang" */ './SystemSettings/TimeAndLang')) },
+  { path: '/manage/sys_tr069', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "sys_tr069" */ './SystemSettings/TR069')) },
+  { path: '/manage/sys_security', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "sys_security" */ './SystemSettings/Security')) },
 
   /* device control */
   { path: '/manage/dev_preset', component: lazy(() => import(/* webpackChunkName: "devicectrl" */ './DeviceControl/PresetSettings')) },
@@ -46,8 +47,9 @@ const routes = [
   { path: '/manage/app_tpapp', component: lazy(() => import(/* webpackChunkName: "app" */ './App/ThirdPartyApp')) },
 
   /** Maintenance */
-  { path: '/manage/maintenance_upgrade', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "maintenance" */ './Maintenance/Upgrade')) },
-  { path: '/manage/maintenance_trouble', component: lazy(() => import(/* webpackChunkName: "maintenance" */ './Maintenance/Troubleshooting')) },
+  { path: '/manage/maintenance_upgrade', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "maintenance_upgrade" */ './Maintenance/Upgrade')) },
+  { path: '/manage/maintenance_trouble', component: lazy(() => import(/* webpackChunkName: "maintenance_trouble" */ './Maintenance/Troubleshooting')) },
+
   /* status */
   { path: '/manage/status_account', component: lazy(() => import(/* webpackChunkName: "status" */ './Status/AccountStatus')) },
   { path: '/manage/status_peripheral', component: lazy(() => import(/* webpackChunkName: "status" */ './Status/PeripheralStatus')) },
