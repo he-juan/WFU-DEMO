@@ -8,6 +8,10 @@ import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/Form
 import { setProp as ApiSetProp } from '@/api/api.maintenance'
 import { $t } from '@/Intl'
 
+const isChanged = (target) => {
+  return target && target.touched
+}
+
 // redux connect
 @connect(
   state => ({
@@ -18,7 +22,23 @@ import { $t } from '@/Intl'
 )
 
 // antd form.create
-@Form.create()
+@Form.create({
+  onFieldsChange (props, fields) {
+    if (isChanged(fields.P193) || isChanged(fields.P22296) || isChanged(fields.P8458)) {
+      let { P193, P22296, P8458 } = props.form.getFieldsValue(['P193', 'P22296', 'P8458'])
+      if ((P22296 === '1' && (P8458 !== 1 || parseInt(P193) < 1440))) {
+        props.form.setFieldsValue({
+          P285: ''
+        })
+      }
+      if ((P193 && parseInt(P193) < 1440 && P22296 === '1') || P8458 !== 1) {
+        props.form.setFieldsValue({
+          P8459: ''
+        })
+      }
+    }
+  }
+})
 class Provision extends FormCommon {
   // constructor
   constructor (props) {
@@ -29,7 +49,6 @@ class Provision extends FormCommon {
       isHideRandom: false,
       isHideStartEndHour: false,
       isHideDayofweek: false,
-      startEndHour: false,
       vocoderData: [], // 穿梭框数据
       vocoderTargetKeys: [],
       other: {
@@ -120,18 +139,6 @@ class Provision extends FormCommon {
     })
   }
 
-  // 检查 自动升级检查间隔
-  checkPeroid = (value) => {
-    this.setState({
-      startEndHour: parseInt(value) < 1440 || value === ''
-    })
-  }
-
-  // 自动升级检查间隔 change
-  handleChangePeroid = (e) => {
-    this.checkPeroid(e.target.value)
-  }
-
   // 自动升级 change
   handleChangeAutoup = (value, bool = true) => {
     let values = this.props.form.getFieldsValue()
@@ -150,7 +157,6 @@ class Provision extends FormCommon {
         isHideStartEndHour: false,
         isHideDayofweek: true
       }
-      this.checkPeroid(values['P193'])
       if (bool) {
         if (values['P285'] === '' || values['P8459'] === '') {
           this.props.form.setFieldsValue({
@@ -164,16 +170,14 @@ class Provision extends FormCommon {
         isHidePeroid: true,
         isHideRandom: false,
         isHideStartEndHour: false,
-        isHideDayofweek: true,
-        startEndHour: false
+        isHideDayofweek: true
       }
     } else if (value === '3') {
       mode = {
         isHidePeroid: true,
         isHideRandom: false,
         isHideStartEndHour: false,
-        isHideDayofweek: false,
-        startEndHour: false
+        isHideDayofweek: false
       }
     }
     this.setState(mode)
@@ -251,7 +255,7 @@ class Provision extends FormCommon {
 
   // render
   render () {
-    const { getFieldDecorator: gfd, getFieldValue } = this.props.form
+    const { getFieldDecorator: gfd, getFieldsValue } = this.props.form
     const plainOptions = [
       { label: $t('c_058'), value: '0' },
       { label: $t('c_059'), value: '1' },
@@ -261,10 +265,10 @@ class Provision extends FormCommon {
       { label: $t('c_063'), value: '5' },
       { label: $t('c_064'), value: '6' }
     ]
-    const { isHidePeroid, isHideRandom, isHideDayofweek, isHideStartEndHour, startEndHour, vocoderData, vocoderTargetKeys } = this.state
-    const isRadomOpen = getFieldValue('P8458')
-    const options = this.options
+    const { isHidePeroid, isHideRandom, isHideDayofweek, isHideStartEndHour, vocoderData, vocoderTargetKeys } = this.state
 
+    const options = this.options
+    const { P193, P22296, P8458 } = getFieldsValue(['P193', 'P22296', 'P8458'])
     return (
       <Form>
         {/* 自动升级 */}
@@ -286,7 +290,6 @@ class Provision extends FormCommon {
           gfd={gfd}
           {...options['P193']}
           hide={isHidePeroid}
-          onChange={this.handleChangePeroid}
           gfdOptions={{
             rules: [
               this.digits(),
@@ -311,7 +314,12 @@ class Provision extends FormCommon {
                   this.range(0, 23)
                 ]
               })(
-                <Input disabled={startEndHour} style={{ width: '150px' }}></Input>
+                <Input
+                  disabled={
+                    (P22296 === '1' && (P8458 !== 1 || parseInt(P193) < 1440)) // // 如果自动升级类型为每分钟检查(P22296 === ‘1’)时，不勾选随机自动升级((P8458 !== 1) 或 自动升级检查间隔 小于1440
+                  }
+                  style={{ width: '150px' }}
+                ></Input>
               )
             }
           </Form.Item>
@@ -325,7 +333,7 @@ class Provision extends FormCommon {
                   this.range(0, 23)
                 ]
               })(
-                <Input disabled={startEndHour || isRadomOpen !== 1} style={{ width: '150px' }}></Input>
+                <Input disabled={(P193 && parseInt(P193) < 1440 && P22296 === '1') || P8458 !== 1} style={{ width: '150px' }}></Input>
               )
             }
           </Form.Item>
