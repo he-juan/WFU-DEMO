@@ -6,6 +6,7 @@ import FormCommon from '@/components/FormCommon'
 import FormItem, { CheckboxItem, SelectItem } from '@/components/FormItem'
 import { resetres as ApiResetres } from '@/api/api.maintenance'
 import { $t } from '@/Intl'
+import { history } from '@/App'
 import { rebootNotify } from '@/utils/tools'
 
 @Form.create()
@@ -40,10 +41,12 @@ class AdvancedSettings extends FormCommon {
       content: $t('m_066'),
       okText: $t('b_002'),
       cancelText: $t('b_005'),
-      onOk () {
+      onOk: () => {
+        Cookie.set('reboottype', 'reset', { path: '/', expires: 10 })
+        history.push('/reboot')
         ApiResetres('0').then((msgs) => {
           if (msgs.Response === 'Success') {
-            Cookie.set('resetreboot', '1', { path: '/', expires: 10 })
+            console.log('reset success!')
           }
         })
       }

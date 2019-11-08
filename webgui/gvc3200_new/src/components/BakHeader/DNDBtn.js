@@ -19,13 +19,12 @@ class DNDBtn extends Component {
   }
   handleDnd = () => {
     const { dndStatus } = this.state
-    const _this = this
     let status = dndStatus ? 0 : 1
     Modal.confirm({
       title: status ? $t('m_205') : $t('m_206'),
-      onOk () {
+      onOk: () => {
         API.ctrlConfDnd(status).then(msg => {
-          if (msg.result === 0) _this.setDndStatus(status)
+          if (msg.result === 0) this.setDndStatus(status)
         })
       }
     })

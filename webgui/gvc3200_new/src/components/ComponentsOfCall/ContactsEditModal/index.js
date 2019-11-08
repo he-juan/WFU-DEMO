@@ -126,7 +126,6 @@ class ContactsEditModal extends Component {
     const { contacts } = this.props
     const { editContacts } = this.state
     const { name, isAdd } = editContacts
-    const _this = this
     if (name['displayname'].length === 0) {
       message.error($t('m_102'))
       return false
@@ -135,7 +134,7 @@ class ContactsEditModal extends Component {
       Modal.confirm({
         title: $t('m_103'),
         onOk: () => {
-          _this.setContact(editContacts)
+          this.setContact(editContacts)
         }
       })
     } else {

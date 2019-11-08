@@ -188,7 +188,7 @@ const msgs = {
   m_030: 'The device is rebooting now...',
   m_031: 'The device is shutting down now...',
   m_032: 'The device is sleeping now...',
-  m_033: 'You may relogin by clicking on the link below in 2 minutes after rebooting.',
+  m_033: 'If the device is on a call, it will reboot after the call ends.<br/>You may relogin by clicking on the link below in 2 minutes after rebooting.',
   m_034: 'You may relogin by clicking on the link below after rebooting.',
   m_035: 'You may relogin by clicking on the link below after waking up the device.',
   m_036: 'detele custom language file?',
@@ -364,6 +364,8 @@ const msgs = {
   m_206: 'Disable DND?',
   m_207: 'Please fill in correct firmware server path',
   m_208: 'Please fill in correct config server path',
+  m_209: 'The device is Factory Reseting now...',
+  m_210: 'If the device is on a call, it will Factory Reset after the call ends.<br>You may log in again in about 2 minutes.',
 
   m_999: ''
 }
