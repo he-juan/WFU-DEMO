@@ -251,7 +251,7 @@ class Provision extends FormCommon {
 
   // render
   render () {
-    const { getFieldDecorator: gfd, getFieldValue } = this.props.form
+    const { getFieldDecorator: gfd, getFieldValue, setFieldsValue } = this.props.form
     const plainOptions = [
       { label: $t('c_058'), value: '0' },
       { label: $t('c_059'), value: '1' },
@@ -262,9 +262,23 @@ class Provision extends FormCommon {
       { label: $t('c_064'), value: '6' }
     ]
     const { isHidePeroid, isHideRandom, isHideDayofweek, isHideStartEndHour, startEndHour, vocoderData, vocoderTargetKeys } = this.state
-    const isRadomOpen = getFieldValue('P8458')
+    const isRadomOpen = getFieldValue('P8458') // 是否开启自动升级
+    const radomType = getFieldValue('P22296') // 自动升级类型
     const options = this.options
 
+    const isStartTimeDisable = startEndHour || (isRadomOpen !== 1 && radomType === '1')
+    const isEndTimeDisable = startEndHour || isRadomOpen !== 1
+    if (getFieldValue('P285') !== '' && isStartTimeDisable) {
+      setFieldsValue({
+        P285: ''
+      })
+    }
+
+    if (getFieldValue('P8459') !== '' && isEndTimeDisable) {
+      setFieldsValue({
+        P8459: ''
+      })
+    }
     return (
       <Form>
         {/* 自动升级 */}
@@ -311,7 +325,7 @@ class Provision extends FormCommon {
                   this.range(0, 23)
                 ]
               })(
-                <Input disabled={startEndHour} style={{ width: '150px' }}></Input>
+                <Input disabled={isStartTimeDisable} style={{ width: '150px' }}></Input>
               )
             }
           </Form.Item>
@@ -325,7 +339,7 @@ class Provision extends FormCommon {
                   this.range(0, 23)
                 ]
               })(
-                <Input disabled={startEndHour || isRadomOpen !== 1} style={{ width: '150px' }}></Input>
+                <Input disabled={isEndTimeDisable} style={{ width: '150px' }}></Input>
               )
             }
           </Form.Item>
