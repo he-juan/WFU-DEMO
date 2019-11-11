@@ -25429,6 +25429,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_getLocaleListByLevel(srv, con, b, m);
             } else if (!strcasecmp(action, "getlanguages")) {
                 handle_callservice_by_no_param(srv, con, b, m, "getCurLocale");
+            } else if (!strcasecmp(action, "getcurtimezone")) {
+                handle_callservice_by_no_param(srv, con, b, m, "getCurTimezone");
             } else if (!strcasecmp(action, "gettimezone")) {
                 //handle_callservice_by_no_param(srv, con, b, m, "getTimeZoneList");
                 handle_gettimezone_new(srv, con, b, m);
