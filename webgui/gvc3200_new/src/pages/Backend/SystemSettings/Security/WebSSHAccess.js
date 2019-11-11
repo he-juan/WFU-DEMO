@@ -17,7 +17,10 @@ class WebSSHAccess extends FormCommon {
   constructor (props) {
     super(props)
 
-    this.options = getOptions('System.Security.WebSSHAccess')
+    this.options = Object.assign(getOptions('System.Security.WebSSHAccess'), {
+      Prssht_cfg_switch: { p: 'Prssht_cfg_switch' }
+    })
+    this.mRsshtcfgswitch = '0' // 远程诊断是否开启
     // 获取当前组件中 重启配置项
     this.rebootOptions = {}
   }
@@ -26,10 +29,12 @@ class WebSSHAccess extends FormCommon {
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
+      this.mRsshtcfgswitch = data.Prssht_cfg_switch || '0'
+      delete data.Prssht_cfg_switch
       setFieldsValue(data)
       // 赋值
-      originProtocal = data['P900']
-      originPort = data['P901']
+      originProtocal = data['P900'] || 0 // 访问方式
+      originPort = data['P901'] // 端口号
       // 保存 初始值
       for (const key in this.options) {
         if (this.options[key].reboot && !this.options[key].deny) {
@@ -41,14 +46,37 @@ class WebSSHAccess extends FormCommon {
 
   // 提交表单
   handleSubmit = () => {
-    const { validateFields } = this.props.form
+    const { validateFields, setFieldsValue } = this.props.form
     validateFields((err, values) => {
       if (!err) {
-        this.submitFormValue(values, 0).then(() => {
-          let { P900: curProtocal, P901: curPort } = values
-          if (!originProtocal) {
-            originProtocal = 0
+        let { P276, P900: curProtocal, P901: curPort } = values
+        // 远程诊断已开启
+        if (this.mRsshtcfgswitch === '1') {
+          // 不能禁止ssh访问
+          if (+P276 === 1) {
+            return Modal.info({
+              title: $t('m_211'),
+              okText: $t('b_002'),
+              onOk () {
+                setFieldsValue({ P276: '0' })
+              }
+            })
           }
+          // 禁止修改访问方法和端口
+          if (originProtocal !== curProtocal || originPort !== curPort) {
+            return Modal.info({
+              title: $t('m_212'),
+              okText: $t('b_002'),
+              onOk () {
+                setFieldsValue({
+                  P900: originProtocal,
+                  P901: originPort
+                })
+              }
+            })
+          }
+        }
+        this.submitFormValue(values, 0).then(() => {
           if (originProtocal !== curProtocal || originPort !== curPort) {
             let url = window.location.href
             let ip = url.split('/')[2]

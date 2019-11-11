@@ -202,7 +202,7 @@ class Power extends FormCommon {
               })(
                 <Select onChange={this.toogleShutdown} getPopupContainer={(triggerNode) => { return triggerNode }} style={{ width: '338px' }}>
                   <Select.Option value='1'>{$t('c_066')}</Select.Option>
-                  <Select.Option value='0'>{$t('c_327')}</Select.Option>
+                  <Select.Option value='0'>{$t('c_094')}</Select.Option>
                 </Select>
               )
             }

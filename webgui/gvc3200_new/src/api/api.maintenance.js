@@ -318,3 +318,24 @@ export const getRecordState = () => {
     url: '/manager?action=getrecordstate&region=maintenacne'
   })
 }
+
+/**
+ * getremotedebug 获取 远程诊断功能是否开启
+ */
+
+export const getRemotedebug = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getremotedebug&region=maintenacne'
+  })
+}
+
+/**
+ * setremotedebug 设置 远程诊断功能 开启/禁用
+ */
+export const setRemotedebug = status => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=setremotedebug&region=maintenacne&status=' + status
+  })
+}

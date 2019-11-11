@@ -219,6 +219,15 @@ export default {
             // 主机域名
             { lang: 'mai_tr_023', _p: 'addr' }
           ]
+        },
+        {
+          label: 'Remotediagnosis',
+          lang: 'r_071',
+          path: 'remotediagnosis',
+          sub: [
+            // 远程诊断
+            { lang: 'mai_tr_024', _p: 'mRsshtcfgswitch' }
+          ]
         }
       ]
     }

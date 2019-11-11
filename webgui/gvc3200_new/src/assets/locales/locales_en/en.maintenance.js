@@ -194,5 +194,8 @@ export default {
   mai_tr_023: 'Host Name',
   mai_tr_023_tip: 'Nslookup Target Host',
 
+  mai_tr_024: 'Remote Diagnosis',
+  mai_tr_024_tip: '',
+
   mai_999: ''
 }

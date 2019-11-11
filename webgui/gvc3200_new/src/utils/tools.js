@@ -426,3 +426,44 @@ export const isMenuRouteDeny = route => {
   }
   return false
 }
+
+/**
+ * 一定的时间搓转换为 hh:mm:ss
+ */
+export const timesToDuration = duration => {
+  let timeStr = ''
+  duration = parseInt(duration / 1000, 10)
+  let hour = parseInt(duration / 3600, 10)
+  if (hour !== 0) {
+    if (hour < 10) timeStr += '0'
+    timeStr += hour + ':'
+  }
+  let min = parseInt((duration - hour * 3600) / 60, 10)
+  if (min < 10) timeStr += '0'
+  timeStr += min + ':'
+
+  let second = duration - 3600 * hour - 60 * min
+  if (second < 10) timeStr += '0'
+  timeStr += second
+
+  return timeStr
+}
+
+/**
+ * 秒数转换为 hh:mm:ss
+ */
+export const formatTime = times => {
+  let timetext = ''
+  let seconds = times % 60
+  let minutes = parseInt(times / 60)
+  let hours = 0
+  if (minutes !== 0) {
+    hours = parseInt(minutes / 60)
+    minutes = minutes % 60
+  }
+
+  timetext += hours < 10 ? '0' + hours : hours
+  timetext += ':' + (minutes < 10 ? '0' + minutes : '' + minutes)
+  timetext += ':' + (seconds < 10 ? '0' + seconds : '' + seconds)
+  return timetext
+}

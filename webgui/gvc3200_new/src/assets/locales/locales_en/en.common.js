@@ -77,6 +77,7 @@ const routes = {
   r_068: 'SIP TLS',
   r_069: 'Ping',
   r_070: 'Third Party Application',
+  r_071: 'Remote Diagnosis',
 
   r_999: ''
 }
@@ -366,6 +367,9 @@ const msgs = {
   m_208: 'Please fill in correct config server path',
   m_209: 'The device is Factory Reseting now...',
   m_210: 'If the device is on a call, it will Factory Reset after the call ends.<br>You may log in again in about 2 minutes.',
+  m_211: 'Remote diagnosis is enabled, ssh access cannot be disabled',
+  m_212: 'Remote diagnosis is enabled, modification of access method and port is prohibited',
+  m_213: 'This device will allow remote collection of log information and remote access to web pages in the background. It will automatically close after 48h. Please confirm to open.',
 
   m_999: ''
 }
@@ -690,7 +694,7 @@ const commons = {
   c_324: 'Confirm password',
   c_325: 'The HDMI output interface marked with number "1" is the primary interface to output primary video. Please make sure to follow the port order when connecting HDMI OUT for normal use.',
   c_326: 'DND',
-  c_327: 'Enable',
+  // c_327: 'Enable',
   c_328: 'Forbidden',
 
   c_999: ''

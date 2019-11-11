@@ -196,5 +196,8 @@ export default {
   mai_tr_023: '主机域名',
   mai_tr_023_tip: 'Nslookup Target Host',
 
+  mai_tr_024: '远程诊断',
+  mai_tr_024_tip: '',
+
   mai_999: ''
 }
