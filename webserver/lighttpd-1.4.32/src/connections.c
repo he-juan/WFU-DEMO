@@ -14302,6 +14302,85 @@ static int handle_getlogcat (buffer *b, const struct message *m)
     return 1;
 }
 
+static int handle_getremotedebug(buffer *b)
+{
+    char enable_buf[16] = {0};
+
+    nvram_get_safe("rssht_cfg_switch", enable_buf, sizeof(enable_buf));
+
+    if (strlen(enable_buf) == 0) {
+        snprintf(enable_buf, sizeof(enable_buf), "0");
+    }
+
+    long activetime = 0, boottime = 0, servertime = 0;
+
+    char activetime_buf[32] = {0};
+    char boottime_buf[32] = {0};
+    char servertime_buf[32] = {0};
+
+    nvram_get_safe("rssht_timeOfDeath", activetime_buf, sizeof(activetime_buf));
+    nvram_get_safe("rssht_devBootTime", boottime_buf, sizeof(boottime_buf));
+    nvram_get_safe("rssht_serverTime", servertime_buf, sizeof(servertime_buf));
+
+    long long now = 0;
+    char buf[128] = "";
+    FILE *sys_file;
+
+    sys_file = fopen ("/proc/uptime", "r");
+    if (sys_file != NULL) {
+        fread (buf, 127, 1, sys_file);
+        fclose (sys_file);
+        sscanf (buf, "%lld", &now);
+    }
+
+    if (strlen(activetime_buf) != 0) {
+        activetime = atol(activetime_buf);
+    }
+
+    if (strlen(boottime_buf) != 0) {
+        boottime = atol(boottime_buf);
+    }
+
+    if (strlen(servertime_buf) != 0) {
+        servertime = atol(servertime_buf);
+    }
+
+    LOGD("active: %ld - now: %lld - boottime: %ld - servertime: %ld", activetime, now, boottime, servertime);
+
+    int remainTime = activetime - (now - boottime + servertime);
+
+    if (remainTime < 0) {
+        remainTime = 0;
+    }
+
+    char res[64] = {0};
+    snprintf(res, sizeof(res), "{\"response\":\"success\", \"status\":\"%s\", \"time\":\"%d\"}", enable_buf, remainTime);
+
+    buffer_append_string(b, res);
+
+    return 0;
+}
+
+static int handle_setremotedebug(buffer *b, const struct message *m)
+{
+    char *status = msg_get_header(m, "status");
+
+    if (!strcmp(status, "1")) {
+        nvram_set("rssht_cfg_switch", "0");
+        property_set("ctl.restart", "rsshtd");
+        nvram_set("rssht_cfg_switch", "1");
+    } else {
+        nvram_set("rssht_cfg_switch", "0");
+        property_set("ctl.restart", "rsshtd");
+    }
+
+    nvram_commit();
+
+    buffer_append_string(b, "{\"response\":\"success\"}");
+
+    return 0;
+}
+
 static int handle_getlanguages (buffer *b)
 {
     system("getprop persist.sys.language > /tmp/language");
@@ -25719,8 +25798,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 }
                 params = append_req_params(params, "state", state, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "getSetVoiceAssistantState", params);
-	        //} else {
-            //    findcmd = 0;
+            } else if (!strcasecmp(action, "getremotedebug")) {
+                handle_getremotedebug(b);
+            } else if (!strcasecmp(action, "setremotedebug")) {
+                handle_setremotedebug(b, m);
             }
             /* new APIs end */
 #endif
