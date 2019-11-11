@@ -23,6 +23,12 @@
     height: 28px;
     margin: 11px 14px;
   }
+
+  .screen-share-btn, .remote-control-btn, .user-menu, .locale-select, .apply-btn {
+    float: right;
+    cursor: pointer;
+  }
+  /* 勿扰模式 */
   .dnd-btn {
     float: right;
     cursor: pointer;
@@ -33,10 +39,8 @@
   /* 登出 下拉框*/
   .user-menu {
     min-width: 90px;
-    float: right;
     display: block;
     text-align: center;
-    cursor: pointer;
     position: relative;
     .icon-header {
       vertical-align: -13%;
@@ -81,19 +85,14 @@
       }
     }
   }
-  /* 语言选择*/
-  .locale-select {
-    float:right;
-  }
+
 
   /*应用按钮*/
   span.apply-btn {
-    float: right;
     width: 64px;
     height: 28px;
     color: #fff;
     background: #3d77ff ;
-    cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     user-select: none;

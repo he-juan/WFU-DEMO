@@ -3,3 +3,6 @@ config
 node_modules
 build
 Transfer
+_screen_capture_extensions
+screenCapture
+public
