@@ -370,6 +370,8 @@ const msgs = {
   m_211: 'Remote diagnosis is enabled, ssh access cannot be disabled',
   m_212: 'Remote diagnosis is enabled, modification of access method and port is prohibited',
   m_213: 'This device will allow remote collection of log information and remote access to web pages in the background. It will automatically close after 48h. Please confirm to open.',
+  m_214: 'URL format incorrect',
+  m_215: 'Username format incorrect',
 
   m_999: ''
 }

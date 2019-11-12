@@ -104,14 +104,14 @@ class OpenVPN extends FormCommon {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
       if (!err) {
-        let { Popenvpnmode, P7050 } = values
-        if (Popenvpnmode === '1') {
+        let { P22292, P7050 } = values
+        if (P22292 === '1') {
           values = {
-            Popenvpnmode, P7050
+            P22292, P7050
           }
         }
         this.submitFormValue(values).then(msgs => {
-          if (msgs.Response === 'Success' && values['Popenvpnmode'] === '1') {
+          if (msgs.Response === 'Success' && values['P22292'] === '1') {
             // 判断是否 弹出 重启提示弹窗
             rebootNotify({ immediate: this.isShouldReboot }, () => {
               this.isShouldReboot = false
@@ -125,7 +125,7 @@ class OpenVPN extends FormCommon {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const { delCA, delCert, delKey, loadingData } = this.state
     const options = this.options
-    const isSimpleMode = getFieldValue('Popenvpnmode') === '0'
+    const isSimpleMode = getFieldValue('P22292') === '0'
 
     return (
       <Spin spinning={loadingData} wrapperClassName='common-loading-spin'>
@@ -137,7 +137,7 @@ class OpenVPN extends FormCommon {
           />
           {/* OpenVPN® 模式 */}
           <SelectItem
-            {...options['Popenvpnmode']}
+            {...options['P22292']}
             gfd={gfd}
             selectOptions={[
               { v: '0', t: $t('c_177') },

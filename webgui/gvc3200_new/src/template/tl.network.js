@@ -139,7 +139,7 @@ export default {
         // 开启OpenVPN®
         { lang: 'net_039', p: 'P7050' },
         // OpenVPN® 模式
-        { lang: 'net_040', p: 'Popenvpnmode' },
+        { lang: 'net_040', p: 'P22292' },
         // 开启OpenVPN®压缩算法
         { lang: 'net_042', p: 'P8508' },
         // OpenVPN®服务器地址

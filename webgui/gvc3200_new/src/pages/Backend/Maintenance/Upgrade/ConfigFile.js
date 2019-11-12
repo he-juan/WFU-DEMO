@@ -121,6 +121,32 @@ class ConfigFile extends FormCommon {
     })
   }
 
+  // 匹配 A-Z a-z 0-9 : / . 其他字符报错
+  checkSpeChar (intlkey) {
+    return {
+      validator: (data, value, callback) => {
+        if (value && /[^\w/:\.]+/.test(value)) {
+          callback($t(intlkey))
+        } else {
+          callback()
+        }
+      }
+    }
+  }
+
+  // 匹配空格
+  checkSpace () {
+    return {
+      validator: (data, value, callback) => {
+        if (value && /\s+/.test(value)) {
+          callback($t('m_166'))
+        } else {
+          callback()
+        }
+      }
+    }
+  }
+
   render () {
     const self = this
     const { getFieldDecorator: gfd } = this.props.form
@@ -178,7 +204,8 @@ class ConfigFile extends FormCommon {
           hide={isShouldHide}
           gfdOptions={{
             rules: [
-              this.maxLen(256)
+              this.maxLen(256),
+              this.checkSpeChar('m_214')
             ]
           }}
         />
@@ -187,7 +214,8 @@ class ConfigFile extends FormCommon {
           gfd={gfd}
           gfdOptions={{
             rules: [
-              this.maxLen(512)
+              this.maxLen(512),
+              this.checkSpeChar('m_215')
             ]
           }}
           {...options['P1360']}
@@ -198,7 +226,8 @@ class ConfigFile extends FormCommon {
           {...options['P1361']}
           gfdOptions={{
             rules: [
-              this.maxLen(512)
+              this.maxLen(512),
+              this.checkSpace()
             ]
           }}
         />
@@ -278,7 +307,8 @@ class ConfigFile extends FormCommon {
           {...options['P6774']}
           gfdOptions={{
             rules: [
-              this.maxLen(256)
+              this.maxLen(256),
+              this.checkSpeChar('m_214')
             ]
           }}
         />
@@ -288,7 +318,8 @@ class ConfigFile extends FormCommon {
           {...options['P6776']}
           gfdOptions={{
             rules: [
-              this.maxLen(32)
+              this.maxLen(32),
+              this.checkSpeChar('m_215')
             ]
           }}
         />
@@ -298,7 +329,8 @@ class ConfigFile extends FormCommon {
           {...options['P6777']}
           gfdOptions={{
             rules: [
-              this.maxLen(128)
+              this.maxLen(128),
+              this.checkSpace()
             ]
           }}
         />
