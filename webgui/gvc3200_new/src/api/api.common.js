@@ -127,8 +127,9 @@ export const putPvalues = (params, flag = 0) => {
   let keys = Object.keys(params)
   keys.filter(v => typeof params[v] !== 'undefined').forEach((key, i) => {
     let v = params[key]
+    let val = typeof v === 'boolean' ? Number(v) : typeof v === 'string' ? encodeURIComponent(v) : v
     urlParams.push(`var-${prefixInteger(i, 4)}=${key.slice(1)}`) // key.slice(1) 去掉 P前缀
-    urlParams.push(`val-${prefixInteger(i, 4)}=${v}`)
+    urlParams.push(`val-${prefixInteger(i, 4)}=${val}`)
   })
   return _axios({
     method: 'get',

@@ -364,9 +364,10 @@ export const rebootNotify = ({ oldOptions, newOptions, immediate = false }, call
   } else {
     let status = !1
     for (const key in oldOptions) {
-      const oldVal = oldOptions[key] !== null || oldOptions[key] !== undefined ? oldOptions[key].toString() : ''
-      const newVal = newOptions[key] !== null || newOptions[key] !== undefined ? newOptions[key].toString() : ''
-      if (oldVal !== newVal) {
+      const [ oldBool, newBool ] = [oldOptions[key] !== null && oldOptions[key] !== undefined, newOptions[key] !== null && newOptions[key] !== undefined]
+      const oldVal = oldBool ? oldOptions[key].toString() : ''
+      const newVal = newBool ? newOptions[key].toString() : ''
+      if (oldVal !== newVal && newBool) {
         status = !0
         break
       }
@@ -466,4 +467,17 @@ export const formatTime = times => {
   timetext += ':' + (minutes < 10 ? '0' + minutes : '' + minutes)
   timetext += ':' + (seconds < 10 ? '0' + seconds : '' + seconds)
   return timetext
+}
+
+/**
+ * 缩写 IPV6 地址
+ */
+export const compressIPV6 = addr => {
+  if (addr === '0:0:0:0:0:0:0:0') return addr
+  let formatted = addr.replace(/(^|:)0+(?!(?::|$))/g, '$1').replace(/(:(?:0:){2,})(?!\S*(?:\1)0:)/, '::')
+  let finalAddress = formatted.split(':')
+    .map(octet => {
+      return octet.replace(/\b0+/g, '')
+    }).join(':')
+  return finalAddress
 }

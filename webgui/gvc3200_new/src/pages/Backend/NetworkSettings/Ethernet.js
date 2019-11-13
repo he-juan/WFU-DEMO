@@ -6,7 +6,7 @@ import { getOptions } from '@/template'
 import { history } from '@/App'
 import API from '@/api'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
+import { rebootNotify, compressIPV6 } from '@/utils/tools'
 
 @Form.create()
 class Ethernet extends FormCommon {
@@ -47,6 +47,12 @@ class Ethernet extends FormCommon {
       for (const key in this.rebootOptions) {
         this.rebootOptions[key] = others[key]
       }
+
+      // 缩写 IPV6 地址 '2001:0db8:0001:0003:0000:0000:0000:3002' => '2001:db8:1:3::3002'
+      others['P1420'] = compressIPV6(others['P1420'])
+      others['P1424'] = compressIPV6(others['P1424'])
+      others['P1425'] = compressIPV6(others['P1425'])
+      others['P1423'] = compressIPV6(others['P1423'])
 
       this.setState({
         twoVlan: Number(P22104)

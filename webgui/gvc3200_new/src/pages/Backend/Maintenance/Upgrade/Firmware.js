@@ -74,7 +74,16 @@ class Firmware extends FormCommon {
               _this.handleUploadComplete(m, upgradeall)
             })
           } else if (response.indexOf('Message=Not enough space') !== -1) {
-            message.error($t('m_019') + $t('m_060'))
+            message.error($t('m_019') + ' ' + $t('m_060'))
+          } else {
+            message.error($t('m_019'))
+          }
+        }
+        // 上传失败
+        if (status === 'error') {
+          _this.props.setWholeLoading(false, '')
+          if (+info.file.error.status === 413) {
+            message.error($t('m_019') + ' ' + $t('m_060'))
           } else {
             message.error($t('m_019'))
           }
