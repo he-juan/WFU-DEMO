@@ -36,7 +36,9 @@ class SearchBox extends Component {
     })
     arr.forEach((item, index) => {
       if (index === arr.length - 1) {
-        arr[index] = item.replace(this.valueReg, `<span>${val}</span>`)
+        let realVal = `<span>${item}</span>`
+        let inputVal = item.replace(this.valueReg, `<span>${val}</span>`)
+        arr[index] = realVal !== inputVal ? realVal : inputVal
       }
     })
     return arr.join(' > ')
@@ -57,7 +59,8 @@ class SearchBox extends Component {
   }
 
   isMatch (lang, val) {
-    return $t(lang).indexOf(val) >= 0
+    return this.valueReg.test($t(lang))
+    // return $t(lang).indexOf(val) >= 0 无法解决忽略 大小写的问题
   }
 
   buildResultItem (item, title, path, val) {
@@ -145,7 +148,7 @@ class SearchBox extends Component {
   handleOnSearch = (value) => {
     let _value = value.trim()
     if (_value !== '') {
-      this.valueReg = new RegExp(_value, 'g')
+      this.valueReg = new RegExp(_value, 'ig')
       let result = this.getSearchResult(_value)
       this.setState({
         searchValue: _value,

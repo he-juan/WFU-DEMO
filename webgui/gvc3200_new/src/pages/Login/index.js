@@ -25,8 +25,11 @@ class LoginForm extends Component {
     locked: false
   }
 
+  usernameRef = ''
+
   componentDidMount () {
     document.addEventListener('keydown', this.enterListener, false)
+    this.usernameRef.focus()
   }
 
   componentWillUnmount () {
@@ -122,7 +125,7 @@ class LoginForm extends Component {
               getFieldDecorator('username', {
                 initialValue: ''
               })(
-                <Input placeholder={$t('c_319')} type='text' name='username' size='large' prefix={<i className='icons icon-user' />} autoComplete='off'/>
+                <Input placeholder={$t('c_319')} type='text' name='username' ref={e => { this.usernameRef = e }} size='large' prefix={<i className='icons icon-user' />} autoComplete='off'/>
               )
             }
           </FormItem>
