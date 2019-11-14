@@ -7,7 +7,6 @@ import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/Form
 import DefaultAcctModal from '@/components/DefaultAcctModal'
 import { getIPVTExist } from '@/store/actions'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 @connect(
   state => ({
@@ -22,8 +21,6 @@ import { rebootNotify } from '@/utils/tools'
 @Form.create()
 class GeneralSettings extends FormCommon {
   options = getOptions('Account.IPVT.General')
-  // 获取当前组件中 重启配置项
-  rebootOptions = {}
 
   state = {
     restActiveAcct: []
@@ -32,12 +29,6 @@ class GeneralSettings extends FormCommon {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
-      // 保存 初始值
-      for (const key in this.options) {
-        if (this.options[key].reboot && !this.options[key].deny) {
-          this.rebootOptions[key] = data[key]
-        }
-      }
     })
   }
 
@@ -57,12 +48,6 @@ class GeneralSettings extends FormCommon {
 
         this.submitFormValue(values, 1).then(msgs => {
           if (msgs.Response === 'Success') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ oldOptions: this.rebootOptions, newOptions: values }, () => {
-              for (const key in this.rebootOptions) {
-                this.rebootOptions[key] = values[key].toString()
-              }
-            })
             this.props.getIPVTExist()
           }
         })

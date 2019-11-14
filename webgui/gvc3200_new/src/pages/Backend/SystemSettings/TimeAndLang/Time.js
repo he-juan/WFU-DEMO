@@ -8,7 +8,6 @@ import { getOptions } from '@/template'
 import API from '@/api'
 import { setTimezone, setDateTimeFmt } from '@/store/actions'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 @connect(
   state => ({
@@ -39,20 +38,11 @@ class Time extends FormCommon {
     this.state = {
       timezonelist: []
     }
-
-    this.rebootOptions = {
-      P144: '',
-      P143: ''
-    }
   }
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
-      // 保存 初始值
-      for (const key in this.rebootOptions) {
-        this.rebootOptions[key] = data[key]
-      }
     })
     this.initTimezone()
     this.initDateInfo()
@@ -127,14 +117,6 @@ class Time extends FormCommon {
             setTimeout(() => {
               this.initDateInfo()
             }, 3000)
-          }
-          if (m[2].Response === 'Success') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ oldOptions: this.rebootOptions, newOptions: other }, () => {
-              for (const key in this.rebootOptions) {
-                this.rebootOptions[key] = other[key].toString()
-              }
-            })
           }
         })
       }

@@ -12,7 +12,6 @@ import { history } from '@/App'
 import { connect } from 'react-redux'
 import API from '@/api'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 function errorMsg (r) {
   const uploadErrMsgMap = {
@@ -42,7 +41,6 @@ class Firmware extends FormCommon {
   constructor () {
     super()
     this.options = getOptions('Maintenance.Upgrade.Firmware')
-    this.isShouldReboot = false
     this.state = {
       fileList: []
     }
@@ -125,7 +123,7 @@ class Firmware extends FormCommon {
     if (result !== '0') {
       message.error(msg)
     } else {
-      this.isShouldReboot = true
+      this.ShouldReboot = true
     }
   }
 
@@ -150,14 +148,7 @@ class Firmware extends FormCommon {
           return message.error($t('m_207'))
         }
 
-        this.submitFormValue(values).then(msgs => {
-          if (msgs.Response === 'Success') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ immediate: this.isShouldReboot }, () => {
-              this.isShouldReboot = false
-            })
-          }
-        })
+        this.submitFormValue(values)
       }
     })
   }

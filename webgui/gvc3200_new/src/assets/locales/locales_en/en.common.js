@@ -37,7 +37,7 @@ const routes = {
   r_028: 'Preset Settings',
   r_029: 'Peripheral',
   r_030: 'Remote Control',
-  r_031: 'Ldap Contacts',
+  r_031: 'LDAP Contacts',
   r_032: 'Recording Management',
   r_033: 'Upgrade',
   r_034: 'Troubleshooting',
@@ -372,6 +372,7 @@ const msgs = {
   m_213: 'This device will allow remote collection of log information and remote access to web pages in the background. It will automatically close after 48h. Please confirm to open.',
   m_214: 'URL format incorrect',
   m_215: 'Username format incorrect',
+  m_216: 'Saved, press apply to confirm changes',
 
   m_999: ''
 }

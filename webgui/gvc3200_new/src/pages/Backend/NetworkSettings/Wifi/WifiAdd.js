@@ -35,7 +35,7 @@ class WifiAdd extends FormCommon {
       return {
         validator: (data, value, callback) => {
           if (value && [5, 10, 13, 26, 16, 32].indexOf(value.length) === -1) {
-            callback($t('m_092'))
+            callback($t('m_093'))
           } else {
             callback()
           }

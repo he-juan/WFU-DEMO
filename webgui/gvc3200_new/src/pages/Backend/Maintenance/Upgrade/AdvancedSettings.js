@@ -7,7 +7,6 @@ import FormItem, { CheckboxItem, SelectItem } from '@/components/FormItem'
 import { resetres as ApiResetres } from '@/api/api.maintenance'
 import { $t } from '@/Intl'
 import { history } from '@/App'
-import { rebootNotify } from '@/utils/tools'
 
 @Form.create()
 class AdvancedSettings extends FormCommon {
@@ -16,8 +15,6 @@ class AdvancedSettings extends FormCommon {
     super(props)
 
     this.options = getOptions('Maintenance.Upgrade.AdvancedSettings')
-    // 获取当前组件中 重启配置项
-    this.rebootOptions = {}
   }
 
   // componentDidMount
@@ -25,12 +22,6 @@ class AdvancedSettings extends FormCommon {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
-      // 保存 初始值
-      for (const key in this.options) {
-        if (this.options[key].reboot && !this.options[key].deny) {
-          this.rebootOptions[key] = data[key]
-        }
-      }
     })
   }
 
@@ -59,16 +50,7 @@ class AdvancedSettings extends FormCommon {
 
     validateFields((err, values) => {
       if (!err) {
-        this.submitFormValue(values).then(msgs => {
-          if (msgs.Response === 'Success') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ oldOptions: this.rebootOptions, newOptions: values }, () => {
-              for (const key in this.rebootOptions) {
-                this.rebootOptions[key] = values[key].toString()
-              }
-            })
-          }
-        })
+        this.submitFormValue(values)
       }
     })
   }

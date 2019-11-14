@@ -4,7 +4,6 @@ import FormItem, { CheckboxItem, InputItem, PwInputItem } from '@/components/For
 import { Form, Input, Button } from 'antd'
 import { getOptions } from '@/template'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 @Form.create()
 class TR069 extends FormCommon {
@@ -12,20 +11,12 @@ class TR069 extends FormCommon {
     super()
 
     this.options = getOptions('System.TR069')
-    // 获取当前组件中 重启配置项
-    this.rebootOptions = {}
   }
 
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then((data) => {
       setFieldsValue(data)
-      // 保存 初始值
-      for (const key in this.options) {
-        if (this.options[key].reboot && !this.options[key].deny) {
-          this.rebootOptions[key] = data[key]
-        }
-      }
     })
   }
 
@@ -33,16 +24,7 @@ class TR069 extends FormCommon {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
       if (!err) {
-        this.submitFormValue(values).then(msgs => {
-          if (msgs.Response === 'Success') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ oldOptions: this.rebootOptions, newOptions: values }, () => {
-              for (const key in this.rebootOptions) {
-                this.rebootOptions[key] = values[key].toString()
-              }
-            })
-          }
-        })
+        this.submitFormValue(values)
       }
     })
   }

@@ -104,7 +104,7 @@ export default {
           path: 'webssh',
           sub: [
             // 禁止SSH访问
-            { lang: 'sys_sec_001', p: 'P276', reboot: 1 },
+            { lang: 'sys_sec_001', p: 'P276' },
             // 访问方式
             { lang: 'sys_sec_002', p: 'P900' },
             // 端口号

@@ -6,7 +6,7 @@ import { getOptions } from '@/template'
 import { history } from '@/App'
 import API from '@/api'
 import { $t } from '@/Intl'
-import { rebootNotify, compressIPV6 } from '@/utils/tools'
+import { compressIPV6 } from '@/utils/tools'
 
 @Form.create()
 class Ethernet extends FormCommon {
@@ -21,7 +21,6 @@ class Ethernet extends FormCommon {
     }
 
     this.options = getOptions('Network.Ethernet')
-    this.rebootOptions = { P87: '' }
 
     this.ipInputRule = [this.required(), this.digits(), this.range(0, 255)]
   }
@@ -43,10 +42,6 @@ class Ethernet extends FormCommon {
 
     this.initFormValue(this.options).then(data => {
       const { P22104, P22111, P22112, Pvlan_id, Pvlan_qos, Pin_lldp, ...others } = data
-      // 保存 初始值
-      for (const key in this.rebootOptions) {
-        this.rebootOptions[key] = others[key]
-      }
 
       // 缩写 IPV6 地址 '2001:0db8:0001:0003:0000:0000:0000:3002' => '2001:db8:1:3::3002'
       others['P1420'] = compressIPV6(others['P1420'])
@@ -171,12 +166,6 @@ class Ethernet extends FormCommon {
         } else {
           this.submitFormValue(values).then(msgs => {
             if (msgs.Response === 'Success') {
-              // 判断是否 弹出 重启提示弹窗
-              rebootNotify({ oldOptions: this.rebootOptions, newOptions: values }, () => {
-                for (const key in this.rebootOptions) {
-                  this.rebootOptions[key] = values[key].toString()
-                }
-              })
               API.putNetwork()
             }
           })

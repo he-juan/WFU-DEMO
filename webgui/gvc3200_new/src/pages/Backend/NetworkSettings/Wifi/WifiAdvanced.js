@@ -4,7 +4,6 @@ import { Form, Button } from 'antd'
 import FormItem, { SelectItem, InputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 const contryCode = [{ 'code': 'AF', 'coun': 'Afghanistan' }, { 'code': 'AX', 'coun': 'Aland Islands' },
   { 'code': 'AL', 'coun': 'Albania' }, { 'code': 'DZ', 'coun': 'Algeria' },
@@ -138,19 +137,11 @@ class WifiAdvanced extends FormCommon {
     super(props)
 
     this.options = getOptions('Network.WIFI.Advanced')
-    // 获取当前组件中 重启配置项
-    this.rebootOptions = {}
   }
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
-      // 保存 初始值
-      for (const key in this.options) {
-        if (this.options[key].reboot && !this.options[key].deny) {
-          this.rebootOptions[key] = data[key]
-        }
-      }
     })
   }
   // 提交表单
@@ -158,16 +149,7 @@ class WifiAdvanced extends FormCommon {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
       if (!err) {
-        this.submitFormValue(values).then(msgs => {
-          if (msgs.Response === 'Success') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ oldOptions: this.rebootOptions, newOptions: values }, () => {
-              for (const key in this.rebootOptions) {
-                this.rebootOptions[key] = values[key].toString()
-              }
-            })
-          }
-        })
+        this.submitFormValue(values)
       }
     })
   }

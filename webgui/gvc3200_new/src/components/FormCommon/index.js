@@ -7,10 +7,21 @@ import { store } from '@/store'
 import { getApplyStatus } from '@/store/actions'
 import { message } from 'antd'
 import { $t, formatMessage } from '@/Intl'
+import { rebootNotify } from '@/utils/tools'
+
+// 定义一些 额外的重启项 但是 不走 rebootNotify 逻辑的那种
+const specialRebootOptions = [
+  'upgradefile', // 升级-固件-上传固件文件更新
+  'importcfg', // 升级-配置升级-上传设备配置
+  'safemode' // 升级-高级设置-安全模式
+]
 
 class FormCommon extends Component {
   // 储存初始化的表单数据
   INIT_VALUE = null
+
+  RebootOptions = {} // initFormValue时存储重启配置项
+  ShouldReboot = false // 是否应该提示重启提示弹窗
 
   /** 表单初始化 */
   initFormValue = (options) => {
@@ -24,6 +35,12 @@ class FormCommon extends Component {
 
     return API.getPvalues(params).then(data => {
       this.INIT_VALUE = data
+      // 保存 重启配置初始值
+      for (const key in options) {
+        if (options[key].reboot && !options[key].deny && !specialRebootOptions.includes(key)) {
+          this.RebootOptions[key] = data[key]
+        }
+      }
       return Promise.resolve(data)
     }).catch((err) => {
       console.error(err)
@@ -31,10 +48,26 @@ class FormCommon extends Component {
     })
   }
   /** 表单提交 */
-  submitFormValue = (params, flag) => {
+  submitFormValue = (params, flag = 0, isApply = 1) => {
     return API.putPvalues(params, flag).then((data) => {
-      message.success($t('m_001'))
-      store.dispatch(getApplyStatus())
+      isApply === 1 && store.dispatch(getApplyStatus('submit')) // 默认 通知 apply
+
+      if (data.Response.toLocaleLowerCase() === 'success') {
+        if (Object.keys(this.RebootOptions).length > 0 || this.ShouldReboot) {
+          // 判断是否 弹出 重启提示弹窗
+          rebootNotify({ oldOptions: this.RebootOptions, newOptions: params, immediate: this.ShouldReboot }, () => {
+            if (this.ShouldReboot) {
+              this.ShouldReboot = false
+              return false
+            }
+            for (const key in this.RebootOptions) {
+              if (params[key] !== null && params[key] !== undefined) {
+                this.RebootOptions[key] = params[key].toString()
+              }
+            }
+          })
+        }
+      }
       return Promise.resolve(data)
     }).catch(err => {
       console.error(err)

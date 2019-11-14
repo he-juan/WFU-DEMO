@@ -6,7 +6,7 @@ import { history } from '@/App'
 import PwInput from '@/components/PwInput'
 import LocalSelect from '@/components/LocalSelect'
 import { connect } from 'react-redux'
-// import { getProduct } from '@/store/actions'
+import { setUserType } from '@/store/actions'
 import API from '@/api'
 import { parseSearch } from '@/utils/tools'
 import './login.less'
@@ -67,13 +67,14 @@ class LoginForm extends Component {
       Cookie.set('needchange', Needchange, { expires: 10 })
       Cookie.set('ver', Ver !== '' ? Ver : timestamp, { expires: 10 })
       Cookie.set('logindate', timestamp, { expires: 10 })
+      this.props.setUserType(Cookie.get('type'))
       window.isIEBrowser && (window.isLoginPageEvent = true)
       window.localStorage.setItem('logindate', timestamp)
       if (Needchange === '1') {
         this.props.changePw(username)
       } else {
         let redirect = parseSearch(history.location.search).redirect
-        history.push(redirect || '/manage/acct_sip/general')
+        history.push(redirect || '/manage/status_account')
       }
     } else {
       const { Message, Times, LockType } = data
@@ -211,7 +212,8 @@ class PwChangeForm extends Component {
     let payload = changeType === 'admin' ? { adminpwd: encodeURIComponent(pw1) } : { userpwd: encodeURIComponent(pw1) }
     API.changDefaultPwd(payload).then(m => {
       if (m.Response === 'Success') {
-        history.push('/manage/acct_sip/general')
+        this.props.setUserType(Cookie.get('type'))
+        history.push('/manage/status_account')
       } else {
         const errors = {
           '0': $t('m_167'), // 修改失败
@@ -282,6 +284,7 @@ class PwChangeForm extends Component {
   }),
   (dispatch) => ({
     // getProduct: () => dispatch(getProduct())  //入口文件下获取了
+    setUserType: (type) => dispatch(setUserType(type))
   })
 )
 class Login extends Component {
@@ -299,7 +302,7 @@ class Login extends Component {
     })
   }
   render () {
-    const { productInfo } = this.props
+    const { productInfo, setUserType } = this.props
     const { needChange, changeType } = this.state
     return (
       <Layout className='login-page'>
@@ -308,8 +311,8 @@ class Login extends Component {
         </div>
         {
           !needChange
-            ? <LoginForm product={productInfo['Product']} changePw={(username) => this.handleChangePw(username)}/>
-            : <PwChangeForm changeType={changeType}/>
+            ? <LoginForm product={productInfo['Product']} changePw={(username) => this.handleChangePw(username)} setUserType={setUserType}/>
+            : <PwChangeForm changeType={changeType} setUserType={setUserType}/>
         }
         <div className='login-page-footer'>
           {` All Rights Reserved ${productInfo['Vendor']} ${new Date().getFullYear()}`}

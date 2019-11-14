@@ -1,6 +1,8 @@
 import * as Types from '../actionTypes'
 import API from '@/api'
 import Cookie from 'js-cookie'
+import { message } from 'antd'
+import { $t } from '@/Intl'
 
 /** ******************************** pure actions ***************************/
 
@@ -163,9 +165,11 @@ export const getOemId = () => (dispatch) => {
 /**
  * 获取应用状态
  */
-export const getApplyStatus = () => (dispatch) => {
+export const getApplyStatus = (type = '') => (dispatch) => {
   API.checkNeedApply().then((data) => {
     if (data.Response === 'Success') {
+      // 当属于提交操作时，判断是否需要更新，更换 tip
+      type === 'submit' && message.success($t(data.needapply === '1' ? 'm_216' : 'm_001'))
       dispatch(setNeedApply(data.needapply === '1'))
     }
   })

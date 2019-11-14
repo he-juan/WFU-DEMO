@@ -4,7 +4,6 @@ import { Form, Button, Input, message } from 'antd'
 import FormItem, { InputItem, CheckboxItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 @Form.create()
 class Advanced extends FormCommon {
@@ -18,8 +17,6 @@ class Advanced extends FormCommon {
     }
     this.options = getOptions('Network.Advanced')
     this.ipInputRule = [this.digits(), this.range(0, 255)]
-    // 获取当前组件中 重启配置项
-    this.rebootOptions = {}
   }
   componentDidMount () {
     const { setFieldsValue } = this.props.form
@@ -42,13 +39,6 @@ class Advanced extends FormCommon {
       other.P1560 = states.dscp7State ? Pdscp7 : other.P1560
 
       setFieldsValue(other)
-
-      // 保存 初始值
-      for (const key in this.options) {
-        if (this.options[key].reboot && !this.options[key].deny) {
-          this.rebootOptions[key] = other[key]
-        }
-      }
     })
   }
   // P1552 代理服务器主机名加端口处理 如: 1.1.1.1:80  => 1.1.1.1, 80
@@ -103,16 +93,7 @@ class Advanced extends FormCommon {
         if (dscp2State) delete rest.P1558
         if (dscp1State) delete rest.P1559
         if (dscp7State) delete rest.P1560
-        this.submitFormValue(rest).then(msgs => {
-          if (msgs.Response === 'Success') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ oldOptions: this.rebootOptions, newOptions: rest }, () => {
-              for (const key in this.rebootOptions) {
-                this.rebootOptions[key] = rest[key].toString()
-              }
-            })
-          }
-        })
+        this.submitFormValue(rest)
       }
     })
   }

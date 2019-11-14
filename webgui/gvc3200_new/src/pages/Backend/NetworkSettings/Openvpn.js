@@ -7,7 +7,6 @@ import { history } from '@/App'
 import API from '@/api'
 import './Openvpn.less'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 @Form.create()
 class OpenVPN extends FormCommon {
@@ -109,15 +108,9 @@ class OpenVPN extends FormCommon {
           values = {
             P22292, P7050
           }
+          this.ShouldReboot = this.isShouldReboot // 把当前组件的 是否需要重启弹窗的 状态 传递出去
         }
-        this.submitFormValue(values).then(msgs => {
-          if (msgs.Response === 'Success' && values['P22292'] === '1') {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ immediate: this.isShouldReboot }, () => {
-              this.isShouldReboot = false
-            })
-          }
-        })
+        this.submitFormValue(values)
       }
     })
   }

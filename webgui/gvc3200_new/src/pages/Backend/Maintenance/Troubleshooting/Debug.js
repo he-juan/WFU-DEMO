@@ -6,7 +6,6 @@ import { getOptions } from '@/template'
 import API from '@/api'
 import './Debug.less'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 let checklogitems = ['syslog', 'logcat', 'capture']
 
 // 需要 forwardRef 解决 新api  暴露的问题
@@ -35,7 +34,6 @@ class Debug extends FormCommon {
     pageLoaded: false
   }
   options = getOptions('Maintenance.TroubleShooting.Debug')
-  rebootOptions = {}
 
   componentDidMount () {
     Promise.all([
@@ -63,9 +61,8 @@ class Debug extends FormCommon {
 
   // 获取debug信息列表
   getTracelist = () => {
-    API.getPvalues(['P29611']).then(data => {
+    this.initFormValue(this.options).then(data => {
       const { P29611 } = data
-      this.rebootOptions = { P29611 }
       this.props.form.setFieldsValue({ P29611 })
     })
     return API.getTracelist().then(data => {
@@ -173,14 +170,7 @@ class Debug extends FormCommon {
   // 切换生成核心存储时下发P值
   handleCoredump = (v) => {
     let values = { P29611: Number(v) }
-    API.putPvalues(values).then(msgs => {
-      // 判断是否 弹出 重启提示弹窗
-      rebootNotify({ oldOptions: this.rebootOptions, newOptions: values }, () => {
-        for (const key in this.rebootOptions) {
-          this.rebootOptions[key] = values[key].toString()
-        }
-      })
-    })
+    this.submitFormValue(values, 0, 0)
   }
 
   // 删除核心存储文件

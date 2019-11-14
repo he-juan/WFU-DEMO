@@ -5,7 +5,6 @@ import FormCommon from '@/components/FormCommon'
 import FormItem, { CheckboxItem, SelectItem, InputItem, PwInputItem } from '@/components/FormItem'
 import { getImportconf, getSaveConf } from '@/api/api.maintenance'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 let CONFPATH = ''
 const GAPSPATH = 'fm.grandstream.com/gs'
@@ -21,7 +20,6 @@ class ConfigFile extends FormCommon {
     this.state = {
       isShouldHide: false
     }
-    this.isShouldReboot = false
   }
 
   // componentDidMount
@@ -63,7 +61,7 @@ class ConfigFile extends FormCommon {
   // 获取 getImportconf
   handleGetImportconf = () => {
     getImportconf().then(data => {
-      data.Response === 'Success' && (this.isShouldReboot = true)
+      data.Response === 'Success' && (this.ShouldReboot = true)
       Modal.info({
         title: $t('c_042'),
         content: $t(data.Response === 'Success' ? 'm_018' : 'm_019'),
@@ -111,10 +109,6 @@ class ConfigFile extends FormCommon {
         this.submitFormValue(values).then(msgs => {
           if (msgs.Response === 'Success') {
             setFieldsValue(values)
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ immediate: this.isShouldReboot }, () => {
-              this.isShouldReboot = false
-            })
           }
         })
       }

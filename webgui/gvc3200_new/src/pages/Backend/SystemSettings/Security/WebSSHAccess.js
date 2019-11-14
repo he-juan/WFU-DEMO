@@ -4,7 +4,6 @@ import { getOptions } from '@/template'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/FormItem'
 import { $t } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
 
 // 存储获取到的 Protocal Port
 let originProtocal = 0
@@ -21,8 +20,6 @@ class WebSSHAccess extends FormCommon {
       Prssht_cfg_switch: { p: 'Prssht_cfg_switch' }
     })
     this.mRsshtcfgswitch = '0' // 远程诊断是否开启
-    // 获取当前组件中 重启配置项
-    this.rebootOptions = {}
   }
 
   // componentDidMount
@@ -35,12 +32,6 @@ class WebSSHAccess extends FormCommon {
       // 赋值
       originProtocal = data['P900'] || 0 // 访问方式
       originPort = data['P901'] // 端口号
-      // 保存 初始值
-      for (const key in this.options) {
-        if (this.options[key].reboot && !this.options[key].deny) {
-          this.rebootOptions[key] = data[key]
-        }
-      }
     })
   }
 
@@ -78,27 +69,15 @@ class WebSSHAccess extends FormCommon {
         }
         this.submitFormValue(values, 0).then(() => {
           if (originProtocal !== curProtocal || originPort !== curPort) {
-            let url = window.location.href
-            let ip = url.split('/')[2]
-            let pos = ip.lastIndexOf(':')
-            if (pos !== -1 && ip.endsWith(originPort)) {
-              ip = ip.substring(0, pos)
-            }
-            let protocal = curProtocal === 0 ? 'http://' : 'https://'
-            let newUrl = protocal + ip + ':' + curPort
+            let hostname = window.location.hostname
+            let protocal = curProtocal === '0' ? 'http://' : 'https://'
+            let newUrl = protocal + hostname + ':' + curPort
 
             Modal.info({
               content: $t('m_004') + newUrl,
               okText: $t('b_002'),
               onOk () {
                 window.location.href = newUrl
-              }
-            })
-          } else {
-            // 判断是否 弹出 重启提示弹窗
-            rebootNotify({ oldOptions: this.rebootOptions, newOptions: values }, () => {
-              for (const key in this.rebootOptions) {
-                this.rebootOptions[key] = values[key].toString()
               }
             })
           }
