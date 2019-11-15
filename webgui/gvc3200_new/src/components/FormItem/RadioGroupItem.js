@@ -10,8 +10,10 @@ const RadioGroup = Radio.Group
 
 const RadioGroupItem = (props) => {
   const { gfd, gfdOptions, name, disabled, onChange, radioOptions = [], p, ...others } = props
+
   return (
     <FormItem
+      name={name || p}
       {...others}
       render={() => {
         return gfd(p || name, {

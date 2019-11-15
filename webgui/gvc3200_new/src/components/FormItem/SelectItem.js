@@ -10,8 +10,10 @@ const Option = Select.Option
 
 const SelectItem = (props) => {
   const { gfd, gfdOptions, name, disabled, onChange, selectOptions = [], p, ...others } = props
+
   return (
     <FormItem
+      name={name || p}
       {...others}
       render={() => {
         return gfd(p || name, {

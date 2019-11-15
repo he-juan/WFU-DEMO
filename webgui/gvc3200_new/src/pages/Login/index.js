@@ -67,7 +67,7 @@ class LoginForm extends Component {
       Cookie.set('needchange', Needchange, { expires: 10 })
       Cookie.set('ver', Ver !== '' ? Ver : timestamp, { expires: 10 })
       Cookie.set('logindate', timestamp, { expires: 10 })
-      this.props.setUserType(Cookie.get('type'))
+      Cookie.get('type') && this.props.setUserType(Cookie.get('type'))
       window.isIEBrowser && (window.isLoginPageEvent = true)
       window.localStorage.setItem('logindate', timestamp)
       if (Needchange === '1') {

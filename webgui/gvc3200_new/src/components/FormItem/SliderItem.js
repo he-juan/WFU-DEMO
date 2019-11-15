@@ -8,8 +8,10 @@ import PropTypes from 'prop-types'
 
 const SliderItem = (props) => {
   const { gfd, gfdOptions, name, disabled, min, max, p, ...others } = props
+
   return (
     <FormItem
+      name={name || p}
       {...others}
       render={() => {
         return gfd(p || name, {

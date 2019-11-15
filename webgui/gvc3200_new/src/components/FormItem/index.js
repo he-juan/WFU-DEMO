@@ -24,6 +24,7 @@ const FormItem = (props) => {
 
   return (
     <Item
+      id={'_' + (other.name || Math.random())}
       className={`bak-form-item ${className || ''}`}
       label={<span>{_label} {_tips ? <Tooltip title={<span dangerouslySetInnerHTML={{ __html: _tips }}></span>}><Icon type='question-circle-o' /></Tooltip> : ''}</span>}
       {...other}
@@ -42,6 +43,7 @@ FormItem.propTypes = {
   hide: PropTypes.bool,
   className: PropTypes.string,
   render: PropTypes.func, // 渲染函数， 用于渲染内部的组件 优先级大于children
+  name: PropTypes.string,
 
   // 以下通过template options 传入 , 优先级更高
   reboot: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),

@@ -8,8 +8,10 @@ import PropTypes from 'prop-types'
 
 const CheckboxItem = (props) => {
   const { gfd, gfdOptions, name, disabled, onChange, p, ...others } = props
+
   return (
     <FormItem
+      name={name || p}
       {...others}
       render={() => {
         return gfd(p || name, {
