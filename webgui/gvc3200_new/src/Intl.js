@@ -50,8 +50,8 @@ export const $t = (id) => {
 }
 
 // 组件方式
-export const $fm = (id) => {
-  return <FormattedMessage id={id}></FormattedMessage>
+export const $fm = (id, values) => {
+  return <FormattedMessage id={id} values={values}></FormattedMessage>
 }
 
 const IntlWrapper = (props) => {

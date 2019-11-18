@@ -315,7 +315,7 @@ const msgs = {
   m_156: 'The user has locked out until next reboot.',
   m_157: 'The user has locked out for 5 minutes.',
   m_158: 'The username is not exist.',
-  m_159: 'Auth Failed, attempts-remaining:',
+  m_159: 'Wrong username or password, attempts-remaining:{n}',
   m_160: 'Too many consecutive failed login attempts. Locked out for 5 minutes.',
   m_161: 'Auth Failed',
   m_162: 'Please input new password',

@@ -10,7 +10,7 @@ import { setUserType } from '@/store/actions'
 import API from '@/api'
 import { parseSearch } from '@/utils/tools'
 import './login.less'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 const FormItem = Form.Item
 
@@ -45,11 +45,11 @@ class LoginForm extends Component {
     const form = this.props.form
     let { username, password } = form.getFieldsValue(['username', 'password'])
     if (!(username && username.length)) {
-      this.errorTip($t('m_154')) // 请输入用户名
+      this.errorTip($fm('m_154')) // 请输入用户名
       return false
     }
     if (!(password && password.length)) {
-      this.errorTip($t('m_155'))
+      this.errorTip($fm('m_155'))
       return false
     }
     API.getSalt().then(salt => {
@@ -83,14 +83,14 @@ class LoginForm extends Component {
           this.setState({
             locked: true
           })
-          this.errorTip(LockType === '2' ? $t('m_156') : $t('m_157'))
+          this.errorTip(LockType === '2' ? $fm('m_156') : $fm('m_157'))
           break
         case 'Invalid Username':
-          this.errorTip($t('m_158'))
+          this.errorTip($fm('m_158'))
           break
         case 'Authentication failed':
           let leftTimes = 5 - parseInt(Times)
-          this.errorTip(leftTimes > 0 ? $t('m_159') + leftTimes : $t('m_160'))
+          this.errorTip(leftTimes > 0 ? $fm('m_159', { n: leftTimes }) : $fm('m_160'))
           if (leftTimes === 0) {
             this.setState({
               locked: true
@@ -98,7 +98,7 @@ class LoginForm extends Component {
           }
           break
         default:
-          this.errorTip($t('m_161'))
+          this.errorTip($fm('m_161'))
       }
     }
   }
@@ -188,22 +188,22 @@ class PwChangeForm extends Component {
     const { pw1, pw2 } = form.getFieldsValue()
     switch (true) {
       case pw1 === '' :
-        this.errorTip($t('m_162')) // 请输入新密码
+        this.errorTip($fm('m_162')) // 请输入新密码
         return false
       case pw2 === '' :
-        this.errorTip($t('m_163')) // 请输入确认密码
+        this.errorTip($fm('m_163')) // 请输入确认密码
         return false
       case pw1 !== pw2:
-        this.errorTip($t('m_164')) // 密码不匹配
+        this.errorTip($fm('m_164')) // 密码不匹配
         return false
       case pw1.length < 6 && pw1.length > 0:
-        this.errorTip($t('m_165')) // 请输入至少6个字符。
+        this.errorTip($fm('m_165')) // 请输入至少6个字符。
         return false
       // case (pw1 === 'admin' && changeType === 'admin') || (pw1 === '123' && changeType === 'user') :
       //   this.errorTip('新密码不可为默认密码')
       //   return false
       case (/^[0-9]*$/.test(pw1) || /^[a-z]*$/.test(pw1) || /^[A-Z]*$/.test(pw1)) :
-        this.errorTip($t('m_166')) // 密码格式错误
+        this.errorTip($fm('m_166')) // 密码格式错误
         return false
       default:
         // ..
@@ -216,11 +216,11 @@ class PwChangeForm extends Component {
         history.push('/manage/status_account')
       } else {
         const errors = {
-          '0': $t('m_167'), // 修改失败
-          '1': $t('m_168'), // 管理员密码不能为空
-          '2': $t('m_169'), // 管理员新密码不能和默认密码相同
-          '3': $t('m_170'), // 用户密码不能为空
-          '4': $t('m_171') // 用户新密码不能和默认密码相同
+          '0': $fm('m_167'), // 修改失败
+          '1': $fm('m_168'), // 管理员密码不能为空
+          '2': $fm('m_169'), // 管理员新密码不能和默认密码相同
+          '3': $fm('m_170'), // 用户密码不能为空
+          '4': $fm('m_171') // 用户新密码不能和默认密码相同
         }
         this.errorTip(errors[m.ErrorCode])
       }
