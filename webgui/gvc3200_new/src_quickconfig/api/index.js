@@ -191,7 +191,15 @@ export const savelockpwd = (value) => {
   })
 }
 
-
+/**
+ * 配置完后调用完成接口
+ */
+export const quickconfdone = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=quickconfdone&region=quickconf'
+  })
+}
 
 export default {
   checkqrtoken,
@@ -206,5 +214,6 @@ export default {
   putPvalues,
   sqlitedisplay,
   setSitesettingInfo,
-  savelockpwd
+  savelockpwd,
+  quickconfdone
 }

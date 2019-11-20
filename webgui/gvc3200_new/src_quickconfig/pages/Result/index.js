@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Icon } from 'antd-mobile'
 import { $t } from '../../Intl'
+import API from '../../api'
 
 const Result = () => {
+  API.quickconfdone()
   return (
     <div className='page result-page'>
       <p style={{
@@ -24,4 +26,4 @@ const Result = () => {
   )
 }
 
-export default Result
+export default memo(Result)

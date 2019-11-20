@@ -81,7 +81,7 @@
     "workbox-webpack-plugin": "4.2.0"
   },
   "scripts": {
-    "start": "HTTPS=true node scripts/start.js",
+    "start": "node scripts/start.js",
     "build": "GENERATE_SOURCEMAP=false node scripts/build.js",
     "report": "report=true node scripts/build.js",
     "test": "node scripts/test.js"
