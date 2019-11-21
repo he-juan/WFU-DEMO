@@ -699,21 +699,6 @@ static void free_req_params(struct req_param *params)
     }
 }
 
-static const char *msg_get_header(const struct message *m, char *var)
-{
-    char cmp[80];
-    unsigned int x;
-
-    snprintf(cmp, sizeof(cmp), "%s=", var);
-    for (x = 0; x < m->hdrcount; x++) {
-        if (!strncasecmp(cmp, m->headers[x], strlen(cmp))) {
-            return m->headers[x] + strlen(cmp);
-        }
-    }
-
-    return NULL;
-}
-
 static void uri_decode(char *s)
 {
     char *o;
@@ -723,11 +708,27 @@ static void uri_decode(char *s)
         if (*s == '%' && strlen(s) > 2 && sscanf(s + 1, "%2x", &tmp) == 1) {
             /* have '%', two chars and correct parsing */
             *o = tmp;
-            s += 2;	/* Will be incremented once more when we break out */
+            s += 2; /* Will be incremented once more when we break out */
         } else /* all other cases, just copy */
             *o = *s;
     }
     *o = '\0';
+}
+
+static const char *msg_get_header(const struct message *m, char *var)
+{
+    char cmp[80];
+    unsigned int x;
+
+    snprintf(cmp, sizeof(cmp), "%s=", var);
+    for (x = 0; x < m->hdrcount; x++) {
+        if (!strncasecmp(cmp, m->headers[x], strlen(cmp))) {
+            uri_decode(m->headers[x] + strlen(cmp));
+            return m->headers[x] + strlen(cmp);
+        }
+    }
+
+    return NULL;
 }
 
 static void json_handle(char *s)
