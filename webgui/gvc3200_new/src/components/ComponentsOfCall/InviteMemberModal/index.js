@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import TagsInput from 'react-tagsinput'
 import { Modal, Tabs, Input, Select, Button, message } from 'antd'
-import { cloneDeep } from 'lodash'
 import API from '@/api'
+import { deepCopy } from '@/utils/tools'
 import ContactsTab from './ContactsTab'
 import CallLogsTab from './CallLogsTab'
 import './InviteMemberModalStyle.less'
@@ -194,7 +194,7 @@ class InviteMemberModal extends Component {
     let { memToCall, selectAcct } = this.state
     if (+selectAcct === 2) return
 
-    let _memToCall = cloneDeep(memToCall)
+    let _memToCall = deepCopy(memToCall)
     if (record.isconf === '1' && record.children) {
       record.children.forEach(i => {
         _memToCall = this.pushMemToCall(_memToCall, i)
@@ -214,7 +214,7 @@ class InviteMemberModal extends Component {
   // bluejeans 账号处理
   handleBjMember = (content) => {
     const { bjMemToCall } = this.state
-    let _bjMemToCall = cloneDeep(bjMemToCall)
+    let _bjMemToCall = deepCopy(bjMemToCall)
 
     let numAry = _bjMemToCall[0].num.split('.')
     numAry[0] = content.id ? content.id : numAry[0]
@@ -229,7 +229,7 @@ class InviteMemberModal extends Component {
   // 视频邀请哈 1 视频 0 音频
   handleInvite = (isvideo) => {
     const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
-    let _memToCall = cloneDeep(memToCall)
+    let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
       if (!/\D/.test(tagsInputValue)) {

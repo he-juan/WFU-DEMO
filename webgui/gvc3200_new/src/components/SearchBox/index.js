@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
-import { cloneDeep } from 'lodash'
 import { Input } from 'antd'
 import { $t } from '@/Intl'
 import { history } from '@/App'
 import template from '@/template'
+import { deepCopy } from '@/utils/tools'
 import './SearchBox.less'
 
 const { Search } = Input
@@ -61,7 +61,7 @@ class SearchBox extends Component {
   }
 
   buildResultItem (item, title, path, val) {
-    let _title = cloneDeep(title)
+    let _title = deepCopy(title)
     let _path = '/manage/'
     _title.push(item.lang)
     _title = _title.join('/')

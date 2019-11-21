@@ -7,6 +7,7 @@ import { Button, notification } from 'antd'
 import { store } from '@/store'
 import { history } from '@/App'
 import { $t, $fm } from '@/Intl'
+import deepClone from './deepClone'
 import API from '@/api'
 
 /**
@@ -73,9 +74,7 @@ export const parseUrlParams = (obj) => {
  * 深拷贝
  * @param {*} payload json对象或array
  */
-export const deepCopy = (payload) => {
-  return payload && JSON.parse(JSON.stringify(payload))
-}
+export const deepCopy = deepClone
 
 /**
  * 函数防抖
@@ -480,4 +479,14 @@ export const compressIPV6 = addr => {
       return octet.replace(/\b0+/g, '')
     }).join(':')
   return finalAddress
+}
+
+/**
+ * 根据数组中某个对象值去重 arr,key
+ * @param {array} arr
+ * @param {string} key
+ */
+export const uniqBy = (arr, key) => {
+  const res = new Map()
+  return arr.filter((a) => !res.has(a[key]) && res.set(a[key], 1))
 }

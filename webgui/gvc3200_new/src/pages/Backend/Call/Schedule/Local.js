@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, message } from 'antd'
-import { cloneDeep } from 'lodash'
 import API from '@/api'
 import NoData from '@/components/NoData'
 import { getLinesInfo } from '@/store/actions'
@@ -9,6 +8,7 @@ import ConfSetModal from '@/components/ComponentsOfCall/ConfSetModal' // 添加�
 import LocalConfList from './LocalConfList'
 import './Schedule.less'
 import { $t } from '@/Intl'
+import { deepCopy } from '@/utils/tools'
 
 @connect(
   state => ({
@@ -121,8 +121,8 @@ class LocalSchedule extends Component {
   // render
   render () {
     let { schedules, displayModal, allDisabled, currConf } = this.state
-    let _schedules = cloneDeep(schedules)
-    let _currConf = cloneDeep(currConf)
+    let _schedules = deepCopy(schedules)
+    let _currConf = deepCopy(currConf)
 
     _schedules = _schedules.filter(item => {
       return item.InviteAcct === ''

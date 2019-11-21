@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { Dropdown, Menu, Input, Button, Icon, message } from 'antd'
 import TagsInput from 'react-tagsinput'
 import { connect } from 'react-redux'
-import { cloneDeep } from 'lodash' // uniqBy
 import { setDefaultAcct } from '@/store/actions'
-import { parseAcct, mapToSource } from '@/utils/tools'
+import { deepCopy, parseAcct, mapToSource } from '@/utils/tools'
 import LogAndContacts from './LogAndContacts'
 import API from '@/api'
 import './Call.less'
@@ -190,7 +189,7 @@ class Call extends Component {
   // 呼出接口
   handleDialup = (isvideo) => {
     const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
-    let _memToCall = cloneDeep(memToCall)
+    let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
       if (!/\D/.test(tagsInputValue)) {
@@ -238,7 +237,7 @@ class Call extends Component {
   // bluejeans 账号处理
   handleBjMember = (content) => {
     const { bjMemToCall } = this.state
-    let _bjMemToCall = cloneDeep(bjMemToCall)
+    let _bjMemToCall = deepCopy(bjMemToCall)
 
     let numAry = _bjMemToCall[0].num.split('.')
     numAry[0] = content.id ? content.id : numAry[0]
@@ -337,7 +336,7 @@ class Call extends Component {
   handleAddMemFromList = (record) => {
     let { memToCall, selectAcct } = this.state
     if (+selectAcct !== 2) {
-      let _memToCall = cloneDeep(memToCall)
+      let _memToCall = deepCopy(memToCall)
       if (+record.isconf === 1 && record.children) {
         record.children.forEach(i => {
           _memToCall = this.pushMemToCall(_memToCall, i)

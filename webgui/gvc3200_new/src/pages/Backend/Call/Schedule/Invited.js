@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { message } from 'antd'
-import { cloneDeep, sortBy } from 'lodash'
+import { deepCopy } from '@/utils/tools'
 import API from '@/api'
 import NoData from '@/components/NoData'
 import ConfSetModal from '@/components/ComponentsOfCall/ConfSetModal' // 添加或者编辑或预览会议弹窗
@@ -70,11 +70,10 @@ class InvitedSchedule extends Component {
   // render
   render () {
     let { schedules, displayModal, currConf } = this.state
-    let _schedules = cloneDeep(schedules)
-    let _currConf = cloneDeep(currConf)
-    _schedules = sortBy(_schedules, (o) => {
-      let m = +o.Milliseconds
-      return m
+    let _schedules = deepCopy(schedules)
+    let _currConf = deepCopy(currConf)
+    _schedules = _schedules.sort((a, b) => {
+      return a.Milliseconds - b.Milliseconds
     })
 
     return (

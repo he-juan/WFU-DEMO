@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import { Form, Modal, DatePicker, Input, Select, Checkbox, Cascader, Button, message } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import moment from 'moment'
-import { cloneDeep, uniqBy } from 'lodash'
 import { convertCurrConf } from './ScheduleTools'
-import { transStr } from '@/utils/tools'
+import { transStr, deepCopy, uniqBy } from '@/utils/tools'
 import API from '@/api'
 import InviteMemberModal from '../InviteMemberModal'
 import './ConfSetModalStyle.less'
@@ -111,7 +110,7 @@ class ConfSetModal extends FormCommon {
     this.state = {
       presetInfo: [], // 预置位列表
       displayAddModal: false, // 添加成员弹窗
-      curMember: cloneDeep(currConf.memberData),
+      curMember: deepCopy(currConf.memberData),
       currConf
     }
   }
@@ -243,7 +242,7 @@ class ConfSetModal extends FormCommon {
       return { v: duration, t: duration }
     })
     // presetArr repeatArr repeatArr
-    let _presetinfo = cloneDeep(presetInfo)
+    let _presetinfo = deepCopy(presetInfo)
     let presetArr = [
       { v: '-1', t: $t('c_065') }
     ]
@@ -291,7 +290,7 @@ class ConfSetModal extends FormCommon {
   // 开始日期change
   stateDateChange = (e) => {
     let { setFieldsValue } = this.props.form
-    if (e !== null) setFieldsValue({ confStatedate1: cloneDeep(e) })
+    if (e !== null) setFieldsValue({ confStatedate1: deepCopy(e) })
   }
 
   // 添加成员弹窗 --------------------

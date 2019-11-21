@@ -78,6 +78,8 @@ const routes = {
   r_069: 'Ping',
   r_070: 'Third Party Application',
   r_071: 'Remote Diagnosis',
+  r_072: 'Video Conferencing Service',
+  r_073: 'Zoom',
 
   r_999: ''
 }
@@ -697,7 +699,7 @@ const commons = {
   c_324: 'Confirm password',
   c_325: 'The HDMI output interface marked with number "1" is the primary interface to output primary video. Please make sure to follow the port order when connecting HDMI OUT for normal use.',
   c_326: 'DND',
-  // c_327: 'Enable',
+  c_327: 'Back to the top',
   c_328: 'Forbidden',
 
   c_999: ''

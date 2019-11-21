@@ -160,7 +160,7 @@ class Backend extends Component {
               {/* 会议控制 */}
               <ConfControl />
               {/* 回到顶部 */}
-              <BackTop target={() => document.getElementById('backendContent')} />
+              <BackTop title={$t('c_327')} target={() => document.getElementById('backendContent')} />
               {/* websocket */}
               <WebsocketMessage />
               {/* 固件升级安装进度条 */}

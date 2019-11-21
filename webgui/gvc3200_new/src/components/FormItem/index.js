@@ -24,7 +24,7 @@ const FormItem = (props) => {
 
   return (
     <Item
-      id={'_' + (other.name || Math.random())}
+      htmlFor={'_' + (other.name || Math.random())}
       className={`bak-form-item ${className || ''}`}
       label={<span>{_label} {_tips ? <Tooltip title={<span dangerouslySetInnerHTML={{ __html: _tips }}></span>}><Icon type='question-circle-o' /></Tooltip> : ''}</span>}
       {...other}
