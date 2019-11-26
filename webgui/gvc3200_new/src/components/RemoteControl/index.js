@@ -74,9 +74,9 @@ export default class RemoteControl extends Component {
               </div>
               {/* 根据 Product 判断执行不同的 P值 */}
               <div className={styled['btnarea']}>
-                <button className={styled['reddigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 281 : 290)}><span/></button>
-                <button className={styled['yellowdigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 282 : 291)}><span/></button>
-                <button className={styled['bluedigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 283 : 292)}><span/></button>
+                <button className={styled['reddigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 281 : 296)}><span/></button>
+                <button className={styled['yellowdigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 282 : 297)}><span/></button>
+                <button className={styled['bluedigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 283 : 298)}><span/></button>
               </div>
               <div className={styled['radiusarea']}>
                 <button className={styled['volumedownbtn']} onMouseDown={() => this.setKey(25)}><span/></button>

@@ -23,7 +23,7 @@ const TabPages = (props) => {
 
   const backendContent = document.getElementById('backendContent')
   if (backendContent.scrollHeight > backendContent.offsetHeight) {
-    document.getElementById('backendContent').scroll(0, 0)
+    document.getElementById('backendContent').scrollTop = 0
   }
   return (
     <div className='tab-pages'>
