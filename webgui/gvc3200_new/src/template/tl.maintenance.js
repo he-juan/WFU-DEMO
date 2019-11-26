@@ -7,6 +7,7 @@ export default {
       label: 'Upgrade',
       lang: 'r_033',
       path: 'upgrade',
+      denyRole: 'user',
       sub: [
         {
           label: 'Firmware',
@@ -171,7 +172,7 @@ export default {
             // 查看已有调试信息
             { lang: 'mai_tr_013', _p: 'debugInfo' },
             // 生成核心转储
-            { lang: 'mai_tr_014', p: 'P29611', reboot: 1, noInit: 1 },
+            { lang: 'mai_tr_014', p: 'P29611', reboot: 1 },
             // 已有核心转储列表
             { lang: 'mai_tr_015', _p: 'coredumpfile' },
             // 查看已有核心转储

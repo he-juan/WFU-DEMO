@@ -97,6 +97,7 @@ export default {
       label: 'Security',
       lang: 'r_026',
       path: 'security',
+      denyRole: 'user',
       sub: [
         {
           label: 'WebSSHAccess',

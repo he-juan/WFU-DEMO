@@ -30,6 +30,16 @@ class LDAPContacts extends FormCommon {
   }
   // LDAP拨号默认帐号可选项
   getLDAPAccts = () => {
+    // SIP：第0个账号
+    // IPVT：第一个账号
+    // bluejeans：第二个账号
+    // 虚拟账号组：第三个和第四个账号
+    // 第五个账号未使用。
+    // fxo：第六个账号
+    // skype：第七个账号
+    // H323：第八个账号
+    // 其中第0个账号到第五个账号为SIP账号，总计六个SIP账号
+    // 这个获取 账号信息，还有处理 ipvt 的方式看不懂啊！！！
     API.getPvalues(['P270', 'P417', 'P517', 'P617', 'P1717', 'P1817', 'P50617', 'P50717', 'P50817', 'P50917', 'P51017', 'P51117', 'P51217', 'P51317', 'P51417', 'P51517'])
       .then(data => {
         let keys = Object.keys(data)

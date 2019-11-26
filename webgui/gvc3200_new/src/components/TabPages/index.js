@@ -20,6 +20,11 @@ const TabPages = (props) => {
   })
   const _to = routes[0].path
   const _from = _to.split('/').slice(0, -1).join('/')
+
+  const backendContent = document.getElementById('backendContent')
+  if (backendContent.scrollHeight > backendContent.offsetHeight) {
+    document.getElementById('backendContent').scroll(0, 0)
+  }
   return (
     <div className='tab-pages'>
       <Tabs className='link-tabs' activeKey={location.pathname} onChange={(path) => { history.push(path) }} >

@@ -71,7 +71,11 @@ class FormCommon extends Component {
       return Promise.resolve(data)
     }).catch(err => {
       console.error(err)
-      message.success($t('m_002'))
+      // 当在安全设置中修改了页面/远程访问后，由于即时生效导致 url 发生变化，所以不在进行 抛出错误处理
+      if (params['P900'] !== this.INIT_VALUE['P900'] || params['901'] !== this.INIT_VALUE['P901']) {
+        return false
+      }
+      message.error($t('m_002'))
     })
   }
 

@@ -224,6 +224,11 @@ class Debug extends FormCommon {
     })
   }
 
+  // 查看列表
+  handleOpenList = target => {
+    window.open(`/${target}/`, target)
+  }
+
   render () {
     const { getFieldDecorator: gfd, getFieldsValue } = this.props.form
     const { isCatching, debugTraceList, coreDumpList, recordList, isRecording, pageLoaded } = this.state
@@ -305,9 +310,7 @@ class Debug extends FormCommon {
           </FormItem>
           {/* 查看已有调试信息 */}
           <FormItem {...options['debugInfo']}>
-            <a href='/ppp/' target='__blank'>
-              {$t('c_072')}
-            </a>
+            <Button type='link' onClick={() => this.handleOpenList('ppp')}>{$t('c_072')}</Button>
           </FormItem>
           <h4 className='bak-sub-title'>{$t('c_073')}</h4>
           {/* 生成核心转储 */}
@@ -334,9 +337,7 @@ class Debug extends FormCommon {
           </FormItem>
           {/* 查看已有核心转储 */}
           <FormItem {...options['coreInfo']}>
-            <a href='/coredump/' target='__blank'>
-              {$t('c_072')}
-            </a>
+            <Button type='link' onClick={() => this.handleOpenList('coredump')}>{$t('c_072')}</Button>
           </FormItem>
           <h4 className='bak-sub-title'>{$t('c_077')}</h4>
           {/* 录音 */}
@@ -357,9 +358,7 @@ class Debug extends FormCommon {
           </FormItem>
           {/* 查看已有录音 */}
           <FormItem {...options['recordInfo']}>
-            <a href='/recfiles/' target='__blank'>
-              {$t('c_072')}
-            </a>
+            <Button type='link' onClick={() => this.handleOpenList('recfiles')}>{$t('c_072')}</Button>
           </FormItem>
         </Form>
       </Spin>

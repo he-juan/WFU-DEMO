@@ -115,14 +115,14 @@ class ConfCallModal extends Component {
         width={600}
         footer={
           <div className='conf-call-footer'>
-            <Button>{$t('b_005')}</Button>
+            <Button onClick={onCancel}>{$t('b_005')}</Button>
             <Button type='primary' disabled={selectedMems.length === 0} onClick={this.handleCall}>{$t('b_043')}</Button>
           </div>
         }
       >
         <p className='conf-call-tip'>
           {/* 成员数量已达上限 */}
-          <span style={{ display: !isOverMax ? 'inline-block' : 'none' }}><i className='icons icon-info' />{$t('m_137')}({maxLineCount})</span>
+          <span style={{ display: isOverMax ? 'inline-block' : 'none' }}><i className='icons icon-info' />{$t('m_137')}({maxLineCount})</span>
         </p>
         <ScrollPage
           onLoad={this.handleUpdatePage}

@@ -47,12 +47,13 @@ export default [
         path: '/manage/acct_ipvt'
       },
       {
-        name: 'r_066',
-        path: '/manage/acct_bj'
-      },
-      {
         name: 'r_067',
         path: '/manage/acct_h323'
+      },
+      // 视频会议服务平台
+      {
+        name: 'r_072',
+        path: '/manage/acct_videoconf'
       }
     ]
   },

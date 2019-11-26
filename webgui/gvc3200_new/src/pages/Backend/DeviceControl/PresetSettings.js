@@ -43,7 +43,7 @@ class PresetSettings extends Component {
   applyPreset = (pos) => {
     API.gotoPreset(pos).then(m => {
       // 接口有点问题 暂时这样处理, 后续看情况再改
-      if (m.indexOf('success') >= 0) {
+      if (m.Response === 'Success') {
         this.setState({
           posApplied: Number(pos)
         })

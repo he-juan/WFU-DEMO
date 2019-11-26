@@ -169,6 +169,7 @@ export default {
       label: 'Advanced',
       lang: 'r_022',
       path: 'advanced',
+      denyRole: 'user',
       sub: [
         // 首选DNS服务器1
         { lang: 'net_052', p: ['P92', 'P93', 'P94', 'P95'] },

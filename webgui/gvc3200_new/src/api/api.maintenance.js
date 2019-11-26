@@ -90,6 +90,16 @@ export const clearLogcat = () => {
 }
 
 /**
+ * removeLogcat 移除？
+ */
+export const removeLogcat = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=removelogcat&region=maintenance'
+  })
+}
+
+/**
  * 获取日志, 设备端生成日志文件
  * @param {String} logTag 日志标签
  * @param {String} logPri 日志优先级

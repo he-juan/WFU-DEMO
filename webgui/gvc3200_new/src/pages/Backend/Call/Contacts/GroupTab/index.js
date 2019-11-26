@@ -61,7 +61,7 @@ class GroupsTab extends Component {
     const { filterKey } = this.state
     let filteredGroups
     if (filterKey) {
-      filteredGroups = deepCopy(contactsGroups.filter(group => group.name.toLowerCase().indexOf(filterKey) > -1))
+      filteredGroups = deepCopy(contactsGroups.filter(group => group.name.toLowerCase().indexOf(filterKey.toLowerCase()) > -1))
     } else {
       filteredGroups = deepCopy(contactsGroups)
     }
@@ -86,7 +86,7 @@ class GroupsTab extends Component {
   handleClear = () => {
     const { getContactsAndGroups, contactsGroups } = this.props
     Modal.confirm({
-      title: $t('c_233'),
+      title: $t('m_119'),
       onOk: () => {
         let groupIds = contactsGroups.map(group => group.id).join(',')
         API.removeGroup(groupIds).then((msg) => {
@@ -110,7 +110,7 @@ class GroupsTab extends Component {
     const { selectedGroups } = this.state
     const { getContactsAndGroups } = this.props
     Modal.confirm({
-      title: $t('c_234'),
+      title: $t('m_120'),
       onOk: () => {
         let groupIds = selectedGroups.map(group => group.id).join(',')
         API.removeGroup(groupIds).then((msg) => {

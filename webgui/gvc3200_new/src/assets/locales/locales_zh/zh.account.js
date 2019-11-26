@@ -447,5 +447,8 @@ export default {
   acct_149_tip: '该项指定对应左边的匹配来电的铃声。用户可以选择不同的铃声，也可以在配置页面“应用程序”的“铃声管理”上传mp3文件后选其作为铃声。',
 
   acct_150: 'User-Agent头域内添加MAC',
-  acct_150_tip: '此项设置是否在User-Agent头域添加MAC地址。如果设置为“否”，则所有SIP消息的User-Agent头域都不添加MAC地址；如果设置为“除REGISTER”，则除了REGISTER消息外的所有传出的SIP消息都会在User-Agent头域添加MAC地址；如果设置为“全部”，则所有传出的SIP消息（包含REGISTER消息）都会在User-Agent头域中添加MAC地址。'
+  acct_150_tip: '此项设置是否在User-Agent头域添加MAC地址。如果设置为“否”，则所有SIP消息的User-Agent头域都不添加MAC地址；如果设置为“除REGISTER”，则除了REGISTER消息外的所有传出的SIP消息都会在User-Agent头域添加MAC地址；如果设置为“全部”，则所有传出的SIP消息（包含REGISTER消息）都会在User-Agent头域中添加MAC地址。',
+
+  acct_151: 'Zoom服务器',
+  acct_151_tip: 'Zoom服务器的IP地址或URL，由VoIP服务提供商提供。'
 }

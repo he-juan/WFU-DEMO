@@ -15,19 +15,13 @@ class CodecSettings extends FormCommon {
       vbrateAvailable: [],
       prevbrateAvailable: [],
       preFPSAvailable: [],
-      targetVocoders: [],
-      targetVideos: [],
-      h265_enable: '1'
+      targetVocoders: []
     }
 
-    this.options = getOptions('Account.SIP.Codec')
+    this.options = getOptions('Account.VideoConf.BlueJeans.Codec')
 
     // 视频大小对应的视频比特率
     this.imgsizeToVbrate = {
-      '11': {
-        options: ['1024', '1280', '1536', '1792', '2048', '2560', '3072', '3584', '4096', '4608', '5120', '5632', '6144', '6656', '7168', '7680', '8192'],
-        defaults: '4096'
-      },
       '10': {
         options: ['1024', '1280', '1536', '1792', '2048', '2560', '3072', '3584', '4096'],
         defaults: '2048'
@@ -63,43 +57,26 @@ class CodecSettings extends FormCommon {
     // 演示视频大小对应的演示帧率
     this.preSizeToPreFPS = {
       '10': ['5', '10', '15'],
-      '9': ['5', '10', '15', '25', '30']
+      '9': ['5', '10', '15', '30']
     }
-
     // 语音编码 可选项
     this.vocoderSource = [
-      { key: '0', title: 'PCMU' },
-      { key: '8', title: 'PCMA' },
       { key: '9', title: 'G.722' },
       { key: '104', title: 'G.722.1' },
-      { key: '18', title: 'G729A/B' },
-      { key: '98', title: 'iLBC' },
-      { key: '123', title: 'Opus' },
-      { key: '103', title: 'G.722.1C' }
-    ]
-
-    // 视频编码 可选项
-    this.videoSource = [
-      { key: '99', title: 'H.264' },
-      { key: '114', title: 'H.265' }
+      { key: '0', title: 'PCMU' },
+      { key: '8', title: 'PCMA' }
     ]
   }
 
   componentDidMount () {
     const { setFieldsValue } = this.props.form
 
-    this.options['Ph265_enable'] = { p: 'Ph265_enable' }
-
     this.initFormValue(this.options).then(data => {
-      const { P57, P58, P59, P60, P61, P62, P46, P98, P295, P296, Ph265_enable, ...others } = data
+      const { P551, P552, P553, P554, ...others } = data
 
-      this.initVocodersTran([P57, P58, P59, P60, P61, P62, P46, P98])
-      this.initVideoTran([P295, P296])
+      this.initVocodersTran([P551, P552, P553, P554])
       this.setVbrateOptions(data.P2307)
       this.setPreVbrateOptions(data.P2376)
-      this.setState({
-        h265_enable: Ph265_enable
-      })
       setFieldsValue(others)
     })
   }
@@ -127,38 +104,7 @@ class CodecSettings extends FormCommon {
   }
   parseVocoderValues = (targets) => {
     let result = {}
-    const pAry = ['P57', 'P58', 'P59', 'P60', 'P61', 'P62', 'P46', 'P98']
-    pAry.forEach((p, i) => {
-      result[p] = targets[i] ? targets[i] : ''
-    })
-    return result
-  }
-
-  // 初始化 视频编码 穿梭框
-  initVideoTran = (values) => {
-    let vals = [...new Set(values)].filter(v => v !== '')
-    let targetVideos = []
-    vals.forEach(v => {
-      targetVideos.push(this.videoSource.filter(item => item.key === v)[0].key)
-    })
-    this.setState({
-      targetVideos
-    })
-  }
-
-  handleTranserVideo = (v) => {
-    if (v.length === 0) {
-      message.error($t('m_084'))
-      return false
-    }
-    this.setState({
-      targetVideos: v
-    })
-  }
-
-  parseVideoValues = (targets) => {
-    let result = {}
-    const pAry = ['P295', 'P296']
+    const pAry = ['P551', 'P552', 'P553', 'P554']
     pAry.forEach((p, i) => {
       result[p] = targets[i] ? targets[i] : ''
     })
@@ -168,9 +114,9 @@ class CodecSettings extends FormCommon {
   // 修改h.264 视频大小 更新相应视频比特率可选范围
   handleImgSizeChange = (v) => {
     this.setVbrateOptions(v)
-    let P2315 = v === this.INIT_VALUE['P2307'] ? this.INIT_VALUE['P2315'] : this.imgsizeToVbrate[v].defaults
+    let P2515 = v === this.INIT_VALUE['P2507'] ? this.INIT_VALUE['P2515'] : this.imgsizeToVbrate[v].defaults
     this.props.form.setFieldsValue({
-      P2315
+      P2515
     })
   }
 
@@ -188,11 +134,11 @@ class CodecSettings extends FormCommon {
   // 修改演示H.264视频大小, 更新演示视频比特率可选范围
   handlePreImgSizeChange = (v) => {
     this.setPreVbrateOptions(v)
-    let P2378 = v === this.INIT_VALUE['P2376'] ? this.INIT_VALUE['P2378'] : this.preSizeToPrevbrate[v].defaults
-    let P26042 = v === '10' ? '15' : '30'
+    let P2578 = v === this.INIT_VALUE['P2576'] ? this.INIT_VALUE['P2578'] : this.preSizeToPrevbrate[v].defaults
+    let P26242 = v === '10' ? '15' : '30'
     this.props.form.setFieldsValue({
-      P2378,
-      P26042
+      P2578,
+      P26242
     })
   }
 
@@ -211,55 +157,23 @@ class CodecSettings extends FormCommon {
 
   // 提交表单
   handleSubmit = () => {
-    const { validateFieldsAndScroll, setFieldsValue } = this.props.form
+    const { validateFieldsAndScroll } = this.props.form
     validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let setVals = {}
-
-        values['P79'] === '' && (setVals['P79'] = values['P79'] = '101')
-        values['P2374'] === '' && (setVals['P2374'] = values['P2374'] = '104')
-        values['P26016'] === '' && (setVals['P26016'] = values['P26016'] = '103')
-        values['P2385'] === '' && (setVals['P2385'] = values['P2385'] = '123')
-        values['P26075'] === '' && (setVals['P26075'] = values['P26075'] = '124')
-        values['P26074'] === '' && (setVals['P26074'] = values['P26074'] = '121')
-        values['P26008'] === '' && (setVals['P26008'] = values['P26008'] = '125')
-        values['P2394'] === '' && (setVals['P2394'] = values['P2394'] = '120')
-        values['P293'] === '' && (setVals['P293'] = values['P293'] = '99')
-
-        let payloads = [
-          values['P79'], values['P2374'], values['P26016'], values['P2385'],
-          values['P26075'], values['P26074'], values['P26008'], values['P2394'], values['P293']
-        ]
-
-        // 存在H265时
-        if (this.state.h265_enable !== '0') {
-          if (values['P26086'] === '') {
-            setVals['P26086'] = values['P26086'] = '114'
-          }
-          payloads.push(values['P26086'])
-        }
-
-        Object.keys(setVals).length > 0 && setFieldsValue(setVals)
-
-        if (new Set(payloads).size < payloads.length) {
-          message.error($t('m_083'))
-          return false
-        }
-
         let vocoderValues = this.parseVocoderValues(this.state.targetVocoders)
-        let videoValues = this.parseVideoValues(this.state.targetVideos)
-        values = Object.assign({}, values, vocoderValues, videoValues)
+        values = Object.assign({}, values, vocoderValues)
         this.submitFormValue(values, 1)
       }
     })
   }
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
-    const { targetVocoders, targetVideos, h265_enable } = this.state
+    const { targetVocoders } = this.state
     const options = this.options
+
     if (!targetVocoders.length) return null
 
-    const disablePresent = !!Number(getFieldValue('P26001'))
+    const disablePresent = !!Number(getFieldValue('P26201'))
     return (
       <Form>
         <h4 className='bak-sub-title'>{$t('c_101')}</h4>
@@ -267,7 +181,7 @@ class CodecSettings extends FormCommon {
         <FormItem label='acct_058' tips='acct_058_tip'>
           <Form.Item className='sub-form-item'>
             {
-              gfd('P2301', {
+              gfd('P2501', {
                 valuePropName: 'checked',
                 normalize: (value) => Number(value)
               })(
@@ -277,7 +191,7 @@ class CodecSettings extends FormCommon {
           </Form.Item>
           <Form.Item className='sub-form-item' >
             {
-              gfd('P2302', {
+              gfd('P2502', {
                 valuePropName: 'checked',
                 normalize: (value) => Number(value)
               })(
@@ -285,20 +199,10 @@ class CodecSettings extends FormCommon {
               )
             }
           </Form.Item>
-          <Form.Item className='sub-form-item'>
-            {
-              gfd('P2303', {
-                valuePropName: 'checked',
-                normalize: (value) => Number(value)
-              })(
-                <Checkbox>SIP INFO</Checkbox>
-              )
-            }
-          </Form.Item>
         </FormItem>
         {/* DTMF有效荷载类型 */}
         <InputItem
-          {...options['P79']}
+          {...options['P596']}
           gfd={gfd}
           gfdOptions={{
             rules: [
@@ -331,7 +235,7 @@ class CodecSettings extends FormCommon {
         </FormItem>
         {/* 编码协商优先级 */}
         <SelectItem
-          {...options['P29061']}
+          {...options['P29261']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: $t('c_102') },
@@ -340,12 +244,12 @@ class CodecSettings extends FormCommon {
         />
         {/* 静音抑制 */}
         <CheckboxItem
-          {...options['P50']}
+          {...options['P585']}
           gfd={gfd}
         />
         {/* 语音帧/TX */}
         <InputItem
-          {...options['P37']}
+          {...options['P586']}
           gfd={gfd}
           gfdOptions={{
             rules: [
@@ -356,7 +260,7 @@ class CodecSettings extends FormCommon {
         />
         {/* G.722.1速率 */}
         <SelectItem
-          {...options['P2373']}
+          {...options['P2573']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: '24kbps ' + $t('c_104') },
@@ -365,7 +269,7 @@ class CodecSettings extends FormCommon {
         />
         {/* G.722.1有效荷载类型 */}
         <InputItem
-          {...options['P2374']}
+          {...options['P2574']}
           gfd={gfd}
           gfdOptions={{
             rules: [
@@ -382,95 +286,36 @@ class CodecSettings extends FormCommon {
               }
             ]
           }}
-        />
-        {/* G.722.1C 速率 */}
-        <SelectItem
-          {...options['P26017']}
-          gfd={gfd}
-          selectOptions={[
-            { v: '0', t: '24kbps ' + $t('c_104') },
-            { v: '1', t: '32kbps ' + $t('c_104') },
-            { v: '2', t: '48kbps ' + $t('c_104') }
-          ]}
-        />
-        {/* G.722.1C有效荷载类型 */}
-        <InputItem
-          {...options['P26016']}
-          gfd={gfd}
-          gfdOptions={{
-            rules: [
-              this.digits(),
-              this.range(96, 126),
-              {
-                validator: (data, value, callback) => {
-                  if (value === '98' || value === '99') {
-                    callback($t('m_082'))
-                  } else {
-                    callback()
-                  }
-                }
-              }
-            ]
-          }}
-        />
-        {/* Opus有效荷载类型 */}
-        <InputItem
-          {...options['P2385']}
-          gfd={gfd}
-          gfdOptions={{
-            rules: [
-              this.digits(),
-              this.range(96, 126),
-              {
-                validator: (data, value, callback) => {
-                  if (value === '98' || value === '99') {
-                    callback($t('m_082'))
-                  } else {
-                    callback()
-                  }
-                }
-              }
-            ]
-          }}
-        />
-        {/* iLBC帧大小 */}
-        <SelectItem
-          {...options['P97']}
-          gfd={gfd}
-          selectOptions={[
-            { v: '0', t: '20ms' },
-            { v: '1', t: '30ms' }
-          ]}
         />
         {/* 使用200OK SDP中首位匹配编码 */}
         <CheckboxItem
-          {...options['P2348']}
+          {...options['P2548']}
           gfd={gfd}
         />
         {/* 开启音频前向纠错 */}
         <CheckboxItem
-          {...options['P26073']}
+          {...options['P26273']}
           gfd={gfd}
         />
         {/* 音频FEC有效荷载类型 */}
         <InputItem
-          {...options['P26074']}
+          {...options['P26274']}
           gfd={gfd}
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(96, 126)
+              this.range(96, 127)
             ]
           }}
         />
         {/* 音频RED有效荷载类型 */}
         <InputItem
-          {...options['P26075']}
+          {...options['P26275']}
           gfd={gfd}
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(96, 126),
+              this.range(96, 127),
               {
                 validator: (data, value, callback) => {
                   if (value === '98' || value === '99') {
@@ -486,12 +331,12 @@ class CodecSettings extends FormCommon {
         <h4 className='bak-sub-title'>{$t('c_105')}</h4>
         {/* 支持RFC5168 */}
         <CheckboxItem
-          {...options['P1331']}
+          {...options['P578']}
           gfd={gfd}
         />
         {/* 丢包重传 */}
         <SelectItem
-          {...options['P26085']}
+          {...options['P26285']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: 'NACK' },
@@ -501,37 +346,12 @@ class CodecSettings extends FormCommon {
         />
         {/* 开启视频前向纠错 */}
         <CheckboxItem
-          {...options['P2393']}
+          {...options['P2593']}
           gfd={gfd}
         />
-        {/* 视频前向纠错模式 */}
-        {/* <RadioGroupItem
-          {...options['P26022']}
-          gfd={gfd}
-          radioOptions={[
-            { v: '0', t: '0' },
-            { v: '1', t: '1' }
-          ]}
-        /> */}
         {/* FEC有效荷载类型 */}
         <InputItem
-          {...options['P2394']}
-          gfd={gfd}
-          gfdOptions={{
-            rules: [
-              this.digits(),
-              this.range(96, 127)
-            ]
-          }}
-        />
-        {/* 开启FECC */}
-        <CheckboxItem
-          {...options['P26004']}
-          gfd={gfd}
-        />
-        {/* FECC H.224有效荷载类型 */}
-        <InputItem
-          {...options['P26008']}
+          {...options['P2594']}
           gfd={gfd}
           gfdOptions={{
             rules: [
@@ -542,50 +362,31 @@ class CodecSettings extends FormCommon {
         />
         {/* SDP带宽属性 */}
         <SelectItem
-          {...options['P2360']}
+          {...options['P2560']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: $t('c_106') },
             { v: '1', t: $t('c_107') },
-            { v: '3', t: $t('c_065') }
+            { v: '2', t: $t('c_065') }
           ]}
         />
-        {/* 视频抖动缓冲区最大值(ms) */}
+        {/* 视频抖动缓冲区最大值 */}
         <InputItem
-          {...options['P2381']}
+          {...options['P2581']}
           gfd={gfd}
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(0, 1000)
+              this.range(96, 1000)
             ]
           }}
         />
-        {/* 开启视频渐进刷新 */}
-        <CheckboxItem
-          {...options['P25111']}
-          gfd={gfd}
-        />
-        {/* 视频编码 */}
-        <FormItem label='acct_085' tips='acct_085_tip' hide={ h265_enable === '0' }>
-          <Transfer
-            className='form-item-transfer'
-            titles={[$t('c_053'), $t('c_054')]}
-            onChange={this.handleTranserVideo}
-            sorter={true}
-            dataSource={this.videoSource}
-            targetKeys={targetVideos}
-            render={item => item.title}
-            style={{ marginBottom: 20 }}
-          />
-        </FormItem>
-        {/* H.264 视频大小 */}
+        {/* H.264视频大小 */}
         <SelectItem
-          {...options['P2307']}
+          {...options['P2507']}
           gfd={gfd}
           onChange={(v) => { this.handleImgSizeChange(v) }}
           selectOptions={[
-            { v: '11', t: '4k' },
             { v: '10', t: '1080P' },
             { v: '9', t: '720P' },
             { v: '4', t: '4CIF' },
@@ -595,7 +396,7 @@ class CodecSettings extends FormCommon {
         />
         {/* 视频比特率 */}
         <SelectItem
-          {...options['P2315']}
+          {...options['P2515']}
           gfd={gfd}
           selectOptions={this.state.vbrateAvailable.map((v) => {
             return { v: v, t: v + 'Kbps' }
@@ -603,7 +404,7 @@ class CodecSettings extends FormCommon {
         />
         {/* 视频帧率 */}
         <SelectItem
-          {...options['P25004']}
+          {...options['P25006']}
           gfd={gfd}
           selectOptions={[
             { v: '5', t: '5 ' + $t('c_108') },
@@ -615,7 +416,7 @@ class CodecSettings extends FormCommon {
         />
         {/* H.264有效荷载类型 */}
         <InputItem
-          {...options['P293']}
+          {...options['P562']}
           gfd={gfd}
           gfdOptions={{
             rules: [
@@ -626,7 +427,7 @@ class CodecSettings extends FormCommon {
         />
         {/* 打包模式 */}
         <SelectItem
-          {...options['P26005']}
+          {...options['P26205']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: '0' },
@@ -636,7 +437,7 @@ class CodecSettings extends FormCommon {
         />
         {/* H.264 Profile 类型 */}
         <SelectItem
-          {...options['P2362']}
+          {...options['P2562']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: $t('c_111') },
@@ -647,39 +448,27 @@ class CodecSettings extends FormCommon {
         />
         {/* 使用H.264 Constrained Profiles */}
         <CheckboxItem
-          {...options['P26045']}
+          {...options['P26245']}
           gfd={gfd}
-        />
-        {/* H.265有效荷载类型 */}
-        <InputItem
-          {...options['P26086']}
-          gfd={gfd}
-          hide={ h265_enable === '0' }
-          gfdOptions={{
-            rules: [
-              this.digits(),
-              this.range(96, 126)
-            ]
-          }}
         />
 
         <h4 className='bak-sub-title'>{$t('c_114')}</h4>
         {/* 禁止演示 */}
         <CheckboxItem
-          {...options['P26001']}
+          {...options['P26201']}
           gfd={gfd}
         />
         {/* 初始INVITE携带媒体信息 */}
         <CheckboxItem
-          {...options['PsendPreMode_0']}
+          {...options['PsendPreMode_2']}
           gfd={gfd}
           disabled={disablePresent}
         />
         {/* 演示H.264 视频大小 */}
         <SelectItem
-          {...options['P2376']}
+          {...options['P2576']}
           gfd={gfd}
-          onChange={(v) => this.handlePreImgSizeChange(v)}
+          onChange={(v) => { this.handlePreImgSizeChange(v) }}
           disabled={disablePresent}
           selectOptions={[
             { v: '10', t: '1080P' },
@@ -688,7 +477,7 @@ class CodecSettings extends FormCommon {
         />
         {/* 演示H.264 Profile类型 */}
         <SelectItem
-          {...options['P2377']}
+          {...options['P2577']}
           gfd={gfd}
           disabled={disablePresent}
           selectOptions={[
@@ -700,7 +489,7 @@ class CodecSettings extends FormCommon {
         />
         {/* 演示视频速率 */}
         <SelectItem
-          {...options['P2378']}
+          {...options['P2578']}
           gfd={gfd}
           disabled={disablePresent}
           selectOptions={this.state.prevbrateAvailable.map((v) => {
@@ -709,46 +498,14 @@ class CodecSettings extends FormCommon {
         />
         {/* 演示视频帧率 */}
         <SelectItem
-          {...options['P26042']}
+          {...options['P26242']}
           gfd={gfd}
           disabled={disablePresent}
           selectOptions={this.state.preFPSAvailable.map(v => {
             return { v: v, t: v + $t('c_108') }
           })}
         />
-        {/* BFCP传输协议 */}
-        <SelectItem
-          {...options['P26041']}
-          gfd={gfd}
-          disabled={disablePresent}
-          selectOptions={[
-            { v: '0', t: $t('c_096') },
-            { v: '1', t: 'UDP' },
-            { v: '2', t: 'TCP' }
-          ]}
-        />
-        <h4 className='bak-sub-title'>{$t('c_115')}</h4>
-        {/* SRTP方式 */}
-        <SelectItem
-          {...options['P183']}
-          gfd={gfd}
-          selectOptions={[
-            { v: '0', t: $t('c_098') },
-            { v: '1', t: $t('c_116') },
-            { v: '2', t: $t('c_117') }
-          ]}
-        />
-        {/* SRTP加密位数 */}
-        <SelectItem
-          {...options['P2383']}
-          gfd={gfd}
-          selectOptions={[
-            { v: '0', t: 'AES 128&256 bit' },
-            { v: '1', t: 'AES 128 bit' },
-            { v: '2', t: 'AES 256 bit' }
-          ]}
-        />
-        <FormItem label='' >
+        <FormItem >
           <Button className='sub-btn' onClick={this.handleSubmit} id='subBtn'>{$t('b_001')}</Button>
         </FormItem>
       </Form>

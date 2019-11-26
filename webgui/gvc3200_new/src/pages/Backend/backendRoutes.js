@@ -13,8 +13,8 @@ const routes = [
   /* account */
   { path: '/manage/acct_sip', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_sip" */ './Account/SIP')) },
   { path: '/manage/acct_ipvt', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_ipvt" */ './Account/IPVideoTalk')) },
-  { path: '/manage/acct_bj', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_bj" */ './Account/BlueJeans')) },
   { path: '/manage/acct_h323', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_h323" */ './Account/H323')) },
+  { path: '/manage/acct_videoconf', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "acct_videoconf" */ './Account/VideoConf')) },
 
   /* call features */
   { path: '/manage/callset_general', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "callset_general" */ './CallFeatures/GeneralSettings')) },

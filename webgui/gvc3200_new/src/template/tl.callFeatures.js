@@ -7,6 +7,7 @@ export default {
       label: 'General',
       lang: 'r_014',
       path: 'general',
+      denyRole: 'user',
       sub: [
         // 本地RTP端口
         { lang: 'call_001', p: 'P39' },
@@ -51,6 +52,7 @@ export default {
       label: 'SiteName',
       lang: 'r_016',
       path: 'sitename',
+      denyRole: 'user',
       sub: [
         // 会场名称
         { lang: 'call_016', _p: 'sitename' },
@@ -76,6 +78,7 @@ export default {
       label: 'AudioControl',
       lang: 'r_017',
       path: 'audio',
+      denyRole: 'user',
       sub: [
         // 回声延迟
         { lang: 'call_025', p: 'P22280' },
@@ -107,6 +110,7 @@ export default {
       label: 'VideoSettings',
       lang: 'r_018',
       path: 'video',
+      denyRole: 'user',
       sub: [
         // 自动开始视频
         { lang: 'call_036', p: 'P25023' },

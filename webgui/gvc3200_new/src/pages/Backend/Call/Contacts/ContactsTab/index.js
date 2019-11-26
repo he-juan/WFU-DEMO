@@ -66,7 +66,7 @@ class ContactTab extends Component {
     const { filterKey } = this.state
     let filteredContacts
     if (filterKey.length) {
-      filteredContacts = deepCopy(contacts.filter(contact => contact.name.displayname.toLowerCase().indexOf(filterKey) > -1))
+      filteredContacts = deepCopy(contacts.filter(contact => contact.name.displayname.toLowerCase().indexOf(filterKey.toLowerCase()) > -1))
     } else {
       filteredContacts = deepCopy(contacts)
     }

@@ -19,8 +19,8 @@ class NSLookup extends FormCommon {
   handleStart = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { targethost } = values
-        this.startNSLookup(targethost)
+        const { addr } = values
+        this.startNSLookup(addr)
       }
     })
   }

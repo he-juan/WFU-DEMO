@@ -447,5 +447,8 @@ export default {
   acct_149_tip: 'This field specifies the distinctive ringtone for the matching incoming caller ID on the left. Users can choose from different ringtones from the dropdown menu. They can also upload mp3 files in Ringtone manager under "Applications" for their own ringtone.',
 
   acct_150: 'Add MAC In User-Agent',
-  acct_150_tip: 'Configures whether to add MAC address in User-Agent header. If set to "No", all outgoing SIP messages  will not attach MAC address to the User-Agent header; If set to "Yes except REGISTER", all outgoing SIP messages except REGISTER message will attach the MAC address to the User-Agent header; If set to "Yes to All SIP", all outgoing SIP messages including REGISTER message will attach MAC address to the User-Agent header.'
+  acct_150_tip: 'Configures whether to add MAC address in User-Agent header. If set to "No", all outgoing SIP messages  will not attach MAC address to the User-Agent header; If set to "Yes except REGISTER", all outgoing SIP messages except REGISTER message will attach the MAC address to the User-Agent header; If set to "Yes to All SIP", all outgoing SIP messages including REGISTER message will attach MAC address to the User-Agent header.',
+
+  acct_151: 'Zoom Server',
+  acct_151_tip: 'The URL or IP address, and port of the Zoom server. This is provided by your VoIP service provider (ITSP).'
 }

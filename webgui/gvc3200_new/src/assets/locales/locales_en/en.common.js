@@ -510,7 +510,7 @@ const commons = {
   c_128: 'Log all',
   c_129: 'Log incoming/outgoing only (missed calls are not recorded)',
   c_130: 'Disable call log',
-  c_131: 'China mobile',
+  c_131: 'China Mobile',
   c_132: 'Huawei IMS',
   c_133: 'Call forwarding',
   c_134: 'Unconditional',

@@ -167,6 +167,8 @@ class CallHistory extends Component {
             setTimeout(() => {
               getCallLogs()
             }, 200)
+          } else {
+            message.error(m.msg)
           }
         })
       }

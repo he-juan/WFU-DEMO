@@ -175,7 +175,7 @@ class CallSettings extends FormCommon {
       name: 'file',
       showUploadList: false,
       accept: '.wav,.mp3',
-      action: '/upload?type=audiofile&acct=1',
+      action: '/upload?type=audiofile&acct=0',
       headers: {
       },
       onChange (info) {
@@ -188,7 +188,7 @@ class CallSettings extends FormCommon {
         }
         if (info.file.status === 'done') {
           let fileext = info.file.name.split('.').pop()
-          API.converaudio(fileext, 1).then((m) => {
+          API.converaudio(fileext, 0).then((m) => {
             _this.props.setWholeLoading(false, '')
             Modal.info({
               title: m.Response === 'Success' ? $t('m_085') : $t('m_019'),

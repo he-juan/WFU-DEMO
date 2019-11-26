@@ -20,7 +20,7 @@ class CallSettings extends FormCommon {
   constructor (props) {
     super(props)
 
-    this.options = getOptions('Account.BlueJeans.Call')
+    this.options = getOptions('Account.VideoConf.Zoom.Call')
   }
   componentDidMount () {
     const { setFieldsValue } = this.props.form
@@ -49,7 +49,7 @@ class CallSettings extends FormCommon {
     const MOHUploadProps = {
       name: 'file',
       showUploadList: false,
-      action: '/upload?type=audiofile&acct=3',
+      action: '/upload?type=audiofile&acct=5',
       accept: '.wav,.mp3',
       onChange (info) {
         if (info.file.response && info.file.response.indexOf('Authentication Required') > -1) {
@@ -62,7 +62,7 @@ class CallSettings extends FormCommon {
         if (info.file.status === 'done') {
           _this.props.setWholeLoading(false, '')
           let fileext = info.file.name.split('.').pop()
-          API.converaudio(fileext, 3).then((m) => {
+          API.converaudio(fileext, 5).then((m) => {
             _this.props.setWholeLoading(false, '')
             Modal.info({
               title: m.Response === 'Success' ? $t('m_085') : $t('m_019'),
@@ -94,7 +94,7 @@ class CallSettings extends FormCommon {
       <Form>
         {/* 呼叫日志 */}
         <SelectItem
-          {...options['P542']}
+          {...options['P1842']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: $t('c_128') },
@@ -103,7 +103,7 @@ class CallSettings extends FormCommon {
         />
         {/* #键拨号 */}
         <CheckboxItem
-          {...options['P592']}
+          {...options['P1892']}
           gfd={gfd}
         />
         {/* 上传本地MOH音频文件 */}
@@ -116,12 +116,12 @@ class CallSettings extends FormCommon {
         </FormItem>
         {/* 开启本地MOH功能 */}
         <CheckboxItem
-          {...options['P2557']}
+          {...options['P2857']}
           gfd={gfd}
         />
         {/* 常用布局模式 */}
         <SelectItem
-          {...options['P29270']}
+          {...options['P29570']}
           gfd={gfd}
           selectOptions={[
             { v: '0', t: $t('c_120') },

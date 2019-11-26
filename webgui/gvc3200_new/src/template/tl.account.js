@@ -7,6 +7,7 @@ export default {
       label: 'SIP',
       lang: 'r_064',
       path: 'sip',
+      denyRole: 'user',
       sub: [
         /** ****************Account.Sip.General********************* */
         {
@@ -195,8 +196,8 @@ export default {
             { lang: 'acct_077', p: 'P2393' },
             // FEC有效荷载类型
             { lang: 'acct_078', p: 'P2394' },
-            // //视频前向纠错模式
-            { lang: 'acct_070', p: 'P26022' },
+            // 视频前向纠错模式
+            // { lang: 'acct_070', p: 'P26022' },
             // 开启FECC
             { lang: 'acct_080', p: 'P26004' },
             // FECC H.224有效荷载类型
@@ -322,6 +323,7 @@ export default {
       label: 'IPVT',
       lang: 'r_065',
       path: 'ipvt',
+      denyRole: 'user',
       sub: [
         {
           label: 'General',
@@ -361,116 +363,10 @@ export default {
       ]
     },
     {
-      label: 'BlueJeans',
-      lang: 'r_066',
-      path: 'bj',
-      sub: [
-        {
-          label: 'General',
-          lang: 'r_014',
-          path: 'general',
-          sub: [
-            // 帐号激活
-            { lang: 'acct_001', p: 'P501' },
-            // 显示名称
-            { lang: 'acct_009', p: 'P507' }
-
-          ]
-        },
-        {
-          label: 'Codec',
-          lang: 'r_045',
-          path: 'codec',
-          sub: [
-            // DTMF
-            { lang: 'acct_058', p: ['P2501', 'P2502'] },
-            // DTMF有效荷载类型
-            { lang: 'acct_059', p: 'P596' },
-            // 语音编码
-            { lang: 'acct_060', p: ['P551', 'P552', 'P553', 'P554'] },
-            // 编码协商优先级
-            { lang: 'acct_061', p: 'P29261' },
-            // 静音抑制
-            { lang: 'acct_062', p: 'P585' },
-            // 语音帧/TX
-            { lang: 'acct_063', p: 'P586' },
-            // G.722.1速率
-            { lang: 'acct_064', p: 'P2573' },
-            // G.722.1有效荷载类型
-            { lang: 'acct_065', p: 'P2574' },
-            // 使用200OK SDP中首位匹配编码
-            { lang: 'acct_071', p: 'P2548' },
-            // 开启音频前向纠错
-            { lang: 'acct_072', p: 'P26273' },
-            // 音频FEC有效荷载类型
-            { lang: 'acct_073', p: 'P26274' },
-            // 音频RED有效荷载类型
-            { lang: 'acct_074', p: 'P26275' },
-
-            // 支持RFC5168
-            { lang: 'acct_075', p: 'P578' },
-            // 丢包重传
-            { lang: 'acct_076', p: 'P26285' },
-            // 开启视频前向纠错
-            { lang: 'acct_077', p: 'P2593' },
-            // FEC有效荷载类型
-            { lang: 'acct_078', p: 'P2594' },
-            // SDP带宽属性
-            { lang: 'acct_082', p: 'P2560' },
-            // 视频抖动缓冲区最大值(ms)
-            { lang: 'acct_083', p: 'P2581' },
-            // H.264视频大小
-            { lang: 'acct_086', p: 'P2507' },
-            // 视频比特率
-            { lang: 'acct_087', p: 'P2515' },
-            // 视频帧率
-            { lang: 'acct_088', p: 'P25006' },
-            // H.264有效荷载类型
-            { lang: 'acct_089', p: 'P562' },
-            // 打包模式
-            { lang: 'acct_090', p: 'P26205' },
-            // H.264 Profile 类型
-            { lang: 'acct_091', p: 'P2562' },
-            // 使用H.264 Constrained Profiles
-            { lang: 'acct_092', p: 'P26245' },
-
-            // 禁止演示
-            { lang: 'acct_094', p: 'P26201' },
-            // 初始INVITE携带媒体信息
-            { lang: 'acct_095', p: 'PsendPreMode_2' },
-            // 演示H.264 视频大小
-            { lang: 'acct_096', p: 'P2576' },
-            // 演示H.264 Profile类型
-            { lang: 'acct_097', p: 'P2577' },
-            // 演示视频速率
-            { lang: 'acct_098', p: 'P2578' },
-            // 演示视频帧率
-            { lang: 'acct_099', p: 'P26242' }
-          ]
-        },
-        {
-          label: 'Call',
-          lang: 'r_046',
-          path: 'call',
-          sub: [
-            // 呼叫日志
-            { lang: 'acct_112', p: 'P542' },
-            // #键拨号
-            { lang: 'acct_117', p: 'P592' },
-            // 上传本地MOH音频文件
-            { lang: 'acct_118', _p: 'MOHUploadProps' },
-            // 开启本地MOH功能
-            { lang: 'acct_119', p: 'P2557' },
-            // 常用布局模式
-            { lang: 'acct_104', p: 'P29270' }
-          ]
-        }
-      ]
-    },
-    {
       label: 'H323',
       lang: 'r_067',
       path: 'h323',
+      denyRole: 'user',
       sub: [
         {
           label: 'General',
@@ -538,6 +434,348 @@ export default {
             { lang: 'acct_146', p: 'P25060' },
             // 常用布局模式
             { lang: 'acct_104', p: 'P25073' }
+          ]
+        }
+      ]
+    },
+    // 视频会议服务平台
+    {
+      label: 'VideoConf',
+      lang: 'r_072',
+      path: 'videoconf',
+      denyRole: 'user',
+      sub: [
+        {
+          label: 'BlueJeans',
+          lang: 'r_066',
+          path: 'bj',
+          sub: [
+            {
+              label: 'General',
+              lang: 'r_014',
+              path: 'general',
+              sub: [
+              // 帐号激活
+                { lang: 'acct_001', p: 'P501' },
+                // 显示名称
+                { lang: 'acct_009', p: 'P507' }
+
+              ]
+            },
+            {
+              label: 'Codec',
+              lang: 'r_045',
+              path: 'codec',
+              sub: [
+              // DTMF
+                { lang: 'acct_058', p: ['P2501', 'P2502'] },
+                // DTMF有效荷载类型
+                { lang: 'acct_059', p: 'P596' },
+                // 语音编码
+                { lang: 'acct_060', p: ['P551', 'P552', 'P553', 'P554'] },
+                // 编码协商优先级
+                { lang: 'acct_061', p: 'P29261' },
+                // 静音抑制
+                { lang: 'acct_062', p: 'P585' },
+                // 语音帧/TX
+                { lang: 'acct_063', p: 'P586' },
+                // G.722.1速率
+                { lang: 'acct_064', p: 'P2573' },
+                // G.722.1有效荷载类型
+                { lang: 'acct_065', p: 'P2574' },
+                // 使用200OK SDP中首位匹配编码
+                { lang: 'acct_071', p: 'P2548' },
+                // 开启音频前向纠错
+                { lang: 'acct_072', p: 'P26273' },
+                // 音频FEC有效荷载类型
+                { lang: 'acct_073', p: 'P26274' },
+                // 音频RED有效荷载类型
+                { lang: 'acct_074', p: 'P26275' },
+
+                // 支持RFC5168
+                { lang: 'acct_075', p: 'P578' },
+                // 丢包重传
+                { lang: 'acct_076', p: 'P26285' },
+                // 开启视频前向纠错
+                { lang: 'acct_077', p: 'P2593' },
+                // FEC有效荷载类型
+                { lang: 'acct_078', p: 'P2594' },
+                // SDP带宽属性
+                { lang: 'acct_082', p: 'P2560' },
+                // 视频抖动缓冲区最大值(ms)
+                { lang: 'acct_083', p: 'P2581' },
+                // H.264视频大小
+                { lang: 'acct_086', p: 'P2507' },
+                // 视频比特率
+                { lang: 'acct_087', p: 'P2515' },
+                // 视频帧率
+                { lang: 'acct_088', p: 'P25006' },
+                // H.264有效荷载类型
+                { lang: 'acct_089', p: 'P562' },
+                // 打包模式
+                { lang: 'acct_090', p: 'P26205' },
+                // H.264 Profile 类型
+                { lang: 'acct_091', p: 'P2562' },
+                // 使用H.264 Constrained Profiles
+                { lang: 'acct_092', p: 'P26245' },
+
+                // 禁止演示
+                { lang: 'acct_094', p: 'P26201' },
+                // 初始INVITE携带媒体信息
+                { lang: 'acct_095', p: 'PsendPreMode_2' },
+                // 演示H.264 视频大小
+                { lang: 'acct_096', p: 'P2576' },
+                // 演示H.264 Profile类型
+                { lang: 'acct_097', p: 'P2577' },
+                // 演示视频速率
+                { lang: 'acct_098', p: 'P2578' },
+                // 演示视频帧率
+                { lang: 'acct_099', p: 'P26242' }
+              ]
+            },
+            {
+              label: 'Call',
+              lang: 'r_046',
+              path: 'call',
+              sub: [
+              // 呼叫日志
+                { lang: 'acct_112', p: 'P542' },
+                // #键拨号
+                { lang: 'acct_117', p: 'P592' },
+                // 上传本地MOH音频文件
+                { lang: 'acct_118', _p: 'MOHUploadProps' },
+                // 开启本地MOH功能
+                { lang: 'acct_119', p: 'P2557' },
+                // 常用布局模式
+                { lang: 'acct_104', p: 'P29270' }
+              ]
+            }
+          ]
+        },
+        {
+          label: 'Zoom',
+          lang: 'r_073',
+          path: 'zoom',
+          sub: [
+            {
+              label: 'General',
+              lang: 'r_014',
+              path: 'general',
+              sub: [
+                // 帐号激活
+                { lang: 'acct_001', p: 'P1801' },
+                // Zoom服务器
+                { lang: 'acct_151', p: 'P1802' },
+                // 显示名称
+                { lang: 'acct_009', p: 'P1817' }
+
+              ]
+            },
+            {
+              label: 'SIP',
+              lang: 'r_064',
+              path: 'sip',
+              sub: [
+                // SIP传输
+                { lang: 'acct_039', p: 'P1848' },
+                // 重新注册前注销
+                { lang: 'acct_018', p: 'P1811' },
+                // 注册期限(分钟)
+                { lang: 'acct_019', p: 'P1812' },
+                // 注册期限内重新注册等待时间(秒)
+                { lang: 'acct_020', p: 'P2830' },
+                // 订阅超时(分钟)
+                { lang: 'acct_021', p: 'P26551' },
+                // 重试注册间隔时间(秒)
+                { lang: 'acct_022', p: 'P1871' },
+                // 本地SIP端口
+                { lang: 'acct_023', p: 'P1813' },
+                // 支持MWI
+                { lang: 'acct_024', p: 'P1815' },
+                // 开启会话超时
+                { lang: 'acct_025', p: 'P1834' },
+                // 会话超时时间(秒)
+                { lang: 'acct_026', p: 'Psessionexp_5' },
+                // 最小超时时间(秒)
+                { lang: 'acct_027', p: 'P1827' },
+                // UAC指定刷新对象
+                { lang: 'acct_028', p: 'P1832' },
+                // UAS指定刷新对象
+                { lang: 'acct_029', p: 'P1833' },
+                // 强制INVITE
+                { lang: 'acct_030', p: 'P1831' },
+                // 主叫请求计时
+                { lang: 'acct_031', p: 'P1828' },
+                // 被叫请求计时
+                { lang: 'acct_032', p: 'P1829' },
+                // 强制计时
+                { lang: 'acct_033', p: 'P1830' },
+                // 开启100rel
+                { lang: 'acct_034', p: 'P1835' },
+                // 来电ID显示
+                { lang: 'acct_035', p: 'P2824' },
+                // 使用Privacy头域
+                { lang: 'acct_036', p: 'P2838' },
+                // 使用P-Preferred-Identity头域
+                { lang: 'acct_037', p: 'P2839' },
+                // 使用MAC头域
+                { lang: 'acct_038', p: 'P29590' },
+                // 在User-Agent添加MAC
+                { lang: 'acct_150', p: 'P26561' },
+                // SIP传输
+                { lang: 'acct_039', p: 'P1875' },
+                // RTP IP过滤
+                { lang: 'acct_040', p: 'P26526' },
+                // RTP超时（秒）
+                { lang: 'acct_041', p: 'P29568' },
+                // TLS使用的SIP URI格式
+                { lang: 'acct_042', p: 'P2829' },
+                // TCP/TLS Contact使用实际临时端口
+                { lang: 'acct_043', p: 'P2831' },
+                // RFC2543 Hold
+                { lang: 'acct_044', p: 'P26562' },
+                // 对称RTP
+                { lang: 'acct_045', p: 'P1860' },
+                // 支持SIP实例ID
+                { lang: 'acct_046', p: 'P1889' },
+                // 验证入局SIP消息
+                { lang: 'acct_047', p: 'P2806' },
+                // 检查来电INVITE的SIP用户ID
+                { lang: 'acct_048', p: 'P1849' },
+                // 验证来电INVITE
+                { lang: 'acct_049', p: 'P2846' },
+                // 用于Challenge INVITE ＆ NOTIFY的SIP Realm
+                { lang: 'acct_050', p: 'P26521' },
+                // 仅接受已知服务器的SIP请求
+                { lang: 'acct_051', p: 'P2847' },
+                // SIP T1超时时间
+                { lang: 'acct_052', p: 'P1840' },
+                // SIP T2间隔时间
+                { lang: 'acct_053', p: 'P1841' },
+                // SIP Timer D间隔时间
+                { lang: 'acct_054', p: 'P2887' },
+                // 从路由移除OBP
+                { lang: 'acct_055', p: 'P2805' },
+                // 检查域名证书
+                { lang: 'acct_056', p: 'P2811' },
+                // 验证证书链
+                { lang: 'acct_057', p: 'P2867' }
+              ]
+            },
+            {
+              label: 'Codec',
+              lang: 'r_045',
+              path: 'codec',
+              sub: [
+                // DTMF
+                { lang: 'acct_058', p: ['P2801', 'P2802', 'P2803'] },
+                // DTMF有效荷载类型
+                { lang: 'acct_059', p: 'P1896' },
+                // 语音编码
+                { lang: 'acct_060', p: ['P1851', 'P1852', 'P1853', 'P1854', 'P1855', 'P1856', 'P1857', 'P1858'] },
+                // 编码协商优先级
+                { lang: 'acct_061', p: 'P29561' },
+                // 静音抑制
+                { lang: 'acct_062', p: 'P1885' },
+                // 语音帧/TX
+                { lang: 'acct_063', p: 'P1886' },
+                // G.722.1速率
+                { lang: 'acct_064', p: 'P2873' },
+                // G.722.1有效荷载类型
+                { lang: 'acct_065', p: 'P2874' },
+                // G.722.1C 速率
+                { lang: 'acct_066', p: 'P26517' },
+                // G.722.1C有效荷载类型
+                { lang: 'acct_067', p: 'P26516' },
+                // Opus有效荷载类型
+                { lang: 'acct_068', p: 'P2885' },
+                // iLBC帧大小
+                { lang: 'acct_069', p: 'P1895' },
+                // 使用200OK SDP中首位匹配编码
+                { lang: 'acct_071', p: 'P2848' },
+                // 开启音频前向纠错
+                { lang: 'acct_072', p: 'P26573' },
+                // 音频FEC有效荷载类型
+                { lang: 'acct_073', p: 'P26574' },
+                // 音频RED有效荷载类型
+                { lang: 'acct_074', p: 'P26575' },
+
+                // 支持RFC5168
+                { lang: 'acct_075', p: 'P1878' },
+                // 丢包重传
+                { lang: 'acct_076', p: 'P26585' },
+                // 开启视频前向纠错
+                { lang: 'acct_077', p: 'P2893' },
+                // FEC有效荷载类型
+                { lang: 'acct_078', p: 'P2894' },
+                // //视频前向纠错模式
+                // { lang: 'acct_070', p: 'P26522' },
+                // 开启FECC
+                { lang: 'acct_080', p: 'P26504' },
+                // FECC H.224有效荷载类型
+                { lang: 'acct_081', p: 'P26508' },
+                // SDP带宽属性
+                { lang: 'acct_082', p: 'P2860' },
+                // 视频抖动缓冲区最大值(ms)
+                { lang: 'acct_083', p: 'P2881' },
+                // 开启视频渐进刷新
+                { lang: 'acct_084', p: 'P25111' }, // enable GDR
+                // 视频编码
+                { lang: 'acct_085', p: ['P1864', 'P1865'] },
+                // H.264 视频大小
+                { lang: 'acct_086', p: 'P2807' },
+                // 视频比特率
+                { lang: 'acct_087', p: 'P2815' },
+                // 视频帧率
+                { lang: 'acct_088', p: 'P25008' },
+                // H.264有效荷载类型
+                { lang: 'acct_089', p: 'P1862' },
+                // 打包模式
+                { lang: 'acct_090', p: 'P26505' },
+                // H.264 Profile 类型
+                { lang: 'acct_091', p: 'P2862' },
+                // 使用H.264 Constrained Profiles
+                { lang: 'acct_092', p: 'P26545' },
+                // H.265有效荷载类型
+                { lang: 'acct_093', p: 'P26586' },
+
+                // 禁止演示
+                { lang: 'acct_094', p: 'P26501' },
+                // 初始INVITE携带媒体信息
+                { lang: 'acct_095', p: 'PsendPreMode_5' },
+                // 演示H.264 视频大小
+                { lang: 'acct_096', p: 'P2876' },
+                // 演示H.264 Profile类型
+                { lang: 'acct_097', p: 'P2877' },
+                // 演示视频速率
+                { lang: 'acct_098', p: 'P2878' },
+                // 演示视频帧率
+                { lang: 'acct_099', p: 'P26542' },
+                // BFCP传输协议
+                { lang: 'acct_100', p: 'P26541' },
+                // SRTP方式
+                { lang: 'acct_101', p: 'P1843' },
+                // SRTP加密位数
+                { lang: 'acct_102', p: 'P2883' }
+              ]
+            },
+            {
+              label: 'Call',
+              lang: 'r_046',
+              path: 'call',
+              sub: [
+                // 呼叫日志
+                { lang: 'acct_112', p: 'P1842' },
+                // #键拨号
+                { lang: 'acct_117', p: 'P1892' },
+                // 上传本地MOH音频文件
+                { lang: 'acct_118', _p: 'MOHUploadProps' },
+                // 开启本地MOH功能
+                { lang: 'acct_119', p: 'P2857' },
+                // 常用布局模式
+                { lang: 'acct_104', p: 'P29570' }
+              ]
+            }
           ]
         }
       ]

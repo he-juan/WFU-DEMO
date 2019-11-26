@@ -15,7 +15,7 @@ import { $t } from '@/Intl'
 )
 @Form.create()
 class GeneralSettings extends FormCommon {
-  options = getOptions('Account.BlueJeans.General')
+  options = getOptions('Account.VideoConf.Zoom.General')
   state = {
     restActiveAcct: []
   }
@@ -32,8 +32,8 @@ class GeneralSettings extends FormCommon {
     const { acctStatus, defaultAcct } = this.props
     validateFields((err, values) => {
       if (!err) {
-        let restActiveAcct = acctStatus.filter(acct => acct.acctIndex !== 2 && acct.activate === 1)
-        if ((values['P501'] === 0 && defaultAcct === 2) && restActiveAcct.length > 0) {
+        let restActiveAcct = acctStatus.filter(acct => acct.acctIndex !== 5 && acct.activate === 1)
+        if ((values['P1801'] === 0 && defaultAcct === 5) && restActiveAcct.length > 0) {
           this.setState({
             restActiveAcct: restActiveAcct
           })
@@ -51,12 +51,17 @@ class GeneralSettings extends FormCommon {
       <Form>
         {/* 帐号激活 */}
         <CheckboxItem
-          {...options['P501']}
+          {...options['P1801']}
+          gfd={gfd}
+        />
+        {/* Zoom服务器 */}
+        <InputItem
+          {...options['P1802']}
           gfd={gfd}
         />
         {/* 显示名称 */}
         <InputItem
-          {...options['P507']}
+          {...options['P1817']}
           gfd={gfd}
           gfdOptions={{
             rules: [
