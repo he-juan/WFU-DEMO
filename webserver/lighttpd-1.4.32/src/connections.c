@@ -25805,6 +25805,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_getremotedebug(b);
             } else if (!strcasecmp(action, "setremotedebug")) {
                 handle_setremotedebug(b, m);
+            } else if (!strcasecmp(action, "getthirdapplist")) {
+                handle_callservice_by_no_param(srv, con, b, m, "getThirdAppsList");
             }
             /* new APIs end */
 #endif
