@@ -209,7 +209,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define RECORD_PATH             "/tmp"
 #define RECORD_TMP_PATH         "/tmp/recfiles"
 #define DEBUG_TMP_PATH          "/tmp/debuginfo"
-#define RECFILE_PATH                           PREFIX"/sdcard/recfile"
+#define RECFILE_PATH                           PREFIX"/sdcard/recfiles"
 
 //#define SIGNAL_LIGHTTPD_RSS_CHANGED             0
 //#define SIGNAL_LIGHTTPD_WEATHER_CHANGED         1
@@ -11640,7 +11640,7 @@ static int handle_productinfo (server *srv, connection *con,
         {
             buffer_append_string (b, "Response=Success\r\n");
 
-            snprintf(res, sizeof(res), "Product=GVC3220\r\nVendor=%s\r\nBaseProduct=GVC3220\r\n", buf, vendorBuf, baseBuf);
+            snprintf(res, sizeof(res), "Product=GVC3220\r\nVendor=Grandstream Networks, Inc.\r\nBaseProduct=GVC3220\r\n", buf, vendorBuf, baseBuf);
             buffer_append_string(b, res);
         }
         return 1;
@@ -14271,6 +14271,22 @@ static int handle_clearlogcat (buffer *b)
         buffer_append_string (b, "Response=Success\r\n");
     }else
         buffer_append_string (b, "Response=Error\r\n");
+    return 1;
+}
+
+static int handle_removelogcat (buffer *b)
+{
+    //int result = system("rm /tmp/logcat/logcat.text");
+
+    char *cmd[] = {"rm", "/tmp/logcat/logcat.text", 0};
+    int result = doCommandTask(cmd, NULL, NULL, 0);
+
+    if(result == 0)
+    {
+        buffer_append_string (b, "Response=Success\r\n");
+    } else {
+        buffer_append_string (b, "Response=Error\r\n");
+    }
     return 1;
 }
 
@@ -25489,8 +25505,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         send_qrcode_dbus_to_gui(SIGNAL_QR_CONFIG_COMPLETED);
         buffer_append_string(b, "response=success");
     */
-    //} else if (valid_connection(con)) {
-    } else if (1) {
+    } else if (valid_connection(con)) {
         int findcmd = 1;
 #ifndef BUILD_RECOVER
         if (protected_command_find(command_protect, action))
@@ -26045,6 +26060,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_clearlogcat(b);
                 } else if (!strcasecmp(action, "getlogcat")) {
                     handle_getlogcat(b, m);
+                } else if (!strcasecmp(action, "removelogcat")) {
+                    handle_removelogcat(b);
                 } else if (!strcasecmp(action, "setsyslogd")) {
                     handle_setsyslogd(b);
                 } else if( !strcasecmp(action, "getcolore")) {
