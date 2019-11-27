@@ -9,22 +9,29 @@ import { $t } from '@/Intl'
 @Form.create()
 class ThirdPartyApp extends FormCommon {
   options= getOptions('App.ThirdPartyApp')
+
   state = {
     appList: []
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
-    this.initFormValue(this.options).then(data => {
-      setFieldsValue(data)
-    })
-    API.getAppList().then(data => {
-      if (data.response === 'success') {
+
+    Promise.all([
+      API.getAppList(),
+      this.initFormValue(this.options)
+    ]).then(result => {
+      const [msgs, data] = result
+      if (msgs.res === 'success') {
         this.setState({
-          appList: data.body
+          appList: msgs.list
+        }, () => {
+          setFieldsValue(data)
         })
       }
     })
   }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -34,10 +41,12 @@ class ThirdPartyApp extends FormCommon {
       }
     })
   }
+
   render () {
     const { appList } = this.state
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options
+
     return (
       <Form>
         <SelectItem

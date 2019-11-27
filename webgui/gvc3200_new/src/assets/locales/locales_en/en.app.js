@@ -52,8 +52,8 @@ export default {
   app_ldap_017: 'Search Ldap For Incoming Call',
   app_ldap_017_tip: 'If set to "Yes", the device will do LDAP search when there is an incoming call. The default setting is "Disable".',
 
-  app_ldap_018: 'Ldap Dialing Default Account',
-  app_ldap_018_tip: 'Configures the default account that being used when dialing LDAP contact. ',
+  // app_ldap_018: 'Ldap Dialing Default Account',
+  // app_ldap_018_tip: 'Configures the default account that being used when dialing LDAP contact. ',
 
   /* 第三方应用 */
   app_tpapp_001: 'Auto Launch Application On Start Up',

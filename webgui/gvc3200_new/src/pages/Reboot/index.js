@@ -60,7 +60,7 @@ class Reboot extends Component {
 
           <span onClick={() => history.replace('/login')} className='relogin'>{$t('b_014')}</span>
           <div className='copyright'>
-            {`All Rights Reserved ${productInfo['Vendor']} ${new Date().getFullYear()}`}
+            {`Copyright © ${productInfo['Vendor']} ${new Date().getFullYear()}. All Rights Reserved.`}
           </div>
         </div>
       </div>

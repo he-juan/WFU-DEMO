@@ -4,7 +4,6 @@ import { Form, Button } from 'antd'
 import { connect } from 'react-redux'
 import FormItem, { SelectItem, InputItem, CheckboxItem, PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
-import API from '@/api'
 import { $t } from '@/Intl'
 
 @connect(
@@ -23,37 +22,12 @@ class LDAPContacts extends FormCommon {
   }
   componentDidMount () {
     const { setFieldsValue } = this.props.form
-    this.getLDAPAccts()
+
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
     })
   }
-  // LDAP拨号默认帐号可选项
-  getLDAPAccts = () => {
-    // SIP：第0个账号
-    // IPVT：第一个账号
-    // bluejeans：第二个账号
-    // 虚拟账号组：第三个和第四个账号
-    // 第五个账号未使用。
-    // fxo：第六个账号
-    // skype：第七个账号
-    // H323：第八个账号
-    // 其中第0个账号到第五个账号为SIP账号，总计六个SIP账号
-    // 这个获取 账号信息，还有处理 ipvt 的方式看不懂啊！！！
-    API.getPvalues(['P270', 'P417', 'P517', 'P617', 'P1717', 'P1817', 'P50617', 'P50717', 'P50817', 'P50917', 'P51017', 'P51117', 'P51217', 'P51317', 'P51417', 'P51517'])
-      .then(data => {
-        let keys = Object.keys(data)
-        let acctsOptions = keys.map((key, i) => {
-          return { v: i + '', t: data[key] || $t('c_025') + (i + 1) }
-        })
-        if (this.props.IPVTExist === '1') {
-          acctsOptions.splice(-1)
-        }
-        this.setState({
-          acctsOptions
-        })
-      })
-  }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -230,15 +204,6 @@ class LDAPContacts extends FormCommon {
         <CheckboxItem
           gfd={gfd}
           {...options['P8035']}
-        />
-        {/* LDAP拨号默认帐号 */}
-        <SelectItem
-          gfd={gfd}
-          {...options['P22039']}
-          selectOptions={[
-            { v: '-1', t: $t('c_026') },
-            ...this.state.acctsOptions
-          ]}
         />
         <FormItem>
           <Button className='sub-btn' onClick={this.handleSubmit} id='subBtn'>{$t('b_001')}</Button>

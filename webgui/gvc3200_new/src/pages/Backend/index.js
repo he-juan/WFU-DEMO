@@ -155,7 +155,7 @@ class Backend extends Component {
                 {backendRoutes}
               </div>
               <div className='backend-copyright'>
-                {`All Rights Reserved ${productInfo['Vendor']} ${new Date().getFullYear()}`}
+                {`Copyright © ${productInfo['Vendor']} ${new Date().getFullYear()}. All Rights Reserved.`}
               </div>
               {/* 会议控制 */}
               <ConfControl />

@@ -41,9 +41,7 @@ export default {
         // 拨号时进行LDAP查找
         { lang: 'app_ldap_016', p: 'P8034' },
         // 来电时进行LDAP查找
-        { lang: 'app_ldap_017', p: 'P8035' },
-        // LDAP拨号默认帐号
-        { lang: 'app_ldap_018', p: 'P22039' }
+        { lang: 'app_ldap_017', p: 'P8035' }
       ]
     },
     {

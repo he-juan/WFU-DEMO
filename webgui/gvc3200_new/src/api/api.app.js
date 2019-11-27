@@ -70,6 +70,6 @@ export const setRecordLockstate = (id, lockstate) => {
 export const getAppList = () => {
   return _axios({
     method: 'get',
-    url: '/manager?action=getapplist'
+    url: '/manager?action=getthirdapplist'
   })
 }

@@ -52,8 +52,8 @@ export default {
   app_ldap_017: '来电时进行LDAP查找',
   app_ldap_017_tip: '设置来电号码是否进行LDAP搜索显示名。 默认设置为“否”。 ',
 
-  app_ldap_018: 'LDAP拨号默认帐号',
-  app_ldap_018_tip: '设置拨打LDAP联系人搜索到的号码时默认使用的帐号。',
+  // app_ldap_018: 'LDAP拨号默认帐号',
+  // app_ldap_018_tip: '设置拨打LDAP联系人搜索到的号码时默认使用的帐号。',
 
   /* 第三方应用 */
   app_tpapp_001: '开机自启动应用',
