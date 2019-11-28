@@ -1,22 +1,25 @@
 import React from 'react'
 import FormCommon from '@/components/FormCommon'
-import FormItem, { SelectItem, SliderItem, CheckboxItem } from '@/components/FormItem'
+import FormItem, { SelectItem, CheckboxItem } from '@/components/FormItem'
 import { Form, Button } from 'antd'
 import { getOptions } from '@/template'
 import API from '@/api'
 import { $t } from '@/Intl'
 
 @Form.create()
-class Peripheral extends FormCommon {
-  options = getOptions('DeviceControl.Peripheral')
+class HDMI extends FormCommon {
+  options = getOptions('System.Peripheral.HDMI')
+
   state = {
     HDMI1List: [],
     HDMI2List: []
   }
+
   componentDidMount () {
-    const { setFieldsValue } = this.props.form
+    const { getFieldsValue, setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
-      setFieldsValue(data)
+      const fileds = getFieldsValue()
+      Object.keys(fileds).length > 0 && setFieldsValue(data)
     })
     this.initHDMIStatus()
   }
@@ -99,7 +102,6 @@ class Peripheral extends FormCommon {
 
     return (
       <Form>
-        <h4 className='bak-sub-title'>HDMI</h4>
         {/* HDMI 1输出分辨率 */}
         <SelectItem
           {...options['HDMI1Res']}
@@ -117,23 +119,6 @@ class Peripheral extends FormCommon {
           gfd={gfd}
           {...options['P25109']}
         />
-        <h4 className='bak-sub-title'>{$t('c_024')}</h4>
-        {/* 移动速度 */}
-        <SliderItem
-          gfd={gfd}
-          {...options['P25029']}
-          min={1}
-          max={16}
-        />
-        {/* 初始化位置 */}
-        <SelectItem
-          gfd={gfd}
-          {...options['P25030']}
-          selectOptions={[
-            { v: '0', t: $t('c_022') },
-            { v: '1', t: $t('c_023') }
-          ]}
-        />
         <FormItem>
           <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
         </FormItem>
@@ -142,4 +127,4 @@ class Peripheral extends FormCommon {
   }
 }
 
-export default Peripheral
+export default HDMI

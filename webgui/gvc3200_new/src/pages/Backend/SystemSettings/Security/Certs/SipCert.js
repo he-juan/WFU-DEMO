@@ -12,40 +12,47 @@ class SipCert extends Component {
     super(props)
 
     this.state = {
+      veriCert: [],
       maxnum: 6,
       certdata: []
     }
   }
 
-  // componentWillReceiveProps
-  componentWillReceiveProps (newProps) {
-    let { veriCert, formatTime } = newProps
+  // 使用 getDerivedStateFromProps 代替 componentWillReceiveProps
+  static getDerivedStateFromProps (nextProps, preState) {
+    let { veriCert, formatTime } = nextProps
+    const oldVeriCert = JSON.stringify(preState.veriCert)
+    const newVeriCert = JSON.stringify(veriCert)
 
-    // 处理数据
-    let [owner, publisher] = ['', '']
-    // 去除自定义证书 8472
-    let certdata = veriCert.filter(item => {
-      return item.Pvalue !== '8472'
-    }).map((el, index) => {
-      for (let j = 0; j < el.Info.length; j++) {
-        let curcert = el.Info[j]
-        let identity = curcert.substring(curcert.length - 4, curcert.length)
-        if (identity === '(13)') owner = curcert.substring(0, curcert.length - 4)
-        if (identity === '(17)') publisher = curcert.substring(0, curcert.length - 4)
-      }
+    if (oldVeriCert !== newVeriCert) {
+      // 处理数据
+      let [owner, publisher] = ['', '']
+      // 去除自定义证书 8472
+      let certdata = veriCert.filter(item => {
+        return item.Pvalue !== '8472'
+      }).map((el, index) => {
+        for (let j = 0; j < el.Info.length; j++) {
+          let curcert = el.Info[j]
+          let identity = curcert.substring(curcert.length - 4, curcert.length)
+          if (identity === '(13)') owner = curcert.substring(0, curcert.length - 4)
+          if (identity === '(17)') publisher = curcert.substring(0, curcert.length - 4)
+        }
+        return {
+          key: index++,
+          certorder: index++,
+          issuedto: owner,
+          issuedby: publisher,
+          validate: formatTime(el.Validtime),
+          pvalue: el.Pvalue
+        }
+      })
       return {
-        key: index++,
-        certorder: index++,
-        issuedto: owner,
-        issuedby: publisher,
-        validate: formatTime(el.Validtime),
-        pvalue: el.Pvalue
+        maxnum: 6 - certdata.length,
+        veriCert,
+        certdata
       }
-    })
-    this.setState({
-      maxnum: 6 - certdata.length,
-      certdata
-    })
+    }
+    return null
   }
 
   // 删除证书

@@ -34,11 +34,11 @@ const routes = [
   { path: '/manage/sys_timelang', component: lazy(() => import(/* webpackChunkName: "sys_timelang" */ './SystemSettings/TimeAndLang')) },
   { path: '/manage/sys_tr069', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "sys_tr069" */ './SystemSettings/TR069')) },
   { path: '/manage/sys_security', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "sys_security" */ './SystemSettings/Security')) },
+  { path: '/manage/sys_peripheral', component: lazy(() => import(/* webpackChunkName: "sys_peripheral" */ './SystemSettings/Peripheral')) },
 
   /* device control */
   { path: '/manage/dev_preset', component: lazy(() => import(/* webpackChunkName: "devicectrl" */ './DeviceControl/PresetSettings')) },
   { path: '/manage/dev_camera', component: lazy(() => import(/* webpackChunkName: "devicectrl" */ './DeviceControl/CameraControl')) },
-  { path: '/manage/dev_peripheral', component: lazy(() => import(/* webpackChunkName: "devicectrl" */ './DeviceControl/Peripheral')) },
   { path: '/manage/dev_remoteconrol', component: lazy(() => import(/* webpackChunkName: "devicectrl" */ './DeviceControl/RemoteControl')) },
 
   /** app */

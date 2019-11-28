@@ -138,6 +138,11 @@ export default [
         name: 'r_026',
         denyRole: 'user',
         path: '/manage/sys_security'
+      },
+      // 外围设备
+      {
+        name: 'r_029',
+        path: '/manage/sys_peripheral'
       }
     ]
   },
@@ -154,10 +159,6 @@ export default [
       {
         name: 'r_027',
         path: '/manage/dev_camera'
-      },
-      {
-        name: 'r_029',
-        path: '/manage/dev_peripheral'
       },
       {
         name: 'r_030',

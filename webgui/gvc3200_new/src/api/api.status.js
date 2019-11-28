@@ -53,7 +53,7 @@ export const getSysPn = () => {
 }
 
 /**
- * 外围设备状态 - getHdmiinstate
+ * 接口状态 - getHdmiinstate
  */
 export const getHdmiinstate = () => {
   return _axios({

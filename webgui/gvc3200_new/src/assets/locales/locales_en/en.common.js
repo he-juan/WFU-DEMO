@@ -42,7 +42,7 @@ const routes = {
   r_033: 'Upgrade',
   r_034: 'Troubleshooting',
   r_035: 'Account Status',
-  r_036: 'Peripheral Status',
+  r_036: 'Interface Status',
   r_037: 'Network Status',
   r_038: 'System Info',
   r_039: 'Remote Control Status',
@@ -80,6 +80,10 @@ const routes = {
   r_071: 'Remote Diagnosis',
   r_072: 'Video Conferencing Service',
   r_073: 'Zoom',
+  r_074: 'HDMI',
+  r_075: 'Camera',
+  r_076: '无线麦',
+  r_077: 'Media',
 
   r_999: ''
 }
@@ -142,7 +146,7 @@ const btns = {
   b_055: 'Cancel the entire meeting',
   b_056: 'Add',
   b_057: 'Apply',
-  b_058: '',
+  b_058: 'Set as default',
   b_059: '',
   b_060: '',
   b_061: '',

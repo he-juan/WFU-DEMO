@@ -66,6 +66,11 @@ class VideoConf extends PureComponent {
     linksTab.setAttribute('style', `width:${w}px`)
   }
 
+  autoScroll = () => {
+    backContent.scrollTop = backContent.scrollTop > 45 ? 45 : backContent.scrollTop
+    this.autoWidth()
+  }
+
   render () {
     let { acctStatus, history, location } = this.props
     // 不知道 edit的显示条件什么
@@ -91,7 +96,7 @@ class VideoConf extends PureComponent {
           activeKey={activeKey}
           tabBarGutter={10}
           animated={false}
-          onChange={(path) => { history.push(path) }}
+          onChange={(path) => history.push(path)}
         >
           {
             routes.map(v => (
@@ -113,7 +118,7 @@ class VideoConf extends PureComponent {
                       classNames='ani-tab-page'
                       unmountOnExit
                     >
-                      <Component />
+                      <Component autoScroll={this.autoScroll}/>
                     </CSSTransition>
                   )}
                 </Route>

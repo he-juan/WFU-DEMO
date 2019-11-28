@@ -166,6 +166,52 @@ export default {
           sub: []
         }
       ]
+    },
+    // 外围设备
+    {
+      label: 'Peripheral',
+      lang: 'r_029',
+      path: 'peripheral',
+      sub: [
+        {
+          label: 'HDMI',
+          lang: 'r_074',
+          path: 'hdmi',
+          sub: [
+            // HDMI 1输出分辨率
+            { lang: 'sys_per_001', _p: 'HDMI1Res' },
+            // HDMI 2输出分辨率
+            { lang: 'sys_per_002', _p: 'HDMI2Res' },
+            // 自动开启演示
+            { lang: 'sys_per_003', p: 'P25109' }
+          ]
+        },
+        {
+          label: 'Camera',
+          lang: 'r_075',
+          path: 'camera',
+          sub: [
+            // 移动速度
+            { lang: 'sys_per_004', p: 'P25029' },
+            // 初始化位置
+            { lang: 'sys_per_005', p: 'P25030' }
+          ]
+        },
+        // 无线麦
+        {
+          label: 'WirelessMic',
+          lang: 'r_076',
+          path: 'wirelessmic',
+          sub: []
+        },
+        // Media
+        {
+          label: 'Media',
+          lang: 'r_077',
+          path: 'media',
+          sub: []
+        }
+      ]
     }
   ]
 }

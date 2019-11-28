@@ -13,6 +13,10 @@ const routes = [
 ]
 
 class Zoom extends Component {
+  componentDidUpdate (prevProps, prevState) {
+    this.props.autoScroll()
+  }
+
   render () {
     return (
       <TabPages

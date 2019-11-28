@@ -49,15 +49,20 @@ class Call extends Component {
   }
 
   // 设置默认账号
-  handleSetDefaultAcct = (acctIndex) => {
+  handleSetDefaultAcct = (acctIndex, e) => {
+    e.stopPropagation()
     const { setDefaultAcct } = this.props
     API.setDefAcct(acctIndex).then(m => {
-      setDefaultAcct(acctIndex)
-      setTimeout(() => {
-        this.setState({
-          selectAcct: acctIndex
-        })
-      }, 50)
+      if (m.res === 'success') {
+        setDefaultAcct(acctIndex)
+        setTimeout(() => {
+          this.setState({
+            selectAcct: acctIndex
+          })
+        }, 50)
+      } else {
+        message.error(m.msg)
+      }
     })
   }
 
@@ -381,7 +386,7 @@ class Call extends Component {
                 <span><em className={`acct-icon acct-${v.acctIndex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
                 <span>{v.num}</span>
                 <span>{
-                  defaultAcct === v.acctIndex ? '默认帐号' : <Button type='primary' size='small' onClick={() => this.handleSetDefaultAcct(v.acctIndex)}>设为默认帐号</Button>}</span>
+                  defaultAcct === v.acctIndex ? '默认帐号' : <Button type='primary' size='small' onClick={e => this.handleSetDefaultAcct(v.acctIndex, e)}>设为默认帐号</Button>}</span>
               </Menu.Item>
             )
           })
@@ -422,8 +427,8 @@ class Call extends Component {
               </span>
             }
           </div> : <div className='bj-inputs'>
-            <Input placeholder='Meeting ID' size='large' onChange={(e) => this.handleBjMember({ id: e.target.value })} /><br />
-            <Input placeholder='Password (optional)' size='large' onChange={(e) => this.handleBjMember({ pw: e.target.value })} />
+            <Input placeholder='Meeting ID' onChange={(e) => this.handleBjMember({ id: e.target.value })} /><br />
+            <Input placeholder='Password (optional)' onChange={(e) => this.handleBjMember({ pw: e.target.value })} />
           </div>
         }
       </div>

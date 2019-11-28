@@ -14,20 +14,19 @@ import './tabpages.less'
 const TabPane = Tabs.TabPane
 
 const TabPages = (props) => {
-  let { history, location, routes } = props
+  let { history, location, routes, onChange } = props
   routes = routes.filter(v => {
     return !isMenuRouteDeny(v)
   })
   const _to = routes[0].path
   const _from = _to.split('/').slice(0, -1).join('/')
 
-  const backendContent = document.getElementById('backendContent')
-  if (backendContent.scrollHeight > backendContent.offsetHeight) {
-    document.getElementById('backendContent').scrollTop = 0
-  }
   return (
     <div className='tab-pages'>
-      <Tabs className='link-tabs' activeKey={location.pathname} onChange={(path) => { history.push(path) }} >
+      <Tabs className='link-tabs' activeKey={location.pathname} onChange={(path) => {
+        history.push(path + location.search)
+        onChange && onChange()
+      }} >
         {
           routes.map(v => <TabPane tab={$t(v.tab)} key={v.path}></TabPane>)
         }
@@ -66,7 +65,8 @@ TabPages.propTypes = {
       PropTypes.object,
       PropTypes.func
     ])
-  })).isRequired
+  })).isRequired,
+  onChange: PropTypes.func
 }
 
 export default withRouter(TabPages)
