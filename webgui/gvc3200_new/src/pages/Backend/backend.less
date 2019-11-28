@@ -354,19 +354,26 @@
   & > div > .ant-spin {
     bottom: 0;
     margin: auto;
+    z-index: 11;
     .ant-spin-dot {
       font-size: 50px;
       margin: -25px;
-      color: #87abff;
+      color: #fff;
+      z-index: 11;
     }
     .ant-spin-text {
       padding-top: 45px;
-      color: #87abff;
+      color: #fff;
       font-size: 16px;
+      text-shadow: none;
     }
   }
-  .ant-spin-blur {
-    opacity: 0.3;
+  & > .ant-spin-blur {
+    opacity: 1;
+  }
+  & > .ant-spin-blur::after {
+    background: #1a1f2a;
+    opacity: 0.5;
   }
 }
 // 为了防止闪烁添加的spin
