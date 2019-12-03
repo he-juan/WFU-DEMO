@@ -74,9 +74,9 @@ class NetworkStatus extends Component {
     switch (type) {
       case '':
       case '0':
-        return $t('c_085')
+        return $t('c_084') // 自动获取
       case '1':
-        return $t('c_085')
+        return $t('c_085') // 静态ip
       case '2' :
         return 'PPPoE'
       default:
