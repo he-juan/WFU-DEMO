@@ -84,6 +84,7 @@ const routes = {
   r_075: 'Camera',
   r_076: '无线麦',
   r_077: 'Media',
+  r_078: 'Advanced Network Settings',
 
   r_999: ''
 }

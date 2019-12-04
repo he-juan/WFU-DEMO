@@ -167,7 +167,7 @@ export default {
 
     {
       label: 'Advanced',
-      lang: 'r_022',
+      lang: 'r_078',
       path: 'advanced',
       denyRole: 'user',
       sub: [

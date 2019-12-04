@@ -108,7 +108,7 @@ export default [
         path: '/manage/network_openvpn'
       },
       {
-        name: 'r_022',
+        name: 'r_078',
         denyRole: 'user',
         path: '/manage/network_advanced'
       }

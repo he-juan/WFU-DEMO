@@ -205,7 +205,7 @@ class Ethernet extends FormCommon {
           {
             twoVlan ? <h4 className='bak-sub-title'>{$t('c_086')}</h4> : null
           }
-          <h4 className={twoVlan ? 'bak-sub-title-1' : 'bak-sub-title'}>IPV4</h4>
+          <h4 className={twoVlan ? 'bak-sub-title-1' : 'bak-sub-title'}>IPv4</h4>
           {/* IPv4地址类型 */}
           <RadioGroupItem
             {...options['P8']}
@@ -391,7 +391,7 @@ class Ethernet extends FormCommon {
               ]
             }}
           />
-          <h4 className={twoVlan ? 'bak-sub-title-1' : 'bak-sub-title'}>IPV6</h4>
+          <h4 className={twoVlan ? 'bak-sub-title-1' : 'bak-sub-title'}>IPv6</h4>
           {/* IPv6地址 */}
           <SelectItem
             {...options['P1419']}
@@ -462,7 +462,7 @@ class Ethernet extends FormCommon {
           />
           <div style={{ display: twoVlan ? 'block' : 'none' }}>
             <h4 className='bak-sub-title'>{$t('c_087')}</h4>
-            <h4 className='bak-sub-title-1'>IPV4</h4>
+            <h4 className='bak-sub-title-1'>IPv4</h4>
             {/* IPv4地址类型 */}
             <RadioGroupItem
               {...options['P22105']}
@@ -527,7 +527,7 @@ class Ethernet extends FormCommon {
                 ]
               }}
             />
-            <h4 className='bak-sub-title-1'>IPV6</h4>
+            <h4 className='bak-sub-title-1'>IPv6</h4>
             {/* IPv6地址 */}
             <SelectItem
               {...options['P22114']}
@@ -573,7 +573,7 @@ class Ethernet extends FormCommon {
           <InputItem
             {...options['P7902']}
             gfd={gfd}
-            hide={P7901 !== '1'}
+            hide={P7901 !== '1' && P7901 !== '3'}
           />
           {/* 802.1X密码 */}
           <PwInputItem
