@@ -323,19 +323,19 @@ class Ethernet extends FormCommon {
           {/* DNS服务器2 */}
           <FormItem {...options['P25']} hide={P8 !== '1'} className='ip-input-form-item'>
             <Form.Item className='sub-form-item'>
-              {gfd('P25', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
+              {gfd('P25', { rules: [this.digits(), this.range(0, 255)], hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P26', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
+              {gfd('P26', { rules: [this.digits(), this.range(0, 255)], hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P27', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
+              {gfd('P27', { rules: [this.digits(), this.range(0, 255)], hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
             <em>.</em>
             <Form.Item className='sub-form-item'>
-              {gfd('P28', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
+              {gfd('P28', { rules: [this.digits(), this.range(0, 255)], hidden: P8 !== '1' })(<Input />)}
             </Form.Item>
           </FormItem>
           {/* PPPoE帐号ID */}
