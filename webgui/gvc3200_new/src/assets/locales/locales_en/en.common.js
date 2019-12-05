@@ -380,6 +380,7 @@ const msgs = {
   m_214: 'URL format incorrect',
   m_215: 'Username format incorrect',
   m_216: 'Saved, press apply to confirm changes',
+  m_217: 'IP cannot be a class D address',
 
   m_999: ''
 }

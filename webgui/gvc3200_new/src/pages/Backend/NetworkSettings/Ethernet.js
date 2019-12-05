@@ -24,6 +24,7 @@ class Ethernet extends FormCommon {
 
     this.ipInputRule = [this.required(), this.digits(), this.range(0, 255)]
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
 
@@ -74,6 +75,7 @@ class Ethernet extends FormCommon {
       this.setState({ inLldpvlanqos: true })
     }
   }
+
   // upload 配置
   uploadConfig = (url) => {
     return {
@@ -95,6 +97,7 @@ class Ethernet extends FormCommon {
       }
     }
   }
+
   // 子网掩码校验
   checkMaskCode = (mask1, mask2, mask3, mask4) => {
     function tobinary (n) {
@@ -126,6 +129,7 @@ class Ethernet extends FormCommon {
     }
     return true
   }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -135,12 +139,15 @@ class Ethernet extends FormCommon {
           delete values['P51']
           delete values['P87']
         }
-        //
         if (values.P8 === '2' && (values.P82 === '' || values.P83 === '')) {
           message.error($t('m_088'))
           return false
         }
         if (values.P8 === '1') {
+          if (+values['P9'] > 223 && +values['P9'] < 240) {
+            message.error($t('m_217'))
+            return false
+          }
           if (!this.checkMaskCode(values['P13'], values['P14'], values['P15'], values['P16'])) {
             message.error($t('m_089'))
             return false
@@ -216,6 +223,7 @@ class Ethernet extends FormCommon {
               { v: '2', t: 'PPPoE' }
             ]}
           />
+          {/* DHCP VLAN模式 */}
           <SelectItem
             {...options['P8300']}
             gfd={gfd}
@@ -226,6 +234,7 @@ class Ethernet extends FormCommon {
               { v: '2', t: $t('c_171') }
             ]}
           />
+          {/* 主机名(Option 12) */}
           <InputItem
             {...options['P146']}
             gfd={gfd}
@@ -237,6 +246,7 @@ class Ethernet extends FormCommon {
               ]
             }}
           />
+          {/* 厂家类别名(Option 60) */}
           <InputItem
             {...options['P148']}
             gfd={gfd}
@@ -248,7 +258,7 @@ class Ethernet extends FormCommon {
               ]
             }}
           />
-
+          {/* IP地址 */}
           <FormItem {...options['P9']} hide={P8 !== '1'} className='ip-input-form-item'>
             <Form.Item className='sub-form-item'>
               {gfd('P9', { rules: this.ipInputRule, hidden: P8 !== '1' })(<Input />)}
