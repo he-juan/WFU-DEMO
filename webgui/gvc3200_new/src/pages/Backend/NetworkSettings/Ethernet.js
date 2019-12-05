@@ -165,19 +165,21 @@ class Ethernet extends FormCommon {
 
           API.putTwoVlan({ enable: 0, vid: P22111, privority: P22112 })
             .then(() => {
-              return this.submitFormValue(values)
+              return this.submitFormValue(values, 0, 0)
             })
             .then(() => {
+              message.success($t('m_001'))
               return API.putTwoVlan({ enable: 1, vid: P22111, privority: P22112 })
             })
         } else {
-          this.submitFormValue(values).then(msgs => {
+          this.submitFormValue(values, 0, 0).then(msgs => {
             if (msgs.Response === 'Success') {
+              message.success($t('m_001'))
               API.putNetwork()
             }
           })
         }
-        API.restart8021x()
+        // API.restart8021x()
       }
     })
   }
