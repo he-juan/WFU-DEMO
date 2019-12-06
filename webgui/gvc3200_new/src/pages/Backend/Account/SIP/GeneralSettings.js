@@ -91,7 +91,7 @@ class GeneralSettings extends FormCommon {
           }}
         />
         {/* SIP认证ID */}
-        <FormItem label='acct_007' tips='acct_007_tip'>
+        <FormItem {...options['P36']}>
           {
             gfd('P36', {
               rules: [

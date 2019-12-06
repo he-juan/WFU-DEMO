@@ -14,6 +14,19 @@ import PwInputItem from './PwInputItem'
 import SliderItem from './SliderItem'
 import RadioGroupItem from './RadioGroupItem'
 
+let showp = /showp/.test(document.location.href)
+
+const getPtitle = (props) => {
+  if (!showp) {
+    return ''
+  }
+  let ptitle = props.ptitle || props.name || props.p || ''
+  if (ptitle[0] !== 'P') {
+    return ''
+  }
+  return ptitle
+}
+
 const Item = Form.Item
 
 const FormItem = (props) => {
@@ -26,7 +39,12 @@ const FormItem = (props) => {
     <Item
       htmlFor={'_' + (other.name || Math.random())}
       className={`bak-form-item ${className || ''}`}
-      label={<span>{_label} {_tips ? <Tooltip title={<span dangerouslySetInnerHTML={{ __html: _tips }}></span>}><Icon type='question-circle-o' /></Tooltip> : ''}</span>}
+      label={
+        <span>
+          <span title={getPtitle(other)}>{_label}{' '}</span>
+          {_tips ? <Tooltip title={<span dangerouslySetInnerHTML={{ __html: _tips }}></span>}><Icon type='question-circle-o' /></Tooltip> : ''}
+        </span>
+      }
       {...other}
       style={{ display: typeof hide !== 'undefined' && !!hide ? 'none' : 'block' }}
     >
