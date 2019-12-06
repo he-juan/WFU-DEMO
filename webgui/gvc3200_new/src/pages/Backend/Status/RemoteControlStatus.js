@@ -23,7 +23,7 @@ class RemoteControlStatus extends Component {
       <Form>
         {/* 硬件版本 */}
         <FormItem lang='sta_026'>
-          {rcStatus['Premote_battery'] || unknown}
+          {rcStatus['P25028'] || unknown}
         </FormItem>
         {/* 软件版本 */}
         <FormItem lang='sta_027'>
@@ -31,11 +31,11 @@ class RemoteControlStatus extends Component {
         </FormItem>
         {/* 补丁版本 */}
         <FormItem lang='sta_028'>
-          {rcStatus['P25028'] || unknown}
+          {rcStatus['Premote_patch_ver'] || unknown}
         </FormItem>
         {/* 遥控器电量 */}
         <FormItem lang='sta_029'>
-          {rcStatus['Premote_patch_ver'] || unknown}
+          {rcStatus['Premote_battery'] || unknown}
         </FormItem>
       </Form>
     )
