@@ -4,6 +4,7 @@ import './assets/common.css'
 import './assets/icons/icon.less'
 import App from './App'
 import { storageListener } from './utils/tools'
+import { registerShowPHandler } from './utils/showp'
 import { message } from 'antd'
 // import * as serviceWorker from './serviceWorker'
 
@@ -16,6 +17,9 @@ window.isIEBrowser = !!window.ActiveXObject || 'ActiveXObject' in window
 window.isLoginPageEvent = false // 当在登录页中 登录成功后会 设为true，然后针对ie中 当前tab也会触发 监听storage 做拦截
 // 监听本地存储事件
 storageListener.add()
+
+// showp
+registerShowPHandler()
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

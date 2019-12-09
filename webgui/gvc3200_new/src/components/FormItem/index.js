@@ -13,8 +13,7 @@ import InputItem from './InputItem'
 import PwInputItem from './PwInputItem'
 import SliderItem from './SliderItem'
 import RadioGroupItem from './RadioGroupItem'
-
-let showp = /showp/.test(document.location.href)
+import { showp } from '@/utils/showp'
 
 const getPtitle = (props) => {
   if (!showp) {
