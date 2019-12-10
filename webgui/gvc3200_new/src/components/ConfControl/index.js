@@ -6,6 +6,8 @@ import { MsgObserver } from '@/components/WebsocketMessage'
 import { connect } from 'react-redux'
 import { getMaxLineCount, getLinesInfo, setLinesInfo, getConfInfo, setConfInfo, getCallLogs } from '@/store/actions'
 import { deepCopy } from '@/utils/tools'
+import MiniScreen from './MiniScreen'
+import RegularScreen from './RegularScreen'
 
 @connect(
   state => ({
@@ -21,6 +23,9 @@ import { deepCopy } from '@/utils/tools'
   })
 )
 class ConfControl extends Component {
+  state = {
+    screenStatus: 'null' // mini, regular, or null
+  }
   componentDidMount () {
     this.confStatusChangeHandler()
     this.lineStatusChangeHandler()
@@ -63,8 +68,16 @@ class ConfControl extends Component {
     MsgObserver.unsubscribe('lineStatusChange')
   }
   render () {
+    const { screenStatus } = this.state
     return (
-      <></>
+      <>
+        {
+          screenStatus === 'mini' ? <MiniScreen onSwitchScreen={() => this.setState({ screenStatus: 'regular' })}/> : null
+        }
+        {
+          screenStatus === 'regular' ? <RegularScreen onSwitchScreen={() => this.setState({ screenStatus: 'mini' })} /> : null
+        }
+      </>
     )
   }
 }
