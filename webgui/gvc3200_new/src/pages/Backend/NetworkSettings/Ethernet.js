@@ -175,7 +175,7 @@ class Ethernet extends FormCommon {
           this.submitFormValue(values, 0, 0).then(msgs => {
             if (msgs.Response === 'Success') {
               message.success($t('m_001'))
-              API.putNetwork()
+              // API.putNetwork()
             }
           })
         }

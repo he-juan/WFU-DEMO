@@ -82,8 +82,12 @@ class Advanced extends FormCommon {
       if (!err) {
         let { proxyHostName, proxyPort, ...rest } = values
 
-        if ((!proxyHostName && (proxyPort || rest['P22011'])) || (!proxyPort && (proxyHostName || rest['P22011']))) {
-          message.error($t('m_091'))
+        if (!proxyHostName && (proxyPort || rest['P22011'])) {
+          message.error($t('m_218'))
+          return false
+        }
+        if (!proxyPort && (proxyHostName || rest['P22011'])) {
+          message.error($t('m_219'))
           return false
         }
         proxyHostName = proxyHostName.replace(/(https:\/\/|http:\/\/)/i, '')
@@ -203,18 +207,18 @@ class Advanced extends FormCommon {
           gfd={gfd}
           gfdOptions={{
             rules: [
-              this.checkUrlPath(),
-              {
-                validator: (data, value, callback) => {
-                  value = value || ''
-                  let txt = value.replace(/(https:\/\/|http:\/\/)/i, '')
-                  if (txt.indexOf(':') > -1) {
-                    callback($t('m_090'))
-                  } else {
-                    callback()
-                  }
-                }
-              }
+              // this.checkUrlPath(),
+              // {
+              //   validator: (data, value, callback) => {
+              //     value = value || ''
+              //     let txt = value.replace(/(https:\/\/|http:\/\/)/i, '')
+              //     if (txt.indexOf(':') > -1) {
+              //       callback($t('m_090'))
+              //     } else {
+              //       callback()
+              //     }
+              //   }
+              // }
             ]
           }}
         />
