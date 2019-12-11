@@ -39,7 +39,7 @@ class AcctConfig extends Component {
     const { sitename, ...rest } = this.state.values
     await API.putPvalues(rest)
     await API.setSitesettingInfo(sitename)
-    history.replace('/screenlock')
+    history.replace('/result')
   }
   render () {
     const { values } = this.state
@@ -128,7 +128,7 @@ class AcctConfig extends Component {
               {$t('c_001')}
             </Button>
           </div>
-          <p>4/5</p>
+          <p>4/4</p>
         </div>
       </div>
     )

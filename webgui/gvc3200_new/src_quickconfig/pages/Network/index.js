@@ -79,7 +79,7 @@ class Network extends Component {
               {$t('c_001')}
             </Link>
           </div>
-          <p>3/5</p>
+          <p>3/4</p>
         </div>
         <SlideRoute path='/network/advanced' component={NetworkAdvanced} />
 

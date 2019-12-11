@@ -70,7 +70,7 @@ class Timezone extends Component {
               {$t('c_001')}
             </Button>
           </div>
-          <p>2/5</p>
+          <p>2/4</p>
         </div>
       </div>
     )

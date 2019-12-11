@@ -129,7 +129,7 @@ class Language extends Component {
               {$t('c_001')}
             </Button>
           </div>
-          <p>1/5</p>
+          <p>1/4</p>
         </div>
       </div>
     )

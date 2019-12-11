@@ -1,3 +1,4 @@
+// 2019.12.11 移除该页面
 import React, { Component } from 'react'
 import { Button, Toast } from 'antd-mobile'
 import { Link } from 'react-router-dom'
