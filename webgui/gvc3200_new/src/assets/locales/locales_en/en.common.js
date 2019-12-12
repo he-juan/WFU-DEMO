@@ -383,6 +383,8 @@ const msgs = {
   m_217: 'IP cannot be a class D address',
   m_218: 'The hostname cannot be empty.',
   m_219: 'The port cannot be empty.',
+  m_220: 'PPPoE account ID cannot be empty.',
+  m_221: 'PPPoE password cannot be empty.',
 
   m_999: ''
 }

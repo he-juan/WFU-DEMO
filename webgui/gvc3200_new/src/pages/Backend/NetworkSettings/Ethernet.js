@@ -139,9 +139,15 @@ class Ethernet extends FormCommon {
           delete values['P51']
           delete values['P87']
         }
-        if (values.P8 === '2' && (values.P82 === '' || values.P83 === '')) {
-          message.error($t('m_088'))
-          return false
+        if (values.P8 === '2') {
+          if (values.P82 === '') {
+            message.error($t('m_220'))
+            return false
+          }
+          if (values.P83 === '') {
+            message.error($t('m_221'))
+            return false
+          }
         }
         if (values.P8 === '1') {
           if (+values['P9'] > 223 && +values['P9'] < 240) {
