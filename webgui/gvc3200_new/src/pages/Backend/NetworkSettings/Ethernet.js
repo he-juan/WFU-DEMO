@@ -591,7 +591,7 @@ class Ethernet extends FormCommon {
           <InputItem
             {...options['P7902']}
             gfd={gfd}
-            hide={P7901 !== '1' && P7901 !== '3'}
+            hide={P7901 === '0'}
           />
           {/* 802.1X密码 */}
           <PwInputItem
