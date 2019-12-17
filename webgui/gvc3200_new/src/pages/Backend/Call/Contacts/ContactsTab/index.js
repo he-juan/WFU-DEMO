@@ -180,8 +180,8 @@ class ContactTab extends Component {
     })
   }, 400)
   render () {
-    const { maxContactsCount, contacts } = this.props
-    const { filteredContacts, curPageData, curPage, pageNum, selectedContacts, contactsEditing, visibleModal, filterKey } = this.state
+    const { contacts } = this.props
+    const { maxContactsCount, filteredContacts, curPageData, curPage, pageNum, selectedContacts, contactsEditing, visibleModal, filterKey } = this.state
     return (
       <div className='contacts-tab-page'>
         <div className='contacts-tab-head'>
