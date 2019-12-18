@@ -33,6 +33,10 @@ class LDAPContacts extends FormCommon {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
       if (!err) {
+        const { P8021, P8031, P8032 } = values
+        values.P8021 = P8021 || '389' // 端口号默认389
+        values.P8031 = P8031 || '50' // 最大返回条数 默认50
+        values.P8032 = P8032 || '30' // 搜索超时 默认30
         this.submitFormValue(values)
       }
     })
@@ -70,7 +74,7 @@ class LDAPContacts extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(0, 65535)
+              this.range(1, 65535)
             ]
           }}
         />
@@ -154,7 +158,7 @@ class LDAPContacts extends FormCommon {
             ]
           }}
         />
-        {/* LDAP邮箱筛选规则 */}
+        {/* LDAP邮件筛选规则 */}
         <InputItem
           gfd={gfd}
           {...options['P8039']}
@@ -180,7 +184,8 @@ class LDAPContacts extends FormCommon {
           {...options['P8031']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              this.maxLen(64),
+              this.range(0, 4000)
             ]
           }}
         />
@@ -191,7 +196,7 @@ class LDAPContacts extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(1, 4000)
+              this.range(1, 180)
             ]
           }}
         />

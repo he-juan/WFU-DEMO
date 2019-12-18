@@ -34,7 +34,7 @@ export default {
   app_ldap_011: 'LDAP号码筛选规则',
   app_ldap_011_tip: '配置号码查询时的过滤器。 例如:(|(telephoneNumber=%)(Mobile=%) 返回所有“telephoneNumber”或“Mobile”域中有包含了指定过滤值的联系人;(&(telephoneNumber=%) (cn=*)) 返回所有“telephoneNumber”域中有包含了指定过滤值并且设置了“cn“域的联系人。',
 
-  app_ldap_012: 'LDAP邮箱筛选规则',
+  app_ldap_012: 'LDAP邮件筛选规则',
   app_ldap_012_tip: '配置邮件查询时的过滤器。 例如:(|(mail=%)(mailBox=%)) 返回所有“mail”或“mailBox”域中有包含了指定过滤值的联系人;(!(mail=%)) 返回所有“mail”域中没有包含指定过滤值的联系人;(&(mail=%) (cn=*)) 返回所有“mail”域中有包含了指定过滤值并且设置了“cn“域的联系人。',
 
   app_ldap_013: 'LDAP显示名属性',
