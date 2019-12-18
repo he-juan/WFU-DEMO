@@ -18662,7 +18662,7 @@ char *generate_file_name(buffer *b, const struct message *m)
         }
         else if (!strcasecmp(type, "802client"))
         {
-            file_name = strdup(PATH_802MODE"/client.pem");
+            file_name = strdup(PATH_802MODE"/user.pem");
         }
         else if (!strcasecmp(type, "802privatekey"))
         {
@@ -25125,7 +25125,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
 		}
 
             close(file_fd);
-            if ((!strcasecmp(file_name, PATH_802MODE"/ca.pem")) || (!strcasecmp(file_name, PATH_802MODE"/client.pem")) || (!strcasecmp(file_name, PATH_802MODE"/user.prv")) ){
+            if ((!strcasecmp(file_name, PATH_802MODE"/ca.pem")) || (!strcasecmp(file_name, PATH_802MODE"/user.pem")) || (!strcasecmp(file_name, PATH_802MODE"/user.prv")) ){
                 chmod(file_name, 0766);
 
                 if (!strcasecmp(file_name, PATH_802MODE"/ca.pem")) {
@@ -25137,6 +25137,12 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                     nvram_unset("8440");
                     nvram_commit();
                 }
+
+                char *cmd1[] = {"/system/xbin/supplicant.sh", "restart", 0};
+                doCommandTask(cmd1, NULL, NULL, 0);
+
+                char *cmd2[] = {"am", "broadcast", "-a", "android.intent.action.ETHERNET_SET_SYNC", "-e", "eth_changed", "1", 0};
+                doCommandTask(cmd2, NULL, NULL, 0);
             }
 	}
 
