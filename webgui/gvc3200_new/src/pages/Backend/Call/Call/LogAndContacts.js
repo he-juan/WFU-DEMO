@@ -96,10 +96,10 @@ class LogAndContacts extends Component {
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     let _dataSource = []
-    if (this.props.filterTags !== nextProps.filterTags) { // filterTags 过滤项
-      let filterTags = nextProps.filterTags
+    if (this.props.filterTags !== prevProps.filterTags) { // filterTags 过滤项
+      let filterTags = this.props.filterTags
       _dataSource = DATASOURCE
       if (filterTags.trim().length) {
         _dataSource = DATASOURCE.filter(item => {
@@ -117,8 +117,12 @@ class LogAndContacts extends Component {
         tableData: _dataSource,
         curPage: 1
       })
-    } else {
-      _dataSource = DATASOURCE
+    }
+    if (this.props.dataSource !== prevProps.dataSource) {
+      DATASOURCE = this.props.dataSource
+      this.setState({
+        tableData: this.props.dataSource
+      })
     }
   }
 

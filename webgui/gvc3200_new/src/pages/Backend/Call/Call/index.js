@@ -358,11 +358,11 @@ class Call extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.callLogs.length !== nextProps.callLogs.length || this.props.contacts.length !== nextProps.contacts.length) {
-      const { contacts, callLogs } = nextProps
+  componentDidUpdate (prevProps) {
+    if (this.props.callLogs.length !== prevProps.callLogs.length || this.props.contacts.length !== prevProps.contacts.length) {
+      const { contacts, callLogs } = this.props
       this.setState({
-        dataSorce: this.parseDataSource(contacts, callLogs)
+        dataSource: this.parseDataSource(contacts, callLogs)
       })
     }
   }
