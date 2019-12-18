@@ -14209,9 +14209,6 @@ static int handle_restart8021x(buffer *b)
     char *cmd1[] = {"/system/xbin/supplicant.sh", "restart", 0};
     doCommandTask(cmd1, NULL, NULL, 0);
 
-    char *cmd2[] = {"am", "broadcast", "-a", "android.intent.action.ETHERNET_SET_SYNC", "-e", "eth_changed", "1", 0};
-    doCommandTask(cmd2, NULL, NULL, 0);
-
     buffer_append_string(b, "Response=Success\r\n");
 
     return 1;
