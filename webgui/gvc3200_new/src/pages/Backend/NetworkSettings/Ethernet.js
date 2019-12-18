@@ -185,7 +185,7 @@ class Ethernet extends FormCommon {
             }
           })
         }
-        // API.restart8021x()
+        API.restart8021x()
       }
     })
   }
