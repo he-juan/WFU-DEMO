@@ -80,7 +80,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8022']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -90,7 +90,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8023']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -100,7 +100,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8024']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -110,7 +110,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8028']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -120,7 +120,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8029']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -130,7 +130,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8038']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -140,7 +140,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8026']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -150,7 +150,7 @@ class LDAPContacts extends FormCommon {
           gfd={gfd}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -160,7 +160,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8039']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
@@ -170,7 +170,7 @@ class LDAPContacts extends FormCommon {
           {...options['P8030']}
           gfdOptions={{
             rules: [
-              this.maxLen(64)
+              // this.maxLen(64)
             ]
           }}
         />
