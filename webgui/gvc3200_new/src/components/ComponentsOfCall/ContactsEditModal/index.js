@@ -195,6 +195,7 @@ class ContactsEditModal extends Component {
           hideRequiredMark
           className='contacts-form'
         >
+          {/* 显示名称 */}
           <Form.Item label={$t('c_218')}>
             <Input
               value={editContacts['name']['displayname']}
@@ -203,6 +204,7 @@ class ContactsEditModal extends Component {
               })}
             />
           </Form.Item>
+          {/* 号码 */}
           <Form.Item label={$t('c_214')}>
             {
               editContacts['phone'].map((phoneItem, i) => {
@@ -243,6 +245,7 @@ class ContactsEditModal extends Component {
               <i className='icons icon-add-number' onClick={this.handleAddPhone}></i>
             </div>
           </Form.Item>
+          {/* 电子邮件 */}
           <Form.Item label={$t('c_220')}>
             <Input
               value={editContacts['email'][0] ? editContacts['email'][0].address : ''}
@@ -251,6 +254,7 @@ class ContactsEditModal extends Component {
               })}
             />
           </Form.Item>
+          {/* 通信地址 */}
           <Form.Item label={$t('c_221')}>
             <Input
               value={editContacts['address']}
@@ -259,6 +263,7 @@ class ContactsEditModal extends Component {
               })}
             />
           </Form.Item>
+          {/* 备注 */}
           <Form.Item label={$t('c_222')}>
             <Input
               value={editContacts['note']}
@@ -267,6 +272,7 @@ class ContactsEditModal extends Component {
               })}
             />
           </Form.Item>
+          {/* 网址 */}
           <Form.Item label={$t('c_223')}>
             <Input
               value={editContacts['website']}
@@ -275,26 +281,33 @@ class ContactsEditModal extends Component {
               })}
             />
           </Form.Item>
-          <Form.Item label={$t('c_215')}>
-            <ul className='contacts-group-ul'>
-              {
-                contactsGroups.map(group => {
-                  return (
-                    <li key={group.id}>
-                      <Checkbox
-                        checked={editContacts['group'].some(item => item.id === group.id)}
-                        value={group.id}
-                        onChange={e => this.updateEditContacts('group', {
-                          v: group,
-                          checked: e.target.checked
-                        })}
-                      >{group.name}</Checkbox>
-                    </li>
-                  )
-                })
-              }
-            </ul>
-          </Form.Item>
+          {
+            // 无群组时隐藏该条目
+            contactsGroups.length === 0 ? null : (
+              // 群组
+              <Form.Item label={$t('c_215')}>
+                <ul className='contacts-group-ul'>
+                  {
+                    contactsGroups.map(group => {
+                      return (
+                        <li key={group.id}>
+                          <Checkbox
+                            checked={editContacts['group'].some(item => item.id === group.id)}
+                            value={group.id}
+                            onChange={e => this.updateEditContacts('group', {
+                              v: group,
+                              checked: e.target.checked
+                            })}
+                          >{group.name}</Checkbox>
+                        </li>
+                      )
+                    })
+                  }
+                </ul>
+              </Form.Item>
+            )
+          }
+
         </Form>
       </Modal>
     )
