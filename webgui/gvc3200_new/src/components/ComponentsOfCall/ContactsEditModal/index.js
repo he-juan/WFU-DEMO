@@ -54,8 +54,10 @@ class ContactsEditModal extends Component {
     onCancel: PropTypes.func
   }
   state = {
-    editContacts: null
+    editContacts: null,
+    submiting: false
   }
+
   componentDidUpdate (preProps) {
     if (preProps.editContacts !== this.props.editContacts) {
       this.setState({
@@ -63,6 +65,7 @@ class ContactsEditModal extends Component {
       })
     }
   }
+
   // 删除一个phone
   handleDelPhone = (i) => {
     let _editContacts = deepCopy(this.state.editContacts)
@@ -72,6 +75,7 @@ class ContactsEditModal extends Component {
       editContacts: _editContacts
     })
   }
+
   // 添加一个phone
   handleAddPhone = () => {
     const { defaultAcct } = this.props
@@ -87,8 +91,12 @@ class ContactsEditModal extends Component {
       editContacts: _editContacts
     })
   }
+
   /** 更新联系人信息的state */
   updateEditContacts = (label, payload) => {
+    if (payload.v.length > 60) {
+      return message.error($t('m_222'))
+    }
     let _editContacts = deepCopy(this.state.editContacts)
     switch (label) {
       case 'address':
@@ -122,6 +130,7 @@ class ContactsEditModal extends Component {
       editContacts: _editContacts
     })
   }
+
   handleSubmitContacts = () => {
     const { contacts } = this.props
     const { editContacts } = this.state
@@ -149,7 +158,7 @@ class ContactsEditModal extends Component {
     const contactInfo = {
       rawcontact: isAdd ? {} : { contactid: id },
       structuredname: { displayname: name['displayname'] },
-      groupmembership: group.map(g => ({
+      groupmembership: group.filter(g => g.id !== '').map(g => ({
         groupid: g.id
       })),
       phone: phone.filter(i => i.number.trim() !== '').map(item => ({
@@ -162,7 +171,13 @@ class ContactsEditModal extends Component {
       website: [{ type: '7', url: website }], // 这个字段传参有问题
       structuredpostal: [{ fomatted: address }]
     }
+    this.setState({
+      submiting: true
+    })
     API.setContact(JSON.stringify(contactInfo)).then(msg => {
+      this.setState({
+        submiting: false
+      })
       if (msg.res === 'success') {
         message.success($t('m_027'))
         this.props.onCancel()
@@ -178,7 +193,7 @@ class ContactsEditModal extends Component {
 
   render () {
     const { onCancel, contactsGroups } = this.props
-    const { editContacts } = this.state
+    const { editContacts, submiting } = this.state
     // console.log(editContacts)
     if (!editContacts) return null
     const { isAdd } = editContacts
@@ -190,6 +205,7 @@ class ContactsEditModal extends Component {
         width={900}
         onOk={this.handleSubmitContacts}
         title={$t(isAdd ? 'c_216' : 'c_217')}
+        confirmLoading={submiting}
       >
         <Form
           hideRequiredMark
@@ -281,32 +297,27 @@ class ContactsEditModal extends Component {
               })}
             />
           </Form.Item>
-          {
-            // 无群组时隐藏该条目
-            contactsGroups.length === 0 ? null : (
-              // 群组
-              <Form.Item label={$t('c_215')}>
-                <ul className='contacts-group-ul'>
-                  {
-                    contactsGroups.map(group => {
-                      return (
-                        <li key={group.id}>
-                          <Checkbox
-                            checked={editContacts['group'].some(item => item.id === group.id)}
-                            value={group.id}
-                            onChange={e => this.updateEditContacts('group', {
-                              v: group,
-                              checked: e.target.checked
-                            })}
-                          >{group.name}</Checkbox>
-                        </li>
-                      )
-                    })
-                  }
-                </ul>
-              </Form.Item>
-            )
-          }
+          {/*  群组 */}
+          <Form.Item label={$t('c_215')} style={{ display: contactsGroups.length === 0 ? 'none' : 'block' }}>
+            <ul className='contacts-group-ul'>
+              {
+                contactsGroups.map(group => {
+                  return (
+                    <li key={group.id}>
+                      <Checkbox
+                        checked={editContacts['group'].some(item => item.id === group.id)}
+                        value={group.id}
+                        onChange={e => this.updateEditContacts('group', {
+                          v: group,
+                          checked: e.target.checked
+                        })}
+                      >{group.name}</Checkbox>
+                    </li>
+                  )
+                })
+              }
+            </ul>
+          </Form.Item>
 
         </Form>
       </Modal>

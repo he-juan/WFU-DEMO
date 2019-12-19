@@ -385,6 +385,7 @@ const msgs = {
   m_219: 'The port cannot be empty.',
   m_220: 'PPPoE account ID cannot be empty.',
   m_221: 'PPPoE password cannot be empty.',
+  m_222: 'The maximum input length has been exceeded.',
 
   m_999: ''
 }

@@ -32,7 +32,7 @@ class ContactsList extends Component {
     return [
       {
         key: 'col0',
-        width: '25%',
+        width: '30%',
         title: $t('c_213'),
         render (text, record, index) {
           return (
