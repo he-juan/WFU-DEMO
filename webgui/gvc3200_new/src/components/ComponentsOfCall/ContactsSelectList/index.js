@@ -39,6 +39,7 @@ class ContactsSelectList extends Component {
       filter: e.target.value
     })
   }, 300)
+
   // 选中或移除
   handleChecked = (contact) => {
     const { checkedContacts, onListChecked } = this.props
@@ -52,12 +53,14 @@ class ContactsSelectList extends Component {
       onListChecked(_checkedContacts)
     }
   }
+
   // 全选
   handleCheckAll = (e) => {
     const { contacts, onListChecked } = this.props
     let checked = e.target.checked
-    onListChecked(checked ? contacts : [])
+    onListChecked(checked ? deepCopy(contacts) : [])
   }
+
   // 滚动加载
   updateContactsPage = () => {
     const { curPage } = this.state
@@ -65,6 +68,7 @@ class ContactsSelectList extends Component {
       curPage: curPage + 1
     })
   }
+
   render () {
     let { contacts, className, onListClick, onListChecked, checkedContacts } = this.props
     let { filter, curPage } = this.state

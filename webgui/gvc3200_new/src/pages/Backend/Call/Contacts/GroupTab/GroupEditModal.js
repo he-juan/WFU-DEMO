@@ -14,17 +14,21 @@ class GroupEditModal extends Component {
     onEditComplete: PropTypes.func, // 编辑完成后通知更新数据
     contactsGroups: PropTypes.array // 所有已有的群组列表
   }
+
   state = {
     checkedContacts: [],
     submitting: false,
     checkedCurPage: 1 // 选中的成员当前页
   }
+
   groupNameRef = createRef()
+
   handleCheckContacts = (contacts) => {
     this.setState({
       checkedContacts: contacts
     })
   }
+
   componentDidUpdate = (preProps, preState) => {
     // 点击群组编辑按钮打开modal时
     if (preProps.groupEditing !== this.props.groupEditing && this.props.groupEditing !== null) {
@@ -35,6 +39,7 @@ class GroupEditModal extends Component {
       })
     }
   }
+
   // 取消勾选
   unCheckContact = (contact) => {
     const _checkedContacts = deepCopy(this.state.checkedContacts)
@@ -44,6 +49,7 @@ class GroupEditModal extends Component {
       checkedContacts: _checkedContacts
     })
   }
+
   // 提交
   handleSubmitGroup = async () => {
     const { checkedContacts } = this.state
@@ -85,6 +91,7 @@ class GroupEditModal extends Component {
       checkedCurPage: checkedCurPage + 1
     })
   }
+
   render () {
     const { groupEditing, onCancel } = this.props
     const { checkedContacts, submitting, checkedCurPage } = this.state

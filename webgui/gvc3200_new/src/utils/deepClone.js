@@ -57,8 +57,6 @@
  * Object.prototype.toString.call()
  */
 
-const exitObjs = []
-
 const isObject = function (value) {
   return Object.prototype.toString.call(value) === '[object Object]'
 }
@@ -69,23 +67,6 @@ const isArray = function (value) {
 
 const canClone = function (value) {
   return isObject(value) || isArray(value)
-}
-
-/**
- * @description: 判断对象是否已经存在 防止死循环
- * @param {type}
- * @return:
- */
-const hasExistObject = function (value) {
-  const obj = exitObjs.find(obj => {
-    return obj === value
-  })
-
-  if (obj) {
-    return true
-  }
-
-  return false
 }
 
 const cloneArray = function (value) {
@@ -115,11 +96,9 @@ const cloneObject = function (value) {
 }
 
 const deepClone = function (value) {
-  if (!canClone(value) || hasExistObject(value)) {
+  if (!canClone(value)) {
     return value
   }
-
-  exitObjs.push(value)
   if (isArray(value)) {
     return cloneArray(value)
   } else if (isObject(value)) {
