@@ -31,7 +31,7 @@ export default {
   cal_010_tip: 'The password for the config HTTP/HTTPS server.',
 
   cal_011: 'Automatic download interval',
-  cal_011_tip: 'Set the interval (in minutes) for sending download request to the server. The deafult setting "None" means the device will not request auto download. It could be set according to user\'s need.',
+  cal_011_tip: 'Set the interval (in hours) for sending download request to the server. The deafult setting "None" means the device will not request auto download. It could be set according to user\'s need.',
 
   cal_012: 'Download now',
   cal_012_tip: 'Click the DOWNLOAD button to start loading the the XML contact file to the device. Note: the phonebook file format should be supported by the device.',
