@@ -51,7 +51,8 @@ export class EditContacts {
 class ContactsEditModal extends Component {
   static propTypes = {
     editContacts: PropTypes.object, // 上述editContacts 类实例 或 null
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
+    maxContactsCount: PropTypes.number
   }
   state = {
     editContacts: null,
@@ -152,7 +153,7 @@ class ContactsEditModal extends Component {
   }
 
   setContact = (editContacts) => {
-    const { getCallLogs, getContactsAndGroups } = this.props
+    const { getCallLogs, getContactsAndGroups, maxContactsCount, contacts } = this.props
     const { id, name, phone, email, note, website, address, group, isAdd } = editContacts
     //  提交格式。。。。
     const contactInfo = {
@@ -186,7 +187,12 @@ class ContactsEditModal extends Component {
           getContactsAndGroups()
         }, 5000) // 更新数据， 目前本地生成数据太慢， 暂时设成5秒， 到时看情况改
       } else {
-        message.success($t('m_028'))
+        // 后端没有返回是否是联系人满了，只能自己判断下...
+        if (maxContactsCount && maxContactsCount <= contacts.length) {
+          message.error($t('m_108'))
+        } else {
+          message.error($t('m_028'))
+        }
       }
     })
   }

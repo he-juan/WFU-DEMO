@@ -247,6 +247,7 @@ class ContactTab extends Component {
         {/* 联系人编辑弹窗 */}
         <ContactsEditModal
           editContacts={contactsEditing}
+          maxContactsCount={maxContactsCount}
           onCancel={() => this.setState({ contactsEditing: null })}
         />
         {/* 导入联系人弹窗 */}
