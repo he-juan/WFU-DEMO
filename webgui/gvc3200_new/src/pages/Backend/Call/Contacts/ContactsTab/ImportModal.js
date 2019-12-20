@@ -165,6 +165,7 @@ class ImportModal extends Component {
           title={$t('c_224')}
         >
           <Form>
+            {/* 清除旧列表 */}
             <CheckboxItem
               lang='cal_001'
               gfd={gfd}
@@ -174,6 +175,7 @@ class ImportModal extends Component {
                 initialValue: 0
               }}
             />
+            {/* 清除旧记录模式 */}
             <RadioGroupItem
               lang='cal_002'
               gfd={gfd}
@@ -187,6 +189,7 @@ class ImportModal extends Component {
                 { v: '2', t: $t('c_226') }
               ]}
             />
+            {/* 替换重复的条目 */}
             <CheckboxItem
               lang='cal_003'
               gfd={gfd}
@@ -196,6 +199,7 @@ class ImportModal extends Component {
                 initialValue: 0
               }}
             />
+            {/* 替换重复条目模式 */}
             <RadioGroupItem
               lang='cal_004'
               gfd={gfd}
@@ -209,6 +213,7 @@ class ImportModal extends Component {
                 { v: '2', t: $t('c_228') }
               ]}
             />
+            {/* 文件编码 */}
             <SelectItem
               lang='cal_005'
               gfd={gfd}
@@ -231,6 +236,7 @@ class ImportModal extends Component {
               ]}
               onChange={this.handleSelectFileEncode}
             />
+            {/* 文件类型 */}
             <SelectItem
               lang='cal_006'
               gfd={gfd}

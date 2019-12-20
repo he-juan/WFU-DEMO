@@ -48,8 +48,8 @@ export default {
   cal_016: 'Replace duplicate entries mode',
   cal_016_tip: 'If set to "Replace by name", replace the records of the same name automatically when downloading new records. If set to "Replace by number", replace the records of the same number automatically when downloading new records.',
 
-  cal_017: '',
-  cal_017_tip: '',
+  cal_017: 'File encoding',
+  cal_017_tip: 'Select the encoding format of phonebook download file.',
 
   cal_018: '',
   cal_018_tip: '',

@@ -182,11 +182,13 @@ class DownloadModal extends FormCommon {
           footer={<div><Button type='primary' onClick={this.saveDownloadConfig}>{$t('b_001')}</Button></div>}
         >
           <Form>
+            {/* 清除旧列表 */}
             <CheckboxItem
               lang='cal_013'
               name='P1435'
               gfd={gfd}
             />
+            {/* 清除旧记录模式 */}
             <RadioGroupItem
               lang='cal_014'
               name='clearMode'
@@ -197,6 +199,7 @@ class DownloadModal extends FormCommon {
                 { v: '2', t: $t('c_226') }
               ]}
             />
+            {/* 替换重复的条目 */}
             <CheckboxItem
               lang='cal_015'
               name='P1436'
@@ -205,6 +208,7 @@ class DownloadModal extends FormCommon {
                 initialValue: 0
               }}
             />
+            {/* 替换重复条目模式 */}
             <RadioGroupItem
               lang='cal_016'
               name='replaceMode'
@@ -215,6 +219,7 @@ class DownloadModal extends FormCommon {
                 { v: '2', t: $t('c_226') }
               ]}
             />
+            {/* 下载模式 */}
             <RadioGroupItem
               lang='cal_007'
               name='P330'
@@ -229,8 +234,9 @@ class DownloadModal extends FormCommon {
                 { v: '3', t: 'HTTPS' }
               ]}
             />
+            {/* 文件编码 */}
             <SelectItem
-              lang='cal_005'
+              lang='cal_017'
               gfd={gfd}
               name='P1681'
               gfdOptions={{
@@ -251,6 +257,7 @@ class DownloadModal extends FormCommon {
               ]}
               onChange={this.handleSelectFileEncode}
             />
+            {/* 下载服务器 */}
             <InputItem
               lang='cal_008'
               gfd={gfd}
@@ -263,6 +270,7 @@ class DownloadModal extends FormCommon {
                 ]
               }}
             />
+            {/* HTTP/HTTPS用户名称 */}
             <InputItem
               lang='cal_009'
               gfd={gfd}
@@ -274,6 +282,7 @@ class DownloadModal extends FormCommon {
                 ]
               }}
             />
+            {/* HTTP/HTTPS密码 */}
             <PwInputItem
               lang='cal_010'
               gfd={gfd}
@@ -285,6 +294,7 @@ class DownloadModal extends FormCommon {
                 ]
               }}
             />
+            {/* 自动下载周期 */}
             <SelectItem
               lang='cal_011'
               gfd={gfd}
@@ -317,7 +327,7 @@ class DownloadModal extends FormCommon {
           destroyOnClose
         >
           <p className='progress-percent'>{downloadPercent} %</p>
-          <p className='progress-txt'>正在下载中...</p>
+          <p className='progress-txt'>{$t('m_223')}</p>
           <Progress percent={downloadPercent} status='active' strokeColor='#3d77ff' showInfo={false}/>
         </Modal>
       </>

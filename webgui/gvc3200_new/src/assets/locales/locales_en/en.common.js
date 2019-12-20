@@ -386,6 +386,7 @@ const msgs = {
   m_220: 'PPPoE account ID cannot be empty.',
   m_221: 'PPPoE password cannot be empty.',
   m_222: 'The maximum input length has been exceeded.',
+  m_223: 'Downloading...',
 
   m_999: ''
 }
