@@ -216,7 +216,7 @@ class DownloadModal extends FormCommon {
               disabled={!Number(P1436)}
               radioOptions={[
                 { v: '1', t: $t('c_227') },
-                { v: '2', t: $t('c_226') }
+                { v: '2', t: $t('c_228') }
               ]}
             />
             {/* 下载模式 */}
