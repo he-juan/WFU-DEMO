@@ -1,13 +1,13 @@
 /* eslint-disable no-multiple-empty-lines */
 export default {
   cal_001: 'Clear the old list',
-  cal_001_tip: 'If set to "Yes", the previous contact records will be deleted when a new phonebook file loads into the device. The default setting is "No".',
+  cal_001_tip: 'If set to "Yes", the phone will clear the old list before importing the new file. The default setting is "No".',
 
   cal_002: 'Clear Old History Mode',
   cal_002_tip: 'If set to "Clear all", the phone will delete all previous records before importing the new records. If set to "Keep Local Contacts", the newly added local new contacts will not be deleted when importing new records.',
 
   cal_003: 'Replace duplicate items',
-  cal_003_tip: 'If set to "Yes", when the XML phonebook file is downloaded to the device, the duplicate entries will be removed. The default setting is "No".',
+  cal_003_tip: 'If set to "Yes", the phone will replace any duplicate items in the phone with the item in the new file. The default setting is "No".',
 
   cal_004: 'Replace duplicate entries mode',
   cal_004_tip: 'If set to "Replace by name", replace the records of the same name automatically when importing new records. If set to "Replace by number", replace the records of the same number automatically when importing new records.',
@@ -36,17 +36,17 @@ export default {
   cal_012: 'Download now',
   cal_012_tip: 'Click the DOWNLOAD button to start loading the the XML contact file to the device. Note: the phonebook file format should be supported by the device.',
 
-  cal_013: '',
-  cal_013_tip: '',
+  cal_013: 'Clear the old list',
+  cal_013_tip: 'If set to "Yes", the phone will clear the old list before downloading the new file. The default setting is "No".',
 
-  cal_014: '',
-  cal_014_tip: '',
+  cal_014: 'Clear Old History Mode',
+  cal_014_tip: 'If set to "Clear all", the phone will delete all previous records before downloading the new records. If set to "Keep Local Contacts", the newly added local new contacts will not be deleted when downloading new records.',
 
-  cal_015: '',
-  cal_015_tip: '',
+  cal_015: 'Replace duplicate items',
+  cal_015_tip: 'If set to "Yes", the phone will replace any duplicate items in the phone with the item in the new file. The default setting is "No".',
 
-  cal_016: '',
-  cal_016_tip: '',
+  cal_016: 'Replace duplicate entries mode',
+  cal_016_tip: 'If set to "Replace by name", replace the records of the same name automatically when downloading new records. If set to "Replace by number", replace the records of the same number automatically when downloading new records.',
 
   cal_017: '',
   cal_017_tip: '',

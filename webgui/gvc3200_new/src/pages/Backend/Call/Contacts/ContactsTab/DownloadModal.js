@@ -183,12 +183,12 @@ class DownloadModal extends FormCommon {
         >
           <Form>
             <CheckboxItem
-              lang='cal_001'
+              lang='cal_013'
               name='P1435'
               gfd={gfd}
             />
             <RadioGroupItem
-              lang='cal_002'
+              lang='cal_014'
               name='clearMode'
               gfd={gfd}
               disabled={!Number(P1435) }
@@ -198,7 +198,7 @@ class DownloadModal extends FormCommon {
               ]}
             />
             <CheckboxItem
-              lang='cal_003'
+              lang='cal_015'
               name='P1436'
               gfd={gfd}
               gfdOptions={{
@@ -206,7 +206,7 @@ class DownloadModal extends FormCommon {
               }}
             />
             <RadioGroupItem
-              lang='cal_004'
+              lang='cal_016'
               name='replaceMode'
               gfd={gfd}
               disabled={!Number(P1436)}
