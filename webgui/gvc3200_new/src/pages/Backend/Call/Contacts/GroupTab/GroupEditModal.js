@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 import { Modal, Input, Form, message } from 'antd'
 import ContactsSelectList from '@/components/ComponentsOfCall/ContactsSelectList'
 import ScrollPage from '@/components/ScrollPage'
@@ -18,10 +18,9 @@ class GroupEditModal extends Component {
   state = {
     checkedContacts: [],
     submitting: false,
-    checkedCurPage: 1 // 选中的成员当前页
+    checkedCurPage: 1, // 选中的成员当前页
+    groupName: ''
   }
-
-  groupNameRef = createRef()
 
   handleCheckContacts = (contacts) => {
     this.setState({
@@ -33,9 +32,10 @@ class GroupEditModal extends Component {
     // 点击群组编辑按钮打开modal时
     if (preProps.groupEditing !== this.props.groupEditing && this.props.groupEditing !== null) {
       // 待编辑的群组中的联系人即已经为选中状态
-      const { contacts } = this.props.groupEditing
+      const { contacts, name } = this.props.groupEditing
       this.setState({
-        checkedContacts: contacts || []
+        checkedContacts: contacts || [],
+        groupName: name
       })
     }
   }
@@ -52,9 +52,9 @@ class GroupEditModal extends Component {
 
   // 提交
   handleSubmitGroup = async () => {
-    const { checkedContacts } = this.state
+    const { checkedContacts, groupName } = this.state
     const { groupEditing, onCancel, onEditComplete, contactsGroups } = this.props
-    let groupName = this.groupNameRef.current.state.value
+
     let groupId = groupEditing.id
     let contactids = checkedContacts.map(contact => contact.id).join(':::')
     if (groupName.length === 0) {
@@ -92,9 +92,18 @@ class GroupEditModal extends Component {
     })
   }
 
+  handleGroupNameChange = (e) => {
+    if (e.target.value.length > 60) {
+      return message.error($t('m_222'))
+    }
+    this.setState({
+      groupName: e.target.value
+    })
+  }
+
   render () {
     const { groupEditing, onCancel } = this.props
-    const { checkedContacts, submitting, checkedCurPage } = this.state
+    const { checkedContacts, submitting, checkedCurPage, groupName } = this.state
     if (!groupEditing) return false
     return (
       <Modal
@@ -108,7 +117,7 @@ class GroupEditModal extends Component {
         confirmLoading={submitting}
       >
         <Form.Item label={$t('c_238')} className='group-name-edit' labelCol={{ span: 6 }} wrapperCol={{ span: 14 }}>
-          <Input placeholder={$t('c_238')} defaultValue={groupEditing.name} ref={this.groupNameRef}/>
+          <Input placeholder={$t('c_238')} value={groupName} onChange={this.handleGroupNameChange}/>
         </Form.Item>
         <div className='group-member-edit'>
           <div className='all-contacts'>
