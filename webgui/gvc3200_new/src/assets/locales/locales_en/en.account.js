@@ -57,7 +57,7 @@ export default {
   acct_018_tip: 'If set to "No", the device will not unregister the SIP user\'s registration information. If set to "All",The SIP contact header will use "*" to clear all SIP user\'s registration information. If set to "Instance",the device only need to clear the current SIP user\'s info. The default is "Instance".',
 
   acct_019: 'Register Expiration (m)',
-  acct_019_tip: 'Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrar. The default value is 60 minutes (1 hour). The maximum value is 64,800 minutes (about 45 days). The minumum value is 1 minute.',
+  acct_019_tip: 'Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrar. The default value is 60 minutes (1 hour). The maximum value is 64,800 minutes (about 45 days). The minimum value is 1 minute.',
 
   acct_020: 'Re-register Before Expiration (s)',
   acct_020_tip: 'Specifies the time frequency (in seconds) that the phone sends re-registration request before the Register Expiration. The range is from 0 to 64, 800.',
