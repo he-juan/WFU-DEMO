@@ -102,7 +102,7 @@ class NetworkStatus extends Component {
           { netInfo['nettype'] }
         </FormItem>
         {/* VPN IP */}
-        <FormItem langbel='VPN IP' hide={ !networkStatus['vpn_ip'] || networkStatus['vpn_ip'] === '0.0.0.0' }>
+        <FormItem lang='sta_004' hide={ !networkStatus['vpn_ip'] || networkStatus['vpn_ip'] === '0.0.0.0' }>
           { networkStatus['vpn_ip'] }
         </FormItem>
         <h4 className='bak-sub-title'>{netInfo['twovlan'] === '1' ? $t('c_086') : 'IPV4'}</h4>
