@@ -3,7 +3,7 @@
  */
 export default {
   acct_001: 'Account Active',
-  acct_001_tip: 'This field indicates whether the account is active. The default value for the last account (Account H.323) is "No" and the default value for the other accounts is "Yes."',
+  acct_001_tip: 'This field indicates whether the account is active. The default value for account H.323 is "No" and the default value for the other accounts is "Yes."',
 
   acct_002: 'Account Name',
   acct_002_tip: 'Configures the name associated with the account. It will show on the output display device.',
