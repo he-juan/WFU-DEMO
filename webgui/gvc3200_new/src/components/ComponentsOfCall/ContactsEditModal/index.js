@@ -23,7 +23,7 @@ export class EditContacts {
     this.address = props.address || ''
     this.company = props.company || ''
     this.department = props.department || ''
-    this.email = props.email || [{ type: '1', address: '' }]
+    this.email = props.email && props.email[0] ? props.email : [{ type: '1', address: '' }]
     this.group = props.group || []
     this.name = props.name || { displayname: '', givenname: '', familyname: '' }
     this.note = props.note || ''

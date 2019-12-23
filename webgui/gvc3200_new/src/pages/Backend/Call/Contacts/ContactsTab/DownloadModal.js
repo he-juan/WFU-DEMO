@@ -21,17 +21,21 @@ class DownloadModal extends FormCommon {
   state = {
     downloadPercent: -1
   }
+
   componentDidUpdate (preProps) {
     const { setFieldsValue } = this.props.form
     if (preProps.visible !== this.props.visible && this.props.visible === true) {
       API.getPvalues(['P1435', 'P1436', 'P330', 'P1681', 'P331', 'P6713', 'P6714', 'P332']).then((data) => {
-        const { P1435, P1436 } = data
+        const { P1435, P1436, P6713, P6714 } = data
         data.clearMode = Number(P1435) === 0 ? '1' : P1435 // 别扭的处理方式
         data.replaceMode = Number(P1436) === 0 ? '1' : P1436
+        data.P6713 = P6713 === 'undefined' ? '' : P6713
+        data.P6714 = P6714 === 'undefined' ? '' : P6714
         setFieldsValue(data)
       })
     }
   }
+
   componentWillUnmount () {
     clearTimeout(TIMER)
     TIMER = null
