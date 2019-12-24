@@ -70,7 +70,7 @@ export default {
             // 注册期限(分钟)
             { lang: 'acct_019', p: 'P32' },
             // 注册期限内重新注册等待时间(秒)
-            { lang: 'acct_020', p: 'P2330' },
+            { lang: 'acct_020', p: 'P2330', denyModel: 'GVC3220' }, // bugfree 2584 隐藏
             // 订阅超时(分钟)
             { lang: 'acct_021', p: 'P26051' },
             // 重试注册间隔时间(秒)
@@ -140,7 +140,7 @@ export default {
             // SIP T2间隔时间
             { lang: 'acct_053', p: 'P250' },
             // SIP Timer D间隔时间
-            { lang: 'acct_054', p: 'P2387' },
+            { lang: 'acct_054', p: 'P2387', denyModel: 'GVC3220' }, // bugfree 2584 隐藏
             // 从路由移除OBP
             { lang: 'acct_055', p: 'P2305' },
             // 检查域名证书
