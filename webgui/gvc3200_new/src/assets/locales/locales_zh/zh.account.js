@@ -45,7 +45,7 @@ export default {
   acct_014_tip: '设置将域名解析成IP地址的方式，共有A Record,SRV, NATPTR/SRV三种方式可供选择。默认设置成“A Record”。若用户要使用DNS SRV定位服务器，可选择“SRV”或“NATPTR/SRV”模式。',
 
   acct_015: 'NAT检测',
-  acct_015_tip: '此参数决定NAT穿透机制是否被激活。<br /> <br />如果设置为“STUN”并且指定了STUN服务器地址，检测将会根据STUN服务器来运行。如果检测到的NAT类型为Full Cone、Restricted Cone或Port-Restricted Cone时，设备将在它所有的SIP和SDP信息中尝试使用公共IP地址和端口。<br /> <br />如果该项设置为“发送保活报文”,设备将会定时向SIP服务器发送空SDP包以保持NAT访问的端口处于打开状态。<br/>如果使用出口代理服务器，那么请设置为“ NAT NO”。<br /> <br />如果用户使用了VPN，请设置为“VPN”。<br /> <br />如果用户的路由器支持UPnP，可以设置为“UPnP”。<br /> <br />若设置为“自动”，设备将会尝试以上所有NAT穿透方式，直至找到可用的。<br /> <br />如果设置为“TURN”并且指定了TURN服务器地址，检测将会根据TURN服务器来运行。默认设置成“发送保活报文”。',
+  acct_015_tip: '此参数决定NAT穿透机制是否被激活。<br /> <br />如果设置为“STUN”并且指定了STUN服务器地址，检测将会根据STUN服务器来运行。如果检测到的NAT类型为Full Cone、Restricted Cone或Port-Restricted Cone时，设备将在它所有的SIP和SDP信息中尝试使用公共IP地址和端口。<br /> <br />如果该项设置为“发送保活报文”,设备将会定时向SIP服务器发送空SDP包以保持NAT访问的端口处于打开状态。<br/>如果使用出口代理服务器，那么请设置为“ NAT NO”。<br /> <br />如果用户使用了OpenVPN，请设置为“OpenVPN”。<br /> <br />如果用户的路由器支持UPnP，可以设置为“UPnP”。<br /> <br />若设置为“自动”，设备将会尝试以上所有NAT穿透方式，直至找到可用的。<br /> <br />如果设置为“TURN”并且指定了TURN服务器地址，检测将会根据TURN服务器来运行。默认设置成“发送保活报文”。',
 
   acct_016: '使用代理',
   acct_016_tip: '填写SIP代理用以通知SIP服务器该设备在NAT或防火墙后面。若配置此项，请确保您所使用的SIP服务器支持该功能。',
