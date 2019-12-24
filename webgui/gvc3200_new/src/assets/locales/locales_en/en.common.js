@@ -78,7 +78,7 @@ const routes = {
   r_069: 'Ping',
   r_070: 'Third Party Application',
   r_071: 'Remote Diagnosis',
-  r_072: 'Video Conferencing Service',
+  r_072: 'Video Conf Service Platform',
   r_073: 'Zoom',
   r_074: 'HDMI',
   r_075: 'Camera',
