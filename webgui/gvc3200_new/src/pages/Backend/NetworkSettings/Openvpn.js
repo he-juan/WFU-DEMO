@@ -122,7 +122,7 @@ class OpenVPN extends FormCommon {
 
     return (
       <Spin spinning={loadingData} wrapperClassName='common-loading-spin'>
-        <Form className='openvpn-form'>
+        <Form className='openvpn-form' hideRequiredMark>
           {/* 开启OpenVPN® */}
           <CheckboxItem
             {...options['P7050']}
@@ -167,6 +167,7 @@ class OpenVPN extends FormCommon {
             hide={!isSimpleMode}
             gfdOptions={{
               rules: [
+                this.required(),
                 this.digits(),
                 this.range(0, 65535)
               ]
