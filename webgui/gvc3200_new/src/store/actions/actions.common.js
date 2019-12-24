@@ -185,8 +185,8 @@ export const getAcctStatus = () => (dispatch) => {
       const accts = [
         { index: 0, name: 'SIP' },
         { index: 1, name: 'IPVideoTalk' },
-        { index: 2, name: 'BlueJeans' },
         { index: 8, name: 'H.323' }, // H.323 下标为8，用账号6 奇怪！！！
+        { index: 2, name: 'BlueJeans' },
         { index: 5, name: 'Zoom' } // 取账号5
       ]
       accts.forEach(({ index: i, name }) => {
