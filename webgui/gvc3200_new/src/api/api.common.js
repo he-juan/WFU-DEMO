@@ -236,3 +236,13 @@ export const getDateInfo = () => {
 export const getDateTimeFmt = () => {
   return getPvalues(['P102', 'P122'])
 }
+
+/**
+ * 获取当前时区
+ */
+export const getCurTimezone = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getcurtimezone'
+  })
+}
