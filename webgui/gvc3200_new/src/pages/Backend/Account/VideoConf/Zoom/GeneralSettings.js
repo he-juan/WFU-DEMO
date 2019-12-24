@@ -22,6 +22,7 @@ class GeneralSettings extends FormCommon {
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
+      data.P1817 = data.P1817 || 'Zoom'
       setFieldsValue(data)
     })
   }
