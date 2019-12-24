@@ -258,7 +258,7 @@ export default {
   acct_086_tip: 'Selects the image size. The default setting is "1080p".',
 
   acct_087: 'Video Bit Rate',
-  acct_087_tip: 'Configures the bite rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. The default setting depends on H.264 Image Size:<br />H.264 Image Size = 4k, Video Bit Rate can be set to integer value from 1Mbps to 8Mbps. <br />H.264 Image Size = 1080p, Video Bit Rate can be set to integer value from 1Mbps to 4Mbps. <br />H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 512kbps to 2Mbps. <br />H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 384kbps to 1Mbps.',
+  acct_087_tip: 'Configures the bite rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. The default setting depends on H.264 Image Size:<br />H.264 Image Size = 4k, Video Bit Rate can be set to integer value from 1Mbps to 8Mbps. <br />H.264 Image Size = 1080p, Video Bit Rate can be set to integer value from 1Mbps to 4Mbps. <br />H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 512kbps to 2Mbps. <br />H.264 Image Size = 4SIF/4CIF/VGA, Video Bit Rate can be set to integer value from 384kbps to 1Mbps.',
 
   acct_088: 'Video Frame Rate',
   acct_088_tip: 'Configures the frame rate for video call. The default setting is 30fps.',
