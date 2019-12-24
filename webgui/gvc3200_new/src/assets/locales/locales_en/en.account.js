@@ -254,7 +254,7 @@ export default {
   acct_085: 'Preferred Video Codec',
   acct_085_tip: 'This parameter lets you select your preferred video codec from the "available" list. The device supports H.264 and H.265. The H.264 codec is recommended.',
 
-  acct_086: 'H.264 Image Size',
+  acct_086: 'Image Size',
   acct_086_tip: 'Selects the image size. The default setting is "1080p".',
 
   acct_087: 'Video Bit Rate',

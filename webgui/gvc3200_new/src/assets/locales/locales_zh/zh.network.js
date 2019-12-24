@@ -109,10 +109,10 @@ export default {
   net_040_tip: '简约模式仅支持一些基本或通用参数配置; 专业模式支持配置文件上传，完全按需定制，请参考https://openvpn.net获取更多信息。',
 
   net_041: '上传OpenVPN®配置',
-  net_041_tip: '将配置文件从当前电脑端上传到话机。',
+  net_041_tip: '将配置文件从当前电脑端上传到设备。',
 
   net_042: '开启OpenVPN®压缩算法',
-  net_042_tip: '此项用于设置是否开启LZO压缩算法。当服务器端开启LZO Compression，话机端必须同时开启此配置，否则会导致网络连接失败。',
+  net_042_tip: '此项用于设置是否开启LZO压缩算法。当服务器端开启LZO Compression，设备端必须同时开启此配置，否则会导致网络连接失败。',
 
   net_043: 'OpenVPN®服务器地址',
   net_043_tip: '设置OpenVPN®服务器的URL/IP地址。',

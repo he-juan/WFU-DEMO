@@ -109,7 +109,7 @@ export default {
   net_040_tip: 'Simple mode only supports some basic or common parameters configuration; Professional mode suppports configuration file upload, which is totally customized by need, please refer to https://openvpn.net for more information.',
 
   net_041: 'Upload OpenVPN® Configuration',
-  net_041_tip: 'Upload configuration file to the phone.',
+  net_041_tip: 'Upload configuration file to the device.',
 
   net_042: 'Enable OpenVPN® Comp-lzo',
   net_042_tip: 'Configures enable/disable the LZO compression. When the LZO Compression is enabled on the OpenVPN server, you must turn on it at the same time. Otherwise, the network will fail to connect.',
