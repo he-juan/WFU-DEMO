@@ -22,7 +22,7 @@ class GeneralSettings extends FormCommon {
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
-      data.P1817 = data.P1817 || 'Zoom'
+      data.P1807 = data.P1807 || 'Zoom'
       setFieldsValue(data)
     })
   }
@@ -62,7 +62,7 @@ class GeneralSettings extends FormCommon {
         />
         {/* 显示名称 */}
         <InputItem
-          {...options['P1817']}
+          {...options['P1807']}
           gfd={gfd}
           gfdOptions={{
             rules: [

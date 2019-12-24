@@ -567,7 +567,7 @@ export default {
                 // Zoom服务器
                 { lang: 'acct_151', p: 'P1802' },
                 // 显示名称
-                { lang: 'acct_009', p: 'P1817' }
+                { lang: 'acct_009', p: 'P1807' }
 
               ]
             },
