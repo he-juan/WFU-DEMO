@@ -390,7 +390,7 @@ export default {
             // GK认证密码
             { lang: 'acct_142', p: 'P25036', noInit: 1 },
             // 注册期限(分钟)
-            { lang: 'acct_019', p: 'P25054' },
+            { lang: 'acct_152', p: 'P25054' },
             // H.323本地端口
             { lang: 'acct_143', p: 'P25068' },
             // 对称RTP

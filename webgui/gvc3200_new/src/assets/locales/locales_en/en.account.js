@@ -396,7 +396,7 @@ export default {
   acct_132_tip: 'Specifies the number to be forwarded to for Call Forward when DND on.',
 
   acct_133: 'Enable IPVideoTalk',
-  acct_133_tip: 'Enable IPVideoTalk service, if set to "YES", the system will support IPVideoTalk related functions.The default value is "NO", which will take effect after restart.',
+  acct_133_tip: 'Enable IPVideoTalk service, if set to "YES", the system will support IPVideoTalk related functions.The default value is "YES", which will take effect after restart.',
 
   acct_134: 'SIP Transport',
   acct_134_tip: 'Determines the network protocol used for the SIP transport. For IPVideoTalk, users can choose from TCP/TLS. For other accounts, users can choose from TCP/UDP/TLS.',
@@ -450,5 +450,8 @@ export default {
   acct_150_tip: 'Configures whether to add MAC address in User-Agent header. If set to "No", all outgoing SIP messages  will not attach MAC address to the User-Agent header; If set to "Yes except REGISTER", all outgoing SIP messages except REGISTER message will attach the MAC address to the User-Agent header; If set to "Yes to All SIP", all outgoing SIP messages including REGISTER message will attach MAC address to the User-Agent header.',
 
   acct_151: 'Zoom Server',
-  acct_151_tip: 'The URL or IP address, and port of the Zoom server. This is provided by your VoIP service provider (ITSP).'
+  acct_151_tip: 'The URL or IP address, and port of the Zoom server. This is provided by your VoIP service provider (ITSP).',
+
+  acct_152: 'Register Expiration (m)',
+  acct_152_tip: 'Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrar. The default value is 60 minutes (1 hour). The maximum value is 1440 minutes (1 day). The minimum value is 1 minute.'
 }

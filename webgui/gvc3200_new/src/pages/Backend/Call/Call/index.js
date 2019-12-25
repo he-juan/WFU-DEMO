@@ -6,6 +6,7 @@ import { setDefaultAcct } from '@/store/actions'
 import { deepCopy, parseAcct, mapToSource } from '@/utils/tools'
 import LogAndContacts from './LogAndContacts'
 import API from '@/api'
+import { $t } from '@/Intl'
 import './Call.less'
 
 @connect(
@@ -117,15 +118,15 @@ class Call extends Component {
     let curLinesLen = IPVTlen > 0 ? nonIPVTlen + 1 : nonIPVTlen // 线路总数量
     // 成员数量达到200上限
     if (IPVTlen >= 200 && +lastMem.acct === 1) {
-      message.error('IPVideoTalk成员数量已达上限')
+      message.error($t('m_227')) // IPVideoTalk成员数量已达上限
       return _memToCall
     }
     // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
     if (curLinesLen >= maxLineCount) {
       if (IPVTlen === 0) {
-        message.error('成员数量已达上限')
+        message.error($t('m_226')) // 成员数量已达上限
       } else if (IPVTlen > 0 && +lastMem.acct !== 1) {
-        message.error('通话线路已达上限，当前只能选择IPVideoTalk号码.')
+        message.error($t('m_225')) // 通话线路已达上限，当前只能选择IPVideoTalk号码.
         if (flag === 'input') {
           this.setState({ selectAcct: '1' })
         }
@@ -160,7 +161,7 @@ class Call extends Component {
     // 输入的非数字字符串无法添加
     let lastMem = _memToCall.slice(-1)[0]
     if (lastMem && /\D/.test(lastMem.num) && +lastMem.acct !== 2) {
-      message.error('此号码不符合拨号规则!')
+      message.error($t('m_224')) // 此号码不符合拨号规则
       return false
     }
 
@@ -206,7 +207,7 @@ class Call extends Component {
           isconf: '1'
         })
       } else {
-        message.error('此号码不符合拨号规则!')
+        message.error($t('m_224')) // 此号码不符合拨号规则
         this.setState({
           tagsInputValue: ''
         })
@@ -386,7 +387,7 @@ class Call extends Component {
                 <span><em className={`acct-icon acct-${v.acctIndex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
                 <span>{v.num}</span>
                 <span>{
-                  defaultAcct === v.acctIndex ? '默认帐号' : <Button type='primary' size='small' onClick={e => this.handleSetDefaultAcct(v.acctIndex, e)}>设为默认帐号</Button>}</span>
+                  defaultAcct === v.acctIndex ? $t('c_301') : <Button type='primary' size='small' onClick={e => this.handleSetDefaultAcct(v.acctIndex, e)}>{$t('b_058')}</Button>}</span>
               </Menu.Item>
             )
           })
@@ -423,7 +424,8 @@ class Call extends Component {
             />
             {
               memToCall.length > 0 || tagsInputValue.length > 0 ? null : <span className='tagsinput-placeholder'>
-                多个号码可以'Enter'分隔.{+selectAcct === 1 ? '( 如果为空，一键开启IPVT会议 )' : ''}
+                {/* 多个号码可以'Enter'分隔.  ( 如果为空，一键开启IPVT会议 ) */}
+                {$t('c_330')}{+selectAcct === 1 ? $t('c_331') : ''}
               </span>
             }
           </div> : <div className='bj-inputs'>
@@ -450,7 +452,7 @@ class Call extends Component {
         </div>
         {/* 记录以及联系人 */}
         <div className='dialup-list'>
-          <div className='list-title'>最近通话</div>
+          <div className='list-title'>{$t('c_329')}</div>
           {
             dataSource.length > 0 && <LogAndContacts dataSource={dataSource} onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue}/>
           }

@@ -387,6 +387,15 @@ const msgs = {
   m_221: 'PPPoE password cannot be empty.',
   m_222: 'The maximum input length has been exceeded.',
   m_223: 'Downloading...',
+  m_224: 'The number is prohibited by Dialplan!',
+  m_225: 'The call line has reached the upper limit. Currently only IPVideoTalk numbers can be selected.',
+  m_226: 'The number of members has reached the maximum.',
+  m_227: 'IPVideoTalk members has reached the maximum.',
+  m_228: '',
+  m_229: '',
+  m_230: '',
+  m_231: '',
+  m_232: '',
 
   m_999: ''
 }
@@ -713,6 +722,9 @@ const commons = {
   c_326: 'DND',
   c_327: 'Back to the top',
   c_328: 'Forbidden',
+  c_329: 'Recent call',
+  c_330: 'Multiple numbers can be separated with "Enter". ',
+  c_331: '(If empty, click to start IPVT meeting)',
 
   c_999: ''
 }

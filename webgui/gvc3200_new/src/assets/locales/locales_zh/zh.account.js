@@ -396,7 +396,7 @@ export default {
   acct_132_tip: '此处输入开启勿扰模式时来电转移到的号码。',
 
   acct_133: '开启IPVideoTalk服务',
-  acct_133_tip: '设置是否启用IPVideoTalk帐号，如果设置为“是”，系统将支持IPVideoTalk 相关功能。默认值为“否” ，设置后重启生效。',
+  acct_133_tip: '设置是否启用IPVideoTalk帐号，如果设置为“是”，系统将支持IPVideoTalk 相关功能。默认值为“是” ，设置后重启生效。',
 
   acct_134: 'SIP传输',
   acct_134_tip: '设置SIP消息传输使用的网络协议，IPVideoTalk支持TCP/TLS两种，其它帐号支持TCP/UDP/TLS三种。',
@@ -450,5 +450,9 @@ export default {
   acct_150_tip: '此项设置是否在User-Agent头域添加MAC地址。如果设置为“否”，则所有SIP消息的User-Agent头域都不添加MAC地址；如果设置为“除REGISTER”，则除了REGISTER消息外的所有传出的SIP消息都会在User-Agent头域添加MAC地址；如果设置为“全部”，则所有传出的SIP消息（包含REGISTER消息）都会在User-Agent头域中添加MAC地址。',
 
   acct_151: 'Zoom服务器',
-  acct_151_tip: 'Zoom服务器的IP地址或URL，由VoIP服务提供商提供。'
+  acct_151_tip: 'Zoom服务器的IP地址或URL，由VoIP服务提供商提供。',
+
+  acct_152: '注册期限(分钟)',
+  acct_152_tip: '此参数允许用户设定设备更新注册的频率（分钟）。默认时间间隔为60分钟（1小时）。最大时间间隔为1440分钟（1天）。最小值为1分钟。'
+
 }
