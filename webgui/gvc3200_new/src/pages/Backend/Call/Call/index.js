@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Dropdown, Menu, Input, Button, Icon, message } from 'antd'
 import TagsInput from 'react-tagsinput'
 import { connect } from 'react-redux'
-import { setDefaultAcct } from '@/store/actions'
+import { setDefaultAcct, getDefaultAcct } from '@/store/actions'
 import { deepCopy, parseAcct, mapToSource } from '@/utils/tools'
 import LogAndContacts from './LogAndContacts'
 import API from '@/api'
@@ -19,7 +19,8 @@ import './Call.less'
     callLogs: state.callLogs // 通话记录
   }),
   dispatch => ({
-    setDefaultAcct: (acctIndex) => dispatch(setDefaultAcct(acctIndex))
+    setDefaultAcct: (acctIndex) => dispatch(setDefaultAcct(acctIndex)),
+    getDefaultAcct: () => dispatch(getDefaultAcct())
   })
 )
 
@@ -37,6 +38,7 @@ class Call extends Component {
   }
 
   componentDidMount = () => {
+    this.props.getDefaultAcct()
     this.parseDataSource()
   }
 

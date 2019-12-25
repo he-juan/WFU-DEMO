@@ -5,7 +5,7 @@ import FormCommon from '@/components/FormCommon'
 import { getOptions } from '@/template'
 import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/FormItem'
 import DefaultAcctModal from '@/components/DefaultAcctModal'
-import { getIPVTExist } from '@/store/actions'
+import { getIPVTExist, getDefaultAcct } from '@/store/actions'
 import { $t } from '@/Intl'
 
 @connect(
@@ -15,7 +15,8 @@ import { $t } from '@/Intl'
     defaultAcct: state.defaultAcct
   }),
   dispatch => ({
-    getIPVTExist: () => dispatch(getIPVTExist())
+    getIPVTExist: () => dispatch(getIPVTExist()),
+    getDefaultAcct: () => dispatch(getDefaultAcct())
   })
 )
 @Form.create()
@@ -27,6 +28,7 @@ class GeneralSettings extends FormCommon {
   }
   componentDidMount () {
     const { setFieldsValue } = this.props.form
+    this.props.getDefaultAcct()
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
     })

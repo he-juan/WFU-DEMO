@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Input, Button } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import { connect } from 'react-redux'
+import { getDefaultAcct } from '@/store/actions'
 import { getOptions } from '@/template'
 import FormItem, { CheckboxItem, SelectItem, InputItem, PwInputItem } from '@/components/FormItem'
 import DefaultAcctModal from '@/components/DefaultAcctModal'
@@ -11,16 +12,21 @@ import { $t } from '@/Intl'
   state => ({
     acctStatus: state.acctStatus,
     defaultAcct: state.defaultAcct
+  }),
+  dispatch => ({
+    getDefaultAcct: () => dispatch(getDefaultAcct())
   })
 )
 @Form.create()
 class GeneralSettings extends FormCommon {
   options = getOptions('Account.H323.General')
+
   state = {
     restActiveAcct: []
   }
   componentDidMount () {
     const { setFieldsValue } = this.props.form
+    this.props.getDefaultAcct()
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
     })
