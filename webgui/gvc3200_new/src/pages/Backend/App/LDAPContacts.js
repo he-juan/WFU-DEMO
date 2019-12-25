@@ -1,6 +1,6 @@
 import React from 'react'
 import FormCommon from '@/components/FormCommon'
-import { Form, Button } from 'antd'
+import { Form, Button, message } from 'antd'
 import { connect } from 'react-redux'
 import FormItem, { SelectItem, InputItem, CheckboxItem, PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
@@ -33,7 +33,12 @@ class LDAPContacts extends FormCommon {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
       if (!err) {
-        const { P8021, P8031, P8032 } = values
+        const { P8021, P8031, P8032, P8028, P8029 } = values
+        // LDAP名字、号码属性不能同时为空
+        if (P8028 === '' && P8029 === '') {
+          return message.error($t('m_228'))
+        }
+
         values.P8021 = P8021 || '389' // 端口号默认389
         values.P8031 = P8031 || '50' // 最大返回条数 默认50
         values.P8032 = P8032 || '30' // 搜索超时 默认30

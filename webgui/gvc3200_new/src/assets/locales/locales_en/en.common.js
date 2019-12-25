@@ -391,7 +391,7 @@ const msgs = {
   m_225: 'The call line has reached the upper limit. Currently only IPVideoTalk numbers can be selected.',
   m_226: 'The number of members has reached the maximum.',
   m_227: 'IPVideoTalk members has reached the maximum.',
-  m_228: '',
+  m_228: '\'Ldap Number Attributes\' and \'Ldap Mail Attributes\' cannot be empty at the same time',
   m_229: '',
   m_230: '',
   m_231: '',
