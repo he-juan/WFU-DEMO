@@ -25647,9 +25647,11 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
 				handle_rmcustlan(srv, con, b, m);
 			} else if (!strcasecmp(action, "getLocaleListByLevel")) {
 				handle_getLocaleListByLevel(srv, con, b, m);
-			}else if (!strcasecmp(action, "gettimezone")) {
+			} else if (!strcasecmp(action, "gettimezone")) {
 				//handle_callservice_by_no_param(srv, con, b, m, "getTimeZoneList");
 				handle_gettimezone_new(srv, con, b, m);
+            } else if (!strcasecmp(action, "getcurtimezone")) {
+                handle_callservice_by_no_param(srv, con, b, m, "getCurTimezone");
 			} else if (!strcasecmp(action, "savetimeset")) {
 				handle_callservice_by_one_param_string(srv, con, b, m, "timezone", "setTimezone");
 			} else if (!strcasecmp(action, "getlanguages")) {
