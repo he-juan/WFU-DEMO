@@ -453,5 +453,9 @@ export default {
   acct_151_tip: 'The URL or IP address, and port of the Zoom server. This is provided by your VoIP service provider (ITSP).',
 
   acct_152: 'Register Expiration (m)',
-  acct_152_tip: 'Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrar. The default value is 60 minutes (1 hour). The maximum value is 1440 minutes (1 day). The minimum value is 1 minute.'
+  acct_152_tip: 'Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrar. The default value is 60 minutes (1 hour). The maximum value is 1440 minutes (1 day). The minimum value is 1 minute.',
+
+  acct_153: 'Voice Mail Access Number',
+  acct_153_tip: 'This parameter allows you to access voice messages by pressing the \"MSG\" button on the phone. This ID is usually the VM portal access number. For example, in Asterisk server, 8500 could be used.'
+
 }

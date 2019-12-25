@@ -116,13 +116,19 @@ class GeneralSettings extends FormCommon {
             ]
           }}
         />
+        {/* 语音信箱接入号 */}
+        <InputItem
+          {...options['P626']}
+          gfd={gfd}
+
+        />
         {/* 注册期限(分钟) */}
         <InputItem
           {...options['P25054']}
           gfd={gfd}
           gfdOptions={{
             rules: [
-              this.range(0, 1440)
+              this.range(1, 1440)
             ]
           }}
         />
@@ -130,6 +136,11 @@ class GeneralSettings extends FormCommon {
         <InputItem
           {...options['P25068']}
           gfd={gfd}
+          gfdOptions={{
+            rules: [
+              this.range(1024, 65535)
+            ]
+          }}
         />
         {/* 对称RTP */}
         <CheckboxItem

@@ -389,6 +389,8 @@ export default {
             { lang: 'acct_141', p: 'P25035' },
             // GK认证密码
             { lang: 'acct_142', p: 'P25036', noInit: 1 },
+            // 语音信箱接入号
+            { lang: 'acct_153', p: 'P626' },
             // 注册期限(分钟)
             { lang: 'acct_152', p: 'P25054' },
             // H.323本地端口
