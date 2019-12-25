@@ -50,6 +50,17 @@ class OpenVPN extends FormCommon {
         } else if (status === 'error') {
           message.error($t('m_019'))
         }
+      },
+      beforeUpload: (file) => {
+        return new Promise((resolve, reject) => {
+          let ext = file.name.split('.').pop()
+          if (!(ext && (/^(zip)$/.test(ext)))) {
+            message.error($t('b_029'))
+            reject(Error(''))
+          } else {
+            resolve(file)
+          }
+        })
       }
     }
 
