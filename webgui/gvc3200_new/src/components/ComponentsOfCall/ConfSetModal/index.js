@@ -8,7 +8,7 @@ import { transStr, deepCopy, uniqBy } from '@/utils/tools'
 import API from '@/api'
 import InviteMemberModal from '../InviteMemberModal'
 import './ConfSetModalStyle.less'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 const weekOptions = [
   { label: $t('c_058'), value: 'SU' },
@@ -241,7 +241,7 @@ class ConfSetModal extends FormCommon {
       let duration = index * 0.5 + 1
       return { v: duration, t: duration }
     })
-    // presetArr repeatArr repeatArr
+    // presetArr
     let _presetinfo = deepCopy(presetInfo)
     let presetArr = [
       { v: '-1', t: $t('c_065') }
@@ -253,16 +253,6 @@ class ConfSetModal extends FormCommon {
         presetArr.push({ v: position.toString(), t: $t('c_274') + `${position + 1}${name}` })
       }
     })
-    let repeatArr = [
-      { v: '0', t: $t('c_257') },
-      // { v: '1', t: '每天' },
-      { v: '2', t: $t('c_258') },
-      { v: '3', t: $t('c_259') },
-      // { v: '4', t: '每月 (按星期)' },
-      { v: '5', t: $t('c_260') },
-      // { v: '6', t: '每年天' },
-      { v: '7', t: $t('c_261') }
-    ]
     let crepeatArr = [
       { v: '0', t: $t('c_263') },
       { v: '1', t: $t('c_264') },
@@ -278,7 +268,7 @@ class ConfSetModal extends FormCommon {
       { v: '5', t: $t('c_273') }
     ]
     let weekdayArr = weekOptions.map(el => ({ v: el.value, t: el.label }))
-    return { accountArr, dayArr, hoursArr, minutesArr, durationArr, presetArr, repeatArr, crepeatArr, weekordinalArr, weekdayArr }
+    return { accountArr, dayArr, hoursArr, minutesArr, durationArr, presetArr, crepeatArr, weekordinalArr, weekdayArr }
   }
 
   // 关闭弹窗
@@ -288,9 +278,9 @@ class ConfSetModal extends FormCommon {
   }
 
   // 开始日期change
-  stateDateChange = (e) => {
+  stateDateChange = (e, str) => {
     let { setFieldsValue } = this.props.form
-    if (e !== null) setFieldsValue({ confStatedate1: deepCopy(e) })
+    if (e !== null) setFieldsValue({ confStatedate1: e })
   }
 
   // 添加成员弹窗 --------------------
@@ -369,29 +359,29 @@ class ConfSetModal extends FormCommon {
           case 0:
             repeatRule = ''
             break
+          // case 1:
+          //   repeatRule = 'FREQ=DAILY'
+          //   break
           case 1:
-            repeatRule = 'FREQ=DAILY'
-            break
-          case 2:
             repeatRule = 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR'
             break
-          case 3:
+          case 2:
             repeatRule = 'FREQ=WEEKLY;BYDAY=' + weekOptions[setdate.getDay()].value
             break
-          case 4:
-            let day = parseInt(setdate.getDate())
-            let dayweek = parseInt(setdate.getDay())
-            let ordinal = Math.ceil(day / 7)
-            if (ordinal >= 5) ordinal = -1
-            repeatRule = 'FREQ=MONTHLY;BYDAY=' + ordinal + weekOptions[dayweek].value
-            break
-          case 5:
+          // case 4:
+          //   let day = parseInt(setdate.getDate())
+          //   let dayweek = parseInt(setdate.getDay())
+          //   let ordinal = Math.ceil(day / 7)
+          //   if (ordinal >= 5) ordinal = -1
+          //   repeatRule = 'FREQ=MONTHLY;BYDAY=' + ordinal + weekOptions[dayweek].value
+          //   break
+          case 3:
             repeatRule = 'FREQ=MONTHLY'
             break
-          case 6:
-            repeatRule = 'FREQ=YEARLY'
-            break
-          case 7:
+          // case 6:
+          //   repeatRule = 'FREQ=YEARLY'
+          //   break
+          case 4:
             repeatRule = this.getCustomRepeatRule()
             break
         }
@@ -462,6 +452,18 @@ class ConfSetModal extends FormCommon {
     let { form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
     if (!visible) return null
     let { displayAddModal, curMember, currConf } = this.state
+    // 处理repeatArr
+    let statedate = (gfv('confStatedate') ? gfv('confStatedate') : currConf.confStatedate).format('YYYY-MM-DD')
+    let repeatArr = [
+      { v: '0', t: $t('c_257') },
+      // { v: '1', t: '每天' },
+      { v: '1', t: $t('c_258') },
+      { v: '2', t: $fm('c_259', { n: weekOptions[new Date(statedate).getDay()].label }) }, // c_259: '每周（每周一）'
+      // { v: '4', t: '每月 (按星期)' },
+      { v: '3', t: $fm('c_260', { n: new Date(statedate).getDate() }) }, // c_260: '每月（每月8号）'
+      // { v: '6', t: '每年天' },
+      { v: '4', t: $t('c_261') }
+    ]
 
     let title = allDisabled ? $t('c_275') : (currConf.Id === '' ? $t('b_048') : $t('b_052'))
     const dateFormat = 'YYYY/MM/DD'
@@ -557,24 +559,24 @@ class ConfSetModal extends FormCommon {
               {gfd('repeat', {
                 initialValue: currConf['repeat']
               })(
-                <CSelect disabled={allDisabled} width='40%' options={optionObj.repeatArr}/>
+                <CSelect disabled={allDisabled} width='40%' options={repeatArr}/>
               )}
             </FormItem>
-            <FormItem label={$t('c_287')} hide={+gfv('repeat') !== 7}>
+            <FormItem label={$t('c_287')} hide={+gfv('repeat') !== 4}>
               {gfd('customRepeat', {
                 initialValue: currConf['customRepeat']
               })(
                 <CSelect disabled={allDisabled} width='40%' options={optionObj.crepeatArr}/>
               )}
             </FormItem>
-            <FormItem label={intervalStr[gfv('customRepeat')]} hide={+gfv('repeat') !== 7}>
+            <FormItem label={intervalStr[gfv('customRepeat')]} hide={+gfv('repeat') !== 4}>
               {gfd('interval', {
                 initialValue: currConf['interval']
               })(
                 <Input disabled={allDisabled} style={{ width: '40%' }} />
               )}
             </FormItem>
-            <FormItem label={$t('c_288')} hide={+gfv('repeat') !== 7 ? true : +gfv('customRepeat') !== 1}>
+            <FormItem label={$t('c_288')} hide={+gfv('repeat') !== 4 ? true : +gfv('customRepeat') !== 1}>
               {gfd('dayOfWeek', {
                 initialValue: currConf['dayOfWeek']
               })(
@@ -582,7 +584,7 @@ class ConfSetModal extends FormCommon {
               )}
             </FormItem>
             {/* 每月 按星期 */}
-            <FormItem label={$t('c_289')} hide={+gfv('repeat') !== 7 ? true : +gfv('customRepeat') !== 2}>
+            <FormItem label={$t('c_289')} hide={+gfv('repeat') !== 4 ? true : +gfv('customRepeat') !== 2}>
               <Form.Item style={{ width: '40%' }}>
                 {gfd('monthWeekOrdinal', {
                   initialValue: currConf['monthWeekOrdinal']
@@ -600,21 +602,21 @@ class ConfSetModal extends FormCommon {
               </Form.Item>
             </FormItem>
             {/* 每月 按日 */}
-            <FormItem label={$t('c_289')} hide={+gfv('repeat') !== 7 ? true : +gfv('customRepeat') !== 3}>
+            <FormItem label={$t('c_289')} hide={+gfv('repeat') !== 4 ? true : +gfv('customRepeat') !== 3}>
               {gfd('monthByDay', {
                 initialValue: currConf['monthByDay']
               })(
                 <CSelect disabled={allDisabled} width='40%' options={optionObj.dayArr}/>
               )}
             </FormItem>
-            <FormItem label={$t('c_289')} hide={+gfv('repeat') !== 7 ? true : +gfv('customRepeat') !== 4}>
+            <FormItem label={$t('c_289')} hide={+gfv('repeat') !== 4 ? true : +gfv('customRepeat') !== 4}>
               {gfd('yearly', {
                 initialValue: currConf['yearly']
               })(
                 <Cascader disabled={allDisabled} options={DateOptions} placeholder={$t('c_290')} style={{ width: '40%' }} />
               )}
             </FormItem>
-            <FormItem label={$t('c_291')} hide={+gfv('repeat') !== 7}>
+            <FormItem label={$t('c_291')} hide={+gfv('repeat') !== 4}>
               <Form.Item style={{ width: '40%' }}>
                 {gfd('confStatedate1', {
                   initialValue: currConf['confStatedate']
