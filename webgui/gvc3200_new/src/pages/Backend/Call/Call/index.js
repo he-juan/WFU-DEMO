@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Dropdown, Menu, Input, Button, Icon, message } from 'antd'
 import TagsInput from 'react-tagsinput'
 import { connect } from 'react-redux'
-import { setDefaultAcct, getDefaultAcct } from '@/store/actions'
+import { setDefaultAcct, getDefaultAcct, getAcctStatus } from '@/store/actions'
 import { deepCopy, parseAcct, mapToSource } from '@/utils/tools'
 import LogAndContacts from './LogAndContacts'
 import API from '@/api'
@@ -20,7 +20,8 @@ import './Call.less'
   }),
   dispatch => ({
     setDefaultAcct: (acctIndex) => dispatch(setDefaultAcct(acctIndex)),
-    getDefaultAcct: () => dispatch(getDefaultAcct())
+    getDefaultAcct: () => dispatch(getDefaultAcct()),
+    getAcctStatus: () => dispatch(getAcctStatus())
   })
 )
 
@@ -39,6 +40,7 @@ class Call extends Component {
 
   componentDidMount = () => {
     this.props.getDefaultAcct()
+    this.props.getAcctStatus()
     this.parseDataSource()
   }
 
@@ -397,12 +399,13 @@ class Call extends Component {
       </Menu>
     )
 
+    const allInactivated = acctStatus.filter(v => v.activate).length === 0
     // dropdown
     const dropArea = (
-      <Dropdown overlay={acctMenu} getPopupContainer={triggerNode => triggerNode.parentElement} trigger={['click']}>
+      <Dropdown overlay={acctMenu} getPopupContainer={triggerNode => triggerNode.parentElement} trigger={['click']} disabled={allInactivated}>
         <div className={`selected-acct ${+selectAcctItem.register === 0 ? 'unregister' : ''}`}>
-          <span><em className={`acct-icon acct-${selectAcct}`}></em>{selectAcctItem.name}</span>
-          <span>{selectAcctItem.num}</span>
+          <span><em className={`acct-icon acct-${selectAcct}`}></em>{allInactivated ? $t('c_332') : selectAcctItem.name}</span>
+          <span>{allInactivated ? '' : selectAcctItem.num}</span>
           <Icon type='caret-down' />
         </div>
       </Dropdown>

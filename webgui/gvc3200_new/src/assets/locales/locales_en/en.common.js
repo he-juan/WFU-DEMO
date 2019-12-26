@@ -725,6 +725,7 @@ const commons = {
   c_329: 'Recent call',
   c_330: 'Multiple numbers can be separated with "Enter". ',
   c_331: '(If empty, click to start IPVT meeting)',
+  c_332: 'No active account',
 
   c_999: ''
 }

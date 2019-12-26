@@ -87,6 +87,9 @@
         cursor: pointer;
         border: 1px solid #dadfe5;
         border-radius: 2px;
+        &[disabled] {
+          cursor: not-allowed;
+        }
         &.unregister {
           &>span {
             color: #bac0ca !important;
@@ -102,7 +105,7 @@
           text-indent: 12px;
           color: #0d1017;
           &:first-child {
-            width: 148px;
+            width: 155px;
             position: relative;
             border-right: 1px solid #dadfe5;
             font-weight: bold;
