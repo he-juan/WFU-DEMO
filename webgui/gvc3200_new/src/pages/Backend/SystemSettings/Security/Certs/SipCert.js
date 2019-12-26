@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Icon, Tooltip, Upload, Button, Table, Popconfirm, message } from 'antd'
 import { $t } from '@/Intl'
-import { parseRawText, rebootNotify } from '@/utils/tools'
+import { parseRawText } from '@/utils/tools'
+import { rebootNotify } from '@/utils/rebootNotify'
 import './Certs.less'
 
 const certpvalue = ['2386', '2486', '2586', '2686', '2786', '2886', '51686', '51786', '51886', '51986', '52086', '52186', '52286', '52386', '52486', '52586']

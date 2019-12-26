@@ -7,7 +7,7 @@ import { store } from '@/store'
 import { getApplyStatus } from '@/store/actions'
 import { message } from 'antd'
 import { $t, formatMessage } from '@/Intl'
-import { rebootNotify } from '@/utils/tools'
+import { rebootNotify } from '@/utils/rebootNotify'
 
 // 定义一些 额外的重启项 但是 不走 rebootNotify 逻辑的那种
 const specialRebootOptions = [
