@@ -36,7 +36,7 @@ export default {
         // 第二层QoS 802.1Q/VLAN标记 (以太网)
         { lang: 'net_006', p: 'P51' },
         // 第二层QoS 802.1p优先级 (以太网)
-        { lang: 'net_007', p: 'P87', reboot: 1 },
+        { lang: 'net_007', p: 'P87' }, //  reboot: 1
 
         // IPv6地址
         { lang: 'net_019', p: 'P1419' },

@@ -1,6 +1,6 @@
 import React from 'react'
 import FormCommon from '@/components/FormCommon'
-import { Form, Button, Input, Upload, Icon, message, Spin } from 'antd'
+import { Form, Button, Input, Upload, Icon, message, Spin, Modal } from 'antd'
 import FormItem, { SelectItem, InputItem, RadioGroupItem, PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
 import { history } from '@/App'
@@ -182,6 +182,9 @@ class Ethernet extends FormCommon {
             if (msgs.Response === 'Success') {
               message.success($t('m_001'))
               // API.putNetwork()
+              Modal.info({
+                title: $t('m_229')
+              })
             }
           })
         }

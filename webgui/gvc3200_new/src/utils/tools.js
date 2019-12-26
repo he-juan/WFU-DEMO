@@ -1,14 +1,10 @@
 /* eslint-disable no-multi-spaces */
 /* eslint-disable no-multiple-empty-lines */
-import React from 'react'
 import moment from 'moment'
-import Cookie from 'js-cookie'
-import { Button, notification } from 'antd'
 import { store } from '@/store'
 import { history } from '@/App'
 import { $t, $fm } from '@/Intl'
 import deepClone from './deepClone'
-import API from '@/api'
 
 /**
  * search parse
@@ -287,7 +283,6 @@ export const momentFormat = (timestamp, { showtime, showtoday }) => {
     objRes: curMoment
   }
 }
-
 
 /**
  * 本地存储监听事件，返回一个 add 和 remove

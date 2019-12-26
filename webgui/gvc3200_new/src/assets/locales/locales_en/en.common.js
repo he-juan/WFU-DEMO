@@ -392,7 +392,7 @@ const msgs = {
   m_226: 'The number of members has reached the maximum.',
   m_227: 'IPVideoTalk members has reached the maximum.',
   m_228: '\'Ldap Number Attributes\' and \'Ldap Mail Attributes\' cannot be empty at the same time',
-  m_229: '',
+  m_229: 'Please re-login with new IP if your device IP address has changed. Some items need to be restarted to take effect.',
   m_230: '',
   m_231: '',
   m_232: '',
