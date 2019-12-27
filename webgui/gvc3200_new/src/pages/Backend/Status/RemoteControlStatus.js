@@ -8,8 +8,10 @@ class RemoteControlStatus extends Component {
   state = {
     rcStatus: {}
   }
+
   componentDidMount () {
-    API.getPvalues(['Premote_battery', 'P25026', 'P25028', 'Premote_patch_ver']).then(data => {
+    // Premote_patch_ver 已废弃 改为 P25027
+    API.getPvalues(['Premote_battery', 'P25026', 'P25028', 'P25027']).then(data => {
       this.setState({
         rcStatus: data
       })
@@ -31,7 +33,7 @@ class RemoteControlStatus extends Component {
         </FormItem>
         {/* 补丁版本 */}
         <FormItem lang='sta_028'>
-          {rcStatus['Premote_patch_ver'] || unknown}
+          {rcStatus['P25027'] || unknown}
         </FormItem>
         {/* 遥控器电量 */}
         <FormItem lang='sta_029'>
