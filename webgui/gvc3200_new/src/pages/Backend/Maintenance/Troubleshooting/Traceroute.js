@@ -115,7 +115,7 @@ class Traceroute extends FormCommon {
           gfdOptions={{
             initialValue: gateway,
             rules: [
-              this.checkUrlPath(),
+              this.checkaddressPath(),
               this.required()
             ]
           }}
