@@ -28,7 +28,7 @@ class Logcat extends FormCommon {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { logTag, logPri } = values
-        API.getLogcat(logTag, logPri).then(m => {
+        API.getLogcat(logTag.trim(), logPri).then(m => {
           if (m.Response === 'Success') {
             setTimeout(() => {
               API.getLogcatText().then(text => {

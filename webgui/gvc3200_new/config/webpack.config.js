@@ -168,6 +168,8 @@ module.exports = function(webpackEnv) {
           // changing JS code would still trigger a refresh.
         ].filter(Boolean),
       'quickconfig': [
+        // huawei default browser(shit) polyfill, 
+        path.resolve(paths.appPath, './config/ie9.polyfill.js'),
         isEnvDevelopment &&
         require.resolve('react-dev-utils/webpackHotDevClient'),
         paths.appQuickConfigIndexJs

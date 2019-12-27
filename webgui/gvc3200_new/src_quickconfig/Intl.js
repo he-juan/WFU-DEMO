@@ -1,3 +1,4 @@
+import 'intl'
 import React, { useContext } from 'react'
 import { IntlProvider, addLocaleData, intlShape, FormattedMessage } from 'react-intl'
 import { GlobalContext } from './ContextProvider'
