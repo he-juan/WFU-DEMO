@@ -17,6 +17,9 @@ let traceTimer = null
 )
 @Form.create()
 class Traceroute extends FormCommon {
+  oldOffset = 0
+  oldPingmsg = ''
+
   state = {
     trResult: '',
     inputDisable: false,
@@ -24,11 +27,18 @@ class Traceroute extends FormCommon {
     stopDisable: true,
     notFirst: false
   }
+
   options = getOptions('Maintenance.TroubleShooting.Traceroute')
-  componentWillUnmount () {
-    clearTimeout(traceTimer)
-    traceTimer = null
+
+  componentDidMount () {
+    window.addEventListener('beforeunload', this.stopTracerouteHandler)
   }
+
+  componentWillUnmount () {
+    this.stopTracerouteHandler()
+    window.removeEventListener('beforeunload', this.stopTracerouteHandler)
+  }
+
   // 开始
   startTraceroute = (addr) => {
     this.setState({
@@ -59,6 +69,14 @@ class Traceroute extends FormCommon {
     API.getTracerouteMsg(offset).then(m => {
       const { pingmsg, Response, offset } = m
       if (Response === 'Success') {
+        if (this.oldOffset !== 0 && this.oldOffset === offset && this.oldPingmsg === pingmsg) {
+          this.handleStop()
+          this.oldOffset = 0
+          this.oldPingmsg = ''
+          return false
+        }
+        this.oldOffset = offset
+        this.oldPingmsg = pingmsg
         if (pingmsg !== '') {
           trResult += pingmsg
           this.setState({
@@ -91,6 +109,7 @@ class Traceroute extends FormCommon {
     API.stopTraceroute().then(m => {
       if (m.Response === 'Success') {
         clearTimeout(traceTimer)
+        traceTimer = null
         this.setState({
           inputDisable: false,
           startDisable: false,
@@ -98,6 +117,13 @@ class Traceroute extends FormCommon {
         })
       }
     })
+  }
+  /** 组件销毁，刷新都需要调用 */
+  stopTracerouteHandler = () => {
+    if (!traceTimer) return false
+    API.stopTraceroute()
+    clearTimeout(traceTimer)
+    traceTimer = null
   }
   render () {
     const { getFieldDecorator: gfd } = this.props.form

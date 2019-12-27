@@ -27,9 +27,13 @@ class Ping extends FormCommon {
   }
   options = getOptions('Maintenance.TroubleShooting.Ping')
 
+  componentDidMount () {
+    window.addEventListener('beforeunload', this.stopPingHandler)
+  }
+
   componentWillUnmount () {
-    clearTimeout(pingTimer)
-    pingTimer = null
+    this.stopPingHandler()
+    window.removeEventListener('beforeunload', this.stopPingHandler)
   }
 
   handleStart = () => {
@@ -78,6 +82,15 @@ class Ping extends FormCommon {
       if (Response === 'Success') {
         const { pingmsg } = m
         if (pingmsg !== 'continue') {
+          if (/rtt/.test(pingmsg)) {
+            this.stopPingHandler()
+            this.setState({
+              inputDisable: false,
+              startDisable: false,
+              stopDisable: true
+            })
+            return false
+          }
           const curOffset = m.offset
           let pingResult = this.state.pingResult + pingmsg + '\n'
           this.setState({
@@ -87,6 +100,7 @@ class Ping extends FormCommon {
         } else {
           if (pingIsStop) {
             clearTimeout(pingTimer)
+            pingTimer = null
             this.setState({
               inputDisable: false,
               startDisable: false,
@@ -98,6 +112,7 @@ class Ping extends FormCommon {
         }
       } else {
         clearTimeout(pingTimer)
+        pingTimer = null
         this.setState({
           pingResult: this.setState.pingResult + m.Message + '\n',
           inputDisable: false,
@@ -120,6 +135,15 @@ class Ping extends FormCommon {
         message.error($t('m_069'))
       }
     })
+  }
+
+  /** 组件销毁，刷新都需要调用 */
+  stopPingHandler = () => {
+    clearTimeout(pingTimer)
+    pingTimer = null
+    if (pingIsStop) return false
+    API.stopPing()
+    pingIsStop = true
   }
 
   render () {
