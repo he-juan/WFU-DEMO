@@ -169,6 +169,7 @@ class Ipv4 extends Component {
                 {$t('c_024')}
               </InputItem>
               <InputItem
+                key='ppoepw' // Bugfree 2815
                 type='password'
                 autoComplete={'new-password'}
                 labelNumber={7}
