@@ -9,6 +9,7 @@ import API from '@/api'
 import InviteMemberModal from '../InviteMemberModal'
 import './ConfSetModalStyle.less'
 import { $t, $fm } from '@/Intl'
+import { history } from '@/App'
 
 const weekOptions = [
   { label: $fm('c_058'), value: 'SU' },
@@ -75,6 +76,7 @@ class ConfSetModal extends FormCommon {
       PropTypes.bool,
       PropTypes.object
     ]).isRequired,
+    schedules: PropTypes.array, // 会议预约列表
     allDisabled: PropTypes.bool,
     onCancel: PropTypes.func.isRequired,
     currConf: PropTypes.oneOfType([
@@ -347,110 +349,143 @@ class ConfSetModal extends FormCommon {
 
         values.confStatedate = values.confStatedate.format('YYYY-MM-DD')
         let start_time = values.confStatedate + ' ' + values.confhours + ':' + values.confminutes
+        let setdate = new Date(start_time)
+        let milliseconds = setdate.getTime()
 
         // 判断开始时间应该比当前时间+5min晚
-        if (moment(start_time).isBefore(moment(timestampNow).add(5, 'minutes'))) {
+        if (moment(start_time).isBefore(moment(timestampNow).add(5, 'minutes')) && modalType === 'add') {
           return message.error($t('m_127'))
         }
+        // 请添加参会成员
         let curMember = this.state.curMember
         if (curMember.length === 0) {
           return message.error($t('m_128'))
         }
-        let host = 1
-        let confname = values.confname
-        let duration = 60 * values.duration
-        let setdate = new Date(start_time)
-        let milliseconds = setdate.getTime()
-        let pincode = values.pincode
-        let repeat = parseInt(values.repeat)
-        let preset = values.preset
-        let autoanswer = values.autoanswer || '0'
-        let [ repeatRule, membernames, membernumbers, memberaccts, recordsfrom ] = Array(6).fill('') // memberemails
-        // 处理重复规则
-        switch (repeat) {
-          default:
-          case 0:
-            repeatRule = ''
-            break
-          // case 1:
-          //   repeatRule = 'FREQ=DAILY'
-          //   break
-          case 1:
-            repeatRule = 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR'
-            break
-          case 2:
-            repeatRule = 'FREQ=WEEKLY;BYDAY=' + weekOptions[setdate.getDay()].value
-            break
-          // case 4:
-          //   let day = parseInt(setdate.getDate())
-          //   let dayweek = parseInt(setdate.getDay())
-          //   let ordinal = Math.ceil(day / 7)
-          //   if (ordinal >= 5) ordinal = -1
-          //   repeatRule = 'FREQ=MONTHLY;BYDAY=' + ordinal + weekOptions[dayweek].value
-          //   break
-          case 3:
-            repeatRule = 'FREQ=MONTHLY'
-            break
-          // case 6:
-          //   repeatRule = 'FREQ=YEARLY'
-          //   break
-          case 4:
-            repeatRule = this.getCustomRepeatRule()
-            break
-        }
-        // 处理成员
-        for (let i = 0; i < curMember.length; i++) {
-          if (i > 0) {
-            membernames += ':::'
-            membernumbers += ':::'
-            memberaccts += ':::'
-            recordsfrom += ':::'
+
+        // 继续执行的方法
+        const continueFn = () => {
+          let host = 1
+          let confname = values.confname
+          let duration = 60 * values.duration
+          let pincode = values.pincode
+          let repeat = parseInt(values.repeat)
+          let preset = values.preset
+          let autoanswer = values.autoanswer || '0'
+          let [ repeatRule, membernames, membernumbers, memberaccts, recordsfrom ] = Array(6).fill('') // memberemails
+          // 处理重复规则
+          switch (repeat) {
+            default:
+            case 0:
+              repeatRule = ''
+              break
+            // case 1:
+            //   repeatRule = 'FREQ=DAILY'
+            //   break
+            case 1:
+              repeatRule = 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR'
+              break
+            case 2:
+              repeatRule = 'FREQ=WEEKLY;BYDAY=' + weekOptions[setdate.getDay()].value
+              break
+            // case 4:
+            //   let day = parseInt(setdate.getDate())
+            //   let dayweek = parseInt(setdate.getDay())
+            //   let ordinal = Math.ceil(day / 7)
+            //   if (ordinal >= 5) ordinal = -1
+            //   repeatRule = 'FREQ=MONTHLY;BYDAY=' + ordinal + weekOptions[dayweek].value
+            //   break
+            case 3:
+              repeatRule = 'FREQ=MONTHLY'
+              break
+            // case 6:
+            //   repeatRule = 'FREQ=YEARLY'
+            //   break
+            case 4:
+              repeatRule = this.getCustomRepeatRule()
+              break
           }
-          membernames += curMember[i].name
-          membernumbers += curMember[i].number
-          memberaccts += curMember[i].acct
-          let type = curMember[i].calltype
-          if (type === 1 || type === 3) recordsfrom += 3
-          else if (type === 2) recordsfrom += 4
-          else recordsfrom += 5
-        }
-
-        // 整理参数
-        let params = {
-          id: currConf.Id,
-          host,
-          confname,
-          duration,
-          start_time,
-          milliseconds,
-          pincode,
-          repeat,
-          repeatRule,
-          preset,
-          reminder: 0,
-          schedulednd: 0,
-          autoanswer,
-          membernames,
-          membernumbers,
-          memberaccts,
-          recordsfrom
-        }
-
-        for (const key in params) {
-          params[key] = encodeURIComponent(params[key])
-        }
-
-        // 发送请求
-        API.setSchedule(params, modalType).then((msgs) => {
-          if (msgs['res'] === 'success') {
-            message.success($t('c_181'))
-            this.setState({ curMember: [] })
-            onCancel() // 关闭弹窗
-            updateDate && updateDate() // 更新数据
-          } else {
-            message.error(msgs['msg'])
+          // 处理成员
+          for (let i = 0; i < curMember.length; i++) {
+            if (i > 0) {
+              membernames += ':::'
+              membernumbers += ':::'
+              memberaccts += ':::'
+              recordsfrom += ':::'
+            }
+            membernames += curMember[i].name
+            membernumbers += curMember[i].number
+            memberaccts += curMember[i].acct
+            let type = curMember[i].calltype
+            if (type === 1 || type === 3) recordsfrom += 3
+            else if (type === 2) recordsfrom += 4
+            else recordsfrom += 5
           }
-        })
+
+          // 整理参数
+          let params = {
+            id: currConf.Id,
+            host,
+            confname,
+            duration,
+            start_time,
+            milliseconds,
+            pincode,
+            repeat,
+            repeatRule,
+            preset,
+            reminder: 0,
+            schedulednd: 0,
+            autoanswer,
+            membernames,
+            membernumbers,
+            memberaccts,
+            recordsfrom
+          }
+
+          for (const key in params) {
+            params[key] = encodeURIComponent(params[key])
+          }
+
+          // 发送请求
+          API.setSchedule(params, modalType).then((msgs) => {
+            if (msgs['res'] === 'success') {
+              message.success($t('c_181'))
+              this.setState({ curMember: [] })
+              onCancel() // 关闭弹窗
+              updateDate && updateDate() // 更新数据
+            } else {
+              message.error(msgs['msg'])
+            }
+          })
+        }
+
+        // 会议预约页面才走这步
+        const { pathname } = history.location
+        if (pathname === '/manage/calling_schedule') {
+          for (let i = 0; i < this.props.schedules.length; i++) {
+            const { Starttime, Duration, Id, Confstate } = this.props.schedules[i]
+            const sTime = moment(Starttime).valueOf()
+            const eTime = moment(Starttime).add(+Duration, 'minutes').valueOf()
+            if (milliseconds >= sTime && milliseconds <= eTime && currConf.Id !== Id && +Confstate !== 0) {
+              // 该时间段内已有其他预约会议，建议调整本次会议时间
+              const modal = Modal.confirm({
+                title: $t('m_230'),
+                okText: $t('b_059'),
+                cancelText: $t('b_060'),
+                onOk: () => {
+                  modal.destroy()
+                  continueFn()
+                },
+                onCancel: () => {
+                  modal.destroy()
+                }
+              })
+              return false
+            }
+          }
+        }
+
+        continueFn()
       }
     })
   }
@@ -459,14 +494,14 @@ class ConfSetModal extends FormCommon {
   componentDidMount () {
     this.getPresetInfo()
     this.getDateInfo().then(data => {
+      timestampNow = Date.parse(data.Date + ' ' + data.Time)
       const { visible, currConf } = this.props
       let types = typeof visible
-      const _currConf = convertCurrConf(currConf, types === 'object' ? 'history' : '', +data.Timestamp)
+      const _currConf = convertCurrConf(currConf, types === 'object' ? 'history' : '', timestampNow)
       this.setState({
         curMember: deepCopy(_currConf.memberData),
         currConf: _currConf
       })
-      timestampNow = +data.Timestamp
       timestampNowInter = setInterval(() => {
         timestampNow += 1000
       }, 1000)

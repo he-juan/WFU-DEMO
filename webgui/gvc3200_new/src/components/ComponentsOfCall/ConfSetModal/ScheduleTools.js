@@ -9,7 +9,7 @@ export const convertTimeInfo = (Milliseconds, duration) => {
 
   let endTime = objRes.add(duration, 'minutes')
 
-  let range = ` ${strRes} - ${endTime.format('HH:mm')}`
+  let range = ` ${strRes} - ${endTime.format(store.getState().dateTimeFmt.timeFmt)}`
   return range
 }
 

@@ -156,6 +156,7 @@ class LocalSchedule extends Component {
         {
           displayModal && <ConfSetModal
             visible={displayModal}
+            schedules={_schedules}
             allDisabled={allDisabled || false}
             onCancel={this.setDisplayModal}
             currConf={_currConf}
