@@ -16366,9 +16366,7 @@ static int handle_coredumplist (buffer *b)
 
     if( access( COREDUMP_PATH, 0 ) )
     {
-        buffer_append_string(b, "Response=Error\r\n"
-                "Message=The coredump directory doesn't exist\r\n");
-        return -1;
+        mkdir(COREDUMP_PATH, 0777);
     }
 
     if( (dir = opendir(COREDUMP_PATH))== NULL )
