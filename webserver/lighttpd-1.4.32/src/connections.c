@@ -580,6 +580,7 @@ static int doCommandTask(char* const argv[], const char *outfile, const char *in
         if (!isNonBlock) {
             wait (&rtn);
             printf("child process %s, return %d\n", argv[0], rtn );
+            LOGD("child process %s, return %d\n", argv[0], rtn);
         }
     }
 

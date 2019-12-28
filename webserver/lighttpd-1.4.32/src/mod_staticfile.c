@@ -494,12 +494,20 @@ URIHANDLER_FUNC(mod_staticfile_subrequest) {
 		
 		if (NULL == array_get_element(con->response.headers, "Cache-Control")) {
             /* generate cache-control */
-            response_header_overwrite(srv, con, CONST_STR_LEN("Cache-Control"), CONST_STR_LEN("no-cache"));
+            if (NULL != (c = (buffer_search_string_len(sce->content_type, CONST_STR_LEN("text/html"))))) {
+                response_header_overwrite(srv, con, CONST_STR_LEN("Cache-Control"), CONST_STR_LEN("no-store"));
+            } else {
+                response_header_overwrite(srv, con, CONST_STR_LEN("Cache-Control"), CONST_STR_LEN("no-cache"));
+            }
         }
 
         if (NULL == array_get_element(con->response.headers, "Pragma")) {
             /* generate pragma */
-            response_header_overwrite(srv, con, CONST_STR_LEN("Pragma"), CONST_STR_LEN("no-cache"));
+            if (NULL != (c = (buffer_search_string_len(sce->content_type, CONST_STR_LEN("text/html"))))) {
+                response_header_overwrite(srv, con, CONST_STR_LEN("Pragma"), CONST_STR_LEN("no-store"));
+            } else {
+                response_header_overwrite(srv, con, CONST_STR_LEN("Pragma"), CONST_STR_LEN("no-cache"));
+            }
         }
 
 		if (HANDLER_FINISHED == http_response_handle_cachable(srv, con, mtime)) {
