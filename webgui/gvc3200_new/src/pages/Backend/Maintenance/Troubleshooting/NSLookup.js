@@ -52,7 +52,7 @@ class NSLookup extends FormCommon {
           disabled={inputDisable}
           gfdOptions={{
             rules: [
-              this.checkUrlPath(),
+              this.checkaddressPath(),
               this.required()
             ]
           }}

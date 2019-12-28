@@ -3,7 +3,7 @@ import FormCommon from '@/components/FormCommon'
 import { Form, Button, Input, message } from 'antd'
 import FormItem, { InputItem, CheckboxItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
-import { $t, $fm } from '@/Intl'
+import { $t } from '@/Intl'
 
 @Form.create()
 class Advanced extends FormCommon {

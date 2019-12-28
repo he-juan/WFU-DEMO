@@ -133,7 +133,7 @@ class Backend extends Component {
   }
 
   render () {
-    const { productInfo, wholeLoading, locale, timestampNow } = this.props
+    const { productInfo, wholeLoading, timestampNow } = this.props
     const { contentHeight } = this.state
     let curTitle = this.getTitle()
     if (timestampNow < 0) return null // 保证获取到当前设备时间, 时区等相关信息后 再渲染
