@@ -18,7 +18,7 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
   let now = moment(+timestampNow || +store.getState().timestampNow).add(10, 'minutes')
   let currConf = {
     Id: '',
-    confname: 'xxx发起的会议', // 会议名称 或 主题
+    confname: '', // 会议名称 或 主题
     bindAccount: '-1', // 关联帐号
     confStatedate: moment(now, 'YYYY/MM/DD'), // 开始时间
     confhours: transStr(now.hours()),

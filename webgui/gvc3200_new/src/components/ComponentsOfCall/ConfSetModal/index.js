@@ -281,7 +281,6 @@ class ConfSetModal extends FormCommon {
       { v: '4', t: $t('c_271') },
       { v: '5', t: $t('c_273') }
     ]
-    console.log(weekOptions)
     let weekdayArr = weekOptions.map(el => ({ v: el.value, t: el.label }))
     return { accountArr, dayArr, hoursArr, minutesArr, durationArr, presetArr, crepeatArr, weekordinalArr, weekdayArr }
   }
