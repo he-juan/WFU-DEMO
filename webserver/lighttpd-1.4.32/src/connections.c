@@ -10333,9 +10333,17 @@ static int handle_start_ping (buffer *b, const struct message *m, int type)
         memset(cmd, 0, sizeof(cmd));
         */
         if(type == 0) {
-            //sprintf(cmd, "ping -c 100 %s > /data/ping.txt 2>&1 &", addr);
-            char *cmd3[] = {"ping", "-c", "20", addr, 0};
-            doCommandTask(cmd3, "/data/ping.txt", NULL, 1);
+            char *iptype = msg_get_header(m, "type");
+            if(!strcasecmp(iptype, "ipv6"))
+            {
+                char *cmd3[] = {"ping6", "-c", "20", addr, 0};
+                doCommandTask(cmd3, "/data/ping.txt", NULL, 1);
+            }
+            else
+            {
+                char *cmd5[] = {"ping", "-c", "20", addr, 0};
+                doCommandTask(cmd5, "/data/ping.txt", NULL, 1);
+            }
         } else if (type == 1) {
             //sprintf(cmd, "traceroute %s > /data/traceroute.txt &", addr);
             char *cmd4[] = {"traceroute", addr, 0};
