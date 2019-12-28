@@ -170,10 +170,10 @@ static int mod_redirect_patch_connection(server *srv, connection *con, plugin_da
 #endif
 static handler_t mod_redirect_uri_handler(server *srv, connection *con, void *p_data) {
 	//printf("34. In mod_redirect_set_defaults ,cookies is %s, type is%s\n", usercookie, usertype);
-	if (valid_connection(con)) {
+	//if (valid_connection(con)) {
 		//printf("Valid connection pass, no need redirect\n");
-		return HANDLER_GO_ON;
-	}
+	//	return HANDLER_GO_ON;
+	//}
 	//printf("Valid connection failed, continue redirect\n");
 #ifdef HAVE_PCRE_H
 	plugin_data *p = p_data;
