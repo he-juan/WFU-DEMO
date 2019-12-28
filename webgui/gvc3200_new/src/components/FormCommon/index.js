@@ -6,7 +6,7 @@ import API from '@/api'
 import { store } from '@/store'
 import { getApplyStatus } from '@/store/actions'
 import { message } from 'antd'
-import { $t, formatMessage } from '@/Intl'
+import { $t, $fm, formatMessage } from '@/Intl'
 import { rebootNotify } from '@/utils/rebootNotify'
 
 // 定义一些 额外的重启项 但是 不走 rebootNotify 逻辑的那种
@@ -89,7 +89,7 @@ class FormCommon extends Component {
         if (!value || expression.test(value) || expression1.test(value)) {
           callback()
         } else {
-          callback($t('m_072'))
+          callback($fm('m_072'))
         }
       }
     }
@@ -101,7 +101,7 @@ class FormCommon extends Component {
       validator: (data, value, callback) => {
         const reg = /^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:)|(\[([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\](:[1-9]([0-9]){0,4}){0,1})|(\[[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4}\](:[1-9]([0-9]){0,4}){0,1})|(\[([0-9A-Fa-f]{1,4}:){1,7}:\](:[1-9]([0-9]){0,4}){0,1}))$/
         if (value && !reg.test(value)) {
-          callback($t('m_073'))
+          callback($fm('m_073'))
         } else {
           callback()
         }
@@ -116,7 +116,7 @@ class FormCommon extends Component {
         if (!value || expression.test(value)) {
           callback()
         } else {
-          callback($t('m_072'))
+          callback($fm('m_072'))
         }
       }
     }
@@ -130,7 +130,7 @@ class FormCommon extends Component {
             ((value.indexOf('[') !== -1 && value.indexOf(']')) !== -1 || (!(value.indexOf('[') !== -1) && !(value.indexOf(']') !== -1))))) {
           callback()
         } else {
-          callback($t('m_074'))
+          callback($fm('m_074'))
         }
       }
     }
@@ -142,7 +142,7 @@ class FormCommon extends Component {
         if (!value || (value && /^(0|[1-9][0-9]*)$/i.test(value))) {
           callback()
         } else {
-          callback($t('m_075'))
+          callback($fm('m_075'))
         }
       }
     }
@@ -153,7 +153,7 @@ class FormCommon extends Component {
     return {
       validator: (data, value, callback) => {
         if (value && (value > max || value < min)) {
-          callback($t('m_078') + min + '-' + max)
+          callback($fm('m_078') + min + '-' + max)
         } else {
           callback()
         }
@@ -173,7 +173,7 @@ class FormCommon extends Component {
         if (!value || (value && /^(0?\d{1}|1\d{1}|2[0-3]):([0-5]\d{1})$/i.test(value))) {
           callback()
         } else {
-          callback($t('m_079'))
+          callback($fm('m_079'))
         }
       }
     }
@@ -186,7 +186,7 @@ class FormCommon extends Component {
         if (value.match(/^[^\u4e00-\u9fa5]{0,}$/)) {
           callback()
         } else {
-          callback($t('m_076'))
+          callback($fm('m_076'))
         }
       }
     }
@@ -196,7 +196,7 @@ class FormCommon extends Component {
   required () {
     return {
       required: true,
-      message: $t('m_003')
+      message: $fm('m_003')
     }
   }
 }

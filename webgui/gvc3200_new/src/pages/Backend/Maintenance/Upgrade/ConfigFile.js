@@ -4,7 +4,7 @@ import { getOptions } from '@/template'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { CheckboxItem, SelectItem, InputItem, PwInputItem } from '@/components/FormItem'
 import { getImportconf, getSaveConf } from '@/api/api.maintenance'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 let CONFPATH = ''
 const GAPSPATH = 'fm.grandstream.com/gs'
@@ -120,7 +120,7 @@ class ConfigFile extends FormCommon {
     return {
       validator: (data, value, callback) => {
         if (value && /[^\w/:\.]+/.test(value)) {
-          callback($t(intlkey))
+          callback($fm(intlkey))
         } else {
           callback()
         }
@@ -133,7 +133,7 @@ class ConfigFile extends FormCommon {
     return {
       validator: (data, value, callback) => {
         if (value && /\s+/.test(value)) {
-          callback($t('m_166'))
+          callback($fm('m_166'))
         } else {
           callback()
         }

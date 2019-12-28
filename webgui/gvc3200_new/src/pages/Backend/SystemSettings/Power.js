@@ -8,7 +8,7 @@ import { getOptions } from '@/template'
 import { history } from '@/App'
 import { getLinesInfo } from '@/store/actions'
 import API from '@/api'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @connect(
   state => ({
@@ -26,14 +26,14 @@ class Power extends FormCommon {
 
     this.state = {
       modalTips: {
-        Reboot: $t('m_023'),
-        Sleep: $t('m_024'),
-        Shutdown: $t('m_025')
+        Reboot: $fm('m_023'),
+        Sleep: $fm('m_024'),
+        Shutdown: $fm('m_025')
       },
       modal2Btns: {
-        Reboot: [$t('b_009'), $t('b_011')],
-        Sleep: [$t('b_007'), $t('b_012')],
-        Shutdown: [$t('b_010'), $t('b_013')]
+        Reboot: [$fm('b_009'), $fm('b_011')],
+        Sleep: [$fm('b_007'), $fm('b_012')],
+        Shutdown: [$fm('b_010'), $fm('b_013')]
       },
       modalOption: 'Reboot', // 按钮点击类型 Reboot Sleep Shutdown
       modalShow: false,

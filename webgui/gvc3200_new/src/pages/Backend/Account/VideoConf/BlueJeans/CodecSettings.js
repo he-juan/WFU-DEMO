@@ -4,7 +4,7 @@ import Transfer from '@/components/Transfer'
 import FormCommon from '@/components/FormCommon'
 import { getOptions } from '@/template'
 import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/FormItem'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @Form.create()
 class CodecSettings extends FormCommon {
@@ -211,7 +211,7 @@ class CodecSettings extends FormCommon {
               {
                 validator: (data, value, callback) => {
                   if (value === '98' || value === '99') {
-                    callback($t('m_082'))
+                    callback($fm('m_082'))
                   } else {
                     callback()
                   }
@@ -278,7 +278,7 @@ class CodecSettings extends FormCommon {
               {
                 validator: (data, value, callback) => {
                   if (value === '98' || value === '99') {
-                    callback($t('m_082'))
+                    callback($fm('m_082'))
                   } else {
                     callback()
                   }
@@ -319,7 +319,7 @@ class CodecSettings extends FormCommon {
               {
                 validator: (data, value, callback) => {
                   if (value === '98' || value === '99') {
-                    callback($t('m_082'))
+                    callback($fm('m_082'))
                   } else {
                     callback()
                   }

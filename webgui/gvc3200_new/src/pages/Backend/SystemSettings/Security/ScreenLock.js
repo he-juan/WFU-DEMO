@@ -4,7 +4,7 @@ import FormCommon from '@/components/FormCommon'
 import FormItem, { PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
 import { rmLockPwd, saveLockPwd } from '@/api/api.system'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 // antd form.create
 @Form.create()
@@ -45,7 +45,7 @@ class ScreenLock extends FormCommon {
     return {
       validator: (rule, value, callback) => {
         if (value && value !== getFieldValue('newlock')) {
-          callback($t('m_007'))
+          callback($fm('m_007'))
         } else {
           callback()
         }

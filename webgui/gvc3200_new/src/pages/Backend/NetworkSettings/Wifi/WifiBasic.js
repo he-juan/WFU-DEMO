@@ -6,7 +6,7 @@ import { getOptions } from '@/template'
 import NoData from '@/components/NoData'
 import API from '@/api'
 import './WifiBasic.less'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @Form.create()
 class WifiDetailModal extends FormCommon {
@@ -139,11 +139,11 @@ class WifiDetailModal extends FormCommon {
       return {
         validator: (data, value, callback) => {
           if (value === '') {
-            callback($t('m_003'))
+            callback($fm('m_003'))
           } else if (securitystr.indexOf('WEP') !== -1 && [5, 10, 13, 26, 16, 32].indexOf(value.length) === -1) {
-            callback($t('m_093'))
+            callback($fm('m_093'))
           } else if (value.length < 8) {
-            callback($t('m_092'))
+            callback($fm('m_092'))
           } else {
             callback()
           }

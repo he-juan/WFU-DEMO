@@ -174,7 +174,7 @@ export default {
   mai_tr_016_tip: 'Click the "List" button to view all existing core dump files. The files are listed in chronological order, users could click the file name to download the file to the local computer.',
 
   mai_tr_017: 'Record',
-  mai_tr_017_tip: 'Click to start capturing audio data, click the "Stop" button to end. To capture the audio data of the device can help to locate audio issues. The default is not enabled. You can record up to 1 minute audio data.',
+  mai_tr_017_tip: 'Click to start capturing audio data, click the "Stop" button to end. To capture the audio data of the device can help to locate audio issues. You can record up to 1 minute audio data.',
 
   mai_tr_018: 'Recording List',
   mai_tr_018_tip: 'Choose the existing audio file. Click the "Delete" button on the right to delete this file.',

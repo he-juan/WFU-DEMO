@@ -140,7 +140,7 @@ class Backend extends Component {
     return (
       <Spin spinning={wholeLoading['isLoad']} tip={wholeLoading['tip']} indicator={<Icon type='loading-3-quarters' spin/>} wrapperClassName='whole-screen-spin'>
         {/* key={locale} 修改语言后， 不希望刷新浏览器 强制更新组件 */}
-        <Layout key={locale}>
+        <Layout >
           <Header className='backend-header'>
             <BakHeader />
           </Header>

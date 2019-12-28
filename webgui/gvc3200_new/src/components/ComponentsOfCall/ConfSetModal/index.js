@@ -11,27 +11,27 @@ import './ConfSetModalStyle.less'
 import { $t, $fm } from '@/Intl'
 
 const weekOptions = [
-  { label: $t('c_058'), value: 'SU' },
-  { label: $t('c_059'), value: 'MO' },
-  { label: $t('c_060'), value: 'TU' },
-  { label: $t('c_061'), value: 'WE' },
-  { label: $t('c_062'), value: 'TH' },
-  { label: $t('c_063'), value: 'FR' },
-  { label: $t('c_064'), value: 'SA' }
+  { label: $fm('c_058'), value: 'SU' },
+  { label: $fm('c_059'), value: 'MO' },
+  { label: $fm('c_060'), value: 'TU' },
+  { label: $fm('c_061'), value: 'WE' },
+  { label: $fm('c_062'), value: 'TH' },
+  { label: $fm('c_063'), value: 'FR' },
+  { label: $fm('c_064'), value: 'SA' }
 ]
 
 const stateObj = {
-  '3': $t('c_245'),
-  '2': $t('c_246'),
-  '1': $t('c_247'),
-  '0': $t('c_248')
+  '3': $fm('c_245'),
+  '2': $fm('c_246'),
+  '1': $fm('c_247'),
+  '0': $fm('c_248')
 }
 
 const googleStatus = {
-  '0': $t('c_254'),
-  '1': $t('c_255'),
-  '2': $t('c_119'),
-  '3': $t('c_256')
+  '0': $fm('c_254'),
+  '1': $fm('c_255'),
+  '2': $fm('c_119'),
+  '3': $fm('c_256')
 }
 
 // 修饰一下 Form.Item
@@ -267,6 +267,7 @@ class ConfSetModal extends FormCommon {
       { v: '4', t: $t('c_271') },
       { v: '5', t: $t('c_273') }
     ]
+    console.log(weekOptions)
     let weekdayArr = weekOptions.map(el => ({ v: el.value, t: el.label }))
     return { accountArr, dayArr, hoursArr, minutesArr, durationArr, presetArr, crepeatArr, weekordinalArr, weekdayArr }
   }

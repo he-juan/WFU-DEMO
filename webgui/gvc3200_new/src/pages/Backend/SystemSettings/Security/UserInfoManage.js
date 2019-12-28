@@ -5,7 +5,7 @@ import FormCommon from '@/components/FormCommon'
 import FormItem, { PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
 import { checkCurrentPwd } from '@/api/api.system'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 // redux connect
 @connect(
@@ -80,7 +80,7 @@ class UserInfoManage extends FormCommon {
         if (value !== '' && value !== undefined) {
           const reg = new RegExp('^[\x21-\x7E]+$')
           if (reg.test(value)) callback()
-          else callback($t('m_006'))
+          else callback($fm('m_006'))
         } else {
           callback()
         }
@@ -100,7 +100,7 @@ class UserInfoManage extends FormCommon {
               adminconfirmDirty: true
             })
           }
-          if (value !== form.getFieldValue('P2')) callback($t('m_007'))
+          if (value !== form.getFieldValue('P2')) callback($fm('m_007'))
           else callback()
         } else {
           if (value && !userconfirmDirty) {
@@ -108,7 +108,7 @@ class UserInfoManage extends FormCommon {
               userconfirmDirty: true
             })
           }
-          if (value !== form.getFieldValue('P196')) callback($t('m_007'))
+          if (value !== form.getFieldValue('P196')) callback($fm('m_007'))
           else callback()
         }
       }
@@ -124,7 +124,7 @@ class UserInfoManage extends FormCommon {
           return
         }
         if (value && value.length < 6) {
-          callback($t('m_008'))
+          callback($fm('m_008'))
           return
         }
         let msg = $t('m_009')

@@ -5,7 +5,7 @@ import moment from 'moment'
 import Nodata from '@/components/NoData'
 import API from '@/api'
 import './RecordingManage.less'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 const mSpChar = ['\\', ':', '*', '?', '<', '>', '|', '\'']
 
@@ -174,7 +174,7 @@ class RecordingManage extends Component {
           const item = recordingList[i]
           let { name } = this.getRecordNameAndPath(item.Path)
           if ((value + '.mkv') === name && item['Id'] !== Id) {
-            callback($t('m_042'))
+            callback($fm('m_042'))
             return false
           }
         }
@@ -200,7 +200,7 @@ class RecordingManage extends Component {
             illegalflag = true
           }
           if (illegalflag) {
-            callback($t('m_043'))
+            callback($fm('m_043'))
             return false
           }
         }

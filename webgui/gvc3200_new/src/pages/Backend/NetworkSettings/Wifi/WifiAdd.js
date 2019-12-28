@@ -3,7 +3,7 @@ import FormCommon from '@/components/FormCommon'
 import { Form, Button } from 'antd'
 import FormItem, { SelectItem, InputItem, PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @Form.create()
 class WifiAdd extends FormCommon {
@@ -25,7 +25,7 @@ class WifiAdd extends FormCommon {
       return {
         validator: (data, value, callback) => {
           if (value && value.length < 8) {
-            callback($t('m_092'))
+            callback($fm('m_092'))
           } else {
             callback()
           }
@@ -35,7 +35,7 @@ class WifiAdd extends FormCommon {
       return {
         validator: (data, value, callback) => {
           if (value && [5, 10, 13, 26, 16, 32].indexOf(value.length) === -1) {
-            callback($t('m_093'))
+            callback($fm('m_093'))
           } else {
             callback()
           }

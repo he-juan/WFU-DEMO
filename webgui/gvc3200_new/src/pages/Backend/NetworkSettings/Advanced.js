@@ -3,7 +3,7 @@ import FormCommon from '@/components/FormCommon'
 import { Form, Button, Input, message } from 'antd'
 import FormItem, { InputItem, CheckboxItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @Form.create()
 class Advanced extends FormCommon {
@@ -213,7 +213,7 @@ class Advanced extends FormCommon {
               //     value = value || ''
               //     let txt = value.replace(/(https:\/\/|http:\/\/)/i, '')
               //     if (txt.indexOf(':') > -1) {
-              //       callback($t('m_090'))
+              //       callback($fm('m_090'))
               //     } else {
               //       callback()
               //     }
