@@ -64,6 +64,9 @@ let CSelect = (props, ref) => {
 }
 CSelect = forwardRef(CSelect)
 
+let timestampNow = 0 // 全局存一个设备当前时间戳
+let timestampNowInter = null
+
 // 注意一下，modal 无法被
 @Form.create()
 class ConfSetModal extends FormCommon {
@@ -104,14 +107,12 @@ class ConfSetModal extends FormCommon {
 
   constructor (props) {
     super(props)
-    let types = typeof props.visible
-    let currConf = convertCurrConf(props.currConf, types === 'object' ? 'history' : '')
 
     this.state = {
       presetInfo: [], // 预置位列表
       displayAddModal: false, // 添加成员弹窗
-      curMember: deepCopy(currConf.memberData),
-      currConf
+      curMember: [],
+      currConf: {}
     }
   }
 
@@ -123,6 +124,17 @@ class ConfSetModal extends FormCommon {
       } else {
         message.error(res.Message || $t('m_071'))
       }
+    })
+  }
+
+  // 获取设备时间
+  getDateInfo = () => {
+    return new Promise((resolve, reject) => {
+      API.getDateInfo().then(data => {
+        const { res, ...other } = data
+        if (res === 'success') resolve(other)
+        else reject(new Error('Fail Request'))
+      })
     })
   }
 
@@ -336,8 +348,8 @@ class ConfSetModal extends FormCommon {
         values.confStatedate = values.confStatedate.format('YYYY-MM-DD')
         let start_time = values.confStatedate + ' ' + values.confhours + ':' + values.confminutes
 
-        // 判断开始时间
-        if (moment(start_time).isBefore(moment())) {
+        // 判断开始时间应该比当前时间+5min晚
+        if (moment(start_time).isBefore(moment(timestampNow).add(5, 'minutes'))) {
           return message.error($t('m_127'))
         }
         let curMember = this.state.curMember
@@ -436,7 +448,7 @@ class ConfSetModal extends FormCommon {
             onCancel() // 关闭弹窗
             updateDate && updateDate() // 更新数据
           } else {
-            message.error(msgs['res'])
+            message.error(msgs['msg'])
           }
         })
       }
@@ -446,13 +458,31 @@ class ConfSetModal extends FormCommon {
   // componentDidMount
   componentDidMount () {
     this.getPresetInfo()
+    this.getDateInfo().then(data => {
+      const { visible, currConf } = this.props
+      let types = typeof visible
+      const _currConf = convertCurrConf(currConf, types === 'object' ? 'history' : '', +data.Timestamp)
+      this.setState({
+        curMember: deepCopy(_currConf.memberData),
+        currConf: _currConf
+      })
+      timestampNow = +data.Timestamp
+      timestampNowInter = setInterval(() => {
+        timestampNow += 1000
+      }, 1000)
+    }).catch(err => message.error(err))
+  }
+
+  componentWillUnmount () {
+    clearInterval(timestampNowInter)
+    timestampNowInter = null
   }
 
   // render
   render () {
     let { form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
-    if (!visible) return null
     let { displayAddModal, curMember, currConf } = this.state
+    if (!visible || Object.keys(currConf).length === 0) return null
     // 处理repeatArr
     let statedate = (gfv('confStatedate') ? gfv('confStatedate') : currConf.confStatedate).format('YYYY-MM-DD')
     let repeatArr = [

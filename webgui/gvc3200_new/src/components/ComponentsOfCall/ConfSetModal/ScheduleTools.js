@@ -14,8 +14,8 @@ export const convertTimeInfo = (Milliseconds, duration) => {
 }
 
 // 转换记录 生成 currConf
-export const convertCurrConf = (item = '', page = '') => {
-  let now = moment(store.getState().timestampNow).add(5, 'minutes')
+export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
+  let now = moment(+timestampNow || +store.getState().timestampNow).add(10, 'minutes')
   let currConf = {
     Id: '',
     confname: 'xxx发起的会议', // 会议名称 或 主题

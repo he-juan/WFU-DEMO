@@ -290,7 +290,7 @@ const msgs = {
   m_124: 'Please confirm to delete the conference',
   m_125: 'Please confirm to cancel the conference.',
   m_126: 'In talking, You cannot start a new meeting.',
-  m_127: 'The end time must be later than start time.',
+  m_127: 'Start time should be later than the current time + 5min.',
   m_128: 'Please select at least one member.',
   m_129: 'The maximum TLS version must be greater than or equal to the minimum TLS version.',
   m_130: 'Format error.',
