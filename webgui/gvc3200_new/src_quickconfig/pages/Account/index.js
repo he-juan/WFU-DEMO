@@ -22,11 +22,11 @@ class AcctConfig extends Component {
   }
   async componentDidMount () {
     let pvalues = await API.getPvalues(['P47', 'P35', 'P36', 'P34', 'P270', 'P3', 'P271'])
-    let siteData = await API.sqlitedisplay()
+    // let siteData = await API.sqlitedisplay()
     this.setState({
       values: {
-        ...pvalues,
-        sitename: siteData.Data ? siteData.Data[0].Sitename : ''
+        ...pvalues
+        // sitename: siteData.Data ? siteData.Data[0].Sitename : ''
       }
     })
   }
@@ -38,7 +38,7 @@ class AcctConfig extends Component {
   handleSubmit = async () => {
     const { sitename, ...rest } = this.state.values
     await API.putPvalues(rest)
-    await API.setSitesettingInfo(sitename)
+    // await API.setSitesettingInfo(sitename) // bugfree 2814
     history.replace('/result')
   }
   render () {
@@ -102,15 +102,17 @@ class AcctConfig extends Component {
             {/* 显示名称 */}
             {$t('c_034')}
           </InputItem>
+          {/*    //bugfree 2814
           <InputItem
             labelNumber={7}
             type='text'
             value={values.sitename}
             onChange={(v) => this.updateValues({ sitename: v })}
           >
-            {/* 会场名称 */}
+            会场名称
             {$t('c_035')}
           </InputItem>
+          */}
           <List.Item
             extra={<Switch checked={!!values.P271}/>}
             onChange={(e) => this.updateValues({ P271: Number(e.target.checked) })}

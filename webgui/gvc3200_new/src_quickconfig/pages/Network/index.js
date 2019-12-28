@@ -12,9 +12,9 @@ const EthIcon = ({ isactive }) => {
   return <i className={`eth-icon ${isactive ? 'active' : ''}`} />
 }
 
-const WifiIcon = ({ isactive }) => {
-  return <i className={`wifi-icon ${isactive ? 'active' : ''}`} />
-}
+// const WifiIcon = ({ isactive }) => {
+//   return <i className={`wifi-icon ${isactive ? 'active' : ''}`} />
+// }
 
 class Network extends Component {
   state = {
@@ -54,12 +54,12 @@ class Network extends Component {
           >
             {$t('c_007')}
           </List.Item>
-          <List.Item
+          {/* <List.Item
             thumb={<WifiIcon isactive={netStatus.wifi}/>}
             extra={netStatus.wifi ? $t('c_009') : $t('c_010')}
           >
             WI-FI
-          </List.Item>
+          </List.Item> */}
         </List>
         <List>
           <Link to='/network/advanced' replace>

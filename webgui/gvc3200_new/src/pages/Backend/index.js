@@ -115,7 +115,7 @@ class Backend extends Component {
           })
         }
       })
-    }, 30000)
+    }, 10000)
   }
   getTitle () {
     const { location } = this.props

@@ -10,7 +10,7 @@ import { $t } from '../../Intl'
 
 class AdvancedSet extends Component {
   state = {
-    P1415: ['0']
+    P1415: '0'
   }
   componentDidMount () {
     API.getPvalues(['P1415']).then(data => {
@@ -21,7 +21,7 @@ class AdvancedSet extends Component {
   }
   handlePickProtocol = (v) => {
     this.setState({
-      P1415: v
+      P1415: v[0]
     })
   }
   handleSubmit = (cb) => {
@@ -42,7 +42,7 @@ class AdvancedSet extends Component {
               { label: $t('c_017'), value: '3' }
             ]}
             cols={1}
-            value={P1415}
+            value={[P1415]}
             onPickerChange={this.handlePickProtocol}
           >
             <List.Item arrow='horizontal'>{$t('c_011')}</List.Item>
