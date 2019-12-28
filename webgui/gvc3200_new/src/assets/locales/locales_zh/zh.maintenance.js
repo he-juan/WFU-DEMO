@@ -194,7 +194,7 @@ export default {
   mai_tr_022_tip: '输入域名或者IP地址，点击开始按钮可输出结果，以此检查网络是否连通。',
 
   mai_tr_023: '主机域名',
-  mai_tr_023_tip: 'Nslookup Target Host',
+  mai_tr_023_tip: '输入需要查询的域名或IP地址。',
 
   mai_tr_024: '远程诊断',
   mai_tr_024_tip: '',

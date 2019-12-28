@@ -192,7 +192,7 @@ export default {
   mai_tr_022_tip: 'Enter the domain name or IP address, then click on "Start" button to view the output. From the result, users can check whether the target destination is reachable or not.',
 
   mai_tr_023: 'Host Name',
-  mai_tr_023_tip: 'Nslookup Target Host',
+  mai_tr_023_tip: 'Enter a host name and find out the corresponding IP address. It will also do reverse name lookup and find the host name for an IP address you specify.',
 
   mai_tr_024: 'Remote Diagnosis',
   mai_tr_024_tip: '',

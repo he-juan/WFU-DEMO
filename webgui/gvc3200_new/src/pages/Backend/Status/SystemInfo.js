@@ -48,9 +48,9 @@ class SystemInfo extends Component {
           {sysInfo['P68'] || ''}
         </FormItem>
         {/* Recovery版本 */}
-        <FormItem lang='sta_020'>
+        {/* <FormItem lang='sta_020'>
           {sysInfo['P7033'] || ''}
-        </FormItem>
+        </FormItem> */}
         {/* 引导程序 */}
         <FormItem lang='sta_021'>
           {sysInfo['P69'] || ''}

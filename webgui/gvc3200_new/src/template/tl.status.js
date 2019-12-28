@@ -54,7 +54,7 @@ export default {
         // 系统版本
         { lang: 'sta_019' },
         // Recovery版本
-        { lang: 'sta_020' },
+        { lang: 'sta_020', denyModel: 'GVC3220' },
         // 引导程序
         { lang: 'sta_021' },
         // 内核版本
