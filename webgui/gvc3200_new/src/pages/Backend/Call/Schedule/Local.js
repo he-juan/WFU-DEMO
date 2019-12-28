@@ -128,15 +128,19 @@ class LocalSchedule extends Component {
       return item.InviteAcct === ''
     })
     // 排个序
+    // 按会议类型排序，进行中3>待主持2>未开始1>已结束0；
+    // 待主持、进行中、未开始的会议按照开始时间正序排列，已结束的会议按照开始时间倒叙排列
     if (_schedules.length > 1) {
-      _schedules = _schedules.sort((a, b) => {
-        let a1 = parseInt(a.Confstate)
-        let b1 = parseInt(b.Confstate)
-        if (a1 === b1 && a1 !== 0) {
-          return 1
-        }
-        return b1 - a1
+      const states = { state0: [], state1: [], state2: [], state3: [] }
+      _schedules.forEach(item => {
+        const { Confstate } = item
+        states['state' + Confstate].push(item)
       })
+      for (const key in states) {
+        if (key === 'state0') states[key] = states[key].sort((a, b) => b.Milliseconds - a.Milliseconds) // 倒叙
+        else states[key] = states[key].sort((a, b) => a.Milliseconds - b.Milliseconds) // 正序
+      }
+      _schedules = states['state3'].concat(states['state2'], states['state1'], states['state0'])
     }
 
     return (
