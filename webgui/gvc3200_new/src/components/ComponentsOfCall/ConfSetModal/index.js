@@ -310,19 +310,55 @@ class ConfSetModal extends FormCommon {
     }
   }
 
-  // 添加成员弹窗 --------------------
+  // 添加/关闭成员弹窗 --------------------
   handleAddMemberModal = (bool = true) => {
+    // 添加时
+    if (bool) {
+      let { curMember } = this.state
+      // 判断 通话超出8路？
+      if (curMember.length >= 8) {
+        const sipMember = []
+        const ipvtMember = []
+        curMember.forEach(item => {
+          if (+item.acct === 0) sipMember.push(item)
+          else if (+item.acct === 1) ipvtMember.push(item)
+        })
+        // 存在ipvt的话。ipvt只能算一路，则sip这个时候最多7路
+        if ((sipMember.length >= 8 && ipvtMember.length === 0) || (sipMember.length > 7 && ipvtMember.length > 0)) {
+          message.error('SIP' + $t('m_137')) // 成员数量已达上限
+          return false
+        } else if (ipvtMember.length > 0 && sipMember.length === 7) {
+          message.warning($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
+        }
+      }
+    }
     this.setState({ displayAddModal: bool })
   }
 
   // 添加成员弹窗 确认添加
-  handleMemberData = (data) => {
+  handleMemberData = (data, callback) => {
     let { curMember } = this.state
     let memberArr = uniqBy(curMember.concat(data), 'number')
+
+    if (memberArr.length > 8) {
+      const sipMember = []
+      const ipvtMember = []
+      memberArr.forEach(item => {
+        if (+item.acct === 0) sipMember.push(item)
+        else if (+item.acct === 1) ipvtMember.push(item)
+      })
+      // 存在ipvt的话。ipvt只能算一路，则sip这个时候最多7路
+      if ((sipMember.length > 8 && ipvtMember.length === 0) || (sipMember.length > 7 && ipvtMember.length > 0)) {
+        message.error('SIP' + $t('m_137')) // 成员数量已达上限
+        return false
+      }
+    }
 
     this.setState({
       curMember: memberArr,
       displayAddModal: false
+    }, () => {
+      callback()
     })
   }
 
@@ -562,6 +598,14 @@ class ConfSetModal extends FormCommon {
     if (showbindAccount) {
       bindAccount = gfv('bindAccount')
     }
+    // 账号类型
+    const accts = {
+      '0': 'SIP',
+      '1': 'IPVideoTalk',
+      '8': 'H.323',
+      '2': 'BlueJeans',
+      '5': 'Zoom'
+    }
 
     // confname SIP账号名称发起的会议
     return (
@@ -761,7 +805,7 @@ class ConfSetModal extends FormCommon {
                         <div className='memberrow' key={index}>
                           <div className='memberinfo'>
                             <div className='ellipsis name'>{member.name ? member.name : member.number}</div>
-                            <div className='ellipsis'>{member.number}</div>
+                            <div className='ellipsis'>{member.number} ({accts[member.acct]})</div>
                           </div>
                           { showbindAccount && bindAccount === '0' &&
                             <div className='memberEmaiBox'>

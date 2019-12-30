@@ -150,8 +150,8 @@ const btns = {
   b_058: 'Set as default',
   b_059: 'Continue Submit',
   b_060: 'Back edit',
-  b_061: '',
-  b_062: '',
+  b_061: 'Video invite',
+  b_062: 'Audio invite',
   b_063: '',
   b_064: '',
   b_065: '',
@@ -394,7 +394,7 @@ const msgs = {
   m_228: '\'Ldap Number Attributes\' and \'Ldap Mail Attributes\' cannot be empty at the same time',
   m_229: 'Please re-login with new IP if your device IP address has changed. Some items need to be restarted to take effect.',
   m_230: 'There are already other scheduled meetings during this time period, it is recommended to adjust the meeting time.',
-  m_231: '',
+  m_231: 'The calling line has reached the upper limit, currently only ipvt contacts can be added.',
   m_232: '',
 
   m_999: ''
@@ -726,6 +726,10 @@ const commons = {
   c_330: 'Multiple numbers can be separated with "Enter". ',
   c_331: '(If empty, click to start IPVT meeting)',
   c_332: 'No active account',
+  c_333: 'Local Contacts',
+  c_334: 'Call History',
+  c_335: 'Contacts',
+  c_336: 'Add member',
 
   c_999: ''
 }

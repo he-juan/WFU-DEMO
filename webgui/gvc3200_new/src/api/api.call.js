@@ -318,6 +318,9 @@ export const getSchedules = () => {
  * 立即启会
  */
 export const startSchedule = (params) => {
+  for (const key in params) {
+    params[key] = encodeURIComponent(params[key])
+  }
   return _axios({
     method: 'get',
     url: '/manager?action=startpreconf&' + parseUrlParams(params)

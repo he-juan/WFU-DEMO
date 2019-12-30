@@ -7,6 +7,7 @@ import API from '@/api'
 import { deepCopy } from '@/utils/tools'
 import ContactsTab from './ContactsTab'
 import CallLogsTab from './CallLogsTab'
+import { $t } from '@/Intl'
 import './InviteMemberModalStyle.less'
 
 const Option = Select.Option
@@ -73,15 +74,15 @@ class InviteMemberModal extends Component {
     let curLinesLen = IPVTlen > 0 ? nonIPVTlen + 1 : nonIPVTlen // 线路总数量
     let maxNum = 200
     if (IPVTlen >= maxNum && lastMem.acct === '1') {
-      message.error('IPVideoTalk成员数量已达上限')
+      message.error('IPVT' + $t('m_137'))
       return _memToCall
     }
     // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
     if (curLinesLen >= maxlinecount) {
       if (IPVTlen === 0) {
-        message.error('成员数量已达上限')
+        message.error($t('m_137'))
       } else if (IPVTlen > 0 && lastMem.acct !== '1') {
-        message.error('通话线路已达上限，当前只能选择IPVideoTalk号码.')
+        message.error($t('m_231'))
         flag === 'input' && this.setState({ selectAcct: '1' })
       } else if (IPVTlen > 0 && IPVTlen < maxNum && lastMem.acct === '1') {
         _memToCall.push(lastMem)
@@ -279,12 +280,13 @@ class InviteMemberModal extends Component {
       obj.number = el.num
       return obj
     })
-    handleMemberData(data)
-    this.setState({
-      memToCall: [],
-      tagsInputValue: ''
-    }, () => {
-      onCancel()
+    handleMemberData(data, () => {
+      this.setState({
+        memToCall: [],
+        tagsInputValue: ''
+      }, () => {
+        onCancel()
+      })
     })
   }
 
@@ -333,18 +335,20 @@ class InviteMemberModal extends Component {
         className='invitemember-modal'
         visible={visible}
         onCancel={onCancel}
-        title='添加成员'
+        title={$t('c_336')}
         footer={
-          isJustAddMember ? <Button onClick={this.handleAddMember}>添加</Button> : <div>
-            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(1)}>视频邀请</Button>
-            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(0)}>音频邀请</Button>
+          isJustAddMember ? <Button onClick={this.handleAddMember}>{$t('b_056')}</Button> : <div>
+            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(1)}>{$t('b_061')}</Button>
+            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(0)}>{$t('b_062')}</Button>
           </div>
         }
       >
         <div style={{ height: '570px' }}>
           <Tabs onChange={(i) => this.selectTab(i)}>
-            <TabPane tab='本地通讯录' key='1'></TabPane>
-            <TabPane tab='通话记录' key='2'></TabPane>
+            {/* 本地通讯录 */}
+            <TabPane tab={$t('c_333')} key='1'></TabPane>
+            {/* 通话记录 */}
+            <TabPane tab={$t('c_334')} key='2'></TabPane>
           </Tabs>
           {/* invite-area */}
           <div className='invite-area'>

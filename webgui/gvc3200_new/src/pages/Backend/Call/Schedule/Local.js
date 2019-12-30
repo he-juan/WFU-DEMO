@@ -71,7 +71,7 @@ class LocalSchedule extends Component {
       Displayname,
       Confdnd,
       Confautoanswer,
-      Members: encodeURIComponent(JSON.stringify(Members.map(el => {
+      Members: JSON.stringify(Members.map(el => {
         return {
           num: el.Number,
           acct: el.Acctid,
@@ -79,7 +79,7 @@ class LocalSchedule extends Component {
           isconf: '1',
           source: el.RecordFrom
         }
-      })))
+      }))
     })
   }
 
