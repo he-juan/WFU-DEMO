@@ -27,7 +27,7 @@ class Ipv4 extends Component {
         'P22', 'P23', 'P24', 'P25', 'P26', 'P27', 'P28', 'P82', 'P83'
       ]
     ).then(data => {
-      const { P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P82, P83 } = data
+      const { P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P82, P83 } = data
 
       this.setState({
         values: {
@@ -36,7 +36,6 @@ class Ipv4 extends Component {
           mask: `${P13}.${P14}.${P15}.${P16}`,
           gateway: `${P17}.${P18}.${P19}.${P20}`,
           dns1: `${P21}.${P22}.${P23}.${P24}`,
-          dns2: `${P25}.${P26}.${P27}.${P28}`,
           ppoeId: P82,
           ppoepw: P83
         }
@@ -67,16 +66,12 @@ class Ipv4 extends Component {
       if (!checkIpv4Address(values.dns1)) {
         return Toast.fail($t('c_060')) // DNS地址格式不正确
       }
-      if (!checkIpv4Address(values.dns2)) {
-        return Toast.fail($t('c_060')) // DNS地址格式不正确
-      }
       const [P9, P10, P11, P12] = values.ipv4.split('.')
       const [P13, P14, P15, P16] = values.mask.split('.')
       const [P17, P18, P19, P20] = values.gateway.split('.')
       const [P21, P22, P23, P24] = values.dns1.split('.')
-      const [P25, P26, P27, P28] = values.dns2.split('.')
       submitValues = Object.assign({}, submitValues, { P9, P10, P11, P12, P13, P14, P15, P16, P17,
-        P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28 })
+        P18, P19, P20, P21, P22, P23, P24 })
     } else if (P8 === '2') {
       const [ P82, P83] = [ values.ppoeId, values.ppoepw]
       if (P82 === '' || P83 === '') {
@@ -103,7 +98,7 @@ class Ipv4 extends Component {
             ]}
             cols={1}
             value={values.addressType}
-            onPickerChange={(v) => this.updateValues({ addressType: v })}
+            onChange={(v) => this.updateValues({ addressType: v })}
           >
             <List.Item arrow='horizontal'>{$t('c_012')}</List.Item>
           </Picker>
@@ -151,16 +146,6 @@ class Ipv4 extends Component {
               >
                 {/* DNS服务器1 */}
                 {$t('c_022')}
-              </InputItem>
-              <InputItem
-                type='money'
-                value={values.dns2}
-                placeholder={$t('c_062')}
-                labelNumber={6}
-                onChange={(v) => this.updateValues({ dns2: v })}
-              >
-                {/* DNS服务器2 */}
-                {$t('c_023')}
               </InputItem>
             </List>
           ) : values.addressType[0] === '2' ? (

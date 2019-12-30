@@ -56,7 +56,7 @@ class Timezone extends Component {
             data={timezoneList}
             cols={1}
             value={timezone}
-            onPickerChange={this.handlePickLang}
+            onChange={this.handlePickLang}
           >
             <List.Item arrow='horizontal'>{$t('c_006')}</List.Item>
           </Picker>

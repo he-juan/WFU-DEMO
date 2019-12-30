@@ -43,7 +43,7 @@ class AdvancedSet extends Component {
             ]}
             cols={1}
             value={[P1415]}
-            onPickerChange={this.handlePickProtocol}
+            onChange={this.handlePickProtocol}
           >
             <List.Item arrow='horizontal'>{$t('c_011')}</List.Item>
           </Picker>

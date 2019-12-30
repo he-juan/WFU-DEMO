@@ -82,7 +82,7 @@ class Ipv6 extends Component {
             ]}
             cols={1}
             value={values.addressType}
-            onPickerChange={(v) => this.updateValues({ addressType: v })}
+            onChange={(v) => this.updateValues({ addressType: v })}
           >
             <List.Item arrow='horizontal'>{$t('c_013')}</List.Item>
           </Picker>
