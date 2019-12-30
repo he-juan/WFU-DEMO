@@ -54,11 +54,12 @@ class AcctConfig extends Component {
             onChange={(v) => this.updateValues({ P47: v })}
           >
             {/* SIP帐号服务器 */}
-            {$t('c_062')}
+            {$t('c_029')}
           </InputItem>
           <InputItem
             labelNumber={7}
             value={values.P35}
+            maxLength={64}
             placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P35: v })}
           >
@@ -69,6 +70,7 @@ class AcctConfig extends Component {
             className='long-label'
             labelNumber={7}
             value={values.P36}
+            maxLength={64}
             placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P36: v })}
           >
@@ -80,6 +82,7 @@ class AcctConfig extends Component {
             labelNumber={7}
             type='password'
             value={values.P34}
+            maxLength={64}
             placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P34: v })}
           >
@@ -90,6 +93,7 @@ class AcctConfig extends Component {
             labelNumber={7}
             type='text'
             value={values.P270}
+            maxLength={64}
             placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P270: v })}
           >
@@ -100,6 +104,7 @@ class AcctConfig extends Component {
             labelNumber={7}
             type='text'
             value={values.P3}
+            maxLength={64}
             placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P3: v })}
           >
