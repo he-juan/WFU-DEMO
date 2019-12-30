@@ -153,14 +153,33 @@ h3.page-title {
  输入框右居中
 */
 .am-list-item .am-input-control  {
+  font-size: 14px !important;
   input, .fake-input{
     color: #888 !important;
     text-align: right !important;
     
   }
 }
-.long-label.am-list-item .am-input-label.am-input-label-7 {
-  width: 200px;
+.am-list-item .am-input-control .fake-input-container {
+  height: 20px !important;
+  line-height: 20px !important;
+}
+.am-list-item .am-input-control .fake-input-container .fake-input {
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px !important;
+}
+
+.am-list-item {
+  height: 50px !important;
+}
+
+.long-label.am-list-item .am-input-label {
+  width: 130px;
+  line-height: 1.4;
+}
+.am-list-item .am-input-label {
+  white-space: inherit !important;
 }
 .am-picker-col-item {
   overflow: hidden !important;
@@ -169,6 +188,7 @@ h3.page-title {
 .am-picker-col-item-selected {
   font-size: 16px !important;
 }
+
 
 
 /*路由动画*/

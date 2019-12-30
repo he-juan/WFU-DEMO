@@ -50,15 +50,16 @@ class AcctConfig extends Component {
           <InputItem
             labelNumber={7}
             value={values.P47}
+            placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P47: v })}
           >
             {/* SIP帐号服务器 */}
-            {$t('c_029')}
+            {$t('c_062')}
           </InputItem>
           <InputItem
             labelNumber={7}
-            type='digit'
             value={values.P35}
+            placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P35: v })}
           >
             {/* SIP用户ID */}
@@ -67,8 +68,8 @@ class AcctConfig extends Component {
           <InputItem
             className='long-label'
             labelNumber={7}
-            type='digit'
             value={values.P36}
+            placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P36: v })}
           >
             {/* SIP认证ID */}
@@ -79,6 +80,7 @@ class AcctConfig extends Component {
             labelNumber={7}
             type='password'
             value={values.P34}
+            placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P34: v })}
           >
             {/* SIP认证密码 */}
@@ -88,6 +90,7 @@ class AcctConfig extends Component {
             labelNumber={7}
             type='text'
             value={values.P270}
+            placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P270: v })}
           >
             {/* 帐号名称 */}
@@ -97,6 +100,7 @@ class AcctConfig extends Component {
             labelNumber={7}
             type='text'
             value={values.P3}
+            placeholder={$t('c_062')}
             onChange={(v) => this.updateValues({ P3: v })}
           >
             {/* 显示名称 */}
@@ -115,6 +119,7 @@ class AcctConfig extends Component {
           */}
           <List.Item
             extra={<Switch checked={!!values.P271}/>}
+            placeholder={$t('c_062')}
             onChange={(e) => this.updateValues({ P271: Number(e.target.checked) })}
           >
             {/* 激活帐号 */}

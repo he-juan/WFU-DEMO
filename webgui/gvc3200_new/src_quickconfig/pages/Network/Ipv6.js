@@ -93,6 +93,7 @@ class Ipv6 extends Component {
             <List>
               <InputItem
                 value={values['ipv6']}
+                placeholder={$t('c_062')}
                 labelNumber={7}
                 onChange={(v) => this.updateValues({ ipv6: v })}
               >
@@ -100,8 +101,8 @@ class Ipv6 extends Component {
                 {$t('c_027')}
               </InputItem>
               <InputItem
-                type='number'
                 labelNumber={7}
+                placeholder={$t('c_062')}
                 value={values['ipv6prefix']}
                 onChange={(v) => this.updateValues({ ipv6prefix: v })}
               >
@@ -109,16 +110,16 @@ class Ipv6 extends Component {
                 {$t('c_028')}
               </InputItem>
               <InputItem
-                type='money'
                 value={values['dns1']}
+                placeholder={$t('c_062')}
                 onChange={(v) => this.updateValues({ dns1: v })}
               >
                 {/* DNS服务器1 */}
                 {$t('c_022')}
               </InputItem>
               <InputItem
-                type='money'
                 value={values['dns2']}
+                placeholder={$t('c_062')}
                 onChange={(v) => this.updateValues({ dns2: v })}
               >
                 {/* DNS服务器2 */}

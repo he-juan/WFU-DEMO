@@ -115,6 +115,7 @@ class Ipv4 extends Component {
               <InputItem
                 type='money'
                 value={values.ipv4}
+                placeholder={$t('c_062')}
                 labelNumber={6}
                 onChange={(v) => this.updateValues({ ipv4: v })}
               >
@@ -124,6 +125,7 @@ class Ipv4 extends Component {
               <InputItem
                 type='money'
                 value={values.mask}
+                placeholder={$t('c_062')}
                 labelNumber={6}
                 onChange={(v) => this.updateValues({ mask: v })}
               >
@@ -133,6 +135,7 @@ class Ipv4 extends Component {
               <InputItem
                 type='money'
                 value={values.gateway}
+                placeholder={$t('c_062')}
                 labelNumber={6}
                 onChange={(v) => this.updateValues({ gateway: v })}
               >
@@ -142,6 +145,7 @@ class Ipv4 extends Component {
               <InputItem
                 type='money'
                 value={values.dns1}
+                placeholder={$t('c_062')}
                 labelNumber={6}
                 onChange={(v) => this.updateValues({ dns1: v })}
               >
@@ -151,6 +155,7 @@ class Ipv4 extends Component {
               <InputItem
                 type='money'
                 value={values.dns2}
+                placeholder={$t('c_062')}
                 labelNumber={6}
                 onChange={(v) => this.updateValues({ dns2: v })}
               >
@@ -162,6 +167,7 @@ class Ipv4 extends Component {
             <List>
               <InputItem
                 value={values.ppoeId}
+                placeholder={$t('c_062')}
                 labelNumber={7}
                 onChange={(v) => this.updateValues({ ppoeId: v })}
               >
@@ -171,6 +177,7 @@ class Ipv4 extends Component {
               <InputItem
                 key='ppoepw' // Bugfree 2815
                 type='password'
+                placeholder={$t('c_062')}
                 autoComplete={'new-password'}
                 labelNumber={7}
                 onChange={(v) => this.updateValues({ ppoepw: v })}
