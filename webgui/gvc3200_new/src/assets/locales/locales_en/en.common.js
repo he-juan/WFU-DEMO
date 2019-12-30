@@ -678,7 +678,7 @@ const commons = {
   c_281: 'Related account',
   c_283: 'Subject',
   c_284: 'Start time',
-  c_285: 'Duration',
+  c_285: 'Conference Duration',
   c_286: 'Repeat',
   c_287: 'Custom repeat',
   c_288: 'Day of the week',

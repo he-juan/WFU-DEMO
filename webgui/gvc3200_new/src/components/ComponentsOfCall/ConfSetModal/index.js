@@ -87,7 +87,9 @@ class ConfSetModal extends FormCommon {
         confStatedate: PropTypes.object,
         confhours: PropTypes.string,
         confminutes: PropTypes.string,
-        duration: PropTypes.string,
+        // duration: PropTypes.string, 废弃 转为 durationHour durationMin
+        durationHour: PropTypes.string,
+        durationMin: PropTypes.string,
         preset: PropTypes.string,
         repeat: PropTypes.string,
         customRepeat: PropTypes.string,
@@ -232,29 +234,31 @@ class ConfSetModal extends FormCommon {
       { v: '-1', t: '本地' },
       { v: '0', t: 'Google账号' }
     ]
-    // dayArr hoursArr minutesArr durationArr
+    // dayArr hoursArr minutesArr hoursArr1 minutesArr1
     let dayArr = Array(31).fill().map((item, index) => {
       return { v: index + 1, t: index + 1 }
     })
-    let hoursArr = Array(24).fill().map((item, index) => {
-      let hours = transStr(index + 1)
-      return { v: hours, t: hours }
+    let hoursArr = []
+    let hoursArr1 = []
+    Array(24).fill().forEach((item, index) => {
+      let hours = transStr(index)
+      hoursArr.push({ v: hours, t: hours })
+      hoursArr1.push({ v: index, t: index })
     })
     let confminutesIndex = ''
-    let minutesArr = Array(12).fill().map((item, index) => {
+    let minutesArr = []
+    let minutesArr1 = []
+    Array(12).fill().map((item, index) => {
       let minutes = transStr(index * 5)
       if (+confminutes > +minutes - 5 && +confminutes < +minutes) {
         confminutesIndex = index
       }
-      return { v: minutes, t: minutes }
+      minutesArr.push({ v: minutes, t: minutes })
+      minutesArr1.push({ v: index * 5, t: index * 5 })
     })
     // confminutes
     confminutesIndex > 0 && minutesArr.splice(confminutesIndex, 0, { v: confminutes, t: confminutes })
 
-    let durationArr = Array(5).fill().map((item, index) => {
-      let duration = index * 0.5 + 1
-      return { v: duration, t: duration }
-    })
     // presetArr
     let _presetinfo = deepCopy(presetInfo)
     let presetArr = [
@@ -282,7 +286,7 @@ class ConfSetModal extends FormCommon {
       { v: '5', t: $t('c_273') }
     ]
     let weekdayArr = weekOptions.map(el => ({ v: el.value, t: el.label }))
-    return { accountArr, dayArr, hoursArr, minutesArr, durationArr, presetArr, crepeatArr, weekordinalArr, weekdayArr }
+    return { accountArr, dayArr, hoursArr, hoursArr1, minutesArr, minutesArr1, presetArr, crepeatArr, weekordinalArr, weekdayArr }
   }
 
   // 关闭弹窗
@@ -295,6 +299,15 @@ class ConfSetModal extends FormCommon {
   stateDateChange = (e, str) => {
     let { setFieldsValue } = this.props.form
     if (e !== null) setFieldsValue({ confStatedate1: e })
+  }
+
+  // 会议时长的hour change
+  durationHourChange = (val) => {
+    let { setFieldsValue, getFieldValue } = this.props.form
+    const min = getFieldValue('durationMin')
+    if (+val === 0) {
+      setFieldsValue({ durationMin: min || 5 })
+    }
   }
 
   // 添加成员弹窗 --------------------
@@ -365,7 +378,7 @@ class ConfSetModal extends FormCommon {
         const continueFn = () => {
           let host = 1
           let confname = values.confname
-          let duration = 60 * values.duration
+          let duration = 60 * values.durationHour + values.durationMin
           let pincode = values.pincode
           let repeat = parseInt(values.repeat)
           let preset = values.preset
@@ -603,16 +616,32 @@ class ConfSetModal extends FormCommon {
                 )}
               </Form.Item>
             </FormItem>
-            {/* <FormItem label='开始时间'></FormItem> */}
+            {/* 会议时长 */}
             <FormItem label={$t('c_285')}>
-              {gfd('duration', {
-                initialValue: currConf['duration'],
-                rules: [this.required()]
-              })(
-                <CSelect disabled={allDisabled} width='25%' options={optionObj.durationArr}/>
-              )}
-              &nbsp;&nbsp;<span>{$t('c_089')}</span>
+              <Form.Item style={{ width: '25%' }}>
+                {gfd('durationHour', {
+                  initialValue: currConf['durationHour'],
+                  rules: [this.required()]
+                })(
+                  <CSelect disabled={allDisabled} options={optionObj.hoursArr1} onChange={this.durationHourChange}/>
+                )}
+              </Form.Item>
+              &nbsp;&nbsp;<span>{$t('c_089')}</span>&nbsp;&nbsp;
+              <Form.Item style={{ width: '25%' }}>
+                {gfd('durationMin', {
+                  initialValue: currConf['durationMin'],
+                  rules: [this.required()]
+                })(
+                  <CSelect disabled={allDisabled} options={optionObj.minutesArr1.filter(item => {
+                    const hour = gfv('durationHour')
+                    if (+hour === 0) return item.v > 0
+                    else return item
+                  })} />
+                )}
+              </Form.Item>
+              &nbsp;&nbsp;<span>{$t('c_090')}</span>
             </FormItem>
+            {/* 预置位 */}
             <FormItem label={$t('c_274')}>
               {gfd('preset', {
                 initialValue: currConf['preset']

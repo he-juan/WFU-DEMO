@@ -23,7 +23,9 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
     confStatedate: moment(now, 'YYYY/MM/DD'), // 开始时间
     confhours: transStr(now.hours()),
     confminutes: transStr(now.minutes()),
-    duration: '1', // 持续时间 1 默认 1小时 60分钟
+    // duration: '1', // 持续时间 1 默认 1小时 60分钟 => 废弃 转为 持续时间即会议时长由前端拆解成2个字段 20191230
+    durationHour: '1', // 持续时间hour
+    durationMin: '0', // 持续时间minute
     preset: '-1', // 预置位
     repeat: '0', // 重复
     customRepeat: '0', // 自定义重复 每天 每周 每月 (按星期)， 每月 (按日期) 每年
@@ -46,6 +48,8 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
   if (item) {
     let { Starttime, RepeatRule } = item // RepeatRule 会议的重复策略
     let timeArr = moment(Starttime.replace(/\//g, '-')).format('YYYY/MM/DD HH:mm').split(' ')
+    const durationHour = +item.Duration < 60 ? 0 : (item.Duration / 60) >> 0 // >> 相当于 Math.floor()
+    const durationMin = durationHour === 0 ? item.Duration : item.Duration - 60 * durationHour
 
     Object.assign(currConf, {
       Id: item.Id,
@@ -54,7 +58,9 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
       confStatedate: moment(timeArr[0], 'YYYY/MM/DD'),
       confhours: timeArr[1].split(':')[0],
       confminutes: timeArr[1].split(':')[1],
-      duration: (item.Duration / 60).toString(), // Duration 会议时长，单位分钟
+      // duration: (item.Duration / 60).toString(), // Duration 会议时长，单位分钟 => 废弃 转为 持续时间即会议时长由前端拆解成2个字段 20191230
+      durationHour, // 持续时间hour
+      durationMin, // 持续时间minute
       preset: item.Preset.toString(), // Preset 预置位id
       repeat: item.Recycle.toString(), // Recycle 会议的重复情况
       pincode: item.Confdnd || '',
