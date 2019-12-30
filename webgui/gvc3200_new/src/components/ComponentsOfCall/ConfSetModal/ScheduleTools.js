@@ -79,7 +79,7 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
     })
 
     // 重复规则
-    if (currConf.repeat === '7') {
+    if (currConf.repeat === '4') {
       let ruleobj = convertStr(RepeatRule)
       let { FREQ, BYDAY, INTERVAL, UNTIL, BYMONTHDAY, BYYEARDAY } = ruleobj
       if (INTERVAL) currConf.interval = INTERVAL
