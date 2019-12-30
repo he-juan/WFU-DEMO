@@ -13,10 +13,10 @@ import { $t } from '@/Intl'
 
 const LocalConfList = (props) => {
   let stateObj = {
-    '3': $t('c_245'),
-    '2': $t('c_246'),
-    '1': $t('c_247'),
-    '0': $t('c_248')
+    '3': $t('c_245'), // 进行中
+    '2': $t('c_246'), // 待主持
+    '1': $t('c_247'), // 未开始
+    '0': $t('c_248') // 已结束
   }
   let { schedules, handleSetConf, handleStartConf, handleCancelConf, cancelPop } = props
 
