@@ -9,6 +9,12 @@ import API from '@/api'
 import { $t } from '@/Intl'
 import './Call.less'
 
+const isIp = (value) => {
+  return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$/i.test(value) ||
+  (/^\[?((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(:((:[0-9a-fA-F]{1,4}){1,6}|:))|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:))|(([0-9a-fA-F]{1,4}:){2}((:[0-9a-fA-F]{1,4}){1,4}|:))|(([0-9a-fA-F]{1,4}:){3}((:[0-9a-fA-F]{1,4}){1,3}|:))|(([0-9a-fA-F]{1,4}:){4}((:[0-9a-fA-F]{1,4}){1,2}|:))|(([0-9a-fA-F]{1,4}:){5}:([0-9a-fA-F]{1,4})?)|(([0-9a-fA-F]{1,4}:){6}:))\]?$/.test(value) &&
+  ((value.indexOf('[') !== -1 && value.indexOf(']')) !== -1 || (!(value.indexOf('[') !== -1) && !(value.indexOf(']') !== -1))))
+}
+
 @connect(
   state => ({
     linesInfo: state.linesInfo,
@@ -33,7 +39,7 @@ class Call extends Component {
       selectAcct: this.props.defaultAcct || '0', // 当前选中账号
       memToCall: [],
       tagsInputValue: '',
-      bjMemToCall: [],
+      bjMemToCall: [{ num: '.' }],
       dataSource: this.parseDataSource(props.contacts, props.callLogs) // 表格数据
     }
   }
@@ -164,7 +170,7 @@ class Call extends Component {
 
     // 输入的非数字字符串无法添加
     let lastMem = _memToCall.slice(-1)[0]
-    if (lastMem && /\D/.test(lastMem.num) && +lastMem.acct !== 2) {
+    if (lastMem && /\D/.test(lastMem.num) && !isIp(lastMem.num) && +lastMem.acct !== 2) {
       message.error($t('m_224')) // 此号码不符合拨号规则
       return false
     }
@@ -202,7 +208,7 @@ class Call extends Component {
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
-      if (!/\D/.test(tagsInputValue)) {
+      if (!/\D/.test(tagsInputValue) || isIp(tagsInputValue)) {
         _memToCall.push({
           num: tagsInputValue,
           acct: selectAcct,
@@ -422,7 +428,7 @@ class Call extends Component {
               addKeys={[13]}
               onlyUnique={true}
               // addOnBlur={true}
-              inputProps={{ placeholder: '', maxLength: '23', style: { width: tagsInputValue.length * 10 } }}
+              inputProps={{ placeholder: '', maxLength: '60', style: { width: tagsInputValue.length * 10 } }}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
               renderTag={this.renderTag}
