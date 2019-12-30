@@ -61,10 +61,10 @@ class Call extends Component {
 
   // 设置默认账号
   handleSetDefaultAcct = (acctIndex, e) => {
-    e.stopPropagation()
     const { setDefaultAcct } = this.props
     API.setDefAcct(acctIndex).then(m => {
       if (m.res === 'success') {
+        message.success($t('m_232'))
         setDefaultAcct(acctIndex)
         setTimeout(() => {
           this.setState({

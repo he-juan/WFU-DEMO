@@ -395,7 +395,7 @@ const msgs = {
   m_229: 'Please re-login with new IP if your device IP address has changed. Some items need to be restarted to take effect.',
   m_230: 'There are already other scheduled meetings during this time period, it is recommended to adjust the meeting time.',
   m_231: 'The calling line has reached the upper limit, currently only ipvt contacts can be added.',
-  m_232: '',
+  m_232: 'Set up successfully',
 
   m_999: ''
 }
