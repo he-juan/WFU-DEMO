@@ -201,8 +201,14 @@ class Call extends Component {
     let { tag, key, disabled, onRemove, classNameRemove, getTagDisplayValue, className, ...other } = props
     const { memToCall } = this.state
 
+    let colori = memToCall[key].acct
+    if (+colori === -1) {
+      let firstaccItem = this.props.acctStatus.filter(v => v.activate)[0]
+      colori = firstaccItem ? firstaccItem.acctIndex : 0
+    }
+
     return (
-      <span key={key} {...other} className={`${className} acct-${memToCall[key].acct}`} >
+      <span key={key} {...other} className={`${className} acct-${colori}`} >
         { getTagDisplayValue(tag) }
         { !disabled && <span className={classNameRemove} onClick={() => onRemove(key)} /> }
       </span>

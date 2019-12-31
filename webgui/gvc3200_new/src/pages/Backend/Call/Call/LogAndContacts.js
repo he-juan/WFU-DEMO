@@ -106,9 +106,9 @@ class LogAndContacts extends Component {
           return item.col0.indexOf(filterTags) >= 0 || (item.numberText && item.numberText.indexOf(filterTags) >= 0)
         }).map(item => {
           let _item = JSON.parse(JSON.stringify(item))
-          _item.col0 = _item.col0.replace(filterTags, `<b>${filterTags}</b>`)
+          _item.col0 = _item.col0.replace(new RegExp(filterTags, 'ig'), `<b>${filterTags}</b>`)
           if (_item.numberText) {
-            _item.numberText = _item.numberText.replace(filterTags, `<b>${filterTags}</b>`)
+            _item.numberText = _item.numberText.replace(new RegExp(filterTags, 'ig'), `<b>${filterTags}</b>`)
           }
           return _item
         })
