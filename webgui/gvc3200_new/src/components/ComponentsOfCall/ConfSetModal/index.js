@@ -401,7 +401,7 @@ class ConfSetModal extends FormCommon {
         let milliseconds = setdate.getTime()
 
         // 判断开始时间应该比当前时间+5min晚
-        if (moment(start_time).isBefore(moment(timestampNow).add(5, 'minutes')) && modalType === 'add') {
+        if (moment(start_time).isBefore(moment(timestampNow).add(5, 'minutes'))) {
           return message.error($t('m_127'))
         }
         // 请添加参会成员
@@ -414,7 +414,7 @@ class ConfSetModal extends FormCommon {
         const continueFn = () => {
           let host = 1
           let confname = values.confname
-          let duration = 60 * values.durationHour + values.durationMin
+          let duration = +values.durationMin + 60 * values.durationHour
           let pincode = values.pincode
           let repeat = parseInt(values.repeat)
           let preset = values.preset
