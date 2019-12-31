@@ -14,7 +14,7 @@ export default [
     icon: 'icon-call',
     sub: [
       {
-        name: 'r_001',
+        name: 'r_010',
         path: '/manage/calling_call'
       },
       {
