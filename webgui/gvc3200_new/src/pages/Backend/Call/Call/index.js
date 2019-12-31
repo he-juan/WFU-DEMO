@@ -168,13 +168,19 @@ class Call extends Component {
       }
     })
 
-    // 输入的非数字字符串无法添加
+    // 输入的非数字或ip字符串无法添加
     let lastMem = _memToCall.slice(-1)[0]
     if (lastMem && /\D/.test(lastMem.num) && !isIp(lastMem.num) && +lastMem.acct !== 2) {
-      message.error($t('m_224')) // 此号码不符合拨号规则
-      return false
+      return message.error($t('m_224')) // 此号码不符合拨号规则
     }
 
+    // 号码去重
+    let isUnique = _memToCall.filter(item => item.num === lastMem.num && item.acct === lastMem.acct).length === 1
+    if (!isUnique) {
+      return message.error($t('m_235')) // 此联系人已存在
+    }
+
+    // 号码最大数量限制
     _memToCall = this.limitMaxMembers(_memToCall, 'input')
 
     this.setState({
@@ -182,6 +188,7 @@ class Call extends Component {
       tagsInputValue: ''
     })
   }
+
   // 赋值 tagsInputValue
   handleTagsInput = (v) => {
     this.setState({
@@ -433,7 +440,7 @@ class Call extends Component {
               value={memToCall.map(v => v.name)}
               onChange={this.handleChangeMemToCall}
               addKeys={[13]}
-              onlyUnique={true}
+              // onlyUnique={true}
               // addOnBlur={true}
               inputProps={{ placeholder: '', maxLength: '40', style: { width: Math.min(tagsInputValue.length * 15, 590) } }}
               inputValue={tagsInputValue}

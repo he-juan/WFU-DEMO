@@ -397,7 +397,8 @@ const msgs = {
   m_231: 'The calling line has reached the upper limit, currently only ipvt contacts can be added.',
   m_232: 'Set up successfully',
   m_233: '{acct} account unregistered, failed to call',
-  m_234: 'Please enter the number',
+  m_234: 'Number cannot be empty',
+  m_235: 'The contact already exists',
 
   m_999: ''
 }
