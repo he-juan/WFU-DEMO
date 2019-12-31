@@ -726,7 +726,7 @@ const commons = {
   c_327: 'Back to the top',
   c_328: 'Forbidden',
   c_329: 'Recent call',
-  c_330: 'Multiple numbers can be separated with "Enter". ',
+  c_330: 'Please enter a number or IP address，Multiple numbers can be separated with "Enter". ',
   c_331: '(If empty, click to start IPVT meeting)',
   c_332: 'No active account',
   c_333: 'Local Contacts',
