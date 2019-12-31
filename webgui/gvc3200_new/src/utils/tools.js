@@ -151,7 +151,7 @@ export const throttleReactEvent = (fn, ms = 100) => {
  */
 export const transStr = (num) => {
   num = parseInt(num)
-  return num < 10 && num > 0 ? '0' + num : num.toString()
+  return num < 10 ? '0' + num : num.toString()
 }
 
 /**
