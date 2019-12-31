@@ -1,3 +1,6 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable padded-blocks */
+/* eslint-disable no-multiple-empty-lines */
 import React, { Component } from 'react'
 import { Dropdown, Menu, Input, Button, Icon, message } from 'antd'
 import TagsInput from 'react-tagsinput'
@@ -152,40 +155,39 @@ class Call extends Component {
 
   // 添加拨打成员, 只有输入逗号回车键才会触发
   handleChangeMemToCall = (mems) => {
-    const { selectAcct, memToCall } = this.state
-
-    let _memToCall = mems.map((number) => {
-      // 已添加进memToCall的 直接从memToCall取, 不要去覆盖
-      let memAlready = memToCall.filter(item => item.name === number)[0]
-      if (memAlready) return memAlready
-      return {
-        num: number,
+    const { selectAcct, memToCall, tagsInputValue } = this.state
+    let _memToCall = []
+    if (tagsInputValue) { // 添加
+      let lastNumber = tagsInputValue
+      let lastMem = {
+        num: lastNumber,
         acct: selectAcct,
         isvideo: '1',
         isconf: '1',
         source: '2',
-        name: number
+        name: lastNumber
       }
-    })
+      // 输入的非数字或ip字符串无法添加
+      if (lastMem && /\D/.test(lastMem.num) && !isIp(lastMem.num) && +selectAcct !== 2) {
+        return message.error($t('m_224')) // 此号码不符合拨号规则
+      }
+      // 号码去重
+      let isUnique = memToCall.filter(item => item.num === lastMem.num && item.acct === lastMem.acct).length === 0
+      if (!isUnique) {
+        return message.error($t('m_235')) // 此联系人已存在
+      }
+      _memToCall = [...memToCall, lastMem]
+      // 号码最大数量限制
+      _memToCall = this.limitMaxMembers(_memToCall, 'input')
 
-    // 输入的非数字或ip字符串无法添加
-    let lastMem = _memToCall.slice(-1)[0]
-    if (lastMem && /\D/.test(lastMem.num) && !isIp(lastMem.num) && +lastMem.acct !== 2) {
-      return message.error($t('m_224')) // 此号码不符合拨号规则
+    } else { // 删除
+
+      _memToCall = memToCall.slice(0, -1)
+
     }
-
-    // 号码去重
-    let isUnique = _memToCall.filter(item => item.num === lastMem.num && item.acct === lastMem.acct).length === 1
-    if (!isUnique) {
-      return message.error($t('m_235')) // 此联系人已存在
-    }
-
-    // 号码最大数量限制
-    _memToCall = this.limitMaxMembers(_memToCall, 'input')
-
+    
     this.setState({
-      memToCall: _memToCall,
-      tagsInputValue: ''
+      memToCall: _memToCall
     })
   }
 
@@ -220,8 +222,9 @@ class Call extends Component {
     const { acctStatus } = this.props
     const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
     // 账号未注册成功时 禁止拨打并提示错误
-    if (!acctStatus[selectAcct] || acctStatus[selectAcct].register !== 1) {
-      return message.error(formatMessage({ id: 'm_233' }, { acct: acctStatus[selectAcct].name }))
+    let selectAcctItem = acctStatus.filter(item => +item.acctIndex === +selectAcct)[0]
+    if (!selectAcctItem || selectAcctItem.register !== 1) {
+      return message.error(formatMessage({ id: 'm_233' }, { acct: selectAcctItem.name }))
     }
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
