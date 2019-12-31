@@ -84,7 +84,7 @@ class LocalSchedule extends Component {
   }
 
   // 取消会议 option 为1 删除单个
-  handleCancelConf = (event, Id, option) => {
+  handleCancelConf = (event, Id, option, setstate) => {
     this.cancelPop(event)
 
     let callback = (res) => {
@@ -94,6 +94,7 @@ class LocalSchedule extends Component {
       } else {
         message.error($t('m_028'))
       }
+      setstate && setstate(false)
     }
 
     if (option === 1) {

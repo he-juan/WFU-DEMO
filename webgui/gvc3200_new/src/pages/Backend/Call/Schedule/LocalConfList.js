@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Button, Row, Col, Popconfirm, Popover } from 'antd'
 import { convertTimeInfo } from '@/components/ComponentsOfCall/ConfSetModal/ScheduleTools'
 import { $t } from '@/Intl'
@@ -19,6 +19,7 @@ const LocalConfList = (props) => {
     '0': $t('c_248') // 已结束
   }
   let { schedules, handleSetConf, handleStartConf, handleCancelConf, cancelPop } = props
+  const [popVisible, setPopVisible] = useState(false)
 
   return (
     <div className='preconflist'>
@@ -60,10 +61,10 @@ const LocalConfList = (props) => {
                           <Button type='default' onClick={(e) => cancelPop(e)}>{$t('b_053')}</Button>
                         </Popconfirm> : <Popover title={$t('c_250')} content={
                           <Fragment>
-                            <p style={{ cursor: 'pointer' }} onClick={(e) => handleCancelConf(e, item.Id, 1)}>{$t('b_054')}</p>
-                            <p style={{ cursor: 'pointer' }} onClick={(e) => handleCancelConf(e, item.Id)}>{$t('b_055')}</p>
+                            <p style={{ cursor: 'pointer' }} onClick={(e) => handleCancelConf(e, item.Id, 1, setPopVisible)}>{$t('b_054')}</p>
+                            <p style={{ cursor: 'pointer' }} onClick={(e) => handleCancelConf(e, item.Id, 0, setPopVisible)}>{$t('b_055')}</p>
                           </Fragment>
-                        } trigger='click'>
+                        } trigger='click' visible={popVisible} onVisibleChange={setPopVisible}>
                           <Button type='default' onClick={(e) => cancelPop(e)}>{$t('b_053')}</Button>
                         </Popover>
                       }

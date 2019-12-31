@@ -250,6 +250,7 @@ class ConfSetModal extends FormCommon {
     let minutesArr1 = []
     Array(12).fill().forEach((item, index) => {
       let minutes = transStr(index * 5)
+      minutes = +minutes === 0 ? '00' : minutes
       if (+confminutes > +minutes - 5 && +confminutes < +minutes) {
         confminutesIndex = index
       }
