@@ -30,7 +30,7 @@ class LogAndContacts extends Component {
   handleRowClick = (record) => {
     if (!record.children) return false
     this.setState({
-      expandedKeys: record.key
+      expandedKeys: record.key === this.state.expandedKeys ? '' : record.key
     })
   }
 
