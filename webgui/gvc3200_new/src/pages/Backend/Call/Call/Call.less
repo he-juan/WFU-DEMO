@@ -199,14 +199,11 @@
           z-index: 2;
           padding-left: 3px;
           padding-top: 4px;
-          border: 1px solid #dadfe5;
-          display: inline-block;;
+          border-color: #dadfe5;
           background-color: transparent;
+          border: 1px solid #ccc;
           overflow-x: hidden;
           overflow-y: auto;
-          & > span {
-            white-space: nowrap;
-          }
           &.react-tagsinput--focused {
             border-color: #6699ff;
             & + .tagsinput-placeholder {
@@ -236,7 +233,10 @@
           padding: 2px 6px;
           border-radius: 4px;
           margin-right: 3px;
-          margin-bottom: 4px;
+          margin-bottom: 2px;
+          display: inline-block;
+          font-size: 13px;
+          font-weight: 400;
           &.acct-0 {
             border: 1px solid #4ed711;
           }
@@ -254,6 +254,7 @@
           }
     
           .react-tagsinput-remove {
+            padding-left: 2px;
             color: #222;
             cursor: pointer;
             &::before {
@@ -267,6 +268,7 @@
   }
 
   .dialup-list {
+    margin-top: 5px;
     .list-title {
       color: #55627b;
       font-size: 12px;

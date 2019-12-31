@@ -396,6 +396,8 @@ const msgs = {
   m_230: 'There are already other scheduled meetings during this time period, it is recommended to adjust the meeting time.',
   m_231: 'The calling line has reached the upper limit, currently only ipvt contacts can be added.',
   m_232: 'Set up successfully',
+  m_233: '{acct} account unregistered, failed to call',
+  m_234: 'Please enter the number',
 
   m_999: ''
 }
@@ -730,6 +732,8 @@ const commons = {
   c_334: 'Call History',
   c_335: 'Contacts',
   c_336: 'Add member',
+  c_337: 'Meeting ID',
+  c_338: 'Password (optional)',
 
   c_999: ''
 }

@@ -6,7 +6,7 @@ import { setDefaultAcct, getDefaultAcct, getAcctStatus } from '@/store/actions'
 import { deepCopy, parseAcct, mapToSource } from '@/utils/tools'
 import LogAndContacts from './LogAndContacts'
 import API from '@/api'
-import { $t } from '@/Intl'
+import { $t, formatMessage } from '@/Intl'
 import './Call.less'
 
 const isIp = (value) => {
@@ -204,7 +204,12 @@ class Call extends Component {
 
   // 呼出接口
   handleDialup = (isvideo) => {
+    const { acctStatus } = this.props
     const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
+    // 账号未注册成功时 禁止拨打并提示错误
+    if (!acctStatus[selectAcct] || acctStatus[selectAcct].register !== 1) {
+      return message.error(formatMessage({ id: 'm_233' }, { acct: acctStatus[selectAcct].name }))
+    }
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
@@ -234,9 +239,11 @@ class Call extends Component {
 
     if (_memToCall.length === 0) {
       // ipvt 快速会议
-      // if (+selectAcct === 1) {
-      //   this.props.quickStartIPVConf(isvideo)
-      // }
+      if (+selectAcct === 1) {
+        // this.props.quickStartIPVConf(isvideo)
+      } else {
+        message.error($t('m_234'))
+      }
       return false
     }
 
@@ -428,7 +435,7 @@ class Call extends Component {
               addKeys={[13]}
               onlyUnique={true}
               // addOnBlur={true}
-              inputProps={{ placeholder: '', maxLength: '60', style: { width: tagsInputValue.length * 10 } }}
+              inputProps={{ placeholder: '', maxLength: '40', style: { width: Math.min(tagsInputValue.length * 15, 590) } }}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
               renderTag={this.renderTag}
@@ -440,8 +447,8 @@ class Call extends Component {
               </span>
             }
           </div> : <div className='bj-inputs'>
-            <Input placeholder='Meeting ID' onChange={(e) => this.handleBjMember({ id: e.target.value })} /><br />
-            <Input placeholder='Password (optional)' onChange={(e) => this.handleBjMember({ pw: e.target.value })} />
+            <Input placeholder={$t('c_337')} onChange={(e) => this.handleBjMember({ id: e.target.value })} /><br />
+            <Input placeholder={$t('c_338')} onChange={(e) => this.handleBjMember({ pw: e.target.value })} />
           </div>
         }
       </div>
