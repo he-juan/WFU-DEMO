@@ -129,7 +129,7 @@ class AudioControl extends FormCommon {
             {...options['curRing']}
             gfd={gfd}
             min={0}
-            max={7}
+            max={15}
           />
           {/* 媒体音量 */}
           <SliderItem
