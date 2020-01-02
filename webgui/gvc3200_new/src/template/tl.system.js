@@ -120,9 +120,9 @@ export default {
             // 当前管理员密码
             { lang: 'sys_sec_004_1', _p: 'curadmipwd' },
             // 管理员新密码
-            { lang: 'sys_sec_005', p: 'P2', noInit: 1 },
+            { lang: 'sys_sec_005', p: 'P2', noInit: 1, denyRole: 'user' },
             // 确认管理员新密码
-            { lang: 'sys_sec_006', _p: 'adminpasswd2' },
+            { lang: 'sys_sec_006', _p: 'adminpasswd2', denyRole: 'user' },
             // 用户新密码
             { lang: 'sys_sec_007', p: 'P196', noInit: 1 },
             // 确认用户新密码

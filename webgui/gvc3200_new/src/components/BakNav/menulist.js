@@ -136,7 +136,6 @@ export default [
       },
       {
         name: 'r_026',
-        denyRole: 'user',
         path: '/manage/sys_security'
       },
       // 外围设备
