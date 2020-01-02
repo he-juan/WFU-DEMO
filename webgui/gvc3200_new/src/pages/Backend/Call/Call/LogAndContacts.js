@@ -1,12 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Tooltip } from 'antd'
+import { Table, Tooltip, Button, Modal, Checkbox, Icon } from 'antd'
 import NoData from '@/components/NoData'
 import { getRecordIcon as getIconClass, momentFormat } from '@/utils/tools'
 import API from '@/api'
+import { $t } from '@/Intl'
+import { connect } from 'react-redux'
 
 let timer, DATASOURCE
 
+@connect(
+  state => ({
+    maxLineCount: state.maxLineCount,
+    linesInfo: state.linesInfo
+  })
+)
 class LogAndContacts extends Component {
   static propTypes = {
     dataSource: PropTypes.array.isRequired, // 列表数据
@@ -69,6 +77,59 @@ class LogAndContacts extends Component {
     }
   }
 
+    // 选择成员
+    selectCallMem = (memId) => {
+      const { confMemSelectToCall } = this.state
+      const { maxLineCount, linesInfo } = this.props
+      // console.log(linesInfo)
+      let _memSelect = JSON.parse(JSON.stringify(confMemSelectToCall))
+      for (let mem of _memSelect) {
+        if (mem.id === memId) {
+          mem.selected = !mem.selected
+          break
+        }
+      }
+      // console.log(_memSelect)
+      // 选中的拨打成员数_memSelect+在拨打的线路数linesInfo(去重，去除拨打失败的)不超过最大线路数maxLineCount
+      let len = linesInfo.filter(item => item.state !== '8').length + _memSelect.filter(i => i.selected && !linesInfo.some(j => j.num === i.number)).length
+      if (len >= parseInt(maxLineCount)) {
+        _memSelect = _memSelect.map(mem => {
+          if (mem.selected) return mem
+          mem.checkDisable = true
+          return mem
+        })
+      } else {
+        _memSelect = _memSelect.map(mem => {
+          delete mem.checkDisable
+          return mem
+        })
+      }
+      this.setState({
+        confMemSelectToCall: _memSelect
+      })
+    }
+
+    // 弹窗点击
+  confMemSelectCall = () => {
+    const { confMemSelectToCall } = this.state
+    const selectedMems = confMemSelectToCall.filter(v => v.selected)
+    const memToCall = selectedMems.map(mem => {
+      const { acct, number: num, isvideo, source } = mem
+      return {
+        acct,
+        num,
+        isvideo,
+        source,
+        isconf: '1'
+      }
+    })
+
+    API.makeCall(memToCall)
+    this.setState({
+      confMemSelectToCall: []
+    })
+  }
+
   handleTableScroll = (e) => {
     if (timer) return false
     const { curPage, tableData } = this.state
@@ -127,7 +188,8 @@ class LogAndContacts extends Component {
   }
 
   render () {
-    const { tableData, expandedKeys, curPage, maxHeight } = this.state
+    const { confMemSelectToCall, tableData, expandedKeys, curPage, maxHeight } = this.state
+    const { maxLineCount } = this.props
     let _dataSource = tableData.slice(0, 30 * curPage)
     const columns = [
       {
@@ -170,10 +232,10 @@ class LogAndContacts extends Component {
         render: (text, record, index) => {
           return (
             <div className='operate-btns'>
-              <Tooltip title='添加'>
+              <Tooltip title={$t('b_056')}>
                 <span className='icons icon-add' onClick={(e) => this.handleAddRecord(record, e)}></span>
               </Tooltip>
-              <Tooltip title='呼叫'>
+              <Tooltip title={$t('b_043')}>
                 <span className='icons icon-call-btn' style={{ marginLeft: 10 }} onClick={(e) => this.handleCallRecord(record, e)}></span>
               </Tooltip>
             </div>
@@ -200,6 +262,42 @@ class LogAndContacts extends Component {
             /> : <NoData/>
           }
         </div>
+        <Modal
+          width={680}
+          className='modal-member'
+          title={$t('c_305')}
+          visible={confMemSelectToCall.length > 0}
+          onCancel={() => this.setState({ confMemSelectToCall: [] })}
+          transitionName=''
+          maskTransitionName=''
+          footer={
+            <div className='modal-member-footer'>
+              <Button onClick={() => this.setState({ confMemSelectToCall: [] })} >{$t('b_005')}</Button>
+              <Button type='primary' onClick={() => this.confMemSelectCall()} disabled={confMemSelectToCall.filter(v => v.selected).length === 0}>{$t('c_305')}</Button>
+            </div>
+          }
+        >
+          <p className='modal-tips'>
+            <span style={{ display: confMemSelectToCall.some(mem => mem.checkDisable) ? 'inline-block' : 'none' }}>
+              <Icon type='exclamation-circle' theme='filled' className='tips-icon'/>{`${$t('m_236')}(${maxLineCount})`}</span>
+          </p>
+          <ul className='modal-member-ul'>
+            {
+              confMemSelectToCall.map(mem => {
+                return (
+                  <li key={mem.id}>
+                    <span>
+                      <Checkbox disabled={Boolean(mem.checkDisable)} checked={!!mem.selected} onChange={() => this.selectCallMem(mem.id)} />
+                    </span>
+                    <span>{mem.col0}</span>
+                    <span>{mem.col1}</span>
+                    <span>{mem.number}</span>
+                  </li>
+                )
+              })
+            }
+          </ul>
+        </Modal>
       </div>
     )
   }
