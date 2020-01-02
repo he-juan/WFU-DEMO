@@ -35,6 +35,13 @@ class WebSSHAccess extends FormCommon {
     })
   }
 
+  handleProtocolChange = (v) => {
+    const { setFieldsValue } = this.props.form
+    setFieldsValue({
+      P901: v === '0' ? '80' : '443'
+    })
+  }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields, setFieldsValue } = this.props.form
@@ -102,6 +109,7 @@ class WebSSHAccess extends FormCommon {
         <SelectItem
           gfd={gfd}
           {...options['P900']}
+          onChange={this.handleProtocolChange}
           selectOptions={[
             { v: '0', t: 'HTTP' },
             { v: '1', t: 'HTTPS' }
