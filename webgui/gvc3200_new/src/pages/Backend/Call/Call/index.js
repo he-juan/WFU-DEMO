@@ -25,7 +25,8 @@ const isIp = (value) => {
     acctStatus: state.acctStatus, // 激活的账号列表获取
     defaultAcct: state.defaultAcct, // 默认选中账号
     contacts: state.contacts, // 联系人列表
-    callLogs: state.callLogs // 通话记录
+    callLogs: state.callLogs, // 通话记录
+    IPVTExist: state.IPVTExist
   }),
   dispatch => ({
     setDefaultAcct: (acctIndex) => dispatch(setDefaultAcct(acctIndex)),
@@ -402,7 +403,7 @@ class Call extends Component {
   }
 
   render () {
-    const { acctStatus, defaultAcct } = this.props
+    const { acctStatus, defaultAcct, IPVTExist } = this.props
     const { selectAcct, memToCall, tagsInputValue, dataSource } = this.state
 
     if (!acctStatus) return null
@@ -415,6 +416,7 @@ class Call extends Component {
         {
           acctStatus.map((v, i) => {
             if (!v.activate) return null
+            if (v.acctIndex === 1 && +IPVTExist === 0) return null // ipvt 功能未开启时不显示
             return (
               <Menu.Item key={v.acctIndex} className={!v.register ? 'disabled' : ''}>
                 <span><em className={`acct-icon acct-${v.acctIndex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>

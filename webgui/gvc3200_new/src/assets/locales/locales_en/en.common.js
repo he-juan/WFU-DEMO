@@ -400,6 +400,8 @@ const msgs = {
   m_234: 'Number cannot be empty',
   m_235: 'The contact already exists',
   m_236: 'The number of members has reached the limit.',
+  m_237: 'Port cannot be 443 when  access method is HTTP.',
+  m_238: 'Port cannot be 80 when  access method is HTTPS.',
 
   m_999: ''
 }

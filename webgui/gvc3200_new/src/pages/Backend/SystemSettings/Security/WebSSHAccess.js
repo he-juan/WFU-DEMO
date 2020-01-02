@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button, Modal } from 'antd'
+import { Form, Button, Modal, message } from 'antd'
 import { getOptions } from '@/template'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/FormItem'
@@ -37,6 +37,7 @@ class WebSSHAccess extends FormCommon {
 
   handleProtocolChange = (v) => {
     const { setFieldsValue } = this.props.form
+    if (originPort !== '80' && originPort !== '443') return false
     setFieldsValue({
       P901: v === '0' ? '80' : '443'
     })
@@ -74,21 +75,32 @@ class WebSSHAccess extends FormCommon {
             })
           }
         }
-        this.submitFormValue(values, 0).then(() => {
-          if (originProtocal !== curProtocal || originPort !== curPort) {
-            let hostname = window.location.hostname
-            let protocal = curProtocal === '0' ? 'http://' : 'https://'
-            let newUrl = protocal + hostname + ':' + curPort
 
-            Modal.info({
-              content: $t('m_004') + newUrl,
-              okText: $t('b_002'),
-              onOk () {
-                window.location.href = newUrl
-              }
-            })
+        if (originProtocal !== curProtocal || originPort !== curPort) {
+          if (curProtocal === '0' && curPort === '443') {
+            return message.error($t('m_237')) // Port cannot be 443 when  access method is HTTP.
           }
-        })
+          if (curProtocal === '1' && curPort === '80') {
+            return message.error($t('m_238'))
+          }
+          let hostname = window.location.hostname
+          let protocal = curProtocal === '0' ? 'http://' : 'https://'
+          let newUrl = protocal + hostname + ':' + curPort
+
+          Modal.info({
+            title: $t('m_004') + newUrl,
+            okText: $t('b_002'),
+            onOk: () => {
+              this.submitFormValue(values, 0).then(() => {
+                setTimeout(() => {
+                  window.location.href = newUrl
+                }, 200)
+              })
+            }
+          })
+        } else {
+          this.submitFormValue(values, 0)
+        }
       }
     })
   }
