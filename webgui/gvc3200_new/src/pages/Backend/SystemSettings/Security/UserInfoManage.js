@@ -196,7 +196,8 @@ class UserInfoManage extends FormCommon {
           name='curadmipwd'
           gfdOptions={{
             rules: [
-              this.required()
+              this.required(),
+              this.maxLen(32)
             ]
           }}
         />
@@ -208,7 +209,8 @@ class UserInfoManage extends FormCommon {
             rules: [
               this.checkConfirm('admin'),
               this.checkCharacter(),
-              this.checkPassword2()
+              this.checkPassword2(),
+              this.maxLen(32)
             ]
           }}
         />
@@ -219,7 +221,8 @@ class UserInfoManage extends FormCommon {
           gfdOptions={{
             rules: [
               this.checkPassword('admin'),
-              this.checkCharacter()
+              this.checkCharacter(),
+              this.maxLen(32)
             ]
           }}
         />
@@ -232,7 +235,8 @@ class UserInfoManage extends FormCommon {
             rules: [
               this.checkConfirm('user'),
               this.checkCharacter(),
-              this.checkPassword2()
+              this.checkPassword2(),
+              this.maxLen(32)
             ]
           }}
         />
@@ -244,7 +248,8 @@ class UserInfoManage extends FormCommon {
           gfdOptions={{
             rules: [
               this.checkPassword('user'),
-              this.checkCharacter()
+              this.checkCharacter(),
+              this.maxLen(32)
             ]
           }}
         />
