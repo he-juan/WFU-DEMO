@@ -13200,16 +13200,14 @@ static int handle_provisioninit(buffer *b, const struct message *m)
     }
     int result = 0;
 
-    //provision_ret = prov_web_upgrade_init(&provision_local_fd, &provision_destaddr);
-    provision_ret = 1;
+    provision_ret = prov_upgrade_init(&provision_local_fd, &provision_destaddr);
     if (provision_ret) {
         check_provision_pid();
         buffer_append_string (b, "0");
         return 0;
     }
     m_uploading = 1;
-    //result = prov_inform_to_upgrade(provision_local_fd, &provision_destaddr, m_upgradeall);
-    result = 1;
+    result = prov_inform_to_upgrade(provision_local_fd, &provision_destaddr, m_upgradeall);
     printf("inform_gparse_update result is %d\n", result);
     if( result )
         buffer_append_string (b, "0");
@@ -13221,15 +13219,14 @@ static int handle_provisioninit(buffer *b, const struct message *m)
 
 static int handle_upgradenow (buffer *b)
 {
-    //prov_inform_to_end(provision_local_fd, &provision_destaddr);
+    prov_inform_to_end(provision_local_fd, &provision_destaddr);
     if( access(FIFO_PATH, 0) ) {
         buffer_append_string (b, "Response=Success\r\nresult=2\r\n");
         check_provision_pid();
         m_uploading = 0;
         return -1;
     }
-    //provision_ret = prov_wait_for_result(provision_local_fd, &provision_destaddr);
-    provision_ret = 1;
+    provision_ret = prov_wait_for_result(provision_local_fd, &provision_destaddr);
     char res[32] = "";
     snprintf(res, sizeof(res), "Response=Success\r\nresult=%d\r\n", provision_ret);
     buffer_append_string (b, res);
@@ -25692,6 +25689,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 char *members = msg_get_header(m, "Members");
                 if (NULL == confId || NULL == members) {
                     create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
                 }
                 uri_decode(members);
                 params = append_req_params(params, "confId", confId, 1);

@@ -36,4 +36,4 @@ export LDFLAGS="-nostdlib -Bdynamic -pie -fPIE -Wl,-rpath-link=${ANDROID_ROOT}/o
     -L${ANDROID_ROOT}/out/target/product/gvc3220/obj/STATIC_LIBRARIES/libcrypto_static2_intermediates/"
 
 
-export LIBS="-lc -ldl -lm -lgsnvram -lgsdbus -llog -licuuc -lpcre -lsqlite -lxml2 -lcutils"
+export LIBS="-lc -ldl -lm -lgsnvram -lgsdbus -llog -licuuc -lpcre -lsqlite -lxml2 -lcutils -lwebupdate"
