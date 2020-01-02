@@ -1316,9 +1316,11 @@ static char *get_contact_info_address(sqlite3 *db, char *contact_id) {
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             char *address = (char*)sqlite3_column_text(stmt, 0);    // address
 
-            res = (char*)malloc(strlen(address));
-            memset(res, 0, strlen(address));
-            snprintf(res, "%s", address);
+            if (NULL != address) {
+                res = (char*)malloc(strlen(address));
+                memset(res, 0, strlen(address));
+                snprintf(res, "%s", address);
+            }
 
             break;
         }
@@ -1356,9 +1358,11 @@ static char *get_contact_info_website(sqlite3 *db, char *contact_id) {
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             char *website = (char*)sqlite3_column_text(stmt, 0);    // website
 
-            res = (char*)malloc(strlen(website));
-            memset(res, 0, strlen(website));
-            snprintf(res, "%s", website);
+            if (NULL != website) {
+                res = (char*)malloc(strlen(website));
+                memset(res, 0, strlen(website));
+                snprintf(res, "%s", website);
+            }
 
             break;
         }
@@ -1396,9 +1400,11 @@ static char *get_contact_info_note(sqlite3 *db, char *contact_id) {
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             char *note = (char*)sqlite3_column_text(stmt, 0);    // note
 
-            res = (char*)malloc(strlen(note));
-            memset(res, 0, strlen(note));
-            snprintf(res, "%s", note);
+            if (NULL != note) {
+                res = (char*)malloc(strlen(note));
+                memset(res, 0, strlen(note));
+                snprintf(res, "%s", note);
+            }
 
             break;
         }
@@ -1436,9 +1442,11 @@ static char *get_contact_info_company(sqlite3 *db, char *contact_id) {
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             char *company = (char*)sqlite3_column_text(stmt, 0);    // company
 
-            res = (char*)malloc(strlen(company));
-            memset(res, 0, strlen(company));
-            snprintf(res, "%s", company);
+            if (NULL != company) {
+                res = (char*)malloc(strlen(company));
+                memset(res, 0, strlen(company));
+                snprintf(res, "%s", company);
+            }
 
             break;
         }
@@ -1476,9 +1484,11 @@ static char *get_contact_info_rank(sqlite3 *db, char *contact_id) {
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             char *rank = (char*)sqlite3_column_text(stmt, 0);    // rank
 
-            res = (char*)malloc(strlen(rank));
-            memset(res, 0, strlen(rank));
-            snprintf(res, "%s", rank);
+            if (NULL != rank) {
+                res = (char*)malloc(strlen(rank));
+                memset(res, 0, strlen(rank));
+                snprintf(res, "%s", rank);
+            }
 
             break;
         }
@@ -1516,9 +1526,11 @@ static char *get_contact_info_department(sqlite3 *db, char *contact_id) {
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             char *department = (char*)sqlite3_column_text(stmt, 0);    // department
 
-            res = (char*)malloc(strlen(department));
-            memset(res, 0, strlen(department));
-            snprintf(res, "%s", department);
+            if (department != NULL) {
+                res = (char*)malloc(strlen(department));
+                memset(res, 0, strlen(department));
+                snprintf(res, "%s", department);
+            }
 
             break;
         }
@@ -1556,9 +1568,11 @@ static char *get_contact_info_title(sqlite3 *db, char *contact_id) {
         while(sqlite3_step(stmt) == SQLITE_ROW) {
             char *title = (char*)sqlite3_column_text(stmt, 0);    // title
 
-            res = (char*)malloc(strlen(title));
-            memset(res, 0, strlen(title));
-            snprintf(res, "%s", title);
+            if (NULL != title) {
+                res = (char*)malloc(strlen(title));
+                memset(res, 0, strlen(title));
+                snprintf(res, "%s", title);
+            }
 
             break;
         }
