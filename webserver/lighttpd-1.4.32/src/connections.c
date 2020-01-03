@@ -11654,7 +11654,7 @@ static int handle_productinfo (server *srv, connection *con,
         const char *resType = msg_get_header(m, "format");
         if ( (resType != NULL) && !strcasecmp( resType, "json" ) )
         {
-            snprintf( res, sizeof( res ), "{\"res\": \"success\", \"product\": \"%s\", \"vendor\": \"%s\", \"base\": \"%s\"}", buf, vendorBuf, baseBuf);
+            snprintf( res, sizeof( res ), "{\"res\": \"success\", \"product\": \"%s\", \"vendor\": \"%s\", \"base\": \"%s\", \"year\":\"2020\"}", buf, vendorBuf, baseBuf);
             temp = build_JSON_res( srv, con, m, res );
             buffer_append_string( b, temp );
             free(temp);
@@ -11663,7 +11663,7 @@ static int handle_productinfo (server *srv, connection *con,
         {
             buffer_append_string (b, "Response=Success\r\n");
 
-            snprintf(res, sizeof(res), "Product=GVC3220\r\nVendor=Grandstream Networks, Inc.\r\nBaseProduct=GVC3220\r\n", buf, vendorBuf, baseBuf);
+            snprintf(res, sizeof(res), "Product=GVC3220\r\nVendor=Grandstream Networks, Inc.\r\nBaseProduct=GVC3220\r\nYear=2020\r\n", buf, vendorBuf, baseBuf);
             buffer_append_string(b, res);
         }
         return 1;
