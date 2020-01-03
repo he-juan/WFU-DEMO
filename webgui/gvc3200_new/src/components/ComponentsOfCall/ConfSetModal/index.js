@@ -332,17 +332,17 @@ class ConfSetModal extends FormCommon {
       let { curMember } = this.state
       // 判断 通话超出8路？
       if (curMember.length >= 8) {
-        const sipMember = []
+        const otherMember = []
         const ipvtMember = []
         curMember.forEach(item => {
-          if (+item.acct === 0) sipMember.push(item)
-          else if (+item.acct === 1) ipvtMember.push(item)
+          if (+item.acct === 1) ipvtMember.push(item)
+          else otherMember.push(item)
         })
-        // 存在ipvt的话。ipvt只能算一路，则sip这个时候最多7路
-        if ((sipMember.length >= 8 && ipvtMember.length === 0) || (sipMember.length > 7 && ipvtMember.length > 0)) {
-          message.error('SIP' + $t('m_137')) // 成员数量已达上限
+        // 存在ipvt的话。ipvt只能算一路，则其他这个时候最多7路
+        if ((otherMember.length >= 8 && ipvtMember.length === 0) || (otherMember.length > 7 && ipvtMember.length > 0)) {
+          message.error($t('m_137')) // 成员数量已达上限
           return false
-        } else if (ipvtMember.length > 0 && sipMember.length === 7) {
+        } else if (ipvtMember.length > 0 && otherMember.length === 7) {
           message.warning($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
         }
       }
@@ -354,17 +354,16 @@ class ConfSetModal extends FormCommon {
   handleMemberData = (data, callback) => {
     let { curMember } = this.state
     let memberArr = uniqBy(curMember.concat(data), 'number')
-
     if (memberArr.length > 8) {
-      const sipMember = []
+      const otherMember = []
       const ipvtMember = []
       memberArr.forEach(item => {
-        if (+item.acct === 0) sipMember.push(item)
-        else if (+item.acct === 1) ipvtMember.push(item)
+        if (+item.acct === 1) ipvtMember.push(item)
+        else otherMember.push(item)
       })
-      // 存在ipvt的话。ipvt只能算一路，则sip这个时候最多7路
-      if ((sipMember.length > 8 && ipvtMember.length === 0) || (sipMember.length > 7 && ipvtMember.length > 0)) {
-        message.error('SIP' + $t('m_137')) // 成员数量已达上限
+      // 存在ipvt的话。ipvt只能算一路，则其他这个时候最多7路
+      if ((otherMember.length > 8 && ipvtMember.length === 0) || (otherMember.length > 7 && ipvtMember.length > 0)) {
+        message.error($t('m_137')) // 成员数量已达上限
         return false
       }
     }
@@ -617,6 +616,7 @@ class ConfSetModal extends FormCommon {
     }
     // 账号类型
     const accts = {
+      '-1': $t('c_219'), // '动态账号'
       '0': 'SIP',
       '1': 'IPVideoTalk',
       '8': 'H.323',
