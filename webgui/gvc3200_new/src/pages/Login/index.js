@@ -202,7 +202,7 @@ class PwChangeForm extends Component {
       // case (pw1 === 'admin' && changeType === 'admin') || (pw1 === '123' && changeType === 'user') :
       //   this.errorTip('新密码不可为默认密码')
       //   return false
-      case (/^[0-9]*$/.test(pw1) || /^[a-z]*$/.test(pw1) || /^[A-Z]*$/.test(pw1)) :
+      case (/^[0-9]*$/.test(pw1) || /^[a-z]*$/.test(pw1) || /^[A-Z]*$/.test(pw1) || /[\u4e00-\u9fa5]+/.test(pw1)) :
         this.errorTip($fm('m_166')) // 密码格式错误
         return false
       default:

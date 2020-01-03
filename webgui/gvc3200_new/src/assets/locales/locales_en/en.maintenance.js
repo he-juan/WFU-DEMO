@@ -16,7 +16,7 @@ export default {
   mai_up_005: 'HTTP/HTTPS Username',
   mai_up_005_tip: 'The user name for the firmware HTTP/HTTPS server.',
 
-  mai_up_006: 'Http Https Password',
+  mai_up_006: 'HTTP/HTTPS Password',
   mai_up_006_tip: 'The password for the firmware HTTP/HTTPS server.',
 
   mai_up_007: 'Firmware File Prefix',
@@ -34,10 +34,10 @@ export default {
   mai_up_011: 'Config Server Path',
   mai_up_011_tip: 'Defines the server path for provisioning. It could be different from the Firmware Server Path.',
 
-  mai_up_012: 'Config Http Https Username',
+  mai_up_012: 'Config HTTP/HTTPS Username',
   mai_up_012_tip: 'The user name for the config HTTP/HTTPS server.',
 
-  mai_up_013: 'Config Http Https Password',
+  mai_up_013: 'Config HTTP/HTTPS Password',
   mai_up_013_tip: 'The password for the config HTTP/HTTPS server.',
 
   mai_up_014: 'Always Send Http Basic Authentication Information',
