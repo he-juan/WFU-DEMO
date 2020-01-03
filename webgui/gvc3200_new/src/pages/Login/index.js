@@ -74,7 +74,7 @@ class LoginForm extends Component {
         this.props.changePw(username)
       } else {
         let redirect = parseSearch(history.location.search).redirect
-        history.push(redirect || '/manage/status_account')
+        history.push(redirect || '/manage/calling_call')
       }
     } else {
       const { Message, Times, LockType } = data
@@ -213,7 +213,7 @@ class PwChangeForm extends Component {
     API.changDefaultPwd(payload).then(m => {
       if (m.Response === 'Success') {
         this.props.setUserType(Cookie.get('type'))
-        history.push('/manage/status_account')
+        history.push('/manage/calling_call')
       } else {
         const errors = {
           '0': $fm('m_167'), // 修改失败
