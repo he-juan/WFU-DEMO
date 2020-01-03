@@ -194,6 +194,19 @@ class ConfSetModal extends FormCommon {
     return repeatRule.join(';')
   }
 
+  // 检测会议密码
+  checkPincode () {
+    return {
+      validator: (data, value, callback) => {
+        if (!value || (value && /^\d{0,10}$/.test(value))) {
+          callback()
+        } else {
+          callback($fm('c_294'))
+        }
+      }
+    }
+  }
+
   // 不可选中日期
   disabledDate =(current) => {
     return current && current.valueOf() < Date.now()
@@ -779,8 +792,7 @@ class ConfSetModal extends FormCommon {
               {gfd('pincode', {
                 initialValue: currConf['pincode'],
                 rules: [
-                  this.digits(),
-                  this.maxLen(10)
+                  this.checkPincode()
                 ]
               })(
                 <Input disabled={allDisabled} style={{ width: '40%' }} placeholder={$t('c_294')}/>
