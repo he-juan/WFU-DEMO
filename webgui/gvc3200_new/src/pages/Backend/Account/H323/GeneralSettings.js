@@ -120,7 +120,11 @@ class GeneralSettings extends FormCommon {
         <InputItem
           {...options['P626']}
           gfd={gfd}
-
+          gfdOptions={{
+            rules: [
+              this.maxLen(64)
+            ]
+          }}
         />
         {/* 注册期限(分钟) */}
         <InputItem
