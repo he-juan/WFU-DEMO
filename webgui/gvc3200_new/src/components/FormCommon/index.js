@@ -6,7 +6,7 @@ import API from '@/api'
 import { store } from '@/store'
 import { getApplyStatus } from '@/store/actions'
 import { message } from 'antd'
-import { $t, $fm, formatMessage } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 import { rebootNotify } from '@/utils/rebootNotify'
 
 // 定义一些 额外的重启项 但是 不走 rebootNotify 逻辑的那种
@@ -153,7 +153,7 @@ class FormCommon extends Component {
     return {
       validator: (data, value, callback) => {
         if (value && (value > max || value < min)) {
-          callback($fm('m_078') + min + '-' + max)
+          callback($fm('m_078', { min, max }))
         } else {
           callback()
         }
@@ -163,7 +163,7 @@ class FormCommon extends Component {
 
   // max 64
   maxLen (n) {
-    return { max: n, message: formatMessage({ id: 'm_080' }, { n }) }
+    return { max: n, message: $fm('m_080', { n }) }
   }
 
   // 时间校验

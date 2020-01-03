@@ -241,7 +241,7 @@ const msgs = {
   m_075: 'Valid: integer.',
   m_076: 'Can not include chinese characters.',
   m_077: 'Must be numbers.',
-  m_078: 'Valid:',
+  m_078: 'Valid:{min}-{max}',
   m_079: 'Correct format hh:mm.',
   m_080: 'Please enter no more than {n} characters', // n length
   m_081: 'The session expiration value shouldn\'t be smaller than Min-SE.',
