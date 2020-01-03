@@ -315,7 +315,7 @@ class Login extends Component {
             : <PwChangeForm changeType={changeType} setUserType={setUserType}/>
         }
         <div className='login-page-footer'>
-          {`Copyright © ${productInfo['Vendor']} ${new Date().getFullYear()}. All Rights Reserved.`}
+          {`Copyright © ${productInfo['Vendor']} ${productInfo['Year']}. All Rights Reserved.`}
         </div>
       </Layout>
     )

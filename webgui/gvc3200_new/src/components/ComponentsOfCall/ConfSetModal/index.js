@@ -116,7 +116,8 @@ class ConfSetModal extends FormCommon {
       presetInfo: [], // 预置位列表
       displayAddModal: false, // 添加成员弹窗
       curMember: [],
-      currConf: {}
+      currConf: {},
+      dateInfo: {}
     }
   }
 
@@ -381,7 +382,7 @@ class ConfSetModal extends FormCommon {
   // 确定 会议了
   handleOk = () => {
     let { allDisabled, form: { validateFields, setFields }, onCancel, updateDate } = this.props
-    let { currConf } = this.state
+    let { currConf, dateInfo } = this.state
     if (allDisabled) return onCancel()
     validateFields((err, values) => {
       if (!err) {
@@ -398,8 +399,9 @@ class ConfSetModal extends FormCommon {
 
         values.confStatedate = values.confStatedate.format('YYYY-MM-DD')
         let start_time = values.confStatedate + ' ' + values.confhours + ':' + values.confminutes
-        let setdate = new Date(start_time)
-        let milliseconds = setdate.getTime()
+        let setdate = moment(start_time)
+        const diff = setdate.diff(moment(dateInfo.Date + ' ' + dateInfo.Time), 'seconds')
+        const milliseconds = parseInt(dateInfo.Timestamp / 1000 + diff) * 1000
 
         // 判断开始时间应该比当前时间+5min晚
         if (moment(start_time).isBefore(moment(timestampNow).add(5, 'minutes'))) {
@@ -434,11 +436,11 @@ class ConfSetModal extends FormCommon {
               repeatRule = 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR'
               break
             case 2:
-              repeatRule = 'FREQ=WEEKLY;BYDAY=' + weekOptions[setdate.getDay()].value
+              repeatRule = 'FREQ=WEEKLY;BYDAY=' + weekOptions[setdate.days()].value
               break
             // case 4:
-            //   let day = parseInt(setdate.getDate())
-            //   let dayweek = parseInt(setdate.getDay())
+            //   let day = parseInt(setdate.date())
+            //   let dayweek = parseInt(setdate.days())
             //   let ordinal = Math.ceil(day / 7)
             //   if (ordinal >= 5) ordinal = -1
             //   repeatRule = 'FREQ=MONTHLY;BYDAY=' + ordinal + weekOptions[dayweek].value
@@ -549,7 +551,8 @@ class ConfSetModal extends FormCommon {
       const _currConf = convertCurrConf(currConf, types === 'object' ? 'history' : '', timestampNow)
       this.setState({
         curMember: deepCopy(_currConf.memberData),
-        currConf: _currConf
+        currConf: _currConf,
+        dateInfo: data
       })
       timestampNowInter = setInterval(() => {
         timestampNow += 1000
@@ -573,9 +576,9 @@ class ConfSetModal extends FormCommon {
       { v: '0', t: $t('c_257') },
       // { v: '1', t: '每天' },
       { v: '1', t: $t('c_258') },
-      { v: '2', t: $fm('c_259', { n: weekOptions[new Date(statedate).getDay()].label }) }, // c_259: '每周（每周一）'
+      { v: '2', t: $fm('c_259', { n: weekOptions[moment(statedate).days()].label }) }, // c_259: '每周（每周一）'
       // { v: '4', t: '每月 (按星期)' },
-      { v: '3', t: $fm('c_260', { n: new Date(statedate).getDate() }) }, // c_260: '每月（每月8号）'
+      { v: '3', t: $fm('c_260', { n: moment(statedate).date() }) }, // c_260: '每月（每月8号）'
       // { v: '6', t: '每年天' },
       { v: '4', t: $t('c_261') }
     ]

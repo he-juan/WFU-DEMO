@@ -57,7 +57,7 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
       confname: item.Displayname, // Displayname 会议名称
       confStatedate: moment(item.Id !== '' ? time : now, 'YYYY/MM/DD'),
       confhours: transStr(item.Id !== '' ? time.hours() : now.hours()),
-      confminutes: transStr(item.Id !== '' ? time.hours() : now.minutes()),
+      confminutes: transStr(item.Id !== '' ? time.minutes() : now.minutes()),
       // duration: (item.Duration / 60).toString(), // Duration 会议时长，单位分钟 => 废弃 转为 持续时间即会议时长由前端拆解成2个字段 20191230
       durationHour, // 持续时间hour
       durationMin, // 持续时间minute
