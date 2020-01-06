@@ -44,13 +44,19 @@ class Call extends Component {
       memToCall: [],
       tagsInputValue: '',
       bjMemToCall: [{ num: '.' }],
-      dataSource: this.parseDataSource(props.contacts, props.callLogs) // 表格数据
+      dataSource: this.parseDataSource(props.contacts, props.callLogs), // 表格数据
+      H323SiteName: '' // h.323 会场号码
     }
   }
 
   componentDidMount = () => {
     this.props.getDefaultAcct()
     this.props.getAcctStatus()
+    API.getPvalues(['P25034']).then(data => {
+      this.setState({
+        H323SiteName: data.P25034
+      })
+    })
     this.parseDataSource()
   }
 
@@ -404,7 +410,7 @@ class Call extends Component {
 
   render () {
     const { acctStatus, defaultAcct, IPVTExist } = this.props
-    const { selectAcct, memToCall, tagsInputValue, dataSource } = this.state
+    const { selectAcct, memToCall, tagsInputValue, dataSource, H323SiteName } = this.state
 
     if (!acctStatus) return null
 
@@ -417,6 +423,7 @@ class Call extends Component {
           acctStatus.map((v, i) => {
             if (!v.activate) return null
             if (v.acctIndex === 1 && +IPVTExist === 0) return null // ipvt 功能未开启时不显示
+            if (v.acctIndex === 8 && v.num === '') v.num = H323SiteName
             return (
               <Menu.Item key={v.acctIndex} className={!v.register ? 'disabled' : ''}>
                 <span><em className={`acct-icon acct-${v.acctIndex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</span>
