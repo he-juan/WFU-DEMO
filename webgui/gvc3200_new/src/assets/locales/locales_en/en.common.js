@@ -402,6 +402,8 @@ const msgs = {
   m_236: 'The number of members has reached the limit.',
   m_237: 'Port cannot be 443 when  access method is HTTP.',
   m_238: 'Port cannot be 80 when  access method is HTTPS.',
+  m_239: 'Supports up to 5 keywords',
+  m_240: 'Up to 50 bytes per keyword',
 
   m_999: ''
 }

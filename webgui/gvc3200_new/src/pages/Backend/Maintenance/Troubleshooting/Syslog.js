@@ -3,7 +3,21 @@ import { Form, Button } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { SelectItem, InputItem, CheckboxItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
+
+function getLength (val) {
+  var str = String(val)
+  var bytesCount = 0
+  for (var i = 0, n = str.length; i < n; i++) {
+    var c = str.charCodeAt(i)
+    if ((c >= 0x0001 && c <= 0x007e) || (c >= 0xff60 && c <= 0xff9f)) {
+      bytesCount += 1
+    } else {
+      bytesCount += 2
+    }
+  }
+  return bytesCount
+}
 
 @Form.create()
 class Syslog extends FormCommon {
@@ -19,6 +33,25 @@ class Syslog extends FormCommon {
       setFieldsValue(data)
     })
   }
+
+  keyValidator = () => {
+    return {
+      validator: (data, value, callback) => {
+        let keys = value.split(',')
+        if (keys.length > 5) {
+          return callback($fm('m_239'))
+        }
+        for (let i = 0; i < keys.length; i++) {
+          let byteLen = getLength(keys[i])
+          if (byteLen > 50) {
+            return callback($fm('m_240'))
+          }
+        }
+        callback()
+      }
+    }
+  }
+
   handleSubmit = () => {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
@@ -27,6 +60,7 @@ class Syslog extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const P208 = getFieldValue('P208')
@@ -76,6 +110,11 @@ class Syslog extends FormCommon {
         <InputItem
           gfd={gfd}
           {...options['P22129']}
+          gfdOptions={{
+            rules: [
+              this.keyValidator()
+            ]
+          }}
         />
         {/* H.323信令日志级别 */}
         <SelectItem
