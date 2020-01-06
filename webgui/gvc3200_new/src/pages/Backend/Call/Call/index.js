@@ -400,7 +400,7 @@ class Call extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.callLogs.length !== prevProps.callLogs.length || this.props.contacts.length !== prevProps.contacts.length) {
+    if (this.props.callLogs !== prevProps.callLogs || this.props.contacts !== prevProps.contacts) {
       const { contacts, callLogs } = this.props
       this.setState({
         dataSource: this.parseDataSource(contacts, callLogs)

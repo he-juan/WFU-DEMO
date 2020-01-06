@@ -58,7 +58,9 @@ class ConfControl extends Component {
       }
       // 更新通话记录
       if (_linesInfo.length === 0) {
-        this.props.getCallLogs()
+        setTimeout(() => {
+          this.props.getCallLogs()
+        }, 200)
       }
       setLinesInfo(_linesInfo)
     })
