@@ -52,19 +52,19 @@
           width: 30px;
         }
         &:nth-child(2) {
-          flex:1;
+          width: 150px;
           text-align: left;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          .ellipsis();
           vertical-align: bottom;
         }
         &:nth-child(3) {
-          flex:1;
+          width: 150px;
+          .ellipsis();
           text-align: center;
         }
         &:nth-child(4) {
           flex:1;
+          .ellipsis();
           text-align: right;
         }
       }
