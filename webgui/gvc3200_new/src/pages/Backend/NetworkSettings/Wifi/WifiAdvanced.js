@@ -141,6 +141,7 @@ class WifiAdvanced extends FormCommon {
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
+      data.P7831 = data.P7831 === 'US' ? '' : data.P7831
       setFieldsValue(data)
     })
   }

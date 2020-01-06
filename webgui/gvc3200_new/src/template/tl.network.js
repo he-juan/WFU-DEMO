@@ -123,9 +123,9 @@ export default {
             // 国家码
             { lang: 'net_036', p: 'P7831', reboot: 1 },
             // 主机名(Option 12)
-            { lang: 'net_037', p: 'P146' },
+            { lang: 'net_037', p: 'P146', denyModel: 'GVC3220' },
             // 厂家类别名(Option 60)
-            { lang: 'net_038', p: 'P148' }
+            { lang: 'net_038', p: 'P148', denyModel: 'GVC3220' }
           ]
         }
       ]
