@@ -111,7 +111,7 @@ export default {
   acct_036_tip: '控制Privacy头域是否将出现在SIP INVITE消息中。头域中包含是否隐藏主叫号码的信息。当设置为“默认”时，仅当华为IMS的特殊功能开启后Privacy头域才不会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示Privacy头域。当设置为“否”时，SIP INVITE消息将不显示Privacy头域。默认设置为“默认”。',
 
   acct_037: '使用P-Preferred-Identity头域',
-  acct_037_tip: '控制是否P-Preferred-Identity头域将出现在SIP INVITE消息中。仅当华为IMS的特殊功能开启后P-Preferred-Identity头域才会出现在SIP INVITE消息中。当设置为“是”时，SIP INVITE消息将会一直显示P-Preferred-Identity头域。当设置为“否”时，SIP INVITE消息将不显示P-Preferred-Identity头域。默认设置为“默认”。',
+  acct_037_tip: '控制是否P-Preferred-Identity头域将出现在SIP INVITE消息中。当设置为“默认”，华为IMS模式下默认为不使用P-Preferred-Identity头域。当设置为“是”时，SIP INVITE消息将会一直显示P-Preferred-Identity头域。当设置为“否”时，SIP INVITE消息将不显示P-Preferred-Identity头域。默认设置为“默认”。',
 
   acct_038: '使用MAC头域',
   acct_038_tip: '此项设置是否使用MAC头域。如果设置为“否”,则所有SIP REGISTER消息都不使用MAC头域；如果设置为“仅REGISTER”，则仅在注册/注销的SIP消息中包含MAC头域；如果设置为“全部”，则所有传出的SIP消息中都包含MAC头域。',
