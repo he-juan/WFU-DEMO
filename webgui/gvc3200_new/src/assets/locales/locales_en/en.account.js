@@ -219,10 +219,10 @@ export default {
   acct_072_tip: 'If set to "Yes", FEC will be enabled for audio call. The default setting is "No".',
 
   acct_073: 'Audio FEC Payload Type',
-  acct_073_tip: 'Configures audio FEC payload type. The valid range is from 96 to 127. The default value is 121.',
+  acct_073_tip: 'Configures audio FEC payload type. The valid range is from 96 to 126. The default value is 121.',
 
   acct_074: 'Audio RED Payload Type',
-  acct_074_tip: 'Configures audio RED payload type. The valid range is from 96 to 127. The default value is 124.',
+  acct_074_tip: 'Configures audio RED payload type. The valid range is from 96 to 126. The default value is 124.',
 
   acct_075: 'Enable RFC5168 Support',
   acct_075_tip: 'If set to "Yes", RFC5168 support will be enabled for video call. The default setting is "Yes".',
