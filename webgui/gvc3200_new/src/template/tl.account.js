@@ -256,7 +256,7 @@ export default {
             // 远程视频请求
             { lang: 'acct_103', p: 'P2326' },
             // 常用布局模式
-            { lang: 'acct_104', p: 'P29070' },
+            { lang: 'acct_104', p: 'P29070', denyModel: 'GVC3220' },
             // 拨号前缀
             { lang: 'acct_105', p: 'P66' },
             // 禁用拨号规则
@@ -357,7 +357,7 @@ export default {
             // 空闲时自动接听
             { lang: 'acct_135', p: 'P425' },
             // 常用布局模式
-            { lang: 'acct_104', p: 'P29170' }
+            { lang: 'acct_104', p: 'P29170', denyModel: 'GVC3220' }
           ]
         }
       ]
@@ -435,7 +435,7 @@ export default {
             // 开启RTDR
             { lang: 'acct_146', p: 'P25060' },
             // 常用布局模式
-            { lang: 'acct_104', p: 'P25073' }
+            { lang: 'acct_104', p: 'P25073', denyModel: 'GVC3220' }
           ]
         }
       ]
@@ -549,7 +549,7 @@ export default {
                 // 开启本地MOH功能
                 { lang: 'acct_119', p: 'P2557' },
                 // 常用布局模式
-                { lang: 'acct_104', p: 'P29270' }
+                { lang: 'acct_104', p: 'P29270', denyModel: 'GVC3220' }
               ]
             }
           ]
@@ -775,7 +775,7 @@ export default {
                 // 开启本地MOH功能
                 { lang: 'acct_119', p: 'P2857' },
                 // 常用布局模式
-                { lang: 'acct_104', p: 'P29570' }
+                { lang: 'acct_104', p: 'P29570', denyModel: 'GVC3220' }
               ]
             }
           ]
