@@ -126,7 +126,7 @@ export default {
   acct_041_tip: 'Configures the RTP timeout of the phone. If the phone does not receive the RTP packet within the specified RTP time, the call will be automatically disconnected. The default range is 0-600. If set to 0, the phone will not hang up the call automatically.',
 
   acct_042: 'SIP URI Scheme When Using TLS',
-  acct_042_tip: 'Specifies if "sip:" or "sips:" will be used when TLS/TCP is selected for SIP Transport.',
+  acct_042_tip: 'Specifies if "sip:" or "sips:" will be used when TLS is selected for SIP Transport.',
 
   acct_043: 'Use Actual Ephemeral Port In Contact With TCP/TLS',
   acct_043_tip: 'Defines whether the actual ephemeral port in contact with TCP/TLS will be used when TLS/TCP is selected for SIP Transport.',

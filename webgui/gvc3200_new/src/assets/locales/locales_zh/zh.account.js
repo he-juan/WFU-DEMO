@@ -126,7 +126,7 @@ export default {
   acct_041_tip: '此项用于设置话机如果在指定的RTP超时时间内没有收到RTP包，则将自动挂断通话。有效值范围是0-600秒。若设置为0秒，则话机不会自动挂断通话。',
 
   acct_042: 'TLS使用的SIP URI格式',
-  acct_042_tip: '当SIP传输方式使用TLS/TCP时，选择"sips"。默认设置"sip"。',
+  acct_042_tip: '当SIP传输方式使用TLS时，选择"sips"。默认设置"sip"。',
 
   acct_043: 'TCP/TLS Contact使用实际临时端口',
   acct_043_tip: '当设备选择TCP/TLS作为SIP传输方式时，配置是否使用实际临时端口。',
