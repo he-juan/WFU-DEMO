@@ -1,0 +1,49 @@
+.recording-manage {
+  padding-top: 10px;
+  .btns-box {
+    height: 42px;
+    & > button {
+      
+      height: 32px;
+    }
+  }
+  .record-table {
+    .record-operation {
+      button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        vertical-align: middle;
+        cursor: pointer;
+        &:disabled {
+          cursor: not-allowed;
+        }
+        & + button {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}
+.record-setmodal {
+  .ant-modal-body {
+    padding: 50px 0;
+    .confirm-content {
+      & > .ant-select {
+        display: block;
+        margin: 0 auto;
+      }
+      & > .ant-form {
+        width: 300px;
+        margin: 0 auto;
+        padding-top: 0;
+        .ant-row {
+          margin-bottom: 0;
+          .ant-form-item-control {
+            line-height: 32px;
+          }
+        }
+      }
+    }
+  }
+}

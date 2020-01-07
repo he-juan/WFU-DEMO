@@ -55,6 +55,14 @@ export default {
   // app_ldap_018: 'Ldap Dialing Default Account',
   // app_ldap_018_tip: 'Configures the default account that being used when dialing LDAP contact. ',
 
+
+
+  app_rec_001: 'Save Path',
+  app_rec_001_tip: 'Save Path.',
+
+  app_rec_002: 'Video Record Mode',
+  app_rec_002_tip: 'Video Record Mode.',
+
   /* 第三方应用 */
   app_tpapp_001: 'Auto Launch Application On Start Up',
   app_tpapp_001_tip: ' If set to "Yes", the Remote Control App can be paired to the GVC3200 via Bluetooth, but it cannot connect to the GVC3200 to perform any operations. The default setting is "No".',

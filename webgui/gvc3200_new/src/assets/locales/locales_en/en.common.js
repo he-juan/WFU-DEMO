@@ -85,6 +85,8 @@ const routes = {
   r_076: '无线麦',
   r_077: 'Media',
   r_078: 'Advanced Network Settings',
+  r_079: 'Conifg',
+  r_080: 'List',
 
   r_999: ''
 }
@@ -740,6 +742,10 @@ const commons = {
   c_336: 'Add member',
   c_337: 'Meeting ID',
   c_338: 'Password (optional)',
+  c_339: 'Local',
+  c_340: 'Local + Remote',
+  c_341: 'Presentation + Remote',
+  c_342: 'Local + Presentation + Remote',
 
   c_999: ''
 }

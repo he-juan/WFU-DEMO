@@ -45,6 +45,26 @@ export default {
       ]
     },
     {
+      label: 'RecordingManage',
+      lang: 'r_032',
+      path: 'record',
+      sub: [
+        // 录像列表
+        {},
+        // 设置
+        {
+          label: 'RecordingConfig',
+          lang: 'r_079',
+          path: 'config',
+          sub: [
+            { lang: 'app_rec_001', _p: 'record_path' },
+            // 录制模式
+            { lang: 'app_rec_002', p: 'Pvideo_record_mode' }
+          ]
+        }
+      ]
+    },
+    {
       label: 'ThirdPartyApp',
       lang: 'r_070',
       path: 'tpapp',
