@@ -164,7 +164,7 @@ class ContactTab extends Component {
     setTimeout(() => {
       getContactsAndGroups()
       getCallLogs()
-    }, 200)
+    }, 3000)
   }
   // 切换显示导入联系人弹窗
   toggleModal = (flag) => {

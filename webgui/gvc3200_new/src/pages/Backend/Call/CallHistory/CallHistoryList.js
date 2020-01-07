@@ -277,7 +277,7 @@ class CallHistoryList extends Component {
                         )
                         : null
                     }
-                    <i title={$t('c_305')} className='icons icon-call-btn' onClick={(e) => _this.handleCall(record, e)}/>
+                    <i title={$t('c_305')} className='icons icon-call-btn' onClick={(e) => _this.handleCall(item, e)}/>
                   </div>
                 </div>
               </li>
