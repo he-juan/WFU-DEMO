@@ -146,7 +146,7 @@ class CallHistory extends Component {
               getCallLogs() // 删除后重新获取一遍通话记录
             }, 200)
           } else {
-            message.success($t('m_014')) // 删除失败!
+            message.error($t('m_014')) // 删除失败!
           }
         })
       }
@@ -208,7 +208,7 @@ class CallHistory extends Component {
                 </div>
               </>
             )
-            : <NoData />
+            : <NoData tip={$t('c_343')}/>
         }
 
       </div>

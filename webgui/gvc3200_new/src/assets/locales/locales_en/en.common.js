@@ -746,6 +746,7 @@ const commons = {
   c_340: 'Local + Remote',
   c_341: 'Presentation + Remote',
   c_342: 'Local + Presentation + Remote',
+  c_343: 'No call history',
 
   c_999: ''
 }
