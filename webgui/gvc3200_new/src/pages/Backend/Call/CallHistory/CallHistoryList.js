@@ -224,7 +224,11 @@ class CallHistoryList extends Component {
                   )
                   : null
               }
-              <i title={$t('c_316')} className='icons icon-schedule' onClick={(e) => _this.handleReSchedule(record, e)}/>
+              {
+                record.number === 'anonymous' ? null : (
+                  <i title={$t('c_316')} className='icons icon-schedule' onClick={(e) => _this.handleReSchedule(record, e)}/>
+                )
+              }
               <i title={$t('c_305')} className='icons icon-call-btn' onClick={(e) => _this.handleCall(record, e)}/>
             </div>
           )
