@@ -77,9 +77,10 @@ class CallHistoryList extends Component {
   handleReSchedule = (record, e) => {
     e.stopPropagation()
 
-    let { confname, acct, name, number, members } = record
+    let { acct, name, number, members } = record
     let currConf = {}
-    confname && (currConf.confname = confname)
+    // confname && (currConf.confname = confname)
+    currConf.confname = ''
     if (members) {
       currConf.memberData = members.map(({ number, name, acct, calltype }) => {
         return { number, name, acct, calltype }
