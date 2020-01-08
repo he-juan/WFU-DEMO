@@ -82,7 +82,7 @@ class CallHistoryList extends Component {
     // confname && (currConf.confname = confname)
     currConf.confname = ''
     if (members) {
-      currConf.memberData = members.map(({ number, name, acct, calltype }) => {
+      currConf.memberData = members.filter(m => m.number !== 'anonymous').map(({ number, name, acct, calltype }) => {
         return { number, name, acct, calltype }
       })
     } else {

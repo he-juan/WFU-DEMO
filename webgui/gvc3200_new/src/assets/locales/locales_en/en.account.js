@@ -153,7 +153,7 @@ export default {
   acct_050_tip: 'Configures this option to verify incoming INVITE, only take effect when enabled incoming INVITE first. It is used to verify provision NOTIFY information, including check-sync, resync and reboot, but only effective when enabled SIP authentication.',
 
   acct_051: 'Only Accept SIP Requests From Known Servers',
-  acct_051_tip: 'If set to "Yes", SIP User ID will be checked in the Request URI of the incoming INVITE. If it doesn\'t match the device\'s SIP User ID, the call will be rejected. The default is "No".',
+  acct_051_tip: 'If set to "Yes", for answering the SIP request from saved servers, only the SIP requests from saved servers will be accepted; and the SIP requests from the unregistered server will be rejected.',
 
   acct_052: 'SIP T1 Timeout',
   acct_052_tip: 'SIP T1 Timeout. T1 is the evaluation on RTT (Round Trip Time) between the server and the client. If the network latency takes a long time, please select a larger value to ensure the stability. The default setting is 0.5 seconds.',
