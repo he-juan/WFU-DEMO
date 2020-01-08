@@ -181,21 +181,25 @@ class SIPSettings extends FormCommon {
         {/* 强制INVITE */}
         <CheckboxItem
           gfd={gfd}
+          hide={!enableSessionTimer}
           {...options['P1831']}
         />
         {/* 主叫请求计时 */}
         <CheckboxItem
           gfd={gfd}
+          hide={!enableSessionTimer}
           {...options['P1828']}
         />
         {/* 被叫请求计时 */}
         <CheckboxItem
           gfd={gfd}
+          hide={!enableSessionTimer}
           {...options['P1829']}
         />
         {/* 强制计时 */}
         <CheckboxItem
           gfd={gfd}
+          hide={!enableSessionTimer}
           {...options['P1830']}
         />
         {/* 开启100rel */}

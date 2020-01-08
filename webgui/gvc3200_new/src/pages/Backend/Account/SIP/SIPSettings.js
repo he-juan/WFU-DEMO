@@ -178,21 +178,25 @@ class SIPSettings extends FormCommon {
         <CheckboxItem
           gfd={gfd}
           {...options['P265']}
+          hide={!enableSessionTimer}
         />
         {/* 主叫请求计时 */}
         <CheckboxItem
           gfd={gfd}
           {...options['P262']}
+          hide={!enableSessionTimer}
         />
         {/* 被叫请求计时 */}
         <CheckboxItem
           gfd={gfd}
           {...options['P263']}
+          hide={!enableSessionTimer}
         />
         {/* 强制计时 */}
         <CheckboxItem
           gfd={gfd}
           {...options['P264']}
+          hide={!enableSessionTimer}
         />
         {/* 开启100rel */}
         <CheckboxItem
