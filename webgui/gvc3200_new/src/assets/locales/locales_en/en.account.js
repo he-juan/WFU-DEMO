@@ -84,7 +84,7 @@ export default {
   acct_027_tip: 'The minimum session expiration (in seconds). The default value is 90 seconds.',
 
   acct_028: 'UAC Specify Refresher',
-  acct_028_tip: 'As a Caller, select UAC to use the device as the refresher; or select UAS to use the callee or proxy server as the refresher.',
+  acct_028_tip: 'As a Caller, select UAC to use the device as the refresher; or select UAS to use the callee or proxy server as the refresher. When set to “Omit”, the refresh object is not specified.',
 
   acct_029: 'UAS Specify Refresher',
   acct_029_tip: 'As a Callee, select UAC to use caller or proxy server as the refresher; or select UAS to use the device as the refresher.',

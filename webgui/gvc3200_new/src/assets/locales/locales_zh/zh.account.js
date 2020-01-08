@@ -114,7 +114,7 @@ export default {
   acct_037_tip: '控制是否P-Preferred-Identity头域将出现在SIP INVITE消息中。当设置为“默认”，华为IMS模式下默认为不使用P-Preferred-Identity头域。当设置为“是”时，SIP INVITE消息将会一直显示P-Preferred-Identity头域。当设置为“否”时，SIP INVITE消息将不显示P-Preferred-Identity头域。默认设置为“默认”。',
 
   acct_038: '使用MAC头域',
-  acct_038_tip: '此项设置是否使用MAC头域。如果设置为“否”,则所有SIP REGISTER消息都不使用MAC头域；如果设置为“仅REGISTER”，则仅在注册/注销的SIP消息中包含MAC头域；如果设置为“全部”，则所有传出的SIP消息中都包含MAC头域。',
+  acct_038_tip: '此项设置是否使用MAC头域。如果设置为"否"，则所有SIP消息都不使用MAC头域；如果设置为“仅REGISTER”，则仅在注册/注销的SIP消息中包含MAC头域；如果设置为“全部”，则所有传出的SIP消息中都包含MAC头域。',
 
   acct_039: 'SIP传输',
   acct_039_tip: '设置SIP消息传输使用的网络协议，IPVideoTalk支持TCP/TLS两种，其它帐号支持TCP/UDP/TLS三种。',
