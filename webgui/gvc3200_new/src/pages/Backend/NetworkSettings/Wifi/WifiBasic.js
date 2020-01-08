@@ -22,7 +22,8 @@ class WifiDetailModal extends FormCommon {
       '0': 'c_203',
       '1': 'c_204',
       '2': 'c_205',
-      '3': 'c_206'
+      '3': 'c_206',
+      '4': 'c_206'
     }
     this.state = {
       eapMethod: '0', // EAP方法
@@ -175,7 +176,6 @@ class WifiDetailModal extends FormCommon {
       staticprefixdnsone,
       staticprefixdnstwo,
       staticip6 } = wifiSelected
-
     return (
       <Modal
         title={ssid}
