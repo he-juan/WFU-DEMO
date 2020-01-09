@@ -10,6 +10,8 @@ import API from '@/api'
 
 export let rebootNotifyKey = 'updatable'
 let rebootUnsubscribe = () => {}
+
+let curLocale
 /**
  * 根据是否重启判断弹窗 重启提示弹窗
  * @param {object} oldOptions 获取到的options
@@ -66,17 +68,17 @@ export const rebootNotify = ({ oldOptions, newOptions, immediate = false }, call
         rebootUnsubscribe()
       }
     })
+    curLocale = store.getState().locale // 获取 locale
+    rebootUnsubscribe() // 防止多次订阅，先执行 取消订阅
+    // 通过订阅 store的变化 ，来重复执行 open方法 然后根据 唯一key的方式更新 内容
+    rebootUnsubscribe = store.subscribe(() => {
+      let locale = store.getState().locale
+      if (locale !== curLocale) {
+        setTimeout(() => { notifyFn() }, 50)
+        curLocale = locale
+      }
+    })
   }
-  let curLocale = store.getState().locale // 获取 locale
-  rebootUnsubscribe() // 防止多次订阅，先执行 取消订阅
-  // 通过订阅 store的变化 ，来重复执行 open方法 然后根据 唯一key的方式更新 内容
-  rebootUnsubscribe = store.subscribe(() => {
-    let locale = store.getState().locale
-    if (locale !== curLocale) {
-      setTimeout(() => { notifyFn() }, 50)
-      curLocale = locale
-    }
-  })
 
   if (immediate) {
     notifyFn()

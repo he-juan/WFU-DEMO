@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import { Form } from 'antd'
 import FormItem from '@/components/FormItem'
 import { connect } from 'react-redux'
+import { getNetWorkStatus } from '@/store/actions'
 import API from '@/api'
 import { $t } from '@/Intl'
 
 @connect(
   (state) => ({
     networkStatus: state.networkStatus
+  }),
+  (dispatch) => ({
+    getNetWorkStatus: () => dispatch(getNetWorkStatus())
   })
 )
 class NetworkStatus extends Component {
@@ -31,6 +35,7 @@ class NetworkStatus extends Component {
   }
   componentDidMount () {
     this.getNetInfos()
+    this.props.getNetWorkStatus()
   }
 
   getNetInfos () {
