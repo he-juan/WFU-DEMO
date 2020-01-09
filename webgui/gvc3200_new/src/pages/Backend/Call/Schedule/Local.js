@@ -35,7 +35,7 @@ class LocalSchedule extends Component {
   handleGetSchedules = () => {
     API.getSchedules().then(({ result, msg, data }) => {
       if (+result === 0) {
-        this.setState({ schedules: data.schedules })
+        this.setState({ schedules: data.schedules.filter(s => s.Host !== 'IPVideoTalk') })
       } else {
         message.error(msg)
       }
