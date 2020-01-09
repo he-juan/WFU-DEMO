@@ -384,7 +384,7 @@ class SIPSettings extends FormCommon {
         {/* 验证证书链 */}
         <CheckboxItem
           gfd={gfd}
-          {...options['P2867']}
+          {...options['P2367']}
         />
 
         <FormItem label='' >

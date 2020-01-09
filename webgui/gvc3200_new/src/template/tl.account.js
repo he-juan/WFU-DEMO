@@ -146,7 +146,7 @@ export default {
             // 检查域名证书
             { lang: 'acct_056', p: 'P2311' },
             // 验证证书链
-            { lang: 'acct_057', p: 'P2867' }
+            { lang: 'acct_057', p: 'P2367' }
           ]
         },
         /** ****************Account.Sip.Codec********************* */
