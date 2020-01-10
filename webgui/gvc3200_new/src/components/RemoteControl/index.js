@@ -49,7 +49,7 @@ export default class RemoteControl extends Component {
   // render
   render () {
     let { showModal } = this.state
-    const { productInfo: { Product } } = this.props
+    // const { productInfo: { Product } } = this.props
 
     return (
       <div id='remoteControl' className={styled['container']}>
@@ -70,13 +70,13 @@ export default class RemoteControl extends Component {
                 <button className={styled['menukey']} onMouseDown={() => this.setKey(82)}><span/></button>
               </div>
               <div className={styled['btnarea']}>
-                <button className={styled['customkey']} onMouseDown={() => this.setKey(285)}><span/></button>
+                <button className={styled['customkey']} onMouseDown={() => this.setKey(300)}><span/></button>
               </div>
               {/* 根据 Product 判断执行不同的 P值 */}
               <div className={styled['btnarea']}>
-                <button className={styled['reddigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 281 : 296)}><span/></button>
-                <button className={styled['yellowdigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 282 : 297)}><span/></button>
-                <button className={styled['bluedigit']} onMouseDown={() => this.setKey(Product === 'GVC3210' ? 283 : 298)}><span/></button>
+                <button className={styled['reddigit']} onMouseDown={() => this.setKey(296)}><span/></button>
+                <button className={styled['yellowdigit']} onMouseDown={() => this.setKey(297)}><span/></button>
+                <button className={styled['bluedigit']} onMouseDown={() => this.setKey(298)}><span/></button>
               </div>
               <div className={styled['radiusarea']}>
                 <button className={styled['volumedownbtn']} onMouseDown={() => this.setKey(25)}><span/></button>
@@ -94,9 +94,9 @@ export default class RemoteControl extends Component {
                 <button className={styled['zoominbtn']} onMouseDown={() => this.setKey(168)}><span/></button>
               </div>
               <div className={styled['downbtnarea']}>
-                <button className={styled['layoutbtn']} onMouseDown={() => this.setKey(277)}><span/></button>
-                <button className={styled['ptzbtn']} onMouseDown={() => this.setKey(276)}><span/></button>
-                <button className={styled['presentationbtn']} onMouseDown={() => this.setKey(278)}><span/></button>
+                <button className={styled['layoutbtn']} onMouseDown={() => this.setKey(292)}><span/></button>
+                <button className={styled['ptzbtn']} onMouseDown={() => this.setKey(291)}><span/></button>
+                <button className={styled['presentationbtn']} onMouseDown={() => this.setKey(293)}><span/></button>
               </div>
               <div className={styled['downbtnarea']}>
                 <button className={styled['digitcall']} onMouseDown={() => this.setKey(5)}><span/></button>
