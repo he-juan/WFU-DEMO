@@ -58,7 +58,7 @@ class CodecSettings extends FormCommon {
 
   parseVideoValues = (targets) => {
     let result = {}
-    const pAry = ['P464', 'P465']
+    const pAry = ['P464', 'P465', 'P475']
     pAry.forEach((p, i) => {
       result[p] = targets[i] ? targets[i] : ''
     })
