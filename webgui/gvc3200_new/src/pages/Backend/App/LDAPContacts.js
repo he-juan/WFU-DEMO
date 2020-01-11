@@ -190,7 +190,8 @@ class LDAPContacts extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(64),
-              this.range(0, 4000)
+              this.range(0, 4000),
+              this.digits()
             ]
           }}
         />
