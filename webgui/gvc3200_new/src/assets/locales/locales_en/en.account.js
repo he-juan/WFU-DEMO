@@ -234,13 +234,13 @@ export default {
   acct_077_tip: 'If set to "Yes", FEC will be enabled for video call. The default setting is "No".',
 
   acct_078: 'FEC Payload Type',
-  acct_078_tip: 'Configures FEC payload type. The valid range is from 96 to 127. The default value is 120.',
+  acct_078_tip: 'Configures FEC payload type. The valid range is from 96 to 126. The default value is 120.',
 
   acct_080: 'Enable FECC',
   acct_080_tip: 'If set to "Yes", You can control the camera of the opposite side for video call, but the opposite site must support FECC and allow remote control on its local camera. The default setting is "Yes".',
 
   acct_081: 'FECC H.224 Payload Type',
-  acct_081_tip: 'Configures FECC H.224 payload type. The valid range is from 96 to 127. The default value is 125.',
+  acct_081_tip: 'Configures FECC H.224 payload type. The valid range is from 96 to 126. The default value is 125.',
 
   acct_082: 'SDP Bandwidth Attribute',
   acct_082_tip: 'Select the SDP bandwidth attribute from "Standard", "Media Level" or "None".<br />Standard: Use AS at the session level and TIAS at the media level.<br />Media Level: Use AS at the media level.<br />None: Do not change the format. <br />The default setting is "Media Level". Please do not change the format. Otherwise, it may cause decode failure if unclear about what format the server supports.',
@@ -264,7 +264,7 @@ export default {
   acct_088_tip: 'Configures the frame rate for video call. The default setting is 30fps.',
 
   acct_089: 'H.264 Payload Type',
-  acct_089_tip: 'Enter H.264 codec payload type. The valid range is from 96 to 127. The default value is 99.',
+  acct_089_tip: 'Enter H.264 codec payload type. The valid range is from 96 to 126. The default value is 99.',
 
   acct_090: 'Packetization Mode',
   acct_090_tip: 'The packetization mode (0, 1 or Auto) for the video packets. The default setting is 1.',
@@ -276,7 +276,7 @@ export default {
   acct_092_tip: 'Configures whether to use H.264 CBP to establish video call with WebRTC. The function takes effect when H.264 profile setting includes BP type. It is recommended to set to "Yes" when establish video call with WebRTC. The default setting is "No".',
 
   acct_093: 'H.265 Payload Type',
-  acct_093_tip: 'Enter H.265 codec payload type. The valid range is from 96 to 127. The default value is 114.',
+  acct_093_tip: 'Enter H.265 codec payload type. The valid range is from 96 to 126. The default value is 114.',
 
   acct_094: 'Disable BFCP',
   acct_094_tip: 'If set to "Yes", the device will not be able to send and receive the presentation stream in the meeting. The default setting is "No".',
