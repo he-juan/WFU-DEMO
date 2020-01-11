@@ -402,7 +402,7 @@ export default {
   acct_134_tip: 'Determines the network protocol used for the SIP transport. For IPVideoTalk, users can choose from TCP/TLS. For other accounts, users can choose from TCP/UDP/TLS.',
 
   acct_135: 'Auto Answer When Idle',
-  acct_135_tip: 'If set to "Yes", the device will automatically answer incoming calls after a short reminding beep. If set to "Enable Intercom/Paging", it will answer the call based on the SIP info header sent from the server/proxy. The default setting is "No".',
+  acct_135_tip: 'If set to "Yes", the device will automatically turn on the speaker to answer incoming calls after a short reminder beep. The default setting is "No".',
 
   acct_136: 'Enable GK',
   acct_136_tip: 'Defines whether to enable GK, if check, the device will register to GK automatically, the default setting is "No".',
