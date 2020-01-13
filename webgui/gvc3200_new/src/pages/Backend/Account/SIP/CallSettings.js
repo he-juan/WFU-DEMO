@@ -346,7 +346,7 @@ class CallSettings extends FormCommon {
           }}
         />
         {/* #键拨号 */}
-        <InputItem
+        <CheckboxItem
           {...options['P72']}
           gfd={gfd}
         />
