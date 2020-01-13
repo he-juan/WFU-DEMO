@@ -396,3 +396,32 @@ export const uniqBy = (arr, key) => {
   const res = new Map()
   return arr.filter((a) => !res.has(a[key]) && res.set(a[key], 1))
 }
+
+
+
+// 用于取反一些p值
+export const reverseSomePvalue = (itemVal, itemName) => {
+  let arr = [
+
+    '26001', // sip禁用演示
+    '26201', // bj 禁用演示
+    '26501' // zoom 禁用演示
+    // '276' // 禁止SSH访问
+    // '338', // 禁止通话中DTMF显示
+    // '91', // 禁止呼叫等待
+    // '186', // 无呼叫等待音
+    // '1486', // 禁用勿扰模式提醒音
+    // '1549', // 升级时不弹出确认框
+    // '4428', // 禁用SIP NOTIFY认证
+    // '277', // 禁用IP拨打模式
+  ]
+
+  let inAdjust = -1
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === itemName) inAdjust = i
+  }
+  if (inAdjust !== -1) {
+    itemVal = +itemVal === 1 ? 0 : 1
+  }
+  return itemVal
+}

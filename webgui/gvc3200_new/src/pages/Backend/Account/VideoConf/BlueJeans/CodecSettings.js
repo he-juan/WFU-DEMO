@@ -175,7 +175,7 @@ class CodecSettings extends FormCommon {
 
     if (!targetVocoders.length) return null
 
-    const disablePresent = !!Number(getFieldValue('P26201'))
+    const disablePresent = !Number(getFieldValue('P26201'))
     return (
       <Form>
         <h4 className='bak-sub-title'>{$t('c_101')}</h4>
@@ -455,7 +455,7 @@ class CodecSettings extends FormCommon {
         />
 
         <h4 className='bak-sub-title'>{$t('c_114')}</h4>
-        {/* 禁止演示 */}
+        {/* 启用演示 */}
         <CheckboxItem
           {...options['P26201']}
           gfd={gfd}

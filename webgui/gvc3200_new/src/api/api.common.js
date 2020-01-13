@@ -1,5 +1,5 @@
 import _axios from '@/utils/request'
-import { prefixInteger, parseUrlParams } from '@/utils/tools'
+import { prefixInteger, parseUrlParams, reverseSomePvalue } from '@/utils/tools'
 
 // product 获取产品信息
 export const getProduct = () => {
@@ -108,7 +108,7 @@ export const getPvalues = (params) => {
       let result = {}
       let keys = Object.keys(pvalues)
       keys.forEach(key => {
-        result['P' + key] = pvalues[key]
+        result['P' + key] = reverseSomePvalue(pvalues[key], key)
       })
       return Promise.resolve(result)
     } else {
@@ -126,7 +126,7 @@ export const putPvalues = (params, flag = 0) => {
   let urlParams = []
   let keys = Object.keys(params)
   keys.filter(v => typeof params[v] !== 'undefined').forEach((key, i) => {
-    let v = params[key]
+    let v = reverseSomePvalue(params[key], key.slice(1))
     let val = typeof v === 'boolean' ? Number(v) : typeof v === 'string' ? encodeURIComponent(v) : v
     urlParams.push(`var-${prefixInteger(i, 4)}=${key.slice(1)}`) // key.slice(1) 去掉 P前缀
     urlParams.push(`val-${prefixInteger(i, 4)}=${val}`)

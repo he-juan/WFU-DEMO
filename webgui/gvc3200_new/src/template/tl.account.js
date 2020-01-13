@@ -227,7 +227,7 @@ export default {
             // H.265有效荷载类型
             { lang: 'acct_093', p: 'P26086' },
 
-            // 禁止演示
+            // 启用演示
             { lang: 'acct_094', p: 'P26001' },
             // 初始INVITE携带媒体信息
             { lang: 'acct_095', p: 'PsendPreMode_0' },
@@ -521,7 +521,7 @@ export default {
                 // 使用H.264 Constrained Profiles
                 { lang: 'acct_092', p: 'P26245' },
 
-                // 禁止演示
+                // 启用演示
                 { lang: 'acct_094', p: 'P26201' },
                 // 初始INVITE携带媒体信息
                 { lang: 'acct_095', p: 'PsendPreMode_2' },
@@ -741,7 +741,7 @@ export default {
                 // H.265有效荷载类型
                 { lang: 'acct_093', p: 'P26586' },
 
-                // 禁止演示
+                // 启用演示
                 { lang: 'acct_094', p: 'P26501' },
                 // 初始INVITE携带媒体信息
                 { lang: 'acct_095', p: 'PsendPreMode_5' },
