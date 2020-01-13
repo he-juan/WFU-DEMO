@@ -3985,7 +3985,7 @@ static int sqlite_handle_recording(buffer *b, const struct message *m, const cha
             buffer_append_string(b, "1");
         buffer_append_string(b, "\",\"Data\":[");
 
-        int data1, data2;
+        int data1, data2, mediatype;
         char *path;
         char *res = NULL;
         int num = 0, len;
@@ -3997,6 +3997,7 @@ static int sqlite_handle_recording(buffer *b, const struct message *m, const cha
             data2 = sqlite3_column_int(stmt, 2);    //lock
             createtime = (char*)sqlite3_column_text(stmt,3);   // createtime
             filesize = (char*)sqlite3_column_text(stmt,4);   // filesize
+            mediatype = sqlite3_column_int(stmt, 5);    // mediatype,  1 - video,  2 - audio
 
             if( path == NULL ){
                 printf("path is null\n");
@@ -4007,13 +4008,13 @@ static int sqlite_handle_recording(buffer *b, const struct message *m, const cha
             memset(targetpath, 0, len);
             replace(path, "\"", "\\\"", targetpath);
 
-            len = strlen(targetpath)+strlen(createtime)+strlen(filesize)+64;
+            len = strlen(targetpath)+strlen(createtime)+strlen(filesize)+128;
             res = malloc( len );
             memset(res, 0, len);
             if( !num )
-                snprintf(res, len, "{\"Id\":\"%d\", \"Path\":\"%s\", \"Lock\":\"%d\", \"Time\":\"%s\", \"Size\":\"%s\"}", data1, targetpath, data2, createtime, filesize);
+                snprintf(res, len, "{\"Id\":\"%d\", \"Path\":\"%s\", \"Lock\":\"%d\", \"Time\":\"%s\", \"Size\":\"%s\", \"Type\":\"%d\"}", data1, targetpath, data2, createtime, filesize, mediatype);
             else
-                snprintf(res, len, ",{\"Id\":\"%d\", \"Path\":\"%s\", \"Lock\":\"%d\", \"Time\":\"%s\", \"Size\":\"%s\"}", data1, targetpath, data2, createtime, filesize);
+                snprintf(res, len, ",{\"Id\":\"%d\", \"Path\":\"%s\", \"Lock\":\"%d\", \"Time\":\"%s\", \"Size\":\"%s\", \"Type\":\"%d\"}", data1, targetpath, data2, createtime, filesize, mediatype);
             buffer_append_string(b, res);
             free(res);
             free(targetpath);
@@ -4107,7 +4108,7 @@ static int handle_recording(buffer *b, const struct message *m)
     if( !strcasecmp(type, "getrecordinglist") ){
         sqlstr = malloc(128);
         memset(sqlstr, 0, 128);
-        snprintf(sqlstr, 128, "select * from recording_list order by createtime desc;");
+        snprintf(sqlstr, 128, "select _id, location, lockstate, createtime, filesize, media_type from recording_list order by createtime desc;");
     }else if( !strcasecmp(type, "deleterecord") || !strcasecmp(type, "renamerecord") ){
         char *temp = NULL;
         temp = msg_get_header(m, "id");
