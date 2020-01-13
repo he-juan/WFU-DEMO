@@ -4,16 +4,15 @@ import { Form, Input, Button, Modal, message, Icon, Table } from 'antd'
 import moment from 'moment'
 import Nodata from '@/components/NoData'
 import API from '@/api'
-import './RecordingList.less'
 import { $t, $fm } from '@/Intl'
 
 const mSpChar = ['\\', ':', '*', '?', '<', '>', '|', '\'']
 
 @Form.create()
-class RecordingList extends Component {
+class AudioList extends Component {
   // state
   state = {
-    recordingList: [],
+    dataList: [],
     use24Hour: '0',
     datefmt: '',
     timezone: '',
@@ -32,7 +31,7 @@ class RecordingList extends Component {
     this.setState({
       datefmt: data1['P102'],
       // timezone: data2['timezone'],
-      recordingList: data3.Data,
+      dataList: data3.Data,
       use24Hour: data3.Use24Hour
     })
   }
@@ -53,6 +52,10 @@ class RecordingList extends Component {
     return new Promise((resolve, reject) => {
       API.getRecordingList().then(msgs => {
         if (msgs.Response === 'Success') {
+          /**
+           * 过滤出录音列表
+           */
+          msgs.Data = msgs.Data.filter(item => item.Type === '2')
           resolve(msgs)
         } else {
           resolve({ Use24Hour: '', Data: [] })
@@ -69,7 +72,7 @@ class RecordingList extends Component {
         extra = cb(data.Data)
       }
       this.setState({
-        recordingList: data.Data,
+        dataList: data.Data,
         use24Hour: data.Use24Hour,
         ...obj,
         ...extra
@@ -150,13 +153,13 @@ class RecordingList extends Component {
   }
 
   // renameinput 是否存在 检验
-  validateRenameinputIsexit = (recordingList) => {
+  validateRenameinputIsexit = (dataList) => {
     let { curRecord: { Id } } = this.state
     return {
       validator: (data, value, callback) => {
         // 文件名已存在，请重新输入
-        for (let i = 0; i < recordingList.length; i++) {
-          const item = recordingList[i]
+        for (let i = 0; i < dataList.length; i++) {
+          const item = dataList[i]
           let { name } = this.getRecordNameAndPath(item.Path)
           if ((value + '.mkv') === name && item['Id'] !== Id) {
             callback($fm('m_042'))
@@ -359,7 +362,7 @@ class RecordingList extends Component {
   // render
   render () {
     const { getFieldDecorator: gfd } = this.props.form
-    let { displayModal, recordingList, selectedRowKeys, curPage } = this.state
+    let { displayModal, dataList, selectedRowKeys, curPage } = this.state
 
     // -----------处理table start
     // rowSelection
@@ -404,11 +407,11 @@ class RecordingList extends Component {
     }]
     // pageobj
     let pageobj = false
-    if (recordingList.length > 15) {
+    if (dataList.length > 15) {
       pageobj = {
         current: curPage,
         pageSize: 15,
-        total: recordingList.length,
+        total: dataList.length,
         onChange: this.changePage
       }
     }
@@ -426,7 +429,7 @@ class RecordingList extends Component {
                       rules: [
                         { required: true, whitespace: true, message: $t('m_048') },
                         { max: 64, message: $t('m_050') + 64 },
-                        this.validateRenameinputIsexit(recordingList),
+                        this.validateRenameinputIsexit(dataList),
                         this.validateRenameinputIsillegal()
                       ]
                     })(
@@ -448,12 +451,12 @@ class RecordingList extends Component {
 
         {/* table */}
         {
-          recordingList.length > 0 ? <Table
+          dataList.length > 0 ? <Table
             className='record-table'
             rowKey='Id'
             rowSelection={rowSelection}
             columns={columns}
-            dataSource={recordingList}
+            dataSource={dataList}
             showHeader={true}
             pagination={pageobj}
           /> : <Nodata />
@@ -463,4 +466,4 @@ class RecordingList extends Component {
   }
 }
 
-export default RecordingList
+export default AudioList

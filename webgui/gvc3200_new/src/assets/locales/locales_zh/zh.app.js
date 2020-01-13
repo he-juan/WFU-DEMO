@@ -56,10 +56,10 @@ export default {
   // app_ldap_018_tip: '设置拨打LDAP联系人搜索到的号码时默认使用的帐号。',
 
   app_rec_001: '保存路径',
-  app_rec_001_tip: '录像保存路径。',
+  app_rec_001_tip: '设置保存路径。',
 
-  app_rec_002: '录制模式',
-  app_rec_002_tip: '设置录制模式。',
+  app_rec_002: '视频录制模式',
+  app_rec_002_tip: '设置视频录制模式。',
 
   /* 第三方应用 */
   app_tpapp_001: '开机自启动应用',

@@ -58,10 +58,10 @@ export default {
 
 
   app_rec_001: 'Save Path',
-  app_rec_001_tip: 'Save Path.',
+  app_rec_001_tip: 'Configure save path.',
 
-  app_rec_002: 'Video Record Mode',
-  app_rec_002_tip: 'Video Record Mode.',
+  app_rec_002: 'Video Recording Mode',
+  app_rec_002_tip: 'Configure video recording mode.',
 
   /* 第三方应用 */
   app_tpapp_001: 'Auto Launch Application On Start Up',

@@ -1,41 +1,38 @@
 import React, { Component } from 'react'
-import { Form, Select, Input, Button, Modal, message, Icon, Divider, Table } from 'antd'
+import { Form, Input, Button, Modal, message, Icon, Table } from 'antd'
 // import Cookie from 'js-cookie'
 import moment from 'moment'
 import Nodata from '@/components/NoData'
 import API from '@/api'
-import './RecordingManage.less'
 import { $t, $fm } from '@/Intl'
 
 const mSpChar = ['\\', ':', '*', '?', '<', '>', '|', '\'']
 
 @Form.create()
-class RecordingManage extends Component {
+class VideoList extends Component {
   // state
   state = {
-    recordingList: [],
+    dataList: [],
     use24Hour: '0',
     datefmt: '',
     timezone: '',
-    pathList: [], // 路径列表
-    curPath: '', // 当前路径
-    tempPath: '',
     curRecord: {},
-    displayModal: {
-      show: false,
-      type: '' // path: '路径', name: '名称'
-    },
+    displayModal: false,
     selectedRowKeys: [], // 选中的Rowkeys
     selectedRows: [],
     curPage: 1 // 分页
   }
 
-  // 获取 pvalue
-  handleGetPvalue = () => {
-    return new Promise((resolve, reject) => {
-      API.getPvalues(['P102']).then(data => {
-        resolve(data)
-      })
+  async componentDidMount () {
+    let data1 = await API.getPvalues(['P102'])
+    // let data2 = await this.handleGetTimezone() 可以暂时不获取
+    let data3 = await this.handleGetRecordingList()
+
+    this.setState({
+      datefmt: data1['P102'],
+      // timezone: data2['timezone'],
+      dataList: data3.Data,
+      use24Hour: data3.Use24Hour
     })
   }
 
@@ -55,6 +52,10 @@ class RecordingManage extends Component {
     return new Promise((resolve, reject) => {
       API.getRecordingList().then(msgs => {
         if (msgs.Response === 'Success') {
+          /**
+           * 过滤出录像列表
+           */
+          msgs.Data = msgs.Data.filter(item => item.Type === '1')
           resolve(msgs)
         } else {
           resolve({ Use24Hour: '', Data: [] })
@@ -71,23 +72,10 @@ class RecordingManage extends Component {
         extra = cb(data.Data)
       }
       this.setState({
-        recordingList: data.Data,
+        dataList: data.Data,
         use24Hour: data.Use24Hour,
         ...obj,
         ...extra
-      })
-    })
-  }
-
-  // 获取 设置录像路径
-  handleGetRecordingPath = () => {
-    return new Promise((resolve, reject) => {
-      API.getRecordingPath().then(msgs => {
-        if (+msgs.result === 0 && msgs.data) {
-          resolve(msgs.data)
-        } else {
-          resolve({ list: [], curpath: '' })
-        }
       })
     })
   }
@@ -165,13 +153,13 @@ class RecordingManage extends Component {
   }
 
   // renameinput 是否存在 检验
-  validateRenameinputIsexit = (recordingList) => {
+  validateRenameinputIsexit = (dataList) => {
     let { curRecord: { Id } } = this.state
     return {
       validator: (data, value, callback) => {
         // 文件名已存在，请重新输入
-        for (let i = 0; i < recordingList.length; i++) {
-          const item = recordingList[i]
+        for (let i = 0; i < dataList.length; i++) {
+          const item = dataList[i]
           let { name } = this.getRecordNameAndPath(item.Path)
           if ((value + '.mkv') === name && item['Id'] !== Id) {
             callback($fm('m_042'))
@@ -211,41 +199,10 @@ class RecordingManage extends Component {
   }
 
   // 设置存储路径 录像名称 modal
-  setDiaplayModal = (bool = true, type = 'path', obj = {}) => {
-    let displayModal = {
-      show: bool,
-      type
-    }
-    let o = {}
-    type === 'path' && (o = { tempPath: '' })
-    type === 'name' && (o = { curRecord: obj })
-    this.setState({ displayModal, ...o })
-  }
-
-  // 路径 change
-  handleChangeRecordPath = (value) => {
-    this.setState({ tempPath: value })
-  }
-
-  // 保存 存储路径
-  handleSaveRecordPath = () => {
-    let { tempPath } = this.state
-    if (tempPath) {
-      API.setRecordingPath(tempPath).then(msgs => {
-        if (+msgs.result === 0) {
-          message.success($t('m_001'))
-          this.handleGetRecordingPath().then(data => {
-            this.setState({
-              pathList: data['list'] || [],
-              curPath: data['curpath']
-            })
-          })
-        } else {
-          message.error($t('m_002'))
-        }
-      })
-    }
-    this.setDiaplayModal(false, 'path')
+  setDiaplayModal = (bool = true, obj = {}) => {
+    let displayModal = bool
+    let curRecord = obj
+    this.setState({ displayModal, curRecord })
   }
 
   // 保存 录像名称
@@ -268,26 +225,16 @@ class RecordingManage extends Component {
             if (msgs['Response'] === 'Success') {
               message.success($t('m_027'))
               this.updateData()
-              this.setDiaplayModal(false, 'name')
+              this.setDiaplayModal(false)
             } else {
               message.error($t('m_039'))
             }
           })
         } else {
-          this.setDiaplayModal(false, 'name')
+          this.setDiaplayModal(false)
         }
       }
     })
-  }
-
-  // displayModal 公用保存 modal 方法
-  handleSaveModal = () => {
-    let { displayModal: { type } } = this.state
-    if (type === 'path') {
-      this.handleSaveRecordPath()
-    } else {
-      this.handleSaveRecordName()
-    }
   }
 
   // 表格 操作 - 下载
@@ -307,7 +254,7 @@ class RecordingManage extends Component {
     if (Lock === '1') {
       return message.error($t('m_044'))
     }
-    this.setDiaplayModal(true, 'name', record)
+    this.setDiaplayModal(true, record)
   }
 
   // 表格 操作 - 锁定/解锁
@@ -412,95 +359,10 @@ class RecordingManage extends Component {
     })
   }
 
-  // componentDidMount
-  async componentDidMount () {
-    let data1 = await this.handleGetPvalue()
-    // let data2 = await this.handleGetTimezone() 可以暂时不获取
-    let data3 = await this.handleGetRecordingList()
-    let data4 = await this.handleGetRecordingPath()
-
-    this.setState({
-      datefmt: data1['P102'],
-      // timezone: data2['timezone'],
-      recordingList: data3.Data,
-      use24Hour: data3.Use24Hour,
-      pathList: data4.list || [],
-      curPath: data4.curpath || ''
-    })
-  }
-
   // render
   render () {
     const { getFieldDecorator: gfd } = this.props.form
-    let { pathList, curPath, tempPath, displayModal, recordingList, selectedRowKeys, curPage } = this.state
-
-    // -----------处理设置路径/录像名称 start
-    let modalHtml = ''
-    if (displayModal.show) {
-      let { type } = displayModal
-      // 路径
-      if (type === 'path') {
-        let children = []
-        if (pathList.length > 0) {
-          let isExist = pathList.find(item => item === curPath)
-          !isExist && (curPath = pathList[0])
-          let s = $t('c_030')
-          let pathArr = [s + '0', s + '1', s + '2', $t('c_031')] // let pathArr = ['a_usbdisk0', 'a_usbdisk1', 'a_usbdisk2', 'a_extsd']
-          let [usb0num, usb1num, usb2num, sdnum, index] = Array(5).fill(0)
-
-          pathList.forEach(item => {
-            let extStr = ''
-            if (item.indexOf('usbhost0') !== -1) {
-              index = 0
-              usb0num && (extStr = '_' + usb0num)
-              usb0num += 1
-            } else if (item.indexOf('usbhost1') !== -1) {
-              index = 1
-              usb1num && (extStr = '_' + usb1num)
-              usb1num += 1
-            } else if (item.indexOf('usbhost2') !== -1) {
-              index = 2
-              usb2num && (extStr = '_' + usb2num)
-              usb2num += 1
-            } else if (item.indexOf('extsd') !== -1) {
-              index = 3
-              sdnum && (extStr = '_' + sdnum)
-              sdnum += 1
-            }
-            children.push(<Select.Option value={item} key={item}>{pathArr[index] + extStr}</Select.Option>)
-          })
-          tempPath && (curPath = tempPath)
-          modalHtml =
-            <Select value={curPath} style={{ width: 300 }} onChange={this.handleChangeRecordPath} getPopupContainer={(triggerNode) => { return triggerNode }}>
-              {children}
-            </Select>
-        } else {
-          modalHtml =
-            <Select placeholder={$t('m_047')} disabled={true} style={{ width: 300 }}>
-              {children}
-            </Select>
-        }
-      } else {
-        modalHtml =
-          <Form>
-            <Form.Item>
-              {
-                gfd('renameinput', {
-                  rules: [
-                    { required: true, whitespace: true, message: $t('m_048') },
-                    { max: 64, message: $t('m_050') + 64 },
-                    this.validateRenameinputIsexit(recordingList),
-                    this.validateRenameinputIsillegal()
-                  ]
-                })(
-                  <Input placeholder={$t('m_049')}/>
-                )
-              }
-            </Form.Item>
-          </Form>
-      }
-    }
-    // -----------处理设置路径/录像名称 end
+    let { displayModal, dataList, selectedRowKeys, curPage } = this.state
 
     // -----------处理table start
     // rowSelection
@@ -545,11 +407,11 @@ class RecordingManage extends Component {
     }]
     // pageobj
     let pageobj = false
-    if (recordingList.length > 15) {
+    if (dataList.length > 15) {
       pageobj = {
         current: curPage,
         pageSize: 15,
-        total: recordingList.length,
+        total: dataList.length,
         onChange: this.changePage
       }
     }
@@ -558,8 +420,25 @@ class RecordingManage extends Component {
       <div className='recording-manage'>
         {/* 保存路径/编辑录像名称 modal */}
         {
-          displayModal.show && <Modal visible={displayModal.show} width='500px' title={<span style={{ display: 'block', textAlign: 'center' }}>{$t(displayModal.type === 'path' ? 'c_032' : 'c_033')}</span>} className='record-setmodal' centered={true} okText={$t('b_002')} cancelText={$t('b_005')} onOk={this.handleSaveModal} onCancel={() => { this.setDiaplayModal(false) }}>
-            <div className='confirm-content'>{modalHtml}</div>
+          displayModal && <Modal visible={displayModal} width='500px' title={<span style={{ display: 'block', textAlign: 'center' }}>{$t('c_033')}</span>} className='record-setmodal' centered={true} okText={$t('b_002')} cancelText={$t('b_005')} onOk={this.handleSaveRecordName} onCancel={() => { this.setDiaplayModal(false) }}>
+            <div className='confirm-content'>
+              <Form>
+                <Form.Item>
+                  {
+                    gfd('renameinput', {
+                      rules: [
+                        { required: true, whitespace: true, message: $t('m_048') },
+                        { max: 64, message: $t('m_050') + 64 },
+                        this.validateRenameinputIsexit(dataList),
+                        this.validateRenameinputIsillegal()
+                      ]
+                    })(
+                      <Input placeholder={$t('m_049')}/>
+                    )
+                  }
+                </Form.Item>
+              </Form>
+            </div>
           </Modal>
         }
 
@@ -568,19 +447,16 @@ class RecordingManage extends Component {
           <Button type='primary' disabled={selectedRowKeys.length === 0} onClick={this.handleDeleteConfirm}>
             <Icon type='delete' />{$t('b_003')}
           </Button>
-          <Button type='primary' onClick={() => { this.setDiaplayModal() }} style={{ marginLeft: 10 }}>{$t('b_017')}</Button>
         </div>
-
-        <Divider />
 
         {/* table */}
         {
-          recordingList.length > 0 ? <Table
+          dataList.length > 0 ? <Table
             className='record-table'
             rowKey='Id'
             rowSelection={rowSelection}
             columns={columns}
-            dataSource={recordingList}
+            dataSource={dataList}
             showHeader={true}
             pagination={pageobj}
           /> : <Nodata />
@@ -590,4 +466,4 @@ class RecordingManage extends Component {
   }
 }
 
-export default RecordingManage
+export default VideoList

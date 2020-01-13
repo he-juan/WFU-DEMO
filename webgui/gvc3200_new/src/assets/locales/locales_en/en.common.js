@@ -85,8 +85,9 @@ const routes = {
   r_076: '无线麦',
   r_077: 'Media',
   r_078: 'Advanced Network Settings',
-  r_079: 'Conifg',
-  r_080: 'List',
+  r_079: 'Recording Config',
+  r_080: 'Video List',
+  r_081: 'Audio List',
 
   r_999: ''
 }
