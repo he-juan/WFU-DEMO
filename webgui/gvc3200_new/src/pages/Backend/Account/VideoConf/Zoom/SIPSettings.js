@@ -13,6 +13,7 @@ class SIPSettings extends FormCommon {
     super(props)
     this.options = getOptions('Account.VideoConf.Zoom.SIP')
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
@@ -39,6 +40,7 @@ class SIPSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const options = this.options

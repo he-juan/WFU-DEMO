@@ -192,6 +192,7 @@ class Ethernet extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const { twoVlan, inLldpvlanid, inLldpvlanqos, loadingData } = this.state

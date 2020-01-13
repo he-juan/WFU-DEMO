@@ -25,6 +25,7 @@ class Ping extends FormCommon {
     stopDisable: true,
     notFirst: false
   }
+
   options = getOptions('Maintenance.TroubleShooting.Ping')
 
   componentDidMount () {

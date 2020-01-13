@@ -26,6 +26,7 @@ class LocalSelect extends Component {
     this.props.setLocale(i.key)
     Cookie.set('locale', i.key, { expires: 1000 })
   }
+
   render () {
     const { locale } = this.props
 

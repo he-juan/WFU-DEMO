@@ -84,6 +84,7 @@ class CodecSettings extends FormCommon {
       targetVocoders: v
     })
   }
+
   parseVocoderValues = (targets) => {
     let result = {}
     const pAry = ['P25037', 'P25038', 'P25039', 'P25040', 'P25041']
@@ -124,6 +125,7 @@ class CodecSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const { targetVocoders } = this.state

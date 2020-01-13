@@ -7,15 +7,19 @@ class RegularScreen extends Component {
   static propTypes = {
     onSwitchScreen: PropTypes.func
   }
+
   unListen = null
+
   componentDidMount () {
     this.unListen = history.listen(() => {
       this.props.onSwitchScreen()
     })
   }
+
   componentWillUnmount () {
     this.unListen && this.unListen()
   }
+
   render () {
     const { onSwitchScreen } = this.props
     return (

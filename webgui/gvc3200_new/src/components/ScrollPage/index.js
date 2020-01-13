@@ -12,6 +12,7 @@ class ScrollPage extends Component {
     noMore: PropTypes.bool.isRequired, // 数据是否加载完
     triggerHeight: PropTypes.number // 滚动到底时触发加载的高度
   }
+
   childRef = createRef()
 
   handleWrapperScroll = throttleReactEvent((e) => {

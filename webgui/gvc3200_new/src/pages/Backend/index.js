@@ -50,6 +50,7 @@ class Backend extends Component {
     }
     document.title = props.productInfo['Product']
   }
+
   async componentDidMount () {
     this.setContentHeight()
     await this.props.getUserType()
@@ -66,16 +67,19 @@ class Backend extends Component {
     // 全局监听 enter 事件
     document.addEventListener('keydown', this.listenEnterEvent, false)
   }
+
   componentWillUnmount () {
     window.removeEventListener('resize', this.calContentHeight)
     document.removeEventListener('keydown', this.listenEnterEvent)
     notification.close(rebootNotifyKey)
     clearInterval(LOGOUT_TIMER)
   }
+
   setContentHeight = () => {
     this.calContentHeight()
     window.addEventListener('resize', this.calContentHeight, false)
   }
+
   calContentHeight = () => {
     const winHeight = document.documentElement.clientHeight || window.innerHeight
     const contentHeight = winHeight - 50
@@ -83,6 +87,7 @@ class Backend extends Component {
       contentHeight
     })
   }
+
   // 全局监听 enter 事件
   listenEnterEvent = e => {
     let theEvent = e || window.event
@@ -98,6 +103,7 @@ class Backend extends Component {
       }
     }
   }
+
   // 超时登出
   webTimeout = () => {
     LOGOUT_TIMER = setInterval(() => {
@@ -117,6 +123,7 @@ class Backend extends Component {
       })
     }, 10000)
   }
+
   getTitle () {
     const { location } = this.props
     let matchItem = null

@@ -33,6 +33,7 @@ class Debug extends FormCommon {
     recordList: [], // 录音列表
     pageLoaded: false
   }
+
   options = getOptions('Maintenance.TroubleShooting.Debug')
 
   componentDidMount () {

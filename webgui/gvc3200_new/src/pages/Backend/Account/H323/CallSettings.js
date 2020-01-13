@@ -12,6 +12,7 @@ class CallSettings extends FormCommon {
 
     this.options = getOptions('Account.H323.Call')
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     // 表单初始化

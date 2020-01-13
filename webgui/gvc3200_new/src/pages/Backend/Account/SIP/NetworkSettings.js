@@ -11,6 +11,7 @@ class NetworkSettings extends FormCommon {
     super(props)
     this.options = getOptions('Account.SIP.Network')
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
@@ -27,6 +28,7 @@ class NetworkSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options

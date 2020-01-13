@@ -33,6 +33,7 @@ class CallSettings extends FormCommon {
       ringtones: []
     }
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     // 表单初始化

@@ -43,6 +43,7 @@ class QuickConifgApp extends React.Component {
   state = {
     checkqrtoken: ''
   }
+
   componentDidMount () {
     API.checkqrtoken(document.location.hash.slice(1)).then(m => {
       // eslint-disable-next-line no-eval
@@ -52,6 +53,7 @@ class QuickConifgApp extends React.Component {
       })
     })
   }
+
   render () {
     const { checkqrtoken } = this.state
     // console.log(checkqrtoken)

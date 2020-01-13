@@ -24,9 +24,11 @@ class CallHistory extends Component {
     pageNum: 10, // 当前每页显示数量
     selectedLogs: [] // 选中的记录
   }
+
   componentDidMount () {
     this.updateCurPageData()
   }
+
   componentDidUpdate (preProps, preState) {
     // 当通话记录源数据， 页码， 每页显示数修改后， 更新当前页的记录数据
     if (preProps.callLogs !== this.props.callLogs || preState.curPage !== this.state.curPage || preState.pageNum !== this.state.pageNum) {
@@ -91,6 +93,7 @@ class CallHistory extends Component {
       curPageData: result
     })
   }
+
   // 跳转分页
   handlePageChange = (v) => {
     this.setState({
@@ -98,6 +101,7 @@ class CallHistory extends Component {
       selectedLogs: []
     })
   }
+
   // 调整每页显示数
   handlePageNumChange = (cur, size) => {
     this.setState({
@@ -111,6 +115,7 @@ class CallHistory extends Component {
       selectedLogs: items
     })
   }
+
   // 删除选中的记录
   handleDeleteLog = () => {
     const { selectedLogs } = this.state
@@ -152,6 +157,7 @@ class CallHistory extends Component {
       }
     })
   }
+
   // 清空所有
   handleClearAll = () => {
     const { getCallLogs } = this.props

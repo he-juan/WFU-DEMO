@@ -28,6 +28,7 @@ class FirmwareInstallTip extends PureComponent {
   state = {
     percent: 0
   }
+
   componentDidMount () {
     MsgObserver.subscribe('install', (message) => {
       const { msg, val } = message
@@ -76,6 +77,7 @@ class FirmwareInstallTip extends PureComponent {
     MsgObserver.unsubscribe('install')
     clearTimeout(TIMER)
   }
+
   render () {
     const { percent } = this.state
     return (

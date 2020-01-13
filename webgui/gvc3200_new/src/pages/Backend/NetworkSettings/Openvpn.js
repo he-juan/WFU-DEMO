@@ -66,6 +66,7 @@ class OpenVPN extends FormCommon {
 
     this.isShouldReboot = false
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
@@ -76,6 +77,7 @@ class OpenVPN extends FormCommon {
     })
     this.handleGetDelBtnState()
   }
+
   handleGetDelBtnState = () => {
     API.getPvalues(['P9902', 'P9903', 'P9904']).then(data => {
       const { P9902, P9903, P9904 } = data
@@ -86,11 +88,13 @@ class OpenVPN extends FormCommon {
       })
     })
   }
+
   handleDels = (p) => {
     API.putPvalues({ [p]: '' }).then(() => {
       this.handleGetDelBtnState()
     })
   }
+
   handleUploads = (info, pvalue) => {
     const { response, status } = info.file
     if (response && response.indexOf('Authentication Required') > -1) {
@@ -125,6 +129,7 @@ class OpenVPN extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const { delCA, delCert, delKey, loadingData } = this.state

@@ -17,6 +17,7 @@ class RemoteControlStatus extends Component {
       })
     })
   }
+
   render () {
     const { rcStatus } = this.state
     const unknown = $t('c_092')

@@ -33,6 +33,7 @@ class NetworkStatus extends Component {
       }
     }
   }
+
   componentDidMount () {
     this.getNetInfos()
     this.props.getNetWorkStatus()
@@ -88,6 +89,7 @@ class NetworkStatus extends Component {
         return ''
     }
   }
+
   render () {
     const { networkStatus } = this.props
     const { netInfo } = this.state

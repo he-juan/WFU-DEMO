@@ -45,10 +45,12 @@ class Language extends FormCommon {
       }
     }
   }
+
   componentDidMount () {
     this.initLanguageAndList()
     this.checkCustom()
   }
+
   // 是否有自定义语言文件
   checkCustom = () => {
     API.custLanExist().then(m => {
@@ -57,6 +59,7 @@ class Language extends FormCommon {
       })
     })
   }
+
   // 初始化语言列表以及相应的值
   initLanguageAndList = () => {
     Promise.all([
@@ -112,12 +115,14 @@ class Language extends FormCommon {
       })
     })
   }
+
   // 获取次级语言列表
   handleLoadLv1List = (selOptions) => {
     let targetOption = selOptions[selOptions.length - 1]
     let langLv0 = targetOption.value
     this.updateLocalListWithLv1(langLv0)
   }
+
   // 获取次级语言列表并更新整个语言列表
   updateLocalListWithLv1 = (langLv0) => {
     let { localeList } = this.state
@@ -131,6 +136,7 @@ class Language extends FormCommon {
       this.setState({ localeList: _localeList })
     })
   }
+
   //
   parseLocaleList = (list, isLeaf) => {
     let result = []
@@ -147,11 +153,13 @@ class Language extends FormCommon {
     }
     return result
   }
+
   handleLanChange = (v) => {
     this.setState({
       curLanguage: v
     })
   }
+
   handleDelCustom = () => {
     let modal = Modal.confirm({
       title: <span>{$t('m_036')}</span>,
@@ -168,6 +176,7 @@ class Language extends FormCommon {
       onCancel () {}
     })
   }
+
   handleSubmit = () => {
     const { curLanguage } = this.state
     const lan = curLanguage[curLanguage.length - 1]
@@ -179,6 +188,7 @@ class Language extends FormCommon {
       }
     })
   }
+
   render () {
     const { hasCustom, localeList, curLanguage } = this.state
     const options = this.options

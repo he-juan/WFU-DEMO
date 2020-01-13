@@ -24,6 +24,7 @@ class Network extends Component {
       wifi: false
     }
   }
+
   componentDidMount () {
     API.network().then((data) => {
       const { IP, ethstatus, wifistatus } = data
@@ -37,6 +38,7 @@ class Network extends Component {
       })
     })
   }
+
   render () {
     const { netStatus } = this.state
     return (

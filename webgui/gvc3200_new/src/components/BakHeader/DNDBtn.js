@@ -7,16 +7,19 @@ class DNDBtn extends Component {
   state = {
     dndStatus: 0
   }
+
   setDndStatus = (dndStatus) => {
     this.setState({
       dndStatus
     })
   }
+
   componentDidMount () {
     API.getPvalues(['Pdnd']).then(data => {
       this.setDndStatus(+data.Pdnd)
     })
   }
+
   handleDnd = () => {
     const { dndStatus } = this.state
     let status = dndStatus ? 0 : 1

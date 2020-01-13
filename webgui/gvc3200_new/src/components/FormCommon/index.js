@@ -20,7 +20,9 @@ class FormCommon extends Component {
   // 储存初始化的表单数据
   INIT_VALUE = null
 
-  RebootOptions = {} // initFormValue时存储重启配置项
+  RebootOptions = {}
+
+  // initFormValue时存储重启配置项
   ShouldReboot = false // 是否应该提示重启提示弹窗
 
   /** 表单初始化 */
@@ -47,6 +49,7 @@ class FormCommon extends Component {
       message.error($t('m_071'))
     })
   }
+
   /** 表单提交 */
   submitFormValue = (params, flag = 0, isApply = 1) => {
     return API.putPvalues(params, flag).then((data) => {
@@ -108,6 +111,7 @@ class FormCommon extends Component {
       }
     }
   }
+
   // 校验合法的Url
   checkUrlPath () {
     return {
@@ -121,6 +125,7 @@ class FormCommon extends Component {
       }
     }
   }
+
   // 检测IP地址
   checkIPAddress () {
     return {
@@ -135,6 +140,7 @@ class FormCommon extends Component {
       }
     }
   }
+
   // 整数
   digits () {
     return {

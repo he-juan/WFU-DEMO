@@ -150,5 +150,6 @@ module.exports = {
     "yield-star-spacing": ["error", "both"],
     "yoda": ["error", "never"],
     "object-curly-spacing": ["error", "always"],
+    "lines-between-class-members": ["error", "always"]
   }
 }

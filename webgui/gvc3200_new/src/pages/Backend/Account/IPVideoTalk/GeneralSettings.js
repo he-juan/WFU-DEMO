@@ -26,6 +26,7 @@ class GeneralSettings extends FormCommon {
   state = {
     restActiveAcct: []
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.props.getDefaultAcct()
@@ -56,6 +57,7 @@ class GeneralSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { restActiveAcct } = this.state
     const { getFieldDecorator: gfd } = this.props.form

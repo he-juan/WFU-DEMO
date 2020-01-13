@@ -182,6 +182,7 @@ class RecordingManage extends Component {
       }
     }
   }
+
   // renameinput 是否存在无效字符 检验
   validateRenameinputIsillegal = () => {
     return {

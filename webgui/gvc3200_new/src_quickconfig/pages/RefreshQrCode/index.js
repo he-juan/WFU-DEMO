@@ -9,6 +9,7 @@ class RefreshQrCode extends Component {
   state = {
     isActive: false
   }
+
   handleRefreshQrCode = () => {
     API.refreshqrcode().then((m) => {
       if (m.response === 'success') {
@@ -20,6 +21,7 @@ class RefreshQrCode extends Component {
       }
     })
   }
+
   render () {
     const { isActive } = this.state
     return (

@@ -55,6 +55,7 @@ class GroupsTab extends Component {
       })
     }
   }
+
   // 搜索输入的关键词进行过滤
   updateFilteredGroups = () => {
     const { contactsGroups } = this.props
@@ -69,6 +70,7 @@ class GroupsTab extends Component {
       filteredGroups
     })
   }
+
   // 更新当前页数据
   updateCurPageData = () => {
     const { curPage, pageNum, filteredGroups } = this.state
@@ -105,6 +107,7 @@ class GroupsTab extends Component {
       }
     })
   }
+
   // 删除选中
   handleDelete = () => {
     const { selectedGroups } = this.state
@@ -129,18 +132,21 @@ class GroupsTab extends Component {
       }
     })
   }
+
   // 编辑群组
   handleEditGroup = (group) => {
     this.setState({
       groupEditing: group
     })
   }
+
   // 选中
   handleSelectGroup = (items) => {
     this.setState({
       selectedGroups: items
     })
   }
+
   // 新建群组
   handleAddGroup = () => {
     this.setState({
@@ -152,6 +158,7 @@ class GroupsTab extends Component {
       }
     })
   }
+
   // 跳转分页
   handlePageChange = (v) => {
     this.setState({
@@ -159,12 +166,14 @@ class GroupsTab extends Component {
       selectedGroups: []
     })
   }
+
   // 调整每页显示数
   handlePageNumChange = (cur, size) => {
     this.setState({
       pageNum: size
     })
   }
+
   // 过滤
   handleFilterChange = debounceReactEvent((e) => {
     this.setState({
@@ -180,6 +189,7 @@ class GroupsTab extends Component {
       this.props.getContactsAndGroups()
     }, 200)
   }
+
   render () {
     const { contactsGroups } = this.props
     const { filteredGroups, curPageData, filterKey, selectedGroups, curPage, pageNum, groupEditing } = this.state

@@ -19,6 +19,7 @@ class BakNav extends Component {
     openKeys: this.getOpenKeys(menuData, []),
     SHOW_WIFI_MENU: false
   }
+
   // 根据pathname 递归找到openkey
   getOpenKeys (menu, result) {
     const { pathname } = this.props.location
@@ -35,6 +36,7 @@ class BakNav extends Component {
     }
     return result
   }
+
   handleOpenChange = (k) => {
     let lastKey = k[k.length - 1]
     if (k[0] && lastKey.indexOf(k[0]) < 0) {
@@ -53,6 +55,7 @@ class BakNav extends Component {
       openKeys: k
     })
   }
+
   buildMenu (menuData) {
     let { SHOW_WIFI_MENU } = this.state
     const { location } = this.props

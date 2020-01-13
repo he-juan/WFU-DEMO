@@ -152,6 +152,7 @@ class Firmware extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options

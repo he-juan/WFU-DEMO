@@ -110,6 +110,7 @@ class ContactsList extends Component {
       }
     ]
   }
+
   render () {
     const { dataSource, selectedContacts, onSelectRow } = this.props
     return (

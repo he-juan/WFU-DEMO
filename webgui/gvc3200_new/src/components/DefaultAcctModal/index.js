@@ -20,9 +20,11 @@ class DefaultAcctModal extends Component {
     restActiveAcct: PropTypes.array, // 其他已激活的账号
     cb: PropTypes.func.isRequired // 当前页面表单的submit方法
   }
+
   state = {
     acctValue: 0
   }
+
   componentDidUpdate (preProps) {
     if (preProps.restActiveAcct.length === 0 && this.props.restActiveAcct.length > 0) {
       this.setState({
@@ -30,11 +32,13 @@ class DefaultAcctModal extends Component {
       })
     }
   }
+
   handleChange = (v) => {
     this.setState({
       acctValue: v
     })
   }
+
   handleOk = () => {
     const { setDefaultAcct, cb, onCancel } = this.props
     const acctValue = this.state.acctValue
@@ -46,6 +50,7 @@ class DefaultAcctModal extends Component {
       }, 0)
     })
   }
+
   render () {
     const { restActiveAcct, onCancel } = this.props
     const { acctValue } = this.state

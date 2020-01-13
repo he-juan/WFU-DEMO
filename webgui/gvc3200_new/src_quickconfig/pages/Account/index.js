@@ -20,6 +20,7 @@ class AcctConfig extends Component {
 
     }
   }
+
   async componentDidMount () {
     let pvalues = await API.getPvalues(['P47', 'P35', 'P36', 'P34', 'P270', 'P3', 'P271'])
     // let siteData = await API.sqlitedisplay()
@@ -30,17 +31,20 @@ class AcctConfig extends Component {
       }
     })
   }
+
   updateValues = (fields) => {
     this.setState({
       values: Object.assign({}, this.state.values, fields)
     })
   }
+
   handleSubmit = async () => {
     const { sitename, ...rest } = this.state.values
     await API.putPvalues(rest)
     // await API.setSitesettingInfo(sitename) // bugfree 2814
     history.replace('/result')
   }
+
   render () {
     const { values } = this.state
     return (

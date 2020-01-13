@@ -18,6 +18,7 @@ let traceTimer = null
 @Form.create()
 class Traceroute extends FormCommon {
   oldOffset = 0
+
   oldPingmsg = ''
 
   state = {
@@ -118,6 +119,7 @@ class Traceroute extends FormCommon {
       }
     })
   }
+
   /** 组件销毁，刷新都需要调用 */
   stopTracerouteHandler = () => {
     if (!traceTimer) return false
@@ -125,6 +127,7 @@ class Traceroute extends FormCommon {
     clearTimeout(traceTimer)
     traceTimer = null
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const { gateway } = this.props

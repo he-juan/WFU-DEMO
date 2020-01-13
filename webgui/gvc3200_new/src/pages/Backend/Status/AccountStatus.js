@@ -16,6 +16,7 @@ class AccountStatus extends Component {
   componentDidMount () {
     this.props.getAcctStatus()
   }
+
   render () {
     const { acctStatus } = this.props
     const ths = ['c_078', 'c_079', 'c_080', 'c_081']

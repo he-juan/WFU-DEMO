@@ -34,6 +34,7 @@ class ContactTab extends Component {
     visibleModal: null, // 当前显示的弹窗 可选项： "import", "export", "download"
     maxContactsCount: 2000 // 最大联系人数量
   }
+
   componentDidMount () {
     this.updateFilteredContacts()
     this.updateCurPageData()
@@ -60,6 +61,7 @@ class ContactTab extends Component {
       })
     }
   }
+
   // 搜索输入的关键词进行过滤
   updateFilteredContacts = () => {
     const { contacts } = this.props
@@ -74,6 +76,7 @@ class ContactTab extends Component {
       filteredContacts
     })
   }
+
   // 当过滤后通话记录源数据， 页码， 每页显示数修改后， 更新当前页的记录数据
   updateCurPageData = () => {
     const { curPage, pageNum, filteredContacts } = this.state
@@ -86,6 +89,7 @@ class ContactTab extends Component {
       curPageData: result
     })
   }
+
   // 跳转分页
   handlePageChange = (v) => {
     this.setState({
@@ -93,18 +97,21 @@ class ContactTab extends Component {
       selectedContacts: []
     })
   }
+
   // 调整每页显示数
   handlePageNumChange = (cur, size) => {
     this.setState({
       pageNum: size
     })
   }
+
   // 选中行或取消选中行
   handleSelectRow = (items) => {
     this.setState({
       selectedContacts: items
     })
   }
+
   // 删除选中的联系人
   handleDeleteContact = () => {
     const { selectedContacts } = this.state
@@ -126,6 +133,7 @@ class ContactTab extends Component {
       }
     })
   }
+
   // 清空联系人
   handleClearContacts = () => {
     Modal.confirm({
@@ -152,12 +160,14 @@ class ContactTab extends Component {
       contactsEditing: new EditContacts(contact, false)
     })
   }
+
   // {$t('b_038')}联系人
   handleAddContacts = () => {
     this.setState({
       contactsEditing: new EditContacts({}, true)
     })
   }
+
   // 导入，清空， 删除后更新联系人列表， 消息记录， 群组数据
   updateContactsData = () => {
     const { getContactsAndGroups, getCallLogs } = this.props
@@ -166,12 +176,14 @@ class ContactTab extends Component {
       getCallLogs()
     }, 3000)
   }
+
   // 切换显示导入联系人弹窗
   toggleModal = (flag) => {
     this.setState({
       visibleModal: flag
     })
   }
+
   handleFilterChange = debounceReactEvent((e) => {
     this.setState({
       filterKey: e.target.value,
@@ -179,6 +191,7 @@ class ContactTab extends Component {
       selectedContacts: []
     })
   }, 400)
+
   render () {
     const { contacts } = this.props
     const { maxContactsCount, filteredContacts, curPageData, curPage, pageNum, selectedContacts, contactsEditing, visibleModal, filterKey } = this.state

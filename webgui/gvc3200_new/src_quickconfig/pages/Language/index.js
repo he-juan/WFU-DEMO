@@ -65,6 +65,7 @@ class Language extends Component {
       }
     })
   }
+
   // 获取次级语言列表并更新整个语言列表
   updateLocalListWithLv1 = (langLv0, localeList) => {
     const { setLocaleList } = this.context
@@ -77,6 +78,7 @@ class Language extends Component {
       return Promise.resolve(localeLv0Item.children)
     })
   }
+
   parseLocaleList = (list, isLeaf) => {
     let result = []
     for (let i = 0; i < list.length; i++) {
@@ -108,6 +110,7 @@ class Language extends Component {
       history.replace('/timezone')
     })
   }
+
   render () {
     const { localeList, curLocale } = this.context
     return (

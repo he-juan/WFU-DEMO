@@ -20,6 +20,7 @@ class Ipv4 extends Component {
       ppoepw: ''
     }
   }
+
   componentDidMount () {
     API.getPvalues(
       [ 'P8', 'P9', 'P10', 'P11', 'P12', 'P13', 'P14',
@@ -48,6 +49,7 @@ class Ipv4 extends Component {
       values: Object.assign({}, this.state.values, fields)
     })
   }
+
   handleSubmit = () => {
     const { values } = this.state
     const P8 = values.addressType[0]
@@ -84,6 +86,7 @@ class Ipv4 extends Component {
       history.replace('/network/advanced')
     })
   }
+
   render () {
     const { values } = this.state
     return (

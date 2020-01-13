@@ -14,6 +14,7 @@ class ScreenLock extends Component {
     cpw: '',
     confirm: false
   }
+
   handlePw = (v) => {
     this.setState({
       pw: v
@@ -26,11 +27,13 @@ class ScreenLock extends Component {
       }, 200)
     }
   }
+
   handlecPw = (v) => {
     this.setState({
       cpw: v
     })
   }
+
   handleSubmit = async () => {
     const { pw, cpw } = this.state
     if (!pw) return history.replace('/result')
@@ -47,6 +50,7 @@ class ScreenLock extends Component {
     await API.savelockpwd(pw)
     history.replace('/result')
   }
+
   render () {
     const { pw, cpw, confirm } = this.state
     return (

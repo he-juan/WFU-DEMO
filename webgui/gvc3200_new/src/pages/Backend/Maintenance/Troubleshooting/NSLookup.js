@@ -15,7 +15,9 @@ class NSLookup extends FormCommon {
     startDisable: false,
     notFirst: false
   }
+
   options = getOptions('Maintenance.TroubleShooting.NSLookup')
+
   handleStart = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -24,6 +26,7 @@ class NSLookup extends FormCommon {
       }
     })
   }
+
   startNSLookup = (addr) => {
     this.setState({
       nsResult: '',
@@ -39,6 +42,7 @@ class NSLookup extends FormCommon {
       })
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const { nsResult, startDisable, inputDisable, notFirst } = this.state

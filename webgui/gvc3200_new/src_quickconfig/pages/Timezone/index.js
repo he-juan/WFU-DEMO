@@ -38,6 +38,7 @@ class Timezone extends Component {
   handlePickLang = (v) => {
     this.context.setTimezone(v)
   }
+
   handleSubmit = () => {
     let timezoneValue = this.context.timezone[0]
     API.saveTimeSet(timezoneValue).then(m => {
@@ -46,6 +47,7 @@ class Timezone extends Component {
       }
     })
   }
+
   render () {
     const { timezone, timezoneList } = this.context
     return (

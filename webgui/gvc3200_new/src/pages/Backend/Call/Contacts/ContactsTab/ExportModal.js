@@ -19,13 +19,16 @@ class ExportModal extends Component {
     visible: PropTypes.bool,
     onCancel: PropTypes.func
   }
+
   state = {
     exportPercent: -1
   }
+
   componentWillUnmount () {
     clearTimeout(TIMER)
     TIMER = null
   }
+
   handleExport = () => {
     const { fileEncoding, fileType } = this.props.form.getFieldsValue()
     API.putportphbk({
@@ -96,6 +99,7 @@ class ExportModal extends Component {
       }
     })
   }
+
   render () {
     const { onCancel, visible } = this.props
     const { getFieldDecorator: gfd } = this.props.form

@@ -17,6 +17,7 @@ class PresetSettings extends Component {
   componentDidMount () {
     this.getPresetInfo()
   }
+
   // 获取预置位列表
   getPresetInfo = () => {
     this.setState({
@@ -39,6 +40,7 @@ class PresetSettings extends Component {
       })
     })
   }
+
   // 应用预置位
   applyPreset = (pos) => {
     API.gotoPreset(pos).then(m => {
@@ -50,18 +52,21 @@ class PresetSettings extends Component {
       }
     })
   }
+
   // 编辑预置位
   handleEdit = (item) => {
     this.setState({
       posEditing: item
     })
   }
+
   // 取消编辑并关闭弹窗
   cancelEdit = () => {
     this.setState({
       posEditing: null
     })
   }
+
   // 删除预置位
   handleDelPreset = () => {
     const { posEditing: { position }, presetsData } = this.state
@@ -77,6 +82,7 @@ class PresetSettings extends Component {
       })
     })
   }
+
   handleSavePreset = () => {
     const { posEditing: { position, name }, presetsData } = this.state
     message.loading($t('m_038'))
@@ -92,6 +98,7 @@ class PresetSettings extends Component {
       API.addPreset('100')
     })
   }
+
   // 修改预置位名称
   handlePresetName = (e) => {
     const { posEditing } = this.state
@@ -99,6 +106,7 @@ class PresetSettings extends Component {
       posEditing: Object.assign({}, posEditing, { name: e.target.value })
     })
   }
+
   render () {
     const { presetsData, posApplied, posEditing, dataLoading } = this.state
     return (

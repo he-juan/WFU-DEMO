@@ -76,6 +76,7 @@ class CodecSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { targetVideos } = this.state
     // if (!targetVideos.length) return null

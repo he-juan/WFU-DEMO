@@ -151,6 +151,7 @@ class CallHistoryList extends Component {
     }
     return ''
   }
+
   // 子行展开项， 只展开一行
   handleExpandedRowsChange = (keys) => {
     this.setState({
@@ -292,6 +293,7 @@ class CallHistoryList extends Component {
       </ScrollArea>
     )
   }
+
   render () {
     const { dataSource, selectedLogs, onSelectRow } = this.props
     const { expandedRowKeys, contactToAdd, recordToSave, confMembers, currConf } = this.state

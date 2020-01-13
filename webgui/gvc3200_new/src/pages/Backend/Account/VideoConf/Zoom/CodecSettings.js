@@ -125,6 +125,7 @@ class CodecSettings extends FormCommon {
       targetVocoders: v
     })
   }
+
   parseVocoderValues = (targets) => {
     let result = {}
     const pAry = ['P1851', 'P1852', 'P1853', 'P1854', 'P1855', 'P1856', 'P1857', 'P1858']
@@ -253,6 +254,7 @@ class CodecSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const { targetVocoders, targetVideos, h265_enable } = this.state

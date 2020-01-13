@@ -14,6 +14,7 @@ class InitWebsocket extends React.Component {
     protocol: PropTypes.string,
     reconnectIntervalInMilliSeconds: PropTypes.number
   }
+
   constructor (props) {
     super(props)
     this.state = {

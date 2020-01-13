@@ -22,11 +22,13 @@ class Ipv6 extends Component {
       addressType: v
     })
   }
+
   updateValues = (fields) => {
     this.setState({
       values: Object.assign({}, this.state.values, fields)
     })
   }
+
   componentDidMount = () => {
     API.getPvalues(['P1419', 'P1420', 'P1421', 'P1424', 'P1425']).then(data => {
       const { P1419, P1420, P1421, P1424, P1425 } = data
@@ -41,6 +43,7 @@ class Ipv6 extends Component {
       })
     })
   }
+
   handleSubmit = () => {
     const { values } = this.state
     const P1419 = values.addressType[0]
@@ -69,6 +72,7 @@ class Ipv6 extends Component {
       history.replace('/network/advanced')
     })
   }
+
   render () {
     const { values } = this.state
     return (

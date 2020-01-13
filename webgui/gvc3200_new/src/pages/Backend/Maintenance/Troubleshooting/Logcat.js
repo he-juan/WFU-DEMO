@@ -10,6 +10,7 @@ import { $t } from '@/Intl'
 @Form.create()
 class Logcat extends FormCommon {
   options = getOptions('Maintenance.TroubleShooting.Logcat')
+
   state = {
     logcatFile: ''
   }
@@ -24,6 +25,7 @@ class Logcat extends FormCommon {
       }
     })
   }
+
   getLogcat = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {

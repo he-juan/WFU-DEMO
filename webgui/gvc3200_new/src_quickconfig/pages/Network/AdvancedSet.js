@@ -12,6 +12,7 @@ class AdvancedSet extends Component {
   state = {
     P1415: '0'
   }
+
   componentDidMount () {
     API.getPvalues(['P1415']).then(data => {
       this.setState({
@@ -19,15 +20,18 @@ class AdvancedSet extends Component {
       })
     })
   }
+
   handlePickProtocol = (v) => {
     this.setState({
       P1415: v[0]
     })
   }
+
   handleSubmit = (cb) => {
     const { P1415 } = this.state
     API.putPvalues({ P1415 }).then(cb)
   }
+
   render () {
     const { P1415 } = this.state
     return (

@@ -19,6 +19,7 @@ class App extends Component {
     // 获取oemId
     store.dispatch(getOemId())
   }
+
   render () {
     return (
       <Provider store={store}>

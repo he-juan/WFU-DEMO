@@ -26,6 +26,7 @@ class ConfControl extends Component {
   state = {
     screenStatus: 'null' // mini, regular, or null
   }
+
   componentDidMount () {
     this.confStatusChangeHandler()
     this.lineStatusChangeHandler()
@@ -40,6 +41,7 @@ class ConfControl extends Component {
       this.props.setConfInfo(msg.data)
     })
   }
+
   lineStatusChangeHandler = () => {
     // 订阅会议线路变化
     MsgObserver.subscribe('lineStatusChange', (msg) => {
@@ -65,10 +67,12 @@ class ConfControl extends Component {
       setLinesInfo(_linesInfo)
     })
   }
+
   componentWillUnMount = () => {
     MsgObserver.unsubscribe('confStatusChange')
     MsgObserver.unsubscribe('lineStatusChange')
   }
+
   render () {
     const { screenStatus } = this.state
     return (

@@ -59,9 +59,11 @@ class Power extends FormCommon {
       setFieldsValue({ policy, sleepmode, hidepower })
     })
   }
+
   toogleShutdown = (v) => {
     API.putPvalues({ 'Phide_power': v })
   }
+
   // 提交数据
   handleSubmit = () => {
     const { validateFields } = this.props.form

@@ -12,12 +12,14 @@ class CallFeatures extends FormCommon {
 
     this.options = getOptions('CallFeature.CallFeature')
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
     })
   }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -27,6 +29,7 @@ class CallFeatures extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options

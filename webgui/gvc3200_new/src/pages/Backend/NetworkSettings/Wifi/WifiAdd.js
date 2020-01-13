@@ -12,6 +12,7 @@ class WifiAdd extends FormCommon {
 
     this.options = getOptions('Network.WIFI.Add')
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
@@ -59,6 +60,7 @@ class WifiAdd extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const options = this.options

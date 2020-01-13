@@ -11,6 +11,7 @@ class ScreenShare extends Component {
   state = {
     isCapturing: false
   }
+
   videoRef = createRef()
 
   /*

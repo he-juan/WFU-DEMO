@@ -9,6 +9,7 @@ import { $t } from '@/Intl'
 @Form.create()
 class DeveloperMode extends FormCommon {
   options = getOptions('Maintenance.TroubleShooting.DeveloperMode')
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     API.getDevelopmode().then(data => {
@@ -17,6 +18,7 @@ class DeveloperMode extends FormCommon {
       })
     })
   }
+
   handleSubmit = () => {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
@@ -31,6 +33,7 @@ class DeveloperMode extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options

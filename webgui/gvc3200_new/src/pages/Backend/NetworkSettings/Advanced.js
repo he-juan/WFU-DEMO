@@ -18,6 +18,7 @@ class Advanced extends FormCommon {
     this.options = getOptions('Network.Advanced')
     this.ipInputRule = [this.digits(), this.range(0, 255)]
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     // P1552 代理服务器主机名加端口,需要特殊处理下
@@ -41,6 +42,7 @@ class Advanced extends FormCommon {
       setFieldsValue(other)
     })
   }
+
   // P1552 代理服务器主机名加端口处理 如: 1.1.1.1:80  => 1.1.1.1, 80
   setHttpProxy = (url) => {
     const { setFieldsValue } = this.props.form
@@ -74,6 +76,7 @@ class Advanced extends FormCommon {
       dscp7State
     }
   }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -101,6 +104,7 @@ class Advanced extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const { dscp2State, dscp1State, dscp7State } = this.state

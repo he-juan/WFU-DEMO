@@ -28,6 +28,7 @@ class ApplyBtn extends Component {
     const { getApplyStatus } = this.props
     getApplyStatus()
   }
+
   checkApplyStatus = () => {
     let _this = this
     API.applyPvaluersps().then(data => {
@@ -40,6 +41,7 @@ class ApplyBtn extends Component {
       }
     })
   }
+
   handleApply = () => {
     this.props.setWholeLoading(true, $t('m_136'))
     let _this = this
@@ -56,6 +58,7 @@ class ApplyBtn extends Component {
       timer = setTimeout(_this.checkApplyStatus, 800)
     })
   }
+
   render () {
     const { needApply } = this.props
     return (

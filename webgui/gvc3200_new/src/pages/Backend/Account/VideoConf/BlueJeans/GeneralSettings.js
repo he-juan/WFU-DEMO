@@ -20,9 +20,11 @@ import { $t } from '@/Intl'
 @Form.create()
 class GeneralSettings extends FormCommon {
   options = getOptions('Account.VideoConf.BlueJeans.General')
+
   state = {
     restActiveAcct: []
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.props.getDefaultAcct()
@@ -48,6 +50,7 @@ class GeneralSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { restActiveAcct } = this.state
     const { getFieldDecorator: gfd } = this.props.form

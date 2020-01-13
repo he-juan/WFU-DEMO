@@ -23,6 +23,7 @@ class ImportModal extends Component {
     maxContactsCount: PropTypes.number,
     onImport: PropTypes.func
   }
+
   state = {
     importPercent: -1,
     isClearList: false,
@@ -30,25 +31,30 @@ class ImportModal extends Component {
     fileEncoding: 'UTF-8',
     fileType: '1'
   }
+
   componentWillUnmount () {
     clearTimeout(TIMER)
     TIMER = null
   }
+
   toggleClearList = (e) => {
     this.setState({
       isClearList: e.target.checked
     })
   }
+
   toggleReplaceItems = (e) => {
     this.setState({
       isReplaceItems: e.target.checked
     })
   }
+
   handleSelectFileEncode = (v) => {
     this.setState({
       fileEncoding: v
     })
   }
+
   handleSelectFileType = (v) => {
     this.setState({
       fileType: v
@@ -89,6 +95,7 @@ class ImportModal extends Component {
 
     }
   }
+
   handleUploadDone = () => {
     const { getFieldsValue } = this.props.form
     const { clearList, clearMode, replaceItems, replaceMode, fileEncoding, fileType } = getFieldsValue()

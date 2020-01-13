@@ -18,6 +18,7 @@ class DownloadModal extends FormCommon {
     maxContactsCount: PropTypes.number, // 最大联系人数量
     onDownload: PropTypes.func
   }
+
   state = {
     downloadPercent: -1
   }
@@ -47,6 +48,7 @@ class DownloadModal extends FormCommon {
     other.P1436 = P1436 === 0 ? 0 : replaceMode
     return API.putPvalues(other)
   }
+
   saveDownloadConfig = () => {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
@@ -104,6 +106,7 @@ class DownloadModal extends FormCommon {
       this.phbkresponse()
     })
   }
+
   phbkresponse = () => {
     API.phbkresponse().then(data => {
       let { phbkresponse, max, phbkprogress } = data
@@ -170,6 +173,7 @@ class DownloadModal extends FormCommon {
       }
     }
   }, 300)
+
   render () {
     const { getFieldDecorator: gfd, getFieldsValue } = this.props.form
     const { visible, onCancel } = this.props

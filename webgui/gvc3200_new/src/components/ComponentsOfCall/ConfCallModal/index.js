@@ -44,9 +44,11 @@ class ConfCallModal extends Component {
     })), // 某条会议记录或群组中待拨打的成员列表
     onCancel: PropTypes.func
   }
+
   static defaultProps = {
     confMembers: []
   }
+
   state = {
     selectedMems: [], // 选中的成员
     curPage: 1 // 滚动分页
@@ -64,6 +66,7 @@ class ConfCallModal extends Component {
       selectedMems: selectedMems
     })
   }
+
   handleCall = () => {
     const { selectedMems } = this.state
     const { onCancel } = this.props
@@ -80,6 +83,7 @@ class ConfCallModal extends Component {
     })
     onCancel()
   }
+
   // 滚动到底后回调
   handleUpdatePage = () => {
     const { curPage } = this.state
@@ -87,6 +91,7 @@ class ConfCallModal extends Component {
       curPage: curPage + 1
     })
   }
+
   // 计算当前正在通话的有效线路长度， ipvt算一路，
   liveLinesLength = (linesInfo) => {
     // 先过滤掉通话失败的线路

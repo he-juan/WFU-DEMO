@@ -8,6 +8,7 @@ class SystemInfo extends Component {
   state = {
     sysInfo: {}
   }
+
   componentDidMount () {
     Promise.all([
       API.getPvalues(['Phw_rev', 'P68', 'P7033', 'P69', 'P70', 'Pand_rev', 'Plcd_sn', 'Pddr_sn', 'Pfct_sn', 'Pcpe_version', 'Pcpe_running']),
@@ -27,6 +28,7 @@ class SystemInfo extends Component {
     const { Day, Hour, Min, Sec } = timeInfo
     return `${Day + ' ' + $t('c_088')}, ${Hour + ' ' + $t('c_089')}, ${Min + ' ' + $t('c_090')}, ${Sec + ' ' + $t('c_091')}`
   }
+
   render () {
     const { sysInfo } = this.state
     return (

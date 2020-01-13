@@ -102,12 +102,14 @@ class LoginForm extends Component {
       }
     }
   }
+
   errorTip = (tip) => {
     this.setState({
       hasErr: true,
       errTips: tip
     })
   }
+
   render () {
     const { getFieldDecorator } = this.props.form
     const { hasErr, errTips, locked } = this.state
@@ -156,6 +158,7 @@ class PwChangeForm extends Component {
     errTips: '',
     pw1Rule: true
   }
+
   refPw1 = createRef()
 
   componentDidMount () {
@@ -178,11 +181,13 @@ class PwChangeForm extends Component {
       errTips: tip
     })
   }
+
   handlePw1Rule = (flag) => {
     this.setState({
       pw1Rule: flag
     })
   }
+
   handleSave = () => {
     const { form, changeType } = this.props
     const { pw1, pw2 } = form.getFieldsValue()
@@ -292,15 +297,18 @@ class Login extends Component {
     needChange: false,
     changeType: 'admin'
   }
+
   componentDidMount () {
     // this.props.getProduct()
   }
+
   handleChangePw = (username) => {
     this.setState({
       needChange: true,
       changeType: username
     })
   }
+
   render () {
     const { productInfo, setUserType } = this.props
     const { needChange, changeType } = this.state

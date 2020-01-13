@@ -12,6 +12,7 @@ class VideoSettings extends FormCommon {
 
     this.options = getOptions('CallFeature.VideoSettings')
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
@@ -19,6 +20,7 @@ class VideoSettings extends FormCommon {
       setFieldsValue(data)
     })
   }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -28,6 +30,7 @@ class VideoSettings extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options

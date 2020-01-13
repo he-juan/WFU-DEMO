@@ -12,9 +12,11 @@ class GroupList extends Component {
     selectedGroups: PropTypes.array,
     onEditGroup: PropTypes.func
   }
+
   state = {
     contactsToCall: []
   }
+
   handleCall = (group) => {
     if (group.contacts.length === 0) {
       message.error($t('m_121'))
@@ -41,11 +43,13 @@ class GroupList extends Component {
       contactsToCall
     })
   }
+
   cancelCall = () => {
     this.setState({
       contactsToCall: []
     })
   }
+
   columns = () => {
     const { onEditGroup } = this.props
     let _this = this
@@ -90,6 +94,7 @@ class GroupList extends Component {
       }
     ]
   }
+
   render () {
     const { dataSource, onSelectRow, selectedGroups } = this.props
     const { contactsToCall } = this.state

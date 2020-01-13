@@ -138,6 +138,7 @@ class WifiAdvanced extends FormCommon {
 
     this.options = getOptions('Network.WIFI.Advanced')
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
@@ -145,6 +146,7 @@ class WifiAdvanced extends FormCommon {
       setFieldsValue(data)
     })
   }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields } = this.props.form
@@ -154,6 +156,7 @@ class WifiAdvanced extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd } = this.props.form
     const options = this.options

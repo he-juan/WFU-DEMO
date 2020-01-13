@@ -8,6 +8,7 @@ import { $t } from '@/Intl'
 @Form.create()
 class RemoteControl extends FormCommon {
   options = getOptions('DeviceControl.RemoteControl')
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {

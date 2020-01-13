@@ -74,6 +74,7 @@ class AudioControl extends FormCommon {
     let r = Object.entries(this.echodelayMap).filter(item => item[1] === v)[0]
     return r ? r[0] : '-2'
   }
+
   parseToneList = (ringData) => {
     return ringData.map(ring => ({
       v: `content://media/internal/audio/media/${ring.id}`,
@@ -107,6 +108,7 @@ class AudioControl extends FormCommon {
       }
     })
   }
+
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const { deviceRing, notifyRing, dataLoading } = this.state

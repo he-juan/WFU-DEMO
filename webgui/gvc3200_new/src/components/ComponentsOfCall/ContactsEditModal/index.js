@@ -54,6 +54,7 @@ class ContactsEditModal extends Component {
     onCancel: PropTypes.func,
     maxContactsCount: PropTypes.number
   }
+
   state = {
     editContacts: null,
     submiting: false

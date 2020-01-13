@@ -5,15 +5,32 @@ class MiniScreen extends Component {
   static propTypes = {
     onSwitchScreen: PropTypes.func
   }
+
   miniRef = createRef()
-  mdStamp = 0 // 鼠标mousedown 时间戳
-  mdX = 0 // 鼠标mousedown x位置
-  mdY = 0 // 鼠标mousedown y位置
-  initRight = 2 // 初始x位置
-  initTop = 52 // 初始y位置
-  curRight = 0 // 当前x位置
-  curTop = 50 // 当前y位置
+
+  mdStamp = 0
+
+  // 鼠标mousedown 时间戳
+  mdX = 0
+
+  // 鼠标mousedown x位置
+  mdY = 0
+
+  // 鼠标mousedown y位置
+  initRight = 2
+
+  // 初始x位置
+  initTop = 52
+
+  // 初始y位置
+  curRight = 0
+
+  // 当前x位置
+  curTop = 50
+
+  // 当前y位置
   winWidth = window.innerWidth || document.documentElement.clientWidth
+
   winHeight = window.innerHeight || document.documentElement.clientHeight
 
   componentDidMount () {

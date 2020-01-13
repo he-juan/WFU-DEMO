@@ -23,6 +23,7 @@ class ContactsSelectList extends Component {
     checkedContacts: PropTypes.array, // 选中的contacts列表 checkbox 模式必传
     className: PropTypes.string
   }
+
   static defaultProps = {
     className: '',
     checkedContacts: []

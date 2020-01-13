@@ -39,6 +39,7 @@ class Time extends FormCommon {
       timezonelist: []
     }
   }
+
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
@@ -47,6 +48,7 @@ class Time extends FormCommon {
     this.initTimezone()
     this.initDateInfo()
   }
+
   componentDidUpdate (prevProps, prevState) {
     if (prevProps.locale !== this.props.locale) {
       this.initTimezone()
@@ -75,6 +77,7 @@ class Time extends FormCommon {
       setFieldsValue({ timezone: data.timezone.id })
     })
   }
+
   // 获取日期信息
   initDateInfo = () => {
     const { setFieldsValue } = this.props.form
@@ -87,6 +90,7 @@ class Time extends FormCommon {
       })
     })
   }
+
   handleSubmit = () => {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
@@ -122,6 +126,7 @@ class Time extends FormCommon {
       }
     })
   }
+
   render () {
     let { getFieldDecorator: gfd, getFieldValue } = this.props.form
     let { timezonelist } = this.state

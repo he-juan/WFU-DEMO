@@ -34,12 +34,14 @@ class WifiDetailModal extends FormCommon {
       connecting: false
     }
   }
+
   handleEapChange = (v) => {
     this.setState({
       eapMethod: v,
       phase2arr: this.phase2Map[v]
     })
   }
+
   // 显示高级选项
   showAdvOption = (e) => {
     let checked = e.target.checked
@@ -50,6 +52,7 @@ class WifiDetailModal extends FormCommon {
       staticDisplay: !!checked && iptype === '1'
     })
   }
+
   // 显示静态IP配置
   showStaticIPOption = (e) => {
     let v = e.target.value
@@ -57,12 +60,14 @@ class WifiDetailModal extends FormCommon {
       staticDisplay: v === '1'
     })
   }
+
   // 编辑
   modifyConfig = () => {
     this.setState({
       needModify: true
     })
   }
+
   // 取消保存
   cancelSave = () => {
     let networkId = this.props.wifiSelected.networkId
@@ -70,12 +75,14 @@ class WifiDetailModal extends FormCommon {
       this.cbHide()
     })
   }
+
   // 断开
   handleDisconnect = () => {
     API.disconnectWifi().then(m => {
       this.cbHide()
     })
   }
+
   // 连接/保存
   handleConnnect = () => {
     const { wifiSelected } = this.props
@@ -125,6 +132,7 @@ class WifiDetailModal extends FormCommon {
       }
     })
   }
+
   // 请求回调 同时通过onHide通知页面重新开启wifi列表定时获取
   cbHide = (timeout) => {
     setTimeout(() => {
@@ -154,6 +162,7 @@ class WifiDetailModal extends FormCommon {
       return {}
     }
   }
+
   render () {
     const { wifiSelected, onHide } = this.props
     const { phase2arr, eapMethod, needModify, advDisplay, staticDisplay, connecting } = this.state
@@ -420,6 +429,7 @@ class WifiBasic extends FormCommon {
     }
     this.options = getOptions('Network.WIFI.Basic')
   }
+
   componentDidMount () {
     API.getPvalues(['P7800']).then(data => {
       this.setState({
@@ -430,6 +440,7 @@ class WifiBasic extends FormCommon {
       }
     })
   }
+
   // 开始定时搜索wifi
   startWifiScan = () => {
     clearInterval(this.TIMER)
@@ -438,6 +449,7 @@ class WifiBasic extends FormCommon {
       this.handleWifiScan()
     }, 12000)
   }
+
   // 停止定时搜索
   stopWifiScan = () => {
     clearInterval(this.TIMER)
@@ -487,6 +499,7 @@ class WifiBasic extends FormCommon {
       })
     }, 800)
   }
+
   // 获取wifi列表
   handleWifiList = (start, wifiList) => {
     API.getWifiList(start).then(m => {
@@ -514,6 +527,7 @@ class WifiBasic extends FormCommon {
       }
     })
   }
+
   // 点击wifi列表的连接按钮 如果是未加密且为保存的 直接连接, 否则打开弹窗进一步操作
   handleConnectClick = (wifiItem) => {
     if (wifiItem.security === '0' && wifiItem.isSaved === 'false') {
@@ -539,6 +553,7 @@ class WifiBasic extends FormCommon {
       this.stopWifiScan()
     }
   }
+
   render () {
     const { wifiFunc, wifiScaling, wifiList, wifiSelected } = this.state
     const options = this.options
