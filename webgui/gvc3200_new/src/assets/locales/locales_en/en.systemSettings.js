@@ -89,8 +89,8 @@ export default {
 
   /* Security settings */
 
-  sys_sec_001: 'Disable SSH',
-  sys_sec_001_tip: 'If set to “Yes”, the device will not allow any SSH access to the device. The default setting is "No".',
+  sys_sec_001: 'Enable SSH',
+  sys_sec_001_tip: 'If set to "No", the device will not allow any SSH access to the device. The default setting is "Yes".',
 
   sys_sec_002: 'Access Method',
   sys_sec_002_tip: 'Allows users to select HTTP or HTTPS for Web Access.',

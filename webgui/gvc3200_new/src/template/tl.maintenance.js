@@ -90,7 +90,7 @@ export default {
             { lang: 'mai_up_027', p: 'P193' },
             // 固件升级和配置文件检测
             { lang: 'mai_up_030', p: 'P238' },
-            // 升级时不弹出确认框
+            // 升级时弹出确认框
             { lang: 'mai_up_031', p: 'P1549' },
             // 配置文件部署
             { lang: 'mai_up_032', p: 'P8501' }
@@ -101,7 +101,7 @@ export default {
           lang: 'r_022',
           path: 'advanced',
           sub: [
-            // 禁用SIP NOTIFY认证
+            // 启用SIP NOTIFY认证
             { lang: 'mai_up_034', p: 'P4428' },
             // 验证服务器证书
             { lang: 'mai_up_035', p: 'P22030' },

@@ -30,21 +30,21 @@ export default {
       lang: 'r_003',
       path: 'callfeature',
       sub: [
-        // 无呼叫等待音
+        // 开启呼叫等待音
         { lang: 'call_008', p: 'P186' },
-        // 禁用勿扰模式提醒音
+        // 开启勿扰模式提醒音
         { lang: 'call_009', p: 'P1486' },
         // 接通时自动静音
         { lang: 'call_010', p: 'P29607' },
         // 将SIP URI中的"#"转义成%23
         { lang: 'call_011', p: 'P1406' },
-        // 禁止通话中DTMF显示
+        // 允许通话中DTMF显示
         { lang: 'call_012', p: 'P338' },
         // 过滤字符集
         { lang: 'call_013', p: 'P22012' },
-        // 禁止呼叫等待
+        // 开启呼叫等待
         { lang: 'call_014', p: 'P91' },
-        // 禁用IP拨打模式
+        // 启用IP拨打模式
         { lang: 'call_015', p: 'P277' }
       ]
     },

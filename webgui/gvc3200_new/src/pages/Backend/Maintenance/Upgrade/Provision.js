@@ -356,7 +356,7 @@ class Provision extends FormCommon {
             { v: '2', t: $t('c_052') }
           ]}
         />
-        {/* 升级时不弹出确认框 */}
+        {/* 升级时弹出确认框 */}
         <CheckboxItem
           gfd={gfd}
           {...options['P1549']}

@@ -52,12 +52,12 @@ class WebSSHAccess extends FormCommon {
         // 远程诊断已开启
         if (this.mRsshtcfgswitch === '1') {
           // 不能禁止ssh访问
-          if (+P276 === 1) {
+          if (+P276 === 0) {
             return Modal.info({
               title: $t('m_211'),
               okText: $t('b_002'),
               onOk () {
-                setFieldsValue({ P276: '0' })
+                setFieldsValue({ P276: '1' })
               }
             })
           }
@@ -112,7 +112,7 @@ class WebSSHAccess extends FormCommon {
 
     return (
       <Form hideRequiredMark>
-        {/* 禁止SSH访问 */}
+        {/* 开启SSH访问 */}
         <CheckboxItem
           gfd={gfd}
           {...options['P276']}

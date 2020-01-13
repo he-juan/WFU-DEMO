@@ -91,8 +91,8 @@ export default {
   mai_up_030: 'Firmware Upgrade And Configuration File Detection',
   mai_up_030_tip: 'Defines the rules for automatic upgrade and configuration file: Always Check at bootup, when Firmware prefix/suffix changes, Skip the Firmware Check.',
 
-  mai_up_031: 'Upgrade Without Prompt',
-  mai_up_031_tip: 'If set to "Yes", the device will automatically start upgrading after downloading the firmware files. Otherwise, users would need to confirm in the prompted message before upgrading process is started. The default value is "No".',
+  mai_up_031: 'Upgrade With Prompt',
+  mai_up_031_tip: 'If set to "No", the device will automatically start upgrading after downloading the firmware files. Otherwise, users would need to confirm in the prompted message before upgrading process is started. The default value is "Yes".',
 
   mai_up_032: 'Config Provision',
   mai_up_032_tip: 'Device will download the configuration files and provision by the order you set.',
@@ -100,8 +100,8 @@ export default {
   mai_up_033: 'Enable Randomized Automatic Upgrade',
   mai_up_033_tip: 'Setting whether to upgrade automatically at random. It means whether the phone will upgrade automatically at random time point in the setting period. This option is mainly used for multiple phones upgrade at the same time.',
 
-  mai_up_034: 'Disable SIP NOTIFY Authentication',
-  mai_up_034_tip: 'Device will not challenge NOTIFY with 401 when set to "Yes".',
+  mai_up_034: 'Enable SIP NOTIFY Authentication',
+  mai_up_034_tip: 'Device will not challenge NOTIFY with 401 when set to "No".',
 
   mai_up_035: 'Validate Server Certificate',
   mai_up_035_tip: 'Configures whether to validate the server certificate when download the firmware/config file. If set to "Yes", the phone will download the firmware/config file only from the legitimate server. The default setting is "No".',

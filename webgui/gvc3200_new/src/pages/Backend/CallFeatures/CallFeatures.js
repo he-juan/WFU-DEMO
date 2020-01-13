@@ -36,12 +36,12 @@ class CallFeatures extends FormCommon {
     return (
       <Form>
         <h4 className='bak-sub-title'>{$t('c_101')}</h4>
-        {/* 无呼叫等待音 */}
+        {/* 开启呼叫等待音 */}
         <CheckboxItem
           {...options['P186']}
           gfd={gfd}
         />
-        {/* 禁用勿扰模式提醒音 */}
+        {/* 开启勿扰模式提醒音 */}
         <CheckboxItem
           {...options['P1486']}
           gfd={gfd}
@@ -64,7 +64,7 @@ class CallFeatures extends FormCommon {
           {...options['P1406']}
           gfd={gfd}
         />
-        {/* 禁止通话中DTMF显示 */}
+        {/* 允许通话中DTMF显示 */}
         <CheckboxItem
           {...options['P338']}
           gfd={gfd}
@@ -74,12 +74,12 @@ class CallFeatures extends FormCommon {
           {...options['P22012']}
           gfd={gfd}
         />
-        {/* 禁止呼叫等待 */}
+        {/* 开启呼叫等待 */}
         <CheckboxItem
           {...options['P91']}
           gfd={gfd}
         />
-        {/* 禁用IP拨打模式 */}
+        {/* 启用IP拨打模式 */}
         <CheckboxItem
           {...options['P277']}
           gfd={gfd}

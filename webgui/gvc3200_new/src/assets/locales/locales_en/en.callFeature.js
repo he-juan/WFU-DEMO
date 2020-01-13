@@ -23,11 +23,11 @@ export default {
   call_007: 'Use NAT IP',
   call_007_tip: 'The NAT IP address in SIP/SDP messages. This field is blank by default settings. You should ONLY use it when required by your ITSP.',
 
-  call_008: 'Disable Call-waiting Tone',
-  call_008_tip: 'If set to "Yes", the call waiting tone will be disabled. In this case, only the LED indicator will blink to remind call waiting status. The default setting is "No".',
+  call_008: 'Enable Call-waiting Tone',
+  call_008_tip: 'If set to "No", the call waiting tone will be disabled. In this case, only the LED indicator will blink to remind call waiting status. The default setting is "Yes".',
 
-  call_009: 'Disable DND Reminder Ring',
-  call_009_tip: 'If set to "Yes", when DND feature is on, the ring splash reminder for incoming calls will be muted. The default setting is "No".',
+  call_009: 'Enable DND Reminder Ring',
+  call_009_tip: 'If set to "No", when DND feature is on, the ring splash reminder for incoming calls will be muted. The default setting is "Yes".',
 
   call_010: 'Auto Mute On Entry',
   call_010_tip: 'Configures whether to mute the call on entry automatically. If set to "Disable", then do not use auto mute function; If set to "Auto Mute on Outgoing Call", then mute automatically when the other party answers the outgoing call; If set to "Auto Mute on Incoming Call", then mute automatically when answers the incoming call; If set to "Mute on Incoming & Outgoing Call", then mute automatically when the call gets through.Note: this function only take effect when the phone is from the idle status to call status. Users could click the Mute button on call interface to cancel the current mute status. The default setting is "Disable".',
@@ -35,17 +35,17 @@ export default {
   call_011: 'Escape "#" as %23 in SIP URI',
   call_011_tip: 'Replaces “#” by “%23” for some special situations. The default setting is "Yes".',
 
-  call_012: 'Disable In-call DTMF Display',
-  call_012_tip: 'When it\'s set to "Yes", the DTMF digits entered during the call will not display. The default setting is "No".',
+  call_012: 'Enable In-call DTMF Display',
+  call_012_tip: 'When it\'s set to "No", the DTMF digits entered during the call will not display. The default setting is "Yes".',
 
   call_013: 'Filter Characters',
   call_013_tip: 'Set the characters to filter when dialing out numbers. Users could set up multiple characters. For example, if set to "[()-]", when dialing (0571)-8800-8888, the character "()-" will be automatically filtered and the device will dial 057188008888 directly instead. Note: this function doesn’t work on the local call page of the device.',
 
-  call_014: 'Disable Call-waiting',
-  call_014_tip: 'Disables the call waiting feature. The default setting is "No".',
+  call_014: 'Enable Call-waiting',
+  call_014_tip: 'Enables the call waiting feature. The default setting is "Yes".',
 
-  call_015: 'Disable Direct IP Call',
-  call_015_tip: 'Disables Direct IP Call. The default setting is "No".',
+  call_015: 'Enable Direct IP Call',
+  call_015_tip: 'Enables Direct IP Call. The default setting is "Yes".',
 
   call_016: 'Site Name',
   call_016_tip: 'Specifies the site name to be imposed on the video of local video. When joining a multipoint conference, this site name is displayed in other participants\'video.<br />The default value is null.<br />Do not use any special characters in this site name, such as a colon (:), comma (,), hyphen (-), or underline (_).',

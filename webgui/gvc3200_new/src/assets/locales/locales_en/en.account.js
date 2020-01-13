@@ -278,7 +278,7 @@ export default {
   acct_093: 'H.265 Payload Type',
   acct_093_tip: 'Enter H.265 codec payload type. The valid range is from 96 to 126. The default value is 114.',
 
-  acct_094: 'Enable BFCP',
+  acct_094: 'Enable Presentation',
   acct_094_tip: 'If set to "Yes", the device will be able to receive the presentation stream in video calls and video meetings. The default setting is "Yes".',
 
   acct_095: 'Initial INVITE With Media Info',

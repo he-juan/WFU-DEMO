@@ -88,8 +88,8 @@ export default {
   sys_tr_011_tip: '此处填写设备通过SSL连接ACS时需要使用的证书密码。',
 
   /* 安全设置 */
-  sys_sec_001: '禁止SSH访问',
-  sys_sec_001_tip: '如果设置为“是”，设备将禁止SSH方式进行访问。默认设置为“否”。',
+  sys_sec_001: '开启SSH访问',
+  sys_sec_001_tip: '如果设置为“否”，设备将禁止SSH方式进行访问。默认设置为“是”。',
 
   sys_sec_002: '访问方式',
   sys_sec_002_tip: '选择通过http/https进行页面访问。',
