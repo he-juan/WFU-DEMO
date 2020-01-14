@@ -22,21 +22,44 @@ class Network extends Component {
       ip: '',
       eth: false,
       wifi: false
-    }
+    },
+    preIp: '0'
   }
 
   componentDidMount () {
+    API.getPvalues(['P1415']).then(data => {
+      this.setState({
+        preIp: data.P1415
+      })
+    })
     API.network().then((data) => {
-      const { IP, ethstatus, wifistatus } = data
+      const { IP, ethstatus, wifistatus, IPv6 } = data
       // console.log(data)
       this.setState({
         netStatus: {
           ip: IP,
+          ipv6: IPv6,
           eth: ethstatus === '1',
           wifi: wifistatus === '1'
         }
       })
     })
+  }
+
+  showIp = (netStatus) => {
+    // console.log(netStatus)
+    const { ip, ipv6 } = netStatus
+    const { preIp } = this.state
+    switch (preIp) {
+      case '0':
+      case '2':
+        return ip || ipv6
+      case '1':
+      case '3':
+        return ipv6 || ip
+      default:
+        return ip
+    }
   }
 
   render () {
@@ -46,7 +69,8 @@ class Network extends Component {
         <h3>{$t('c_048')}</h3>
         <List className='network-status'>
           <List.Item
-            extra={netStatus.ip}
+            extra={this.showIp(netStatus)}
+            className='ip-list-item'
           >
             {$t('c_018')}
           </List.Item>
