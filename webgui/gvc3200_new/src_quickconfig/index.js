@@ -31,4 +31,16 @@ document.addEventListener('DOMContentLoaded', function () {
   FastClick.attach(document.body)
 }, false)
 
+/**
+ * 华为手机的bug
+ */
+const originHeight = window.innerHeight
+window.addEventListener('resize', () => {
+  if (window.innerHeight < originHeight) {
+    document.querySelector('.page-footer').style.position = 'static'
+  } else {
+    document.querySelector('.page-footer').style.position = 'absolute'
+  }
+})
+
 ReactDOM.render(<QuickConfigApp />, document.getElementById('root'))
