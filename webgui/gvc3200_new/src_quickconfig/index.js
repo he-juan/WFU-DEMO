@@ -34,13 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
 /**
  * 华为手机的bug
  */
-const originHeight = window.innerHeight
-window.addEventListener('resize', () => {
-  if (window.innerHeight < originHeight) {
-    document.querySelector('.page-footer').style.position = 'static'
-  } else {
-    document.querySelector('.page-footer').style.position = 'absolute'
-  }
-})
+// alert(window.navigator.userAgent)
+if (/MQQBrowser/i.test(window.navigator.userAgent)) {
+  const originHeight = window.innerHeight
+  window.addEventListener('resize', () => {
+    if (window.innerHeight < originHeight) {
+      document.querySelector('.page-footer').style.position = 'static'
+    } else {
+      document.querySelector('.page-footer').style.position = 'absolute'
+    }
+  })
+}
 
 ReactDOM.render(<QuickConfigApp />, document.getElementById('root'))
