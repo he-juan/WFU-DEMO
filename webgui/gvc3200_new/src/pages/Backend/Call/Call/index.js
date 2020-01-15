@@ -12,11 +12,11 @@ import API from '@/api'
 import { $t, formatMessage } from '@/Intl'
 import './Call.less'
 
-const isIp = (value) => {
-  return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$/i.test(value) ||
-  (/^\[?((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(:((:[0-9a-fA-F]{1,4}){1,6}|:))|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:))|(([0-9a-fA-F]{1,4}:){2}((:[0-9a-fA-F]{1,4}){1,4}|:))|(([0-9a-fA-F]{1,4}:){3}((:[0-9a-fA-F]{1,4}){1,3}|:))|(([0-9a-fA-F]{1,4}:){4}((:[0-9a-fA-F]{1,4}){1,2}|:))|(([0-9a-fA-F]{1,4}:){5}:([0-9a-fA-F]{1,4})?)|(([0-9a-fA-F]{1,4}:){6}:))\]?$/.test(value) &&
-  ((value.indexOf('[') !== -1 && value.indexOf(']')) !== -1 || (!(value.indexOf('[') !== -1) && !(value.indexOf(']') !== -1))))
-}
+// const isIp = (value) => {
+//   return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$/i.test(value) ||
+//   (/^\[?((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(:((:[0-9a-fA-F]{1,4}){1,6}|:))|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:))|(([0-9a-fA-F]{1,4}:){2}((:[0-9a-fA-F]{1,4}){1,4}|:))|(([0-9a-fA-F]{1,4}:){3}((:[0-9a-fA-F]{1,4}){1,3}|:))|(([0-9a-fA-F]{1,4}:){4}((:[0-9a-fA-F]{1,4}){1,2}|:))|(([0-9a-fA-F]{1,4}:){5}:([0-9a-fA-F]{1,4})?)|(([0-9a-fA-F]{1,4}:){6}:))\]?$/.test(value) &&
+//   ((value.indexOf('[') !== -1 && value.indexOf(']')) !== -1 || (!(value.indexOf('[') !== -1) && !(value.indexOf(']') !== -1))))
+// }
 
 @connect(
   state => ({
@@ -175,9 +175,9 @@ class Call extends Component {
         name: lastNumber
       }
       // 输入的非数字或ip字符串无法添加
-      if (lastMem && /\D/.test(lastMem.num) && !isIp(lastMem.num) && +selectAcct !== 2) {
-        return message.error($t('m_224')) // 此号码不符合拨号规则
-      }
+      // if (lastMem && /\D/.test(lastMem.num) && !isIp(lastMem.num) && +selectAcct !== 2) {
+      //   return message.error($t('m_224')) // 此号码不符合拨号规则
+      // }
       // 号码去重
       let isUnique = memToCall.filter(item => item.num === lastMem.num && item.acct === lastMem.acct).length === 0
       if (!isUnique) {
@@ -236,21 +236,28 @@ class Call extends Component {
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
-      if (!/\D/.test(tagsInputValue) || isIp(tagsInputValue)) {
-        _memToCall.push({
-          num: tagsInputValue,
-          acct: selectAcct,
-          isvideo: isvideo,
-          source: '2',
-          isconf: '1'
-        })
-      } else {
-        message.error($t('m_224')) // 此号码不符合拨号规则
-        this.setState({
-          tagsInputValue: ''
-        })
-        return false
-      }
+      _memToCall.push({
+        num: tagsInputValue,
+        acct: selectAcct,
+        isvideo: isvideo,
+        source: '2',
+        isconf: '1'
+      })
+      // if (!/\D/.test(tagsInputValue) || isIp(tagsInputValue)) {
+      //   _memToCall.push({
+      //     num: tagsInputValue,
+      //     acct: selectAcct,
+      //     isvideo: isvideo,
+      //     source: '2',
+      //     isconf: '1'
+      //   })
+      // } else {
+      //   message.error($t('m_224')) // 此号码不符合拨号规则
+      //   this.setState({
+      //     tagsInputValue: ''
+      //   })
+      //   return false
+      // }
     }
 
     // bluejeans 处理
