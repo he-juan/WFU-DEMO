@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, InputItem, Button } from 'antd-mobile'
+import { List, InputItem, Button, Toast } from 'antd-mobile'
 import { Link } from 'react-router-dom'
 import { Switch } from 'antd-mobile'
 import { history } from '../../QuickConfigApp'
@@ -32,7 +32,14 @@ class AcctConfig extends Component {
     })
   }
 
-  updateValues = (fields) => {
+  updateValues = (fields, maxLength) => {
+    if (maxLength) {
+      let v = Object.values(fields)[0]
+      if (v.length > maxLength) {
+        Toast.fail($t('c_063'))
+        return false
+      }
+    }
     this.setState({
       values: Object.assign({}, this.state.values, fields)
     })
@@ -65,7 +72,7 @@ class AcctConfig extends Component {
             value={values.P35}
             maxLength={64}
             placeholder={$t('c_062')}
-            onChange={(v) => this.updateValues({ P35: v })}
+            onChange={(v) => this.updateValues({ P35: v }, 64)}
           >
             {/* SIP用户ID */}
             {$t('c_030')}
@@ -76,7 +83,7 @@ class AcctConfig extends Component {
             value={values.P36}
             maxLength={64}
             placeholder={$t('c_062')}
-            onChange={(v) => this.updateValues({ P36: v })}
+            onChange={(v) => this.updateValues({ P36: v }, 64)}
           >
             {/* SIP认证ID */}
             {$t('c_031')}
@@ -88,7 +95,7 @@ class AcctConfig extends Component {
             value={values.P34}
             maxLength={64}
             placeholder={$t('c_062')}
-            onChange={(v) => this.updateValues({ P34: v })}
+            onChange={(v) => this.updateValues({ P34: v }, 64)}
           >
             {/* SIP认证密码 */}
             {$t('c_032')}
@@ -99,7 +106,7 @@ class AcctConfig extends Component {
             value={values.P270}
             maxLength={64}
             placeholder={$t('c_062')}
-            onChange={(v) => this.updateValues({ P270: v })}
+            onChange={(v) => this.updateValues({ P270: v }, 64)}
           >
             {/* 帐号名称 */}
             {$t('c_033')}
@@ -110,7 +117,7 @@ class AcctConfig extends Component {
             value={values.P3}
             maxLength={64}
             placeholder={$t('c_062')}
-            onChange={(v) => this.updateValues({ P3: v })}
+            onChange={(v) => this.updateValues({ P3: v }, 64)}
           >
             {/* 显示名称 */}
             {$t('c_034')}

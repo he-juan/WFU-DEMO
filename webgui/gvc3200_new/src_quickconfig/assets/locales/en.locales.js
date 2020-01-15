@@ -61,5 +61,6 @@ export default {
   c_060: 'Invalid DNS server address',
   c_061: 'PPPoE account ID and password can\'t be empty',
   c_602: 'Operation failed!',
-  c_062: 'Please Enter'
+  c_062: 'Please Enter',
+  c_063: 'The length can\'t exceed 64'
 }
