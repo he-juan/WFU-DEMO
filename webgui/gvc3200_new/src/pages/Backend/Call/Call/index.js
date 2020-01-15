@@ -407,10 +407,16 @@ class Call extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.callLogs !== prevProps.callLogs || this.props.contacts !== prevProps.contacts) {
+    if (this.props.callLogs !== prevProps.callLogs || 
+      this.props.contacts !== prevProps.contacts) {
       const { contacts, callLogs } = this.props
       this.setState({
         dataSource: this.parseDataSource(contacts, callLogs)
+      })
+    }
+    if (this.props.defaultAcct !== prevProps.defaultAcct) {
+      this.setState({
+        selectAcct: this.props.defaultAcct
       })
     }
   }

@@ -69,7 +69,7 @@ export default (
               {({ match }) => (
                 <CSSTransition
                   in={match != null}
-                  timeout={1000}
+                  timeout={1200}
                   classNames='ani-page'
                   unmountOnExit
                 >
