@@ -273,12 +273,14 @@ class InviteMemberModal extends Component {
 
   // 这次是真的 要添加了
   handleAddMember = () => {
-    const { memToCall } = this.state
+    const { memToCall, selectAcct } = this.state
     const { handleMemberData, onCancel } = this.props
     let data = memToCall.map(el => {
-      let obj = el
-      obj.number = el.num
-      return obj
+      return {
+        ...el,
+        number: el.num,
+        acct: +el.acct !== -1 ? el.acct : selectAcct
+      }
     })
     handleMemberData(data, () => {
       this.setState({

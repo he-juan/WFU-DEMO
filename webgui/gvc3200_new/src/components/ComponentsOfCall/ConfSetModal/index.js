@@ -350,14 +350,35 @@ class ConfSetModal extends FormCommon {
     this.setState({ displayAddModal: bool })
   }
 
+  // 找到 插入的Item 是否在arr中已存在，存在则返回下表，否则返回 -1
+  handleMemberExit (arr, item) {
+    if (arr.length === 0) return -1
+    let index = -1
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].number === item.number) {
+        index = i
+        break
+      }
+    }
+    return index
+  }
+
   // 添加成员弹窗 确认添加
   handleMemberData = (data, callback) => {
     let { curMember } = this.state
-    let memberArr = uniqBy(curMember.concat(data), 'number')
-    if (memberArr.length > 8) {
+    data.reduce((arr, item, index) => {
+      const exitIndex = this.handleMemberExit(arr, item)
+      if (exitIndex > -1) {
+        arr[exitIndex] = item
+      } else {
+        arr.push(item)
+      }
+      return arr
+    }, curMember)
+    if (curMember.length > 8) {
       const otherMember = []
       const ipvtMember = []
-      memberArr.forEach(item => {
+      curMember.forEach(item => {
         if (+item.acct === 1) ipvtMember.push(item)
         else otherMember.push(item)
       })
@@ -369,7 +390,7 @@ class ConfSetModal extends FormCommon {
     }
 
     this.setState({
-      curMember: memberArr,
+      curMember,
       displayAddModal: false
     }, () => {
       callback()
