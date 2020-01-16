@@ -17,8 +17,8 @@ const TabPane = Tabs.TabPane
   state => ({
     acctStatus: state.acctStatus, // 获取账号状态-所有激活账号
     defaultAcct: state.defaultAcct.toString(), // 默认账号
-    maxLineCount: '', // 最大线路数
-    linesInfo: '', // 线路信息
+    maxLineCount: state.maxLineCount, // 最大线路数
+    linesInfo: state.linesInfo, // 线路信息
     contacts: state.contacts, // 联系人列表
     callLogs: state.callLogs, // 通话记录
     timezone: state.timezone // 时区
@@ -27,9 +27,14 @@ const TabPane = Tabs.TabPane
 class InviteMemberModal extends Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired, // 可视化
+    members: PropTypes.array, // 已存在的成员
     onCancel: PropTypes.func.isRequired, // 取消事件
     handleMemberData: PropTypes.func.isRequired, // 添加
     isJustAddMember: PropTypes.bool // 只是添加
+  }
+
+  static defaultProps = {
+    members: []
   }
 
   // constructor
@@ -64,27 +69,29 @@ class InviteMemberModal extends Component {
   // 最大线路限制 IPVT成员合并为一路, 非IPVT成员各自为一路
   limitMaxMembers = (_memToCall, flag) => {
     if (_memToCall.length === 0) return _memToCall
-    const { maxlinecount, linesInfo } = this.props
+    const { members, maxLineCount, linesInfo } = this.props
+
     let lastMem = _memToCall.pop() // 最后一个是待添加的, 暂移除
-    let temp = _memToCall.concat(linesInfo) // 并且与已在通话线路中的成员合并
-    let nonIPVTlen = temp.filter(v => v.acct !== '1').length // 非IPVT线路数量
-    let IPVTlen = temp.length - nonIPVTlen
+    let temp = _memToCall.concat(linesInfo, members) // 并且与已在通话线路中的成员合并(和已添加的成员合并)
+    let nonIPVTlen = temp.filter(v => +v.acct !== 1).length // 非IPVT线路数量
+    let IPVTlen = temp.length - nonIPVTlen // IPVT线路数量
 
     // 存在ipvt线路且ipvt线路成员不超过100
-    let curLinesLen = IPVTlen > 0 ? nonIPVTlen + 1 : nonIPVTlen // 线路总数量
+    let curLinesLen = IPVTlen > 0 ? nonIPVTlen + 1 : nonIPVTlen // 线路总数量, IPVT线路合并为1路
+    // 判断ipvt线路是否已达上限
     let maxNum = 200
-    if (IPVTlen >= maxNum && lastMem.acct === '1') {
-      message.error('IPVT' + $t('m_137'))
+    if (IPVTlen >= maxNum && +lastMem.acct === 1) {
+      message.error($t('m_227')) // IPVideoTalk成员数量已达上限
       return _memToCall
     }
     // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
-    if (curLinesLen >= maxlinecount) {
+    if (curLinesLen >= maxLineCount) {
       if (IPVTlen === 0) {
-        message.error($t('m_137'))
-      } else if (IPVTlen > 0 && lastMem.acct !== '1') {
-        message.error($t('m_231'))
+        message.error($t('m_137')) // 成员数量已达上限
+      } else if (IPVTlen > 0 && +lastMem.acct !== 1) {
+        message.error($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
         flag === 'input' && this.setState({ selectAcct: '1' })
-      } else if (IPVTlen > 0 && IPVTlen < maxNum && lastMem.acct === '1') {
+      } else if (IPVTlen > 0 && IPVTlen < maxNum && +lastMem.acct === 1) {
         _memToCall.push(lastMem)
       }
     } else {
@@ -161,7 +168,7 @@ class InviteMemberModal extends Component {
     // 输入的非数字字符串无法添加
     let lastMem = _memToCall.slice(-1)[0]
     if (lastMem && /\D/.test(lastMem.num) && +lastMem.acct !== 2) {
-      message.error('此号码不符合拨号规则!')
+      message.error($t('m_224')) // 此号码不符合拨号规则!
       return false
     }
     _memToCall = this.limitMaxMembers(_memToCall, 'input')
@@ -264,17 +271,13 @@ class InviteMemberModal extends Component {
       item.isvideo = isvideo
       return item
     }))
-    this.setState({
-      memToCall: [],
-      tagsInputValue: ''
-    })
-    this.props.onCancel()
+    this.handleCancel()
   }
 
   // 这次是真的 要添加了
   handleAddMember = () => {
     const { memToCall, selectAcct } = this.state
-    const { handleMemberData, onCancel } = this.props
+    const { handleMemberData } = this.props
     let data = memToCall.map(el => {
       return {
         ...el,
@@ -287,9 +290,20 @@ class InviteMemberModal extends Component {
         memToCall: [],
         tagsInputValue: ''
       }, () => {
-        onCancel()
+        this.handleCancel()
       })
     })
+  }
+
+  // 取消的同时，去除数据
+  handleCancel = () => {
+    const { onCancel } = this.props
+    this.setState({
+      memToCall: [],
+      tagsInputValue: '',
+      activeTab: '1'
+    })
+    onCancel()
   }
 
   // componentDidMount
@@ -300,7 +314,7 @@ class InviteMemberModal extends Component {
   }
 
   render () {
-    const { visible, onCancel, isJustAddMember, acctStatus, contacts, callLogs, timezone } = this.props
+    const { visible, isJustAddMember, acctStatus, contacts, callLogs, timezone } = this.props
     const { memToCall, activeTab, selectAcct, tagsInputValue } = this.state
     if (!acctStatus) return null
 
@@ -336,7 +350,7 @@ class InviteMemberModal extends Component {
         width={1000}
         className='invitemember-modal'
         visible={visible}
-        onCancel={onCancel}
+        onCancel={this.handleCancel}
         title={$t('c_336')}
         footer={
           isJustAddMember ? <Button onClick={this.handleAddMember}>{$t('b_056')}</Button> : <div>

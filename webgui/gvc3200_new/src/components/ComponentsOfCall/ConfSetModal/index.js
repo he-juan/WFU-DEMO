@@ -1,10 +1,11 @@
 import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Form, Modal, DatePicker, Input, Select, Checkbox, Cascader, Button, message } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import moment from 'moment'
 import { convertCurrConf } from './ScheduleTools'
-import { transStr, deepCopy, uniqBy } from '@/utils/tools'
+import { transStr, deepCopy } from '@/utils/tools'
 import API from '@/api'
 import InviteMemberModal from '../InviteMemberModal'
 import './ConfSetModalStyle.less'
@@ -68,6 +69,12 @@ CSelect = forwardRef(CSelect)
 let timestampNow = 0 // 全局存一个设备当前时间戳
 let timestampNowInter = null
 
+@connect(
+  state => ({
+    maxLineCount: state.maxLineCount, // 最大线路数
+    linesInfo: state.linesInfo // 线路信息
+  })
+)
 // 注意一下，modal 无法被
 @Form.create()
 class ConfSetModal extends FormCommon {
@@ -329,21 +336,26 @@ class ConfSetModal extends FormCommon {
   handleAddMemberModal = (bool = true) => {
     // 添加时
     if (bool) {
-      let { curMember } = this.state
-      // 判断 通话超出8路？
-      if (curMember.length >= 8) {
-        const otherMember = []
-        const ipvtMember = []
-        curMember.forEach(item => {
-          if (+item.acct === 1) ipvtMember.push(item)
-          else otherMember.push(item)
-        })
-        // 存在ipvt的话。ipvt只能算一路，则其他这个时候最多7路
-        if ((otherMember.length >= 8 && ipvtMember.length === 0) || (otherMember.length > 7 && ipvtMember.length > 0)) {
+      const { curMember } = this.state
+      const { maxLineCount, linesInfo } = this.props
+      let temp = linesInfo.concat(curMember) // 与已在通话线路中的成员合并
+      let nonIPVTlen = temp.filter(v => +v.acct !== 1).length // 非IPVT线路数量
+      let IPVTlen = temp.length - nonIPVTlen // IPVT线路数量
+      // 存在ipvt线路且ipvt线路成员不超过200
+      let curLinesLen = IPVTlen > 0 ? nonIPVTlen + 1 : nonIPVTlen // 线路总数量, IPVT线路合并为1路
+      // 判断ipvt线路是否已达上限
+      let maxNum = 200
+      if (IPVTlen >= maxNum) {
+        message.error($t('m_227')) // IPVideoTalk成员数量已达上限
+        return false
+      }
+      // 如果当前成员数加已有线路数 大于限制
+      if (curLinesLen >= maxLineCount) {
+        if (IPVTlen === 0) {
           message.error($t('m_137')) // 成员数量已达上限
           return false
-        } else if (ipvtMember.length > 0 && otherMember.length === 7) {
-          message.warning($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
+        } else if (IPVTlen > 0) {
+          message.error($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
         }
       }
     }
@@ -365,29 +377,15 @@ class ConfSetModal extends FormCommon {
 
   // 添加成员弹窗 确认添加
   handleMemberData = (data, callback) => {
-    let { curMember } = this.state
+    let curMember = deepCopy(this.state.curMember)
     data.reduce((arr, item, index) => {
       const exitIndex = this.handleMemberExit(arr, item)
       if (exitIndex > -1) {
-        arr[exitIndex] = item
-      } else {
-        arr.push(item)
+        arr.splice(exitIndex, 1)
       }
+      arr.push(item)
       return arr
     }, curMember)
-    if (curMember.length > 8) {
-      const otherMember = []
-      const ipvtMember = []
-      curMember.forEach(item => {
-        if (+item.acct === 1) ipvtMember.push(item)
-        else otherMember.push(item)
-      })
-      // 存在ipvt的话。ipvt只能算一路，则其他这个时候最多7路
-      if ((otherMember.length > 8 && ipvtMember.length === 0) || (otherMember.length > 7 && ipvtMember.length > 0)) {
-        message.error($t('m_137')) // 成员数量已达上限
-        return false
-      }
-    }
 
     this.setState({
       curMember,
@@ -864,7 +862,7 @@ class ConfSetModal extends FormCommon {
 
         {/* 添加成员弹窗 */}
         {
-          !allDisabled && <InviteMemberModal visible={displayAddModal} onCancel={() => this.handleAddMemberModal(false)} handleMemberData={this.handleMemberData} isJustAddMember={true}/>
+          !allDisabled && <InviteMemberModal visible={displayAddModal} members={curMember} onCancel={() => this.handleAddMemberModal(false)} handleMemberData={this.handleMemberData} isJustAddMember={true}/>
         }
       </>
     )
