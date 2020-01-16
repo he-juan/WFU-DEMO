@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Tooltip, Button, Modal, Checkbox, Icon } from 'antd'
 import NoData from '@/components/NoData'
-import { getRecordIcon as getIconClass, momentFormat } from '@/utils/tools'
+import { getRecordIcon as getIconClass, momentFormat, escapeRegExp } from '@/utils/tools'
 import API from '@/api'
 import { $t } from '@/Intl'
 import { connect } from 'react-redux'
@@ -163,13 +163,15 @@ class LogAndContacts extends Component {
       let filterTags = this.props.filterTags
       _dataSource = DATASOURCE
       if (filterTags.trim().length) {
+        const filter = escapeRegExp(filterTags)
+        const filterReg = new RegExp(filter, 'ig')
         _dataSource = DATASOURCE.filter(item => {
           return item.col0.indexOf(filterTags) >= 0 || (item.numberText && item.numberText.indexOf(filterTags) >= 0)
         }).map(item => {
           let _item = JSON.parse(JSON.stringify(item))
-          _item.col0 = _item.col0.replace(new RegExp(filterTags, 'ig'), `<b>${filterTags}</b>`)
+          _item.col0 = _item.col0.replace(filterReg, `<b>${filterTags}</b>`)
           if (_item.numberText) {
-            _item.numberText = _item.numberText.replace(new RegExp(filterTags, 'ig'), `<b>${filterTags}</b>`)
+            _item.numberText = _item.numberText.replace(filterReg, `<b>${filterTags}</b>`)
           }
           return _item
         })

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Tooltip } from 'antd'
 import NoData from '../../NoData'
-import { parseAcct, mapToSource, getRecordIcon as getIconClass, momentFormat } from '@/utils/tools'
+import { parseAcct, mapToSource, getRecordIcon as getIconClass, momentFormat, escapeRegExp } from '@/utils/tools'
 
 let timer, DATASOURCE
 
@@ -114,13 +114,15 @@ class CallLogsTab extends Component {
       let filterTags = nextProps.filterTags
       let _dataSource = DATASOURCE
       if (filterTags.trim().length) {
+        const filter = escapeRegExp(filterTags)
+        const filterReg = new RegExp(filter, 'ig')
         _dataSource = DATASOURCE.filter(item => {
           return item.col0.indexOf(filterTags) >= 0 || (item.numberText && item.numberText.indexOf(filterTags) >= 0)
         }).map(item => {
           let _item = JSON.parse(JSON.stringify(item))
-          _item.col0 = _item.col0.replace(filterTags, `<b>${filterTags}</b>`)
+          _item.col0 = _item.col0.replace(filterReg, `<b>${filterTags}</b>`)
           if (_item.numberText) {
-            _item.numberText = _item.numberText.replace(filterTags, `<b>${filterTags}</b>`)
+            _item.numberText = _item.numberText.replace(filterReg, `<b>${filterTags}</b>`)
           }
           return _item
         })

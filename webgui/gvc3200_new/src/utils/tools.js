@@ -398,6 +398,12 @@ export const uniqBy = (arr, key) => {
   return arr.filter((a) => !res.has(a[key]) && res.set(a[key], 1))
 }
 
+/**
+ * 转义正则表达式
+ * @param {*} str
+ */
+export const escapeRegExp = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
 
 
 // 用于取反一些p值

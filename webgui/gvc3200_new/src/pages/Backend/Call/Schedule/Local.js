@@ -119,6 +119,14 @@ class LocalSchedule extends Component {
     this.handleGetSchedules()
   }
 
+  // componentDidUpdate
+  componentDidUpdate (prevProps, prevState) {
+    // 监听 props中的linesInfo，去触发会议预约列表的更新
+    if (JSON.stringify(prevProps.linesInfo) !== JSON.stringify(this.props.linesInfo)) {
+      this.handleGetSchedules()
+    }
+  }
+
   // render
   render () {
     let { schedules, displayModal, allDisabled, currConf } = this.state
