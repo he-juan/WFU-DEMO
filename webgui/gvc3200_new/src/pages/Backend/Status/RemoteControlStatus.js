@@ -38,7 +38,7 @@ class RemoteControlStatus extends Component {
         </FormItem>
         {/* 遥控器电量 */}
         <FormItem lang='sta_029'>
-          {rcStatus['Premote_battery'] || unknown}
+          {rcStatus['Premote_battery'] ? `${rcStatus['Premote_battery']}%` : unknown}
         </FormItem>
       </Form>
     )
