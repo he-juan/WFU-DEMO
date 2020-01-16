@@ -134,6 +134,7 @@ class GeneralSettings extends FormCommon {
           gfd={gfd}
           gfdOptions={{
             rules: [
+              this.digits(),
               this.range(1, 1440)
             ]
           }}
@@ -144,6 +145,7 @@ class GeneralSettings extends FormCommon {
           gfd={gfd}
           gfdOptions={{
             rules: [
+              this.digits(),
               this.range(1024, 65535)
             ]
           }}
