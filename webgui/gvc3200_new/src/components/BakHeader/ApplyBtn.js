@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 import API from '@/api'
-import { getApplyStatus, setNeedApply, setWholeLoading, getAcctStatus } from '@/store/actions'
+import { getApplyStatus, setNeedApply, setWholeLoading, getAcctInfo } from '@/store/actions'
 import Cookie from 'js-cookie'
 import { $t } from '@/Intl'
 
@@ -20,7 +20,7 @@ let timer = null
     getApplyStatus: () => dispatch(getApplyStatus()),
     setNeedApply: (flag) => dispatch(setNeedApply(flag)),
     setWholeLoading: (isLoad, tip) => dispatch(setWholeLoading(isLoad, tip)),
-    getAcctStatus: () => dispatch(getAcctStatus())
+    getAcctInfo: () => dispatch(getAcctInfo())
   })
 )
 class ApplyBtn extends Component {
@@ -33,7 +33,7 @@ class ApplyBtn extends Component {
     let _this = this
     API.applyPvaluersps().then(data => {
       if (data.phrebootresponse === '0') {
-        this.props.getAcctStatus()
+        this.props.getAcctInfo()
         this.props.setWholeLoading(false, '')
         this.props.setNeedApply(false)
       } else {

@@ -19,7 +19,7 @@ const routes = [
 class IPVideoTalk extends Component {
   render () {
     const { IPVTExist } = this.props
-    let _routes = IPVTExist !== '1' ? routes.slice(0, 1) : routes
+    let _routes = IPVTExist !== 1 ? routes.slice(0, 1) : routes
     return (
       <TabPages
         routes={_routes}

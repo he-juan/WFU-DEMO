@@ -9,7 +9,7 @@ import ConfControl from '@/components/ConfControl'
 import backendRoutes from './backendRoutes'
 import menuData from '@/components/BakNav/menulist'
 import { store } from '@/store'
-import { getNetWorkStatus, getAcctStatus, getDefaultAcct, getIPVTExist, getTimeConfig, getCallLogs, getUserType, getContactsAndGroups, setUserType } from '@/store/actions'
+import { getNetWorkStatus, getTimeConfig, getCallLogs, getUserType, getContactsAndGroups, setUserType, getAcctInfo } from '@/store/actions'
 import { connect } from 'react-redux'
 import { $t } from '@/Intl'
 import { isMenuRouteDeny } from '@/utils/tools'
@@ -33,13 +33,11 @@ let LOGOUT_TIMER
   }),
   (dispatch) => ({
     getNetWorkStatus: () => dispatch(getNetWorkStatus()), // 获取全局的网络状态
-    getAcctStatus: () => dispatch(getAcctStatus()), // 获取账号状态
-    getDefaultAcct: () => dispatch(getDefaultAcct()), // 获取默认账号
-    getIPVTExist: () => dispatch(getIPVTExist()), // 获取IPVT 激活状态
     getTimeConfig: () => dispatch(getTimeConfig()), // 获取时间相关的信息
     getCallLogs: () => dispatch(getCallLogs()), // 获取通话记录
     getContactsAndGroups: () => dispatch(getContactsAndGroups()), // 获取联系人群组
-    getUserType: () => dispatch(getUserType()) // 获取用户类型
+    getUserType: () => dispatch(getUserType()), // 获取用户类型
+    getAcctInfo: () => dispatch(getAcctInfo()) // 获取账号状态, 获取默认账号, 获取IPVT 激活状态
   })
 )
 class Backend extends Component {
@@ -56,9 +54,7 @@ class Backend extends Component {
     await this.props.getUserType()
     await this.props.getTimeConfig()
     this.props.getNetWorkStatus()
-    this.props.getAcctStatus()
-    this.props.getDefaultAcct()
-    this.props.getIPVTExist()
+    this.props.getAcctInfo()
     this.props.getCallLogs()
     this.props.getContactsAndGroups()
 

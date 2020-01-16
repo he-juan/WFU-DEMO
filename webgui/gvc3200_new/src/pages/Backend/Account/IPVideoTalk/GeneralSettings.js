@@ -5,7 +5,7 @@ import FormCommon from '@/components/FormCommon'
 import { getOptions } from '@/template'
 import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/FormItem'
 import DefaultAcctModal from '@/components/DefaultAcctModal'
-import { getIPVTExist, getDefaultAcct } from '@/store/actions'
+import { getAcctInfo } from '@/store/actions'
 import { $t } from '@/Intl'
 
 @connect(
@@ -15,8 +15,7 @@ import { $t } from '@/Intl'
     defaultAcct: state.defaultAcct
   }),
   dispatch => ({
-    getIPVTExist: () => dispatch(getIPVTExist()),
-    getDefaultAcct: () => dispatch(getDefaultAcct())
+    getAcctInfo: () => dispatch(getAcctInfo())
   })
 )
 @Form.create()
@@ -29,7 +28,7 @@ class GeneralSettings extends FormCommon {
 
   componentDidMount () {
     const { setFieldsValue } = this.props.form
-    this.props.getDefaultAcct()
+    this.props.getAcctInfo()
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
     })
@@ -51,7 +50,7 @@ class GeneralSettings extends FormCommon {
 
         this.submitFormValue(values, 1).then(msgs => {
           if (msgs.Response === 'Success') {
-            this.props.getIPVTExist()
+            this.props.getAcctInfo()
           }
         })
       }
@@ -75,19 +74,19 @@ class GeneralSettings extends FormCommon {
         <CheckboxItem
           {...options['P401']}
           gfd={gfd}
-          hide={IPVTExist !== '1'}
+          hide={IPVTExist !== 1}
         />
         {/* 显示名称 */}
         <InputItem
           {...options['P407']}
           gfd={gfd}
-          hide={IPVTExist !== '1'}
+          hide={IPVTExist !== 1}
         />
         {/* SIP传输 */}
         <SelectItem
           {...options['P448']}
           gfd={gfd}
-          hide={IPVTExist !== '1'}
+          hide={IPVTExist !== 1}
           selectOptions={[
             { v: '1', t: 'TCP' },
             { v: '2', t: 'TLS' }

@@ -216,6 +216,52 @@ export const getDefaultAcct = () => (dispatch) => {
 }
 
 /**
+ * 获取IPVT激活状态
+ */
+export const getIPVTExist = () => (dispatch) => {
+  API.getPvalues(['P7059']).then(data => {
+    dispatch(setIPVTExist(+data['P7059']))
+  })
+}
+
+/**
+ * 获取账号相关信息，同时获取账号状态，默认账号, IPVT激活状态
+ */
+export const getAcctInfo = () => dispatch => {
+  Promise.all([
+    API.getAcctStatus(),
+    API.getPvalues(['P22046', 'P7059'])
+  ]).then(data => {
+    const [acctData, { P22046, P7059 }] = data
+    dispatch(setDefaultAcct(+P22046)) // 默认账号
+    dispatch(setIPVTExist(+P7059)) // IPVT 激活状态
+
+    if (acctData.Response === 'Success') {
+      let acctStatus = []
+      const accts = [
+        { index: 0, name: 'SIP' },
+        { index: 1, name: 'IPVideoTalk' },
+        { index: 8, name: 'H.323' }, // H.323 下标为8，用账号6 奇怪！！！
+        { index: 2, name: 'BlueJeans' },
+        { index: 5, name: 'Zoom' } // 取账号5
+      ]
+      accts.forEach(({ index: i, name }) => {
+        let istr = i === 8 ? 6 : i
+        acctStatus.push({
+          'acctIndex': i,
+          'register': parseInt(acctData[`Account_${istr}_STATUS`]),
+          'activate': (i === 1 && +P7059 === 0) ? 0 : parseInt(acctData[`Account_${istr}_ACTIVATE`]), // 账号激活状态 ipvt 账号激活状态还要看7059的p值
+          'num': acctData[`Account_${istr}_NO`],
+          'server': acctData[`Account_${istr}_SERVER`],
+          'name': name
+        })
+      })
+      dispatch(setAcctStatus(acctStatus)) // 账号状态
+    }
+  })
+}
+
+/**
  * 获取网络状态
  */
 export const getNetWorkStatus = () => (dispatch) => {
@@ -224,15 +270,6 @@ export const getNetWorkStatus = () => (dispatch) => {
     if (data.res === 'success') {
       dispatch(setNetworkStatus(rest))
     }
-  })
-}
-
-/**
- * 获取IPVT激活状态
- */
-export const getIPVTExist = () => (dispatch) => {
-  API.getPvalues(['P7059']).then(data => {
-    dispatch(setIPVTExist(data['P7059']))
   })
 }
 

@@ -1,16 +1,10 @@
 import React from 'react'
 import FormCommon from '@/components/FormCommon'
 import { Form, Button, message } from 'antd'
-import { connect } from 'react-redux'
 import FormItem, { SelectItem, InputItem, CheckboxItem, PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
 import { $t } from '@/Intl'
 
-@connect(
-  state => ({
-    IPVTExist: state.IPVTExist
-  })
-)
 @Form.create()
 class LDAPContacts extends FormCommon {
   constructor (props) {

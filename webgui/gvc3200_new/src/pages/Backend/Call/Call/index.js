@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { Dropdown, Menu, Input, Button, Icon, message } from 'antd'
 import TagsInput from 'react-tagsinput'
 import { connect } from 'react-redux'
-import { setDefaultAcct, getDefaultAcct, getAcctStatus } from '@/store/actions'
+import { setDefaultAcct, getAcctInfo } from '@/store/actions'
 import { deepCopy, parseAcct, mapToSource } from '@/utils/tools'
 import LogAndContacts from './LogAndContacts'
 import API from '@/api'
@@ -25,13 +25,11 @@ import './Call.less'
     acctStatus: state.acctStatus, // 激活的账号列表获取
     defaultAcct: state.defaultAcct, // 默认选中账号
     contacts: state.contacts, // 联系人列表
-    callLogs: state.callLogs, // 通话记录
-    IPVTExist: state.IPVTExist
+    callLogs: state.callLogs // 通话记录
   }),
   dispatch => ({
     setDefaultAcct: (acctIndex) => dispatch(setDefaultAcct(acctIndex)),
-    getDefaultAcct: () => dispatch(getDefaultAcct()),
-    getAcctStatus: () => dispatch(getAcctStatus())
+    getAcctInfo: () => dispatch(getAcctInfo())
   })
 )
 
@@ -50,8 +48,7 @@ class Call extends Component {
   }
 
   componentDidMount = () => {
-    this.props.getDefaultAcct()
-    this.props.getAcctStatus()
+    this.props.getAcctInfo()
     API.getPvalues(['P25034']).then(data => {
       this.setState({
         H323SiteName: data.P25034
@@ -422,7 +419,7 @@ class Call extends Component {
   }
 
   render () {
-    const { acctStatus, defaultAcct, IPVTExist } = this.props
+    const { acctStatus, defaultAcct } = this.props
     const { selectAcct, memToCall, tagsInputValue, dataSource, H323SiteName } = this.state
 
     if (!acctStatus) return null
@@ -435,7 +432,6 @@ class Call extends Component {
         {
           acctStatus.map((v, i) => {
             if (!v.activate) return null
-            if (v.acctIndex === 1 && +IPVTExist === 0) return null // ipvt 功能未开启时不显示
             if (v.acctIndex === 8 && v.num === '') v.num = H323SiteName
             return (
               <Menu.Item key={v.acctIndex} className={!v.register ? 'disabled' : ''}>

@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getAcctStatus } from '@/store/actions'
+import { getAcctInfo } from '@/store/actions'
 import './AccountStatus.less'
 import { $t } from '@/Intl'
 
 @connect(
   state => ({
-    acctStatus: state.acctStatus
+    acctStatus: state.acctStatus,
+    IPVTExist: state.IPVTExist
   }),
   dispatch => ({
-    getAcctStatus: () => dispatch(getAcctStatus())
+    getAcctInfo: () => dispatch(getAcctInfo())
   })
 )
 class AccountStatus extends Component {
   componentDidMount () {
-    this.props.getAcctStatus()
+    this.props.getAcctInfo()
   }
 
   render () {
-    const { acctStatus } = this.props
+    const { acctStatus, IPVTExist } = this.props
     const ths = ['c_078', 'c_079', 'c_080', 'c_081']
 
     return (
@@ -32,25 +33,28 @@ class AccountStatus extends Component {
         </thead>
         <tbody>
           {
-            acctStatus.map(acctInfo => (
-              <tr key={acctInfo.acctIndex}>
-                <td>
-                  <i className={`icons icon-acctstatus ${+acctInfo.register === 0 ? '' : acctInfo.activate !== 7 ? 'active-1' : 'active-2'}`}></i>
-                  {acctInfo['name'] || '-'}
-                </td>
-                <td>
-                  {acctInfo['num'] || '-'}
-                </td>
-                <td>
-                  {acctInfo['server'] || '-'}
-                </td>
-                <td>
-                  <span style={{ color: acctInfo['register'] === 0 ? '#7d8a99' : '#42db66' }}>
-                    {acctInfo['register'] === 0 ? $t('c_083') : $t('c_082')}
-                  </span>
-                </td>
-              </tr>
-            ))
+            acctStatus.map(acctInfo => {
+              if (acctInfo.acctIndex === 1 && IPVTExist === 0) return null
+              return (
+                <tr key={acctInfo.acctIndex}>
+                  <td>
+                    <i className={`icons icon-acctstatus ${+acctInfo.register === 0 ? '' : acctInfo.activate !== 7 ? 'active-1' : 'active-2'}`}></i>
+                    {acctInfo['name'] || '-'}
+                  </td>
+                  <td>
+                    {acctInfo['num'] || '-'}
+                  </td>
+                  <td>
+                    {acctInfo['server'] || '-'}
+                  </td>
+                  <td>
+                    <span style={{ color: acctInfo['register'] === 0 ? '#7d8a99' : '#42db66' }}>
+                      {acctInfo['register'] === 0 ? $t('c_083') : $t('c_082')}
+                    </span>
+                  </td>
+                </tr>
+              )
+            })
           }
         </tbody>
       </table>

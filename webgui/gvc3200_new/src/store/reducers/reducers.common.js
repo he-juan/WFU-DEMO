@@ -91,7 +91,7 @@ export const networkStatus = (state = {}, action) => {
 /**
  * ipvt 激活状态
  */
-export const IPVTExist = (state = '0', action) => {
+export const IPVTExist = (state = 0, action) => {
   return action.type === Types.SET_IPVT_EXIST ? action.IPVTExist : state
 }
 

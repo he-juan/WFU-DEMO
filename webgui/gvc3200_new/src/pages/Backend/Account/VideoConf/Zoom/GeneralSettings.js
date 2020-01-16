@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { getOptions } from '@/template'
 import FormItem, { CheckboxItem, InputItem } from '@/components/FormItem'
 import DefaultAcctModal from '@/components/DefaultAcctModal'
-import { getDefaultAcct } from '@/store/actions'
+import { getAcctInfo } from '@/store/actions'
 import { $t } from '@/Intl'
 
 @connect(
@@ -14,7 +14,7 @@ import { $t } from '@/Intl'
     defaultAcct: state.defaultAcct
   }),
   dispatch => ({
-    getDefaultAcct: () => dispatch(getDefaultAcct())
+    getAcctInfo: () => dispatch(getAcctInfo())
   })
 )
 @Form.create()
@@ -27,7 +27,7 @@ class GeneralSettings extends FormCommon {
 
   componentDidMount () {
     const { setFieldsValue } = this.props.form
-    this.props.getDefaultAcct()
+    this.props.getAcctInfo()
     this.initFormValue(this.options).then(data => {
       data.P1807 = data.P1807 || 'Zoom'
       setFieldsValue(data)
