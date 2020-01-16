@@ -328,7 +328,7 @@ class ConfSetModal extends FormCommon {
     let { setFieldsValue, getFieldValue } = this.props.form
     const min = getFieldValue('durationMin')
     if (+val === 0) {
-      setFieldsValue({ durationMin: min || 5 })
+      setFieldsValue({ durationMin: +min || 5 })
     }
   }
 

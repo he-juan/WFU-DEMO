@@ -2,14 +2,16 @@
 import moment from 'moment'
 import { transStr, convertStr, momentFormat } from '@/utils/tools'
 import { store } from '@/store'
+import { $t } from '@/Intl'
 
 // 转化时间
 export const convertTimeInfo = (Milliseconds, duration) => {
   let { strRes, objRes } = momentFormat(Milliseconds, { showtime: true, showtoday: true })
-
+  const startDay = objRes.days()
   let endTime = objRes.add(duration, 'minutes')
-
-  let range = ` ${strRes} - ${endTime.format(store.getState().dateTimeFmt.timeFmt)}`
+  const endDay = endTime.days()
+  const nday = ' ' + $t('c_345')
+  let range = ` ${strRes} - ${endTime.format(store.getState().dateTimeFmt.timeFmt) + (startDay < endDay ? nday : '')}`
   return range
 }
 
