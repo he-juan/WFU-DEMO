@@ -91,23 +91,18 @@ class UserInfoManage extends FormCommon {
   // 检验repeat 密码 是否 与 原密码相同
   checkPassword = (role) => {
     const { form } = this.props
-    const { adminconfirmDirty, userconfirmDirty } = this.state
     return {
       validator: (rule, value, callback) => {
         if (role === 'admin') {
-          if (value && !adminconfirmDirty) {
-            this.setState({
-              adminconfirmDirty: true
-            })
-          }
+          this.setState({
+            adminconfirmDirty: !!value
+          })
           if (value !== form.getFieldValue('P2')) callback($fm('m_007'))
           else callback()
         } else {
-          if (value && !userconfirmDirty) {
-            this.setState({
-              userconfirmDirty: true
-            })
-          }
+          this.setState({
+            userconfirmDirty: !!value
+          })
           if (value !== form.getFieldValue('P196')) callback($fm('m_007'))
           else callback()
         }
@@ -195,6 +190,7 @@ class UserInfoManage extends FormCommon {
           gfd={gfd}
           name='curadmipwd'
           gfdOptions={{
+            initialValue: '',
             rules: [
               this.required(),
               this.maxLen(32)
@@ -206,6 +202,7 @@ class UserInfoManage extends FormCommon {
           gfd={gfd}
           {...options['P2']}
           gfdOptions={{
+            initialValue: '',
             rules: [
               this.checkConfirm('admin'),
               this.checkCharacter(),
@@ -219,6 +216,7 @@ class UserInfoManage extends FormCommon {
           gfd={gfd}
           {...options['adminpasswd2']}
           gfdOptions={{
+            initialValue: '',
             rules: [
               this.checkPassword('admin'),
               this.checkCharacter(),
@@ -232,6 +230,7 @@ class UserInfoManage extends FormCommon {
           name='P196'
           {...options['P196']}
           gfdOptions={{
+            initialValue: '',
             rules: [
               this.checkConfirm('user'),
               this.checkCharacter(),
@@ -246,6 +245,7 @@ class UserInfoManage extends FormCommon {
           name='userpasswd2'
           {...options['userpasswd2']}
           gfdOptions={{
+            initialValue: '',
             rules: [
               this.checkPassword('user'),
               this.checkCharacter(),
