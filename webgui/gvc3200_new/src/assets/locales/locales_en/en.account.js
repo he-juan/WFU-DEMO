@@ -441,10 +441,10 @@ export default {
   acct_147_tip: 'This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio，RFC2833，H245 signal.',
 
   acct_148: 'Match Incoming Caller ID',
-  acct_148_tip: 'This field specifies the incoming caller ID to have the distinctive ringtone (specified on the right). Users can choose from different ringtones from the dropdown menu. They can also upload mp3 files in Ringtone manager under "Applications" for their own ringtone.',
+  acct_148_tip: 'Set the ringing rule for the incoming calls. There are three spaces on the left to set the ringing rule. For example: 139x+ means that the ringing bell corresponding to the incoming call beginning with 139 is the ringtone on the right.',
 
   acct_149: 'Distinctive Ring Tone',
-  acct_149_tip: 'This field specifies the distinctive ringtone for the matching incoming caller ID on the left. Users can choose from different ringtones from the dropdown menu. They can also upload mp3 files in Ringtone manager under "Applications" for their own ringtone.',
+  acct_149_tip: 'This field specifies the distinctive ringtone for the matching incoming caller ID on the left. Users can choose from different ringtones from the dropdown menu.',
 
   acct_150: 'Add MAC In User-Agent',
   acct_150_tip: 'Configures whether to add MAC address in User-Agent header. If set to "No", all outgoing SIP messages  will not attach MAC address to the User-Agent header; If set to "Yes except REGISTER", all outgoing SIP messages except REGISTER message will attach the MAC address to the User-Agent header; If set to "Yes to All SIP", all outgoing SIP messages including REGISTER message will attach MAC address to the User-Agent header.',
