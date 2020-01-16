@@ -29,13 +29,14 @@ class GeneralSettings extends FormCommon {
     const { setFieldsValue } = this.props.form
     this.props.getAcctInfo()
     this.initFormValue(this.options).then(data => {
+      data['P507'] = data['P507'] || 'BlueJeans'
       setFieldsValue(data)
     })
   }
 
   // 提交表单
   handleSubmit = () => {
-    const { validateFields } = this.props.form
+    const { validateFields, setFieldsValue } = this.props.form
     const { acctStatus, defaultAcct } = this.props
     validateFields((err, values) => {
       if (!err) {
@@ -46,7 +47,9 @@ class GeneralSettings extends FormCommon {
           })
           return false
         }
-        this.submitFormValue(values, 1)
+        this.submitFormValue(values, 1).then(res => {
+          values['P507'] === '' && (setFieldsValue({ 'P507': 'BlueJeans' }))
+        })
       }
     })
   }
