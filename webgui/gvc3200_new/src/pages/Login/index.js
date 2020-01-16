@@ -204,14 +204,24 @@ class PwChangeForm extends Component {
       case pw1.length < 6 && pw1.length > 0:
         this.errorTip($fm('m_165')) // 请输入至少6个字符。
         return false
+      case pw1.length > 32:
+        this.errorTip($fm('m_241'))
+        return false
       // case (pw1 === 'admin' && changeType === 'admin') || (pw1 === '123' && changeType === 'user') :
       //   this.errorTip('新密码不可为默认密码')
       //   return false
-      case (/^[0-9]*$/.test(pw1) || /^[a-z]*$/.test(pw1) || /^[A-Z]*$/.test(pw1) || /[\u4e00-\u9fa5]+/.test(pw1)) :
+      case (
+        /^[0-9]*$/.test(pw1) || // 全数字
+        /^[A-Za-z]*$/.test(pw1) || // 全字母
+        /^[^0-9A-Za-z]*$/.test(pw1) || // 全特殊字符
+        /[\u4e00-\u9fa5\s]+/.test(pw1) || // 有中文 或有空格
+        !/[0-9]/.test(pw1) // 没有数字
+      ) :
         this.errorTip($fm('m_166')) // 密码格式错误
         return false
       default:
         // ..
+        // return false
     }
 
     let payload = changeType === 'admin' ? { adminpwd: encodeURIComponent(pw1) } : { userpwd: encodeURIComponent(pw1) }

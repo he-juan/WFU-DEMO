@@ -407,6 +407,7 @@ const msgs = {
   m_238: 'Port cannot be 80 when  access method is HTTPS.',
   m_239: 'Supports up to 5 keywords',
   m_240: 'Up to 50 bytes per keyword',
+  m_241: 'The maximum length of the password is not more than 32',
 
   m_999: ''
 }
