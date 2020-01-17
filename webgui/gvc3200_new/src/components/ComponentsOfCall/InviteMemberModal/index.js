@@ -143,33 +143,49 @@ class InviteMemberModal extends Component {
     })
   }
 
+  // 添加时或者减少时自动计算偏移量
+  handleTranslate = () => {
+    const tagWidth = document.querySelector('.react-tagsinput').offsetWidth - 4
+    const tagSpanWidth = document.querySelector('.react-tagsinput > span').offsetWidth
+    const offset = parseInt(tagWidth - tagSpanWidth)
+    if (offset < 0) {
+      document.querySelector('.react-tagsinput > span').style.transform = `translateX(${offset}px)`
+    } else {
+      document.querySelector('.react-tagsinput > span').style.transform = `translateX(${0}px)`
+    }
+  }
+
   // 从tags添加拨打成员
-  handleChangeMemToCall = (mems) => {
+  handleChangeMemToCall = (mems, changed, changedIndexes) => {
     const { selectAcct, memToCall } = this.state
-    let _memToCall = mems.map((number) => {
-      // 已添加进memToCall的 直接从memToCall取, 不要去覆盖
-      let memAlready = memToCall.filter(item => item.name === number)[0]
-      if (memAlready) return memAlready
-      return {
-        num: number,
+    let _memToCall = deepCopy(memToCall)
+    // 判断当前changed的行为, mems的长度大于时为添加
+    if (mems.length > memToCall.length) {
+      let item = {
+        num: changed[0],
         acct: selectAcct,
         isvideo: '1',
         isconf: '1',
         source: '2',
-        name: number,
+        name: changed[0],
         email: ''
       }
-    })
-    // 输入的非数字字符串无法添加
-    let lastMem = _memToCall.slice(-1)[0]
-    if (lastMem && /\D/.test(lastMem.num) && +lastMem.acct !== 2) {
-      message.error($t('m_224')) // 此号码不符合拨号规则!
-      return false
+      if (/\D/.test(item.num) && +item.acct !== 2) {
+        message.error($t('m_224')) // 此号码不符合拨号规则!
+        return false
+      }
+      _memToCall.push(item)
+    } else {
+      _memToCall.splice(changedIndexes[0], 1)
     }
     _memToCall = this.limitMaxMembers(_memToCall, 'input')
     this.setState({
       memToCall: _memToCall,
       tagsInputValue: ''
+    }, () => {
+      if (memToCall.length <= _memToCall.length) {
+        this.handleTranslate()
+      }
     })
   }
 
@@ -214,6 +230,8 @@ class InviteMemberModal extends Component {
     this.setState({
       memToCall: _memToCall,
       tagsInputValue: ''
+    }, () => {
+      this.handleTranslate()
     })
   }
 
@@ -300,6 +318,8 @@ class InviteMemberModal extends Component {
       memToCall: [],
       tagsInputValue: '',
       activeTab: '1'
+    }, () => {
+      document.querySelector('.react-tagsinput > span').style.transform = 'translateX(0px)'
     })
     onCancel()
   }
@@ -309,6 +329,49 @@ class InviteMemberModal extends Component {
     this.setState({
       selectAcct: this.props.defaultAcct
     })
+
+    document.addEventListener('click', this.handleClickFn, false)
+  }
+
+  // componentWillUnmount
+  componentWillUnmount () {
+    document.removeEventListener('click', this.handleClickFn, false)
+  }
+
+  // 绑定click 事件
+  handleClickFn = (e) => {
+    const exist = e.path.filter(item => {
+      if (typeof (item.className) !== 'string') return false
+      return item.className.includes('react-tagsinput').length
+    })
+    if (exist) {
+      document.addEventListener('keydown', this.handleKeyDownFn, false)
+    } else {
+      document.removeEventListener('keydown', this.handleKeyDownFn, false)
+    }
+  }
+
+  // 左右按键 keydown 事件
+  handleKeyDownFn = ({ keyCode }) => {
+    // keyCode: 37 Left 39 Right
+    const tagWidth = document.querySelector('.react-tagsinput').offsetWidth - 4
+    const tagSpanWidth = document.querySelector('.react-tagsinput > span').offsetWidth
+    const offset = parseInt(tagWidth - tagSpanWidth)
+    const transform = document.querySelector('.react-tagsinput > span').style.transform
+    const tx = parseInt(transform ? transform.match(/translateX\((\S*)px\)/)[1] : 0)
+    if (offset < 0) {
+      if (+keyCode === 39) {
+        if (tx <= 0) {
+          document.querySelector('.react-tagsinput > span').style.transform = `translateX(${+tx - 50 < offset ? offset : +tx - 50}px)`
+        }
+      } else if (+keyCode === 37) {
+        if (tx >= offset) {
+          document.querySelector('.react-tagsinput > span').style.transform = `translateX(${+tx + 50 >= 0 ? 0 : +tx + 50}px)`
+        }
+      }
+    } else {
+      tx < 0 && (document.querySelector('.react-tagsinput > span').style.transform = `translateX(${0}px)`)
+    }
   }
 
   render () {
@@ -327,14 +390,14 @@ class InviteMemberModal extends Component {
               addKeys={[13]}
               onlyUnique={true}
               // addOnBlur={true}
-              inputProps={{ placeholder: '', maxLength: '23', style: { width: tagsInputValue.length * 10 } }}
+              inputProps={{ placeholder: '多个号码可以"Enter"分隔.', maxLength: '23', style: { width: tagsInputValue.length * 10 } }}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
               renderTag={this.renderTag}
             />
-            {
+            {/* {
               memToCall.length > 0 || tagsInputValue.length > 0 ? null : <span className='tagsinput-placeholder'>多个号码可以"Enter"分隔.</span>
-            }
+            } */}
           </div> : <div className='bj-inputs'>
             <Input placeholder='Meeting ID' onChange={(e) => this.handleBjMember({ id: e.target.value })} />
             <Input placeholder='Password (optional)' onChange={(e) => this.handleBjMember({ pw: e.target.value })} />

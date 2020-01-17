@@ -143,7 +143,6 @@ class ContactsTab extends Component {
     const { contacts, groups } = this.props
     const dataGroups = this.parseGroups(groups)
     const dataContacts = this.parseContacts(contacts)
-    console.log(dataGroups.concat(dataContacts))
     DATASOURCE = dataGroups.concat(dataContacts)
     this.setState({
       dataSource: DATASOURCE

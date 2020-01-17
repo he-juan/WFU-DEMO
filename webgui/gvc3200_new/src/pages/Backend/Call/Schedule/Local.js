@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, message } from 'antd'
 import API from '@/api'
 import NoData from '@/components/NoData'
-import { getLinesInfo } from '@/store/actions'
+import { getLinesInfo, getConfInfo } from '@/store/actions'
 import ConfSetModal from '@/components/ComponentsOfCall/ConfSetModal' // 添加或者编辑或预览会议弹窗
 import LocalConfList from './LocalConfList'
 import './Schedule.less'
@@ -12,10 +12,12 @@ import { deepCopy } from '@/utils/tools'
 
 @connect(
   state => ({
-    linesInfo: state.linesInfo || ''
+    linesInfo: state.linesInfo || '',
+    confInfo: state.confInfo || ''
   }),
   dispatch => ({
-    getLinesInfo: () => dispatch(getLinesInfo())
+    getLinesInfo: () => dispatch(getLinesInfo()),
+    getConfInfo: () => dispatch(getConfInfo())
   })
 )
 class LocalSchedule extends Component {
@@ -116,14 +118,17 @@ class LocalSchedule extends Component {
   componentDidMount () {
     let { getLinesInfo } = this.props
     getLinesInfo()
+    getConfInfo()
     this.handleGetSchedules()
   }
 
   // componentDidUpdate
   componentDidUpdate (prevProps, prevState) {
     // 监听 props中的linesInfo，去触发会议预约列表的更新
-    if (JSON.stringify(prevProps.linesInfo) !== JSON.stringify(this.props.linesInfo)) {
-      this.handleGetSchedules()
+    if (JSON.stringify(prevProps.confInfo) !== JSON.stringify(this.props.confInfo) && Object.keys(prevProps.confInfo).length !== 0) {
+      setTimeout(() => {
+        this.handleGetSchedules()
+      }, 500)
     }
   }
 
