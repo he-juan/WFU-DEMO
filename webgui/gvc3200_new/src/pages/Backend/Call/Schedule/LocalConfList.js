@@ -12,13 +12,18 @@ import { $t } from '@/Intl'
  */
 
 const LocalConfList = (props) => {
-  let stateObj = {
+  const stateObj = {
     '3': $t('c_245'), // 进行中
     '2': $t('c_246'), // 待主持
     '1': $t('c_247'), // 未开始
     '0': $t('c_248') // 已结束
   }
-  let { schedules, handleSetConf, handleStartConf, handleCancelConf, cancelPop } = props
+  // host 1为SIP，IPVideoTalk为IPVT，其余为谷歌会议
+  const hostObj = {
+    '1': 'SIP',
+    'IPVideoTalk': 'IPVT'
+  }
+  const { schedules, handleSetConf, handleStartConf, handleCancelConf, cancelPop } = props
   const [popVisible, setPopVisible] = useState(false)
 
   return (
@@ -43,7 +48,7 @@ const LocalConfList = (props) => {
               </Row>
               <Row>
                 <Col span={3}>{$t('c_249')}：</Col>
-                <Col className='conf-text ellips' span={9}>{+item.Host === 1 ? $t('c_251') : item.Host}</Col>
+                <Col className='conf-text ellips' span={9}>{hostObj[item.Host] || item.Host}</Col>
                 <Col className='conf-status' span={12}>
                   {/* Confstate 3 进行中 0 已结束 */}
                   {
