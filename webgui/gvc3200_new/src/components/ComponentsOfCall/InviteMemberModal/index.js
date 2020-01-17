@@ -78,12 +78,6 @@ class InviteMemberModal extends Component {
 
     // 存在ipvt线路且ipvt线路成员不超过100
     let curLinesLen = IPVTlen > 0 ? nonIPVTlen + 1 : nonIPVTlen // 线路总数量, IPVT线路合并为1路
-    // 判断ipvt线路是否已达上限
-    let maxNum = 200
-    if (IPVTlen >= maxNum && +lastMem.acct === 1) {
-      message.error($t('m_227')) // IPVideoTalk成员数量已达上限
-      return _memToCall
-    }
     // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
     if (curLinesLen >= maxLineCount) {
       if (IPVTlen === 0) {
@@ -91,7 +85,7 @@ class InviteMemberModal extends Component {
       } else if (IPVTlen > 0 && +lastMem.acct !== 1) {
         message.error($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
         flag === 'input' && this.setState({ selectAcct: '1' })
-      } else if (IPVTlen > 0 && IPVTlen < maxNum && +lastMem.acct === 1) {
+      } else if (IPVTlen > 0 && +lastMem.acct === 1) {
         _memToCall.push(lastMem)
       }
     } else {

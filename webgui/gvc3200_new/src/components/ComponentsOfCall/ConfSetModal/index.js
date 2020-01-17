@@ -343,12 +343,6 @@ class ConfSetModal extends FormCommon {
       let IPVTlen = temp.length - nonIPVTlen // IPVT线路数量
       // 存在ipvt线路且ipvt线路成员不超过200
       let curLinesLen = IPVTlen > 0 ? nonIPVTlen + 1 : nonIPVTlen // 线路总数量, IPVT线路合并为1路
-      // 判断ipvt线路是否已达上限
-      let maxNum = 200
-      if (IPVTlen >= maxNum) {
-        message.error($t('m_227')) // IPVideoTalk成员数量已达上限
-        return false
-      }
       // 如果当前成员数加已有线路数 大于限制
       if (curLinesLen >= maxLineCount) {
         if (IPVTlen === 0) {
