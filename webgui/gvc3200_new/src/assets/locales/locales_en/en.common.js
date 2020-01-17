@@ -140,7 +140,7 @@ const btns = {
   b_045: 'Import',
   b_046: 'Export',
   b_047: 'New group',
-  b_048: 'New conference',
+  b_048: 'New Meeting',
   b_049: 'Reschedule',
   b_050: 'Delete recording',
   b_051: 'Start Meeting',
