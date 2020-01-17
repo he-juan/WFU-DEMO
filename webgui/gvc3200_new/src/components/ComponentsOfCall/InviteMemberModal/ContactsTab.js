@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip, Table } from 'antd'
 import { parseAcct, escapeRegExp } from '@/utils/tools'
+import { $t } from '@/Intl'
 import NoData from '../../NoData'
 
 let timer, DATASOURCE
@@ -9,8 +10,14 @@ let timer, DATASOURCE
 class ContactsTab extends Component {
   static propTypes = {
     contacts: PropTypes.array.isRequired, // 联系人
+    groups: PropTypes.array.isRequired,
     onAdd: PropTypes.func.isRequired, // 添加事件
     filterTags: PropTypes.string.isRequired // 过滤
+  }
+
+  static defaultProps = {
+    contacts: [],
+    groups: []
   }
 
   constructor (props) {
@@ -24,12 +31,28 @@ class ContactsTab extends Component {
 
   // 返回图标名 是否是会议, 单路(呼入,呼出,未接来电), 联系人
   getIconClass = ({ isfavourite }) => {
-    return isfavourite === '1' ? 'icon-contacts-fav' : 'icon-contacts'
+    return isfavourite === '1' ? 'icon-contacts-fav' : (isfavourite === '0' ? 'icon-contacts' : 'icon-groups')
+  }
+
+  // 解析群组
+  parseGroups = (groups) => {
+    const result = []
+    groups.forEach(({ id, name, num, contacts }) => {
+      let data = {
+        key: 'g' + id,
+        col0: name,
+        col1: '',
+        col2: num + ' ' + $t(+num < 2 ? 'c_346' : 'c_347'),
+        contacts: contacts
+      }
+      result.push(data)
+    })
+    return result
   }
 
   // 解析联系人
   parseContacts = (contacts) => {
-    let result = []
+    const result = []
     contacts.forEach(item => {
       item.phone.forEach((phone, i) => {
         let data = {
@@ -45,7 +68,7 @@ class ContactsTab extends Component {
           source: 1, // 联系人呼出source 为1
           contacts: '1',
           lvl: '0',
-          isfavourite: item.isfavourite,
+          isfavourite: item.isfavourite || '0',
           email: item.email[0] ? item.email[0].address : ''
         }
         result.push(data)
@@ -79,6 +102,18 @@ class ContactsTab extends Component {
     }, 100)
   }
 
+  // 添加联系人 或 群组
+  handleAdd = (record) => {
+    const { onAdd } = this.props
+    const _record = JSON.parse(JSON.stringify(record))
+    // 无 isfavourite 为群组
+    if (!record.hasOwnProperty('isfavourite')) {
+      _record.isconf = '1'
+      _record.children = this.parseContacts(_record.contacts)
+    }
+    onAdd(_record)
+  }
+
   componentWillReceiveProps (nextProps) {
     if (this.props.filterTags !== nextProps.filterTags) { // filterTags 过滤项
       let filterTags = nextProps.filterTags
@@ -105,17 +140,18 @@ class ContactsTab extends Component {
   }
 
   componentDidMount () {
-    const { contacts } = this.props
+    const { contacts, groups } = this.props
+    const dataGroups = this.parseGroups(groups)
     const dataContacts = this.parseContacts(contacts)
-    DATASOURCE = dataContacts
+    console.log(dataGroups.concat(dataContacts))
+    DATASOURCE = dataGroups.concat(dataContacts)
     this.setState({
-      dataSource: dataContacts
+      dataSource: DATASOURCE
     })
   }
 
   render () {
     const { dataSource, curPage } = this.state
-    const { onAdd } = this.props
     let _dataSource = dataSource.slice(0, 30 * curPage)
 
     const columns = [
@@ -140,10 +176,7 @@ class ContactsTab extends Component {
       {
         key: 'col2',
         dataIndex: 'col2',
-        width: '25%',
-        render: (text, record, index) => {
-          return <span dangerouslySetInnerHTML={{ __html: record.numberText }}></span>
-        }
+        width: '25%'
       },
       {
         key: 'col3',
@@ -153,7 +186,7 @@ class ContactsTab extends Component {
           return (
             <div className='operate-btns'>
               <Tooltip>
-                <span className='icons icon-add' onClick={() => onAdd(record)}></span>
+                <span className='icons icon-add' onClick={() => this.handleAdd(record)}></span>
               </Tooltip>
             </div>
           )

@@ -20,6 +20,7 @@ const TabPane = Tabs.TabPane
     maxLineCount: state.maxLineCount, // 最大线路数
     linesInfo: state.linesInfo, // 线路信息
     contacts: state.contacts, // 联系人列表
+    contactsGroups: state.contactsGroups, // 联系人群组
     callLogs: state.callLogs, // 通话记录
     timezone: state.timezone // 时区
   })
@@ -198,15 +199,18 @@ class InviteMemberModal extends Component {
 
     let _memToCall = deepCopy(memToCall)
     if (record.isconf === '1' && record.children) {
-      record.children.forEach(i => {
-        _memToCall = this.pushMemToCall(_memToCall, i)
-        _memToCall = this.limitMaxMembers(_memToCall, 'add')
-      })
+      for (let i = 0; i < record.children.length; i++) {
+        _memToCall = this.pushMemToCall(_memToCall, record.children[i])
+        const realData = this.limitMaxMembers(_memToCall, 'add')
+        if (realData.length < _memToCall.length) {
+          _memToCall = realData
+          break
+        }
+      }
     } else {
       _memToCall = this.pushMemToCall(_memToCall, record)
       _memToCall = this.limitMaxMembers(_memToCall, 'add')
     }
-
     this.setState({
       memToCall: _memToCall,
       tagsInputValue: ''
@@ -308,7 +312,7 @@ class InviteMemberModal extends Component {
   }
 
   render () {
-    const { visible, isJustAddMember, acctStatus, contacts, callLogs, timezone } = this.props
+    const { visible, isJustAddMember, acctStatus, contacts, contactsGroups, callLogs, timezone } = this.props
     const { memToCall, activeTab, selectAcct, tagsInputValue } = this.state
     if (!acctStatus) return null
 
@@ -379,7 +383,7 @@ class InviteMemberModal extends Component {
           </div>
           {/* tabcontent */}
           {
-            activeTab === '1' ? <ContactsTab contacts={contacts} onAdd={this.handleAddMemFromList} filterTags={tagsInputValue} /> : <CallLogsTab callLogs={callLogs} timezone={timezone} onAdd={this.handleAddMemFromList} filterTags={tagsInputValue} />
+            activeTab === '1' ? <ContactsTab contacts={contacts} groups={contactsGroups} onAdd={this.handleAddMemFromList} filterTags={tagsInputValue} /> : <CallLogsTab callLogs={callLogs} timezone={timezone} onAdd={this.handleAddMemFromList} filterTags={tagsInputValue} />
           }
         </div>
       </Modal>

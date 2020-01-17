@@ -750,6 +750,8 @@ const commons = {
   c_342: 'Local + Presentation + Remote',
   c_343: 'No call history',
   c_345: 'Next Day',
+  c_346: 'people', // 单数
+  c_347: 'peoples', // 复数
 
   c_999: ''
 }
