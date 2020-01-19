@@ -153,11 +153,12 @@ class Call extends Component {
   }
 
   // 添加拨打成员, 只有输入逗号回车键才会触发
-  handleChangeMemToCall = (mems) => {
+  handleChangeMemToCall = (mems, changed, changedIndex) => {
     const { selectAcct, memToCall } = this.state
-    let _memToCall = []
+    let _memToCall = deepCopy(memToCall)
+
     if (mems.length > memToCall.length) { // 添加
-      let lastNumber = mems.pop()
+      let lastNumber = changed[0]
       let lastMem = {
         num: lastNumber,
         acct: selectAcct,
@@ -167,11 +168,11 @@ class Call extends Component {
         name: lastNumber
       }
       // 号码去重
-      let isUnique = memToCall.filter(item => item.num === lastMem.num && item.acct === lastMem.acct).length === 0
+      let isUnique = _memToCall.filter(item => item.num === lastMem.num && item.acct === lastMem.acct).length === 0
       if (!isUnique) {
         return message.error($t('m_235')) // 此联系人已存在
       }
-      _memToCall = [...memToCall, lastMem]
+      _memToCall = [..._memToCall, lastMem]
       _memToCall = this.limitMaxMembers(_memToCall, 'input')
 
       this.setState({
@@ -180,11 +181,7 @@ class Call extends Component {
       })
 
     } else { // 删除
-      _memToCall = mems.map((number) => {
-        // 已添加进memToCall的 直接从memToCall取
-        let memAlready = memToCall.filter(item => item.name === number)[0]
-        return memAlready
-      })
+      _memToCall.splice(changedIndex[0], 1)
 
       this.setState({
         memToCall: _memToCall
