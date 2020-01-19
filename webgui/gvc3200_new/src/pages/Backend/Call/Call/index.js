@@ -154,10 +154,10 @@ class Call extends Component {
 
   // 添加拨打成员, 只有输入逗号回车键才会触发
   handleChangeMemToCall = (mems) => {
-    const { selectAcct, memToCall, tagsInputValue } = this.state
+    const { selectAcct, memToCall } = this.state
     let _memToCall = []
-    if (tagsInputValue) { // 添加
-      let lastNumber = tagsInputValue
+    if (mems.length > memToCall.length) { // 添加
+      let lastNumber = mems.pop()
       let lastMem = {
         num: lastNumber,
         acct: selectAcct,
@@ -166,28 +166,30 @@ class Call extends Component {
         source: '2',
         name: lastNumber
       }
-      // 输入的非数字或ip字符串无法添加
-      // if (lastMem && /\D/.test(lastMem.num) && !isIp(lastMem.num) && +selectAcct !== 2) {
-      //   return message.error($t('m_224')) // 此号码不符合拨号规则
-      // }
       // 号码去重
       let isUnique = memToCall.filter(item => item.num === lastMem.num && item.acct === lastMem.acct).length === 0
       if (!isUnique) {
         return message.error($t('m_235')) // 此联系人已存在
       }
       _memToCall = [...memToCall, lastMem]
-      // 号码最大数量限制
       _memToCall = this.limitMaxMembers(_memToCall, 'input')
 
+      this.setState({
+        memToCall: _memToCall,
+        tagsInputValue: ''
+      })
+
     } else { // 删除
+      _memToCall = mems.map((number) => {
+        // 已添加进memToCall的 直接从memToCall取
+        let memAlready = memToCall.filter(item => item.name === number)[0]
+        return memAlready
+      })
 
-      _memToCall = memToCall.slice(0, -1)
-
+      this.setState({
+        memToCall: _memToCall
+      })
     }
-    
-    this.setState({
-      memToCall: _memToCall
-    })
   }
 
   // 赋值 tagsInputValue
@@ -416,7 +418,6 @@ class Call extends Component {
   render () {
     const { acctStatus, defaultAcct } = this.props
     const { selectAcct, memToCall, tagsInputValue, dataSource, H323SiteName } = this.state
-
     if (!acctStatus) return null
 
     let selectAcctItem = acctStatus.filter(item => +item.acctIndex === +selectAcct)[0] || '0'
