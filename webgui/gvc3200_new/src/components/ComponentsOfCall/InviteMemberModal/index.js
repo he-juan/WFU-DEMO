@@ -170,10 +170,6 @@ class InviteMemberModal extends Component {
         name: changed[0],
         email: ''
       }
-      if (/\D/.test(item.num) && +item.acct !== 2) {
-        message.error($t('m_224')) // 此号码不符合拨号规则!
-        return false
-      }
       _memToCall.push(item)
     } else {
       _memToCall.splice(changedIndexes[0], 1)
@@ -256,21 +252,21 @@ class InviteMemberModal extends Component {
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
-      if (!/\D/.test(tagsInputValue)) {
-        _memToCall.push({
-          num: tagsInputValue,
-          acct: selectAcct,
-          isvideo: isvideo,
-          source: '2',
-          isconf: '1'
-        })
-      } else {
-        message.error('此号码不符合拨号规则!')
-        this.setState({
-          tagsInputValue: ''
-        })
-        return false
-      }
+      // if (!/\D/.test(tagsInputValue)) {
+      _memToCall.push({
+        num: tagsInputValue,
+        acct: selectAcct,
+        isvideo: isvideo,
+        source: '2',
+        isconf: '1'
+      })
+      // } else {
+      //   message.error('此号码不符合拨号规则!')
+      //   this.setState({
+      //     tagsInputValue: ''
+      //   })
+      //   return false
+      // }
     }
 
     // bluejeans 处理
@@ -341,9 +337,8 @@ class InviteMemberModal extends Component {
   // 绑定click 事件
   handleClickFn = (e) => {
     const exist = e.path.filter(item => {
-      if (typeof (item.className) !== 'string') return false
-      return item.className.includes('react-tagsinput').length
-    })
+      return typeof (item.className) === 'string' && item.className.includes('react-tagsinput')
+    }).length
     if (exist) {
       document.addEventListener('keydown', this.handleKeyDownFn, false)
     } else {
