@@ -5,7 +5,7 @@ import API from '@/api'
 import { $t, $fm } from '@/Intl'
 import { momentFormat } from '@/utils/tools'
 
-const mSpChar = ['\\', ':', '*', '?', '<', '>', '|', '\'']
+const mSpChar = ['\\', '\/', '*', '?', '<', '>', '|', '\'', '\"', '？']
 
 @Form.create()
 class VideoList extends Component {
@@ -166,10 +166,10 @@ class VideoList extends Component {
               break
             }
           }
-          let reg = new RegExp('^[a-zA-Z0-9\u4E00-\u9FA5\uF900-\uFA2D_-]+$')
-          if (value && !reg.test(value)) {
-            illegalflag = true
-          }
+          // let reg = new RegExp('^[a-zA-Z0-9\u4E00-\u9FA5\uF900-\uFA2D_-]+$')
+          // if (value && !reg.test(value)) {
+          //   illegalflag = true
+          // }
           if (illegalflag) {
             callback($fm('m_043'))
             return false
