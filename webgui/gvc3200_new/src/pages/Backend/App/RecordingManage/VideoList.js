@@ -118,7 +118,7 @@ class VideoList extends Component {
   formatAction = (text, record, index) => {
     let tit = Array(3).fill('')
     if (record.Lock === '1') {
-      tit = [$t('m_040'), $t('b_020'), $t('m_041')]
+      tit = [$t('m_252'), $t('b_020'), $t('m_254')]
     } else {
       tit = [$t('b_018'), $t('b_019'), $t('b_003')]
     }
@@ -282,7 +282,7 @@ class VideoList extends Component {
     let { Id, Path } = record
     let { name } = this.getRecordNameAndPath(Path)
     Modal.confirm({
-      title: $t('m_045'),
+      title: $t('m_242'),
       content: name,
       centered: true,
       okText: $t('b_002'),
@@ -323,7 +323,7 @@ class VideoList extends Component {
   // 删除所选录像按钮
   handleDeleteConfirm = () => {
     Modal.confirm({
-      title: $t('m_046'),
+      title: $t('m_250'),
       content: '',
       okText: $t('b_002'),
       okType: 'danger',
@@ -420,20 +420,20 @@ class VideoList extends Component {
       <div className='recording-manage'>
         {/* 保存路径/编辑录像名称 modal */}
         {
-          displayModal && <Modal visible={displayModal} width='500px' title={<span style={{ display: 'block', textAlign: 'center' }}>{$t('c_033')}</span>} className='record-setmodal' centered={true} okText={$t('b_002')} cancelText={$t('b_005')} onOk={this.handleSaveRecordName} onCancel={() => { this.setDiaplayModal(false) }}>
+          displayModal && <Modal visible={displayModal} width='500px' title={<span style={{ display: 'block', textAlign: 'center' }}>{$t('c_348')}</span>} className='record-setmodal' centered={true} okText={$t('b_002')} cancelText={$t('b_005')} onOk={this.handleSaveRecordName} onCancel={() => { this.setDiaplayModal(false) }}>
             <div className='confirm-content'>
               <Form>
                 <Form.Item>
                   {
                     gfd('renameinput', {
                       rules: [
-                        { required: true, whitespace: true, message: $t('m_048') },
+                        { required: true, whitespace: true, message: $t('m_248') },
                         { max: 64, message: $t('m_050') + 64 },
                         this.validateRenameinputIsexit(dataList),
                         this.validateRenameinputIsillegal()
                       ]
                     })(
-                      <Input placeholder={$t('m_049')}/>
+                      <Input placeholder={$t('m_246')}/>
                     )
                   }
                 </Form.Item>

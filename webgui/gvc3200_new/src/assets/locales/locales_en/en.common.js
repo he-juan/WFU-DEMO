@@ -206,16 +206,16 @@ const msgs = {
   m_037: 'Need reboot to take effect',
   m_038: 'Saving',
   m_039: 'Rename failed.',
-  m_040: 'Locked video cannot be edited',
-  m_041: 'Locked video cannot be deleted',
+  // m_040: 'Locked video cannot be edited',
+  // m_041: 'Locked video cannot be deleted',
   m_042: 'The file name already exists. Please re-enter',
   m_043: 'Rename failed. Invalid characters!',
   m_044: 'Files are locked and cannot be renamed!',
-  m_045: 'Are you sure you want to delete this recording?',
-  m_046: 'Are you sure to delete the selected recording?',
+  // m_045: 'Are you sure you want to delete this recording?',
+  // m_046: 'Are you sure to delete the selected recording?',
   m_047: 'No storage device',
-  m_048: 'Record name cannot be empty',
-  m_049: 'Please enter Record name',
+  // m_048: 'Record name cannot be empty',
+  // m_049: 'Please enter Record name',
   m_050: 'The length can\'t exceed',
   m_051: 'Same version, do not need update!',
   m_052: 'Read file error!',
@@ -408,6 +408,20 @@ const msgs = {
   m_239: 'Supports up to 5 keywords',
   m_240: 'Up to 50 bytes per keyword',
   m_241: 'The maximum length of the password is not more than 32',
+  m_242: 'Are you sure you want to delete this video?',
+  m_243: 'Are you sure you want to delete this audio?',
+  // m_244: 'Video name',
+  // m_245: 'Audio name',
+  m_246: 'Please enter video name',
+  m_247: 'Please enter audio name',
+  m_248: 'Video name cannot be empty',
+  m_249: 'Audio name cannot be empty',
+  m_250: 'Are you sure to delete the selected video?',
+  m_251: 'Are you sure to delete the selected audio??',
+  m_252: 'Locked video cannot be edited',
+  m_253: 'Locked audio cannot be edited',
+  m_254: 'Locked video cannot be deleted',
+  m_255: 'Locked auido cannot be deleted',
 
   m_999: ''
 }
@@ -752,6 +766,8 @@ const commons = {
   c_345: 'Next Day',
   c_346: 'people', // 单数
   c_347: 'peoples', // 复数
+  c_348: 'Video name',
+  c_349: 'Audio name',
 
   c_999: ''
 }
