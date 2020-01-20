@@ -129,19 +129,26 @@ class VideoList extends Component {
 
   // renameinput 是否存在 检验
   validateRenameinputIsexit = (dataList) => {
-    let { curRecord: { Id } } = this.state
+    let { curRecord: { Id, Path } } = this.state
+    let type = Path.match(/\.[^\.]*$/)[0]
     return {
       validator: (data, value, callback) => {
+        let hasExist = false
         // 文件名已存在，请重新输入
         for (let i = 0; i < dataList.length; i++) {
           const item = dataList[i]
           let { name } = this.getRecordNameAndPath(item.Path)
-          if ((value + '.mkv') === name && item['Id'] !== Id) {
-            callback($fm('m_042'))
-            return false
+          if ((value + type) === name && item['Id'] !== Id) {
+            hasExist = true
+            break
           }
         }
-        callback()
+
+        if (hasExist) {
+          callback($fm('m_042'))
+        } else {
+          callback()
+        }
       }
     }
   }
