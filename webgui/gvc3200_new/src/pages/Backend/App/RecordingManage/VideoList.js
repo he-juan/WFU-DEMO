@@ -380,16 +380,14 @@ class VideoList extends Component {
         this.formatAction(text, record, index)
       )
     }]
-    // pageobj
-    let pageobj = false
-    if (dataList.length > 15) {
-      pageobj = {
-        current: curPage,
-        pageSize: 15,
-        total: dataList.length,
-        onChange: this.changePage
-      }
+
+    let pageobj = {
+      current: curPage,
+      showSizeChanger: true,
+      total: dataList.length,
+      onChange: this.changePage
     }
+
     // -----------处理table end
     return (
       <div className='recording-manage'>
