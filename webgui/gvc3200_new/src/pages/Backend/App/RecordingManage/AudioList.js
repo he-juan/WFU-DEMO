@@ -188,7 +188,7 @@ class AudioList extends Component {
       if (!err) {
         let { curRecord: { Id, Path } } = this.state
         let info = this.getRecordNameAndPath(Path)
-        let newname = value['renameinput'] + '.mkv'
+        let newname = value['renameinput'] + info.name.match(/\.[^\.]*$/)[0]
         if (newname !== info.name) {
           let params = {
             id: Id,

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Form, Input, Button, Modal, message, Icon, Table } from 'antd'
-// import Cookie from 'js-cookie'
-import moment from 'moment'
 import Nodata from '@/components/NoData'
 import API from '@/api'
 import { $t, $fm } from '@/Intl'
@@ -190,7 +188,7 @@ class VideoList extends Component {
       if (!err) {
         let { curRecord: { Id, Path } } = this.state
         let info = this.getRecordNameAndPath(Path)
-        let newname = value['renameinput'] + '.mkv'
+        let newname = value['renameinput'] + info.name.match(/\.[^\.]*$/)[0]
         if (newname !== info.name) {
           let params = {
             id: Id,
