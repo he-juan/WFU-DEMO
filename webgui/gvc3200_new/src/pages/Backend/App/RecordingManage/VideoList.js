@@ -216,7 +216,7 @@ class VideoList extends Component {
   handleDownloadItem = (record, index) => {
     let { Path } = record
     let { pathOnly, name } = this.getRecordNameAndPath(Path, true)
-    if (pathOnly.indexOf('usbhost') !== -1) {
+    if (pathOnly) {
       window.location.href = pathOnly + encodeURIComponent(name) + '?time=' + new Date().getTime()
     } else {
       window.location.href = '/Recording/' + encodeURIComponent(name) + '?time=' + new Date().getTime()

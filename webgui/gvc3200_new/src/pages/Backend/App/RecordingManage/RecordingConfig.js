@@ -58,30 +58,9 @@ class RecordingConifg extends FormCommon {
     if (pathList.length > 0) {
       let isExist = pathList.find(item => item === curPath)
       !isExist && (curPath = pathList[0])
-      let s = $t('c_030')
-      let pathArr = [s + '0', s + '1', s + '2', $t('c_031')] // let pathArr = ['a_usbdisk0', 'a_usbdisk1', 'a_usbdisk2', 'a_extsd']
-      let [usb0num, usb1num, usb2num, sdnum, index] = Array(5).fill(0)
 
       pathList.forEach(item => {
-        let extStr = ''
-        if (item.indexOf('usbhost0') !== -1) {
-          index = 0
-          usb0num && (extStr = '_' + usb0num)
-          usb0num += 1
-        } else if (item.indexOf('usbhost1') !== -1) {
-          index = 1
-          usb1num && (extStr = '_' + usb1num)
-          usb1num += 1
-        } else if (item.indexOf('usbhost2') !== -1) {
-          index = 2
-          usb2num && (extStr = '_' + usb2num)
-          usb2num += 1
-        } else if (item.indexOf('extsd') !== -1) {
-          index = 3
-          sdnum && (extStr = '_' + sdnum)
-          sdnum += 1
-        }
-        children.push(<Select.Option value={item} key={item}>{pathArr[index] + extStr}</Select.Option>)
+        children.push(<Select.Option value={item} key={item}>{item}</Select.Option>)
       })
       tempPath && (curPath = tempPath)
       return (
