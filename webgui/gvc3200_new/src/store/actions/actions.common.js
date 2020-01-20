@@ -299,16 +299,16 @@ export const getTimeConfig = () => (dispatch) => {
       switch (result3.P102) {
         case '0':
         case '3':
-          dateFmt = 'YYYY/M/D'
+          dateFmt = 'YYYY/MM/DD'
           break
         case '1':
-          dateFmt = 'M/D/YYYY'
+          dateFmt = 'MM/DD/YYYY'
           break
         case '2':
-          dateFmt = 'D/M/YYYY'
+          dateFmt = 'DD/MM/YYYY'
           break
         default:
-          dateFmt = 'YYYY/M/D'
+          dateFmt = 'YYYY/MM/DD'
       }
       timeFmt = result3.P122 === '1' ? 'HH:mm' : 'hh:mm A'
 

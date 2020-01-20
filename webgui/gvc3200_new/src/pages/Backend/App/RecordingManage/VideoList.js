@@ -5,6 +5,7 @@ import moment from 'moment'
 import Nodata from '@/components/NoData'
 import API from '@/api'
 import { $t, $fm } from '@/Intl'
+import { momentFormat } from '@/utils/tools'
 
 const mSpChar = ['\\', ':', '*', '?', '<', '>', '|', '\'']
 
@@ -13,9 +14,6 @@ class VideoList extends Component {
   // state
   state = {
     dataList: [],
-    use24Hour: '0',
-    datefmt: '',
-    timezone: '',
     curRecord: {},
     displayModal: false,
     selectedRowKeys: [], // 选中的Rowkeys
@@ -24,28 +22,12 @@ class VideoList extends Component {
   }
 
   async componentDidMount () {
-    let data1 = await API.getPvalues(['P102'])
-    // let data2 = await this.handleGetTimezone() 可以暂时不获取
     let data3 = await this.handleGetRecordingList()
 
     this.setState({
-      datefmt: data1['P102'],
-      // timezone: data2['timezone'],
-      dataList: data3.Data,
-      use24Hour: data3.Use24Hour
+      dataList: data3.Data
     })
   }
-
-  // 获取时区
-  // handleGetTimezone = () => {
-  //   return new Promise((resolve, reject) => {
-  //     let lang = Cookie.get('locale')
-  //     lang = lang === 'en' ? '0' : '1'
-  //     API.getTimezone(lang).then(data => {
-  //       resolve(data)
-  //     })
-  //   })
-  // }
 
   // 获取录像列表
   handleGetRecordingList = () => {
@@ -58,7 +40,7 @@ class VideoList extends Component {
           msgs.Data = msgs.Data.filter(item => item.Type === '1')
           resolve(msgs)
         } else {
-          resolve({ Use24Hour: '', Data: [] })
+          resolve({ Data: [] })
         }
       })
     })
@@ -73,7 +55,6 @@ class VideoList extends Component {
       }
       this.setState({
         dataList: data.Data,
-        use24Hour: data.Use24Hour,
         ...obj,
         ...extra
       })
@@ -107,11 +88,7 @@ class VideoList extends Component {
 
   // 格式化 td 的 time
   formatTime = (text, record, index) => {
-    // let { datefmt, timezone } = this.state
-    // datefmt = datefmt || '3'
-    // var Timevalue = this.convertTime(text, datefmt, timezone)
-    // return Timevalue
-    return moment(text * 1000).format('D/M HH:mm')
+    return momentFormat(text, { showtime: true }).strRes
   }
 
   // 格式化 td 的 action
