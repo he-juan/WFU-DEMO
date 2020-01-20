@@ -3,7 +3,7 @@ import { Form, Input, Button, Modal, message, Icon, Table } from 'antd'
 import Nodata from '@/components/NoData'
 import API from '@/api'
 import { $t, $fm } from '@/Intl'
-import { momentFormat } from '@/utils/tools'
+import { momentFormat, debounceReactEvent } from '@/utils/tools'
 
 const mSpChar = ['\\', '\/', '*', '?', '<', '>', '|', '\'', '\"', '？']
 
@@ -16,7 +16,8 @@ class VideoList extends Component {
     displayModal: false,
     selectedRowKeys: [], // 选中的Rowkeys
     selectedRows: [],
-    curPage: 1 // 分页
+    curPage: 1, // 分页
+    filterKey: ''
   }
 
   async componentDidMount () {
@@ -341,10 +342,22 @@ class VideoList extends Component {
     })
   }
 
+  handleFilterChange = debounceReactEvent((e) => {
+    this.setState({
+      filterKey: e.target.value,
+      curPage: 1
+    })
+  }, 400)
+
   // render
   render () {
     const { getFieldDecorator: gfd } = this.props.form
-    let { displayModal, dataList, selectedRowKeys, curPage } = this.state
+    let { displayModal, dataList, selectedRowKeys, curPage, filterKey } = this.state
+
+    const filteredDataList = dataList.filter(item => {
+      let name = item.Path.split('/').slice(-1)[0]
+      return name.indexOf(filterKey) > -1
+    })
 
     // -----------处理table start
     // rowSelection
@@ -391,7 +404,7 @@ class VideoList extends Component {
     let pageobj = {
       current: curPage,
       showSizeChanger: true,
-      total: dataList.length,
+      total: filteredDataList.length,
       onChange: this.changePage
     }
 
@@ -427,16 +440,22 @@ class VideoList extends Component {
           <Button type='primary' disabled={selectedRowKeys.length === 0} onClick={this.handleDeleteConfirm}>
             <Icon type='delete' />{$t('b_003')}
           </Button>
+          <Input
+            onChange={this.handleFilterChange}
+            prefix={<Icon type='search'/>}
+            placeholder={$t('c_209')}
+            className='record-search-input'
+          />
         </div>
 
         {/* table */}
         {
-          dataList.length > 0 ? <Table
+          filteredDataList.length > 0 ? <Table
             className='record-table'
             rowKey='Id'
             rowSelection={rowSelection}
             columns={columns}
-            dataSource={dataList}
+            dataSource={filteredDataList}
             showHeader={true}
             pagination={pageobj}
           /> : <Nodata />
