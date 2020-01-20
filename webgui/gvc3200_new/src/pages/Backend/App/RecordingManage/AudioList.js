@@ -98,7 +98,7 @@ class AudioList extends Component {
     let path = record.Path
     let { name } = this.getRecordNameAndPath(path)
     return (
-      <span>
+      <span title={name}>
         {name}
         {record.Lock === '1' ? <i className='icons icon-lock' style={{ marginLeft: 10 }}/> : ''}
       </span>
@@ -379,7 +379,7 @@ class AudioList extends Component {
       title: $t('c_027'),
       key: 'Path',
       dataIndex: 'Path',
-      width: '40%',
+      width: '30%',
       render: (text, record, index) => (
         this.formatName(text, record, index)
       )
@@ -387,12 +387,12 @@ class AudioList extends Component {
       title: $t('c_028'),
       key: 'Size',
       dataIndex: 'Size',
-      width: '20%'
+      width: '25%'
     }, {
       title: $t('c_029'),
       key: 'Time',
       dataIndex: 'Time',
-      width: '20%',
+      width: '25%',
       render: (text, record, index) => (
         this.formatTime(text, record, index)
       )
