@@ -176,6 +176,8 @@ export default {
 
   acct_058: 'DTMF',
   acct_058_tip: '此项设置传输DTMF数字的机制。共有3种模式：in audio，RFC2833，SIP INFO： <br />1. in audio：表示DTMF由语音信号合成（对于低比特率编码不是很稳定）。<br />2.RFC2833：RFC 2833（Out of Band DTMF）是DTMF信号用专门的RTP包进行标识，在RTP包的头域中就可得知该包是DTMF包，并且知道是什么DTMF信号。<br /> 3.SIP INFO：用SIP信令的INFO消息来携带DTMF信号。这个方法的主要缺陷是因为SIP控制信令和媒体传输（RTP）是分开传输，很容易造成DTMF信号和媒体包不同步。<br /> 默认设置为"RFC2833"。',
+  acct_058_tip_2: '该项设置传输DTMF数字的机制，共有In audio，RFC2833，H245 signal三种模式。',
+  acct_058_tip_3: '此参数指定传输DTMF数字的机制。一共有2种模式：in audio表示DTMF由语音信号合成（对于低比特率编码不是很稳定），via RTP(RFC2833)。默认为"RFC2833"。',
 
   acct_059: 'DTMF有效荷载类型',
   acct_059_tip: '此参数设置DTMF使用RFC2833的负载类型。默认为101。',

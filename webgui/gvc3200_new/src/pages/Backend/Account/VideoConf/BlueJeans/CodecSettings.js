@@ -180,7 +180,7 @@ class CodecSettings extends FormCommon {
       <Form>
         <h4 className='bak-sub-title'>{$t('c_101')}</h4>
         {/* DTMF */}
-        <FormItem label='acct_058' tips='acct_058_tip'>
+        <FormItem label='acct_058' tips='acct_058_tip_3'>
           <Form.Item className='sub-form-item'>
             {
               gfd('P2501', {

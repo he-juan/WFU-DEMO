@@ -176,6 +176,8 @@ export default {
 
   acct_058: 'DTMF',
   acct_058_tip: 'This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: <br />• In audio, which means DTMF is combined in the audio signal (not very reliable with low-bit-rate codecs); <br /> • RTP (RFC2833), which means to specify DTMF with RTP packet. Users could know the packet is DTMF in the RTP header as well as the type of DTMF;  <br />• SIP INFO. Use SIP INFO to carry DTMF. The downside of this mode is that it\'s easy to cause asynchrony of DTMF and media packet because SIP and RTP packets are transmitted respectively.  <br />The default setting is "RFC2833".',
+  acct_058_tip_2: 'This parameter specifies the mechanism to transmit DTMF digits. There are 3 supported modes: In audio, RFC2833, H245 signal.',
+  acct_058_tip_3: 'This parameter specifies the mechanism to transmit DTMF digits. There are 2 supported modes: in audio (DTMF is combined with the audio signal, which is not very reliable with low-bit-rate codes), via RTP (RFC2833).',
 
   acct_059: 'DTMF Payload Type',
   acct_059_tip: 'This parameter sets the payload type for DTMF using RFC2833. Default is 101.',
