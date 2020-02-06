@@ -115,6 +115,7 @@ class SIPSettings extends FormCommon {
         <InputItem
           gfd={gfd}
           {...options['P1813']}
+          tips='acct_023_tip_2'
           gfdOptions={{
             rules: [
               this.required(),

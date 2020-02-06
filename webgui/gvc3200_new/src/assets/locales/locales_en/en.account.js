@@ -70,6 +70,7 @@ export default {
 
   acct_023: 'Local SIP Port',
   acct_023_tip: 'Defines the local SIP port used to listen and transmit. The default value is 5060.',
+  acct_023_tip_2: 'Defines the local SIP port used to listen and transmit. The default value is 5070.',
 
   acct_024: 'SUBSCRIBE For MWI',
   acct_024_tip: 'When set to "Yes", a SUBSCRIBE for Message Waiting Indication will be sent periodically. The device supports synchronized and non-synchronized MWI. The default setting is "No".',

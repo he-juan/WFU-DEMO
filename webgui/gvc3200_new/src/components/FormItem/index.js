@@ -31,8 +31,8 @@ const Item = Form.Item
 const FormItem = (props) => {
   const { children, label, tips, hide, className, reboot, deny, lang, render, ...other } = props
   if (deny) return null
-  let _label = (lang && $t(lang)) || (label && $t(label)) || ''
-  let _tips = (lang && $t(lang + '_tip')) || (tips && $t(tips)) || ''
+  let _label = (label && $t(label)) || (lang && $t(lang)) || ''
+  let _tips = (tips && $t(tips)) || (lang && $t(lang + '_tip')) || ''
 
   return (
     <Item
