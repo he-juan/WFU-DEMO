@@ -324,7 +324,7 @@ export default {
   acct_108_tip: 'If set to "Yes", the "Refer-To" header uses the transferred target\'s Contact header information for attended transfer. The default setting is "No".',
 
   acct_109: 'Auto-answer',
-  acct_109_tip: 'If set to "Yes", the device will automatically answer incoming calls after a short reminding beep. If set to "Enable Intercom/Paging", it will answer the call based on the SIP info header sent from the server/proxy. The default setting is "No".',
+  acct_109_tip: 'If set to "Yes", the device will automatically answer incoming calls after a short reminding beep. The default setting is "No".',
 
   acct_110: 'Send Anonymous',
   acct_110_tip: 'If set to "Yes", the "From" header in outgoing INVITE messages will be set to anonymous, essentially blocking the Caller ID to be displayed.',
