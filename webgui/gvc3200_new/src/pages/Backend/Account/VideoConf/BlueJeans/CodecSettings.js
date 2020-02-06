@@ -379,7 +379,7 @@ class CodecSettings extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(96, 1000)
+              this.range(0, 1000)
             ]
           }}
         />
