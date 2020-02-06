@@ -64,7 +64,8 @@ class CodecSettings extends FormCommon {
       { key: '9', title: 'G.722' },
       { key: '104', title: 'G.722.1' },
       { key: '0', title: 'PCMU' },
-      { key: '8', title: 'PCMA' }
+      { key: '8', title: 'PCMA' },
+      { key: '123', title: 'Opus' }
     ]
   }
 
@@ -72,9 +73,9 @@ class CodecSettings extends FormCommon {
     const { setFieldsValue } = this.props.form
 
     this.initFormValue(this.options).then(data => {
-      const { P551, P552, P553, P554, ...others } = data
+      const { P551, P552, P553, P554, P555, ...others } = data
 
-      this.initVocodersTran([P551, P552, P553, P554])
+      this.initVocodersTran([P551, P552, P553, P554, P555])
       this.setVbrateOptions(data.P2307)
       this.setPreVbrateOptions(data.P2376)
       setFieldsValue(others)
@@ -105,7 +106,7 @@ class CodecSettings extends FormCommon {
 
   parseVocoderValues = (targets) => {
     let result = {}
-    const pAry = ['P551', 'P552', 'P553', 'P554']
+    const pAry = ['P551', 'P552', 'P553', 'P554', 'P555']
     pAry.forEach((p, i) => {
       result[p] = targets[i] ? targets[i] : ''
     })
