@@ -3,7 +3,7 @@ import { Form, Input, Button } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { CheckboxItem, InputItem, PwInputItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @Form.create()
 class GeneralSettings extends FormCommon {
@@ -45,7 +45,7 @@ class GeneralSettings extends FormCommon {
               this.range(1024, 65400),
               {
                 validator: (rule, value, callback) => {
-                  callback(parseInt(value) % 2 !== 0 || value === '' ? $t('m_087') : undefined)
+                  callback(parseInt(value) % 2 !== 0 || value === '' ? $fm('m_087') : undefined)
                 }
               }
             ]
