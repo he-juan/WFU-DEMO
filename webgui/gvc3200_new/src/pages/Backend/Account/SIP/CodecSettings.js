@@ -461,7 +461,16 @@ class CodecSettings extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(96, 126)
+              this.range(96, 126),
+              {
+                validator: (data, value, callback) => {
+                  if (value === '98' || value === '99') {
+                    callback($fm('m_082'))
+                  } else {
+                    callback()
+                  }
+                }
+              }
             ]
           }}
         />
