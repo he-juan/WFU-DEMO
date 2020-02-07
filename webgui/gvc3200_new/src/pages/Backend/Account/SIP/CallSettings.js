@@ -325,7 +325,7 @@ class CallSettings extends FormCommon {
           {...options['P2325']}
           gfd={gfd}
           selectOptions={[
-            { v: '0', t: $t('c_098') },
+            { v: '0', t: $t('c_066') },
             { v: '1', t: 'BroadSoft' }
           ]}
         />
