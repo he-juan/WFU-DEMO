@@ -339,7 +339,7 @@ export default {
   acct_112_tip: 'Configures Call Log setting on the device. The default setting is "Log All".',
 
   acct_113: 'Special Feature',
-  acct_113_tip: 'Different soft switch vendors have special requirements. Therefore users may need select special features to meet these requirements. Users can choose from Standard, CBCOM, RNK, China Mobile, ZTE IMS, Mobotix, ZTE NGN, or Huawei IMS depending on the server type. The default setting is "Standard".',
+  acct_113_tip: 'Different soft switch vendors have special requirements. Therefore users may need select special features to meet these requirements. The default setting is "Standard".',
 
   acct_114: 'Feature Key Synchronization',
   acct_114_tip: 'This feature is used for Broadsoft call feature synchronization. When it\'s set to Broadsoft, DND and Call Forward features can be synchronized with Broadsoft server. The default setting is "Disable".',
