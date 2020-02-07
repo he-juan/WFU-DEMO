@@ -134,7 +134,7 @@ export default {
 
   sys_sec_015: 'CA Certificate',
   sys_sec_016: 'Import Trusted CA certificates',
-  sys_sec_016_tip: 'Click the "Upload" to upload certificate file from PC. The certificate file should be ".pem", ".crt" , ".cer", ".csr" or ".der" format. The Browse button will turn to "Processing" and back to "Browse" once the upload finished.',
+  sys_sec_016_tip: 'Click the "Upload" to upload certificate file from PC. The certificate file should be ".pem", ".crt" , ".cer", ".csr" or ".der" format.',
   sys_sec_017: 'Trusted CA Certificates',
   sys_sec_018: 'Custom Certificate',
   sys_sec_019: 'Import Custom Certificate',
