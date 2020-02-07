@@ -640,7 +640,17 @@ class ConfSetModal extends FormCommon {
     // confname SIP账号名称发起的会议
     return (
       <>
-        <Modal visible={!!visible} onCancel={() => this.onModalCancel(onCancel)} onOk={this.handleOk} width={800} wrapClassName='conf-setmodal' title={title} cancelText={$t('b_005')} okText={$t('b_002')}>
+        <Modal
+          visible={!!visible}
+          footer={ allDisabled ? null : <div>
+            <Button onClick={() => this.onModalCancel(onCancel)}>{$t('b_005')}</Button>
+            <Button type='primary' onClick={this.handleOk}>{$t('b_002')}</Button>
+          </div> }
+          width={800}
+          wrapClassName='conf-setmodal'
+          title={title}
+          onCancel={() => this.onModalCancel(onCancel)}
+        >
           <Form hideRequiredMark style={{ minHeight: 400 }}>
             {
               allDisabled && <FormItem label={$t('c_280')}>{stateObj[currConf['confstate']]}</FormItem>
