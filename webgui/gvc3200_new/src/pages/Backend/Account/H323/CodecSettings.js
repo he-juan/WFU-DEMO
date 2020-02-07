@@ -137,6 +137,7 @@ class CodecSettings extends FormCommon {
       <Form>
         <SelectItem
           {...options['P25049']}
+          tips='acct_058_tip_2'
           gfd={gfd}
           selectOptions={[
             { v: '0', t: 'In audio' },
