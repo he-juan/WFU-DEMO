@@ -24,7 +24,7 @@ const SelectItem = (props) => {
           <Select disabled={!!disabled} onChange={onChange} getPopupContainer={(triggerNode) => { return triggerNode }}>
             {
               selectOptions.map(item => (
-                <Option value={item.v} key={item.v}>{item.t}</Option>
+                <Option value={item.v} key={item.v} title={item.t}>{item.t}</Option>
               ))
             }
           </Select>
