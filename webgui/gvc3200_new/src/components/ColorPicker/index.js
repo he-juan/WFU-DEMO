@@ -8,7 +8,7 @@ const ColorPicker = (props, ref) => {
   const [pickerVisible, setPickerVisible] = useState(false)
   useEffect(() => {
     function clickEvent (e) {
-      if (e.path.indexOf(document.getElementsByClassName('color-picker')[0]) > -1) {
+      if (e.path && e.path.indexOf(document.getElementsByClassName('color-picker')[0]) > -1) {
         return false
       }
       if (!pickerVisible) return false

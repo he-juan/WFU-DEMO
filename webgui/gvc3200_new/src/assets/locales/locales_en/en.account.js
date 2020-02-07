@@ -459,6 +459,12 @@ export default {
   acct_152_tip: 'Specifies the frequency (in minutes) in which the device refreshes its registration with the specified registrar. The default value is 60 minutes (1 hour). The maximum value is 1440 minutes (1 day). The minimum value is 1 minute.',
 
   acct_153: 'Voice Mail Access Number',
-  acct_153_tip: 'This ID is usually the VM portal access number. For example, in Asterisk server, 8500 could be used.'
+  acct_153_tip: 'This ID is usually the VM portal access number. For example, in Asterisk server, 8500 could be used.',
+
+  acct_154: 'H.264 Image Size',
+  acct_154_tip: 'Selects the image size. The default setting is "1080p".',
+
+  acct_155: 'Video Bit Rate',
+  acct_155_tip: 'Configures the bite rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss. The default setting depends on H.264 Image Size:<br />H.264 Image Size = 1080p, Video Bit Rate can be set to integer value from 1Mbps to 4Mbps. <br />H.264 Image Size = 720p, Video Bit Rate can be set to integer value from 512kbps to 2Mbps. <br />H.264 Image Size = 4SIF/4CIF/VGA, Video Bit Rate can be set to integer value from 384kbps to 1Mbps.'
 
 }
