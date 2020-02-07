@@ -519,7 +519,7 @@ export default {
                 // H.264 Profile 类型
                 { lang: 'acct_091', p: 'P2562' },
                 // 使用H.264 Constrained Profiles
-                { lang: 'acct_092', p: 'P26245', denyModel: 'GVC3220' },
+                { lang: 'acct_092', p: 'P26245' },
 
                 // 启用演示
                 { lang: 'acct_094', p: 'P26201' },
