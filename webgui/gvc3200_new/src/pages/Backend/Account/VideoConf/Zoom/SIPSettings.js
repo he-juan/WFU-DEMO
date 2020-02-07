@@ -18,7 +18,7 @@ class SIPSettings extends FormCommon {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       data.P2830 = data.P2830 || '0'
-      data.Psessionexp_5 = data.Psessionexp_5 || data.P1834
+      data.Psessionexp_5 = parseInt(data.Psessionexp_5) || parseInt(data.P1834) || '90'
       setFieldsValue(data)
     })
   }
