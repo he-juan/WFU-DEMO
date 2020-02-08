@@ -59,8 +59,8 @@ class RecordingConifg extends FormCommon {
       let isExist = pathList.find(item => item === curPath)
       !isExist && (curPath = pathList[0])
 
-      pathList.forEach(item => {
-        children.push(<Select.Option value={item} key={item}>{item}</Select.Option>)
+      pathList.forEach((item, index) => {
+        children.push(<Select.Option value={item} key={item}>{$t('c_030') + (index + 1)}</Select.Option>)
       })
       tempPath && (curPath = tempPath)
       return (
