@@ -115,7 +115,7 @@ export default {
   acct_037_tip: 'Controls whether the P-Preferred-Identity Header will present in the SIP INVITE message or not.  When set to "Default", the P-Preferred-Identity header is not used by default in Huawei IMS. If set to "Yes", the P-Preferred-Identity Header will always show in INVITE. If set to "No", the header will not show in INVITE. The default setting is "Default".',
 
   acct_038: 'Use Mac Header',
-  acct_038_tip: 'Configures whether to use MAC header. If set to "No", all SIP REGISTER messages will not contain MAC header; If set to "Only for REGISTER", MAC header will only be included in SIP REGISTER and UNREGISTER messages; If set to "Yes to All SIP", all outgoing SIP REGISTER messages will contain MAC header.',
+  acct_038_tip: 'Configures whether to use MAC header. If set to "No", all SIP messages will not contain MAC header; If set to "Only for REGISTER", MAC header will only be included in SIP REGISTER and UNREGISTER messages; If set to "Yes to All SIP", all outgoing SIP REGISTER messages will contain MAC header.',
 
   acct_039: 'SIP Transport',
   acct_039_tip: 'Determines the network protocol used for the SIP transport. For IPVideoTalk, users can choose from TCP/TLS. For other accounts, users can choose from TCP/UDP/TLS.',
