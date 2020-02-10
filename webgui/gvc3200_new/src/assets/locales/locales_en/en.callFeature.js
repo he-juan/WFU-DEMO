@@ -48,7 +48,7 @@ export default {
   call_015_tip: 'Enables Direct IP Call. The default setting is "Yes".',
 
   call_016: 'Site Name',
-  call_016_tip: 'Specifies the site name to be imposed on the video of local video. When joining a multipoint conference, this site name is displayed in other participants\'video.<br />The default value is null.<br />Do not use any special characters in this site name, such as a colon (:), comma (,), hyphen (-), or underline (_).',
+  call_016_tip: 'Specifies the site name to be imposed on the video of local video. When joining a multipoint conference, this site name is displayed in other participants\'video.<br />The default value is null.',
 
   call_017: 'Background Transparency',
   call_017_tip: 'Specifies thebackground transparency for the site name display. The default value is Opaque.',
