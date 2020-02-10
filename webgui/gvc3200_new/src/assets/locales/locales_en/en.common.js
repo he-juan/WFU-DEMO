@@ -714,7 +714,7 @@ const commons = {
   c_292: 'Conference password',
   c_293: ' ',
   c_294: '0-10 digits',
-  c_295: ' ',
+  c_295: 'Conference members do not need a conference password',
   c_296: 'Member',
   c_297: 'No limit',
   c_298: 'Only for REGISTER',
