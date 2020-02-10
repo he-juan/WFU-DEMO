@@ -3,7 +3,7 @@ import FormCommon from '@/components/FormCommon'
 import FormItem, { CheckboxItem, InputItem, PwInputItem } from '@/components/FormItem'
 import { Form, Input, Button } from 'antd'
 import { getOptions } from '@/template'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @Form.create()
 class TR069 extends FormCommon {
@@ -20,6 +20,20 @@ class TR069 extends FormCommon {
     })
   }
 
+  // 开启改变
+  handleEnableChange = (e) => {
+    const { getFieldValue, setFields } = this.props.form
+    const P4503 = getFieldValue('P4503')
+    if (!e.target.checked && !P4503) {
+      setFields({
+        P4503: {
+          value: '',
+          errors: ''
+        }
+      })
+    }
+  }
+
   handleSubmit = () => {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
@@ -30,15 +44,17 @@ class TR069 extends FormCommon {
   }
 
   render () {
-    const { getFieldDecorator: gfd } = this.props.form
+    const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const options = this.options
+    const P1409 = getFieldValue('P1409')
 
     return (
-      <Form>
+      <Form hideRequiredMark>
         {/* 打开TR069 */}
         <CheckboxItem
           gfd={gfd}
           {...options['P1409']}
+          onChange={this.handleEnableChange}
         />
         {/* ACS源 */}
         <InputItem
@@ -46,6 +62,7 @@ class TR069 extends FormCommon {
           {...options['P4503']}
           gfdOptions={{
             rules: [
+              { required: P1409 === 1, message: $fm('m_003') },
               this.checkaddressPath()
             ]
           }}
