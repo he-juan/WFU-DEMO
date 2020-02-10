@@ -76,7 +76,8 @@ class TR069 extends FormCommon {
           {...options['P4507']}
           gfdOptions={{
             rules: [
-              this.digits()
+              this.digits(),
+              this.range(1, 4294967295)
             ]
           }}
         />
