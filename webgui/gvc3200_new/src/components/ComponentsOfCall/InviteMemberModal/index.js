@@ -385,7 +385,7 @@ class InviteMemberModal extends Component {
               addKeys={[13]}
               onlyUnique={true}
               // addOnBlur={true}
-              inputProps={{ placeholder: '多个号码可以"Enter"分隔.', maxLength: '23', style: { width: tagsInputValue.length * 10 } }}
+              inputProps={{ placeholder: $t('c_350'), maxLength: '23', style: { width: tagsInputValue.length * 10 } }}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
               renderTag={this.renderTag}

@@ -768,6 +768,7 @@ const commons = {
   c_347: 'peoples', // 复数
   c_348: 'Video name',
   c_349: 'Audio name',
+  c_350: 'Multiple numbers can be separated with "Enter".',
 
   c_999: ''
 }
