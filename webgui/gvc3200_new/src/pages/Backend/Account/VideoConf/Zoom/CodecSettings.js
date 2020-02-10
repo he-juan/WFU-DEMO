@@ -522,7 +522,7 @@ class CodecSettings extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(96, 127)
+              this.range(96, 126)
             ]
           }}
         />
@@ -538,7 +538,7 @@ class CodecSettings extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(96, 127)
+              this.range(96, 126)
             ]
           }}
         />
@@ -622,7 +622,7 @@ class CodecSettings extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(96, 127)
+              this.range(96, 126)
             ]
           }}
         />
