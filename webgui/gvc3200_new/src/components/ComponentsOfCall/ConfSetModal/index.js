@@ -749,7 +749,11 @@ class ConfSetModal extends FormCommon {
             </FormItem>
             <FormItem label={intervalStr[gfv('customRepeat')]} hide={+gfv('repeat') !== 4}>
               {gfd('interval', {
-                initialValue: currConf['interval']
+                initialValue: currConf['interval'],
+                rules: [
+                  this.digits(),
+                  this.range(1, 99)
+                ]
               })(
                 <Input disabled={allDisabled} style={{ width: '40%' }} />
               )}
