@@ -118,7 +118,7 @@ class Firmware extends FormCommon {
   validateUrl = () => {
     return {
       validator: (data, value, callback) => {
-        if (value && /^\d*$/.test(value)) {
+        if (value && /^\d+$/.test(value)) {
           callback($fm('m_072'))
         } else {
           callback()

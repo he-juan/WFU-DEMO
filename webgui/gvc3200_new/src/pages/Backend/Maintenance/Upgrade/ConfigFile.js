@@ -141,6 +141,19 @@ class ConfigFile extends FormCommon {
     }
   }
 
+  // 验证估计服务器网址非数字
+  validateUrl = () => {
+    return {
+      validator: (data, value, callback) => {
+        if (value && /^\d+$/.test(value)) {
+          callback($fm('m_072'))
+        } else {
+          callback()
+        }
+      }
+    }
+  }
+
   render () {
     const self = this
     const { getFieldDecorator: gfd } = this.props.form
@@ -199,7 +212,7 @@ class ConfigFile extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(256),
-              this.checkSpeChar('m_214')
+              this.validateUrl()
             ]
           }}
         />
@@ -302,7 +315,7 @@ class ConfigFile extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(256),
-              this.checkSpeChar('m_214')
+              this.validateUrl()
             ]
           }}
         />
