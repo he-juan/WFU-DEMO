@@ -128,11 +128,11 @@ class ConfigFile extends FormCommon {
     }
   }
 
-  // 匹配空格
+  // 匹配空格，只校验收尾空格
   checkSpace () {
     return {
       validator: (data, value, callback) => {
-        if (value && /\s+/.test(value)) {
+        if (value && /^\s+|\s+$/.test(value)) {
           callback($fm('m_166'))
         } else {
           callback()
