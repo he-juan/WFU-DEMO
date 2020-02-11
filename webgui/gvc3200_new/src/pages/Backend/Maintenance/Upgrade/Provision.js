@@ -215,14 +215,14 @@ class Provision extends FormCommon {
     validateFields((err, values) => {
       if (!err) {
         if (+values['P22296'] > 0) {
-          // 满足条件时不能为空
+          // 满足条件时不能为空 P22296 1 按分钟 2 每天检查，这个地方的判断条件改的次数太多了，有点怪异
           let condition1 = (values['P22296'] === '2' || values['P22296'] === '3') && !values['P285']
-          let condition2 = values['P22296'] === '1' && !isNaN(values['P193']) && values['P193'] / 1440 > 1 && !values['P285']
+          let condition2 = values['P22296'] === '1' && values['P8458'] === 1 && !isNaN(values['P193']) && values['P193'] / 1440 > 1 && !values['P285']
           if (condition1 || condition2) {
             return setFields({
               P285: {
                 value: '',
-                errors: [new Error($t('m_135'))]
+                errors: [new Error($t('m_135'))] // 开始时间不能为空
               }
             })
           }
