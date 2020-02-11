@@ -14,7 +14,7 @@ export default {
   mai_up_004_tip: 'Defines the server path for the firmware server. It could be different from the configuration server for provisioning. Note: Please make sure all files relevant to the firmware are updated completely.',
 
   mai_up_005: 'HTTP/HTTPS Username',
-  mai_up_005_tip: 'The user name for the firmware HTTP/HTTPS server.',
+  mai_up_005_tip: 'The username for the firmware HTTP/HTTPS server.',
 
   mai_up_006: 'HTTP/HTTPS Password',
   mai_up_006_tip: 'The password for the firmware HTTP/HTTPS server.',
@@ -35,7 +35,7 @@ export default {
   mai_up_011_tip: 'Defines the server path for provisioning. It could be different from the Firmware Server Path.',
 
   mai_up_012: 'Config HTTP/HTTPS Username',
-  mai_up_012_tip: 'The user name for the config HTTP/HTTPS server.',
+  mai_up_012_tip: 'The username for the config HTTP/HTTPS server.',
 
   mai_up_013: 'Config HTTP/HTTPS Password',
   mai_up_013_tip: 'The password for the config HTTP/HTTPS server.',
@@ -68,7 +68,7 @@ export default {
   mai_up_022_tip: 'Defines the server path for the customization file server.',
 
   mai_up_023: 'Gui Customization File HTTP/HTTPS Username',
-  mai_up_023_tip: 'The user name for the customization file HTTP/HTTPS server.',
+  mai_up_023_tip: 'The username for the customization file HTTP/HTTPS server.',
 
   mai_up_024: 'GUI Customization File HTTP/HTTPS Password',
   mai_up_024_tip: 'The password for the customization file HTTP/HTTPS server.',
@@ -77,19 +77,19 @@ export default {
   mai_up_025_tip: 'Retrieve and download cust file with the configurations of config file.',
 
   mai_up_026: 'Automatic Upgrade',
-  mai_up_026_tip: 'Enable automatic HTTP upgrade and provisioning. The default setting is "Check Every Day".',
+  mai_up_026_tip: 'Enable automatic HTTP upgrade and provisioning. The default setting is "No".',
 
-  mai_up_027: 'Automatic Upgrade Check Interval Min',
+  mai_up_027: 'Automatic Upgrade Check Interval(Min)',
   mai_up_027_tip: 'Specifies the time period to check for firmware upgrade (in minutes). The default setting is 10080 minutes (7 days).',
 
-  mai_up_028: 'Automatic Upgrade Hour 0 23',
+  mai_up_028: 'Automatic Upgrade Hour(0-23)',
   mai_up_028_tip: 'Set the time or time period of automatic upgrade, and automatically update during the set time or time period.',
 
   mai_up_029: 'Day Of The Week',
   mai_up_029_tip: 'Defines the day of the week to check the HTTP/TFTP server for firmware upgrades or configuration files changes.',
 
   mai_up_030: 'Firmware Upgrade And Configuration File Detection',
-  mai_up_030_tip: 'Defines the rules for automatic upgrade and configuration file: Always Check at bootup, when Firmware prefix/suffix changes, Skip the Firmware Check.',
+  mai_up_030_tip: 'Defines the rules for automatic upgrade and configuration file: Always Check at bootup, when prefix/suffix changes, Skip the Firmware Check.',
 
   mai_up_031: 'Upgrade With Prompt',
   mai_up_031_tip: 'If set to "No", the device will automatically start upgrading after downloading the firmware files. Otherwise, users would need to confirm in the prompted message before upgrading process is started. The default value is "Yes".',
@@ -98,16 +98,16 @@ export default {
   mai_up_032_tip: 'Device will download the configuration files and provision by the order you set.',
 
   mai_up_033: 'Enable Randomized Automatic Upgrade',
-  mai_up_033_tip: 'Setting whether to upgrade automatically at random. It means whether the phone will upgrade automatically at random time point in the setting period. This option is mainly used for multiple phones upgrade at the same time.',
+  mai_up_033_tip: 'Setting whether to upgrade automatically at random. It means whether the device will upgrade automatically at random time point in the setting period. This option is mainly used for multiple devices upgrade at the same time.',
 
   mai_up_034: 'Enable SIP NOTIFY Authentication',
   mai_up_034_tip: 'Device will not challenge NOTIFY with 401 when set to "No".',
 
   mai_up_035: 'Validate Server Certificate',
-  mai_up_035_tip: 'Configures whether to validate the server certificate when download the firmware/config file. If set to "Yes", the phone will download the firmware/config file only from the legitimate server. The default setting is "No".',
+  mai_up_035_tip: 'Configures whether to validate the server certificate when download the firmware/config file. If set to "Yes", the device will download the firmware/config file only from the legitimate server. The default setting is "No".',
 
   mai_up_036: 'mDNS Override Server',
-  mai_up_036_tip: 'If DHCP option 43 or DHCP option 66 is turned ON in the LAN, the TFTP server setting can be overridden. The default setting is "Yes".',
+  mai_up_036_tip: 'If set to "Use Type A", the device will send type A mDNS request to the server, then request to download config file once connected successfully. If set to "Use Type SRV", the device will send type SRV mDNS request to the server, then request to download config file once connected successfully. If set to "Disable", the device will not send request. The default setting is "Use Type A".',
 
   mai_up_037: 'Allow DHCP Option 43, 160 And 66 To Override Server',
   mai_up_037_tip: 'If DHCP option 43, 160 and 66 is turned ON in the LAN, the device will reset the configuration CPE, upgrade, network vlan Tag, and Priority according to option 43 sent by the server. At the same time, the update mode and server path of the configuration upgrade module will be reset according to the option 160 and 66 sent by the server. The default setting is "on".',
@@ -122,7 +122,7 @@ export default {
   mai_up_040_tip: 'If set to "Yes", the device will send SUBSCRIBE packets to the multicast IP address to request 3CX server\'s provisioning. 3CX server should be properly set up in the LAN network before using this feature.',
 
   mai_up_041: 'Factory Reset',
-  mai_up_041_tip: 'If set to "Yes", the device will send SUBSCRIBE packets to the multicast IP address to request 3CX server\'s provisioning. 3CX server should be properly set up in the LAN network before using this feature.',
+  mai_up_041_tip: 'Restore to factory default settings.',
 
   /* Troubleshooting */
   mai_tr_001: 'Syslog Protocol',

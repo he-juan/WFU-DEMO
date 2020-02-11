@@ -110,7 +110,7 @@ export default {
             // 启动DHCP选项43、160和66服务器设置
             { lang: 'mai_up_037', p: 'P145', reboot: 1 },
             // 额外的DHCP选项设置
-            { lang: 'mai_up_038', p: 'P8337', reboot: 1 },
+            { lang: 'mai_up_038', p: 'P8337', reboot: 1, denyModel: 'GVC3220' }, // BUGFREE 3654 隐藏该配置
             // 启动DHCP选项120服务器设置
             { lang: 'mai_up_039', p: 'P1411', reboot: 1 },
             // 3CX自动设定
