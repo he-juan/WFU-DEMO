@@ -209,7 +209,7 @@ class ConfigFile extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(512),
-              this.checkSpeChar('m_215')
+              {/* this.checkSpeChar('m_215') */}
             ]
           }}
           {...options['P1360']}
@@ -313,7 +313,7 @@ class ConfigFile extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(32),
-              this.checkSpeChar('m_215')
+              {/* this.checkSpeChar('m_215') */}
             ]
           }}
         />
