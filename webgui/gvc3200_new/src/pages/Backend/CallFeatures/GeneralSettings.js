@@ -107,7 +107,7 @@ class GeneralSettings extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(32),
-              this.checkIPAddress()
+              this.checkaddressPath()
             ]
           }}
         />

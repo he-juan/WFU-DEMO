@@ -77,16 +77,31 @@ class GeneralSettings extends FormCommon {
         <InputItem
           gfd={gfd}
           {...options['P47']}
+          gfdOptions={{
+            rules: [
+              this.checkaddressPath()
+            ]
+          }}
         />
         {/* 备用SIP服务器 */}
         <InputItem
           gfd={gfd}
           {...options['P602']}
+          gfdOptions={{
+            rules: [
+              this.checkaddressPath()
+            ]
+          }}
         />
         {/* 第三SIP服务器 */}
         <InputItem
           gfd={gfd}
           {...options['P1702']}
+          gfdOptions={{
+            rules: [
+              this.checkaddressPath()
+            ]
+          }}
         />
         {/* SIP用户ID */}
         <InputItem
