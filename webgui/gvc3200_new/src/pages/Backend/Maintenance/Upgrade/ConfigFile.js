@@ -27,12 +27,12 @@ class ConfigFile extends FormCommon {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       // 处理 isShouldHide
-      const { P237 } = data
+      const { P237, P212 } = data
       CONFPATH = P237 // 存起来 以后用
       this.setState({
-        isShouldHide: P237 === GAPSPATH
+        isShouldHide: P237 === GAPSPATH && P212 === '2'
       })
-      data['usegsgap'] = P237 === GAPSPATH ? '1' : '0'
+      data['usegsgap'] = P237 === GAPSPATH && P212 === '2' ? '1' : '0'
       setFieldsValue(data)
     })
   }
