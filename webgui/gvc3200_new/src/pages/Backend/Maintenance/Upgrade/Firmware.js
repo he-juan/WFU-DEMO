@@ -220,6 +220,11 @@ class Firmware extends FormCommon {
         <PwInputItem
           gfd={gfd}
           {...options['P6769']}
+          gfdOptions={{
+            rules: [
+              this.maxLen(512)
+            ]
+          }}
         />
         {/* 固件文件前缀 */}
         <InputItem
