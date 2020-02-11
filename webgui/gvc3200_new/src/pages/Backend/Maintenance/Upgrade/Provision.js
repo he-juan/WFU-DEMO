@@ -158,7 +158,7 @@ class Provision extends FormCommon {
         isHideDayofweek: true
       }
       if (bool) {
-        if (values['P285'] === '' || values['P8459'] === '') {
+        if (values['P22296'] === '1' && (values['P8458'] !== 1 || parseInt(values['P193']) < 1440)) {
           this.props.form.setFieldsValue({
             P285: '',
             P8459: ''
