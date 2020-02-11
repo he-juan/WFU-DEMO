@@ -157,6 +157,12 @@ class CodecSettings extends FormCommon {
     })
   }
 
+  // 判断数组是否有重复
+  isDup (ary) {
+    let _ary = ary.filter(i => i)
+    return [...new Set(_ary)].length < _ary.length
+  }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFieldsAndScroll } = this.props.form
@@ -164,6 +170,14 @@ class CodecSettings extends FormCommon {
       if (!err) {
         let vocoderValues = this.parseVocoderValues(this.state.targetVocoders)
         values = Object.assign({}, values, vocoderValues)
+        // console.log(values)
+        // 各荷载类型不能相同
+        const { P2574, P26274, P26275, P562, P2594, P596 } = values
+
+        if (this.isDup([P2574, P26274, P26275, P562, P2594, P596])) {
+          message.error($t('m_083'))
+          return false
+        }
         this.submitFormValue(values, 1)
       }
     })
