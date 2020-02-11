@@ -326,6 +326,7 @@ class CallHistoryList extends Component {
           transitionName=''
           maskTransitionName=''
           title={$t('c_317') /* 选择联系人 */}
+          footer={null}
         >
           <ContactsSelectList onListClick={(contacts) => this.handleEditContacts(contacts)} />
         </Modal>
