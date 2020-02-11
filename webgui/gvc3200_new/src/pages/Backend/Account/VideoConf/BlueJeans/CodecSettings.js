@@ -57,7 +57,7 @@ class CodecSettings extends FormCommon {
     // 演示视频大小对应的演示帧率
     this.preSizeToPreFPS = {
       '10': ['5', '10', '15'],
-      '9': ['5', '10', '15', '30']
+      '9': ['5', '10', '15', '25', '30']
     }
     // 语音编码 可选项
     this.vocoderSource = [
