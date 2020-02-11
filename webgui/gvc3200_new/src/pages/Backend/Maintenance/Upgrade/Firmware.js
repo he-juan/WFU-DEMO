@@ -11,7 +11,7 @@ import { setWholeLoading } from '@/store/actions'
 import { history } from '@/App'
 import { connect } from 'react-redux'
 import API from '@/api'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 function errorMsg (r) {
   const uploadErrMsgMap = {
@@ -114,6 +114,19 @@ class Firmware extends FormCommon {
     }
   }
 
+  // 验证估计服务器网址非数字
+  validateUrl = () => {
+    return {
+      validator: (data, value, callback) => {
+        if (value && /^\d*$/.test(value)) {
+          callback($fm('m_072'))
+        } else {
+          callback()
+        }
+      }
+    }
+  }
+
   handleUploadComplete = (m, upgradeall) => {
     let result = m.result
     if (upgradeall && m.Response !== 'Success') {
@@ -188,7 +201,8 @@ class Firmware extends FormCommon {
           {...options['P192']}
           gfdOptions={{
             rules: [
-              this.maxLen(256)
+              this.maxLen(256),
+              this.validateUrl()
             ]
           }}
         />
