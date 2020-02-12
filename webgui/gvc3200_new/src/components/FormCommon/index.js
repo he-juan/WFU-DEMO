@@ -15,6 +15,13 @@ const specialRebootOptions = [
   'importcfg', // 升级-配置升级-上传设备配置
   'safemode' // 升级-高级设置-安全模式
 ]
+// 定义一些默认值可能为空但实际意义为0的p值 使用对象的结构是防止默认值不是0 而是其他值
+const nullPVal = {
+  'P1407': '0',
+  'P145': '0',
+  'P1411': '0',
+  'P1414': '0'
+}
 
 class FormCommon extends Component {
   // 储存初始化的表单数据
@@ -40,7 +47,7 @@ class FormCommon extends Component {
       // 保存 重启配置初始值
       for (const key in options) {
         if (options[key].reboot && !options[key].deny && !specialRebootOptions.includes(key)) {
-          this.RebootOptions[key] = data[key]
+          this.RebootOptions[key] = nullPVal.hasOwnProperty(key) && data[key] === '' ? nullPVal[key] : data[key]
         }
       }
       return Promise.resolve(data)
