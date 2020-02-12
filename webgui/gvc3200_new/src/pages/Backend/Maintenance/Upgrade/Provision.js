@@ -131,10 +131,11 @@ class Provision extends FormCommon {
       })
 
       this.handleChangeAutoup(data['P22296'], false) // 处理 隐藏区域
-      if (data['P22296'] === '3' && (data['P285'] === '' || data['P8459'] === '')) {
-        data['P285'] = ''
-        data['P8459'] = ''
-      }
+      // 为啥要进行这样的处理，暂废弃
+      // if (data['P22296'] === '3' && (data['P285'] === '' || data['P8459'] === '')) {
+      //   data['P285'] = ''
+      //   data['P8459'] = ''
+      // }
       setFieldsValue(data)
     })
   }
@@ -240,10 +241,13 @@ class Provision extends FormCommon {
             if ((!values['P8459'] && values['P285']) || (values['P8459'] && !values['P285'])) {
               return message.error($t('m_133')) // 开始时间与结束时间不能为空.
             }
+            if (values['P8459'] && (parseInt(values['P285']) > parseInt(values['P8459']))) {
+              return message.error($t('m_132')) // 自动升级开始时间不能超过结束时间
+            }
           }
-
-          if (values['P8459'] && (parseInt(values['P285']) > parseInt(values['P8459']))) {
-            return message.error($t('m_132')) // 自动升级开始时间不能超过结束时间
+          // 按周的情况下 需要判断周几
+          if (values['P22296'] === '3' && values['P286'].length === 0) {
+            return message.error($t('m_257')) // 每周的星期几不能为空
           }
         }
         // 判断是否弹窗确认

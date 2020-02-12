@@ -424,6 +424,7 @@ const msgs = {
   m_254: 'Locked video cannot be deleted',
   m_255: 'Locked auido cannot be deleted',
   m_256: 'End time cannot be empty',
+  m_257: 'Day of the week cannot be empty',
 
   m_999: ''
 }
