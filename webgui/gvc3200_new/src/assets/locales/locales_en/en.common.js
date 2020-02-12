@@ -299,7 +299,8 @@ const msgs = {
   m_130: 'Format error.',
   m_131: 'Config provision can not be empty',
   m_132: 'The end time cannot exceed start time of automatic upgrade hour.',
-  m_133: 'Error:The start time and the end time must be empty or not empty at the same time.',
+  m_133: 'The start time and the end time can not be empty.',
+  // m_133: 'Error:The start time and the end time must be empty or not empty at the same time.', old
   m_134: 'The local SIP port is 5060 in your account, save the operation will change the port to the random one, sure to change?',
   m_135: 'Start time cannot be empty',
   m_136: 'Applying, please wait...',
@@ -422,6 +423,7 @@ const msgs = {
   m_253: 'Locked audio cannot be edited',
   m_254: 'Locked video cannot be deleted',
   m_255: 'Locked auido cannot be deleted',
+  m_256: 'End time cannot be empty',
 
   m_999: ''
 }

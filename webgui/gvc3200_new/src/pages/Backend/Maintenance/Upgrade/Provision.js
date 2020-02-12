@@ -214,6 +214,7 @@ class Provision extends FormCommon {
     const { other } = this.state
     validateFields((err, values) => {
       if (!err) {
+        // P22296, P193 分钟间隔 P8458 开启自动升级 P285 开始 P8459 结束
         if (+values['P22296'] > 0) {
           // 满足条件时不能为空 P22296 1 按分钟 2 每天检查，这个地方的判断条件改的次数太多了，有点怪异
           let condition1 = (values['P22296'] === '2' || values['P22296'] === '3') && !values['P285']
@@ -226,13 +227,23 @@ class Provision extends FormCommon {
               }
             })
           }
-          if (values['P8459'] && (parseInt(values['P285']) > parseInt(values['P8459']))) {
-            return message.error($t('m_132'))
-          }
-          if (values['P22296'] === '1') {
-            if ((!values['P8459'] && values['P285']) || (values['P8459'] && !values['P285'])) {
-              return message.error($t('m_133'))
+          // 无论是按分钟还是按天 按周 ，只要开启了自动升级，则开始时间和结束时间都必须填
+          if (+values['P8458'] === 1) {
+            if (values['P285'] && !values['P8459']) {
+              return setFields({
+                P8459: {
+                  value: '',
+                  errors: [new Error($t('m_256'))] // 结束时间不嫩为空
+                }
+              })
             }
+            if ((!values['P8459'] && values['P285']) || (values['P8459'] && !values['P285'])) {
+              return message.error($t('m_133')) // 开始时间与结束时间不能为空.
+            }
+          }
+
+          if (values['P8459'] && (parseInt(values['P285']) > parseInt(values['P8459']))) {
+            return message.error($t('m_132')) // 自动升级开始时间不能超过结束时间
           }
         }
         // 判断是否弹窗确认
