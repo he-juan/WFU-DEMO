@@ -12,11 +12,11 @@ import API from '@/api'
 import { $t, formatMessage } from '@/Intl'
 import './Call.less'
 
-// const isIp = (value) => {
-//   return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$/i.test(value) ||
-//   (/^\[?((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(:((:[0-9a-fA-F]{1,4}){1,6}|:))|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:))|(([0-9a-fA-F]{1,4}:){2}((:[0-9a-fA-F]{1,4}){1,4}|:))|(([0-9a-fA-F]{1,4}:){3}((:[0-9a-fA-F]{1,4}){1,3}|:))|(([0-9a-fA-F]{1,4}:){4}((:[0-9a-fA-F]{1,4}){1,2}|:))|(([0-9a-fA-F]{1,4}:){5}:([0-9a-fA-F]{1,4})?)|(([0-9a-fA-F]{1,4}:){6}:))\]?$/.test(value) &&
-//   ((value.indexOf('[') !== -1 && value.indexOf(']')) !== -1 || (!(value.indexOf('[') !== -1) && !(value.indexOf(']') !== -1))))
-// }
+const isIp = (value) => {
+  return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$/i.test(value) ||
+  (/^\[?((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(:((:[0-9a-fA-F]{1,4}){1,6}|:))|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:))|(([0-9a-fA-F]{1,4}:){2}((:[0-9a-fA-F]{1,4}){1,4}|:))|(([0-9a-fA-F]{1,4}:){3}((:[0-9a-fA-F]{1,4}){1,3}|:))|(([0-9a-fA-F]{1,4}:){4}((:[0-9a-fA-F]{1,4}){1,2}|:))|(([0-9a-fA-F]{1,4}:){5}:([0-9a-fA-F]{1,4})?)|(([0-9a-fA-F]{1,4}:){6}:))\]?$/.test(value) &&
+  ((value.indexOf('[') !== -1 && value.indexOf(']')) !== -1 || (!(value.indexOf('[') !== -1) && !(value.indexOf(']') !== -1))))
+}
 
 @connect(
   state => ({
@@ -218,12 +218,7 @@ class Call extends Component {
   // 呼出接口
   handleDialup = (isvideo) => {
     const { acctStatus } = this.props
-    const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
-    // 账号未注册成功时 禁止拨打并提示错误
-    let selectAcctItem = acctStatus.filter(item => +item.acctIndex === +selectAcct)[0]
-    if (!selectAcctItem || selectAcctItem.register !== 1) {
-      return message.error(formatMessage({ id: 'm_233' }, { acct: selectAcctItem.name }))
-    }
+    const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state    
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
@@ -268,6 +263,13 @@ class Call extends Component {
       return false
     }
 
+
+    // 账号未注册成功时并且存在非IP拨号则禁止拨打并提示错误
+    let selectAcctItem = acctStatus.filter(item => +item.acctIndex === +selectAcct)[0]
+    if ((!selectAcctItem || selectAcctItem.register !== 1) && _memToCall.some(mem => !isIp(mem.num))) {
+      return message.error(formatMessage({ id: 'm_233' }, { acct: selectAcctItem.name })) 
+    }
+    // ipcall 时 是否需要修改帐号类型为sip ?
     API.makeCall(_memToCall.map(item => {
       item.isvideo = isvideo
       return item

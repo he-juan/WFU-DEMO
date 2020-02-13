@@ -417,7 +417,6 @@ class Ethernet extends FormCommon {
           {/* IPv6地址 */}
           <SelectItem
             {...options['P1419']}
-            tips='123'
             gfd={gfd}
             selectOptions={[
               { v: '0', t: $t('c_172') },
