@@ -61,7 +61,7 @@ class GroupMembersModal extends Component {
 
   limitMaxMembers = (mems, flag) => {
     if (mems.length === 0) return mems
-    let _mems = JSON.parse(JSON.stringify(mems)) // 
+    let _mems = JSON.parse(JSON.stringify(mems))
     const { exist: { members, maxLineCount, linesInfo, memToCall } } = this.props
     const count = flag === 'magic' ? maxLineCount : maxLineCount - 1 // 特殊处理后的count判断条件
 
