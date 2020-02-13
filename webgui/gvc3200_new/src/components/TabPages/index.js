@@ -2,7 +2,7 @@
  * 这是一层对tab路由页的封装, 包括了tab组件以及tab级路由过渡代码的逻辑
  */
 import React from 'react'
-import { Tabs } from 'antd'
+import { Tabs } from './Tabs'
 import { withRouter, Switch, Redirect, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { $t } from '@/Intl'
