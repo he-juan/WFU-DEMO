@@ -356,7 +356,7 @@ class ConfSetModal extends FormCommon {
     this.setState({ displayAddModal: bool })
   }
 
-  // 找到 插入的Item 是否在arr中已存在，存在则返回下表，否则返回 -1
+  // 找到 插入的Item 是否在arr中已存在，存在则返回下标index，否则返回 -1
   handleMemberExit (arr, item) {
     if (arr.length === 0) return -1
     let index = -1

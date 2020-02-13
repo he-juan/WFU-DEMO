@@ -7,6 +7,7 @@ import API from '@/api'
 import { deepCopy } from '@/utils/tools'
 import ContactsTab from './ContactsTab'
 import CallLogsTab from './CallLogsTab'
+import GroupMembersModal from './GroupMembersModal'
 import { $t } from '@/Intl'
 import './InviteMemberModalStyle.less'
 
@@ -55,7 +56,9 @@ class InviteMemberModal extends Component {
           num: '.'
         }
       ],
-      activeTab: '1' // 当前tab页码
+      activeTab: '1', // 当前tab页码
+      groupMembersModalvisible: false,
+      groupMembers: [] // 当前打开添加分组成员弹窗的members
     }
   }
 
@@ -68,9 +71,10 @@ class InviteMemberModal extends Component {
   }
 
   // 最大线路限制 IPVT成员合并为一路, 非IPVT成员各自为一路
-  limitMaxMembers = (_memToCall, flag) => {
-    if (_memToCall.length === 0) return _memToCall
+  limitMaxMembers = (memToCall, flag) => {
+    if (memToCall.length === 0) return memToCall
     const { members, maxLineCount, linesInfo } = this.props
+    let _memToCall = deepCopy(memToCall)
 
     let lastMem = _memToCall.pop() // 最后一个是待添加的, 暂移除
     let temp = _memToCall.concat(linesInfo, members) // 并且与已在通话线路中的成员合并(和已添加的成员合并)
@@ -211,14 +215,16 @@ class InviteMemberModal extends Component {
 
     let _memToCall = deepCopy(memToCall)
     if (record.isconf === '1' && record.children) {
-      for (let i = 0; i < record.children.length; i++) {
-        _memToCall = this.pushMemToCall(_memToCall, record.children[i])
-        const realData = this.limitMaxMembers(_memToCall, 'add')
-        if (realData.length < _memToCall.length) {
-          _memToCall = realData
-          break
-        }
-      }
+      this.handleGroupModal(true, record.children) // 打开群组成员添加弹窗
+      // for (let i = 0; i < record.children.length; i++) {
+      //   _memToCall = this.pushMemToCall(_memToCall, record.children[i]) // 先插入
+      //   const realData = this.limitMaxMembers(_memToCall, 'add') // 判断是够超出限制
+      //   // 对比长度，若已添加限制 则跳出循环
+      //   if (realData.length < _memToCall.length) {
+      //     _memToCall = realData
+      //     break
+      //   }
+      // }
     } else {
       _memToCall = this.pushMemToCall(_memToCall, record)
       _memToCall = this.limitMaxMembers(_memToCall, 'add')
@@ -369,9 +375,41 @@ class InviteMemberModal extends Component {
     }
   }
 
+  // 添加群组成员 打开model
+  handleGroupModal = (bool = false, members = []) => {
+    this.setState({
+      groupMembersModalvisible: bool,
+      groupMembers: members
+    })
+  }
+
+  // 添加群组成员 确认添加
+  handleGroupAdd = (records) => {
+    let { memToCall, selectAcct } = this.state
+    if (+selectAcct === 2) return
+
+    let _memToCall = deepCopy(memToCall)
+    for (let i = 0; i < records.length; i++) {
+      _memToCall = this.pushMemToCall(_memToCall, records[i]) // 先插入
+      const realData = this.limitMaxMembers(_memToCall, 'add') // 判断是够超出限制
+      // 对比长度，若已添加限制 则跳出循环
+      if (realData.length < _memToCall.length) {
+        _memToCall = realData
+        break
+      }
+    }
+
+    this.setState({
+      memToCall: _memToCall,
+      tagsInputValue: ''
+    }, () => {
+      this.handleTranslate()
+    })
+  }
+
   render () {
-    const { visible, isJustAddMember, acctStatus, contacts, contactsGroups, callLogs, timezone } = this.props
-    const { memToCall, activeTab, selectAcct, tagsInputValue } = this.state
+    const { visible, isJustAddMember, acctStatus, contacts, contactsGroups, callLogs, timezone, members, maxLineCount, linesInfo } = this.props
+    const { memToCall, activeTab, selectAcct, tagsInputValue, groupMembersModalvisible, groupMembers } = this.state
     if (!acctStatus) return null
 
     // 通话输入域
@@ -442,6 +480,10 @@ class InviteMemberModal extends Component {
           {/* tabcontent */}
           {
             activeTab === '1' ? <ContactsTab contacts={contacts} groups={contactsGroups} onAdd={this.handleAddMemFromList} filterTags={tagsInputValue} /> : <CallLogsTab callLogs={callLogs} timezone={timezone} onAdd={this.handleAddMemFromList} filterTags={tagsInputValue} />
+          }
+          {/* 群组添加时要弹窗 */}
+          {
+            groupMembersModalvisible && <GroupMembersModal exist={{ members, maxLineCount, linesInfo, memToCall }} groupMembers={groupMembers} pushMemToCall={this.pushMemToCall} onAdd={this.handleGroupAdd} onCancel={this.handleGroupModal} />
           }
         </div>
       </Modal>
