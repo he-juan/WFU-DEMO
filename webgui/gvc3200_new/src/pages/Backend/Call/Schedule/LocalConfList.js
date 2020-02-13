@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useCallback } from 'react'
 import { Button, Row, Col, Popconfirm, Popover } from 'antd'
 import { convertTimeInfo } from '@/components/ComponentsOfCall/ConfSetModal/ScheduleTools'
 import { $t } from '@/Intl'
@@ -24,7 +24,15 @@ const LocalConfList = (props) => {
     'IPVideoTalk': 'IPVT'
   }
   const { schedules, handleSetConf, handleStartConf, handleCancelConf, cancelPop } = props
-  const [popVisible, setPopVisible] = useState(false)
+  const [popVisible, setPopVisible] = useState([])
+  const handleVisibleChange = useCallback(
+    (visible, index) => {
+      const arr = []
+      arr[index] = visible
+      setPopVisible(arr)
+    },
+    []
+  )
 
   return (
     <div className='preconflist'>
@@ -60,16 +68,22 @@ const LocalConfList = (props) => {
                     </Fragment> : <Fragment>
                       <Button type='primary' style={{ background: '#4bd66a', borderColor: '#4bd66a' }} onClick={(e) => handleStartConf(e, item)}>{$t('b_051')}</Button>
                       <Button type='primary' onClick={(e) => handleSetConf('edit', e, item)}>{$t('b_052')}</Button>
-                      {/* Recycle 为0 非重复会议 */}
+                      {/* Recycle 为0 非重复会议；取消会议 */}
                       {
                         +item['Recycle'] === 0 ? <Popconfirm placement='top' title={$t('m_125')} okText={$t('b_002')} cancelText={$t('b_005')} onCancel={e => cancelPop(e)} onConfirm={(e) => handleCancelConf(e, item.Id)}>
                           <Button type='default' onClick={(e) => cancelPop(e)}>{$t('b_053')}</Button>
                         </Popconfirm> : <Popover title={$t('c_250')} content={
                           <Fragment>
-                            <p style={{ cursor: 'pointer' }} onClick={(e) => handleCancelConf(e, item.Id, 1, setPopVisible)}>{$t('b_054')}</p>
-                            <p style={{ cursor: 'pointer' }} onClick={(e) => handleCancelConf(e, item.Id, 0, setPopVisible)}>{$t('b_055')}</p>
+                            <p style={{ cursor: 'pointer' }} onClick={(e) => {
+                              handleVisibleChange(false, index)
+                              handleCancelConf(e, item.Id, 1)
+                            }}>{$t('b_054')}</p>
+                            <p style={{ cursor: 'pointer' }} onClick={(e) => {
+                              handleVisibleChange(false, index)
+                              handleCancelConf(e, item.Id, 1)
+                            }}>{$t('b_055')}</p>
                           </Fragment>
-                        } trigger='click' visible={popVisible} onVisibleChange={setPopVisible}>
+                        } trigger='click' visible={popVisible[index]} onVisibleChange={visible => handleVisibleChange(visible, index)}>
                           <Button type='default' onClick={(e) => cancelPop(e)}>{$t('b_053')}</Button>
                         </Popover>
                       }
