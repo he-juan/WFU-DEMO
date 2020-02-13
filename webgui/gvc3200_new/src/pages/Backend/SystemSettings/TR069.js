@@ -15,9 +15,25 @@ class TR069 extends FormCommon {
 
   componentDidMount () {
     const { setFieldsValue } = this.props.form
+    this.options['P40'] = { p: 'P40' } // SIP > SIP > 本地SIP端口
+    this.options['P1813'] = { p: 'P1813' } // 视频会议服务平台 > Zoom > SIP > 本地SIP端口
+
     this.initFormValue(this.options).then((data) => {
       setFieldsValue(data)
     })
+  }
+
+  // 定制验证acs请求端口
+  validatePort = () => {
+    return {
+      validator: (data, value, callback) => {
+        if (!!value && (value === this.INIT_VALUE['P40'] || value === this.INIT_VALUE['P1813'])) {
+          callback($fm('m_258', { s: this.INIT_VALUE['P40'] + ', ' + this.INIT_VALUE['P1813'] })) // s 已经被使用
+        } else {
+          callback()
+        }
+      }
+    }
   }
 
   // 开启改变
@@ -125,7 +141,8 @@ class TR069 extends FormCommon {
           gfdOptions={{
             rules: [
               this.digits(),
-              this.range(0, 65535)
+              this.range(0, 65535),
+              this.validatePort()
             ]
           }}
         />

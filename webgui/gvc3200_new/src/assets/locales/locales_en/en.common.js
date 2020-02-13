@@ -425,6 +425,7 @@ const msgs = {
   m_255: 'Locked auido cannot be deleted',
   m_256: 'End time cannot be empty',
   m_257: 'Day of the week cannot be empty',
+  m_258: '{s} has been used',
 
   m_999: ''
 }
