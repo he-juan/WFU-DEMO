@@ -205,6 +205,7 @@ class CodecSettings extends FormCommon {
         <SelectItem
           {...options['P25072']}
           gfd={gfd}
+          tips='acct_090_tip_2'
           selectOptions={[
             { v: '0', t: '0' },
             { v: '1', t: '1' },
