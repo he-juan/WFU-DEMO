@@ -27,8 +27,10 @@ class TR069 extends FormCommon {
   validatePort = () => {
     return {
       validator: (data, value, callback) => {
-        if (!!value && (value === this.INIT_VALUE['P40'] || value === this.INIT_VALUE['P1813'])) {
-          callback($fm('m_258', { s: this.INIT_VALUE['P40'] + ', ' + this.INIT_VALUE['P1813'] })) // s 已经被使用
+        const ports = [this.INIT_VALUE['P40'], this.INIT_VALUE['P1813']]
+        const index = ports.indexOf(value)
+        if (!!value && index > -1) {
+          callback($fm('m_258', { s: ports[index] })) // s 已经被使用
         } else {
           callback()
         }
