@@ -467,7 +467,8 @@ class InviteMemberModal extends Component {
               {
                 acctStatus
                   .filter(v => {
-                    return v.activate
+                    // bugfree 3684
+                    return v.activate && v.acctIndex !== 2 && v.acctIndex !== 5
                   })
                   .map((v, i) => {
                     return (
