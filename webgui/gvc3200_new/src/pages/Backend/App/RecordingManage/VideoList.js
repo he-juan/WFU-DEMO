@@ -356,7 +356,8 @@ class VideoList extends Component {
 
     const filteredDataList = dataList.filter(item => {
       let name = item.Path.split('/').slice(-1)[0]
-      return name.indexOf(filterKey) > -1
+
+      return new RegExp(filterKey, 'i').test(name)
     })
 
     // -----------处理table start
