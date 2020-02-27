@@ -24811,6 +24811,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
             return -1;
         }
 
+        /*
         if (strcasecmp(file_name, FIFO_PATH) == 0) {
             struct statfs fs;
             int result = statfs(CACHE_PATH, &fs);
@@ -24827,6 +24828,7 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                 return -1;
             }
         }
+        */
 
         boundary_ptr = strstr(con->request.http_content_type, "boundary=");
         if (boundary_ptr != NULL)
