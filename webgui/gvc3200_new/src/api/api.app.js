@@ -73,3 +73,45 @@ export const getAppList = () => {
     url: '/manager?action=getthirdapplist'
   })
 }
+
+/** broadSoft 相关 */
+/**
+ * 不明接口?
+ * 返回里包含了BroadSoft联系人及通话记录更新间隔，隐藏本地通话记录 等配置
+ */
+export const readConfig = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=readconfig'
+  })
+}
+
+/**
+ * 设置BroadSoft联系人及通话记录更新间隔
+ */
+export const setBsInterval = (v) => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=writeconfig&bsinterval=' + v
+  })
+}
+
+/**
+ * noticeBroadsoft ??
+ */
+export const noticeBroadsoft = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=broadsoft'
+  })
+}
+
+/**
+ * 安全告警提交后再调这个接口
+ */
+export const safeMonitorChanged = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=safesettingschanged'
+  })
+}

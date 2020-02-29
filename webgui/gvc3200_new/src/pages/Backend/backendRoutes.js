@@ -45,6 +45,7 @@ const routes = [
   { path: '/manage/app_ldap', component: lazy(() => import(/* webpackChunkName: "app" */ './App/LDAPContacts')) },
   { path: '/manage/app_record', component: lazy(() => import(/* webpackChunkName: "app" */ './App/RecordingManage')) },
   { path: '/manage/app_tpapp', component: lazy(() => import(/* webpackChunkName: "app" */ './App/ThirdPartyApp')) },
+  { path: '/manage/app_broadsoftdir', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "app" */ './App/BroadSoftDir')) },
 
   /** Maintenance */
   { path: '/manage/maintenance_upgrade', denyRole: 'user', component: lazy(() => import(/* webpackChunkName: "maintenance_upgrade" */ './Maintenance/Upgrade')) },

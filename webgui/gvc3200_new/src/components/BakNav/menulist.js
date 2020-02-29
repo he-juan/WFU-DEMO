@@ -176,6 +176,10 @@ export default [
         path: '/manage/app_ldap'
       },
       {
+        name: 'r_083',
+        path: '/manage/app_broadsoftdir'
+      },
+      {
         name: 'r_032',
         path: '/manage/app_record'
       },

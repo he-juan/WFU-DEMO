@@ -45,6 +45,41 @@ export default {
       ]
     },
     {
+      label: 'BroadSoftDir',
+      lang: 'r_083',
+      path: 'broadsoftdir',
+      denyRole: 'user',
+      sub: [
+        {
+          label: 'XSIService',
+          lang: 'r_085',
+          path: 'xsi',
+          sub: [
+            { lang: 'app_bro_001', p: 'P22054' },
+            { lang: 'app_bro_002', p: 'P1591' },
+            { lang: 'app_bro_003', p: 'P1592' },
+            { lang: 'app_bro_004', p: 'P2937' },
+            { lang: 'app_bro_005', p: 'P22034' },
+            { lang: 'app_bro_007', p: 'P1593' },
+            { lang: 'app_bro_008', p: 'P1594', noInit: 1 },
+            { lang: 'app_bro_006', p: 'P22103', noInit: 1 },
+            { lang: 'app_bro_009', _p: 'bsinterval' },
+            { lang: 'app_bro_010', p: 'P22014' },
+            { lang: 'app_bro_011', p: 'Pxsi_call_accountid' },
+            { lang: 'app_bro_012', p: 'Pbs_contacts_order' }
+          ]
+        },
+        {
+          label: 'NetworkDir',
+          lang: 'r_086',
+          path: 'networkdir',
+          sub: [
+
+          ]
+        }
+      ]
+    },
+    {
       label: 'RecordingManage',
       lang: 'r_032',
       path: 'record',

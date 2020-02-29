@@ -67,5 +67,41 @@ export default {
   app_tpapp_001: 'Auto Launch Application On Start Up',
   app_tpapp_001_tip: ' If set to "Yes", the Remote Control App can be paired to the GVC3200 via Bluetooth, but it cannot connect to the GVC3200 to perform any operations. The default setting is "No".',
 
+  app_bro_001: 'Authentication Type',
+  app_bro_001_tip: 'Defines the authentication type to use logIn credentials or SIP credentials. If set to "LogIn Credentials", please fill in user name and password in the following options; If set to "SIP Credentials", please fill in user name, user ID, and password.',
+
+  app_bro_002: 'Server',
+  app_bro_002_tip: 'BroadSoft XSI server address with protocol.',
+
+  app_bro_003: 'Port',
+  app_bro_003_tip: 'Port of the BroadSoft XSI server.',
+
+  app_bro_004: 'Action Path',
+  app_bro_004_tip: 'Action path for BroadSoft XSI server.',
+
+  app_bro_005: 'BroadWorks User ID',
+  app_bro_005_tip: 'User ID for BroadSoft XSI server.',
+
+  app_bro_006: 'Login Password',
+  app_bro_006_tip: 'Password for BroadSoft XSI server.',
+
+  app_bro_007: 'SIP Authentication ID',
+  app_bro_007_tip: 'User name for BroadSoft XSI server.',
+
+  app_bro_008: 'SIP Authentication Password',
+  app_bro_008_tip: 'Password for BroadSoft XSI server.',
+
+  app_bro_009: 'BroadSoft Directory & Call Logs Update Interval (s)',
+  app_bro_009_tip: 'Configures the interval to obtain BroadSoft call log and directory data thus to update the matching number data on the dialing interface.',
+
+  app_bro_010: 'BroadSoft Directory Hits',
+  app_bro_010_tip: 'The maximum hits returned from the BroadSoft XSI server directory. The valid range is from 1 to 1000. If set to blank, server\'s default value will be used.',
+
+  app_bro_011: 'Associated BroadSoft Account',
+  app_bro_011_tip: 'Configures the associated BroadSoft account when dialing BroadSoft contacts.',
+
+  app_bro_012: 'BroadSoft Directory Order',
+  app_bro_012_tip: 'Defines the BroadSoft directory order displayed on LCD. Select one item and click the Up/Down arrow on the right to adjust the order.',
+
   app_999: ''
 }

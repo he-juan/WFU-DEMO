@@ -1,0 +1,46 @@
+.broadsoft-dir-order {
+  display: flex;
+  align-items: center;
+  .order-list {
+    flex-grow: 0;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    width: 150px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    max-height: 300px;
+    min-height: 150px;
+    overflow-y: hidden;
+    cursor: pointer;
+    li {
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+      font-size: 12px;
+      border-radius: 3px;
+      &.active {
+        color: #fff;
+        background:#3d77ff ;
+      }
+      &:not(.active):hover {
+        background: #e7e7e7;
+      }
+    }
+  }
+  .order-btns {
+    height: 100px;
+    width: 120px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    i.anticon {
+      color: #3d77ff; 
+    }
+    button {
+      width: 90px;
+      text-align: left;
+    }
+  }
+}
