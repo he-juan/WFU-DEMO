@@ -8,7 +8,7 @@ export default {
   acct_002: 'Account Name',
   acct_002_tip: 'Configures the name associated with the account. It will show on the output display device.',
 
-  acct_003: 'Sip Server',
+  acct_003: 'SIP Server',
   acct_003_tip: 'The URL or IP address, and port of the SIP server. This is provided by your VoIP service provider (ITSP).',
 
   acct_004: 'Secondary SIP Server',
