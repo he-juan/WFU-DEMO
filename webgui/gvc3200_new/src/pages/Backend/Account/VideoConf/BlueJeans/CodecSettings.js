@@ -76,8 +76,8 @@ class CodecSettings extends FormCommon {
       const { P551, P552, P553, P554, P555, ...others } = data
 
       this.initVocodersTran([P551, P552, P553, P554, P555])
-      this.setVbrateOptions(data.P2307)
-      this.setPreVbrateOptions(data.P2376)
+      this.setVbrateOptions(data.P2507)
+      this.setPreVbrateOptions(data.P2576)
       setFieldsValue(others)
     })
   }
