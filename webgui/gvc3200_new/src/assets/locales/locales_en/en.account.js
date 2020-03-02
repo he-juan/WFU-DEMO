@@ -270,7 +270,8 @@ export default {
   acct_089_tip: 'Enter H.264 codec payload type. The valid range is from 96 to 126. The default value is 99.',
 
   acct_090: 'Packetization Mode',
-  acct_090_tip: 'The packetization mode (0, 1 or Auto) for the video packets. The default setting is 0.',
+  acct_090_tip: 'The packetization mode (0, 1 or Auto) for the video packets. The default setting is 1.',
+  acct_090_tip_2: 'The packetization mode (0, 1 or Auto) for the video packets. The default setting is 0.',
 
   acct_091: 'H.264 Profile Type',
   acct_091_tip: 'Select the H.264 profile type from "Baseline Profile", "Main Profile", "High Profile" or "BP/MP/HP". The default setting is "BP/MP/HP". The lower profile type is easier to decode, while the higher level has high compression ratio. For device with low CPU, select "Baseline Profile" to play record; "Baseline Profile" is more likely to be used in a video conference that has high demandings for the video quality. Select among three types to achieve the best video effect.',
