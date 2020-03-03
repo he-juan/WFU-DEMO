@@ -284,7 +284,7 @@ export const getTimeConfig = () => (dispatch) => {
   ]).then(data => {
     const [result1, result2, result3] = data
     if (result1.response === 'success') {
-      let temp = result1.timezone.name.match(/UTC(\+|\-)(\d+):(\d+)/)
+      let temp = result1.timezone.name.match(/GMT(\+|\-)(\d+):(\d+)/)
       let timezone = (parseInt(temp[2]) * 3600000 + parseInt(temp[3]) * 60000) * (temp[1] === '+' ? 1 : -1) // 按照时区计算出时间戳偏移量
       dispatch(setTimezone(timezone))
     }

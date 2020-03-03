@@ -114,7 +114,7 @@ class Time extends FormCommon {
 
             // 按照时区计算出时间戳偏移量
             let match = this.state.timezonelist.filter(item => item.v === timezone)[0]
-            let temp = match.t.match(/UTC(\+|\-)(\d+):(\d+)/)
+            let temp = match.t.match(/GMT(\+|\-)(\d+):(\d+)/)
             let _timezone = (parseInt(temp[2]) * 3600000 + parseInt(temp[3]) * 60000) * (temp[1] === '+' ? 1 : -1)
             this.props.setTimezone(_timezone)
             // 这里的处理还需要优化
