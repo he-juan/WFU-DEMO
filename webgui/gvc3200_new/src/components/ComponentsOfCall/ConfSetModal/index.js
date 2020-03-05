@@ -319,8 +319,18 @@ class ConfSetModal extends FormCommon {
 
   // 开始日期change
   stateDateChange = (e, str) => {
-    let { setFieldsValue } = this.props.form
-    if (e !== null) setFieldsValue({ confStatedate1: e })
+    let { getFieldValue, setFieldsValue } = this.props.form
+    if (e !== null) {
+      const obj = { confStatedate1: e }
+      if (getFieldValue('repeat') !== '4') {
+        const [month, days, date] = [e.month(), e.days(), e.date()]
+        obj['dayOfWeek'] = [weekOptions[days].value] // 每周的星期几
+        obj['monthWeekDay'] = weekOptions[days].value // 每月 按星期
+        obj['monthByDay'] = date // 每月 按日
+        obj['yearly'] = [transStr(month + 1), transStr(date)] // 每年
+      }
+      setFieldsValue(obj)
+    }
   }
 
   // 会议时长的hour change
@@ -574,6 +584,12 @@ class ConfSetModal extends FormCommon {
       const { visible, currConf } = this.props
       let types = typeof visible
       const _currConf = convertCurrConf(currConf, types === 'object' ? 'history' : '', timestampNow)
+      // 补全 添加时 一些默认值
+      if (currConf === '') {
+        _currConf['dayOfWeek'] = [weekOptions[_currConf['dayOfWeek']].value] // 每周的星期几
+        _currConf['monthWeekDay'] = weekOptions[_currConf['monthWeekDay']].value // 每月 按星期
+      }
+
       this.setState({
         curMember: deepCopy(_currConf.memberData),
         currConf: _currConf,
@@ -733,6 +749,7 @@ class ConfSetModal extends FormCommon {
                 <CSelect disabled={allDisabled} width='40%' options={optionObj.presetArr}/>
               )}
             </FormItem>
+            {/* 重复 */}
             <FormItem label={$t('c_286')}>
               {gfd('repeat', {
                 initialValue: currConf['repeat']
@@ -740,6 +757,7 @@ class ConfSetModal extends FormCommon {
                 <CSelect disabled={allDisabled} width='40%' options={repeatArr}/>
               )}
             </FormItem>
+            {/* 自定义重复 */}
             <FormItem label={$t('c_287')} hide={+gfv('repeat') !== 4}>
               {gfd('customRepeat', {
                 initialValue: currConf['customRepeat']
@@ -758,6 +776,7 @@ class ConfSetModal extends FormCommon {
                 <Input disabled={allDisabled} style={{ width: '40%' }} />
               )}
             </FormItem>
+            {/* 每周的星期几 */}
             <FormItem label={$t('c_288')} hide={+gfv('repeat') !== 4 ? true : +gfv('customRepeat') !== 1}>
               {gfd('dayOfWeek', {
                 initialValue: currConf['dayOfWeek']

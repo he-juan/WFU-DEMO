@@ -32,10 +32,10 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
     repeat: '0', // 重复
     customRepeat: '0', // 自定义重复 每天 每周 每月 (按星期)， 每月 (按日期) 每年
     interval: '1', // 每固定 什么鬼 天
-    dayOfWeek: [], // 按每周 周日-周一 checkbox
+    dayOfWeek: now.days(), // 按每周 周日-周一 checkbox
     monthWeekOrdinal: '1', // 每月 (按星期) 第几周
-    monthWeekDay: 'SU', // 每月 (按星期) 周几
-    monthByDay: '1', // 每月 (按日期)
+    monthWeekDay: now.days(), // 每月 (按星期) 周几
+    monthByDay: now.date(), // 每月 (按日期)
     yearly: [transStr(now.month() + 1), transStr(now.date())], // 每年 08， 02
     pincode: '', // 密码
     autoanswer: 0, // 是否开启预约成员无需PIN
