@@ -89,7 +89,7 @@ export default {
             // 自动升级检查间隔(分)
             { lang: 'mai_up_027', p: 'P193' },
             // 固件升级和配置文件检测
-            { lang: 'mai_up_030', p: 'P238' },
+            { lang: 'mai_up_030', p: 'P238', reboot: 1 },
             // 升级时弹出确认框
             { lang: 'mai_up_031', p: 'P1549' },
             // 配置文件部署
