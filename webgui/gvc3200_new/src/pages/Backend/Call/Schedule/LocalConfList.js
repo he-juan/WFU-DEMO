@@ -80,7 +80,7 @@ const LocalConfList = (props) => {
                             }}>{$t('b_054')}</p>
                             <p style={{ cursor: 'pointer' }} onClick={(e) => {
                               handleVisibleChange(false, index)
-                              handleCancelConf(e, item.Id, 1)
+                              handleCancelConf(e, item.Id)
                             }}>{$t('b_055')}</p>
                           </Fragment>
                         } trigger='click' visible={popVisible[index]} onVisibleChange={visible => handleVisibleChange(visible, index)}>
