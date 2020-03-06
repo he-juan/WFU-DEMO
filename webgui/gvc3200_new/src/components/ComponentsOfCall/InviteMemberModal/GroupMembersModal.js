@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Table, Button, Checkbox } from 'antd'
 import { $t } from '@/Intl'
+import { momentFormat } from '@/utils/tools'
 import NoData from '../../NoData'
 
 class GroupMembersModal extends Component {
@@ -142,7 +143,13 @@ class GroupMembersModal extends Component {
       {
         key: 'col2',
         dataIndex: 'col2',
-        width: '25%'
+        width: '25%',
+        render: (text, record, index) => {
+          if (record.lvl) {
+            return momentFormat(text, record.lvl === '1', false).strRes
+          }
+          return ''
+        }
       },
       {
         key: 'col3',
