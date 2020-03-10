@@ -3,184 +3,189 @@
   padding-bottom: 0;
   .ant-modal-body {
     padding: 16px;
-    .invite-area {
-      display: flex;
-      margin-bottom: 5px;
-      .invite-inputs-area {
-        .invite-tagsinput-wrapper {
-          position: relative;
-          width: 800px;
+    
+  }
+  .invite-area {
+    display: flex;
+    margin-bottom: 5px;
+    .invite-inputs-area {
+      .invite-tagsinput-wrapper {
+        position: relative;
+        width: 800px;
+        height: 32px;
+        .react-tagsinput {
+          position: absolute;
+          width: 100%;
+          display: inline-block;
           height: 32px;
-          .react-tagsinput {
+          z-index: 2;
+          padding-left: 2px;
+          padding-right: 2px;
+          padding-top: 3px;
+          border: 1px solid #d9d9d9;
+          background-color: transparent;
+          overflow: hidden;
+          & > span {
+            white-space: nowrap;
             position: absolute;
-            width: 100%;
-            display: inline-block;
-            height: 32px;
-            z-index: 2;
-            padding-left: 2px;
-            padding-right: 2px;
-            padding-top: 3px;
-            border: 1px solid #d9d9d9;
-            background-color: transparent;
-            overflow: hidden;
-            & > span {
-              white-space: nowrap;
-              position: absolute;
-              transition: all 0.28s ease 0s;
-            }
-            .react-tagsinput-input {
-              background: transparent;
-              border: 0;
-              color: #777;
-              font-family: sans-serif;
-              font-size: 13px;
-              line-height: 18px;
-              font-weight: 400;
-              margin-top: 1px;
-              margin-bottom: 0;
-              outline: none;
-              min-width: 280px;
-            }
-            &.react-tagsinput--focused {
-              border-color: #6699ff;
-              box-shadow: 0 0 0 2px rgba(61, 119, 255, 0.2);
-              & + .tagsinput-placeholder {
-                display: none;
-              }
-            } 
+            transition: all 0.28s ease 0s;
           }
-          .react-tagsinput-tag {
-            border-radius: 2px;
-            border: 1px solid #a5d24a;
-            display: inline-block;
+          .react-tagsinput-input {
+            background: transparent;
+            border: 0;
+            color: #777;
             font-family: sans-serif;
             font-size: 13px;
             line-height: 18px;
             font-weight: 400;
-            margin-bottom: 3px;
-            margin-right: 5px;
-            padding: 2px 5px;
-            &.acct-0 {
-              border: 1px solid #4ed711;
-            }
-            &.acct-1 {
-              border: 1px solid #799cee ;
-            }
-            &.acct-2 {
-              border: 1px solid #95d1ff;
-            }
-            &.acct-8 {
-              border: 1px solid #ffa650;
-            }
-            &.acct-unregister {
-              border: 1px solid #bac0ca;
-            }
-            a::before {
-              content: ' ×';
-            }
+            margin-top: 1px;
+            margin-bottom: 0;
+            outline: none;
+            min-width: 280px;
           }
-          .tagsinput-placeholder {
-            position: absolute;
-            line-height: 32px;
-            text-indent: 10px;
-            color: #777;
-            font-size: 12px;
-            z-index: 1;
-            left: 0;
-          }
-          .react-tagsinput-remove {
-            cursor: pointer;
-            font-weight: bold;
-            padding-left: 2px;
-            &::before {
-              content: "\D7";
-              color: #ccc;
+          &.react-tagsinput--focused {
+            border-color: #6699ff;
+            box-shadow: 0 0 0 2px rgba(61, 119, 255, 0.2);
+            & + .tagsinput-placeholder {
+              display: none;
             }
+          } 
+        }
+        .react-tagsinput-tag {
+          border-radius: 2px;
+          border: 1px solid #a5d24a;
+          display: inline-block;
+          font-family: sans-serif;
+          font-size: 13px;
+          line-height: 18px;
+          font-weight: 400;
+          margin-bottom: 3px;
+          margin-right: 5px;
+          padding: 2px 5px;
+          &.acct-0 {
+            border: 1px solid #4ed711;
+          }
+          &.acct-1 {
+            border: 1px solid #799cee ;
+          }
+          &.acct-2 {
+            border: 1px solid #95d1ff;
+          }
+          &.acct-8 {
+            border: 1px solid #ffa650;
+          }
+          &.acct-unregister {
+            border: 1px solid #bac0ca;
+          }
+          a::before {
+            content: ' ×';
           }
         }
-        .bj-inputs {
-          // padding-bottom: 4px;
-          .ant-input {
-            width: 390px;
-            height: 32px;
-            line-height: 32px;
-            &:first-child {
-              margin-right: 20px;
-            }
+        .tagsinput-placeholder {
+          position: absolute;
+          line-height: 32px;
+          text-indent: 10px;
+          color: #777;
+          font-size: 12px;
+          z-index: 1;
+          left: 0;
+        }
+        .react-tagsinput-remove {
+          cursor: pointer;
+          font-weight: bold;
+          padding-left: 2px;
+          &::before {
+            content: "\D7";
+            color: #ccc;
           }
         }
       }
-      .acct-select {
-        width: 150px;
-        display: inline-block;
-        vertical-align: top;
-        margin-left: 16px;
-      }
-      em.acct-icon {
-        display: inline-block;
-        height: 12px;
-        width: 12px;
-        border-radius: 6px;
-        margin-right: 6px;
-        position: relative;
-        top: 1px;
-        &.acct-0 {
-          background: #4ed711;
-        }
-        &.acct-1 {
-          background:  #799cee;
-        }
-        &.acct-2 {
-          background: #ffa650;
-        }
-        &.acct-8 {
-          background: #95d1ff;
-        }
-        &.acct-unregister {
-          background: #bac0ca;
+      .bj-inputs {
+        // padding-bottom: 4px;
+        .ant-input {
+          width: 390px;
+          height: 32px;
+          line-height: 32px;
+          &:first-child {
+            margin-right: 20px;
+          }
         }
       }
     }
-    .tab-content {
-      height: 460px;
-      overflow: auto;
-      .ant-table-row-level-0 + .ant-table-row-level-1 {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08) inset;
+    .acct-select {
+      width: 150px;
+      display: inline-block;
+      vertical-align: top;
+      margin-left: 16px;
+    }
+    em.acct-icon {
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+      border-radius: 6px;
+      margin-right: 6px;
+      position: relative;
+      top: 1px;
+      &.acct-0 {
+        background: #4ed711;
       }
-      .ant-table-row-level-1 {
-        background: #f3f7fa;
+      &.acct-1 {
+        background:  #799cee;
       }
-      .ant-table-tbody > tr:hover > td {
-        background: transparent;
+      &.acct-2 {
+        background: #ffa650;
       }
-      .ant-table-tbody > tr {
-        &.gray {
-          background: #fafbfc;
+      &.acct-8 {
+        background: #95d1ff;
+      }
+      &.acct-unregister {
+        background: #bac0ca;
+      }
+    }
+  }
+  .tab-content {
+    height: 460px;
+    overflow: auto;
+    .ant-table-row-level-0 + .ant-table-row-level-1 {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08) inset;
+    }
+    .ant-table-row-level-1 {
+      background: #f3f7fa;
+    }
+    .ant-table-tbody > tr:hover > td {
+      background: transparent;
+    }
+    .ant-table-tbody > tr {
+      &.gray {
+        background: #fafbfc;
+      }
+      & > td {
+        padding: 6px 6px;
+        border: none;
+        color: #10131a;
+        b {
+          color: red;
         }
-        & > td {
-          padding: 6px 6px;
-          border: none;
-          color: #10131a;
-          b {
-            color: red;
+        .record-name {
+          display: flex;
+          height: 40px;
+          align-items: center;
+          strong {
+            margin-left: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 250px;
           }
-          .record-name {
-            display: flex;
-            height: 40px;
-            align-items: center;
-            strong {
-              margin-left: 5px;
-            }
-            em {
-              font-style: normal;
-              color: #3d3d45;
-              font-size: 12px;
-            }
+          em {
+            font-style: normal;
+            color: #3d3d45;
+            font-size: 12px;
           }
-          .operate-btns {
-            line-height: 100%;
-            text-align: right;
-          }
+        }
+        .operate-btns {
+          line-height: 100%;
+          text-align: right;
         }
       }
     }
