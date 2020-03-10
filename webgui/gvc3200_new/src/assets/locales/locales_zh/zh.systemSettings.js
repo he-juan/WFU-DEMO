@@ -133,11 +133,11 @@ export default {
 
   sys_sec_015: 'CA证书',
   sys_sec_016: '导入受信任CA证书',
-  sys_sec_016_tip: '此处用于添加受信任CA证书,点击“上传”按钮上传PC端证书文件。证书文件必须是.pem,.crt,.cer, .csr或者.der格式。一次可上传多份证书, 多份证书在同一个文件中。',
+  sys_sec_016_tip: '此处用于添加受信任CA证书,点击“上传”按钮上传PC端证书文件。证书文件必须是.pem,.crt,.cer或者.der格式。一次可上传多份证书, 多份证书在同一个文件中。',
   sys_sec_017: '受信任CA证书',
   sys_sec_018: '自定义证书',
   sys_sec_019: '导入自定义证书',
-  sys_sec_019_tip: '点击“上传”按钮上传用户自定义证书文件。证书文件必须是.pem, .crt, .cer, .csr或者.der格式。',
+  sys_sec_019_tip: '点击“上传”按钮上传用户自定义证书文件。证书文件必须是.pem, .crt, .cer或者.der格式。',
 
   sys_sec_020: '最小TLS版本',
   sys_sec_020_tip: '此项设置话机支持的最小TLS版本。',
