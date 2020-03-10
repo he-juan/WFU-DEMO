@@ -25,7 +25,7 @@ import PropTypes from 'prop-types'
 import './ConfCallModal.less'
 import API from '@/api'
 import ScrollPage from '@/components/ScrollPage'
-import { $t } from '@/Intl'
+import { $t, formatMessage } from '@/Intl'
 
 @connect(
   state => ({
@@ -92,14 +92,16 @@ class ConfCallModal extends Component {
     })
   }
 
-  // 计算当前正在通话的有效线路长度， ipvt算一路，
-  liveLinesLength = (linesInfo) => {
+  // 计算当前正在通话的有效线路与待添加的成员合计长度， ipvt算一路，
+  liveLinesLength = (tempTotalLines) => {
     // 先过滤掉通话失败的线路
-    let tempLines1 = linesInfo.filter(item => parseInt(item.state) !== 8)
+    let tempLines1 = tempTotalLines.filter(item => parseInt(item.state) !== 8)
     // 再过滤掉ipvt线路
-    let tempLines2 = tempLines1.filter(line => line.acct !== '1')
+    let tempLines2 = tempLines1.filter(line => +line.acct !== 1)
     // 比较tempLines1 和 tempLines1长度， 如果少于，说明有ipvt线路， 再补1
-    return tempLines2.length < tempLines1.length ? tempLines2.length + 1 : tempLines2.length
+    let ipvtExist = tempLines2.length < tempLines1.length
+
+    return [ipvtExist, ipvtExist ? tempLines2.length + 1 : tempLines2.length]
   }
 
   render () {
@@ -107,7 +109,10 @@ class ConfCallModal extends Component {
     const { selectedMems, curPage } = this.state
     // 最大线路数 - 通话失败（state === '8'）的线路 - 当前选中的线路
     // ipvt线路， 算一条线路(该逻辑未加)
-    const isOverMax = maxLineCount - this.liveLinesLength(linesInfo) - selectedMems.length <= 0
+    let tempTotalLines = [...linesInfo, ...selectedMems]
+    let [ipvtExist, totalLen] = this.liveLinesLength(tempTotalLines)
+    // console.log(ipvtExist, totalLen)
+    const isOverMax = maxLineCount - totalLen <= 0
     return (
       <Modal
         visible={confMembers.length > 0}
@@ -127,7 +132,11 @@ class ConfCallModal extends Component {
       >
         <p className='conf-call-tip'>
           {/* 成员数量已达上限 */}
-          <span style={{ display: isOverMax ? 'inline-block' : 'none' }}><i className='icons icon-info' />{$t('m_137')}({maxLineCount})</span>
+          <span style={{ display: isOverMax ? 'inline-block' : 'none' }}><i className='icons icon-info' />
+            {
+              ipvtExist ? $t('m_244') : `${formatMessage({ id: 'm_137' }, { max: maxLineCount })}`
+            }
+          </span>
         </p>
         <ScrollPage
           onLoad={this.handleUpdatePage}
@@ -141,7 +150,13 @@ class ConfCallModal extends Component {
                   <li key={mem.key || mem.id}>
                     <span>
                       <Checkbox
-                        disabled={isOverMax && selectedMems.findIndex(item => { return item.id === mem.id && item.number === mem.number }) < 0}
+                        disabled={
+                          isOverMax &&
+                          ((ipvtExist && +mem.acct !== 1) || !ipvtExist) && // 存在ipvt时，ipvt联系人不置灰， 如果不存在ipvt，则默认置灰
+                          !selectedMems.some(item => {
+                            return item.id === mem.id && item.number === mem.number
+                          })
+                        }
                         onChange={() => this.selectCallMem(mem)}
                       />
                     </span>
