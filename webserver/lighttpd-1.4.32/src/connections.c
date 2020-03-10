@@ -2094,7 +2094,7 @@ static cJSON *get_schedule_member(sqlite3 *db, char *scheduleid) {
     memset(sqlstr, 0, 512);
     // 根据传入的会议id去查询该会议下所有的会议成员
     
-    snprintf(sqlstr, 512, "select id, account_id, number, name, data_source, state, host_email from group_contacts where group_contacts.group_id=%s;", scheduleid);
+    snprintf(sqlstr, 512, "select id, account_id, number, name, data_source, state, host_email, video_call from group_contacts where group_contacts.group_id=%s;", scheduleid);
 
     LOGD("querying members of schedule: %s ......", scheduleid);
 
@@ -2113,6 +2113,7 @@ static cJSON *get_schedule_member(sqlite3 *db, char *scheduleid) {
             char *source = (char*)sqlite3_column_text(stmt, 4);  // source
             char *state = (char*)sqlite3_column_text(stmt, 5);  // google status
             char *email = (char*)sqlite3_column_text(stmt, 6);  // email
+            char *isvideo = (char*)sqlite3_column_text(stmt, 7); // isVideo
 
             // id
             if (NULL != id) {
@@ -2157,6 +2158,13 @@ static cJSON *get_schedule_member(sqlite3 *db, char *scheduleid) {
                 cJSON_AddStringToObject(memObj, "Email", email);
             } else {
                 cJSON_AddStringToObject(memObj, "Email", "");
+            }
+
+            // isvideo
+            if (NULL != isvideo) {
+                cJSON_AddStringToObject(memObj, "IsVideo", isvideo);
+            } else {
+                cJSON_AddStringToObject(memObj, "IsVideo", "");
             }
 
             cJSON_AddItemToArray(resObj, memObj);
@@ -20524,7 +20532,7 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
     const char *dndkey = NULL;
     const char *repeatRule = NULL;
     const char *membername = NULL;
-    const char *membernum = NULL, *memberacct = NULL, *memberemail = NULL;
+    const char *membernum = NULL, *memberacct = NULL, *memberemail = NULL, *membercalltype = NULL;
     const char *preset = NULL;
     const char *tmp = NULL;
     int reminder = 0;
@@ -20681,6 +20689,12 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
             uri_decode((char*)memberemail);
         }
 
+        membercalltype = msg_get_header(m, "membercalltypes");
+        if (membercalltype == NULL) {
+            membercalltype = "";
+        } else {
+            uri_decode((char*)membercalltype);
+        }
 
         tmp = msg_get_header(m, "repeat");
         if ( tmp != NULL)
@@ -20806,6 +20820,12 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
         }
 
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &memberemail) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_STRING, &membercalltype) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
