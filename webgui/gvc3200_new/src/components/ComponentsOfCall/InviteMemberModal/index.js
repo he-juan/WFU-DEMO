@@ -163,16 +163,23 @@ class InviteMemberModal extends Component {
     let _memToCall = deepCopy(memToCall)
     // 判断当前changed的行为, mems的长度大于时为添加
     if (mems.length > memToCall.length) {
-      let item = {
-        number: changed[0],
-        acct: selectAcct,
-        isvideo: '1',
-        isconf: '1',
-        source: '2',
-        name: changed[0],
-        email: ''
+      if (!/\D/.test(changed[0])) {
+        _memToCall.push({
+          number: changed[0],
+          acct: selectAcct,
+          isvideo: '1',
+          isconf: '1',
+          source: '2',
+          name: changed[0],
+          email: ''
+        })
+      } else {
+        message.error($t('m_224')) // '此号码不符合拨号规则!'
+        this.setState({
+          tagsInputValue: ''
+        })
+        return false
       }
-      _memToCall.push(item)
     } else {
       _memToCall.splice(changedIndexes[0], 1)
     }
@@ -266,7 +273,7 @@ class InviteMemberModal extends Component {
           isconf: '1'
         })
       } else {
-        message.error('此号码不符合拨号规则!')
+        message.error($t('m_224')) // '此号码不符合拨号规则!'
         this.setState({
           tagsInputValue: ''
         })
