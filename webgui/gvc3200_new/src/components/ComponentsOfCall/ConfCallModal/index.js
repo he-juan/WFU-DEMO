@@ -73,7 +73,7 @@ class ConfCallModal extends Component {
     let _selectedMems = selectedMems.map(mem => ({
       acct: mem.acct,
       source: mem.source || mapToSource(mem.calltype),
-      isvideo: mem.isvideo,
+      isvideo: mem.isvideo || '1',
       num: mem.number,
       isconf: '1'
     }))
