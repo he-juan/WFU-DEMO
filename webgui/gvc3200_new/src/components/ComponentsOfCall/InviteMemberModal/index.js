@@ -423,14 +423,14 @@ class InviteMemberModal extends Component {
               addKeys={[13]}
               onlyUnique={true}
               // addOnBlur={true}
-              inputProps={{ placeholder: $t('c_350'), maxLength: '23', style: { width: tagsInputValue.length * 10 } }}
+              inputProps={{ placeholder: '', maxLength: '23', style: { width: Math.min(tagsInputValue.length * 15, 590) } }}
               inputValue={tagsInputValue}
               onChangeInput={this.handleTagsInput}
               renderTag={this.renderTag}
             />
-            {/* {
-              memToCall.length > 0 || tagsInputValue.length > 0 ? null : <span className='tagsinput-placeholder'>多个号码可以"Enter"分隔.</span>
-            } */}
+            {
+              memToCall.length > 0 || tagsInputValue.length > 0 ? null : <span className='tagsinput-placeholder'>{ $t('c_350') }</span>
+            }
           </div> : <div className='bj-inputs'>
             <Input placeholder='Meeting ID' onChange={(e) => this.handleBjMember({ id: e.target.value })} />
             <Input placeholder='Password (optional)' onChange={(e) => this.handleBjMember({ pw: e.target.value })} />
