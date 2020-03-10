@@ -4,6 +4,8 @@ import { transStr, convertStr, momentFormat } from '@/utils/tools'
 import { store } from '@/store'
 import { $t } from '@/Intl'
 
+const weekOptions = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']
+
 // 转化时间
 export const convertTimeInfo = (Milliseconds, duration) => {
   let { strRes, objRes } = momentFormat(Milliseconds, { showtime: true, showtoday: true })
@@ -32,9 +34,9 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
     repeat: '0', // 重复
     customRepeat: '0', // 自定义重复 每天 每周 每月 (按星期)， 每月 (按日期) 每年
     interval: '1', // 每固定 什么鬼 天
-    dayOfWeek: now.days(), // 按每周 周日-周一 checkbox
+    dayOfWeek: [weekOptions[now.days()]], // 按每周 周日-周一 checkbox
     monthWeekOrdinal: '1', // 每月 (按星期) 第几周
-    monthWeekDay: now.days(), // 每月 (按星期) 周几
+    monthWeekDay: weekOptions[now.days()], // 每月 (按星期) 周几
     monthByDay: now.date(), // 每月 (按日期)
     yearly: [transStr(now.month() + 1), transStr(now.date())], // 每年 08， 02
     pincode: '', // 密码
@@ -75,7 +77,8 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
         number: el.Number,
         name: el.Name,
         acct: el.Acctid,
-        // calltype: el.RecordFrom 不知道 这个有什么关系
+        recordfrom: el.RecordFrom,
+        isvideo: el.IsVideo || '0',
         googleStatus: el.GoogleStatus // 谷歌会议状态
       }
     })

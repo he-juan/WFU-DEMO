@@ -381,15 +381,14 @@ class ConfSetModal extends FormCommon {
 
   // 添加成员弹窗 确认添加
   handleMemberData = (data, callback) => {
-    let curMember = deepCopy(this.state.curMember)
-    data.reduce((arr, item, index) => {
-      const exitIndex = this.handleMemberExit(arr, item)
+    const curMember = data.reduce((sums, item, index) => {
+      const exitIndex = this.handleMemberExit(sums, item)
       if (exitIndex > -1) {
-        arr.splice(exitIndex, 1)
+        sums.splice(exitIndex, 1)
       }
-      arr.push(item)
-      return arr
-    }, curMember)
+      sums.push(item)
+      return sums
+    }, deepCopy(this.state.curMember))
 
     this.setState({
       curMember,
@@ -457,7 +456,7 @@ class ConfSetModal extends FormCommon {
           let repeat = parseInt(values.repeat)
           let preset = values.preset
           let autoanswer = values.autoanswer || '0'
-          let [ repeatRule, membernames, membernumbers, memberaccts, recordsfrom ] = Array(6).fill('') // memberemails
+          let [ repeatRule, membernames, membernumbers, memberaccts, recordsfrom, membercalltypes ] = Array(6).fill('') // memberemails
           // 处理重复规则
           switch (repeat) {
             default:
@@ -497,14 +496,16 @@ class ConfSetModal extends FormCommon {
               membernumbers += ':::'
               memberaccts += ':::'
               recordsfrom += ':::'
+              membercalltypes += ':::'
             }
             membernames += curMember[i].name
             membernumbers += curMember[i].number
             memberaccts += curMember[i].acct
-            let type = curMember[i].calltype
-            if (type === 1 || type === 3) recordsfrom += 3
-            else if (type === 2) recordsfrom += 4
-            else recordsfrom += 5
+            let type = curMember[i].recordfrom
+            if (type === 1 || type === 3) recordsfrom += '3'
+            else if (type === 2) recordsfrom += '4'
+            else recordsfrom += '5'
+            membercalltypes += curMember[i].isvideo || '1'
           }
 
           // 整理参数
@@ -525,7 +526,8 @@ class ConfSetModal extends FormCommon {
             membernames,
             membernumbers,
             memberaccts,
-            recordsfrom
+            recordsfrom,
+            membercalltypes
           }
 
           for (const key in params) {
@@ -584,11 +586,6 @@ class ConfSetModal extends FormCommon {
       const { visible, currConf } = this.props
       let types = typeof visible
       const _currConf = convertCurrConf(currConf, types === 'object' ? 'history' : '', timestampNow)
-      // 补全 添加时 一些默认值
-      if (currConf === '') {
-        _currConf['dayOfWeek'] = [weekOptions[_currConf['dayOfWeek']].value] // 每周的星期几
-        _currConf['monthWeekDay'] = weekOptions[_currConf['monthWeekDay']].value // 每月 按星期
-      }
 
       this.setState({
         curMember: deepCopy(_currConf.memberData),
@@ -889,7 +886,7 @@ class ConfSetModal extends FormCommon {
 
         {/* 添加成员弹窗 */}
         {
-          !allDisabled && <InviteMemberModal visible={displayAddModal} members={curMember} onCancel={() => this.handleAddMemberModal(false)} handleMemberData={this.handleMemberData} isJustAddMember={true}/>
+          !allDisabled && <InviteMemberModal visible={displayAddModal} members={curMember} onCancel={() => this.handleAddMemberModal(false)} handleMemberData={this.handleMemberData} />
         }
       </>
     )

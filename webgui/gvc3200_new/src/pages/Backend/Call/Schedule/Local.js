@@ -109,7 +109,6 @@ class LocalSchedule extends Component {
   // 设置会议 包含编辑 添加 预览 add  edit preview
   handleSetConf = (type = 'add', e, item = '') => {
     e && this.cancelPop(e) // 解决冒泡啥的
-    // let currConf = convertCurrConf(item)
     if (type === 'add' && item) item.Id = '' // 当前为 重新预约
     this.setDisplayModal(true, type === 'preview', { currConf: item })
   }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import TagsInput from 'react-tagsinput'
 import { Modal, Tabs, Input, Select, Button, message } from 'antd'
-import API from '@/api'
 import { deepCopy } from '@/utils/tools'
 import ContactsTab from './ContactsTab'
 import CallLogsTab from './CallLogsTab'
@@ -31,8 +30,7 @@ class InviteMemberModal extends Component {
     visible: PropTypes.bool.isRequired, // 可视化
     members: PropTypes.array, // 已存在的成员
     onCancel: PropTypes.func.isRequired, // 取消事件
-    handleMemberData: PropTypes.func.isRequired, // 添加
-    isJustAddMember: PropTypes.bool // 只是添加
+    handleMemberData: PropTypes.func.isRequired // 添加
   }
 
   static defaultProps = {
@@ -53,7 +51,7 @@ class InviteMemberModal extends Component {
           acct: '2',
           isvideo: '1',
           source: '2', // 来源
-          num: '.'
+          number: '.'
         }
       ],
       activeTab: '1', // 当前tab页码
@@ -109,13 +107,13 @@ class InviteMemberModal extends Component {
       number.split(',').forEach((n, i) => {
         // 去重 去掉相同号码且账号类型相同的账号
         _memToCall = _memToCall.filter(mem => {
-          return mem.num !== n || (mem.num === n && mem.acct !== acct)
+          return mem.number !== n || (mem.number === n && mem.acct !== acct)
         })
         _memToCall.push({
-          num: n,
-          acct: acct,
-          isvideo: isvideo,
-          source: source,
+          number: n,
+          acct,
+          isvideo,
+          source,
           isconf: '1',
           name: names[i],
           email: email || ''
@@ -124,15 +122,15 @@ class InviteMemberModal extends Component {
     } else {
       // 去重 去掉相同号码且账号类型相同的账号
       _memToCall = _memToCall.filter(mem => {
-        return mem.num !== number || (mem.num === number && mem.acct !== acct)
+        return mem.number !== number || (mem.number === number && mem.acct !== acct)
       })
       _memToCall.push({
-        num: number,
-        acct: acct,
-        isvideo: isvideo,
-        source: source,
+        number,
+        acct,
+        isvideo,
+        source,
         isconf: '1',
-        name: name,
+        name,
         email: email || ''
       })
     }
@@ -166,7 +164,7 @@ class InviteMemberModal extends Component {
     // 判断当前changed的行为, mems的长度大于时为添加
     if (mems.length > memToCall.length) {
       let item = {
-        num: changed[0],
+        number: changed[0],
         acct: selectAcct,
         isvideo: '1',
         isconf: '1',
@@ -242,42 +240,43 @@ class InviteMemberModal extends Component {
     const { bjMemToCall } = this.state
     let _bjMemToCall = deepCopy(bjMemToCall)
 
-    let numAry = _bjMemToCall[0].num.split('.')
+    let numAry = _bjMemToCall[0].number.split('.')
     numAry[0] = content.id ? content.id : numAry[0]
     numAry[1] = content.pw ? content.pw : numAry[1]
 
-    _bjMemToCall[0].num = numAry.join('.')
+    _bjMemToCall[0].number = numAry.join('.')
     this.setState({
       bjMemToCall: _bjMemToCall
     })
   }
 
   // 视频邀请哈 1 视频 0 音频
-  handleInvite = (isvideo) => {
+  handleInvite = isvideo => {
     const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state
+    const { handleMemberData } = this.props
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
-      // if (!/\D/.test(tagsInputValue)) {
-      _memToCall.push({
-        num: tagsInputValue,
-        acct: selectAcct,
-        isvideo: isvideo,
-        source: '2',
-        isconf: '1'
-      })
-      // } else {
-      //   message.error('此号码不符合拨号规则!')
-      //   this.setState({
-      //     tagsInputValue: ''
-      //   })
-      //   return false
-      // }
+      if (!/\D/.test(tagsInputValue)) {
+        _memToCall.push({
+          number: tagsInputValue,
+          acct: selectAcct,
+          isvideo: isvideo,
+          source: '2',
+          isconf: '1'
+        })
+      } else {
+        message.error('此号码不符合拨号规则!')
+        this.setState({
+          tagsInputValue: ''
+        })
+        return false
+      }
     }
 
     // bluejeans 处理
     if (selectAcct === '2') {
-      let numAry = bjMemToCall[0].num.split('.')
+      let numAry = bjMemToCall[0].number.split('.')
       if (!numAry[0].trim().length || !numAry[0].trim().length) return false
       _memToCall = bjMemToCall
     }
@@ -285,25 +284,14 @@ class InviteMemberModal extends Component {
     if (_memToCall.length === 0) {
       return false
     }
-    API.makeCall(_memToCall.map(item => {
-      item.isvideo = isvideo
-      return item
-    }))
-    this.handleCancel()
-  }
 
-  // 这次是真的 要添加了
-  handleAddMember = () => {
-    const { memToCall, selectAcct } = this.state
-    const { handleMemberData } = this.props
-    let data = memToCall.map(el => {
+    handleMemberData(_memToCall.map(el => {
       return {
         ...el,
-        number: el.num,
+        isvideo,
         acct: +el.acct !== -1 ? el.acct : selectAcct
       }
-    })
-    handleMemberData(data, () => {
+    }), () => {
       this.setState({
         memToCall: [],
         tagsInputValue: ''
@@ -408,7 +396,7 @@ class InviteMemberModal extends Component {
   }
 
   render () {
-    const { visible, isJustAddMember, acctStatus, contacts, contactsGroups, callLogs, timezone, members, maxLineCount, linesInfo } = this.props
+    const { visible, acctStatus, contacts, contactsGroups, callLogs, timezone, members, maxLineCount, linesInfo } = this.props
     const { memToCall, activeTab, selectAcct, tagsInputValue, groupMembersModalvisible, groupMembers } = this.state
     if (!acctStatus) return null
 
@@ -447,9 +435,9 @@ class InviteMemberModal extends Component {
         onCancel={this.handleCancel}
         title={$t('c_336')}
         footer={
-          isJustAddMember ? <Button onClick={this.handleAddMember}>{$t('b_056')}</Button> : <div>
-            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(1)}>{$t('b_061')}</Button>
+          <div>
             <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(0)}>{$t('b_062')}</Button>
+            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(1)}>{$t('b_061')}</Button>
           </div>
         }
       >

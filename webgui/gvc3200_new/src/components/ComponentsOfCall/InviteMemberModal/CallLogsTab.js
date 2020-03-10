@@ -19,7 +19,6 @@ class CallLogsTab extends Component {
 
     this.state = {
       dataSource: [],
-      expandedKeys: '', // 展开
       curPage: 1
     }
   }
@@ -69,13 +68,6 @@ class CallLogsTab extends Component {
       return r
     })
     return result
-  }
-
-  handleRowClick = (record) => {
-    if (!record.children) return false
-    this.setState({
-      expandedKeys: record.key
-    })
   }
 
   setRowClassName = (record, index) => {
@@ -145,7 +137,7 @@ class CallLogsTab extends Component {
   }
 
   render () {
-    const { dataSource, expandedKeys, curPage } = this.state
+    const { dataSource, curPage } = this.state
     let _dataSource = dataSource.slice(0, 30 * curPage)
     const columns = [
       {
@@ -204,12 +196,8 @@ class CallLogsTab extends Component {
               pagination={false}
               dataSource={_dataSource}
               showHeader={false}
-              onRow={record => ({
-                onClick: event => this.handleRowClick(record)
-              })}
-              expandedRowKeys={[expandedKeys]}
-              expandIconColumnIndex={-1}
               rowClassName={this.setRowClassName}
+              childrenColumnName=''
             /> : <NoData/>
           }
         </div>
