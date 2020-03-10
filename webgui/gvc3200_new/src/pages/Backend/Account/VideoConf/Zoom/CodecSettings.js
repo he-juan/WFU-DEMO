@@ -17,6 +17,7 @@ class CodecSettings extends FormCommon {
       preFPSAvailable: [],
       targetVocoders: [],
       targetVideos: [],
+      baleArr: [],
       h265_enable: '1'
     }
 
@@ -80,8 +81,8 @@ class CodecSettings extends FormCommon {
 
     // 视频编码 可选项
     this.videoSource = [
-      { key: '99', title: 'H.264' },
-      { key: '114', title: 'H.265' }
+      { key: '99', title: 'H.264' }
+      // { key: '114', title: 'H.265' }
     ]
   }
 
@@ -97,6 +98,7 @@ class CodecSettings extends FormCommon {
       this.initVideoTran([P1864, P1865])
       this.setVbrateOptions(data.P2807)
       this.setPreVbrateOptions(data.P2876)
+      this.handleChangeProfile(data.P2862)
       this.setState({
         h265_enable: Ph265_enable
       })
@@ -210,6 +212,26 @@ class CodecSettings extends FormCommon {
     })
   }
 
+  // H.264 Profile类型 改变
+  handleChangeProfile = v => {
+    if (+v === 2) {
+      this.props.form.setFieldsValue({
+        P26505: '1'
+      })
+      this.setState({
+        baleArr: [{ v: '1', t: '1' }]
+      })
+    } else {
+      this.setState({
+        baleArr: [
+          { v: '0', t: '0' },
+          { v: '1', t: '1' },
+          { v: '2', t: $t('c_110') }
+        ]
+      })
+    }
+  }
+
   // 提交表单
   handleSubmit = () => {
     const { validateFields, setFieldsValue } = this.props.form
@@ -257,7 +279,7 @@ class CodecSettings extends FormCommon {
 
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
-    const { targetVocoders, targetVideos, h265_enable } = this.state
+    const { targetVocoders, targetVideos, baleArr, h265_enable } = this.state
     const options = this.options
     if (!targetVocoders.length) return null
 
@@ -497,7 +519,7 @@ class CodecSettings extends FormCommon {
           gfd={gfd}
           selectOptions={[
             { v: '0', t: 'NACK' },
-            { v: '1', t: 'NACK+RTX(SSRC-GROUP)' },
+            // { v: '1', t: 'NACK+RTX(SSRC-GROUP)' }, zoom 不支持
             { v: '2', t: $t('c_098') }
           ]}
         />
@@ -563,11 +585,11 @@ class CodecSettings extends FormCommon {
             ]
           }}
         />
-        {/* 开启视频渐进刷新 */}
-        <CheckboxItem
+        {/* 开启视频渐进刷新 boom不支持 */}
+        {/* <CheckboxItem
           {...options['P25111']}
           gfd={gfd}
-        />
+        /> */}
         {/* 视频编码 */}
         <FormItem label='acct_085' tips='acct_085_tip' hide={ h265_enable === '0' }>
           <Transfer
@@ -587,7 +609,7 @@ class CodecSettings extends FormCommon {
           gfd={gfd}
           onChange={(v) => { this.handleImgSizeChange(v) }}
           selectOptions={[
-            { v: '11', t: '4k' },
+            // { v: '11', t: '4k' },
             { v: '10', t: '1080P' },
             { v: '9', t: '720P' },
             { v: '4', t: '4CIF' },
@@ -630,21 +652,18 @@ class CodecSettings extends FormCommon {
         <SelectItem
           {...options['P26505']}
           gfd={gfd}
-          selectOptions={[
-            { v: '0', t: '0' },
-            { v: '1', t: '1' },
-            { v: '2', t: $t('c_110') }
-          ]}
+          selectOptions={baleArr}
         />
         {/* H.264 Profile 类型 */}
         <SelectItem
           {...options['P2862']}
           gfd={gfd}
+          onChange={this.handleChangeProfile}
           selectOptions={[
             { v: '0', t: $t('c_111') },
-            { v: '1', t: $t('c_112') },
-            { v: '2', t: $t('c_113') },
-            { v: '3', t: 'BP & MP & HP' }
+            // { v: '1', t: $t('c_112') },
+            { v: '2', t: $t('c_113') }
+            // { v: '3', t: 'BP & MP & HP' }
           ]}
         />
         {/* 使用H.264 Constrained Profiles */}
@@ -695,9 +714,9 @@ class CodecSettings extends FormCommon {
           disabled={disablePresent}
           selectOptions={[
             { v: '0', t: $t('c_111') },
-            { v: '1', t: $t('c_112') },
-            { v: '2', t: $t('c_113') },
-            { v: '3', t: 'BP & MP & HP' }
+            // { v: '1', t: $t('c_112') },
+            { v: '2', t: $t('c_113') }
+            // { v: '3', t: 'BP & MP & HP' }
           ]}
         />
         {/* 演示视频速率 */}

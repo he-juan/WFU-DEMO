@@ -721,7 +721,7 @@ export default {
                 // 视频抖动缓冲区最大值(ms)
                 { lang: 'acct_083', p: 'P2881' },
                 // 开启视频渐进刷新
-                { lang: 'acct_084', p: 'P25111' }, // enable GDR
+                // { lang: 'acct_084', p: 'P25111' }, // zoom 不支持
                 // 视频编码
                 { lang: 'acct_085', p: ['P1864', 'P1865'] },
                 // H.264 视频大小
