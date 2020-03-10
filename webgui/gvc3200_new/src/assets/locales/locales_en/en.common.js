@@ -415,7 +415,7 @@ const msgs = {
   m_242: 'Are you sure you want to delete this video?',
   m_243: 'Are you sure you want to delete this audio?',
   m_244: 'The call line has reached the upper limit. Currently only IPVideoTalk numbers can be selected.',
-  // m_245: 'Audio name',
+  m_245: 'The call is in hold, so you can\'t make an outgoing call.',
   m_246: 'Please enter video name',
   m_247: 'Please enter audio name',
   m_248: 'Video name cannot be empty',

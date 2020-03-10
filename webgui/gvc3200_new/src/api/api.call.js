@@ -6,6 +6,7 @@ import _axios from '@/utils/request'
 import { parseUrlParams } from '@/utils/tools'
 import { message } from 'antd'
 import { $t } from '@/Intl'
+import { store } from '@/store'
 
 /**
  * 获取通讯录
@@ -259,6 +260,10 @@ const callErr = {
  * ]
  */
 export const makeCall = (memToCall) => {
+  let { isonhold } = store.getState().confInfo
+  if (+isonhold === 1) {
+    return message.error($t('m_245'))
+  }
   return _axios({
     method: 'get',
     url: '/manager?action=makecall&members=' + encodeURIComponent(JSON.stringify(memToCall))
