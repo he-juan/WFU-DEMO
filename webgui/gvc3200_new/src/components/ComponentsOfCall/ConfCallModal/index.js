@@ -54,6 +54,12 @@ class ConfCallModal extends Component {
     curPage: 1 // 滚动分页
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if (JSON.stringify(prevProps.confMembers) !== JSON.stringify(this.props.confMembers)) {
+      this.setState({ selectedMems: [], curPage: 1 })
+    }
+  }
+
   selectCallMem = (mem) => {
     let selectedMems = deepCopy(this.state.selectedMems)
     let curIndex = selectedMems.findIndex(item => { return item.number === mem.number && item.id === mem.id })
