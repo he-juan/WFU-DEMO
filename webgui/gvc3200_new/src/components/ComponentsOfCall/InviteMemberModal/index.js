@@ -473,7 +473,7 @@ class InviteMemberModal extends Component {
                   })
                   .map((v, i) => {
                     return (
-                      <Option key={i} value={v.acctIndex.toString()} disabled={!v.register}><em className={`acct-icon acct-${v.acctIndex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</Option>
+                      <Option key={i} value={v.acctIndex.toString()}><em className={`acct-icon acct-${v.acctIndex} ${!v.register ? 'acct-unregister' : ''}`}></em>{v.name}</Option>
                     )
                   })
               }
