@@ -323,9 +323,15 @@ class InviteMemberModal extends Component {
 
   // componentDidMount
   componentDidMount () {
-    this.setState({
-      selectAcct: this.props.defaultAcct
+    const { acctStatus, defaultAcct } = this.props
+    const effectAccts = acctStatus.filter(v => {
+      return v.activate && v.acctIndex !== 2 && v.acctIndex !== 5
     })
+    let selectAcct = defaultAcct
+    if (+defaultAcct === 2 || +defaultAcct === 5) {
+      selectAcct = effectAccts[0].acctIndex.toString()
+    }
+    this.setState({ selectAcct })
 
     document.addEventListener('click', this.handleClickFn, false)
   }

@@ -11,6 +11,7 @@ import { $t } from '@/Intl'
 
 @connect(
   state => ({
+    acctStatus: state.acctStatus, // 获取账号状态-所有激活账号
     callLogs: state.callLogs
   }),
   dispatch => ({
@@ -182,7 +183,7 @@ class CallHistory extends Component {
   }
 
   render () {
-    const { callLogs } = this.props
+    const { acctStatus, callLogs } = this.props
     const { curPageData, selectedLogs, pageNum, curPage } = this.state
     return (
       <div className='call-history-page'>
@@ -196,6 +197,7 @@ class CallHistory extends Component {
               <>
                 <div className='call-history-list'>
                   <CallHistoryList
+                    acctStatus={acctStatus}
                     dataSource={curPageData}
                     selectedLogs={selectedLogs}
                     onSelectRow={this.handleSelectRow}

@@ -12,6 +12,7 @@ import { deepCopy } from '@/utils/tools'
 
 @connect(
   state => ({
+    acctStatus: state.acctStatus, // 获取账号状态-所有激活账号
     linesInfo: state.linesInfo || '',
     confInfo: state.confInfo || ''
   }),
@@ -109,6 +110,16 @@ class LocalSchedule extends Component {
   // 设置会议 包含编辑 添加 预览 add  edit preview
   handleSetConf = (type = 'add', e, item = '') => {
     e && this.cancelPop(e) // 解决冒泡啥的
+    // 当不为预览的情况下，判断是否有存在 非 zoom 和 bj的账号
+    if (type !== 'preview') {
+      const effectAccts = this.props.acctStatus.filter(v => {
+        return v.activate && v.acctIndex !== 2 && v.acctIndex !== 5
+      })
+      if (effectAccts.length === 0) {
+        message.error($t('m_259'))
+        return false
+      }
+    }
     if (type === 'add' && item) item.Id = '' // 当前为 重新预约
     this.setDisplayModal(true, type === 'preview', { currConf: item })
   }

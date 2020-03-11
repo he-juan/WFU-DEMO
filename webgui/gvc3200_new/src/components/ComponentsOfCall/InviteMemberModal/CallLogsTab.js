@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Tooltip } from 'antd'
+import { $t } from '@/Intl'
 import NoData from '../../NoData'
 import { parseAcct, mapToSource, getRecordIcon as getIconClass, momentFormat, escapeRegExp } from '@/utils/tools'
 
@@ -198,7 +199,7 @@ class CallLogsTab extends Component {
               showHeader={false}
               rowClassName={this.setRowClassName}
               childrenColumnName=''
-            /> : <NoData/>
+            /> : <NoData tip={$t('m_096')} />
           }
         </div>
       </div>

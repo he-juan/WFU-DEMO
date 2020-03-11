@@ -2,7 +2,7 @@
  * 通话记录列表
  */
 import React, { Component } from 'react'
-import { Table, Popover, Modal } from 'antd'
+import { Table, Popover, Modal, message } from 'antd'
 import { getRecordIcon, deepCopy, momentFormat } from '@/utils/tools'
 import ScrollArea from 'react-scrollbar'
 import moment from 'moment'
@@ -16,6 +16,7 @@ import { $t } from '@/Intl'
 
 class CallHistoryList extends Component {
   static propTypes = {
+    acctStatus: PropTypes.array,
     dataSource: PropTypes.array,
     selectedLogs: PropTypes.array,
     onSelectRow: PropTypes.func
@@ -76,6 +77,15 @@ class CallHistoryList extends Component {
   // 点击重新预约
   handleReSchedule = (record, e) => {
     e.stopPropagation()
+
+    // 当不为预览的情况下，判断是否有存在 非 zoom 和 bj的账号
+    const effectAccts = this.props.acctStatus.filter(v => {
+      return v.activate && v.acctIndex !== 2 && v.acctIndex !== 5
+    })
+    if (effectAccts.length === 0) {
+      message.error($t('m_259'))
+      return false
+    }
 
     let { acct, name, number, members } = record
     let currConf = {}

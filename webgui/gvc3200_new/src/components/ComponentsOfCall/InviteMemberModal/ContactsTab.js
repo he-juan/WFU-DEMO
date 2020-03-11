@@ -203,7 +203,7 @@ class ContactsTab extends Component {
               dataSource={_dataSource}
               showHeader={false}
               rowClassName={this.setRowClassName}
-            /> : <NoData/>
+            /> : <NoData tip={$t('m_096')} />
           }
         </div>
       </div>
