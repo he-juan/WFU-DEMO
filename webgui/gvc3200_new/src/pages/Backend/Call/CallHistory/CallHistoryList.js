@@ -16,6 +16,7 @@ import { $t } from '@/Intl'
 
 class CallHistoryList extends Component {
   static propTypes = {
+    isAutoVideo: PropTypes.string,
     acctStatus: PropTypes.array,
     dataSource: PropTypes.array,
     selectedLogs: PropTypes.array,
@@ -110,12 +111,13 @@ class CallHistoryList extends Component {
         confMembers: record.child
       })
     } else {
+      const { isAutoVideo } = this.props
       const { acct, isvideo, number: num, source } = record
       // 是否需要做通话中成员数量最大长度判断？
       // ...
       API.makeCall([{
         acct,
-        isvideo,
+        isvideo: +isAutoVideo === 1 ? isvideo : '0',
         num,
         source,
         isconf: 1
@@ -305,7 +307,7 @@ class CallHistoryList extends Component {
   }
 
   render () {
-    const { dataSource, selectedLogs, onSelectRow } = this.props
+    const { dataSource, selectedLogs, onSelectRow, isAutoVideo } = this.props
     const { expandedRowKeys, contactToAdd, recordToSave, confMembers, currConf } = this.state
     return (
       <>
@@ -343,7 +345,7 @@ class CallHistoryList extends Component {
         {/* 通用的联系人编辑弹窗 */}
         <ContactsEditModal editContacts={contactToAdd} onCancel={() => this.handleAddContacts(null)}/>
         {/* 会议通话弹窗 */}
-        <ConfCallModal confMembers={confMembers} onCancel={() => this.setState({ confMembers: [] })}/>
+        <ConfCallModal isAutoVideo={isAutoVideo} confMembers={confMembers} onCancel={() => this.setState({ confMembers: [] })}/>
         {/* 重新预约会议弹窗 */}
         {
           currConf && <ConfSetModal visible={currConf} currConf={currConf} allDisabled={false} onCancel={() => this.setState({ currConf: null })}/>

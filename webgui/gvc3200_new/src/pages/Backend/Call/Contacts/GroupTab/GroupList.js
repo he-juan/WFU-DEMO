@@ -7,6 +7,7 @@ import { $t } from '@/Intl'
 
 class GroupList extends Component {
   static propTypes = {
+    isAutoVideo: PropTypes.string,
     dataSource: PropTypes.array,
     onSelectRow: PropTypes.func,
     selectedGroups: PropTypes.array,
@@ -96,7 +97,7 @@ class GroupList extends Component {
   }
 
   render () {
-    const { dataSource, onSelectRow, selectedGroups } = this.props
+    const { isAutoVideo, dataSource, onSelectRow, selectedGroups } = this.props
     const { contactsToCall } = this.state
     return (
       <>
@@ -113,7 +114,7 @@ class GroupList extends Component {
             }
           }}
         />
-        <ConfCallModal confMembers={contactsToCall} onCancel={this.cancelCall}/>
+        <ConfCallModal isAutoVideo={isAutoVideo} confMembers={contactsToCall} onCancel={this.cancelCall}/>
       </>
     )
   }

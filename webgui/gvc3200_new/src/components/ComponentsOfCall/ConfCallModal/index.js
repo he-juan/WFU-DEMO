@@ -35,6 +35,7 @@ import { $t, formatMessage } from '@/Intl'
 )
 class ConfCallModal extends Component {
   static propTypes = {
+    isAutoVideo: PropTypes.string,
     confMembers: PropTypes.arrayOf(PropTypes.shape({
       acct: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
@@ -75,11 +76,11 @@ class ConfCallModal extends Component {
 
   handleCall = () => {
     const { selectedMems } = this.state
-    const { onCancel } = this.props
+    const { isAutoVideo, onCancel } = this.props
     let _selectedMems = selectedMems.map(mem => ({
       acct: mem.acct,
       source: mem.source || mapToSource(mem.calltype),
-      isvideo: mem.isvideo || '1',
+      isvideo: +isAutoVideo === 1 ? (mem.isvideo || '1') : '0',
       num: mem.number,
       isconf: '1'
     }))

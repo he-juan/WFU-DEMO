@@ -27,7 +27,8 @@ class LogAndContacts extends Component {
     confMemSelectToCall: [],
     expandedKeys: '', // 展开
     curPage: 1,
-    maxHeight: 0
+    maxHeight: 0,
+    isAutoVideo: '0'
   }
 
   calContentHeight = () => {
@@ -59,6 +60,7 @@ class LogAndContacts extends Component {
   // 呼叫
   handleCallRecord = (record, e) => {
     e.stopPropagation()
+    const { isAutoVideo } = this.state
     // 点击的是会议记录
     if (+record.isconf === 1) {
       this.setState({
@@ -69,7 +71,7 @@ class LogAndContacts extends Component {
       const { acct, number: num, isvideo, source } = record
       API.makeCall([{
         acct,
-        isvideo,
+        isvideo: +isAutoVideo === 1 ? isvideo : '0',
         num,
         source,
         isconf: 1
@@ -77,48 +79,48 @@ class LogAndContacts extends Component {
     }
   }
 
-    // 选择成员
-    selectCallMem = (memId) => {
-      const { confMemSelectToCall } = this.state
-      const { maxLineCount, linesInfo } = this.props
-      // console.log(linesInfo)
-      let _memSelect = JSON.parse(JSON.stringify(confMemSelectToCall))
-      for (let mem of _memSelect) {
-        if (mem.id === memId) {
-          mem.selected = !mem.selected
-          break
-        }
+  // 选择成员
+  selectCallMem = (memId) => {
+    const { confMemSelectToCall } = this.state
+    const { maxLineCount, linesInfo } = this.props
+    // console.log(linesInfo)
+    let _memSelect = JSON.parse(JSON.stringify(confMemSelectToCall))
+    for (let mem of _memSelect) {
+      if (mem.id === memId) {
+        mem.selected = !mem.selected
+        break
       }
-      // console.log(_memSelect)
-      // 选中的拨打成员数_memSelect+在拨打的线路数linesInfo(去重，去除拨打失败的)不超过最大线路数maxLineCount
-      let len = linesInfo.filter(item => item.state !== '8').length + _memSelect.filter(i => i.selected && !linesInfo.some(j => j.num === i.number)).length
-      if (len >= parseInt(maxLineCount)) {
-        _memSelect = _memSelect.map(mem => {
-          if (mem.selected) return mem
-          mem.checkDisable = true
-          return mem
-        })
-      } else {
-        _memSelect = _memSelect.map(mem => {
-          delete mem.checkDisable
-          return mem
-        })
-      }
-      this.setState({
-        confMemSelectToCall: _memSelect
+    }
+    // console.log(_memSelect)
+    // 选中的拨打成员数_memSelect+在拨打的线路数linesInfo(去重，去除拨打失败的)不超过最大线路数maxLineCount
+    let len = linesInfo.filter(item => item.state !== '8').length + _memSelect.filter(i => i.selected && !linesInfo.some(j => j.num === i.number)).length
+    if (len >= parseInt(maxLineCount)) {
+      _memSelect = _memSelect.map(mem => {
+        if (mem.selected) return mem
+        mem.checkDisable = true
+        return mem
+      })
+    } else {
+      _memSelect = _memSelect.map(mem => {
+        delete mem.checkDisable
+        return mem
       })
     }
+    this.setState({
+      confMemSelectToCall: _memSelect
+    })
+  }
 
-    // 弹窗点击
+  // 弹窗点击
   confMemSelectCall = () => {
-    const { confMemSelectToCall } = this.state
+    const { confMemSelectToCall, isAutoVideo } = this.state
     const selectedMems = confMemSelectToCall.filter(v => v.selected)
     const memToCall = selectedMems.map(mem => {
       const { acct, number: num, isvideo, source } = mem
       return {
         acct,
         num,
-        isvideo,
+        isvideo: +isAutoVideo === 1 ? isvideo : '0',
         source,
         isconf: '1'
       }
@@ -149,11 +151,15 @@ class LogAndContacts extends Component {
 
   componentDidMount () {
     const { dataSource } = this.props
-
     DATASOURCE = dataSource
-    this.setState({
-      maxHeight: this.calContentHeight(),
-      tableData: dataSource
+
+    // 获取是否开启了 自动视频 功能
+    API.getPvalues(['P25023']).then(data => {
+      this.setState({
+        maxHeight: this.calContentHeight(),
+        tableData: dataSource,
+        isAutoVideo: data.P25023
+      })
     })
   }
 

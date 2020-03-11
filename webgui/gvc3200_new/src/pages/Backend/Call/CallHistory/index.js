@@ -23,11 +23,17 @@ class CallHistory extends Component {
     curPageData: [], // 当页通话记录解析后的数据
     curPage: 1, // 当前页
     pageNum: 10, // 当前每页显示数量
-    selectedLogs: [] // 选中的记录
+    selectedLogs: [], // 选中的记录
+    isAutoVideo: '0'
   }
 
   componentDidMount () {
     this.updateCurPageData()
+    API.getPvalues(['P25023']).then(data => {
+      this.setState({
+        isAutoVideo: data.P25023
+      })
+    })
   }
 
   componentDidUpdate (preProps, preState) {
@@ -184,7 +190,7 @@ class CallHistory extends Component {
 
   render () {
     const { acctStatus, callLogs } = this.props
-    const { curPageData, selectedLogs, pageNum, curPage } = this.state
+    const { curPageData, selectedLogs, pageNum, curPage, isAutoVideo } = this.state
     return (
       <div className='call-history-page'>
         <div className='call-history-head'>
@@ -197,6 +203,7 @@ class CallHistory extends Component {
               <>
                 <div className='call-history-list'>
                   <CallHistoryList
+                    isAutoVideo={isAutoVideo}
                     acctStatus={acctStatus}
                     dataSource={curPageData}
                     selectedLogs={selectedLogs}

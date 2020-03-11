@@ -7,6 +7,7 @@ import { $t } from '@/Intl'
 
 class ContactsList extends Component {
   static propTypes = {
+    isAutoVideo: PropTypes.string,
     dataSouce: PropTypes.array,
     selectedContacts: PropTypes.array,
     onSelectRow: PropTypes.func,
@@ -16,11 +17,12 @@ class ContactsList extends Component {
   handleCall = (phoneItem) => {
     // 是否需要做最大线路数限制判断？ 还是依靠后端返回
     const { acct, number: num } = phoneItem
+    const { isAutoVideo } = this.props
 
     API.makeCall([{
       acct,
       num,
-      isvideo: '1', // 默认视频呼出
+      isvideo: +isAutoVideo === '1' ? '1' : '0', // 默认视频呼出
       source: '1', // 联系人source取1
       isconf: '1'
     }])

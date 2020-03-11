@@ -32,15 +32,17 @@ class ContactTab extends Component {
     selectedContacts: [], // 选中的联系人
     contactsEditing: null, // 当前被编辑（或添加）的联系人
     visibleModal: null, // 当前显示的弹窗 可选项： "import", "export", "download"
-    maxContactsCount: 2000 // 最大联系人数量
+    maxContactsCount: 2000, // 最大联系人数量
+    isAutoVideo: '0'
   }
 
   componentDidMount () {
     this.updateFilteredContacts()
     this.updateCurPageData()
-    API.getPvalues(['P1688']).then(data => {
+    API.getPvalues(['P1688', 'P25023']).then(data => {
       this.setState({
-        maxContactsCount: parseInt(data.P1688)
+        maxContactsCount: parseInt(data.P1688),
+        isAutoVideo: data.P25023
       })
     })
   }
@@ -194,7 +196,7 @@ class ContactTab extends Component {
 
   render () {
     const { contacts } = this.props
-    const { maxContactsCount, filteredContacts, curPageData, curPage, pageNum, selectedContacts, contactsEditing, visibleModal, filterKey } = this.state
+    const { maxContactsCount, filteredContacts, curPageData, curPage, pageNum, selectedContacts, contactsEditing, visibleModal, filterKey, isAutoVideo } = this.state
     return (
       <div className='contacts-tab-page'>
         <div className='contacts-tab-head'>
@@ -226,6 +228,7 @@ class ContactTab extends Component {
               <>
                 <div className='contacts-tab-list'>
                   <ContactsList
+                    isAutoVideo={isAutoVideo}
                     dataSource={curPageData}
                     selectedContacts={selectedContacts}
                     onSelectRow={this.handleSelectRow}

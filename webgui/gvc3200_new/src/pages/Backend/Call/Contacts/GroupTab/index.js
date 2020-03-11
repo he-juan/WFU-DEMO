@@ -27,12 +27,19 @@ class GroupsTab extends Component {
     curPage: 1,
     pageNum: 10,
     selectedGroups: [],
-    groupEditing: null
+    groupEditing: null,
+    isAutoVideo: '0'
   }
 
   componentDidMount () {
     this.updateFilteredGroups()
     this.updateCurPageData()
+    // 获取是否开启了 自动视频 功能
+    API.getPvalues(['P25023']).then(data => {
+      this.setState({
+        isAutoVideo: data.P25023
+      })
+    })
   }
 
   componentDidUpdate (preProps, preState) {
@@ -192,7 +199,7 @@ class GroupsTab extends Component {
 
   render () {
     const { contactsGroups } = this.props
-    const { filteredGroups, curPageData, filterKey, selectedGroups, curPage, pageNum, groupEditing } = this.state
+    const { filteredGroups, curPageData, filterKey, selectedGroups, curPage, pageNum, groupEditing, isAutoVideo } = this.state
     return (
       <div className='group-tab-page'>
         <div className='group-tab-head'>
@@ -212,6 +219,7 @@ class GroupsTab extends Component {
             <>
               <div className='group-tab-list'>
                 <GroupList
+                  isAutoVideo={isAutoVideo}
                   dataSource={curPageData}
                   onSelectRow={this.handleSelectGroup}
                   selectedGroups={selectedGroups}
