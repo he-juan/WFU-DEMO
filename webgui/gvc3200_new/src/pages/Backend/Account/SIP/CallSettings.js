@@ -51,7 +51,9 @@ class CallSettings extends FormCommon {
     API.getDefaultRingTone().then(data => {
       if (data.Response !== 'Success') return false
       let ringtones = data.Ringtone
-      ringtones = ringtones.sort().map(v => {
+      ringtones = ringtones.sort((a, b) => {
+        return a.localeCompare(b)
+      }).map(v => {
         let ringTitle = v.split('.')[0]
         return {
           value: '/system/media/audio/ringtones/' + v,
