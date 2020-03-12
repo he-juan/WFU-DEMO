@@ -228,7 +228,7 @@ class LogAndContacts extends Component {
             return <span dangerouslySetInnerHTML={{ __html: record.numberText }}></span>
           }
           if (record.lvl) {
-            return momentFormat(text, record.lvl === '1', false).strRes
+            return momentFormat(text, { showtime: +record.lvl === 1, showtoday: false }).strRes
           }
           return ''
         }

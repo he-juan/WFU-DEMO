@@ -166,7 +166,7 @@ class CallLogsTab extends Component {
         width: '25%',
         render: (text, record, index) => {
           if (record.lvl) {
-            return momentFormat(text, record.lvl === '1', false).strRes
+            return momentFormat(text, { showtime: +record.lvl === 1, showtoday: false }).strRes
           }
           return ''
         }
