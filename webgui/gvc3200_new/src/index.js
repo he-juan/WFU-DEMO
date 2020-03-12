@@ -10,7 +10,8 @@ import { message } from 'antd'
 
 message.config({
   maxCount: 1,
-  duration: 2
+  duration: 2,
+  top: 50
 })
 
 window.isIEBrowser = !!window.ActiveXObject || 'ActiveXObject' in window
