@@ -163,6 +163,7 @@ class ConfigFile extends FormCommon {
     const importcfgConf = {
       name: 'file',
       showUploadList: false,
+      accept: '.txt',
       action: '/upload?type=importcfg',
       headers: {
         authorization: 'authorization-text'
@@ -179,6 +180,16 @@ class ConfigFile extends FormCommon {
       },
       onRemove () {
         message.destroy()
+      },
+      beforeUpload: (file) => {
+        return new Promise((resolve, reject) => {
+          let ext = file.name.split('.').pop()
+          if (!(ext && /^(txt)$/.test(ext))) {
+            message.error($t('m_260')) // 文件格式无效
+          } else {
+            resolve(file)
+          }
+        })
       }
     }
 

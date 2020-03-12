@@ -430,6 +430,7 @@ const msgs = {
   m_257: 'Day of the week cannot be empty',
   m_258: '{s} has been used',
   m_259: 'There is currently no active accont',
+  m_260: 'Invalid file format.',
 
   m_999: ''
 }
