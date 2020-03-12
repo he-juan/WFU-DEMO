@@ -90,7 +90,12 @@ class OpenVPN extends FormCommon {
   }
 
   handleDels = (p) => {
-    API.putPvalues({ [p]: '' }).then(() => {
+    API.putPvalues({ [p]: '' }).then(res => {
+      if (res.Response === 'Success') {
+        message.success($t('m_013')) // 删除成功
+      } else {
+        message.success($t('m_014')) // 删除失败
+      }
       this.handleGetDelBtnState()
     })
   }
