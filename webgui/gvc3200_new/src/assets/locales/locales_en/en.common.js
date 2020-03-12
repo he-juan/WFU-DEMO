@@ -820,7 +820,8 @@ const commons = {
   c_484: 'Multicast settings',
   c_485: 'Configure group name',
   c_486: 'IPV4 Address Type',
-
+  c_487: 'Tombstones',
+  c_488: 'ANR Log',
 
   c_999: ''
 }

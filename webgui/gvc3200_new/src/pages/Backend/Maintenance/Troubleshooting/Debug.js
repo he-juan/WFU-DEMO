@@ -6,7 +6,7 @@ import { getOptions } from '@/template'
 import API from '@/api'
 import './Debug.less'
 import { $t } from '@/Intl'
-let checklogitems = ['syslog', 'logcat', 'capture']
+let checklogitems = ['syslog', 'logcat', 'capture', 'tombstone', 'anr']
 
 // 需要 forwardRef 解决 新api  暴露的问题
 let CSelect = (props, ref) => {
@@ -294,6 +294,28 @@ class Debug extends FormCommon {
                   normalize: (value) => Number(value)
                 })(
                   <Checkbox onChange={(e) => this.checkDebugItem(e)} disabled={isCatching}>{$t('c_076')}</Checkbox>
+                )
+              }
+            </Form.Item>
+            {/* 墓碑日志 */}
+            <Form.Item className='debug-item'>
+              {
+                gfd('tombstone', {
+                  valuePropName: 'checked',
+                  normalize: (value) => Number(value)
+                })(
+                  <Checkbox onChange={(e) => this.checkDebugItem(e)} disabled={isCatching}>{$t('c_487')}</Checkbox>
+                )
+              }
+            </Form.Item>
+            {/* ANR日志 */}
+            <Form.Item className='debug-item'>
+              {
+                gfd('anr', {
+                  valuePropName: 'checked',
+                  normalize: (value) => Number(value)
+                })(
+                  <Checkbox onChange={(e) => this.checkDebugItem(e)} disabled={isCatching}>{$t('c_488')}</Checkbox>
                 )
               }
             </Form.Item>
