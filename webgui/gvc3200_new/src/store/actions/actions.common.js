@@ -253,7 +253,7 @@ export const getAcctInfo = () => dispatch => {
           'activate': (i === 1 && +P7059 === 0) ? 0 : parseInt(acctData[`Account_${istr}_ACTIVATE`]), // 账号激活状态 ipvt 账号激活状态还要看7059的p值
           'num': acctData[`Account_${istr}_NO`],
           'server': acctData[`Account_${istr}_SERVER`],
-          'name': name
+          'name': i === 0 ? (acctData[`Account_${istr}_NO`] || name) : name
         })
       })
       dispatch(setAcctStatus(acctStatus)) // 账号状态
