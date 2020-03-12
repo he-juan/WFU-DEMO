@@ -28,7 +28,7 @@ export default {
         {
           label: 'Time',
           lang: 'r_049',
-          path: 'power',
+          path: 'time',
           sub: [
             // 指定网络时间协议服务器地址 1
             { lang: 'sys_tl_001', p: 'P30' },
