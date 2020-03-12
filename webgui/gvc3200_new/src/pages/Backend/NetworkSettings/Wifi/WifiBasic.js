@@ -201,7 +201,7 @@ class WifiDetailModal extends FormCommon {
                   </>
                 : null
             }
-            <Button className='cancle-btn' onClick={this.onHide}>{$t('b_005')}</Button>
+            <Button className='cancle-btn' onClick={() => onHide(null)}>{$t('b_005')}</Button>
             {
               isConnected === 'CONNECTED' && !needModify
                 ? <Button className='disconnect-btn' type='primary' onClick={this.handleDisconnect}>{$t('b_034')}</Button>
@@ -557,7 +557,7 @@ class WifiBasic extends FormCommon {
   render () {
     const { wifiFunc, wifiScaling, wifiList, wifiSelected } = this.state
     const options = this.options
-    // console.log(this.options)
+
     return (
       <Form className='wifi-basic'>
         {/* Wi-Fi功能 */}
