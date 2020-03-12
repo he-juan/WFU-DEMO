@@ -213,6 +213,7 @@ class CallHistory extends Component {
                 <div className='call-history-pagination'>
                   <Pagination
                     className='bak-pagination'
+                    showTotal={total => `Total: ${total}`}
                     showSizeChanger
                     current={curPage}
                     pageSize={pageNum}
