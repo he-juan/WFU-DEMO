@@ -256,7 +256,13 @@ class Call extends Component {
     if (_memToCall.length === 0) {
       // ipvt 快速会议
       if (+selectAcct === 1) {
-        // this.props.quickStartIPVConf(isvideo)
+        API.makeCall([{
+          num: '',
+          acct: 1,
+          isvideo: 1,
+          isconf: 1,
+          source: ''
+        }])
       } else {
         message.error($t('m_234'))
       }

@@ -102,7 +102,11 @@ class ConfCallModal extends Component {
   // 计算当前正在通话的有效线路与待添加的成员合计长度， ipvt算一路，
   liveLinesLength = (tempTotalLines) => {
     // 先过滤掉通话失败的线路
-    let tempLines1 = tempTotalLines.filter(item => parseInt(item.state) !== 8)
+    let tempLines1 = tempTotalLines.filter(item => {
+      // console.log(item)
+      return parseInt(item.state) !== 8
+    })
+
     // 再过滤掉ipvt线路
     let tempLines2 = tempLines1.filter(line => +line.acct !== 1)
     // 比较tempLines1 和 tempLines1长度， 如果少于，说明有ipvt线路， 再补1
@@ -111,15 +115,49 @@ class ConfCallModal extends Component {
     return [ipvtExist, ipvtExist ? tempLines2.length + 1 : tempLines2.length]
   }
 
+  // 全选功能
+  handleSelectAll = (e) => {
+    let { confMembers, maxLineCount, linesInfo } = this.props
+    const _selectedMems = deepCopy(this.state.selectedMems)
+    if (e.target.checked) {
+      let isOverMax = false
+      let ipvtExist = false
+      let restMems = confMembers.filter(mem => !_selectedMems.some(item => { return item.id === mem.id && item.number === mem.number })) // 剩下的可选成员
+
+      while ((!isOverMax || ipvtExist) && restMems[0]) { // 当不超出最大线路数
+        let next = restMems.shift()
+        if (!isOverMax || (ipvtExist && +next.acct === 1)) {
+          _selectedMems.push(next)
+        }
+        let tempTotalLines = [...linesInfo, ..._selectedMems]
+        let [_ipvtExist, totalLen] = this.liveLinesLength(tempTotalLines)
+        ipvtExist = _ipvtExist
+        isOverMax = maxLineCount - totalLen <= 0
+      }
+      this.setState({
+        selectedMems: _selectedMems
+      })
+    } else {
+      this.setState({
+        selectedMems: []
+      })
+    }
+  }
+
+  getIpvtLines = (mems) => {
+    return mems.filter(mem => +mem.acct === 1)
+  }
+
   render () {
     const { confMembers, onCancel, maxLineCount, linesInfo } = this.props
     const { selectedMems, curPage } = this.state
     // 最大线路数 - 通话失败（state === '8'）的线路 - 当前选中的线路
-    // ipvt线路， 算一条线路(该逻辑未加)
+    // ipvt线路， 算一条线路
     let tempTotalLines = [...linesInfo, ...selectedMems]
     let [ipvtExist, totalLen] = this.liveLinesLength(tempTotalLines)
-    // console.log(ipvtExist, totalLen)
     const isOverMax = maxLineCount - totalLen <= 0
+    // 如果ipvt不存在 且超过最大线路数   || 如果存在ipvt且ivpt成员已经全部选中 || 当前选中数已经大于总的待选择成员
+    const isAllSelected = (!ipvtExist && isOverMax) || (ipvtExist && this.getIpvtLines(selectedMems) >= this.getIpvtLines(confMembers)) || selectedMems.length >= confMembers.length
     return (
       <Modal
         visible={confMembers.length > 0}
@@ -132,6 +170,7 @@ class ConfCallModal extends Component {
         width={600}
         footer={
           <div className='conf-call-footer'>
+            <Checkbox className='select-all' checked={isAllSelected} onChange={this.handleSelectAll}>{$t('c_351')}</Checkbox>
             <Button onClick={onCancel}>{$t('b_005')}</Button>
             <Button type='primary' disabled={selectedMems.length === 0} onClick={this.handleCall}>{$t('b_043')}</Button>
           </div>
@@ -153,16 +192,18 @@ class ConfCallModal extends Component {
           <ul className='conf-call-list'>
             {
               confMembers.slice(0, curPage * 50).map(mem => {
+                let isCurChecked = selectedMems.some(item => {
+                  return item.id === mem.id && item.number === mem.number
+                })
                 return (
                   <li key={mem.key || mem.id}>
                     <span>
                       <Checkbox
+                        checked={isCurChecked}
                         disabled={
                           isOverMax &&
                           ((ipvtExist && +mem.acct !== 1) || !ipvtExist) && // 存在ipvt时，ipvt联系人不置灰， 如果不存在ipvt，则默认置灰
-                          !selectedMems.some(item => {
-                            return item.id === mem.id && item.number === mem.number
-                          })
+                          !isCurChecked
                         }
                         onChange={() => this.selectCallMem(mem)}
                       />

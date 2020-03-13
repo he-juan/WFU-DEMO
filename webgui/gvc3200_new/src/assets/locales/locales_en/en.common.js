@@ -667,8 +667,8 @@ const commons = {
   c_230: 'Download',
   c_231: 'No groups, try',
   c_233: 'Group Members',
-  c_234: 'Member',
-  c_235: 'Members',
+  c_234: ' Member',
+  c_235: ' Members',
   c_236: 'New group',
   c_237: 'Edit groups',
   c_238: 'Group name',
@@ -778,6 +778,7 @@ const commons = {
   c_348: 'Video name',
   c_349: 'Audio name',
   c_350: 'Multiple numbers can be separated with "Enter".',
+  c_351: 'Select all',
 
 
   c_391: 'Disabled',
