@@ -145,7 +145,7 @@ class ConfCallModal extends Component {
   }
 
   getIpvtLines = (mems) => {
-    return mems.filter(mem => +mem.acct === 1)
+    return mems.filter(mem => +mem.acct === 1 && +mem.state !== 8)
   }
 
   render () {
@@ -170,7 +170,12 @@ class ConfCallModal extends Component {
         width={600}
         footer={
           <div className='conf-call-footer'>
-            <Checkbox className='select-all' checked={isAllSelected} onChange={this.handleSelectAll}>{$t('c_351')}</Checkbox>
+            {
+              // 如果线路已经超过最大线路数且，线路内不存在ipvt线路 则不显示全选
+              isOverMax && this.getIpvtLines(linesInfo).length === 0 ? null : (
+                <Checkbox className='select-all' checked={isAllSelected} onChange={this.handleSelectAll}>{$t('c_351')}</Checkbox>
+              )
+            }
             <Button onClick={onCancel}>{$t('b_005')}</Button>
             <Button type='primary' disabled={selectedMems.length === 0} onClick={this.handleCall}>{$t('b_043')}</Button>
           </div>

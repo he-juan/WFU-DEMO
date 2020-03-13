@@ -185,9 +185,11 @@ class ContactsEditModal extends Component {
         message.success($t('m_027'))
         this.props.onCancel()
         setTimeout(() => {
-          getCallLogs()
           getContactsAndGroups()
-        }, 5000) // 更新数据， 目前本地生成数据太慢， 暂时设成5秒， 到时看情况改
+        }, 200) // 更新数据
+        setTimeout(() => {
+          getCallLogs()
+        }, 4500)
       } else {
         // 后端没有返回是否是联系人满了，只能自己判断下...
         if (maxContactsCount && maxContactsCount <= contacts.length) {

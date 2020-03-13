@@ -70,7 +70,13 @@ class ContactTab extends Component {
     const { filterKey } = this.state
     let filteredContacts
     if (filterKey.length) {
-      filteredContacts = deepCopy(contacts.filter(contact => contact.name.displayname.toLowerCase().indexOf(filterKey.toLowerCase()) > -1))
+      filteredContacts = deepCopy(contacts.filter(contact => {
+        let lowerdisplayName = contact.name.displayname.toLowerCase()
+        let lowerFilterKey = filterKey.toLowerCase()
+        let lowerPhones = contact.phone.map(item => item.number.toLowerCase())
+        let matched = lowerdisplayName.includes(lowerFilterKey) || lowerPhones.some(number => number.includes(lowerFilterKey))
+        return matched
+      }))
     } else {
       filteredContacts = deepCopy(contacts)
     }
@@ -175,8 +181,10 @@ class ContactTab extends Component {
     const { getContactsAndGroups, getCallLogs } = this.props
     setTimeout(() => {
       getContactsAndGroups()
+    }, 200)
+    setTimeout(() => {
       getCallLogs()
-    }, 3000)
+    }, 4500)
   }
 
   // 切换显示导入联系人弹窗
