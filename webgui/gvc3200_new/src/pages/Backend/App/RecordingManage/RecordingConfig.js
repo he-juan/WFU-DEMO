@@ -56,12 +56,16 @@ class RecordingConifg extends FormCommon {
     let { pathList, curPath, tempPath } = this.state
     let children = []
     if (pathList.length > 0) {
-      let isExist = pathList.find(item => item === curPath)
-      !isExist && (curPath = pathList[0])
-
-      pathList.forEach((item, index) => {
-        children.push(<Select.Option value={item} key={item}>{$t('c_030') + (index + 1)}</Select.Option>)
+      let isExist = pathList.find(item => item.path === curPath)
+      !isExist && (curPath = pathList[0].path)
+      // type 0 usb, 1 sd
+      pathList.filter(item => +item.type === 0).forEach(({ type, path }, index) => {
+        children.push(<Select.Option value={path} key={path}>{$t('c_030') + (index + 1)}</Select.Option>)
       })
+      pathList.filter(item => +item.type === 1).forEach(({ type, path }, index) => {
+        children.push(<Select.Option value={path} key={path}>{$t('c_031')}</Select.Option>)
+      })
+
       tempPath && (curPath = tempPath)
       return (
         <Select value={curPath} onChange={this.handleChangeRecordPath} getPopupContainer={(triggerNode) => { return triggerNode }}>
