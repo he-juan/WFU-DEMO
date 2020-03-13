@@ -101,7 +101,7 @@ class AudioList extends Component {
     return (
       <div id={'record' + record.Id} className='record-operation'>
         {/* 下载 */}
-        <button className='icons icon-tddownload' title={$t('b_021')} id = {'download' + index} onClick={() => this.handleDownloadItem(record, index)}></button>
+        <button className='icons icon-tddownload' title={$t('b_021')} id = {'download' + index} onClick={() => this.handleDownloadItem(record)}></button>
         {/* 编辑 */}
         <button className='icons icon-tdedit' disabled={record.Lock === '1'} title={tit[0]} id = {'edit' + index} onClick={() => this.handleEditItem(record, index)}></button>
         {/* 锁定/解锁 */}
@@ -221,14 +221,20 @@ class AudioList extends Component {
   }
 
   // 表格 操作 - 下载
-  handleDownloadItem = (record, index) => {
-    let { Path } = record
-    let { pathOnly, name } = this.getRecordNameAndPath(Path, true)
-    if (pathOnly) {
-      window.location.href = pathOnly + encodeURIComponent(name) + '?time=' + new Date().getTime()
-    } else {
-      window.location.href = '/Recording/' + encodeURIComponent(name) + '?time=' + new Date().getTime()
-    }
+  handleDownloadItem = ({ Id }) => {
+    API.downloadRecord(Id).then(res => {
+      if (res.Response === 'Success') {
+        const a = document.createElement('a')
+        a.setAttribute('id', 'downloadRecord')
+        a.setAttribute('href', '/' + res.Path)
+        a.setAttribute('download', '')
+        document.body.appendChild(a)
+        document.getElementById('downloadRecord').click()
+        document.getElementById('downloadRecord').remove()
+      } else {
+        message.error($t('m_118'))
+      }
+    })
   }
 
   // 表格 操作 - 编辑

@@ -115,3 +115,13 @@ export const safeMonitorChanged = () => {
     url: '/manager?action=safesettingschanged'
   })
 }
+
+/**
+ * 下载录像
+ */
+export const downloadRecord = id => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=recording&region=maintenance&type=downloadrecord&id=' + id
+  })
+}
