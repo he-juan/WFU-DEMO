@@ -137,6 +137,7 @@ class ContactsEditModal extends Component {
     const { contacts } = this.props
     const { editContacts } = this.state
     const { name, isAdd } = editContacts
+
     if (name['displayname'].length === 0) {
       message.error($t('m_102'))
       return false
@@ -159,7 +160,7 @@ class ContactsEditModal extends Component {
     //  提交格式。。。。
     const contactInfo = {
       rawcontact: isAdd ? {} : { contactid: id },
-      structuredname: { displayname: name['displayname'] },
+      structuredname: { displayname: encodeURIComponent(name['displayname']) },
       groupmembership: group.filter(g => g.id !== '').map(g => ({
         groupid: g.id
       })),

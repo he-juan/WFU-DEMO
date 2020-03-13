@@ -67,7 +67,7 @@ class GroupEditModal extends Component {
       return false
     }
     this.setState({ submitting: true })
-    let data = await API.setGroup(`${groupId}:::${groupName}`)
+    let data = await API.setGroup(`${groupId}:::${encodeURIComponent(groupName)}`)
     if (data.res !== 'success') {
       message.error($t('m_002'))
       this.setState({ submitting: false })
