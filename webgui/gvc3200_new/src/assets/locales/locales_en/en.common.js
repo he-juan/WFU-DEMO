@@ -431,6 +431,7 @@ const msgs = {
   m_258: '{s} has been used',
   m_259: 'There is currently no active accont',
   m_260: 'Invalid file format.',
+  m_261: 'The WiFi list refreshes automatically every 12 seconds. You can also click Scan button to refresh.',
 
   m_999: ''
 }

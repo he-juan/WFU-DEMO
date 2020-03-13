@@ -1,6 +1,6 @@
 import React from 'react'
 import FormCommon from '@/components/FormCommon'
-import { Form, Button, Switch, Modal, message } from 'antd'
+import { Form, Button, Switch, Modal, Tooltip, message } from 'antd'
 import FormItem, { SelectItem, InputItem, PwInputItem, CheckboxItem, RadioGroupItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
 import NoData from '@/components/NoData'
@@ -566,7 +566,9 @@ class WifiBasic extends FormCommon {
         </FormItem>
         {/* ESSID */}
         <FormItem {...options['ESSID']}>
-          <Button type='primary' className='scan-btn' disabled={wifiFunc !== '1'} onClick={() => this.handleWifiScan()} loading={wifiScaling}>{$t('b_030')}</Button>
+          <Tooltip placement='right' title={$t('m_261')}>
+            <Button type='primary' className='scan-btn' disabled={wifiFunc !== '1'} onClick={() => this.handleWifiScan()} loading={wifiScaling}>{$t('b_030')}</Button>
+          </Tooltip>
         </FormItem>
         <div className='wifilist-wrapper'>
           {
