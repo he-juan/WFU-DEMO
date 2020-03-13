@@ -38,6 +38,19 @@ class TR069 extends FormCommon {
     }
   }
 
+  // 验证估计服务器网址非数字
+  validateUrl = () => {
+    return {
+      validator: (data, value, callback) => {
+        if (value && /^\d+$/.test(value)) {
+          callback($fm('m_072'))
+        } else {
+          callback()
+        }
+      }
+    }
+  }
+
   // 开启改变
   handleEnableChange = (e) => {
     const { getFieldValue, setFields } = this.props.form
@@ -81,7 +94,8 @@ class TR069 extends FormCommon {
           gfdOptions={{
             rules: [
               { required: P1409 === 1, message: $fm('m_003') },
-              this.checkaddressPath()
+              /// this.checkaddressPath()
+              this.validateUrl()
             ]
           }}
         />
