@@ -153,6 +153,9 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define DOWN_PHONEBOOK              "phonebook"
 #define RECORING_PATH                      "/mnt/extsd/Recording"
 
+#define WEB_TMP_PATH        "/data/.web_tmp"
+#define DOWNLOAD_RECORD_TMP_PATH     WEB_TMP_PATH"/recordings/"
+
 #define JSON_TEMPLATE "var result = {\"Response\":\"%s\"%s};"
 
 #define GUI_XML_PARSE_ATTR    (XML_PARSE_NOBLANKS |XML_PARSE_NOERROR | XML_PARSE_NOWARNING)
@@ -4080,7 +4083,80 @@ static int sqlite_handle_recording(buffer *b, const struct message *m, const cha
             return -1;
         }
         buffer_append_string(b,"{\"Response\":\"Success\"}");
+    } else if (!strcasecmp(type, "downloadrecord")) {
+        sqlite3_stmt *stmt;
+        rc= sqlite3_prepare_v2(db,sqlstr, strlen(sqlstr), &stmt,0);
+        if( rc ){
+            LOGD("Can't open statement: %s\n", sqlite3_errmsg(db));
+            LOGD(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+            buffer_append_string(b,"{\"Response\":\"Error\"}");
+            sqlite3_close(db);
+            return -1;
+        }
+
+        char *path = NULL;
+
+        while(sqlite3_step(stmt)==SQLITE_ROW ) {
+            path = (char*)sqlite3_column_text(stmt, 0);   // path
+            break;
+        }
+
+        if (NULL != path) {
+            if (access(WEB_TMP_PATH, 0)) {
+                mkdir(WEB_TMP_PATH, 0766);
+            }
+
+            if (access(DOWNLOAD_RECORD_TMP_PATH, 0)) {
+                mkdir(DOWNLOAD_RECORD_TMP_PATH, 0766);
+            }
+
+            int len = strlen(path) + 16;
+            
+            char *originalPath = (char*)malloc(len);
+            memset(originalPath, 0, len);
+            snprintf(originalPath, len, "%s", path);
+
+            char *filename = (char*)malloc(len);
+
+            char *name_p = strtok(path, "/");
+            while(name_p != NULL) {
+                memset(filename, 0, len);
+                snprintf(filename, len, "%s", name_p);
+                name_p = strtok(NULL, "/");
+            }
+
+            LOGD("filename: %s", filename);
+
+            len = strlen(filename) + strlen(DOWNLOAD_RECORD_TMP_PATH) + 16;
+
+            char *targetPath = (char*)malloc(len);
+            memset(targetPath, 0, len);
+            snprintf(targetPath, len, "%s/%s", DOWNLOAD_RECORD_TMP_PATH, filename);
+
+            LOGD("ori path: %s", originalPath);
+            LOGD("link path: %s", targetPath);
+
+            if (access(targetPath, 0) == 0) {
+                unlink(targetPath);
+            }
+
+            int ret = symlink(originalPath, targetPath);
+            if (ret == 0) {
+                buffer_append_string(b, "{\"Response\": \"Success\", \"Path\":\"recordings/");
+                buffer_append_string(b, filename);
+                buffer_append_string(b, "\"}");
+            } else {
+                buffer_append_string(b,"{\"Response\":\"Error\"}");
+            }
+
+            free(filename);
+            free(originalPath);
+            free(targetPath);
+        }
+
+        sqlite3_finalize(stmt);
     }
+
 
     sqlite3_close(db);
     return result;
@@ -4239,6 +4315,15 @@ static int handle_recording(buffer *b, const struct message *m)
                 memset(sqlstr, 0, updatelen);
                 snprintf(sqlstr, updatelen, "update recording_list set lockstate=%d where _id=%d", lockstate, atoi(temp));
             }
+        }
+    } else if (!strcasecmp(type, "downloadrecord")) {
+        char *recordId = msg_get_header(m, "id");
+
+        int updatelen = 128;
+        if (NULL != recordId) {
+            sqlstr = malloc(updatelen);
+            memset(sqlstr, 0, updatelen);
+            snprintf(sqlstr, updatelen, "select location from recording_list where _id=%s", recordId);
         }
     }
 
