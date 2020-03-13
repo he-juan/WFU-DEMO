@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Table, Tooltip } from 'antd'
 import NoData from '@/components/NoData'
 import ConfCallModal from '@/components/ComponentsOfCall/ConfCallModal'
-import { getRecordIcon as getIconClass, momentFormat, escapeRegExp } from '@/utils/tools'
+import { getRecordIcon as getIconClass, momentFormat, escapeRegExp, debounce } from '@/utils/tools'
 import API from '@/api'
 import { $t } from '@/Intl'
 import { connect } from 'react-redux'
@@ -36,6 +36,14 @@ class LogAndContacts extends Component {
     const winHeight = document.documentElement.clientHeight || window.innerHeight
     return winHeight - 50 - 65 - 170 - 65
   }
+
+  // 监控窗口变化，修改内容高度
+  windowResizeHandler = debounce(() => {
+    let contentHeight = this.calContentHeight()
+    this.setState({
+      maxHeight: contentHeight
+    })
+  }, 300)
 
   handleRowClick = (record) => {
     if (!record.children) return false
@@ -97,10 +105,14 @@ class LogAndContacts extends Component {
     }, 100)
   }
 
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.windowResizeHandler)
+  }
+
   componentDidMount () {
     const { dataSource } = this.props
     DATASOURCE = dataSource
-
+    window.addEventListener('resize', this.windowResizeHandler)
     // 获取是否开启了 自动视频 功能
     API.getPvalues(['P25023']).then(data => {
       this.setState({
