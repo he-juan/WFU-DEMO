@@ -8,6 +8,9 @@ import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/Form
 import { setProp as ApiSetProp } from '@/api/api.maintenance'
 import { $t } from '@/Intl'
 
+let INIT_START // 开始时间
+let INIT_END // 结束时间
+
 const isChanged = (target) => {
   return target && target.touched
 }
@@ -30,10 +33,18 @@ const isChanged = (target) => {
         props.form.setFieldsValue({
           P285: ''
         })
+      } else {
+        props.form.setFieldsValue({
+          P285: INIT_START
+        })
       }
       if ((P193 && parseInt(P193) <= 1440 && P22296 === '1') || P8458 !== 1) {
         props.form.setFieldsValue({
           P8459: ''
+        })
+      } else {
+        props.form.setFieldsValue({
+          P8459: INIT_END
         })
       }
     }
@@ -136,6 +147,8 @@ class Provision extends FormCommon {
       //   data['P285'] = ''
       //   data['P8459'] = ''
       // }
+      INIT_START = this.INIT_VALUE['P285']
+      INIT_END = this.INIT_VALUE['P8459']
       setFieldsValue(data)
     })
   }
@@ -163,6 +176,11 @@ class Provision extends FormCommon {
           this.props.form.setFieldsValue({
             P285: '',
             P8459: ''
+          })
+        } else {
+          this.props.form.setFieldsValue({
+            P285: INIT_START,
+            P8459: INIT_END
           })
         }
       }
@@ -205,7 +223,10 @@ class Provision extends FormCommon {
     if (!values['P8501']) {
       return message.error($t('m_131'))
     }
-    this.submitFormValue(values) // 提交修改
+    this.submitFormValue(values).then(() => {
+      INIT_START = values['P285']
+      INIT_END = values['P8459']
+    }) // 提交修改
     ApiSetProp(3, +other['P145'] === 1 ? 1 : 0)
   }
 
