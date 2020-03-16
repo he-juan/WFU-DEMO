@@ -26,12 +26,12 @@ const isChanged = (target) => {
   onFieldsChange (props, fields) {
     if (isChanged(fields.P193) || isChanged(fields.P22296) || isChanged(fields.P8458)) {
       let { P193, P22296, P8458 } = props.form.getFieldsValue(['P193', 'P22296', 'P8458'])
-      if ((P22296 === '1' && (P8458 !== 1 || parseInt(P193) < 1440))) {
+      if ((P22296 === '1' && (P8458 !== 1 || parseInt(P193) <= 1440))) {
         props.form.setFieldsValue({
           P285: ''
         })
       }
-      if ((P193 && parseInt(P193) < 1440 && P22296 === '1') || P8458 !== 1) {
+      if ((P193 && parseInt(P193) <= 1440 && P22296 === '1') || P8458 !== 1) {
         props.form.setFieldsValue({
           P8459: ''
         })
@@ -144,41 +144,41 @@ class Provision extends FormCommon {
   handleChangeAutoup = (value, bool = true) => {
     let values = this.props.form.getFieldsValue()
     let mode = {}
-    if (value === '0' || value === '') {
+    if (value === '0' || value === '') { // 如果 自动升级为否 则：
       mode = {
-        isHidePeroid: true,
-        isHideRandom: true,
-        isHideStartEndHour: true,
-        isHideDayofweek: true
+        isHidePeroid: true, // 隐藏 "自动升级检查间隔"
+        isHideRandom: true, // 隐藏 "开启随机自动升级"
+        isHideStartEndHour: true, // 隐藏 自动升级时间(0-23)
+        isHideDayofweek: true // 隐藏 每周的星期几
       }
-    } else if (value === '1') {
+    } else if (value === '1') { // 如果 自动升级为每分钟检查 则：
       mode = {
-        isHidePeroid: false,
-        isHideRandom: false,
-        isHideStartEndHour: false,
-        isHideDayofweek: true
+        isHidePeroid: false, // 显示 "自动升级检查间隔"
+        isHideRandom: false, // 显示 "开启随机自动升级"
+        isHideStartEndHour: false, // 显示 "自动升级时间(0-23)"
+        isHideDayofweek: true // 隐藏 每周的星期几
       }
       if (bool) {
-        if (values['P22296'] === '1' && (values['P8458'] !== 1 || parseInt(values['P193']) < 1440)) {
+        if (values['P22296'] === '1' && (values['P8458'] !== 1 || parseInt(values['P193']) <= 1440)) {
           this.props.form.setFieldsValue({
             P285: '',
             P8459: ''
           })
         }
       }
-    } else if (value === '2') {
+    } else if (value === '2') { // 如果 自动升级为每天检查
       mode = {
-        isHidePeroid: true,
-        isHideRandom: false,
-        isHideStartEndHour: false,
-        isHideDayofweek: true
+        isHidePeroid: true, // 隐藏 "自动升级检查间隔"
+        isHideRandom: false, // 显示 "开启随机自动升级"
+        isHideStartEndHour: false, // 显示 "自动升级时间(0-23)"
+        isHideDayofweek: true // 隐藏 每周的星期几
       }
-    } else if (value === '3') {
+    } else if (value === '3') { // 如果 自动升级为每周检查
       mode = {
-        isHidePeroid: true,
-        isHideRandom: false,
-        isHideStartEndHour: false,
-        isHideDayofweek: false
+        isHidePeroid: true, // 隐藏 "自动升级检查间隔"
+        isHideRandom: false, // 显示 "开启随机自动升级"
+        isHideStartEndHour: false, // 显示 "自动升级时间(0-23)"
+        isHideDayofweek: false // 隐藏 每周的星期几
       }
     }
     this.setState(mode)
@@ -228,7 +228,7 @@ class Provision extends FormCommon {
               }
             })
           }
-          // 无论是按分钟还是按天 按周 ，只要开启了自动升级，则开始时间和结束时间都必须填
+          // 无论是按分钟还是按天 按周 ，只要开启了随机自动升级 且 开始时间 不会空，则结束时间必填
           if (+values['P8458'] === 1) {
             if (values['P285'] && !values['P8459']) {
               return setFields({
@@ -331,7 +331,7 @@ class Provision extends FormCommon {
               })(
                 <Input
                   disabled={
-                    (P22296 === '1' && (P8458 !== 1 || parseInt(P193) < 1440)) // // 如果自动升级类型为每分钟检查(P22296 === ‘1’)时，不勾选随机自动升级((P8458 !== 1) 或 自动升级检查间隔 小于1440
+                    (P22296 === '1' && (P8458 !== 1 || parseInt(P193) <= 1440)) // // 如果自动升级类型为每分钟检查(P22296 === ‘1’)时，不勾选随机自动升级((P8458 !== 1) 或 自动升级检查间隔 小于1440
                   }
                   style={{ width: '150px' }}
                 ></Input>
@@ -348,7 +348,7 @@ class Provision extends FormCommon {
                   this.range(0, 23)
                 ]
               })(
-                <Input disabled={(P193 && parseInt(P193) < 1440 && P22296 === '1') || P8458 !== 1} style={{ width: '150px' }}></Input>
+                <Input disabled={(P193 && parseInt(P193) <= 1440 && P22296 === '1') || P8458 !== 1} style={{ width: '150px' }}></Input>
               )
             }
           </Form.Item>
