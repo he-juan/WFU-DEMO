@@ -41,9 +41,9 @@ const LocalConfList = (props) => {
           return (
             <div className='confbox' key={index} onClick={(e) => handleSetConf('preview', e, item)}>
               <Row>
-                <Col className='ellipsis' title={item.Displayname} span={15}>
+                <Col title={item.Displayname} span={15}>
                   {+item['Recycle'] !== 0 && <i className='icons icon-repeat' />}
-                  {item.Displayname}
+                  <div className='ellipsis'>{item.Displayname}</div>
                 </Col>
                 <Col className='conf-status' span={9}>
                   <span className={'statecolor' + item.Confstate}>{stateObj[item.Confstate]}</span>
