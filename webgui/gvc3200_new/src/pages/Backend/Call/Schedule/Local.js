@@ -78,7 +78,7 @@ class LocalSchedule extends Component {
         return {
           num: el.Number,
           acct: el.Acctid,
-          isvideo: '1',
+          isvideo: el.IsVideo,
           isconf: '1',
           source: el.RecordFrom
         }
