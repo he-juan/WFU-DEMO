@@ -449,8 +449,8 @@ class InviteMemberModal extends Component {
         title={$t('c_336')}
         footer={
           <div>
-            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(0)}>{$t('b_062')}</Button>
-            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite(1)}>{$t('b_061')}</Button>
+            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite('0')}>{$t('b_062')}</Button>
+            <Button type='primary' disabled={memToCall.length === 0 && selectAcct !== '2'} onClick={() => this.handleInvite('1')}>{$t('b_061')}</Button>
           </div>
         }
       >
