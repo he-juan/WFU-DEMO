@@ -6,17 +6,13 @@ import { Dropdown, Menu, Input, Button, Icon, message } from 'antd'
 import TagsInput from 'react-tagsinput'
 import { connect } from 'react-redux'
 import { setDefaultAcct, getAcctInfo } from '@/store/actions'
-import { deepCopy, parseAcct, mapToSource } from '@/utils/tools'
+import { deepCopy, parseAcct, mapToSource, isIp } from '@/utils/tools'
 import LogAndContacts from './LogAndContacts'
 import API from '@/api'
 import { $t, formatMessage } from '@/Intl'
 import './Call.less'
 
-const isIp = (value) => {
-  return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$/i.test(value) ||
-  (/^\[?((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(:((:[0-9a-fA-F]{1,4}){1,6}|:))|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:))|(([0-9a-fA-F]{1,4}:){2}((:[0-9a-fA-F]{1,4}){1,4}|:))|(([0-9a-fA-F]{1,4}:){3}((:[0-9a-fA-F]{1,4}){1,3}|:))|(([0-9a-fA-F]{1,4}:){4}((:[0-9a-fA-F]{1,4}){1,2}|:))|(([0-9a-fA-F]{1,4}:){5}:([0-9a-fA-F]{1,4})?)|(([0-9a-fA-F]{1,4}:){6}:))\]?$/.test(value) &&
-  ((value.indexOf('[') !== -1 && value.indexOf(']')) !== -1 || (!(value.indexOf('[') !== -1) && !(value.indexOf(']') !== -1))))
-}
+
 
 @connect(
   state => ({

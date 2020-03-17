@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import LocalSelect from '@/components/LocalSelect'
 import RemoteControl2 from '@/components/RemoteControl' // 遥控器
-import RemoteControl from './RemoteControl'
+// import RemoteControl from './RemoteControl'
 import ScreenShare from './ScreenShare'
 import ApplyBtn from './ApplyBtn'
 import UserMenu from './UserMenu'
@@ -33,8 +33,8 @@ class BakHeader extends Component {
         {/* 遥控器 */}
         <RemoteControl2 productInfo={productInfo}/>
         <em className='border' />
-        <RemoteControl />
-        <em className='border' />
+        {/* <RemoteControl />
+        <em className='border' /> */}
         <ScreenShare />
         <em className='border' />
         <DNDBtn />

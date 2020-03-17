@@ -57,7 +57,8 @@ export const changDefaultPwd = (params) => {
 export const getConnectState = () => {
   return _axios({
     method: 'get',
-    url: '/manager?action=getconnectstate'
+    url: '/manager?action=getconnectstate',
+    timeout: 5000
   })
 }
 

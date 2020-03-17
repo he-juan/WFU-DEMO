@@ -196,7 +196,7 @@ class Provision extends FormCommon {
         isHidePeroid: true, // 隐藏 "自动升级检查间隔"
         isHideRandom: false, // 显示 "开启随机自动升级"
         isHideStartEndHour: false, // 显示 "自动升级时间(0-23)"
-        isHideDayofweek: false // 隐藏 每周的星期几
+        isHideDayofweek: false // 显示 每周的星期几
       }
     }
     this.setState(mode)

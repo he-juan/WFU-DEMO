@@ -116,6 +116,14 @@ class Backend extends Component {
             }
           })
         }
+      }).catch(err => {
+        console.error(err)
+        window.localStorage.setItem('logindate', '')
+        store.dispatch(setUserType(null))
+        Cookie.remove('type')
+        Cookie.remove('logindate')
+        this.props.history.push('/login')
+        clearInterval(LOGOUT_TIMER)
       })
     }, 10000)
   }
