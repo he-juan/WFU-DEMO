@@ -36,9 +36,17 @@ class Camera extends FormCommon {
 
   handleSubmit = () => {
     const { validateFields } = this.props.form
+    const { presetInfo } = this.state
+
     validateFields((err, values) => {
       if (!err) {
-        this.submitFormValue(values)
+        // 需要将每个预置位的 Pcamera_boot_position 传递过去 系统默认位置 0,0,0,591105
+        let Pcamera_boot_position = '0,0,0,591105' // 系统默认位置，当前固定 后期看安卓端怎么处理
+        if (+values.P25030 !== 0) {
+          const position = +values.P25030 < 100 ? +values.P25030 - 1 : 100
+          Pcamera_boot_position = presetInfo.filter(item => +item.position === position)[0].cmrparam
+        }
+        this.submitFormValue(Object.assign({}, values, { Pcamera_boot_position }))
       }
     })
   }
