@@ -7,7 +7,7 @@ import { deepCopy } from '@/utils/tools'
 import ContactsTab from './ContactsTab'
 import CallLogsTab from './CallLogsTab'
 import GroupMembersModal from './GroupMembersModal'
-import { $t } from '@/Intl'
+import { $t, formatMessage } from '@/Intl'
 import './InviteMemberModalStyle.less'
 
 const Option = Select.Option
@@ -84,7 +84,7 @@ class InviteMemberModal extends Component {
     // 如果当前输入框内成员数加已有线路数 大于限制 且 当前待添加的不是IPVT
     if (curLinesLen >= maxLineCount) {
       if (IPVTlen === 0) {
-        message.error($t('m_137')) // 成员数量已达上限
+        message.error(formatMessage({ id: 'm_137' }, { max: maxLineCount })) // 成员数量已达上限
       } else if (IPVTlen > 0 && +lastMem.acct !== 1) {
         message.error($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
         flag === 'input' && this.setState({ selectAcct: '1' })

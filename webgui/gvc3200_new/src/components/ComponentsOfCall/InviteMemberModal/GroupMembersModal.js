@@ -133,7 +133,10 @@ class GroupMembersModal extends Component {
       {
         key: 'col0',
         dataIndex: 'col0',
-        width: '35%'
+        width: '35%',
+        render: (text, record, index) => {
+          return <span title={text}>{text}</span>
+        }
       },
       {
         key: 'col1',
@@ -172,7 +175,7 @@ class GroupMembersModal extends Component {
     return (
       <Modal
         width={800}
-        className='invitemember-modal'
+        className='group-members-modal'
         visible={true}
         onCancel={this.handleCancel}
         title={$t('b_056')}
