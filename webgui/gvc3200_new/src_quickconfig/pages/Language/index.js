@@ -8,6 +8,8 @@ import { $t } from '../../Intl'
 class Language extends Component {
   static contextType = GlobalContext
 
+  cachedLocale = JSON.parse(JSON.stringify(this.context.curLocale))
+
   componentDidMount () {
     this.initLanguageAndList()
   }
@@ -102,6 +104,15 @@ class Language extends Component {
     })
   }
 
+  handleConfirmLang = () => {
+    this.cachedLocale = JSON.parse(JSON.stringify(this.context.curLocale))
+  }
+
+  handleDismissLang = () => {
+    const { setCurLocale } = this.context
+    setCurLocale(this.cachedLocale)
+  }
+
   handleSubmit = () => {
     const { curLocale } = this.context
     if (curLocale.length === 0) return history.replace('/timezone')
@@ -122,6 +133,8 @@ class Language extends Component {
             cols={2}
             value={curLocale}
             onPickerChange={this.handlePickLang}
+            onDismiss={this.handleDismissLang}
+            onChange={this.handleConfirmLang}
           >
             <List.Item arrow='horizontal'>{$t('c_005')}</List.Item>
           </Picker>
