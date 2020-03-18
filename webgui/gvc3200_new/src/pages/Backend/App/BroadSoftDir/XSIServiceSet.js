@@ -14,12 +14,12 @@ class BroadSoftDirOrder extends React.Component {
   }
 
   valueMap = {
-    '0': $fm('c_452'),
-    '1': $fm('c_453'),
-    '2': $fm('c_454'),
-    '3': $fm('c_455'),
-    '4': $fm('c_456')
-    // '5': $fm('c_457')
+    '0': $fm('c_452'), // 个人目录
+    '1': $fm('c_453'), // 群组常用
+    '2': $fm('c_454'), // 群组目录
+    '3': $fm('c_455'), // 企业常用
+    '4': $fm('c_456') // 企业目录
+    // '5': $fm('c_457') // Polycom电话簿BroadSoft
   }
 
   // 排序 value eg. 0,1,2,3,4,5
@@ -109,7 +109,7 @@ class XSIServiceSet extends FormCommon {
   componentDidMount () {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
-      data.Pbs_contacts_order = data.Pbs_contacts_order || '0,1,2,3,4,5'
+      data.Pbs_contacts_order = data.Pbs_contacts_order || '0,1,2,3,4'
       setFieldsValue(data)
       this.setState({
         loaded: true
@@ -141,7 +141,7 @@ class XSIServiceSet extends FormCommon {
     const P22054 = getFieldValue('P22054')
     return (
       <Spin wrapperClassName='common-loading-spin' spinning={!this.state.loaded}>
-        <Form>
+        <Form hideRequiredMark>
           {/* 认证类型 */}
           <SelectItem
             {...options['P22054']}
