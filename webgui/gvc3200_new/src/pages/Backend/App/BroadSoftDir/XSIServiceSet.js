@@ -217,6 +217,7 @@ class XSIServiceSet extends FormCommon {
             gfdOptions={{
               rules: [
                 this.digits(),
+                this.required(),
                 this.range(60, 2147483647)
               ]
             }}
