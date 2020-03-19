@@ -13,7 +13,7 @@ class NetworkDir extends FormCommon {
     { label: 'c_453', enabled: 'P2975', name: 'P2976' }, // 群组常用
     { label: 'c_455', enabled: 'P2977', name: 'P2978' }, // 企业常用
     { label: 'c_452', enabled: 'P2979', name: 'P2980' }, // 个人目录
-    { label: 'c_457', enabled: 'P8343', name: 'P8344' }, // Polycom电话簿
+    // { label: 'c_457', enabled: 'P8343', name: 'P8344' }, // Polycom电话簿
     { label: 'c_460', enabled: 'P2981', name: 'P2982' }, // 未接来电记录
     { label: 'c_461', enabled: 'P2983', name: 'P2984' }, // 拨打记录
     { label: 'c_462', enabled: 'P2985', name: 'P2986' } // 接听记录
@@ -30,7 +30,7 @@ class NetworkDir extends FormCommon {
       data['P2975'] = data['P2975'] || '0'
       data['P2977'] = data['P2977'] || '0'
       data['P2979'] = data['P2979'] || '0'
-      data['P8343'] = data['P8343'] || '0'
+      // data['P8343'] = data['P8343'] || '0'
       data['P2981'] = data['P2981'] || '0'
       data['P2983'] = data['P2983'] || '0'
       data['P2985'] = data['P2985'] || '0'
