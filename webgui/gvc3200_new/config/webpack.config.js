@@ -275,12 +275,12 @@ module.exports = function(webpackEnv) {
         chunks: 'all',
         name: false,
         cacheGroups: {
-          intl_locales: {
-            name: 'intl_locales',
-            test(modules, chunks){
-              return (/src\/assets\/locales/).test(modules.resource)
-            }
-          }
+          // intl_locales: {
+          //   name: 'intl_locales',
+          //   test(modules, chunks){
+          //     return (/src\/assets\/locales/).test(modules.resource)
+          //   }
+          // }
         }
       },
       // Keep the runtime chunk separated to enable long term caching

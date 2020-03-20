@@ -1,5 +1,5 @@
 // https://github.com/formatjs/react-intl/issues/983#issuecomment-342314143
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { IntlProvider, addLocaleData, intlShape, FormattedMessage } from 'react-intl'
 import { ConfigProvider } from 'antd'
 import moment from 'moment'
@@ -8,24 +8,20 @@ import { connect } from 'react-redux'
 // react-intl
 import en from 'react-intl/locale-data/en'
 import zh from 'react-intl/locale-data/zh'
-// antd-locale
-import ant_zhCN from 'antd/es/locale-provider/zh_CN'
-import ant_enUS from 'antd/es/locale-provider/en_US'
-// custom
-import locales_en from '@/assets/locales/locales_en'
-import locales_zh from '@/assets/locales/locales_zh'
 
 addLocaleData([...en, ...zh])
 
-const IntlLocale = {
+const LocalePromise = {
   'en': {
-    messages: locales_en,
-    antLocale: ant_enUS,
+    get_messages: () => import(/* webpackChunkName: "locale.en" */'@/assets/locales/locales_en'),
+    get_antLocale: () => import(/* webpackChunkName: "locale.en" */'antd/es/locale-provider/en_US'),
+    get_reactIntlLocale: () => import(/* webpackChunkName: "locale.en" */'react-intl/locale-data/en'),
     momentLocale: 'en'
   },
   'zh': {
-    messages: locales_zh,
-    antLocale: ant_zhCN,
+    get_messages: () => import(/* webpackChunkName: "locale.zh" */'@/assets/locales/locales_zh'),
+    get_antLocale: () => import(/* webpackChunkName: "locale.zh" */'antd/es/locale-provider/zh_CN'),
+    get_reactIntlLocale: () => import(/* webpackChunkName: "locale.zh" */'react-intl/locale-data/zh'),
     momentLocale: 'zh-cn'
   }
 }
@@ -56,8 +52,35 @@ export const $fm = (id, values) => {
 
 const IntlWrapper = (props) => {
   const { children, locale } = props
-  const { antLocale, messages, momentLocale } = IntlLocale[locale]
+  const [ IntlLocale, setIntlLocale ] = useState({
+    antLocale: null,
+    messages: null,
+    momentLocale: null
+  })
+
+  useEffect(() => {
+    const { get_messages, get_antLocale, get_reactIntlLocale, momentLocale } = LocalePromise[locale]
+    Promise.all([get_messages(), get_antLocale(), get_reactIntlLocale()])
+      .then(([customMessage, antLocale, reactIntlLocale]) => {
+        let _intlLocale = {
+          // Object.assign 保证对应语言没有词条时默认使用en (连不同语言的词条都没统一，fuck)
+          messages: customMessage.default,
+          antLocale: antLocale.default,
+          reactIntlLocale: reactIntlLocale,
+          momentLocale: momentLocale
+        }
+        setIntlLocale(_intlLocale)
+      })
+  }, [locale])
+
+  const { antLocale, messages, momentLocale, reactIntlLocale } = IntlLocale
+
+  if (!antLocale) return null // todo 加载语言的loading
+
   moment.locale(momentLocale)
+
+  addLocaleData([...Object.values(reactIntlLocale)])
+
   return (
     // antd组件国际化 切换语言， 需要刷新浏览器， 这里暂时在backend组件内部用key强制刷新
     <ConfigProvider locale={antLocale}>
