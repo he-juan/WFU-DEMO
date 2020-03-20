@@ -42,7 +42,7 @@ class SiteName extends FormCommon {
           API.setSitesettingOffset({ horizont: horizont, direction: 'x' })
         ]).then((m) => {
           if (m.filter(r => r.res !== 'success').length === 0) {
-            message.success('保存成功!')
+            message.success($t('m_001'))
           }
         })
       }

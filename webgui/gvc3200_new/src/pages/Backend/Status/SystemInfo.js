@@ -38,7 +38,7 @@ class SystemInfo extends Component {
           {sysInfo['Product'] || ''}
         </FormItem>
         {/* 硬件版本 */}
-        <FormItem lang='sta_017'>
+        <FormItem lang='sta_017' ptitle='Phw_rev'>
           {sysInfo['Phw_rev'] || ''}
         </FormItem>
         {/* PN值 */}
@@ -46,7 +46,7 @@ class SystemInfo extends Component {
           {sysInfo['PN'] || ''}
         </FormItem>
         {/* 系统版本 */}
-        <FormItem lang='sta_019'>
+        <FormItem lang='sta_019' ptitle='P68'>
           {sysInfo['P68'] || ''}
         </FormItem>
         {/* Recovery版本 */}
@@ -54,19 +54,19 @@ class SystemInfo extends Component {
           {sysInfo['P7033'] || ''}
         </FormItem> */}
         {/* 引导程序 */}
-        <FormItem lang='sta_021'>
+        <FormItem lang='sta_021' ptitle='P69'>
           {sysInfo['P69'] || ''}
         </FormItem>
         {/* 内核版本 */}
-        <FormItem lang='sta_022'>
+        <FormItem lang='sta_022' ptitle='P70'>
           {sysInfo['P70'] || ''}
         </FormItem>
         {/* Android™版本 */}
-        <FormItem lang='sta_023'>
+        <FormItem lang='sta_023' ptitle='Pand_rev'>
           {sysInfo['Pand_rev'] || ''}
         </FormItem>
         {/* CPE版本 */}
-        <FormItem lang='sta_024' hide={sysInfo['Pcpe_running'] === '' || sysInfo['Pcpe_running'] === '0'}>
+        <FormItem lang='sta_024' ptitle='Pcpe_version' hide={sysInfo['Pcpe_running'] === '' || sysInfo['Pcpe_running'] === '0'}>
           {sysInfo['Pcpe_version'] || ''}
         </FormItem>
         {/* 运行时长 */}
