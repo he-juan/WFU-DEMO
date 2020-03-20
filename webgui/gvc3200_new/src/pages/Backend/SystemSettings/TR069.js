@@ -19,7 +19,8 @@ class TR069 extends FormCommon {
     this.options['P1813'] = { p: 'P1813' } // 视频会议服务平台 > Zoom > SIP > 本地SIP端口
 
     this.initFormValue(this.options).then((data) => {
-      setFieldsValue(data)
+      const { P40, P1813, ...others } = data
+      setFieldsValue(others)
     })
   }
 
