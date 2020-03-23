@@ -29,7 +29,7 @@ export default {
   sys_tl_003_tip: 'Defines whether DHCP Option 42 should override NTP server or not. When enabled, DHCP Option 42 will override the NTP server to synchronize date and time on the device if it\'s set up on the LAN. The default setting is "Yes".',
 
   sys_tl_004: 'DHCP Option 2 To Override Time Zone Setting',
-  sys_tl_004_tip: 'Allows device to get provisioned for Time Zone from DHCP Option 2 in the local server automatically. The default setting is "Yes".',
+  sys_tl_004_tip: 'Allows device to get provisioned for Time Zone from DHCP Option 2 in the local server automatically. The default setting is "Yes". Note: the time zone cannot be modified manually after startup.',
 
   sys_tl_005: 'Use 24-hour Format',
   sys_tl_005_tip: 'Defines 12-hour or 24-hour time display format.',

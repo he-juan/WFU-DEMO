@@ -233,8 +233,6 @@ export const getAcctInfo = () => dispatch => {
     API.getPvalues(['P22046', 'P7059'])
   ]).then(data => {
     const [acctData, { P22046, P7059 }] = data
-    dispatch(setDefaultAcct(+P22046)) // 默认账号
-    dispatch(setIPVTExist(+P7059)) // IPVT 激活状态
 
     if (acctData.Response === 'Success') {
       let acctStatus = []
@@ -256,6 +254,18 @@ export const getAcctInfo = () => dispatch => {
           'name': i === 0 ? (acctData[`Account_${istr}_NAME`] || name) : name
         })
       })
+
+      let defaultAcct = +P22046
+      let IPVTExist = +P7059
+
+      /** 如果当前默认账号是ipvt 但ipvt功能未开启时，取其他激活账号做默认账号 */
+      if (defaultAcct === 1 && IPVTExist === 0) {
+        let firstActivated = acctStatus.find(i => i.activate !== 0)
+        defaultAcct = firstActivated ? firstActivated.acctIndex : defaultAcct
+      }
+
+      dispatch(setDefaultAcct(defaultAcct)) // 默认账号
+      dispatch(setIPVTExist(IPVTExist)) // IPVT 激活状态
       dispatch(setAcctStatus(acctStatus)) // 账号状态
     }
   })

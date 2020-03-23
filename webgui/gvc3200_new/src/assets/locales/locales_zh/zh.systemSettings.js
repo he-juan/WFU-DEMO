@@ -29,7 +29,7 @@ export default {
   sys_tl_003_tip: '设置是否使用DHCP Option 42取代NTP服务器。若启用，当局域网中存在DHCP Option 42时，将会取代NTP服务器用来同步设备上的日期和时间。默认设置为“是”',
 
   sys_tl_004: '启动DHCP option 2设定时区',
-  sys_tl_004_tip: '启用该项后设备将会从该DHCP服务器下发的Option 2中自动获取时区信息。默认设置为“是”。',
+  sys_tl_004_tip: '启用该项后设备将会从该DHCP服务器下发的Option 2中自动获取时区信息。默认设置为“是”。注：启动后无法手动修改时区。',
 
   sys_tl_005: '使用24小时格式',
   sys_tl_005_tip: '12小时或24小时制时间显示格式。',
