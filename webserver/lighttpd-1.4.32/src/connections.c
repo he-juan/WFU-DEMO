@@ -4739,6 +4739,13 @@ static int authenticate (const struct message *m, int isadmin, const char *pass)
         strcpy(newloginuser, user);
         strcpy(curuser, user);
         return isdft;
+
+        char *isWakeUp = msg_get_header(m, "iswakeup");
+
+        if (NULL != isWakeUp && !strcmp(isWakeUp, "1")) {
+            char *cmd[] = {"am", "broadcast", "--user", "all", "-a", "com.base.module.systemmanager.UPGRADE_OR_REBOOT", "--es", "type", "wakeup", 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+        }
     }
 
     return -1;
@@ -25534,8 +25541,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
     } else if (!strcasecmp(action, "loginrealm")) {
         handle_loginrealm( b );
     } else if (!strcasecmp(action, "devicestatus")) {
-        handle_devicestatus(b);
-        //handle_callservice_by_no_param(srv, con, b, m, "getIfInSleepMode");
+        //handle_devicestatus(b);
+        handle_callservice_by_no_param(srv, con, b, m, "isDeviceInSleep");
     } else if (!strcasecmp(action, "product")) {
         handle_product( srv, con, b, m );
     } else if (!strcasecmp(action, "productinfo")) {
