@@ -25954,6 +25954,18 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 handle_setremotedebug(b, m);
             } else if (!strcasecmp(action, "getthirdapplist")) {
                 handle_callservice_by_no_param(srv, con, b, m, "getThirdAppsList");
+            } else if (!strcasecmp(action, "getaudiodevices")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "getAudioDevices", params);
+            } else if (!strcasecmp(action, "setaudiodevice")) {
+                char *in = msg_get_header(m, "in");
+                char *out = msg_get_header(m, "out");
+                if (NULL == in || NULL == out) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                params = append_req_params(params, "in", in, 0);
+                params = append_req_params(params, "out", out, 0);
+                handle_methodcall_to_gmi(srv, con, b, m, "switchAudioDevice", params);
             }
             /* new APIs end */
 #endif
