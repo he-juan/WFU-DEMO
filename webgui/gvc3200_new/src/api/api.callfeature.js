@@ -77,3 +77,27 @@ export const getNotificationdblist = () => {
     url: '/manager?action=notificationdblist&region=account'
   })
 }
+
+/**
+ * 获取音频设备列表
+ */
+export const getAudioDevices = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getaudiodevices'
+  })
+}
+
+/**
+ * 设置音频设备
+ */
+export const setAudioDevice = (inDev, outDev) => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=setaudiodevice',
+    params: {
+      in: inDev,
+      out: outDev
+    }
+  })
+}

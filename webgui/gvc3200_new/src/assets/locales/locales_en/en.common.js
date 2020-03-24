@@ -780,6 +780,14 @@ const commons = {
   c_349: 'Audio name',
   c_350: 'Multiple numbers can be separated with "Enter".',
   c_351: 'Select all',
+  c_352: 'None',
+  c_353: 'Wireless microphone',
+  c_354: 'Media',
+  c_355: 'Bluetooth',
+  c_356: 'USB',
+  c_357: 'Line In',
+  c_358: 'HDMI',
+  c_359: 'Line Out',
 
 
   c_391: 'Disabled',

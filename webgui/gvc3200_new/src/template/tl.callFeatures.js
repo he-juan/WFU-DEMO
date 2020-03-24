@@ -91,9 +91,11 @@ export default {
         // 通知铃声
         { lang: 'call_029', _p: 'notifyRingtone' },
         // 音频设备
-        { lang: 'call_030', p: 'P22050' },
+        { lang: 'call_030', _p: 'curAudioDev' },
+        // 音频设备
+        // { lang: 'call_030', p: 'P22050' },
         // 音频回声抑制等级
-        { lang: 'call_039', p: 'Pecholevel' },
+        // { lang: 'call_039', p: 'Pecholevel'},
         // 回铃音
         { lang: 'call_031', p: 'P4001' },
         // 忙音
