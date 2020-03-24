@@ -25,10 +25,10 @@ export const getSalt = () => {
   })
 }
 // login  登录接口
-export const login = (username, password) => {
+export const login = (username, password, iswakeup) => {
   return _axios({
     method: 'get',
-    url: '/manager?action=login&Username=' + encodeURIComponent(username) + '&Secret=' + encodeURIComponent(password) + '&t=sha&src=web'
+    url: '/manager?action=login&Username=' + encodeURIComponent(username) + '&Secret=' + encodeURIComponent(password) + '&t=sha&src=web&iswakeup=' + iswakeup
   })
 }
 
@@ -48,6 +48,17 @@ export const changDefaultPwd = (params) => {
   return _axios({
     method: 'get',
     url: '/manager?action=changedefaultpwd&' + parseUrlParams(params)
+  })
+}
+
+/**
+ * 获取 睡眠状态
+ */
+
+export const getDeviceStatus = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=devicestatus'
   })
 }
 

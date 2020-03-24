@@ -43,6 +43,7 @@ class LoginForm extends Component {
 
   handleLogin = () => {
     const form = this.props.form
+    const { isSleep } = this.props
     let { username, password } = form.getFieldsValue(['username', 'password'])
     if (!(username && username.length)) {
       this.errorTip($fm('m_154')) // 请输入用户名
@@ -54,7 +55,7 @@ class LoginForm extends Component {
     }
     API.getSalt().then(salt => {
       let shapass = sha256(`${username}:${salt}:${password}`)
-      return API.login(username, shapass)
+      return API.login(username, shapass, isSleep ? 1 : 0)
     }).then(data => {
       this.handleLoginData(data, username)
     })
@@ -113,7 +114,7 @@ class LoginForm extends Component {
   render () {
     const { getFieldDecorator } = this.props.form
     const { hasErr, errTips, locked } = this.state
-    const { product } = this.props
+    const { product, isSleep } = this.props
     return (
       <Form className='login-form' >
         <h2 className='login-title'>{$t('c_318')} {product}</h2>
@@ -141,7 +142,7 @@ class LoginForm extends Component {
               )
             }
           </FormItem>
-          <Button className='login-submit' disabled={locked} onClick={() => this.handleLogin()}>{$t('b_014')}</Button>
+          <Button className='login-submit' disabled={locked} onClick={() => this.handleLogin()}>{isSleep ? $t('b_065') : $t('b_014')}</Button>
         </div>
       </Form>
     )
@@ -305,11 +306,23 @@ class PwChangeForm extends Component {
 class Login extends Component {
   state = {
     needChange: false,
-    changeType: 'admin'
+    changeType: 'admin',
+    isSleep: false
   }
 
   componentDidMount () {
     // this.props.getProduct()
+    this.checkIsSleep()
+  }
+
+  checkIsSleep = () => {
+    API.getDeviceStatus().then(res => {
+      if (!res.result) {
+        this.setState({
+          isSleep: +res.data.sleep_status
+        })
+      }
+    })
   }
 
   handleChangePw = (username) => {
@@ -321,7 +334,7 @@ class Login extends Component {
 
   render () {
     const { productInfo, setUserType } = this.props
-    const { needChange, changeType } = this.state
+    const { needChange, changeType, isSleep } = this.state
     return (
       <Layout className='login-page'>
         <div className='login-locale-select'>
@@ -329,7 +342,7 @@ class Login extends Component {
         </div>
         {
           !needChange
-            ? <LoginForm product={productInfo['Product']} changePw={(username) => this.handleChangePw(username)} setUserType={setUserType}/>
+            ? <LoginForm product={productInfo['Product']} changePw={(username) => this.handleChangePw(username)} setUserType={setUserType} isSleep={isSleep}/>
             : <PwChangeForm changeType={changeType} setUserType={setUserType}/>
         }
         <div className='login-page-footer'>

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import InitWebsocket from './InitWebsocket'
 import MsgObserver from './Observer'
+import { history } from '@/App'
 
 const DEV = process.env.NODE_ENV === 'development'
 
@@ -44,6 +45,10 @@ class WebsocketMessage extends PureComponent {
       // 固件安装
       case 'install':
         MsgObserver.trigger('install', msg)
+        break
+      // 睡眠
+      case 'goto_sleep':
+        history.push('/login')
         break
       default:
     }

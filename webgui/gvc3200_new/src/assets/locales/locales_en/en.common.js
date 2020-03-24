@@ -160,7 +160,7 @@ const btns = {
   b_062: 'Audio invite',
   b_063: 'Up',
   b_064: 'Down',
-  b_065: '',
+  b_065: 'Wake up',
   b_066: '',
   b_067: '',
   b_068: '',
