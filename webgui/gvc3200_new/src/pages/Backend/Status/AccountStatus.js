@@ -7,7 +7,8 @@ import { $t } from '@/Intl'
 @connect(
   state => ({
     acctStatus: state.acctStatus,
-    IPVTExist: state.IPVTExist
+    IPVTExist: state.IPVTExist,
+    locale: state.locale
   }),
   dispatch => ({
     getAcctInfo: () => dispatch(getAcctInfo())
@@ -16,6 +17,12 @@ import { $t } from '@/Intl'
 class AccountStatus extends Component {
   componentDidMount () {
     this.props.getAcctInfo()
+  }
+
+  componentDidUpdate (preProps) {
+    if (preProps.locale !== this.props.locale) { // 解决切换语言不更新的问题
+      setTimeout(() => this.forceUpdate(), 200)
+    }
   }
 
   render () {
@@ -37,7 +44,7 @@ class AccountStatus extends Component {
               if (acctInfo.acctIndex === 1 && IPVTExist === 0) return null
               return (
                 <tr key={acctInfo.acctIndex}>
-                  <td>
+                  <td title={acctInfo['name'] || '-'}>
                     <i className={`icons icon-acctstatus ${+acctInfo.register === 0 ? '' : acctInfo.activate !== 7 ? 'active-1' : 'active-2'}`}></i>
                     {acctInfo['name'] || '-'}
                   </td>
