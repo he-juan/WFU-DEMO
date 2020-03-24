@@ -12016,8 +12016,34 @@ static int handle_reboot(server *srv, connection *con, buffer *b, const struct m
             type = atoi(temp);
         if( type == 0 )
             handle_callservice_by_no_param(srv, con, b, m, "rebootDevice");
-        else
-            start_reboot(type);
+        else {
+            //start_reboot(type);
+            char reboot_type[80] = "";
+            if( type == 1 )
+                //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type shutdown");
+                snprintf(reboot_type, sizeof(reboot_type), "%s", "shutdown");
+            else if( type == 2 )
+                //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep");
+                snprintf(reboot_type, sizeof(reboot_type), "%s", "sleep");
+            else if( type == 3 )
+                //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type wakeup");
+                snprintf(reboot_type, sizeof(reboot_type), "%s", "wakeup");
+            else if( type == 4 )
+                //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot_rw");
+                snprintf(reboot_type, sizeof(reboot_type), "%s", "reboot_rw");
+            else if( type == 5 )
+                //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type shutdown_rw");
+                snprintf(reboot_type, sizeof(reboot_type), "%s", "shutdown_rw");
+            else if( type == 6 )
+                //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type sleep_rw");
+                snprintf(reboot_type, sizeof(reboot_type), "%s", "sleep_rw");
+            else
+                //system("am broadcast --user all -a com.base.module.systemmanager.UPGRADE_OR_REBOOT --es type reboot");
+                snprintf(reboot_type, sizeof(reboot_type), "%s", "reboot");
+
+            char *cmd[] = {"am", "broadcast", "--user", "all", "-a", "com.base.module.systemmanager.UPGRADE_OR_REBOOT", "--es", "type", reboot_type, 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+        }
     }else{
         buffer_append_string (b, "Response=Error\r\nMessage=Boot not completed\r\n");
         fclose(fp);
