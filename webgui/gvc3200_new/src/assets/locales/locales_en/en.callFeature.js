@@ -90,7 +90,7 @@ export default {
   call_029_tip: 'Configures notification ringtone.',
 
   call_030: 'Audio Device',
-  call_030_tip: 'This option defines input and output devices for voice in call or media voice, including Auto, Bluetooth, USB, HDMI. and Built-in speaker. If select "USB", the voice input and output come from the USB device; If select "Bluetooth", the voice input and output come from the Bluetooth; If select "HDMI", the voice input comes from the built-in Mic in GVC while the output comes from HDMI; If select "Built-in speaker", the voice input comes from the built-in Mic in GVC while the output comes from Built-in speaker; If select "Gooseneck mic" and the output device is HDMI, the voice input comes from USB devices while the output comes from HDMI; If select "Auto", the device will automatically detect whether being connected to the USB, Bluetooth or HDMI, if connected to two or three of the above, the priority order of voice input and output is Bluetooth, USB, HDMI. The default settings is "Auto".',
+  call_030_tip: 'Set the audio input/output device for call or media voice.',
 
   call_031: 'Ring Back Tone',
   call_031_tip: 'Configures tone frequencies based on parameters from the local telecom provider. By default, they are set to the North American standard. Frequencies should be configured with known values to avoid uncomfortable high pitch sounds.<br />Syntax: f1=val,f2=val [,c=on1/off1[-on2/off2[-on3/off3]]];(Frequencies are in Hz and cadence on and off are in 10ms)ON is the period of ringing (“On time” in ‘ms’) while OFF is the period of silence. In order to set a continuous ring, OFF should be zero. Otherwise it will ring ON ms and a pause of OFF ms and then repeat the pattern. Up to three cadences are supported.',

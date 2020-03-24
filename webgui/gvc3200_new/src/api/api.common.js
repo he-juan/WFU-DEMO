@@ -58,7 +58,7 @@ export const getConnectState = () => {
   return _axios({
     method: 'get',
     url: '/manager?action=getconnectstate',
-    timeout: 5000
+    timeout: 30000
   })
 }
 
