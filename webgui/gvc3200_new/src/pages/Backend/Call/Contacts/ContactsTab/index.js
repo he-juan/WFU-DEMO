@@ -7,7 +7,6 @@ import ImportModal from './ImportModal'
 import ExportModal from './ExportModal'
 import DownloadModal from './DownloadModal'
 import { connect } from 'react-redux'
-import { getContactsAndGroups, getCallLogs } from '@/store/actions'
 import API from '@/api'
 import './ContactsTab.less'
 import { debounceReactEvent, deepCopy } from '@/utils/tools'
@@ -16,10 +15,6 @@ import { $t } from '@/Intl'
 @connect(
   state => ({
     contacts: state.contacts
-  }),
-  dispatch => ({
-    getContactsAndGroups: () => dispatch(getContactsAndGroups()),
-    getCallLogs: () => dispatch(getCallLogs())
   })
 )
 class ContactTab extends Component {
@@ -178,13 +173,6 @@ class ContactTab extends Component {
 
   // 导入，清空， 删除后更新联系人列表， 消息记录， 群组数据
   updateContactsData = () => {
-    const { getContactsAndGroups, getCallLogs } = this.props
-    setTimeout(() => {
-      getContactsAndGroups()
-    }, 200)
-    setTimeout(() => {
-      getCallLogs()
-    }, 4500)
   }
 
   // 切换显示导入联系人弹窗

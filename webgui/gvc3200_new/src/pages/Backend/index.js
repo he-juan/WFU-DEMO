@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Layout, BackTop, Spin, Icon, notification } from 'antd'
 import BakNav from '@/components/BakNav'
 import BakHeader from '@/components/BakHeader'
-import WebsocketMessage from '@/components/WebsocketMessage'
+import WebsocketMessage, { MsgObserver } from '@/components/WebsocketMessage'
 import FirmwareInstallTip from '@/components/FirmwareInstallTip'
 import ConfControl from '@/components/ConfControl'
 import backendRoutes from './backendRoutes'
@@ -12,7 +12,7 @@ import { store } from '@/store'
 import { getNetWorkStatus, getTimeConfig, getCallLogs, getUserType, getContactsAndGroups, setUserType, getAcctInfo } from '@/store/actions'
 import { connect } from 'react-redux'
 import { $t } from '@/Intl'
-import { isMenuRouteDeny } from '@/utils/tools'
+import { isMenuRouteDeny, debounce } from '@/utils/tools'
 import { rebootNotifyKey } from '@/utils/rebootNotify'
 import API from '@/api'
 import Cookie from 'js-cookie'
@@ -62,6 +62,22 @@ class Backend extends Component {
     this.webTimeout()
     // 全局监听 enter 事件
     document.addEventListener('keydown', this.listenEnterEvent, false)
+
+    // 休眠监听
+    MsgObserver.subscribe('goto_sleep', () => {
+      this.props.history.push('/login')
+    })
+
+    // 通话记录更新
+    MsgObserver.subscribe('calllog_updated', () => {
+      this.props.getCallLogs()
+    })
+
+    // 联系人更新
+    MsgObserver.subscribe('contacts_updated', debounce(() => {
+      console.log(123)
+      this.props.getContactsAndGroups()
+    }, 800))
   }
 
   componentWillUnmount () {
@@ -69,6 +85,9 @@ class Backend extends Component {
     document.removeEventListener('keydown', this.listenEnterEvent)
     notification.close(rebootNotifyKey)
     clearInterval(LOGOUT_TIMER)
+    MsgObserver.unsubscribe('goto_sleep')
+    MsgObserver.unsubscribe('calllog_updated')
+    MsgObserver.unsubscribe('contacts_updated')
   }
 
   setContentHeight = () => {

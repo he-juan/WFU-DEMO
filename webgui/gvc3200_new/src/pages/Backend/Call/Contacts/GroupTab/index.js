@@ -4,7 +4,6 @@ import NoData from '@/components/NoData'
 import GroupList from './GroupList'
 import GroupEditModal from './GroupEditModal'
 import { connect } from 'react-redux'
-import { getContactsAndGroups } from '@/store/actions'
 import API from '@/api'
 import './GroupTab.less'
 import { deepCopy, debounceReactEvent } from '@/utils/tools'
@@ -14,9 +13,6 @@ import { $t } from '@/Intl'
   state => ({
     contactsGroups: state.contactsGroups,
     contacts: state.contacts
-  }),
-  dispatch => ({
-    getContactsAndGroups: () => dispatch(getContactsAndGroups())
   })
 )
 class GroupsTab extends Component {
@@ -93,7 +89,7 @@ class GroupsTab extends Component {
 
   // 清空群组
   handleClear = () => {
-    const { getContactsAndGroups, contactsGroups } = this.props
+    const { contactsGroups } = this.props
     Modal.confirm({
       title: $t('m_119'),
       onOk: () => {
@@ -104,9 +100,6 @@ class GroupsTab extends Component {
             this.setState({
               selectedGroups: []
             })
-            setTimeout(() => {
-              getContactsAndGroups()
-            }, 200)
           } else {
             message.error($t('m_100'))
           }
@@ -118,7 +111,6 @@ class GroupsTab extends Component {
   // 删除选中
   handleDelete = () => {
     const { selectedGroups } = this.state
-    const { getContactsAndGroups } = this.props
     Modal.confirm({
       title: $t('m_120'),
       onOk: () => {
@@ -129,9 +121,6 @@ class GroupsTab extends Component {
             this.setState({
               selectedGroups: []
             })
-            setTimeout(() => {
-              getContactsAndGroups()
-            }, 200)
           } else {
             message.error($t('m_014'))
           }
@@ -192,9 +181,6 @@ class GroupsTab extends Component {
 
   // 编辑或添加群组后更新列表数据
   updateGroupsData = () => {
-    setTimeout(() => {
-      this.props.getContactsAndGroups()
-    }, 200)
   }
 
   render () {

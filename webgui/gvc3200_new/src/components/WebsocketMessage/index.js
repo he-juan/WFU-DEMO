@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import InitWebsocket from './InitWebsocket'
 import MsgObserver from './Observer'
-import { history } from '@/App'
 
 const DEV = process.env.NODE_ENV === 'development'
 
@@ -48,7 +47,15 @@ class WebsocketMessage extends PureComponent {
         break
       // 睡眠
       case 'goto_sleep':
-        history.push('/login')
+        MsgObserver.trigger('goto_sleep', msg)
+        break
+      // 通话记录更新
+      case 'calllog_updated':
+        MsgObserver.trigger('calllog_updated', msg)
+        break
+      // 联系人更新
+      case 'contacts_updated':
+        MsgObserver.trigger('contacts_updated', msg)
         break
       default:
     }

@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import { Modal, Form, Input, Select, message, Checkbox } from 'antd'
 import { connect } from 'react-redux'
 import { store } from '@/store'
-import { getCallLogs, getContactsAndGroups } from '@/store/actions'
 import { deepCopy } from '@/utils/tools'
 import PropTypes from 'prop-types'
 import './ContactsEditModal.less'
@@ -42,10 +41,6 @@ export class EditContacts {
     defaultAcct: state.defaultAcct.toString(), // 默认账号
     contactsGroups: state.contactsGroups, // 群组
     contacts: state.contacts
-  }),
-  dispatch => ({
-    getCallLogs: () => dispatch(getCallLogs()),
-    getContactsAndGroups: () => dispatch(getContactsAndGroups())
   })
 )
 class ContactsEditModal extends Component {
@@ -155,7 +150,7 @@ class ContactsEditModal extends Component {
   }
 
   setContact = (editContacts) => {
-    const { getCallLogs, getContactsAndGroups, maxContactsCount, contacts } = this.props
+    const { maxContactsCount, contacts } = this.props
     const { id, name, phone, email, note, website, address, group, isAdd } = editContacts
     //  提交格式。。。。
     const contactInfo = {
@@ -184,12 +179,6 @@ class ContactsEditModal extends Component {
       if (msg.res === 'success') {
         message.success($t('m_027'))
         this.props.onCancel()
-        setTimeout(() => {
-          getContactsAndGroups()
-        }, 200) // 更新数据
-        setTimeout(() => {
-          getCallLogs()
-        }, 4500)
       } else {
         // 后端没有返回是否是联系人满了，只能自己判断下...
         if (maxContactsCount && maxContactsCount <= contacts.length) {
