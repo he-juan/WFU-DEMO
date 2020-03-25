@@ -781,7 +781,7 @@ const commons = {
   c_350: 'Multiple numbers can be separated with "Enter".',
   c_351: 'Select all',
   c_352: 'None',
-  c_353: 'Wireless microphone',
+  c_353: 'GMD Wireless Microphone',
   c_354: 'Media',
   c_355: 'Bluetooth',
   c_356: 'USB',
