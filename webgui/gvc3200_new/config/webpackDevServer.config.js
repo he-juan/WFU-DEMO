@@ -95,7 +95,8 @@ module.exports = function(proxy, allowedHost) {
         '/coredump/',
         '/recfiles/',
         '/screenshot/',
-        '/phonebook'
+        '/phonebook',
+        '/recordings'
       ],
       contentBase: paths.appBuild,
       target: 'http'+ (protocol === 'https' ? 's' : '') +'://192.168.124.93/',  //replace with the ip of device

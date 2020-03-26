@@ -229,8 +229,8 @@ class VideoList extends Component {
         a.setAttribute('href', '/' + res.Path)
         a.setAttribute('download', '')
         document.body.appendChild(a)
-        document.getElementById('downloadRecord').click()
-        document.getElementById('downloadRecord').remove()
+        a.click()
+        document.body.removeChild(a)
       } else {
         message.error($t('m_118'))
       }
