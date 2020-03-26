@@ -4509,6 +4509,43 @@ static int compare_SHA256_password(char *username, char *realm, char *password, 
     return 1;
 }
 
+static int compare_SHA256_username(char *user, char *realm, char *username) {
+    int ret = 0;
+    unsigned char sha[SHA256_DIGEST_LENGTH] = {0};
+
+    int len = strlen(user) + strlen(realm) + strlen(username) + 16;
+    char *user_str = (char*)malloc(len);
+    memset(user_str, 0, len);
+    snprintf(user_str, len, "%s:%s", user, realm);
+
+    //SHA256((const unsigned char *)pw_str, strlen(pw_str), sha);
+    SHA256_CTX c;
+    SHA256_Init(&c);
+    SHA256_Update(&c, user_str, strlen(user_str));
+    SHA256_Final(sha, &c);
+    OPENSSL_cleanse(&c, sizeof(c));
+
+    char src[3] = {0};
+    char dst[3] = {0};
+
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        memset(src, 0, sizeof(src));
+        memset(dst, 0, sizeof(dst));
+        snprintf(src, 3, "%s", username + (i * 2));
+        snprintf(dst, 3, "%02x", sha[i]);
+
+        if (strcmp(src, dst)) {
+            ret = 1;
+            break;
+        }
+    }
+
+    free(user_str);
+    user_str = NULL;
+
+    return ret;
+}
+
 static int handle_ipvt_acctinfo( buffer *b )
 {
     char *acct = nvram_my_get("405");
@@ -25464,11 +25501,32 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
     if (!strcasecmp(action, "login")) {
         int isadmin = 0;
         temp = msg_get_header(m, "Username");
+
+
         if (!strcasecmp ("admin", temp)){
             isadmin = 1;
         }else{
             isadmin = 0;
         }
+
+        if (!strcasecmp ("admin", temp)) {
+            isadmin = 1;
+        }else if (!strcasecmp ("user", temp)) {
+            isadmin = 0;
+        } else {
+            if (mRealm == NULL) {
+                isadmin = 1;
+            } else if ((compare_SHA256_username("admin", mRealm, temp)) == 0) {
+                isadmin = 1;
+            } else if ((compare_SHA256_username("user", mRealm, temp)) == 0) {
+                isadmin = 0;
+            } else if ((compare_SHA256_username("gmiadmin", mRealm, temp)) == 0) {
+                isadmin = 2;
+            } else {
+                isadmin = 1;
+            }
+        }
+
         time_t now;
         time(&now);
         if( isadmin == 1 ){
