@@ -54,8 +54,9 @@ class LoginForm extends Component {
       return false
     }
     API.getSalt().then(salt => {
+      let shauname = sha256(`${username}:${salt}`)
       let shapass = sha256(`${username}:${salt}:${password}`)
-      return API.login(username, shapass, isSleep ? 1 : 0)
+      return API.login(shauname, shapass, isSleep ? 1 : 0)
     }).then(data => {
       this.handleLoginData(data, username)
     })
