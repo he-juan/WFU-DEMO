@@ -75,7 +75,6 @@ class Backend extends Component {
 
     // 联系人更新
     MsgObserver.subscribe('contacts_updated', debounce(() => {
-      console.log(123)
       this.props.getContactsAndGroups()
     }, 800))
   }

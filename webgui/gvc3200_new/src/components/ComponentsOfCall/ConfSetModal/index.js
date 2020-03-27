@@ -356,7 +356,7 @@ class ConfSetModal extends FormCommon {
       // 如果当前成员数加已有线路数 大于限制
       if (curLinesLen >= maxLineCount) {
         if (IPVTlen === 0) {
-          message.error($t('m_137')) // 成员数量已达上限
+          message.error($t('m_137', { max: maxLineCount })) // 成员数量已达上限
           return false
         } else if (IPVTlen > 0) {
           message.error($t('m_231')) // 通话线路已达上限，当前只能添加ipvt联系人
