@@ -832,6 +832,7 @@ const commons = {
   c_486: 'IPV4 Address Type',
   c_487: 'Tombstones',
   c_488: 'ANR Log',
+  c_489: '{s}\'s new conference',
 
   c_999: ''
 }

@@ -71,6 +71,8 @@ let timestampNowInter = null
 
 @connect(
   state => ({
+    acctStatus: state.acctStatus, // 获取账号状态-所有激活账号
+    defaultAcct: state.defaultAcct,
     maxLineCount: state.maxLineCount, // 最大线路数
     linesInfo: state.linesInfo // 线路信息
   })
@@ -605,7 +607,7 @@ class ConfSetModal extends FormCommon {
 
   // render
   render () {
-    let { form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
+    let { acctStatus, defaultAcct, form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
     let { displayAddModal, curMember, currConf } = this.state
     if (!visible || Object.keys(currConf).length === 0) return null
     // 处理repeatArr
@@ -645,12 +647,21 @@ class ConfSetModal extends FormCommon {
       '-1': $t('c_219'), // '动态账号'
       '0': 'SIP',
       '1': 'IPVideoTalk',
-      '8': 'H.323',
-      '2': 'BlueJeans',
-      '5': 'Zoom'
+      '8': 'H.323'
+      // '2': 'BlueJeans',
+      // '5': 'Zoom'
+    }
+    let confnamePrefix = ''
+    const effectAccts = acctStatus.filter(v => {
+      return v.activate && v.acctIndex !== 2 && v.acctIndex !== 5
+    })
+    const sip = effectAccts.filter(v => +v.acctIndex === 0)
+    if (+defaultAcct === 2 || +defaultAcct === 5 || sip.length === 0) {
+      confnamePrefix = effectAccts[0].name || effectAccts[0].num
+    } else {
+      confnamePrefix = sip[0].name || sip[0].num
     }
 
-    // confname SIP账号名称发起的会议
     return (
       <>
         <Modal
@@ -677,7 +688,7 @@ class ConfSetModal extends FormCommon {
             </FormItem>
             <FormItem label={$t('c_283')}>
               {gfd('confname', {
-                initialValue: currConf['confname'],
+                initialValue: currConf['confname'] || $t('c_489', { s: confnamePrefix }),
                 rules: [
                   this.required(),
                   this.maxLen(60)

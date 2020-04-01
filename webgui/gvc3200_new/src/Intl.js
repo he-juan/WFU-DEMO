@@ -41,8 +41,8 @@ export const formatMessage = (message, values) => {
   return intl.formatMessage(message, values)
 }
 
-export const $t = (id) => {
-  return intl.formatMessage({ id }) // 坑爹的react-intl,有没有更好的方法？
+export const $t = (id, values) => {
+  return intl.formatMessage({ id }, values) // 坑爹的react-intl,有没有更好的方法？
 }
 
 // 组件方式
