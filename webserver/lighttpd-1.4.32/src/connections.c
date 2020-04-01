@@ -135,6 +135,10 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define VPN_PATH                           PREFIX"/data/openvpn"
 #define DATA_PPP                           PREFIX"/data/ppp"
 #define PCAP_PATH                           PREFIX"/sdcard/ppp"
+#define PCAP_TMP                            PREFIX"/data/pcap"
+#define TOMBSTONE_PATH            PREFIX"/data/tombstones"
+#define DEBUG_TMP_TOMBSTONE_PATH            PREFIX"/tmp/debuginfo/tombstones"
+#define DEBUG_ACCE_PATH                      PREFIX"/data/acce_debug"
 #define DIR_802MODE                           PREFIX"/path"
 #define PATH_802MODE                           PREFIX"/data/system/certs"
 #define PATH_FRAME_CERT                     PREFIX"/data/framecomp"
@@ -399,6 +403,10 @@ int tempOpenSyslog = 0;
 int pid_tcpdump = 0;
 int pid_ping = 0;
 int pid_traceroute = 0;
+
+int oneclick_debug_status = 0;      // 0 - idle, 1 - start waiting, 2 - stop waiting, 3 - ongoing
+
+int oneclick_debugArr[7] = {1, 1, 1, 1, 1, 1, 0};   // syslog, logcat, capture, tombstone, anr, battery, acce
 
 int record_flag = 0;
 
@@ -15755,25 +15763,27 @@ void print_offset(buffer *b, long millis_offsets[], int n)
     }
 }
 
-static int handle_capture (buffer *b, const struct message *m)
+static int handle_capture (buffer *b, char *mode)
 {
     const char *temp = NULL;
-	struct statfs fs;
-	long long freespace = 0;
-	long long pcap_size = 0;
+    struct statfs fs;
+    struct statfs fs_tmp;
+    long long freespace = 0;
+    long long freespace_tmp = 0;
+    long long pcap_size = 0;
 
-    temp = msg_get_header(m, "mode");
-    if( temp == NULL ){
+    //temp = msg_get_header(m, "mode");
+    temp = mode;
+
+    /*
+    if (temp == NULL) {
         buffer_append_string(b, "Response=Error\r\n");
         return -1;
     }
-    if (!strcasecmp(temp, "on"))
-    {
+    */
+
+    if (!strcasecmp(temp, "on")) {
         capmode = 1;
-        printf("timestr is on\n");
-        if( access(DEBUG_TMP_PATH, 0) ) {
-            mkdir(DEBUG_TMP_PATH, 0777);
-        }
         time_t timer;
         struct tm *tblock;
 
@@ -15786,53 +15796,134 @@ static int handle_capture (buffer *b, const struct message *m)
         snprintf(timestr, sizeof(timestr), "%4d%02d%02d%02d%02d%02d", 1900+tblock->tm_year, 1+tblock->tm_mon, tblock->tm_mday, tblock->tm_hour, tblock->tm_min, tblock->tm_sec );
         printf("timestr is %s\n", timestr);
 
-		if (statfs(PCAP_PATH, &fs) < 0)
-			return -1;
-		freespace = (((long long)fs.f_bsize*(long long)fs.f_bfree)/(long long)1024);
-		printf("free space: %lld\n", freespace);
+        /* get the free space of /sdcard */
+        if (statfs(PCAP_PATH, &fs) < 0) {
+            capmode = 0;
+            return -1;
+        }
+        freespace = (((long long)fs.f_bsize*(long long)fs.f_bfree)/(long long)1024);
+        printf("free space of pcap path: %lld\n", freespace);
 
-		pcap_size = (freespace/(long long)(2*1024));
-		printf("pcap_size: %lld\n", pcap_size);
+        if (access(PCAP_TMP, 0)) {
+            mkdir(PCAP_TMP, 0755);
+        }
 
-		if(pcap_size <= 100)
-		{
-			buffer_append_string (b, "Response=Error\r\n");
-			return -1;
-		}
+        /* get the free space of /data */
+        if (statfs(PCAP_TMP, &fs_tmp) < 0) {
+            capmode = 0;
+            return -1;
+        }
+        freespace_tmp = (((long long)fs_tmp.f_bsize*(long long)fs_tmp.f_bfree)/(long long)1024);
+        printf("free space of tmp pcap path: %lld\n", freespace_tmp);
 
-        char cmdstr[128] = "";
+        if (freespace > freespace_tmp) {
+            freespace = freespace_tmp;
+        }
+
+        pcap_size = (freespace/(long long)(2*1024));
+        printf("pcap_size: %lld\n", pcap_size);
+
+        if(pcap_size <= 100)
+        {
+            //buffer_append_string (b, "Response=Error\r\n");
+            capmode = 0;
+            return -2;
+        } else if (pcap_size > 1 * 1000) {
+            pcap_size = 1 * 1000;   // if the value of -C > 2GB, it will be reported the invalid size by tcpdump, which has overflowed the int.
+        }
+
+        char pcappath[128] = "";
 #ifdef BUILD_ON_ARM
-        char *p_value = nvram_get("wan_device");
+        char *p_value = NULL;
+        char p_buf[16] = {0};
+        p_value = nvram_get_safe("wan_device", p_buf, sizeof(p_buf));
 #else
         char *p_value = NULL;
 #endif
 
-        if(p_value != NULL && p_value[0] != '\0' && strstr(p_value, "ppp") == NULL)
-        {
-            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i %s -w %s/%s.pcap -n &", p_value, DEBUG_TMP_PATH, timestr);
-        }
-        else
-        {
-            snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -i eth0 -w %s/%s.pcap -n &", DEBUG_TMP_PATH, timestr);
+        char *netd = NULL;
+        if (p_value != NULL) {
+            int len = strlen(p_buf) + 1;
+            netd = (char*)malloc(len);
+            memset(netd, 0, len);
+            if (strstr(p_buf, ".") != NULL) {
+                snprintf(netd, strstr(p_buf, ".") - p_buf + 1, "%s", p_buf);
+            } else {
+                snprintf(netd, len, "%s", p_buf);
+            }
         }
 
-        //snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 0 -w %s/%s.pcap &", PCAP_PATH, timestr);
-        printf("cmdstr is %s\n", cmdstr);
-        system(cmdstr);
-        buffer_append_string (b, "Response=Success\r\n");
-    }else if (!strcasecmp(temp, "off"))
-    {
+        snprintf(pcappath, sizeof(pcappath), "%s/%s.pcap", PCAP_TMP, timestr);
+
+        char mode_buf[16] = {0};
+        nvram_get_safe("base_model", mode_buf, sizeof(mode_buf));
+
+        char sizeStr[16] = "";
+        snprintf(sizeStr, sizeof(sizeStr), "%lld", pcap_size);
+
+        if(netd != NULL && netd[0] != '\0' && strstr(netd, "ppp") == NULL) {
+            //snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 2000 -C 20 -n -i %s -w %s/%s.pcap &", netd, DEBUG_TMP_PATH, timestr );
+            char *cmd[] = {"tcpdump", "-s", "2000", "-C", sizeStr, "-W", "1", "-n", "-i", netd, "-w", pcappath, 0};
+            doCommandTask(cmd, NULL, NULL, 1);
+        } else {
+            if (strcmp(mode_buf, "WP800") && strcmp(mode_buf, "WP820") && strcmp(mode_buf, "WP850")) {
+                //snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 2000 -C 20 -n -i eth0 -w %s/%s.pcap&", DEBUG_TMP_PATH, timestr);
+                char *cmd[] = {"tcpdump", "-s", "2000", "-C", sizeStr, "-W", "1", "-n", "-i", "eth0", "-w", pcappath, 0};
+                doCommandTask(cmd, NULL, NULL, 1);
+            } else {
+                //snprintf(cmdstr, sizeof(cmdstr), "tcpdump -s 2000 -C 20 -n -i wlan0 -w %s/%s.pcap&", DEBUG_TMP_PATH, timestr);
+                char *cmd[] = {"tcpdump", "-s", "2000", "-C", sizeStr, "-W", "1", "-n", "-i", "wlan0", "-w", pcappath, 0};
+                doCommandTask(cmd, NULL, NULL, 1);
+            }
+        }
+
+        //printf("cmdstr is %s\n", cmdstr);
+        if (netd != NULL) {
+            free(netd);
+        }
+        //system(cmdstr);
+        //buffer_append_string (b, "Response=Success\r\n");
+
+    } else if (!strcasecmp(temp, "off")) {
         capmode = 0;
-        system("killall -9 tcpdump");
+        //system("killall -9 tcpdump");
+        //char *cmd[] = {"killall", "-9", "tcpdump", 0};
+        //doCommandTask(cmd, NULL, NULL, 0);
+
+        int status;
+        if (pid_tcpdump > 0) {
+            kill(pid_tcpdump, SIGINT);
+            wait(&status);
+            if (WIFSIGNALED(status)) {
+                printf("Child process received singal %d\n", WTERMSIG(status));
+            }
+            pid_tcpdump = 0;
+        }
+        //buffer_append_string (b, "Response=Success\r\n");
+
+    } else if (!strcasecmp(temp, "mode") && NULL != b) {
         buffer_append_string (b, "Response=Success\r\n");
-    }else if (!strcasecmp(temp, "mode")) {
-        buffer_append_string (b, "Response=Success\r\n");
-        if (capmode == 1)
-        {
+
+        int syslog = oneclick_debugArr[0];
+        int logcat = oneclick_debugArr[1];
+        int capture = oneclick_debugArr[2];
+        int tombstone = oneclick_debugArr[3];
+        int anr = oneclick_debugArr[4];
+        int battery = oneclick_debugArr[5];
+        int acce = oneclick_debugArr[6];
+
+        char res[128] = {0};
+        memset(res, 0, sizeof(res));
+        snprintf(res, sizeof(res), "syslog=%d\r\nlogcat=%d\r\ncapture=%d\r\ntombstone=%d\r\nanr=%d\r\nbattery=%d\r\nacce=%d\r\n", 
+            syslog, logcat, capture, tombstone, anr, battery, acce);
+
+        if (capmode == 1) {
             buffer_append_string(b, "mode=on\r\n");
         } else {
             buffer_append_string(b, "mode=off\r\n");
         }
+
+        buffer_append_string(b, res);
     }
 
     return 1;
@@ -16003,115 +16094,259 @@ static char *get_device_info(server *srv, connection *con)
     return buf;
 }
 
-static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const struct message *m)
+static void rename_tombstone_files()
 {
-    char *temp = NULL, *cmd = NULL, *mode = NULL, *buf = NULL;
-    //int syslog = 1, logcat = 1, dbus = 1, bluetooth = 1, capture = 1;
-    int syslog = 1, logcat = 1, capture = 1;
     struct dirent *dp;
     DIR *dir;
-    char name[128] = "", *ptr = NULL, *fileExt = NULL;
+    char *ptr = NULL;
+    int len;
+    char *name = NULL;
+    char *temp = NULL;
 
-    mode = msg_get_header(m, "mode");
-
-    temp = msg_get_header(m, "syslog");
-    if(temp != NULL){
-        syslog = atoi(temp);
-    }
-    temp = msg_get_header(m, "logcat");
-    if(temp != NULL){
-        logcat = atoi(temp);
-    }
-    /*temp = msg_get_header(m, "dbus");
-    if(temp != NULL){
-        dbus = atoi(temp);
-    }
-    temp = msg_get_header(m, "bluetooth");
-    if(temp != NULL){
-        bluetooth = atoi(temp);
-    }*/
-    temp = msg_get_header(m, "capture");
-    if(temp != NULL){
-        capture = atoi(temp);
+    if (access(TOMBSTONE_PATH, 0)) {
+        return -1;
     }
 
-    if(!strcasecmp(mode, "on") || !strcasecmp(mode, "none")){
-        cmd = malloc(128);
+    if ((dir = opendir(TOMBSTONE_PATH)) == NULL) {
+        return -1;
+    }
+
+    while ((dp = readdir( dir )) != NULL) {
+        if (dp == NULL) {
+            printf("dp is null\n");
+            break;
+        }
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
+
+            len = strlen(DEBUG_TMP_TOMBSTONE_PATH) + strlen(dp->d_name) + 128;
+            name = malloc(len);
+            memset(name, 0, len);
+            snprintf(name, len, "%s/%s", TOMBSTONE_PATH, dp->d_name);
+
+            int fd;
+            struct stat buf;
+            FILE *fp = fopen(name, "r");
+
+            if (fp != NULL) {
+                fd = fileno(fp);
+                fstat(fd, &buf);
+
+                long modify_time = buf.st_mtime;
+
+                struct tm *tblock;
+
+                tblock = localtime(&modify_time);
+                char timestr[32] = "";
+                snprintf(timestr, sizeof(timestr), "%4d%02d%02d%02d%02d%02d", 1900+tblock->tm_year, 1+tblock->tm_mon, tblock->tm_mday, tblock->tm_hour, tblock->tm_min, tblock->tm_sec );
+
+                char *new_name = malloc(len);
+                memset(new_name, 0, len);
+                snprintf(new_name, len, "%s/%s_%s", DEBUG_TMP_TOMBSTONE_PATH, dp->d_name, timestr);
+
+                /*
+                len = strlen(name) + strlen(new_name) + 128;
+                char *cmd = malloc(len);
+                memset(cmd, 0, len);
+                snprintf(cmd, len, "cp %s %s", name, new_name);
+                system(cmd);
+                printf("cmd: %s\n", cmd);
+                */
+
+                /*
+                char *cmd[] = {"cp", name, new_name, 0};
+                doCommandTask(cmd, NULL, NULL, 0);
+                */
+                copy_file(name, new_name);
+
+                free(new_name);
+                //free(cmd);
+
+                fclose(fp);
+            }
+
+            free(name);
+
+        }
+    }
+
+    closedir(dir);
+    return 1;
+
+}
+
+//int onelick_debug_task(char* mode, int syslog, int logcat, int tombstone, int anr, int capture, int battery, int acce) {
+int onelick_debug_task(char* mode, server *srv, connection *con) {
+    char *temp = NULL, *buf = NULL, *ptr = NULL, *fileExt = NULL;
+    struct dirent *dp;
+    DIR *dir;
+    char pcapname[128] = {0};
+
+    if (access(PCAP_PATH, 0)) {
+        mkdir(PCAP_PATH, 0777);
+    }
+
+    int syslog = oneclick_debugArr[0];
+    int logcat = oneclick_debugArr[1];
+    int capture = oneclick_debugArr[2];
+    int tombstone = oneclick_debugArr[3];
+    int anr = oneclick_debugArr[4];
+    int battery = oneclick_debugArr[5];
+    int acce = oneclick_debugArr[6];
+
+    LOGD("one click debug process ---- %s - syslog(%d) - logcat(%d) - capture(%d) - tombstone(%d) - anr(%d) - battery(%d) - acce(%d)",
+        mode, syslog, logcat, capture, tombstone, anr,  battery, acce);
+
+    if(!strcasecmp(mode, "on") || !strcasecmp(mode, "none")) {
+        if (!strcasecmp(mode, "on")) {
+            if (oneclick_debug_status != 0) {
+                LOGD("one click debug process ---- [failed] task already running...");
+                return -2;
+            } else {
+                oneclick_debug_status = 1;
+                nvram_set(":oneclick_debug_status", "1");
+                LOGD("one click debug process ---- update status -> 1 (prepare to start)");
+            }
+        } else {
+            oneclick_debug_status = 2;
+            nvram_set(":oneclick_debug_status", "2");
+            LOGD("one click debug process ---- update status -> 2 (prepare to capture)");
+        }
         if( !access( DEBUG_TMP_PATH, 0 ) )
         {
-            memset(cmd, 0, 128);
-            sprintf(cmd, "rm %s -rf", DEBUG_TMP_PATH);
-            system(cmd);
+            remove_dir_or_file(DEBUG_TMP_PATH, 1);
         }
 
-        memset(cmd, 0, 128);
-        sprintf(cmd, "mkdir %s", DEBUG_TMP_PATH);
-        system(cmd);
+        if( acce && !access( DEBUG_ACCE_PATH, 0 ) )
+        {
+            remove_dir_or_file(DEBUG_ACCE_PATH, 1);
+        }
 
-        if(syslog){
-            char *syslog_p = nvram_get("208");
-            if (syslog_p == NULL || !strcmp(syslog_p, "") || !strcmp(syslog_p, "0")) {
+        mkdir(DEBUG_TMP_PATH, 0755);
+
+        if(capture){
+            int capture_ret = handle_capture(NULL, "on");
+
+            if (capture_ret == -2) {
+                //buffer_append_string(b, "Response=Error\r\nMessage=Not enough space\r\n");
+                oneclick_debug_status = 0;
+                nvram_set(":oneclick_debug_status", "0");
+                LOGD("one click debug process ---- [failed] not enought space. ");
+                LOGD("one click debug process ---- update status -> 0 (idle)");
+                return -1;
+            }
+        }
+
+        if (acce) {
+            mkdir(DEBUG_ACCE_PATH, 0755);
+        }
+
+        if(syslog) {
+            char *syslog_p = NULL;
+            char syslog_buf[16] = {0};
+            syslog_p = nvram_get_safe("208", syslog_buf, sizeof(syslog_buf));
+            if (syslog_p == NULL || !strcmp(syslog_buf, "") || !strcmp(syslog_buf, "0")) {
                 tempOpenSyslog = 1;
                 nvram_set("208", "1");
                 nvram_commit();
-            } else {
-                memset(cmd, 0, 128);
-                sprintf(cmd, "cp /data/debug/syslog/* %s -rf", DEBUG_TMP_PATH);
-                system(cmd);
+            }
+        }
+
+        if (acce) {
+            int acce_ver = 0;
+            if (!access( "/data/data/com.appexnetworks.AcceleratorUI/acce", 0 )) {
+                acce_ver = 1;
             }
 
-            memset(cmd, 0, 128);
-            sprintf(cmd, "dmesg > %s/dmesg.txt", DEBUG_TMP_PATH);
-            system(cmd);
+            char *cmd3[] = {"ip", "rule", "list", 0};
+            doCommandTask(cmd3, DEBUG_ACCE_PATH"/ip_rule_list.txt", NULL, 0);
+
+            char *cmd4[] = {"iptables", "-L", "-t", "mangle", 0};
+            doCommandTask(cmd4, DEBUG_ACCE_PATH"/iptables.txt", NULL, 0);
+
+            if (acce_ver) {
+                char *cmd5[] = {"/data/data/com.appexnetworks.AcceleratorUI/acce", "/0/stats", 0};
+                doCommandTask(cmd5, DEBUG_ACCE_PATH"/stats_start.txt", NULL, 0);
+            } else {
+                char *cmd6[] = {"/system/xbin/acce", "/0/stats", 0};
+                doCommandTask(cmd6, DEBUG_ACCE_PATH"/stats_start.txt", NULL, 0);
+            }
+
+            remove_dir_or_file("/mnt/asec/appex/log/0", 0);
+
+            if (acce_ver) {
+                char *cmd8[] = {"/data/data/com.appexnetworks.AcceleratorUI/acce", "/0/pcapEnable=1", 0};
+                doCommandTask(cmd8, NULL, NULL, 0);
+            } else {
+                char *cmd9[] = {"/system/xbin/acce", "/0/pcapEnable=1", 0};
+                doCommandTask(cmd9, NULL, NULL, 0);
+            }
+
+            capmode = 1;
         }
-        if(logcat){
-            memset(cmd, 0, 128);
-            sprintf(cmd, "logcat -ds *:V > %s/logcat.txt &", DEBUG_TMP_PATH);
-            system(cmd);
+
+        if (!strcasecmp(mode, "on")) {
+            oneclick_debug_status = 4;
+            nvram_set(":oneclick_debug_status", "4");
+            LOGD("one click debug process ---- [success] start success");
+            LOGD("one click debug process ---- update status -> 4 (task is ongonging...)");
         }
-        /*if(dbus){
-            memset(cmd, 0, 128);
-            sprintf(cmd, "dbus-moniter --system > %s/dbus.txt", DEBUG_TMP_PATH);
-            system(cmd);
-        }
-        if(bluetooth){
-        }*/
-        if(capture){
-            handle_capture(b, m);
-        }
-        free(cmd);
     }
-    if(!strcasecmp(mode, "off") || !strcasecmp(mode, "none")){
-        /*create a new file to store the info of device*/
+
+    if(!strcasecmp(mode, "off") || !strcasecmp(mode, "none")) {
+
+        /*
         char *tmpcmd = NULL;
-        tmpcmd = malloc(64);
-        memset(tmpcmd, 0, 64);
+        tmpcmd = malloc(128);
+        memset(tmpcmd, 0, 128);
         sprintf(tmpcmd, "%s/device_info.txt", DEBUG_TMP_PATH);
-        FILE *deviceinfo = fopen(tmpcmd, "w+");
-        if( deviceinfo != NULL ){
+        */
+        if (!strcasecmp(mode, "off")) {
+
+            if (oneclick_debug_status != 4) {
+                LOGD("one click debug process ---- [failed] no task ongoing, stop failed");
+                return -3;
+            }
+
+            oneclick_debug_status = 3;
+            nvram_set(":oneclick_debug_status", "3");
+            LOGD("one click debug process ---- update status -> 3 (prepare to stop)");
+        }
+        
+        /* create a new file to store the info of device  */
+        FILE *deviceinfo = fopen(DEBUG_TMP_PATH"/device_info.txt", "w+");
+        if (deviceinfo != NULL) {
             buf = get_device_info(srv, con);
             fwrite(buf, 1, strlen(buf), deviceinfo);
             fflush(deviceinfo);
             fclose(deviceinfo);
+
+            if (buf != NULL) {
+                free(buf);
+            }
         }
 
-        if(buf != NULL){
-            free(buf);
-        }
+        /* get the capture file name */
+        if(capture) {
+            handle_capture(NULL, "off");
 
-        if(capture){
-            handle_capture(b, m);
-
-            if( access( DEBUG_TMP_PATH, 0 ) )
+            if( access( PCAP_TMP, 0 ) )
             {
                 printf("The directory doesn't exist\n");
-                return -1;
+                oneclick_debug_status = 0;
+                nvram_set(":oneclick_debug_status", "0");
+                LOGD("one click debug process ---- [failed] can not access PCAP_TMP");
+                LOGD("one click debug process ---- update status -> 0 (idle)");
+                return -3;
             }
 
-            if( (dir = opendir(DEBUG_TMP_PATH))== NULL )
+            if( (dir = opendir(PCAP_TMP))== NULL )
             {
                 printf("directory open failed\n");
-                return -1;
+                oneclick_debug_status = 0;
+                nvram_set(":oneclick_debug_status", "0");
+                LOGD("one click debug process ---- [failed] can not open PCAP_TMP");
+                LOGD("one click debug process ---- update status -> 0 (idle)");
+                return -3;
             }
 
             while ((dp = readdir( dir )) != NULL)
@@ -16123,12 +16358,12 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
                 }
                 if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
                 {
-                    sprintf(name, dp->d_name);
-                    printf("name -> %s\n", name);
-                    if( name[0] != '.' )
+                    sprintf(pcapname, dp->d_name);
+                    printf("name -> %s\n", pcapname);
+                    if( pcapname[0] != '.' )
                     {
-                        uri_decode(name);
-                        ptr = strrchr(name, '.');
+                        uri_decode(pcapname);
+                        ptr = strrchr(pcapname, '.');
                         if(ptr != NULL)
                         {
                             fileExt = strdup(ptr + 1);
@@ -16142,30 +16377,285 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
             }
         }
 
-        if (syslog && tempOpenSyslog == 1) {
-            nvram_set("208", "0");
-            nvram_commit();
+        if (syslog) {
+            if (tempOpenSyslog == 1) {
+                nvram_set("208", "0");
+                nvram_commit();
 
+                tempOpenSyslog = 0;
+            }
+
+            /*
             memset(tmpcmd, 0, 128);
-            sprintf(tmpcmd, "cp /data/debug/syslog/* %s -rf", DEBUG_TMP_PATH);
+            sprintf(tmpcmd, "cp /data/debug/syslog/ %s -rf", DEBUG_TMP_PATH);
             system(tmpcmd);
+            */
 
-            tempOpenSyslog = 0;
+            char *cmd[] = {"cp", "/data/debug/syslog/", DEBUG_TMP_PATH, "-rf", 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+
+            /*
+            memset(tmpcmd, 0, 128);
+            sprintf(tmpcmd, "dmesg > %s/dmesg.txt", DEBUG_TMP_PATH);
+            system(tmpcmd);
+            */
+
+            char *cmd2[] = {"dmesg", 0};
+            doCommandTask(cmd2, DEBUG_TMP_PATH"/dmesg.txt", NULL, 0);
         }
 
-        memset(tmpcmd, 0, 64);
-        sprintf(tmpcmd, "cd /tmp && tar -cvf debugInfo.tar debuginfo/ && mv debugInfo.tar %s", DEBUG_TMP_PATH);
-        system(tmpcmd);
-        memset(tmpcmd, 0, 64);
-        if(capture)
-            sprintf(tmpcmd, "cp %s/debugInfo.tar %s/%s %s", DEBUG_TMP_PATH, DEBUG_TMP_PATH, name, PCAP_PATH);
-        else
-            sprintf(tmpcmd, "cp %s/debugInfo.tar %s", DEBUG_TMP_PATH, PCAP_PATH);
-        system(tmpcmd);
+        if(logcat) {
+            /*
+            memset(tmpcmd, 0, 128);
+            sprintf(tmpcmd, "logcat -d > %s/logcat.txt ", DEBUG_TMP_PATH);
+            system(tmpcmd);
+            */
 
-        free(tmpcmd);
+            char *cmd[] = {"logcat", "-d", 0};
+            doCommandTask(cmd, DEBUG_TMP_PATH"/logcat.txt", NULL, 0);
+        }
+
+        if (tombstone) {
+            /*
+            memset(tmpcmd, 0, 128);
+            //sprintf(cmd, "cp -p /data/tombstones/ %s -rf", DEBUG_TMP_PATH);
+            sprintf(tmpcmd, "mkdir %s", DEBUG_TMP_TOMBSTONE_PATH);
+            system(tmpcmd);
+            */
+
+            /*
+            char *cmd[] = {"mkdir", DEBUG_TMP_TOMBSTONE_PATH, 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+            */
+            mkdir(DEBUG_TMP_TOMBSTONE_PATH, 0755);
+
+            rename_tombstone_files();
+        }
+        if (anr) {
+            /*
+            memset(tmpcmd, 0, 128);
+            sprintf(tmpcmd, "cp /data/anr/ %s -rf", DEBUG_TMP_PATH);
+            system(tmpcmd);
+            */
+
+            char *cmd[] = {"cp", "/data/anr/", DEBUG_TMP_PATH, "-rf", 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+        }
+
+        if (battery) {
+            char *cmd[] = {"dumpsys", "batterystats", 0};
+            doCommandTask(cmd, DEBUG_TMP_PATH"/battery.dump", NULL, 0);
+        }
+
+        if (acce) {
+            int acce_ver = 0;
+            if (!access( "/data/data/com.appexnetworks.AcceleratorUI/acce", 0 )) {
+                acce_ver = 1;
+            }
+
+            //memset(tmpcmd, 0, 128);
+            if (acce_ver) {
+                //sprintf(tmpcmd, "/data/data/com.appexnetworks.AcceleratorUI/acce /0/pcapEnable=0");
+                char *cmd[] = {"/data/data/com.appexnetworks.AcceleratorUI/acce", "/0/pcapEnable=0", 0};
+                doCommandTask(cmd, NULL, NULL, 0);
+            } else {
+                //sprintf(tmpcmd, "/system/xbin/acce /0/pcapEnable=0");
+                char *cmd[] = {"/system/xbin/acce", "/0/pcapEnable=0", 0};
+                doCommandTask(cmd, NULL, NULL, 0);
+            }
+            //system(tmpcmd);
+
+            //memset(tmpcmd, 0, 128);
+            if (acce_ver) {
+                //snprintf(tmpcmd, 128, "/data/data/com.appexnetworks.AcceleratorUI/acce /0/stats > %s/stats_end.txt", DEBUG_ACCE_PATH);
+                char *cmd[] = {"/data/data/com.appexnetworks.AcceleratorUI/acce", "/0/stats", 0};
+                doCommandTask(cmd, DEBUG_ACCE_PATH"/stats_end.txt", NULL, 0);
+            } else {
+                //snprintf(tmpcmd, 128, "/system/xbin/acce /0/stats > %s/stats_end.txt", DEBUG_ACCE_PATH);
+                char *cmd[] = {"/system/xbin/acce", "/0/stats", 0};
+                doCommandTask(cmd, DEBUG_ACCE_PATH"/stats_end.txt", NULL, 0);
+            }
+            //system(tmpcmd);
+
+            /*
+            memset(tmpcmd, 0, 128);
+            snprintf(tmpcmd, 128, "cp /mnt/asec/appex/log/0/* %s", DEBUG_ACCE_PATH);
+            system(tmpcmd);
+            */
+            char *cmd2[] = {"sh", "-c", "cp /mnt/asec/appex/log/0/* "DEBUG_ACCE_PATH, 0};
+            doCommandTask(cmd2, NULL, NULL, 0);
+
+            /*
+            memset(tmpcmd, 0, 128);
+            sprintf(tmpcmd, "cd /tmp && tar -cvf acce.tar acce/ && mv acce.tar %s", DEBUG_ACCE_PATH);
+            system(tmpcmd);
+            */
+
+            char *cmd3[] = {"sh", "-c", "cd /data/ && tar -cvf acce.tar acce_debug/", 0};
+            doCommandTask(cmd3, NULL, NULL, 0);
+
+            remove_dir_or_file(DEBUG_ACCE_PATH, 0);
+
+            /*
+            char *cmd4[] = {"mv", "/tmp/acce.tar", DEBUG_ACCE_PATH, 0};
+            doCommandTask(cmd4, NULL, NULL, 0);
+            */
+            rename("/data/acce.tar", DEBUG_ACCE_PATH"/acce.tar");
+
+            capmode = 0;
+        }
+
+        time_t timer;
+        struct tm *tblock;
+
+        /* gets time of day */
+        timer = time(NULL);
+
+        /* converts date/time to a structure */
+        tblock = localtime(&timer);
+        char timestr[32] = "";
+        snprintf(timestr, sizeof(timestr), "%4d%02d%02d%02d%02d%02d", 1900+tblock->tm_year, 1+tblock->tm_mon, tblock->tm_mday, tblock->tm_hour, tblock->tm_min, tblock->tm_sec );
+
+        int len = strlen(timestr) + strlen(DEBUG_TMP_PATH) + 128;
+
+        char *cmdstr = (char*)malloc(len);
+        memset(cmdstr, 0, len);
+        snprintf(cmdstr, len, "cd /tmp && tar -cvf debugInfo_%s.tar debuginfo/ && mv debugInfo_%s.tar %s", timestr, timestr, DEBUG_TMP_PATH);
+        //system(tmpcmd);
+
+        /*
+        int len = strlen(timestr) + 32;
+        char *nameStr = (char*)malloc(len);
+        memset(nameStr, 0, len);
+        snprintf(nameStr, len, "debugInfo_%s.tar", timestr);
+        */
+
+        char *cmd5[] = {"sh", "-c", cmdstr, 0};
+        doCommandTask(cmd5, NULL, NULL, 0);
+        free(cmdstr);
+
+        char *debugfile_src = (char*)malloc(len);
+        memset(debugfile_src, 0, len);
+        snprintf(debugfile_src, len, "%s/debugInfo_%s.tar", DEBUG_TMP_PATH, timestr);
+
+        char *debugfile_dst = (char*)malloc(len);
+        memset(debugfile_dst, 0, len);
+        snprintf(debugfile_dst, len, "%s/debugInfo_%s.tar", PCAP_PATH, timestr);
+
+        copy_file(debugfile_src, debugfile_dst);
+
+        free(debugfile_src);
+        free(debugfile_dst);
+
+        //memset(tmpcmd, 0, 128);
+        if(capture) {
+            //sprintf(tmpcmd, "cp %s/debugInfo_%s.tar %s/%s %s", DEBUG_TMP_PATH, timestr, DEBUG_TMP_PATH, name, PCAP_PATH);
+            char *pcap_src = (char*)malloc(len);
+            memset(pcap_src, 0, len);
+            snprintf(pcap_src, len, "%s/%s", PCAP_TMP, pcapname);
+
+            char *pcap_dst = (char*)malloc(len);
+            memset(pcap_dst, 0, len);
+            snprintf(pcap_dst, len, "%s/%s", PCAP_PATH, pcapname);
+
+            //copy_file(pcap_src, pcap_dst);
+            char *cmd_pcap[] = {"mv", pcap_src, pcap_dst, 0};
+            doCommandTask(cmd_pcap, NULL, NULL, 0);
+
+            free(pcap_src);
+            free(pcap_dst);
+        }
+        //system(tmpcmd);
+
+        if (acce) {
+            char *acceSrcPath = (char*)malloc(len);
+            memset(acceSrcPath, 0, len);
+            snprintf(acceSrcPath, len, "%s/acce.tar", DEBUG_ACCE_PATH);
+
+            char *acceTarPath = (char*)malloc(len);
+            memset(acceTarPath, 0, len);
+            snprintf(acceTarPath, len, "%s/acce_%s.tar", PCAP_PATH, timestr);
+
+            //copy_file(acceSrcPath, acceTarPath);
+            char *cmd_acce[] = {"mv", acceSrcPath, acceTarPath, 0};
+            doCommandTask(cmd_acce, NULL, NULL, 0);
+
+            free(acceSrcPath);
+            free(acceTarPath);
+        }
+
+        //free(tmpcmd);
+        oneclick_debug_status = 0;
+        nvram_set(":oneclick_debug_status", "0");
+        LOGD("one click debug process ---- [success] stop/capture success");
+        LOGD("one click debug process ---- update status -> 0 (idle)");
+        
     }
-    buffer_append_string(b, "Response=Done\r\n");
+
+    return 0;
+}
+
+static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const struct message *m)
+{
+    char *temp = NULL, *mode = NULL, *buf = NULL;
+    //int syslog = 1, logcat = 1, capture = 1, tombstone = 1, anr = 1, battery=1, acce = 0;
+    struct dirent *dp;
+    DIR *dir;
+    char pcapname[128] = "", *ptr = NULL, *fileExt = NULL;
+
+    if (access(PCAP_PATH, 0)) {
+        mkdir(PCAP_PATH, 0777);
+    }
+
+    mode = msg_get_header(m, "mode");
+
+    temp = msg_get_header(m, "syslog");
+    if(temp != NULL){
+        oneclick_debugArr[0] = atoi(temp);
+    }
+    temp = msg_get_header(m, "logcat");
+    if(temp != NULL){
+        oneclick_debugArr[1] = atoi(temp);
+    }
+
+    temp = msg_get_header(m, "capture");
+    if(temp != NULL){
+        oneclick_debugArr[2] = atoi(temp);
+    }
+
+    temp = msg_get_header(m, "tombstone");
+    if (temp != NULL) {
+        oneclick_debugArr[3] = atoi(temp);
+    }
+
+    temp = msg_get_header(m, "anr");
+    if (temp != NULL) {
+        oneclick_debugArr[4] = atoi(temp);
+    }
+
+    temp = msg_get_header(m, "battery");
+    if (temp != NULL) {
+        oneclick_debugArr[5] = atoi(temp);
+    }
+
+    temp = msg_get_header(m, "acce");
+    if (temp != NULL) {
+        oneclick_debugArr[6] = atoi(temp);
+    }
+
+    LOGD("one click debug process ---- task from WebUI");
+
+    //int ret = onelick_debug_task(mode, syslog, logcat, tombstone, anr, capture, battery, acce);
+    int ret = onelick_debug_task(mode, srv, con);
+    
+    if (ret == -1) {
+        buffer_append_string(b, "Response=Error\r\nMessage=Not enough space\r\n");
+    } else if (ret == -2) {
+        buffer_append_string(b, "Response=Error\r\nMessage=LCD is debugging\r\n");
+    } else if (ret == 0) {
+        buffer_append_string(b, "Response=Done\r\n");
+    }
+
     return 0;
 }
 
@@ -22521,8 +23011,8 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
 
 	char *ssid = NULL, *bssid = NULL, *password = NULL, *cacert = NULL, *userca = NULL, *identity = NULL,
 		 *anonymous = NULL, *ipaddr = NULL, *gateway = NULL, *prefix = NULL, *dns1 = NULL, *dns2 = NULL,
-         *ip6addr, *ip6prefix = NULL, *ip6dns1 = NULL, *ip6dns2 = NULL;
-	int security = -1, networkid = -1, eap = -1, phase2 = -1, istatic = 0, saveplusconn = 1;
+         *ip6addr = NULL, *ip6prefix = NULL, *ip6dns1 = NULL, *ip6dns2 = NULL;
+	int security = -1, networkid = -1, eap = -1, phase2 = -1, istatic = 0, saveplusconn = 1, isip6static = 0;
 	char *tempval = NULL;
 
 	int reply_timeout = 5000;
@@ -22662,6 +23152,12 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
             dns2 = "";
         }
 
+        tempval = msg_get_header(m, "isip6static");
+		if( tempval != NULL )
+		{
+			isip6static = atoi(tempval);
+		}
+
         ip6addr = msg_get_header(m, "ip6addr");
         if ( ip6addr == NULL )
         {
@@ -22795,6 +23291,12 @@ static int handle_wifisave (server *srv, connection *con, buffer *b, const struc
         }
 
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_BOOLEAN, &saveplusconn) )
+        {
+            printf( "Out of Memory!\n" );
+            exit( 1 );
+        }
+
+        if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_BOOLEAN, &isip6static) )
         {
             printf( "Out of Memory!\n" );
             exit( 1 );
@@ -26250,7 +26752,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 else if (!strcasecmp(action, "oneclickdebug")) {
                     handle_oneclick_debug(srv, con, b, m);
                 } else if (!strcasecmp(action, "capture")) {
-                    handle_capture(b, m);
+                    handle_capture(b, "mode");
                 } else if (!strcasecmp(action, "getdateinfo")) {
                     handle_callservice_by_no_param(srv, con, b, m, "getDateInfo");
                 } else if (!strcasecmp(action, "setdateinfo")) {
