@@ -26559,6 +26559,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 params = append_req_params(params, "in", in, 0);
                 params = append_req_params(params, "out", out, 0);
                 handle_methodcall_to_gmi(srv, con, b, m, "switchAudioDevice", params);
+            } else if (!strcasecmp(action, "getInterfaceStatus")) {
+                handle_methodcall_to_gmi(srv, con, b, m, "getInterfaceStatusForGVC3220", params);
             }
             /* new APIs end */
 #endif
