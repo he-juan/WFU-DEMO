@@ -570,12 +570,14 @@ static void http_list_directory_header(server *srv, connection *con, plugin_data
 		"</tr>"
 		"</thead>\n"
 		"<tbody>\n"
+        /*
 		"<tr>"
 			"<td class=\"n\"><a href=\"../\">Parent Directory</a>/</td>"
 			"<td class=\"m\">&nbsp;</td>"
 			"<td class=\"s\">- &nbsp;</td>"
 			"<td class=\"t\">Directory</td>"
 		"</tr>\n"
+        */
 	));
 }
 
