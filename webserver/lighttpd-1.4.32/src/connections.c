@@ -30454,6 +30454,10 @@ found_header_end:
 					close(dst_c->file.fd);
 					dst_c->file.fd = -1;
 				}
+
+                time_t now;
+                time(&now);
+                sessiontimeout = now + WEB_TIMEOUT;
 			} else {
 				buffer *b;
 
