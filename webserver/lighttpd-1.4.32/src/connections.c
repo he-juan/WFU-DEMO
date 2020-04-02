@@ -5242,10 +5242,17 @@ static int handle_setpreset(buffer *b, const struct message *m)
         char *cmd = NULL;
         cmd = malloc(128);
         memset(cmd, 0, 128);
-        if(!strcasecmp(action, "add"))
-            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_SET --ei position %s", position);
-        else if(!strcasecmp(action, "delete"))
-            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_DEL --ei position %s", position);
+        if(!strcasecmp(action, "add")) {
+            char *name = msg_get_header(m, "name");
+
+            if (NULL == name) {
+                name = "";
+            }
+
+            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_SET --ei position %s --ei name %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position, name);
+        } else if(!strcasecmp(action, "delete")) {
+            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_DEL --ei position %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position);
+        }
         printf("cmd = %s\n", cmd);
         int result = mysystem(cmd);
         if( result )
