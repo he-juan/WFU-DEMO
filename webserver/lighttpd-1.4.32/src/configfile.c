@@ -22,7 +22,6 @@
 #include <limits.h>
 #include <assert.h>
 
-
 static int config_insert(server *srv) {
 	size_t i;
 	int ret = 0;
@@ -176,7 +175,7 @@ static int config_insert(server *srv) {
 		s->ssl_ec_curve  = buffer_init();
 		s->errorfile_prefix = buffer_init();
 		s->max_keep_alive_requests = 16;
-        s->max_keep_alive_idle = 40;
+		s->max_keep_alive_idle = 5;
 		s->max_read_idle = 60;
 		s->max_write_idle = 360;
 		s->use_xattr     = 0;
@@ -969,6 +968,133 @@ static int tokenizer_init(tokenizer_t *t, const buffer *source, const char *inpu
 	return 0;
 }
 
+char* append_extra_config(char *stream, int size) {
+    char *typeptr = NULL, *portptr = NULL;
+    char con_type[32] = "";
+    char con_port[32] = "";
+    int len = size + 512;
+    char *new_conf = (char*)malloc(len);
+    memset(new_conf, 0, len);
+
+    //con_type = nvram_get("900");
+    //con_port = nvram_get("901");
+    typeptr = nvram_get_safe("900", con_type, 32);
+    portptr = nvram_get_safe("901", con_port, 32);
+
+    if (typeptr == NULL) {
+        //con_type = "0";
+        sprintf(con_type, "0");
+    }
+
+    if (portptr == NULL) {
+        //con_port = "80";
+        if (!strcmp(nvram_get("oem_id"), "54")) {
+            sprintf(con_port, "8081");
+        } else {
+            sprintf(con_port, "80");
+        }
+    }
+
+    /* add config for port redirect */
+    /* https */
+    if (strcmp(con_type, "1") == 0) {
+        /* the config need to add */
+        /*
+        $SERVER["socket"] == ":8089" {
+            ssl.engine = "enable"
+            ssl.pemfile = "/data/security/gxe50xx.pem"
+        }
+
+        $SERVER["socket"] == ":80" {
+            $HTTP["host"] =~ "([^:/]+)" {
+                url.redirect = ( "^/(.*)" => "https://%0:8089/$1" )
+            }
+        }
+        */
+
+        snprintf(new_conf, len, "%s\n"
+                "server.port=80\n"
+                "$SERVER[\"socket\"] == \":%s\" {\n"
+                "ssl.engine = \"enable\"\n"
+                "ssl.pemfile = \"/tmp/user.pem\"\n"
+                "}\n"
+                "$SERVER[\"socket\"] == \":80\" {\n"
+                "$HTTP[\"host\"] =~ \"([^:/]+)\" {\n"
+                "url.redirect = ( \"^/(.*)\" => \"https://%%0:%s/$1\" )\n"
+                "}\n"
+                "}\n"
+                , stream, con_port, con_port);
+    } else {
+        /* http port is 80 */
+        if (strcmp(con_port, "80") == 0) {
+            /* the config need to add */
+            /*
+            $SERVER["socket"] == ":443" {
+                ssl.engine = "enable"
+                ssl.pemfile = "/data/security/gxe50xx.pem"
+                $HTTP["host"] =~ "([^:/]+)" {
+                    url.redirect = ( "^/(.*)" => "http://%0:80/$1" )
+                }
+            }                
+            */
+            snprintf(new_conf, len, "%s\n"
+                "server.port=80\n"
+                "$SERVER[\"socket\"] == \":443\" {\n"
+                "ssl.engine = \"enable\"\n"
+                "ssl.pemfile = \"/tmp/user.pem\"\n"
+                "$HTTP[\"host\"] =~ \"([^:/]+)\" {\n"
+                "url.redirect = ( \"^/(.*)\" => \"http://%%0:%s/$1\" )\n"
+                "}\n"
+                "}\n"
+                , stream, con_port);
+        } else {
+            /* the config need to add */
+            /*
+            $SERVER["socket"] == ":8081" {
+                server.document-root        = "/system/webgui/gac2200"
+            }
+
+            $SERVER["socket"] == ":80" {
+                $HTTP["host"] =~ "([^:/]+)" {
+                    url.redirect = ( "^/(.*)" => "http://%0:8081/$1" )
+                }
+            }
+
+            $SERVER["socket"] == ":443" {
+                $HTTP["host"] =~ "([^:/]+)" {
+                    url.redirect = ( "^/(.*)" => "http://%0:8081/$1" )
+                }
+            }
+            */
+
+            snprintf(new_conf, len, "%s\n"
+                "server.port=%s\n"
+                //"$SERVER[\"socket\"] == \":%s\" {\n"
+                //"server.document-root        = \"/system/webgui/wp800\""
+                //"}\n"
+                /*
+                "$SERVER[\"socket\"] == \":80\" {\n"
+                "$HTTP[\"host\"] =~ \"([^:/]+)\" {\n"
+                "url.redirect = ( \"^/(.*)\" => \"http://%%0:%s/$1\" )\n"
+                "}\n"
+                "}\n"
+                */
+                "$SERVER[\"socket\"] == \":443\" {\n"
+                "ssl.engine = \"enable\"\n"
+                "ssl.pemfile = \"/tmp/user.pem\"\n"
+                "$HTTP[\"host\"] =~ \"([^:/]+)\" {\n"
+                "url.redirect = ( \"^/(.*)\" => \"http://%%0:%s/$1\" )\n"
+                "}\n"
+                "}\n"
+                , stream, con_port, con_port);
+        }
+    }
+
+    return new_conf;
+}
+
+
+
 int config_parse_file(server *srv, config_t *context, const char *fn) {
 	tokenizer_t t;
 	stream s;
@@ -994,8 +1120,25 @@ int config_parse_file(server *srv, config_t *context, const char *fn) {
 			ret = -1;
 		} 
 	} else {
+        /* append config for port direct into the lighttpd.conf. modified by cchma. */
+        if (strstr(filename->ptr, "lighttpd.conf") != NULL) {
+            char *new_conf = append_extra_config(s.start, s.size);
+
+            tokenizer_init(&t, filename, new_conf, strlen(new_conf));
+            ret = config_parse(srv, context, &t);
+            free(new_conf);
+        } else {
+            tokenizer_init(&t, filename, s.start, s.size);
+            ret = config_parse(srv, context, &t);
+        }
+        /* it's original. commented by cchma.  */
+        /*
 		tokenizer_init(&t, filename, s.start, s.size);
 		ret = config_parse(srv, context, &t);
+        */
+
+        /* print all config */
+        //array_print(srv->config_context, 0);
 	}
 
 	stream_close(&s);
@@ -1206,12 +1349,14 @@ int config_read(server *srv, const char *fn) {
 int config_set_defaults(server *srv) {
 	size_t i;
 	specific_config *s = srv->config_storage[0];
+    /*
 #ifdef BUILD_ON_ARM
-	sscanf(nvram_safe_get("900"), "%u", &s->is_ssl);
+    sscanf(nvram_my_get("900"), "%u", &s->is_ssl);
     printf("s is_ssl is %d\n", s->is_ssl);
 #else
         s->is_ssl = 0;
 #endif
+    */
 	struct stat st1, st2;
 
 	struct ev_map { fdevent_handler_t et; const char *name; } event_handlers[] =
@@ -1313,9 +1458,10 @@ int config_set_defaults(server *srv) {
 			}
 		}
 	}
+    /*
 #ifdef BUILD_ON_ARM
 #ifndef BUILD_RECOVER
-	sscanf(nvram_safe_get("901"), "%u", &srv->srvconf.port);
+    sscanf(nvram_my_get("901"), "%u", &srv->srvconf.port);
 #else
         sscanf("80", "%u", &srv->srvconf.port);
 #endif
@@ -1325,6 +1471,7 @@ int config_set_defaults(server *srv) {
 	if (srv->srvconf.port == 0) {
 		srv->srvconf.port = s->is_ssl ? 443 : 80;
 	}
+    */
 
 	if (srv->srvconf.event_handler->used == 0) {
 		/* choose a good default
