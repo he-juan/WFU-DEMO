@@ -1,72 +1,42 @@
 import React, { Component } from 'react'
-import { getHdmiinstate, getHdmi1state, getHdmi2state, getUsbstate, getSdcardstate } from '@/api/api.status'
+import { getInterfaceStatus } from '@/api/api.status'
 import { $t } from '@/Intl'
 import './PeripheralStatus.less'
 
 class PeripheralStatus extends Component {
   // 0 未检测 1 可用 2 不可用
   state = {
-    lineinstate: '0',
-    lineoutstate: '0',
-    spkrstate: '0',
-    hdmiinstate: '0',
-    hdmi1state: '0',
-    hdmi2state: '0',
-    usbstate: '0',
-    sdcardstate: '0',
-    mediatate: '0',
-    lantate: '0',
-    dicnstate: '0'
+    line_in: '0',
+    line_out: '0',
+    speaker: '0',
+    hdmi_in: '0',
+    hdmi_out1: '0',
+    hdmi_out2: '0',
+    sd: '0',
+    usb1: '0',
+    usb2: '0',
+    media: '0',
+    lan: '0',
+    di_in: '0'
   }
 
-  getHdmiinstate = () => {
-    return new Promise((resolve, reject) => {
-      getHdmiinstate().then((msgs) => {
-        resolve(msgs.state || '0')
-      })
-    })
-  }
-
-  getHdmi1state = () => {
-    return new Promise((resolve, reject) => {
-      getHdmi1state().then((msgs) => {
-        resolve(msgs.state || '0')
-      })
-    })
-  }
-
-  getHdmi2state = () => {
-    return new Promise((resolve, reject) => {
-      getHdmi2state().then((msgs) => {
-        resolve(msgs.state || '0')
-      })
-    })
-  }
-
-  getUsbstate = () => {
-    return new Promise((resolve, reject) => {
-      getUsbstate().then((msgs) => {
-        resolve(msgs.msg || '0')
-      })
-    })
-  }
-
-  getSdcardstate = () => {
-    return new Promise((resolve, reject) => {
-      getSdcardstate().then((msgs) => {
-        resolve(msgs.msg || '0')
-      })
+  getInterfaceStatus = () => {
+    const state = this.state
+    getInterfaceStatus().then(msgs => {
+      if (typeof (msgs.data) === 'object') {
+        this.setState(Object.assign({}, state, msgs.data))
+      }
     })
   }
 
   // 渲染 className
-  renderCName = (state) => {
-    switch (state) {
-      case '1':
+  renderCName = (state = '0') => {
+    switch (+state) {
+      case 1:
         return ' on'
-      case '2':
+      case 2:
         return ' off'
-      case '0':
+      case 0:
       default:
         return ''
     }
@@ -74,26 +44,24 @@ class PeripheralStatus extends Component {
 
   // componentDidMount
   async componentDidMount () {
-    let hdmiinstate = await this.getHdmiinstate()
-    let hdmi1state = await this.getHdmi1state()
-    let hdmi2state = await this.getHdmi2state()
-    let usbstate = await this.getUsbstate()
-    let sdcardstate = await this.getSdcardstate()
-
-    this.setState({
-      hdmiinstate,
-      hdmi1state,
-      hdmi2state,
-      usbstate,
-      sdcardstate
-    })
-
-    alert('lineinstate, lineoutstate, spkrstate, mediatate, lantate, dicnstate 无协议')
+    this.getInterfaceStatus()
   }
 
   render () {
-    const { lineinstate, lineoutstate, spkrstate, hdmiinstate, hdmi1state, hdmi2state, usbstate, sdcardstate, mediatate, lantate, dicnstate } = this.state
-    const ths = ['LINE IN', 'LINE OUT', 'SPKR', 'HDMI IN', 'HDMI OUT', 'SD', 'USB', 'MEDIA', 'LAN', 'DI-IN 12V']
+    const {
+      line_in,
+      line_out,
+      hdmi_in,
+      hdmi_out1,
+      hdmi_out2,
+      sd,
+      usb1,
+      usb2,
+      media,
+      lan,
+      di_in
+    } = this.state
+    const ths = ['LINE IN', 'LINE OUT', 'HDMI IN', 'HDMI OUT', 'SD', 'USB1', 'USB2', 'MEDIA', 'LAN', 'DI-IN 12V']
 
     return (
       <div style={{ paddingTop: 20 }}>
@@ -112,33 +80,33 @@ class PeripheralStatus extends Component {
           <tbody>
             <tr>
               <td colSpan='2'>
-                <span className={'icons icon-linein' + this.renderCName(lineinstate)}></span>
-                <span style={{ marginLeft: 40 }} className={'icons icon-lineout' + this.renderCName(lineoutstate)}></span>
+                <span className={'icons icon-linein' + this.renderCName(line_in)}></span>
+                <span style={{ marginLeft: 40 }} className={'icons icon-lineout' + this.renderCName(line_out)}></span>
               </td>
               <td>
-                <span className={'icons icon-spkr' + this.renderCName(spkrstate)}></span>
-              </td>
-              <td>
-                <span className={'icons icon-hdmiin' + this.renderCName(hdmiinstate)}></span>
+                <span className={'icons icon-hdmiin' + this.renderCName(hdmi_in)}></span>
               </td>
               <td>
                 <div style={{ marginTop: -14 }}>
-                  <span className={'icons icon-hdmi1out' + this.renderCName(hdmi1state)}></span>
-                  <span style={{ marginLeft: 40 }} className={'icons icon-hdmi2out' + this.renderCName(hdmi2state)}></span>
+                  <span className={'icons icon-hdmi1out' + this.renderCName(hdmi_out1)}></span>
+                  <span style={{ marginLeft: 40 }} className={'icons icon-hdmi2out' + this.renderCName(hdmi_out2)}></span>
                 </div>
               </td>
               <td>
-                <span className={'icons icon-sd' + this.renderCName(sdcardstate)}></span>
+                <span className={'icons icon-sd' + this.renderCName(sd)}></span>
               </td>
               <td>
-                <span className={'icons icon-usb' + this.renderCName(usbstate)}></span>
+                <span className={'icons icon-usb' + this.renderCName(usb1)}></span>
+              </td>
+              <td>
+                <span className={'icons icon-usb' + this.renderCName(usb2)}></span>
               </td>
               <td colSpan='2'>
-                <span className={'icons icon-jack' + this.renderCName(mediatate)}></span>
-                <span style={{ marginLeft: 40 }} className={'icons icon-jack' + this.renderCName(lantate)}></span>
+                <span className={'icons icon-jack' + this.renderCName(media)}></span>
+                <span style={{ marginLeft: 40 }} className={'icons icon-jack' + this.renderCName(lan)}></span>
               </td>
               <td>
-                <span className={'icons icon-dicn' + this.renderCName(dicnstate)}></span>
+                <span className={'icons icon-dicn' + this.renderCName(di_in)}></span>
               </td>
             </tr>
           </tbody>

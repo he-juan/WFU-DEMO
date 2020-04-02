@@ -89,3 +89,10 @@ export const getSdcardstate = () => {
     url: '/manager?action=getsdcardstate&region=status'
   })
 }
+// 获取 状态接口
+export const getInterfaceStatus = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getInterfaceStatus'
+  })
+}
