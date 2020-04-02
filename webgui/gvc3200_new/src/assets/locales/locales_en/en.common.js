@@ -432,6 +432,7 @@ const msgs = {
   m_259: 'There is currently no active accont',
   m_260: 'Invalid file format.',
   m_261: 'The WiFi list refreshes automatically at a period of time. You can also click Scan button to refresh.',
+  m_262: 'HTTPS is required for sharing screen',
 
   m_999: ''
 }
@@ -788,6 +789,10 @@ const commons = {
   c_357: 'Line In',
   c_358: 'HDMI',
   c_359: 'Line Out',
+  c_360: 'Share screen',
+  c_361: 'Stop sharing',
+  c_362: 'Pause sharing',
+  c_363: 'Resume sharing',
 
 
   c_391: 'Disabled',
