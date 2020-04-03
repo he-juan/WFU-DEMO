@@ -86,7 +86,7 @@ class PresetSettings extends Component {
   handleSavePreset = () => {
     const { posEditing: { position, name }, presetsData } = this.state
     message.loading($t('m_038'))
-    API.addPreset(position).then(() => {
+    API.addPreset(position, name).then(() => {
       message.success($t('m_001'))
       message.destroy()
       this.cancelEdit()

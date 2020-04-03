@@ -28,10 +28,10 @@ export const gotoPreset = (position) => {
  * 保存(或更新?)预置位
  * @param {Number} position 预置位position
  */
-export const addPreset = (position) => {
+export const addPreset = (position, name) => {
   return _axios({
     method: 'get',
-    url: '/manager?action=setpreset&region=control&type=add&position=' + position
+    url: '/manager?action=setpreset&region=control&type=add&position=' + position + '&name=' + name
   })
 }
 
