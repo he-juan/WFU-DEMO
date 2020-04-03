@@ -24,11 +24,24 @@ class ScreenShare extends Component {
           this.errorCode = res.codeType
         }
       })
+
+      console.log('gsRTC ******************************', window.gsRTC)
+
+      window.gsRTC.on('stopShareScreen', () => {
+        this.setState({
+          isSharing: false
+        })
+      })
+      window.gsRTC.on('shareScreen', () => {
+        this.setState({
+          isSharing: true
+        })
+      })
     }, 1000)
   }
 
   getURL = () => {
-    const host = process.env.NODE_ENV === 'development' ? '192.168.124.96' : window.location.host
+    const host = process.env.NODE_ENV === 'development' ? '192.168.125.108' : window.location.host
     const protocol = window.location.protocol
     return protocol.indexOf('https:') !== -1 ? `wss://${host}/websockify` : `ws://${host}/websockify`
   }
@@ -37,9 +50,6 @@ class ScreenShare extends Component {
     GS_RTC.BEGIN_SCREEN((res) => {
       console.log('BEGIN_SCREEN ************************' + res.codeType + '**********************')
       if (res.codeType == 200) {
-        this.setState({
-          isSharing: true
-        })
       } else {
         this.handleStopShare()
       }

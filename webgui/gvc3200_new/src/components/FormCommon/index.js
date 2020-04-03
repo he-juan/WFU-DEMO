@@ -90,7 +90,7 @@ class FormCommon extends Component {
   }
 
   /** 表单验证 */
-  // 网址格式 包含ipv6
+  // 网址格式 包含ipv6 ipv4 url
   checkaddressPath () {
     return {
       validator: (data, value, callback) => {
@@ -119,7 +119,7 @@ class FormCommon extends Component {
     }
   }
 
-  // 校验合法的Url
+  // 校验合法的Url 或 ipv4
   checkUrlPath () {
     return {
       validator: (data, value, callback) => {
@@ -133,7 +133,7 @@ class FormCommon extends Component {
     }
   }
 
-  // 检测IP地址
+  // 检测IP地址 ipv4 和 ipv6
   checkIPAddress () {
     return {
       validator: (data, value, callback) => {
