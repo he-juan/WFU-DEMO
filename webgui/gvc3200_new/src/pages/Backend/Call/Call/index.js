@@ -247,6 +247,7 @@ class Call extends Component {
       let numAry = bjMemToCall[0].num.split('.')
       if (!numAry[0].trim().length || !numAry[0].trim().length) return false
       _memToCall = bjMemToCall
+      _memToCall[0].acct = 2
     }
 
     if (_memToCall.length === 0) {
