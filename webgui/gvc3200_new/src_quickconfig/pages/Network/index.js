@@ -33,12 +33,12 @@ class Network extends Component {
       })
     })
     API.network().then((data) => {
-      const { IP, ethstatus, wifistatus, IPv6 } = data
+      const { ipv4Addr, ethstatus, wifistatus, ipv6Addr } = data
       // console.log(data)
       this.setState({
         netStatus: {
-          ip: IP,
-          ipv6: IPv6,
+          ip: ipv4Addr,
+          ipv6: ipv6Addr,
           eth: ethstatus === '1',
           wifi: wifistatus === '1'
         }

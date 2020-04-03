@@ -8,7 +8,7 @@ import Cookie from 'js-cookie'
 
 // 实例化一个_axios
 const _axios = axios.create({
-  timeout: 10000,
+  // timeout: 10000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
     'X-Requested-With': 'XMLHttpRequest'

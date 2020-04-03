@@ -79,8 +79,8 @@ class WifiDetailModal extends FormCommon {
   // 断开
   handleDisconnect = () => {
     API.disconnectWifi().then(m => {
-      this.cbHide()
     })
+    this.cbHide()
   }
 
   // 连接/保存

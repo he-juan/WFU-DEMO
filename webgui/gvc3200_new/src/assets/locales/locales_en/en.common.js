@@ -53,7 +53,7 @@ const routes = {
   r_044: 'Sip Settings',
   r_045: 'Codec Settings',
   r_046: 'Call Settings',
-  r_047: 'WI-FI Basics',
+  r_047: 'Wi-Fi Basics',
   r_048: 'Add Network',
   r_049: 'Time Settings',
   r_050: 'Language',
