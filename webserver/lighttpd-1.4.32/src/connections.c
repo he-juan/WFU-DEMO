@@ -26183,7 +26183,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             } else if (!strcasecmp(action, "get")) {
                 handle_get(b, m);
             } else if (!strcasecmp(action, "network")) {
-                handle_network(srv, con, b, m);
+                //handle_network(srv, con, b, m);
+                handle_callservice_by_no_param(srv, con, b, m, "getCurrentNetworkInfo");
             } else if (!strcasecmp(action, "savetimeset")) {
                 handle_callservice_by_one_param_string(srv, con, b, m, "timezone", "setTimezone");
             } else if (!strcasecmp(action, "putlanguage")) {
