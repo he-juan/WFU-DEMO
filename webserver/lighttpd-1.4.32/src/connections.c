@@ -5249,7 +5249,7 @@ static int handle_setpreset(buffer *b, const struct message *m)
                 name = "";
             }
 
-            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_SET --ei position %s --ei name %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position, name);
+            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_SET --ei position %s --es name %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position, name);
         } else if(!strcasecmp(action, "delete")) {
             snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_DEL --ei position %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position);
         }
