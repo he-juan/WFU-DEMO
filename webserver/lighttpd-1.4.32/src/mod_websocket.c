@@ -350,14 +350,10 @@ static handler_t mod_websocket_check_extension(server *srv, connection *con, voi
     hdrs = con->request.headers;
     for (i = hdrs->used; i > 0; i--) {
         hdr = (data_string *)hdrs->data[i - 1];
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Connection")) ||
-            buffer_is_equal_string(hdr->key, CONST_STR_LEN("connection"))
-        ) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Connection"))) {
             connection_hdr_value = hdr->value;
         }
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Upgrade")) ||
-            buffer_is_equal_string(hdr->key, CONST_STR_LEN("upgrade"))
-        ) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Upgrade"))) {
             upgrade_hdr_value = hdr->value;
         }
     }

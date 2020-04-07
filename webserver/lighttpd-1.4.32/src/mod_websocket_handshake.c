@@ -151,6 +151,7 @@ mod_websocket_errno_t mod_websocket_handshake_check_request(handler_ctx *hctx) {
     data_string *hdr = NULL;
     mod_websocket_handshake_t *handshake;
     buffer *version_hdr_value = NULL;
+    int user_valid = 0;
 
     if (hctx == NULL || hctx->con == NULL) {
         return MOD_WEBSOCKET_INTERNAL_SERVER_ERROR;
@@ -161,14 +162,10 @@ mod_websocket_errno_t mod_websocket_handshake_check_request(handler_ctx *hctx) {
     /* store necessary headers */
     for (i = hdrs->used; i > 0; i--) {
         hdr = (data_string *)hdrs->data[i - 1];
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Host")) ||
-            buffer_is_equal_string(hdr->key, CONST_STR_LEN("host"))
-        ) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Host"))) {
             handshake->host = hdr->value;
         }
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Version")) ||
-            buffer_is_equal_string(hdr->key, CONST_STR_LEN("sec-websocket-version"))
-        ) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Version"))) {
             version_hdr_value = hdr->value;
         }
         if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Origin")) ||
@@ -187,13 +184,34 @@ mod_websocket_errno_t mod_websocket_handshake_check_request(handler_ctx *hctx) {
 #endif	/* _MOD_WEBSOCKET_SPEC_IETF_00_ */
 
 #ifdef	_MOD_WEBSOCKET_SPEC_RFC_6455_
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Key")) ||
-            buffer_is_equal_string(hdr->key, CONST_STR_LEN("sec-websocket-key"))
-        ) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Key"))) {
             handshake->key = hdr->value;
         }
 #endif	/* _MOD_WEBSOCKET_SPEC_RFC_6455_ */
 
+        /* check the user authentication */
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Cookie"))) {
+            char *before = NULL, *after = NULL, tmp[80] = "";
+            if (before = strstr(hdr->value->ptr, "phonecookie=\"")) {
+                before += sizeof("phonecookie=\"") - 1;
+                //printf("before is %s\n", before);
+                if (after = strstr(before, "\"")) {
+                    strncpy(tmp, before, (after - before));
+                    if ((!strcmp(usercookie, tmp))) {
+                        user_valid = 1;
+                    }
+                }
+            } else if (before = strstr(hdr->value->ptr, "phonecookie=")) {
+                before += sizeof("phonecookie=") - 1;
+                //printf("before is %s\n", before);
+                if (after = strstr(before, ";")) {
+                    strncpy(tmp, before, (after - before));
+                    if ((!strcmp(usercookie, tmp))) {
+                        user_valid = 1;
+                    }
+                }
+            }
+        }
     }
     if (buffer_is_empty(handshake->host)) {
         DEBUG_LOG(MOD_WEBSOCKET_LOG_ERR, "s", "Host header does not exist");
@@ -218,6 +236,11 @@ mod_websocket_errno_t mod_websocket_handshake_check_request(handler_ctx *hctx) {
         return MOD_WEBSOCKET_BAD_REQUEST;
     }
 #endif	/* _MOD_WEBSOCKET_SPEC_IETF_00_ */
+
+    printf("user_valid: %d\n", user_valid);
+    if (user_valid == 0) {
+        return MOD_WEBSOCKET_FORBIDDEN;
+    }
 
     return MOD_WEBSOCKET_OK;
 }
