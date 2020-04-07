@@ -17587,15 +17587,6 @@ static int handle_getvericert(buffer *b)
         free(notafterstr);
         buffer_append_string(b, "\",\"Info\":[");
         for(int i = 0; i < count; i++){
-            /*pos = -1;
-            for (;;) {
-                pos = X509_NAME_get_index_by_NID(name, nids[i].key, pos);
-                if (pos >=0 && pos <= j) {   // pos != -1
-                    d = X509_NAME_ENTRY_get_data(X509_NAME_get_entry(name, pos));
-                    printf("%s = %s [%d]\n", nids[i].name, d->data, d->length);
-                }
-            }
-            */
             infostr = malloc(256);
             memset(infostr, 0, 256);
 
@@ -17617,12 +17608,6 @@ static int handle_getvericert(buffer *b)
         buffer_append_string(b, "]}");
     }
 
-    /*FILE *fp = fopen(CERT_FILENAME, "r");
-    while ((cert = PEM_read_X509(fp, NULL, NULL, NULL)) != NULL){
-        printf("handle_getvericert not null \n");
-
-    }
-    fclose(fp);*/
     buffer_append_string(b, "]}");
 
     return 1;
@@ -17718,14 +17703,17 @@ static int check_same_cert(long hash)
     X509 *cert = NULL;
     long tmphash;
     int exist = 0;
-    char *temp = NULL;
+
+    char cert_buf[4096] = {0};
 
     for(int i = 0; i < 16; i ++){
-        temp = nvram_my_get(pcerts[i]);
-        if( !strcasecmp(temp, "") ){
+        nvram_get_safe(pcerts[i], cert_buf, sizeof(cert_buf));
+
+        if (strlen(cert_buf) == 0) {
             continue;
         }
-        if ((in = BIO_new_mem_buf((void*)temp, -1)) == NULL) {
+
+        if ((in = BIO_new_mem_buf((void*)cert_buf, -1)) == NULL) {
             continue;
         }
         if ((cert = PEM_read_bio_X509(in, NULL, NULL, NULL)) == NULL){
@@ -17743,6 +17731,31 @@ static int check_same_cert(long hash)
     return exist;
 }
 
+static char* get_unused_cert_pvalue() {
+    const char *pcerts[16] = {"2386", "2486", "2586", "2686", "2786", "2886", "51686", 
+        "51786", "51886", "51986", "52086", "52186", "52286", "52386", "52486", "52586"};
+
+    char buf_tmp[4096] = {0};
+    char *cert_p = NULL;
+
+    for (int i = 0; i < 16; i++) {
+        memset(buf_tmp, 0, sizeof(buf_tmp));
+
+        nvram_get_safe(pcerts[i], buf_tmp, sizeof(buf_tmp));
+
+        LOGD("pvalue: %s", pcerts[i]);
+
+        LOGD("%s", buf_tmp);
+
+        if (strlen(buf_tmp) == 0) {
+            cert_p = pcerts[i];
+            break;
+        }
+    }
+
+    return cert_p;
+}
+
 static int handle_check_vericert(buffer *b, const struct message *m)
 {
     FILE *fp = fopen( TMP_CERT_PATH , "r");
@@ -17757,19 +17770,21 @@ static int handle_check_vericert(buffer *b, const struct message *m)
     char *pvalueparam = NULL;
     int validmaxnum = 0;
 
+    /*
     temp = msg_get_header(m, "maxnum");
     if( temp != NULL )
         validmaxnum = atoi(temp);
+    */
 
-    while ((  fp != NULL) && !feof( fp ) )
+    while ((fp != NULL) && !feof(fp))
     {
-        if( validnum >= validmaxnum ) break;
-        fgets( &line, 1024, fp );
-        if( start == 1 ){
+        if( validnum >= 16 ) break;
+        fgets(&line, 1024, fp);
+        if(start == 1) {
             //printf("line is %s\n", line);
             strcat(buf, line);
             val = strstr( line, "-END CERTIFICATE-");
-            if( val != NULL ){
+            if (val != NULL) {
                 start = 0;
                 BIO *in = NULL;
                 X509 *cert = NULL;
@@ -17791,77 +17806,37 @@ static int handle_check_vericert(buffer *b, const struct message *m)
                     free(buf);
                     continue;
                 }
-                /*X509_STORE_CTX *storeCtx = X509_STORE_CTX_new();
-                X509_STORE* m_store = X509_STORE_new();
-                X509_LOOKUP* m_lookup = X509_STORE_add_lookup(m_store, X509_LOOKUP_file());
-                if( m_lookup == NULL )
-                    printf("m_lookup is null\n");
-                X509_STORE_set_default_paths(m_store);
-                X509_STORE_CTX_init(storeCtx, m_store, cert, NULL);
-                X509_STORE_CTX_set_flags(storeCtx, X509_V_FLAG_CB_ISSUER_CHECK);
 
-                X509_STORE* m_store = X509_STORE_new();
-                X509_LOOKUP* m_lookup = X509_STORE_add_lookup(m_store, X509_LOOKUP_file());
-                X509_STORE_load_locations(m_store, TMP_CERT, NULL);
-                X509_STORE_set_default_paths(m_store);
-                X509_LOOKUP_load_file(m_lookup, TMP_CERT, X509_FILETYPE_PEM);
-
-                X509_STORE_CTX *storeCtx = X509_STORE_CTX_new();
-                FILE *newfp = fopen(TMP_CERT, "r");
-                X509 *cert = NULL;
-                if ((cert = PEM_read_X509(newfp, NULL, NULL, NULL)) != NULL){
-                    X509_STORE_CTX_init(storeCtx,m_store,cert,NULL);
-                    //X509_STORE_CTX_set_flags(storeCtx, X509_V_FLAG_CB_ISSUER_CHECK);
-                    if (X509_verify_cert(storeCtx) == 1)
-                    {*/
-                        if( check_same_cert( X509_subject_name_hash(cert) ) ){
-                            valid = 3;
-                        }else{
-                            BASIC_CONSTRAINTS *bs;
-                            bs=X509_get_ext_d2i(cert, NID_basic_constraints, NULL, NULL);
-                            if (!bs){
-                                if( valid != 1 )
-                                    valid = 2;
-                            }else{
-                                printf("ca is %d\n", bs->ca);
-                                if(bs->ca){
-                                    pvalueparam = malloc(32);
-                                    memset(pvalueparam, 0, 32);
-                                    snprintf(pvalueparam, 32, "pvalue%d", validnum);
-                                    temp = msg_get_header(m, pvalueparam);
-                                    if( temp != NULL ){
-                                        printf("set to pvalue %s\n", temp);
-                                        valid = 1;
-                                        nvram_set(temp, buf);
-                                        validnum ++;
-                                    }
-                                }else{
-                                    if( valid != 1 )
-                                        valid = 2;
-                                }
-                                BASIC_CONSTRAINTS_free(bs);
+                if (check_same_cert( X509_subject_name_hash(cert))) {
+                    valid = 3;
+                } else {
+                    BASIC_CONSTRAINTS *bs;
+                    bs = X509_get_ext_d2i(cert, NID_basic_constraints, NULL, NULL);
+                    if (!bs) {
+                        if (valid != 1)
+                            valid = 2;
+                    } else {
+                        printf("ca is %d\n", bs->ca);
+                        if (bs->ca) {
+                            char *cert_p = get_unused_cert_pvalue();
+                            if (cert_p != NULL) {
+                                //LOGD("set CA to pvalue %s \n %s", cert_p, buf);
+                                valid = 1;
+                                nvram_set(cert_p, buf);
+                                validnum ++;
                             }
+                        } else {
+                            if (valid != 1)
+                                valid = 2;
                         }
-                    /*}else
-                    {
-                        printf("Verificatione rror: %s\n",X509_verify_cert_error_string(storeCtx->error));
-                        if( valid != 1 )
-                            valid = 0;
+                        BASIC_CONSTRAINTS_free(bs);
                     }
-                    X509_STORE_CTX_free(storeCtx);
-
-                    if(m_store != NULL)
-                    {
-                       X509_STORE_free(m_store);
-                       m_store = NULL;
-                    }*/
-                //}
-                //fclose(newfp);
+                }
                 free(buf);
             }
-        }else{
+        } else {
             val = strstr( line, "-BEGIN CERTIFICATE-");
-            if( val != NULL ){
+            if (val != NULL) {
                 buf = malloc(length);
                 memset(buf, 0, length);
                 snprintf(buf, 1024, line);
@@ -17870,44 +17845,19 @@ static int handle_check_vericert(buffer *b, const struct message *m)
         }
         memset(line, 0, sizeof(line));
     }
-    if( valid == 1 ){
+    if (valid == 1) {
         nvram_commit();
         buffer_append_string(b, "1");
-    }else if( valid == 2 ){
+    } else if (valid == 2) {
         buffer_append_string(b, "2");
-    }else if( valid == 3 ){
+    } else if (valid == 3) {
         buffer_append_string(b, "3");
-    }else{
+    } else {
         buffer_append_string(b, "0");
     }
     fclose(fp);
-    //system("rm /tmp/upload_certs");
 
     return 1;
-
-    /*
-    if( valid == 1 ){
-        //need to re-open the upload file,as fp pointer position is not at the start already
-        FILE *old_fd = fopen(TMP_CERT_PATH, "r+");
-        FILE *new_fd = fopen(CERT_FILENAME, "w+");
-        char *buf = NULL;
-        size_t len = 0;
-        if( new_fd != NULL ){
-            buf = malloc(1024 * 8);
-            memset(buf, 0, 1024 * 8);
-            while (feof(old_fd) == 0)
-            {
-                len = fread(buf, 1, 1024 * 8, old_fd);
-                printf("buf is %s\n", buf);
-                fwrite(buf, 1, len, new_fd);
-            }
-            free(buf);
-            fflush(new_fd);
-            fclose(new_fd);
-            fclose(old_fd);
-            //system("rm /tmp/upload_certs");
-        }
-    }*/
 }
 
 static int create_default_config()
