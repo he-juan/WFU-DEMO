@@ -1607,6 +1607,13 @@ int main (int argc, char **argv) {
     size_t i;
     const char *display;
 
+    // added by cchma on 2020.04.07, moved from onBootCompleted.sh, when P29605=1, exit the lighttpd.
+    char p_buf[16] = {0};
+    nvram_get_safe("29605", p_buf, sizeof(p_buf));
+    if (!strcmp(p_buf, "1")) {
+        exit(0);
+    }
+
 #ifdef HAVE_SIGACTION
 	struct sigaction act;
 #endif
