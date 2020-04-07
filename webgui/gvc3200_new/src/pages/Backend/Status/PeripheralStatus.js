@@ -88,8 +88,8 @@ class PeripheralStatus extends Component {
               </td>
               <td>
                 <div style={{ marginTop: -14 }}>
-                  <span className={'icons icon-hdmi1out' + this.renderCName(hdmi_out1)}></span>
-                  <span style={{ marginLeft: 40 }} className={'icons icon-hdmi2out' + this.renderCName(hdmi_out2)}></span>
+                  <span className={'icons icon-hdmi2out' + this.renderCName(hdmi_out2)}></span>
+                  <span style={{ marginLeft: 40 }} className={'icons icon-hdmi1out' + this.renderCName(hdmi_out1)}></span>
                 </div>
               </td>
               <td>
