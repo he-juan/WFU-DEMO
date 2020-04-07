@@ -49,7 +49,7 @@ class ScreenShare extends Component {
   }
 
   // 首次点击 调用call
-  handleCall = () => {
+  handleCall = (isBgScreen) => {
     this.setState({
       isCalling: true
     })
@@ -71,7 +71,7 @@ class ScreenShare extends Component {
           isCalling: false
         })
         setTimeout(() => {
-          this.handleClick()
+          isBgScreen && this.handleClick()
         }, 1000)
       }
     })
@@ -134,9 +134,15 @@ class ScreenShare extends Component {
   render () {
     let { isSharing } = this.state
     return (
+     <>
       <span className='screen-share-btn' onClick={this.handleClick}>
         {isSharing ? $t('c_361') : $t('c_360')}
       </span>
+      <span title='临时测试用' onClick={() => this.handleCall()} style={{ float: 'right', cursor: 'pointer' }}>
+        建立通话
+        &nbsp; &nbsp;
+      </span>
+     </>
     )
   }
 }
