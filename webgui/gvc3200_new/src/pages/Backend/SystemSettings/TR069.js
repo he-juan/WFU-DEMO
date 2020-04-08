@@ -166,7 +166,11 @@ class TR069 extends FormCommon {
         {/* CPE证书 */}
         <FormItem {...options['P8220']}>
           {
-            gfd('P8220')(
+            gfd('P8220', {
+              rules: [
+                this.maxLen(512)
+              ]
+            })(
               <Input.TextArea rows={8}/>
             )
           }
@@ -174,7 +178,11 @@ class TR069 extends FormCommon {
         {/* CPE证书密码 */}
         <FormItem {...options['P8221']}>
           {
-            gfd('P8221')(
+            gfd('P8221', {
+              rules: [
+                this.maxLen(512)
+              ]
+            })(
               <Input.TextArea rows={8}/>
             )
           }
