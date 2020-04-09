@@ -535,7 +535,8 @@ class ConfSetModal extends FormCommon {
           for (const key in params) {
             params[key] = encodeURIComponent(params[key])
           }
-
+          // 添加一个 会议开始前10分钟提醒 的配置
+          params['need_reminder'] = '1'
           // 发送请求
           API.setSchedule(params, modalType).then((msgs) => {
             if (msgs['res'] === 'success') {
