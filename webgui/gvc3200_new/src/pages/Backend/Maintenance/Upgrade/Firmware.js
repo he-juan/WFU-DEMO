@@ -142,6 +142,10 @@ class Firmware extends FormCommon {
 
   componentDidMount () {
     API.initupstatus()
+    this.initForm()
+  }
+
+  initForm = () => {
     const { setFieldsValue } = this.props.form
     this.initFormValue(this.options).then(data => {
       setFieldsValue(data)
@@ -161,7 +165,9 @@ class Firmware extends FormCommon {
           return message.error($t('m_207'))
         }
 
-        this.submitFormValue(values)
+        this.submitFormValue(values).then(() => {
+          this.initForm()
+        })
       }
     })
   }
