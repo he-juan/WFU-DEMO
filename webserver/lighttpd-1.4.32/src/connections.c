@@ -1642,7 +1642,7 @@ static int get_conatcts_list(buffer *b) {
         char *ringtone = (char*)sqlite3_column_text(stmt, 1);   // ringtone
         char *times = (char*)sqlite3_column_text(stmt, 2);  // times
 
-        LOGD("id: %s -- ringtong: %s", id, ringtone);
+        //LOGD("id: %s -- ringtong: %s", id, ringtone);
 
         if (NULL != id) {
             cJSON_AddStringToObject(contactObj, "id", id);
@@ -2082,8 +2082,110 @@ static int get_calllog_list(buffer *b) {
     return 0;
 }
 
+/**
+ * @Date: 2020-04-13 15:36:55
+ * @Author: cchma
+ * @LastEditors: cchma
+ * @LastEditTime: 2020-04-13 15:36:55
+ * @description: 获取所有已激活的Google帐号(包括SIP帐号)
+ * @param {type} 
+ * @return: [{"Id":"1", "Name":"SIP"},{"Id":"user@google.com", "Name":"user@google.com"}...]
+ */
+static int *get_googleaccts(buffer *b)
+{
+    cJSON *resObj = cJSON_CreateObject();
+    cJSON *acctArrObj = cJSON_CreateArray();
+    xmlDocPtr doc = NULL;
+    xmlNode *root_element = NULL;
+    xmlNode *cur_node = NULL;
+    xmlChar *key = NULL;
+    xmlChar *val = NULL;
+    int count = 0;
 
+    doc = xmlReadFile(CONF_SCHEDULE, NULL, 0);
+    if (doc == NULL)
+    {
+        LOGD("has no google account XML file");
+        cJSON_AddItemToObject(resObj, "accounts", acctArrObj);
+        create_json_response(RES_ERR_WITH_DATA, NULL, resObj, b);
+        return -1;
+    }
 
+    /*Get the root element node */
+    root_element = xmlDocGetRootElement(doc);
+    for (cur_node = root_element->xmlChildrenNode; cur_node; cur_node = cur_node->next)
+    {
+        //if (cur_node->type == XML_ELEMENT_NODE)
+        {
+            if ( !xmlStrcmp(cur_node->name, BAD_CAST "string") )
+            {
+                key = xmlGetProp(cur_node, BAD_CAST "name");
+                printf("cur_node name is string, key = %s\n", key);
+                if( key != NULL )
+                {
+                    val = xmlNodeListGetString(doc, cur_node->xmlChildrenNode, 1);
+
+                    // only return registered Google account
+                    if (!strcmp((char*)val, "1")) {
+                        cJSON *acctObj = cJSON_CreateObject();
+                        cJSON_AddStringToObject(acctObj, "Id", key);
+                        cJSON_AddStringToObject(acctObj, "Name", key);
+                        cJSON_AddItemToArray(acctArrObj, acctObj);
+                        count++;
+                    }
+                    xmlFree(key);
+                }
+            }
+        }
+    }
+    xmlFreeDoc(doc);
+
+    if (count != 0) {
+        cJSON *acctObj = cJSON_CreateObject();
+        cJSON_AddStringToObject(acctObj, "Id", "1");
+        cJSON_AddStringToObject(acctObj, "Name", "SIP");
+        cJSON_InsertItemInArray(acctArrObj, 0, acctObj);
+    }
+
+    cJSON_AddItemToObject(resObj, "accounts", acctArrObj);
+    create_json_response(RES_SUCCESS, NULL, resObj, b);
+
+    return 0;
+}
+
+static int get_invited_conf_status(sqlite3 *db, char *scheduleid, char *invited) {
+    int rc;
+    sqlite3_stmt *stmt;
+    int ret = 0;
+
+    char *sqlstr = (char*)malloc(512);
+    memset(sqlstr, 0, 512);
+    //snprintf(sqlstr, 512, "select state from group_contacts where group_contacts.group_id=%s and group_contacts.host_email=%s;", scheduleid, invited);
+    snprintf(sqlstr, 512, "select state, host_email from group_contacts where group_contacts.group_id=%s;", scheduleid);
+
+    LOGD("querying google state of schedule: %s ......", scheduleid);
+
+    rc = sqlite3_prepare_v2(db, sqlstr, strlen(sqlstr), &stmt, 0);
+    if (rc) {
+        printf("Can't open statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+    } else {
+        while(sqlite3_step(stmt) == SQLITE_ROW) {
+            char *state = (char*)sqlite3_column_text(stmt, 0);
+            char *email = (char*)sqlite3_column_text(stmt, 1);
+            if (!strcmp(email, invited)) {
+                ret = atoi(state);
+                LOGD("get GoogleStatus: %d", ret);
+                break;
+            }
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    free(sqlstr);
+
+    return ret;
+}
 
 /**
  * @Author: cchma
@@ -2203,6 +2305,11 @@ static int get_schedule_list(buffer *b) {
     sqlite3 *db;
     int rc;
     sqlite3_stmt *stmt;
+
+    // 获取当前已注册的Google帐号
+    //cJSON *accountsArrObj = get_getgoogleaccts();
+    //cJSON_AddItemToObject(resObj, "accounts", accountsArrObj);
+
     // 先从 schedule 表中查询所有的会议预约记录，再通过 schedule id 去 groups_contacts 表中查询对应的会议成员
     char *sqlstr = "select id, start_time, start_time_milliseconds, duration, host, display_name, recycle, rule, schedule_lost, schedule_inconf, schedule_end, meeting_preset, preset_position_name, dnd_key, conf_auto_answer, invited from schedule order by start_time_milliseconds desc;";
 
@@ -2363,6 +2470,18 @@ static int get_schedule_list(buffer *b) {
             cJSON_AddStringToObject(scheduleObj, "InviteAcct", invited);
         } else {
             cJSON_AddStringToObject(scheduleObj, "InviteAcct", "");
+        }
+
+        // Google Conf state (unconfirmed, accepted, rejected)
+        if (NULL != invited && strcmp(invited, "")) {
+            int google_conf_state = get_invited_conf_status(db, id, invited);
+
+            char state_buf[8] = {0};
+            snprintf(state_buf, sizeof(state_buf), "%d", google_conf_state);
+
+            cJSON_AddStringToObject(scheduleObj, "GoogleStatus", state_buf);
+        } else {
+            cJSON_AddStringToObject(scheduleObj, "GoogleStatus", "");
         }
 
         // memberlist
@@ -17903,6 +18022,8 @@ static int handle_readconfig(buffer *b)
                 "Message=Configuration File Not Found\r\n");
         if( access(CONF_CONFIG_PATH, 0) ) {
             mkdir(CONF_CONFIG_PATH, 0777);
+            char *cmd[] = {"sh", "-c", "chown system /data/config/ && chgrp system /data/config/"};
+            doCommandTask(cmd, NULL, NULL, 0);
         }
         create_default_config(b);
         return -1;
@@ -26354,6 +26475,8 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 get_calllog_list(b);
             } else if (!strcasecmp(action, "getschedules")) {
                 get_schedule_list(b);
+            } else if (!strcasecmp(action, "getgoogleaccts")) {
+                get_googleaccts(b);
             } else if (!strcasecmp(action, "startpreconf")) {
                 char *confId = msg_get_header(m, "Id");
                 char *confName = msg_get_header(m, "Displayname");
