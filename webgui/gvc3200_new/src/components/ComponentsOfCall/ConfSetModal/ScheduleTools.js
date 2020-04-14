@@ -23,7 +23,7 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
   let currConf = {
     Id: '',
     confname: '', // 会议名称 或 主题
-    bindAccount: '-1', // 关联帐号
+    host: '1', // 关联帐号
     confStatedate: moment(now, 'YYYY/MM/DD'), // 开始时间
     confhours: transStr(now.hours()),
     confminutes: transStr(now.minutes()),
@@ -57,6 +57,7 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
 
     Object.assign(currConf, {
       Id: item.Id,
+      host: item.Host || '1',
       confstate: item.Confstate, // 会议状态 预览需要
       confname: item.Displayname, // Displayname 会议名称
       confStatedate: moment(item.Id !== '' ? time : now, 'YYYY/MM/DD'),
@@ -77,6 +78,7 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
         number: el.Number,
         name: el.Name,
         acct: el.Acctid,
+        email: el.Email,
         recordfrom: el.RecordFrom,
         isvideo: el.IsVideo || '0',
         googleStatus: el.GoogleStatus // 谷歌会议状态

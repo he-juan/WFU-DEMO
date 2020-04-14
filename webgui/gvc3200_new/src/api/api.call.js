@@ -310,6 +310,16 @@ export const getGlobalConfInfo = () => {
 }
 
 /**
+ * 新接口 获取会议谷歌账号相关
+ */
+export const getConfAccts = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getgoogleaccts'
+  })
+}
+
+/**
  * 新接口 获取会议记录
  */
 export const getSchedules = () => {
@@ -382,5 +392,15 @@ export const ctrlConfDnd = (state = 1) => {
   return _axios({
     method: 'get',
     url: '/manager?action=ctrlconfdnd&state=' + state
+  })
+}
+
+/**
+ * 接受/拒绝 被邀请会议(Google) 9接受 10拒绝
+ */
+export const setGoogleConfState = (type, Id) => {
+  return _axios({
+    method: 'get',
+    url: `/manager?action=notifyschedule&region=webservice&type=${type}&scheduleId=${Id}`
   })
 }

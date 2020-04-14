@@ -57,10 +57,33 @@ export const setLinesInfo = (linesInfo) => {
   }
 }
 
+/**
+ * 设置全局会议状态信息
+ */
 export const setConfInfo = (confInfo) => {
   return {
     type: Types.SET_CONF_INFO,
     confInfo
+  }
+}
+
+/**
+ * 设置会议账号相关 sip和谷歌
+ */
+export const setConfAccts = (confAccts) => {
+  return {
+    type: Types.SET_CONF_ACCTS,
+    confAccts
+  }
+}
+
+/**
+ * 设置会议列表
+ */
+export const setConfList = (confList) => {
+  return {
+    type: Types.SET_CONF_LIST,
+    confList
   }
 }
 /** ******************************** async actions ***************************/
@@ -159,6 +182,28 @@ export const getConfInfo = () => (dispatch) => {
   API.getGlobalConfInfo().then(data => {
     if (!data.result) {
       dispatch(setConfInfo(data.data))
+    }
+  })
+}
+
+/**
+ * 获取会议账号相关 sip和谷歌
+ */
+export const getConfAccts = () => (dispatch) => {
+  API.getConfAccts().then(({ result, msg, data }) => {
+    if (!result) {
+      dispatch(setConfAccts(data.accounts || ''))
+    }
+  })
+}
+
+/**
+ * 获取会议列表
+ */
+export const getConfList = () => (dispatch) => {
+  API.getSchedules().then(({ result, msg, data }) => {
+    if (!result) {
+      dispatch(setConfList(data.schedules.filter(s => s.Host !== 'IPVideoTalk')))
     }
   })
 }

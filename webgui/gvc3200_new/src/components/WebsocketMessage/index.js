@@ -57,6 +57,10 @@ class WebsocketMessage extends PureComponent {
       case 'contacts_updated':
         MsgObserver.trigger('contacts_updated', msg)
         break
+      // 受邀请会议记录更新
+      case 'schedule_updated':
+        MsgObserver.trigger('schedule_updated', msg)
+        break
       default:
     }
   }

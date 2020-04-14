@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, message } from 'antd'
 import API from '@/api'
 import NoData from '@/components/NoData'
-import { getLinesInfo, getConfInfo } from '@/store/actions'
+import { getLinesInfo, getConfList } from '@/store/actions'
 import ConfSetModal from '@/components/ComponentsOfCall/ConfSetModal' // 添加或者编辑或预览会议弹窗
 import LocalConfList from './LocalConfList'
 import './Schedule.less'
@@ -14,11 +14,12 @@ import { deepCopy } from '@/utils/tools'
   state => ({
     acctStatus: state.acctStatus, // 获取账号状态-所有激活账号
     linesInfo: state.linesInfo || '',
-    confInfo: state.confInfo || ''
+    confInfo: state.confInfo || '',
+    confList: state.confList || []
   }),
   dispatch => ({
     getLinesInfo: () => dispatch(getLinesInfo()),
-    getConfInfo: () => dispatch(getConfInfo())
+    getConfList: () => dispatch(getConfList())
   })
 )
 class LocalSchedule extends Component {
@@ -27,22 +28,10 @@ class LocalSchedule extends Component {
     super(props)
 
     this.state = {
-      schedules: [],
       displayModal: false,
       allDisabled: false,
       currConf: {}
     }
-  }
-
-  // 获取会议记录
-  handleGetSchedules = () => {
-    API.getSchedules().then(({ result, msg, data }) => {
-      if (+result === 0) {
-        this.setState({ schedules: data.schedules.filter(s => s.Host !== 'IPVideoTalk') })
-      } else {
-        message.error(msg)
-      }
-    })
   }
 
   // 设置 modal 是否显示
@@ -92,7 +81,7 @@ class LocalSchedule extends Component {
 
     let callback = (res) => {
       if (res.toLowerCase() === 'success') {
-        this.handleGetSchedules()
+        this.props.getConfList()
         message.success($t('m_027'))
       } else {
         message.error($t('m_028'))
@@ -128,29 +117,19 @@ class LocalSchedule extends Component {
   componentDidMount () {
     let { getLinesInfo } = this.props
     getLinesInfo()
-    getConfInfo()
-    this.handleGetSchedules()
-  }
-
-  // componentDidUpdate
-  componentDidUpdate (prevProps, prevState) {
-    // 监听 props中的linesInfo，去触发会议预约列表的更新
-    if (JSON.stringify(prevProps.confInfo) !== JSON.stringify(this.props.confInfo) && Object.keys(prevProps.confInfo).length !== 0) {
-      setTimeout(() => {
-        this.handleGetSchedules()
-      }, 500)
-    }
   }
 
   // render
   render () {
-    let { schedules, displayModal, allDisabled, currConf } = this.state
-    let _schedules = deepCopy(schedules)
+    let { displayModal, allDisabled, currConf } = this.state
+    const { confList } = this.props
+    let _schedules = deepCopy(confList)
     let _currConf = deepCopy(currConf)
 
     _schedules = _schedules.filter(item => {
-      return item.InviteAcct === ''
+      return item.InviteAcct === '' // 过滤出非受邀请的会议
     })
+
     // 排个序
     // 按会议类型排序，进行中3>待主持2>未开始1>已结束0；
     // 待主持、进行中、未开始的会议按照开始时间正序排列，已结束的会议按照开始时间倒叙排列
@@ -188,7 +167,7 @@ class LocalSchedule extends Component {
             allDisabled={allDisabled || false}
             onCancel={this.setDisplayModal}
             currConf={_currConf}
-            updateDate={this.handleGetSchedules}
+            updateDate={this.props.getConfList}
           />
         }
       </div>

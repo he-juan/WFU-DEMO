@@ -161,8 +161,8 @@ const btns = {
   b_063: 'Up',
   b_064: 'Down',
   b_065: 'Wake up',
-  b_066: '',
-  b_067: '',
+  b_066: 'Accept',
+  b_067: 'Reject',
   b_068: '',
   b_069: '',
 
@@ -793,7 +793,9 @@ const commons = {
   c_361: 'Stop sharing',
   c_362: 'Pause sharing',
   c_363: 'Resume sharing',
-
+  c_364: 'No invited schedule',
+  c_365: 'Accepted',
+  c_366: 'Rejected',
 
   c_391: 'Disabled',
   c_399: 'Enabled',

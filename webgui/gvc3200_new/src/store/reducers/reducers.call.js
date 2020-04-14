@@ -69,3 +69,27 @@ export const confInfo = (state = {}, action) => {
       return state
   }
 }
+
+/**
+ * 会议账号
+ */
+export const confAccts = (state = '', action) => {
+  switch (action.type) {
+    case Types.SET_CONF_ACCTS:
+      return action.confAccts
+    default:
+      return state
+  }
+}
+
+/**
+ * 会议列表
+ */
+export const confList = (state = [], action) => {
+  switch (action.type) {
+    case Types.SET_CONF_LIST:
+      return action.confList
+    default:
+      return state
+  }
+}

@@ -20,3 +20,5 @@ export const SET_CONTACTS_GROUPS = 'SET_CONTACTS_GROUPS'
 export const SET_MAX_LineCOUNT = 'SET_MAX_LineCOUNT'
 export const SET_LINES_INFO = 'SET_LINES_INFO'
 export const SET_CONF_INFO = 'SET_CONF_INFO'
+export const SET_CONF_ACCTS = 'SET_CONF_ACCTS' // 会议预约 账号信息 包含 sip和谷歌账号
+export const SET_CONF_LIST = 'SET_CONF_LIST' // 会议预约 记录列表

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Row, Col } from 'antd'
 import { convertTimeInfo } from '@/components/ComponentsOfCall/ConfSetModal/ScheduleTools'
+import { $t } from '@/Intl'
 
 /**
  * schedules
@@ -10,11 +11,10 @@ import { convertTimeInfo } from '@/components/ComponentsOfCall/ConfSetModal/Sche
 
 const InvitedConfList = (props, context) => {
   // 待定装填
-  let stateObj = {
-    '3': '进行中',
-    '2': '已接受',
-    '1': '已拒接',
-    '0': '已结束'
+  let googleStatus = {
+    '0': $t('c_256'), // 未确定
+    '1': $t('c_365'), // 已接受
+    '2': $t('c_366') // 已拒绝
   }
   let { schedules, handlePreviewConf, handleDelConf } = props
 
@@ -30,21 +30,21 @@ const InvitedConfList = (props, context) => {
                   {item.Displayname}
                 </Col>
                 <Col className='conf-status' span={9}>
-                  <span className={'statecolor' + item.Confstate}>{stateObj[item.Confstate]}</span>
+                  <span className={'statecolor' + item.GoogleStatus}>{googleStatus[item.GoogleStatus]}</span>
                 </Col>
               </Row>
               <Row>
-                <Col span={3}>时间：</Col>
+                <Col span={3}>{$t('c_253')}：</Col>
                 <Col className='conf-text ellips' span={21}>{convertTimeInfo(+item.Milliseconds, +item.Duration)}
                 </Col>
               </Row>
               <Row>
-                <Col span={3}>发起人：</Col>
-                <Col className='conf-text ellips' span={9}>{+item.Host}</Col>
+                <Col span={3}>{$t('c_249')}：</Col>
+                <Col className='conf-text ellips' span={9}>{item.Host}</Col>
                 <Col className='conf-status' span={12}>
                   {/* 进行中 无功能按钮 */}
                   {
-                    +item.Confstate !== 3 && <Button type='primary' onClick={(e) => handleDelConf(e, item)}>{+item.Confstate === 1 ? '接受' : '拒接'}</Button>
+                    +item.GoogleStatus !== 3 && <Button type='primary' onClick={(e) => handleDelConf(e, item)}>{$t(+item.GoogleStatus === 2 ? 'b_066' /* 接受 */ : 'b_067' /* 拒绝 */)}</Button>
                   }
                 </Col>
               </Row>

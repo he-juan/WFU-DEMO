@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Pagination, Modal, message } from 'antd'
 import NoData from '@/components/NoData'
 import { connect } from 'react-redux'
-import { getCallLogs } from '@/store/actions'
+import { getCallLogs, getConfAccts } from '@/store/actions'
 import CallHistoryList from './CallHistoryList'
 import { parseAcct, mapToSource } from '@/utils/tools'
 import API from '@/api'
@@ -15,7 +15,8 @@ import { $t } from '@/Intl'
     callLogs: state.callLogs
   }),
   dispatch => ({
-    getCallLogs: () => { dispatch(getCallLogs()) }
+    getCallLogs: () => { dispatch(getCallLogs()) },
+    getConfAccts: () => dispatch(getConfAccts())
   })
 )
 class CallHistory extends Component {
@@ -28,6 +29,7 @@ class CallHistory extends Component {
   }
 
   componentDidMount () {
+    this.props.getConfAccts() // 主动获取一次 会议预约的账号
     this.updateCurPageData()
     API.getPvalues(['P25023']).then(data => {
       this.setState({

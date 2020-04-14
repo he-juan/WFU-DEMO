@@ -30,10 +30,9 @@ const stateObj = {
 }
 
 const googleStatus = {
-  '0': $fm('c_254'),
-  '1': $fm('c_255'),
-  '2': $fm('c_119'),
-  '3': $fm('c_256')
+  '0': $fm('c_256'), // 未确定
+  '1': $fm('c_365'), // 已接受
+  '2': $fm('c_366') // 已拒绝
 }
 
 // 修饰一下 Form.Item
@@ -74,7 +73,8 @@ let timestampNowInter = null
     acctStatus: state.acctStatus, // 获取账号状态-所有激活账号
     defaultAcct: state.defaultAcct,
     maxLineCount: state.maxLineCount, // 最大线路数
-    linesInfo: state.linesInfo // 线路信息
+    linesInfo: state.linesInfo, // 线路信息
+    confAccts: state.confAccts || ''
   })
 )
 // 注意一下，modal 无法被
@@ -92,7 +92,7 @@ class ConfSetModal extends FormCommon {
       PropTypes.shape({
         Id: PropTypes.string,
         confname: PropTypes.string,
-        bindAccount: PropTypes.string,
+        host: PropTypes.string, // 关联账号 1默认为sip
         confStatedate: PropTypes.object,
         confhours: PropTypes.string,
         confminutes: PropTypes.string,
@@ -252,11 +252,7 @@ class ConfSetModal extends FormCommon {
   // 生成相关的下拉框选项
   createOptions = (confminutes) => {
     let { presetInfo } = this.state
-    // accountArr
-    let accountArr = [
-      { v: '-1', t: '本地' },
-      { v: '0', t: 'Google账号' }
-    ]
+
     // dayArr hoursArr minutesArr hoursArr1 minutesArr1
     let dayArr = Array(31).fill().map((item, index) => {
       return { v: index + 1, t: index + 1 }
@@ -310,7 +306,7 @@ class ConfSetModal extends FormCommon {
       { v: '5', t: $t('c_273') }
     ]
     let weekdayArr = weekOptions.map(el => ({ v: el.value, t: el.label }))
-    return { accountArr, dayArr, hoursArr, hoursArr1, minutesArr, minutesArr1, presetArr, crepeatArr, weekordinalArr, weekdayArr }
+    return { dayArr, hoursArr, hoursArr1, minutesArr, minutesArr1, presetArr, crepeatArr, weekordinalArr, weekdayArr }
   }
 
   // 关闭弹窗
@@ -451,14 +447,14 @@ class ConfSetModal extends FormCommon {
 
         // 继续执行的方法
         const continueFn = () => {
-          let host = 1
+          let host = values.host || '1'
           let confname = values.confname
           let duration = +values.durationMin + 60 * values.durationHour
           let pincode = values.pincode
           let repeat = parseInt(values.repeat)
           let preset = values.preset
           let autoanswer = values.autoanswer || '0'
-          let [ repeatRule, membernames, membernumbers, memberaccts, recordsfrom, membercalltypes ] = Array(6).fill('') // memberemails
+          let [ repeatRule, membernames, membernumbers, memberaccts, memberemails, recordsfrom, membercalltypes ] = Array(7).fill('') // memberemails
           // 处理重复规则
           switch (repeat) {
             default:
@@ -497,12 +493,14 @@ class ConfSetModal extends FormCommon {
               membernames += ':::'
               membernumbers += ':::'
               memberaccts += ':::'
+              memberemails += ':::'
               recordsfrom += ':::'
               membercalltypes += ':::'
             }
             membernames += curMember[i].name
             membernumbers += curMember[i].number
             memberaccts += curMember[i].acct
+            memberemails += curMember[i].email
             let type = curMember[i].recordfrom
             if (type === 1 || type === 3) recordsfrom += '3'
             else if (type === 2) recordsfrom += '4'
@@ -528,6 +526,7 @@ class ConfSetModal extends FormCommon {
             membernames,
             membernumbers,
             memberaccts,
+            memberemails,
             recordsfrom,
             membercalltypes
           }
@@ -608,7 +607,7 @@ class ConfSetModal extends FormCommon {
 
   // render
   render () {
-    let { acctStatus, defaultAcct, form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
+    let { acctStatus, defaultAcct, confAccts, form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
     let { displayAddModal, curMember, currConf } = this.state
     if (!visible || Object.keys(currConf).length === 0) return null
     // 处理repeatArr
@@ -637,12 +636,6 @@ class ConfSetModal extends FormCommon {
     // optionObj
     let optionObj = this.createOptions(currConf['confminutes'])
 
-    // 关联账号
-    let showbindAccount = false
-    let bindAccount = '-1'
-    if (showbindAccount) {
-      bindAccount = gfv('bindAccount')
-    }
     // 账号类型
     const accts = {
       '-1': $t('c_219'), // '动态账号'
@@ -680,11 +673,11 @@ class ConfSetModal extends FormCommon {
             {
               allDisabled && <FormItem label={$t('c_280')}>{stateObj[currConf['confstate']]}</FormItem>
             }
-            <FormItem label={$t('c_281')} hide={!showbindAccount}>
-              {gfd('bindAccount', {
-                initialValue: currConf['bindAccount']
+            <FormItem label={$t('c_281')} hide={!confAccts}>
+              {gfd('host', {
+                initialValue: currConf['host']
               })(
-                <CSelect width='25%' disabled={allDisabled} options={optionObj.accountArr} />
+                <CSelect width='60%' disabled={allDisabled} options={confAccts.map(item => ({ v: item.Id, t: item.Name }))} />
               )}
             </FormItem>
             <FormItem label={$t('c_283')}>
@@ -872,13 +865,14 @@ class ConfSetModal extends FormCommon {
                 curMember.length > 0 && <div className='memberlist'>
                   {
                     curMember.map((member, index) => {
+                      const name = member.name ? member.name : member.number
                       return (
                         <div className='memberrow' key={index}>
                           <div className='memberinfo'>
-                            <div className='ellipsis name'>{member.name ? member.name : member.number}</div>
-                            <div className='ellipsis'>{member.number} ({accts[member.acct]})</div>
+                            <div className='ellipsis name' title={name}>{name}</div>
+                            <div className='ellipsis' title={member.number}>{member.number} ({accts[member.acct]})</div>
                           </div>
-                          { showbindAccount && bindAccount === '0' &&
+                          { confAccts && gfv('host') !== '1' &&
                             <div className='memberEmaiBox'>
                               <Input disabled={allDisabled} value={member.email || ''} onChange={(e) => this.handleEmail(e, index)} style={{ width: '100%' }}/>
                             </div>
