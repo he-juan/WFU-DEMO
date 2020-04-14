@@ -162,10 +162,14 @@ mod_websocket_errno_t mod_websocket_handshake_check_request(handler_ctx *hctx) {
     /* store necessary headers */
     for (i = hdrs->used; i > 0; i--) {
         hdr = (data_string *)hdrs->data[i - 1];
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Host"))) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Host")) ||
+            buffer_is_equal_string(hdr->key, CONST_STR_LEN("host"))
+        ) {
             handshake->host = hdr->value;
         }
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Version"))) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Version")) ||
+            buffer_is_equal_string(hdr->key, CONST_STR_LEN("sec-websocket-version"))
+        ) {
             version_hdr_value = hdr->value;
         }
         if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Origin")) ||
@@ -184,13 +188,16 @@ mod_websocket_errno_t mod_websocket_handshake_check_request(handler_ctx *hctx) {
 #endif	/* _MOD_WEBSOCKET_SPEC_IETF_00_ */
 
 #ifdef	_MOD_WEBSOCKET_SPEC_RFC_6455_
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Key"))) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Sec-WebSocket-Key")) ||
+            buffer_is_equal_string(hdr->key, CONST_STR_LEN("sec-websocket-key"))
+        ) {
             handshake->key = hdr->value;
         }
 #endif	/* _MOD_WEBSOCKET_SPEC_RFC_6455_ */
 
         /* check the user authentication */
-        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Cookie"))) {
+        if (buffer_is_equal_string(hdr->key, CONST_STR_LEN("Cookie")) || 
+            buffer_is_equal_string(hdr->key, CONST_STR_LEN("cookie"))) {
             char *before = NULL, *after = NULL, tmp[80] = "";
             if (before = strstr(hdr->value->ptr, "phonecookie=\"")) {
                 before += sizeof("phonecookie=\"") - 1;
