@@ -37,7 +37,7 @@ class SiteName extends FormCommon {
       if (!err) {
         const { sitename, bgtp, dispos, disdura: disduration, fontcolor, fontsize, bold, horizont, vertical } = values
         Promise.all([
-          API.setSitesettingInfo({ sitename, bgtp, dispos, disduration, fontcolor: encodeURIComponent(fontcolor), fontsize, bold }),
+          API.setSitesettingInfo({ sitename: encodeURIComponent(sitename), bgtp, dispos, disduration, fontcolor: encodeURIComponent(fontcolor), fontsize, bold }),
           API.setSitesettingOffset({ vertical: vertical, direction: 'y' }),
           API.setSitesettingOffset({ horizont: horizont, direction: 'x' })
         ]).then((m) => {
