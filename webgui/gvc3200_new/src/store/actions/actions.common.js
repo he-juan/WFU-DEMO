@@ -176,37 +176,6 @@ export const getApplyStatus = (type = '') => (dispatch) => {
 }
 
 /**
- * 获取账号状态
- */
-export const getAcctStatus = () => (dispatch) => {
-  API.getAcctStatus().then((data) => {
-    if (data.Response === 'Success') {
-      let acctStatus = []
-      const accts = [
-        { index: 0, name: 'SIP' },
-        { index: 1, name: 'IPVideoTalk' },
-        { index: 8, name: 'H.323' }, // H.323 下标为8，用账号6 奇怪！！！
-        { index: 2, name: 'BlueJeans' },
-        { index: 5, name: 'Zoom' } // 取账号5
-      ]
-      accts.forEach(({ index: i, name }) => {
-        let istr = i === 8 ? 6 : i
-        acctStatus.push({
-          'acctIndex': i,
-          'register': parseInt(data[`Account_${istr}_STATUS`]),
-          'activate': parseInt(data[`Account_${istr}_ACTIVATE`]), // 账号激活状态
-          'num': data[`Account_${istr}_NO`],
-          'server': data[`Account_${istr}_SERVER`],
-          'name': name
-
-        })
-      })
-      dispatch(setAcctStatus(acctStatus))
-    }
-  })
-}
-
-/**
  * 获取默认账号
  */
 export const getDefaultAcct = () => (dispatch) => {
@@ -251,7 +220,8 @@ export const getAcctInfo = () => dispatch => {
           'activate': (i === 1 && +P7059 === 0) ? 0 : parseInt(acctData[`Account_${istr}_ACTIVATE`]), // 账号激活状态 ipvt 账号激活状态还要看7059的p值
           'num': acctData[`Account_${istr}_NO`],
           'server': acctData[`Account_${istr}_SERVER`],
-          'name': i === 0 ? (acctData[`Account_${istr}_NAME`] || name) : name
+          'name': i === 0 ? (acctData[`Account_${istr}_NAME`] || name) : name,
+          'nameOrNum': acctData[`Account_${istr}_NAME`] || acctData[`Account_${istr}_NO`] // 只给sip账号做特殊处理用
         })
       })
 

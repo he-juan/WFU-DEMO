@@ -646,15 +646,8 @@ class ConfSetModal extends FormCommon {
       // '5': 'Zoom'
     }
     let confnamePrefix = ''
-    const effectAccts = acctStatus.filter(v => {
-      return v.activate && v.acctIndex !== 2 && v.acctIndex !== 5
-    })
-    const sip = effectAccts.filter(v => +v.acctIndex === 0)
-    if (+defaultAcct === 2 || +defaultAcct === 5 || sip.length === 0) {
-      confnamePrefix = effectAccts[0].name || effectAccts[0].num
-    } else {
-      confnamePrefix = sip[0].name || sip[0].num
-    }
+    const sip = acctStatus.filter(v => +v.acctIndex === 0)
+    confnamePrefix = sip[0].nameOrNum
 
     return (
       <>
@@ -682,7 +675,7 @@ class ConfSetModal extends FormCommon {
             </FormItem>
             <FormItem label={$t('c_283')}>
               {gfd('confname', {
-                initialValue: currConf['confname'] || $t('c_489', { s: confnamePrefix }),
+                initialValue: currConf['confname'] || confnamePrefix ? $t('c_489', { s: confnamePrefix }) : '',
                 rules: [
                   this.required(),
                   this.maxLen(60)

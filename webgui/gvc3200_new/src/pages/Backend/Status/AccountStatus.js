@@ -46,7 +46,7 @@ class AccountStatus extends Component {
                 <tr key={acctInfo.acctIndex}>
                   <td title={acctInfo['name'] || '-'}>
                     <i className={`icons icon-acctstatus ${+acctInfo.register === 0 ? '' : acctInfo.activate !== 7 ? 'active-1' : 'active-2'}`}></i>
-                    {acctInfo['name'] || '-'}
+                    { (acctInfo.acctIndex === 0 ? acctInfo['nameOrNum'] : acctInfo['name']) || '-'}
                   </td>
                   <td>
                     {acctInfo['num'] || '-'}
