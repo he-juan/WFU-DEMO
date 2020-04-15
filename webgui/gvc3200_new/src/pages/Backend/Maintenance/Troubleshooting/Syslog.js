@@ -52,6 +52,12 @@ class Syslog extends FormCommon {
     }
   }
 
+  handleChangeP208 = (v) => {
+    if (v === '1') {
+      this.props.form.setFieldsValue({ P1387: '1' })
+    }
+  }
+
   handleSubmit = () => {
     const { validateFields } = this.props.form
     validateFields((err, values) => {
@@ -92,6 +98,7 @@ class Syslog extends FormCommon {
         <SelectItem
           gfd={gfd}
           {...options['P208']}
+          onChange={this.handleChangeP208}
           selectOptions={[
             { v: '0', t: 'None' },
             { v: '1', t: 'Debug' },
