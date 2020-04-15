@@ -69,10 +69,10 @@ export default {
   call_022_tip: 'Specifies whether the site name is displayed in bold. The default value is No.',
 
   call_023: 'Horizontal Offset',
-  call_023_tip: 'Fine-tunes the site name\'s position left or right on the local video. <br />Value range: 0%-96%. The default value is 0%.',
+  call_023_tip: 'Fine-tunes the site name\'s position left or right on the local video. <br />Value range: 0%-100%. The default value is 0%.',
 
   call_024: 'Vertical Offset',
-  call_024_tip: 'Fine-tunes the site name\'s position up or down on the local video.<br />Value range: 0%-96%. The default value is 0%.',
+  call_024_tip: 'Fine-tunes the site name\'s position up or down on the local video.<br />Value range: 0%-100%. The default value is 0%.',
 
   call_025: 'Echo Delay',
   call_025_tip: 'Configures the device\'s HDMI audio delay to match the audio latency of different TV sets.',

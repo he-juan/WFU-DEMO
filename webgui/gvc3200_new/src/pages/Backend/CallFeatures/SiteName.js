@@ -132,14 +132,14 @@ class SiteName extends FormCommon {
           {...options['horizont']}
           gfd={gfd}
           min={0}
-          max={96}
+          max={100}
         />
         {/* 垂直偏移 */}
         <SliderItem
           {...options['vertical']}
           gfd={gfd}
           min={0}
-          max={96}
+          max={100}
         />
         <FormItem>
           <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
