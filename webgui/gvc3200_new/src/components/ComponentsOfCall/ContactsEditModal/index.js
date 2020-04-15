@@ -26,13 +26,21 @@ export class EditContacts {
     this.group = props.group || []
     this.name = props.name || { displayname: '', givenname: '', familyname: '' }
     this.note = props.note || ''
-    this.phone = props.phone || [{ acct: store.getState().defaultAcct, number: '', type: '2' }]
+    this.phone = props.phone || [{ acct: this.getDefAcct(), number: '', type: '2' }]
     this.rank = props.rank || ''
     this.ringtone = props.ringtone || ''
     this.title = props.title || ''
     this.website = props.website || ''
 
     this.isAdd = isAdd // 标识是否是添加还是编辑
+  }
+
+  getDefAcct = () => {
+    let defAcct = store.getState().defaultAcct
+    if (+defAcct === 2 || +defAcct === 5) {
+      defAcct = 0
+    }
+    return defAcct
   }
 }
 
@@ -233,10 +241,10 @@ class ContactsEditModal extends Component {
                           index: i
                         })}
                       >
-                        <Select.Option value='-1'>{$t('c_219')}</Select.Option>
                         <Select.Option value='0'>SIP</Select.Option>
                         <Select.Option value='1'>IPVideoTalk</Select.Option>
                         <Select.Option value='8'>H.323</Select.Option>
+                        <Select.Option value='-1'>{$t('c_219')}</Select.Option>
                       </Select>
                     </Form.Item>
                     <Form.Item>
