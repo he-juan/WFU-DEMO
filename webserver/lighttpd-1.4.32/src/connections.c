@@ -5354,13 +5354,11 @@ static int handle_setpreset(buffer *b, const struct message *m)
 {
     const char *action = NULL;
     const char *position = NULL;
+    int result = 0;
 
     action = msg_get_header(m, "type");
     position = msg_get_header(m, "position");
     if( action != NULL && position != NULL ){
-        char *cmd = NULL;
-        cmd = malloc(128);
-        memset(cmd, 0, 128);
         if(!strcasecmp(action, "add")) {
             char *name = msg_get_header(m, "name");
 
@@ -5368,12 +5366,14 @@ static int handle_setpreset(buffer *b, const struct message *m)
                 name = "";
             }
 
-            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_SET --ei position %s --es name %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position, name);
+            //snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_SET --ei position %s --es name %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position, name);
+            char *cmd[] = {"am", "broadcast", "-a", "com.base.module.preset.PRESET_SET", "--ei", "position", position, "--es", "name", name, "-n", "com.base.module.preset/.receiver.PresetBroadcastReceiver", 0};
+            result = doCommandTask(cmd, NULL, NULL, 0);
         } else if(!strcasecmp(action, "delete")) {
-            snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_DEL --ei position %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position);
+            //snprintf(cmd, 128, "am broadcast -a com.base.module.preset.PRESET_DEL --ei position %s -n com.base.module.preset/.receiver.PresetBroadcastReceiver", position);
+            char *cmd[] = {"am", "broadcast", "-a", "com.base.module.preset.PRESET_DEL", "--ei", "position", position, "-n", "com.base.module.preset/.receiver.PresetBroadcastReceiver", 0};
+            result = doCommandTask(cmd, NULL, NULL, 0);
         }
-        printf("cmd = %s\n", cmd);
-        int result = mysystem(cmd);
         if( result )
             buffer_append_string(b, "Response=Error\r\n");
         else
