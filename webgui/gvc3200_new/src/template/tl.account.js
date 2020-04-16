@@ -122,7 +122,7 @@ export default {
             // RFC2543 Hold
             { lang: 'acct_044', p: 'P26062' },
             // 对称RTP
-            { lang: 'acct_045', p: 'P1860' },
+            { lang: 'acct_045', p: 'P291' },
             // 支持SIP实例ID
             { lang: 'acct_046', p: 'P288' },
             // 验证入局SIP消息

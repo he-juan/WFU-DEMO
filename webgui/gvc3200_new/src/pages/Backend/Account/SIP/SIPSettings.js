@@ -310,7 +310,7 @@ class SIPSettings extends FormCommon {
         {/* 对称RTP */}
         <CheckboxItem
           gfd={gfd}
-          {...options['P1860']}
+          {...options['P291']}
         />
         {/* 支持SIP实例ID */}
         <CheckboxItem
