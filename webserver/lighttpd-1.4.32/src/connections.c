@@ -29,6 +29,7 @@
 #include <libxml/entities.h>
 #include <libxml/HTMLparser.h>
 #include <libxml/xpath.h>
+#include <libxml/xmlreader.h>
 #endif
 #include <strings.h>
 #include <ctype.h>
@@ -26029,6 +26030,90 @@ int isReadable(int sd,int * error,int timeOut)
 
 #endif
 
+
+static int handle_get_all_opensource_files(buffer *b) {
+    FILE *fp = fopen("/system/lighttpd/etc/licenses/openSourceFiles.json", "r");
+    char *fileBuf = NULL;
+
+    if (fp != NULL) {
+        fseek(fp, 0, SEEK_END);
+        int len = ftell(fp);
+
+        fileBuf = (char*)malloc(len + 1);
+        memset(fileBuf, 0, len + 1);
+        fseek(fp, 0, SEEK_SET);
+        fread(fileBuf, len, 1, fp);
+        fclose(fp);
+    }
+
+    if (fileBuf != NULL) {
+        cJSON *jsonData = cJSON_Parse(fileBuf);
+
+        if (jsonData != NULL) {
+            create_json_response(RES_SUCCESS, NULL, jsonData, b);
+            cJSON_Delete(jsonData);
+        } else {
+            create_json_response(RES_ERR_WITH_DATA, NULL, NULL, b);
+        }
+    } else {
+        create_json_response(RES_ERR_WITH_DATA, NULL, NULL, b);
+    }
+
+    return 0;
+}
+
+static int handle_get_license_content(buffer *b, const struct message *m) {
+    FILE *fp = fopen("/system/lighttpd/etc/licenses/openSourceLicenses.json", "r");
+    char *fileBuf = NULL;
+
+    char *id = msg_get_header(m, "licenseId");
+
+    if (id == NULL) {
+        create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+        return -1;
+    }
+
+    if (fp != NULL) {
+        fseek(fp, 0, SEEK_END);
+        int len = ftell(fp);
+
+        fileBuf = (char*)malloc(len + 1);
+        memset(fileBuf, 0, len + 1);
+        fseek(fp, 0, SEEK_SET);
+        fread(fileBuf, len, 1, fp);
+        fclose(fp);
+    }
+
+    if (fileBuf != NULL) {
+        cJSON *jsonData = cJSON_Parse(fileBuf);
+
+        if (jsonData != NULL) {
+            cJSON *licenseArr = cJSON_GetObjectItem(jsonData, "licenses");
+
+            int license_count = cJSON_GetArraySize(licenseArr);
+
+            for (int i = 0; i < license_count; i++) {
+                cJSON *licenseObj = cJSON_GetArrayItem(licenseArr, i);
+                char *licenseId = cJSON_GetObjectItem(licenseObj, "licenseId")->valuestring;
+                if (!strcmp(licenseId, id)) {
+                    cJSON *resObj = cJSON_CreateObject();
+                    cJSON_AddStringToObject(resObj, "licenseId", licenseId);
+                    cJSON_AddStringToObject(resObj, "content", cJSON_GetObjectItem(licenseObj, "content")->valuestring);
+                    create_json_response(RES_SUCCESS, NULL, resObj, b);
+                    break;
+                }
+            }
+            cJSON_Delete(jsonData);
+        } else {
+            create_json_response(RES_ERR_WITH_DATA, NULL, NULL, b);
+        }
+    } else {
+        create_json_response(RES_ERR_WITH_DATA, NULL, NULL, b);
+    }
+
+    return 0;
+}
+
 static int process_message(server *srv, connection *con, buffer *b, const struct message *m)
 {
     char action[80] = "";
@@ -26211,6 +26296,10 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
         handle_product( srv, con, b, m );
     } else if (!strcasecmp(action, "productinfo")) {
         handle_productinfo( srv, con, b, m );
+    } else if (!strcasecmp(action, "getOpenSourceFiles")) {
+        handle_get_all_opensource_files(b);
+    } else if (!strcasecmp(action, "getLicenseById")) {
+        handle_get_license_content(b, m);
 #ifndef BUILD_RECOVER
     } else if( !strcasecmp(action, "coloreExist")) {
         handle_coloreExist(b);
