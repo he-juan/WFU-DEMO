@@ -56,7 +56,8 @@ const routes = [
   { path: '/manage/status_peripheral', component: lazy(() => import(/* webpackChunkName: "status" */ './Status/PeripheralStatus')) },
   { path: '/manage/status_network', component: lazy(() => import(/* webpackChunkName: "status" */ './Status/NetworkStatus')) },
   { path: '/manage/status_systeminfo', component: lazy(() => import(/* webpackChunkName: "status" */ './Status/SystemInfo')) },
-  { path: '/manage/status_remotecontrol', component: lazy(() => import(/* webpackChunkName: "status" */ './Status/RemoteControlStatus')) }
+  { path: '/manage/status_remotecontrol', component: lazy(() => import(/* webpackChunkName: "status" */ './Status/RemoteControlStatus')) },
+  { path: '/manage/status_license', component: lazy(() => import(/* webpackChunkName: "status" */ '../License')) }
 ]
 
 export default (

@@ -258,3 +258,23 @@ export const getCurTimezone = () => {
     url: '/manager?action=getcurtimezone'
   })
 }
+
+/**
+ * License-获取开源软件列表
+ */
+export const getLicense = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getOpenSourceFiles'
+  })
+}
+
+/**
+ * License-获取开源软件列表
+ */
+export const getLicenseById = licenseId => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getLicenseById&licenseId=' + licenseId
+  })
+}

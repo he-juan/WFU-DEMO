@@ -8,6 +8,7 @@ import AuthRoute from '@/components/Routes/AuthRoute'
 import Login from '@/pages/Login'
 import Backend from '@/pages/Backend'
 import Reboot from '@/pages/Reboot'
+import License from '@/pages/License'
 import Intl from './Intl'
 
 export const history = createBrowserHistory()
@@ -28,6 +29,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/login' component={Login} />
               <Route exact path='/reboot' component={Reboot} />
+              <Route exact path='/license' component={License} />
               <AuthRoute path='/manage' component={Backend} />
               <Route component={() => <Redirect to='/login' />} />
             </Switch>
