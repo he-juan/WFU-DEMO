@@ -7117,6 +7117,10 @@ static int handle_put(buffer *b, const struct message *m)
         {
 #ifdef BUILD_ON_ARM
             nvram_set(var, val);
+
+            if (!strcmp(var, "25029")) {
+                dbus_send_ptz_control("ptspeed", atoi(val), 0, 0, 0);
+            }
 #endif
         }
         free(val);
@@ -15660,67 +15664,16 @@ static int handle_getptz(buffer *b)
 
 static int handle_setptz(buffer *b, const struct message *m)
 {
-    /*xmlDocPtr doc = NULL;
-    xmlNode *root_element = NULL;
-    xmlNode *cur_node = NULL;
-    xmlChar *key = NULL;
-    const char *temp = NULL;
-    int speed = -1;
-
-    doc = xmlReadFile(CONF_PTZ, NULL, 0);
-
-    if (doc == NULL)
-    {
-        printf("error: could not parse file %s\n", CONF_PTZ);
-        return 0;
-    }
-
-    //Get the root element node
-    root_element = xmlDocGetRootElement(doc);
-
-    for (cur_node = root_element->xmlChildrenNode; cur_node; cur_node = cur_node->next)
-    {
-        if (cur_node->type == XML_ELEMENT_NODE)
-        {
-            if ((!xmlStrcmp(cur_node->name, BAD_CAST "int")))
-            {
-                key = xmlGetProp(cur_node, BAD_CAST "name");
-                if( key != NULL )
-                {
-                    if( strcmp( (char *)key, "move_speed") == 0 ){
-                        temp = msg_get_header(m, "movespeed");
-                        if ( temp != NULL )
-                        {
-                            speed = (atoi(temp))*2;
-                            xmlSetProp(cur_node, "value", (xmlChar *) temp);
-                        }
-                    }
-                    else if( strcmp( (char *)key, "initial_position") == 0 ){
-                        temp = msg_get_header(m, "initpos");
-                        if ( temp != NULL )
-                        {
-                            xmlSetProp(cur_node, "value", (xmlChar *) temp);
-                        }
-                    }
-                }
-
-
-            }
-        }
-    }
-
-    xmlSaveFormatFileEnc(CONF_PTZ, doc, "UTF-8", 1);
-    xmlFreeDoc(doc);
-    xmlCleanupParser();
-    xmlMemoryDump();
-    sync();*/
-    buffer_append_string (b, "Response=Success\r\n");
-
     char *temp = NULL;
     temp = msg_get_header(m, "movespeed");
     if ( temp != NULL ){
         dbus_send_ptz_control("ptspeed", atoi(temp), 0, 0, 0);
+        buffer_append_string (b, "Response=Success\r\n");
+    } else {
+        buffer_append_string (b, "Response=Error\r\n");
+
     }
+
     return 1;
 }
 
