@@ -4903,14 +4903,14 @@ static int authenticate (const struct message *m, int isadmin, const char *pass)
 
         strcpy(newloginuser, user);
         strcpy(curuser, user);
-        return isdft;
 
         char *isWakeUp = msg_get_header(m, "iswakeup");
-
         if (NULL != isWakeUp && !strcmp(isWakeUp, "1")) {
             char *cmd[] = {"am", "broadcast", "--user", "all", "-a", "com.base.module.systemmanager.UPGRADE_OR_REBOOT", "--es", "type", "wakeup", 0};
             doCommandTask(cmd, NULL, NULL, 0);
         }
+
+        return isdft;
     }
 
     return -1;
