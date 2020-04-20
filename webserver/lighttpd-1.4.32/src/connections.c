@@ -407,7 +407,7 @@ int pid_traceroute = 0;
 
 int oneclick_debug_status = 0;      // 0 - idle, 1 - start waiting, 2 - stop waiting, 3 - ongoing
 
-int oneclick_debugArr[7] = {1, 1, 1, 1, 1, 1, 0};   // syslog, logcat, capture, tombstone, anr, battery, acce
+int oneclick_debugArr[7] = {1, 1, 1, 1, 1, 0, 0};   // syslog, logcat, capture, tombstone, anr, battery, acce
 
 int record_flag = 0;
 
