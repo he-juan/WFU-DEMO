@@ -607,7 +607,7 @@ class ConfSetModal extends FormCommon {
 
   // render
   render () {
-    let { acctStatus, defaultAcct, confAccts, form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
+    let { acctStatus, confAccts, form: { getFieldDecorator: gfd, getFieldValue: gfv }, visible, allDisabled, onCancel } = this.props
     let { displayAddModal, curMember, currConf } = this.state
     if (!visible || Object.keys(currConf).length === 0) return null
     // 处理repeatArr

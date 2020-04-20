@@ -4,11 +4,15 @@ import { message } from 'antd'
 import { $t } from '@/Intl'
 import { connect } from 'react-redux'
 import { setWholeLoading } from '@/store/actions'
+import { injectIntl } from 'react-intl'
 
 const GS_RTC = window.GS_RTC
 
+// redux connect 和 react-intl context 似乎有冲突，导致其不能更新
+@injectIntl
 @connect(
-  state => ({}),
+  state => ({
+  }),
   dispatch => ({
     setWholeLoading: (isLoad, tips) => dispatch(setWholeLoading(isLoad, tips))
   })
@@ -138,8 +142,8 @@ class ScreenShare extends Component {
       <span className='screen-share-btn' onClick={this.handleClick}>
         {isSharing ? $t('c_361') : $t('c_360')}
       </span>
-      <span title='临时测试用' onClick={() => this.handleCall()} style={{ float: 'right', cursor: 'pointer' }}>
-        建立通话
+      <span onClick={() => this.handleCall()} style={{ float: 'right', cursor: 'pointer' }}>
+        {$t('c_367')}
         &nbsp; &nbsp;
       </span>
      </>

@@ -8,10 +8,12 @@ import API from '@/api'
 import { getApplyStatus, setNeedApply, setWholeLoading, getAcctInfo } from '@/store/actions'
 import Cookie from 'js-cookie'
 import { $t } from '@/Intl'
+import { injectIntl } from 'react-intl'
 
 // eslint-disable-next-line
 let timer = null
 
+@injectIntl
 @connect(
   state => ({
     needApply: state.needApply

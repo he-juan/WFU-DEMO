@@ -42,10 +42,12 @@ class Tabs extends React.Component {
   componentDidUpdate (prevProps) {
     // 切换语言导致长度变换
     if (this.props.locale !== prevProps.locale) {
-      this.listLeft = this.tabListRef.current.offsetLeft
-      this.firstTabWidth = this.tabListRef.current.firstChild.offsetWidth
-      this.tabBarRef.current.style['width'] = this.firstTabWidth + 'px'
-      this.clBarStyle(this.props.activeKey)
+      setTimeout(() => {
+        this.listLeft = this.tabListRef.current.offsetLeft
+        this.firstTabWidth = this.tabListRef.current.firstChild.offsetWidth
+        this.tabBarRef.current.style['width'] = this.firstTabWidth + 'px'
+        this.clBarStyle(this.props.activeKey)
+      }, 60)
     }
     if (prevProps.activeKey !== this.props.activeKey) {
       this.clBarStyle(this.props.activeKey)
