@@ -153,6 +153,11 @@ class Advanced extends FormCommon {
           {...options['P1684']}
           gfd={gfd}
         />
+        {/* LLDP TX间隔 (秒) */}
+        <InputItem
+          {...options['P22122']}
+          gfd={gfd}
+        />
 
         {/* 开启CDP */}
         <CheckboxItem

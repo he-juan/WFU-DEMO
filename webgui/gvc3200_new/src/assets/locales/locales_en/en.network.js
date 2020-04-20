@@ -175,5 +175,8 @@ export default {
   net_062_tip: 'Specifies the HTTP/HTTPS proxy port for the device to send packets to. The proxy server will act as an intermediary to route the packets to the destination.',
 
   net_063: 'Bypass Proxy For',
-  net_063_tip: 'Defines the destination IP address where no proxy server is needed. The device will not use a proxy server when sending packets to the specified destination IP address.'
+  net_063_tip: 'Defines the destination IP address where no proxy server is needed. The device will not use a proxy server when sending packets to the specified destination IP address.',
+
+  net_064: 'LLDP TX Interval(s)',
+  net_064_tip: 'Configures the interval the phone sends LLDP-MED packets.'
 }

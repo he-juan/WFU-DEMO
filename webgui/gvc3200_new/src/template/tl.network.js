@@ -177,6 +177,8 @@ export default {
         { lang: 'net_053', p: ['P5026', 'P5027', 'P5028', 'P5029'] },
         // 开启LLDP
         { lang: 'net_054', p: 'P1684' },
+        // LLDP TX间隔 (秒)
+        { lang: 'net_064', p: 'P22122', reboot: 1 },
         // 开启CDP
         { lang: 'net_055', p: 'P22119', reboot: 1 },
         // 第三层SIP QoS
