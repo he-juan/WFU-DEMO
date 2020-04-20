@@ -55,16 +55,21 @@ class RecordingConifg extends FormCommon {
   buildPathSelect = () => {
     let { pathList, curPath, tempPath } = this.state
     let children = []
+
     if (pathList.length > 0) {
       let isExist = pathList.find(item => item.path === curPath)
       !isExist && (curPath = pathList[0].path)
-      // type 0 usb, 1 sd
-      pathList.filter(item => +item.type === 0).forEach(({ type, path }, index) => {
-        children.push(<Select.Option value={path} key={path}>{$t('c_030') + (index + 1)}</Select.Option>)
-      })
-      pathList.filter(item => +item.type === 1).forEach(({ type, path }, index) => {
-        children.push(<Select.Option value={path} key={path}>{$t('c_031')}</Select.Option>)
-      })
+      // type 0 usb, 1 sd, 2 nas
+      let usb = 1
+      children = pathList.reduce((total, { path, type }, index) => {
+        if (+type === 0) {
+          total.push(<Select.Option value={path} key={path}>{$t('c_030') + (usb)}</Select.Option>)
+          usb++
+        } else {
+          total.push(<Select.Option value={path} key={path}>{$t(+type === 1 ? 'c_031' : 'c_368')}</Select.Option>)
+        }
+        return total
+      }, [])
 
       tempPath && (curPath = tempPath)
       return (

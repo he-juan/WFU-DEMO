@@ -798,6 +798,7 @@ const commons = {
   c_365: 'Accepted',
   c_366: 'Rejected',
   c_367: 'Establish a call',
+  c_368: 'NAS extended storage',
 
   c_391: 'Disabled',
   c_399: 'Enabled',
