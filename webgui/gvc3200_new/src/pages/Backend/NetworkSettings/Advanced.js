@@ -157,6 +157,13 @@ class Advanced extends FormCommon {
         <InputItem
           {...options['P22122']}
           gfd={gfd}
+          gfdOptions={{
+            rules: [
+              this.required(),
+              this.digits(),
+              this.range(1, 3600)
+            ]
+          }}
         />
 
         {/* 开启CDP */}
