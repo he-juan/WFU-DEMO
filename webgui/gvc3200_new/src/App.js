@@ -29,7 +29,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/login' component={Login} />
               <Route exact path='/reboot' component={Reboot} />
-              <Route exact path='/license' component={License} />
+              <Route exact path='/gpl_license' component={License} />
               <AuthRoute path='/manage' component={Backend} />
               <Route component={() => <Redirect to='/login' />} />
             </Switch>
