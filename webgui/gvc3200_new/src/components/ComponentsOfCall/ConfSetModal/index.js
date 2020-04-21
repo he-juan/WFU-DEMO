@@ -648,6 +648,7 @@ class ConfSetModal extends FormCommon {
     let confnamePrefix = ''
     const sip = acctStatus.filter(v => +v.acctIndex === 0)
     confnamePrefix = sip[0].nameOrNum
+    confAccts = confAccts || []
 
     return (
       <>
@@ -666,7 +667,7 @@ class ConfSetModal extends FormCommon {
             {
               allDisabled && <FormItem label={$t('c_280')}>{stateObj[currConf['confstate']]}</FormItem>
             }
-            <FormItem label={$t('c_281')} hide={!confAccts}>
+            <FormItem label={$t('c_281')} hide={confAccts.length === 0}>
               {gfd('host', {
                 initialValue: currConf['host']
               })(

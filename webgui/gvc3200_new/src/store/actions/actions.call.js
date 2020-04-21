@@ -193,6 +193,8 @@ export const getConfAccts = () => (dispatch) => {
   API.getConfAccts().then(({ result, msg, data }) => {
     if (!result) {
       dispatch(setConfAccts(data.accounts || ''))
+    } else {
+      dispatch(setConfAccts(''))
     }
   })
 }
