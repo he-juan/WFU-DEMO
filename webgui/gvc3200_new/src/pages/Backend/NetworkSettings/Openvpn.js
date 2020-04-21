@@ -269,6 +269,10 @@ class OpenVPN extends FormCommon {
           <FormItem>
             <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
           </FormItem>
+          <div className='openvpn-copyright'>
+            © 2002-2014 OpenVPN Technologies, Inc. <br />
+            OpenVPN is a registered trademark of OpenVPN Technologies, Inc.
+          </div>
         </Form>
       </Spin>
     )
