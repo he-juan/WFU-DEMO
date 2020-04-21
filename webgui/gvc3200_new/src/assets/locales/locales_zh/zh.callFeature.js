@@ -3,7 +3,7 @@
  */
 export default {
   call_001: '本地RTP端口',
-  call_001_tip: '此项填写设备RTP-RTCP监听和传输的本地端口对，它是0通道的基本RTP端口。配置后，语音通道0将会使用Port_Value作为RTP端口值，使用Port_Value+1作为RTCP端口值。语音通道1将会使用Port_Value+10作为RTP的端口值，使用Port_Value+11作为RTCP的值。视频通道0将会使用Port_Value+2作为RTP端口值，使用Port_Value+3作为RTCP端口值。视频通道1将会使用Port_Value+12作为RTP的端口值，使用Port_Value+13作为语音RTCP的值。默认值为5004。',
+  call_001_tip: '此项填写设备RTP-RTCP监听和传输的本地端口对，它是0通道的基本RTP端口。配置后，语音通道0将会使用Port_Value作为RTP端口值，使用Port_Value+1作为RTCP端口值。语音通道1将会使用Port_Value+20作为RTP的端口值，使用Port_Value+21作为RTCP的值。视频通道0将会使用Port_Value+2作为RTP端口值，使用Port_Value+3作为RTCP端口值。视频通道1将会使用Port_Value+22作为RTP的端口值，使用Port_Value+23作为语音RTCP的值。默认值为5004。',
 
   call_002: '使用随机端口',
   call_002_tip: '此项若设置为“是”，设备将强制随机生成本地SIP和RTP端口值。当有多部设备处于同一NAT时使用该设置是很有必要的。默认设置为“否”。（注意：当使用IP呼叫时，该项需设置为“否”)',

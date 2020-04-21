@@ -3,7 +3,7 @@
  */
 export default {
   call_001: 'Local RTP Port',
-  call_001_tip: 'This parameter defines the local RTP-RTCP port pair used to listen and transmit. It is the base RTP port for channel 0. When configured, for audio, channel 0 will use this port_value for RTP and the port_value+1 for its RTCP; channel 1 will use port_value+10 for RTP and port_value+11 for its RTCP. For video, channel 0 will use port_value+2 for RTP and port_value+3 for its RTCP; channel 1 will use port_value+12 for RTP and port_value+13 for RTCP. The default value is 5004.',
+  call_001_tip: 'This parameter defines the local RTP-RTCP port pair used to listen and transmit. It is the base RTP port for channel 0. When configured, for audio, channel 0 will use this port_value for RTP and the port_value+1 for its RTCP; channel 1 will use port_value+20 for RTP and port_value+21 for its RTCP. For video, channel 0 will use port_value+2 for RTP and port_value+3 for its RTCP; channel 1 will use port_value+22 for RTP and port_value+23 for RTCP. The default value is 5004.',
 
   call_002: 'Use Random Port',
   call_002_tip: 'When set to "Yes", this parameter will force random generation of both the local SIP and RTP ports. This is usually necessary when multiple phones are behind the same full cone NAT. The Default setting is "No". (This parameter must be set to "No" for Direct IP Calling to work)',
