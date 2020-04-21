@@ -434,6 +434,9 @@ const msgs = {
   m_260: 'Invalid file format.',
   m_261: 'The WiFi list refreshes automatically at a period of time. You can also click Scan button to refresh.',
   m_262: 'HTTPS is required for sharing screen',
+  m_263: 'Are you sure to turn on screen sharing?',
+  m_264: 'Are you sure to turn off screen sharing?',
+  m_265: 'Are you sure to end the call?',
 
   m_999: ''
 }

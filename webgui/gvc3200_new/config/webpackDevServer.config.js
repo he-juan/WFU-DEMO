@@ -99,17 +99,18 @@ module.exports = function(proxy, allowedHost) {
         '/recordings'
       ],
       contentBase: paths.appBuild,
-      target: 'http'+ (protocol === 'https' ? 's' : '') +'://192.168.124.93/',  //replace with the ip of device
+      target: 'http'+ (protocol === 'https' ? 's' : '') +'://192.168.124.191/',  //replace with the ip of device
       // target: 'http://192.168.124.127:8081',
       changeOrigin: true,
       secure: false
 
     }, {
-      context: ['/tcp_proxy'],
-      target: 'ws'+ (protocol === 'https' ? 's' : '') +'://192.168.124.93',
+      context: ['/tcp_proxy', '/websockify'],
+      target: 'ws'+ (protocol === 'https' ? 's' : '') +'://192.168.124.191',
       changeOrigin: true,
       ws: true,
-      logLevel: 'error'
+      secure: false,
+      logLevel: 'debug',
     }],
     before(app, server) {
       if (fs.existsSync(paths.proxySetup)) {

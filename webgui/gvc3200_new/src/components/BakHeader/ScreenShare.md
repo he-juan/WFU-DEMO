@@ -75,3 +75,14 @@ chrome://flags/#enable-webrtc-hide-local-ips-with-mdns  关闭mdns
                 "message":      "success"
         }
 }
+
+
+
+
+
+
+<!-- 开始演示 -->
+gs-dbus-send --system --type=signal /com/grandstream/dbus/app com.grandstream.dbus.signal.to.gsphone.remote_presentation_on int32:0
+
+<!-- 关闭演示 -->
+gs-dbus-send --system --type=signal /com/grandstream/dbus/app com.grandstream.dbus.signal.to.gsphone.remote_presentation_off int32:0

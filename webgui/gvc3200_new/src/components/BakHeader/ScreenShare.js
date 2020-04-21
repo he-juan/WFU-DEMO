@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 import React, { Component } from 'react'
-import { message } from 'antd'
+import { message, Modal } from 'antd'
 import { $t } from '@/Intl'
 import { connect } from 'react-redux'
 import { setWholeLoading } from '@/store/actions'
@@ -30,24 +30,53 @@ class ScreenShare extends Component {
   componentDidMount () {
     setTimeout(() => {
       console.log('gsRTC ******************************', window.gsRTC)
-
+      // web关闭演示的回调
       window.gsRTC.on('stopShareScreen', (res) => {
         console.log('STOP_SCREEN ************************' + res.codeType + '**********************')
         this.setState({
           isSharing: false
         })
       })
+      // web开演示的回调
       window.gsRTC.on('shareScreen', (res) => {
         console.log('BEGIN_SCREEN ************************' + res.codeType + '**********************')
         this.setState({
           isSharing: true
         })
       })
+
+      // gs_phone请求开启演示
+      window.gsRTC.on('shareScreenRequest', (cb) => {
+        Modal.destroyAll()
+        Modal.confirm({
+          title: $t('m_263'), // 确定开始屏幕共享？
+          onOk: () => cb.call(window.gsRTC, true),
+          onCancel: () => cb.call(window.gsRTC, false)
+        })
+      })
+      // gs_phone请求关闭演示
+      window.gsRTC.on('stopShareScreenRequest', (cb) => {
+        Modal.destroyAll()
+        Modal.confirm({
+          title: $t('m_264'), // 确定关闭屏幕共享？
+          onOk: () => cb.call(window.gsRTC, true),
+          onCancel: () => cb.call(window.gsRTC, false)
+        })
+      })
+      // gs_phone请求结束通话
+      window.gsRTC.on('hangupRequest', (cb) => {
+        Modal.destroyAll()
+        Modal.confirm({
+          title: $t('m_265'), // 确定结束通话吗？
+          onOk: () => cb.call(window.gsRTC, true),
+          onCancel: () => cb.call(window.gsRTC, false)
+        })
+      })
     }, 1000)
   }
 
   getURL = () => {
-    const host = process.env.NODE_ENV === 'development' ? '192.168.124.191' : window.location.host
+    const host = window.location.host
     const protocol = window.location.protocol
     return protocol.indexOf('https:') !== -1 ? `wss://${host}/websockify` : `ws://${host}/websockify`
   }
