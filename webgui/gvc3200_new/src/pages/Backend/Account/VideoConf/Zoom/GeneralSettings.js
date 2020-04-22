@@ -3,7 +3,7 @@ import { Form, Button } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import { connect } from 'react-redux'
 import { getOptions } from '@/template'
-import FormItem, { CheckboxItem, InputItem } from '@/components/FormItem'
+import FormItem, { CheckboxItem, InputItem, SelectItem } from '@/components/FormItem'
 import DefaultAcctModal from '@/components/DefaultAcctModal'
 import { getAcctInfo } from '@/store/actions'
 import { $t } from '@/Intl'
@@ -66,9 +66,21 @@ class GeneralSettings extends FormCommon {
           gfd={gfd}
         />
         {/* Zoom服务器 */}
-        <InputItem
+        <SelectItem
           {...options['P1802']}
           gfd={gfd}
+          selectOptions={[
+            { v: 'zoomcrc.com', t: 'zoomcrc.com (US)' },
+            { v: 'zmus.us', t: 'zmus.us (US)' },
+            { v: 'zmcn.us', t: 'zmcn.us (China)' },
+            { v: 'zmin.us', t: 'zmin.us (India)' },
+            { v: 'zmeu.us', t: 'zmeu.us (EMEA)' },
+            { v: 'zmau.us', t: 'zmau.us (Australia)' },
+            { v: 'zmhk.us', t: 'zmhk.us (Hong )' },
+            { v: 'zmbr.us', t: 'zmbr.us (Brazil)' },
+            { v: 'zmca.us', t: 'zmca.us (Canada)' },
+            { v: 'zmjp.us', t: 'zmjp.us (Japan)' }
+          ]}
         />
         {/* 显示名称 */}
         <InputItem
