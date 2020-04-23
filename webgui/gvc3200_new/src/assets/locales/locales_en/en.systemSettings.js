@@ -158,7 +158,7 @@ export default {
   sys_per_003_tip: 'If set to "Yes", then the device will display presentation automatically when HDMI is plugged in; If set to "No", a pop-up box will prompt the users to select "Ok" or "Cancel". If the users click neither "Ok" nor "Cancel", then the device will display presentation automatically after 30s timeout. The default setting is "No".',
 
   sys_per_004: 'Move Speed',
-  sys_per_004_tip: 'Specifies the moving speed and zoom speed for the camera. "1" is slowest and "16" is fastest. The default setting is "1".',
+  sys_per_004_tip: 'Specifies the moving speed and zoom speed for the camera. "1" is slowest and "16" is fastest. The default setting is "5".',
 
   sys_per_005: 'Initial Position',
   sys_per_005_tip: 'Specifies the initial position of the camera when the device is powered up.Default: The camera moves to it\'s default position after bootup.Preset 1: The camera moves to the preset 1 after bootup. Preset 1 must be set up before reboot.Latest Position: After bootup, the camera moves to the latest position before reboot. The default setting is Default.',

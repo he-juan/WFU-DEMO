@@ -17,7 +17,7 @@ export default {
   mai_up_005_tip: '此处输入固件HTTP/HTTPS服务器用户名。',
 
   mai_up_006: 'HTTP/HTTPS密码',
-  mai_up_006_tip: '此处输入固件HTTP/HTTPS服务器用户名。',
+  mai_up_006_tip: '此处输入固件HTTP/HTTPS服务器密码。',
 
   mai_up_007: '固件文件前缀',
   mai_up_007_tip: '设置该项可使服务提供商锁定固件升级版本。 只有匹配前缀和(或)后缀的固件文件会被下载并写入设备中。 这一项对于服务提供商有用。 终端用户不需要填写。',
