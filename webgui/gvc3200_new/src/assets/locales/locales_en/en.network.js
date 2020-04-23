@@ -85,7 +85,7 @@ export default {
   net_032_tip: 'This parameter sets the ESSID for the Wireless network. Press "Scan" to scan for the available wireless network. The number in brackets represents the signal intensity.',
 
   net_033: 'ESSID',
-  net_033_tip: 'Display the hidden ESSID name.',
+  net_033_tip: 'Enter the hidden ESSID name.',
 
   net_034: 'Security Mode For Hidden SSID',
   net_034_tip: 'This parameter defines the security mode used for the wireless network when the SSID is hidden.',
