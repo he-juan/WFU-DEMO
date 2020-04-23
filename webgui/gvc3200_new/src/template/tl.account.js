@@ -738,8 +738,6 @@ export default {
                 { lang: 'acct_091', p: 'P2862' },
                 // 使用H.264 Constrained Profiles
                 { lang: 'acct_092', p: 'P26545' },
-                // H.265有效荷载类型
-                { lang: 'acct_093', p: 'P26586' },
 
                 // 启用演示
                 { lang: 'acct_094', p: 'P26501' },

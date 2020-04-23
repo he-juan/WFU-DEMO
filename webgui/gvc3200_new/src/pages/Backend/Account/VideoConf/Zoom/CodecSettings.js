@@ -254,14 +254,6 @@ class CodecSettings extends FormCommon {
           values['P26575'], values['P26574'], values['P26508'], values['P2894'], values['P1862']
         ]
 
-        // 存在H265时
-        if (this.state.h265_enable !== '0') {
-          if (values['P26586'] === '') {
-            setVals['P26586'] = values['P26586'] = '114'
-          }
-          payloads.push(values['P26586'])
-        }
-
         Object.keys(setVals).length > 0 && setFieldsValue(setVals)
 
         if (new Set(payloads).size < payloads.length) {
@@ -670,18 +662,6 @@ class CodecSettings extends FormCommon {
         <CheckboxItem
           {...options['P26545']}
           gfd={gfd}
-        />
-        {/* H.265有效荷载类型 */}
-        <InputItem
-          {...options['P26586']}
-          gfd={gfd}
-          hide={ h265_enable === '0' }
-          gfdOptions={{
-            rules: [
-              this.digits(),
-              this.range(96, 126)
-            ]
-          }}
         />
 
         <h4 className='bak-sub-title'>{$t('c_114')}</h4>
