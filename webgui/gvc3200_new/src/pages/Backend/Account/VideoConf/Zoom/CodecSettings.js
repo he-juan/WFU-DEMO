@@ -739,16 +739,6 @@ class CodecSettings extends FormCommon {
             { v: '2', t: $t('c_117') }
           ]}
         />
-        {/* SRTP加密位数 */}
-        <SelectItem
-          {...options['P2883']}
-          gfd={gfd}
-          selectOptions={[
-            { v: '0', t: 'AES 128&256 bit' },
-            { v: '1', t: 'AES 128 bit' },
-            { v: '2', t: 'AES 256 bit' }
-          ]}
-        />
         <FormItem label='' >
           <Button className='sub-btn' onClick={this.handleSubmit} id='subBtn'>{$t('b_001')}</Button>
         </FormItem>

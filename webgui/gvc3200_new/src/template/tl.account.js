@@ -754,9 +754,7 @@ export default {
                 // BFCP传输协议
                 { lang: 'acct_100', p: 'P26541' },
                 // SRTP方式
-                { lang: 'acct_101', p: 'P1843' },
-                // SRTP加密位数
-                { lang: 'acct_102', p: 'P2883' }
+                { lang: 'acct_101', p: 'P1843' }
               ]
             },
             {
