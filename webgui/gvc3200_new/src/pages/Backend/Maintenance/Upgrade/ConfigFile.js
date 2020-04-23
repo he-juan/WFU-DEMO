@@ -33,6 +33,7 @@ class ConfigFile extends FormCommon {
         isShouldHide: P237 === GAPSPATH && P212 === '2'
       })
       data['usegsgap'] = P237 === GAPSPATH && P212 === '2' ? '1' : '0'
+      console.log(data['usegsgap'])
       setFieldsValue(data)
     })
   }
@@ -85,6 +86,10 @@ class ConfigFile extends FormCommon {
             values[p] = values[p].trim()
           }
         })
+        if (usegsgap) {
+          values.P237 = GAPSPATH
+          values.P212 = '2'
+        }
 
         // 配置文件 不为默认
         if (!usegsgap && P237) {
