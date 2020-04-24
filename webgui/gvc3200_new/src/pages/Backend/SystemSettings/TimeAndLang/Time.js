@@ -142,8 +142,8 @@ class Time extends FormCommon {
           {...options['P30']}
           gfdOptions={{
             rules: [
-              this.maxLen(32),
-              this.checkUrlPath()
+              // this.maxLen(64),
+              this.checkaddressPath()
             ]
           }}
         />
@@ -153,8 +153,8 @@ class Time extends FormCommon {
           {...options['P8333']}
           gfdOptions={{
             rules: [
-              this.maxLen(32),
-              this.checkUrlPath()
+              // this.maxLen(64),
+              this.checkaddressPath()
             ]
           }}
         />
