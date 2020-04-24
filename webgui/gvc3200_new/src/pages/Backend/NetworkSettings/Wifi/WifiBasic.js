@@ -214,9 +214,9 @@ class WifiDetailModal extends FormCommon {
           <FormItem label='c_201' hide={!staticip}>
             {staticip}
           </FormItem>
-          <FormItem label='c_200' hide={!staticip}>
+          {/* <FormItem label='c_200' hide={!staticip}>
             {staticip}
-          </FormItem>
+          </FormItem> */}
           <FormItem label='c_199' hide={!staticip6}>
             {staticip6}
           </FormItem>
