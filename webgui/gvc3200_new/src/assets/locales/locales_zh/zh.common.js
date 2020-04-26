@@ -91,7 +91,7 @@ const routes = {
   r_083: 'BroadSoft联系人',
   r_085: 'XSI服务设置',
   r_086: '网络目录',
-  r_089: 'License',
+  r_089: '开源许可证',
 
   r_999: ''
 }
