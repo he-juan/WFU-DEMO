@@ -25987,6 +25987,7 @@ int isReadable(int sd,int * error,int timeOut)
 static int handle_get_all_opensource_files(buffer *b) {
     FILE *fp = fopen("/system/lighttpd/etc/licenses/openSourceFiles.json", "r");
     char *fileBuf = NULL;
+    cJSON *jsonData = NULL;
 
     if (fp != NULL) {
         fseek(fp, 0, SEEK_END);
@@ -25999,24 +26000,65 @@ static int handle_get_all_opensource_files(buffer *b) {
         fclose(fp);
     }
 
+    char *gsFileBuf = NULL;
+    cJSON *gsJsonData = NULL;
+    fp = fopen("/system/lighttpd/etc/licenses/gsOpenSourceFiles.json", "r");
+    if (fp != NULL) {
+        fseek(fp, 0, SEEK_END);
+        int len = ftell(fp);
+
+        gsFileBuf = (char*)malloc(len + 1);
+        memset(gsFileBuf, 0, len + 1);
+        fseek(fp, 0, SEEK_SET);
+        fread(gsFileBuf, len, 1, fp);
+        fclose(fp);
+    }
+
+    cJSON *resObj = cJSON_CreateObject();
+    cJSON *filesArrObj = NULL;
+
     if (fileBuf != NULL) {
         cJSON *jsonData = cJSON_Parse(fileBuf);
 
         if (jsonData != NULL) {
-            create_json_response(RES_SUCCESS, NULL, jsonData, b);
-            cJSON_Delete(jsonData);
-        } else {
-            create_json_response(RES_ERR_WITH_DATA, NULL, NULL, b);
+            filesArrObj = cJSON_GetObjectItem(jsonData, "files");
         }
-    } else {
-        create_json_response(RES_ERR_WITH_DATA, NULL, NULL, b);
+    }
+
+    if (gsFileBuf != NULL && filesArrObj != NULL) {
+        gsJsonData = cJSON_Parse(gsFileBuf);
+
+        if (gsJsonData != NULL) {
+            cJSON *gsFileArr = cJSON_GetObjectItem(gsJsonData, "files");
+            int fileSize = cJSON_GetArraySize(gsFileArr);
+
+            for (int i = 0; i < fileSize; i++) {
+                cJSON *gsFileObj = cJSON_GetArrayItem(gsFileArr, i);
+                cJSON *newFileObj = cJSON_CreateObject();
+                cJSON_AddStringToObject(newFileObj, "name", cJSON_GetObjectItem(gsFileObj, "name")->valuestring);
+                cJSON_AddStringToObject(newFileObj, "licenseId", cJSON_GetObjectItem(gsFileObj, "licenseId")->valuestring);
+                cJSON_AddItemToArray(filesArrObj, newFileObj);
+            }
+        }
+    }
+
+    cJSON_AddItemToObject(resObj, "files", filesArrObj);
+
+    create_json_response(RES_SUCCESS, NULL, resObj, b);
+
+    if (jsonData != NULL) {
+        cJSON_Delete(jsonData);
+    }
+
+    if (gsJsonData != NULL) {
+        cJSON_Delete(gsJsonData);
     }
 
     return 0;
 }
 
 static int handle_get_license_content(buffer *b, const struct message *m) {
-    FILE *fp = fopen("/system/lighttpd/etc/licenses/openSourceLicenses.json", "r");
+    FILE *fp = NULL;
     char *fileBuf = NULL;
 
     char *id = msg_get_header(m, "licenseId");
@@ -26024,6 +26066,12 @@ static int handle_get_license_content(buffer *b, const struct message *m) {
     if (id == NULL) {
         create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
         return -1;
+    }
+
+    if (strstr(id, "gs_") != NULL) {
+        fp = fopen("/system/lighttpd/etc/licenses/gsOpenSourceLicenses.json", "r");
+    } else {
+        fp = fopen("/system/lighttpd/etc/licenses/openSourceLicenses.json", "r");
     }
 
     if (fp != NULL) {
