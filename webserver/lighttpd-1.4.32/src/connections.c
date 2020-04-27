@@ -21282,7 +21282,7 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
             uri_decode( (char*)milliseconds );
         }
 
-        tmp = msg_get_header(m, "reminder");
+        tmp = msg_get_header(m, "need_reminder");
         if ( tmp != NULL)
         {
             if(!strcasecmp(tmp, "1"))
