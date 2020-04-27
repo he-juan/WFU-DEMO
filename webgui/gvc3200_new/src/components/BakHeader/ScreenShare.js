@@ -57,11 +57,13 @@ class ScreenShare extends Component {
       // gs_phone请求关闭演示
       window.gsRTC.on('stopShareScreenRequest', (cb) => {
         Modal.destroyAll()
-        Modal.confirm({
-          title: $t('m_264'), // 确定关闭屏幕共享？
-          onOk: () => cb.call(window.gsRTC, true),
-          onCancel: () => cb.call(window.gsRTC, false)
-        })
+        // 直接关闭
+        cb.call(window.gsRTC, true)
+        // Modal.confirm({
+        //   title: $t('m_264'), // 确定关闭屏幕共享？
+        //   onOk: () => cb.call(window.gsRTC, true),
+        //   onCancel: () => cb.call(window.gsRTC, false)
+        // })
       })
       // gs_phone请求结束通话
       window.gsRTC.on('hangupRequest', (cb) => {
