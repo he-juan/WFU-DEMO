@@ -21116,6 +21116,14 @@ static int handle_updateconferencemembership(server *srv, connection *con,
     return 0;
 }
 
+static void internal_notify_schedule_change(char *type, char *scheduleId) {
+    if( type != NULL && scheduleId != NULL ) {
+        uri_decode((char*)scheduleId);
+        char *cmd[] = {"am", "broadcast", "-a", "com.base.module.schedule.UPDATE_SCHEDULE", "--ei", "action", type, "--es", "schedule_id", scheduleId, 0};
+        doCommandTask(cmd, NULL, NULL, 0);
+    }
+}
+
 static int handle_notify_schedule_change(buffer *b, const struct message *m)
 {
     const char *action = NULL;
@@ -27068,10 +27076,27 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     handle_updateconferencemembership(srv, con, b, m);
                 } else if (!strcasecmp(action, "deleteschedule")) {
                     handle_webservice_by_one_param(srv, con, b, m, "id", "deleteSchedule", 0);
+                    internal_notify_schedule_change("2", msg_get_header(m, "id"));
                 } else if (!strcasecmp(action, "addschedule")) {
                     handle_updateschedule(srv, con, b, m);
+                    char *host = msg_get_header(m, "host");
+                    if (host != NULL && strcmp(host, "1")) {
+                        // Google Conf
+                        internal_notify_schedule_change("11", msg_get_header(m, "id"));
+                    } else {
+                        // SIP Conf
+                        internal_notify_schedule_change("0", msg_get_header(m, "id"));
+                    }
                 } else if (!strcasecmp(action, "updateschedule")) {
                     handle_updateschedule(srv, con, b, m);
+                    char *host = msg_get_header(m, "host");
+                    if (host != NULL && strcmp(host, "1")) {
+                        // Google Conf
+                        internal_notify_schedule_change("11", msg_get_header(m, "id"));
+                    } else {
+                        // SIP Conf
+                        internal_notify_schedule_change("1", msg_get_header(m, "id"));
+                    }
                 } else if (!strcasecmp(action, "notifyschedule")) {
                     handle_notify_schedule_change(b, m);
                 } else if (!strcasecmp(action, "setgoogleschestatus")) {
