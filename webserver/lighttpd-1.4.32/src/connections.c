@@ -4210,6 +4210,52 @@ static int sqlite_handle_recording(buffer *b, const struct message *m, const cha
             sqlite3_close(db);
             return -1;
         }
+
+        char *recordId = msg_get_header(m, "id");
+        char *state = msg_get_header(m, "lockstate");
+        char query_sql[128] = {0};
+        snprintf(query_sql, 128, "select location from recording_list where _id=%s", recordId);
+
+        sqlite3_stmt *stmt;
+        rc = sqlite3_prepare_v2(db, query_sql, strlen(query_sql), &stmt, 0);
+        if( rc ){
+            LOGD("Can't open statement: %s\n", sqlite3_errmsg(db));
+            LOGD(stderr, "Can't open statement: %s\n", sqlite3_errmsg(db));
+            buffer_append_string(b,"{\"Response\":\"Error\"}");
+            sqlite3_close(db);
+            return -1;
+        }
+
+        char *path = NULL;
+        while(sqlite3_step(stmt)==SQLITE_ROW ) {
+            path = (char*)sqlite3_column_text(stmt, 0);   // path
+            break;
+        }
+
+        LOGD("change the lockstate of %s: %s", path, state);
+
+        if (NULL != path) {
+
+            int path_len = strlen(path) + 16;
+            char *newPath = (char*)malloc(path_len);
+            memset(newPath, 0, path_len);
+            replace(path, "storage", "mnt/media_rw", newPath);
+
+            LOGD("new path: %s", newPath);
+
+            if (!strcmp(state, "0")) {      // unlock
+                char *cmd[] = {"chmod", "775", newPath, 0};
+                doCommandTask(cmd, NULL, NULL, 0);
+            } else {                        // lock
+                char *cmd[] = {"chmod", "555", newPath, 0};
+                doCommandTask(cmd, NULL, NULL, 0);
+            }
+
+            free(newPath);
+        }
+
+        sqlite3_finalize(stmt);
+
         buffer_append_string(b,"{\"Response\":\"Success\"}");
     } else if (!strcasecmp(type, "downloadrecord")) {
         sqlite3_stmt *stmt;
