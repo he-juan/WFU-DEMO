@@ -19459,9 +19459,19 @@ char *generate_file_name(buffer *b, const struct message *m)
             char *cmd;
             char *curacct = msg_get_header(m, "acct");
 
+            int acct = 1;
+
+            if (curacct != NULL) {
+                acct = atoi(curacct);
+            }
+
+            if (acct == 0) {
+                acct = 1;
+            }
+
             /* filepath: /user_data/moh/account.../  */
             char *filepath = malloc(64);
-            sprintf(filepath, TMP_AUDIOFILEPATH"%s", curacct);
+            sprintf(filepath, TMP_AUDIOFILEPATH"%d", acct);
 
             //if (access(TMP_AUDIOFILEPATH, 0))
             if (access(filepath, 0))
@@ -22571,8 +22581,17 @@ static int handle_converaudio (buffer *b, const struct message *m)
     file_ext = msg_get_header(m, "ext");
     acct  = msg_get_header(m, "acct");
 
+    int acctIndex = 1;
+    if (acct != NULL) {
+        acctIndex = atoi(acct);
+    }
+
+    if (acctIndex == 0) {
+        acctIndex = 1;
+    }
+
     filepath = malloc(64);
-    sprintf(filepath, TMP_AUDIOFILEPATH"%s", acct);
+    sprintf(filepath, TMP_AUDIOFILEPATH"%d", acctIndex);
 
     /* change the name of audiofile("audiofile") to the one with extension,
        the sox funcions require */
