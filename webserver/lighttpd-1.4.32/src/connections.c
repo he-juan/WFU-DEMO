@@ -26657,6 +26657,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 params = append_req_params(params, "memberAutoJoin", memberAutoJoin, 0);
                 params = append_req_params(params, "members", members, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "startPreConf", params);
+                internal_notify_schedule_change("7", confId);
             } else if (!strcasecmp(action, "getglobalconfinfo")) {
                 handle_methodcall_to_gmi(srv, con, b, m, "getGlobalConfInfo", params);
             } else if (!strcasecmp(action, "ctrlconfrecord")) {
