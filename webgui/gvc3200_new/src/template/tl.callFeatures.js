@@ -55,23 +55,41 @@ export default {
       denyRole: 'user',
       sub: [
         // 会场名称
-        { lang: 'call_016', _p: 'sitename' },
+        { lang: 'call_016', p: 'P29764' },
         // 背景透明度
-        { lang: 'call_017', _p: 'bgtp' },
+        { lang: 'call_017', p: 'P29765' },
         // 显示位置
-        { lang: 'call_018', _p: 'dispos' },
+        { lang: 'call_018', p: 'P29766' },
         // 显示时间
-        { lang: 'call_019', _p: 'disdura' },
+        { lang: 'call_019', p: 'P29767' },
         // 字体颜色
-        { lang: 'call_020', _p: 'fontcolor' },
+        { lang: 'call_020', p: 'P29772' },
         // 字体大小
-        { lang: 'call_021', _p: 'fontsize' },
+        { lang: 'call_021', p: 'P29768' },
         // 是否加粗
-        { lang: 'call_022', _p: 'bold' },
+        { lang: 'call_022', p: 'P29769' },
         // 水平偏移
-        { lang: 'call_023', _p: 'horizont' },
+        { lang: 'call_023', p: 'P29770' },
         // 垂直偏移
-        { lang: 'call_024', _p: 'vertical' }
+        { lang: 'call_024', p: 'P29771' }
+        // // 会场名称
+        // { lang: 'call_016', _p: 'sitename' },
+        // // 背景透明度
+        // { lang: 'call_017', _p: 'bgtp' },
+        // // 显示位置
+        // { lang: 'call_018', _p: 'dispos' },
+        // // 显示时间
+        // { lang: 'call_019', _p: 'disdura' },
+        // // 字体颜色
+        // { lang: 'call_020', _p: 'fontcolor' },
+        // // 字体大小
+        // { lang: 'call_021', _p: 'fontsize' },
+        // // 是否加粗
+        // { lang: 'call_022', _p: 'bold' },
+        // // 水平偏移
+        // { lang: 'call_023', _p: 'horizont' },
+        // // 垂直偏移
+        // { lang: 'call_024', _p: 'vertical' }
       ]
     },
     {
