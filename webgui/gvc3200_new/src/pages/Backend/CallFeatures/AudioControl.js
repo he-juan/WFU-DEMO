@@ -84,7 +84,7 @@ class AudioControl extends FormCommon {
     this.initFormValue(this.options).then(data => {
       // 回声延迟特殊处理
 
-      // data['P22280'] = this.getEcodelayValue(data['P22280'])
+      data['P22280'] = this.getEcodelayValue(data['P22280'])
       setFieldsValue(data)
     })
 
@@ -92,10 +92,10 @@ class AudioControl extends FormCommon {
   }
 
   // 映射对应的key值
-  // getEcodelayValue = (v) => {
-  //   let r = Object.entries(this.echodelayMap).filter(item => item[1] === v)[0]
-  //   return r ? r[0] : '-2'
-  // }
+  getEcodelayValue = (v) => {
+    let r = Object.entries(this.echodelayMap).filter(item => item[1] === v)[0]
+    return r ? r[0] : '-2'
+  }
 
   parseToneList = (ringData) => {
     return ringData.map(ring => ({
@@ -129,7 +129,7 @@ class AudioControl extends FormCommon {
         const { curRing, curMedia, sysRingtone, notifyRingtone, curAudioDev, ...others } = values
 
         // 回声延迟特殊处理
-        // others['P22280'] = this.echodelayMap[others['P22280']]
+        others['P22280'] = this.echodelayMap[others['P22280']]
 
         // if (others['P22050'] !== '5') {
         //   others['Pecholevel'] = '0'
