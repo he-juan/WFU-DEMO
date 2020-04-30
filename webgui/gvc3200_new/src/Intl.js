@@ -59,11 +59,10 @@ const IntlWrapper = (props) => {
   })
 
   useEffect(() => {
-    const { get_messages, get_antLocale, get_reactIntlLocale, momentLocale } = LocalePromise[locale]
+    const { get_messages, get_antLocale, get_reactIntlLocale, momentLocale } = LocalePromise[locale] || LocalePromise['en']
     Promise.all([get_messages(), get_antLocale(), get_reactIntlLocale()])
       .then(([customMessage, antLocale, reactIntlLocale]) => {
         let _intlLocale = {
-          // Object.assign 保证对应语言没有词条时默认使用en (连不同语言的词条都没统一，fuck)
           messages: customMessage.default,
           antLocale: antLocale.default,
           reactIntlLocale: reactIntlLocale,

@@ -183,7 +183,9 @@ export default {
             // HDMI 2输出分辨率
             { lang: 'sys_per_002', _p: 'HDMI2Res' },
             // 自动开启演示
-            { lang: 'sys_per_003', p: 'P25109' }
+            { lang: 'sys_per_003', p: 'P25109' },
+            // HDMI声音输出控制
+            { lang: 'sys_per_006', p: 'Phdmi_sound_output' }
           ]
         },
         {

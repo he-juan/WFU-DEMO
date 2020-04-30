@@ -163,6 +163,8 @@ export default {
   sys_per_005: 'Initial Position',
   sys_per_005_tip: 'Specifies the initial position of the camera when the device is powered up.Default: The camera moves to it\'s default position after bootup.Preset 1: The camera moves to the preset 1 after bootup. Preset 1 must be set up before reboot.Latest Position: After bootup, the camera moves to the latest position before reboot. The default setting is Default.',
 
+  sys_per_006: 'HDMI Sound Output Control',
+  sys_per_006_tip: 'Set HDMI sound output. When only HDMI 1 is connected, combined wirh“Audio Device” configuration, device supports sound output from HDMI 1. <br />Note: HDMI sound output control takes effect only when sound output set in Audio Device is HDMI.',
 
   sys_999: ''
 

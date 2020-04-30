@@ -119,6 +119,15 @@ class HDMI extends FormCommon {
           gfd={gfd}
           {...options['P25109']}
         />
+        {/* HDMI声音输出控制 */}
+        <SelectItem
+          {...options['Phdmi_sound_output']}
+          gfd={gfd}
+          selectOptions={[
+            { v: '0', t: `HDMI 1 (${$t('c_026')})` },
+            { v: '1', t: `HDMI 2` }
+          ]}
+        />
         <FormItem>
           <Button className='sub-btn' id='subBtn' onClick={this.handleSubmit}>{$t('b_001')}</Button>
         </FormItem>
