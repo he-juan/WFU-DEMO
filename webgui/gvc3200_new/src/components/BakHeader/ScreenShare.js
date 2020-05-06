@@ -36,6 +36,15 @@ class ScreenShare extends Component {
         this.setState({
           isSharing: false
         })
+        // // 停止共享后挂断线路 （挂断有问题）
+        // GS_RTC.HANG_UP((res) => {
+        //   console.log('HANG_UP ************************' + res.codeType + '**********************')
+        //   if (res.codeType == 200) {
+        //     this.setState({
+        //       isCalled: false
+        //     })
+        //   }
+        // })
       })
       // web开演示的回调
       window.gsRTC.on('shareScreen', (res) => {
@@ -59,22 +68,13 @@ class ScreenShare extends Component {
         Modal.destroyAll()
         // 直接关闭
         cb.call(window.gsRTC, true)
-        // Modal.confirm({
-        //   title: $t('m_264'), // 确定关闭屏幕共享？
-        //   onOk: () => cb.call(window.gsRTC, true),
-        //   onCancel: () => cb.call(window.gsRTC, false)
-        // })
       })
       // gs_phone请求结束通话
       window.gsRTC.on('hangupRequest', (cb) => {
         Modal.destroyAll()
-        Modal.confirm({
-          title: $t('m_265'), // 确定结束通话吗？
-          onOk: () => cb.call(window.gsRTC, true),
-          onCancel: () => cb.call(window.gsRTC, false)
-        })
+        cb.call(window.gsRTC, true)
       })
-    }, 1000)
+    }, 1500)
   }
 
   getURL = () => {
@@ -107,7 +107,7 @@ class ScreenShare extends Component {
         })
         setTimeout(() => {
           isBgScreen && this.handleClick()
-        }, 1000)
+        }, 500)
       }
     })
   }
@@ -148,7 +148,7 @@ class ScreenShare extends Component {
 
     // 是否 调用过call了， 第一次点击需求调用 call, call返回200后 再次执行handleClick
     if (!isCalled) {
-      this.handleCall()
+      this.handleCall(true)
       return false
     }
 
@@ -173,10 +173,10 @@ class ScreenShare extends Component {
       <span className='screen-share-btn' onClick={this.handleClick}>
         {isSharing ? $t('c_361') : $t('c_360')}
       </span>
-      <span onClick={() => this.handleCall()} style={{ float: 'right', cursor: 'pointer' }}>
+      {/* <span onClick={() => this.handleCall()} style={{ float: 'right', cursor: 'pointer' }}>
         {$t('c_367')}
         &nbsp; &nbsp;
-      </span>
+      </span> */}
      </>
     )
   }
