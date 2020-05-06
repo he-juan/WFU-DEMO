@@ -6,7 +6,7 @@ import { getOptions } from '@/template'
 import FormItem, { CheckboxItem, SelectItem, InputItem } from '@/components/FormItem'
 import DefaultAcctModal from '@/components/DefaultAcctModal'
 import { getAcctInfo } from '@/store/actions'
-import { $t } from '@/Intl'
+import { $t, $fm } from '@/Intl'
 
 @connect(
   state => ({
@@ -57,6 +57,19 @@ class GeneralSettings extends FormCommon {
     })
   }
 
+  // 检测 not end with /
+  checkEndWithSlash () {
+    return {
+      validator: (data, value, callback) => {
+        if (!value.endsWith('\\')) {
+          callback()
+        } else {
+          callback($fm('m_266'))
+        }
+      }
+    }
+  }
+
   render () {
     const { restActiveAcct } = this.state
     const { getFieldDecorator: gfd } = this.props.form
@@ -81,6 +94,11 @@ class GeneralSettings extends FormCommon {
           {...options['P407']}
           gfd={gfd}
           hide={IPVTExist !== 1}
+          gfdOptions={{
+            rules: [
+              this.checkEndWithSlash()
+            ]
+          }}
         />
         {/* SIP传输 */}
         <SelectItem
