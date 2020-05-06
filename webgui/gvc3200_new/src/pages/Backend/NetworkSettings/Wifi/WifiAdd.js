@@ -21,8 +21,8 @@ class WifiAdd extends FormCommon {
   }
 
   // 动态的校验
-  pwLengthCheck = (P7830) => {
-    if (P7830 === '2') {
+  pwLengthCheck = (P7814) => {
+    if (P7814 === '2') {
       return {
         validator: (data, value, callback) => {
           if (value && value.length < 8) {
@@ -32,7 +32,7 @@ class WifiAdd extends FormCommon {
           }
         }
       }
-    } else if (P7830 === '1') {
+    } else if (P7814 === '1') {
       return {
         validator: (data, value, callback) => {
           if (value && [5, 10, 13, 26, 16, 32].indexOf(value.length) === -1) {
@@ -48,7 +48,7 @@ class WifiAdd extends FormCommon {
   }
 
   handleModeChange = () => {
-    this.props.form.setFieldsValue({ P7814: '' })
+    this.props.form.setFieldsValue({ P7830: '' })
   }
 
   // 提交表单
@@ -64,7 +64,7 @@ class WifiAdd extends FormCommon {
   render () {
     const { getFieldDecorator: gfd, getFieldValue } = this.props.form
     const options = this.options
-    const P7830 = getFieldValue('P7830')
+    const P7814 = getFieldValue('P7814')
     return (
       <Form>
         {/* ESSID */}
@@ -74,7 +74,7 @@ class WifiAdd extends FormCommon {
         />
         {/* 隐藏SSID的安全模式 */}
         <SelectItem
-          {...options['P7830']}
+          {...options['P7814']}
           gfd={gfd}
           onChange={() => this.handleModeChange()}
           selectOptions={[
@@ -85,12 +85,12 @@ class WifiAdd extends FormCommon {
         />
         {/* 密码 */}
         <PwInputItem
-          {...options['P7814']}
+          {...options['P7830']}
           gfd={gfd}
-          hide={P7830 === '0' || P7830 === ''}
+          hide={P7814 === '0' || P7814 === ''}
           gfdOptions={{
             rules: [
-              this.pwLengthCheck(P7830)
+              this.pwLengthCheck(P7814)
             ]
           }}
         />

@@ -110,9 +110,9 @@ export default {
             // ESSID
             { lang: 'net_033', p: 'P7812' },
             // 隐藏SSID的安全模式
-            { lang: 'net_034', p: 'P7830' },
+            { lang: 'net_034', p: 'P7814' },
             // 密码
-            { lang: 'net_035', p: 'P7814', noInit: 1 }
+            { lang: 'net_035', p: 'P7830', noInit: 1 }
           ]
         },
         {
