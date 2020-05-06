@@ -76,7 +76,7 @@ class GeneralSettings extends FormCommon {
             { v: 'zmin.us', t: 'zmin.us (India)' },
             { v: 'zmeu.us', t: 'zmeu.us (EMEA)' },
             { v: 'zmau.us', t: 'zmau.us (Australia)' },
-            { v: 'zmhk.us', t: 'zmhk.us (Hong )' },
+            { v: 'zmhk.us', t: 'zmhk.us (Hong Kong, China)' },
             { v: 'zmbr.us', t: 'zmbr.us (Brazil)' },
             { v: 'zmca.us', t: 'zmca.us (Canada)' },
             { v: 'zmjp.us', t: 'zmjp.us (Japan)' }
