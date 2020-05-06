@@ -54,7 +54,9 @@ class PresetSettings extends Component {
   }
 
   // 编辑预置位
-  handleEdit = (item) => {
+  handleEdit = (event, item) => {
+    event.cancelBubble = true // true 为阻止冒泡
+    event.stopPropagation() // 阻止事件的进一步传播，包括（冒泡，捕获），无参数
     this.setState({
       posEditing: item
     })
@@ -126,14 +128,14 @@ class PresetSettings extends Component {
                           </h5>
                           <img alt={i} src={`/com.base.module.preset/${item.position}.jpg?${new Date().getTime()}`}/>
                           {posApplied === i ? <span className='apply-words'>{$t('c_036')}</span> : null}
-                          <i className='icons icon-edit preset-edit' onClick={() => this.handleEdit(item)} />
+                          <i className='icons icon-edit preset-edit' onClick={event => this.handleEdit(event, item)} />
                         </div>
                       </Tooltip>
                     </li>
                   )
                 }
                 return (
-                  <li className='preset-item' key={i} onClick={() => this.handleEdit({ position: i, name: '', notUsed: 1 })}>
+                  <li className='preset-item' key={i} onClick={event => this.handleEdit(event, { position: i, name: '', notUsed: 1 })}>
                     <Tooltip title={$t('c_035')} overlayClassName='white'>
                       <div className='preset-item'>
                         <em>{i + 1}</em>
