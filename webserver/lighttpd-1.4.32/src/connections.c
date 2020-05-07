@@ -26642,6 +26642,11 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 get_googleaccts(b);
             } else if (!strcasecmp(action, "startpreconf")) {
                 char *confId = msg_get_header(m, "Id");
+                if (NULL == confId) {
+                    create_json_response(RES_ERR_INVALID_ARG, NULL, NULL, b);
+                    return -1;
+                }
+                /*
                 char *confName = msg_get_header(m, "Displayname");
                 char *pinCode = msg_get_header(m, "Confdnd");
                 char *memberAutoJoin = msg_get_header(m, "Confautoanswer");
@@ -26657,6 +26662,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 params = append_req_params(params, "memberAutoJoin", memberAutoJoin, 0);
                 params = append_req_params(params, "members", members, 1);
                 handle_methodcall_to_gmi(srv, con, b, m, "startPreConf", params);
+                */
                 internal_notify_schedule_change("7", confId);
             } else if (!strcasecmp(action, "getglobalconfinfo")) {
                 handle_methodcall_to_gmi(srv, con, b, m, "getGlobalConfInfo", params);
