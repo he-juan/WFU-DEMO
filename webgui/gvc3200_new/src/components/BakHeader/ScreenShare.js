@@ -67,11 +67,18 @@ class ScreenShare extends Component {
       window.gsRTC.on('stopShareScreenRequest', (cb) => {
         Modal.destroyAll()
         // 直接关闭
+        this.setState({
+          isSharing: false
+        })
         cb.call(window.gsRTC, true)
       })
       // gs_phone请求结束通话
       window.gsRTC.on('hangupRequest', (cb) => {
         Modal.destroyAll()
+        this.setState({
+          isSharing: false,
+          isCalled: false
+        })
         cb.call(window.gsRTC, true)
       })
     }, 1500)
