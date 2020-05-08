@@ -57,10 +57,23 @@ class ScreenShare extends Component {
       // gs_phone请求开启演示
       window.gsRTC.on('shareScreenRequest', (cb) => {
         Modal.destroyAll()
+        let cancel = () => {
+          cb.call(window.gsRTC, false)
+        }
+        // 页面刷新前手动拒绝
+        window.addEventListener('beforeunload', cancel)
         Modal.confirm({
           title: $t('m_263'), // 确定开始屏幕共享？
-          onOk: () => cb.call(window.gsRTC, true),
-          onCancel: () => cb.call(window.gsRTC, false)
+          onOk: () => {
+            cb.call(window.gsRTC, true)
+            window.removeEventListener('beforeunload', cancel)
+            cancel = null
+          },
+          onCancel: () => {
+            cb.call(window.gsRTC, false)
+            window.removeEventListener('beforeunload', cancel)
+            cancel = null
+          }
         })
       })
       // gs_phone请求关闭演示

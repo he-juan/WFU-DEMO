@@ -118,7 +118,7 @@ export default {
   acct_038_tip: '此项设置是否使用MAC头域。如果设置为"否"，则所有SIP消息都不使用MAC头域；如果设置为“仅REGISTER”，则仅在注册/注销的SIP消息中包含MAC头域；如果设置为“全部”，则所有传出的SIP消息中都包含MAC头域。',
 
   acct_039: 'SIP传输',
-  acct_039_tip: '设置SIP消息传输使用的网络协议，IPVideoTalk支持TCP/TLS两种，其它帐号支持TCP/UDP/TLS三种。',
+  acct_039_tip: '设置SIP消息传输使用的网络协议，IPVideoTalk，Zoom支持TCP/TLS两种，其它帐号支持TCP/UDP/TLS三种。',
 
   acct_040: 'RTP IP过滤',
   acct_040_tip: '设置是否对接收到的RTP进行过滤。当设置为“关闭”时，设备接收任意地址发来的RTP包；当设置为“仅IP”时，设备仅接收SDP中对于IP地址的RTP，此时端口不限制；当设置为“IP和端口”时，设备仅向SDP中的IP地址+端口发送RTP。默认设置为“关闭”。',

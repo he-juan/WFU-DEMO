@@ -118,7 +118,7 @@ export default {
   acct_038_tip: 'Configures whether to use MAC header. If set to "No", all SIP messages will not contain MAC header; If set to "Only for REGISTER", MAC header will only be included in SIP REGISTER and UNREGISTER messages; If set to "Yes to All SIP", all outgoing SIP REGISTER messages will contain MAC header.',
 
   acct_039: 'SIP Transport',
-  acct_039_tip: 'Determines the network protocol used for the SIP transport. For IPVideoTalk, users can choose from TCP/TLS. For other accounts, users can choose from TCP/UDP/TLS.',
+  acct_039_tip: 'Determines the network protocol used for the SIP transport. For IPVideoTalk and Zoom, users can choose from TCP/TLS. For other accounts, users can choose from TCP/UDP/TLS.',
 
   acct_040: 'RTP IP Filter',
   acct_040_tip: 'Configures whether to filter the received RTP. If set to "Disable", the device will receive RTP from any address; If set to "IP Only", the device will receive RTP from certain IP address in SDP with no port limited; If set to "IP and Port", the device only send RTP to IP address & port in SDP. The default setting is "Disable".',
