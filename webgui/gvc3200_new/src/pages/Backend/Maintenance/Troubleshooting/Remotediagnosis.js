@@ -73,7 +73,7 @@ class Remotediagnosis extends FormCommon {
       Modal.confirm({
         title: $t('m_213'),
         onOk: () => {
-          API.putPvalues({ P276: '0' }, 0).then(msgs => {
+          API.putPvalues({ P276: '1' }, 0).then(msgs => {
             API.setRemotedebug('1').then(res => {
               this.getRemotedebug()
             })
