@@ -26012,11 +26012,14 @@ static int process_upload(server *srv, connection *con, buffer *b, const struct 
                     nvram_commit();
                 }
 
+                // removed by cchma on 2020/05/09, for #165105
+                /*
                 char *cmd1[] = {"/system/xbin/supplicant.sh", "restart", 0};
                 doCommandTask(cmd1, NULL, NULL, 0);
 
                 char *cmd2[] = {"am", "broadcast", "-a", "android.intent.action.ETHERNET_SET_SYNC", "-e", "eth_changed", "1", 0};
                 doCommandTask(cmd2, NULL, NULL, 0);
+                */
             }
 	}
 
