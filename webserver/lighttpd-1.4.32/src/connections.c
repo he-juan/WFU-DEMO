@@ -70,9 +70,7 @@
 #include <openssl/x509v3.h>
 #include "web_ui_update.h"
 #include <cutils/properties.h>
-#include <android/log.h>
 
-#define  LOGD(x...) __android_log_print(ANDROID_LOG_DEBUG, "WebServer", x)
 #define HASHLEN 16
 #define HASHHEXLEN 32
 typedef unsigned char HASH[HASHLEN];
@@ -216,7 +214,7 @@ typedef char HASHHEX[HASHHEXLEN+1];
 #define MENU_ETC_FILE           MENU_ETC_PATH"/menu.json"
 #define RECORD_PATH             "/tmp"
 #define RECORD_TMP_PATH         "/tmp/recfiles"
-#define DEBUG_TMP_PATH          "/tmp/debuginfo"
+#define DEBUG_TMP_PATH          "/data/debuginfo"
 #define RECFILE_PATH                           PREFIX"/sdcard/recfiles"
 
 //#define SIGNAL_LIGHTTPD_RSS_CHANGED             0
@@ -407,7 +405,8 @@ int pid_traceroute = 0;
 
 int oneclick_debug_status = 0;      // 0 - idle, 1 - start waiting, 2 - stop waiting, 3 - ongoing
 
-int oneclick_debugArr[7] = {1, 1, 1, 1, 1, 0, 0};   // syslog, logcat, capture, tombstone, anr, battery, acce
+int oneclick_debugArr[8] = {1, 1, 1, 1, 1, 0, 0, 0};   // syslog, logcat, capture, tombstone, anr, battery, acce, record
+char debug_file_path[128] = {0};
 
 int record_flag = 0;
 
@@ -543,7 +542,7 @@ static int mysystem(char *cmd)
 
 /* Add by cchma on 2018.12.11, use "fork" + "exec" to exec the system commands instead of using the system() directly, which can be attacked by the Command Injection.*/
 /* Reference Bug #127158, #127157, #127159, #127155 */
-static int doCommandTask(char* const argv[], const char *outfile, const char *infile, int isNonBlock)
+int doCommandTask(char* const argv[], const char *outfile, const char *infile, int isNonBlock)
 {
     int rtn;
     pid_t pid;
@@ -16055,7 +16054,7 @@ static int handle_capture (buffer *b, char *mode)
     return 1;
 }
 
-static const char *return_peripheral_status(server *srv, connection *con, const char *method)
+static const char *return_peripheral_status(const char *method)
 {
     DBusMessage* message = NULL;
     DBusError error;
@@ -16140,7 +16139,7 @@ static const char *return_peripheral_status(server *srv, connection *con, const 
     return temp;
 }
 
-static char *get_device_info(server *srv, connection *con)
+static char *get_device_info()
 {
     char *buf = NULL, *tmpitem = NULL, *tempval = NULL;
     char mac[64], ip[64], mask[64], gateway[64], dns1[64], dns2[64];
@@ -16210,7 +16209,7 @@ static char *get_device_info(server *srv, connection *con)
     strcat(buf, "\n/********* Peripheral Info ********/\n");
     for(int i = 0; i < 5; i++){
         memset(tmpitem, 0, 256);
-        periresult = return_peripheral_status(srv, con, perimethod[i]);
+        periresult = return_peripheral_status(perimethod[i]);
         sprintf(tmpitem, "%s: %s\n", periname[i], periresult);
         strcat(buf, tmpitem);
     }
@@ -16301,7 +16300,7 @@ static void rename_tombstone_files()
 }
 
 //int onelick_debug_task(char* mode, int syslog, int logcat, int tombstone, int anr, int capture, int battery, int acce) {
-int onelick_debug_task(char* mode, server *srv, connection *con) {
+int onelick_debug_task(char* mode) {
     char *temp = NULL, *buf = NULL, *ptr = NULL, *fileExt = NULL;
     struct dirent *dp;
     DIR *dir;
@@ -16318,9 +16317,10 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
     int anr = oneclick_debugArr[4];
     int battery = oneclick_debugArr[5];
     int acce = oneclick_debugArr[6];
+    int record = oneclick_debugArr[7];
 
-    LOGD("one click debug process ---- %s - syslog(%d) - logcat(%d) - capture(%d) - tombstone(%d) - anr(%d) - battery(%d) - acce(%d)",
-        mode, syslog, logcat, capture, tombstone, anr,  battery, acce);
+    LOGD("one click debug process ---- %s - syslog(%d) - logcat(%d) - capture(%d) - tombstone(%d) - anr(%d) - battery(%d) - acce(%d) - record(%d)",
+        mode, syslog, logcat, capture, tombstone, anr,  battery, acce, record);
 
     if(!strcasecmp(mode, "on") || !strcasecmp(mode, "none")) {
         if (!strcasecmp(mode, "on")) {
@@ -16410,6 +16410,10 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
             capmode = 1;
         }
 
+        if (record) {
+            handle_start_recording(NULL, 0);
+        }
+
         if (!strcasecmp(mode, "on")) {
             oneclick_debug_status = 4;
             nvram_set(":oneclick_debug_status", "4");
@@ -16441,7 +16445,7 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
         /* create a new file to store the info of device  */
         FILE *deviceinfo = fopen(DEBUG_TMP_PATH"/device_info.txt", "w+");
         if (deviceinfo != NULL) {
-            buf = get_device_info(srv, con);
+            buf = get_device_info();
             fwrite(buf, 1, strlen(buf), deviceinfo);
             fflush(deviceinfo);
             fclose(deviceinfo);
@@ -16501,6 +16505,20 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
                     }
                 }
             }
+
+            int len = strlen(pcapname) + strlen(DEBUG_TMP_PATH) + 128;
+            char *pcap_src = (char*)malloc(len);
+            memset(pcap_src, 0, len);
+            snprintf(pcap_src, len, "%s/%s", PCAP_TMP, pcapname);
+
+            char *pcap_dst = (char*)malloc(len);
+            memset(pcap_dst, 0, len);
+            snprintf(pcap_dst, len, "%s/%s", DEBUG_TMP_PATH, pcapname);
+
+            copy_file(pcap_src, pcap_dst);
+
+            free(pcap_src);
+            free(pcap_dst);
         }
 
         if (syslog) {
@@ -16631,6 +16649,24 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
             capmode = 0;
         }
 
+        if (record) {
+            handle_stop_recording(NULL, 0);
+
+            int len = strlen(RECFILE_PATH) + 128;
+            char *recfiles_src = (char*)malloc(len);
+            memset(recfiles_src, 0, len);
+            snprintf(recfiles_src, len, "%s/recfiles.tar", RECFILE_PATH);
+
+            char *recfiles_dst = (char*)malloc(len);
+            memset(recfiles_dst, 0, len);
+            snprintf(recfiles_dst, len, "%s/recfiles.tar", DEBUG_TMP_PATH);
+
+            copy_file(recfiles_src, recfiles_dst);
+
+            free(recfiles_src);
+            free(recfiles_dst);
+        }
+
         time_t timer;
         struct tm *tblock;
 
@@ -16646,7 +16682,7 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
 
         char *cmdstr = (char*)malloc(len);
         memset(cmdstr, 0, len);
-        snprintf(cmdstr, len, "cd /tmp && tar -cvf debugInfo_%s.tar debuginfo/ && mv debugInfo_%s.tar %s", timestr, timestr, DEBUG_TMP_PATH);
+        snprintf(cmdstr, len, "cd /data && tar -cvf debugInfo_%s.tar debuginfo/ && mv debugInfo_%s.tar %s", timestr, timestr, DEBUG_TMP_PATH);
         //system(tmpcmd);
 
         /*
@@ -16669,6 +16705,9 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
         snprintf(debugfile_dst, len, "%s/debugInfo_%s.tar", PCAP_PATH, timestr);
 
         copy_file(debugfile_src, debugfile_dst);
+
+        memset(debug_file_path, 0, sizeof(debug_file_path));
+        snprintf(debug_file_path, sizeof(debug_file_path), "%s", debugfile_dst);
 
         free(debugfile_src);
         free(debugfile_dst);
@@ -16721,7 +16760,7 @@ int onelick_debug_task(char* mode, server *srv, connection *con) {
     return 0;
 }
 
-static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const struct message *m)
+static int handle_oneclick_debug (buffer *b, const struct message *m)
 {
     char *temp = NULL, *mode = NULL, *buf = NULL;
     //int syslog = 1, logcat = 1, capture = 1, tombstone = 1, anr = 1, battery=1, acce = 0;
@@ -16769,10 +16808,15 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
         oneclick_debugArr[6] = atoi(temp);
     }
 
+    temp = msg_get_header(m, "record");
+    if (temp != NULL) {
+        oneclick_debugArr[6] = atoi(temp);
+    }
+
     LOGD("one click debug process ---- task from WebUI");
 
     //int ret = onelick_debug_task(mode, syslog, logcat, tombstone, anr, capture, battery, acce);
-    int ret = onelick_debug_task(mode, srv, con);
+    int ret = onelick_debug_task(mode);
     
     if (ret == -1) {
         buffer_append_string(b, "Response=Error\r\nMessage=Not enough space\r\n");
@@ -16780,6 +16824,23 @@ static int handle_oneclick_debug (server *srv, connection *con, buffer *b, const
         buffer_append_string(b, "Response=Error\r\nMessage=LCD is debugging\r\n");
     } else if (ret == 0) {
         buffer_append_string(b, "Response=Done\r\n");
+    }
+
+    if (!strcmp(mode, "off")) {
+        // send broadcast to LCD: grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED
+        //  2 - stop success
+        // -3 - unknown error
+        char state[8] = {0};
+        if (ret == 0) {
+            snprintf(state, 8, "2");
+        } else {
+            snprintf(state, 8, "-3");
+        }
+
+        LOGD("one click debug process ---- send broadcast to LCD: grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED --es state %s", state);
+
+        char *cmd[] = {"am", "broadcast", "-a", "grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED", "--es", "state", state, "--es", "path", debug_file_path, 0};
+        doCommandTask(cmd, NULL, NULL, 0);
     }
 
     return 0;
@@ -17080,11 +17141,13 @@ static int handle_get_record_list (buffer *b, const struct message *m)
     return 1;
 }
 
-static int handle_start_recording (buffer *b)
+int handle_start_recording (buffer *b, int isNeedResponse)
 {
     char *saveaudio = nvram_get("saveaudio");
     if (saveaudio != NULL && !strcmp(saveaudio, "1")) {
-        buffer_append_string(b, "Response=Error\r\nMessage=Already start\r\n");
+        if (isNeedResponse == 1) {
+            buffer_append_string(b, "Response=Error\r\nMessage=Already start\r\n");
+        }
         return -1;
     }
 
@@ -17092,13 +17155,19 @@ static int handle_start_recording (buffer *b)
 
     record_flag = 1;
 
-    buffer_append_string(b, "Response=Success\r\nMessage=Start success\r\n");
+    if (isNeedResponse == 1) {
+        buffer_append_string(b, "Response=Success\r\nMessage=Start success\r\n");
+    }
+
+    return 0;
 }
 
-static int handle_stop_recording (buffer *b)
+int handle_stop_recording (buffer *b, int isNeedResponse)
 {
     dbus_send_record_operation(false);
-    buffer_append_string(b, "Response=Success\r\nMessage=Stop success\r\n");
+    if (isNeedResponse == 1) {
+        buffer_append_string(b, "Response=Success\r\nMessage=Stop success\r\n");
+    }
     tarRecfile();
 
     record_flag = 0;
@@ -27003,7 +27072,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
             //}
             //else if (!strcasecmp(region, "maintenance")){
                 else if (!strcasecmp(action, "oneclickdebug")) {
-                    handle_oneclick_debug(srv, con, b, m);
+                    handle_oneclick_debug(b, m);
                 } else if (!strcasecmp(action, "capture")) {
                     handle_capture(b, "mode");
                 } else if (!strcasecmp(action, "getdateinfo")) {
@@ -27021,9 +27090,9 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                 } else if (!strcasecmp(action, "getrecordstate")) {
                     handle_query_record_state(b);
                 } else if (!strcasecmp(action, "startrecording")) {
-                    handle_start_recording(b);
+                    handle_start_recording(b, 1);
                 } else if (!strcasecmp(action, "stoprecording")) {
-                    handle_stop_recording(b);
+                    handle_stop_recording(b, 1);
                 } else if (!strcasecmp(action, "deleterecord")){
                     handle_delete_record(b, m);
                 } else if (!strcasecmp(action, "coredumplist")){

@@ -3,8 +3,11 @@
 
 #include "server.h"
 #include "fdevent.h"
+#include <android/log.h>
 
 #define MAX_MANHEADERS 300
+
+#define LOGD(x...) __android_log_print(ANDROID_LOG_DEBUG, "WebServer", x)
 
 #ifndef BUILD_RECOVER
 typedef struct {
@@ -92,5 +95,7 @@ int protected_pvalue_find(PvalueList *protected_list, char *pvalue);
 void protected_pvalue_init();
 int init_cache_pvalue();
 int apply_cache_pvalue(int init);
+int doCommandTask(char* const argv[], const char *outfile, const char *infile, int isNonBlock);
+int onelick_debug_task(char* mode);
 #endif
 #endif

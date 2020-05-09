@@ -142,6 +142,8 @@ static int l_issetugid(void) {
 #define SIGNAL_LANGUAGE_IMPORT          "importlan_response"
 #define SIGNAL_REQUEST_QR_URL       "request_qr_url"
 #define SIGNAL_RESPONSE_QR_URL      "response_qr_url"
+#define SIGNAL_START_ONECLICK_DEBUG   "start_oneclick_debug"
+#define SIGNAL_STOP_ONECLICK_DEBUG     "stop_oneclick_debug"
 
 
 pthread_mutex_t dbusmutex = PTHREAD_MUTEX_INITIALIZER;
@@ -165,6 +167,8 @@ extern int phonerebooting;
 extern int importlanrsps;
 extern int mpkextstartpvalue[5];
 extern char qrtoken[16];
+extern int oneclick_debugArr[8];
+extern char debug_file_path[128];
 
 //extern pthread_cond_t changeinput_cond;
 //extern pthread_cond_t getusbmouse_cond;
@@ -1149,6 +1153,103 @@ static DBusHandlerResult signal_filter2 (DBusConnection *dbconnection, DBusMessa
             printf( "receive weather_fav error: %s\n", error.message );
             dbus_error_free( &error );
         }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_START_ONECLICK_DEBUG ) ) // signal start one-click debug frm LCD
+    {
+        if ( dbus_message_get_args( message, &error, DBUS_TYPE_STRING, &str, DBUS_TYPE_INVALID ) )
+        {
+            // syslog, logcat, capture, tombstone, anr, battery, acce
+            //int debugArr[6] = {1, 1, 1, 1, 1, 1};
+            int p_count = 0;
+            char *p = strtok(str, ",");
+            while (p != NULL && p_count <= 7) {
+                LOGD("p: %s\n", p);
+                oneclick_debugArr[p_count++] = atoi(p);
+                p = strtok(NULL, ",");
+            }
+
+            LOGD("one click debug process ---- task from LCD");
+            memset(debug_file_path, 0, sizeof(debug_file_path));
+
+            int ret;
+            char state[8] = {0};
+            
+            if (oneclick_debugArr[2] == 0 && oneclick_debugArr[7] == 0) { 
+                // not check 'capture' and 'record'
+                //ret = onelick_debug_task("none", debugArr[0], debugArr[1], debugArr[2], debugArr[3], debugArr[4], debugArr[5], 0);
+                ret = onelick_debug_task("none");
+            } else {
+                //ret = onelick_debug_task("on", debugArr[0], debugArr[1], debugArr[2], debugArr[3], debugArr[4], debugArr[5], 0);
+                ret = onelick_debug_task("on");
+            }
+                
+            if (ret == 0) {
+                if (oneclick_debugArr[2] == 1 || oneclick_debugArr[7] == 1) {
+                    snprintf(state, 8, "0");
+                } else {
+                    snprintf(state, 8, "1");
+                }
+            } else if (ret == -1) {
+                snprintf(state, 8, "-1");
+            } else if (ret == -2) {
+                snprintf(state, 8, "-2");
+            } else {
+                snprintf(state, 8, "-3");
+            }
+
+            // broadcast: grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED
+            //  0 - start success
+            //  1 - capture success 
+            //  2 - stop success
+            // -1 - not enough space 
+            // -2 - webui ongoing
+            // -3 - unknown error
+
+            LOGD("one click debug process ---- send broadcast to LCD: grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED --es state %s", state);
+
+            char *cmd[] = {"am", "broadcast", "-a", "grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED", "--es", "state", state, "--es", "path", debug_file_path, 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+        }
+        else
+        {
+            printf( "receive weather_fav error: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_STOP_ONECLICK_DEBUG ) ) // signal stop one-click debug from lcd
+    {
+        if ( dbus_message_get_args( message, &error, DBUS_TYPE_INVALID ) )
+        {
+            LOGD("one click debug process ---- new task from LCD");
+
+            //int ret = onelick_debug_task("off", debugArr[0], debugArr[1], debugArr[2], debugArr[3], debugArr[4], debugArr[5], 0);
+            int ret = onelick_debug_task("off");
+    
+            // broadcast: grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED
+            //  0 - start success
+            //  1 - capture success 
+            //  2 - stop success
+            // -1 - not enough space
+            // -2 - webui ongoing
+            // -3 - unknown error
+            char state[8] = {0};
+            if (ret == 0) {
+                snprintf(state, 8, "2");
+            } else {
+                snprintf(state, 8, "-3");
+            }
+
+            LOGD("one click debug process ---- send broadcast to LCD: grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED --es state %s", state);
+
+            char *cmd[] = {"am", "broadcast", "-a", "grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED", "--es", "state", state, "--es", "path", debug_file_path, 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+        } else {
+            printf( "receive weather_fav error: %s\n", error.message );
+            dbus_error_free( &error );
+        }
+         
         return DBUS_HANDLER_RESULT_HANDLED;
     }
     else if ( dbus_message_is_signal( message, DBUS_INTERFACE_WEB, SIGNAL_REQUEST_QR_URL ) ) // signal lcd request qrcode
