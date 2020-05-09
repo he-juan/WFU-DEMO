@@ -5288,20 +5288,19 @@ static int handle_setvolume(server *srv, connection *con, buffer *b, const struc
             speakervol = atoi(temp);
         }
 
-        ringTone = msg_get_header(m, "ringTone");
-        if ( ringTone == NULL )
-        {
-            ringTone = "";
-        }else{
-            uri_decode((char*)ringTone);
+
+        ringTone = (char*)malloc(128);
+        memset(ringTone, 0, 128);
+        char *ring_p = msg_get_header(m, "ringTone");
+        if ( ring_p == NULL ) {
+            snprintf(ringTone, 128, "content://media/internal/audio/media/%s", ring_p);
         }
 
-        notifyTone = msg_get_header(m, "notifyTone");
-        if ( notifyTone == NULL )
-        {
-            notifyTone = "";
-        }else{
-            uri_decode((char*)notifyTone);
+        notifyTone = (char*)malloc(128);
+        memset(notifyTone, 0, 128);
+        char *notify_p = msg_get_header(m, "notifyTone");
+        if ( notify_p == NULL ) {
+            snprintf(notifyTone, 128, "content://media/internal/audio/media/%s", notify_p);
         }
 
         if ( !dbus_message_iter_append_basic( &iter, DBUS_TYPE_INT32, &ringvol ) )
@@ -5392,6 +5391,9 @@ static int handle_setvolume(server *srv, connection *con, buffer *b, const struc
         }
 
         dbus_message_unref( message );
+
+        free(ringTone);
+        free(notifyTone);
     }
     return 0;
 }
