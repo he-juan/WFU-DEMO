@@ -98,7 +98,7 @@ class Remotediagnosis extends FormCommon {
 
     return (
       <Form>
-        <FormItem label='mai_tr_024' tip=''>
+        <FormItem lang='mai_tr_024'>
           <Button type='primary' onClick={this.handleRemotedebug}>{$t(mRsshtcfgswitch === '1' ? 'c_066' : 'c_094')}</Button>
           {
             mRsshtcfgswitch === '1' && mTime > 0 && mTime <= 172800 && <span style={{ marginLeft: 50 }}>

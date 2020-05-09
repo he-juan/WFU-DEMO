@@ -195,7 +195,7 @@ export default {
   mai_tr_023_tip: 'Enter a host name and find out the corresponding IP address. It will also do reverse name lookup and find the host name for an IP address you specify.',
 
   mai_tr_024: 'Remote Diagnosis',
-  mai_tr_024_tip: '',
+  mai_tr_024_tip: 'Set whether to allow remote diagnostics, only for the Grandstream background server to remote diagnose the device and access Web UI, please turn it on carefully. 2 days (48h) timeout mechanism will be automatically closed after opening. The default value is "off".',
 
   mai_999: ''
 }
