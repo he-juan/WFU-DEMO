@@ -65,7 +65,8 @@ class Backend extends Component {
 
     // 休眠监听
     MsgObserver.subscribe('goto_sleep', () => {
-      this.props.history.push('/login')
+      // this.props.history.push('/login')
+      window.location.href = '/login'
     })
 
     // 通话记录更新
@@ -129,7 +130,8 @@ class Backend extends Component {
               store.dispatch(setUserType(null))
               Cookie.remove('type')
               Cookie.remove('logindate')
-              this.props.history.push('/login')
+              // this.props.history.push('/login')
+              window.location.href = '/login'
               clearInterval(LOGOUT_TIMER)
             }
           })

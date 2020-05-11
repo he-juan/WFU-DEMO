@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Dropdown, Icon } from 'antd'
-import { history } from '@/App'
+// import { history } from '@/App'
 import API from '@/api'
 import Cookie from 'js-cookie'
 import { $t } from '@/Intl'
@@ -11,7 +11,9 @@ const UserMenu = () => {
       if (m.Response === 'Success') {
         window.localStorage.setItem('logindate', '')
         Cookie.remove('type')
-        history.push('/login')
+        // history.push('/login')
+
+        window.location.href = '/login'
       }
     })
   }

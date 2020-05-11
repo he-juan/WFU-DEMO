@@ -58,8 +58,8 @@ class InitWebsocket extends React.Component {
       // ping 一下服务器
       serverPing().then(data => {
         if (data['response'] === 'error' && data['message'] === 'authentication required') {
-          // window.location.href = '/login'
-          history.push('/login')
+          window.location.href = '/login'
+          // history.push('/login')
           throw new Error('exit')
         } else {
           // callback(msgs)

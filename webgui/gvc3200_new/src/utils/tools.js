@@ -2,7 +2,7 @@
 /* eslint-disable no-multiple-empty-lines */
 import moment from 'moment'
 import { store } from '@/store'
-import { history } from '@/App'
+// import { history } from '@/App'
 import { $t, $fm } from '@/Intl'
 import deepClone from './deepClone'
 
@@ -304,7 +304,8 @@ export const storageListener = (() => {
       if (window.isIEBrowser && window.isLoginPageEvent) {
         window.isLoginPageEvent = false
       } else {
-        history.push('/login')
+        // history.push('/login')
+        window.location.href = '/login'
       }
     }
   }
