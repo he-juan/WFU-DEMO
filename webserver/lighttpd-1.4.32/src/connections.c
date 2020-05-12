@@ -21708,6 +21708,19 @@ static int handle_updateschedule(server *srv, connection *con, buffer *b, const 
             if ( temp != NULL )
             {
                 buffer_append_string( b, temp );
+
+                cJSON *resObj = cJSON_Parse(temp);
+                if (resObj != NULL) {
+                    char *id = cJSON_GetObjectItem(resObj, "msg")->valuestring;
+                    char *host = msg_get_header(m, "host");
+
+                    if (id != NULL && host != NULL && strcmp(host, "1")) {
+                        internal_notify_schedule_change("11", id);
+                    }
+
+                    cJSON_Delete(resObj);
+                }
+
                 free(temp);
             }
             dbus_message_unref( reply );
@@ -27209,7 +27222,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     char *host = msg_get_header(m, "host");
                     if (host != NULL && strcmp(host, "1")) {
                         // Google Conf
-                        internal_notify_schedule_change("11", msg_get_header(m, "id"));
+                        //internal_notify_schedule_change("11", msg_get_header(m, "id"));
                     } else {
                         // SIP Conf
                         internal_notify_schedule_change("0", msg_get_header(m, "id"));
@@ -27219,7 +27232,7 @@ static int process_message(server *srv, connection *con, buffer *b, const struct
                     char *host = msg_get_header(m, "host");
                     if (host != NULL && strcmp(host, "1")) {
                         // Google Conf
-                        internal_notify_schedule_change("11", msg_get_header(m, "id"));
+                        //internal_notify_schedule_change("11", msg_get_header(m, "id"));
                     } else {
                         // SIP Conf
                         internal_notify_schedule_change("1", msg_get_header(m, "id"));
