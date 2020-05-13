@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 import React, { Component } from 'react'
 import { message, Modal } from 'antd'
-import { $t } from '@/Intl'
+import { $t, formatMessage } from '@/Intl'
 import { connect } from 'react-redux'
 import { setWholeLoading } from '@/store/actions'
 import { injectIntl } from 'react-intl'
@@ -12,6 +12,7 @@ const GS_RTC = window.GS_RTC
 @injectIntl
 @connect(
   state => ({
+    confInfo: state.confInfo
   }),
   dispatch => ({
     setWholeLoading: (isLoad, tips) => dispatch(setWholeLoading(isLoad, tips))
@@ -33,22 +34,28 @@ class ScreenShare extends Component {
       // web关闭演示的回调
       window.gsRTC.on('stopShareScreen', (res) => {
         console.log('STOP_SCREEN ************************' + res.codeType + '**********************')
-        this.setState({
-          isSharing: false
+        // 停止共享后挂断线路 （挂断有问题, 回调不会执行）
+        GS_RTC.HANG_UP((res) => {
+          console.log('HANG_UP ************************' + res.codeType + '**********************')
         })
-        // // 停止共享后挂断线路 （挂断有问题）
-        // GS_RTC.HANG_UP((res) => {
-        //   console.log('HANG_UP ************************' + res.codeType + '**********************')
-        //   if (res.codeType == 200) {
-        //     this.setState({
-        //       isCalled: false
-        //     })
-        //   }
-        // })
+        // 这段本应该放在HANG_UP回调内部
+        setTimeout(() => {
+          this.setState({
+            isCalled: false,
+            isSharing: false
+          })
+        }, 300)
       })
       // web开演示的回调
       window.gsRTC.on('shareScreen', (res) => {
         console.log('BEGIN_SCREEN ************************' + res.codeType + '**********************')
+        if (+res.codeType !== 200) {
+          message.error(formatMessage({ id: 'm_267' }, { n: res.codeType }))
+          this.setState({
+            isSharing: false,
+            isCalling: false
+          })
+        }
         this.setState({
           isSharing: true
         })
@@ -188,9 +195,14 @@ class ScreenShare extends Component {
 
   render () {
     let { isSharing } = this.state
+    let { isReceivePresentation } = this.props.confInfo
+
     return (
      <>
-      <span className='screen-share-btn' onClick={this.handleClick}>
+      <span
+        className={`screen-share-btn ${isReceivePresentation && !isSharing ? 'disabled' : ''}`}
+        onClick={ isReceivePresentation && !isSharing ? () => {} : this.handleClick}
+      >
         {isSharing ? $t('c_361') : $t('c_360')}
       </span>
       {/* <span onClick={() => this.handleCall()} style={{ float: 'right', cursor: 'pointer' }}>

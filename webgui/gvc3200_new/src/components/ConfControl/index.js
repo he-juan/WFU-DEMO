@@ -28,6 +28,7 @@ class ConfControl extends Component {
   }
 
   componentDidMount () {
+    this.presentaionStatusChangeHandler()
     this.confStatusChangeHandler()
     this.lineStatusChangeHandler()
     this.props.getMaxLineCount() // 获取最大线路数
@@ -39,6 +40,13 @@ class ConfControl extends Component {
     // 订阅会议状态变化
     MsgObserver.subscribe('confStatusChange', (msg) => {
       this.props.setConfInfo(msg.data)
+    })
+  }
+
+  presentaionStatusChangeHandler = () => {
+    // 订阅演示状态变化
+    MsgObserver.subscribe('presentaionStatusChange', (msg) => {
+      this.props.getConfInfo()
     })
   }
 
@@ -71,6 +79,7 @@ class ConfControl extends Component {
   componentWillUnMount = () => {
     MsgObserver.unsubscribe('confStatusChange')
     MsgObserver.unsubscribe('lineStatusChange')
+    MsgObserver.unsubscribe('presentaionStatusChange')
   }
 
   render () {
