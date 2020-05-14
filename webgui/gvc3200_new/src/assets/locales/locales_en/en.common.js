@@ -439,6 +439,7 @@ const msgs = {
   m_265: 'Are you sure to end the call?',
   m_266: 'IPVT display name is not allowed to end with \\',
   m_267: 'Failed to share screen({n}).',
+  m_268: 'The current version of the browser may not support the screen sharing function, it is recommended to use the latest version of chrome or Firefox browser.',
 
   m_999: ''
 }

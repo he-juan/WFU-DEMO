@@ -163,8 +163,12 @@ class ScreenShare extends Component {
   }
 
   handleClick = () => {
-    if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) {
+    if (window.location.protocol !== 'https:') {
       return message.error($t('m_262')) // 共享屏幕功能需要开启https.
+    }
+
+    if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) {
+      return message.error($t('m_268')) // 当前版本浏览器可能不支持屏幕共享功能，推荐使用最新版本的chrome或火狐浏览器。
     }
 
     let { isSharing, rtc_enabled, isCalled, isCalling } = this.state
