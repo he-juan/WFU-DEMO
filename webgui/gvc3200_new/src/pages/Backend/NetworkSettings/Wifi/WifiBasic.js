@@ -204,7 +204,7 @@ class WifiDetailModal extends FormCommon {
             <Button className='cancle-btn' onClick={() => onHide(null)}>{$t('b_005')}</Button>
             {
               isConnected === 'CONNECTED' && !needModify
-                ? <Button className='disconnect-btn' type='primary' onClick={this.handleDisconnect}>{$t('b_034')}</Button>
+                ? null
                 : <Button className='connect-btn' type='primary' loading={connecting} onClick={this.handleConnnect}>{needModify ? $t('b_001') : $t('b_032')}</Button>
             }
           </div>
