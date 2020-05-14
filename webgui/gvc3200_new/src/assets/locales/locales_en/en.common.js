@@ -437,7 +437,7 @@ const msgs = {
   m_263: 'Are you sure to turn on screen sharing?',
   m_264: 'Are you sure to turn off screen sharing?',
   m_265: 'Are you sure to end the call?',
-  m_266: 'IPVT display name is not allowed to end with \\\\',
+  m_266: 'IPVT display name is not allowed to end with \\',
   m_267: 'Failed to share screen({n}).',
 
   m_999: ''
