@@ -198,8 +198,10 @@ static void sigaction_handler(int sig, siginfo_t *si, void *context) {
 
     switch (sig) {
     case SIGTERM:
+        /*
         srv_shutdown = 1;
         last_sigterm_info = *si;
+        */
         break;
     case SIGINT:
         if (graceful_shutdown) {
@@ -235,7 +237,7 @@ static void sigaction_handler(int sig, siginfo_t *si, void *context) {
 #elif defined(HAVE_SIGNAL) || defined(HAVE_SIGACTION)
 static void signal_handler(int sig) {
 	switch (sig) {
-	case SIGTERM: srv_shutdown = 1; break;
+	case SIGTERM: /*srv_shutdown = 1;*/ break;
 	case SIGINT:
 	     if (graceful_shutdown) srv_shutdown = 1;
 	     else graceful_shutdown = 1;
