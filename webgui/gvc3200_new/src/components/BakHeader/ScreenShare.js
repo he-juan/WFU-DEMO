@@ -55,10 +55,11 @@ class ScreenShare extends Component {
             isSharing: false,
             isCalling: false
           })
+        } else {
+          this.setState({
+            isSharing: true
+          })
         }
-        this.setState({
-          isSharing: true
-        })
       })
 
       // gs_phone请求开启演示
