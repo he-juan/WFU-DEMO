@@ -20,7 +20,8 @@ class CallHistoryList extends Component {
     acctStatus: PropTypes.array,
     dataSource: PropTypes.array,
     selectedLogs: PropTypes.array,
-    onSelectRow: PropTypes.func
+    onSelectRow: PropTypes.func,
+    contacts: PropTypes.array
   }
 
   state = {
@@ -175,7 +176,10 @@ class CallHistoryList extends Component {
   contactsPopover = (record) => {
     return (
       <div className='contacts-popover' onClick={(e) => { e.stopPropagation() }}>
-        <p onClick={(e) => this.handleSaveToContacts(record, e)}>{$t('c_313') /* 保存至已有联系人 */}</p>
+        {
+          this.props.contacts.length
+            ? <p onClick={(e) => this.handleSaveToContacts(record, e)}>{$t('c_313') /* 保存至已有联系人 */}</p> : null
+        }
         <p onClick={(e) => this.handleAddContacts(record, e)}>{$t('c_314') /* 添加联系人 */}</p>
       </div>
     )

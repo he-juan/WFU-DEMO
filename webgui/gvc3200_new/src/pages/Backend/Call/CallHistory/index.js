@@ -12,7 +12,8 @@ import { $t } from '@/Intl'
 @connect(
   state => ({
     acctStatus: state.acctStatus, // 获取账号状态-所有激活账号
-    callLogs: state.callLogs
+    callLogs: state.callLogs,
+    contacts: state.contacts
   }),
   dispatch => ({
     getCallLogs: () => { dispatch(getCallLogs()) },
@@ -191,7 +192,7 @@ class CallHistory extends Component {
   }
 
   render () {
-    const { acctStatus, callLogs } = this.props
+    const { acctStatus, callLogs, contacts } = this.props
     const { curPageData, selectedLogs, pageNum, curPage, isAutoVideo } = this.state
     return (
       <div className='call-history-page'>
@@ -210,6 +211,7 @@ class CallHistory extends Component {
                     dataSource={curPageData}
                     selectedLogs={selectedLogs}
                     onSelectRow={this.handleSelectRow}
+                    contacts={contacts}
                   />
                 </div>
                 <div className='call-history-pagination'>
