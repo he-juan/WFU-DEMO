@@ -64,7 +64,7 @@ export const linesInfo = (state = [], action) => {
 export const confInfo = (state = {}, action) => {
   switch (action.type) {
     case Types.SET_CONF_INFO:
-      return action.confInfo
+      return Object.assign({}, state, action.confInfo)
     default:
       return state
   }

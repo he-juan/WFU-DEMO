@@ -178,12 +178,16 @@ export const getLinesInfo = () => (dispatch) => {
  * 获取并设置全局会议状态信息
  *
  */
+let GET_CONF_TIMER
 export const getConfInfo = () => (dispatch) => {
-  API.getGlobalConfInfo().then(data => {
-    if (!data.result) {
-      dispatch(setConfInfo(data.data))
-    }
-  })
+  clearTimeout(GET_CONF_TIMER)
+  GET_CONF_TIMER = setTimeout(() => {
+    API.getGlobalConfInfo().then(data => {
+      if (!data.result) {
+        dispatch(setConfInfo(data.data))
+      }
+    })
+  }, 300)
 }
 
 /**

@@ -6,7 +6,24 @@ import { connect } from 'react-redux'
 import { setWholeLoading } from '@/store/actions'
 import { injectIntl } from 'react-intl'
 
-const GS_RTC = window.GS_RTC
+let SHARE_SCREEN = {}
+
+const loadRTCjs = () => new Promise((resolve, reject) => {
+  let scriptEl = document.createElement('script')
+  scriptEl.src = '/gsRTC.min.js'
+  scriptEl.onload = () => {
+    window.GsRTC.prototype.preInit()
+
+    SHARE_SCREEN.CALL = window.call
+    SHARE_SCREEN.BEGIN_SCREEN = window.beginScreen
+    SHARE_SCREEN.PAUSE_PRESENT = window.pausePresent
+    SHARE_SCREEN.STOP_SCREEN = window.stopScreen
+    SHARE_SCREEN.HANG_UP = window.hangUP
+
+    resolve()
+  }
+  document.body.appendChild(scriptEl)
+})
 
 // redux connect 和 react-intl context 似乎有冲突，导致其不能更新
 @injectIntl
@@ -29,80 +46,81 @@ class ScreenShare extends Component {
   errorCode = null
 
   componentDidMount () {
-    setTimeout(() => {
-      console.log('gsRTC ******************************', window.gsRTC)
-      // web关闭演示的回调
-      window.gsRTC.on('stopShareScreen', (res) => {
-        console.log('STOP_SCREEN ************************' + res.codeType + '**********************')
-        // 停止共享后挂断线路 （挂断有问题, 回调不会执行）
-        GS_RTC.HANG_UP((res) => {
-          console.log('HANG_UP ************************' + res.codeType + '**********************')
+    loadRTCjs().then(() => {
+      setTimeout(() => {
+        console.log('gsRTC ******************************')
+        // web关闭演示的回调
+        window.gsRTC.on('stopShareScreen', (res) => {
+          console.log('STOP_SCREEN ************************' + res.codeType + '**********************')
+          // 停止共享后挂断线路 （挂断有问题, 回调不会执行）
+          SHARE_SCREEN.HANG_UP((res) => {
+            console.log('HANG_UP ************************' + res.codeType + '**********************')
+          })
+          // 这段本应该放在HANG_UP回调内部
+          setTimeout(() => {
+            this.setState({
+              isCalled: false,
+              isSharing: false
+            })
+          }, 300)
         })
-        // 这段本应该放在HANG_UP回调内部
-        setTimeout(() => {
-          this.setState({
-            isCalled: false,
-            isSharing: false
-          })
-        }, 300)
-      })
-      // web开演示的回调
-      window.gsRTC.on('shareScreen', (res) => {
-        console.log('BEGIN_SCREEN ************************' + res.codeType + '**********************')
-        if (+res.codeType !== 200) {
-          message.error(formatMessage({ id: 'm_267' }, { n: res.codeType }))
-          this.setState({
-            isSharing: false,
-            isCalling: false
-          })
-        } else {
+        // web开演示的回调
+        window.gsRTC.on('shareScreen', (res) => {
+          console.log('BEGIN_SCREEN ************************' + res.codeType + '**********************')
+          if (+res.codeType !== 200) {
+            message.error(formatMessage({ id: 'm_267' }, { n: res.codeType }))
+            this.setState({
+              isSharing: false,
+              isCalling: false
+            })
+          }
           this.setState({
             isSharing: true
           })
-        }
-      })
+        })
 
-      // gs_phone请求开启演示
-      window.gsRTC.on('shareScreenRequest', (cb) => {
-        Modal.destroyAll()
-        let cancel = () => {
-          cb.call(window.gsRTC, false)
-        }
-        // 页面刷新前手动拒绝
-        window.addEventListener('beforeunload', cancel)
-        Modal.confirm({
-          title: $t('m_263'), // 确定开始屏幕共享？
-          onOk: () => {
-            cb.call(window.gsRTC, true)
-            window.removeEventListener('beforeunload', cancel)
-            cancel = null
-          },
-          onCancel: () => {
+        // gs_phone请求开启演示
+        window.gsRTC.on('shareScreenRequest', (cb) => {
+          Modal.destroyAll()
+          let cancel = () => {
             cb.call(window.gsRTC, false)
-            window.removeEventListener('beforeunload', cancel)
-            cancel = null
           }
+          // 页面刷新前手动拒绝
+          window.addEventListener('beforeunload', cancel)
+          Modal.confirm({
+            title: $t('m_263'), // 确定开始屏幕共享？
+            onOk: () => {
+              cb.call(window.gsRTC, true)
+              window.removeEventListener('beforeunload', cancel)
+              cancel = null
+            },
+            onCancel: () => {
+              cb.call(window.gsRTC, false)
+              window.removeEventListener('beforeunload', cancel)
+              cancel = null
+            }
+          })
         })
-      })
-      // gs_phone请求关闭演示
-      window.gsRTC.on('stopShareScreenRequest', (cb) => {
-        Modal.destroyAll()
-        // 直接关闭
-        this.setState({
-          isSharing: false
+        // gs_phone请求关闭演示
+        window.gsRTC.on('stopShareScreenRequest', (cb) => {
+          Modal.destroyAll()
+          // 直接关闭
+          this.setState({
+            isSharing: false
+          })
+          cb.call(window.gsRTC, true)
         })
-        cb.call(window.gsRTC, true)
-      })
-      // gs_phone请求结束通话
-      window.gsRTC.on('hangupRequest', (cb) => {
-        Modal.destroyAll()
-        this.setState({
-          isSharing: false,
-          isCalled: false
+        // gs_phone请求结束通话
+        window.gsRTC.on('hangupRequest', (cb) => {
+          Modal.destroyAll()
+          this.setState({
+            isSharing: false,
+            isCalled: false
+          })
+          cb.call(window.gsRTC, true)
         })
-        cb.call(window.gsRTC, true)
-      })
-    }, 1500)
+      }, 300)
+    })
   }
 
   getURL = () => {
@@ -117,7 +135,7 @@ class ScreenShare extends Component {
       isCalling: true
     })
     this.props.setWholeLoading(true, $t('m_063'))
-    GS_RTC.CALL(this.getURL(), res => {
+    SHARE_SCREEN.CALL(this.getURL(), res => {
       this.props.setWholeLoading(false, '')
       console.log('CALL************************' + res.codeType + '**********************')
       if (res.codeType != 200) {
@@ -142,7 +160,7 @@ class ScreenShare extends Component {
 
   // call 完成后 调用 beginScreen
   handleStartShare = () => {
-    GS_RTC.BEGIN_SCREEN((res) => {
+    SHARE_SCREEN.BEGIN_SCREEN((res) => {
       // console.log('BEGIN_SCREEN ************************' + res.codeType + '**********************')
       if (res.codeType == 200) {
       } else {
@@ -153,7 +171,7 @@ class ScreenShare extends Component {
 
   // 调用stopScreen
   handleStopShare = () => {
-    GS_RTC.STOP_SCREEN((res) => {
+    SHARE_SCREEN.STOP_SCREEN((res) => {
       // console.log('STOP_SCREEN ************************' + res.codeType + '**********************')
       if (res.codeType == 200) {
         this.setState({
@@ -200,13 +218,15 @@ class ScreenShare extends Component {
 
   render () {
     let { isSharing } = this.state
-    let { isReceivePresentation } = this.props.confInfo
+    let { isReceivePresentation, idleConfSeat } = this.props.confInfo
+
+    let isDisabled = (+idleConfSeat === 0 || isReceivePresentation) && !isSharing
 
     return (
      <>
       <span
-        className={`screen-share-btn ${isReceivePresentation && !isSharing ? 'disabled' : ''}`}
-        onClick={ isReceivePresentation && !isSharing ? () => {} : this.handleClick}
+        className={`screen-share-btn ${isDisabled ? 'disabled' : ''}`}
+        onClick={ isDisabled ? () => {} : this.handleClick}
       >
         {isSharing ? $t('c_361') : $t('c_360')}
       </span>

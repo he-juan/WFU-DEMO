@@ -73,6 +73,8 @@ class ConfControl extends Component {
         }, 200)
       }
       setLinesInfo(_linesInfo)
+
+      this.props.getConfInfo()
     })
   }
 
