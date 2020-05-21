@@ -79,28 +79,28 @@ class ScreenShare extends Component {
           })
         })
 
-        // gs_phone请求开启演示
-        window.gsRTC.on('shareScreenRequest', (cb) => {
-          Modal.destroyAll()
-          let cancel = () => {
-            cb.call(window.gsRTC, false)
-          }
-          // 页面刷新前手动拒绝
-          window.addEventListener('beforeunload', cancel)
-          Modal.confirm({
-            title: $t('m_263'), // 确定开始屏幕共享？
-            onOk: () => {
-              cb.call(window.gsRTC, true)
-              window.removeEventListener('beforeunload', cancel)
-              cancel = null
-            },
-            onCancel: () => {
-              cb.call(window.gsRTC, false)
-              window.removeEventListener('beforeunload', cancel)
-              cancel = null
-            }
-          })
-        })
+        // // gs_phone请求开启演示
+        // window.gsRTC.on('shareScreenRequest', (cb) => {
+        //   Modal.destroyAll()
+        //   let cancel = () => {
+        //     cb.call(window.gsRTC, false)
+        //   }
+        //   // 页面刷新前手动拒绝
+        //   window.addEventListener('beforeunload', cancel)
+        //   Modal.confirm({
+        //     title: $t('m_263'), // 确定开始屏幕共享？
+        //     onOk: () => {
+        //       cb.call(window.gsRTC, true)
+        //       window.removeEventListener('beforeunload', cancel)
+        //       cancel = null
+        //     },
+        //     onCancel: () => {
+        //       cb.call(window.gsRTC, false)
+        //       window.removeEventListener('beforeunload', cancel)
+        //       cancel = null
+        //     }
+        //   })
+        // })
         // gs_phone请求关闭演示
         window.gsRTC.on('stopShareScreenRequest', (cb) => {
           Modal.destroyAll()
@@ -161,9 +161,19 @@ class ScreenShare extends Component {
   // call 完成后 调用 beginScreen
   handleStartShare = () => {
     SHARE_SCREEN.BEGIN_SCREEN((res) => {
-      // console.log('BEGIN_SCREEN ************************' + res.codeType + '**********************')
+      console.log('*************' + res.codeType)
+
       if (res.codeType == 200) {
       } else {
+        if (res.codeType == 104) {
+          SHARE_SCREEN.HANG_UP((res) => {
+            console.log('HANG_UP ************************' + res.codeType + '**********************')
+            this.setState({
+              isCalled: false,
+              isSharing: false
+            })
+          })
+        }
         this.handleStopShare()
       }
     })
