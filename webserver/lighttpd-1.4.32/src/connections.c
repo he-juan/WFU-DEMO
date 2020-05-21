@@ -16826,6 +16826,11 @@ static int handle_oneclick_debug (buffer *b, const struct message *m)
         buffer_append_string(b, "Response=Error\r\nMessage=LCD is debugging\r\n");
     } else if (ret == 0) {
         buffer_append_string(b, "Response=Done\r\n");
+
+        if (!strcmp(mode, "on")) {
+            char *cmd[] = {"am", "broadcast", "-a", "grandstream.intent.action.ONECLICK_DEBUG_STATUS_CHANGED", "--es", "state", "0", "--es", "path", "", 0};
+            doCommandTask(cmd, NULL, NULL, 0);
+        }
     }
 
     if (!strcmp(mode, "off")) {
