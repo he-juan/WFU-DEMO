@@ -7,7 +7,7 @@ const ignoredFiles = require('react-dev-utils/ignoredFiles');
 const paths = require('./paths');
 const fs = require('fs');
 
-const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+const protocol = 'https';
 const host = process.env.HOST || '0.0.0.0';
 
 module.exports = function(proxy, allowedHost) {
@@ -99,14 +99,14 @@ module.exports = function(proxy, allowedHost) {
         '/recordings'
       ],
       contentBase: paths.appBuild,
-      target: 'http'+ (protocol === 'https' ? 's' : '') +'://192.168.124.191/',  //replace with the ip of device
+      target: 'http'+ (protocol === 'https' ? 's' : '') +'://192.168.131.16/',  //replace with the ip of device
       // target: 'http://192.168.124.127:8081',
       changeOrigin: true,
       secure: false
 
     }, {
       context: ['/tcp_proxy', '/websockify'],
-      target: 'ws'+ (protocol === 'https' ? 's' : '') +'://192.168.124.191',
+      target: 'ws'+ (protocol === 'https' ? 's' : '') +'://192.168.131.16',
       changeOrigin: true,
       ws: true,
       secure: false,

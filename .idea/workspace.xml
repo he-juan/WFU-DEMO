@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="55d1e491-ad42-4c89-9d58-dda241af329b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="31" column="52" selection-start-line="31" selection-start-column="52" selection-end-line="31" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScreenShare.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="143" selection-start-line="143" selection-end-line="144" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gsRTC.min.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="5376" column="38" selection-start-line="5376" selection-start-column="38" selection-end-line="5376" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="10" column="79" selection-start-line="10" selection-start-column="79" selection-end-line="10" selection-end-column="79" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="webpackDevServer.config.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="108" column="73" selection-start-line="108" selection-start-column="73" selection-end-line="108" selection-end-column="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>shareScreen</find>
+      <find>setRemoteDescriptionSuccess</find>
+      <find />
+      <find />
+      <find>CALL**********************</find>
+      <find>handleCall</find>
+      <find>createWebSocket</find>
+      <find>web关闭演示</find>
+      <find>adjustOrderOfMLines</find>
+      <find>&quot;当前版本不支持浏览器Unified-Plan&quot;git</find>
+      <find>call</find>
+      <find>wsAddr</find>
+      <find>beginScreen</find>
+      <find />
+      <find>handleStopShare</find>
+      <find>sharingPermission</find>
+      <find>BEGIN_SCREEN</find>
+    </findStrings>
+    <dirStrings>
+      <dir>E:\workspace\service</dir>
+      <dir>E:\workspace\service\webgui</dir>
+      <dir>E:\workspace\service\webgui\gvc3200_new\public</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/webgui/gvc3200_new/public/index.html" />
+        <option value="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js" />
+        <option value="$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js" />
+        <option value="$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/webgui/gvc3200_new/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/webgui/gvc3200/package.json" />
+      <path value="$PROJECT_DIR$/webgui/gvc3200_new/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1001" />
+    <option name="height" value="1047" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="BakHeader" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/workspace/service/webgui/gvc3200_new/public/index.html" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../IPVT_WebRTC_Client_Base" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\workspace\service\webgui\gvc3200_new\public" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="55d1e491-ad42-4c89-9d58-dda241af329b" name="Default" comment="" />
+      <created>1589017475752</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589017475752</updated>
+      <workItem from="1589017476990" duration="1474000" />
+      <workItem from="1589157751634" duration="8398000" />
+      <workItem from="1589274700402" duration="1987000" />
+      <workItem from="1589277802380" duration="449000" />
+      <workItem from="1589278262632" duration="475000" />
+      <workItem from="1589278743994" duration="849000" />
+      <workItem from="1589279600019" duration="2684000" />
+      <workItem from="1589285834147" duration="671000" />
+      <workItem from="1589335974081" duration="3089000" />
+      <workItem from="1589356383783" duration="17383000" />
+      <workItem from="1589507032736" duration="16998000" />
+      <workItem from="1589762850409" duration="14026000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="68483000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11801897" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.50052685" side_tool="true" weight="0.7461874" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.49947312" visible="true" weight="0.3812636" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1264489" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.261723" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" column="73" selection-start-line="108" selection-start-column="73" selection-end-line="108" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139995">
+          <caret line="5185" column="5" lean-forward="true" selection-start-line="5185" selection-start-column="5" selection-end-line="5185" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="40" column="6" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3807">
+          <caret line="146" column="2" selection-start-line="146" selection-start-column="2" selection-end-line="146" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138780">
+          <caret line="5140" column="1" lean-forward="true" selection-start-line="5140" selection-start-column="1" selection-end-line="5140" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="40" column="6" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2997">
+          <caret line="116" column="29" selection-start-line="116" selection-start-column="29" selection-end-line="116" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138780">
+          <caret line="5140" column="41" selection-start-line="5140" selection-start-column="41" selection-end-line="5140" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="40" column="6" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2997">
+          <caret line="116" column="29" lean-forward="true" selection-start-line="116" selection-start-column="29" selection-end-line="116" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138780">
+          <caret line="5140" column="41" selection-start-line="5140" selection-start-column="41" selection-end-line="5140" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1107">
+          <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3537">
+          <caret line="136" column="16" selection-start-line="136" selection-start-column="11" selection-end-line="136" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138888">
+          <caret line="5144" column="33" selection-start-line="5144" selection-start-column="33" selection-end-line="5144" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1107">
+          <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3537">
+          <caret line="136" column="16" selection-start-line="136" selection-start-column="11" selection-end-line="136" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138861">
+          <caret line="5143" column="1" selection-start-line="5143" selection-start-column="1" selection-end-line="5143" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1107">
+          <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3537">
+          <caret line="136" column="16" selection-start-line="136" selection-start-column="11" selection-end-line="136" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138861">
+          <caret line="5143" column="1" selection-start-line="5143" selection-start-column="1" selection-end-line="5143" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1107">
+          <caret line="41" column="31" lean-forward="true" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3537">
+          <caret line="136" column="16" selection-start-line="136" selection-start-column="11" selection-end-line="136" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138861">
+          <caret line="5143" column="1" lean-forward="true" selection-start-line="5143" selection-start-column="1" selection-end-line="5143" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140157">
+          <caret line="5191" column="3" lean-forward="true" selection-start-line="5191" selection-start-column="3" selection-end-line="5191" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="50" column="102" selection-start-line="50" selection-start-column="102" selection-end-line="50" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" selection-start-line="108" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="45" column="20" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2916">
+          <caret line="108" column="73" selection-start-line="108" selection-start-column="73" selection-end-line="108" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200/build/gs-app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="28" column="720528" selection-start-line="28" selection-start-column="720528" selection-end-line="28" selection-end-column="720528" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="31" column="52" selection-start-line="31" selection-start-column="52" selection-end-line="31" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="10" column="79" selection-start-line="10" selection-start-column="79" selection-end-line="10" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="143" selection-start-line="143" selection-end-line="144" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="5376" column="38" selection-start-line="5376" selection-start-column="38" selection-end-line="5376" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="108" column="73" selection-start-line="108" selection-start-column="73" selection-end-line="108" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
