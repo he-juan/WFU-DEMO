@@ -52,17 +52,9 @@ class ScreenShare extends Component {
         // web关闭演示的回调
         window.gsRTC.on('stopShareScreen', (res) => {
           console.log('STOP_SCREEN ************************' + res.codeType + '**********************')
-          // 停止共享后挂断线路 （挂断有问题, 回调不会执行）
-          SHARE_SCREEN.HANG_UP((res) => {
-            console.log('HANG_UP ************************' + res.codeType + '**********************')
+          this.setState({
+            isSharing: false
           })
-          // 这段本应该放在HANG_UP回调内部
-          setTimeout(() => {
-            this.setState({
-              isCalled: false,
-              isSharing: false
-            })
-          }, 300)
         })
         // web开演示的回调
         window.gsRTC.on('shareScreen', (res) => {
@@ -73,34 +65,35 @@ class ScreenShare extends Component {
               isSharing: false,
               isCalling: false
             })
+          } else {
+            this.setState({
+              isSharing: true
+            })
           }
-          this.setState({
-            isSharing: true
-          })
         })
 
-        // // gs_phone请求开启演示
-        // window.gsRTC.on('shareScreenRequest', (cb) => {
-        //   Modal.destroyAll()
-        //   let cancel = () => {
-        //     cb.call(window.gsRTC, false)
-        //   }
-        //   // 页面刷新前手动拒绝
-        //   window.addEventListener('beforeunload', cancel)
-        //   Modal.confirm({
-        //     title: $t('m_263'), // 确定开始屏幕共享？
-        //     onOk: () => {
-        //       cb.call(window.gsRTC, true)
-        //       window.removeEventListener('beforeunload', cancel)
-        //       cancel = null
-        //     },
-        //     onCancel: () => {
-        //       cb.call(window.gsRTC, false)
-        //       window.removeEventListener('beforeunload', cancel)
-        //       cancel = null
-        //     }
-        //   })
-        // })
+        // gs_phone请求开启演示
+        window.gsRTC.on('shareScreenRequest', (cb) => {
+          Modal.destroyAll()
+          let cancel = () => {
+            cb.call(window.gsRTC, false)
+          }
+          // 页面刷新前手动拒绝
+          window.addEventListener('beforeunload', cancel)
+          Modal.confirm({
+            title: $t('m_263'), // 确定开始屏幕共享？
+            onOk: () => {
+              cb.call(window.gsRTC, true)
+              window.removeEventListener('beforeunload', cancel)
+              cancel = null
+            },
+            onCancel: () => {
+              cb.call(window.gsRTC, false)
+              window.removeEventListener('beforeunload', cancel)
+              cancel = null
+            }
+          })
+        })
         // gs_phone请求关闭演示
         window.gsRTC.on('stopShareScreenRequest', (cb) => {
           Modal.destroyAll()
@@ -166,12 +159,8 @@ class ScreenShare extends Component {
       if (res.codeType == 200) {
       } else {
         if (res.codeType == 104) {
-          SHARE_SCREEN.HANG_UP((res) => {
-            console.log('HANG_UP ************************' + res.codeType + '**********************')
-            this.setState({
-              isCalled: false,
-              isSharing: false
-            })
+          this.setState({
+            isSharing: false
           })
         }
         this.handleStopShare()
