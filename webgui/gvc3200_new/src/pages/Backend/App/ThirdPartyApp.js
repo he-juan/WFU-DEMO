@@ -54,7 +54,7 @@ class ThirdPartyApp extends FormCommon {
           {...options['Pconfig_user_app']}
           selectOptions={[
             { v: '', t: $t('c_328') },
-            ...appList.map(app => ({ v: app.value, t: app.name }))
+            ...appList.map(app => ({ v: app.value, t: app.label }))
           ]}
         />
         <FormItem>

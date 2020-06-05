@@ -333,7 +333,7 @@ class Debug extends FormCommon {
           </FormItem>
           {/* 查看已有调试信息 */}
           <FormItem {...options['debugInfo']}>
-            <Button type='link' onClick={() => this.handleOpenList('ppp')}>{$t('c_072')}</Button>
+            <Button type='link' onClick={() => this.handleOpenList('DebugInfo')}>{$t('c_072')}</Button>
           </FormItem>
           <h4 className='bak-sub-title'>{$t('c_073')}</h4>
           {/* 生成核心转储 */}

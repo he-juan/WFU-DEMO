@@ -137,7 +137,7 @@ class Backend extends Component {
           })
         }
       })
-    }, 10000)
+    }, 30000)
   }
 
   getTitle () {
@@ -180,6 +180,8 @@ class Backend extends Component {
               </div>
               <div className='backend-copyright'>
                 {`Copyright © ${productInfo['Vendor']} ${productInfo['Year']}. All Rights Reserved.`}
+                &nbsp; | &nbsp;
+                <a href='/gpl_license' target='_blank'>Grandstream Software License Agreement</a>
               </div>
               {/* 会议控制 */}
               <ConfControl />

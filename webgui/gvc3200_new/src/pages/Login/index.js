@@ -348,6 +348,8 @@ class Login extends Component {
         }
         <div className='login-page-footer'>
           {`Copyright © ${productInfo['Vendor']} ${productInfo['Year']}. All Rights Reserved.`}
+          &nbsp; | &nbsp;
+          <a href='/gpl_license' target='_blank'>Grandstream Software License Agreement</a>
         </div>
       </Layout>
     )

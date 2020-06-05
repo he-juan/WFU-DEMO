@@ -433,13 +433,15 @@ const msgs = {
   m_259: 'There is currently no active accont',
   m_260: 'Invalid file format.',
   m_261: 'The WiFi list refreshes automatically at a period of time. You can also click Scan button to refresh.',
-  m_262: 'HTTPS is required for sharing screen',
+  m_262: 'HTTPS is required for sharing screen. Please go to "System Settings - Security Settings - Web/SSH Access" to set access mode.',
   m_263: 'Are you sure to turn on screen sharing?',
   m_264: 'Are you sure to turn off screen sharing?',
   m_265: 'Are you sure to end the call?',
   m_266: 'IPVT display name is not allowed to end with \\',
   m_267: 'Failed to share screen({n}).',
-  m_268: 'The current version of the browser may not support the screen sharing function, it is recommended to use the latest version of chrome or Firefox browser.',
+  m_268: 'The current version of the browser does not support screen sharing, supported browsers: Chrome (72 and above); Firefox (60 and above); Opera (60 and above).',
+  m_269: 'Screen sharing only works on Chrome browsers. Please switch browsers.',
+  m_270: 'The current version of the browser is too low, please update Chrome to version 72 or above.',
 
   m_999: ''
 }

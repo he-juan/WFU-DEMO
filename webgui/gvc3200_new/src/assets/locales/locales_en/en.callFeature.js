@@ -117,5 +117,14 @@ export default {
   call_038_tip: 'If set to default setting "Yes", the device will skip the P frame in lost video packet to decode the I frame in the next video packet. This setting helps to reduce video distortion. The default setting is "No".',
 
   call_039: 'AEC Level',
-  call_039_tip: 'When selecting the audio device to gooseneck mode, it can be set up audio echo from 1 to 5 grades, adjust audio effects when the voice of the GVC equipment and equipment such as TV set size, the different distance of gooseneck  sound source and GVC equipment, at the same time “off” by default.'
+  call_039_tip: 'When selecting the audio device to gooseneck mode, it can be set up audio echo from 1 to 5 grades, adjust audio effects when the voice of the GVC equipment and equipment such as TV set size, the different distance of gooseneck  sound source and GVC equipment, at the same time “off” by default.',
+
+  call_040: 'Presentation Image Size',
+  call_040_tip: 'Selects the presentation image size.',
+
+  call_041: 'Presentation Video Bit Rate',
+  call_041_tip: 'Configures the bit rate of the video. The video bit rate can be adjusted based on the network environment. Increasing the video bit rate may improve video quality if the bandwidth is permitted. If the bandwidth is not permitted, the video quality will decrease due to packet loss.',
+
+  call_042: 'Presentation Video Frame Rate',
+  call_042_tip: 'Configure the video frame rate for presentation.'
 }

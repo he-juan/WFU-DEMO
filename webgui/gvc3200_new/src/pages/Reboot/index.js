@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Cookie from 'js-cookie'
 import { sysReboot } from '@/api/api.system'
-import { history } from '@/App'
 import './Reboot.less'
 import { $t } from '@/Intl'
 
@@ -14,7 +13,7 @@ class Reboot extends Component {
   componentDidMount () {
     let { rebootype } = this.state
     Cookie.remove('reboottype')
-    if (rebootype === '-1') return history.replace('/login')
+    if (rebootype === '-1') window.location.href = '/login'
     if (rebootype === 'reset') return false
     setTimeout(() => {
       sysReboot(rebootype)
@@ -58,7 +57,7 @@ class Reboot extends Component {
           <div className='subtitle'>{subtitle}</div>
           <div className='tips' dangerouslySetInnerHTML={{ __html: tips }}></div>
 
-          <span onClick={() => history.replace('/login')} className='relogin'>{$t('b_014')}</span>
+          <span onClick={() => { window.location.href = '/login' }} className='relogin'>{$t('b_014')}</span>
           <div className='copyright'>
             {`Copyright © ${productInfo['Vendor']} ${new Date().getFullYear()}. All Rights Reserved.`}
           </div>

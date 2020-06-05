@@ -2,9 +2,11 @@
 /* eslint-disable no-multiple-empty-lines */
 import moment from 'moment'
 import { store } from '@/store'
-// import { history } from '@/App'
+import { history } from '@/App'
 import { $t, $fm } from '@/Intl'
 import deepClone from './deepClone'
+
+export const isIEBrowser = !!window.ActiveXObject || 'ActiveXObject' in window
 
 /**
  * search parse
@@ -296,6 +298,7 @@ export const momentFormat = (timestamp, { showtime, showtoday }) => {
  * 本地存储监听事件，返回一个 add 和 remove
  */
 export const storageListener = (() => {
+  const WHITE_LIST_PATH = ['/login', '/gpl_license']
   let event = (e) => {
     let { key, newValue, oldValue } = e
     let newlogin = newValue > 0 && oldValue > 0
@@ -304,8 +307,9 @@ export const storageListener = (() => {
       if (window.isIEBrowser && window.isLoginPageEvent) {
         window.isLoginPageEvent = false
       } else {
-        // history.push('/login')
-        window.location.href = '/login'
+        if (!WHITE_LIST_PATH.includes(history.location.pathname) && newValue !== oldValue) {
+          window.location.href = '/login'
+        }
       }
     }
   }

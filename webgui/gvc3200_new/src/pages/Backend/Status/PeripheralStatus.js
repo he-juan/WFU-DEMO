@@ -61,7 +61,7 @@ class PeripheralStatus extends Component {
       lan,
       di_in
     } = this.state
-    const ths = ['LINE IN', 'LINE OUT', 'HDMI IN', 'HDMI OUT', 'SD', 'USB1', 'USB2', 'MEDIA', 'LAN', 'DI-IN 12V']
+    const ths = ['LINE IN', 'LINE OUT', 'HDMI IN', 'HDMI OUT', 'SD', 'USB1', 'USB2', 'MEDIA', 'LAN', 'DI-IN 48V']
 
     return (
       <div style={{ paddingTop: 20 }}>

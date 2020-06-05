@@ -37,7 +37,7 @@ class Call extends Component {
       selectAcct: this.props.defaultAcct || '0', // 当前选中账号
       memToCall: [],
       tagsInputValue: '',
-      bjMemToCall: [{ num: '.' }],
+      bjOrZoomToCall: [{ num: '.' }],
       dataSource: this.parseDataSource(props.contacts, props.callLogs), // 表格数据
       H323SiteName: '' // h.323 会场号码
     }
@@ -58,7 +58,8 @@ class Call extends Component {
     let acctIndex = item.key
     this.setState({
       selectAcct: acctIndex,
-      tagsInputValue: ''
+      tagsInputValue: '',
+      bjOrZoomToCall: [{ num: '.' }]
     })
   }
 
@@ -214,7 +215,7 @@ class Call extends Component {
   // 呼出接口
   handleDialup = (isvideo) => {
     const { acctStatus } = this.props
-    const { memToCall, selectAcct, tagsInputValue, bjMemToCall } = this.state    
+    const { memToCall, selectAcct, tagsInputValue, bjOrZoomToCall } = this.state    
     let _memToCall = deepCopy(memToCall)
     // 如果有输入数字但未添加进成员, 拨打时push到成员里
     if (tagsInputValue !== '') {
@@ -242,12 +243,12 @@ class Call extends Component {
       // }
     }
 
-    // bluejeans 处理
-    if (+selectAcct === 2) {
-      let numAry = bjMemToCall[0].num.split('.')
+    // bluejeans or zoom 处理
+    if (+selectAcct === 2 || +selectAcct === 5) {
+      let numAry = bjOrZoomToCall[0].num.split('.')
       if (!numAry[0].trim().length || !numAry[0].trim().length) return false
-      _memToCall = bjMemToCall
-      _memToCall[0].acct = 2
+      _memToCall = bjOrZoomToCall
+      _memToCall[0].acct = +selectAcct
     }
 
     if (_memToCall.length === 0) {
@@ -284,17 +285,17 @@ class Call extends Component {
   }
 
   // bluejeans 账号处理
-  handleBjMember = (content) => {
-    const { bjMemToCall } = this.state
-    let _bjMemToCall = deepCopy(bjMemToCall)
+  handleBjZoomMember = (content) => {
+    const { bjOrZoomToCall } = this.state
+    let _bjOrZoomToCall = deepCopy(bjOrZoomToCall)
 
-    let numAry = _bjMemToCall[0].num.split('.')
+    let numAry = _bjOrZoomToCall[0].num.split('.')
     numAry[0] = content.id ? content.id : numAry[0]
     numAry[1] = content.pw ? content.pw : numAry[1]
 
-    _bjMemToCall[0].num = numAry.join('.')
+    _bjOrZoomToCall[0].num = numAry.join('.')
     this.setState({
-      bjMemToCall: _bjMemToCall
+      bjOrZoomToCall: _bjOrZoomToCall
     })
   }
 
@@ -384,7 +385,7 @@ class Call extends Component {
   // 通过联系人通话记录列表添加成员
   handleAddMemFromList = (record) => {
     let { memToCall, selectAcct } = this.state
-    if (+selectAcct !== 2) {
+    if (+selectAcct !== 2 && +selectAcct !== 5) {
       let _memToCall = deepCopy(memToCall)
       if (+record.isconf === 1 && record.children) {
         record.children.forEach(i => {
@@ -460,7 +461,7 @@ class Call extends Component {
     const InputArea = (
       <div className='dialup-inputs-area'>
         {
-          +selectAcct !== 2 ? <div className='tagsinput-wrapper'>
+          +selectAcct !== 2 && +selectAcct !== 5 ? <div className='tagsinput-wrapper'>
             <TagsInput
               value={memToCall.map(v => v.name)}
               onChange={this.handleChangeMemToCall}
@@ -478,9 +479,9 @@ class Call extends Component {
                 {$t('c_330')}{+selectAcct === 1 ? $t('c_331') : ''}
               </span>
             }
-          </div> : <div className='bj-inputs'>
-            <Input placeholder={$t('c_337')} onChange={(e) => this.handleBjMember({ id: e.target.value })} /><br />
-            <Input placeholder={$t('c_338')} onChange={(e) => this.handleBjMember({ pw: e.target.value })} />
+          </div> : <div className='bj-inputs' key={+selectAcct}>
+            <Input placeholder={$t('c_337')} onChange={(e) => this.handleBjZoomMember({ id: e.target.value })} /><br />
+            <Input placeholder={$t('c_338')} onChange={(e) => this.handleBjZoomMember({ pw: e.target.value })} />
           </div>
         }
       </div>

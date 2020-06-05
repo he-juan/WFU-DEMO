@@ -64,7 +64,7 @@ const contryCode = [{ 'code': 'AF', 'coun': 'Afghanistan' }, { 'code': 'AX', 'co
   { 'code': 'JE', 'coun': 'Jersey' }, { 'code': 'JO', 'coun': 'Jordan' },
   { 'code': 'KZ', 'coun': 'Kazakhstan' }, { 'code': 'KE', 'coun': 'Kenya' },
   { 'code': 'KI', 'coun': 'Kiribati' }, { 'code': 'KP', 'coun': "Korea (Democratic People's Republic of)" },
-  { 'code': 'KR', 'coun': 'Korea (Republic of' }, { 'code': 'KW', 'coun': 'Kuwait' },
+  { 'code': 'KR', 'coun': 'Korea (Republic of)' }, { 'code': 'KW', 'coun': 'Kuwait' },
   { 'code': 'KG', 'coun': 'Kyrgyzstan' }, { 'code': 'LA', 'coun': "Lao People's Democratic Republic" },
   { 'code': 'LV', 'coun': 'Latvia' }, { 'code': 'LB', 'coun': 'Lebanon' },
   { 'code': 'LS', 'coun': 'Lesotho' }, { 'code': 'LR', 'coun': 'Liberia' },

@@ -231,11 +231,11 @@ export default [
       {
         name: 'r_039',
         path: '/manage/status_remotecontrol'
-      },
-      {
-        name: 'r_089',
-        path: '/manage/status_license'
       }
+      // {
+      //   name: 'r_089',
+      //   path: '/manage/status_license'
+      // }
     ]
   }
 ]

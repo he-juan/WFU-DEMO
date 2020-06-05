@@ -5,8 +5,26 @@ import { $t, formatMessage } from '@/Intl'
 import { connect } from 'react-redux'
 import { setWholeLoading } from '@/store/actions'
 import { injectIntl } from 'react-intl'
+import { detect } from 'detect-browser'
 
 let SHARE_SCREEN = {}
+
+const BROWSER = detect()
+// {name: "chrome", version: "80.0.3987", os: "Linux", type: "browser"}
+
+const isBrowserEnable = () => {
+  let name = BROWSER.name
+  let version = parseInt(BROWSER.version)
+  if (
+    (name === 'chrome' && version >= 72) ||
+    (name === 'opera' && version >= 60) ||
+    (name === 'firefox' && version >= 60)
+    // (name === 'safari') // 不支持但是计划支持，暂开放
+  ) {
+    return true
+  }
+  return false
+}
 
 const loadRTCjs = () => new Promise((resolve, reject) => {
   let scriptEl = document.createElement('script')
@@ -137,7 +155,11 @@ class ScreenShare extends Component {
           isCalled: true,
           isCalling: false
         })
-        message.error(res.codeType)
+        if (res.codeType === 301) {
+          message.error($t('m_268'))
+        } else {
+          message.error('Error: ' + res.codeType)
+        }
         this.errorCode = res.codeType
       } else {
         this.setState({
@@ -181,12 +203,16 @@ class ScreenShare extends Component {
   }
 
   handleClick = () => {
-    if (window.location.protocol !== 'https:') {
-      return message.error($t('m_262')) // 共享屏幕功能需要开启https.
+    if (!isBrowserEnable()) {
+      return Modal.info({
+        title: $t('m_268')
+      }) // 当前版本浏览器可能不支持屏幕共享功能
     }
 
-    if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) {
-      return message.error($t('m_268')) // 当前版本浏览器可能不支持屏幕共享功能，推荐使用最新版本的chrome或火狐浏览器。
+    if (window.location.protocol !== 'https:') {
+      return Modal.info({
+        title: $t('m_262')
+      })
     }
 
     let { isSharing, rtc_enabled, isCalled, isCalling } = this.state
