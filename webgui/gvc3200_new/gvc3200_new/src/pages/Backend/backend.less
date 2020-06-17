@@ -1,0 +1,427 @@
+@import '~@/assets/base.less';
+.backend-header {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  background: rgb(34, 38, 46);
+}
+
+.backend-sider {
+  background: #2c313d;
+  .ant-menu-dark .ant-menu-inline.ant-menu-sub {
+    background: #2c313d;
+    box-shadow: none;
+  }
+}
+
+.backend-content {
+  background: #f3f7fa;
+  padding: 10px 15px;
+  margin: 0;
+  h3 {
+    font-size: 18px;
+    height: 36px;
+    line-height: 36px;
+    text-indent: 25px;
+    color: #55627b;
+    font-weight: bold
+  }
+  .backend-main {
+    background:#fff;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .bak-sub-title {
+    margin: 16px 0 16px 0;
+    text-indent: 12px;
+    font-size: 15px;
+    color: #55627b;
+    font-weight: bold;
+    border-left: 3px solid #3d77ff ;
+    line-height: 1;
+  }
+  // 二级标题(以太网设置里会用到)
+  .bak-sub-title-1 {
+    color: #3d77ff;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 317px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+}
+
+.backend-copyright {
+  text-align: center;
+  line-height: 50px;
+  font-size: 12px;
+  height: 40px;
+}
+
+/* 一些全局reset*/
+
+
+.ant-form {
+  // overflow: auto;
+  padding-top: 10px;
+}
+.bak-form-item { 
+  // 全局输入框
+  .ant-input, .ant-select-selection {
+    line-height: 32px;
+    border-radius: 2px;
+    width: 338px;
+    color: #0d1017;
+    font-size: 14px;
+    &:hover {
+      border-color:#6b98ff;
+    }
+  }
+  textarea.ant-input {
+    line-height: 1.2;
+  } 
+  .ant-input {
+    padding: 6px 7px;
+  }
+
+
+  .ant-select-selection {
+    padding: 0 0;
+    .ant-select-arrow {
+      font-size: 10px;
+      margin-top: -5px;
+    }
+  }
+
+  .ant-select-selection__rendered {
+    margin-left: 8px;
+  }
+
+
+
+
+  // 错误提示
+  .ant-form-explain, .ant-form-extra {
+    min-height: 16px;
+    font-size: 12px;
+    line-height: 16px;
+    max-width: 328px;
+  }
+
+
+
+
+  // 子form item
+  .sub-form-item {
+    display: inline-block !important;
+    margin-bottom: 0;
+  }
+
+
+
+  // 提交按钮
+  .sub-btn {
+    width: 100px;
+    height: 30px;
+    background-color: #3d77ff;
+    border-color: #3d77ff;
+    color: #fff;
+    margin-top: 20px;
+    &:hover, &:focus {
+      background-color: #3d77ff;
+      border-color: #3d77ff;
+      color: #fff;
+    }  
+  }
+  
+
+
+
+  // 上传按钮
+  .ant-upload {
+    .ant-btn {
+      height: 30px;
+      line-height: 28px;
+      &:hover, &:focus {
+        color: #3d77ff;
+        background-color: #fff;
+        border-color: #3d77ff;
+      }
+    }
+  }
+
+
+
+
+  // slider
+  .ant-slider {
+    .ant-slider-dot-active {
+      border-color: #b1c9ff;
+    }
+    .ant-slider-track {
+      background-color: #b1c9ff;
+    }
+    .ant-slider-handle {
+      border: solid 2px #b1c9ff;
+    }
+    &:hover {
+      .ant-slider-track {
+        background-color: #b1c9ff;
+      }
+    }
+  }
+
+  // ip输入框
+  &.ip-input-form-item {
+    em {
+      font-style: normal;
+      padding: 0 1px;    
+      position: relative;
+      top: 8px;
+    }
+    .sub-form-item {
+      width: 80px;
+    }
+    .ant-input {
+      width: 80px;
+      text-align: center;
+    }
+    .ant-form-explain {
+      width: 100%;
+    }
+  }
+
+  // 日期选择
+  .ant-calendar-picker {
+    .ant-calendar-picker-input {
+      width: 170px;
+    }
+  }
+  // 时间选择
+  .ant-time-picker {
+    .ant-time-picker-input {
+      color: #0d1017;
+      border-radius: 2px;
+      padding: 6px 7px;
+    }
+  }
+
+  // 上传按钮一点小问题 绝对定位不准确
+  .upload-btn {
+    display: inline-block;
+  }
+
+  .ant-checkbox-group {
+    max-width: 340px;
+    line-height: 2;
+    label {
+      font-size: 12px;
+    }
+  }
+}
+
+
+
+// tooltip
+.ant-tooltip {
+  &.white {
+    .ant-tooltip-arrow {
+      border-top-color: #fff;
+      &::before {
+        background-color: #fff;
+      }
+    }
+    .ant-tooltip-inner {
+      color: #10131a;
+      background: #fff;
+    }
+  }
+  .ant-tooltip-inner {
+    font-size: 12px !important;
+  }
+}
+
+// 下拉框
+.ant-select-dropdown-menu-item {
+  font-size: 12px;
+  padding-left: 8px;
+}
+.ant-select-dropdown-menu-item-active, .ant-select-dropdown-menu-item:hover {
+  background:#f0f4ff !important;
+}
+.ant-select-dropdown-menu-item-selected, .ant-select-dropdown-menu-item-selected:hover {
+  background:#f7f7f7 !important;
+}
+
+// 穿梭框
+.form-item-transfer {
+  .ant-transfer-list {
+    width: 190px;
+    height: 206px;
+  }
+  .ant-checkbox-wrapper {
+    margin-right: 0;
+    & + span {
+      padding-left: 8px;
+    }
+  }
+  .ant-transfer-operation {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 206px;
+    .ant-btn {
+      width: 40px;
+      height: 30px;
+      color: #fff;
+      background-color: #3d77ff;
+      border-color: #3d77ff;
+      &:disabled {
+        color: #a7b1bc;
+        background-color: #e8ecf0;
+        border-color: transparent;
+      }
+    }
+  }
+
+  .ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled):hover {
+    cursor: pointer;
+    background-color: #f0f4ff;
+  }
+  .ant-transfer-list-content > .LazyLoad {
+    -webkit-animation: transferHighlightIn2 1s;
+            animation: transferHighlightIn2 1s;
+  }
+
+  .ant-checkbox-indeterminate .ant-checkbox-inner {
+    background-color: #3d77ff;
+    border-color: #3d77ff;
+    &::after {
+      content: ' ';
+      transform: scale(1);
+      position: absolute;
+      left: 2px;
+      top: 5px;
+      width: 8px;
+      height: 1px;
+      border-top: 2px solid #fff;
+    }
+  }
+  .ant-transfer-list-body-not-found {
+    display: none;
+  }
+}
+
+@-webkit-keyframes transferHighlightIn2 {
+  0% {
+    background: #f0f4ff;
+  }
+  100% {
+    background: transparent;
+  }
+}
+@keyframes transferHighlightIn2 {
+  0% {
+    background: #f0f4ff;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+
+
+// 弹窗
+.ant-modal {
+
+  .ant-btn-primary:not('disabled') {
+    &:hover {
+      color: #fff;
+      background-color: #3d77ff !important;
+      border-color: #3d77ff !important;
+    }
+  }
+}
+.ant-modal-confirm-body {
+  & > .anticon {
+    color: #3d77ff !important;
+    font-size: 20px !important;
+  }
+  .ant-modal-confirm-title {
+    color: rgba(0, 0, 0, 0.65) !important;
+    font-size: 14px !important;
+  }
+  
+}
+
+// 全局的Spin 样式修改, 应用以及部分上传会用到
+.whole-screen-spin {
+  & > div > .ant-spin {
+    bottom: 0;
+    margin: auto;
+    z-index: 11;
+    .ant-spin-dot {
+      font-size: 50px;
+      margin: -25px;
+      color: #fff;
+      z-index: 11;
+    }
+    .ant-spin-text {
+      padding-top: 45px;
+      color: #fff;
+      font-size: 16px;
+      text-shadow: none;
+    }
+  }
+  & > .ant-spin-blur {
+    opacity: 1;
+  }
+  & > .ant-spin-blur::after {
+    background: #1a1f2a;
+    opacity: 0.5;
+  }
+}
+// 为了防止闪烁添加的spin
+.common-loading-spin {
+  .ant-spin-blur {
+    opacity: 0;
+  }
+  .ant-spin-dot {
+    display: none;
+  }
+}
+
+
+// 表格分页器居中
+// 调整 table 自带的 pagination 为 默认居中
+.ant-table + .ant-table-pagination.ant-pagination {
+  margin: 20px 0;
+  float: none;
+  text-align: center;
+}
+
+
+/*路由动画*/
+.ani-page-enter {
+  opacity: 0;
+}
+
+.ani-page-enter-active {
+  opacity: 1;
+  transition: opacity 1200ms;
+}
+
+.ani-page-exit {
+  opacity: 1;
+}
+
+.ani-page-exit-active {
+  opacity: 0;
+  transition: opacity 1200ms;
+}
+
+

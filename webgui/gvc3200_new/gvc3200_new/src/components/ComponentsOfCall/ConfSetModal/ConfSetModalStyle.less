@@ -1,0 +1,73 @@
+.conf-setmodal {
+  .statecolor3{
+    color: #4bd66e
+  }
+  .statecolor2{
+    color: #ff424e
+  }
+  .statecolor1{
+    color: #3d77ff
+  }
+  .statecolor0{
+    color: #8598b9
+  }
+  .ant-modal-title {
+    text-align: center;
+  }
+  .ant-modal-body {
+    max-height: 700px;
+    overflow-y: auto;
+    & >.ant-form {
+      padding-top: 0;
+      & > .ant-form-item {
+        margin-bottom: 10px;
+        & > .ant-form-item-label {
+          width: 25%;
+          float: left;
+          &> label:after {
+            content: '';
+          }
+        }
+        & > .ant-form-item-control-wrapper {
+          width: 75%;
+          float: left;
+          .ant-form-item {
+            display: inline-block;
+            margin-bottom: 0;
+          }
+        }
+        .ant-calendar-picker {
+          width: 100%;
+        }
+        .memberlist {
+          width: 525px;
+          background: #f7fafc;
+          padding: 10px 20px;
+          .memberrow {
+            overflow: hidden;
+            line-height: 33px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .memberinfo {
+              width: 160px;
+              font-size: 13px;
+              color: #34363c;
+              line-height: 1.5;
+              div:nth-child(2) {
+                color: #5e6c85;
+              }
+              & + .icons {
+                cursor: pointer;
+              }
+            }
+            .memberEmaiBox {
+              width: 220px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

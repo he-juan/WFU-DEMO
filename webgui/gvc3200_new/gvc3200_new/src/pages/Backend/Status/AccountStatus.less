@@ -1,0 +1,44 @@
+@import '~@/assets/base.less';
+
+.accounts-table {
+  box-shadow: 0 0 2px 2px #e6ebef;
+  width: calc(100% + 50px);
+  margin-left: -25px;
+  margin-right: -25px;
+  table-layout: fixed;
+  tbody {
+    box-shadow: 0 0 2px 2px #e6ebef;
+    tr:nth-child(2n+1) {
+      background-color: #fafbfc;
+    }
+  }
+  
+  th , td {
+    height: 44px;
+    padding: 0 30px;
+    .ellipsis;
+    &:nth-child(1) {
+      width: 30%;
+    }
+    &:nth-child(2) {
+      width: 25%;
+    }
+    &:nth-child(3) {
+      width: 25;
+    }
+    &:last-child {
+      width: 20;
+      text-align: right;
+    }
+  }
+  th {
+    color: #55627b;
+  }
+  td {
+    color: #0d1017;
+  }
+  .icon-acctstatus {
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+}
