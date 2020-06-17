@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { setWholeLoading } from '@/store/actions'
 import { injectIntl } from 'react-intl'
 import { detect } from 'detect-browser'
+import URLBar from './urlbar.png'
 
 let SHARE_SCREEN = {}
 
@@ -18,7 +19,8 @@ const isBrowserEnable = () => {
   if (
     (name === 'chrome' && version >= 72) ||
     (name === 'opera' && version >= 60) ||
-    (name === 'firefox' && version >= 60)
+    (name === 'firefox' && version >= 60) ||
+    (name === 'edge-chromium' && version >= 79)
     // (name === 'safari') // 不支持但是计划支持，暂开放
   ) {
     return true
@@ -157,6 +159,8 @@ class ScreenShare extends Component {
         })
         if (res.codeType === 301) {
           message.error($t('m_268'))
+        } else if (res.codeType === 488) {
+          message.error($t('m_272'))
         } else {
           message.error('Error: ' + res.codeType)
         }
@@ -180,11 +184,26 @@ class ScreenShare extends Component {
 
       if (res.codeType == 200) {
       } else {
-        if (res.codeType == 104) {
+        if (res.codeType == 403) {
           this.setState({
             isSharing: false
           })
+          if (res.rejectAuthorizationTip === 'true') { // 火狐需要开启权限
+            Modal.info({
+              icon: null,
+              width: 660,
+              title: <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 16 }}>{$t('m_274')}</div>,
+              content: <div style={{ textAlign: 'center', paddingTop: 20, fontSize: 12 }}><p>{$t('m_275')}</p><img src={URLBar} alt='demo'/></div>
+            })
+          }
         }
+        if (res.codeType == 408) {
+          this.setState({
+            isSharing: false
+          })
+          message.error($t('m_271'))
+        }
+
         this.handleStopShare()
       }
     })
@@ -229,7 +248,11 @@ class ScreenShare extends Component {
 
     // rtc_enabled 根据 call返回是否200确定共享屏幕功能是否可用， 如果不可用 报错返回
     if (!rtc_enabled) {
-      message.error(this.errorCode)
+      if (this.errorCode === 488) {
+        message.error($t('m_272'))
+      } else {
+        message.error(this.errorCode)
+      }
       return false
     }
 

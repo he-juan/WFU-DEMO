@@ -134,7 +134,7 @@ class AcctConfig extends Component {
           </InputItem>
           */}
           <List.Item
-            extra={<Switch checked={!!values.P271}/>}
+            extra={<Switch checked={!!parseInt(values.P271)}/>}
             placeholder={$t('c_062')}
             onChange={(e) => this.updateValues({ P271: Number(e.target.checked) })}
           >

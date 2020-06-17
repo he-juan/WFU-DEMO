@@ -5,7 +5,7 @@ import { Form, Button, Modal, message, Select } from 'antd'
 import FormCommon from '@/components/FormCommon'
 import FormItem, { SelectItem } from '@/components/FormItem'
 import { getOptions } from '@/template'
-import { history } from '@/App'
+// import { history } from '@/App'
 import { getLinesInfo } from '@/store/actions'
 import API from '@/api'
 import { $t, $fm } from '@/Intl'
@@ -130,7 +130,8 @@ class Power extends FormCommon {
     if (time === 'now') {
       // now的情况下 把 type 参数 存入 cookie， 需要调 ping 再跳转到指定页面执行
       Cookie.set('reboottype', calling ? value[1] : value[0], { path: '/', expires: 10 })
-      history.push('/reboot')
+      // history.push('/reboot')
+      window.location.href = '/reboot'
     } else if (time === 'later') {
       // later情况下 直接发请求，由于 重启操作 无法接受response，所以直接执行 操作成功
       API.sysReboot(value[0])

@@ -212,3 +212,60 @@ export const checkVeriCert = (info) => {
     url
   })
 }
+
+/**
+ * 删除证书（用户证书）
+ */
+export const deleteUserCert = (certname, use) => {
+  let url = '/manager?action=deletecert&certname=' + encodeURIComponent(certname) + '&use=' + use
+  return _axios({
+    method: 'get',
+    url
+  })
+}
+
+/**
+ * 上传证书
+ */
+
+export const uploadAndInstallCert = (file) => {
+  let url = '/upload?type=vericert'
+
+  return _axios({
+    method: 'post',
+    url,
+    data: file,
+    commitType: 'form'
+  })
+}
+
+/**
+ * 获取 getvpncerts
+ */
+export const getVpnCerts = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getvpncerts'
+  })
+}
+
+/**
+ * 获取 getwificerts
+ */
+export const getWifiCerts = () => {
+  return _axios({
+    method: 'get',
+    url: '/manager?action=getwificerts'
+  })
+}
+
+/**
+ * 安装证书
+ */
+export const installCert = (values) => {
+  let url = '/manager?action=installcert&certname=' + encodeURIComponent(values['certname']) + '&ext=' + values['ext'] + '&use=' + values['certuse'] + '&certpwd=' + (values['certpwd'] ? encodeURIComponent(values['certpwd']) : '')
+  return _axios({
+    method: 'get',
+    url
+  })
+}

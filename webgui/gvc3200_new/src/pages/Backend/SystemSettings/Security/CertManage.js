@@ -2,7 +2,7 @@ import React from 'react'
 import { Form } from 'antd'
 import moment from 'moment'
 import FormCommon from '@/components/FormCommon'
-import { SipCert, CustomCert } from './Certs/'
+import { SipCert, CustomCert, ClientCert } from './Certs/'
 import API from '@/api'
 import { $t } from '@/Intl'
 
@@ -61,6 +61,8 @@ class CertManage extends FormCommon {
       <Form>
         <div className='bak-sub-title'><s></s>{$t('sys_sec_015')}</div>
         <SipCert {...this.props} {...this.state}/>
+        <div className='bak-sub-title'><s></s>{$t('c_191')}</div>
+        <ClientCert {...this.props} />
         <div className='bak-sub-title'><s></s>{$t('sys_sec_018')}</div>
         <CustomCert {...this.props} {...this.state}/>
       </Form>

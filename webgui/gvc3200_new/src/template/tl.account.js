@@ -742,7 +742,7 @@ export default {
                 // 启用演示
                 { lang: 'acct_094', p: 'P26501' },
                 // 初始INVITE携带媒体信息
-                { lang: 'acct_095', p: 'PsendPreMode_5' },
+                { lang: 'acct_095', p: 'PsendPreMode_5', denyModel: 'GVC3220' },
                 // 演示H.264 视频大小
                 { lang: 'acct_096', p: 'P2876' },
                 // 演示H.264 Profile类型

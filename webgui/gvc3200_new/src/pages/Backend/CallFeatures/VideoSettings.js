@@ -40,7 +40,7 @@ class VideoSettings extends FormCommon {
     this.initFormValue(this.options).then(data => {
       // data.P921 = data.P921 || '1'
       setFieldsValue(data)
-      this.handlePreImgSizeChange(data.P51976)
+      this.setPreVbrateOptions(data.P51976)
     })
   }
 

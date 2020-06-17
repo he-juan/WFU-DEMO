@@ -146,6 +146,8 @@ export default {
   sys_sec_021: ' Maximum TLS Version',
   sys_sec_021_tip: 'Configures the maximum TLS version supported by the phone.',
 
+  sys_sec_022: 'Add user certificates',
+  sys_sec_022_tip: 'Click "Upload" to upload user certificate file from PC. The certificate file should be ".crt", ".cer", ".pem", ".p12", or ".pfx" format.',
 
   /* Peripheral */
   sys_per_001: 'Hdmi 1 Out Resolution',
@@ -161,7 +163,7 @@ export default {
   sys_per_004_tip: 'Specifies the moving speed and zoom speed for the camera. "1" is slowest and "16" is fastest. The default setting is "8".',
 
   sys_per_005: 'Initial Position',
-  sys_per_005_tip: 'Specifies the initial position of the camera when the device is powered up.Default: The camera moves to it\'s default position after bootup.Preset 1: The camera moves to the preset 1 after bootup. Preset 1 must be set up before reboot.Latest Position: After bootup, the camera moves to the latest position before reboot. The default setting is Default.',
+  sys_per_005_tip: 'Specifies the initial position of the camera when the device is powered up.Default: The camera moves to it\'s default position after bootup.Preset 1: The camera moves to the preset 1 after bootup. Preset 1 must be set up before reboot. Position when power off: After bootup, the camera moves to the latest position before reboot. The default setting is Default.',
 
   sys_per_006: 'HDMI Sound Output Control',
   sys_per_006_tip: 'Set HDMI sound output. When only HDMI 1 is connected, combined wirh“Audio Device” configuration, device supports sound output from HDMI 1. <br />Note: HDMI sound output control takes effect only when sound output set in Audio Device is HDMI.',

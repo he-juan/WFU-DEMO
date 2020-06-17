@@ -61,7 +61,7 @@ class PeripheralStatus extends Component {
       lan,
       di_in
     } = this.state
-    const ths = ['LINE IN', 'LINE OUT', 'HDMI IN', 'HDMI OUT', 'SD', 'USB1', 'USB2', 'MEDIA', 'LAN', 'DI-IN 48V']
+    const ths = ['LINE IN', 'LINE OUT', 'HDMI IN', 'HDMI OUT', 'USB', 'SD', 'USB', 'DI-IN 48V', 'MEDIA', 'LAN']
 
     return (
       <div style={{ paddingTop: 20 }}>
@@ -69,9 +69,9 @@ class PeripheralStatus extends Component {
           <thead>
             <tr>
               {
-                ths.map(item => {
+                ths.map((item, i) => {
                   return (
-                    <th key={item}>{item}</th>
+                    <th key={i}>{item}</th>
                   )
                 })
               }
@@ -93,20 +93,20 @@ class PeripheralStatus extends Component {
                 </div>
               </td>
               <td>
+                <span className={'icons icon-usb' + this.renderCName(usb2)}></span>
+              </td>
+              <td>
                 <span className={'icons icon-sd' + this.renderCName(sd)}></span>
               </td>
               <td>
                 <span className={'icons icon-usb' + this.renderCName(usb1)}></span>
               </td>
               <td>
-                <span className={'icons icon-usb' + this.renderCName(usb2)}></span>
+                <span className={'icons icon-dicn' + this.renderCName(di_in)}></span>
               </td>
               <td colSpan='2'>
                 <span className={'icons icon-jack' + this.renderCName(media)}></span>
                 <span style={{ marginLeft: 40 }} className={'icons icon-jack' + this.renderCName(lan)}></span>
-              </td>
-              <td>
-                <span className={'icons icon-dicn' + this.renderCName(di_in)}></span>
               </td>
             </tr>
           </tbody>
