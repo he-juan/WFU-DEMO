@@ -3,659 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="55d1e491-ad42-4c89-9d58-dda241af329b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/.babelrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/.eslintignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/.eslintrc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/build.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/env.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/ie11.polyfill.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/ie9.polyfill.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/jest/cssTransform.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/jest/fileTransform.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/modules.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/paths.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/webpack.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/config/webpackDevServer.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/jsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/public/gsRTC.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/public/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/public/opensans-regular-webfont.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/public/quickconf.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/scripts/build.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/scripts/start.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/scripts/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/Intl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.callfeature.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.devicecontrol.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/api.system.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/base.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/common.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/icons/icon.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/icons/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.callFeature.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.deviceControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/en.systemSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_en/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.callFeature.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.deviceControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/assets/locales/locales_zh/zh.systemSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/ApplyBtn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/DNDBtn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/RemoteControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/ScreenShare.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/ScreenShare.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/UserMenu.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/bakheader.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakHeader/urlbar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakNav/baknav.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakNav/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/BakNav/menulist.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ColorPicker/colorPick.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ColorPicker/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ConfCallModal/ConfCallModal.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ConfCallModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ConfSetModal/ConfSetModalStyle.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ConfSetModal/ScheduleTools.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ConfSetModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ContactsEditModal/ContactsEditModal.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ContactsEditModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ContactsSelectList/ContactsSelectList.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/ContactsSelectList/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/CallLogsTab.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/ContactsTab.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/EpContactsBookTab.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/GroupMembersModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/InviteMemberModalStyle.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ComponentsOfCall/TIP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ConfControl/MiniScreen.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ConfControl/MiniScreen.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ConfControl/RegularScreen.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ConfControl/RegularScreen.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ConfControl/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/DefaultAcctModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/EPTZControl/EPTZControl.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/EPTZControl/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FirmwareInstallTip/FirmwareInstallTip.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FirmwareInstallTip/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormCommon/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/CheckboxItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/InputItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/PwInputItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/RadioGroupItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/SelectItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/SliderItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/formitem.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/FormItem/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/LocalSelect/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/LocalSelect/localselect.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/NoData/NoData.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/NoData/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/PwInput/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/RemoteControl/RemoteControl.module.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/RemoteControl/img/close_pressed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/RemoteControl/img/close_unpressed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/RemoteControl/img/remote_control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/RemoteControl/img/remote_control_bg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/RemoteControl/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/Routes/AuthRoute.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/ScrollPage/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/SearchBox/SearchBox.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/SearchBox/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/TabPages/Tabs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/TabPages/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/TabPages/tabpages.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/Transfer/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/Transfer/item.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/Transfer/list.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/Transfer/operation.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/Transfer/search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/WebsocketMessage/InitWebsocket.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/WebsocketMessage/Observer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/components/WebsocketMessage/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/mock/mock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/H323/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/H323/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/H323/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/H323/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/SIP/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/SIP/CallSettings.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/SIP/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/SIP/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/SIP/NetworkSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/SIP/SIPSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/SIP/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/SIPSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Account/VideoConf/index.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/BroadSoftDir/NetworkDir.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/BroadSoftDir/NetworkDir.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/BroadSoftDir/XSIServiceSet.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/BroadSoftDir/XSIServiceSet.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/BroadSoftDir/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/LDAPContacts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/RecordingManage/AudioList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/RecordingManage/RecordingConfig.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/RecordingManage/VideoList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/RecordingManage/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/RecordingManage/index.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/App/ThirdPartyApp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Call/Call.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Call/LogAndContacts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Call/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/CallHistory/CallHistory.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/CallHistory/CallHistoryList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/CallHistory/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ContactsList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ContactsTab.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/DownloadModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ExportModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ImportModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/GroupEditModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/GroupList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/GroupTab.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Contacts/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Schedule/Invited.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Schedule/InvitedConfList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Schedule/Local.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Schedule/LocalConfList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Schedule/Schedule.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Call/Schedule/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/CallFeatures/AudioControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/CallFeatures/CallFeatures.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/CallFeatures/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/CallFeatures/SiteName.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/CallFeatures/VideoSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/DeviceControl/CameraControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/DeviceControl/CameraControl.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/DeviceControl/PresetSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/DeviceControl/PresetSettings.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/DeviceControl/RemoteControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Debug.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Debug.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/DeveloperMode.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Logcat.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/NSLookup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Ping.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Remotediagnosis.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Syslog.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Traceroute.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Traceroute.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/AdvancedSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/ConfigFile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/Firmware.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/Provision.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Advanced.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Ethernet.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Openvpn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Openvpn.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiAdd.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiAdvanced.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiBasic.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiBasic.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Status/AccountStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Status/AccountStatus.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Status/NetworkStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Status/PeripheralStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Status/PeripheralStatus.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Status/RemoteControlStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/Status/SystemInfo.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/Camera.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/HDMI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/Media.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/WirelessMic.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Power.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/CertManage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/Certs.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/ClientCert.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/CustomCert.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/SipCert.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/SIPTLS.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/ScreenLock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/UserInfoManage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/WebSSHAccess.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/Security/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/TR069.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/Language.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/Language.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/Time.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/backend.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/backendRoutes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Backend/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/License/License.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/License/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Login/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Login/login.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Reboot/Reboot.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/pages/Reboot/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/rewriteAntdIcon.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/serviceWorker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/actionTypes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/actions/actions.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/actions/actions.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/actions/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/reducers/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/reducers/reducers.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/store/reducers/reducers.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.callFeatures.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.deviceControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/tl.system.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/template/说明.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/utils/deepClone.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/utils/rebootNotify.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/utils/request.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/utils/showp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/utils/tools.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/ContextProvider.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/Intl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/QuickConfigApp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/api/_axios.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/api/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/img/eth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/img/eth_active.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/img/qrcode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/img/qrcode_active.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/img/wifi.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/img/wifi_active.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/locales/en.locales.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/assets/locales/zh.locales.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/common.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/components/PalaceInput/PalaceInput.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/components/PalaceInput/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/components/SlideRoute/SlideRoute.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/components/SlideRoute/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Account/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Language/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Network/AdvancedSet.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Network/Ipv4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Network/Ipv6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Network/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Network/network.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/RefreshQrCode/RefreshQrCode.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/RefreshQrCode/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Result/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/ScreenLock/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/ScreenLock/screenlock.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/pages/Timezone/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src_quickconfig/validators.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/yarn.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/webgui/gvc3200_new/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/public/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/public/opensans-regular-webfont.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/public/quickconf.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/scripts/build.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/scripts/start.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/scripts/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/Intl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.callfeature.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.devicecontrol.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/api.system.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/api/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/base.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/common.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/icons/icon.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/icons/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.callFeature.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.deviceControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/en.systemSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_en/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.callFeature.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.deviceControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/assets/locales/locales_zh/zh.systemSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ApplyBtn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/DNDBtn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/RemoteControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/UserMenu.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/bakheader.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakNav/baknav.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakNav/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakNav/menulist.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ColorPicker/colorPick.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ColorPicker/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ConfCallModal/ConfCallModal.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ConfCallModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ConfSetModal/ConfSetModalStyle.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ConfSetModal/ScheduleTools.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ConfSetModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ContactsEditModal/ContactsEditModal.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ContactsEditModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ContactsSelectList/ContactsSelectList.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/ContactsSelectList/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/CallLogsTab.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/ContactsTab.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/EpContactsBookTab.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/GroupMembersModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/InviteMemberModalStyle.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/InviteMemberModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ComponentsOfCall/TIP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ConfControl/MiniScreen.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ConfControl/MiniScreen.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ConfControl/RegularScreen.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ConfControl/RegularScreen.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ConfControl/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/DefaultAcctModal/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/EPTZControl/EPTZControl.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/EPTZControl/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FirmwareInstallTip/FirmwareInstallTip.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FirmwareInstallTip/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormCommon/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/CheckboxItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/InputItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/PwInputItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/RadioGroupItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/SelectItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/SliderItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/formitem.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/FormItem/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/LocalSelect/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/LocalSelect/localselect.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/NoData/NoData.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/NoData/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/PwInput/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/RemoteControl/RemoteControl.module.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/RemoteControl/img/close_pressed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/RemoteControl/img/close_unpressed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/RemoteControl/img/remote_control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/RemoteControl/img/remote_control_bg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/RemoteControl/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/Routes/AuthRoute.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/ScrollPage/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/SearchBox/SearchBox.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/SearchBox/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/TabPages/Tabs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/TabPages/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/TabPages/tabpages.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/Transfer/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/Transfer/item.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/Transfer/list.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/Transfer/operation.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/Transfer/search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/WebsocketMessage/InitWebsocket.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/WebsocketMessage/Observer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/components/WebsocketMessage/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/mock/mock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/H323/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/H323/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/H323/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/H323/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/IPVideoTalk/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/SIP/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/SIP/CallSettings.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/SIP/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/SIP/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/SIP/NetworkSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/SIP/SIPSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/SIP/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/BlueJeans/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/CallSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/CodecSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/SIPSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/Zoom/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Account/VideoConf/index.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/BroadSoftDir/NetworkDir.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/BroadSoftDir/NetworkDir.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/BroadSoftDir/XSIServiceSet.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/BroadSoftDir/XSIServiceSet.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/BroadSoftDir/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/LDAPContacts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/RecordingManage/AudioList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/RecordingManage/RecordingConfig.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/RecordingManage/VideoList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/RecordingManage/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/RecordingManage/index.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/App/ThirdPartyApp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Call/Call.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Call/LogAndContacts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Call/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/CallHistory/CallHistory.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/CallHistory/CallHistoryList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/CallHistory/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ContactsList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ContactsTab.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/DownloadModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ExportModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/ImportModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/ContactsTab/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/GroupEditModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/GroupList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/GroupTab.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/GroupTab/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Contacts/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Schedule/Invited.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Schedule/InvitedConfList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Schedule/Local.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Schedule/LocalConfList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Schedule/Schedule.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Call/Schedule/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/CallFeatures/AudioControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/CallFeatures/CallFeatures.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/CallFeatures/GeneralSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/CallFeatures/SiteName.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/CallFeatures/VideoSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/DeviceControl/CameraControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/DeviceControl/CameraControl.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/DeviceControl/PresetSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/DeviceControl/PresetSettings.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/DeviceControl/RemoteControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Debug.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Debug.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/DeveloperMode.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Logcat.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/NSLookup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Ping.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Remotediagnosis.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Syslog.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Traceroute.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/Traceroute.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Troubleshooting/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/AdvancedSettings.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/ConfigFile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/Firmware.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/Provision.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Maintenance/Upgrade/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Advanced.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Ethernet.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Openvpn.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Openvpn.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiAdd.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiAdvanced.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiBasic.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/WifiBasic.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/NetworkSettings/Wifi/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Status/AccountStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Status/AccountStatus.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Status/NetworkStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Status/PeripheralStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Status/PeripheralStatus.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Status/RemoteControlStatus.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/Status/SystemInfo.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/Camera.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/HDMI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/Media.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/WirelessMic.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Peripheral/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Power.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/CertManage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/Certs.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/CustomCert.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/SipCert.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/Certs/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/SIPTLS.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/ScreenLock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/UserInfoManage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/WebSSHAccess.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/Security/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/TR069.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/Language.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/Language.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/Time.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/SystemSettings/TimeAndLang/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/backend.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/backendRoutes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Backend/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/License/License.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/License/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Login/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Login/login.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Reboot/Reboot.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/pages/Reboot/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/rewriteAntdIcon.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/serviceWorker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/actionTypes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/actions/actions.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/actions/actions.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/actions/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/reducers/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/reducers/reducers.call.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/store/reducers/reducers.common.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.callFeatures.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.deviceControl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.maintenance.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.network.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/tl.system.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/template/说明.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/utils/deepClone.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/utils/rebootNotify.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/utils/request.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/utils/showp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src/utils/tools.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/ContextProvider.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/Intl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/QuickConfigApp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/api/_axios.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/api/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/img/eth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/img/eth_active.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/img/qrcode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/img/qrcode_active.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/img/wifi.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/img/wifi_active.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/locales/en.locales.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/assets/locales/zh.locales.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/common.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/components/PalaceInput/PalaceInput.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/components/PalaceInput/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/components/SlideRoute/SlideRoute.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/components/SlideRoute/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Account/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Language/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Network/AdvancedSet.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Network/Ipv4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Network/Ipv6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Network/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Network/network.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/RefreshQrCode/RefreshQrCode.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/RefreshQrCode/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Result/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/ScreenLock/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/ScreenLock/screenlock.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/pages/Timezone/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgui/gvc3200_new/src_quickconfig/validators.js" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -678,11 +25,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webpackDevServer.config.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="webpackDevServer.config.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
+            <state relative-caret-position="567">
               <caret line="108" column="73" selection-start-line="108" selection-start-column="73" selection-end-line="108" selection-end-column="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScreenShare.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3104">
+              <caret line="127" column="28" lean-forward="true" selection-start-line="127" selection-start-column="28" selection-end-line="127" selection-end-column="28" />
+              <folding>
+                <element signature="e#28#68#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -755,6 +114,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -773,17 +133,47 @@
               <item name="webgui" type="462c0819:PsiDirectoryNode" />
               <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="WFU-DEMO" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WFU-DEMO" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WFU-DEMO" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WFU-DEMO" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WFU-DEMO" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WFU-DEMO" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WFU-DEMO" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WFU-DEMO" type="462c0819:PsiDirectoryNode" />
+              <item name="webgui" type="462c0819:PsiDirectoryNode" />
+              <item name="gvc3200_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="BakHeader" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/workspace/service/webgui/gvc3200_new/public/index.html" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="E:/IPVT_WebRTC_Client_Base" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -828,25 +218,26 @@
       <workItem from="1589356383783" duration="17383000" />
       <workItem from="1589507032736" duration="16998000" />
       <workItem from="1589762850409" duration="14026000" />
-      <workItem from="1592360842157" duration="2482000" />
+      <workItem from="1592360842157" duration="3304000" />
+      <workItem from="1595498584599" duration="615000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70965000" />
+    <option name="totallyTimeSpent" value="72402000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11801897" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24604847" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.50052685" side_tool="true" weight="0.7461874" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.49947312" visible="true" weight="0.3812636" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49947312" visible="true" weight="0.3769063" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -861,19 +252,19 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1264489" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.261723" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -1209,13 +600,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3699">
-          <caret line="143" selection-start-line="143" selection-end-line="144" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/public/gsRTC.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="145152">
@@ -1223,13 +607,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/gvc3200_new/src/api/index.js" />
     <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/config/webpackDevServer.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
+        <state relative-caret-position="567">
           <caret line="108" column="73" selection-start-line="108" selection-start-column="73" selection-end-line="108" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgui/gvc3200_new/src/components/BakHeader/ScreenShare.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3104">
+          <caret line="127" column="28" lean-forward="true" selection-start-line="127" selection-start-column="28" selection-end-line="127" selection-end-column="28" />
+          <folding>
+            <element signature="e#28#68#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
