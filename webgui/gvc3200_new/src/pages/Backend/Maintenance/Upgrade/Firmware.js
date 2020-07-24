@@ -154,6 +154,7 @@ class Firmware extends FormCommon {
 
   handleSubmit = () => {
     const { validateFields } = this.props.form
+    this.ShouldReboot = false
     validateFields((err, values) => {
       if (!err) {
         const { P6767, P192 } = values

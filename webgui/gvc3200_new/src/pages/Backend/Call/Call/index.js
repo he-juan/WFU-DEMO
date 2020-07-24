@@ -508,7 +508,6 @@ class Call extends Component {
             dataSource.length > 0 && <LogAndContacts dataSource={dataSource} onAdd={(item) => this.handleAddMemFromList(item)} filterTags={tagsInputValue}/>
           }
         </div>
-        <video id='localPresentVideo' width='450px' height='350px'></video>
       </div>
     )
   }
