@@ -79,7 +79,7 @@ class GeneralSettings extends FormCommon {
           {...options['P47']}
           gfdOptions={{
             rules: [
-              this.checkaddressPath()
+              // this.checkaddressPath()
             ]
           }}
         />
@@ -89,7 +89,7 @@ class GeneralSettings extends FormCommon {
           {...options['P602']}
           gfdOptions={{
             rules: [
-              this.checkaddressPath()
+              // this.checkaddressPath()
             ]
           }}
         />
@@ -99,7 +99,7 @@ class GeneralSettings extends FormCommon {
           {...options['P1702']}
           gfdOptions={{
             rules: [
-              this.checkaddressPath()
+              // this.checkaddressPath()
             ]
           }}
         />

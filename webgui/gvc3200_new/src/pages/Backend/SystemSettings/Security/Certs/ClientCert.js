@@ -219,7 +219,7 @@ class ClientCert extends Component {
 
   // 删除证书
   deleteCert = ({ certname, certuse }) => {
-    let use = certname === 'Wi-Fi' ? '1' : '0'
+    let use = certuse === 'Wi-Fi' ? '1' : '0'
     deleteUserCert(certname, use).then(msgs => {
       if (msgs.res === 'success') {
         this.handleGetCertData()

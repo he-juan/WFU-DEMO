@@ -125,7 +125,8 @@ class WifiDetailModal extends FormCommon {
           // ip6prefix,
           // ip6dns1,
           // ip6dns2
-          saveplusconn: Number(!needModify)
+          // saveplusconn: Number(!needModify)
+          saveplusconn: 1
         }).then(() => {
           this.cbHide(5000)
         })

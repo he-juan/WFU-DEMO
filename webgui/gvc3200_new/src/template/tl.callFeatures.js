@@ -135,7 +135,7 @@ export default {
         // 自动开始视频
         { lang: 'call_036', p: 'P25023' },
         // 视频显示模式
-        { lang: 'call_037', p: 'P921', denyModel: 'GVC3220' },
+        { lang: 'call_037', p: 'P921' },
         // 触发视频解码跳帧
         { lang: 'call_038', p: 'P22008' },
         // 演示视频分辨率

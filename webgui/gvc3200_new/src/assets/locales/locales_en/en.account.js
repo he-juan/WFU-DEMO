@@ -275,6 +275,7 @@ export default {
 
   acct_091: 'H.264 Profile Type',
   acct_091_tip: 'Select the H.264 profile type from "Baseline Profile", "Main Profile", "High Profile" or "BP/MP/HP". The default setting is "BP/MP/HP". The lower profile type is easier to decode, while the higher level has high compression ratio. For device with low CPU, select "Baseline Profile" to play record; "Baseline Profile" is more likely to be used in a video conference that has high demandings for the video quality. Select among three types to achieve the best video effect.',
+  acct_091_zoom_tip: 'Select the H.264 profile type from "Baseline Profile" or "High Profile".  The lower profile type is easier to decode, while the higher level has high compression ratio. For device with low CPU, select "Baseline Profile" to play record; "Baseline Profile" is more likely to be used in a video conference that has high demandings for the video quality. ',
 
   acct_092: 'Use H.264 Constrained Profiles',
   acct_092_tip: 'Configures whether to use H.264 CBP to establish video call with WebRTC. The function takes effect when H.264 profile setting includes BP type. It is recommended to set to "Yes" when establish video call with WebRTC. The default setting is "No".',
@@ -355,7 +356,7 @@ export default {
   acct_117_tip: 'Allows users to configure the "#" key as the "Send" key. If set to "Yes", the "#" key will immediately dial out the input digits. In this case, this key is essentially equivalent to the "Send" key. If set to "No", the "#" key is treated as part of the dialed string.',
 
   acct_118: 'Upload Local MOH Audio File',
-  acct_118_tip: 'Click the BROWSE to upload audio file from PC. The MOH audio file should be ".wav" or ".mp3" format. It may take a long time uploading and processing the file, please be patient. The Browse button will turn to "Processing" and back to "Browse" once the upload finished.',
+  acct_118_tip: 'Click the BROWSE to upload audio file from PC. The MOH audio file should be ".wav" or ".mp3" format. It may take a long time uploading and processing the file, please be patient. ',
 
   acct_119: 'Enable Local MOH',
   acct_119_tip: 'If set to "Yes" , the local MOH will be enabled. Users need to upload local MOH audio file. Once enabled, users could play the file when holding the call. The default setting is "No".',

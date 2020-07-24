@@ -9,7 +9,6 @@ const UserMenu = () => {
   const logout = () => {
     API.logoff().then(m => {
       if (m.Response === 'Success') {
-        window.localStorage.setItem('logindate', '')
         Cookie.remove('type')
         // history.push('/login')
 

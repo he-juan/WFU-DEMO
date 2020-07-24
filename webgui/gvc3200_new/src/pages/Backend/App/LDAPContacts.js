@@ -64,7 +64,7 @@ class LDAPContacts extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(64),
-              this.checkUrlPath()
+              this.checkaddressPath()
             ]
           }}
         />

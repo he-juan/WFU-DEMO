@@ -30,7 +30,7 @@ const stateObj = {
 }
 
 const googleStatus = {
-  '0': $fm('c_256'), // 未确定
+  '0': $fm('c_365'), // 未确定 改为 已接受
   '1': $fm('c_365'), // 已接受
   '2': $fm('c_366') // 已拒绝
 }
@@ -676,7 +676,7 @@ class ConfSetModal extends FormCommon {
             </FormItem>
             <FormItem label={$t('c_283')}>
               {gfd('confname', {
-                initialValue: currConf['confname'] || confnamePrefix ? $t('c_489', { s: confnamePrefix }) : '',
+                initialValue: currConf['confname'] || (confnamePrefix ? $t('c_489', { s: confnamePrefix }) : ''),
                 rules: [
                   this.required(),
                   this.maxLen(60)
@@ -872,7 +872,7 @@ class ConfSetModal extends FormCommon {
                             </div>
                           }
                           {
-                            allDisabled ? <span className={'statecolor' + member['googleStatus']}>{googleStatus[member['googleStatus']]}</span> : <span className='icons icon-tdclose' onClick={() => this.deleteMemberData(index)}></span>
+                            allDisabled ? <span className={'statecolor' + (+member['googleStatus'] <= 1 ? '1' : member['googleStatus'])}>{googleStatus[member['googleStatus']]}</span> : <span className='icons icon-tdclose' onClick={() => this.deleteMemberData(index)}></span>
                           }
                         </div>
                       )

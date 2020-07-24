@@ -208,7 +208,7 @@ class Firmware extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(256),
-              this.checkUrlPath()
+              this.checkaddressPath()
             ]
           }}
         />

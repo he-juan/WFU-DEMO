@@ -12,7 +12,9 @@ import UserMenu from './UserMenu'
 import DNDBtn from './DNDBtn'
 import SearchBox from '@/components/SearchBox'
 import './bakheader.less'
-import { isIEBrowser } from '@/utils/tools'
+import { BROWSER } from '@/utils/tools'
+
+const notSupport = BROWSER.name === 'ie' || BROWSER.name === 'edge'
 
 @connect(
   (state) => ({
@@ -36,8 +38,8 @@ class BakHeader extends Component {
         <em className='border' />
         {/* <RemoteControl />
         <em className='border' /> */}
-        {isIEBrowser ? null : <ScreenShare />}
-        {isIEBrowser ? null : <em className='border' /> }
+        {notSupport ? null : <ScreenShare />}
+        {notSupport ? null : <em className='border' /> }
         <DNDBtn />
         <em className='border' />
         <SearchBox />

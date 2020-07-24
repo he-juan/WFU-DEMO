@@ -78,7 +78,7 @@ class UserInfoManage extends FormCommon {
     return {
       validator: (rule, value, callback) => {
         if (value !== '' && value !== undefined) {
-          const reg = new RegExp('^[\x21-\x7E]+$')
+          const reg = new RegExp('^[\x20-\x7E]+$')
           if (reg.test(value)) callback()
           else callback($fm('m_006'))
         } else {

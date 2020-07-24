@@ -12,7 +12,7 @@ import { $t } from '@/Intl'
 const InvitedConfList = (props, context) => {
   // 待定装填
   let googleStatus = {
-    '0': $t('c_256'), // 未确定
+    '0': $t('c_365'), // 未确定 改为 已接受
     '1': $t('c_365'), // 已接受
     '2': $t('c_366') // 已拒绝
   }
@@ -30,7 +30,7 @@ const InvitedConfList = (props, context) => {
                   {item.Displayname}
                 </Col>
                 <Col className='conf-status' span={9}>
-                  <span className={'statecolor' + item.GoogleStatus}>{googleStatus[item.GoogleStatus]}</span>
+                  <span className={'statecolor' + (+item.GoogleStatus <= 1 ? '1' : item.GoogleStatus)}>{googleStatus[item.GoogleStatus]}</span>
                 </Col>
               </Row>
               <Row>

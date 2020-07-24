@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { history } from '@/App'
 import { serverPing } from '@/api/api.common'
 
+let curLoginDate = ''
+
 class InitWebsocket extends React.Component {
   static propTypes = {
     url: PropTypes.string.isRequired,
@@ -43,6 +45,9 @@ class InitWebsocket extends React.Component {
 
     websocket.onopen = () => {
       this.logging('Websocket connected')
+
+      curLoginDate = localStorage.getItem('logindate')
+
       if (typeof this.props.onOpen === 'function') this.props.onOpen()
     }
 
@@ -54,7 +59,11 @@ class InitWebsocket extends React.Component {
     websocket.onclose = () => {
       this.logging('Websocket disconnected')
       if (typeof this.props.onClose === 'function') this.props.onClose()
-      if (history.location.pathname === '/login') return false
+      if (history.location.pathname === '/login' || history.location.pathname === '/reboot') return false
+      if (curLoginDate !== localStorage.getItem('logindate')) {
+        window.location.href = '/login'
+        return false
+      }
       // ping 一下服务器
       serverPing().then(data => {
         if (data['response'] === 'error' && data['message'] === 'authentication required') {

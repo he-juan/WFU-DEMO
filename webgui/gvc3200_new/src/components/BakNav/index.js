@@ -56,6 +56,8 @@ class BakNav extends Component {
     })
   }
 
+  preventDefault = (e) => e.preventDefault()
+
   buildMenu (menuData) {
     let { SHOW_WIFI_MENU } = this.state
     const { location } = this.props
@@ -68,11 +70,14 @@ class BakNav extends Component {
           </SubMenu>
         )
       }
+      let isActive = pathname.indexOf(v.path) !== -1
+      let clickProps = isActive ? { onClick: this.preventDefault } : {}
+
       return (
         WIFI_MENU_PATH === v.path && !SHOW_WIFI_MENU ? null : isMenuRouteDeny(v) ? null : (
           <Menu.Item key={v.path}>
-            <Link to={v.path} className='menu-link'>
-              { v.icon ? <i className={`icons ${v.icon} ${pathname.indexOf(v.path) !== -1 ? 'active' : ''}`} /> : null}
+            <Link to={v.path} className='menu-link' {...clickProps}>
+              { v.icon ? <i className={`icons ${v.icon} ${isActive ? 'active' : ''}`} /> : null}
               <span>{$t(v.name)}</span>
             </Link>
           </Menu.Item>

@@ -157,7 +157,7 @@ class XSIServiceSet extends FormCommon {
             gfd={gfd}
             gfdOptions={{
               rules: [
-                this.checkUrlPath()
+                this.checkaddressPath()
               ]
             }}
           />

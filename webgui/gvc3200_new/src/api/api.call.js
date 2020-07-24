@@ -354,10 +354,10 @@ export const startSchedule = (params) => {
 /**
  * 删除 单个会议
  */
-export const deleteOnceSchedule = (Id) => {
+export const deleteOnceSchedule = (Id, Type) => {
   return _axios({
     method: 'get',
-    url: '/manager?action=notifyschedule&region=webservice&type=5&scheduleId=' + Id
+    url: `/manager?action=notifyschedule&region=webservice&type=${Type}&scheduleId=${Id}`
   })
 }
 

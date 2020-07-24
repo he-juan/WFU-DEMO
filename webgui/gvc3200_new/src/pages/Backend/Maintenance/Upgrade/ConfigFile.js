@@ -228,7 +228,7 @@ class ConfigFile extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(256),
-              this.checkUrlPath()
+              this.checkaddressPath()
             ]
           }}
         />
@@ -331,7 +331,7 @@ class ConfigFile extends FormCommon {
           gfdOptions={{
             rules: [
               this.maxLen(256),
-              this.checkUrlPath()
+              this.checkaddressPath()
             ]
           }}
         />

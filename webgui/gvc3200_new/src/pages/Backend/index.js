@@ -126,7 +126,6 @@ class Backend extends Component {
         if (msg.state === '-1') {
           API.logoff().then(m => {
             if (m.Response === 'Success') {
-              window.localStorage.setItem('logindate', '')
               store.dispatch(setUserType(null))
               Cookie.remove('type')
               Cookie.remove('logindate')

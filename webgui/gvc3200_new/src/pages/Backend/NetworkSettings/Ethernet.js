@@ -66,11 +66,11 @@ class Ethernet extends FormCommon {
   // lldp环境下 P51 P87使用临时P值展示?
   lldpQosSet ({ Pvlan_id, Pvlan_qos, Pin_lldp }) {
     const { setFieldsValue } = this.props.form
-    if (Pvlan_id !== '' && Pvlan_id !== '0') {
+    if (Pvlan_id !== '') {
       setFieldsValue({ P51: Pvlan_id })
       this.setState({ inLldpvlanid: true })
     }
-    if (Pvlan_qos !== '' && Pvlan_qos !== '0') {
+    if (Pvlan_qos !== '') {
       setFieldsValue({ P87: Pvlan_qos })
       this.setState({ inLldpvlanqos: true })
     }

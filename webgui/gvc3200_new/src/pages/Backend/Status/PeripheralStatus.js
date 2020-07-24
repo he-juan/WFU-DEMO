@@ -79,9 +79,9 @@ class PeripheralStatus extends Component {
           </thead>
           <tbody>
             <tr>
-              <td colSpan='2'>
-                <span className={'icons icon-linein' + this.renderCName(line_in)}></span>
-                <span style={{ marginLeft: 40 }} className={'icons icon-lineout' + this.renderCName(line_out)}></span>
+              <td colSpan='2' style={{ textAlign: 'left' }}>
+                <span style={{ marginLeft: 25 }} className={'icons icon-linein' + this.renderCName(line_in)}></span>
+                <span style={{ marginLeft: 55 }} className={'icons icon-lineout' + this.renderCName(line_out)}></span>
               </td>
               <td>
                 <span className={'icons icon-hdmiin' + this.renderCName(hdmi_in)}></span>
@@ -104,9 +104,9 @@ class PeripheralStatus extends Component {
               <td>
                 <span className={'icons icon-dicn' + this.renderCName(di_in)}></span>
               </td>
-              <td colSpan='2'>
-                <span className={'icons icon-jack' + this.renderCName(media)}></span>
-                <span style={{ marginLeft: 40 }} className={'icons icon-jack' + this.renderCName(lan)}></span>
+              <td colSpan='2' style={{ textAlign: 'left' }}>
+                <span style={{ marginLeft: 25 }} className={'icons icon-jack' + this.renderCName(media)}></span>
+                <span style={{ marginLeft: 70 }} className={'icons icon-jack' + this.renderCName(lan)}></span>
               </td>
             </tr>
           </tbody>

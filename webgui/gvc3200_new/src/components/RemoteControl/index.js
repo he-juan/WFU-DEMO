@@ -23,6 +23,12 @@ export default class RemoteControl extends Component {
     )
   }
 
+  // 处理 冒泡和 事件传播
+  cancelPop = (event) => {
+    event.cancelBubble = true // true 为阻止冒泡
+    event.stopPropagation() // 阻止事件的进一步传播，包括（冒泡，捕获），无参数
+  }
+
   // 设置键值
   setKey = (keycode) => {
     if (keycode) {
@@ -57,8 +63,8 @@ export default class RemoteControl extends Component {
 
         {/* 遥控器弹窗 */}
         {
-          showModal && <div className={styled['modal']}>
-            <div className={styled['modal-content']}>
+          showModal && <div className={styled['modal']} onClick={() => this.setShowModal(false)}>
+            <div className={styled['modal-content']} onClick={this.cancelPop}>
               <span className={styled['modal-close']} onClick={() => this.setShowModal(false)}></span>
               <div className={styled['tophomebtn']}>
                 <button className={styled['powerbtn']} onMouseDown={() => this.setKey(26)}><span/></button>

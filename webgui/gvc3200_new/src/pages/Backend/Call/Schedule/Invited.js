@@ -72,7 +72,6 @@ class InvitedSchedule extends Component {
   render () {
     let { displayModal, currConf } = this.state
     const { confList } = this.props
-    console.log(confList)
 
     let _schedules = deepCopy(confList)
     let _currConf = deepCopy(currConf)

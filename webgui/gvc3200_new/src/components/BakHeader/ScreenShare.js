@@ -2,30 +2,41 @@
 import React, { Component } from 'react'
 import { message, Modal } from 'antd'
 import { $t, formatMessage } from '@/Intl'
+import API from '@/api'
 import { connect } from 'react-redux'
 import { setWholeLoading } from '@/store/actions'
 import { injectIntl } from 'react-intl'
-import { detect } from 'detect-browser'
+import { history } from '@/App'
+import { BROWSER } from '@/utils/tools'
 import URLBar from './urlbar.png'
 
 let SHARE_SCREEN = {}
+let CONFIRM_MODAL = null
+let CONFIRM_TIMER = null
 
-const BROWSER = detect()
 // {name: "chrome", version: "80.0.3987", os: "Linux", type: "browser"}
 
 const isBrowserEnable = () => {
   let name = BROWSER.name
-  let version = parseInt(BROWSER.version)
+  let version = BROWSER.version
   if (
-    (name === 'chrome' && version >= 72) ||
-    (name === 'opera' && version >= 60) ||
-    (name === 'firefox' && version >= 60) ||
-    (name === 'edge-chromium' && version >= 79)
-    // (name === 'safari') // 不支持但是计划支持，暂开放
+    (name === 'chrome' && version >= '72') ||
+    (name === 'opera' && version >= '60') ||
+    (name === 'firefox' && version >= '60') ||
+    (name === 'edge-chromium' && version >= '79') ||
+    (name === 'safari' && version >= '13.1.1')
   ) {
     return true
   }
   return false
+}
+
+// 获取演示分辨率
+const getPreImgSize = (cb) => {
+  API.getPvalues(['P51976']).then(res => {
+    const { P51976 } = res
+    cb && cb(P51976 === '9' ? '720' : '1080')
+  })
 }
 
 const loadRTCjs = () => new Promise((resolve, reject) => {
@@ -33,6 +44,7 @@ const loadRTCjs = () => new Promise((resolve, reject) => {
   scriptEl.src = '/gsRTC.min.js'
   scriptEl.onload = () => {
     window.GsRTC.prototype.preInit()
+    window.GsRTC.prototype.getPreImgSize = getPreImgSize
 
     SHARE_SCREEN.CALL = window.call
     SHARE_SCREEN.BEGIN_SCREEN = window.beginScreen
@@ -59,11 +71,8 @@ class ScreenShare extends Component {
   state = {
     isCalled: false, // 是否call了
     isCalling: false, // 是否正在call
-    isSharing: false, // 是否正在share
-    rtc_enabled: true // 屏幕共享是否可用
+    isSharing: false // 是否正在share
   }
-
-  errorCode = null
 
   componentDidMount () {
     loadRTCjs().then(() => {
@@ -100,19 +109,26 @@ class ScreenShare extends Component {
           }
           // 页面刷新前手动拒绝
           window.addEventListener('beforeunload', cancel)
-          Modal.confirm({
+          CONFIRM_MODAL = Modal.confirm({
             title: $t('m_263'), // 确定开始屏幕共享？
             onOk: () => {
               cb.call(window.gsRTC, true)
               window.removeEventListener('beforeunload', cancel)
               cancel = null
+              clearTimeout(CONFIRM_TIMER)
             },
             onCancel: () => {
               cb.call(window.gsRTC, false)
               window.removeEventListener('beforeunload', cancel)
               cancel = null
+              clearTimeout(CONFIRM_TIMER)
             }
           })
+          CONFIRM_TIMER = setTimeout(() => {
+            CONFIRM_MODAL && CONFIRM_MODAL.destroy()
+            window.removeEventListener('beforeunload', cancel)
+            cancel = null
+          }, 31000)
         })
         // gs_phone请求关闭演示
         window.gsRTC.on('stopShareScreenRequest', (cb) => {
@@ -153,18 +169,31 @@ class ScreenShare extends Component {
       console.log('CALL************************' + res.codeType + '**********************')
       if (res.codeType != 200) {
         this.setState({
-          rtc_enabled: false,
-          isCalled: true,
+          isCalled: false,
           isCalling: false
         })
-        if (res.codeType === 301) {
-          message.error($t('m_268'))
-        } else if (res.codeType === 488) {
-          message.error($t('m_272'))
-        } else {
-          message.error('Error: ' + res.codeType)
+        switch (res.codeType) {
+          // safari
+          case 403: {
+            if (res.isCallSuccess === 'false') {
+              this.handleClick()
+            }
+            break
+          }
+          // 4k 返回
+          case 488: {
+            message.error($t('m_272'))
+            break
+          }
+          // 浏览器不支持
+          case 301: {
+            message.error($t('m_268'))
+            break
+          }
+          default: {
+            message.error('Error: ' + res.codeType)
+          }
         }
-        this.errorCode = res.codeType
       } else {
         this.setState({
           isCalled: true,
@@ -229,12 +258,18 @@ class ScreenShare extends Component {
     }
 
     if (window.location.protocol !== 'https:') {
-      return Modal.info({
-        title: $t('m_262')
+      return Modal.confirm({
+        title: $t('m_262'),
+        icon: 'info-circle',
+        cancelText: $t('b_069'),
+        okText: $t('b_068'),
+        onCancel () {
+          history.push('/manage/sys_security/webssh')
+        }
       })
     }
 
-    let { isSharing, rtc_enabled, isCalled, isCalling } = this.state
+    let { isSharing, isCalled, isCalling } = this.state
 
     if (isCalling) {
       return false
@@ -243,16 +278,6 @@ class ScreenShare extends Component {
     // 是否 调用过call了， 第一次点击需求调用 call, call返回200后 再次执行handleClick
     if (!isCalled) {
       this.handleCall(true)
-      return false
-    }
-
-    // rtc_enabled 根据 call返回是否200确定共享屏幕功能是否可用， 如果不可用 报错返回
-    if (!rtc_enabled) {
-      if (this.errorCode === 488) {
-        message.error($t('m_272'))
-      } else {
-        message.error(this.errorCode)
-      }
       return false
     }
 

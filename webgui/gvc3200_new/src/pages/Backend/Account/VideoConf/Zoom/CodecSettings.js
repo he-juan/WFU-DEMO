@@ -649,6 +649,7 @@ class CodecSettings extends FormCommon {
         {/* H.264 Profile 类型 */}
         <SelectItem
           {...options['P2862']}
+          tips='acct_091_zoom_tip'
           gfd={gfd}
           onChange={this.handleChangeProfile}
           selectOptions={[
@@ -690,6 +691,7 @@ class CodecSettings extends FormCommon {
         {/* 演示H.264 Profile类型 */}
         <SelectItem
           {...options['P2877']}
+          tips='acct_091_zoom_tip'
           gfd={gfd}
           disabled={disablePresent}
           selectOptions={[

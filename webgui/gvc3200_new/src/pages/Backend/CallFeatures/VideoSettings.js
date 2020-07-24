@@ -94,7 +94,7 @@ class VideoSettings extends FormCommon {
             gfd={gfd}
             selectOptions= {[
               { v: '0', t: $t('c_162') },
-              { v: '1', t: $t('c_163') },
+              // { v: '1', t: $t('c_163') },
               { v: '2', t: $t('c_164') }
             ]}
           />

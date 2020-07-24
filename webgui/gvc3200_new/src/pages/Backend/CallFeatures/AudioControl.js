@@ -19,18 +19,15 @@ class AudioControl extends FormCommon {
       audioDevs: []
     }
     this.echodelayMap = {
-      '-2': '40',
-      '-1': '50',
-      '0': '60',
-      '1': '70',
-      '2': '80',
-      '3': '90',
-      '4': '100',
-      '5': '110',
-      '6': '120',
-      '7': '130',
-      '8': '140',
-      '9': '150'
+      '-5': '67',
+      '-4': '100',
+      '-3': '140',
+      '-2': '174',
+      '-1': '210',
+      '0': '260',
+      '1': '270',
+      '2': '280',
+      '3': '310'
     }
 
     this.inDevs = {
@@ -39,7 +36,8 @@ class AudioControl extends FormCommon {
       512: 'c_354', // Media
       768: 'c_355', // 蓝牙
       1024: 'c_356', // USB
-      1280: 'c_357' // Line In
+      1280: 'c_357', // Line In
+      1792: 'c_369' // 蓝牙麦克风
     }
 
     this.outDevs = {
@@ -70,11 +68,13 @@ class AudioControl extends FormCommon {
       })
       // audioInfo 表单的初始化
       let audioInfo = res[2]
+      let matchedSysRingtone = deviceRing.find(item => item.t === audioInfo['sysRingtone'])
+      let matchedNotifyRingtone = notifyRing.find(item => item.t === audioInfo['notifyRingtone'])
       setFieldsValue({
         curRing: audioInfo['curRing'],
         curMedia: audioInfo['curMedia'],
-        sysRingtone: audioInfo['sysRingtone'],
-        notifyRingtone: audioInfo['notifyRingtone']
+        sysRingtone: matchedSysRingtone ? matchedSysRingtone.v : '',
+        notifyRingtone: matchedNotifyRingtone ? matchedNotifyRingtone.v : ''
       })
       this.setState({
         dataLoading: false
@@ -166,8 +166,8 @@ class AudioControl extends FormCommon {
           <SliderItem
             {...options['P22280']}
             gfd={gfd}
-            min={-2}
-            max={9}
+            min={-5}
+            max={3}
           />
           {/* 铃声音量 */}
           <SliderItem

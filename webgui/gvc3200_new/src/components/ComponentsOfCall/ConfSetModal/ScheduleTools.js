@@ -50,11 +50,11 @@ export const convertCurrConf = (item = '', page = '', timestampNow = '') => {
   }
 
   if (item) {
-    let { Starttime, RepeatRule } = item // RepeatRule 会议的重复策略
+    let { Starttime, RepeatRule, Milliseconds } = item // RepeatRule 会议的重复策略
     let time = moment(Starttime.replace(/\//g, '-'))
+    time = time.isValid() ? time : moment(+Milliseconds)
     const durationHour = +item.Duration < 60 ? 0 : (item.Duration / 60) >> 0 // >> 相当于 Math.floor()
     const durationMin = durationHour === 0 ? item.Duration : item.Duration - 60 * durationHour
-
     Object.assign(currConf, {
       Id: item.Id,
       host: item.Host || '1',

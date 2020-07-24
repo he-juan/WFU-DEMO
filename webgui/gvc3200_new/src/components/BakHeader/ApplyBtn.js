@@ -9,6 +9,7 @@ import { getApplyStatus, setNeedApply, setWholeLoading, getAcctInfo } from '@/st
 import Cookie from 'js-cookie'
 import { $t } from '@/Intl'
 import { injectIntl } from 'react-intl'
+import { message } from 'antd'
 
 // eslint-disable-next-line
 let timer = null
@@ -16,7 +17,8 @@ let timer = null
 @injectIntl
 @connect(
   state => ({
-    needApply: state.needApply
+    needApply: state.needApply,
+    linesInfo: state.linesInfo
   }),
   (dispatch) => ({
     getApplyStatus: () => dispatch(getApplyStatus()),
@@ -45,6 +47,9 @@ class ApplyBtn extends Component {
   }
 
   handleApply = () => {
+    if (this.props.linesInfo.length > 0) {
+      return message.info($t('m_276')) // 设备正忙 请稍候...
+    }
     this.props.setWholeLoading(true, $t('m_136'))
     let _this = this
     // 检测是否Cookie 中是否存在applyFun 主要两个接口: autoanswer, callforward

@@ -76,7 +76,7 @@ const LocalConfList = (props) => {
                           <Fragment>
                             <p style={{ cursor: 'pointer' }} onClick={(e) => {
                               handleVisibleChange(false, index)
-                              handleCancelConf(e, item.Id, 1)
+                              handleCancelConf(e, item.Id, item.Host)
                             }}>{$t('b_054')}</p>
                             <p style={{ cursor: 'pointer' }} onClick={(e) => {
                               handleVisibleChange(false, index)

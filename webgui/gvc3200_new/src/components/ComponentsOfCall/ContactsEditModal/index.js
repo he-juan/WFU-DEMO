@@ -110,7 +110,7 @@ class ContactsEditModal extends Component {
         _editContacts[label] = payload.v
         break
       case 'displayname':
-        _editContacts['name']['displayname'] = payload.v.trim()
+        _editContacts['name']['displayname'] = payload.v
         break
       case 'phoneAcct':
         _editContacts.phone[payload.index].acct = payload.v

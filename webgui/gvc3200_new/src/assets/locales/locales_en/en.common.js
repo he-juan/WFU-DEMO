@@ -164,8 +164,8 @@ const btns = {
   b_065: 'Wake up',
   b_066: 'Accept',
   b_067: 'Reject',
-  b_068: '',
-  b_069: '',
+  b_068: 'OK',
+  b_069: 'Set up',
 
   b_100: 'Upload & Install',
   b_101: 'Select',
@@ -442,7 +442,7 @@ const msgs = {
   m_265: 'Are you sure to end the call?',
   m_266: 'IPVT display name is not allowed to end with \\',
   m_267: 'Failed to share screen({n}).',
-  m_268: 'The current version of the browser does not support screen sharing, supported browsers: Chrome (72 and above); Firefox (60 and above); Opera (60 and above)； Edge (79 and above).',
+  m_268: 'The current version of the browser does not support screen sharing, supported browsers: Chrome (72 and above); Firefox (60 and above); Opera (60 and above)； Edge (79 and above); Safari (13.1.1 and above).',
   m_269: 'Screen sharing only works on Chrome browsers. Please switch browsers.',
   m_270: 'The current version of the browser is too low, please update Chrome to version 72 or above.',
   m_271: 'Turn on signaling timeout.',
@@ -450,6 +450,7 @@ const msgs = {
   m_273: 'Please turn on sharing screen permissions.',
   m_274: 'You have blocked the permission to share the screen',
   m_275: 'Please click the settings icon on the browser and select the Allow screen sharing option in the settings.',
+  m_276: 'The device is busy now. Please wait...',
 
 
   m_304: 'Install failed.',
@@ -506,7 +507,7 @@ const commons = {
   c_044: 'Config Provision',
   c_045: 'Yes',
   c_046: 'No',
-  c_047: 'Check every minute',
+  c_047: 'Check every interval',
   c_048: 'Check every day',
   c_049: 'Check every week',
   c_050: 'Always check when bootup',
@@ -820,6 +821,7 @@ const commons = {
   c_366: 'Rejected',
   c_367: 'Establish a call',
   c_368: 'NAS extended storage',
+  c_369: 'Bluetooth MIC',
 
   c_391: 'Disabled',
   c_399: 'Enabled',
